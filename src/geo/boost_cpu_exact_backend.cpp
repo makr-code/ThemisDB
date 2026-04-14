@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            boost_cpu_exact_backend.cpp                        ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:33:07                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:47:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • e8e316290d  2026-02-25  fix(geo): add geodesicDistance delegation to GPU stub and... ║
     • d7367e6652  2026-02-24  feat(geo): implement ST_UNION and ST_DIFFERENCE geometry ... ║
     • c2e120dd0e  2026-02-24  feat(geo): Complete GeoJSON spec coverage for GeometryCol... ║
-    • 3485a6c398  2026-02-22  fix(geo): replace M_PI with portable constant in boost ba... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

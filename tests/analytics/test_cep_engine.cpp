@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cep_engine.cpp                                ║
-  Version:         0.0.26                                             ║
-  Last Modified:   2026-04-14 11:39:45                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-04-14 18:54:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

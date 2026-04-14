@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            object_storage_connector.cpp                       ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:34:19                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:48:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

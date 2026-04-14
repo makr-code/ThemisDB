@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_postgres_copy_protocol.cpp                    ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:49:16                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 19:04:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

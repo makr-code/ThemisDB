@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_metrics.h                                  ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:23:58                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:37:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 718c750976  2026-02-28  feat(content): Integrate Tesseract OCR processor (content... ║
     • 95da435db9  2026-02-27  feat(content): add content deduplication via perceptual h... ║
     • 3b1aefed27  2026-02-26  Audit: add content_office_extracted_total metrics, wire i... ║
-    • efa41f4324  2026-02-24  feat(content): implement embedding generation pipeline (I... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

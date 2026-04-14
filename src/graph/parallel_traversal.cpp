@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            parallel_traversal.cpp                             ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-14 11:33:41                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-14 18:47:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 97c2b10a23  2026-02-25  fix(graph): correct edges_traversed overcount in fan-out ... ║
     • 771ab826b0  2026-02-25  feat(graph): add fan_out_threshold for parallel frontier ... ║
-    • c97d71912e  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

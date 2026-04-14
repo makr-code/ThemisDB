@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            protegi_optimizer.cpp                              ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 11:36:01                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 18:50:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

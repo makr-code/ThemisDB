@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_judge_integration.h                            ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:27:49                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:41:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

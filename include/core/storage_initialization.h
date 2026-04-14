@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            storage_initialization.h                           ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:24:15                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:38:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

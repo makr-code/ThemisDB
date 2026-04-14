@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wom_tree.h                                         ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:29:29                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 18:43:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

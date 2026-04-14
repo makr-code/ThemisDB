@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_assistant.h                                  ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:30:47                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:45:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • fc33113125  2026-03-01  feat(voice): implement language detection and auto-locale... ║
     • 49fd402198  2026-03-01  feat(voice): expose speaker verification REST API endpoints ║
     • 75c7c24ea3  2026-03-01  feat(voice): implement voice session playback and search ... ║
-    • 7bdfe2da26  2026-02-28  feat(voice): implement voice command macros for user-defi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

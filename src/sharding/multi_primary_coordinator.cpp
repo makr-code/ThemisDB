@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multi_primary_coordinator.cpp                      ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:37:58                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:52:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

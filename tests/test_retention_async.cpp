@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_retention_async.cpp                           ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-14 11:50:55                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 19:06:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

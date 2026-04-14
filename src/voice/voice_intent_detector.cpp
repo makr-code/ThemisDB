@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_intent_detector.cpp                          ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-04-14 11:39:30                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-14 18:53:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

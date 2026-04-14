@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            sqlite_importer.h                                  ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:25:07                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:39:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

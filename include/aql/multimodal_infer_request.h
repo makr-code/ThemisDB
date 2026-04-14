@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multimodal_infer_request.h                         ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 11:23:10                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 18:36:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

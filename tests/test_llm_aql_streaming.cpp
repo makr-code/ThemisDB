@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llm_aql_streaming.cpp                         ║
-  Version:         0.0.16                                             ║
-  Last Modified:   2026-04-14 11:46:59                                ║
+  Version:         0.0.17                                             ║
+  Last Modified:   2026-04-14 19:02:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,8 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 5d9b398ef4  2026-02-28  feat(aql): implement streaming AQL explanation HTTP endpoint ║
-    • a8e12692a5  2026-02-22  Code audit and bugfix: LLMException propagation, metrics,... ║
-    • 849800c798  2026-02-22  Add streaming natural language responses for long AQL exp... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

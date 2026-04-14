@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lock_manager.cpp                                   ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-14 11:38:56                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 18:53:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • b6f602bb2d  2026-03-16  fix(transaction/ssi): fix detectConflicts range intersect... ║
     • 97ce99dedd  2026-03-15  feat(transaction): Serializable Snapshot Isolation (SSI) ... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • ff35f272c3  2026-02-22  feat(transaction): implement SSI via predicate locking fo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

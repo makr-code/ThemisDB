@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_voice_assistant.cpp                           ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:53:21                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 19:09:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 49fd402198  2026-03-01  feat(voice): expose speaker verification REST API endpoints ║
     • e6c4d3fc42  2026-02-28  fix(voice): refactor query parsing, address review commen... ║
     • 5b49c56fd6  2026-02-28  fix(voice): code audit – thread-safety, cmake build, stat... ║
-    • 7bdfe2da26  2026-02-28  feat(voice): implement voice command macros for user-defi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

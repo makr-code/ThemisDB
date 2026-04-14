@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_oidc_provider.cpp                             ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:48:23                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 19:03:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

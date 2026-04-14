@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_tenant_manager.cpp                            ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:52:21                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 19:07:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 20db61010a  2026-03-01  feat(server): add per-tenant custom domain routing ║
     • aa48b6bd38  2026-03-01  feat(server): add per-tenant custom domain routing via Ho... ║
-    • 9b809d400a  2026-02-24  audit: fix stale banner metadata and update documentation... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

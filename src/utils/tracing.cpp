@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tracing.cpp                                        ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:39:26                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:53:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 95fb262d5f  2026-02-27  feat(observability): add adaptive sampling rate for high-... ║
-    • 522e9ae575  2026-02-24  feat(core): implement OTel tracer adapter flush() via Tra... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

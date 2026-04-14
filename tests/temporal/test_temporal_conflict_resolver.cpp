@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_temporal_conflict_resolver.cpp                ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:41:13                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:55:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

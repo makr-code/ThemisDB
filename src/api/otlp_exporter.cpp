@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            otlp_exporter.cpp                                  ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:31:55                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 18:46:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
+    • 409f1cad8c  2026-04-13  feat(api/otlp): persistent CURL handle, deque queue, and ... ║
     • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
     • 8bea1245ba  2026-04-13  feat(api/otlp): persistent CURL handle, deque queue, and ... ║
     • db1d1e8c22  2026-03-14  feat(api/otlp): add exponential-backoff retry in OtlpExpo... ║
-    • 8ddf5b3504  2026-03-10  fix(api): address code review - clean up test, remove sta... ║
-    • e24bce921d  2026-03-10  feat(api): add OTLP/HTTP span exporter + wire into Tracin... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

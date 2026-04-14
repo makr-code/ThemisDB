@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_model_cache.cpp                              ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-04-14 11:39:32                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-14 18:53:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

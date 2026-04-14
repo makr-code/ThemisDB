@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_engine.cpp                                   ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:36:16                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:50:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

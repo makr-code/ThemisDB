@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_error_handling_audit.py                       ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:44:41                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:59:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

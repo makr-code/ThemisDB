@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_xoev_importer.cpp                             ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 11:53:52                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 19:09:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vec_knn.cpp                                        ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-14 11:31:44                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 18:46:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,6 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 9c9ead9b4f  2026-04-09  Implement feature X to enhance user experience and optimi... ║
     • 8adbf6a6c5  2026-04-09  fix(vec_knn): use std::deque for O(1) cache eviction; fix... ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            document_splitter.cpp                              ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:36:31                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:50:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_acceleration.cpp                              ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:41:16                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:55:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 7e608ea7c6  2026-03-11  feat(acceleration): implement CUDAGraphBackend BFS and sh... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 9724334d66  2026-02-23  feat(acceleration): add deterministic tie-breaking and pa... ║
-    • e86b6edc79  2026-02-23  feat(acceleration): add BatchValidator and strict input v... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

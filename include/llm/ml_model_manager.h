@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ml_model_manager.h                                 ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:25:47                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:39:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

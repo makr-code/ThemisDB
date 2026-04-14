@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            grpc_remote_cache_peer.h                           ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 11:23:34                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 18:37:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            monitoring_api_handler.cpp                         ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:37:33                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:51:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 50ae658f67  2026-03-09  feat(core): implement dynamic log level adjustment and au... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 00c0dd69d1  2026-03-01  audit: fix HTTP codes, add auth guards, OpenAPI registrat... ║
-    • 390a4ccf16  2026-02-28  feat(api): add missing endpoints to OpenAPI 3.x spec and ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

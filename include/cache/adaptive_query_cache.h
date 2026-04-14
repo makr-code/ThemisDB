@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_query_cache.h                             ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:23:26                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:37:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 68650737e0  2026-03-16  feat(cache): implement Markov prefetcher ML model - ToD b... ║
     • 9d355f5841  2026-03-15  feat(cache): implement warmup parallel bulk load (v1.8.0) ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 04738e4191  2026-02-24  fix(cache): fix duplicate enable_write_through field, fix... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

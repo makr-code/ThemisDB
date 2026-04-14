@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            consistent_hash.h                                  ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:30:36                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 18:44:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

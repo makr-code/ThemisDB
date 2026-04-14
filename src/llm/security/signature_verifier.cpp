@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            signature_verifier.cpp                             ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:34:48                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:48:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            api_connector.h                                    ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:25:20                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:39:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 53f0cfc43b  2026-02-28  feat(ingestion): per-source schema validation before writ... ║
     • b40bbc1612  2026-02-26  feat(ingestion): OAuth 2.0 token refresh handling in Gene... ║
     • dbe0c23ed4  2026-02-23  Audit follow-up: update stale file headers, ROADMAP statu... ║
-    • 0c1dd5a9b5  2026-02-22  Replace libcurl stub with real curl_easy_perform in api_c... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

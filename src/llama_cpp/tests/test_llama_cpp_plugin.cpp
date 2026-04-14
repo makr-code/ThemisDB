@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llama_cpp_plugin.cpp                          ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-14 11:34:24                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 18:48:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

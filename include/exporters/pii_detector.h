@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pii_detector.h                                     ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:24:24                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:38:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

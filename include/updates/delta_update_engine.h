@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            delta_update_engine.h                              ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-14 11:30:25                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-14 18:44:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,8 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 02c0a65e1e  2026-02-23  audit: fix stale Stubs:1 banners, add Phase 10 smoke test... ║
     • 31e1d71f8d  2026-02-22  Audit: fix stale banner metadata in delta_update_engine f... ║
-    • 24df5358e4  2026-02-22  fix(updates/security): path traversal prevention in Delta... ║
-    • 40f733e91a  2026-02-22  feat(updates): implement DeltaUpdateEngine for binary dif... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

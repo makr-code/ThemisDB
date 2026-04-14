@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vulkan_backend.h                                   ║
-  Version:         0.0.18                                             ║
-  Last Modified:   2026-04-14 11:22:38                                ║
+  Version:         0.0.19                                             ║
+  Last Modified:   2026-04-14 18:36:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

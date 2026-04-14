@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pdf_processor.h                                    ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:24:02                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:37:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 33a86557ed  2026-02-23  Fix triple PDF loading regression + add content_pdf_extra... ║
     • be51d5459d  2026-02-22  Add PDF text extraction with layout preservation using po... ║
-    • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

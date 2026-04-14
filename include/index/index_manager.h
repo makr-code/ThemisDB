@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            index_manager.h                                    ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:25:14                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:39:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • e823c7d48e  2026-04-13  feat(index): add IndexManager::exportIndexStats for metad... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • bb886db939  2026-02-28  feat(index): implement SecondaryIndexAdapter for partial/... ║
-    • 0ed251f658  2026-02-28  feat(index): implement VectorIndexAdapter to resolve IVec... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

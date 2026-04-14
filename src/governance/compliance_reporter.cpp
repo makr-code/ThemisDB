@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            compliance_reporter.cpp                            ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:33:17                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:47:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • e60d47f280  2026-02-28  feat(governance): implement compliance report generation ... ║
     • 33a346e4e2  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
     • 9f365a654a  2026-02-25  feat(governance): integrate PCI-DSS/GDPR conflict detecti... ║
-    • c9b77cb477  2026-02-25  feat(governance): implement AI/ML model governance with t... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

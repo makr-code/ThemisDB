@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_config_migration_scanner.cpp                  ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:43:23                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:58:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 2c5e21f767  2026-02-27  test(config): add output formatter and formatTimePoint te... ║
     • d426b1c543  2026-02-26  audit: fix test guard, ROADMAP accuracy, and migration gu... ║
-    • 5ced972524  2026-02-26  feat(config): add migration scanner impl header and unit ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

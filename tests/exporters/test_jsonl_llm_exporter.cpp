@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_jsonl_llm_exporter.cpp                        ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:40:07                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:54:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • d1800e174f  2026-02-28  feat(exporters): implement sensitive field redaction via ... ║
     • 9720b39ae1  2026-02-28  Fix progress callbacks in jsonl_llm_exporter: populate du... ║
-    • 0da3ceaf6a  2026-02-28  feat(exporters): add toxicity filtering to JSONL LLM expo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

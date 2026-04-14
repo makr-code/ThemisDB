@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_hypertable_comprehensive.cpp                  ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-14 11:46:12                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 19:01:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

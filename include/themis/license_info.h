@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            license_info.h                                     ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:29:55                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:44:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     270                                            ║
+    • Total Lines:     271                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • d77b1da0d8  2026-04-12  [WIP] Update developer documentation to match current sou... ║
     • 4da3502dd0  2026-03-12  feat(themis): add THEMIS_BASE_API export macros to public... ║

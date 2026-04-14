@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            schema_inference.h                                 ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:25:05                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 18:38:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

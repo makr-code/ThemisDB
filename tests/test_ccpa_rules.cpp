@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ccpa_rules.cpp                                ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:42:36                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:57:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 0984e7e6d9  2026-02-25  fix(governance): correct test nullptr bug; add CCPA-HIPAA... ║
     • 7844e4d322  2026-02-25  fix(ccpa): resolve DataPortability semantic conflict and ... ║
     • 8d92986f6d  2026-02-25  feat(governance): implement CCPA/CPRA data subject rights... ║
-    • 8b8292ad08  2026-02-25  feat(governance): implement CCPA/CPRA compliance rule set... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

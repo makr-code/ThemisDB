@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            simd_filter.h                                      ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-14 11:29:26                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 18:43:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

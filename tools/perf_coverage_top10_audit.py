@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            perf_coverage_top10_audit.py                       ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-14 11:54:45                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-14 19:10:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,6 +14,8 @@
     • Open Issues:     TODOs: 1, Stubs: 11                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 42c0aaa20a  2026-04-14  feat(benchmarks): standardize LLM/RAG/LoRA artifact prefl... ║
+    • cf3e31ffa9  2026-04-13  feat(governance): Disabled-Stub-Policy für Benchmarks ein... ║
     • aac9b9ed5a  2026-04-14  feat(benchmarks): standardize LLM/RAG/LoRA artifact prefl... ║
     • 1071f1d20f  2026-04-13  feat(governance): Disabled-Stub-Policy für Benchmarks ein... ║
     • 68ce40a2f9  2026-04-13  feat: automated §1.5 root-cause audit for PERFORMANCE_EXP... ║

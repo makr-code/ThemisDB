@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            policy_validation.h                                ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:24:40                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:38:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 9f365a654a  2026-02-25  feat(governance): integrate PCI-DSS/GDPR conflict detecti... ║
     • 8d92986f6d  2026-02-25  feat(governance): implement CCPA/CPRA data subject rights... ║
-    • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aggregate_shard_results.py                         ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:54:30                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 19:10:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

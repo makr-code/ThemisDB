@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            error_api_handler.h                                ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:28:39                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:42:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

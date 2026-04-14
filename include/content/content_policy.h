@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_policy.h                                   ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:23:58                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:37:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 95da435db9  2026-02-27  feat(content): add content deduplication via perceptual h... ║
     • ee034a6578  2026-02-24  fix(content): audit — wire ContentMetrics, add ContentPol... ║
-    • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

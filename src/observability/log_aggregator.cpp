@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            log_aggregator.cpp                                 ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:35:17                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 18:49:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

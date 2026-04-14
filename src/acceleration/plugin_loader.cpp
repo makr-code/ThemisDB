@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_loader.cpp                                  ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:31:42                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:46:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

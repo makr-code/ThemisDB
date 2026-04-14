@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_anomaly_detection.cpp                         ║
-  Version:         0.0.26                                             ║
-  Last Modified:   2026-04-14 11:39:43                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-04-14 18:54:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 0334298e8b  2026-03-17  fix(analytics): StreamingAnomalyDetector::process() - red... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 3a4cd6d2d1  2026-02-25  fix(analytics): fix buildITree child-index bug and thresh... ║
-    • eec0dd3fa6  2026-02-25  feat(analytics): implement explain() for ISOLATION_FOREST... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

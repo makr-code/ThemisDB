@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_utils.h                                        ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-14 11:22:51                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 18:36:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

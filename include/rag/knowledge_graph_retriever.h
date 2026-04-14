@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            knowledge_graph_retriever.h                        ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:27:48                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:41:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

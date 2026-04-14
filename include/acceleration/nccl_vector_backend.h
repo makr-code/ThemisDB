@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            nccl_vector_backend.h                              ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:22:36                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:36:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

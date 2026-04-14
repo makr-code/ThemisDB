@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llm_timeout_cancellation.cpp                  ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-14 11:47:08                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-14 19:02:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,8 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • a9f253abff  2026-02-26  feat(llm): implement deduplication cache for same prompts... ║
     • 66c3fcb40a  2026-02-22  feat(llm): propagate per-request timeouts to caller's fut... ║
-    • 20872af3fe  2026-02-22  feat(llm): implement DROP_OLDEST backpressure policy in A... ║
-    • ef06cc84cc  2026-02-22  Audit fixes: expose total_timed_out in getWorkerStats, ad... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

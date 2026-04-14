@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hypertable.h                                       ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:30:01                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:44:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_reflection_adapter.h                           ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 11:27:06                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 18:41:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

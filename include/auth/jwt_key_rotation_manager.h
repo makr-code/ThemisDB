@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            jwt_key_rotation_manager.h                         ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:23:14                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:37:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 67965456c8  2026-03-22  Add constructors with default config for various classes ... ║
     • 7d76228b3c  2026-03-12  feat(auth): implement secure memory for key material (v1.... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

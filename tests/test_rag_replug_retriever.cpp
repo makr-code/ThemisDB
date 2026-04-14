@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rag_replug_retriever.cpp                      ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 11:50:32                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 19:05:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

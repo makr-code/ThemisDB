@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            token_blacklist.cpp                                ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:32:18                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:46:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • e93c27150c  2026-03-12  feat(auth): implement ITokenBlacklist interface, Bloom fi... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 4318adfb2e  2026-03-01  feat(auth): add real-time revocation callback to TokenBla... ║
-    • 4b86c62ed4  2026-02-24  fix: ROADMAP audit logging status and token_blacklist sta... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

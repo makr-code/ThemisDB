@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pci_dss_rules.cpp                                  ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:33:23                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:47:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

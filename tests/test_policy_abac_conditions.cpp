@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_policy_abac_conditions.cpp                    ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:49:10                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 19:04:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

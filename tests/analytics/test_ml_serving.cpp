@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ml_serving.cpp                                ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:39:49                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:54:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • fe792136b1  2026-03-18  fix(analytics): address code-review: future+timeout in co... ║
     • cc27518101  2026-03-17  fix(analytics): MLServingEngine::infer() TOCTOU + full-in... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 588afc8090  2026-02-24  fix(analytics): register ml_serving.cpp in build system a... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

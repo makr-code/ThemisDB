@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            embedding_pipeline.h                               ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:24:00                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:37:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

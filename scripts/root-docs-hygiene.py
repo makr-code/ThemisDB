@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            root-docs-hygiene.py                               ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-14 11:31:32                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-14 18:46:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,6 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • dbc9bfed9f  2026-04-13  Add CI/CD workflows and scripts for release management ║
     • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

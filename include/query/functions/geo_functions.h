@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            geo_functions.h                                    ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:27:21                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:41:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 1d23633fa8  2026-02-26  audit(geo): add GEO_BUFFER alias and geodesic handler in ... ║
     • 584c8a7eaa  2026-02-26  feat(geo): add StBufferFunction to function registry in g... ║
-    • 0608dd49e1  2026-02-25  feat(geo): complete ST_UNION/ST_DIFFERENCE – AQL function... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

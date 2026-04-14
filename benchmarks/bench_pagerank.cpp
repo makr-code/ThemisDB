@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_pagerank.cpp                                 ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:21:34                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:35:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

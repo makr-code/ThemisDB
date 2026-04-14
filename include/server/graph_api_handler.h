@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_api_handler.h                                ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:28:40                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:42:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • bc547c4337  2026-02-28  feat(graph): expose cost model calibration via HTTP API ║
     • efa84641f0  2026-02-27  fix(graph): update stale file-header metadata after incre... ║
-    • 0ba7cfc697  2026-02-27  feat(graph): implement incremental graph query HTTP API (... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            workload_replay.cpp                                ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-14 11:34:12                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-14 18:48:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 1808900b28  2026-02-22  feat: implement auto-bootstrap for third-party dependenci... ║
     • 487a35be5e  2026-02-22  chore(index): remove unused include and mark workload-rep... ║
-    • c31e4cee3d  2026-02-22  feat(index): add workload capture and replay for index ad... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

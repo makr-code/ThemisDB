@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_rewrite_rule.h                               ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-14 11:27:33                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 18:41:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

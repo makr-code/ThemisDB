@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_inverted_index.cpp                            ║
-  Version:         0.0.20                                             ║
-  Last Modified:   2026-04-14 11:46:35                                ║
+  Version:         0.0.21                                             ║
+  Last Modified:   2026-04-14 19:01:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

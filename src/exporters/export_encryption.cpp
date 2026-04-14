@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            export_encryption.cpp                              ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:32:58                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:47:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 7d170c7692  2026-03-01  feat(build): update CMake configuration for benchmarks an... ║
     • 0164731569  2026-02-28  Code audit: 5 security fixes in export_encryption.cpp + 1... ║
     • 6cbe0e9543  2026-02-28  Implement AES-256-GCM export encryption (Phase 3 security... ║
-    • 5515f88c16  2026-02-28  feat(exporters): implement AES-256-GCM export encryption ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

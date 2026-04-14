@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            audio_chunk_reader.cpp                             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-14 11:39:34                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 18:54:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

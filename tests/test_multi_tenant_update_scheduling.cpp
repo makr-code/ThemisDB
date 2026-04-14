@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_multi_tenant_update_scheduling.cpp            ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:48:04                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 19:03:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

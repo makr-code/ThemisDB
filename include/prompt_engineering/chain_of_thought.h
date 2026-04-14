@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            chain_of_thought.h                                 ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:27:03                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 18:41:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

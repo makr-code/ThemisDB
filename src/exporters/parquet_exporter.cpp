@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            parquet_exporter.cpp                               ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:33:04                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:47:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • d2bec4ef79  2026-02-27  feat(exporters): implement AQL predicate filtering for ex... ║
     • 89cdebdf94  2026-02-23  audit(exporters): fulfill all audit items for Parquet export ║
-    • c7c509d739  2026-02-22  feat(exporters): add Parquet export for training datasets ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

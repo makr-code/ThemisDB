@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_stream_manager.cpp                        ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:45:28                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 19:00:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 0b5f77af9a  2026-02-28  feat(gpu): add createCudaStream tests, register GPU test ... ║
     • dfa2c62531  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
     • 7b7408fe77  2026-02-25  fix(gpu): code audit - complete GPUStreamManager CUDA+ROC... ║
-    • e30646f099  2026-02-25  feat(gpu): implement CUDA stream creation in GPUStreamMan... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

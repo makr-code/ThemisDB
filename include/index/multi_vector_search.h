@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multi_vector_search.h                              ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:25:16                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:39:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

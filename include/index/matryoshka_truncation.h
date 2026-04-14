@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            matryoshka_truncation.h                            ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 11:25:16                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 18:39:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

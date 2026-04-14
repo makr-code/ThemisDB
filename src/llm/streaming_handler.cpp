@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            streaming_handler.cpp                              ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-14 11:34:51                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-14 18:48:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

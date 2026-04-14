@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            saml_authenticator.cpp                             ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-04-14 11:32:17                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-14 18:46:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • be4418c008  2026-03-12  fix(auth): address code review - PKCS1-v1.5 deprecation w... ║
     • b428004b92  2026-03-12  feat(auth): implement SAML assertion encryption support (... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 879ea3571e  2026-02-26  fix(auth): redact PII in log statements (LDAP, SAML, API ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

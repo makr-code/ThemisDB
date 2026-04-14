@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ingestion_coordinator.h                            ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:25:23                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:39:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 85891212cf  2026-03-17  Changes before error encountered        ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 088d46b922  2026-02-28  feat(ingestion): add WorkStealingPool to IngestionCoordin... ║
-    • c86a6ac5d2  2026-02-28  fix(ingestion): code-audit fixes for IngestionCoordinator... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_spatial_index.cpp                            ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:21:46                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:35:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 0f15754c54  2026-02-26  fix(geo): address code review feedback on searchKNN and s... ║
     • bf209ef920  2026-02-26  feat(geo): implement missing R-tree spatial index methods... ║
-    • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

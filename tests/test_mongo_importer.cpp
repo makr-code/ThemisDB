@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_mongo_importer.cpp                            ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-14 11:47:52                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-14 19:02:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,8 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 0315f4af63  2026-02-27  refactor(importers): simplify streaming callback pattern ... ║
     • 7ad9a8ead1  2026-02-27  feat(importers): add streaming row callbacks to MySQL and... ║
-    • 477e084000  2026-02-22  fix(importers): audit and fix 3 bugs in MongoDB importer ... ║
-    • 0729043db4  2026-02-22  feat(importers): implement MongoDB importer for document ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

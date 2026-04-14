@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ts_auto_buffer_adaptive.cpp                   ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:52:53                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 19:08:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

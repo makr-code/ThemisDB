@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_http_invalid_utf8.cpp                         ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:46:06                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 19:01:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_backend_stub.cpp                               ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:33:12                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:47:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • d4d1128ca8  2026-02-28  fix(geo): integrate GeoDeviceDetector into gpu_backend_st... ║
     • 0f84568fb1  2026-02-27  feat(geo): circuit-breaker immediately fails when no CUDA... ║
-    • 7a427cad5d  2026-02-27  feat(geo): fix stale header metadata and add CPU fallback... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

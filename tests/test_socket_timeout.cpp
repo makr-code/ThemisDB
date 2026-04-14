@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_socket_timeout.cpp                            ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:51:56                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 19:07:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

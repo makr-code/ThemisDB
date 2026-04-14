@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_connector_mode_api.cpp                        ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-14 11:43:25                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 18:58:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

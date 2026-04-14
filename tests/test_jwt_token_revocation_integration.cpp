@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_jwt_token_revocation_integration.cpp          ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:46:42                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 19:01:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 6903f59100  2026-03-12  feat(auth): JWT JTI replay prevention warning (v1.2.0) ║
     • 1470edf9b1  2026-03-12  feat(auth): mandatory JWT issuer and audience validation ... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 4318adfb2e  2026-03-01  feat(auth): add real-time revocation callback to TokenBla... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

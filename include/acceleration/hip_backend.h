@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hip_backend.h                                      ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:22:34                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:36:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • edaecffe60  2026-02-24  feat(acceleration): Add ROCm/HIP backend non-HIP fallback... ║
     • 33de0a38ca  2026-02-23  fix(acceleration): add missing HIPGeoBackend — wire geo_k... ║
     • 32123c0149  2026-02-23  feat(acceleration): add ROCm/HIP ANN and geo kernel files... ║
-    • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

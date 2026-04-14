@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            UsbDetectionService.cs                             ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 11:54:28                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 19:10:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

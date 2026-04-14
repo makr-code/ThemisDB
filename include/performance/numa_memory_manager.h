@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            numa_memory_manager.h                              ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-14 11:26:42                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 18:40:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

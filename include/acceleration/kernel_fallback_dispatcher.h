@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            kernel_fallback_dispatcher.h                       ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:22:35                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:36:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

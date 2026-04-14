@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_error.cpp                                     ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:32:06                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:46:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • c613ea7a9e  2026-03-04  Refactor error masking and enhance archive processor vali... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • e18972c328  2026-02-24  fix(auth): resolve PASSWORD_POLICY_VIOLATION enum collisi... ║
-    • ad8c8cf55b  2026-02-23  feat(auth): implement API key authentication (static key ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

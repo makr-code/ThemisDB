@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            learning_to_rank.h                                 ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-14 11:28:13                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-14 18:42:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

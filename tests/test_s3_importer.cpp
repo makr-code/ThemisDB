@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_s3_importer.cpp                               ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:51:06                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 19:06:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

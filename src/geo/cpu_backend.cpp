@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cpu_backend.cpp                                    ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:33:07                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:47:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 674e35f16b  2026-02-25  feat(geo): implement WGS-84 spherical geometry support vi... ║
     • d7367e6652  2026-02-24  feat(geo): implement ST_UNION and ST_DIFFERENCE geometry ... ║
-    • 5f06b50696  2026-02-24  feat(geo): add configurable precision mode (exact vs. app... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

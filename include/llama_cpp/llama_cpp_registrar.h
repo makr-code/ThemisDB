@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llama_cpp_registrar.h                              ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-14 11:25:28                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 18:39:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

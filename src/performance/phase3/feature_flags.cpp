@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            feature_flags.cpp                                  ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:35:34                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:49:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 1973a06f27  2026-02-28  feat(performance): Adaptive batch size tuning for LLM inf... ║
     • 54593e02cb  2026-02-27  feat(performance): AVX-512 SIMD path for vector distance ... ║
     • da9b09bccc  2026-02-25  chore: code-audit fixes - update header metadata, remove ... ║
-    • 78e4e67bbc  2026-02-25  feat(performance): per-query cost model integration with ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

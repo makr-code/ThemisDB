@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            canary_rollout.cpp                                 ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-14 11:39:03                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-14 18:53:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • f96a06748c  2026-03-14  Audit fixes: populate error_count/success_count in metric... ║
     • 57c7d0bd94  2026-03-14  Implement CanaryDeployment with latency/memory/CPU/disk m... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1121f3d4a3  2026-02-22  Audit fixes: double-apply guard, toCanaryConfig bridge, h... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

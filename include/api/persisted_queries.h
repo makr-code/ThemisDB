@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            persisted_queries.h                                ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:22:57                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:36:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_auth_anomaly_detection.cpp                    ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:42:07                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:56:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 9de8da16fa  2026-03-12  feat(auth): implement credential stuffing persistent cros... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • c65f5b1f7d  2026-03-01  feat(auth): integrate audit logger into AuthRateLimiter a... ║
-    • 20b101fe5c  2026-02-23  Implement auth anomaly detection: brute-force and credent... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

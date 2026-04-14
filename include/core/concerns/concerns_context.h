@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            concerns_context.h                                 ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:24:04                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:37:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • e1c78c3604  2026-03-13  feat(core): implement RedisCache distributed cache adapte... ║
     • 50ae658f67  2026-03-09  feat(core): implement dynamic log level adjustment and au... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f0410cbb0c  2026-02-27  audit(core): wire Jaeger/Zipkin adapters into ConcernsCon... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

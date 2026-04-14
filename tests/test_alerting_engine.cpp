@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_alerting_engine.cpp                           ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:41:33                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 18:56:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

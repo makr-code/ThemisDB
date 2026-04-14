@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_retrieval.cpp                             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-14 11:36:23                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 18:50:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

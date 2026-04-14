@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            secondary_index.h                                  ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:25:17                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:39:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 6a59ae4739  2026-03-15  fix(index-compression): audit fixes — CI composite action... ║
     • 2cf21d36ba  2026-03-14  feat(index): implement index compression (v1.7.0, Issue #... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • dfa2c62531  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

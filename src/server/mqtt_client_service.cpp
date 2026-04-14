@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mqtt_client_service.cpp                            ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 11:37:34                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 18:51:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

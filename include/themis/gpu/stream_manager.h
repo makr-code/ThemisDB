@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            stream_manager.h                                   ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:29:51                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:44:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 6206d7fc12  2026-02-27  fix(gpu): remove duplicate cuda_runtime.h include and cle... ║
     • 739078d2b1  2026-02-27  fix(gpu): fix compilation errors in GPUStreamManager and ... ║
     • dfa2c62531  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
-    • 7b7408fe77  2026-02-25  fix(gpu): code audit - complete GPUStreamManager CUDA+ROC... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

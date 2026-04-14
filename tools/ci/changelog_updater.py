@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            changelog_updater.py                               ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:54:35                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 19:10:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,6 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 03973ea1c5  2026-04-14  feat: shared CHANGELOG workflow + milestone-based histori... ║
     • 86745ceec2  2026-04-14  feat: shared CHANGELOG workflow + milestone-based histori... ║
     • afcb89febb  2026-03-12  fix: robustness/performance/efficiency improvements for d... ║
     • 212c6d4a65  2026-03-12  feat: add changelog_updater, module_docs_issue_reporter, ... ║

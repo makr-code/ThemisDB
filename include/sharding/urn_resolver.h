@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            urn_resolver.h                                     ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:29:13                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:43:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

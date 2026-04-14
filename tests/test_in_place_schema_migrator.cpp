@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_in_place_schema_migrator.cpp                  ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:46:17                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 19:01:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 4801e21510  2026-03-01  feat(updates): add MigrationChangePreview dry-run preview... ║
     • 1a81c471d9  2026-02-28  feat(updates): add 5 missing InPlaceSchemaMigrator tests ... ║
     • f7fdc80f29  2026-02-23  audit: fix banner line counts, add fresh-table integratio... ║
-    • 4ce167b67e  2026-02-23  feat(updates): implement InPlaceSchemaMigrator for additi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

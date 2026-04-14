@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_response_transformer.cpp                      ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:50:55                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 19:06:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

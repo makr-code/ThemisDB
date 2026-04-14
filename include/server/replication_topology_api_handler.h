@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            replication_topology_api_handler.h                 ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-14 11:28:50                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-14 18:43:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

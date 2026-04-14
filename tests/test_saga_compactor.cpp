@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_saga_compactor.cpp                            ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:51:08                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 19:06:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_access_control_manager.cpp                    ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:41:06                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:55:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,8 +17,6 @@
     • f82bf2ae9f  2026-03-04  Refactor tenant manager tests and add new test cases ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 136ad815d4  2026-03-01  feat(security): integrate RLSManager into AccessControlMa... ║
-    • 09619660f6  2026-02-22  fix(security): close ABAC audit gaps - reload, ROADMAP ma... ║
-    • fe5f8a9c80  2026-02-22  feat(security): implement ABAC alongside RBAC in AccessCo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            assign-milestones-thematic.py                      ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:31:19                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 18:45:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

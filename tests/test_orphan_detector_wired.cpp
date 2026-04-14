@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_orphan_detector_wired.cpp                     ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:48:33                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 19:03:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

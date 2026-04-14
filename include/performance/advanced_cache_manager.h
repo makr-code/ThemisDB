@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            advanced_cache_manager.h                           ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-14 11:26:37                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 18:40:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

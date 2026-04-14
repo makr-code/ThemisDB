@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            compression_selector.cpp                           ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-14 11:38:39                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 18:52:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

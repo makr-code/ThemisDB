@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            storage_audit_logger.h                             ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 11:29:26                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-14 18:43:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

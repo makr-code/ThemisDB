@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            check_disabled_bench_policy.py                     ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-14 11:54:33                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-14 19:10:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,6 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 4                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 3224c48c81  2026-04-13  [Governance] Introduce disabled benchmark policy with lin... ║
     • bd21a7cd4b  2026-04-13  [Governance] Introduce disabled benchmark policy with lin... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

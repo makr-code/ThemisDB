@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_adaptive_query_cache.cpp                      ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:41:27                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:55:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • f767822de8  2026-02-25  fix(cache): fix missing closing braces in test_adaptive_q... ║
     • 04738e4191  2026-02-24  fix(cache): fix duplicate enable_write_through field, fix... ║
     • 1b67c96b5a  2026-02-24  audit(cache): fill gaps – integration tests, health statu... ║
-    • 2a38dccc87  2026-02-24  feat(cache): implement GDPR-aware PII cache invalidation ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

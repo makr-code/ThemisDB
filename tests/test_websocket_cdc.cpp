@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_websocket_cdc.cpp                             ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:53:39                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 19:09:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

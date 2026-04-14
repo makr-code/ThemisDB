@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            import_railway_network.py                          ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:31:30                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:46:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

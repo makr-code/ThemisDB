@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_security.h                                  ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:22:36                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:36:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • adb14cd81a  2026-03-16  feat(acceleration): implement PE certificate table extrac... ║
     • e4976f04ef  2026-03-16  feat(acceleration): implement CRL/OCSP certificate revoca... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f2b4fd08c7  2026-02-26  fix(audit): correct enum ordering, string JSON serializat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

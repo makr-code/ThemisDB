@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            encryption_backend_interface.hpp                   ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:30:33                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 18:44:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

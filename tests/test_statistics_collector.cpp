@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_statistics_collector.cpp                      ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:52:05                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 19:07:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 063856d3fc  2026-02-26  Code audit: inline constexpr, strengthen skewed-histogram... ║
     • ee41307461  2026-02-26  Implement column-level statistics histograms for query pl... ║
-    • 3b0978c959  2026-02-25  fix(metadata): include index stats in toJSON() output; up... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

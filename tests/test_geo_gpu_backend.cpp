@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_geo_gpu_backend.cpp                           ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:45:00                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:59:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • d4d1128ca8  2026-02-28  fix(geo): integrate GeoDeviceDetector into gpu_backend_st... ║
     • 0f84568fb1  2026-02-27  feat(geo): circuit-breaker immediately fails when no CUDA... ║
     • 7a427cad5d  2026-02-27  feat(geo): fix stale header metadata and add CPU fallback... ║
-    • 33a346e4e2  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

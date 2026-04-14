@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mig_manager.h                                      ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:29:48                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:44:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

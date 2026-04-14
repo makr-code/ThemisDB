@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_streaming_exporter.cpp                        ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:40:08                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:54:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • f82bf2ae9f  2026-03-04  Refactor tenant manager tests and add new test cases ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 5b487cd13d  2026-02-28  Implement ZSTD streaming compression in StreamWriter and ... ║
-    • dcf7b458fc  2026-02-27  feat(cmake): add transaction_retry_manager and other sour... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

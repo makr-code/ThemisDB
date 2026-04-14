@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            temporal_query_engine.cpp                          ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:38:30                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:52:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

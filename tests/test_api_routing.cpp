@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_api_routing.cpp                               ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:41:39                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:56:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 669dd39589  2026-02-24  feat: add versioned endpoint routing (/v1/, /v2/) with de... ║
     • e770ca65ca  2026-02-24  fix: extractVersionFromPath returns raw version string fo... ║
     • b609fd7b91  2026-02-24  fix: correct HealthPathsAreNotVersioned test logic ║
-    • 041854e935  2026-02-24  feat: add URL path-based versioned API routing (/v1/, /v2... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

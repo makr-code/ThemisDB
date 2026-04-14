@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            shared_worker_pool.cpp                             ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-14 11:34:49                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-14 18:48:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_audit_logger.h                                ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:23:11                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:36:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 94bb63df8d  2026-03-12  feat(auth): TOTP/MFA configurable window enforcement and ... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • c65f5b1f7d  2026-03-01  feat(auth): integrate audit logger into AuthRateLimiter a... ║
-    • 79129146fd  2026-02-24  feat(auth): implement LDAP/Active Directory direct bind a... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

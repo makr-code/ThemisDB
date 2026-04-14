@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llm_vision_integration.cpp                    ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:47:09                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 19:02:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

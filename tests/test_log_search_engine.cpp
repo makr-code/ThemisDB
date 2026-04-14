@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_log_search_engine.cpp                         ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-14 11:47:13                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 19:02:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_query_rewriter.h                               ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-14 11:28:13                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-14 18:42:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 8b78c9c56b  2026-02-28  Fix temperature stub in LlmQueryRewriter and add temperat... ║
     • 92608937d0  2026-02-26  fix: GCC default-arg error in 18 headers - add ::defaults... ║
-    • e6212d67ee  2026-02-22  Implement LlmQueryRewriter for LLM-based query rewriting ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

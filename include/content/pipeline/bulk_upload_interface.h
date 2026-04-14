@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bulk_upload_interface.h                            ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:24:02                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:37:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

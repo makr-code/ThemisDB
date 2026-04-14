@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_vector_index.cpp                          ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:45:32                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 19:00:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • bdf8bb008b  2026-02-28  audit: fix VRAM accounting bug, add numVectors sanity cap... ║
     • de87a9ce11  2026-02-28  feat(index): implement GPU-accelerated buildIndex, saveIn... ║
     • b4714f29a0  2026-02-26  fix(index): populate vramUsageBytes from per-index budget... ║
-    • 2813641e1f  2026-02-26  feat(index): implement configurable GPU memory budget per... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

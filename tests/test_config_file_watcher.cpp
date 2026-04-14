@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_config_file_watcher.cpp                       ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:43:21                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 18:58:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_tsstore_batch.cpp                             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-14 11:53:00                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 19:08:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     378                                            ║
+    • Total Lines:     380                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 17285ca7e7  2026-04-14  fix(tests): migrate tsstore batch expected API to has_value ║
+    • 28adec012c  2026-04-14  llama                                   ║
     • 040083b025  2026-04-12  feat: StreamingIngestManager, TsStreamCursor, LZ4 compres... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

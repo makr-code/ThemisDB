@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_storage_performance.cpp                      ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:21:46                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:35:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 8332e5afa3  2026-04-13  Refactor and update various components for improved compa... ║
     • 35e7ecae2c  2026-04-13  perf(storage): fix sustained write throughput - decouple ... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            canonical_resolver.h                               ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:24:47                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 18:38:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

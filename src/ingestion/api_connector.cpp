@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            api_connector.cpp                                  ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:34:13                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:48:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • eda6e27def  2026-02-28  fix(ingestion): reject_invalid=false mode, schema_violati... ║
     • 53f0cfc43b  2026-02-28  feat(ingestion): per-source schema validation before writ... ║
-    • b40bbc1612  2026-02-26  feat(ingestion): OAuth 2.0 token refresh handling in Gene... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

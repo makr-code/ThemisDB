@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llm_reranker.cpp                              ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:47:05                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 19:02:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

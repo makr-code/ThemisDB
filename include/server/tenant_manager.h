@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tenant_manager.h                                   ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:28:58                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:43:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 20db61010a  2026-03-01  feat(server): add per-tenant custom domain routing ║
     • aa48b6bd38  2026-03-01  feat(server): add per-tenant custom domain routing via Ho... ║
     • 9b809d400a  2026-02-24  audit: fix stale banner metadata and update documentation... ║
-    • 5375c249ad  2026-02-23  refactor(api): eliminate duplicated tenant path rewriting... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

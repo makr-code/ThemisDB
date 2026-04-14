@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            App.xaml.cs                                        ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 11:54:25                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 19:10:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

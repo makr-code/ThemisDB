@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_circuit_breaker.h                         ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:26:07                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 18:40:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

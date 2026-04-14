@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_paged_optimizer.cpp                           ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:48:37                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 19:03:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

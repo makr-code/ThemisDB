@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_observability_profilers.cpp                   ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 11:48:21                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-14 19:03:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

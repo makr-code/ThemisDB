@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            deduplication_checker.h                            ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:23:59                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:37:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 9d3ecaa0e4  2026-02-28  Add ThemisDB Wiki Integration plugin with documentation i... ║
     • b45ae45eb7  2026-02-27  fix(content): use BoundedLRUCache for MinHash band-LSH in... ║
     • 8af0ff1a80  2026-02-27  refactor(content): address code review feedback on dedupl... ║
-    • 95da435db9  2026-02-27  feat(content): add content deduplication via perceptual h... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

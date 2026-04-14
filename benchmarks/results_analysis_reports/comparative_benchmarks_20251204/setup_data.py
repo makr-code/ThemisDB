@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            setup_data.py                                      ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:22:04                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:35:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

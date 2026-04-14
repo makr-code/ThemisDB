@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_olap_extended.cpp                             ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:48:23                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 19:03:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

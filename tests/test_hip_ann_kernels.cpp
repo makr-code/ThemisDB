@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_hip_ann_kernels.cpp                           ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:45:54                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 19:00:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

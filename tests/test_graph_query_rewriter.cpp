@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_graph_query_rewriter.cpp                      ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-14 11:45:38                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-14 19:00:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

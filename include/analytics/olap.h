@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            olap.h                                             ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:22:49                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:36:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • d5fae2ab24  2026-03-18  Changes before error encountered        ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 92f1b4a1fe  2026-02-24  audit(analytics): fix stub annotations, add MaterializedV... ║
-    • 9f1c0c4378  2026-02-24  feat(analytics): GPU-accelerated OLAP aggregations via OL... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

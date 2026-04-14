@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            distributed_analytics.cpp                          ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:31:48                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:46:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 3f98a289d9  2026-03-18  Changes before error encountered        ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 64ab4e942a  2026-02-24  fix(analytics): add clarifying comments on population var... ║
-    • 1e9824a24c  2026-02-24  fix(analytics): align STDDEV/VARIANCE to population varia... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

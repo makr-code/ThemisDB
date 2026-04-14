@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_config_schema_validator.cpp                   ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:43:23                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:58:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 343d219048  2026-04-13  feat(config): add performance acceptance test for ConfigS... ║
     • 59093560d0  2026-04-13  feat(config): add performance acceptance test for ConfigS... ║
     • 64c72611d4  2026-03-22  feat(config): implement `not` JSON Schema keyword, upgrad... ║
     • ee59cce514  2026-03-11  docs(config): update ARCHITECTURE.md and header metadata ... ║
     • ec0d1bcbc8  2026-03-11  feat(config): add validateFromString API for in-memory YA... ║
-    • 61be0fd2e6  2026-03-11  chore(config): fix stale file headers and add format/uniq... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

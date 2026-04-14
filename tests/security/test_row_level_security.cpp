@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_row_level_security.cpp                        ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:41:09                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:55:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

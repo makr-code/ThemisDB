@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_error.h                                       ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:23:11                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:36:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 33a346e4e2  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
     • 79129146fd  2026-02-24  feat(auth): implement LDAP/Active Directory direct bind a... ║
-    • e18972c328  2026-02-24  fix(auth): resolve PASSWORD_POLICY_VIOLATION enum collisi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

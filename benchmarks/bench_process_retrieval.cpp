@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_process_retrieval.cpp                        ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-14 11:21:38                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 18:35:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

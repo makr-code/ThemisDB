@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            nlp_text_analyzer.cpp                              ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:31:51                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:46:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 8a2b22d309  2026-02-26  fix(nlp,cep): dead-code removal in lemmatizeWord, add mis... ║
     • 83af598745  2026-02-26  audit: fix detectLanguage ambiguity, ROADMAP [x], correct... ║
     • 3fd42b08d8  2026-02-26  fix(analytics): code audit fixes - Spanish 'es'→'ser', Ge... ║
-    • c9e8e9704e  2026-02-26  feat(analytics): implement full morphological lemmatizati... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

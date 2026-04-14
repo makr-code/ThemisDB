@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            themis_model_cli.cpp                               ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:54:50                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 19:10:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

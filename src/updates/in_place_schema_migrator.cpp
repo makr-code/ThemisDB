@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            in_place_schema_migrator.cpp                       ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:39:07                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:53:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 4801e21510  2026-03-01  feat(updates): add MigrationChangePreview dry-run preview... ║
     • f7fdc80f29  2026-02-23  audit: fix banner line counts, add fresh-table integratio... ║
-    • 4ce167b67e  2026-02-23  feat(updates): implement InPlaceSchemaMigrator for additi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

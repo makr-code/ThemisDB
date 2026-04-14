@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_optimizer_advisor.h                            ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:23:05                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:36:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

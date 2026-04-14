@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cross_module_german_egov.cpp                  ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 11:43:50                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 18:58:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

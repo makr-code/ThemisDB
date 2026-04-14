@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            replication_manager.h                              ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:28:04                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:42:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 29ac1cf537  2026-04-14  fix                                     ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
+    • d275653619  2026-04-14  update after codefindings               ║
     • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • a2d7c07202  2026-04-14  update after codefindings               ║
-    • 42e48dbc3c  2026-03-15  fix(replication): audit geo-replication – fix SESSION exp... ║
-    • 7cd7172d73  2026-03-14  feat(replication): add GeoReplicationManager with consist... ║
-    • 4a853813e8  2026-03-13  fix(replication): audit fixes — honor bidirectional_sync/... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

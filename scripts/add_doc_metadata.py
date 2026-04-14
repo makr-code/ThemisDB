@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            add_doc_metadata.py                                ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:31:17                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:45:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

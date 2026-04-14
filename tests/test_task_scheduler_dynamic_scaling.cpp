@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_task_scheduler_dynamic_scaling.cpp            ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:52:18                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 19:07:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

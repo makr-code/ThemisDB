@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_hash_chain_audit.cpp                          ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:45:52                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 19:00:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_prompt_evaluator_embedding.cpp                ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-04-14 11:49:36                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-04-14 19:04:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

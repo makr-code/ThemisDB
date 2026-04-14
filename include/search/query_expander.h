@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_expander.h                                   ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-14 11:28:17                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-14 18:42:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 3a0def8028  2026-03-01  feat(search): improve spelling correction with frequency-... ║
     • 92608937d0  2026-02-26  fix: GCC default-arg error in 18 headers - add ::defaults... ║
     • 266c782dde  2026-02-23  audit: fix all gaps from issue review - metadata, docs, v... ║
-    • ca8c06fddb  2026-02-23  feat(search): add ranked spelling correction suggestions ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            semantic_cache.cpp                                 ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:32:28                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:46:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

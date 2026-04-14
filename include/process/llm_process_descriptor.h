@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_process_descriptor.h                           ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:26:58                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 18:41:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_api_handler.h                                ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:28:59                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:43:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 49fd402198  2026-03-01  feat(voice): expose speaker verification REST API endpoints ║
     • 75c7c24ea3  2026-03-01  feat(voice): implement voice session playback and search ... ║
     • e6c4d3fc42  2026-02-28  fix(voice): refactor query parsing, address review commen... ║
-    • 5b49c56fd6  2026-02-28  fix(voice): code audit – thread-safety, cmake build, stat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

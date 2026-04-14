@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            streaming_ingest_manager.cpp                       ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-14 11:38:21                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 18:52:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

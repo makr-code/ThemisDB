@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gorilla.h                                          ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:30:01                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:44:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     239                                            ║
+    • Total Lines:     240                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • d58e7f6a4a  2026-04-09  perf(gorilla): SIMD-optimized decode achieving >1.2 GB/s ... ║
     • 022228c572  2026-03-20  Changes before error encountered        ║

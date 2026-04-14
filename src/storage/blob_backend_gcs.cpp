@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            blob_backend_gcs.cpp                               ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:38:09                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 18:52:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
     • e561df7fd1  2026-03-09  fix(storage): address second code review - read validatio... ║
     • bea3655f53  2026-03-09  fix(storage): address code review comments - path travers... ║
-    • 492304352e  2026-03-09  feat(storage): add GCS blob backend, tiered storage, and ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            reports_api_handler.cpp                            ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:37:41                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:51:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

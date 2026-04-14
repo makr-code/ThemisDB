@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ingestion_checkpoint.cpp                      ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:46:20                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 19:01:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 0c1dd5a9b5  2026-02-22  Replace libcurl stub with real curl_easy_perform in api_c... ║
     • 68ffb0a67d  2026-02-22  audit: mark cursor pagination done in ROADMAP, add e2e ma... ║
-    • 8798208c46  2026-02-22  feat(ingestion): implement cursor-based pagination with o... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

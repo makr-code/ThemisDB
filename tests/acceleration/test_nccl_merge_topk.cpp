@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_nccl_merge_topk.cpp                           ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-14 11:39:40                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 18:54:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

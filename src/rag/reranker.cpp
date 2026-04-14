@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            reranker.cpp                                       ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-14 11:36:45                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-14 18:51:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 3ac1c41432  2026-03-09  fix: clear all remaining stubs/TODOs across modules; upda... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • a152677ace  2026-02-22  Code audit: fix header metadata inaccuracies (line counts... ║
-    • 3987bc257e  2026-02-22  Add CrossEncoderReranker: header, implementation, tests, ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

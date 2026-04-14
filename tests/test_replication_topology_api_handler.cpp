@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_replication_topology_api_handler.cpp          ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-14 11:50:51                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-14 19:06:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • f49debaf64  2026-02-22  test(replication): clarify test fixture comment for topol... ║
-    • da1a879d59  2026-02-22  feat(replication): add topology visualizer web UI (Issue ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

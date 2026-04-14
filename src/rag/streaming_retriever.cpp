@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            streaming_retriever.cpp                            ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-14 11:36:47                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-14 18:51:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

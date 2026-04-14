@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            disk_space_monitor.h                               ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:29:19                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:43:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

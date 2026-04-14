@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ldap_dn_harness.cpp                                ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:22:29                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 18:36:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

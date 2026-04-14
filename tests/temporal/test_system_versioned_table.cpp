@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_system_versioned_table.cpp                    ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:41:11                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:55:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

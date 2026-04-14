@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rag_reranker.cpp                              ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-14 11:50:33                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-14 19:05:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

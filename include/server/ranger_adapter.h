@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ranger_adapter.h                                   ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:28:49                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:43:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

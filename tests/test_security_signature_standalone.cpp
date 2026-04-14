@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_security_signature_standalone.cpp             ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:51:33                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 19:07:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

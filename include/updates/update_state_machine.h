@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            update_state_machine.h                             ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-14 11:30:32                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 18:44:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • fa516498e3  2026-04-12  [WIP] Update module documentation and inventory (#4521) ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 02c0a65e1e  2026-02-23  audit: fix stale Stubs:1 banners, add Phase 10 smoke test... ║
-    • 8f53829d27  2026-02-22  Finalize canary rollout: move to Completed in ROADMAP, cl... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            root_cause_analyzer.h                              ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:26:33                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 18:40:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

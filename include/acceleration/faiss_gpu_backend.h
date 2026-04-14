@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            faiss_gpu_backend.h                                ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:22:33                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:36:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

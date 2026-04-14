@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_mqtt_protocol.cpp                             ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:47:54                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 19:03:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

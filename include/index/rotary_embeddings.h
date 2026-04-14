@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rotary_embeddings.h                                ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:25:17                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:39:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

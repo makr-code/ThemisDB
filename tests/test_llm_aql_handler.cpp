@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llm_aql_handler.cpp                           ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:46:59                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 19:02:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • f5c74c7e83  2026-03-13  fix(aql): add mock chat executor injection + AC#5 integra... ║
     • dc13f3fdb3  2026-03-13  feat(aql): implement post-generation AQL validation with ... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c9bc220bd6  2026-02-26  test(aql): add performance benchmarks and highlighter pat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_batch.cpp                            ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:35:09                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 18:49:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • c0a50c2caf  2026-03-19  Refactor build flags, IO, benchmarks & tests ║
     • 354c97d283  2026-03-16  feat: Add new erasure coding backend and related components ║
     • 0ee0d57254  2026-03-14  fix(network): address PR review comments on wire protocol... ║
-    • 543f66e654  2026-03-14  feat(network): implement wire protocol performance optimi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

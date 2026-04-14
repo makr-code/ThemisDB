@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_accelerator.h                                ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:29:50                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:44:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 9cc43d8f28  2026-02-26  feat(gpu): implement GPU-accelerated ANN vector similarit... ║
     • dfa2c62531  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
     • 2379d35368  2026-02-25  fix(gpu): remove spurious stats increment and fix data ra... ║
-    • 70833d6474  2026-02-25  feat(gpu): implement CUDA graph capture for recurring que... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_oauth_device_flow.cpp                         ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-04-14 11:48:19                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-14 19:03:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            sd_config.h                                        ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-14 11:29:13                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 18:43:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

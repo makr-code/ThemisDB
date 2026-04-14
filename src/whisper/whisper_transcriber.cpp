@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            whisper_transcriber.cpp                            ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-14 11:39:36                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 18:54:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

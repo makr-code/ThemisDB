@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            oidc_provider.cpp                                  ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:32:13                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:46:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 57fef95c4a  2026-03-12  feat(auth): async/non-blocking LDAP and HTTP authenticati... ║
     • 1470edf9b1  2026-03-12  feat(auth): mandatory JWT issuer and audience validation ... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b15aac1a6b  2026-02-23  fix(auth): audit fixes – createDeviceFlow lazy-discover, ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

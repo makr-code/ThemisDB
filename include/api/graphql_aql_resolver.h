@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graphql_aql_resolver.h                             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-14 11:22:53                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 18:36:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

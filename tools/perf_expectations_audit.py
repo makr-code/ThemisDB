@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            perf_expectations_audit.py                         ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-14 11:54:46                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-14 19:10:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 5                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 42c0aaa20a  2026-04-14  feat(benchmarks): standardize LLM/RAG/LoRA artifact prefl... ║
+    • ee70111784  2026-04-13  fix(benchmarks): enforce Security/Governance benchmarks i... ║
+    • cf3e31ffa9  2026-04-13  feat(governance): Disabled-Stub-Policy für Benchmarks ein... ║
+    • 3224c48c81  2026-04-13  [Governance] Introduce disabled benchmark policy with lin... ║
     • aac9b9ed5a  2026-04-14  feat(benchmarks): standardize LLM/RAG/LoRA artifact prefl... ║
-    • 52681dd991  2026-04-13  fix(benchmarks): enforce Security/Governance benchmarks i... ║
-    • 1071f1d20f  2026-04-13  feat(governance): Disabled-Stub-Policy für Benchmarks ein... ║
-    • bd21a7cd4b  2026-04-13  [Governance] Introduce disabled benchmark policy with lin... ║
-    • acbec398e5  2026-04-13  feat(ci): implement bench-source CI guard (Issue #4, Maßn... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            request_coalescing.h                               ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:28:51                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 18:43:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

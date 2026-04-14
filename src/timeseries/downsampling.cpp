@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            downsampling.cpp                                   ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:38:40                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 18:52:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,6 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 9bdb7e29c1  2026-03-09  fix(timeseries): address code review - improve FlushContr... ║
     • fe42ba76e2  2026-03-09  feat(timeseries): add FlushController adaptive flush, Dow... ║

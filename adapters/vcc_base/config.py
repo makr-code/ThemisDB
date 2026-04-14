@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config.py                                          ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:21:03                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:34:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

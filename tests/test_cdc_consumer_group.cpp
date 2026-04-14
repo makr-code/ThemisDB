@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_consumer_group.cpp                        ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:42:44                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:57:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 3e9f0fc585  2026-02-24  fix(cdc): audit fixes — deleteGroup inflight cleanup, con... ║
     • 0e1d6bd1a1  2026-02-24  feat(cdc): implement at-least-once delivery with consumer... ║
-    • fd945c5093  2026-02-24  fix(cdc): fix test partition coverage - use consumer IDs ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            batch_evaluator.h                                  ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:27:40                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:41:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            oracle_importer.cpp                                ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:33:57                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:48:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 49aa9b0586  2026-03-02  Add modules, extraction retries, and test fixes ║
     • 9870104dff  2026-02-28  feat(importers): Add Oracle Database importer (header, im... ║
     • 0315f4af63  2026-02-27  refactor(importers): simplify streaming callback pattern ... ║
-    • 7ad9a8ead1  2026-02-27  feat(importers): add streaming row callbacks to MySQL and... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            citation_highlighter.h                             ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:27:42                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:41:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 36f9428a5e  2026-02-24  fix(rag): code audit – thread-safety, unused includes, do... ║
     • 0d07aab99c  2026-02-24  fix(rag): fix line count metadata and remove unused inclu... ║
     • 475d5e8ba9  2026-02-24  feat(rag): implement citation highlighting (map answer se... ║
-    • 3bd69376c4  2026-02-24  feat(rag): implement citation highlighting (map answer se... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

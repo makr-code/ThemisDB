@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rpc_service_integration_test.cpp                   ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:40:36                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:55:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 208883d439  2026-03-01  Implement handleBatchDelete, fix integration test stub, a... ║
     • cb5b0867f1  2026-03-01  feat(tests): add comprehensive RPC integration tests for ... ║
     • 1415c6f808  2026-03-01  feat(rpc): replace stubs with real DB-backed implementations ║
-    • bd470bd618  2026-03-01  feat(rpc): implement DELETE with cascade logic and refere... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

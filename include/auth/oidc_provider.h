@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            oidc_provider.h                                    ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:23:19                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:37:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

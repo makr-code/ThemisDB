@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cuda_backend.h                                     ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:22:33                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:36:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • e2fff830f0  2026-03-11  feat(acceleration): wire HNSW graph traversal into CUDAVe... ║
     • 7e608ea7c6  2026-03-11  feat(acceleration): implement CUDAGraphBackend BFS and sh... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • bb7355ba76  2026-02-23  fix(acceleration): add missing CUDAMatrixBackend declarat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            AboutWindow.xaml.cs                                ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:54:16                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 19:10:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

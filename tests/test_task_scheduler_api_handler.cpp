@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_task_scheduler_api_handler.cpp                ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:52:16                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 19:07:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • c34a95e5f4  2026-03-01  feat(scheduler): expose ExternalSchedulerAdapter via Task... ║
     • cf5596a8c4  2026-03-01  feat(scheduler): expose executeDAG via TaskSchedulerApiHa... ║
-    • 46cbedd513  2026-03-01  Fix total count to return all matching records for proper... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

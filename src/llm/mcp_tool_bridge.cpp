@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mcp_tool_bridge.cpp                                ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:34:43                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:48:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            distributed_task_coordinator.cpp                   ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-14 11:36:55                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-14 18:51:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,10 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 849475995f  2026-03-20  fix: avoid delegating ctor with Config{} aggregate init i... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 6bdc7ab4ad  2026-03-01  feat(scheduler): implement distributed cron leader electi... ║
-    • 0367b9a102  2026-02-22  Fix test bug and stop-race-condition in DistributedTaskCo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            path_constraints.cpp                               ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:33:42                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:47:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 23f569828d  2026-02-28  fix(graph): fix query injection in path constraints (secu... ║
     • dcf7b458fc  2026-02-27  feat(cmake): add transaction_retry_manager and other sour... ║
     • cf39e23c31  2026-02-25  fix(graph): clear stale Stubs:1 metadata and outdated doc... ║
-    • 59dbbc2b33  2026-02-22  Code audit: add ParallelTraversal benchmarks, fix stale c... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

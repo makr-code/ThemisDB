@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            sqlite_importer.cpp                                ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:34:02                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:48:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • dcf7b458fc  2026-02-27  feat(cmake): add transaction_retry_manager and other sour... ║
     • aeea5e1993  2026-02-26  Add SQLite importer: header, implementation, tests, fixtu... ║
-    • ac1dacf6a6  2026-02-22  Add MySQL/MariaDB importer: header, implementation, tests... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

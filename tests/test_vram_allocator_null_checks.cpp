@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_vram_allocator_null_checks.cpp                ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:53:26                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 19:09:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

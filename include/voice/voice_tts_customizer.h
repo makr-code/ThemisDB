@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_tts_customizer.h                             ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-04-14 11:30:51                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-14 18:45:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

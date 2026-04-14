@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_run_ci_benchmarks.py                          ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:22:08                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:35:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

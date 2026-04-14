@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rate_limiter.h                                     ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:22:58                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:36:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 8d40e1ef7c  2026-04-13  fix(api): Rate Limiter — Stale Bucket Eviction and Nested... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 1b159411a0  2026-02-28  fix(api): add missing #include <memory> and initialize Ra... ║
-    • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

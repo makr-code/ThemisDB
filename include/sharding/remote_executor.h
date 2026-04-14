@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            remote_executor.h                                  ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:29:09                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:43:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

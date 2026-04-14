@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_v2.cpp                               ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:35:10                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:49:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • bb451d1e6c  2026-03-15  fix(themis): complete Wire Protocol V2 priority/dependenc... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 33cc1ed9fe  2026-02-28  fix: pass decompressed payload to data_handler in V2 DATA... ║
-    • 0c973a2860  2026-02-26  Refactor and enhance ThemisDB components ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

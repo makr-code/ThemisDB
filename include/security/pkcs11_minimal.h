@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pkcs11_minimal.h                                   ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:28:23                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:42:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,8 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • e45182eb88  2026-03-01  feat(security): implement PKCS#11 token init, slot select... ║
     • 22978a7bba  2026-03-01  feat(security): add PKCS#11 C++ wrapper interface (pkcs11... ║
-    • 14140888fa  2026-02-22  feat: Complete HSM PKCS#11 direct integration with RSA-OA... ║
-    • e52586aae2  2026-02-22  feat(security): implement HSM PKCS#11 direct DEK wrap/unw... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

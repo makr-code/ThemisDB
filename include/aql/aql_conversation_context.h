@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_conversation_context.h                         ║
-  Version:         0.0.33                                             ║
-  Last Modified:   2026-04-14 11:23:02                                ║
+  Version:         0.0.34                                             ║
+  Last Modified:   2026-04-14 18:36:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • d630135feb  2026-03-13  fix(aql): address PR review comments on bounded conversat... ║
     • d231050f3c  2026-03-13  feat(aql): bounded conversation history with context-wind... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

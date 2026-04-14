@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            prompt_injection_detector.cpp                      ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-14 11:35:56                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-14 18:50:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 15b5ac3401  2026-03-01  Implement detectInResponse with response-specific indirec... ║
-    • 95a7c1ca50  2026-02-22  Add PromptInjectionDetector to prompt_engineering module ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

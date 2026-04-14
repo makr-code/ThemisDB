@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ann_index.cpp                                 ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:40:26                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:54:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 5432ec11fb  2026-02-28  fix(diskann): persist dimension in metadata; fix adapter ... ║
     • cebce18b12  2026-02-28  feat(index): fix DiskANN offset tracking, implement graph... ║
-    • 0c973a2860  2026-02-26  Refactor and enhance ThemisDB components ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

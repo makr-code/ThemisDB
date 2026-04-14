@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_format_template.cpp                           ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:40:02                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:54:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • f82bf2ae9f  2026-03-04  Refactor tenant manager tests and add new test cases ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 49aa9b0586  2026-03-02  Add modules, extraction retries, and test fixes ║
-    • 47062c4ec0  2026-02-28  Implement Alpaca, ShareGPT, ChatML, and OpenAI instructio... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

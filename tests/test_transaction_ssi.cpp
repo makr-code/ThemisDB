@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_transaction_ssi.cpp                           ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 11:52:49                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 19:08:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

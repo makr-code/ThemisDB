@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            metadata_shard.cpp                                 ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:37:57                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:52:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

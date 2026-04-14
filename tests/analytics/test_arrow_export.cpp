@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_arrow_export.cpp                              ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:39:43                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:54:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 80742c94d5  2026-02-27  feat(analytics): sanitize LLM API keys and CSV export data ║
     • 6fb48cf3ec  2026-02-25  feat(analytics): implement zero-copy Arrow data transfer ... ║
-    • 28a4b23b94  2026-02-23  Refactor tests and update error handling ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

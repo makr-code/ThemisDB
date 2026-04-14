@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vcc_pki_client.h                                   ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:28:31                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:42:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

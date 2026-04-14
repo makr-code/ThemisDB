@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            grafana_metrics.h                                  ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:25:34                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:39:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,8 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 6e4b52d948  2026-02-26  feat(llm): unified metrics dashboard for both engines ║
     • b7c3c3b837  2026-02-22  fix(llm): correct stats over-counting and tasks_completed... ║
-    • a2c5bc969d  2026-02-22  feat(llm): add SharedWorkerPool shared between AsyncInfer... ║
-    • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

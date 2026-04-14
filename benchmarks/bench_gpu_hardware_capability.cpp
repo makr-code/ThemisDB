@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_gpu_hardware_capability.cpp                  ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-14 11:21:23                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 18:34:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

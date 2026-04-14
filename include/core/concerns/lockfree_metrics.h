@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lockfree_metrics.h                                 ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:24:10                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 18:37:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     347                                            ║
+    • Total Lines:     348                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • f20e6e8d74  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
     • 2826fa9ccd  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
     • 56ac47b313  2026-03-13  feat(core): lock-free metrics — atomic counters, SPSC rin... ║
 ╠═════════════════════════════════════════════════════════════════════╣

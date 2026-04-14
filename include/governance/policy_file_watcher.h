@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            policy_file_watcher.h                              ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-14 11:24:39                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-14 18:38:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

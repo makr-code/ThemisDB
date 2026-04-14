@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_geo_ewkb.cpp                                  ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:40:12                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:54:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • b6336585c6  2026-02-26  feat(geo): add GeoJSON depth-limit security tests (audit ... ║
     • fd8d65d522  2026-02-26  feat(geo): fix GeometryCollection Z-detection in GeoJSON ... ║
     • c2e120dd0e  2026-02-24  feat(geo): Complete GeoJSON spec coverage for GeometryCol... ║
-    • 01e160a707  2026-02-22  feat(geo): Add WGS84 validation, CHANGELOG, ROADMAP updat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

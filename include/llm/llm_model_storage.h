@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_model_storage.h                                ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:25:38                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:39:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 10bb6eb49b  2026-03-19  fix(llm): address PR review — key_prefix rename, source t... ║
     • f9096b78d4  2026-03-17  feat(llm): LLMDeploymentPlugin RocksDB model storage (v1.... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

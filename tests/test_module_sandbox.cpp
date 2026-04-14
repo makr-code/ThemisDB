@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_module_sandbox.cpp                            ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:47:50                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 19:02:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 3e7d72433e  2026-03-12  feat(base): implement cgroup v2 resource enforcement for ... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 5a40139efc  2026-02-26  audit(base): close stub, update headers and ROADMAP for p... ║
-    • 68907b86d7  2026-02-26  feat(base): implement CPU-time limit (RLIMIT_CPU) for plu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

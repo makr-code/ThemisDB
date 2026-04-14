@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_zero_copy.cpp                        ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:35:11                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 18:49:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

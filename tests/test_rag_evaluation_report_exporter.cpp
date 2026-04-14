@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rag_evaluation_report_exporter.cpp            ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:50:21                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 19:05:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

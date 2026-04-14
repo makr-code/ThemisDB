@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            feature_flags.h                                    ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:26:46                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:40:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 5d88494041  2026-03-01  feat(performance): Implement io_uring zero-copy I/O path ... ║
     • 3fc5073575  2026-02-25  feat(performance/phase4): add PMU hardware counter integr... ║
     • f93dd332c6  2026-02-23  audit(performance): add file banners and register PMem in... ║
-    • 5ee46e5976  2026-02-23  feat(performance): Persistent Memory (Optane) aware stora... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

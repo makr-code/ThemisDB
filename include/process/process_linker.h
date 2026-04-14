@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            process_linker.h                                   ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:27:00                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 18:41:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

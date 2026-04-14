@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            api_gateway.h                                      ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:28:33                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:42:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 39d0b757f5  2026-02-26  audit: fix stub tests RegisterHandler/HealthStatusWithErr... ║
     • bfbf88c101  2026-02-26  feat(api): integrate Kong and Nginx as API gateways ║
     • 33a346e4e2  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
-    • 669dd39589  2026-02-24  feat: add versioned endpoint routing (/v1/, /v2/) with de... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

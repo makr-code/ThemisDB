@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            policy_validator.cpp                               ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:33:24                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:47:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 641f86b5d9  2026-02-28  fix(governance): detect overlapping access control rule c... ║
     • 0984e7e6d9  2026-02-25  fix(governance): correct test nullptr bug; add CCPA-HIPAA... ║
     • 5a94aff9a5  2026-02-25  fix: complete audit - fix detectOverlappingPermissions di... ║
-    • 6ebd711257  2026-02-25  fix: complete overlapping access control policy conflict ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

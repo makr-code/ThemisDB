@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            parallel_traversal.h                               ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-14 11:24:44                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-14 18:38:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • cf39e23c31  2026-02-25  fix(graph): clear stale Stubs:1 metadata and outdated doc... ║
     • 771ab826b0  2026-02-25  feat(graph): add fan_out_threshold for parallel frontier ... ║
-    • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

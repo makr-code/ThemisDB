@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lora_adapter.cpp                                   ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:38:49                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 18:53:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

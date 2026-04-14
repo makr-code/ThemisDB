@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_multi_tenant_index.cpp                        ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:48:03                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 19:03:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • dd49fe5493  2026-04-07  fix(index): tenant key separator injection – validate col... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • edf27e3ee8  2026-02-26  Refactor CMake configuration, add vision components, and ... ║
-    • 341b887e7e  2026-02-26  audit: fix ROADMAP gaps and add missing edge-case tests f... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

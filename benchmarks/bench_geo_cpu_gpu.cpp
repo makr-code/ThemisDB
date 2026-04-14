@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_geo_cpu_gpu.cpp                              ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:21:21                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:34:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graphql_schema_builder.h                           ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:22:54                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 18:36:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

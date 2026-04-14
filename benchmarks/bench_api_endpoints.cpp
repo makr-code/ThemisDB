@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_api_endpoints.cpp                            ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:21:08                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 18:34:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

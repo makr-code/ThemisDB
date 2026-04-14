@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_graph_traversal.cpp                          ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:21:24                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:35:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • b602e0c28b  2026-02-28  fix(graph): remove duplicate db_->open() in bench_graph_t... ║
     • 771ab826b0  2026-02-25  feat(graph): add fan_out_threshold for parallel frontier ... ║
-    • 59dbbc2b33  2026-02-22  Code audit: add ParallelTraversal benchmarks, fix stale c... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

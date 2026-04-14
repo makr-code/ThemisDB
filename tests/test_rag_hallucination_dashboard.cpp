@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rag_hallucination_dashboard.cpp               ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:50:22                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 19:05:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

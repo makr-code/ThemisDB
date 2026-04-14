@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            blockchain_integrity.cpp                           ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 11:33:44                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 18:47:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            socket_timeout_manager.h                           ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:26:17                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:40:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

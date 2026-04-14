@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pairwise_comparator.cpp                            ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:36:41                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:50:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

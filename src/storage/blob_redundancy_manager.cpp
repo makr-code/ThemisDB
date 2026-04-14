@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            blob_redundancy_manager.cpp                        ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:38:09                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:52:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • cc717dd8cb  2026-03-14  fix(storage): address PR review comments for BlobRedundan... ║
     • a5f0becd2a  2026-03-14  feat(storage): implement Reed-Solomon erasure coding for ... ║
     • 78f419ea26  2026-03-13  feat(storage): implement BlobRedundancyEventListener for ... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

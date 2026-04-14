@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            transaction_api_handler.cpp                        ║
-  Version:         0.0.41                                             ║
-  Last Modified:   2026-04-14 11:37:49                                ║
+  Version:         0.0.42                                             ║
+  Last Modified:   2026-04-14 18:52:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 28a4b23b94  2026-02-23  Refactor tests and update error handling ║
     • e50df6262a  2026-02-23  feat(transaction): implement transaction explain (locks a... ║
-    • 3f6dea8b01  2026-02-23  feat(transaction): expose OCC endpoints via HTTP API and ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

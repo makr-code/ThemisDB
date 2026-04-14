@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_mvcc_history.cpp                              ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-14 11:48:06                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-14 19:03:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • dfa2c62531  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
     • eb5e037bce  2026-02-25  feat(storage/transaction): harden history/conflict layer ... ║
     • da5b0c6f3c  2026-02-24  Add TransactionManager integration tests: putEntity/erase... ║
-    • 68f2e8e3f8  2026-02-24  Fix conflict_id separator to use underscore instead of dot ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
