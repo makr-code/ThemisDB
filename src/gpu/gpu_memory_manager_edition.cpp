@@ -319,10 +319,10 @@ uint64_t GPUMemoryManager::GetGPUMemoryUsed() const {
 
 float GPUMemoryManager::GetGPUMemoryUsagePercent() const {
     const uint64_t max_vram = GetMaxGPUVRAMBytes();
-    if (max_vram == 0) return 0.0f;
-
     std::lock_guard<std::mutex> lock(mutex_);
-    return (static_cast<float>(gpu_memory_allocated_) / static_cast<float>(max_vram)) * 100.0f;
+    return max_vram == 0
+        ? 0.0f
+        : (static_cast<float>(gpu_memory_allocated_) / static_cast<float>(max_vram)) * 100.0f;
 }
 
 bool GPUMemoryManager::IsGPUAccelerationEnabled() const noexcept {
