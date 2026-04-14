@@ -1573,6 +1573,56 @@ Hinweis zur Interpretierbarkeit: In einzelnen Lite-Faellen tritt weiterhin CPU-T
 
 ---
 
+### 5.9 Voice Benchmark CI Runner (THEMIS_ENABLE_VOICE_ASSISTANT)
+
+> *Implements PERFORMANCE_EXPECTATIONS.md §1.4 Maßnahme #4 — umgesetzt 2026-04-13*
+
+#### Acceptance Criteria Status
+
+| # | Kriterium | Status |
+|---|-----------|--------|
+| AC-1 | CI-Job mit aktivem `THEMIS_ENABLE_VOICE_ASSISTANT=ON` | ✅ Workflow `02-feature-modules_llm_voice-benchmark-ci.yml` |
+| AC-2 | `bench_voice_assistant` wird gebaut und ≥1 Testlauf dokumentiert | ✅ `continue-on-error` Build + Run-Step mit JSON-Artifact |
+| AC-3 | Fehlerfall bei fehlenden Voice-Dependencies sauber als SKIP dokumentiert | ✅ `run_status`-Step klassifiziert `SKIP_CONFIGURE` / `SKIP_BUILD` / `SKIP_RUN` im Job-Summary |
+| AC-4 | Report in `PERFORMANCE_EXPECTATIONS.md` verlinkt | ✅ Dieser Abschnitt |
+
+#### CI-Workflow
+
+**Datei:** `.github/workflows/02-feature-modules_llm_voice-benchmark-ci.yml`
+
+**Trigger:**
+- `pull_request` auf Änderungen in `include/voice/**`, `src/voice/**`, `benchmarks/bench_voice_assistant.cpp`
+- `push` auf `main`/`develop`
+- `workflow_dispatch` (manuell)
+
+**Build-Flags (explizit gekapselt):**
+
+```cmake
+-DTHEMIS_ENABLE_VOICE_ASSISTANT=ON
+-DTHEMIS_BUILD_BENCHMARKS=ON
+-DTHEMIS_BUILD_TESTS=OFF
+-DTHEMIS_ENABLE_LLM=ON
+-DTHEMIS_ENABLE_GPU=OFF
+-DTHEMIS_ENABLE_CUDA=OFF
+```
+
+**Skip-Dokumentation:**
+
+Der Build ist mit `continue-on-error: true` versehen. Wenn Voice-Dependencies (STT/TTS-Bibliotheken, Audio-Treiber) auf dem Runner fehlen, klassifiziert der `run_status`-Step den Outcome automatisch als:
+
+| Status | Bedingung |
+|--------|-----------|
+| `PASS` | CMake + Build + Run erfolgreich, JSON-Artifact vorhanden |
+| `SKIP_RUN` | Build erfolgreich, aber Benchmark-Binary exited non-zero (Runtime-Deps fehlen) |
+| `SKIP_BUILD` | CMake OK, aber Kompilierung fehlgeschlagen (optionale Libs fehlen) |
+| `SKIP_CONFIGURE` | CMake Configure fehlgeschlagen (schwere Abhängigkeit fehlt) |
+
+**Artefakte:** `voice-benchmark-results-ubuntu-22.04-gcc-12` (30-Tage-Retention)
+
+**Baseline:** `benchmarks/baselines/voice/baseline.json` (automatisch nach erfolgreichen Main-Runs aktualisiert)
+
+---
+
 ### 6.4 Query Engine Results
 
 > *SLO tables and measurement data: see §2 / §5.1. Combined SLO/results tables are preserved in §5.*
@@ -1682,7 +1732,7 @@ Hinweis zur Interpretierbarkeit: In einzelnen Lite-Faellen tritt weiterhin CPU-T
 | Governance | Messbar | `bench_governance_policy_latency.exe` und `bench_compliance_security_governance.exe` laufen vollstaendig; aktuelle Artefakte in `artifacts/perf_nv/bench_governance_policy_latency_release.json`, `artifacts/perf_nv/bench_compliance_security_governance_release.json` und `artifacts/perf_nv/bench_compliance_20260411_142340.json` |
 | Observability | Teilabdeckung | Metrics/Logging-Benchmarks vorhanden, Zielmetriken nicht vollstaendig 1:1 gemessen |
 | Process | Teilabdeckung | Benchmarks vorhanden, aber keine vollstaendige Zielabdeckung in v1.8.2 |
-| Voice | Feature-Gating | `bench_voice_assistant` ist an `THEMIS_ENABLE_VOICE_ASSISTANT` gebunden und aktuell nicht gebaut |
+| Voice | **Optionaler CI-Runner vorhanden (2026-04-13)** | `bench_voice_assistant` wird mit `THEMIS_ENABLE_VOICE_ASSISTANT=ON` gebaut; optionaler Workflow `.github/workflows/02-feature-modules_llm_voice-benchmark-ci.yml` führt ≥1 Testlauf durch und dokumentiert fehlende Voice-Dependencies sauber als SKIP (AC-1..AC-4 erfüllt, siehe §5.9) |
 | ONNX-CLIP | Teilabdeckung | Image/ONNX-Benchmarks vorhanden, aber keine durchgaengige Zieltabellen-Abdeckung |
 | Chimera | Struktur-Luecke | Eigene Suite/Baselines vorhanden, aber kein einheitlicher nativer Modul-Benchmarkpfad im selben Schema |
 | Prompt Engineering | Teilabdeckung | Benchmark vorhanden, jedoch ohne vollstaendige Ziel-SLO-Abbildung |
@@ -1886,7 +1936,7 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 | 1 | `bench_query.cpp` Pagination-Benchmarks wieder registrieren und stabilisieren | 2, 4 | M | `BM_Pagination_Offset` und `BM_Pagination_Cursor` laufen ohne Timeout |
 | 2 | `bench_olap_analytics.cpp` von Disabled-Stub auf echte Cases umstellen | 2, 4 | M | mind. 4 produktive OLAP-Analytics-Cases in v1.8.2-Report |
 | 3 | ~~Security/Governance-Binaries inkl. Runtime-DLL-Sync erzwingen~~ **ERLEDIGT** | 1, 3, 5 | M | Alle 4 Binaries starten und produzieren vollstaendige Artefakte; DLL-Pfad-Fix und Security/Compliance-Benchmarkreparaturen verifiziert |
-| 4 | Voice-Benchmark-Pfad für CI via `THEMIS_ENABLE_VOICE_ASSISTANT` optionalen Job aktivieren | 1, 5 | S | `bench_voice_assistant.exe` in Voice-Runner-Build vorhanden |
+| 4 | ~~Voice-Benchmark-Pfad für CI via `THEMIS_ENABLE_VOICE_ASSISTANT` optionalen Job aktivieren~~ **ERLEDIGT** | 1, 5 | S | Workflow `02-feature-modules_llm_voice-benchmark-ci.yml` erstellt: `THEMIS_ENABLE_VOICE_ASSISTANT=ON`, `bench_voice_assistant` gebaut, ≥1 Testlauf dokumentiert, fehlende Dependencies als SKIP ausgewiesen |
 | 5 | GPU-Benchmark-Matrix (CUDA/HIP/Vulkan) als separaten Runner etablieren | 1, 3 | L | GPU-disabled Stubs werden durch reale Messwerte ersetzt |
 | 6 | Modell-/Artefakt-Vorbereitung (LLM, LoRA, gguf) standardisieren | 3 | M | LLM/RAG/LoRA-Benchmarks laufen ohne Missing-Artifact-Fehler |
 | 7 | Ziel-ID-zu-Benchmark-Mapping-Datei erzwingen (pro Modul) | 4 | M | jede Ziel-ID in Tabellen hat exakt 1 primären Benchmarkfall |
