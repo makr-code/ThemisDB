@@ -8,6 +8,7 @@ on:
       - 'benchmarks/**'
       - 'tools/perf_coverage_top10_audit.py'
       - '.github/workflows/perf-coverage-top10-audit.yml'
+      - '.github/workflows/06-infrastructure_gpu_gpu-benchmark-matrix-ci.yml'
   push:
     branches:
       - develop
@@ -16,6 +17,7 @@ on:
       - 'PERFORMANCE_EXPECTATIONS.md'
       - 'benchmarks/**'
       - 'tools/perf_coverage_top10_audit.py'
+      - '.github/workflows/06-infrastructure_gpu_gpu-benchmark-matrix-ci.yml'
   schedule:
     - cron: '0 4 * * *'  # Nightly at 04:00 UTC
   workflow_dispatch:
