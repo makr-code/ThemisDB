@@ -33,10 +33,12 @@
 #include "utils/error_registry.h"
 
 #include <algorithm>
+#include <array>
 #include <chrono>
 #include <cstdint>
 #include <filesystem>
 #include <memory>
+#include <span>
 #include <string>
 #include <vector>
 
