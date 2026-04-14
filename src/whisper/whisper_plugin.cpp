@@ -34,6 +34,11 @@ WhisperPlugin::WhisperPlugin() {
 #ifdef THEMIS_ENABLE_WHISPER
     transcriber_ = std::make_unique<WhisperCppTranscriber>();
 #else
+    // STUB/SIMULATION NOTE:
+    // Purpose: Keep the plugin loadable when Whisper support is not compiled in.
+    // Activation: Compiled when THEMIS_ENABLE_WHISPER is not defined.
+    // Production Delta: Transcription uses WhisperStubTranscriber behavior instead of whisper.cpp.
+    // Removal Plan: Remove once Whisper becomes a mandatory dependency in all build targets.
     transcriber_ = std::make_unique<WhisperStubTranscriber>();
 #endif
     auto composite = std::make_unique<CompositeAudioChunkReader>();

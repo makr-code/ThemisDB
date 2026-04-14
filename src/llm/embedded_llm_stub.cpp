@@ -52,9 +52,8 @@ std::string EmbeddedLLM::generateWithParams(
 
 std::string EmbeddedLLM::chat(
     const std::vector<ChatMessage>& messages,
-    ChatFormat format
+    [[maybe_unused]] ChatFormat format
 ) {
-    (void)format;
     std::string merged;
     for (const auto& m : messages) {
         if (!merged.empty()) {
@@ -74,8 +73,7 @@ std::string EmbeddedLLM::chatSimple(
     return chat({{"system", system_prompt}, {"user", user_message}});
 }
 
-std::vector<float> EmbeddedLLM::embed(const std::string& text) {
-    (void)text;
+std::vector<float> EmbeddedLLM::embed([[maybe_unused]] const std::string& text) {
     return {};
 }
 
@@ -83,7 +81,6 @@ std::vector<std::vector<float>> EmbeddedLLM::embedBatch(const std::vector<std::s
     std::vector<std::vector<float>> out;
     out.reserve(texts.size());
     for (const auto& t : texts) {
-        (void)t;
         out.push_back({});
     }
     return out;
@@ -175,9 +172,8 @@ InferenceRequest EmbeddedLLM::createRequest(
 
 std::string EmbeddedLLM::applyEthicalGuidelines(
     const std::string& prompt,
-    const std::string& context_text
+    [[maybe_unused]] const std::string& context_text
 ) {
-    (void)context_text;
     return prompt;
 }
 

@@ -414,7 +414,7 @@ std::vector<AQLAutoComplete::SchemaInfo> AQLAutoComplete::parseSchema(
 // ============================================================================
 
 std::vector<CompletionItem> AQLAutoComplete::keywordCandidates(
-    const std::string& text, std::size_t cursor) const
+    [[maybe_unused]] const std::string& text, std::size_t cursor) const
 {
     std::vector<CompletionItem> items;
 
@@ -452,8 +452,8 @@ std::vector<CompletionItem> AQLAutoComplete::keywordCandidates(
         items.push_back(std::move(item));
     }
 
-    (void)text;   // reserved: will be used for context-sensitive filtering in future
-    (void)cursor; // reserved: will be used for context-sensitive filtering in future
+    // reserved: will be used for context-sensitive filtering in future
+    // reserved: will be used for context-sensitive filtering in future
     return items;
 }
 

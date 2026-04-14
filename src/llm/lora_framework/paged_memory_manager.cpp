@@ -224,7 +224,7 @@ bool PagedMemoryManager::pageIn(PagedBuffer& buffer, void* stream) {
     return true;
 }
 
-bool PagedMemoryManager::pageOut(PagedBuffer& buffer, void* stream) {
+bool PagedMemoryManager::pageOut(PagedBuffer& buffer, void* /*stream*/) {
     if (buffer.id == 0 || !buffer.cpu_ptr) {
         return false;
     }

@@ -219,7 +219,7 @@ void AuthMetrics::recordRateLimitExceeded(const std::string& type) {
 #endif
 }
 
-void AuthMetrics::setRateLimitTokens(const std::string& identifier, double tokens) {
+void AuthMetrics::setRateLimitTokens(const std::string& /*identifier*/, double /*tokens*/) {
     // This would create too many time series, so we skip it in the implementation
     // Instead, we rely on aggregate metrics
 }

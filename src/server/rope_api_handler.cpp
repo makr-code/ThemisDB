@@ -859,12 +859,11 @@ http::response<http::string_body> RopeApiHandler::makeResponse(
 
 std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
     const http::request<http::string_body>& req,
-    const std::string& permission,
-    const std::string& resource,
-    const std::string& path)
+    [[maybe_unused]] const std::string& permission,
+    [[maybe_unused]] const std::string& resource,
+    [[maybe_unused]] const std::string& path)
 {
     // Suppress unused parameter warnings for parameters reserved for future use
-    (void)permission; (void)resource; (void)path;
     
     // Basic authentication check - if auth middleware is not configured or not enabled,
     // allow access (open mode)

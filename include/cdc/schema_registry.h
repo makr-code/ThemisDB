@@ -481,6 +481,12 @@ struct EncodedEvent {
  *  - AVRO     – UTF-8 JSON bytes (stub; full Avro binary requires avro-cpp).
  *  - PROTOBUF – UTF-8 JSON bytes (stub; full proto binary requires protobuf).
  *
+ * STUB/SIMULATION NOTE:
+ * Purpose: Provide a uniform wire format while optional Avro/Protobuf binary encoders are unavailable.
+ * Activation: Active when event format is AVRO or PROTOBUF without corresponding binary serializer integration.
+ * Production Delta: Payload bytes are JSON text rather than native Avro/Protobuf binary payloads.
+ * Removal Plan: Replace JSON fallback serialization with native binary encoding once dependencies are integrated.
+ *
  * Schema auto-registration: when @c config.auto_register_schemas is true
  * (the default) the encoder calls @c ensureCollectionSchema() on first use
  * per collection and caches the schema ID.

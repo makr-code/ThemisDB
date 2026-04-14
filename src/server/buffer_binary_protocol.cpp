@@ -255,7 +255,7 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleVectorAddBuffered(
 }
 
 std::vector<uint8_t> BufferBinaryProtocolHandler::handleVectorUpdateBuffered(
-    const std::vector<uint8_t>& payload
+    const std::vector<uint8_t>& /*payload*/
 ) {
     // Similar to handleVectorAddBuffered, but calls vector_buffer_->update()
     return createResponse(STATUS_SUCCESS);
@@ -316,14 +316,14 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::handleGraphNodeBuffered(
 }
 
 std::vector<uint8_t> BufferBinaryProtocolHandler::handleGraphEdgeBuffered(
-    const std::vector<uint8_t>& payload
+    const std::vector<uint8_t>& /*payload*/
 ) {
     // Similar to handleGraphNodeBuffered, but calls graph_buffer_->addEdge()
     return createResponse(STATUS_SUCCESS);
 }
 
 std::vector<uint8_t> BufferBinaryProtocolHandler::handleBufferStats(
-    const std::vector<uint8_t>& payload
+    const std::vector<uint8_t>& /*payload*/
 ) {
     try {
         // Get statistics from all buffers

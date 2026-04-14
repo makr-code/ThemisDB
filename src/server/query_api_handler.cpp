@@ -1330,7 +1330,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             usesVE = [&](const Expression* e)->bool{
                 if (!e) return false;
                 if (auto* le = dynamic_cast<const LiteralExpr*>(e)) {
-                    (void)le; return false;
+                    return false;
                 }
                 if (auto* ve = dynamic_cast<const VariableExpr*>(e)) {
                     return (ve->name == "v" || ve->name == "e");
@@ -3276,9 +3276,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryEnhanced(
 // Helper method implementations
 std::optional<http::response<http::string_body>> QueryApiHandler::requireAccess(
     const http::request<http::string_body>& req,
-    const std::string& permission,
-    const std::string& resource_type,
-    const std::string& resource_id
+    const std::string& /*permission*/,
+    const std::string& /*resource_type*/,
+    const std::string& /*resource_id*/
 ) {
     // If auth is disabled, allow
     if (!auth_ || !auth_->isEnabled()) {

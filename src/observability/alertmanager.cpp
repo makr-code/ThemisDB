@@ -87,22 +87,18 @@ Result<void> Alertmanager::initialize(const AlertmanagerConfig& config) {
     return {};
 }
 
-Result<void> Alertmanager::sendAlert(const Alert& alert) {
+Result<void> Alertmanager::sendAlert([[maybe_unused]] const Alert& alert) {
     // Base-class no-op: subclasses provide the concrete transport.
-    (void)alert;
     return {};
 }
 
-Result<void> Alertmanager::resolveAlert(const std::string& alert_id) {
+Result<void> Alertmanager::resolveAlert([[maybe_unused]] const std::string& alert_id) {
     // Base-class no-op: subclasses provide the concrete transport.
-    (void)alert_id;
     return {};
 }
 
-Result<void> Alertmanager::silenceAlert(const std::string& alert_id, int duration_minutes) {
+Result<void> Alertmanager::silenceAlert([[maybe_unused]] const std::string& alert_id, int duration_minutes) {
     // Base-class no-op: subclasses provide the concrete transport.
-    (void)alert_id;
-    (void)duration_minutes;
     return {};
 }
 

@@ -171,6 +171,7 @@ void StorageProfiler::record_operation(const StorageOpStats& stats) {
 }
 
 RocksDBStats StorageProfiler::collect_rocksdb_stats(const std::string& db_path) {
+    (void)db_path;
     if (!impl_->config.enabled || !impl_->config.collect_rocksdb_stats) {
         return RocksDBStats{};
     }
@@ -392,6 +393,7 @@ void StorageProfiler::cleanup_old_data() {
 }
 
 void StorageProfiler::log_slow_operation(const StorageOpStats& stats) {
+    (void)stats;
     // Log slow operation (could be integrated with logging system)
     // For now, just a placeholder
 }

@@ -137,7 +137,7 @@ OptimizationResult PromptOptimizer::optimize(
 }
 
 std::string PromptOptimizer::generateFeedback(
-    const std::string& prompt,
+    const std::string& /*prompt*/,
     double score,
     const std::vector<TestCase>& test_cases
 ) const {

@@ -173,7 +173,6 @@ WalGrpcService::WalGrpcService(std::shared_ptr<sharding::WALApplier> wal_applier
 #if THEMIS_HAS_SHARD_GRPC
     impl_ = std::make_unique<Impl>(wal_applier_);
 #else
-    (void)wal_applier_;
     THEMIS_WARN("Shard gRPC stubs not found; WalGrpcService is a no-op");
 #endif
 }

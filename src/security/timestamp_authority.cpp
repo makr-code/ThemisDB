@@ -186,7 +186,7 @@ std::vector<uint8_t> TimestampAuthority::computeHash(const std::vector<uint8_t>&
 
 bool eIDASTimestampValidator::validateeIDASTimestamp(
     const TimestampToken& token,
-    const std::vector<std::string>& trust_anchors) {
+    const std::vector<std::string>& /*trust_anchors*/) {
     
     validation_errors_.clear();
     
@@ -255,8 +255,8 @@ bool eIDASTimestampValidator::validateAge(const TimestampToken& token, int max_a
 }
 
 bool eIDASTimestampValidator::isQualifiedTSA(
-    const std::string& tsa_cert,
-    const std::vector<std::string>& qtsp_list) {
+    const std::string& /*tsa_cert*/,
+    const std::vector<std::string>& /*qtsp_list*/) {
     
     validation_errors_.clear();
     

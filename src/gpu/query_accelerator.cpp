@@ -300,9 +300,8 @@ GPUQueryAccelerator::scan(const std::vector<Row>& rows, FilterFn filter) {
             }
             result.rows_passed = result.rows.size();
             gpu_done = true;
-        } catch (const std::exception& ex) {
+        } catch ([[maybe_unused]] const std::exception& ex) {
             // Thrust system_error or std::runtime_error — fall through.
-            (void)ex;
             result.rows.clear();
             gpu_done = false;
         } catch (...) {
@@ -407,9 +406,8 @@ GPUQueryAccelerator::sort(std::vector<Row> rows, KeyFn key_fn, SortOrder order) 
             }
             rows = std::move(sorted_rows);
             gpu_done = true;
-        } catch (const std::exception& ex) {
+        } catch ([[maybe_unused]] const std::exception& ex) {
             // Thrust system_error or std::runtime_error — fall through to CPU.
-            (void)ex;
             gpu_done = false;
         } catch (...) {
             gpu_done = false;
@@ -519,9 +517,8 @@ GPUQueryAccelerator::aggregate(const std::vector<Row>& rows,
             }
             result.value = gpu_result;
             gpu_done = true;
-        } catch (const std::exception& ex) {
+        } catch ([[maybe_unused]] const std::exception& ex) {
             // Thrust system_error or std::runtime_error — fall through to CPU.
-            (void)ex;
             gpu_done = false;
         } catch (...) {
             gpu_done = false;
@@ -673,9 +670,8 @@ GPUQueryAccelerator::hashJoin(const std::vector<Row>& left,
                 }
             }
             gpu_done = true;
-        } catch (const std::exception& ex) {
+        } catch ([[maybe_unused]] const std::exception& ex) {
             // Thrust system_error or std::runtime_error — fall through to CPU.
-            (void)ex;
             result.pairs.clear();
             gpu_done = false;
         } catch (...) {
@@ -878,9 +874,8 @@ GPUQueryAccelerator::dotProduct(const std::vector<float>& a,
                     if (d_c) cudaFree(d_c);
                 }
             }
-        } catch (const std::exception& ex) {
+        } catch ([[maybe_unused]] const std::exception& ex) {
             // cuBLAS, Thrust, or std::runtime_error — fall through to CPU.
-            (void)ex;
             gpu_done = false;
         } catch (...) {
             gpu_done = false;
@@ -983,9 +978,8 @@ GPUQueryAccelerator::dotProduct(const std::vector<float>& a,
                     gpu_done = false;
                 }
             }
-        } catch (const std::exception& ex) {
+        } catch ([[maybe_unused]] const std::exception& ex) {
             // hipBLAS, Thrust, or std::runtime_error — fall through to CPU.
-            (void)ex;
             gpu_done = false;
         } catch (...) {
             gpu_done = false;

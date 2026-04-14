@@ -54,7 +54,7 @@ PKIKeyProvider::PKIKeyProvider(std::shared_ptr<utils::VCCPKIClient> pki,
 
 // File-based constructor
 PKIKeyProvider::PKIKeyProvider(const std::string& cert_path,
-                               const std::string& private_key_path,
+                               const std::string& /*private_key_path*/,
                                std::shared_ptr<themis::RocksDBWrapper> db,
                                const std::string& service_id,
                                bool validate_cert)
@@ -412,8 +412,8 @@ KeyMetadata PKIKeyProvider::getKeyMetadata(const std::string& key_id, uint32_t v
     return meta;
 }
 
-void PKIKeyProvider::deleteKey(const std::string& key_id, uint32_t version) {
-    (void)version; // unused parameter
+void PKIKeyProvider::deleteKey(const std::string& key_id, [[maybe_unused]] uint32_t version) {
+    // unused parameter
     std::scoped_lock lk(mu_);
     
     if (key_id == "dek") {
@@ -439,8 +439,8 @@ bool PKIKeyProvider::hasKey(const std::string& key_id, uint32_t version) {
 uint32_t PKIKeyProvider::createKeyFromBytes(
     const std::string& key_id,
     const std::vector<uint8_t>& key_bytes,
-    const KeyMetadata& metadata) {
-    (void)metadata; // unused parameter
+    [[maybe_unused]] const KeyMetadata& metadata) {
+    // unused parameter
     
     std::scoped_lock lk(mu_);
     field_key_cache_[key_id] = key_bytes;

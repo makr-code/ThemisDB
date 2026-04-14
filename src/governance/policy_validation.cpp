@@ -420,7 +420,7 @@ PolicyValidator::calculateEffectiveness(
         // Calculate days since last use
         if (metrics.last_used > 0) {
             int64_t seconds_since_use = now - metrics.last_used;
-            metrics.days_since_last_use = seconds_since_use / (24 * 3600);
+            metrics.days_since_last_use = static_cast<int>(seconds_since_use / (24 * 3600));
         }
         
         // Determine if unused
@@ -721,11 +721,11 @@ PolicyValidator::ValidationReport PolicyValidator::generateValidationReport(
     
     ValidationReport report;
     auto all_rules = policy_mgr.listRules();
-    report.total_rules_checked = all_rules.size();
+    report.total_rules_checked = static_cast<int>(all_rules.size());
     
     // Detect conflicts
     report.conflicts = detectConflicts(policy_mgr);
-    report.conflicts_found = report.conflicts.size();
+    report.conflicts_found = static_cast<int>(report.conflicts.size());
     
     // Perform security checks
     report.security_checks = performSecurityChecks(policy_mgr);
@@ -737,7 +737,7 @@ PolicyValidator::ValidationReport PolicyValidator::generateValidationReport(
     
     // Calculate effectiveness
     auto unused = identifyUnusedRules(policy_mgr, hit_counts);
-    report.effectiveness_issues_found = unused.size();
+    report.effectiveness_issues_found = static_cast<int>(unused.size());
     
     // Generate recommendations
     if (!report.conflicts.empty()) {
@@ -1074,7 +1074,7 @@ nlohmann::json PolicyOptimizer::OptimizationReport::toJson() const {
 std::vector<PolicyOptimizer::OptimizationRecommendation> 
 PolicyOptimizer::generateRecommendations(
     const PolicyManager& policy_mgr,
-    const PolicyValidator::ValidationReport& validation_report,
+    const PolicyValidator::ValidationReport& /*validation_report*/,
     const std::unordered_map<std::string, PolicyMetricsCollector::RuleMetrics>& metrics) const {
     
     THEMIS_INFO("Generating optimization recommendations");
@@ -1327,7 +1327,7 @@ PolicyOptimizer::OptimizationReport PolicyOptimizer::generateOptimizationReport(
     OptimizationReport report;
     
     report.recommendations = generateRecommendations(policy_mgr, validation_report, metrics);
-    report.total_recommendations = report.recommendations.size();
+    report.total_recommendations = static_cast<int>(report.recommendations.size());
     
     // Count high priority recommendations (priority >= 7)
     for (const auto& rec : report.recommendations) {

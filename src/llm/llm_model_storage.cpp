@@ -477,7 +477,7 @@ public:
         }
     }
     
-    bool updateModel(const std::string& model_id, const LLMModelMetadata& metadata) {
+    bool updateModel(const std::string& /*model_id*/, const LLMModelMetadata& metadata) {
         // For simplicity, just store again
         return storeModel(metadata, std::nullopt);
     }

@@ -408,7 +408,7 @@ HealthStatus OperationalMetrics::getClusterHealth() const {
 
 void OperationalMetrics::recordRpcCall(
     const std::string& shard_id,
-    const std::string& method,
+    [[maybe_unused]] const std::string& method,
     const std::string& outcome,
     uint64_t latency_us
 ) {
@@ -417,7 +417,7 @@ void OperationalMetrics::recordRpcCall(
     // RPC calls are always cross-shard writes from the perspective of the
     // generic request counter (they carry mutation intent).
     recordRequest(shard_id, latency_us, success, /*is_write=*/true);
-    (void)method; // label carried by PrometheusMetrics; suppresses unused-var warning
+    // label carried by PrometheusMetrics; suppresses unused-var warning
 }
 
 void OperationalMetrics::recordRequest(
@@ -602,6 +602,7 @@ std::string OperationalMetrics::formatPrometheusMetric(
     double value,
     const std::map<std::string, std::string>& labels
 ) {
+    (void)type;
     std::stringstream ss;
     
     ss << name;
@@ -620,6 +621,24 @@ std::string OperationalMetrics::formatPrometheusMetric(
     ss << " " << std::fixed << std::setprecision(2) << value << "\n";
     
     return ss.str();
+}
+
+std::string OperationalMetrics::formatPrometheusMetric(
+    const std::string& name,
+    MetricType type,
+    uint64_t value,
+    const std::map<std::string, std::string>& labels
+) {
+    return formatPrometheusMetric(name, type, static_cast<double>(value), labels);
+}
+
+std::string OperationalMetrics::formatPrometheusMetric(
+    const std::string& name,
+    MetricType type,
+    int value,
+    const std::map<std::string, std::string>& labels
+) {
+    return formatPrometheusMetric(name, type, static_cast<double>(value), labels);
 }
 
 }  // namespace sharding

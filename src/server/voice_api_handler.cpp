@@ -1563,10 +1563,9 @@ http::response<http::string_body> VoiceApiHandler::handleAuthIdentify(
 }
 
 http::response<http::string_body> VoiceApiHandler::handleAuthListProfiles(
-    const http::request<http::string_body>& req)
+    [[maybe_unused]] const http::request<http::string_body>& req)
 {
     auto span = Tracer::startSpan("handleAuthListProfiles");
-    (void)req;
     const auto profiles = voice_assistant_->listVoiceProfiles();
     json arr = json::array();
     for (const auto& pid : profiles) {
@@ -1579,11 +1578,10 @@ http::response<http::string_body> VoiceApiHandler::handleAuthListProfiles(
 }
 
 http::response<http::string_body> VoiceApiHandler::handleAuthDeleteProfile(
-    const http::request<http::string_body>& req,
+    [[maybe_unused]] const http::request<http::string_body>& req,
     const std::string& profile_id)
 {
     auto span = Tracer::startSpan("handleAuthDeleteProfile");
-    (void)req;
     if (profile_id.empty()) {
         return createErrorResponse(
             http::status::bad_request, "Bad Request", "Missing profile ID");

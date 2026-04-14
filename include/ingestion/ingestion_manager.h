@@ -1302,8 +1302,8 @@ public:
      *
      * @param validator Callback to invoke per document; empty fn = disable
      */
-    virtual void setDocumentValidator(DocumentValidatorFn validator) {
-        (void)validator; // default: no-op
+    virtual void setDocumentValidator([[maybe_unused]] DocumentValidatorFn validator) {
+        // default: no-op
     }
 };
 

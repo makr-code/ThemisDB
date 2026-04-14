@@ -436,7 +436,7 @@ std::vector<std::string> LazyModelLoader::listLoadedModels() const {
     return result;
 }
 
-size_t LazyModelLoader::evictLRU(size_t target_vram_mb) {
+size_t LazyModelLoader::evictLRU(size_t /*target_vram_mb*/) {
     // Already locked by caller
     
     if (models_.empty()) {

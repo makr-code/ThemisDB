@@ -62,7 +62,7 @@ size_t write_callback(void* ptr, size_t size, size_t nmemb, void* userdata) {
 }
 
 // CURL progress callback
-int progress_callback_wrapper(void* clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow) {
+int progress_callback_wrapper(void* clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t /*ultotal*/, curl_off_t /*ulnow*/) {
     auto* callback = static_cast<DownloadProgressCallback*>(clientp);
     if (callback && *callback) {
         std::string status = "downloading";
@@ -217,8 +217,8 @@ ModelDownloadResult ModelDownloader::pullFromOllama(const ModelDownloadConfig& c
 }
 
 bool ModelDownloader::exportOllamaModel(
-    const std::string& ollama_url,
-    const std::string& model_name,
+    const std::string& /*ollama_url*/,
+    const std::string& /*model_name*/,
     const std::string& output_path
 ) {
     // Note: This is a simplified implementation

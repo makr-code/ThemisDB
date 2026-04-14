@@ -240,9 +240,9 @@ std::string ParallelDownloader::computeSha256(const std::string& path) {
 // ============================================================================
 
 bool ParallelDownloader::defaultFetch(
-    const std::string& url,
-    const std::string& dest,
-    uint64_t           resume_offset,
+    [[maybe_unused]] const std::string& url,
+    [[maybe_unused]] const std::string& dest,
+    [[maybe_unused]] uint64_t           resume_offset,
     long               /*connect_timeout_s*/,
     long               /*transfer_timeout_s*/,
     uint64_t*          out_bytes,
@@ -252,9 +252,6 @@ bool ParallelDownloader::defaultFetch(
     // This default implementation is a no-op stub suitable for unit tests
     // that inject a custom FetchFn.  Production deployments provide their
     // own HTTP transport via setFetchFunction().
-    (void)url;
-    (void)dest;
-    (void)resume_offset;
     if (out_bytes)  *out_bytes  = 0;
     if (out_total)  *out_total  = 0;
     if (out_error)  *out_error  = "No HTTP transport configured; call setFetchFunction()";

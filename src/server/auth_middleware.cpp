@@ -578,9 +578,9 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaKerberos(
 
 AuthMiddleware::AuthResult AuthMiddleware::authorizeViaMTLS(
     std::string_view cert_pem,
-    std::string_view required_scope) const {
+    [[maybe_unused]] std::string_view required_scope) const {
 
-    (void)required_scope;  // Scope is role-based via subject_mappings; checked by caller chain
+    // Scope is role-based via subject_mappings; checked by caller chain
 
     // Note: mutex is already locked by caller (authorize)
 

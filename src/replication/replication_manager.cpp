@@ -781,7 +781,6 @@ bool ReplicationStream::sendBatch(const std::vector<WALEntry>& entries) {
     // Uncompressed path: in a real deployment this would serialise the entries
     // and transmit them via the mTLS connection to the follower endpoint.
     // The retry/backoff logic is managed by the caller (streamLoop).
-    (void)entries;
     return true;
 }
 
@@ -1250,7 +1249,7 @@ std::string ReplicationManager::exportPrometheusMetrics() const {
     oss << "themisdb_cluster_nodes_healthy " << healthy_count << "\n";
     oss << "themisdb_cluster_nodes_total " << health.size() << "\n";
     
-    // Add replication lag metrics per replica
+    [[maybe_unused]] // Add replication lag metrics per replica
     oss << "\n# HELP themisdb_replication_lag_per_replica Replication lag per replica\n"
         << "# TYPE themisdb_replication_lag_per_replica gauge\n";
     
@@ -1276,7 +1275,7 @@ void ReplicationManager::heartbeatLoop() {
                 for (const auto& replica : replicas_) {
                     // Record outbound heartbeat so the election module can
                     // reset its own liveness timer if it happens to be watching.
-                    (void)replica;  // endpoint used by real network layer
+                    // endpoint used by real network layer
                 }
             }
             // Reset the leader's own heartbeat timer to avoid self-election
@@ -1469,8 +1468,6 @@ ReplicationManager::LeaseReadResult ReplicationManager::leaseRead(
 
     THEMIS_DEBUG("leaseRead served: collection={} doc={} commit_index={} node={}",
                  collection, document_id, result.commit_index, node_id_);
-    (void)collection;
-    (void)document_id;
     return result;
 }
 
@@ -3116,7 +3113,6 @@ void MultiMasterReplicationManager::heartbeatLoop() {
             // In a full implementation: send AppendEntries / heartbeat RPC.
             // Update last_heartbeat_hlc to the current timestamp.
             peer.last_heartbeat_hlc = now_ts;
-            (void)node_id;
         }
     }
 }
@@ -3191,7 +3187,6 @@ bool MultiMasterReplicationManager::sendToPeer(
 
     auto serialized = entry.serialize();
     stats_bytes_sent_.fetch_add(serialized.size());
-    (void)node_id;
     return true;
 }
 
@@ -3331,13 +3326,12 @@ void MultiMasterReplicationManager::antiEntropySync(const std::string& peer_id) 
 }
 
 std::vector<MMWriteEntry> MultiMasterReplicationManager::getMissingWrites(
-    const VectorClock& peer_clock)
+    [[maybe_unused]] const VectorClock& peer_clock)
 {
     // In a full implementation this would query a local write log and return
     // all entries whose vector clock happens-after the peer's clock.
     // For now we return an empty set (the WAL replay path is handled by
     // ReplicationStream / WALManager on the Raft leader-follower path).
-    (void)peer_clock;
     return {};
 }
 
@@ -5275,17 +5269,13 @@ uint64_t MultiRegionActiveActiveManager::parseSessionToken(
 
 MultiRegionActiveActiveManager::WriteResult
 MultiRegionActiveActiveManager::write(
-    const std::string& collection,
-    const std::string& document_id,
-    const std::string& operation,
-    const std::string& data,
+    [[maybe_unused]] const std::string& collection,
+    [[maybe_unused]] const std::string& document_id,
+    [[maybe_unused]] const std::string& operation,
+    [[maybe_unused]] const std::string& data,
     ConsistencyLevel   consistency,
     const std::string& /*session_token*/)
 {
-    (void)collection;
-    (void)document_id;
-    (void)operation;
-    (void)data;
 
     uint64_t seq = ++local_sequence_;
     ++writes_total_;
@@ -5314,13 +5304,11 @@ MultiRegionActiveActiveManager::write(
 
 MultiRegionActiveActiveManager::ReadResult
 MultiRegionActiveActiveManager::read(
-    const std::string& collection,
-    const std::string& document_id,
+    [[maybe_unused]] const std::string& collection,
+    [[maybe_unused]] const std::string& document_id,
     ConsistencyLevel   consistency,
     const std::string& session_token)
 {
-    (void)collection;
-    (void)document_id;
 
     ++reads_total_;
 
@@ -6092,10 +6080,10 @@ std::string GeoReplicationManager::selectReadRegion(
 
 bool GeoReplicationManager::write(
     const std::string& key,
-    const std::string& value,
+    [[maybe_unused]] const std::string& value,
     ConsistencyLevel   consistency)
 {
-    (void)key; (void)value;  // key/value applied by the caller's storage layer
+    // key/value applied by the caller's storage layer
 
     // For STRONG writes, require the local region to have zero lag.
     if (consistency == ConsistencyLevel::STRONG) {
@@ -6133,7 +6121,6 @@ std::optional<std::string> GeoReplicationManager::read(
     ConsistencyLevel   consistency,
     const std::string& session_token)
 {
-    (void)key;
 
     ++reads_total_;
 

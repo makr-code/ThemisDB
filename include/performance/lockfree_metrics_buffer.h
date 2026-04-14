@@ -31,6 +31,11 @@
 namespace themis {
 namespace performance {
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4324) // Intentional cache-line alignment padding for false-sharing avoidance.
+#endif
+
 /**
  * @brief Lock-free SPSC (Single Producer Single Consumer) ring buffer
  * 
@@ -157,6 +162,10 @@ private:
     alignas(64) std::atomic<uint64_t> dropped_count_;
     alignas(64) std::array<T, Capacity> buffer_;
 };
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
 /**
  * @brief Metrics entry for ring buffer

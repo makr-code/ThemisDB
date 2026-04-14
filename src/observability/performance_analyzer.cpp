@@ -359,6 +359,7 @@ PerformanceIssue PerformanceAnalyzer::check_slow_queries(const QueryProfiler& qu
 }
 
 PerformanceIssue PerformanceAnalyzer::check_full_scans(const QueryProfiler& query_profiler) {
+    (void)query_profiler;
     // Placeholder - would need to inspect operator stats
     return PerformanceIssue{};
 }
@@ -394,6 +395,7 @@ PerformanceIssue PerformanceAnalyzer::check_index_usage(const QueryProfiler& que
 PerformanceIssue PerformanceAnalyzer::check_cache_hit_rate(
     const QueryProfiler& query_profiler,
     const StorageProfiler& storage_profiler) {
+    (void)query_profiler;
     auto cache_metrics = storage_profiler.get_cache_metrics();
     
     if (cache_metrics.empty() || !cache_metrics.contains("operation_cache")) {

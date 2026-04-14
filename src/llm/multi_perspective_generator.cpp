@@ -127,7 +127,7 @@ MultiPerspectiveGenerator::~MultiPerspectiveGenerator() = default;
 MultiPerspectiveResult MultiPerspectiveGenerator::generatePerspectives(
     const std::string& query,
     void* llm_wrapper,
-    const std::vector<std::string>& context
+    const std::vector<std::string>& /*context*/
 ) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     impl_->stats.total_generations++;
@@ -232,7 +232,7 @@ MultiPerspectiveResult MultiPerspectiveGenerator::generatePerspectives(
 PerspectiveResponse MultiPerspectiveGenerator::generateSinglePerspective(
     const std::string& query,
     const EthicalPerspective& perspective,
-    void* llm_wrapper
+    void* /*llm_wrapper*/
 ) {
     PerspectiveResponse response;
     response.perspective = perspective;
@@ -357,7 +357,7 @@ bool MultiPerspectiveGenerator::requiresMultiPerspective(const std::string& quer
 }
 
 std::vector<EthicalPerspective> MultiPerspectiveGenerator::selectPerspectives(
-    const std::string& query
+    const std::string& /*query*/
 ) {
     std::vector<EthicalPerspective> selected;
     

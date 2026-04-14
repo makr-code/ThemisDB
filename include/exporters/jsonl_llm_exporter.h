@@ -289,8 +289,7 @@ public:
     ::themis::plugins::PluginType getType() const override { return ::themis::plugins::PluginType::EXPORTER; }
     ::themis::plugins::PluginCapabilities getCapabilities() const override { return {}; }
 
-    bool initialize(const char* config_json) override {
-        (void)config_json;
+    bool initialize([[maybe_unused]] const char* config_json) override {
         exporter_ = std::make_unique<JSONLLLMExporter>();
         return true;
     }

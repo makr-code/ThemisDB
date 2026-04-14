@@ -87,13 +87,12 @@ std::string generateStreamId() {
  * The placeholder returns a synthetic partial transcript to make the
  * pipeline end-to-end testable without a GPU.
  */
-PartialTranscript runPartialStt(const std::string& session_id,
+PartialTranscript runPartialStt([[maybe_unused]] const std::string& session_id,
                                  StreamID           stream_id,
                                  const std::vector<uint8_t>& audio,
                                  bool   is_final,
                                  uint32_t seq)
 {
-    (void)session_id;
     // Placeholder: emit placeholder text proportional to audio length
     PartialTranscript pt;
     pt.stream_id  = stream_id;
@@ -107,12 +106,11 @@ PartialTranscript runPartialStt(const std::string& session_id,
     return pt;
 }
 
-FinalTranscript makeFinalTranscript(const std::string& session_id,
+FinalTranscript makeFinalTranscript([[maybe_unused]] const std::string& session_id,
                                      StreamID           stream_id,
                                      const std::vector<uint8_t>& audio,
                                      int64_t            started_at_ms)
 {
-    (void)session_id;
     FinalTranscript ft;
     ft.stream_id   = stream_id;
     ft.confidence  = 0.92f;

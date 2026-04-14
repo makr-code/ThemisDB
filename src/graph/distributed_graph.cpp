@@ -345,7 +345,7 @@ Result<GraphQueryOptimizer::OptimizationPlan> DistributedGraphManager::optimizeP
     // Use the first available shard's optimizer to generate a base plan, then
     // annotate it with shard-aware distribution metadata.
     auto& [first_shard_id, first_exec] = shards.front();
-    (void)first_exec; // reserved for future remote-plan generation
+    // reserved for future remote-plan generation
 
     // Build a base plan with sensible defaults for distributed execution.
     GraphQueryOptimizer::OptimizationPlan plan;

@@ -99,10 +99,9 @@ themis::Result<const RetentionManager::RetentionPolicy*> RetentionManager::getPo
 }
 
 bool RetentionManager::shouldArchive(
-    const std::string& entity_id,
+    [[maybe_unused]] const std::string& entity_id,
     std::chrono::system_clock::time_point created_at,
     const std::string& policy_name) const {
-    (void)entity_id;
     
     auto policy_result = getPolicy(policy_name);
     if (!policy_result) {
@@ -117,10 +116,9 @@ bool RetentionManager::shouldArchive(
 }
 
 bool RetentionManager::shouldPurge(
-    const std::string& entity_id,
+    [[maybe_unused]] const std::string& entity_id,
     std::chrono::system_clock::time_point created_at,
     const std::string& policy_name) const {
-    (void)entity_id;
     
     auto policy_result = getPolicy(policy_name);
     if (!policy_result) {

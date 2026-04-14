@@ -259,7 +259,7 @@ ContentExtractionResult ImageProcessor::extract(
 std::vector<ContentChunk> ImageProcessor::chunk(
     const ContentExtractionResult& result,
     int max_tokens,
-    int overlap
+    int /*overlap*/
 ) {
     std::vector<ContentChunk> chunks;
     
@@ -318,7 +318,7 @@ json ImageProcessor::getStatistics() const {
 
 // Private implementation methods
 
-static void detectImageDimensions(const std::vector<uint8_t>& blob, const std::string& mime_type, int& width, int& height) {
+static void detectImageDimensions(const std::vector<uint8_t>& blob, const std::string& /*mime_type*/, int& width, int& height) {
     width = 0;
     height = 0;
     
@@ -378,7 +378,7 @@ json ImageProcessor::extractExifMetadata(const std::vector<uint8_t>& blob) {
     return exif;
 }
 
-json ImageProcessor::extractXmpMetadata(const std::vector<uint8_t>& blob) {
+json ImageProcessor::extractXmpMetadata(const std::vector<uint8_t>& /*blob*/) {
     json xmp;
     
     // XMP data is XML embedded in images
@@ -387,7 +387,7 @@ json ImageProcessor::extractXmpMetadata(const std::vector<uint8_t>& blob) {
     return xmp;
 }
 
-std::vector<uint8_t> ImageProcessor::generateThumbnail(const std::vector<uint8_t>& blob) {
+std::vector<uint8_t> ImageProcessor::generateThumbnail(const std::vector<uint8_t>& /*blob*/) {
     // Real implementation would use libvips:
     // VipsImage* in;
     // vips_thumbnail_buffer(&in, blob.data(), blob.size(), thumbnail_max_width_, nullptr);
@@ -400,12 +400,11 @@ std::string ImageProcessor::performOCR(const std::vector<uint8_t>& blob) {
 #ifdef THEMIS_ENABLE_OCR
     return OcrProcessor::performOcr(blob, ocr_language_);
 #else
-    (void)blob;
     return "";
 #endif
 }
 
-std::vector<std::array<uint8_t, 3>> ImageProcessor::extractDominantColors(const std::vector<uint8_t>& blob) {
+std::vector<std::array<uint8_t, 3>> ImageProcessor::extractDominantColors(const std::vector<uint8_t>& /*blob*/) {
     std::vector<std::array<uint8_t, 3>> colors;
     
     // Real implementation would:
@@ -417,7 +416,7 @@ std::vector<std::array<uint8_t, 3>> ImageProcessor::extractDominantColors(const 
     return colors;
 }
 
-json ImageProcessor::detectFaces(const std::vector<uint8_t>& blob) {
+json ImageProcessor::detectFaces(const std::vector<uint8_t>& /*blob*/) {
     json faces = json::array();
     
     // Real implementation would use dlib, OpenCV, or ML model
@@ -426,7 +425,7 @@ json ImageProcessor::detectFaces(const std::vector<uint8_t>& blob) {
     return faces;
 }
 
-json ImageProcessor::detectObjects(const std::vector<uint8_t>& blob) {
+json ImageProcessor::detectObjects(const std::vector<uint8_t>& /*blob*/) {
     json objects = json::array();
     
     // Real implementation would use YOLO, SSD, or similar

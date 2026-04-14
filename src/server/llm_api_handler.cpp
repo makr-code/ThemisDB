@@ -577,7 +577,7 @@ http::response<http::string_body> LLMApiHandler::handleStreamExplainAql(
 }
 
 http::response<http::string_body> LLMApiHandler::handleListModels(
-    const http::request<http::string_body>& req) {
+    const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handleListModels");
     
     // Get model list from LLMPluginManager
@@ -782,7 +782,7 @@ http::response<http::string_body> LLMApiHandler::handleIngestModel(
 }
 
 http::response<http::string_body> LLMApiHandler::handleListLoRAs(
-    const http::request<http::string_body>& req) {
+    const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handleListLoRAs");
     
     // Get LoRA list from LLMPluginManager
@@ -912,7 +912,7 @@ http::response<http::string_body> LLMApiHandler::handleUnloadLoRA(
 }
 
 http::response<http::string_body> LLMApiHandler::handleStats(
-    const http::request<http::string_body>& req) {
+    const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handleStats");
     
     // Get statistics from AsyncInferenceEngine and LLMPluginManager
@@ -940,7 +940,7 @@ http::response<http::string_body> LLMApiHandler::handleStats(
 }
 
 http::response<http::string_body> LLMApiHandler::handleCacheStats(
-    const http::request<http::string_body>& req) {
+    const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handleCacheStats");
     
     // Get cache statistics from LLMResponseCache and LLMPrefixCache
@@ -978,7 +978,7 @@ http::response<http::string_body> LLMApiHandler::handleCacheStats(
 }
 
 http::response<http::string_body> LLMApiHandler::handleClearCache(
-    const http::request<http::string_body>& req) {
+    const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handleClearCache");
     
     // Clear LLMResponseCache and LLMPrefixCache
@@ -1002,7 +1002,7 @@ http::response<http::string_body> LLMApiHandler::handleClearCache(
 }
 
 http::response<http::string_body> LLMApiHandler::handleHealth(
-    const http::request<http::string_body>& req) {
+    const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handleHealth");
     
     // Check health of LLMPluginManager and AsyncInferenceEngine
@@ -1536,7 +1536,7 @@ http::response<http::string_body> LLMApiHandler::handleListFeedback(
 }
 
 http::response<http::string_body> LLMApiHandler::handleFeedbackStats(
-    const http::request<http::string_body>& req) {
+    const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handleFeedbackStats");
     
     // Check if FeedbackStore is available

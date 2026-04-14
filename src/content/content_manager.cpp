@@ -226,7 +226,6 @@ static std::vector<std::string> buildChunkWhitelist(
     std::vector<std::string> whitelist;
     // Scan all content metas
     storage.scanPrefix("content:", [&](std::string_view key, std::string_view val){
-        (void)key;
         // Ignore non-meta keys like content:chunks lists by checking JSON
         try {
             std::string s(val);
@@ -1621,7 +1620,7 @@ std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtua
     
     if (dir_id.has_value()) {
         // List children by parent_id
-        storage_->scanPrefix("content:", [&](std::string_view key, std::string_view value) {
+        storage_->scanPrefix("content:", [&](std::string_view /*key*/, std::string_view value) {
             try {
                 json j = json::parse(value);
                 if (j.contains("parent_id") && j["parent_id"].get<std::string>() == *dir_id) {
@@ -1635,7 +1634,7 @@ std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtua
         std::string prefix = dir_path;
         if (prefix != "/") prefix += "/";
         
-        storage_->scanPrefix("content:", [&](std::string_view key, std::string_view value) {
+        storage_->scanPrefix("content:", [&](std::string_view /*key*/, std::string_view value) {
             try {
                 json j = json::parse(value);
                 if (j.contains("virtual_path")) {

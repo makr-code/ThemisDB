@@ -300,7 +300,7 @@ void PromptPerformanceTracker::loadFromDB() {
     std::string prefix = KEY_PREFIX;
     size_t loaded = 0;
     
-    db_->scanPrefix(prefix, [this, &loaded](std::string_view key, std::string_view value) -> bool {
+    db_->scanPrefix(prefix, [this, &loaded](std::string_view /*key*/, std::string_view value) -> bool {
         try {
             auto j = nlohmann::json::parse(std::string(value));
             auto metrics = PromptMetrics::fromJson(j);

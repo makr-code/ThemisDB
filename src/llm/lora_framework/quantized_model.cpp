@@ -284,7 +284,7 @@ size_t estimate_memory_usage(size_t num_parameters,
     return data_bytes + block_bytes;
 }
 
-float calculate_memory_reduction(size_t original_bytes, QuantizationType quant_type) {
+float calculate_memory_reduction(size_t /*original_bytes*/, QuantizationType quant_type) {
     // Rough estimates based on typical block sizes
     float reduction = 0.0f;
     

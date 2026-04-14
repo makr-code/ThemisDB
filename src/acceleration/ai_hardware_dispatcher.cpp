@@ -581,7 +581,6 @@ AiInferenceResult AiHardwareDispatcher::dispatchIntelNPU(AiInferenceRequest& req
                          std::string("OpenVINO NPU inference failed: ") + e.what());
     }
 #else
-    (void)req;
     return makeError(BackendType::NPU_INTEL, "Intel NPU (OpenVINO) not available");
 #endif
 }
@@ -603,7 +602,6 @@ AiInferenceResult AiHardwareDispatcher::dispatchQualcommQNN(AiInferenceRequest& 
     result.ep_used      = "QNNExecutionProvider";
     return result;
 #else
-    (void)req;
     return makeError(BackendType::NPU_QUALCOMM, "Qualcomm QNN not available");
 #endif
 }
@@ -622,7 +620,6 @@ AiInferenceResult AiHardwareDispatcher::dispatchArmEthos(AiInferenceRequest& req
                           "Set -DTHEMIS_ENABLE_NPU_ARM=ON and link Ethos-N runtime.";
     return result;
 #else
-    (void)req;
     return makeError(BackendType::NPU_ARM, "ARM Ethos-N not available");
 #endif
 }
@@ -643,7 +640,6 @@ AiInferenceResult AiHardwareDispatcher::dispatchNNAPI(AiInferenceRequest& req) {
     result.ep_used      = "NnapiExecutionProvider";
     return result;
 #else
-    (void)req;
     return makeError(BackendType::NNAPI, "NNAPI not available (non-Android platform)");
 #endif
 }
@@ -793,7 +789,6 @@ AiInferenceResult AiHardwareDispatcher::dispatchOnnxRuntime(AiInferenceRequest& 
     result.latency_ms = std::chrono::duration<double, std::milli>(t1 - t0).count();
     return result;
 #else
-    (void)req;
     return makeError(BackendType::ONNX_RUNTIME,
                      "ONNX Runtime headers not found at compile time");
 #endif

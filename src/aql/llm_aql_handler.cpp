@@ -1403,7 +1403,7 @@ LLMAQLHandler::translateBatchNLToAQLAsync(
 
 std::string LLMAQLHandler::executeChat(
     const std::vector<llm::ChatMessage>& messages,
-    const std::string& model_id,
+    [[maybe_unused]] const std::string& model_id,
     const std::unordered_map<std::string, std::string>& options
 ) {
     try {
@@ -1429,7 +1429,6 @@ std::string LLMAQLHandler::executeChat(
         
         // Note: model_id selection would require extending EmbeddedLLM API
         // For now, use the default model
-        (void)model_id;
         
         // If we have custom parameters, we might need to use a different approach
         // For now, use the standard chat method with default parameters

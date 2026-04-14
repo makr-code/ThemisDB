@@ -227,7 +227,7 @@ std::string ConstitutionalReasoningEngine::generateCritique(
     const std::string& response,
     const std::string& query,
     const ConstitutionalPrinciple& principle,
-    void* llm_wrapper
+    void* /*llm_wrapper*/
 ) {
     // Check cache
     std::string cache_key = response + "|" + principle.id;
@@ -286,7 +286,7 @@ std::string ConstitutionalReasoningEngine::generateRevision(
     const std::string& response,
     const std::vector<std::string>& critiques,
     const std::string& query,
-    void* llm_wrapper
+    void* /*llm_wrapper*/
 ) {
     // Build revision prompt
     std::string prompt = buildRevisionPrompt(response, critiques, query);

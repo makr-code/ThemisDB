@@ -74,9 +74,8 @@ public:
     // (default 36; minimum 3).
     // Supported types: Point → circular polygon, Polygon → outward expansion.
     // GPU path deferred: implementations without CUDA delegate to the CPU path.
-    virtual GeometryInfo stBuffer(const GeometryInfo& geom, double distance_m,
-                                  int arc_points = 36) {
-        (void)geom; (void)distance_m; (void)arc_points;
+    virtual GeometryInfo stBuffer([[maybe_unused]] const GeometryInfo& geom, double distance_m,
+                                  [[maybe_unused]] int arc_points = 36) {
         return GeometryInfo{};
     }
 
@@ -85,9 +84,8 @@ public:
     // lat1/lon1 and lat2/lon2 are in decimal degrees (WGS-84).
     // Returns 0.0 for coincident points and a negative value if the formula
     // fails to converge (nearly-antipodal degenerate case).
-    virtual double geodesicDistance(double lat1, double lon1,
-                                    double lat2, double lon2) const {
-        (void)lat1; (void)lon1; (void)lat2; (void)lon2;
+    virtual double geodesicDistance([[maybe_unused]] double lat1, double lon1,
+                                    [[maybe_unused]] double lat2, double lon2) const {
         return 0.0;
     }
 
@@ -96,9 +94,8 @@ public:
     // For two non-overlapping polygons the result is a GeometryCollection.
     // For overlapping polygons the result is a merged Polygon.
     // Returns an empty GeometryInfo on unsupported type combinations.
-    virtual GeometryInfo stUnion(const GeometryInfo& geom1,
-                                 const GeometryInfo& geom2) {
-        (void)geom1; (void)geom2;
+    virtual GeometryInfo stUnion([[maybe_unused]] const GeometryInfo& geom1,
+                                 [[maybe_unused]] const GeometryInfo& geom2) {
         return GeometryInfo{};
     }
 
@@ -106,9 +103,8 @@ public:
     // Returns a geometry containing all points in geom1 that are not in geom2.
     // Returns geom1 unchanged when the two geometries do not intersect.
     // Returns an empty GeometryInfo when geom1 is fully contained in geom2.
-    virtual GeometryInfo stDifference(const GeometryInfo& geom1,
-                                      const GeometryInfo& geom2) {
-        (void)geom1; (void)geom2;
+    virtual GeometryInfo stDifference([[maybe_unused]] const GeometryInfo& geom1,
+                                      [[maybe_unused]] const GeometryInfo& geom2) {
         return GeometryInfo{};
     }
 };

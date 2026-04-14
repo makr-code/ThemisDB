@@ -51,7 +51,7 @@ public:
     virtual size_t currentOffset() const = 0;
 
     /// Seek to a specific offset (for checkpoint resume). Returns false if unsupported.
-    virtual bool seekTo(size_t offset) { (void)offset; return false; }
+    virtual bool seekTo(size_t offset) { return false; }
 };
 
 /// Concrete cursor that pages over an in-memory std::vector<BaseEntity>.

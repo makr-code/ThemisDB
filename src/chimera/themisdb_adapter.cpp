@@ -394,8 +394,8 @@ Result<std::vector<std::pair<Vector, double>>> ThemisDBAdapter::search_vectors(
 
 Result<bool> ThemisDBAdapter::create_index(
     const std::string& collection,
-    size_t dimensions,
-    const std::map<std::string, Scalar>& index_params
+    [[maybe_unused]] size_t dimensions,
+    const std::map<std::string, [[maybe_unused]] Scalar>& index_params
 ) {
     if (!connected_) {
         return Result<bool>::err(
@@ -405,8 +405,6 @@ Result<bool> ThemisDBAdapter::create_index(
     }
 
     // Ensure the collection entry exists in the in-memory store.
-    (void)dimensions;
-    (void)index_params;
     {
         std::unique_lock<std::mutex> lock(store_mutex_);
         vector_store_.try_emplace(collection);

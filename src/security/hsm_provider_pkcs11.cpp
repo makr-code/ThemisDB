@@ -571,9 +571,8 @@ HSMProvider::SessionEntry* HSMProvider::acquireSession(){
     return nullptr;
 }
 
-void HSMProvider::releaseSession(SessionEntry* s){ 
+void HSMProvider::releaseSession([[maybe_unused]] SessionEntry* s){ 
     // No-op for lock-free implementation (no busy flag to clear)
-    (void)s;
 }
 
 HSMSignatureResult HSMProvider::sign(const std::vector<uint8_t>& data, const std::string& key_label){
@@ -710,7 +709,7 @@ std::vector<HSMKeyInfo> HSMProvider::listKeys(){
     HSMKeyInfo info; info.label = config_.key_label; info.id = impl_->real_ready?"real-id":"stub-id"; info.algorithm = config_.signature_algorithm; info.can_sign = true; info.can_verify = true; info.extractable = false; info.key_size = impl_->real_ready?2048:0; return {info};
 }
 
-std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, const std::string& key_label){
+std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, [[maybe_unused]] const std::string& key_label){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if (!initialized_) { last_error_ = "Not initialized"; return {}; }
     if (!impl_->real_ready || !impl_->loader.api()) {
@@ -749,11 +748,10 @@ std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, 
         return {};
     }
     ciphertext.resize(outLen);
-    (void)key_label;
     return ciphertext;
 }
 
-std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encrypted, const std::string& key_label){
+std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encrypted, [[maybe_unused]] const std::string& key_label){
     std::lock_guard<std::mutex> lock(impl_->mtx);
     if (!initialized_) { last_error_ = "Not initialized"; return {}; }
     if (!impl_->real_ready || !impl_->loader.api()) {
@@ -791,7 +789,6 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
         return {};
     }
     plaintext.resize(outLen);
-    (void)key_label;
     return plaintext;
 }
 

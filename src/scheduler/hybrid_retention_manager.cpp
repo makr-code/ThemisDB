@@ -261,10 +261,10 @@ void HybridRetentionManager::setupStage1Tasks() {
     };
     stage1_task.interval = config_.stage1.check_interval;
     
-    stage1_task.on_success = [this](const std::string& task_id, const nlohmann::json& result) {
+    stage1_task.on_success = [this](const std::string& /*task_id*/, const nlohmann::json& result) {
         updateStats(1, true, result);
     };
-    stage1_task.on_failure = [this](const std::string& task_id, const std::string& error) {
+    stage1_task.on_failure = [this](const std::string& /*task_id*/, const std::string& error) {
         updateStats(1, false, nlohmann::json{{"error", error}});
     };
     
@@ -299,10 +299,10 @@ void HybridRetentionManager::setupStage2Tasks() {
     };
     stage2_task.interval = config_.stage2.check_interval;
     
-    stage2_task.on_success = [this](const std::string& task_id, const nlohmann::json& result) {
+    stage2_task.on_success = [this](const std::string& /*task_id*/, const nlohmann::json& result) {
         updateStats(2, true, result);
     };
-    stage2_task.on_failure = [this](const std::string& task_id, const std::string& error) {
+    stage2_task.on_failure = [this](const std::string& /*task_id*/, const std::string& error) {
         updateStats(2, false, nlohmann::json{{"error", error}});
     };
     
@@ -331,10 +331,10 @@ void HybridRetentionManager::setupStage3Tasks() {
     };
     stage3_task.interval = config_.stage3.check_interval;
     
-    stage3_task.on_success = [this](const std::string& task_id, const nlohmann::json& result) {
+    stage3_task.on_success = [this](const std::string& /*task_id*/, const nlohmann::json& result) {
         updateStats(3, true, result);
     };
-    stage3_task.on_failure = [this](const std::string& task_id, const std::string& error) {
+    stage3_task.on_failure = [this](const std::string& /*task_id*/, const std::string& error) {
         updateStats(3, false, nlohmann::json{{"error", error}});
     };
     
@@ -614,7 +614,7 @@ nlohmann::json HybridRetentionManager::cleanupOriginalData(const nlohmann::json&
         };
     }
     
-    int stage2_deleted = result2->is_array() ? result2->size() : 0;
+    size_t stage2_deleted = result2->is_array() ? result2->size() : size_t{0};
     
     // Cleanup Stage 3 data (adaptive data that's been aggregated to daily)
     std::ostringstream aql_stage3;
@@ -648,7 +648,7 @@ nlohmann::json HybridRetentionManager::cleanupOriginalData(const nlohmann::json&
         };
     }
     
-    int stage3_deleted = result3->is_array() ? result3->size() : 0;
+    size_t stage3_deleted = result3->is_array() ? result3->size() : size_t{0};
     
     return nlohmann::json{
         {"status", "success"},

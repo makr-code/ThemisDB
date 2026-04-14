@@ -288,12 +288,11 @@ bool SampledLoggerSamplerAdapter::shouldSample(const LogEntry& entry) noexcept {
 }
 
 void SampledLoggerSamplerAdapter::recordDecision(
-        const LogEntry& /*entry*/, bool sampled) noexcept
+        const LogEntry& /*entry*/, [[maybe_unused]] bool sampled) noexcept
 {
     // No adaptive feedback in this implementation; stats already tracked in
     // shouldSample().  If sampled is inconsistent with internal tracking the
     // caller's explicit feedback takes precedence.
-    (void)sampled;
 }
 
 double SampledLoggerSamplerAdapter::currentRate() const noexcept {

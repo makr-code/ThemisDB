@@ -444,7 +444,7 @@ private:
                             const ImportOptions& /*options*/) {
         ImportStats stats;
         ThemisImporterAllocator alloc = makeAllocator();
-        (void)alloc;  // allocator passed at create_instance time
+        // allocator passed at create_instance time
         uint64_t imported = 0, failed = 0;
         int rc = desc_->import_data(instance_, source_path.c_str(),
                                     nullptr, &imported, &failed);

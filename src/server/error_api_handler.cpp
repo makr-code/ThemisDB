@@ -111,7 +111,7 @@ void ErrorApiHandler::handleGetError(const Request& req, Response& res) {
     }
 }
 
-void ErrorApiHandler::handleGetCategories(const Request& req, Response& res) {
+void ErrorApiHandler::handleGetCategories(const Request& /*req*/, Response& res) {
     auto span = Tracer::startSpan("handleGetCategories");
     auto& registry = errors::ErrorRegistry::getInstance();
     auto categories = registry.getAllCategories();

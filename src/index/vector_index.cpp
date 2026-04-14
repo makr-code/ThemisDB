@@ -122,7 +122,6 @@ VectorIndexManager::Status VectorIndexManager::setAdvancedIndexConfig(const Adva
 			return Status::Error("Advanced indexing requires FAISS support (THEMIS_GPU_ENABLED not defined)");
 		}
 		#endif
-		(void)needs_faiss;
 	}
 	
 	return Status::OK();
@@ -852,7 +851,6 @@ VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view
 	// --- Phase 2: remove vectors deleted from storage ---
 	std::vector<std::string> to_delete;
 	for (const auto& [pk, cached_vec] : cache_) {
-		(void)cached_vec;
 		if (storage_vectors.find(pk) == storage_vectors.end())
 			to_delete.push_back(pk);
 	}
@@ -1243,7 +1241,6 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 		#elif defined(__GNUC__) || defined(__clang__)
 			__builtin_prefetch(ptr, 0, 3);
 		#else
-			(void)ptr;
 		#endif
 	};
 	

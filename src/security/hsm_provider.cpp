@@ -272,8 +272,7 @@ std::vector<HSMKeyInfo> HSMProvider::listKeys() {
     return {info};
 }
 
-std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, const std::string& key_label) {
-    (void)key_label;
+std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, [[maybe_unused]] const std::string& key_label) {
     if (!initialized_) { last_error_ = "HSM stub not initialized"; return {}; }
     THEMIS_WARN("HSMProvider STUB encryptData - NOT hardware-protected, for development only!");
     auto result = stub_aes_encrypt(impl_->stub_kek, data);
@@ -281,8 +280,7 @@ std::vector<uint8_t> HSMProvider::encryptData(const std::vector<uint8_t>& data, 
     return result;
 }
 
-std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encrypted, const std::string& key_label) {
-    (void)key_label;
+std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encrypted, [[maybe_unused]] const std::string& key_label) {
     if (!initialized_) { last_error_ = "HSM stub not initialized"; return {}; }
     THEMIS_WARN("HSMProvider STUB decryptData - NOT hardware-protected, for development only!");
     auto result = stub_aes_decrypt(impl_->stub_kek, encrypted);
@@ -290,20 +288,20 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
     return result;
 }
 
-bool HSMProvider::generateKeyPair(const std::string& label, uint32_t key_size, bool extractable) {
-    (void)key_size; (void)extractable; // Stub: unused
+bool HSMProvider::generateKeyPair(const std::string& label, [[maybe_unused]] uint32_t key_size, bool extractable) {
+    // Stub: unused
     THEMIS_WARN("HSMProvider stub generateKeyPair ignored (label='{}')", label);
     return false;
 }
 
-bool HSMProvider::importCertificate(const std::string& key_label, const std::string& cert_pem) {
-    (void)cert_pem; // Stub: unused
+bool HSMProvider::importCertificate(const std::string& key_label, [[maybe_unused]] const std::string& cert_pem) {
+    // Stub: unused
     THEMIS_WARN("HSMProvider stub importCertificate ignored (key='{}')", key_label);
     return false;
 }
 
-std::optional<std::string> HSMProvider::getCertificate(const std::string& key_label) {
-    (void)key_label; // Stub: unused
+std::optional<std::string> HSMProvider::getCertificate([[maybe_unused]] const std::string& key_label) {
+    // Stub: unused
     return std::string("-----BEGIN CERTIFICATE-----\nSTUB\n-----END CERTIFICATE-----\n");
 }
 

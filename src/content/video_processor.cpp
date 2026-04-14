@@ -285,7 +285,7 @@ ContentExtractionResult VideoProcessor::extract(
 std::vector<ContentChunk> VideoProcessor::chunk(
     const ContentExtractionResult& result,
     int max_tokens,
-    int overlap
+    int /*overlap*/
 ) {
     std::vector<ContentChunk> chunks;
     
@@ -406,7 +406,7 @@ MediaExtractionData VideoProcessor::extractMetadata(const std::vector<uint8_t>& 
 #endif
 }
 
-std::vector<uint8_t> VideoProcessor::generateThumbnail(const std::vector<uint8_t>& blob) {
+std::vector<uint8_t> VideoProcessor::generateThumbnail([[maybe_unused]] const std::vector<uint8_t>& blob) {
 #ifdef THEMIS_HAS_FFMPEG
     return generateThumbnailFFmpeg(blob);
 #else
@@ -415,7 +415,7 @@ std::vector<uint8_t> VideoProcessor::generateThumbnail(const std::vector<uint8_t
 #endif
 }
 
-std::string VideoProcessor::extractSubtitles(const std::vector<uint8_t>& blob) {
+std::string VideoProcessor::extractSubtitles(const std::vector<uint8_t>& /*blob*/) {
     // Real implementation would:
     // 1. Check for subtitle streams in container
     // 2. Extract subtitle track(s)
@@ -430,7 +430,6 @@ std::vector<int64_t> VideoProcessor::detectScenes(const std::vector<uint8_t>& bl
 #else
     // Without FFmpeg, video frames cannot be decoded for histogram analysis.
     // Scene detection requires per-frame access, so return empty in simulation mode.
-    (void)blob;
     return {};
 #endif
 }
@@ -441,7 +440,6 @@ std::vector<int64_t> VideoProcessor::extractKeyframes(const std::vector<uint8_t>
 #else
     // Without FFmpeg, synthesise evenly-distributed keyframe timestamps based
     // on the simulated video duration (120 s at 30 fps, I-frame every 2 s).
-    (void)blob;
     const int64_t duration_ms = 120000;
     std::vector<int64_t> keyframes;
     if (max_keyframes_ <= 0) return keyframes;

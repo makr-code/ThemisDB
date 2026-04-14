@@ -46,6 +46,7 @@ PromptEngineeringMetrics::PromptEngineeringMetrics()
 // Optimization metrics
 void PromptEngineeringMetrics::recordOptimizationAttempt(const std::string& prompt_id) {
     if (!config_.enabled) return;
+    (void)prompt_id;
     optimization_attempts_.fetch_add(1, std::memory_order_relaxed);
 }
 
@@ -54,6 +55,8 @@ void PromptEngineeringMetrics::recordOptimizationSuccess(
     double improvement
 ) {
     if (!config_.enabled) return;
+    (void)prompt_id;
+    (void)improvement;
     optimization_successes_.fetch_add(1, std::memory_order_relaxed);
 }
 
@@ -62,6 +65,8 @@ void PromptEngineeringMetrics::recordOptimizationFailure(
     const std::string& reason
 ) {
     if (!config_.enabled) return;
+    (void)prompt_id;
+    (void)reason;
     optimization_failures_.fetch_add(1, std::memory_order_relaxed);
 }
 
@@ -70,6 +75,7 @@ void PromptEngineeringMetrics::recordOptimizationDuration(
     double duration_ms
 ) {
     if (!config_.enabled) return;
+    (void)prompt_id;
     optimization_total_duration_ms_.fetch_add(duration_ms, std::memory_order_relaxed);
 }
 
@@ -78,6 +84,7 @@ void PromptEngineeringMetrics::recordOptimizationIterations(
     int iterations
 ) {
     if (!config_.enabled) return;
+    (void)prompt_id;
     optimization_total_iterations_.fetch_add(iterations, std::memory_order_relaxed);
 }
 
@@ -87,6 +94,8 @@ void PromptEngineeringMetrics::recordABTestStart(
     const std::string& prompt_id
 ) {
     if (!config_.enabled) return;
+    (void)test_id;
+    (void)prompt_id;
     ab_test_starts_.fetch_add(1, std::memory_order_relaxed);
 }
 
@@ -96,6 +105,9 @@ void PromptEngineeringMetrics::recordABTestObservation(
     bool success
 ) {
     if (!config_.enabled) return;
+    (void)test_id;
+    (void)version;
+    (void)success;
     ab_test_observations_.fetch_add(1, std::memory_order_relaxed);
 }
 
@@ -105,6 +117,9 @@ void PromptEngineeringMetrics::recordABTestCompletion(
     double confidence
 ) {
     if (!config_.enabled) return;
+    (void)test_id;
+    (void)winner;
+    (void)confidence;
     ab_test_completions_.fetch_add(1, std::memory_order_relaxed);
 }
 
@@ -113,6 +128,8 @@ void PromptEngineeringMetrics::recordABTestDuration(
     double duration_seconds
 ) {
     if (!config_.enabled) return;
+    (void)test_id;
+    (void)duration_seconds;
     // Could track per-test durations if needed
 }
 
@@ -128,6 +145,7 @@ void PromptEngineeringMetrics::recordPromptExecution(
     double latency_ms
 ) {
     if (!config_.enabled) return;
+    (void)prompt_id;
     prompt_executions_.fetch_add(1, std::memory_order_relaxed);
     if (success) {
         prompt_successes_.fetch_add(1, std::memory_order_relaxed);
@@ -188,6 +206,7 @@ void PromptEngineeringMetrics::recordFeedback(
 ) {
     if (!config_.enabled) return;
     feedback_total_.fetch_add(1, std::memory_order_relaxed);
+    (void)prompt_id;
     
     if (type == "USER_POSITIVE" || type == "POSITIVE") {
         feedback_positive_.fetch_add(1, std::memory_order_relaxed);
@@ -201,6 +220,8 @@ void PromptEngineeringMetrics::recordFeedbackSeverity(
     double severity
 ) {
     if (!config_.enabled) return;
+    (void)prompt_id;
+    (void)severity;
     // Could track severity distribution
 }
 
@@ -208,6 +229,7 @@ void PromptEngineeringMetrics::recordHallucinationDetection(
     const std::string& prompt_id
 ) {
     if (!config_.enabled) return;
+    (void)prompt_id;
     int64_t count = hallucination_detections_.fetch_add(1, std::memory_order_relaxed) + 1;
 
     if (alert_callback_ && count > alert_config_.max_hallucinations) {
@@ -225,6 +247,8 @@ void PromptEngineeringMetrics::recordFailedQuery(
     const std::string& failure_type
 ) {
     if (!config_.enabled) return;
+    (void)prompt_id;
+    (void)failure_type;
     failed_queries_.fetch_add(1, std::memory_order_relaxed);
 }
 
@@ -233,6 +257,8 @@ void PromptEngineeringMetrics::recordTotalFeedbackCount(
     int64_t count
 ) {
     if (!config_.enabled) return;
+    (void)prompt_id;
+    (void)count;
     // Per-prompt feedback count
 }
 
@@ -241,6 +267,8 @@ void PromptEngineeringMetrics::recordPositiveRatio(
     double ratio
 ) {
     if (!config_.enabled) return;
+    (void)prompt_id;
+    (void)ratio;
     // Per-prompt positive ratio
 }
 
@@ -250,16 +278,20 @@ void PromptEngineeringMetrics::recordVersionCommit(
     const std::string& branch
 ) {
     if (!config_.enabled) return;
+    (void)prompt_id;
+    (void)branch;
     version_commits_.fetch_add(1, std::memory_order_relaxed);
 }
 
 void PromptEngineeringMetrics::recordVersionRollback(const std::string& prompt_id) {
     if (!config_.enabled) return;
+    (void)prompt_id;
     version_rollbacks_.fetch_add(1, std::memory_order_relaxed);
 }
 
 void PromptEngineeringMetrics::recordBranchCreation(const std::string& prompt_id) {
     if (!config_.enabled) return;
+    (void)prompt_id;
     branch_creations_.fetch_add(1, std::memory_order_relaxed);
 }
 
@@ -269,6 +301,8 @@ void PromptEngineeringMetrics::recordMergeOperation(
     bool success
 ) {
     if (!config_.enabled) return;
+    (void)prompt_id;
+    (void)strategy;
     merge_operations_.fetch_add(1, std::memory_order_relaxed);
     if (success) {
         merge_successes_.fetch_add(1, std::memory_order_relaxed);
@@ -334,7 +368,7 @@ std::string PromptEngineeringMetrics::exportMetrics() const {
     double avg_duration = 0.0;
     auto attempts = optimization_attempts_.load(std::memory_order_relaxed);
     if (attempts > 0) {
-        avg_duration = optimization_total_duration_ms_.load(std::memory_order_relaxed) / attempts;
+        avg_duration = optimization_total_duration_ms_.load(std::memory_order_relaxed) / static_cast<double>(attempts);
     }
     oss << formatMetric(
         prefix + "_optimization_duration_ms_avg",
@@ -397,7 +431,7 @@ std::string PromptEngineeringMetrics::exportMetrics() const {
     double success_rate = 0.0;
     auto executions = prompt_executions_.load(std::memory_order_relaxed);
     if (executions > 0) {
-        success_rate = static_cast<double>(prompt_successes_.load(std::memory_order_relaxed)) / executions;
+        success_rate = static_cast<double>(prompt_successes_.load(std::memory_order_relaxed)) / static_cast<double>(executions);
     }
     oss << formatMetric(
         prefix + "_prompt_success_rate",
@@ -408,7 +442,7 @@ std::string PromptEngineeringMetrics::exportMetrics() const {
 
     double avg_latency = 0.0;
     if (executions > 0) {
-        avg_latency = prompt_total_latency_ms_.load(std::memory_order_relaxed) / executions;
+        avg_latency = prompt_total_latency_ms_.load(std::memory_order_relaxed) / static_cast<double>(executions);
     }
     oss << formatMetric(
         prefix + "_prompt_latency_ms_avg",
@@ -621,6 +655,26 @@ std::string PromptEngineeringMetrics::formatMetric(
     oss << " " << std::fixed << std::setprecision(2) << value << "\n";
     
     return oss.str();
+}
+
+std::string PromptEngineeringMetrics::formatMetric(
+    const std::string& name,
+    const std::string& help,
+    const std::string& type,
+    int64_t value,
+    const std::map<std::string, std::string>& labels
+) const {
+    return formatMetric(name, help, type, static_cast<double>(value), labels);
+}
+
+std::string PromptEngineeringMetrics::formatMetric(
+    const std::string& name,
+    const std::string& help,
+    const std::string& type,
+    int value,
+    const std::map<std::string, std::string>& labels
+) const {
+    return formatMetric(name, help, type, static_cast<double>(value), labels);
 }
 
 std::string PromptEngineeringMetrics::formatLabels(

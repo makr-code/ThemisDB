@@ -125,7 +125,7 @@ public:
         return prompt.str();
     }
     
-    std::string queryInternal(const std::string& question, const std::string& user_id) {
+    std::string queryInternal(const std::string& question, const std::string& /*user_id*/) {
         auto start = std::chrono::system_clock::now();
         
         try {

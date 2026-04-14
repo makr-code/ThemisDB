@@ -1171,7 +1171,7 @@ EvalMetrics evaluateModel(const ModelBase& model,
                            const std::vector<double>& y_reg,
                            bool is_classifier,
                            int n_classes,
-                           AutoMLMetric metric) {
+                           [[maybe_unused]] AutoMLMetric metric) {
     EvalMetrics em;
     size_t n = X.size();
     if (n == 0) return em;
@@ -1210,7 +1210,7 @@ EvalMetrics evaluateModel(const ModelBase& model,
         em.rmse = rm.rmse;
         em.mae  = rm.mae;
     }
-    (void)metric; // used for primary() selection, not here
+    // used for primary() selection, not here
     return em;
 }
 
@@ -1774,7 +1774,6 @@ static TrainingCoreResult doTrainCore(
                     is_classifier, n_classes,
                     c.algorithm, c.hyperparameters, rng, config.metric);
             ens->members.push_back(std::move(m));
-            (void)em;
         }
 
         result.algo     = ModelAlgorithm::ENSEMBLE;

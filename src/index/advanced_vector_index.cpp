@@ -126,7 +126,7 @@ bool AdvancedVectorIndex::initializeIndex() {
             
             case Config::Type::HNSW_FLAT: {
                 // HNSW without IVF (best accuracy)
-                auto* hnsw = new faiss::IndexHNSWFlat(dimension_, 32);
+                auto* hnsw = new faiss::IndexHNSWFlat(static_cast<int>(dimension_), 32);
                 idx = hnsw;
                 THEMIS_INFO("Created HNSW Flat index");
                 break;
@@ -186,8 +186,6 @@ bool AdvancedVectorIndex::train(const float* vectors, size_t count) {
         return false;
     }
 #else
-    (void)vectors;
-    (void)count;
     THEMIS_WARN("FAISS not available");
     return false;
 #endif
@@ -217,8 +215,6 @@ bool AdvancedVectorIndex::add(const float* vectors, size_t count) {
         return false;
     }
 #else
-    (void)vectors;
-    (void)count;
     return false;
 #endif
 }
@@ -247,9 +243,6 @@ bool AdvancedVectorIndex::addWithIds(const float* vectors, const int64_t* ids, s
         return false;
     }
 #else
-    (void)vectors;
-    (void)ids;
-    (void)count;
     return false;
 #endif
 }
@@ -278,8 +271,6 @@ AdvancedVectorIndex::SearchResult AdvancedVectorIndex::search(const float* query
         return result;
     }
 #else
-    (void)query;
-    (void)k;
     return result;
 #endif
 }
@@ -325,9 +316,6 @@ std::vector<AdvancedVectorIndex::SearchResult> AdvancedVectorIndex::searchBatch(
         return results;
     }
 #else
-    (void)queries;
-    (void)num_queries;
-    (void)k;
     return results;
 #endif
 }
@@ -345,12 +333,12 @@ AdvancedVectorIndex::Stats AdvancedVectorIndex::getStats() const {
         // Estimate compression ratio for PQ
         if (config_.index_type == Config::Type::IVF_PQ) {
             // PQ compresses each vector from d*4 bytes to m*nbits/8 bytes
-            double flat_size = dimension_ * sizeof(float);
+            double flat_size = static_cast<double>(dimension_) * sizeof(float);
             double pq_size = config_.pq_m * config_.pq_nbits / 8.0;
             stats.compression_ratio = flat_size / pq_size;
         }
         
-        stats.memory_usage_bytes = stats.total_vectors * dimension_ * sizeof(float) / stats.compression_ratio;
+            stats.memory_usage_bytes = static_cast<size_t>(static_cast<double>(stats.total_vectors * dimension_ * sizeof(float)) / stats.compression_ratio);
     }
 #endif
     
@@ -376,7 +364,6 @@ bool AdvancedVectorIndex::save(const std::string& path) {
         return false;
     }
 #else
-    (void)path;
     return false;
 #endif
 }
@@ -400,7 +387,6 @@ bool AdvancedVectorIndex::load(const std::string& path) {
         return false;
     }
 #else
-    (void)path;
     return false;
 #endif
 }

@@ -694,7 +694,7 @@ DistributedTrainingCoordinator::~DistributedTrainingCoordinator() {
 
 bool DistributedTrainingCoordinator::initialize(
     const std::string& adapter_id, 
-    const TrainingConfig& training_config
+    const TrainingConfig& /*training_config*/
 ) {
     if (is_initialized_) {
         spdlog::warn("Coordinator already initialized");
@@ -1579,7 +1579,7 @@ bool DistributedTrainingCoordinator::validateShardParticipation() {
     return true;
 }
 
-void DistributedTrainingCoordinator::updateStatistics(const StepResult& result) {
+void DistributedTrainingCoordinator::updateStatistics(const StepResult& /*result*/) {
     // Statistics are updated in executeStep
 }
 

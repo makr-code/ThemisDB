@@ -107,8 +107,6 @@ void copyMemory(void* dst, const void* src, size_t bytes,
         return;
     }
 #else
-    (void)device_to_host;
-    (void)gpu_available;
 #endif
     std::memcpy(dst, src, bytes);
 }

@@ -109,6 +109,13 @@ public:
     explicit GPUSafeFail(const Config& cfg);
     ~GPUSafeFail() = default;
 
+    /**
+     * @brief Reconfigure and reset internal state.
+     *
+     * Useful for module re-initialization when the type is non-assignable.
+     */
+    void reset(const Config& cfg);
+
     // -----------------------------------------------------------------------
     // Core API
     // -----------------------------------------------------------------------

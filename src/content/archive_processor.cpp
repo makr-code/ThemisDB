@@ -381,8 +381,6 @@ ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string& blob, co
     result.success = false;
 
 #ifndef THEMIS_HAVE_LIBZIP
-    (void)blob;
-    (void)password;
     result.error_message = "ZIP extraction unavailable: libzip not found at build time";
     return result;
 #else
@@ -520,7 +518,7 @@ ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string& blob, co
 #endif
 }
 
-ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string& blob, ArchiveFormat format) {
+ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string& /*blob*/, ArchiveFormat /*format*/) {
     ArchiveExtractionResult result;
     result.success = false;
     result.error_message = "TAR extraction not yet implemented (requires libarchive)";
@@ -559,7 +557,7 @@ void ArchiveProcessor::cleanupTempDirectory(const std::string& temp_dir) {
 
 ArchiveProcessorResult ArchiveProcessor::process(
     const std::string& blob,
-    const std::string& mime_type,
+    const std::string& /*mime_type*/,
     const std::string& filename
 ) {
     ArchiveProcessorResult result;
@@ -717,8 +715,8 @@ ExtractionResult ArchiveProcessor::extract(
 
 std::vector<json> ArchiveProcessor::chunk(
     const ExtractionResult& extraction_result,
-    int chunk_size,
-    int overlap
+    int /*chunk_size*/,
+    int /*overlap*/
 ) {
     // Archives don't need chunking - they're metadata containers
     // Return a single chunk with the metadata
@@ -736,7 +734,7 @@ std::vector<json> ArchiveProcessor::chunk(
     return chunks;
 }
 
-std::vector<float> ArchiveProcessor::generateEmbedding(const std::string& chunk_data) {
+std::vector<float> ArchiveProcessor::generateEmbedding(const std::string& /*chunk_data*/) {
     // Archives don't generate embeddings
     // Embeddings are generated for the extracted files instead
     return {};

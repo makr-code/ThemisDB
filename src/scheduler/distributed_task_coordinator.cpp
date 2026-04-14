@@ -175,7 +175,6 @@ void DistributedTaskCoordinator::deactivateScheduler() {
             } catch (const std::exception& ex) {
                 // Ignore: task may not have been registered if there was an
                 // error during activation.
-                (void)ex;
             }
         }
     }

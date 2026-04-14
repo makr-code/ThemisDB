@@ -815,7 +815,7 @@ struct CypherParser::Parser {
                 expr_text += tokens[i].value;
             }
             item.expression = collapseDotSpaces(expr_text);
-            (void)expr;  // expression AST built above; text is what we store
+            // expression AST built above; text is what we store
 
             if (match(TokenType::KW_AS))
                 item.alias = expectIdent("as return alias");

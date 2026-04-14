@@ -76,7 +76,7 @@ public:
         if (rate == 0) return false;
         if (rate == 1) return true;
         
-        const uint32_t count = operation_counter_.fetch_add(1, std::memory_order_relaxed);
+        const uint32_t count = static_cast<uint32_t>(operation_counter_.fetch_add(1, std::memory_order_relaxed));
         return (count % rate) == 0;
     }
 

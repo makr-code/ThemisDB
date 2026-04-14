@@ -144,7 +144,7 @@ DownsamplingPipeline::DownsamplingPipeline(TSStore* store)
     }
 }
 
-void DownsamplingPipeline::addPolicy(const DownsamplingPolicy& policy) {
+void DownsamplingPipeline::addPolicy([[maybe_unused]] const DownsamplingPolicy& policy) {
     if (policy.metric.empty()) {
         throw std::invalid_argument("DownsamplingPipeline::addPolicy: metric name cannot be empty");
     }
@@ -162,7 +162,7 @@ void DownsamplingPipeline::addPolicy(const DownsamplingPolicy& policy) {
 size_t DownsamplingPipeline::refresh(int64_t to_ms) {
     size_t total = 0;
     for (const auto& [metric, policy] : policies_) {
-        (void)policy;  // metric key is sufficient; policy is accessed in refreshMetric
+        // metric key is sufficient; policy is accessed in refreshMetric
         total += refreshMetric(metric, to_ms);
     }
     return total;

@@ -388,7 +388,6 @@ void QUICServer::handlePacket(const udp::endpoint& sender,
     if (ngtcp2_pkt_decode_hd_long(&hd, data, len) < 0) {
         std::lock_guard<std::mutex> slk(stats_mutex_);
         // Short-header from unknown connection; silently drop.
-        (void)slk;
         return;
     }
 
@@ -451,7 +450,7 @@ void QUICServer::handlePacket(const udp::endpoint& sender,
     // Detect 0-RTT early data acceptance/rejection via the recv_stream_data
     // callback: if the connection is still in early-data state the first
     // stream data is 0-RTT.
-    callbacks.recv_stream_data = [](ngtcp2_conn*   conn,
+    callbacks.recv_stream_data = []([[maybe_unused]] ngtcp2_conn*   conn,
                                     uint32_t       flags,
                                     int64_t        /*stream_id*/,
                                     uint64_t       /*offset*/,
@@ -467,10 +466,7 @@ void QUICServer::handlePacket(const udp::endpoint& sender,
             ++srv->stats_.zero_rtt_accepted;
         }
 #else
-        (void)flags;
-        (void)srv;
 #endif
-        (void)conn;
         return 0;
     };
 
@@ -583,7 +579,6 @@ void QUICClient::Stream::send(const std::vector<uint8_t>& data) {
     // the ngtcp2 write path; here we record that a send was requested.
     // A production expansion would call ngtcp2_conn_writev_stream() via the
     // owning client's I/O thread.
-    (void)data;
     THEMIS_DEBUG("[QUICClient::Stream] send {} bytes on stream {}",
                  data.size(), stream_id_);
 }

@@ -273,6 +273,12 @@ private:
  *
  * All methods are inline no-ops so the rest of the codebase can reference
  * KafkaCDCProducer without introducing a Kafka dependency.
+ *
+ * STUB/SIMULATION NOTE:
+ * Purpose: Preserve compile-time API compatibility without linking librdkafka.
+ * Activation: Compiled when THEMIS_ENABLE_KAFKA is not defined.
+ * Production Delta: start()/publish() return false and no CDC events are emitted to Kafka.
+ * Removal Plan: Keep as optional-build fallback; remove only if Kafka becomes a mandatory runtime dependency.
  */
 class KafkaCDCProducer : public ICDCTransport {
 public:

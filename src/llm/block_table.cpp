@@ -87,7 +87,7 @@ void BlockTable::releaseBlocks() {
     is_shared_.clear();
 }
 
-void BlockTable::sharePrefix(uint64_t parent_sequence_id, size_t prefix_length) {
+void BlockTable::sharePrefix(uint64_t /*parent_sequence_id*/, size_t prefix_length) {
     if (!config_.enable_cow) {
         return;
     }

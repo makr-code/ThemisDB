@@ -955,7 +955,7 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAQuery(
 // ═══════════════════════════════════════════════════════════
 
 http::response<http::string_body> LoRAApiHandler::handleLoRAStats(
-    const http::request<http::string_body>& req) {
+    const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handleLoRAStats");
     
     try {
@@ -982,7 +982,7 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAStats(
 }
 
 http::response<http::string_body> LoRAApiHandler::handleLoRAHealth(
-    const http::request<http::string_body>& req) {
+    const http::request<http::string_body>& /*req*/) {
     auto span = Tracer::startSpan("handleLoRAHealth");
     
     try {

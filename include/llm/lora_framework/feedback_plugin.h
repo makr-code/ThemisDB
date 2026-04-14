@@ -97,8 +97,7 @@ public:
         return true;
     }
 
-    void process(Feedback& feedback) override {
-        (void)feedback;
+    void process([[maybe_unused]] Feedback& feedback) override {
         // Default: no-op
     }
 

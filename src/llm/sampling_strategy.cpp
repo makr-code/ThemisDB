@@ -35,7 +35,7 @@ namespace llm {
 
 llama_token GreedySampling::sample(
     llama_context* ctx,
-    const std::vector<llama_token>& last_tokens,
+    const std::vector<llama_token>& /*last_tokens*/,
     int pos) {
     
     // Note: last_tokens parameter is not used in greedy sampling
@@ -169,7 +169,7 @@ MirostatSampling::MirostatSampling(float tau, float eta)
 
 llama_token MirostatSampling::sample(
     llama_context* ctx,
-    const std::vector<llama_token>& last_tokens,
+    const std::vector<llama_token>& /*last_tokens*/,
     int pos) {
     // Simplified Mirostat: approximate via nucleus with adaptive temperature
     spdlog::debug("MirostatSampling::sample - tau={}, eta={}", tau_, eta_);

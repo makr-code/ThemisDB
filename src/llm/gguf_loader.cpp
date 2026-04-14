@@ -602,7 +602,7 @@ void* GGUFLoader::mmapTensor(const std::string& tensor_name) {
     return nullptr;
 }
 
-void GGUFLoader::unmapTensor(void* ptr) {
+void GGUFLoader::unmapTensor(void* /*ptr*/) {
     // No-op for now since we keep entire file mapped
     // Individual tensor unmapping not needed with full file mmap
 }
