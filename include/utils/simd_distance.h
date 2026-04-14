@@ -64,5 +64,22 @@ float inner_product(const float* a, const float* b, std::size_t dim);
 // Zero-norm vectors are treated as maximally distant (returns 1.0).
 float cosine_distance(const float* a, const float* b, std::size_t dim);
 
+// Compute cosine similarity between two float vectors of length dim.
+// Returns a value in [-1, 1]: 1 means identical direction, 0 means orthogonal,
+// -1 means opposite direction. This is the canonical entry point; callers that
+// only need a distance metric should prefer cosine_distance() which avoids the
+// subtraction and is marginally faster.
+// Zero-norm vectors are treated as maximally dissimilar (returns 0.0).
+inline float cosine_similarity(const float* a, const float* b, std::size_t dim) {
+    return 1.0f - cosine_distance(a, b, dim);
+}
+
+// Batch cosine similarity: compute cosine_similarity from a single query vector
+// to n database vectors stored contiguously (n * dim floats).
+// Results are written to the pre-allocated output array of n floats.
+// More cache-efficient than calling cosine_similarity() in a loop.
+void batch_cosine_similarity(const float* query, const float* database,
+                              std::size_t n, std::size_t dim, float* results);
+
 } // namespace simd
 } // namespace themis

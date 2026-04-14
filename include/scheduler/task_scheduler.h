@@ -45,8 +45,7 @@
  * - Custom post-processing workflows
  */
 
-#ifndef THEMIS_TASK_SCHEDULER_H
-#define THEMIS_TASK_SCHEDULER_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -786,5 +785,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_TASK_SCHEDULER_H

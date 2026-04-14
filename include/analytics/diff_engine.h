@@ -24,8 +24,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_DIFF_ENGINE_H
-#define THEMIS_DIFF_ENGINE_H
+#pragma once
 
 #include "cdc/changefeed.h"
 #include "transaction/snapshot_manager.h"
@@ -325,5 +324,3 @@ private:
 
 } // namespace analytics
 } // namespace themis
-
-#endif // THEMIS_DIFF_ENGINE_H

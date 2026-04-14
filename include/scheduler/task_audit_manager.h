@@ -33,8 +33,7 @@
  * - GDPR-compliant data handling
  */
 
-#ifndef THEMIS_TASK_AUDIT_MANAGER_H
-#define THEMIS_TASK_AUDIT_MANAGER_H
+#pragma once
 
 #include "scheduler/task_audit_event.h"
 #include "scheduler/task_anomaly_detector.h"
@@ -266,5 +265,3 @@ private:
 
 } // namespace scheduler
 } // namespace themis
-
-#endif // THEMIS_TASK_AUDIT_MANAGER_H

@@ -29,8 +29,7 @@
  * This header provides runtime access to CMake build flags and edition settings.
  */
 
-#ifndef THEMIS_BUILD_INFO_H
-#define THEMIS_BUILD_INFO_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -181,5 +180,3 @@ THEMIS_BASE_API bool verifyBuildManifest(const std::string& manifest_path);
 
 } // namespace build_info
 } // namespace themis
-
-#endif // THEMIS_BUILD_INFO_H

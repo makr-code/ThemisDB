@@ -24,8 +24,7 @@
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_CACHE_BOUNDED_LRU_CACHE_H
-#define THEMISDB_CACHE_BOUNDED_LRU_CACHE_H
+#pragma once
 
 #include <chrono>
 #include <memory>
@@ -184,5 +183,3 @@ private:
 
 } // namespace cache
 } // namespace themis
-
-#endif // THEMISDB_CACHE_BOUNDED_LRU_CACHE_H

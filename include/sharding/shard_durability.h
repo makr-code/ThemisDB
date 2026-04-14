@@ -23,8 +23,7 @@
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_SHARDING_SHARD_DURABILITY_H
-#define THEMISDB_SHARDING_SHARD_DURABILITY_H
+#pragma once
 
 #include <string>
 #include <memory>
@@ -243,5 +242,3 @@ private:
 
 }  // namespace sharding
 }  // namespace themisdb
-
-#endif  // THEMISDB_SHARDING_SHARD_DURABILITY_H

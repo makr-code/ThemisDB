@@ -40,8 +40,7 @@
  * and resource limits.
  */
 
-#ifndef THEMIS_HYBRID_RETENTION_MANAGER_H
-#define THEMIS_HYBRID_RETENTION_MANAGER_H
+#pragma once
 
 #include "scheduler/task_scheduler.h"
 #include "timeseries/tsstore.h"
@@ -236,5 +235,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_HYBRID_RETENTION_MANAGER_H

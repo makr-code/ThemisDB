@@ -22,8 +22,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_TEMPORAL_GRAPH_H
-#define THEMIS_TEMPORAL_GRAPH_H
+#pragma once
 
 #include <cstdint>
 #include <optional>
@@ -228,5 +227,3 @@ struct TemporalStats {
 };
 
 } // namespace themis
-
-#endif // THEMIS_TEMPORAL_GRAPH_H

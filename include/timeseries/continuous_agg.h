@@ -23,8 +23,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_CONTINUOUS_AGG_H
-#define THEMIS_CONTINUOUS_AGG_H
+#pragma once
 
 #include <string>
 #include <chrono>
@@ -446,5 +445,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_CONTINUOUS_AGG_H

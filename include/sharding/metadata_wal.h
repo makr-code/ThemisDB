@@ -24,8 +24,7 @@
 // Licensed under MIT License
 // Phase 2.2: Metadata Shard Durability
 
-#ifndef THEMISDB_SHARDING_METADATA_WAL_H
-#define THEMISDB_SHARDING_METADATA_WAL_H
+#pragma once
 
 #include "sharding/wal_manager.h"
 #include "sharding/metadata_shard.h"
@@ -213,5 +212,3 @@ private:
 
 } // namespace sharding
 } // namespace themisdb
-
-#endif // THEMISDB_SHARDING_METADATA_WAL_H

@@ -21,8 +21,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_SHARD_LOAD_DETECTOR_H
-#define THEMIS_SHARD_LOAD_DETECTOR_H
+#pragma once
 
 #include <string>
 #include <map>
@@ -302,5 +301,3 @@ private:
 
 } // namespace sharding
 } // namespace themis
-
-#endif // THEMIS_SHARD_LOAD_DETECTOR_H

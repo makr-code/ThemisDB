@@ -24,8 +24,7 @@
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_SHARDING_RAFT_CONSENSUS_H
-#define THEMISDB_SHARDING_RAFT_CONSENSUS_H
+#pragma once
 
 #include "sharding/raft_state.h"
 #include "sharding/raft_log.h"
@@ -292,5 +291,3 @@ private:
 
 }  // namespace sharding
 }  // namespace themisdb
-
-#endif  // THEMISDB_SHARDING_RAFT_CONSENSUS_H

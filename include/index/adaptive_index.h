@@ -22,8 +22,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_ADAPTIVE_INDEX_H
-#define THEMIS_ADAPTIVE_INDEX_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -321,5 +320,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_ADAPTIVE_INDEX_H

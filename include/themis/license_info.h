@@ -30,8 +30,7 @@
  * embedded into the binary during the build process.
  */
 
-#ifndef THEMIS_LICENSE_INFO_H
-#define THEMIS_LICENSE_INFO_H
+#pragma once
 
 #include <chrono>
 #include <functional>
@@ -269,5 +268,3 @@ private:
 
 } // namespace license
 } // namespace themis
-
-#endif // THEMIS_LICENSE_INFO_H

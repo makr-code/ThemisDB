@@ -23,8 +23,7 @@
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_SHARDING_REPLICA_CONSISTENCY_H
-#define THEMISDB_SHARDING_REPLICA_CONSISTENCY_H
+#pragma once
 
 #include "sharding/raft_log.h"
 #include <string>
@@ -256,5 +255,3 @@ private:
 
 }  // namespace sharding
 }  // namespace themisdb
-
-#endif  // THEMISDB_SHARDING_REPLICA_CONSISTENCY_H

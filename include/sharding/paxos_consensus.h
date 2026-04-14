@@ -23,8 +23,7 @@
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_SHARDING_PAXOS_CONSENSUS_H
-#define THEMISDB_SHARDING_PAXOS_CONSENSUS_H
+#pragma once
 
 #include "sharding/consensus_module.h"
 #include "sharding/wal_manager.h"
@@ -321,5 +320,3 @@ private:
 
 } // namespace sharding
 } // namespace themisdb
-
-#endif // THEMISDB_SHARDING_PAXOS_CONSENSUS_H

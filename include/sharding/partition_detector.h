@@ -23,8 +23,7 @@
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_SHARDING_PARTITION_DETECTOR_H
-#define THEMISDB_SHARDING_PARTITION_DETECTOR_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -214,5 +213,3 @@ private:
 
 }  // namespace sharding
 }  // namespace themisdb
-
-#endif  // THEMISDB_SHARDING_PARTITION_DETECTOR_H

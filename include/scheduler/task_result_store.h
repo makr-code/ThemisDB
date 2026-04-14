@@ -36,8 +36,7 @@
  * - Thread-safe: all public methods are guarded by an internal mutex.
  */
 
-#ifndef THEMIS_TASK_RESULT_STORE_H
-#define THEMIS_TASK_RESULT_STORE_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -140,5 +139,3 @@ private:
 
 } // namespace scheduler
 } // namespace themis
-
-#endif // THEMIS_TASK_RESULT_STORE_H

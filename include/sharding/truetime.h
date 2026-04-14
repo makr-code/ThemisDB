@@ -24,8 +24,7 @@
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_SHARDING_TRUETIME_H
-#define THEMISDB_SHARDING_TRUETIME_H
+#pragma once
 
 #include <chrono>
 #include <cstdint>
@@ -259,5 +258,3 @@ private:
 };
 
 } // namespace themis::sharding
-
-#endif // THEMISDB_SHARDING_TRUETIME_H

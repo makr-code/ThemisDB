@@ -20,8 +20,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_RETENTION_H
-#define THEMIS_RETENTION_H
+#pragma once
 
 #include <string>
 #include <unordered_map>
@@ -196,5 +195,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_RETENTION_H

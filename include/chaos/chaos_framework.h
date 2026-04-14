@@ -21,8 +21,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_CHAOS_FRAMEWORK_H
-#define THEMIS_CHAOS_FRAMEWORK_H
+#pragma once
 
 #include <atomic>
 #include <chrono>
@@ -214,5 +213,3 @@ private:
 };
 
 }  // namespace themis::chaos
-
-#endif  // THEMIS_CHAOS_FRAMEWORK_H

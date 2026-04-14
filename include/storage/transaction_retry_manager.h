@@ -26,8 +26,7 @@
 // Copyright (c) 2024 ThemisDB
 // Licensed under the MIT License
 
-#ifndef THEMISDB_TRANSACTION_RETRY_MANAGER_H
-#define THEMISDB_TRANSACTION_RETRY_MANAGER_H
+#pragma once
 
 #include <chrono>
 #include <functional>
@@ -397,5 +396,3 @@ private:
 
 }  // namespace storage
 }  // namespace themisdb
-
-#endif  // THEMISDB_TRANSACTION_RETRY_MANAGER_H

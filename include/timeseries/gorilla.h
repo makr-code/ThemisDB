@@ -22,8 +22,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_GORILLA_H
-#define THEMIS_GORILLA_H
+#pragma once
 
 #include <cstdint>
 #include <vector>
@@ -238,5 +237,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_GORILLA_H

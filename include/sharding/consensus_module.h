@@ -23,8 +23,7 @@
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_SHARDING_CONSENSUS_MODULE_H
-#define THEMISDB_SHARDING_CONSENSUS_MODULE_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -363,5 +362,3 @@ struct ConsensusConfig {
 
 } // namespace sharding
 } // namespace themisdb
-
-#endif // THEMISDB_SHARDING_CONSENSUS_MODULE_H

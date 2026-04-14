@@ -21,8 +21,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_AGGREGATE_SCHEDULER_H
-#define THEMIS_AGGREGATE_SCHEDULER_H
+#pragma once
 
 #include "timeseries/continuous_agg.h"  // for AggConfig, ContinuousAggWatermarkStore
 #include "timeseries/timeseries_metrics.h"
@@ -196,5 +195,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_AGGREGATE_SCHEDULER_H

@@ -52,8 +52,7 @@
 //   A single GlobalTransaction handle must only be used from one thread
 //   at a time.
 
-#ifndef THEMISDB_TRANSACTION_GLOBAL_TRANSACTION_MANAGER_H
-#define THEMISDB_TRANSACTION_GLOBAL_TRANSACTION_MANAGER_H
+#pragma once
 
 #include "sharding/truetime.h"
 #include "sharding/wal_manager.h"
@@ -379,5 +378,3 @@ private:
 };
 
 } // namespace themis::transaction
-
-#endif // THEMISDB_TRANSACTION_GLOBAL_TRANSACTION_MANAGER_H

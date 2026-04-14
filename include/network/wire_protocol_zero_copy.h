@@ -56,9 +56,8 @@
 
 #ifdef _WIN32
 #include <BaseTsd.h>
-#ifndef THEMIS_SSIZE_T_DEFINED
+#pragma once
 typedef SSIZE_T ssize_t;
-#define THEMIS_SSIZE_T_DEFINED
 #endif
 struct iovec {
     void* iov_base;
@@ -73,7 +72,6 @@ struct iovec {
 #include <sys/uio.h>
 #include <unistd.h>
 #include <fcntl.h>
-#endif
 
 namespace themis {
 namespace network {

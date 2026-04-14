@@ -21,8 +21,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_BRANCH_API_HANDLER_H
-#define THEMIS_BRANCH_API_HANDLER_H
+#pragma once
 
 #include "transaction/branch_manager.h"
 #include <httplib.h>
@@ -116,5 +115,3 @@ private:
 
 } // namespace server
 } // namespace themis
-
-#endif // THEMIS_BRANCH_API_HANDLER_H
