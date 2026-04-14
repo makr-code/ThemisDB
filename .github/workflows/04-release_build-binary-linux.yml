@@ -91,6 +91,17 @@ jobs:
           submodules: false
           fetch-depth: 0
 
+      - name: Apply compatibility patches
+        run: |
+          # Patch: secondary_index_metadata_cache.h in older tags (< current) may lack
+          # an explicit '#include <mutex>' despite using std::unique_lock.
+          # GCC does not include it transitively via <shared_mutex>.
+          HDR="include/index/secondary_index_metadata_cache.h"
+          if [ -f "$HDR" ] && grep -q '<shared_mutex>' "$HDR" && ! grep -q '<mutex>' "$HDR"; then
+            sed -i 's|#include <shared_mutex>|#include <shared_mutex>\n#include <mutex>|' "$HDR"
+            echo "Patched $HDR: added #include <mutex>"
+          fi
+
       - name: Install system dependencies
         run: |
           sudo apt-get update
