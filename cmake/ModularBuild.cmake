@@ -206,6 +206,7 @@ set(THEMIS_BASE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/acceleration/cpu_backend_mt.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/acceleration/cpu_backend_tbb.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/acceleration/graphics_backends.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/gpu/gpu_memory_manager_edition.cpp>
     # GPU-specific backends
     $<$<AND:$<BOOL:${THEMIS_ENABLE_GPU}>,$<BOOL:${WIN32}>>:../src/acceleration/directx_backend_full.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HIP}>:../src/acceleration/hip_backend.cpp>
@@ -349,6 +350,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/cuda_hnsw_graph_traversal.cpp
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/gpu_vector_index.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/multi_gpu_vector_index.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/gpu_memory_oversubscription.cpp>
     $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/index/gpu_vector_index_vulkan.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/index/rotary_embeddings_cuda.cu>
     $<$<BOOL:${THEMIS_ENABLE_HIP}>:../src/index/rotary_embeddings_hip.cpp>
@@ -1034,6 +1036,7 @@ set(THEMIS_LLM_SOURCES
     # LoRA framework additions (unconditional)
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/distributed_dataloader.cpp>
     ../src/llm/lora_framework/kernels/cpu_fused_kernels.cpp
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/paged_memory_manager.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/paged_optimizer.cpp>
         ../src/cache/embedding_cache.cpp
         ../src/llm/lora_framework/lora_layers.cpp
@@ -1534,7 +1537,6 @@ if(THEMIS_ENABLE_GPU)
         ../src/gpu/gpu_module.cpp
         ../src/gpu/config.cpp
         ../src/gpu/feature_flags.cpp
-        ../src/gpu/gpu_memory_manager_edition.cpp
         ../src/gpu/memory_pool.cpp
         ../src/gpu/kernel_validator.cpp
         ../src/gpu/policy.cpp
@@ -1630,6 +1632,9 @@ function(themis_build_modular)
     endif()
     if(TARGET prometheus-cpp::pull)
         list(APPEND _themis_base_deps prometheus-cpp::pull)
+    endif()
+    if(TARGET TBB::tbb)
+        list(APPEND _themis_base_deps TBB::tbb)
     endif()
     if(TARGET libzip::zip)
         list(APPEND _themis_base_deps libzip::zip)

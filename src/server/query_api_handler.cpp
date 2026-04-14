@@ -3276,9 +3276,9 @@ http::response<http::string_body> QueryApiHandler::handleQueryEnhanced(
 // Helper method implementations
 std::optional<http::response<http::string_body>> QueryApiHandler::requireAccess(
     const http::request<http::string_body>& req,
-    const std::string& permission,
-    const std::string& resource_type,
-    const std::string& resource_id
+    const std::string& /*permission*/,
+    const std::string& /*resource_type*/,
+    const std::string& /*resource_id*/
 ) {
     // If auth is disabled, allow
     if (!auth_ || !auth_->isEnabled()) {

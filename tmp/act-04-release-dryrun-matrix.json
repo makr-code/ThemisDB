@@ -1,0 +1,74 @@
+[
+  {
+    "Workflow": "04-release_bootstrap-release-branches.yml",
+    "Event": "workflow_dispatch",
+    "Status": "PASS",
+    "ExitCode": 0,
+    "Note": "",
+    "ErrorLine": null
+  },
+  {
+    "Workflow": "04-release_build-binary-linux.yml",
+    "Event": "workflow_dispatch",
+    "Status": "PASS",
+    "ExitCode": 0,
+    "Note": "",
+    "ErrorLine": null
+  },
+  {
+    "Workflow": "04-release_build-binary-windows.yml",
+    "Event": "workflow_dispatch",
+    "Status": "PASS",
+    "ExitCode": 0,
+    "Note": "windows mapped to ubuntu image for dry-run compatibility",
+    "ErrorLine": null
+  },
+  {
+    "Workflow": "04-release_canary-deployments-ci.yml",
+    "Event": "workflow_dispatch",
+    "Status": "PASS",
+    "ExitCode": 0,
+    "Note": "",
+    "ErrorLine": null
+  },
+  {
+    "Workflow": "04-release_create-release-archive.yml",
+    "Event": "workflow_dispatch",
+    "Status": "PASS",
+    "ExitCode": 0,
+    "Note": "",
+    "ErrorLine": null
+  },
+  {
+    "Workflow": "04-release_docker-image.yml",
+    "Event": "workflow_dispatch",
+    "Status": "PASS",
+    "ExitCode": 0,
+    "Note": "",
+    "ErrorLine": null
+  },
+  {
+    "Workflow": "04-release_dockerhub-publish-on-release.yml",
+    "Event": "workflow_dispatch",
+    "Status": "PASS",
+    "ExitCode": 0,
+    "Note": "",
+    "ErrorLine": null
+  },
+  {
+    "Workflow": "04-release_publish-enterprise.yml",
+    "Event": "workflow_dispatch",
+    "Status": "PASS",
+    "ExitCode": 0,
+    "Note": "",
+    "ErrorLine": null
+  },
+  {
+    "Workflow": "04-release_publish-hyperscaler.yml",
+    "Event": "workflow_dispatch",
+    "Status": "PASS",
+    "ExitCode": 0,
+    "Note": "",
+    "ErrorLine": null
+  }
+]

@@ -216,7 +216,7 @@ void DistributedTrainer::allreduce_cpu(std::vector<float>& data) {
 }
 
 // CPU-based Broadcast (simplified)
-void DistributedTrainer::broadcast_cpu(std::vector<float>& data) {
+void DistributedTrainer::broadcast_cpu(std::vector<float>& /*data*/) {
     // Placeholder: In real implementation, this would:
     // 1. Master (rank 0) sends data to all other ranks
     // 2. Non-master ranks receive data from master

@@ -93,8 +93,8 @@ public:
     
     Result<UserRegistrationData> registerUser(
         const std::string& user_id,
-        const std::string& password,
-        const std::unordered_map<std::string, std::string>& attributes
+        [[maybe_unused]] const std::string& password,
+        [[maybe_unused]] const std::unordered_map<std::string, std::string>& attributes
     ) override {
         THEMIS_INFO("WebDAV plugin: Registering user '{}'", user_id);
         
@@ -149,7 +149,7 @@ public:
     
     Result<UserRegistrationData> authenticateUser(
         const std::string& user_id,
-        const std::string& password
+        [[maybe_unused]] const std::string& password
     ) override {
         THEMIS_INFO("WebDAV plugin: Authenticating user '{}'", user_id);
         

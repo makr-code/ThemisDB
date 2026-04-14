@@ -264,7 +264,7 @@ float ResidualQuantizer::asymmetricDistance(const std::vector<float>& query,
 }
 
 float ResidualQuantizer::getCompressionRatio() const {
-    float original_bytes = dimension_ * sizeof(float);
+    float original_bytes = static_cast<float>(dimension_ * sizeof(float));
     float compressed_bytes = static_cast<float>(getEncodedSize());
     return original_bytes / compressed_bytes;
 }

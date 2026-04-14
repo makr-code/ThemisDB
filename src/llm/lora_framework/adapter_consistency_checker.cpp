@@ -69,7 +69,7 @@ public:
         return actual == expected;
     }
     
-    std::string generateSignature(const std::vector<uint8_t>& data, const std::string& private_key) const {
+    std::string generateSignature(const std::vector<uint8_t>& data, const std::string& /*private_key*/) const {
         if (!config_.enable_signatures) {
             return "";
         }
@@ -84,6 +84,7 @@ public:
         const std::string& signature,
         const std::string& public_key
     ) const {
+        (void)public_key;
         if (!config_.enable_signatures || signature.empty()) {
             return true;  // Skip if disabled or no signature
         }
@@ -214,9 +215,9 @@ std::string AdapterConsistencyChecker::generateSignature(
 bool AdapterConsistencyChecker::verifySignature(
     const std::vector<uint8_t>& data,
     const std::string& signature,
-    const std::string& public_key
+    const std::string& /*public_key*/
 ) const {
-    return impl_->verifySignature(data, signature, public_key);
+    return impl_->verifySignature(data, signature, "");
 }
 
 ConsistencyCheckResult AdapterConsistencyChecker::checkAdapter(

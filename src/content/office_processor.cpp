@@ -174,7 +174,7 @@ OfficeDocumentType OfficeProcessor::detectDocumentType(const std::string& blob) 
 
 ExtractionResult OfficeProcessor::extract(
     const std::string& blob,
-    const ContentType& content_type
+    const ContentType& /*content_type*/
 ) {
     ExtractionResult result;
     result.ok = false;
@@ -1054,7 +1054,7 @@ ExtractionResult OfficeProcessor::extractLegacyViaLibreOffice(
 std::vector<json> OfficeProcessor::chunk(
     const ExtractionResult& extraction_result,
     int chunk_size,
-    int overlap
+    int /*overlap*/
 ) {
     std::vector<json> chunks;
     
@@ -1115,7 +1115,7 @@ std::vector<json> OfficeProcessor::chunk(
     return chunks;
 }
 
-std::vector<float> OfficeProcessor::generateEmbedding(const std::string& chunk_data) {
+std::vector<float> OfficeProcessor::generateEmbedding(const std::string& /*chunk_data*/) {
     // Placeholder
     return std::vector<float>();
 }

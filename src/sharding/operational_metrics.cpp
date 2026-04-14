@@ -602,6 +602,7 @@ std::string OperationalMetrics::formatPrometheusMetric(
     double value,
     const std::map<std::string, std::string>& labels
 ) {
+    (void)type;
     std::stringstream ss;
     
     ss << name;
@@ -620,6 +621,24 @@ std::string OperationalMetrics::formatPrometheusMetric(
     ss << " " << std::fixed << std::setprecision(2) << value << "\n";
     
     return ss.str();
+}
+
+std::string OperationalMetrics::formatPrometheusMetric(
+    const std::string& name,
+    MetricType type,
+    uint64_t value,
+    const std::map<std::string, std::string>& labels
+) {
+    return formatPrometheusMetric(name, type, static_cast<double>(value), labels);
+}
+
+std::string OperationalMetrics::formatPrometheusMetric(
+    const std::string& name,
+    MetricType type,
+    int value,
+    const std::map<std::string, std::string>& labels
+) {
+    return formatPrometheusMetric(name, type, static_cast<double>(value), labels);
 }
 
 }  // namespace sharding

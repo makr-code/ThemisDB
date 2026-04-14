@@ -426,6 +426,7 @@ public:
     
     IngestionStats ingest(const std::string& target_collection,
                          ProgressCallback progress_callback) {
+        (void)target_collection;
         IngestionStats stats;
         auto start_time = std::chrono::steady_clock::now();
         

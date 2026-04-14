@@ -81,9 +81,9 @@ BpmnApiHandler::AuthContext BpmnApiHandler::extractAuthContext(
 
 std::optional<http::response<http::string_body>> BpmnApiHandler::requireAccess(
     const http::request<http::string_body>& req,
-    const std::string& scope,
-    const std::string& action,
-    const std::string& resource
+    const std::string& /*scope*/,
+    const std::string& /*action*/,
+    const std::string& /*resource*/
 ) {
     // If auth is disabled, allow all
     if (!auth_ || !auth_->isEnabled()) {

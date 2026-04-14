@@ -648,7 +648,7 @@ bool LoRAEnhancedModel::createLoRAAdapters() {
     return true;
 }
 
-Tensor LoRAEnhancedModel::forward(const Tensor& input, int layer_idx) {
+Tensor LoRAEnhancedModel::forward(const Tensor& input, int /*layer_idx*/) {
     if (!initialized_) {
         throw std::runtime_error("Model not initialized");
     }
@@ -670,7 +670,7 @@ Tensor LoRAEnhancedModel::forward(const Tensor& input, int layer_idx) {
     return input.clone();
 }
 
-Tensor LoRAEnhancedModel::backward(const Tensor& grad_output, int layer_idx) {
+Tensor LoRAEnhancedModel::backward(const Tensor& grad_output, int /*layer_idx*/) {
     if (!initialized_) {
         throw std::runtime_error("Model not initialized");
     }

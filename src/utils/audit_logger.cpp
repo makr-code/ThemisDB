@@ -864,7 +864,7 @@ size_t AuditLogger::archiveOldEntries(std::chrono::system_clock::time_point olde
                     kept_entries.push_back(line);
                 }
                 
-            } catch (const std::exception& e) {
+            } catch (const std::exception&) {
                 // Keep unparseable entries to avoid data loss
                 kept_entries.push_back(line);
             }
@@ -954,7 +954,7 @@ size_t AuditLogger::purgeOldEntries(std::chrono::system_clock::time_point older_
                     kept_entries.push_back(line);
                 }
                 
-            } catch (const std::exception& e) {
+            } catch (const std::exception&) {
                 // Keep unparseable entries to avoid data loss
                 kept_entries.push_back(line);
             }
@@ -1065,7 +1065,7 @@ void AuditLogger::logTaskSchedulerEvent(
 double AuditLogger::calculateAnomalyScore(
     const std::string& task_id,
     double execution_time_ms,
-    const nlohmann::json& resource_usage
+    const nlohmann::json& /*resource_usage*/
 ) {
     std::lock_guard<std::mutex> lock(baselines_mu_);
     

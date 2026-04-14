@@ -102,7 +102,7 @@ bool PDFProcessor::isPDFValid(const std::string& blob) {
 
 ExtractionResult PDFProcessor::extract(
     const std::string& blob,
-    const ContentType& content_type
+    const ContentType& /*content_type*/
 ) {
     ExtractionResult result;
     result.ok = false;
@@ -243,7 +243,7 @@ ExtractionResult PDFProcessor::extract(
     std::regex page_regex("/Type\\s*/Page[^s]");
     auto pages_begin = std::sregex_iterator(blob.begin(), blob.end(), page_regex);
     auto pages_end = std::sregex_iterator();
-    int page_count = std::distance(pages_begin, pages_end);
+    int page_count = static_cast<int>(std::distance(pages_begin, pages_end));
     result.metadata["page_count"] = page_count;
     
     // Try to extract text from BT/ET blocks
@@ -342,7 +342,7 @@ PDFMetadata PDFProcessor::extractMetadata(const std::string& blob) {
     return metadata;
 }
 
-std::vector<PDFPageInfo> PDFProcessor::extractPages(const std::string& blob) {
+std::vector<PDFPageInfo> PDFProcessor::extractPages([[maybe_unused]] const std::string& blob) {
     std::vector<PDFPageInfo> pages;
 
 #if PDF_LIBRARY_AVAILABLE
@@ -569,7 +569,7 @@ std::vector<json> PDFProcessor::chunk(
     return chunks;
 }
 
-std::vector<float> PDFProcessor::generateEmbedding(const std::string& chunk_data) {
+std::vector<float> PDFProcessor::generateEmbedding(const std::string& /*chunk_data*/) {
     // Placeholder: Return empty embedding
     // In production, this would call an embedding service
     return std::vector<float>();

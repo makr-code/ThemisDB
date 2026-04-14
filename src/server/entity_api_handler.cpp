@@ -132,8 +132,8 @@ EntityApiHandler::AuthContext EntityApiHandler::extractAuthContext(
 std::optional<http::response<http::string_body>> EntityApiHandler::requireAccess(
     const http::request<http::string_body>& req,
     const std::string& scope,
-    const std::string& action,
-    const std::string& resource
+    const std::string& /*action*/,
+    const std::string& /*resource*/
 ) {
     if (!auth_ || !auth_->isEnabled()) {
         return std::nullopt; // Auth disabled, allow access

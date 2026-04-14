@@ -113,7 +113,7 @@ void DiffApiHandler::handleGetDiff(const httplib::Request& req, httplib::Respons
     }
 }
 
-void DiffApiHandler::handleGetCacheStats(const httplib::Request& req, httplib::Response& res) {
+void DiffApiHandler::handleGetCacheStats(const httplib::Request& /*req*/, httplib::Response& res) {
     try {
     auto span = Tracer::startSpan("handleGetCacheStats");
         auto stats = diff_engine_.getCacheStats();
@@ -123,7 +123,7 @@ void DiffApiHandler::handleGetCacheStats(const httplib::Request& req, httplib::R
     }
 }
 
-void DiffApiHandler::handleClearCache(const httplib::Request& req, httplib::Response& res) {
+void DiffApiHandler::handleClearCache(const httplib::Request& /*req*/, httplib::Response& res) {
     try {
     auto span = Tracer::startSpan("handleClearCache");
         diff_engine_.clearCache();

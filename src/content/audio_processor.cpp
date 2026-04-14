@@ -152,7 +152,7 @@ bool AudioProcessor::canProcess(const std::string& mime_type) const {
 
 ContentExtractionResult AudioProcessor::extract(
     const std::vector<uint8_t>& blob,
-    const std::string& mime_type,
+    const std::string& /*mime_type*/,
     const ExtractionOptions& options
 ) {
     auto start = std::chrono::steady_clock::now();
@@ -277,7 +277,7 @@ ContentExtractionResult AudioProcessor::extract(
 std::vector<ContentChunk> AudioProcessor::chunk(
     const ContentExtractionResult& result,
     int max_tokens,
-    int overlap
+    int /*overlap*/
 ) {
     std::vector<ContentChunk> chunks;
     
@@ -868,7 +868,7 @@ json AudioProcessor::extractTags(const std::vector<uint8_t>& blob) {
     return tags;
 }
 
-std::vector<float> AudioProcessor::extractWaveform(const std::vector<uint8_t>& blob) {
+std::vector<float> AudioProcessor::extractWaveform(const std::vector<uint8_t>& /*blob*/) {
     std::vector<float> waveform;
     waveform.reserve(waveform_samples_);
     

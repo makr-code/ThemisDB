@@ -103,6 +103,8 @@ GPUTensor FlashLoRA::forward(
     float scaling,
     const Config& config
 ) {
+    (void)scaling;
+    (void)config;
     validate_shapes(input, B, A);
     
     // Check device support
@@ -242,6 +244,9 @@ std::tuple<GPUTensor, GPUTensor, GPUTensor> FlashLoRA::backward(
     float scaling,
     const Config& config
 ) {
+    (void)grad_output;
+    (void)scaling;
+    (void)config;
     validate_shapes(input, B, A);
     
     // Get dimensions
@@ -389,6 +394,7 @@ std::tuple<GPUTensor, GPUTensor, GPUTensor> FlashLoRA::backward(
 // ============================================================================
 
 bool FlashLoRA::is_available(const Device& device) {
+    (void)device;
 #ifdef THEMIS_ENABLE_CUDA
     if (device.type == DeviceType::CUDA) {
         // Check CUDA compute capability
@@ -427,6 +433,9 @@ FlashLoRA::Config FlashLoRA::get_recommended_config(
     size_t rank,
     size_t seq_len
 ) {
+    (void)device;
+    (void)rank;
+    (void)seq_len;
     Config config;
     
 #ifdef THEMIS_ENABLE_CUDA

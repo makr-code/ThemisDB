@@ -713,8 +713,8 @@ double MoralAnalyzer::assessFairness(const EthicalDecision& decision) {
 
 std::vector<std::pair<MoralAnalyzer::EthicalScenario, MoralAnalyzer::EthicalDecision>>
 MoralAnalyzer::retrieveSimilarScenarios(
-    const EthicalScenario& scenario,
-    int limit
+    const EthicalScenario& /*scenario*/,
+    int /*limit*/
 ) {
     // In production: Use vector similarity search
     // For now: Return empty
@@ -999,7 +999,7 @@ std::string MoralAnalyzer::getReasoningExplanation(
 }
 
 MoralAnalyzer::Status MoralAnalyzer::clearDecisionGraph(
-    const std::string& scenario_id
+    const std::string& /*scenario_id*/
 ) {
     // In production: Delete all nodes and edges related to this scenario
     return Status::OK();
@@ -1028,7 +1028,7 @@ std::vector<std::string> MoralAnalyzer::loadPrinciplesForPhilosophy(
 double MoralAnalyzer::scoreActionByPrinciples(
     const std::string& action,
     const std::vector<std::string>& principles,
-    const std::string& philosophy
+    const std::string& /*philosophy*/
 ) {
     // NOTE: Basic keyword-based scoring for demonstration.
     // In production, replace with:

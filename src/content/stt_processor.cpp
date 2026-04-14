@@ -142,8 +142,8 @@ bool STTProcessor::canProcess(const std::string& mime_type) const {
 
 ContentExtractionResult STTProcessor::extract(
     const std::vector<uint8_t>& blob,
-    const std::string& mime_type,
-    const ExtractionOptions& options
+    const std::string& /*mime_type*/,
+    const ExtractionOptions& /*options*/
 ) {
     auto start = std::chrono::steady_clock::now();
     ContentExtractionResult result;
@@ -235,7 +235,7 @@ ContentExtractionResult STTProcessor::extract(
 std::vector<ContentChunk> STTProcessor::chunk(
     const ContentExtractionResult& result,
     int max_tokens,
-    int overlap
+    int /*overlap*/
 ) {
     std::vector<ContentChunk> chunks;
     
@@ -1129,7 +1129,7 @@ std::vector<TranscriptionSegment> STTProcessor::diarizeSegments(
 
 json STTProcessor::formatAsProtocol(
     const TranscriptionResult& result,
-    const json& options
+    const json& /*options*/
 ) {
     json protocol;
     protocol["type"] = "meeting_protocol";
@@ -1168,10 +1168,10 @@ json STTProcessor::formatAsProtocol(
 
 // Helper function to format timestamp
 std::string STTProcessor::formatTimestamp(int64_t ms) {
-    int hours = ms / 3600000;
-    int minutes = (ms % 3600000) / 60000;
-    int seconds = (ms % 60000) / 1000;
-    int millis = ms % 1000;
+    int hours = static_cast<int>(ms / 3600000);
+    int minutes = static_cast<int>((ms % 3600000) / 60000);
+    int seconds = static_cast<int>((ms % 60000) / 1000);
+    int millis = static_cast<int>(ms % 1000);
     
     char buffer[32];
     snprintf(buffer, sizeof(buffer), "%02d:%02d:%02d.%03d", hours, minutes, seconds, millis);

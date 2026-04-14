@@ -163,8 +163,8 @@ std::vector<uint8_t> CompressionStrategyManager::decompress(
 }
 
 CompressionMethod CompressionStrategyManager::select_method(
-    const uint8_t* data,
-    size_t size,
+    const uint8_t* /*data*/,
+    size_t /*size*/,
     DataType type
 ) {
     switch (type) {

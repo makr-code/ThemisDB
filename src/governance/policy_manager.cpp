@@ -645,12 +645,12 @@ std::vector<VersionDiff> PolicyManager::compareRuleVersions(
 }
 
 std::vector<PolicyRuleVersion> PolicyManager::getAuditTrail(
-    const std::string& rule_id, int64_t start_time, int64_t end_time) const {
+    const std::string& rule_id, int64_t /*start_time*/, int64_t /*end_time*/) const {
     return version_history_.getVersions(rule_id);
 }
 
 std::vector<PolicyRuleVersion> PolicyManager::getAuditTrailByUser(
-    const std::string& user, int64_t start_time, int64_t end_time) const {
+    const std::string& user, int64_t /*start_time*/, int64_t /*end_time*/) const {
     // Collect all rule IDs under the rules mutex, then query version history
     std::vector<std::string> rule_ids;
     {

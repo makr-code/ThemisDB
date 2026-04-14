@@ -181,7 +181,7 @@ void SnapshotApiHandler::handleDeleteTag(const httplib::Request& req, httplib::R
     }
 }
 
-void SnapshotApiHandler::handleGetStats(const httplib::Request& req, httplib::Response& res) {
+void SnapshotApiHandler::handleGetStats(const httplib::Request& /*req*/, httplib::Response& res) {
     try {
     auto span = Tracer::startSpan("handleGetStats");
         auto stats = snapshot_manager_.getStats();

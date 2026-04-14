@@ -42,7 +42,7 @@ GPUModule::InitResult GPUModule::initialize(const GPUConfig& config,
     }
 
     config_    = config;
-    safe_fail_ = GPUSafeFail([&]() {
+    safe_fail_.reset([&]() {
         GPUSafeFail::Config c;
         c.failure_threshold     = static_cast<size_t>(config.circuit_failure_threshold);
         c.success_threshold     = static_cast<size_t>(config.circuit_success_threshold);

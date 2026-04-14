@@ -486,6 +486,11 @@ Result<void> MultiLevelEncryptedStorage::unmountLevel(SecurityLevel level) {
 }
 
 Result<void> MultiLevelEncryptedStorage::rotateKey(SecurityLevel level) {
+    // STUB/SIMULATION NOTE:
+    // Purpose: Expose key-rotation API shape while preventing unsafe partial rotation behavior.
+    // Activation: Always active until full zero-downtime rotation workflow is implemented.
+    // Production Delta: Returns an explicit error instead of rotating keys.
+    // Removal Plan: Replace this branch with full staged rotation and rollback-safe cutover.
     // TODO: Key rotation implementation
     // This is a placeholder for zero-downtime key rotation.
     // Full implementation requires:

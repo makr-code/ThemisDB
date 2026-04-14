@@ -284,10 +284,12 @@ nlohmann::json AdminOperations::handleRebalanceRequest(const nlohmann::json& bod
 }
 
 nlohmann::json AdminOperations::handleHealthRequest(const nlohmann::json& body) {
+    (void)body;
     return getHealthStatus();
 }
 
 nlohmann::json AdminOperations::handleStatsRequest(const nlohmann::json& body) {
+    (void)body;
     return getStatistics();
 }
 

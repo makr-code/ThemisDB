@@ -53,7 +53,7 @@ void ContentMetrics::recordValidation(bool success) {
     }
 }
 
-void ContentMetrics::recordProcessing(const std::string& mime_type, bool success) {
+void ContentMetrics::recordProcessing(const std::string& /*mime_type*/, bool success) {
     total_processing_++;
     if (success) {
         successful_processing_++;

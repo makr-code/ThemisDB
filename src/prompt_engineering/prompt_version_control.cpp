@@ -778,7 +778,7 @@ void PromptVersionControl::loadFromDB() {
     size_t loaded_branches = 0;
     
     // Load versions
-    db_->scanPrefix(KEY_PREFIX_VERSION, [this, &loaded_versions](std::string_view key, std::string_view value) -> bool {
+    db_->scanPrefix(KEY_PREFIX_VERSION, [this, &loaded_versions](std::string_view /*key*/, std::string_view value) -> bool {
         try {
             auto j = nlohmann::json::parse(std::string(value));
             auto version = PromptVersion::fromJson(j);

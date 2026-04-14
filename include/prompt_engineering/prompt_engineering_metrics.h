@@ -287,6 +287,20 @@ private:
         double value,
         const std::map<std::string, std::string>& labels = {}) const;
 
+    std::string formatMetric(
+      const std::string& name,
+      const std::string& help,
+      const std::string& type,
+      int64_t value,
+      const std::map<std::string, std::string>& labels = {}) const;
+
+    std::string formatMetric(
+      const std::string& name,
+      const std::string& help,
+      const std::string& type,
+      int value,
+      const std::map<std::string, std::string>& labels = {}) const;
+
     std::string formatLabels(const std::map<std::string, std::string>& labels) const;
 };
 

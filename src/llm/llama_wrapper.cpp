@@ -474,7 +474,7 @@ bool LlamaWrapper::loadModelFromThemisDB(
     const std::string& model_id,
     std::shared_ptr<LLMModelStorage> storage,
     std::shared_ptr<storage::BlobStorageManager> blob_manager,
-    std::shared_ptr<security::FieldEncryption> encryption,
+    std::shared_ptr<security::FieldEncryption> /*encryption*/,
     const json& config
 ) {
     spdlog::info("Loading model from ThemisDB: {}", model_id);

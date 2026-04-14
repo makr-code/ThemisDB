@@ -37,6 +37,20 @@ namespace gpu {
 
 GPUSafeFail::GPUSafeFail(const Config& cfg) : cfg_(cfg) {}
 
+void GPUSafeFail::reset(const Config& cfg) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    cfg_                  = cfg;
+    state_                = State::HEALTHY;
+    consecutive_failures_ = 0;
+    consecutive_successes_ = 0;
+    total_failures_       = 0;
+    total_operations_     = 0;
+    total_fallbacks_      = 0;
+    cpu_fallback_active_  = false;
+    last_error_.clear();
+    last_failure_type_    = FailureType::DEVICE_ERROR;
+}
+
 // ============================================================================
 // executeWithFallback
 // ============================================================================

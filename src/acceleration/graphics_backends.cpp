@@ -1178,6 +1178,12 @@ std::vector<float> VulkanVectorBackend::computeDistances(
     size_t numVectors,
     bool useL2  // true → L2, false → cosine (inner-product available via populateANNDispatch())
 ) {
+    (void)queries;
+    (void)numQueries;
+    (void)dim;
+    (void)vectors;
+    (void)numVectors;
+    (void)useL2;
 #ifdef THEMIS_ENABLE_VULKAN
     if (!initialized_ || !impl_) {
         setError(ErrorContext(
@@ -1246,6 +1252,13 @@ std::vector<std::vector<std::pair<uint32_t, float>>> VulkanVectorBackend::batchK
     size_t k,
     bool useL2
 ) {
+    (void)queries;
+    (void)numQueries;
+    (void)dim;
+    (void)vectors;
+    (void)numVectors;
+    (void)k;
+    (void)useL2;
 #ifdef THEMIS_ENABLE_VULKAN
     if (!initialized_ || !impl_) {
         setError(ErrorContext(
@@ -3010,6 +3023,12 @@ std::vector<float> OpenGLVectorBackend::computeDistances(
     size_t numVectors,
     bool useL2
 ) {
+    (void)queries;
+    (void)numQueries;
+    (void)dim;
+    (void)vectors;
+    (void)numVectors;
+    (void)useL2;
 #ifdef THEMIS_ENABLE_OPENGL
     if (!initialized_ || !impl_) {
         setError(ErrorContext(
@@ -3072,6 +3091,13 @@ std::vector<std::vector<std::pair<uint32_t, float>>> OpenGLVectorBackend::batchK
     size_t k,
     bool useL2
 ) {
+    (void)queries;
+    (void)numQueries;
+    (void)dim;
+    (void)vectors;
+    (void)numVectors;
+    (void)k;
+    (void)useL2;
 #ifdef THEMIS_ENABLE_OPENGL
     if (!initialized_ || !impl_) {
         setError(ErrorContext(
@@ -3233,6 +3259,11 @@ std::vector<float> OpenGLGeoBackend::batchDistances(
     size_t count,
     bool /*useHaversine*/
 ) {
+    (void)latitudes1;
+    (void)longitudes1;
+    (void)latitudes2;
+    (void)longitudes2;
+    (void)count;
 #ifdef THEMIS_ENABLE_OPENGL
     if (!initialized_) {
         setError(ErrorContext(
@@ -3284,6 +3315,11 @@ std::vector<bool> OpenGLGeoBackend::batchPointInPolygon(
     const double* polygonCoords,
     size_t numPolygonVertices
 ) {
+    (void)pointLats;
+    (void)pointLons;
+    (void)numPoints;
+    (void)polygonCoords;
+    (void)numPolygonVertices;
 #ifdef THEMIS_ENABLE_OPENGL
     if (!initialized_) {
         setError(ErrorContext(
@@ -3435,6 +3471,11 @@ std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchBFS(
     size_t numStarts,
     uint32_t maxDepth
 ) {
+    (void)adjacency;
+    (void)numVertices;
+    (void)startVertices;
+    (void)numStarts;
+    (void)maxDepth;
 #ifdef THEMIS_ENABLE_OPENGL
     if (!initialized_) {
         setError(ErrorContext(
@@ -3520,6 +3561,12 @@ std::vector<std::vector<uint32_t>> OpenGLGraphBackend::batchShortestPath(
     const uint32_t* endVertices,
     size_t numPairs
 ) {
+    (void)adjacency;
+    (void)weights;
+    (void)numVertices;
+    (void)startVertices;
+    (void)endVertices;
+    (void)numPairs;
 #ifdef THEMIS_ENABLE_OPENGL
     if (!initialized_) {
         setError(ErrorContext(
@@ -3861,6 +3908,11 @@ std::vector<float> VulkanGeoBackend::batchDistances(
     size_t count,
     bool /*useHaversine*/
 ) {
+    (void)latitudes1;
+    (void)longitudes1;
+    (void)latitudes2;
+    (void)longitudes2;
+    (void)count;
 #ifdef THEMIS_ENABLE_VULKAN
     if (!initialized_) {
         setError(ErrorContext(
@@ -3898,6 +3950,11 @@ std::vector<bool> VulkanGeoBackend::batchPointInPolygon(
     const double* polygonCoords,
     size_t numPolygonVertices
 ) {
+    (void)pointLats;
+    (void)pointLons;
+    (void)numPoints;
+    (void)polygonCoords;
+    (void)numPolygonVertices;
 #ifdef THEMIS_ENABLE_VULKAN
     if (!initialized_) {
         setError(ErrorContext(
