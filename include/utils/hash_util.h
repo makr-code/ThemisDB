@@ -139,9 +139,6 @@ inline constexpr uint64_t kFnv64Prime       = 1099511628211ULL;
     constexpr char kHex[] = "0123456789abcdef";
     const uint64_t h = fnv1a64(s);
     std::string out(16, '0');
-    for (int i = 15; i >= 0; --i) {
-        out[static_cast<std::size_t>(i)] = kHex[h >> (static_cast<unsigned>(i) * 4) & 0xFU];
-    }
     // Write most-significant nibble first
     for (int i = 0; i < 16; ++i) {
         out[static_cast<std::size_t>(i)] = kHex[(h >> (60 - i * 4)) & 0xFU];
