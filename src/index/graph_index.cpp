@@ -35,6 +35,7 @@
 #include "utils/audit_logger.h"  // Phase 1: Knowledge Graph Protection
 
 #include <queue>
+#include <shared_mutex>
 #include <unordered_set>
 #include <algorithm>
 #include <chrono>
@@ -302,7 +303,7 @@ GraphIndexManager::outNeighbors(std::string_view fromPk) const {
 
 	// Use in-memory topology if available (O(1) lookup)
 	if (topologyLoaded_) {
-		std::lock_guard<std::mutex> lock(topology_mutex_);
+		std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 		std::vector<std::string> result;
 		auto it = outEdges_.find(std::string(fromPk));
 		if (it != outEdges_.end()) {
@@ -336,7 +337,7 @@ GraphIndexManager::inNeighbors(std::string_view toPk) const {
 
 	// Use in-memory topology if available (O(1) lookup)
 	if (topologyLoaded_) {
-		std::lock_guard<std::mutex> lock(topology_mutex_);
+		std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 		std::vector<std::string> result;
 		auto it = inEdges_.find(std::string(toPk));
 		if (it != inEdges_.end()) {
@@ -364,7 +365,7 @@ GraphIndexManager::outAdjacency(std::string_view fromPk) const {
 
 	// In-Memory schnellpfad
 	if (topologyLoaded_) {
-		std::lock_guard<std::mutex> lock(topology_mutex_);
+		std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 		std::vector<AdjacencyInfo> result;
 		auto it = outEdges_.find(std::string(fromPk));
 		if (it != outEdges_.end()) {
@@ -393,7 +394,7 @@ GraphIndexManager::inAdjacency(std::string_view toPk) const {
 	if (!db_.isOpen()) return {Status::Error("inAdjacency: Datenbank ist nicht geöffnet"), {}};
 
 	if (topologyLoaded_) {
-		std::lock_guard<std::mutex> lock(topology_mutex_);
+		std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 		std::vector<AdjacencyInfo> result;
 		auto it = inEdges_.find(std::string(toPk));
 		if (it != inEdges_.end()) {
@@ -440,7 +441,7 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth) const {
 			order.push_back(node);
 			if (depth == maxDepth) continue;
 
-			std::lock_guard<std::mutex> lock(topology_mutex_);
+			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(node);
 			if (it != outEdges_.end()) {
 				for (const auto& adj : it->second) {
@@ -519,7 +520,7 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth, std::string_view 
 			order.push_back(node);
 			if (depth == maxDepth) continue;
 
-			std::lock_guard<std::mutex> lock(topology_mutex_);
+			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(node);
 			if (it != outEdges_.end()) {
 				for (const auto& adj : it->second) {
@@ -582,7 +583,7 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth, std::string_view 
 GraphIndexManager::Status GraphIndexManager::rebuildTopology() {
 	if (!db_.isOpen()) return Status::Error("rebuildTopology: Datenbank ist nicht geöffnet");
 
-	std::lock_guard<std::mutex> lock(topology_mutex_);
+	std::lock_guard<std::shared_mutex> lock(topology_mutex_);
 
 	// Clear existing topology
 	outEdges_.clear();
@@ -615,14 +616,14 @@ GraphIndexManager::Status GraphIndexManager::rebuildTopology() {
 }
 
 void GraphIndexManager::addEdgeToTopology_(const std::string& edgeId, const std::string& fromPk, const std::string& toPk, const std::string& graphId) {
-	std::lock_guard<std::mutex> lock(topology_mutex_);
+	std::lock_guard<std::shared_mutex> lock(topology_mutex_);
 	outEdges_[fromPk].push_back({edgeId, toPk, graphId});
 	inEdges_[toPk].push_back({edgeId, fromPk, graphId});
 }
 
 void GraphIndexManager::removeEdgeFromTopology_(const std::string& edgeId, const std::string& fromPk, const std::string& toPk, const std::string& graphId) {
 	(void)graphId;
-	std::lock_guard<std::mutex> lock(topology_mutex_);
+	std::lock_guard<std::shared_mutex> lock(topology_mutex_);
 
 	// Remove from outEdges_
 	auto outIt = outEdges_.find(fromPk);
@@ -646,7 +647,7 @@ void GraphIndexManager::removeEdgeFromTopology_(const std::string& edgeId, const
 }
 
 size_t GraphIndexManager::getTopologyNodeCount() const {
-	std::lock_guard<std::mutex> lock(topology_mutex_);
+	std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 	std::unordered_set<std::string> nodes;
 	for (const auto& [node, _] : outEdges_) nodes.insert(node);
 	for (const auto& [node, _] : inEdges_) nodes.insert(node);
@@ -656,7 +657,7 @@ size_t GraphIndexManager::getTopologyNodeCount() const {
 std::pair<GraphIndexManager::Status, std::vector<std::string>>
 GraphIndexManager::allVertices() const {
 	{
-		std::lock_guard<std::mutex> lock(topology_mutex_);
+		std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 		if (topologyLoaded_) {
 			// Fast path: in-memory topology is populated.
 			std::unordered_set<std::string> seen;
@@ -707,7 +708,7 @@ GraphIndexManager::allVertices() const {
 }
 
 size_t GraphIndexManager::getTopologyEdgeCount() const {
-	std::lock_guard<std::mutex> lock(topology_mutex_);
+	std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 	size_t total = 0;
 	for (const auto& [_, edges] : outEdges_) {
 		total += edges.size();
@@ -716,7 +717,7 @@ size_t GraphIndexManager::getTopologyEdgeCount() const {
 }
 
 std::vector<std::string> GraphIndexManager::getAllVertices() const {
-	std::lock_guard<std::mutex> lock(topology_mutex_);
+	std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 	std::unordered_set<std::string> nodes;
 	for (const auto& [node, _] : outEdges_) nodes.insert(node);
 	for (const auto& [node, _] : inEdges_) nodes.insert(node);
@@ -826,7 +827,7 @@ std::optional<std::string> GraphIndexManager::getEdgeField(
 	auto blob = db_.get(edgeKey);
 	if (!blob.has_value()) {
 		// Try the topology keys in the in-memory edge map to find a graphId
-		std::lock_guard<std::mutex> lk(topology_mutex_);
+		std::shared_lock<std::shared_mutex> lk(topology_mutex_);
 		for (const auto& [from, adj_list] : outEdges_) {
 			for (const auto& adj : adj_list) {
 				if (adj.edgeId == edgeId && !adj.graphId.empty()) {
@@ -959,7 +960,7 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk)
 		// Nachbarn holen (In-Memory falls verfügbar)
 		std::vector<std::string> neighbors;
 		if (topologyLoaded_) {
-			std::lock_guard<std::mutex> lock(topology_mutex_);
+			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(node);
 			if (it != outEdges_.end()) {
 				for (const auto& adj : it->second) {
@@ -1070,7 +1071,7 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk,
 
 		// Nachbarn holen (In-Memory falls verfügbar)
 		if (topologyLoaded_) {
-			std::lock_guard<std::mutex> lock(topology_mutex_);
+			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(node);
 			if (it != outEdges_.end()) {
 				for (const auto& adj : it->second) {
@@ -1184,7 +1185,7 @@ GraphIndexManager::aStar(std::string_view startPk, std::string_view targetPk, He
 
 		// Nachbarn holen
 		if (topologyLoaded_) {
-			std::lock_guard<std::mutex> lock(topology_mutex_);
+			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(node);
 			if (it != outEdges_.end()) {
 				for (const auto& adj : it->second) {
@@ -1899,7 +1900,7 @@ GraphIndexManager::bfsWithConstraints(
 			
 			if (depth == maxDepth) continue;
 
-			std::lock_guard<std::mutex> lock(topology_mutex_);
+			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto it = outEdges_.find(node);
 			if (it != outEdges_.end()) {
 				for (const auto& adj : it->second) {
@@ -2102,7 +2103,7 @@ GraphIndexManager::dijkstraWithConstraints(
 		// Get neighbors
 		std::vector<AdjacencyInfo> neighbors;
 		if (topologyLoaded_) {
-			std::lock_guard<std::mutex> lock(topology_mutex_);
+			std::shared_lock<std::shared_mutex> lock(topology_mutex_);
 			auto adj_it = outEdges_.find(current.node);
 			if (adj_it != outEdges_.end()) {
 				neighbors = adj_it->second;
