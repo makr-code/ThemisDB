@@ -117,7 +117,8 @@ jobs:
 
       - name: Setup vcpkg
         run: |
-          if [ ! -d "vcpkg" ]; then
+          if [ ! -x "vcpkg/bootstrap-vcpkg.sh" ]; then
+            rm -rf vcpkg
             git clone https://github.com/microsoft/vcpkg.git vcpkg
           fi
           ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
