@@ -131,7 +131,33 @@ struct UpdatesConfig {
          */
         ::themis::updates::CanaryConfig toCanaryConfig(const std::string& version) const;
     } canary;
-    
+
+    // Anonymous Hardware Telemetry Settings
+    struct TelemetryConfig {
+        bool enabled = false;                  // Master on/off – opt-in only
+
+        // HTTP(S) endpoint that receives the JSON telemetry payload.
+        // Override this in updates.yaml to point at your own collector.
+        std::string endpoint_url = "https://telemetry.themisdb.io/v1/hardware";
+
+        // How often to send a report (seconds).
+        int send_interval_seconds = 3600;
+
+        // Fine-grained field switches – all default to true when telemetry
+        // is enabled, so operators can strip individual fields if desired.
+        bool include_cpu_model = true;
+        bool include_cpu_cores = true;
+        bool include_ram_mb    = true;
+        bool include_os        = true;
+        bool include_arch      = true;
+
+        // HTTP timeout per send attempt (seconds).
+        int http_timeout_seconds = 10;
+
+        // Maximum number of consecutive send retries before skipping an interval.
+        int max_retries = 2;
+    } telemetry;
+
     /**
      * @brief Load configuration from YAML file
      */

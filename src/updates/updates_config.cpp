@@ -154,6 +154,32 @@ UpdatesConfig UpdatesConfig::loadFromYaml(const std::string& yaml_path) {
             }
         }
 
+        // Load anonymous hardware telemetry settings
+        if (config["updates"] && config["updates"]["telemetry"]) {
+            auto tel = config["updates"]["telemetry"];
+            result.telemetry.enabled =
+                tel["enabled"].as<bool>(false);
+            result.telemetry.endpoint_url =
+                tel["endpoint_url"].as<std::string>(
+                    "https://telemetry.themisdb.io/v1/hardware");
+            result.telemetry.send_interval_seconds =
+                tel["send_interval_seconds"].as<int>(3600);
+            result.telemetry.include_cpu_model =
+                tel["include_cpu_model"].as<bool>(true);
+            result.telemetry.include_cpu_cores =
+                tel["include_cpu_cores"].as<bool>(true);
+            result.telemetry.include_ram_mb =
+                tel["include_ram_mb"].as<bool>(true);
+            result.telemetry.include_os =
+                tel["include_os"].as<bool>(true);
+            result.telemetry.include_arch =
+                tel["include_arch"].as<bool>(true);
+            result.telemetry.http_timeout_seconds =
+                tel["http_timeout_seconds"].as<int>(10);
+            result.telemetry.max_retries =
+                tel["max_retries"].as<int>(2);
+        }
+        
         LOG_INFO("Loaded updates configuration from {}", yaml_path);
         return result;
     } catch (const std::exception& e) {
@@ -241,6 +267,32 @@ UpdatesConfig UpdatesConfig::fromJson(const json& j) {
                     result.canary.stages.push_back(stage);
                 }
             }
+        }
+
+        // Load anonymous hardware telemetry settings
+        if (j.contains("telemetry")) {
+            auto tel = j["telemetry"];
+            result.telemetry.enabled =
+                tel.value("enabled", false);
+            result.telemetry.endpoint_url =
+                tel.value("endpoint_url",
+                          std::string("https://telemetry.themisdb.io/v1/hardware"));
+            result.telemetry.send_interval_seconds =
+                tel.value("send_interval_seconds", 3600);
+            result.telemetry.include_cpu_model =
+                tel.value("include_cpu_model", true);
+            result.telemetry.include_cpu_cores =
+                tel.value("include_cpu_cores", true);
+            result.telemetry.include_ram_mb =
+                tel.value("include_ram_mb", true);
+            result.telemetry.include_os =
+                tel.value("include_os", true);
+            result.telemetry.include_arch =
+                tel.value("include_arch", true);
+            result.telemetry.http_timeout_seconds =
+                tel.value("http_timeout_seconds", 10);
+            result.telemetry.max_retries =
+                tel.value("max_retries", 2);
         }
     } catch (const std::exception& e) {
         LOG_ERROR("Failed to parse updates configuration from JSON: {}", e.what());
