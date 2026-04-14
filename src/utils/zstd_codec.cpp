@@ -112,6 +112,9 @@ Result<std::vector<uint8_t>> zstd_compress_safe(const uint8_t* data, size_t size
     
     return Ok(std::move(output));
 #else
+    (void)data;
+    (void)size;
+    (void)level;
     return Err<std::vector<uint8_t>>(
         errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
         "ZSTD support not compiled in (THEMIS_HAS_ZSTD not defined)"
@@ -220,6 +223,7 @@ Result<std::vector<uint8_t>> zstd_decompress_safe(const std::vector<uint8_t>& co
     
     return Ok(std::move(output));
 #else
+    (void)compressed;
     return Err<std::vector<uint8_t>>(
         errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
         "ZSTD support not compiled in (THEMIS_HAS_ZSTD not defined)"
@@ -300,6 +304,8 @@ Result<std::vector<uint8_t>> ZstdStreamCompressor::compress_chunk(const uint8_t*
     }
     return Ok(std::move(output));
 #else
+    (void)data;
+    (void)size;
     return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
                                       "ZSTD support not compiled in");
 #endif
@@ -339,6 +345,7 @@ void ZstdStreamCompressor::reset(int level) {
 #ifdef THEMIS_HAS_ZSTD
     if (impl_->cstream) impl_->reinit(level);
 #else
+    (void)level;
 #endif
 }
 
@@ -401,6 +408,8 @@ Result<std::vector<uint8_t>> ZstdStreamDecompressor::decompress_chunk(const uint
     }
     return Ok(std::move(output));
 #else
+    (void)data;
+    (void)size;
     return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
                                       "ZSTD support not compiled in");
 #endif

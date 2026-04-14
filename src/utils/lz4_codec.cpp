@@ -87,6 +87,9 @@ Result<std::vector<uint8_t>> lz4_compress_safe(const uint8_t* data, size_t size,
     THEMIS_DEBUG("LZ4 compressed {} → {} bytes", size, compressed_size);
     return Ok(std::move(output));
 #else
+    (void)data;
+    (void)size;
+    (void)acceleration;
     return Err<std::vector<uint8_t>>(
         errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
         "LZ4 support not compiled in (THEMIS_HAS_LZ4 not defined)");
@@ -132,6 +135,8 @@ Result<std::vector<uint8_t>> lz4_decompress_safe(const std::vector<uint8_t>& com
     THEMIS_DEBUG("LZ4 decompressed {} → {} bytes", compressed.size(), result);
     return Ok(std::move(output));
 #else
+    (void)compressed;
+    (void)original_size;
     return Err<std::vector<uint8_t>>(
         errors::ErrorCode::ERR_UTIL_COMPRESSION_FAILED,
         "LZ4 support not compiled in (THEMIS_HAS_LZ4 not defined)");

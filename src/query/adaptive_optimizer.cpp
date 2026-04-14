@@ -271,6 +271,7 @@ AdaptivePlanSelector::PlanChoice AdaptivePlanSelector::getAlternativePlan(
 double DistributedQueryCostModel::estimateDistributedQueryCost(
     const std::vector<ShardInfo>& involved_shards,
     size_t estimated_result_rows) const {
+    (void)estimated_result_rows;
     
     double total_cost = 0.0;
     
@@ -297,6 +298,8 @@ DistributedQueryCostModel::estimateCrossShardJoinCost(
     const ShardInfo& right_shard,
     size_t left_rows,
     size_t right_rows) const {
+    (void)left_shard;
+    (void)right_shard;
     
     CrossShardJoinCost result;
     result.total_cost = CROSS_SHARD_JOIN_OVERHEAD;
@@ -334,6 +337,7 @@ bool DistributedQueryCostModel::shouldPrunePartition(
     const ShardInfo& shard,
     size_t total_shards,
     double selectivity) const {
+    (void)total_shards;
     
     // Prune if shard has very few relevant rows
     if (selectivity < 0.01) {
@@ -453,6 +457,8 @@ bool MultiIndexOptimizer::shouldUseIndexIntersection(
 NumaAwareOptimizer::NumaPlacement NumaAwareOptimizer::getOptimalPlacement(
     size_t data_size_bytes,
     size_t parallelism) const {
+    (void)data_size_bytes;
+    (void)parallelism;
     
     NumaPlacement placement;
     placement.preferred_numa_node = 0;  // Default to node 0
