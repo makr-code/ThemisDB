@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rubric_evaluator.h                                 ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:19:09                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:25:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

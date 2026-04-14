@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_subscription_auth.cpp                     ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:36:31                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:42:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

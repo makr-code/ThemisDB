@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cuda_graph_capture.cpp                        ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:37:44                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:43:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

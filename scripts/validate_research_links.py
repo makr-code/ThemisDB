@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            validate_research_links.py                         ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-04-13 04:23:15                                ║
+  Version:         0.0.16                                             ║
+  Last Modified:   2026-04-13 20:29:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

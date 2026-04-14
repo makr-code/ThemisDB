@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ldap_authenticator.cpp                        ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:40:52                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:46:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

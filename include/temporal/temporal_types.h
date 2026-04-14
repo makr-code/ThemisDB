@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            temporal_types.h                                   ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:21:01                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:27:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wasm_runtime_injector.h                            ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:21:07                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:27:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

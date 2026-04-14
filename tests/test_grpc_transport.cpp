@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_grpc_transport.cpp                            ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:39:42                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:45:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

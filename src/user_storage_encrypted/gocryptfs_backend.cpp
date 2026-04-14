@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gocryptfs_backend.cpp                              ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:32:06                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:37:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

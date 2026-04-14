@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            async_job_api_handler.cpp                          ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:29:55                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:35:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

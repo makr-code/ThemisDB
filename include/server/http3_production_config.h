@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http3_production_config.h                          ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:20:02                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:26:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

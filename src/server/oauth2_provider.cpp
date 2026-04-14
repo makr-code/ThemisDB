@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            oauth2_provider.cpp                                ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:30:10                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:36:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

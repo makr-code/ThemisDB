@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_authenticator.cpp                            ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:32:23                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:38:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

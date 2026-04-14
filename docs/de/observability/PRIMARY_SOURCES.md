@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [observability](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-13  
+**Datum:** 2026-04-14  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `include/observability/ARCHITECTURE.md`
@@ -55,4 +55,4 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`observabil
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-13*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-14*

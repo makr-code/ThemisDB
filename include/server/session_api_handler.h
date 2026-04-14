@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            session_api_handler.h                              ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:20:17                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:26:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

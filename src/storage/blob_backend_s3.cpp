@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            blob_backend_s3.cpp                                ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:30:49                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:36:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

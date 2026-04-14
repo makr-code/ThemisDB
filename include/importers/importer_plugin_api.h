@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            importer_plugin_api.h                              ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:15:44                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:22:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

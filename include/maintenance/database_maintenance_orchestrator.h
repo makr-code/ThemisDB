@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            database_maintenance_orchestrator.h                ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:16:51                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:23:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     412                                            ║
+    • Total Lines:     496                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 53b0c36537  2026-04-13  feat(maintenance): Distributed Maintenance Coordination v... ║
+    • 12bb69b756  2026-04-13  feat(maintenance): multi-tenant schedule isolation (v2.0.... ║
     • 717093f9bc  2026-03-12  feat: implement IMaintenanceTaskHandler registry for main... ║
     • 0a16483a8a  2026-03-12  feat(maintenance): upgrade schedules_mutex_ and jobs_mute... ║
     • e434e1c0ff  2026-03-12  Apply review feedback: validate task refs, stable orderin... ║
-    • de8a5ac414  2026-03-12  Implement explicit per-task DAG with depends_on (v1.2.0 f... ║
-    • 5d2cef871d  2026-03-12  fix: address PR review comments for schedule persistence ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

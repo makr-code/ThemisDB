@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_train_parser.cpp                               ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:26:33                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:32:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_consumer_group.cpp                        ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:36:11                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:41:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

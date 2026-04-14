@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            index_manager.cpp                                  ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:26:13                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:32:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     845                                            ║
+    • Total Lines:     862                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • e823c7d48e  2026-04-13  feat(index): add IndexManager::exportIndexStats for metad... ║
     • 9f5c953436  2026-04-07  feat(config): Introduce new hierarchical configuration st... ║
     • dd49fe5493  2026-04-07  fix(index): tenant key separator injection – validate col... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 49aa9b0586  2026-03-02  Add modules, extraction retries, and test fixes ║
-    • bb886db939  2026-02-28  feat(index): implement SecondaryIndexAdapter for partial/... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

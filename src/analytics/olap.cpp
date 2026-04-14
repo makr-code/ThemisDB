@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            olap.cpp                                           ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:23:34                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:29:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   80.0/100                                       ║
+    • Quality Score:   90.0/100                                       ║
     • Total Lines:     1766                                           ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
+    • 3e8584c2c9  2026-04-13  fix(analytics): replace whole-class _WIN32 OLAPEngine stu... ║
     • 1e59da9797  2026-03-19  Fix remaining gaps: spdlog::warn in olap.cpp/analytics_ex... ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • d5fae2ab24  2026-03-18  Changes before error encountered        ║
-    • 89af7a908e  2026-03-17  perf(analytics): cache AVX-512 CPUID check in static cons... ║
-    • e517067372  2026-03-17  feat(analytics): add AVX-512 and ARM NEON SIMD vectorizat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            compressed_storage.cpp                             ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:30:50                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:36:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

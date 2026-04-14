@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hybrid_retention_manager.h                         ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:19:22                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:25:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_speculative_decoder.cpp                       ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:46:43                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:51:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     540                                            ║
+    • Total Lines:     718                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • fe135d5215  2026-04-13  feat(llm): Speculative Decoding for Latency Reduction — v... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 747406559a  2026-02-28  fix(llm): code audit — thread safety, seed truncation, re... ║
     • 3ec167f3dc  2026-02-28  feat(llm): implement speculative decoding for latency red... ║

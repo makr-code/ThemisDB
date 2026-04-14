@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_transaction_throughput.cpp                   ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:12:17                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:19:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

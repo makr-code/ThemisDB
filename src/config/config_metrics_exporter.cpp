@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_metrics_exporter.cpp                        ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:24:29                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:30:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

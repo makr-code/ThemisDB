@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            metrics_collector.cpp                              ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:27:32                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:33:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     461                                            ║
+    • Total Lines:     468                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
     • 692780f01b  2026-03-15  feat(observability): upgrade MetricsCollector to shared_m... ║
     • 240f91cc62  2026-03-09  feat(observability): add Prometheus exemplar support on h... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║

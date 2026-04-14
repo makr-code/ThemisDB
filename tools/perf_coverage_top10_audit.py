@@ -1,48 +1,27 @@
-#!/usr/bin/env python3
 """
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            perf_coverage_top10_audit.py                       ║
-  Version:         1.0.0                                              ║
-  Last Modified:   2026-04-13                                         ║
-  Author:          Copilot                                            ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-13 20:54:46                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
+    • Maturity Level:  🟠 BETA                                         ║
+    • Quality Score:   58.0/100                                       ║
+    • Total Lines:     1052                                           ║
+    • Open Issues:     TODOs: 1, Stubs: 11                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
+  Revision History:                                                   ║
+    • 1071f1d20f  2026-04-13  feat(governance): Disabled-Stub-Policy für Benchmarks ein... ║
+    • 68ce40a2f9  2026-04-13  feat: automated §1.5 root-cause audit for PERFORMANCE_EXP... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 🔧 In Progress                                               ║
 ╚═════════════════════════════════════════════════════════════════════╝
-
-ThemisDB Performance Coverage Top-10 Measures Audit (§1.4)
-============================================================
-
-Verifies the status of the Top-10 benchmark coverage measures defined in
-``PERFORMANCE_EXPECTATIONS.md §1.4`` against the actual source code, build
-system and CI configuration.
-
-Exit codes
-----------
-    0   All FAIL-class checks pass (may include WARN / INFO).
-    1   At least one FAIL: a measure that should be DONE is provably NOT done,
-        or a measure that should NOT regress has regressed.
-    2   Internal error / bad arguments.
-
-Usage
------
-    python3 tools/perf_coverage_top10_audit.py [OPTIONS]
-
-Options
--------
-    --repo-root DIR       Repository root (default: auto-detect from script location)
-    --perf-doc PATH       Path to PERFORMANCE_EXPECTATIONS.md (relative to repo-root)
-    --output-dir DIR      Directory for report artefacts (relative to repo-root)
-    --format {json,text,both}  Output format (default: both)
-    --no-color            Disable ANSI colour output
-    -q, --quiet           Suppress per-finding detail; only print summary
 """
 
+#!/usr/bin/env python3
 from __future__ import annotations
 
 import argparse
@@ -435,7 +414,8 @@ def _m06_llm_model_artifact_preparation(repo_root: Path) -> List[Finding]:
     fid, label = "M06", "LLM/LoRA/gguf model artifact preparation"
     findings: List[Finding] = []
 
-    # Check for setup scripts
+    # Check for setup scripts (canonical names checked by this audit +
+    # the ThemisDB implementation script)
     setup_patterns = [
         "scripts/download_models.sh",
         "scripts/setup_llm_models.sh",
@@ -445,8 +425,15 @@ def _m06_llm_model_artifact_preparation(repo_root: Path) -> List[Finding]:
         "scripts/setup_benchmarks.sh",
         "scripts/model_setup.sh",
         "scripts/model_setup.py",
+        # ThemisDB implementation script (Maßnahme #6)
+        "scripts/prepare_llm_bench_artifacts.sh",
     ]
     found_scripts = [p for p in setup_patterns if _file_exists(repo_root, p)]
+
+    # Also check for the standardised C++ preflight header
+    has_preflight_header = _file_exists(
+        repo_root, "benchmarks/benchmark_artifact_preflight.h"
+    )
 
     # Check for LLM benchmark docs mentioning setup
     llm_doc_paths = [
@@ -468,7 +455,7 @@ def _m06_llm_model_artifact_preparation(repo_root: Path) -> List[Finding]:
     if workflows_dir.is_dir():
         for wf in workflows_dir.glob("*.yml"):
             c = _read_file(wf)
-            if c and re.search(r"gguf|download.*model|model.*download|benchmark.*model", c, re.IGNORECASE):
+            if c and re.search(r"gguf|download.*model|model.*download|benchmark.*model|download_models|prepare_llm_bench", c, re.IGNORECASE):
                 model_setup_wf.append(wf.name)
 
     if found_scripts:
@@ -492,6 +479,19 @@ def _m06_llm_model_artifact_preparation(repo_root: Path) -> List[Finding]:
             "LLM/RAG/LoRA benchmarks will fail with missing-artifact errors in a clean CI environment.",
             evidence="Benchmark files: bench_llm_inference_performance.cpp, "
                      "bench_lora_framework.cpp, bench_multi_lora_fusion.cpp etc.",
+        ))
+
+    if has_preflight_header:
+        findings.append(Finding(
+            fid, label, "OK", "benchmark_preflight_header_found",
+            "benchmarks/benchmark_artifact_preflight.h present – "
+            "benchmarks can call LLMArtifactPreflight::create() for clear error messages.",
+        ))
+    else:
+        findings.append(Finding(
+            fid, label, "WARN", "benchmark_preflight_header_missing",
+            "benchmarks/benchmark_artifact_preflight.h not found. "
+            "Without it, benchmarks may fail with opaque errors when artefacts are absent.",
         ))
 
     if model_setup_wf:

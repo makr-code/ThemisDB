@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            format_template.cpp                                ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:24:53                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:31:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

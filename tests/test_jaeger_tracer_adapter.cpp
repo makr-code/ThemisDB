@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_jaeger_tracer_adapter.cpp                     ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:40:41                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:45:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

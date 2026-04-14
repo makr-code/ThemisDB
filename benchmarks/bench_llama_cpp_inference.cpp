@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_llama_cpp_inference.cpp                      ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-04-13 04:11:53                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-04-13 20:18:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   73.0/100                                       ║
-    • Total Lines:     229                                            ║
+    • Total Lines:     251                                            ║
     • Open Issues:     TODOs: 0, Stubs: 6                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 8332e5afa3  2026-04-13  Refactor and update various components for improved compa... ║
     • 4c802da514  2026-04-12  feat(benchmarks): add 9 missing benchmark suites for util... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║

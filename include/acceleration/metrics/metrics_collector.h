@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            metrics_collector.h                                ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:13:05                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:19:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

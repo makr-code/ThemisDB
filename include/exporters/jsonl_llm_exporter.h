@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            jsonl_llm_exporter.h                               ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:15:10                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:21:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graphql_ws_handler.h                               ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:13:29                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:20:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

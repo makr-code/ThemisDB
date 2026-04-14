@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_scan_counters.cpp                             ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-13 04:45:52                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-13 20:50:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

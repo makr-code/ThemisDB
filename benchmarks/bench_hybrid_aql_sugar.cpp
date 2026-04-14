@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_hybrid_aql_sugar.cpp                         ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:11:49                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:18:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

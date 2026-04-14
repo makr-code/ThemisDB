@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_manager_embedding.cpp                      ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:24:32                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:30:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

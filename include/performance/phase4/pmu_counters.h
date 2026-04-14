@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pmu_counters.h                                     ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:17:51                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:24:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

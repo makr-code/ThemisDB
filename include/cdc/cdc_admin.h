@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cdc_admin.h                                        ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:14:14                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:20:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     341                                            ║
+    • Total Lines:     374                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 13a305368a  2026-04-13  feat(cdc): GDPR redaction audit log (cdc_redactions CF) +... ║
     • a9f387ce07  2026-03-11  feat(cdc): runtime-configurable change log retention poli... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • de9fb43e7e  2026-03-01  Implement CDC event filtering by operation type ║
     • 06f59a69f9  2026-02-24  fix(cdc): restore missing deleteOldEvents signature; fix ... ║
-    • 7a2028071f  2026-02-24  feat(cdc): implement GDPR-aware change log redaction for ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_policy_yaml.cpp                               ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:43:36                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:48:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

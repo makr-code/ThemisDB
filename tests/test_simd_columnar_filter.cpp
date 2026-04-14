@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_simd_columnar_filter.cpp                      ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-04-13 04:46:36                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-04-13 20:51:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     500                                            ║
+    • Total Lines:     481                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

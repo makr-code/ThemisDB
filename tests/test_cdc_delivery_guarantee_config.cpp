@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_delivery_guarantee_config.cpp             ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-13 04:36:16                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-13 20:41:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ws_handler.h                                       ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:13:34                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:20:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_adaptive_deadlock_prevention.cpp              ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:34:41                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:40:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

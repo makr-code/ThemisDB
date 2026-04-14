@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lora_provenance.h                                  ║
-  Version:         0.0.31                                             ║
-  Last Modified:   2026-04-13 04:16:39                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-04-13 20:23:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -53,6 +53,19 @@ jobs:
         run: mkdir -p "$ARTIFACT_DIR/audit"
 
       # -------------------------------------------------------------------------
+      # LLM / LoRA / gguf artefact preparation (Maßnahme #6)
+      # Must run before the CMake build so THEMIS_MODEL_DIR is set for all
+      # subsequent steps.  Uses stub models so no GPU / HuggingFace download is
+      # required on standard CI runners.
+      # -------------------------------------------------------------------------
+      - name: Prepare LLM/LoRA benchmark artefacts (stub mode)
+        run: |
+          bash scripts/download_models.sh --stub-only \
+            2>&1 | tee "$ARTIFACT_DIR/artifact_prep.log"
+          echo "THEMIS_MODEL_DIR=$THEMIS_MODEL_DIR" >> "$GITHUB_ENV"
+          echo "THEMIS_LLM_STUB_MODELS=ON"          >> "$GITHUB_ENV"
+
+      # -------------------------------------------------------------------------
       # CMake configuration using nightly-bench-sweep preset.
       # Falls back gracefully when the full C++ build environment is not
       # available (e.g. missing vcpkg/dependencies): we still run the Python-

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lockfree_metrics_buffer.h                          ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:17:43                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:24:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

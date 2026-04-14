@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            sd_prompt_sanitizer.cpp                            ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-04-13 04:30:45                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-04-13 20:36:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     75                                             ║
+    • Total Lines:     97                                             ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_timeseries_adaptive_flush.cpp                ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-04-13 04:12:17                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-04-13 20:18:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   96.0/100                                       ║
-    • Total Lines:     428                                            ║
+    • Total Lines:     452                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

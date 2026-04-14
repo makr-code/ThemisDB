@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            schema_migration.cpp                               ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:32:02                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:37:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            memory_pressure.cpp                                ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:27:50                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:33:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     267                                            ║
+    • Total Lines:     269                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • da9b09bccc  2026-02-25  chore: code-audit fixes - update header metadata, remove ... ║
     • 218376a770  2026-02-25  feat(performance): implement memory pressure monitoring w... ║

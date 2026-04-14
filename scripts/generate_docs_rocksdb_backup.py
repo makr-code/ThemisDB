@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            generate_docs_rocksdb_backup.py                    ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:23:04                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:29:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

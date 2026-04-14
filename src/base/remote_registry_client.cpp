@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            remote_registry_client.cpp                         ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:24:09                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:30:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

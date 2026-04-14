@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            workload_predictor.h                               ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:17:53                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:24:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

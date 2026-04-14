@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tiered_index_manager.cpp                           ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:26:16                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:32:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

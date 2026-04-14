@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_aql_functions.cpp                             ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:35:05                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:40:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

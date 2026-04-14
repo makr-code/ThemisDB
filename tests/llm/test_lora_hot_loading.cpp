@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_lora_hot_loading.cpp                          ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:33:56                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:39:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

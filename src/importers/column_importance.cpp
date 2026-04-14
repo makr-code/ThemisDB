@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            column_importance.cpp                              ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:25:46                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:31:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

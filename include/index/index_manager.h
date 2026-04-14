@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            index_manager.h                                    ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:16:06                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:22:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     219                                            ║
+    • Total Lines:     244                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • e823c7d48e  2026-04-13  feat(index): add IndexManager::exportIndexStats for metad... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • bb886db939  2026-02-28  feat(index): implement SecondaryIndexAdapter for partial/... ║
     • 0ed251f658  2026-02-28  feat(index): implement VectorIndexAdapter to resolve IVec... ║
     • 92ff271635  2026-02-26  feat(index): implement multi-tenancy index isolation with... ║
-    • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

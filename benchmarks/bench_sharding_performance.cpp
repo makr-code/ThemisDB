@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_sharding_performance.cpp                     ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:12:12                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:18:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

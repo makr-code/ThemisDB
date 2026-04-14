@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_hsm_bundle_signing.cpp                        ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:39:53                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:45:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

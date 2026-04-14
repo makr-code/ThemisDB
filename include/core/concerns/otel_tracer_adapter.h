@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            otel_tracer_adapter.h                              ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:14:55                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:21:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_behoerden_genehmigungsverfahren_e2e.cpp       ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-13 04:35:39                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-13 20:41:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

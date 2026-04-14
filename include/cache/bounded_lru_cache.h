@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bounded_lru_cache.h                                ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-13 04:14:05                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-13 20:20:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

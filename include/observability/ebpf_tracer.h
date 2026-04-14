@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ebpf_tracer.h                                      ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:17:25                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:23:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

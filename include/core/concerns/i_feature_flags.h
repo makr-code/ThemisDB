@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            i_feature_flags.h                                  ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 04:14:51                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-13 20:21:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

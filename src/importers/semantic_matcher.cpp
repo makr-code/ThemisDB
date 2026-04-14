@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            semantic_matcher.cpp                               ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 04:26:04                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-13 20:32:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
