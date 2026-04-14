@@ -61,6 +61,9 @@ BENCHMARKS_DIR = REPO_ROOT / "benchmarks"
 
 REQUIRED_ENTRY_FIELDS = {"primary_benchmark", "file"}
 
+# Valid values for the optional "status" field
+VALID_STATUS_VALUES = {"mapped", "proxy", "not_measurable", "gap"}
+
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
@@ -276,6 +279,61 @@ def check_full_coverage(data: dict) -> bool:
 
 
 # ---------------------------------------------------------------------------
+# Check 6 – status field validation and coverage quote
+# ---------------------------------------------------------------------------
+
+def check_status_and_coverage(data: dict) -> bool:
+    """
+    Optional check: validate the 'status' field on each entry (when present)
+    and print a coverage-quote breakdown per status category.
+    """
+    counts: dict[str, int] = {s: 0 for s in VALID_STATUS_VALUES}
+    counts["(missing)"] = 0
+    invalid: list[str] = []
+
+    for module, targets in data["modules"].items():
+        for tid, entry in targets.items():
+            status = entry.get("status")
+            if status is None:
+                counts["(missing)"] += 1
+            elif status not in VALID_STATUS_VALUES:
+                invalid.append(f"{module}/{tid}: invalid status '{status}'")
+                counts["(missing)"] += 1
+            else:
+                counts[status] += 1
+
+    if invalid:
+        for msg in invalid:
+            _err(msg)
+        return False
+
+    total = sum(v for k, v in counts.items() if k != "(missing)")
+    total += counts["(missing)"]
+    directly_mapped = counts.get("mapped", 0)
+    proxy_count = counts.get("proxy", 0)
+    not_measurable_count = counts.get("not_measurable", 0)
+    gap_count = counts.get("gap", 0)
+    missing_count = counts["(missing)"]
+
+    coverage_pct = (directly_mapped / total * 100) if total > 0 else 0.0
+
+    print(f"  Coverage quote  : {directly_mapped}/{total} entries with status='mapped' "
+          f"= {coverage_pct:.1f}%")
+    print(f"  proxy           : {proxy_count}")
+    print(f"  not_measurable  : {not_measurable_count}")
+    print(f"  gap (open tasks): {gap_count}")
+    if missing_count:
+        _warn(f"{missing_count} entries are missing the 'status' field")
+    else:
+        _ok("All entries carry a valid 'status' field")
+
+    if gap_count:
+        _warn(f"{gap_count} gap entries require a benchmark case (open subtasks)")
+
+    return True
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -304,6 +362,9 @@ def main() -> int:
 
     print("\n[5] Cross-reference: all PERFORMANCE_EXPECTATIONS.md IDs mapped")
     results.append(check_full_coverage(data))
+
+    print("\n[6] Status field validation and coverage quote")
+    results.append(check_status_and_coverage(data))
 
     print("\n" + "=" * 60)
     passed = all(results)
