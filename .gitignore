@@ -452,3 +452,7 @@ build_alt/
 /build3/
 /build4/
 /build5/
+
+# act local CI secrets and config
+.secrets
+.actrc
