@@ -311,8 +311,8 @@ void MTLSClient::reset() {
     }
 }
 
-bool MTLSClient::verifyPeerCertificate(bool preverified, void* ctx) {
-    (void)ctx; // Future: extract certificate for detailed validation
+bool MTLSClient::verifyPeerCertificate(bool preverified, [[maybe_unused]] void* ctx) {
+    // Future: extract certificate for detailed validation
     // In production, this would:
     // 1. Extract peer certificate from context
     // 2. Parse shard certificate info using PKIShardCertificate

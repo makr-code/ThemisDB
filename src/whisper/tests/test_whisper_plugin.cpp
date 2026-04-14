@@ -421,7 +421,6 @@ TEST(WhisperPluginFocusedTests, K1_ConcurrentTranscribeDoesNotCrash) {
             const std::vector<float> pcm(160, 0.0f);
             for (int j = 0; j < kCalls; ++j) {
                 auto res = p.transcribe(pcm, 16000.f);
-                (void)res;
             }
         });
     }

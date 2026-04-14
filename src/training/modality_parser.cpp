@@ -419,7 +419,7 @@ OCRExtractor::OCRExtractor(const ModalityParserConfig& config)
     // (production: call TessBaseAPI::Init and check return code)
     available_ = config_.enable_ocr;
 #endif
-    (void)config_; // suppress unused-variable warning when OCR is disabled
+    // suppress unused-variable warning when OCR is disabled
 }
 
 bool OCRExtractor::isAvailable() const noexcept {
@@ -457,8 +457,6 @@ OCRExtractor::extract(const std::string& image_path,
                   + "\",\"source\":\"" + document_id + "\"}";
     samples.push_back(std::move(s));
 #else
-    (void)image_path;
-    (void)document_id;
 #endif
 
     return samples;

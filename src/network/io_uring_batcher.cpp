@@ -257,7 +257,6 @@ bool IoUringBatchedSender::enqueueSqe(int fd, const ::iovec* iovs,
     *sq_.tail = next;
     return true;
 #else
-    (void)fd; (void)iovs; (void)iov_cnt; (void)user_data;
     return false;
 #endif
 }
@@ -342,7 +341,6 @@ bool IoUringBatchedSender::initRing(unsigned queue_depth) {
                 ring_fd_, params.sq_entries);
     return true;
 #else
-    (void)queue_depth;
     return false;
 #endif
 }

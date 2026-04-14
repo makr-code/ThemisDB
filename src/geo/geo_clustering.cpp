@@ -198,7 +198,6 @@ GeoClusterResult dbscanCluster(
         gpu_adj = buildGpuAdjacency(lons, lats, config.epsilon_m, n);
     }
 #else
-    (void)gpu_cfg;
 #endif
 
     const bool use_gpu_adj = !gpu_adj.empty();
@@ -423,8 +422,8 @@ GeoClusterResult kmeansCluster(
 
             // Allocate device memory.
             float *d_pts = nullptr, *d_ctr = nullptr;
-            float *d_dists = nullptr;
-            uint32_t *d_idx = nullptr;
+            [[maybe_unused]] float *d_dists = nullptr;
+            [[maybe_unused]] uint32_t *d_idx = nullptr;
             const size_t pts_sz  = valid_n * dim * sizeof(float);
             const size_t ctr_sz  = k * dim * sizeof(float);
             const size_t idx_sz  = valid_n * sizeof(uint32_t);
@@ -460,7 +459,7 @@ GeoClusterResult kmeansCluster(
                 // the distances on CPU for centroid step but keep the GPU memory
                 // path wired for future JIT-compiled kernel insertion.
                 // This gives the same results while the kernel is being upstreamed.
-                (void)d_dists; (void)d_idx; // suppress unused warnings
+                // suppress unused warnings
                 return false; // signal: fall back to CPU distance, GPU allocs freed below
             };
 
@@ -470,12 +469,11 @@ GeoClusterResult kmeansCluster(
             // which uses the same centroid_ecef data for consistency.
             cudaFree(d_pts); cudaFree(d_ctr);
             cudaFree(d_dists); cudaFree(d_idx);
-            (void)computeL2DistKernel; // suppress warning
+            // suppress warning
         } while (false);
     }
-    (void)gpu_assignment_ok; (void)gpu_labels; // will be used when GPU kernel is wired
+    // will be used when GPU kernel is wired
 #else
-    (void)gpu_cfg;
 #endif
 
     // -----------------------------------------------------------------

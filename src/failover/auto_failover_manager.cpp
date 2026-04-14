@@ -535,7 +535,6 @@ bool AutoFailoverManager::preventSplitBrain(const std::string& failed_node_id) {
     const auto epoch_token = fencing_manager_->bumpEpoch(
         "automatic failover for failed node " + failed_node_id
     );
-    (void)epoch_token;
     {
         std::lock_guard<std::mutex> lock(stats_mutex_);
         stats_.split_brain_preventions++;
@@ -619,10 +618,8 @@ void AutoFailoverManager::transitionState(FailoverOrchestratorState new_state) {
     }
 }
 
-bool AutoFailoverManager::canTransition(FailoverOrchestratorState from,
-                                        FailoverOrchestratorState to) const {
-    (void)from;
-    (void)to;
+bool AutoFailoverManager::canTransition([[maybe_unused]] FailoverOrchestratorState from,
+                                        [[maybe_unused]] FailoverOrchestratorState to) const {
     return true;
 }
 

@@ -341,13 +341,6 @@ bool runBFSCudaIfAvailable(
     out_distances = std::move(host_dist);
     return true;
 #else
-    (void)row_offsets;
-    (void)column_indices;
-    (void)start_id;
-    (void)forbidden_mask;
-    (void)config;
-    (void)result;
-    (void)out_distances;
     return false;
 #endif
 }
@@ -456,13 +449,6 @@ bool runDFSCudaIfAvailable(
     out_order = std::move(host_order);
     return true;
 #else
-    (void)row_offsets;
-    (void)column_indices;
-    (void)start_id;
-    (void)forbidden_mask;
-    (void)config;
-    (void)result;
-    (void)out_order;
     return false;
 #endif
 }

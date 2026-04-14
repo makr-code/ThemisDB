@@ -302,7 +302,6 @@ std::vector<float> LlamaCppPlugin::embed(const std::string& text) {
     }
 #endif
     // Stub: return a fixed-size zero vector
-    (void)text;
     return std::vector<float>(384, 0.0f);
 }
 
@@ -346,7 +345,6 @@ std::vector<uint8_t> LlamaCppPlugin::exportLoRA(const std::string& lora_id) {
         return wrapper_->exportLoRA(lora_id);
     }
 #else
-    (void)lora_id;
 #endif
     return {};
 }
@@ -359,8 +357,6 @@ bool LlamaCppPlugin::importLoRA(const std::string& lora_id,
         return wrapper_->importLoRA(lora_id, data);
     }
 #else
-    (void)lora_id;
-    (void)data;
 #endif
     return false;
 }

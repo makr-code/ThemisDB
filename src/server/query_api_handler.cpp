@@ -1330,7 +1330,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             usesVE = [&](const Expression* e)->bool{
                 if (!e) return false;
                 if (auto* le = dynamic_cast<const LiteralExpr*>(e)) {
-                    (void)le; return false;
+                    return false;
                 }
                 if (auto* ve = dynamic_cast<const VariableExpr*>(e)) {
                     return (ve->name == "v" || ve->name == "e");

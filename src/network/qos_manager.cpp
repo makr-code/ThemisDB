@@ -703,7 +703,6 @@ bool QoSManager::configureTc(const TcConfig& tc_config) {
 
     return true;
 #else
-    (void)tc_config;
     return false;  // Not supported on non-Linux platforms
 #endif
 }

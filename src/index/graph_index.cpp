@@ -620,8 +620,7 @@ void GraphIndexManager::addEdgeToTopology_(const std::string& edgeId, const std:
 	inEdges_[toPk].push_back({edgeId, fromPk, graphId});
 }
 
-void GraphIndexManager::removeEdgeFromTopology_(const std::string& edgeId, const std::string& fromPk, const std::string& toPk, const std::string& graphId) {
-	(void)graphId;
+void GraphIndexManager::removeEdgeFromTopology_(const std::string& edgeId, const std::string& fromPk, const std::string& toPk, [[maybe_unused]] const std::string& graphId) {
 	std::lock_guard<std::mutex> lock(topology_mutex_);
 
 	// Remove from outEdges_

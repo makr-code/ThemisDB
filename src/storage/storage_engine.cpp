@@ -71,8 +71,7 @@ public:
         }
     }
 
-    bool evaluate(const std::string& expression, const void* context) override {
-        (void)context;
+    bool evaluate(const std::string& expression, [[maybe_unused]] const void* context) override {
         // Default implementation: always return true (no filtering)
         // Real implementation would parse and evaluate the expression
         if (is_production_mode() && !expression.empty()) {
@@ -97,24 +96,21 @@ public:
     }
 
     std::vector<uint8_t> encrypt_field(
-        const std::string& field_name,
+        [[maybe_unused]] const std::string& field_name,
         const std::vector<uint8_t>& plaintext) override {
-        (void)field_name;
         // Default implementation: no-op encryption (returns plaintext)
         // Real implementation would use AES-GCM or similar
         return plaintext;
     }
     
     std::vector<uint8_t> decrypt_field(
-        const std::string& field_name,
+        [[maybe_unused]] const std::string& field_name,
         const std::vector<uint8_t>& ciphertext) override {
-        (void)field_name;
         // Default implementation: no-op decryption
         return ciphertext;
     }
     
-    bool should_encrypt(const std::string& field_name) const override {
-        (void)field_name;
+    bool should_encrypt([[maybe_unused]] const std::string& field_name) const override {
         // Default: don't encrypt any fields
         return false;
     }
@@ -130,8 +126,7 @@ public:
         }
     }
 
-    std::vector<uint8_t> get_key(const std::string& key_id) override {
-        (void)key_id;
+    std::vector<uint8_t> get_key([[maybe_unused]] const std::string& key_id) override {
         // Default implementation: return a dummy key
         // Real implementation would fetch from Vault, HSM, etc.
         return std::vector<uint8_t>(32, 0x42); // 32-byte dummy key
@@ -154,10 +149,8 @@ public:
 
     Result<ISecondaryIndex*> createSecondaryIndex(
         std::string_view name,
-        std::string_view field_name,
-        const std::string& config = "") override {
-        (void)field_name;
-        (void)config;
+        [[maybe_unused]] std::string_view field_name,
+        [[maybe_unused]] const std::string& config = "") override {
         // Default implementation: no-op, returns nullptr
         if (is_production_mode()) {
             spdlog::warn("StorageEngine: Index creation attempted with default (no-op) index manager in PRODUCTION mode: '{}'", name);
@@ -167,10 +160,8 @@ public:
     
     Result<IVectorIndex*> createVectorIndex(
         std::string_view name,
-        uint32_t dimension,
-        const std::string& config = "") override {
-        (void)dimension;
-        (void)config;
+        [[maybe_unused]] uint32_t dimension,
+        [[maybe_unused]] const std::string& config = "") override {
         // Default implementation: no-op, returns nullptr
         if (is_production_mode()) {
             spdlog::warn("StorageEngine: Vector index creation attempted with default (no-op) index manager in PRODUCTION mode: '{}'", name);
@@ -180,8 +171,7 @@ public:
     
     Result<IGraphIndex*> createGraphIndex(
         std::string_view name,
-        const std::string& config = "") override {
-        (void)config;
+        [[maybe_unused]] const std::string& config = "") override {
         // Default implementation: no-op, returns nullptr
         if (is_production_mode()) {
             spdlog::warn("StorageEngine: Graph index creation attempted with default (no-op) index manager in PRODUCTION mode: '{}'", name);
@@ -207,9 +197,8 @@ public:
                                    fmt::format("Index '{}' not found (default manager)", name));
     }
     
-    Result<void> dropIndex(std::string_view name) override {
+    Result<void> dropIndex([[maybe_unused]] std::string_view name) override {
         // Default implementation: always succeeds (no-op)
-        (void)name;
         return OkVoid();
     }
     

@@ -108,7 +108,6 @@ void NeuralSparseRetrieval::insertVector(const std::string& doc_id,
 void NeuralSparseRetrieval::eraseFromIndex(const std::string& doc_id,
                                             const SparseVector& vec) {
     for (const auto& [term, weight] : vec) {
-        (void)weight;
         auto it = inverted_index_.find(term);
         if (it == inverted_index_.end()) continue;
         auto& posting = it->second;

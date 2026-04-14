@@ -98,7 +98,6 @@ inline void pmem_flush(const void* addr) noexcept {
         _mm_clflush(const_cast<void*>(addr));
     #endif
 #else
-    (void)addr;
 #endif
 }
 

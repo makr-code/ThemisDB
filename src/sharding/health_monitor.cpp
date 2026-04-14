@@ -330,8 +330,7 @@ void HealthMonitor::handleNodeFailure(const std::string& node_id) {
     }
 }
 
-bool HealthMonitor::shouldTriggerFailover(const std::string& node_id) const {
-    (void)node_id;
+bool HealthMonitor::shouldTriggerFailover([[maybe_unused]] const std::string& node_id) const {
     if (!config_.auto_failover_enabled) {
         return false;
     }

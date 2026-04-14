@@ -68,10 +68,8 @@ void GPUProfiler::beginRange(const std::string& name, uint32_t argb_color) {
     attrs.message.ascii          = name.c_str();
     nvtxRangePushEx(&attrs);
 #elif defined(THEMIS_ENABLE_HIP)
-    (void)argb_color;
     roctxRangePushA(name.c_str());
 #else
-    (void)argb_color;
 #endif
 
     range_stack_.push_back({name, nowNs(), argb_color});

@@ -150,7 +150,6 @@ inline std::array<uint32_t, 4> cpuid(uint32_t leaf, uint32_t subleaf = 0)
     __cpuid_count(leaf, subleaf, r[0], r[1], r[2], r[3]);
 #  endif
 #else
-    (void)leaf; (void)subleaf;
 #endif
     return r;
 }

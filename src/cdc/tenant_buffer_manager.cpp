@@ -410,9 +410,8 @@ bool TenantBufferManager::checkTenantQuota(const std::string& tenant_id,
     return true;
 }
 
-void TenantBufferManager::updateTenantStats(const std::string& tenant_id,
+void TenantBufferManager::updateTenantStats([[maybe_unused]] const std::string& tenant_id,
                                            TenantBufferState& state) {
-    (void)tenant_id;
     // Must be called with lock held
     
     if (!state.buffer) return;

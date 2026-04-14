@@ -1271,7 +1271,7 @@ bool GPUVectorIndex::loadIndex(const std::string& path) {
 
     int32_t metric = 0;
     ifs.read(reinterpret_cast<char*>(&metric), sizeof(metric));
-    (void)metric; // Stored for future compatibility; callers set the metric via Config
+    // Stored for future compatibility; callers set the metric via Config
 
     if (!ifs || dim <= 0) {
         return false;

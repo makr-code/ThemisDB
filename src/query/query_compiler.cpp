@@ -312,7 +312,7 @@ private:
             // Deadline guard — abort if specialisation takes too long.
             // In this template-specialisation backend the work is fast;
             // the guard protects future LLVM backend integration.
-            const auto deadline_ms = config_.compilation_timeout_ms;
+            [[maybe_unused]] const auto deadline_ms = config_.compilation_timeout_ms;
 
             // Capture everything the hot function needs by value.
             auto captured_executor = entry.executor;
@@ -331,7 +331,7 @@ private:
                                 deadline_ms](const QueryParams& params)
                     -> Result<QueryResult>
                 {
-                    (void)deadline_ms; // guard; relevant for LLVM backend
+                    // guard; relevant for LLVM backend
                     auto r = captured_executor(captured_query, params);
                     if (r) { r->used_compiled_path = true; }
                     return r;

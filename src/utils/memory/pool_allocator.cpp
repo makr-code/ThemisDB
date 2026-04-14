@@ -503,8 +503,7 @@ SlabAllocator::SlabAllocator(size_t object_size, size_t objects_per_slab,
 
 SlabAllocator::~SlabAllocator() = default;
 
-Result<void*> SlabAllocator::allocate(size_t size, AllocationHint hint) {
-    (void)hint;
+Result<void*> SlabAllocator::allocate(size_t size, [[maybe_unused]] AllocationHint hint) {
     if (size == 0) {
         return Err<void*>(errors::ErrorCode::ERR_MEMORY_INVALID_SIZE,
                          "Allocation size must be greater than 0");
@@ -635,8 +634,7 @@ StackAllocator::StackAllocator(size_t capacity)
 
 StackAllocator::~StackAllocator() = default;
 
-Result<void*> StackAllocator::allocate(size_t size, AllocationHint hint) {
-    (void)hint;
+Result<void*> StackAllocator::allocate(size_t size, [[maybe_unused]] AllocationHint hint) {
     if (size == 0) {
         return Err<void*>(errors::ErrorCode::ERR_MEMORY_INVALID_SIZE,
                          "Allocation size must be greater than 0");

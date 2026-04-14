@@ -230,7 +230,6 @@ ExecutionResult cpuSortMergeJoin(const QueryOperator& op) {
             }
             ++li;
         }
-        (void)li_start;
     }
     return r;
 }

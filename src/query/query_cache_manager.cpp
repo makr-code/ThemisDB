@@ -532,14 +532,13 @@ void QueryCacheManager::reportStatsIfNeeded() {
 }
 
 bool QueryCacheManager::putInBasicCache(
-    const std::string& fingerprint,
+    [[maybe_unused]] const std::string& fingerprint,
     const std::string& query,
     const nlohmann::json& params,
     const nlohmann::json& result,
     const std::vector<std::string>& dependencies,
     std::chrono::seconds ttl
 ) {
-    (void)fingerprint;
     auto put_result = basic_cache_->put(query, params, result, dependencies, ttl);
     return put_result.has_value();
 }
@@ -548,9 +547,8 @@ bool QueryCacheManager::putInAdaptiveCache(
     const std::string& fingerprint,
     const nlohmann::json& params,
     const nlohmann::json& result,
-    std::chrono::seconds ttl
+    [[maybe_unused]] std::chrono::seconds ttl
 ) {
-    (void)ttl;
     // AdaptiveQueryCache doesn't support custom TTL in the current implementation
     // It uses its own adaptive TTL logic
     return adaptive_cache_->put(fingerprint, params, result);

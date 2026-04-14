@@ -176,9 +176,8 @@ std::string VoiceAccessibility::formatAsVTT(
 
 std::string VoiceAccessibility::formatAsSRT(
     const std::vector<CaptionCue>& cues,
-    const TranscriptExportOptions& opts) const
+    [[maybe_unused]] const TranscriptExportOptions& opts) const
 {
-    (void)opts;
     std::ostringstream ss;
 
     auto sorted = mergeSortCues(cues);

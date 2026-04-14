@@ -559,8 +559,6 @@ void GossipConfigManager::sendGossipMessage(
     const std::string& peer_endpoint [[maybe_unused]],
     const proto::GossipMessage& message [[maybe_unused]]
 ) {
-    (void)peer_endpoint;
-    (void)message;
     if (!client_) return;
     
     try {
@@ -573,8 +571,8 @@ void GossipConfigManager::sendGossipMessage(
         auto now = std::chrono::steady_clock::now();
         // In a real implementation, we'd measure round-trip time
         
-    } catch (const std::exception& e) {
-        (void)e; // silence unused warning in stub
+    } catch ([[maybe_unused]] const std::exception& e) {
+        // silence unused warning in stub
         // Log error (in production, use proper logging)
     }
 }

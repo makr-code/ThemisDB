@@ -102,11 +102,10 @@ public:
      * @return Result<void> – ok on success, error on failure.
      */
     virtual Result<void> scanRange(
-        std::string_view start_key,
-        std::string_view end_key,
-        std::function<bool(std::string_view key, std::string_view value)> callback)
+        [[maybe_unused]] std::string_view start_key,
+        [[maybe_unused]] std::string_view end_key,
+        std::function<bool(std::string_view key, [[maybe_unused]] std::string_view value)> callback)
     {
-        (void)start_key; (void)end_key; (void)callback;
         return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
                        "scanRange not implemented");
     }
@@ -123,10 +122,9 @@ public:
      * @return Result<void> – ok on success, error on failure.
      */
     virtual Result<void> scanPrefix(
-        std::string_view prefix,
-        std::function<bool(std::string_view key, std::string_view value)> callback)
+        [[maybe_unused]] std::string_view prefix,
+        std::function<bool(std::string_view key, [[maybe_unused]] std::string_view value)> callback)
     {
-        (void)prefix; (void)callback;
         return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
                        "scanPrefix not implemented");
     }

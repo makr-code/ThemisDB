@@ -186,8 +186,6 @@ bool AdvancedVectorIndex::train(const float* vectors, size_t count) {
         return false;
     }
 #else
-    (void)vectors;
-    (void)count;
     THEMIS_WARN("FAISS not available");
     return false;
 #endif
@@ -217,8 +215,6 @@ bool AdvancedVectorIndex::add(const float* vectors, size_t count) {
         return false;
     }
 #else
-    (void)vectors;
-    (void)count;
     return false;
 #endif
 }
@@ -247,9 +243,6 @@ bool AdvancedVectorIndex::addWithIds(const float* vectors, const int64_t* ids, s
         return false;
     }
 #else
-    (void)vectors;
-    (void)ids;
-    (void)count;
     return false;
 #endif
 }
@@ -278,8 +271,6 @@ AdvancedVectorIndex::SearchResult AdvancedVectorIndex::search(const float* query
         return result;
     }
 #else
-    (void)query;
-    (void)k;
     return result;
 #endif
 }
@@ -325,9 +316,6 @@ std::vector<AdvancedVectorIndex::SearchResult> AdvancedVectorIndex::searchBatch(
         return results;
     }
 #else
-    (void)queries;
-    (void)num_queries;
-    (void)k;
     return results;
 #endif
 }
@@ -376,7 +364,6 @@ bool AdvancedVectorIndex::save(const std::string& path) {
         return false;
     }
 #else
-    (void)path;
     return false;
 #endif
 }
@@ -400,7 +387,6 @@ bool AdvancedVectorIndex::load(const std::string& path) {
         return false;
     }
 #else
-    (void)path;
     return false;
 #endif
 }

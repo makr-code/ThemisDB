@@ -419,7 +419,6 @@ Result<IVectorIndex*> IndexManager::createVectorIndex(
     span.setAttribute("index.dimension", static_cast<int64_t>(dimension));
     span.setAttribute("index.config", config);
     
-    (void)config;
     std::lock_guard<std::mutex> lock(registry_mutex_);
     
     if (!vector_manager_) {
@@ -473,9 +472,8 @@ Result<IVectorIndex*> IndexManager::createVectorIndex(
 
 Result<IGraphIndex*> IndexManager::createGraphIndex(
     std::string_view name,
-    const std::string& config) {
+    [[maybe_unused]] const std::string& config) {
     
-    (void)config;
     std::lock_guard<std::mutex> lock(registry_mutex_);
     
     if (!graph_manager_) {

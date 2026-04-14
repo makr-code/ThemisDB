@@ -104,8 +104,8 @@ public:
      * @param ptr Pointer to memory to deallocate
      * @param n Number of elements (unused but required by STL)
      */
-    void deallocate(T* ptr, std::size_t n) noexcept {
-        (void)n;  // Unused parameter
+    void deallocate(T* ptr, [[maybe_unused]] std::size_t n) noexcept {
+        // Unused parameter
         memory::deallocate_aligned(ptr, Alignment);
     }
     

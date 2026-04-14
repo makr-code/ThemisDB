@@ -405,7 +405,6 @@ void ConfigMetricsExporter::registerWithRegistry(const std::shared_ptr<prometheu
         .Register(*g_registry);
     g_metrics.cache_ttl_seconds = &cache_ttl_family.Add({});
 #else
-    (void)registry;
 #endif
 }
 

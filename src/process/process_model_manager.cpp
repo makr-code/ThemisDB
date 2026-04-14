@@ -873,7 +873,6 @@ ProcessModelResult ProcessModelManager::undeployFromEngine(
 {
     // ProcessGraphManager doesn't have an unregister API yet; use the
     // removeProcess method if available, or log a warning.
-    (void)engine;
     SPDLOG_WARN("[process] undeployFromEngine: engine.removeProcess not yet available "
                 "for model '{}'", model_id);
     return ProcessModelResult::success(std::string(model_id));

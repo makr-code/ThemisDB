@@ -54,8 +54,7 @@ public:
         }
     }
 
-    void onInsert(std::string_view key, uint64_t timestamp_ms) override {
-        (void)timestamp_ms;
+    void onInsert(std::string_view key, [[maybe_unused]] uint64_t timestamp_ms) override {
         std::string key_str(key);
         auto it = position_map_.find(key_str);
 
@@ -190,8 +189,7 @@ public:
     explicit TTLEvictionStrategy(uint64_t default_ttl_ms = 3600000)  // 1 hour default
         : default_ttl_ms_(default_ttl_ms) {}
 
-    void onAccess(std::string_view key) override {
-        (void)key;
+    void onAccess([[maybe_unused]] std::string_view key) override {
         // TTL strategy doesn't change on access
     }
 

@@ -177,7 +177,6 @@ static std::string extractXmlText(const std::string& raw,
     return out.str();
 #else
     // pugixml not available: return raw content as-is (best effort)
-    (void)is_html;
     return raw;
 #endif
 }

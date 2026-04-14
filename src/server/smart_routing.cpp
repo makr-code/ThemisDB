@@ -112,13 +112,13 @@ void SmartRouter::recordCacheHit(const std::string& backend_id,
 }
 
 void SmartRouter::recordCacheMiss(const std::string& backend_id,
-                                  const std::string& resource_key)
+                                  [[maybe_unused]] const std::string& resource_key)
 {
     std::unique_lock lock(mutex_);
     auto it = backends_.find(backend_id);
     if (it == backends_.end()) return;
 
-    (void)resource_key; // key not tracked for misses (only hits drive prediction)
+    // key not tracked for misses (only hits drive prediction)
     it->second.cache_misses++;
 }
 

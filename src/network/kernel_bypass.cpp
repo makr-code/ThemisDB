@@ -121,7 +121,6 @@ bool CpuPinner::pinCallerToCore(int core_id) noexcept {
     CPU_SET(static_cast<unsigned>(core_id), &set);
     return ::sched_setaffinity(0, sizeof(set), &set) == 0;
 #else
-    (void)core_id;
     return false;
 #endif
 }
@@ -135,7 +134,6 @@ bool CpuPinner::pinThreadToCore(std::thread& thread, int core_id) noexcept {
     return ::pthread_setaffinity_np(thread.native_handle(),
                                     sizeof(set), &set) == 0;
 #else
-    (void)thread; (void)core_id;
     return false;
 #endif
 }
@@ -160,7 +158,6 @@ int CpuPinner::numaNodeForCore(int core_id) noexcept {
     ::closedir(d);
     return 0;  // assume node 0 if not found
 #else
-    (void)core_id;
     return -1;
 #endif
 }
@@ -211,7 +208,6 @@ void* NumaAllocator::allocate(size_t size, int node) {
     return p;
 #else
     // Fallback: std::aligned_alloc with 64-byte alignment.
-    (void)node;
     constexpr size_t kAlign = 64;
     size_t padded = (size + kAlign - 1) & ~(kAlign - 1);
     void* p = nullptr;
@@ -230,10 +226,8 @@ void NumaAllocator::deallocate(void* ptr, size_t size) noexcept {
 #if defined(THEMIS_ENABLE_NUMA) && defined(__linux__)
     ::numa_free(ptr, size);
 #elif defined(_WIN32)
-    (void)size;
     _aligned_free(ptr);
 #else
-    (void)size;
     ::free(ptr);
 #endif
 }
@@ -296,7 +290,6 @@ ZeroCopyDmaBuffer::ZeroCopyDmaBuffer(size_t size_bytes, int numa_node) {
     // Both attempts failed.
     THEMIS_WARN("ZeroCopyDmaBuffer: mmap failed: {}", std::strerror(errno));
 #else
-    (void)numa_node;
     // Windows / other: plain aligned allocation.
     data_      = NumaAllocator::allocate(size_bytes, -1);
     size_      = size_bytes;
