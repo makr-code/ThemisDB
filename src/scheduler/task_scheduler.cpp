@@ -1307,18 +1307,16 @@ void TaskScheduler::unregisterFunction(const std::string& name) {
 // ===== Statistics =====
 
 TaskScheduler::Stats TaskScheduler::getStats() const {
-    std::lock_guard<std::mutex> lock(tasks_mutex_);
+    // Acquire both locks atomically (canonical order tasks < running) to avoid
+    // inversion against threads that acquire running_mutex_ alone.
+    std::scoped_lock lock(tasks_mutex_, running_mutex_);
     
     Stats stats;
     stats.registered_tasks = tasks_.size();
     stats.active_tasks = std::count_if(tasks_.begin(), tasks_.end(),
         [](const auto& pair) { return pair.second->enabled; });
     
-    {
-        std::lock_guard<std::mutex> running_lock(running_mutex_);
-        stats.running_tasks = running_task_threads_.size();
-    }
-    
+    stats.running_tasks = running_task_threads_.size();
     stats.total_executions = total_executions_.load();
     stats.failed_executions = failed_executions_.load();
     stats.last_run = last_run_;
@@ -1351,22 +1349,19 @@ std::string TaskScheduler::exportMetrics() const {
     size_t total_exec, failed_exec;
     std::vector<ScheduledTask> task_snapshot;
 
-    {
-        std::lock_guard<std::mutex> lock(tasks_mutex_);
-        registered_tasks = tasks_.size();
-        active_tasks = std::count_if(tasks_.begin(), tasks_.end(),
-                                     [](const auto& p) { return p.second->enabled; });
-        {
-            std::lock_guard<std::mutex> rlock(running_mutex_);
-            running_tasks = running_task_threads_.size();
-        }
-        total_exec   = total_executions_.load();
-        failed_exec  = failed_executions_.load();
+    // Acquire both locks atomically (canonical order tasks < running).
+    std::scoped_lock lock(tasks_mutex_, running_mutex_);
+    registered_tasks = tasks_.size();
+    active_tasks = std::count_if(tasks_.begin(), tasks_.end(),
+                                 [](const auto& p) { return p.second->enabled; });
+    running_tasks = running_task_threads_.size();
+    total_exec   = total_executions_.load();
+    failed_exec  = failed_executions_.load();
 
-        task_snapshot.reserve(tasks_.size());
-        for (const auto& [id, task] : tasks_) {
-            task_snapshot.push_back(*task);
-        }
+    task_snapshot.reserve(tasks_.size());
+    for (const auto& [id, task] : tasks_) {
+        task_snapshot.push_back(*task);
+    }
     }
 
     // ── Scheduler-level gauges ────────────────────────────────────────────

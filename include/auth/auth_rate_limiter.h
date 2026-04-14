@@ -33,6 +33,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <mutex>
+#include <shared_mutex>
 #include <chrono>
 #include <memory>
 #include <optional>
@@ -252,7 +253,7 @@ private:
     // Per-user lockout state
     std::unordered_map<std::string, LockoutInfo> lockout_state_;
     
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex mutex_;
     
     // Cleanup interval (5 minutes)
     static constexpr uint32_t CLEANUP_INTERVAL_SECONDS = 300;
@@ -451,7 +452,7 @@ private:
 
     // Anomaly detection callback – protected by a separate mutex so it can be
     // called safely while stats_mutex_ is held.
-    mutable std::mutex callback_mutex_;
+    mutable std::shared_mutex callback_mutex_;
     AuthAnomalyCallback anomaly_callback_;
     utils::AuditLogger* audit_logger_ = nullptr;  ///< Non-owning; may be nullptr.
     AuthMetrics*        metrics_      = nullptr;  ///< Non-owning; may be nullptr.
@@ -503,7 +504,7 @@ private:
 
     // Statistics
     mutable Statistics stats_;
-    mutable std::mutex stats_mutex_;
+    mutable std::shared_mutex stats_mutex_;
 };
 
 } // namespace auth

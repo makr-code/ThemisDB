@@ -287,7 +287,8 @@ public:
 private:
     size_t total_memory_bytes_;
     std::atomic<size_t> used_memory_bytes_{0};
-    mutable std::mutex mutex_;
+    // mutex_ removed: used_memory_bytes_ is std::atomic, all other reads/writes
+    // use only total_memory_bytes_ (const after construction) or the atomic.
 };
 
 } // namespace llm

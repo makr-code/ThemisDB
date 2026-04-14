@@ -914,8 +914,7 @@ size_t AdaptiveQueryCache::invalidate(const std::string& pattern) {
     
     // Invalidate L1
     {
-        std::unique_lock<std::shared_mutex> lock(l1_mutex_);
-        std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);
+        std::scoped_lock<std::shared_mutex, std::mutex> lock(l1_mutex_, l1_eviction_mutex_);
         for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {
             if (std::regex_search(it->first, re)) {
                 l1_eviction_strategy_->onRemove(it->first);
@@ -1085,8 +1084,7 @@ uint64_t AdaptiveQueryCache::clearExpired() {
     
     // Clear expired L1 entries
     {
-        std::unique_lock<std::shared_mutex> lock(l1_mutex_);
-        std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);
+        std::scoped_lock<std::shared_mutex, std::mutex> lock(l1_mutex_, l1_eviction_mutex_);
         for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {
             if (isExpired(it->second->created_at_ms.load(std::memory_order_relaxed),
                           it->second->ttl_seconds.load(std::memory_order_relaxed))) {
