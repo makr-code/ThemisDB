@@ -5753,7 +5753,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_governance_policy_simulation.cpp")
     target_link_libraries(test_governance_policy_simulation PRIVATE
         ${TEST_LIBS}
         themis_core
-        yaml-cpp::yaml-cpp
+        $<$<TARGET_EXISTS:yaml-cpp::yaml-cpp>:yaml-cpp::yaml-cpp>
         OpenSSL::Crypto
         Threads::Threads
     )
@@ -6428,7 +6428,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_self_awareness_production.cpp")
     target_link_libraries(test_self_awareness_production PRIVATE
         ${TEST_LIBS}
         themis_core
-        yaml-cpp::yaml-cpp
+        $<$<TARGET_EXISTS:yaml-cpp::yaml-cpp>:yaml-cpp::yaml-cpp>
         Threads::Threads
     )
     target_compile_definitions(test_self_awareness_production PRIVATE THEMIS_TEST_BUILD=1)
@@ -10587,8 +10587,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_file_watcher.cpp")
         ${THEMIS_YAML_TARGET}
         OpenSSL::SSL
         OpenSSL::Crypto
-        prometheus-cpp::core
-        prometheus-cpp::pull
+        $<$<TARGET_EXISTS:prometheus-cpp::core>:prometheus-cpp::core>
+        $<$<TARGET_EXISTS:prometheus-cpp::pull>:prometheus-cpp::pull>
     )
 
     target_compile_definitions(test_config_file_watcher_focused PRIVATE
@@ -10625,7 +10625,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_schema_validator.cpp")
         ${TEST_LIBS}
         spdlog::spdlog
         nlohmann_json::nlohmann_json
-        yaml-cpp::yaml-cpp
+        $<$<TARGET_EXISTS:yaml-cpp::yaml-cpp>:yaml-cpp::yaml-cpp>
         Threads::Threads
         OpenSSL::SSL
         OpenSSL::Crypto
@@ -10671,7 +10671,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_migration_scanner.cpp")
         ${TEST_LIBS}
         spdlog::spdlog
         nlohmann_json::nlohmann_json
-        yaml-cpp::yaml-cpp
+        $<$<TARGET_EXISTS:yaml-cpp::yaml-cpp>:yaml-cpp::yaml-cpp>
         Threads::Threads
         OpenSSL::SSL
         OpenSSL::Crypto
@@ -10717,7 +10717,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_coverage.cpp")
         ${TEST_LIBS}
         spdlog::spdlog
         nlohmann_json::nlohmann_json
-        yaml-cpp::yaml-cpp
+        $<$<TARGET_EXISTS:yaml-cpp::yaml-cpp>:yaml-cpp::yaml-cpp>
         Threads::Threads
         OpenSSL::SSL
         OpenSSL::Crypto
@@ -12719,7 +12719,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_usb_volume_hardening.cpp")
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         Threads::Threads
-        yaml-cpp::yaml-cpp
+        $<$<TARGET_EXISTS:yaml-cpp::yaml-cpp>:yaml-cpp::yaml-cpp>
     )
 
     target_compile_definitions(test_usb_volume_hardening_focused PRIVATE
@@ -21925,7 +21925,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_connector_mode_api.cpp")
         GTest::gtest
         GTest::gtest_main
         nlohmann_json::nlohmann_json
-        httplib::httplib
+        $<$<TARGET_EXISTS:httplib::httplib>:httplib::httplib>
         Threads::Threads
     )
 

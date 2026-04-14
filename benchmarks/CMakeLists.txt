@@ -1587,7 +1587,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_compliance_security_governance.cpp"
     target_link_libraries(bench_compliance_security_governance PRIVATE
         ${BENCHMARK_LIBS}
         themis_core
-        yaml-cpp::yaml-cpp
+        $<$<TARGET_EXISTS:yaml-cpp::yaml-cpp>:yaml-cpp::yaml-cpp>
         nlohmann_json::nlohmann_json
         OpenSSL::Crypto
         Threads::Threads

@@ -58,6 +58,7 @@ jobs:
     env:
       GTEST_DIR: artifacts/quality_gate/gtest
       BENCH_DIR: artifacts/quality_gate/bench
+      FOCUSED_BUILD_DIR: build/nightly-quality-gate-tests
 
     steps:
       - name: Checkout repository
@@ -82,7 +83,7 @@ jobs:
 
       - name: Create artifact directories
         run: |
-          mkdir -p "$GTEST_DIR" "$BENCH_DIR"
+          mkdir -p "$GTEST_DIR" "$BENCH_DIR" "$FOCUSED_BUILD_DIR"
 
       - name: Configure and build focused AI test binaries
         uses: ./.github/actions/configure-themis
@@ -91,36 +92,39 @@ jobs:
           cxx: g++-14
           edition: COMMUNITY
           ci-mode: 'true'
+          source-dir: .
+          build-dir: ${{ env.FOCUSED_BUILD_DIR }}
+          extra-cmake-flags: -DTHEMIS_ENABLE_MIMALLOC=OFF
           build-target: test_prompt_regression_runner_focused
 
       - name: Build additional focused AI test binaries
         run: |
           set -o pipefail
-          cd build
+          cd "$FOCUSED_BUILD_DIR"
           cmake --build . --target test_dspy_module_focused -- -j$(nproc) 2>&1 | tee build_dspy.log
           cmake --build . --target test_tree_of_thoughts_focused -- -j$(nproc) 2>&1 | tee build_tot.log
 
       - name: Run GoogleTest suites (JSON output)
         run: |
           set -o pipefail
-          cd build
+          cd "$FOCUSED_BUILD_DIR"
 
           ./tests/test_prompt_regression_runner_focused \
-            --gtest_output="json:../$GTEST_DIR/prompt_regression_gtest.json" \
-            2>&1 | tee ../$GTEST_DIR/prompt_regression_gtest.log
+            --gtest_output="json:$GITHUB_WORKSPACE/$GTEST_DIR/prompt_regression_gtest.json" \
+            2>&1 | tee "$GITHUB_WORKSPACE/$GTEST_DIR/prompt_regression_gtest.log"
 
           ./tests/test_dspy_module_focused \
-            --gtest_output="json:../$GTEST_DIR/dspy_module_gtest.json" \
-            2>&1 | tee ../$GTEST_DIR/dspy_module_gtest.log
+            --gtest_output="json:$GITHUB_WORKSPACE/$GTEST_DIR/dspy_module_gtest.json" \
+            2>&1 | tee "$GITHUB_WORKSPACE/$GTEST_DIR/dspy_module_gtest.log"
 
           ./tests/test_tree_of_thoughts_focused \
-            --gtest_output="json:../$GTEST_DIR/tree_of_thoughts_gtest.json" \
-            2>&1 | tee ../$GTEST_DIR/tree_of_thoughts_gtest.log
+            --gtest_output="json:$GITHUB_WORKSPACE/$GTEST_DIR/tree_of_thoughts_gtest.json" \
+            2>&1 | tee "$GITHUB_WORKSPACE/$GTEST_DIR/tree_of_thoughts_gtest.log"
 
       - name: Configure benchmark build
         run: |
           set -o pipefail
-          cmake --preset nightly-bench-sweep 2>&1 | tee "$BENCH_DIR/cmake_configure.log"
+          cmake --preset nightly-bench-sweep -DTHEMIS_ENABLE_MIMALLOC=OFF 2>&1 | tee "$BENCH_DIR/cmake_configure.log"
 
       - name: Build selected Google Benchmark binaries
         run: |
