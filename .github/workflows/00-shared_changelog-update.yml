@@ -7,12 +7,11 @@ name: "Shared · Changelog Update"
 # structured entry into the root CHANGELOG.md without duplicating the
 # checkout / commit / push boilerplate.
 #
-# USAGE — calling workflow example
-# ---------------------------------
-#
+# USAGE — write to [Unreleased] (default)
+# ----------------------------------------
 #   jobs:
 #     update-changelog:
-#       needs: [build, test]       # run after your actual CI work
+#       needs: [build, test]
 #       if: github.ref == 'refs/heads/develop'
 #       uses: ./.github/workflows/00-shared_changelog-update.yml
 #       with:
@@ -26,6 +25,22 @@ name: "Shared · Changelog Update"
 #         commit-message: "chore: update CHANGELOG.md [skip ci]"
 #       secrets: inherit
 #
+# USAGE — write to a specific versioned milestone block (backfill / history)
+# --------------------------------------------------------------------------
+#   jobs:
+#     backfill-entry:
+#       uses: ./.github/workflows/00-shared_changelog-update.yml
+#       with:
+#         entry-title: "Security hardening — v1.8.0"
+#         entry-body: |
+#           - CVE-2026-1234 patched
+#           - PII redaction v3
+#         section: Security
+#         target-version: "1.8.0"    # ← milestone / version number
+#         release-date: "2026-03-22" # ← only used when creating the block
+#         key: security-v1.8.0
+#       secrets: inherit
+#
 # INPUTS
 # ------
 #   entry-title    (string, required)
@@ -36,15 +51,25 @@ name: "Shared · Changelog Update"
 #       separate "  - …" indented bullet under the title.
 #
 #   section        (string, default "Added")
-#       Sub-section under ## [Unreleased].  Standard Keep-a-Changelog
-#       values: Added | Changed | Deprecated | Removed | Fixed |
-#               Security | Documentation | Performance | Infrastructure
+#       Sub-section name.  Standard Keep-a-Changelog values:
+#       Added | Changed | Deprecated | Removed | Fixed |
+#       Security | Documentation | Performance | Infrastructure
 #       Any value is accepted; the section is auto-created when absent.
 #
+#   target-version (string, default "")
+#       When empty (default): entry goes into ## [Unreleased].
+#       When set to a version number such as "1.8.0" (= milestone title):
+#         entry goes into ## [1.8.0].  The block is created automatically
+#         when it does not yet exist (using release-date for the heading).
+#
+#   release-date   (string, default "")
+#       ISO date (YYYY-MM-DD) used as the heading date when a new versioned
+#       block must be created.  Ignored when the block already exists.
+#       Defaults to today when empty.
+#
 #   key            (string, default "")
-#       Idempotency key.  The same key prevents duplicate entries even
-#       if the workflow runs multiple times (e.g. retries).
-#       When empty, changelog_updater.py defaults to entry-title + today.
+#       Idempotency key.  The same key prevents duplicate entries on re-runs.
+#       Defaults to entry-title when empty.
 #
 #   target-branch  (string, default "develop")
 #       Commits are only pushed when github.ref matches this branch.
@@ -92,17 +117,35 @@ on:
 
       section:
         description: >
-          Sub-section under ## [Unreleased] (default: Added).
+          Sub-section name (default: Added).
           Standard values: Added | Changed | Deprecated | Removed |
           Fixed | Security | Documentation | Performance | Infrastructure
         required: false
         default: "Added"
         type: string
 
+      target-version:
+        description: >
+          Version number / milestone to write into (e.g. "1.8.0").
+          Leave empty (default) to write into ## [Unreleased].
+          The block is auto-created when it does not yet exist.
+        required: false
+        default: ""
+        type: string
+
+      release-date:
+        description: >
+          ISO date (YYYY-MM-DD) used as the heading date when a new versioned
+          block must be created.  Ignored when the block already exists.
+          Defaults to today when empty.
+        required: false
+        default: ""
+        type: string
+
       key:
         description: >
           Idempotency key.  Prevents duplicate entries on re-runs.
-          Defaults to entry-title + today's date when empty.
+          Defaults to entry-title when empty.
         required: false
         default: ""
         type: string
@@ -164,21 +207,34 @@ jobs:
       - name: Insert CHANGELOG entry
         id: run-updater
         env:
-          ENTRY_TITLE: ${{ inputs.entry-title }}
-          ENTRY_BODY:  ${{ inputs.entry-body }}
-          SECTION:     ${{ inputs.section }}
-          KEY:         ${{ inputs.key }}
-          DRY_RUN:     ${{ inputs.dry-run }}
+          ENTRY_TITLE:      ${{ inputs.entry-title }}
+          ENTRY_BODY:       ${{ inputs.entry-body }}
+          SECTION:          ${{ inputs.section }}
+          TARGET_VERSION:   ${{ inputs.target-version }}
+          RELEASE_DATE:     ${{ inputs.release-date }}
+          KEY:              ${{ inputs.key }}
+          DRY_RUN:          ${{ inputs.dry-run }}
         run: |
           set -euo pipefail
 
           # Build --entry-body arguments from each non-empty line of ENTRY_BODY.
           BODY_ARGS=()
           while IFS= read -r line; do
-            # Skip blank lines silently.
             [[ -z "${line// }" ]] && continue
             BODY_ARGS+=("--entry-body" "$line")
           done <<< "$ENTRY_BODY"
+
+          # Build optional --target-version argument.
+          VER_ARG=()
+          if [[ -n "$TARGET_VERSION" ]]; then
+            VER_ARG=("--target-version" "$TARGET_VERSION")
+          fi
+
+          # Build optional --release-date argument.
+          DATE_ARG=()
+          if [[ -n "$RELEASE_DATE" ]]; then
+            DATE_ARG=("--release-date" "$RELEASE_DATE")
+          fi
 
           # Build optional --key argument.
           KEY_ARG=()
@@ -197,6 +253,8 @@ jobs:
             --entry-title "$ENTRY_TITLE" \
             --section     "$SECTION" \
             "${BODY_ARGS[@]}" \
+            "${VER_ARG[@]}" \
+            "${DATE_ARG[@]}" \
             "${KEY_ARG[@]}" \
             "${DRY_FLAG[@]}" \
           2>&1)
@@ -254,6 +312,12 @@ jobs:
           echo "|-----------|-------|" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Title** | ${{ inputs.entry-title }} |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Section** | \`### ${{ inputs.section }}\` |" >> "$GITHUB_STEP_SUMMARY"
+          TARGET_VER="${{ inputs.target-version }}"
+          if [[ -n "$TARGET_VER" ]]; then
+            echo "| **Target version** | \`## [$TARGET_VER]\` |" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "| **Target version** | \`## [Unreleased]\` |" >> "$GITHUB_STEP_SUMMARY"
+          fi
           echo "| **Branch** | \`${{ github.ref_name }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Target branch** | \`${{ inputs.target-branch }}\` |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Dry-run** | ${{ inputs.dry-run == true && 'yes' || 'no' }} |" >> "$GITHUB_STEP_SUMMARY"
