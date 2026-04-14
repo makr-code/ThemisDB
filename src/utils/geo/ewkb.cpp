@@ -520,7 +520,6 @@ static void validateWGS84(double lon, double lat) {
             "GeoJSON: latitude " + std::to_string(lat) + " is out of WGS84 range [-90, 90]");
     }
 #else
-    (void)lon; (void)lat;
 #endif
 }
 

@@ -285,7 +285,6 @@ bool TokenBucketRateLimiter::redisConnect() {
     THEMIS_INFO("TokenBucketRateLimiter: Redis connected, script SHA={}", evalsha_);
     return true;
 #else
-    (void)this;
     return false;
 #endif
 }
@@ -317,7 +316,6 @@ int TokenBucketRateLimiter::redisEvalBucket(Priority prio,
     }
     return redisExecEvalsha(key, capacity, refill_rate, consume_count);
 #else
-    (void)prio; (void)capacity; (void)refill_rate; (void)consume_count;
     return -1;
 #endif
 }
@@ -361,7 +359,6 @@ int TokenBucketRateLimiter::redisExecEvalsha(const std::string& key,
     redis_errors_.store(0, std::memory_order_relaxed);
     return result;
 #else
-    (void)key; (void)capacity; (void)refill_rate; (void)consume_count;
     return -1;
 #endif
 }

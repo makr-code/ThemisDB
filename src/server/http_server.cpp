@@ -7426,7 +7426,6 @@ std::optional<http::response<http::string_body>> HttpServer::enforceAuditRateLim
             count = st.count;
             THEMIS_DEBUG("AUDIT_RL_OK key={} count={} limit={}", key, count, limit);
         }
-        (void)count;
         return std::nullopt;
     } catch (...) {
         return std::nullopt;

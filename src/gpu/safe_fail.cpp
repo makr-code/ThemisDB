@@ -43,9 +43,8 @@ GPUSafeFail::GPUSafeFail(const Config& cfg) : cfg_(cfg) {}
 
 bool GPUSafeFail::executeWithFallback(std::function<bool()> gpu_op,
                                        std::function<bool()> cpu_fallback,
-                                       const std::string& op_name) {
+                                       [[maybe_unused]] const std::string& op_name) {
     // op_name is reserved for future structured-logging / audit integration.
-    (void)op_name;
     // Determine whether we should attempt the GPU at all (lock briefly).
     bool attempt_gpu = false;
     {

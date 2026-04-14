@@ -125,8 +125,6 @@ inline void prefetch(const void* ptr, PrefetchHint hint = PrefetchHint::T0) noex
         __builtin_prefetch(ptr, 0, static_cast<int>(hint));
     #else
         // No prefetch support on this platform
-        (void)ptr;
-        (void)hint;
     #endif
 }
 
@@ -149,8 +147,6 @@ inline void prefetch_write(void* ptr, PrefetchHint hint = PrefetchHint::T0) noex
         // GCC/Clang: rw = 1 for write
         __builtin_prefetch(ptr, 1, static_cast<int>(hint));
     #else
-        (void)ptr;
-        (void)hint;
     #endif
 }
 

@@ -418,7 +418,7 @@ std::string LLMProcessAnalyzer::generatePrompt(
 
 std::string LLMProcessAnalyzer::callLLM(
     const std::string& prompt,
-    const std::map<std::string, std::string>& params
+    const std::map<std::string, [[maybe_unused]] std::string>& params
 ) {
     // When THEMIS_ENABLE_LLM_API is defined, delegate to the configured provider
     // (OpenAI, Anthropic, or a local model served over HTTP).
@@ -433,8 +433,6 @@ std::string LLMProcessAnalyzer::callLLM(
     // Production path: call the configured LLM provider.
     // Implementation plugged in via the provider SDK (OpenAI, Anthropic, etc.)
     // Return the raw completion text from the API response.
-    (void)params;
-    (void)prompt;
     // Unreachable unless the provider SDK is compiled in; fall through to
     // the heuristic response below so the unit tests remain functional.
 #endif

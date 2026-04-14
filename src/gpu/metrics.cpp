@@ -89,23 +89,21 @@ void GPUMetrics::recordAllocSuccess(uint64_t bytes,
                 static_cast<double>(bytes));
 }
 
-void GPUMetrics::recordAllocFailGlobal(uint64_t bytes,
+void GPUMetrics::recordAllocFailGlobal([[maybe_unused]] uint64_t bytes,
                                         const std::string& tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     std::unordered_map<std::string, std::string> labels{
         {"result", "fail_global_limit"}};
     if (!tenant_id.empty()) labels["tenant"] = tenant_id;
     incrCounter("themis_gpu_alloc_total", labels);
-    (void)bytes;
 }
 
-void GPUMetrics::recordAllocFailTenant(uint64_t bytes,
+void GPUMetrics::recordAllocFailTenant([[maybe_unused]] uint64_t bytes,
                                         const std::string& tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     std::unordered_map<std::string, std::string> labels{
         {"result", "fail_tenant_quota"}, {"tenant", tenant_id}};
     incrCounter("themis_gpu_alloc_total", labels);
-    (void)bytes;
 }
 
 void GPUMetrics::recordDealloc(uint64_t bytes, const std::string& tenant_id) {

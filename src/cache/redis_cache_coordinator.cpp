@@ -162,7 +162,6 @@ void RedisCacheCoordinator::publishEntry(const std::string& key,
         ++messages_published_;
     }
 #else
-    (void)key; (void)result; (void)ttl_seconds; (void)tenant_id;
 #endif
 }
 
@@ -206,7 +205,6 @@ void RedisCacheCoordinator::publishInvalidation(const std::string& pattern,
         ++messages_published_;
     }
 #else
-    (void)pattern; (void)tenant_id;
 #endif
 }
 

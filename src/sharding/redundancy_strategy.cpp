@@ -169,10 +169,9 @@ std::vector<uint8_t> ChunkInfo::serialize() const {
     return data;
 }
 
-std::optional<ChunkInfo> ChunkInfo::deserialize(const std::vector<uint8_t>& data) {
+std::optional<ChunkInfo> ChunkInfo::deserialize([[maybe_unused]] const std::vector<uint8_t>& data) {
     // Simple binary deserialization
     // In production, use protobuf or similar
-    (void)data;
     return std::nullopt;
 }
 
@@ -199,8 +198,7 @@ std::vector<uint32_t> StripeGroup::getMissingChunks() const {
     return missing;
 }
 
-bool StripeGroup::canRecover(uint32_t data_shards, uint32_t parity_shards) const {
-    (void)parity_shards;
+bool StripeGroup::canRecover(uint32_t data_shards, [[maybe_unused]] uint32_t parity_shards) const {
     uint32_t available = 0;
     for (const auto& chunk : data_chunks) {
         if (!chunk.shard_id.empty()) available++;
@@ -871,7 +869,6 @@ WriteResult RedundancyStrategy::write(
     ShardTopology& topology,
     WriteHandler handler
 ) {
-    (void)collection;
     auto start = std::chrono::steady_clock::now();
     
     stats_writes_++;
@@ -922,7 +919,6 @@ ReadResult RedundancyStrategy::read(
     ShardTopology& topology,
     ReadHandler handler
 ) {
-    (void)collection;
     auto start = std::chrono::steady_clock::now();
     
     stats_reads_++;
@@ -978,7 +974,6 @@ WriteResult RedundancyStrategy::writeMirror(
     ShardTopology& topology [[maybe_unused]],
     WriteHandler handler
 ) {
-    (void)topology;
     // Get primary shard
     auto primary_shard = ring.getNode(document_id);
     if (!primary_shard) {
@@ -1165,7 +1160,6 @@ WriteResult RedundancyStrategy::writeStripe(
     ShardTopology& topology [[maybe_unused]],
     WriteHandler handler
 ) {
-    (void)topology;
     // Split data into chunks
     auto chunks = splitIntoChunks(data, config_.stripe.stripe_size_kb * 1024);
     
@@ -1252,7 +1246,6 @@ WriteResult RedundancyStrategy::writeParity(
     ShardTopology& topology [[maybe_unused]],
     WriteHandler handler
 ) {
-    (void)topology;
     if (!erasure_coder_) {
         return WriteResult::failed(document_id, "Erasure coder not initialized");
     }
@@ -1675,7 +1668,6 @@ ReadResult RedundancyStrategy::readStripe(
     ShardTopology& topology [[maybe_unused]],
     ReadHandler handler
 ) {
-    (void)topology;
     ReadResult result;
     result.document_id = document_id;
     result.success = false;
@@ -1715,11 +1707,9 @@ ReadResult RedundancyStrategy::readStripe(
 ReadResult RedundancyStrategy::readParity(
     const std::string& document_id,
     ConsistentHashRing& ring,
-    ShardTopology& topology,
+    [[maybe_unused]] ShardTopology& topology,
     ReadHandler handler
 ) {
-    (void)ring;
-    (void)topology;
     if (!erasure_coder_) {
         ReadResult result;
         result.success = false;
@@ -1942,7 +1932,6 @@ bool RedundancyStrategy::remove(
     ShardTopology& topology,
     WriteHandler handler
 ) {
-    (void)collection;
 
     // Determine the set of shards that hold this document
     auto primary_opt = ring.getNode(document_id);
@@ -2063,7 +2052,6 @@ bool RedundancyStrategy::recoverDocument(
     ReadHandler read_handler,
     WriteHandler write_handler
 ) {
-    (void)collection;
     stats_recoveries_++;
 
     // Recovery is only meaningful for modes that have redundant copies or parity
@@ -2212,7 +2200,6 @@ RedundancyStrategy::DocumentHealth RedundancyStrategy::checkDocumentHealth(
     ShardTopology& topology,
     ReadHandler handler
 ) {
-    (void)collection;
     DocumentHealth health;
     health.required_replicas = config_.replication_factor;
     health.is_healthy = false;

@@ -76,10 +76,10 @@ static std::vector<uint8_t> base64_decode(const std::string& encoded) {
     return out;
 }
 
-VaultSigningProvider::VaultSigningProvider(const Config& cfg) {
+VaultSigningProvider::VaultSigningProvider([[maybe_unused]] const Config& cfg) {
     // store config by copying into a simple global curl state via local static
     // For this prototype we store nothing special; HTTP calls will construct CURL per-call
-    (void)cfg; // no-op stored in this minimal prototype
+    // no-op stored in this minimal prototype
 }
 
 VaultSigningProvider::~VaultSigningProvider() = default;

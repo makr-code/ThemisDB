@@ -172,7 +172,7 @@ ExportStats IncrementalExporter::exportEntities(
             }
         }
 
-        (void)limit_reached;  // exported up to any limits; watermark still valid
+        // exported up to any limits; watermark still valid
 
         writer.close();
 

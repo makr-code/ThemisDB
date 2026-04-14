@@ -190,7 +190,6 @@ bool GPUUnifiedMemoryAllocator::prefetch(const void* ptr, size_t bytes,
 #elif defined(THEMIS_ENABLE_HIP)
     return hipMemPrefetchAsync(ptr, bytes, device_id, nullptr) == hipSuccess;
 #else
-    (void)device_id;
     return true;
 #endif
 }
@@ -231,8 +230,6 @@ bool GPUUnifiedMemoryAllocator::advise(const void* ptr, size_t bytes,
     }
     return hipMemAdvise(ptr, bytes, hip_advice, device_id) == hipSuccess;
 #else
-    (void)advice;
-    (void)device_id;
     return true;
 #endif
 }

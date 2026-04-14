@@ -443,7 +443,6 @@ void ImportApiHandler::handleGetSchema(const httplib::Request& req,
                                         httplib::Response& res) {
     auto span = Tracer::startSpan("handleGetSchema");
 #ifndef THEMIS_ENABLE_POSTGRES_WIRE
-    (void)req;
     jsonError(res, 501,
               "Schema preview requires PostgreSQL wire support; rebuild with THEMIS_ENABLE_POSTGRES_WIRE=ON");
     return;
@@ -487,7 +486,6 @@ void ImportApiHandler::handleValidateSchema(const httplib::Request& req,
                                              httplib::Response& res) {
     auto span = Tracer::startSpan("handleValidateSchema");
 #ifndef THEMIS_ENABLE_POSTGRES_WIRE
-    (void)req;
     jsonError(res, 501,
               "Schema validation requires PostgreSQL wire support; rebuild with THEMIS_ENABLE_POSTGRES_WIRE=ON");
     return;

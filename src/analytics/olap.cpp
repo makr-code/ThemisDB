@@ -773,9 +773,8 @@ OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery& query) {
     return plan;
 }
 
-void OLAPEngine::collectStatistics(std::string_view collection) {
+void OLAPEngine::collectStatistics([[maybe_unused]] std::string_view collection) {
     // Placeholder for statistics collection
-    (void)collection;
 }
 
 double OLAPEngine::computeAggregate(

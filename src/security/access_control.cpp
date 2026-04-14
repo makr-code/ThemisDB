@@ -347,11 +347,9 @@ Result<nlohmann::json> AccessControl::enrollMFA(const std::string& user_id) {
     return themis::Ok(std::move(result));
 }
 
-bool AccessControl::verifyMFA(const std::string& user_id, const std::string& token) {
+bool AccessControl::verifyMFA([[maybe_unused]] const std::string& user_id, const std::string& token) {
     // This is a simplified implementation
     // In production, retrieve stored MFA secret from database
-    (void)user_id;
-    (void)token;
     
     // For now, always return true if token is provided
     // Real implementation would call mfa_authenticator_->validateTOTP()
@@ -660,8 +658,8 @@ void AccessControl::invalidateUserSessions(const std::string& user_id) {
 // Threat Detection
 // ============================================================================
 
-bool AccessControl::isRateLimited(const std::string& user_id, const std::string& resource) {
-    (void)resource; // unused for now
+bool AccessControl::isRateLimited(const std::string& user_id, [[maybe_unused]] const std::string& resource) {
+    // unused for now
     return !checkRateLimit(user_id);
 }
 
@@ -718,8 +716,7 @@ bool AccessControl::detectSuspiciousQuery(const std::string& query, const std::s
     return false;
 }
 
-void AccessControl::recordFailedLogin(const std::string& user_id, const std::string& ip_address) {
-    (void)ip_address;
+void AccessControl::recordFailedLogin(const std::string& user_id, [[maybe_unused]] const std::string& ip_address) {
     
     auto& entry = rate_limits_[user_id];
     entry.failed_login_count++;
@@ -770,13 +767,10 @@ void AccessControl::logSecurityEvent(
 }
 
 nlohmann::json AccessControl::getAuditLogs(
-    const std::string& user_id,
-    std::optional<std::chrono::system_clock::time_point> since,
-    std::optional<std::chrono::system_clock::time_point> until
+    [[maybe_unused]] const std::string& user_id,
+    [[maybe_unused]] std::optional<std::chrono::system_clock::time_point> since,
+    [[maybe_unused]] std::optional<std::chrono::system_clock::time_point> until
 ) const {
-    (void)user_id;
-    (void)since;
-    (void)until;
     
     // This would query the audit logger
     // For now, return empty array

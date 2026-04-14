@@ -160,7 +160,6 @@ bool GPUStreamManager::createCudaStream(const StreamConfig& cfg,
     }
 #else
     // CUDA not available — delegate to ROCm / CPU fallback.
-    (void)device_index;
     backend_fn = ROCmBackend::GetInstance().createBackendFn(device_index);
 #endif
 

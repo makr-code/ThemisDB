@@ -822,7 +822,6 @@ GNNEmbeddingManager::Status GNNEmbeddingManager::generateNodeEmbeddingsBatch(
         for (size_t j = i; j < end; ++j) {
             auto st = updateNodeEmbedding(node_pks[j], graph_id, model_name);
             // Silently continue on error (for batch processing)
-            (void)st;
         }
     }
     
@@ -841,7 +840,6 @@ GNNEmbeddingManager::Status GNNEmbeddingManager::generateEdgeEmbeddingsBatch(
         for (size_t j = i; j < end; ++j) {
             auto st = updateEdgeEmbedding(edge_ids[j], graph_id, model_name);
             // Silently continue on error (for batch processing)
-            (void)st;
         }
     }
     

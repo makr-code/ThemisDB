@@ -676,7 +676,6 @@ private:
                         h->set_score(sparse_weight);
                     }
 #else
-                    (void)sparse_weight;
 #endif
                 }
             }

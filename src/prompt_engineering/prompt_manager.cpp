@@ -164,8 +164,8 @@ std::vector<PromptManager::PromptTemplate> PromptManager::listTemplates() const 
     if (db_) {
         std::vector<PromptTemplate> out;
         std::string prefix = KEY_PREFIX;
-        db_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {
-            (void)key; // silence unused parameter warning
+        db_->scanPrefix(prefix, [&]([[maybe_unused]] std::string_view key, std::string_view value) -> bool {
+            // silence unused parameter warning
             try {
                 auto j = nlohmann::json::parse(std::string(value));
                 PromptTemplate t;

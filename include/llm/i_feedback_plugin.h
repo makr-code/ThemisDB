@@ -159,11 +159,9 @@ public:
      * @param feedback Original feedback data
      */
     virtual void onFeedbackStored(
-        const std::string& feedback_id,
-        const FeedbackData& feedback) {
+        [[maybe_unused]] const std::string& feedback_id,
+        [[maybe_unused]] const FeedbackData& feedback) {
         // Default: no-op
-        (void)feedback_id;
-        (void)feedback;
     }
     
     /**
@@ -209,13 +207,11 @@ public:
         return "No-op feedback plugin - accepts all feedback";
     }
     
-    bool initialize(const json& config) override {
-        (void)config;
+    bool initialize([[maybe_unused]] const json& config) override {
         return true;
     }
     
-    ValidationResponse validate(const FeedbackData& feedback) override {
-        (void)feedback;
+    ValidationResponse validate([[maybe_unused]] const FeedbackData& feedback) override {
         ValidationResponse response;
         response.result = FeedbackValidationResult::ACCEPT;
         return response;

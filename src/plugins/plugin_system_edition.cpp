@@ -414,8 +414,8 @@ inline std::string GetPluginMarketplaceInfo() {
 }
 
 // Check if a specific plugin type is available (compile-time + runtime gate)
-inline bool CanUsePluginType(PluginType type) {
-    (void)type;  // All plugin types require Enterprise or higher
+inline bool CanUsePluginType([[maybe_unused]] PluginType type) {
+    // All plugin types require Enterprise or higher
     return license::RuntimeLicenseGate::instance().isFeatureAllowed("enterprise_plugins");
 }
 

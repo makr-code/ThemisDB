@@ -177,7 +177,7 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchBFS(
         return {};
     }
 
-    (void)adjacency; // Placeholder implementation
+    // Placeholder implementation
     std::vector<std::vector<uint32_t>> results(numStarts);
     
     for (size_t s = 0; s < numStarts; ++s) {
@@ -222,8 +222,7 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(
         return {};
     }
 
-    (void)adjacency; (void)weights; (void)numVertices;
-    (void)startVertices; (void)endVertices; // Placeholder implementation
+    // Placeholder implementation
     std::vector<std::vector<uint32_t>> results(numPairs);
     
     // Simplified Dijkstra implementation placeholder

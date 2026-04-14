@@ -45,7 +45,7 @@ namespace server {
 }
 
 /*static*/ std::string SamlAuthProvider::defaultTokenFactory(
-    const auth::SAMLClaims& claims)
+    [[maybe_unused]] const auth::SAMLClaims& claims)
 {
     // Generate a 16-byte random token and hex-encode it, prefix with "saml_"
     unsigned char buf[16]{};
@@ -56,7 +56,7 @@ namespace server {
         oss << std::hex << std::setw(2) << std::setfill('0')
             << static_cast<unsigned>(b);
     }
-    (void)claims; // claims available for enrichment by custom factories
+    // claims available for enrichment by custom factories
     return oss.str();
 }
 

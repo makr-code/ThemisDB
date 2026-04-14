@@ -722,7 +722,7 @@ int main(int argc, char* argv[]) {
             if (cfg->contains("features")) {
                 const auto& f = (*cfg)["features"];
                 // values read later into server_config
-                (void)f; // placeholder to avoid unused warnings
+                // placeholder to avoid unused warnings
             }
         }
 

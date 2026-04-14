@@ -286,8 +286,7 @@ uint64_t BackupManager::getCurrentSequenceNumber() const {
 }
 
 Result<void> BackupManager::copyWALFiles(const std::string& src_dir, const std::string& dest_dir,
-                                         uint64_t min_sequence) {
-    (void)min_sequence;
+                                         [[maybe_unused]] uint64_t min_sequence) {
     namespace fs = std::filesystem;
     try {
         std::error_code ec;
@@ -391,8 +390,7 @@ Result<std::string> BackupManager::createFullBackup(const std::string& dest_dir)
 
 bool BackupManager::createFullBackup(const std::string& dest_dir, 
                                      std::error_code& ec,
-                                     const BackupOptions& options) {
-    (void)options;
+                                     [[maybe_unused]] const BackupOptions& options) {
     // Call the Result-based version and convert to bool + error_code
     auto result = createFullBackup(dest_dir);
     if (result) {
@@ -1017,8 +1015,7 @@ bool BackupManager::compressPath(const std::string& src_path, const std::string&
 }
 
 bool BackupManager::decompressPath(const std::string& src_path, const std::string& dest_path,
-                                   CompressionType type, std::error_code& ec) {
-    (void)type;
+                                   [[maybe_unused]] CompressionType type, std::error_code& ec) {
     // Placeholder implementation
     namespace fs = std::filesystem;
     try {
@@ -1037,7 +1034,7 @@ bool BackupManager::decompressPath(const std::string& src_path, const std::strin
 }
 
 bool BackupManager::encryptFile(const std::string& src_path, const std::string& dest_path,
-                                const std::string& key, std::error_code& ec) {
+                                [[maybe_unused]] const std::string& key, std::error_code& ec) {
     // When THEMIS_ENABLE_OPENSSL is defined, use AES-256-GCM authenticated encryption:
     //   EVP_CIPHER_CTX with EVP_aes_256_gcm()
     //   Reference: https://wiki.openssl.org/index.php/EVP_Authenticated_Encryption_and_Decryption
@@ -1045,7 +1042,7 @@ bool BackupManager::encryptFile(const std::string& src_path, const std::string& 
     namespace fs = std::filesystem;
     try {
         THEMIS_INFO("Encrypting {} to {}", src_path, dest_path);
-        (void)key; // used by the real OpenSSL path
+        // used by the real OpenSSL path
         fs::copy(src_path, dest_path, fs::copy_options::recursive, ec);
         if (ec) {
             THEMIS_ERROR("Failed to copy for encryption: {}", ec.message());
@@ -1060,8 +1057,7 @@ bool BackupManager::encryptFile(const std::string& src_path, const std::string& 
 }
 
 bool BackupManager::decryptFile(const std::string& src_path, const std::string& dest_path,
-                                const std::string& key, std::error_code& ec) {
-    (void)key;
+                                [[maybe_unused]] const std::string& key, std::error_code& ec) {
     // Placeholder implementation
     namespace fs = std::filesystem;
     try {
@@ -1079,10 +1075,10 @@ bool BackupManager::decryptFile(const std::string& src_path, const std::string& 
     }
 }
 
-bool BackupManager::uploadToCloud(const std::string& local_path, const std::string& cloud_path,
+bool BackupManager::uploadToCloud(const std::string& local_path, [[maybe_unused]] const std::string& cloud_path,
                                   StorageBackend backend, 
-                                  const std::map<std::string, std::string>& config,
-                                  std::error_code& ec) {
+                                  const std::map<std::string, [[maybe_unused]] std::string>& config,
+                                  [[maybe_unused]] std::error_code& ec) {
     // When the relevant SDK compile flag is set, use the real SDK:
     //   THEMIS_ENABLE_S3:     AWS SDK for C++ (github.com/aws/aws-sdk-cpp)
     //   THEMIS_ENABLE_GCS:    Google Cloud Storage C++ (github.com/googleapis/google-cloud-cpp)
@@ -1090,7 +1086,6 @@ bool BackupManager::uploadToCloud(const std::string& local_path, const std::stri
     // Without a flag the upload is a no-op (development/testing only).
     try {
         THEMIS_INFO("Uploading {} to cloud backend {}", local_path, static_cast<int>(backend));
-        (void)cloud_path; (void)config; (void)ec;
         return true;
     } catch (const std::exception& e) {
         ec = std::make_error_code(std::errc::io_error);
@@ -1099,12 +1094,10 @@ bool BackupManager::uploadToCloud(const std::string& local_path, const std::stri
     }
 }
 
-bool BackupManager::downloadFromCloud(const std::string& cloud_path, const std::string& local_path,
+bool BackupManager::downloadFromCloud(const std::string& cloud_path, [[maybe_unused]] const std::string& local_path,
                                       StorageBackend backend,
-                                      const std::map<std::string, std::string>& config,
+                                      const std::map<std::string, [[maybe_unused]] std::string>& config,
                                       std::error_code& ec) {
-    (void)local_path;
-    (void)config;
     // Placeholder implementation
     try {
         THEMIS_INFO("Downloading {} from cloud backend {}", cloud_path, static_cast<int>(backend));
@@ -1224,9 +1217,8 @@ bool BackupManager::restoreFromBackup(const std::string& src_dir, std::error_cod
     }
 }
 
-bool BackupManager::performPITR(const std::string& dest_dir, const PITROptions& pitr_options,
+bool BackupManager::performPITR(const std::string& dest_dir, [[maybe_unused]] const PITROptions& pitr_options,
                                 std::error_code& ec, RecoveryStats* stats) {
-    (void)pitr_options;
     // Placeholder implementation for PITR
     namespace fs = std::filesystem;
     try {
@@ -1259,10 +1251,9 @@ bool BackupManager::performPITR(const std::string& dest_dir, const PITROptions& 
     }
 }
 
-bool BackupManager::restoreCollections(const std::string& src_dir, 
+bool BackupManager::restoreCollections([[maybe_unused]] const std::string& src_dir, 
                                        const std::vector<std::string>& collections,
                                        std::error_code& ec) {
-    (void)src_dir;
     // Placeholder implementation for partial recovery
     try {
         THEMIS_INFO("Restoring {} collections from backup", collections.size());

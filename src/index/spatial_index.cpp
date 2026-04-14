@@ -115,9 +115,9 @@ std::pair<double, double> MortonEncoder::decode2D(uint64_t code, const geo::MBR&
 std::vector<std::pair<uint64_t, uint64_t>> MortonEncoder::getRanges(
     const geo::MBR& query_bbox,
     const geo::MBR& total_bounds,
-    int max_ranges
+    [[maybe_unused]] int max_ranges
 ) {
-    (void)max_ranges; // unused parameter
+    // unused parameter
     // Simplified implementation: compute min/max Morton codes
     uint64_t min_code = encode2D(query_bbox.minx, query_bbox.miny, total_bounds);
     uint64_t max_code = encode2D(query_bbox.maxx, query_bbox.maxy, total_bounds);
@@ -298,10 +298,10 @@ SpatialIndexManager::Status SpatialIndexManager::saveConfig(std::string_view tab
 // Create spatial index
 SpatialIndexManager::Status SpatialIndexManager::createSpatialIndex(
     std::string_view table,
-    std::string_view geometry_column,
+    [[maybe_unused]] std::string_view geometry_column,
     const RTreeConfig& config
 ) {
-    (void)geometry_column; // unused parameter
+    // unused parameter
     // Save config
     RTreeConfig cfg = config;
     if (cfg.total_bounds.minx == 0.0 && cfg.total_bounds.maxx == 0.0) {
@@ -1002,9 +1002,9 @@ std::vector<SpatialResult> SpatialIndexManager::searchContains(
     std::string_view table,
     double x,
     double y,
-    std::optional<double> z
+    [[maybe_unused]] std::optional<double> z
 ) const {
-    (void)z; // unused parameter
+    // unused parameter
 
     auto config = getConfig(table);
     if (!config) return {};
@@ -1054,10 +1054,10 @@ std::vector<SpatialResult> SpatialIndexManager::searchNearby(
     double x,
     double y,
     double max_distance_meters,
-    std::optional<double> z,
+    [[maybe_unused]] std::optional<double> z,
     size_t limit
 ) const {
-    (void)z; // unused parameter
+    // unused parameter
     // Expand to bbox (approximate)
     double degrees_delta = max_distance_meters / 111320.0;  // Rough approximation
     geo::MBR query_bbox(x - degrees_delta, y - degrees_delta, x + degrees_delta, y + degrees_delta);
@@ -1100,9 +1100,9 @@ std::vector<SpatialResult> SpatialIndexManager::searchKNN(
     double x,
     double y,
     size_t k,
-    std::optional<double> z
+    [[maybe_unused]] std::optional<double> z
 ) const {
-    (void)z; // unused parameter — reserved for future 3D distance filtering
+    // unused parameter — reserved for future 3D distance filtering
     if (k == 0) return {};
 
     auto config = getConfig(table);

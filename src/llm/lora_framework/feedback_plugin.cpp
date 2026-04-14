@@ -145,8 +145,7 @@ bool ContentValidationPlugin::containsSpam(const std::string& text) const {
     return false;
 }
 
-bool ContentValidationPlugin::containsProfanity(const std::string& text) const {
-    (void)text;
+bool ContentValidationPlugin::containsProfanity([[maybe_unused]] const std::string& text) const {
     // Placeholder - can be implemented with a profanity filter library
     // or word list if needed
     return false;

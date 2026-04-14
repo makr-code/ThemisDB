@@ -2336,7 +2336,6 @@ int CUDAMatrixBackend::matmul(const MatrixKernelParams& params, void* opaque_str
         : static_cast<cudaStream_t>(stream_.get());
     return tensor_core::dispatchMatmul(params, stream);
 #else
-    (void)params; (void)opaque_stream;
     return 1; // CUDA not available
 #endif
 }

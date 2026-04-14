@@ -180,9 +180,8 @@ public:
      * @param out  Destination vector; keys are appended (not replaced).
      * @return true if enumeration succeeded and @p out is complete.
      */
-    virtual bool listKeys(std::vector<std::string>& out)
+    virtual bool listKeys([[maybe_unused]] std::vector<std::string>& out)
     {
-        (void)out;
         return false;
     }
 };

@@ -391,7 +391,7 @@ bool CudaHnswTraversalEngine::buildIndex(const std::vector<HnswLayerGraph>& laye
 // addNode
 // ─────────────────────────────────────────────────────────────────────────────
 
-bool CudaHnswTraversalEngine::addNode(int64_t new_id,
+bool CudaHnswTraversalEngine::addNode([[maybe_unused]] int64_t new_id,
                                        const float* vector,
                                        const std::vector<HnswLayerGraph>& updated_layers) {
     if (!impl_->index_built) return false;
@@ -403,7 +403,6 @@ bool CudaHnswTraversalEngine::addNode(int64_t new_id,
 
     // Re-upload is cheap for single-node incremental adds; a production path
     // would use device-side append; for now rebuild device buffers.
-    (void)new_id;
     return buildIndex(impl_->layers,
                       impl_->flat_vectors.data(),
                       impl_->num_vectors);

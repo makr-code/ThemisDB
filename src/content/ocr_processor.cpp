@@ -270,8 +270,6 @@ std::string OcrProcessor::runTesseract(const std::string& blob,
     text = sanitizeOcrText(std::move(text));
     return text;
 #else
-    (void)blob;
-    (void)preprocess_info;
     return "";
 #endif
 }

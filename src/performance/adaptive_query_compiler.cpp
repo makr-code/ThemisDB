@@ -232,9 +232,8 @@ struct IRGenOptions {
 };
 
 static std::string generateLLVMIR(const ParsedQuery& query,
-                                   const Schema&      schema,
+                                   [[maybe_unused]] const Schema&      schema,
                                    const IRGenOptions& opts) {
-    (void)schema;
     std::ostringstream ir;
     ir << "; ThemisDB Adaptive Query Compiler – LLVM IR (simulated)\n";
     ir << "; Query fingerprint: " << query.fingerprint << "\n";
@@ -307,8 +306,7 @@ static std::string generateAssembly(const ParsedQuery&  query,
 static QueryRow makeRow(const std::string&       table,
                          const TableSchema*        tschema,
                          size_t                    row_idx,
-                         const QueryParams&        params) {
-    (void)params;
+                         [[maybe_unused]] const QueryParams&        params) {
     QueryRow row;
     if (!tschema) {
         row.column_names = {"id", "value"};
@@ -706,8 +704,7 @@ private:
 
     static double applyAggFunction(const std::string& fn,
                                     const AggAccum&    acc,
-                                    size_t             total_rows) {
-        (void)total_rows;
+                                    [[maybe_unused]] size_t             total_rows) {
         if (fn == "COUNT") return static_cast<double>(acc.count);
         if (fn == "SUM")   return acc.sum;
         if (fn == "AVG")   return acc.count > 0 ? acc.sum / acc.count : 0.0;
@@ -882,13 +879,12 @@ private:
                                     : ColumnType::Unknown;
                     preds.push_back({p.column, p.op, p.value, p.param_name, ct});
                 }
-                const bool vectorized = cfg.enable_vectorization;
+                [[maybe_unused]] const bool vectorized = cfg.enable_vectorization;
                 const std::string tbl = query.table;
 
                 cq.execute = [preds, tschema_copy = (tschema ? *tschema : TableSchema{}),
                                vectorized, tbl]
                               (const QueryParams& params) -> QueryResult {
-                    (void)vectorized;
                     QueryResult result;
                     constexpr size_t kRows = 10;
                     for (size_t i = 0; i < kRows; ++i) {

@@ -104,7 +104,7 @@ int NUMAMemoryManager::resolve_node(int hint_node) const noexcept {
     return get_current_node();
 }
 
-void* NUMAMemoryManager::do_allocate(size_t size, int node, bool /*use_huge_pages*/) {
+void* NUMAMemoryManager::do_allocate(size_t size, [[maybe_unused]] int node, bool /*use_huge_pages*/) {
     if (size == 0) return nullptr;
     void* ptr = nullptr;
 #ifdef __linux__
@@ -112,9 +112,8 @@ void* NUMAMemoryManager::do_allocate(size_t size, int node, bool /*use_huge_page
     // requires page-aligned memory.
     if (posix_memalign(&ptr, 64, size) != 0) throw std::bad_alloc{};
     // mbind to preferred node when libnuma-style syscall available
-    (void)node; // node used for statistics; kernel mbind not required here
+    // node used for statistics; kernel mbind not required here
 #else
-    (void)node;
     ptr = std::malloc(size);
     if (!ptr) throw std::bad_alloc{};
 #endif

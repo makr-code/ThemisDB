@@ -96,9 +96,8 @@ std::string BlobMetadata::toJson() const {
     return "{}";
 }
 
-std::optional<BlobMetadata> BlobMetadata::fromJson(const std::string& json) {
+std::optional<BlobMetadata> BlobMetadata::fromJson([[maybe_unused]] const std::string& json) {
     // Simplified JSON deserialization
-    (void)json;
     return std::nullopt;
 }
 
@@ -107,17 +106,15 @@ std::optional<BlobMetadata> BlobMetadata::fromJson(const std::string& json) {
 // ═══════════════════════════════════════════════════════════
 
 std::optional<CollectionRedundancyConfig> CollectionRedundancyConfig::loadFromYaml(
-    const std::string& path
+    [[maybe_unused]] const std::string& path
 ) {
     // Simplified YAML loading
     // In production, use yaml-cpp
-    (void)path;
     return std::nullopt;
 }
 
-bool CollectionRedundancyConfig::saveToYaml(const std::string& path) const {
+bool CollectionRedundancyConfig::saveToYaml([[maybe_unused]] const std::string& path) const {
     // Simplified YAML saving
-    (void)path;
     return false;
 }
 
@@ -417,12 +414,10 @@ Result<void> BlobRedundancyManager::repairBlob(const std::string& blob_id) {
     }
     
     const auto& metadata = it->second;
-    (void)metadata;
     
     stats_repairs_++;
     auto end = std::chrono::steady_clock::now();
     auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-    (void)latency;
     
     return themis::OkVoid();
 }
@@ -656,22 +651,18 @@ Result<void> BlobRedundancyManager::deleteBlob(
 }
 
 Result<void> BlobRedundancyManager::tierDown(
-    const std::string& blob_id,
-    StorageTier target
+    [[maybe_unused]] const std::string& blob_id,
+    [[maybe_unused]] StorageTier target
 ) {
-    (void)blob_id;
-    (void)target;
     stats_tier_transitions_++;
     
     return themis::OkVoid();
 }
 
 Result<void> BlobRedundancyManager::tierUp(
-    const std::string& blob_id,
-    StorageTier target
+    [[maybe_unused]] const std::string& blob_id,
+    [[maybe_unused]] StorageTier target
 ) {
-    (void)blob_id;
-    (void)target;
     stats_tier_transitions_++;
     
     return themis::OkVoid();
@@ -1106,14 +1097,12 @@ std::string BlobRedundancyManager::selectReadShard(const BlobMetadata& blob) {
     return "local";
 }
 
-void BlobRedundancyManager::updateMetadataStore(const BlobMetadata& blob) {
-    (void)blob;
+void BlobRedundancyManager::updateMetadataStore([[maybe_unused]] const BlobMetadata& blob) {
     // Update distributed metadata store (etcd, etc.)
     // Simplified: no-op for now
 }
 
-void BlobRedundancyManager::removeFromMetadataStore(const std::string& blob_id) {
-    (void)blob_id;
+void BlobRedundancyManager::removeFromMetadataStore([[maybe_unused]] const std::string& blob_id) {
     // Remove from distributed metadata store
     // Simplified: no-op for now
 }
@@ -1135,11 +1124,10 @@ RocksDBBlobListener::RocksDBBlobListener(
 }
 
 void RocksDBBlobListener::OnFlushCompleted(
-    rocksdb::DB* db,
+    [[maybe_unused]] rocksdb::DB* db,
     const rocksdb::FlushJobInfo& info
 ) {
     // New SST file created
-    (void)db;
     spdlog::debug("SST file created (flush): {}", info.file_path);
     
     // Register with blob manager
@@ -1153,11 +1141,10 @@ void RocksDBBlobListener::OnFlushCompleted(
 }
 
 void RocksDBBlobListener::OnCompactionCompleted(
-    rocksdb::DB* db,
+    [[maybe_unused]] rocksdb::DB* db,
     const rocksdb::CompactionJobInfo& info
 ) {
     // New SST files created by compaction
-    (void)db;
     spdlog::debug("Compaction completed, output files: {}", info.output_files.size());
     
     for (const auto& file_path : info.output_files) {

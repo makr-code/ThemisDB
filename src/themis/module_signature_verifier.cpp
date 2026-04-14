@@ -60,7 +60,7 @@ ModuleSignatureVerificationResult ModuleSignatureVerifier::verifySignature(
     ModuleSignatureVerificationResult result;
 
 #ifdef _WIN32
-    (void)signaturePath; // unused on Windows
+    // unused on Windows
     result.platform = "windows_authenticode";
     result.success  = verifyAuthenticodeSignature(modulePath, result.signerInfo);
     if (!result.success && result.signerInfo.empty()) {

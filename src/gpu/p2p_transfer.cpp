@@ -133,7 +133,6 @@ bool GPUP2PTransferManager::canAccessPeer(
     return (err == hipSuccess) && (can != 0);
 #else
     // CPU simulation: no hardware P2P available.
-    (void)devs;
     return false;
 #endif
 }
@@ -210,7 +209,6 @@ GPUP2PTransferManager::Status GPUP2PTransferManager::enablePeerAccess(
 
 #else
     // CPU fallback: no hardware P2P available; deny silently.
-    (void)devs;
     return Status::PEER_ACCESS_NOT_SUPPORTED;
 #endif
 

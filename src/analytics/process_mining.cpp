@@ -675,8 +675,7 @@ std::pair<ProcessMining::Status, DiscoveredProcess> ProcessMining::discoverProce
 
 // ===== Mining Algorithms =====
 
-DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog& log, const MiningConfig& config) {
-    (void)config;
+DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog& log, [[maybe_unused]] const MiningConfig& config) {
     DiscoveredProcess process;
     process.name = "Alpha Miner Result";
     
@@ -2335,8 +2334,7 @@ ProcessMining::findSimilarPatterns(const std::vector<std::string>& pattern, cons
 }
 
 std::pair<ProcessMining::Status, std::vector<ProcessMining::GeoProcessCluster>>
-ProcessMining::discoverGeoVariants(const EventLog& log, double cluster_radius_km) {
-    (void)cluster_radius_km;
+ProcessMining::discoverGeoVariants(const EventLog& log, [[maybe_unused]] double cluster_radius_km) {
     std::vector<GeoProcessCluster> clusters;
     std::set<std::string> processed_variants;
     

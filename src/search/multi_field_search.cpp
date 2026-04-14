@@ -61,7 +61,6 @@ void MultiFieldBoostedSearch::normalizeScores(
     double min_score = std::numeric_limits<double>::max();
     double max_score = std::numeric_limits<double>::lowest();
     for (const auto& [doc_id, s] : scored) {
-        (void)doc_id;
         min_score = std::min(min_score, s);
         max_score = std::max(max_score, s);
     }
@@ -69,14 +68,12 @@ void MultiFieldBoostedSearch::normalizeScores(
     const double range = max_score - min_score;
     if (range > 0.0) {
         for (auto& [doc_id, s] : scored) {
-            (void)doc_id;
             s = (s - min_score) / range;
         }
     } else {
         // All scores are equal: map to 1.0 if positive, 0.0 otherwise
         const double normalized = (max_score > 0.0) ? 1.0 : 0.0;
         for (auto& [doc_id, s] : scored) {
-            (void)doc_id;
             s = normalized;
         }
     }

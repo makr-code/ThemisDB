@@ -167,7 +167,6 @@ bool KafkaImporter::validateSource(const std::string& source_path,
     }
 #else
     // Without librdkafka we can only validate the URL format.
-    (void)brokers;
 #endif
 
     return true;

@@ -964,7 +964,6 @@ ExportStats ArrowIPCExporter::exportFallback(
     // frame size: 4 (continuation) + 4 (meta_size) + schema_msg.size()
     int64_t schema_frame_size = 4 + 4 + static_cast<int64_t>(schema_msg.size());
     file_pos += schema_frame_size;
-    (void)schema_frame_start;
 
     // Record-batch message frame (if any rows)
     std::vector<BlockInfo> rb_blocks;

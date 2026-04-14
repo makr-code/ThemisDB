@@ -226,7 +226,6 @@ static std::vector<std::string> buildChunkWhitelist(
     std::vector<std::string> whitelist;
     // Scan all content metas
     storage.scanPrefix("content:", [&](std::string_view key, std::string_view val){
-        (void)key;
         // Ignore non-meta keys like content:chunks lists by checking JSON
         try {
             std::string s(val);

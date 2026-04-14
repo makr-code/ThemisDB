@@ -88,7 +88,6 @@ GPULauncher::BackendFn ROCmBackend::createBackendFn(int device_index) {
     };
 #else
     // No HIP available: CPU fallback — every work item succeeds immediately.
-    (void)device_index;
     return [](const GPULauncher::WorkItem&) -> bool { return true; };
 #endif
 }

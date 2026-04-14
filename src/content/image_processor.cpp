@@ -400,7 +400,6 @@ std::string ImageProcessor::performOCR(const std::vector<uint8_t>& blob) {
 #ifdef THEMIS_ENABLE_OCR
     return OcrProcessor::performOcr(blob, ocr_language_);
 #else
-    (void)blob;
     return "";
 #endif
 }

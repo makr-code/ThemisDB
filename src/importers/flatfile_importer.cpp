@@ -1337,7 +1337,6 @@ bool FlatFileImporter::importParquetFile(const std::string& path,
 
     return true;
 #else
-    (void)path; (void)table; (void)options; (void)cb;
     addError(stats, ImportErrorCode::FILE_OPEN_FAILED,
              ImportErrorSeverity::CRITICAL,
              "Parquet import requires Apache Arrow "
