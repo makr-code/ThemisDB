@@ -20,8 +20,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_CLOUD_AGENT_H
-#define THEMIS_CLOUD_AGENT_H
+#pragma once
 
 #include <string>
 #include <memory>
@@ -294,5 +293,3 @@ private:
 
 } // namespace sharding
 } // namespace themis
-
-#endif // THEMIS_CLOUD_AGENT_H

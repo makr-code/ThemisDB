@@ -42,10 +42,11 @@ void WorkloadAdaptiveOptimizer::record_query(bool is_write, double complexity,
                                               size_t result_rows,
                                               const std::string& table_name,
                                               uint64_t latency_us) {
-    std::lock_guard<std::mutex> lk(obs_mutex_);
+    std::unique_lock<std::shared_mutex> lk(obs_mutex_);
     if (observations_.size() >= kWindowSize) observations_.erase(observations_.begin());
     observations_.push_back({is_write, complexity, result_rows, latency_us, table_name});
-    std::lock_guard<std::mutex> slk(stats_mutex_);
+    lk.unlock();
+    std::unique_lock<std::shared_mutex> slk(stats_mutex_);
     ++stats_.total_queries_recorded;
 }
 
@@ -57,7 +58,7 @@ WorkloadProfile WorkloadAdaptiveOptimizer::classify_workload() const {
     WorkloadProfile profile;
     std::vector<QueryObs> obs_copy;
     {
-        std::lock_guard<std::mutex> lk(obs_mutex_);
+        std::shared_lock<std::shared_mutex> lk(obs_mutex_);
         obs_copy = observations_;
     }
     if (obs_copy.empty()) return profile;
@@ -172,13 +173,13 @@ OptimizationStrategy WorkloadAdaptiveOptimizer::get_strategy(
 void WorkloadAdaptiveOptimizer::apply_strategy(const OptimizationStrategy& strategy) {
     WorkloadProfile old_profile, new_profile;
     {
-        std::lock_guard<std::mutex> lk(strategy_mutex_);
+        std::unique_lock<std::shared_mutex> lk(strategy_mutex_);
         old_profile     = classify_workload();
         current_strategy_ = strategy;
         new_profile     = classify_workload();
     }
     {
-        std::lock_guard<std::mutex> slk(stats_mutex_);
+        std::unique_lock<std::shared_mutex> slk(stats_mutex_);
         ++stats_.total_adaptations;
         stats_.last_workload_type = new_profile.type;
     }
@@ -186,7 +187,7 @@ void WorkloadAdaptiveOptimizer::apply_strategy(const OptimizationStrategy& strat
 }
 
 OptimizationStrategy WorkloadAdaptiveOptimizer::current_strategy() const {
-    std::lock_guard<std::mutex> lk(strategy_mutex_);
+    std::shared_lock<std::shared_mutex> lk(strategy_mutex_);
     return current_strategy_;
 }
 
@@ -222,12 +223,12 @@ void WorkloadAdaptiveOptimizer::adapt_once() {
 }
 
 WorkloadAdaptiveOptimizer::Stats WorkloadAdaptiveOptimizer::get_stats() const {
-    std::lock_guard<std::mutex> lk(stats_mutex_);
+    std::shared_lock<std::shared_mutex> lk(stats_mutex_);
     return stats_;
 }
 
 void WorkloadAdaptiveOptimizer::reset_stats() {
-    std::lock_guard<std::mutex> lk(stats_mutex_);
+    std::unique_lock<std::shared_mutex> lk(stats_mutex_);
     stats_ = {};
 }
 

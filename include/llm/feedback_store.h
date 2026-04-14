@@ -21,8 +21,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_LLM_FEEDBACK_STORE_H
-#define THEMIS_LLM_FEEDBACK_STORE_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -307,5 +306,3 @@ private:
 
 } // namespace llm
 } // namespace themis
-
-#endif // THEMIS_LLM_FEEDBACK_STORE_H

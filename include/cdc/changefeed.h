@@ -24,8 +24,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_CHANGEFEED_H
-#define THEMIS_CHANGEFEED_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -482,5 +481,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_CHANGEFEED_H

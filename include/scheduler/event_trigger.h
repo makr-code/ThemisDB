@@ -36,8 +36,7 @@
  * and trigger tasks when matching events occur.
  */
 
-#ifndef THEMIS_EVENT_TRIGGER_H
-#define THEMIS_EVENT_TRIGGER_H
+#pragma once
 
 #include "cdc/changefeed.h"
 #include <string>
@@ -249,5 +248,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_EVENT_TRIGGER_H

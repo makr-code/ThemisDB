@@ -52,6 +52,7 @@
 #include <functional>
 #include <memory>
 #include <mutex>
+#include <shared_mutex>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -279,7 +280,7 @@ private:
                                IndexTierMeta::Tier from,
                                IndexTierMeta::Tier to);
 
-    mutable std::mutex registry_mutex_;
+    mutable std::shared_mutex registry_mutex_;
     std::unordered_map<std::string, IndexTierMeta> registry_;
 
     std::string warm_base_dir_;

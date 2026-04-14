@@ -23,8 +23,7 @@
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_SHARDING_RAFT_SHARD_MANAGER_H
-#define THEMISDB_SHARDING_RAFT_SHARD_MANAGER_H
+#pragma once
 
 #include "sharding/raft_consensus.h"
 #include "sharding/shard_topology.h"
@@ -203,5 +202,3 @@ inline std::string raftNodeStateToString(RaftNodeState state) {
 
 }  // namespace sharding
 }  // namespace themisdb
-
-#endif  // THEMISDB_SHARDING_RAFT_SHARD_MANAGER_H

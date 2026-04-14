@@ -47,7 +47,7 @@ WorkloadPredictor::WorkloadPredictor(const Config& config)
 // ---------------------------------------------------------------------------
 
 void WorkloadPredictor::record(const WorkloadSnapshot& snapshot) {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::unique_lock<std::shared_mutex> lk(mutex_);
     history_.push_back(snapshot);
     // Evict oldest observation when window is full
     while (history_.size() > config_.history_window) {
@@ -60,7 +60,7 @@ void WorkloadPredictor::record(const WorkloadSnapshot& snapshot) {
 // ---------------------------------------------------------------------------
 
 WorkloadForecast WorkloadPredictor::predict(uint64_t horizon_us) const {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::unique_lock<std::shared_mutex> lk(mutex_);
 
     WorkloadForecast result{};
 
@@ -221,12 +221,12 @@ ScaleRecommendation WorkloadPredictor::recommend_scaling(
 // ---------------------------------------------------------------------------
 
 size_t WorkloadPredictor::observation_count() const noexcept {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::shared_lock<std::shared_mutex> lk(mutex_);
     return history_.size();
 }
 
 void WorkloadPredictor::reset() noexcept {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::unique_lock<std::shared_mutex> lk(mutex_);
     history_.clear();
 }
 

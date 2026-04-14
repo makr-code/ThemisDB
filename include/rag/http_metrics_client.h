@@ -38,6 +38,7 @@
 #include <optional>
 #include <unordered_map>
 #include <mutex>
+#include <shared_mutex>
 
 namespace themis::rag::judge {
 
@@ -200,7 +201,7 @@ private:
     std::unique_ptr<Impl> impl_;
     HTTPMetricsClientConfig config_;
     Statistics stats_;
-    mutable std::mutex stats_mutex_;
+    mutable std::shared_mutex stats_mutex_;
     RequestCallback request_callback_;
     
     HTTPResponse requestWithRetry(

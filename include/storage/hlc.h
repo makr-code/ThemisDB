@@ -28,7 +28,6 @@
 #include <chrono>
 #include <cstdint>
 #include <atomic>
-#include <mutex>
 #include <string>
 
 namespace themis {
@@ -168,9 +167,12 @@ public:
     HLCTimestamp peek() const;
 
 private:
-    mutable std::mutex mutex_;
-    uint64_t last_physical_ms_{0};
-    uint32_t logical_{0};
+    // Single atomic state encodes the full HLCTimestamp value:
+    //   bits 63..20 = physical milliseconds since Unix epoch
+    //   bits 19.. 0 = logical counter
+    // All three public methods (now/update/peek) operate with CAS loops,
+    // eliminating the mutex and allowing lock-free reads via peek().
+    std::atomic<uint64_t> state_{0};
 
     static uint64_t wallClockMs();
     HLCTimestamp advanceTo(uint64_t phys_ms);

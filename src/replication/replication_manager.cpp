@@ -651,7 +651,7 @@ void LeaderElection::renewLease(uint32_t duration_ms) {
     if (!isLeader()) {
         return;
     }
-    std::lock_guard<std::mutex> lock(lease_mutex_);
+    std::unique_lock<std::shared_mutex> lock(lease_mutex_);
     lease_expires_at_ = std::chrono::steady_clock::now()
                         + std::chrono::milliseconds(duration_ms);
     THEMIS_DEBUG("Leader lease renewed for {}ms (node={})", duration_ms, node_id_);
@@ -661,12 +661,12 @@ bool LeaderElection::hasValidLease() const {
     if (!isLeader()) {
         return false;
     }
-    std::lock_guard<std::mutex> lock(lease_mutex_);
+    std::shared_lock<std::shared_mutex> lock(lease_mutex_);
     return std::chrono::steady_clock::now() < lease_expires_at_;
 }
 
 std::chrono::steady_clock::time_point LeaderElection::leaseExpiresAt() const {
-    std::lock_guard<std::mutex> lock(lease_mutex_);
+    std::shared_lock<std::shared_mutex> lock(lease_mutex_);
     return lease_expires_at_;
 }
 

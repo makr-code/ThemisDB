@@ -71,8 +71,7 @@
  * @endcode
  */
 
-#ifndef THEMIS_SCHEDULER_DISTRIBUTED_TASK_COORDINATOR_H
-#define THEMIS_SCHEDULER_DISTRIBUTED_TASK_COORDINATOR_H
+#pragma once
 
 #include "scheduler/task_scheduler.h"
 #include "sharding/distributed_coordinator.h"
@@ -326,5 +325,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_SCHEDULER_DISTRIBUTED_TASK_COORDINATOR_H

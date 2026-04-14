@@ -71,8 +71,7 @@
  * - "0 9 * * 1 2025"      = Every Monday at 9:00 in 2025 only (6-field)
  */
 
-#ifndef THEMIS_CRON_PARSER_H
-#define THEMIS_CRON_PARSER_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -208,5 +207,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_CRON_PARSER_H

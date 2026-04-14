@@ -42,6 +42,7 @@
 #include <cstdint>
 #include <deque>
 #include <mutex>
+#include <shared_mutex>
 #include <string>
 #include <utility>
 #include <vector>
@@ -225,7 +226,7 @@ private:
     static double clamp(double v, double lo, double hi) noexcept;
 
     Config config_;
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex mutex_;
     std::deque<WorkloadSnapshot> history_;
 };
 

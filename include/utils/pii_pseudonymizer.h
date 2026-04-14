@@ -137,9 +137,10 @@ private:
     std::shared_ptr<AuditLogger> audit_logger_;
     std::function<void(const std::string&)> cache_invalidator_;
 
-    // Recursive to avoid EDEADLK when higher-level helpers call into multiple operations
-    // (e.g., eraseAll -> erasePII) within the same thread context.
-    std::recursive_mutex mu_;
+    // Plain mutex: eraseAllPIIForEntity calls findPIIForEntity and erasePII
+    // sequentially (each acquires and releases the lock independently, no
+    // re-entrant locking occurs on any code path).
+    std::mutex mu_;
     std::string key_id_ = "pii_mapping_key";
 };
 

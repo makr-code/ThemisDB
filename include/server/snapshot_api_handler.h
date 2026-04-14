@@ -20,8 +20,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_SNAPSHOT_API_HANDLER_H
-#define THEMIS_SNAPSHOT_API_HANDLER_H
+#pragma once
 
 #include "transaction/snapshot_manager.h"
 #include <httplib.h>
@@ -118,5 +117,3 @@ private:
 
 } // namespace server
 } // namespace themis
-
-#endif // THEMIS_SNAPSHOT_API_HANDLER_H

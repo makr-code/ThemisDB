@@ -28,6 +28,7 @@
 #include <unordered_set>
 #include <functional>
 #include <mutex>
+#include <shared_mutex>
 #include <chrono>
 #include <memory>
 
@@ -113,7 +114,7 @@ private:
     double tokens_;
     double refill_rate_;
     std::chrono::steady_clock::time_point last_refill_;
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex mutex_;
 };
 
 /**
@@ -267,7 +268,7 @@ private:
 
     // Anomaly detection callback – protected by a dedicated mutex so that
     // fireAnomaly() can be called while mutex_ is held without risk of deadlock.
-    mutable std::mutex callback_mutex_;
+    mutable std::shared_mutex callback_mutex_;
     AnomalyCallback anomaly_callback_;
     // Fire the anomaly callback (safe to call while mutex_ is held).
     void fireAnomaly(AnomalyEvent::Type type, const std::string& ip, const std::string& detail) const;
@@ -275,7 +276,7 @@ private:
     // Statistics
     mutable Statistics stats_;
     
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex mutex_;
     
     // Cleanup interval (5 minutes)
     static constexpr uint32_t CLEANUP_INTERVAL_SECONDS = 300;

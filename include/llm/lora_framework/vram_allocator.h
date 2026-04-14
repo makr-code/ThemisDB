@@ -143,8 +143,8 @@ private:
     size_t allocated_bytes_ = 0;
     size_t peak_usage_bytes_ = 0;
     
-    // Thread safety (recursive mutex for re-entrant operations)
-    mutable std::recursive_mutex mutex_;
+    // Thread safety
+    mutable std::mutex mutex_;
     
     // Backend-specific data
     void* backend_context_ = nullptr;  // CUDA context, Vulkan device, etc.
@@ -154,6 +154,9 @@ private:
     void shutdown_backend();
     void* allocate_from_backend(size_t size_bytes, size_t alignment);
     void deallocate_to_backend(void* ptr);
+    // Perform the actual backend deallocation WITHOUT holding mutex_.
+    // Callers must supply the known block size (for secure clearing).
+    void release_backend_ptr_(void* ptr, size_t block_size) noexcept;
     VRAMBlock* find_free_block(size_t size_bytes, size_t alignment);
     void coalesce_free_blocks();  // Assumes lock is already held
 };

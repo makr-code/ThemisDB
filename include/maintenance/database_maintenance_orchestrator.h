@@ -478,14 +478,14 @@ private:
     std::map<std::string, HealthProbe>                       health_probes_;
 
     // Registered task handlers (keyed by MaintenanceTaskType cast to int)
-    mutable std::mutex                                              handlers_mutex_;
+    mutable std::shared_mutex                                        handlers_mutex_;
     std::map<int, std::shared_ptr<IMaintenanceTaskHandler>>         task_handlers_;
 
     // Optional distributed lock (nullptr → no distributed coordination)
     mutable std::mutex                                              dist_lock_mutex_;
     std::shared_ptr<IDistributedLock>                               dist_lock_;
     // Per-tenant maintenance configuration overrides
-    mutable std::mutex                                       tenant_configs_mutex_;
+    mutable std::shared_mutex                                     tenant_configs_mutex_;
     std::map<std::string, TenantMaintenanceConfig>           tenant_configs_;
 
     std::atomic<bool>                                        running_{false};

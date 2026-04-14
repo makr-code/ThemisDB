@@ -22,8 +22,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_BRANCH_MANAGER_H
-#define THEMIS_BRANCH_MANAGER_H
+#pragma once
 
 #include "storage/rocksdb_wrapper.h"
 #include "cdc/changefeed.h"
@@ -458,5 +457,3 @@ private:
 
 } // namespace transaction
 } // namespace themis
-
-#endif // THEMIS_BRANCH_MANAGER_H

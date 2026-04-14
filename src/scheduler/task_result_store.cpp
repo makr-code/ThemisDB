@@ -75,7 +75,7 @@ std::string TaskResultStore::makeTaskPrefix(const std::string& task_id) {
 }
 
 void TaskResultStore::store(const TaskExecutionResult& result) {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::unique_lock<std::shared_mutex> lk(mutex_);
 
     const std::string key = makeKey(result.task_id, result.timestamp_ms);
     const std::string value = result.toJson().dump();
@@ -114,7 +114,7 @@ void TaskResultStore::store(const TaskExecutionResult& result) {
 
 std::vector<TaskExecutionResult> TaskResultStore::getResults(
         const std::string& task_id, size_t limit) const {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::shared_lock<std::shared_mutex> lk(mutex_);
 
     const std::string prefix = makeTaskPrefix(task_id);
     std::vector<std::pair<std::string, std::string>> entries;
@@ -142,7 +142,7 @@ std::vector<TaskExecutionResult> TaskResultStore::getResults(
 
 std::optional<TaskExecutionResult> TaskResultStore::getLatestResult(
         const std::string& task_id) const {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::shared_lock<std::shared_mutex> lk(mutex_);
 
     const std::string prefix = makeTaskPrefix(task_id);
     // Collect all keys for the task to find the last (newest) one.

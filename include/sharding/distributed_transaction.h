@@ -24,8 +24,7 @@
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_SHARDING_DISTRIBUTED_TRANSACTION_H
-#define THEMISDB_SHARDING_DISTRIBUTED_TRANSACTION_H
+#pragma once
 
 #include "sharding/truetime.h"
 #include "sharding/wal_manager.h"
@@ -345,5 +344,3 @@ private:
 };
 
 } // namespace themis::sharding
-
-#endif // THEMISDB_SHARDING_DISTRIBUTED_TRANSACTION_H

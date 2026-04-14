@@ -24,6 +24,19 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
+// ============================================================
+// DEPRECATED: This file (src/base/module_loader.cpp) is a legacy copy that
+// was superseded by src/themis/module_loader.cpp in v1.7.0 as part of the
+// modular build architecture migration.
+//
+// DO NOT add new code here.  All changes must be made in:
+//   src/themis/module_loader.cpp  (canonical, v0.0.5+)
+//
+// This file is retained only to avoid breaking build targets that include it
+// directly.  It will be removed in a future release once all CMake targets have
+// been migrated to the src/themis/ build tree.
+// ============================================================
+
 // Module loader implementation with DLL signature verification
 // This prevents corrupted or malicious DLL loading in modular ThemisDB
 

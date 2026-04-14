@@ -20,8 +20,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_MERGE_API_HANDLER_H
-#define THEMIS_MERGE_API_HANDLER_H
+#pragma once
 
 #ifndef THEMIS_ENABLE_HTTP_SERVER
 #define THEMIS_ENABLE_HTTP_SERVER 1
@@ -157,5 +156,3 @@ private:
 
 } // namespace server
 } // namespace themis
-
-#endif // THEMIS_MERGE_API_HANDLER_H

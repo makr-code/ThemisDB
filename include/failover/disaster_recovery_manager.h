@@ -20,8 +20,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_FAILOVER_DISASTER_RECOVERY_MANAGER_H
-#define THEMIS_FAILOVER_DISASTER_RECOVERY_MANAGER_H
+#pragma once
 
 #include <atomic>
 #include <chrono>
@@ -172,5 +171,3 @@ private:
 
 }  // namespace failover
 }  // namespace themis
-
-#endif  // THEMIS_FAILOVER_DISASTER_RECOVERY_MANAGER_H

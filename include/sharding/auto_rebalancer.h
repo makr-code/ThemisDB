@@ -22,8 +22,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_AUTO_REBALANCER_H
-#define THEMIS_AUTO_REBALANCER_H
+#pragma once
 
 #include "sharding/shard_load_detector.h"
 #include "sharding/rebalance_operation.h"
@@ -367,5 +366,3 @@ private:
 
 } // namespace sharding
 } // namespace themis
-
-#endif // THEMIS_AUTO_REBALANCER_H

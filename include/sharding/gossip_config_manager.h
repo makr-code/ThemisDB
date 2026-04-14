@@ -22,8 +22,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_SHARDING_GOSSIP_CONFIG_MANAGER_H
-#define THEMIS_SHARDING_GOSSIP_CONFIG_MANAGER_H
+#pragma once
 
 #include <string>
 #include <map>
@@ -406,5 +405,3 @@ private:
 
 } // namespace sharding
 } // namespace themis
-
-#endif // THEMIS_SHARDING_GOSSIP_CONFIG_MANAGER_H

@@ -39,8 +39,7 @@
 // This class implements ShardRPCServer::RequestHandler so it can be attached
 // directly to a ShardRPCServer for real network deployments.
 
-#ifndef THEMISDB_SHARDING_TWO_PHASE_COMMIT_PARTICIPANT_H
-#define THEMISDB_SHARDING_TWO_PHASE_COMMIT_PARTICIPANT_H
+#pragma once
 
 #include "sharding/shard_rpc_server.h"
 #include "sharding/wal_manager.h"
@@ -268,5 +267,3 @@ private:
 };
 
 } // namespace themis::sharding
-
-#endif // THEMISDB_SHARDING_TWO_PHASE_COMMIT_PARTICIPANT_H

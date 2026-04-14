@@ -23,8 +23,7 @@
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_SHARDING_ADMIN_OPERATIONS_H
-#define THEMISDB_SHARDING_ADMIN_OPERATIONS_H
+#pragma once
 
 #include "sharding/admin_api.h"
 #include "sharding/operational_metrics.h"
@@ -163,5 +162,3 @@ private:
 
 }  // namespace sharding
 }  // namespace themis
-
-#endif  // THEMISDB_SHARDING_ADMIN_OPERATIONS_H

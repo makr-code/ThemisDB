@@ -45,8 +45,7 @@
  * - Custom post-processing workflows
  */
 
-#ifndef THEMIS_TASK_SCHEDULER_H
-#define THEMIS_TASK_SCHEDULER_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -55,6 +54,7 @@
 #include <memory>
 #include <thread>
 #include <mutex>
+#include <shared_mutex>
 #include <atomic>
 #include <chrono>
 #include <condition_variable>
@@ -689,7 +689,7 @@ private:
 
     // Alertmanager for task failure and SLA breach alerts (optional)
     std::shared_ptr<observability::Alertmanager> alertmanager_;
-    mutable std::mutex alert_mutex_;
+    mutable std::shared_mutex alert_mutex_;
     // Tracks active failure alert IDs per task: task_id -> alert_id
     std::map<std::string, std::string> active_failure_alert_ids_;
 
@@ -786,5 +786,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_TASK_SCHEDULER_H

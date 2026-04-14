@@ -24,8 +24,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_TSSTORE_H
-#define THEMIS_TSSTORE_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -467,5 +466,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_TSSTORE_H

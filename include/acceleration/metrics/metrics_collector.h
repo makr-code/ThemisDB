@@ -106,23 +106,24 @@ public:
         : Metric(name, description, MetricType::GAUGE), value_(0.0) {}
     
     void set(double value) {
-        std::lock_guard<std::mutex> lock(mutex_);
-        value_ = value;
+        value_.store(value, std::memory_order_relaxed);
     }
     
     void increment(double delta = 1.0) {
-        std::lock_guard<std::mutex> lock(mutex_);
-        value_ += delta;
+        // fetch_add is not available for double; use compare_exchange loop.
+        double expected = value_.load(std::memory_order_relaxed);
+        while (!value_.compare_exchange_weak(expected, expected + delta,
+                                             std::memory_order_relaxed)) {}
     }
     
     void decrement(double delta = 1.0) {
-        std::lock_guard<std::mutex> lock(mutex_);
-        value_ -= delta;
+        double expected = value_.load(std::memory_order_relaxed);
+        while (!value_.compare_exchange_weak(expected, expected - delta,
+                                             std::memory_order_relaxed)) {}
     }
     
     double value() const {
-        std::lock_guard<std::mutex> lock(mutex_);
-        return value_;
+        return value_.load(std::memory_order_relaxed);
     }
     
     std::string serialize() const override {
@@ -130,8 +131,7 @@ public:
     }
     
 private:
-    mutable std::mutex mutex_;
-    double value_;
+    std::atomic<double> value_;
 };
 
 /**
