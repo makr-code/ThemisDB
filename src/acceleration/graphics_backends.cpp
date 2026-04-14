@@ -930,6 +930,8 @@ void VulkanVectorBackend::setWorkgroupSizeL2(uint32_t wgX, uint32_t wgY) noexcep
         impl_->wgL2Y = wgY;
     }
 #else
+    (void)wgX;
+    (void)wgY;
 #endif
 }
 
@@ -944,6 +946,7 @@ void VulkanVectorBackend::setWorkgroupSizeBatchSearch(uint32_t wgX) noexcept {
         impl_->wgBatchSearchX = wgX;
     }
 #else
+    (void)wgX;
 #endif
 }
 

@@ -168,6 +168,7 @@ size_t lz4_compress_bound(size_t input_size) {
     const int bound = LZ4_compressBound(static_cast<int>(input_size));
     return bound > 0 ? static_cast<size_t>(bound) : 0;
 #else
+    (void)input_size;
     return 0;
 #endif
 }

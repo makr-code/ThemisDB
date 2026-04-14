@@ -324,6 +324,7 @@ public:
     // -------------------------------------------------------------------------
 
     void initCommBackend(const std::vector<int>& deviceIds) {
+        (void)deviceIds;
         CommBackend target = config.commBackend;
 
         if (target == CommBackend::AUTO) {

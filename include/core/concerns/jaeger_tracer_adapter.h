@@ -176,23 +176,23 @@ public:
      */
     std::unique_ptr<ISpan> startSpanFromHeaders(
             const std::string& name,
-            const std::map<std::string, std::string>& headers) override {
+            const std::map<std::string, std::string>& carrier_headers) override {
         if (!circuit_breaker_->allowRequest()) {
             return std::make_unique<JaegerSpanAdapter>(themis::Tracer::Span{});
         }
 
         // W3C traceparent takes precedence – delegate to the base tracer.
-        std::string traceparent = headerValueCI(headers, "traceparent");
+        std::string traceparent = headerValueCI(carrier_headers, "traceparent");
         if (!traceparent.empty()) {
             auto span_ptr = std::make_unique<JaegerSpanAdapter>(
-                themis::Tracer::startSpanFromHeaders(name, headers));
+                themis::Tracer::startSpanFromHeaders(name, carrier_headers));
             span_ptr->isValid() ? circuit_breaker_->recordSuccess()
                                 : circuit_breaker_->recordFailure();
             return span_ptr;
         }
 
         // Fall back to Jaeger uber-trace-id.
-        std::string uber_trace_id = headerValueCI(headers, "uber-trace-id");
+        std::string uber_trace_id = headerValueCI(carrier_headers, "uber-trace-id");
         auto span_ptr = std::make_unique<JaegerSpanAdapter>(
             themis::Tracer::startSpan(name));
 
@@ -211,7 +211,7 @@ public:
         }
 
         // Also extract W3C Baggage.
-        themis::Baggage::extract(headers);
+        themis::Baggage::extract(carrier_headers);
 
         span_ptr->isValid() ? circuit_breaker_->recordSuccess()
                             : circuit_breaker_->recordFailure();
@@ -225,20 +225,20 @@ public:
      * header so downstream services using either convention can continue the
      * trace.  Also injects W3C Baggage when any items are present.
      */
-    void injectContext(std::map<std::string, std::string>& headers) override {
+    void injectContext(std::map<std::string, std::string>& carrier_headers) override {
         std::string trace_id = themis::Tracer::getCurrentTraceId();
         std::string span_id  = themis::Tracer::getCurrentSpanId();
 
         if (!trace_id.empty() && !span_id.empty()) {
             // W3C traceparent
-            headers["traceparent"] = "00-" + trace_id + "-" + span_id + "-01";
+            carrier_headers["traceparent"] = "00-" + trace_id + "-" + span_id + "-01";
 
             // Jaeger uber-trace-id: {traceId}:{spanId}:{parentSpanId}:{flags}
             // Use "0" as the parent-span-id for the root of the outbound leg.
-            headers["uber-trace-id"] = trace_id + ":" + span_id + ":0:1";
+            carrier_headers["uber-trace-id"] = trace_id + ":" + span_id + ":0:1";
         }
 
-        themis::Baggage::inject(headers);
+        themis::Baggage::inject(carrier_headers);
     }
 
     // -------------------------------------------------------------------------

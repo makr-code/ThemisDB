@@ -86,10 +86,10 @@ public:
                                                  int k) const = 0;
 
     /// Persist the index to @p path directory.  Returns false if not supported.
-    virtual bool save(const std::string& path) const { return false; }
+    virtual bool save(const std::string& /*path*/) const { return false; }
 
     /// Load index from @p path directory.  Returns false if not supported.
-    virtual bool load(const std::string& path) { return false; }
+    virtual bool load(const std::string& /*path*/) { return false; }
 
     /// Number of vectors currently in the index.
     virtual size_t size() const = 0;

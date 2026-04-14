@@ -149,12 +149,12 @@ public:
 
     std::unique_ptr<ISpan> startSpanFromHeaders(
             const std::string& name,
-            const std::map<std::string, std::string>& headers) override {
+            const std::map<std::string, std::string>& carrier_headers) override {
         if (!circuit_breaker_->allowRequest()) {
             return std::make_unique<OtelSpanAdapter>(themis::Tracer::Span{});
         }
         auto span_ptr = std::make_unique<OtelSpanAdapter>(
-            themis::Tracer::startSpanFromHeaders(name, headers));
+            themis::Tracer::startSpanFromHeaders(name, carrier_headers));
         if (span_ptr->isValid()) {
             circuit_breaker_->recordSuccess();
         } else {
@@ -163,13 +163,13 @@ public:
         return span_ptr;
     }
 
-    void injectContext(std::map<std::string, std::string>& headers) override {
+    void injectContext(std::map<std::string, std::string>& carrier_headers) override {
         auto trace_id = themis::Tracer::getCurrentTraceId();
         auto span_id  = themis::Tracer::getCurrentSpanId();
         if (!trace_id.empty() && !span_id.empty()) {
-            headers["traceparent"] = "00-" + trace_id + "-" + span_id + "-01";
+            carrier_headers["traceparent"] = "00-" + trace_id + "-" + span_id + "-01";
         }
-        themis::Baggage::inject(headers);
+        themis::Baggage::inject(carrier_headers);
     }
 
     bool initialize(const std::string& serviceName, const std::string& endpoint) override {

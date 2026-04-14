@@ -233,6 +233,10 @@ private:
     /// The producing application thread calls tryPush; the background flush
     /// thread calls tryPop.  Cache-line alignment prevents false sharing.
     template<typename T, size_t Cap>
+#if defined(_MSC_VER)
+#pragma warning(push)
+#pragma warning(disable: 4324)
+#endif
     struct SPSCRing {
         static_assert((Cap & (Cap - 1)) == 0,
                       "SPSCRing capacity must be a power of 2");
@@ -267,6 +271,9 @@ private:
                    write_idx.load(std::memory_order_acquire);
         }
     };
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#endif
 
     using HistoRing = SPSCRing<HistoObservation, HISTOGRAM_RING_CAPACITY>;
 
