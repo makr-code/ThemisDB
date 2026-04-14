@@ -107,6 +107,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             build-essential cmake ninja-build pkg-config \
+            ccache \
             libssl-dev \
             libcurl4-openssl-dev \
             librocksdb-dev \
@@ -126,8 +127,23 @@ jobs:
           key: vcpkg-linux-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
           restore-keys: vcpkg-linux-
 
+      - name: Cache vcpkg binary archives
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/vcpkg/archives
+          key: vcpkg-bin-linux-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
+          restore-keys: vcpkg-bin-linux-
+
+      - name: Prime ccache stats
+        run: |
+          ccache --zero-stats || true
+          ccache --show-config || true
+          ccache --show-stats || true
+
       - name: Setup vcpkg
         run: |
+          export VCPKG_DEFAULT_BINARY_CACHE="$HOME/.cache/vcpkg/archives"
+          mkdir -p "$VCPKG_DEFAULT_BINARY_CACHE"
           if [ ! -x "vcpkg/bootstrap-vcpkg.sh" ]; then
             rm -rf vcpkg
             git clone https://github.com/microsoft/vcpkg.git vcpkg
@@ -139,6 +155,8 @@ jobs:
         run: |
           cmake -S . -B build -G Ninja \
             -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
+            -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
             -DCMAKE_INSTALL_PREFIX=/usr/local \
             -DCMAKE_TOOLCHAIN_FILE="${GITHUB_WORKSPACE}/vcpkg/scripts/buildsystems/vcpkg.cmake" \
             -DTHEMIS_BUILD_TESTS=OFF \
@@ -149,6 +167,10 @@ jobs:
 
       - name: Build
         run: cmake --build build --config ${{ env.BUILD_TYPE }} -j $(nproc)
+
+      - name: Show ccache stats
+        if: always()
+        run: ccache --show-stats || true
 
       - name: Package with CPack (TGZ + DEB + RPM)
         working-directory: build

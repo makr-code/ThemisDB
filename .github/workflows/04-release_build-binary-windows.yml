@@ -103,9 +103,18 @@ jobs:
           key: vcpkg-windows-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
           restore-keys: vcpkg-windows-
 
+      - name: Cache vcpkg binary archives
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}\\.vcpkg-cache
+          key: vcpkg-bin-windows-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
+          restore-keys: vcpkg-bin-windows-
+
       - name: Setup vcpkg
         shell: pwsh
         run: |
+          $env:VCPKG_DEFAULT_BINARY_CACHE = "$env:GITHUB_WORKSPACE\\.vcpkg-cache"
+          New-Item -ItemType Directory -Path $env:VCPKG_DEFAULT_BINARY_CACHE -Force | Out-Null
           if (-Not (Test-Path "vcpkg/bootstrap-vcpkg.bat")) {
             if (Test-Path "vcpkg") {
               Remove-Item -Recurse -Force "vcpkg"
