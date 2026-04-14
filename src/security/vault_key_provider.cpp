@@ -427,7 +427,7 @@ std::vector<uint8_t> VaultKeyProvider::getKey(const std::string& key_id) {
 }
 
 std::vector<uint8_t> VaultKeyProvider::getKey(const std::string& key_id, uint32_t version) {
-    std::lock_guard<std::mutex> lock(impl_->mutex);
+    std::unique_lock<std::mutex> lock(impl_->mutex);
     
     impl_->total_requests++;
     
@@ -446,11 +446,11 @@ std::vector<uint8_t> VaultKeyProvider::getKey(const std::string& key_id, uint32_
         return it->second.key_bytes;
     }
     
-    // Cache miss - fetch from Vault
-    impl_->mutex.unlock();  // Release lock during network call
+    // Cache miss - fetch from Vault: release lock so performRequest can acquire it.
+    lock.unlock();
     std::string response = readSecret(key_id, version);
     std::vector<uint8_t> key_bytes = parseKeyFromVaultResponse(response);
-    impl_->mutex.lock();
+    lock.lock();
     
     // Store in cache
     impl_->evictExpiredCache();
