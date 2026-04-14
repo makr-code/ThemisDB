@@ -37,6 +37,7 @@
 #include <string>
 #include <vector>
 
+#include "storage/key_schema.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
 #include "storage/base_entity.h"
@@ -638,7 +639,7 @@ static void BM_PointLookup(benchmark::State& state) {
     lookup_keys.reserve(N);
     for (size_t i = 0; i < N; ++i) {
         std::string pk = std::string("u_") + BenchEnv::padInt(static_cast<int>(i), 8);
-        lookup_keys.push_back(KeySchema::makeRelationalKey("bench_users", pk));
+        lookup_keys.push_back(themis::KeySchema::makeRelationalKey("bench_users", pk));
     }
 
     size_t idx = 0;
@@ -660,7 +661,7 @@ static void BM_PointLookup_WithDeserialize(benchmark::State& state) {
     lookup_pairs.reserve(N);
     for (size_t i = 0; i < N; ++i) {
         std::string pk = std::string("u_") + BenchEnv::padInt(static_cast<int>(i), 8);
-        lookup_pairs.emplace_back(KeySchema::makeRelationalKey("bench_users", pk), pk);
+        lookup_pairs.emplace_back(themis::KeySchema::makeRelationalKey("bench_users", pk), pk);
     }
 
     size_t idx = 0;
@@ -686,7 +687,7 @@ static void BM_PointLookup_P99(benchmark::State& state) {
     lookup_pairs.reserve(N);
     for (size_t i = 0; i < N; ++i) {
         std::string pk = std::string("u_") + BenchEnv::padInt(static_cast<int>(i), 8);
-        lookup_pairs.emplace_back(KeySchema::makeRelationalKey("bench_users", pk), pk);
+        lookup_pairs.emplace_back(themis::KeySchema::makeRelationalKey("bench_users", pk), pk);
     }
 
     constexpr size_t kSamples = 300;

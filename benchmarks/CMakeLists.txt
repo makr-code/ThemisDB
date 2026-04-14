@@ -80,7 +80,12 @@ endif()
 
 message(STATUS "Google Benchmark found - building benchmarks")
 
-include("${CMAKE_SOURCE_DIR}/cmake/SuiteGating.cmake")
+set(THEMIS_BENCHMARK_ROOT "${THEMIS_ROOT_DIR}")
+if(NOT THEMIS_BENCHMARK_ROOT)
+    get_filename_component(THEMIS_BENCHMARK_ROOT "${CMAKE_CURRENT_LIST_DIR}/.." ABSOLUTE)
+endif()
+
+include("${THEMIS_BENCHMARK_ROOT}/cmake/SuiteGating.cmake")
 themis_log_suite_context("Benchmarks")
 
 # Include directories

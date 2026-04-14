@@ -134,7 +134,9 @@ jobs:
           context: .
           file: docker/hyperscaler/Dockerfile
           push: false
-          tags: themisdb-hyperscaler:${{ steps.resolve-tag.outputs.version }}
+          tags: |
+            themisdb-hyperscaler:${{ steps.resolve-tag.outputs.version }}-hyperscaler-binary-x64
+            themisdb-hyperscaler:${{ steps.resolve-tag.outputs.version }}-hyperscaler-binary-arm
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -143,9 +145,10 @@ jobs:
         run: |
           set -euo pipefail
           VERSION="${{ steps.resolve-tag.outputs.version }}"
+          BASENAME="themisdb-${VERSION}-hyperscaler-binary-x64"
           mkdir -p dist/hyperscaler
-          cp build/themis_tests dist/hyperscaler/themisdb-hyperscaler-${VERSION}-linux-x86_64 2>/dev/null || true
-          tar -czf dist/hyperscaler-${VERSION}-linux-x86_64.tar.gz -C dist/hyperscaler . 2>/dev/null || true
+          cp build/themis_tests "dist/hyperscaler/${BASENAME}" 2>/dev/null || true
+          tar -czf "dist/${BASENAME}.tar.gz" -C dist/hyperscaler . 2>/dev/null || true
           echo "Artefacts staged:"
           ls -lh dist/ || true
 
@@ -229,7 +232,8 @@ jobs:
           push: ${{ steps.version.outputs.dry_run != 'true' }}
           platforms: linux/amd64,linux/arm64
           tags: |
-            ${{ secrets.HYPERSCALER_REGISTRY_URL }}/themisdb-hyperscaler:${{ steps.version.outputs.version }}
+            ${{ secrets.HYPERSCALER_REGISTRY_URL }}/themisdb-hyperscaler:${{ steps.version.outputs.version }}-hyperscaler-binary-x64
+            ${{ secrets.HYPERSCALER_REGISTRY_URL }}/themisdb-hyperscaler:${{ steps.version.outputs.version }}-hyperscaler-binary-arm
             ${{ secrets.HYPERSCALER_REGISTRY_URL }}/themisdb-hyperscaler:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max

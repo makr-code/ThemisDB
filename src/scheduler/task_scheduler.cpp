@@ -1362,7 +1362,6 @@ std::string TaskScheduler::exportMetrics() const {
     for (const auto& [id, task] : tasks_) {
         task_snapshot.push_back(*task);
     }
-    }
 
     // ── Scheduler-level gauges ────────────────────────────────────────────
     write_gauge("themis_scheduler_tasks_registered",

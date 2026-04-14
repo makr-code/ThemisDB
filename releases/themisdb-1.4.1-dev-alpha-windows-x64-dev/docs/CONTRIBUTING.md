@@ -1032,7 +1032,7 @@ Use the provided scripts to prepare new releases:
 
 ```bash
 # Linux/macOS
-./scripts/prepare-release.sh 1.0.1
+.github/workflows/04-release_create-release-archive.yml
 
 # Windows
 .\scripts\prepare-release.ps1 -Version 1.0.1
@@ -1345,7 +1345,7 @@ Use provided scripts to prepare new releases:
 
 ```bash
 # Linux/macOS
-./scripts/prepare-release.sh 1.0.1
+.github/workflows/04-release_create-release-archive.yml
 
 # Windows
 .\scripts\prepare-release.ps1 -Version 1.0.1

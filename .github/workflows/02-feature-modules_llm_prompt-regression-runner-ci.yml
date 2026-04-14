@@ -13,6 +13,12 @@ name: Prompt Engineering – Prompt Regression Runner CI
 #   AC-28 to AC-30  setRunConfig, independent runs, valid-run check
 
 on:
+  workflow_run:
+    workflows: ["🚦 Post-Merge Smoke Test"]
+    types: [completed]
+    branches:
+      - main
+      - develop
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -36,7 +42,11 @@ jobs:
 
   prompt-regression-runner-tests:
     needs: ci-scope-classifier
-    if: needs.ci-scope-classifier.outputs.has_code_changes == 'true'
+    if: >
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'schedule') ||
+      needs.ci-scope-classifier.outputs.has_code_changes == 'true'
     name: PromptRegressionRunner (${{ matrix.os }} / ${{ matrix.compiler }})
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60

@@ -2,7 +2,7 @@
 
 This document defines the authoritative governance standards for all issues, pull requests, milestones, and repository metadata in the ThemisDB project. All contributors and automated agents **MUST** comply with these standards.
 
-> Referenced by [COPILOT_INSTRUCTIONS.md](COPILOT_INSTRUCTIONS.md) as the binding standard for label schema, milestone structure, relationships, and issue metadata.
+> Referenced by [copilot-instructions.md](copilot-instructions.md) as the binding standard for label schema, milestone structure, relationships, and issue metadata.
 
 ---
 

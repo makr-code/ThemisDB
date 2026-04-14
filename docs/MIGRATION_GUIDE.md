@@ -341,7 +341,7 @@ git checkout -b release/1.4.0
 
 # Update version
 echo "1.4.0" > VERSION
-./scripts/prepare-release.sh 1.4.0
+./.github/workflows/04-release_create-release-archive.yml 1.4.0
 
 # Commit and test
 git commit -am "chore: Prepare release v1.4.0"

@@ -102,7 +102,7 @@ code CHANGELOG.md
 
 ```powershell
 # Alle Packaging-Files aktualisieren (CMakeLists.txt, vcpkg.json, etc.)
-.\scripts\prepare-release.ps1 -Version $VERSION
+.github/workflows/04-release_create-release-archive.yml -Version $VERSION
 
 # Änderungen überprüfen
 git diff
@@ -302,7 +302,7 @@ git add .
 git commit -m "fix: Critical security patch for CVE-2025-XXXX"
 
 # 3. Version bumpen
-.\scripts\prepare-release.ps1 -Version 1.3.1
+.github/workflows/04-release_create-release-archive.yml -Version 1.3.1
 
 # 4. CHANGELOG aktualisieren
 code CHANGELOG.md

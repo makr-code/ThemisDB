@@ -141,10 +141,11 @@ jobs:
         run: |
           set -euo pipefail
           VERSION="${{ steps.resolve-tag.outputs.version }}"
+          BASENAME="themisdb-${VERSION}-enterprise-binary-x64"
           mkdir -p dist/enterprise
           # Stage binary artefacts (adapt paths to your actual build output)
-          cp build/themis_tests dist/enterprise/themisdb-enterprise-${VERSION}-linux-x86_64 2>/dev/null || true
-          tar -czf dist/enterprise-${VERSION}-linux-x86_64.tar.gz -C dist/enterprise . 2>/dev/null || true
+          cp build/themis_tests "dist/enterprise/${BASENAME}" 2>/dev/null || true
+          tar -czf "dist/${BASENAME}.tar.gz" -C dist/enterprise . 2>/dev/null || true
           echo "Artefacts staged in dist/"
           ls -lh dist/ || true
 
@@ -223,7 +224,7 @@ jobs:
         run: |
           set -euo pipefail
           echo "${{ secrets.ENTERPRISE_SIGNING_KEY }}" | gpg --batch --import
-          for f in dist/enterprise-*.tar.gz; do
+          for f in dist/themisdb-*-enterprise-binary-*.tar.gz; do
             [[ -f "$f" ]] || continue
             echo "${{ secrets.ENTERPRISE_SIGNING_PASSPHRASE }}" | \
               gpg --batch --yes --passphrase-fd 0 --detach-sign --armor "$f"

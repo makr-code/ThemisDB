@@ -19,7 +19,24 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Resolve version token
+      id: resolve
+      shell: bash
+      run: |
+        if [[ "${{ github.event_name }}" == "workflow_dispatch" && -n "${{ github.event.inputs.tag_name }}" ]]; then
+          TAG="${{ github.event.inputs.tag_name }}"
+        elif [[ -n "${{ github.ref_name }}" ]]; then
+          TAG="${{ github.ref_name }}"
+        else
+          TAG="v0.0.0-local"
+        fi
+        VERSION="${TAG#v}"
+        echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
     - name: Create placeholder for optional proprietary directory
       run: mkdir -p internal
+
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag "my-image-name:$(date +%s)"
+      run: |
+        docker build . --file Dockerfile \
+          --tag "themisdb/themisdb:${{ steps.resolve.outputs.version }}-community-binary-x64-ci"

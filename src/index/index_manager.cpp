@@ -419,7 +419,7 @@ Result<IVectorIndex*> IndexManager::createVectorIndex(
     span.setAttribute("index.dimension", static_cast<int64_t>(dimension));
     span.setAttribute("index.config", config);
     
-    std::lock_guard<std::mutex> lock(registry_mutex_);
+    std::lock_guard<std::shared_mutex> lock(registry_mutex_);
     
     if (!vector_manager_) {
         THEMIS_ERROR("IndexManager::createVectorIndex: Vector manager not initialized");
@@ -474,7 +474,7 @@ Result<IGraphIndex*> IndexManager::createGraphIndex(
     std::string_view name,
     [[maybe_unused]] const std::string& config) {
     
-    std::lock_guard<std::mutex> lock(registry_mutex_);
+    std::lock_guard<std::shared_mutex> lock(registry_mutex_);
     
     if (!graph_manager_) {
         THEMIS_ERROR("IndexManager::createGraphIndex: Graph manager not initialized");

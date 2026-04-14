@@ -7,6 +7,8 @@ name: 🚦 Post-Merge Smoke Test
 # compensates by covering the critical path on the merged branch.
 
 on:
+  schedule:
+    - cron: '0 20 * * *'  # Daily at 20:00 UTC (22:00 CEST)
   push:
     branches:
       - main

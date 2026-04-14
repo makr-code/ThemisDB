@@ -48,9 +48,13 @@ def validate_copilot_instructions():
     errors = []
     files_checked = 0
     
-    # Check main instructions file
-    main_file = copilot_dir / 'COPILOT_INSTRUCTIONS.md'
-    if main_file.exists():
+    # Check the main instructions file using the repository's canonical path.
+    main_file_candidates = [
+        copilot_dir / 'copilot-instructions.md',
+        copilot_dir / 'COPILOT_INSTRUCTIONS.md',
+    ]
+    main_file = next((path for path in main_file_candidates if path.exists()), None)
+    if main_file is not None:
         with open(main_file, 'r', encoding='utf-8') as f:
             content = f.read()
         

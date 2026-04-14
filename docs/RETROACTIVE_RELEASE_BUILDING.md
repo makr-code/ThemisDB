@@ -41,83 +41,83 @@ This is useful for:
 
 #### List Available Tags
 ```bash
-./scripts/retroactive-release-builder.sh --list-tags
+./.github/workflows/04-release_create-release-archive.yml --list-tags
 ```
 
 #### Build Specific Tag
 ```bash
 # Build for Linux
-./scripts/retroactive-release-builder.sh --tag v1.3.4 --platform linux
+./.github/workflows/04-release_create-release-archive.yml --tag v1.3.4 --platform linux
 
 # Build for all platforms (if supported)
-./scripts/retroactive-release-builder.sh --tag v1.3.4 --platform all
+./.github/workflows/04-release_create-release-archive.yml --tag v1.3.4 --platform all
 ```
 
 #### Build from Specific Commit (NEW)
 ```bash
 # Build from a specific commit SHA (intermediate release)
-./scripts/retroactive-release-builder.sh --commit a1b2c3d4 --platform linux
+./.github/workflows/04-release_create-release-archive.yml --commit a1b2c3d4 --platform linux
 
 # Build from a merge commit
-./scripts/retroactive-release-builder.sh --commit abc123 --platform linux
+./.github/workflows/04-release_create-release-archive.yml --commit abc123 --platform linux
 
 # Build from a branch name (e.g., release branch)
-./scripts/retroactive-release-builder.sh --commit release/v1.3.4 --platform linux
+./.github/workflows/04-release_create-release-archive.yml --commit release/v1.3.4 --platform linux
 ```
 
 #### Build All Tags
 ```bash
 # Build all version tags for Linux
-./scripts/retroactive-release-builder.sh --all-tags --platform linux
+./.github/workflows/04-release_create-release-archive.yml --all-tags --platform linux
 
 # Build all tags for all platforms
-./scripts/retroactive-release-builder.sh --all-tags --platform all
+./.github/workflows/04-release_create-release-archive.yml --all-tags --platform all
 ```
 
 #### Advanced Options
 ```bash
 # Clean build directories before building
-./scripts/retroactive-release-builder.sh --tag v1.3.4 --clean
+./.github/workflows/04-release_create-release-archive.yml --tag v1.3.4 --clean
 
 # Custom output directory
-./scripts/retroactive-release-builder.sh --tag v1.3.4 --output-dir ./my-releases
+./.github/workflows/04-release_create-release-archive.yml --tag v1.3.4 --output-dir ./my-releases
 
 # Skip build, only package existing binaries
-./scripts/retroactive-release-builder.sh --tag v1.3.4 --skip-build
+./.github/workflows/04-release_create-release-archive.yml --tag v1.3.4 --skip-build
 ```
 
 ### Windows
 
 #### List Available Tags
 ```powershell
-.\scripts\retroactive-release-builder.ps1 -ListTags
+.github/workflows/04-release_create-release-archive.yml -ListTags
 ```
 
 #### Build Specific Tag
 ```powershell
 # Build for Windows
-.\scripts\retroactive-release-builder.ps1 -Tag v1.3.4
+.github/workflows/04-release_create-release-archive.yml -Tag v1.3.4
 
 # Build with clean
-.\scripts\retroactive-release-builder.ps1 -Tag v1.3.4 -Clean
+.github/workflows/04-release_create-release-archive.yml -Tag v1.3.4 -Clean
 ```
 
 #### Build from Specific Commit (NEW)
 ```powershell
 # Build from a specific commit SHA
-.\scripts\retroactive-release-builder.ps1 -Commit a1b2c3d4
+.github/workflows/04-release_create-release-archive.yml -Commit a1b2c3d4
 
 # Build from a merge commit or branch
-.\scripts\retroactive-release-builder.ps1 -Commit release/v1.3.4 -Clean
+.github/workflows/04-release_create-release-archive.yml -Commit release/v1.3.4 -Clean
 ```
 
 #### Build All Tags
 ```powershell
 # Build all version tags
-.\scripts\retroactive-release-builder.ps1 -AllTags
+.github/workflows/04-release_create-release-archive.yml -AllTags
 
 # Custom output directory
-.\scripts\retroactive-release-builder.ps1 -AllTags -OutputDir ".\my-releases"
+.github/workflows/04-release_create-release-archive.yml -AllTags -OutputDir ".\my-releases"
 ```
 
 ## Output Structure
@@ -165,11 +165,11 @@ If you need to manually build releases for existing tags:
 
 ```bash
 # Example: Build releases for v1.3.0 and v1.3.4
-./scripts/retroactive-release-builder.sh --tag v1.3.0
-./scripts/retroactive-release-builder.sh --tag v1.3.4
+./.github/workflows/04-release_create-release-archive.yml --tag v1.3.0
+./.github/workflows/04-release_create-release-archive.yml --tag v1.3.4
 
 # Or build all at once
-./scripts/retroactive-release-builder.sh --all-tags
+./.github/workflows/04-release_create-release-archive.yml --all-tags
 ```
 
 ### Automated CI/CD Integration
@@ -197,7 +197,7 @@ jobs:
       
       - name: Run Retroactive Builder
         run: |
-          ./scripts/retroactive-release-builder.sh --tag ${{ inputs.tag }}
+          ./.github/workflows/04-release_create-release-archive.yml --tag ${{ inputs.tag }}
       
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4

@@ -213,8 +213,9 @@ void signalHandler(int signal) {
 }
 
 #ifdef _WIN32
-// Windows structured exception handler for early crash diagnostics
-void windows_se_translator(unsigned int code, EXCEPTION_POINTERS* pExp) {
+// Windows unhandled exception filter for early crash diagnostics
+LONG WINAPI windows_unhandled_exception_filter(EXCEPTION_POINTERS* pExp) {
+    const auto code = pExp ? pExp->ExceptionRecord->ExceptionCode : 0u;
     const char* exception_name = "UNKNOWN";
     switch (code) {
         case EXCEPTION_ACCESS_VIOLATION:
@@ -250,9 +251,8 @@ void windows_se_translator(unsigned int code, EXCEPTION_POINTERS* pExp) {
     if (len > 0 && len < static_cast<int>(sizeof(buffer))) {
         _write(2, buffer, len);
     }
-    
-    // Convert to C++ exception for potential catch in main
-    throw std::runtime_error("Windows structured exception");
+
+    return EXCEPTION_CONTINUE_SEARCH;
 }
 #endif
 
@@ -316,11 +316,8 @@ void stopHSMWarningThread() {
 
 int main(int argc, char* argv[]) {
 #ifdef _WIN32
-    // Install structured exception handler FIRST
-    _set_se_translator(windows_se_translator);
-    
-    // Wrap entire main in try-catch for early diagnostics
-    try {
+    // Install a process-wide unhandled exception filter for early diagnostics.
+    SetUnhandledExceptionFilter(windows_unhandled_exception_filter);
 #endif
     
     // --- Early flag handling (no heavy initialization) ---
@@ -720,9 +717,7 @@ int main(int argc, char* argv[]) {
             }
             // features (beta)
             if (cfg->contains("features")) {
-                const auto& f = (*cfg)["features"];
                 // values read later into server_config
-                // placeholder to avoid unused warnings
             }
         }
 
@@ -969,7 +964,7 @@ int main(int argc, char* argv[]) {
                             
                             // Progress callback with percentage-based logging
                             size_t last_logged_percent = 0;
-                            dl_config.progress_callback = [&last_logged_percent](size_t downloaded, size_t total, const std::string& status) {
+                            dl_config.progress_callback = [&last_logged_percent](size_t downloaded, size_t total, const std::string& /*status*/) {
                                 if (total > 0) {
                                     size_t current_percent = (downloaded * 100) / total;
                                     // Log every 10% progress
@@ -2005,22 +2000,6 @@ int main(int argc, char* argv[]) {
         #endif
         
         // SIMD support
-        #ifdef __AVX2__
-        THEMIS_INFO("  SIMD Support:            AVX2 (vectorized operations)");
-        #elif defined(__SSE4_2__)
-        THEMIS_INFO("  SIMD Support:            SSE4.2 (vectorized operations)");
-        #else
-        THEMIS_INFO("  SIMD Support:            scalar (basic operations)");
-        #endif
-        THEMIS_INFO("");
-        
-        THEMIS_INFO("📊 SERVER CONFIGURATION:");
-        THEMIS_INFO("  Host:                    {}", host);
-        THEMIS_INFO("  Port:                    {}", port);
-        THEMIS_INFO("  API Version:             1.0.1");
-        THEMIS_INFO("");
-        
-        THEMIS_INFO("💾 DATABASE CONFIGURATION:");
         THEMIS_INFO("  Database Path:           {}", db_config.db_path);
         THEMIS_INFO("  Memtable Size:           {} MB ({})", db_config.memtable_size_mb, 
                     (db_config.memtable_size_mb >= 512 ? "write-optimized (v1.5.0)" : 
@@ -2299,22 +2278,6 @@ int main(int argc, char* argv[]) {
         THEMIS_ERROR("Fatal error: {}", e.what());
         return 1;
     }
-    
-#ifdef _WIN32
-    // Close Windows SE handler try-catch
-    } catch (const std::exception& e) {
-        // Structured exception caught
-        const char* msg = "\n*** FATAL: Exception during initialization ***\n";
-        _write(2, msg, static_cast<unsigned int>(strlen(msg)));
-        _write(2, e.what(), static_cast<unsigned int>(strlen(e.what())));
-        _write(2, "\n", 1);
-        return 1;
-    } catch (...) {
-        const char* msg = "\n*** FATAL: Unknown exception during initialization ***\n";
-        _write(2, msg, static_cast<unsigned int>(strlen(msg)));
-        return 1;
-    }
-#endif
     
     utils::Logger::shutdown();
     return 0;

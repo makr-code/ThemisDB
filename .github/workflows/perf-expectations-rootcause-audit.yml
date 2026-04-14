@@ -16,8 +16,12 @@ on:
       - 'PERFORMANCE_EXPECTATIONS.md'
       - 'benchmarks/**'
       - 'tools/perf_expectations_rootcause_audit.py'
-  schedule:
-    - cron: '0 3 * * *'  # Nightly at 03:00 UTC
+  workflow_run:
+    workflows: ["🚦 Post-Merge Smoke Test"]
+    types: [completed]
+    branches:
+      - main
+      - develop
   workflow_dispatch:
 
 concurrency:
@@ -26,6 +30,10 @@ concurrency:
 
 jobs:
   rootcause-audit:
+    if: >
+      github.event_name != 'workflow_run' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'schedule')
     name: §1.5 Root-Cause Gap Audit
     runs-on: ubuntu-latest
     permissions:

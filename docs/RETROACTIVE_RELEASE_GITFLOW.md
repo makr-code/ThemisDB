@@ -25,7 +25,7 @@ Der retroaktive Builder arbeitet mit Git-Tags, die auf dem `main`-Branch erstell
 
 ```bash
 # Tags auflisten (alle stammen von main)
-./scripts/retroactive-release-builder.sh --list-tags
+./.github/workflows/04-release_create-release-archive.yml --list-tags
 
 # Output:
 # v1.3.0  (auf main)
@@ -68,7 +68,7 @@ git branch -d release/v1.4.1
 # Tag wurde bereits in der Vergangenheit auf main erstellt
 # Jetzt retroaktiv Binaries bauen
 
-./scripts/retroactive-release-builder.sh --tag v1.4.1
+./.github/workflows/04-release_create-release-archive.yml --tag v1.4.1
 ```
 
 ### 3. Workflow-Diagramm
@@ -100,7 +100,7 @@ git tag -a v1.5.0 -m "Release v1.5.0"
 git push origin main --tags
 
 # 3. Binaries retroaktiv bauen
-./scripts/retroactive-release-builder.sh --tag v1.5.0 --clean
+./.github/workflows/04-release_create-release-archive.yml --tag v1.5.0 --clean
 
 # Output:
 # release-retroactive/v1.5.0/
@@ -114,10 +114,10 @@ git push origin main --tags
 
 ```bash
 # Alle historischen Releases bauen
-./scripts/retroactive-release-builder.sh --all-tags
+./.github/workflows/04-release_create-release-archive.yml --all-tags
 
 # Oder spezifische alte Version
-./scripts/retroactive-release-builder.sh --tag v1.3.0
+./.github/workflows/04-release_create-release-archive.yml --tag v1.3.0
 ```
 
 #### Beispiel 3: Von release/Branch zu Tag
@@ -134,7 +134,7 @@ git tag -l "v1.4.0"
 # v1.4.0
 
 # Retroaktiv bauen vom Tag (nicht vom release/Branch!)
-./scripts/retroactive-release-builder.sh --tag v1.4.0
+./.github/workflows/04-release_create-release-archive.yml --tag v1.4.0
 ```
 
 ### 5. GitHub Actions Integration
@@ -214,7 +214,7 @@ Error: Failed to checkout tag: v1.4.0
 
 # Lösung: Tags von Remote holen
 git fetch --tags
-./scripts/retroactive-release-builder.sh --tag v1.4.0
+./.github/workflows/04-release_create-release-archive.yml --tag v1.4.0
 ```
 
 #### Problem: Tag auf falschem Branch
@@ -292,7 +292,7 @@ git push origin develop
 git branch -d release/v$VERSION
 
 # 8. Retroaktiv bauen
-./scripts/retroactive-release-builder.sh --tag v$VERSION --clean
+./.github/workflows/04-release_create-release-archive.yml --tag v$VERSION --clean
 
 echo "✓ Release v$VERSION complete!"
 echo "Binaries: release-retroactive/v$VERSION/"

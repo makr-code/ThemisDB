@@ -1249,7 +1249,7 @@ std::string ReplicationManager::exportPrometheusMetrics() const {
     oss << "themisdb_cluster_nodes_healthy " << healthy_count << "\n";
     oss << "themisdb_cluster_nodes_total " << health.size() << "\n";
     
-    [[maybe_unused]] // Add replication lag metrics per replica
+    // Add replication lag metrics per replica
     oss << "\n# HELP themisdb_replication_lag_per_replica Replication lag per replica\n"
         << "# TYPE themisdb_replication_lag_per_replica gauge\n";
     

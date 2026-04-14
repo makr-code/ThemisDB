@@ -27,10 +27,13 @@
 #if 1
 #include <benchmark/benchmark.h>
 #include "storage/base_entity.h"
+#include "storage/key_schema.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
+#include <optional>
 #include <random>
 #include <filesystem>
+#include <chrono>
 #include <string>
 #include <vector>
 #include <ctime>
@@ -157,7 +160,8 @@ namespace {
 class TPCCLiteFixture : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
-        db_path_ = "bench_tpcc_db";
+        db_path_ = std::string("tmp/bench_tpcc_") +
+                   std::to_string(std::chrono::steady_clock::now().time_since_epoch().count());
         cleanupTestDB(db_path_);
         
         // Configure database for TPC-C workload
@@ -166,7 +170,7 @@ public:
         config.compression_default = "lz4";
         config.compression_bottommost = "zstd";
         config.block_cache_size_mb = 512; // Larger cache for TPC-C
-        config.write_buffer_size_mb = 64;
+        config.db_write_buffer_size_mb = 64;
         config.max_write_buffer_number = 3;
         
         db_ = std::make_unique<themis::RocksDBWrapper>(config);
@@ -354,6 +358,15 @@ protected:
             }
         }
     }
+
+    std::optional<themis::BaseEntity> loadEntity(const std::string& table, const std::string& pk) {
+        const auto entity_key = themis::KeySchema::makeRelationalKey(table, pk);
+        auto blob = db_->get(entity_key);
+        if (!blob) {
+            return std::nullopt;
+        }
+        return themis::BaseEntity::deserialize(pk, *blob);
+    }
     
     // -------------------------------------------------------------------------
     // Transaction helpers – called directly by BENCHMARK_DEFINE_F bodies and
@@ -367,10 +380,10 @@ protected:
         int ol_cnt = std::uniform_int_distribution<int>(5, 15)(rng);
 
         std::string district_key = "district_" + std::to_string(w_id) + "_" + std::to_string(d_id);
-        auto district_opt = secondary_->get("DISTRICT", district_key);
+        auto district_opt = loadEntity("DISTRICT", district_key);
 
         if (district_opt) {
-            int64_t o_id = district_opt->getFieldAs<int64_t>("D_NEXT_O_ID").value_or(3001);
+            int64_t o_id = district_opt->getFieldAsInt("D_NEXT_O_ID").value_or(3001);
             district_opt->setField("D_NEXT_O_ID", o_id + 1);
             secondary_->put("DISTRICT", *district_opt);
 
@@ -396,9 +409,9 @@ protected:
             for (int ol_number = 1; ol_number <= ol_cnt; ++ol_number) {
                 int i_id = NURand(8191, 1, ITEMS_COUNT);
                 std::string stock_key = "stock_" + std::to_string(w_id) + "_" + std::to_string(i_id);
-                auto stock_opt = secondary_->get("STOCK", stock_key);
+                auto stock_opt = loadEntity("STOCK", stock_key);
                 if (stock_opt) {
-                    int64_t quantity = stock_opt->getFieldAs<int64_t>("S_QUANTITY").value_or(50);
+                    int64_t quantity = stock_opt->getFieldAsInt("S_QUANTITY").value_or(50);
                     quantity -= 5;
                     if (quantity < 10) quantity += 91;
                     stock_opt->setField("S_QUANTITY", quantity);
@@ -416,28 +429,28 @@ protected:
         double h_amount = 500.0;
 
         std::string warehouse_key = "warehouse_" + std::to_string(w_id);
-        auto warehouse_opt = secondary_->get("WAREHOUSE", warehouse_key);
+        auto warehouse_opt = loadEntity("WAREHOUSE", warehouse_key);
         if (warehouse_opt) {
-            double ytd = warehouse_opt->getFieldAs<double>("W_YTD").value_or(0.0);
+            double ytd = warehouse_opt->getFieldAsDouble("W_YTD").value_or(0.0);
             warehouse_opt->setField("W_YTD", ytd + h_amount);
             secondary_->put("WAREHOUSE", *warehouse_opt);
         }
 
         std::string district_key = "district_" + std::to_string(w_id) + "_" + std::to_string(d_id);
-        auto district_opt = secondary_->get("DISTRICT", district_key);
+        auto district_opt = loadEntity("DISTRICT", district_key);
         if (district_opt) {
-            double ytd = district_opt->getFieldAs<double>("D_YTD").value_or(0.0);
+            double ytd = district_opt->getFieldAsDouble("D_YTD").value_or(0.0);
             district_opt->setField("D_YTD", ytd + h_amount);
             secondary_->put("DISTRICT", *district_opt);
         }
 
         std::string customer_key = "customer_" + std::to_string(w_id) + "_" +
                                    std::to_string(d_id) + "_" + std::to_string(c_id);
-        auto customer_opt = secondary_->get("CUSTOMER", customer_key);
+        auto customer_opt = loadEntity("CUSTOMER", customer_key);
         if (customer_opt) {
-            double balance = customer_opt->getFieldAs<double>("C_BALANCE").value_or(0.0);
-            double ytd_payment = customer_opt->getFieldAs<double>("C_YTD_PAYMENT").value_or(0.0);
-            int64_t payment_cnt = customer_opt->getFieldAs<int64_t>("C_PAYMENT_CNT").value_or(0);
+            double balance = customer_opt->getFieldAsDouble("C_BALANCE").value_or(0.0);
+            double ytd_payment = customer_opt->getFieldAsDouble("C_YTD_PAYMENT").value_or(0.0);
+            int64_t payment_cnt = customer_opt->getFieldAsInt("C_PAYMENT_CNT").value_or(0);
             customer_opt->setField("C_BALANCE", balance - h_amount);
             customer_opt->setField("C_YTD_PAYMENT", ytd_payment + h_amount);
             customer_opt->setField("C_PAYMENT_CNT", payment_cnt + 1);
@@ -463,16 +476,16 @@ protected:
 
         std::string customer_key = "customer_" + std::to_string(w_id) + "_" +
                                    std::to_string(d_id) + "_" + std::to_string(c_id);
-        auto customer_opt = secondary_->get("CUSTOMER", customer_key);
+        auto customer_opt = loadEntity("CUSTOMER", customer_key);
         benchmark::DoNotOptimize(customer_opt);
 
         int orders_loaded = std::min(customers_per_district_, 3000);
         for (int o_id = orders_loaded; o_id >= 1; --o_id) {
             std::string order_key = "order_" + std::to_string(w_id) + "_" +
                                    std::to_string(d_id) + "_" + std::to_string(o_id);
-            auto order_opt = secondary_->get("ORDERS", order_key);
+            auto order_opt = loadEntity("ORDERS", order_key);
             if (order_opt) {
-                int64_t order_c_id = order_opt->getFieldAs<int64_t>("O_C_ID").value_or(0);
+                int64_t order_c_id = order_opt->getFieldAsInt("O_C_ID").value_or(0);
                 if (order_c_id == c_id) {
                     benchmark::DoNotOptimize(order_opt);
                     break;
@@ -487,9 +500,9 @@ protected:
         int low_stock_count = 0;
         for (int i_id = 1; i_id <= 100; ++i_id) {
             std::string stock_key = "stock_" + std::to_string(w_id) + "_" + std::to_string(i_id);
-            auto stock_opt = secondary_->get("STOCK", stock_key);
+            auto stock_opt = loadEntity("STOCK", stock_key);
             if (stock_opt) {
-                int64_t quantity = stock_opt->getFieldAs<int64_t>("S_QUANTITY").value_or(50);
+                int64_t quantity = stock_opt->getFieldAsInt("S_QUANTITY").value_or(50);
                 if (quantity < threshold) {
                     ++low_stock_count;
                 }

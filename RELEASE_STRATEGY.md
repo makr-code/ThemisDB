@@ -247,6 +247,48 @@ src/               ← Sourcecode (public, allowed in all lanes)
 | Enterprise    | `enterprise-v{major}.{minor}.{patch}` | `enterprise-v2.1.0` |
 | Hyperscaler   | `hyperscaler-v{major}.{minor}.{patch}`| `hyperscaler-v3.0.0`|
 
+### 4.5 Release artefact naming convention
+
+All release assets (GitHub release files and Docker tags) must use:
+
+`themisdb-{version}-{edition}-{sourcecode|binary}-{arm|x86|x64}`
+
+Examples:
+
+- `themisdb-1.9.0-community-sourcecode-x64.zip`
+- `themisdb-1.9.0-community-binary-x64.zip`
+- `themisdb-1.9.0-community-binary-arm` (Docker tag)
+- `themisdb-1.9.0-enterprise-binary-x64.tar.gz`
+- `themisdb-1.9.0-hyperscaler-binary-arm` (Docker tag)
+
+Rules:
+
+- `edition` is always lowercase (`community`, `enterprise`, `hyperscaler`, `military`, `minimal`).
+- `sourcecode` is used for source archives, `binary` for executables/packages/containers.
+- `arm` and `x64` are the canonical architecture tokens for Docker multi-arch publication.
+- `latest` may exist as a compatibility alias, but versioned tags above are canonical.
+
+### 4.6 Cleanup of legacy names (GitHub + DockerHub)
+
+To clean up historical, non-canonical names:
+
+1. List release assets and flag non-matching names:
+
+  ```bash
+  gh release view <tag> --json assets --jq '.assets[].name' \
+    | grep -Ev '^themisdb-[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9.-]+)?-[a-z0-9-]+-(sourcecode|binary)-(arm|x86|x64)(\..+)?$'
+  ```
+
+2. Delete legacy GitHub assets after replacement upload:
+
+  ```bash
+  gh release delete-asset <tag> <asset-name> --yes
+  ```
+
+3. For DockerHub, delete legacy tags in the repository UI/API and keep only:
+  - canonical tags (`themisdb-{version}-{edition}-binary-{arm|x64}`)
+  - `latest` compatibility alias (stable releases only)
+
 ---
 
 ## 5. CI/CD Pipeline Architecture
@@ -270,6 +312,8 @@ src/               ← Sourcecode (public, allowed in all lanes)
 | `edition-minimal-ci.yml`          | push to main         | Build + test MINIMAL            |
 | `pr-path-gate-main.yml`           | PR → main            | Block higher-edition artefacts  |
 | `dockerhub-publish-on-release.yml`| GitHub Release       | Publish Community Docker        |
+| `repair-github-release-assets.yml`| workflow_dispatch    | Normalize legacy release assets |
+| `repair-dockerhub-tags.yml`       | workflow_dispatch    | Detect/cleanup legacy Docker tags |
 
 ### 5.3 On `enterprise` (Enterprise release lane)
 

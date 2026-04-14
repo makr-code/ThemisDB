@@ -56,13 +56,14 @@
 
 #ifdef _WIN32
 #include <BaseTsd.h>
-#pragma once
-typedef SSIZE_T ssize_t;
-#endif
+using ssize_t = SSIZE_T;
+#ifndef THEMIS_IOVEC_DEFINED
+#define THEMIS_IOVEC_DEFINED
 struct iovec {
     void* iov_base;
     size_t iov_len;
 };
+#endif
 #ifndef MAP_FAILED
 #define MAP_FAILED nullptr
 #endif
@@ -72,6 +73,7 @@ struct iovec {
 #include <sys/uio.h>
 #include <unistd.h>
 #include <fcntl.h>
+#endif
 
 namespace themis {
 namespace network {

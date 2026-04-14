@@ -30,7 +30,7 @@ Build release packages for version v1.3.4 on Linux:
 cd /path/to/ThemisDB
 
 # Run retroactive builder
-./scripts/retroactive-release-builder.sh \
+./.github/workflows/04-release_create-release-archive.yml \
     --tag v1.3.4 \
     --platform linux \
     --clean
@@ -62,7 +62,7 @@ git log --oneline | grep "Merge"
 # Example output: a1b2c3d Merge branch 'release/v1.3.5' into main
 
 # Build from that commit
-./scripts/retroactive-release-builder.sh \
+./.github/workflows/04-release_create-release-archive.yml \
     --commit a1b2c3d \
     --platform linux \
     --clean
@@ -87,12 +87,12 @@ Build from a release branch before it's merged:
 
 ```bash
 # Build from release branch
-./scripts/retroactive-release-builder.sh \
+./.github/workflows/04-release_create-release-archive.yml \
     --commit release/v1.4.0 \
     --platform linux
 
 # Or use branch name directly
-./scripts/retroactive-release-builder.sh \
+./.github/workflows/04-release_create-release-archive.yml \
     --commit origin/release/v1.4.0 \
     --platform linux
 ```
@@ -116,7 +116,7 @@ Build release packages for version v1.3.4 on Windows:
 cd C:\path\to\ThemisDB
 
 # Run retroactive builder
-.\scripts\retroactive-release-builder.ps1 `
+.github/workflows/04-release_create-release-archive.yml `
     -Tag v1.3.4 `
     -Platform windows `
     -Clean
@@ -145,7 +145,7 @@ cd C:\path\to\ThemisDB
 git log --oneline --merges | Select-Object -First 10
 
 # Build from specific merge commit
-.\scripts\retroactive-release-builder.ps1 `
+.github/workflows/04-release_create-release-archive.yml `
     -Commit abc1234 `
     -Platform windows `
     -Clean
@@ -168,10 +168,10 @@ Build all available version tags:
 
 ```bash
 # Linux/macOS
-./scripts/retroactive-release-builder.sh --all-tags --platform linux
+./.github/workflows/04-release_create-release-archive.yml --all-tags --platform linux
 
 # Windows
-.\scripts\retroactive-release-builder.ps1 -AllTags
+.github/workflows/04-release_create-release-archive.yml -AllTags
 ```
 
 Expected output structure:
@@ -197,12 +197,12 @@ Use a custom output directory:
 
 ```bash
 # Linux/macOS
-./scripts/retroactive-release-builder.sh \
+./.github/workflows/04-release_create-release-archive.yml \
     --tag v1.3.4 \
     --output-dir /tmp/my-releases
 
 # Windows
-.\scripts\retroactive-release-builder.ps1 `
+.github/workflows/04-release_create-release-archive.yml `
     -Tag v1.3.4 `
     -OutputDir "C:\temp\my-releases"
 ```
@@ -317,7 +317,7 @@ jobs:
       
       - name: Build All Tags
         run: |
-          ./scripts/retroactive-release-builder.sh --all-tags
+          ./.github/workflows/04-release_create-release-archive.yml --all-tags
       
       - name: Archive Artifacts
         uses: actions/upload-artifact@v4
@@ -335,7 +335,7 @@ If a build fails, you can:
 
 ```bash
 # Try with clean build
-./scripts/retroactive-release-builder.sh --tag v1.3.4 --clean
+./.github/workflows/04-release_create-release-archive.yml --tag v1.3.4 --clean
 
 # Check logs (build happens in build-retroactive directory)
 cat build-retroactive/CMakeCache.txt
@@ -357,7 +357,7 @@ git tag -l "v1.3.*"
 
 # Build only v1.3.x series
 for tag in $(git tag -l "v1.3.*"); do
-    ./scripts/retroactive-release-builder.sh --tag $tag
+    ./.github/workflows/04-release_create-release-archive.yml --tag $tag
 done
 ```
 
