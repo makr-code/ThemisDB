@@ -53,8 +53,8 @@ bool ArrowUserRegistrationPlugin::isAvailable() const {
 
 Result<UserRegistrationData> ArrowUserRegistrationPlugin::registerUser(
     const std::string& user_id,
-    const std::string& password,
-    const std::unordered_map<std::string, std::string>& attributes)
+    [[maybe_unused]] const std::string& password,
+    [[maybe_unused]] const std::unordered_map<std::string, std::string>& attributes)
 {
     THEMIS_INFO("Arrow plugin: Registering user '{}'", user_id);
 
@@ -89,7 +89,7 @@ Result<UserRegistrationData> ArrowUserRegistrationPlugin::registerUser(
 
 Result<UserRegistrationData> ArrowUserRegistrationPlugin::authenticateUser(
     const std::string& user_id,
-    const std::string& password)
+    [[maybe_unused]] const std::string& password)
 {
     THEMIS_INFO("Arrow plugin: Authenticating user '{}'", user_id);
 

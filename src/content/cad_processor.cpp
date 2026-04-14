@@ -250,8 +250,8 @@ ContentExtractionResult CADProcessor::extract(
 
 std::vector<ContentChunk> CADProcessor::chunk(
     const ContentExtractionResult& result,
-    int max_tokens,
-    int overlap
+    int /*max_tokens*/,
+    int /*overlap*/
 ) {
     std::vector<ContentChunk> chunks;
     
@@ -344,7 +344,7 @@ CADExtractionData CADProcessor::parseSTEP(const std::vector<uint8_t>& blob) {
     return data;
 }
 
-CADExtractionData CADProcessor::parseIGES(const std::vector<uint8_t>& blob) {
+CADExtractionData CADProcessor::parseIGES(const std::vector<uint8_t>& /*blob*/) {
     CADExtractionData data;
     
     // Real implementation would use OpenCASCADE IGESControl_Reader
@@ -356,7 +356,7 @@ CADExtractionData CADProcessor::parseIGES(const std::vector<uint8_t>& blob) {
     return data;
 }
 
-CADExtractionData CADProcessor::parseDXF(const std::vector<uint8_t>& blob) {
+CADExtractionData CADProcessor::parseDXF(const std::vector<uint8_t>& /*blob*/) {
     CADExtractionData data;
     
     // DXF is typically 2D, but can contain 3D
@@ -476,7 +476,7 @@ CADExtractionData CADProcessor::parseOBJ(const std::vector<uint8_t>& blob) {
     return data;
 }
 
-std::vector<uint8_t> CADProcessor::render3DPreview(const std::vector<uint8_t>& blob) {
+std::vector<uint8_t> CADProcessor::render3DPreview(const std::vector<uint8_t>& /*blob*/) {
     // Real implementation would:
     // 1. Load CAD geometry
     // 2. Set up orthographic/perspective camera
@@ -487,7 +487,7 @@ std::vector<uint8_t> CADProcessor::render3DPreview(const std::vector<uint8_t>& b
     return std::vector<uint8_t>();
 }
 
-json CADProcessor::extractAssemblyTree(const std::vector<uint8_t>& blob) {
+json CADProcessor::extractAssemblyTree(const std::vector<uint8_t>& /*blob*/) {
     json tree;
     
     // Real implementation would parse STEP/IGES assembly structure
@@ -495,7 +495,7 @@ json CADProcessor::extractAssemblyTree(const std::vector<uint8_t>& blob) {
     return tree;
 }
 
-json CADProcessor::extractBillOfMaterials(const std::vector<uint8_t>& blob) {
+json CADProcessor::extractBillOfMaterials(const std::vector<uint8_t>& /*blob*/) {
     json bom;
     
     // Real implementation would extract:

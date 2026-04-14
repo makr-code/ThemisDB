@@ -280,7 +280,7 @@ void LearnableRotaryEmbedding::initializeOptimizer(const TrainingConfig& config)
 
 float LearnableRotaryEmbedding::computeContrastiveLoss(
     const std::vector<TrainingSample>& batch,
-    float temperature
+    float /*temperature*/
 ) const {
     if (batch.empty()) {
         return 0.0f;

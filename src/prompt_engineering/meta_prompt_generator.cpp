@@ -290,8 +290,8 @@ std::vector<std::string> MetaPromptGenerator::extractSuccessPatterns(
 }
 
 std::string MetaPromptGenerator::buildImprovementInstructions(
-    const std::string& feedback,
-    double score
+    const std::string& /*feedback*/,
+    double /*score*/
 ) const {
     std::ostringstream instructions;
     
@@ -338,7 +338,7 @@ std::string MetaPromptGenerator::buildConstraints() const {
 }
 
 std::string MetaPromptGenerator::buildExampleSection(
-    const std::string& original_prompt
+    const std::string& /*original_prompt*/
 ) const {
     std::ostringstream examples;
     

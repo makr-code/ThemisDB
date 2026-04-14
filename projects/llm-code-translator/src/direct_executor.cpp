@@ -434,6 +434,11 @@ void DirectExecutor::resetStats() {
     impl_->stats = ExecutionStats();
 }
 
+// STUB/SIMULATION NOTE:
+// Purpose: Provide deterministic in-process data for translator execution during tests and demos.
+// Activation: Active when DirectExecutor is wired with MockDatabase instead of a real backend adapter.
+// Production Delta: Operations are non-persistent and return simplified/mock result sets.
+// Removal Plan: Keep for tests; production code paths should use concrete database adapters.
 // MockDatabase implementation
 MockDatabase::MockDatabase() {
     loadSampleData();

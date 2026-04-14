@@ -392,6 +392,20 @@ private:
         double value,
         const std::map<std::string, std::string>& labels = {}
     );
+
+    static std::string formatPrometheusMetric(
+        const std::string& name,
+        MetricType type,
+        uint64_t value,
+        const std::map<std::string, std::string>& labels = {}
+    );
+
+    static std::string formatPrometheusMetric(
+        const std::string& name,
+        MetricType type,
+        int value,
+        const std::map<std::string, std::string>& labels = {}
+    );
 };
 
 }  // namespace sharding

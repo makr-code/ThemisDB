@@ -124,8 +124,8 @@ bool TTSProcessor::canProcess(const std::string& mime_type) const {
 
 ContentExtractionResult TTSProcessor::extract(
     const std::vector<uint8_t>& blob,
-    const std::string& mime_type,
-    const ExtractionOptions& options
+    const std::string& /*mime_type*/,
+    const ExtractionOptions& /*options*/
 ) {
     ContentExtractionResult result;
     result.input_size_bytes = blob.size();
@@ -135,9 +135,9 @@ ContentExtractionResult TTSProcessor::extract(
 }
 
 std::vector<ContentChunk> TTSProcessor::chunk(
-    const ContentExtractionResult& result,
-    int max_tokens,
-    int overlap
+    const ContentExtractionResult& /*result*/,
+    int /*max_tokens*/,
+    int /*overlap*/
 ) {
     return {};
 }
@@ -184,9 +184,9 @@ TTSResult TTSProcessor::synthesize(
 }
 
 bool TTSProcessor::streamSynthesize(
-    const std::string& text,
-    std::function<void(const std::vector<uint8_t>&)> callback,
-    const TTSOptions& options
+    const std::string& /*text*/,
+    std::function<void(const std::vector<uint8_t>&)> /*callback*/,
+    const TTSOptions& /*options*/
 ) {
     // Real-time streaming synthesis
     // This would process text in chunks and call the callback for each audio segment
@@ -334,7 +334,7 @@ TTSResult TTSProcessor::synthesizeInternal(
 
 std::vector<uint8_t> TTSProcessor::generatePCM(
     const std::string& text,
-    const TTSOptions& options
+    [[maybe_unused]] const TTSOptions& options
 ) {
     #ifdef THEMIS_ENABLE_PIPER_TTS
     if (!tts_ctx_) {
@@ -403,7 +403,7 @@ std::vector<uint8_t> TTSProcessor::convertToFormat(
         
         // RIFF header
         wav_data.insert(wav_data.end(), {'R', 'I', 'F', 'F'});
-        uint32_t file_size = pcm_data.size() + 36;
+        uint32_t file_size = static_cast<uint32_t>(pcm_data.size() + 36);
         wav_data.push_back(file_size & 0xFF);
         wav_data.push_back((file_size >> 8) & 0xFF);
         wav_data.push_back((file_size >> 16) & 0xFF);
@@ -429,7 +429,7 @@ std::vector<uint8_t> TTSProcessor::convertToFormat(
         
         // data chunk
         wav_data.insert(wav_data.end(), {'d', 'a', 't', 'a'});
-        uint32_t data_size = pcm_data.size();
+        uint32_t data_size = static_cast<uint32_t>(pcm_data.size());
         wav_data.push_back(data_size & 0xFF);
         wav_data.push_back((data_size >> 8) & 0xFF);
         wav_data.push_back((data_size >> 16) & 0xFF);

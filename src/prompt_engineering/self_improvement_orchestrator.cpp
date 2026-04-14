@@ -341,7 +341,7 @@ void SelfImprovementOrchestrator::recordABTestObservation(
     const std::string& test_id,
     const std::string& version_used,
     bool success,
-    double latency_ms
+    double /*latency_ms*/
 ) {
     std::lock_guard<std::mutex> lock(mutex_);
     

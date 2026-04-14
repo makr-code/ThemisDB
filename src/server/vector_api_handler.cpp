@@ -699,9 +699,9 @@ http::response<http::string_body> VectorApiHandler::makeResponse(
 
 std::optional<http::response<http::string_body>> VectorApiHandler::requireAccess(
     const http::request<http::string_body>& req,
-    [[maybe_unused]] const std::string& permission,
-    [[maybe_unused]] const std::string& resource,
-    [[maybe_unused]] const std::string& path)
+    const std::string& /*permission*/,
+    const std::string& /*resource*/,
+    const std::string& /*path*/)
 {
     if (!auth_ || !auth_->isEnabled()) {
         return std::nullopt;

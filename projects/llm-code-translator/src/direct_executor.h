@@ -128,7 +128,11 @@ public:
                                            const std::string& aggregation) = 0;
 };
 
-// Mock database for testing
+// STUB/SIMULATION NOTE:
+// Purpose: Provide deterministic in-memory database behavior for translator development and tests.
+// Activation: Used when callers instantiate MockDatabase instead of a production database adapter.
+// Production Delta: Data is process-local and non-persistent; no real storage engine or network calls.
+// Removal Plan: Keep for tests; do not use in production execution paths once full adapters are wired.
 class MockDatabase : public DatabaseInterface {
 public:
     MockDatabase();

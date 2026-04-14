@@ -767,7 +767,7 @@ std::optional<LoRAInfo> MultiLoRAManager::getLoRAInfo(const std::string& lora_id
     return info;
 }
 
-size_t MultiLoRAManager::evictLRU(size_t target_vram_mb) {
+size_t MultiLoRAManager::evictLRU(size_t /*target_vram_mb*/) {
     // Already locked by caller
     
     if (loras_.empty()) {

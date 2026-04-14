@@ -97,14 +97,14 @@ void BulkUploadInterface::set_progress_callback(ProgressCallback callback) {
     progress_callback_ = callback;
 }
 
-bool BulkUploadInterface::cancel_upload(const std::string& content_id) {
+bool BulkUploadInterface::cancel_upload(const std::string& /*content_id*/) {
     // Simple implementation doesn't support cancellation
     // Use AsyncIngestionWorker for cancellation support via cancelJob()
     return false;
 }
 
 BulkUploadInterface::UploadStatus BulkUploadInterface::get_upload_status(
-    const std::string& content_id) const {
+    const std::string& /*content_id*/) const {
     // Simple implementation doesn't track status
     // Use AsyncIngestionWorker for status tracking via getJobStatus()
     return UploadStatus::COMPLETED;

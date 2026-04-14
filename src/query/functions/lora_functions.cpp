@@ -91,10 +91,10 @@ LoRAHyperparameters parseTrainingConfig(const json& config) {
         params.rank = config["rank"].get<int>();
     }
     if (config.contains("alpha")) {
-        params.alpha = config["alpha"].get<double>();
+        params.alpha = config["alpha"].get<float>();
     }
     if (config.contains("learning_rate")) {
-        params.learning_rate = config["learning_rate"].get<double>();
+        params.learning_rate = config["learning_rate"].get<float>();
     }
     if (config.contains("num_epochs")) {
         params.num_epochs = config["num_epochs"].get<int>();
@@ -103,7 +103,7 @@ LoRAHyperparameters parseTrainingConfig(const json& config) {
         params.batch_size = config["batch_size"].get<int>();
     }
     if (config.contains("dropout")) {
-        params.dropout = config["dropout"].get<double>();
+        params.dropout = config["dropout"].get<float>();
     }
     
     return params;
@@ -165,6 +165,7 @@ nlohmann::json LoraTrainFunction::execute(
     const std::vector<nlohmann::json>& args,
     const FunctionContext& context
 ) const {
+    (void)context;
     try {
         // Parse arguments
         std::string adapter_id = args[0].get<std::string>();
@@ -251,6 +252,7 @@ nlohmann::json LoraQueryFunction::execute(
     const std::vector<nlohmann::json>& args,
     const FunctionContext& context
 ) const {
+    (void)context;
     try {
         // Parse arguments
         std::string model_id = args[0].get<std::string>();
@@ -260,8 +262,8 @@ nlohmann::json LoraQueryFunction::execute(
         
         // Parse generation options
         int max_tokens = options.value("max_tokens", 500);
-        double temperature = options.value("temperature", 0.7);
-        double top_p = options.value("top_p", 0.9);
+        float temperature = options.value("temperature", 0.7f);
+        float top_p = options.value("top_p", 0.9f);
         
         // Get orchestrator and ensure adapter is loaded
         auto orchestrator = getLoRAOrchestrator();
@@ -325,6 +327,7 @@ nlohmann::json LoraSimilarFunction::execute(
     const std::vector<nlohmann::json>& args,
     const FunctionContext& context
 ) const {
+    (void)context;
     try {
         // Parse arguments
         std::string adapter_id = args[0].get<std::string>();
@@ -459,6 +462,7 @@ nlohmann::json LoraPathFunction::execute(
     const std::vector<nlohmann::json>& args,
     const FunctionContext& context
 ) const {
+    (void)context;
     try {
         // Parse arguments
         std::string start_model = args[0].get<std::string>();
@@ -534,6 +538,7 @@ nlohmann::json LoraStatsFunction::execute(
     const std::vector<nlohmann::json>& args,
     const FunctionContext& context
 ) const {
+    (void)context;
     try {
         // Parse arguments
         std::string adapter_id = args[0].get<std::string>();
@@ -624,6 +629,7 @@ nlohmann::json LoraRecommendFunction::execute(
     const std::vector<nlohmann::json>& args,
     const FunctionContext& context
 ) const {
+    (void)context;
     try {
         // Parse arguments
         std::string query = args[0].get<std::string>();
@@ -730,6 +736,7 @@ nlohmann::json LoraLineageFunction::execute(
     const std::vector<nlohmann::json>& args,
     const FunctionContext& context
 ) const {
+    (void)context;
     try {
         // Parse arguments
         std::string adapter_id = args[0].get<std::string>();

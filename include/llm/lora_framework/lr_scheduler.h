@@ -144,7 +144,7 @@ class ConstantLR : public LRScheduler {
 public:
     explicit ConstantLR(float lr) : lr_(lr) {}
     
-    float get_lr(int step) const override { return lr_; }
+    float get_lr(int /*step*/) const override { return lr_; }
     SchedulerType type() const override { return SchedulerType::CONSTANT; }
     LRSchedulerConfig config() const override {
         LRSchedulerConfig cfg;

@@ -294,7 +294,7 @@ std::vector<std::vector<float>> LoRARotaryEmbedding::rotateBatchWithAdapter(
 }
 
 bool LoRARotaryEmbedding::registerAdapter(
-    const std::string& name,
+    const std::string& /*name*/,
     const LoRARopeAdapter& adapter
 ) {
     // Validate adapter dimensions against current config

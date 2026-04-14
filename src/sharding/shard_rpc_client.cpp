@@ -759,6 +759,7 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
     const std::string& method,
     const nlohmann::json& params
 ) {
+    (void)params;
     // In-process simulation for single-node deployments
     int attempts = 0;
     std::exception_ptr last_exception;

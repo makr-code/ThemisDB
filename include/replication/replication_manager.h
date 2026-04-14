@@ -404,7 +404,7 @@ public:
     virtual void onNetworkPartitionDetected(const std::vector<std::string>& unreachable_nodes) = 0;
 
     // Called each time a WAL entry is successfully replicated (used by CDC)
-    virtual void onWALEntryApplied(const WALEntry& entry) {}
+    virtual void onWALEntryApplied(const WALEntry& /*entry*/) {}
 };
 
 /**

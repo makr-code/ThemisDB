@@ -118,7 +118,7 @@ void NCCLBackend::finalize() {
     spdlog::info("NCCLBackend finalized");
 }
 
-bool NCCLBackend::allreduce(std::vector<GPUTensor*>& tensors, bool average) {
+bool NCCLBackend::allreduce([[maybe_unused]] std::vector<GPUTensor*>& tensors, [[maybe_unused]] bool average) {
     if (!initialized_) {
         spdlog::error("NCCLBackend not initialized");
         return false;
@@ -189,7 +189,7 @@ bool NCCLBackend::allreduce(GPUTensor& tensor, bool average) {
     return allreduce(tensors, average);
 }
 
-bool NCCLBackend::broadcast(GPUTensor& tensor, int root) {
+bool NCCLBackend::broadcast(GPUTensor& tensor, [[maybe_unused]] int root) {
     if (!initialized_) {
         spdlog::error("NCCLBackend not initialized");
         return false;

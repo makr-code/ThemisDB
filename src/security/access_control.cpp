@@ -262,7 +262,7 @@ Result<void> AccessControl::registerUser(
 Result<void> AccessControl::changePassword(
     const std::string& user_id,
     const std::string& old_password,
-    const std::string& new_password
+    const std::string& /*new_password*/
 ) {
     std::lock_guard<std::mutex> lock(mutex_);
     

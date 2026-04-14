@@ -239,7 +239,7 @@ ConfidenceResult EthicsAwareConfidenceDetector::detectConfidence(
 ConfidenceResult EthicsAwareConfidenceDetector::detectConfidenceWithContext(
     const std::string& text,
     const std::string& query,
-    const std::vector<std::string>& context,
+    const std::vector<std::string>& /*context*/,
     const std::vector<TokenConfidence>& token_confidences
 ) {
     // Start with basic detection
@@ -271,7 +271,7 @@ ConfidenceResult EthicsAwareConfidenceDetector::detectConfidenceWithContext(
 // ═══════════════════════════════════════════════════════════
 
 float EthicsAwareConfidenceDetector::evaluateTechnicalConfidence(
-    const std::string& text,
+    const std::string& /*text*/,
     const std::vector<TokenConfidence>& token_confidences
 ) {
     if (token_confidences.empty()) {
@@ -296,7 +296,7 @@ float EthicsAwareConfidenceDetector::evaluateTechnicalConfidence(
 
 float EthicsAwareConfidenceDetector::evaluateAutonomyRespect(
     const std::string& text,
-    const std::string& query
+    const std::string& /*query*/
 ) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     

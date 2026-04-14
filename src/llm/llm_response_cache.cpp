@@ -101,7 +101,7 @@ LLMResponseCache::LLMResponseCache(const std::string& cache_name, const Config& 
             // Initialize HNSW index for prompt embeddings
             auto status = vector_index_->init(
                 cache_name_,                           // objectName
-                config_.embedding_dim,                 // dimension
+                static_cast<int>(config_.embedding_dim), // dimension
                 VectorIndexManager::Metric::COSINE,    // metric
                 16,                                    // M
                 200,                                   // efConstruction
@@ -171,7 +171,7 @@ void LLMResponseCache::put(const std::string& prompt, const InferenceResponse& r
     
     // Record cache size metric
     if (metrics_collector_) {
-        metrics_collector_->recordCacheSize(cache_name_, stats_.total_entries / 1024.0);
+        metrics_collector_->recordCacheSize(cache_name_, stats_.total_entries.load(std::memory_order_relaxed) / 1024);
     }
     
     // Enforce max_entries limit (LRU eviction)
@@ -196,7 +196,7 @@ void LLMResponseCache::put(const std::string& prompt, const InferenceResponse& r
             stats_.total_entries.store(response_store_.size(), std::memory_order_relaxed);
             
             if (metrics_collector_) {
-                metrics_collector_->recordCacheSize(cache_name_, stats_.total_entries / 1024.0);
+                metrics_collector_->recordCacheSize(cache_name_, stats_.total_entries.load(std::memory_order_relaxed) / 1024);
             }
         }
     }
@@ -284,7 +284,7 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
                         
                         // Update cache size
                         if (metrics_collector_) {
-                            metrics_collector_->recordCacheSize(cache_name_, stats_.total_entries / 1024.0);
+                            metrics_collector_->recordCacheSize(cache_name_, stats_.total_entries.load(std::memory_order_relaxed) / 1024);
                         }
                     }
                 }
@@ -414,7 +414,7 @@ void LLMResponseCache::clear() {
         vector_index_->shutdown();
         vector_index_->init(
             cache_name_,
-            config_.embedding_dim,
+            static_cast<int>(config_.embedding_dim),
             VectorIndexManager::Metric::COSINE,
             16, 200, 64
         );
@@ -424,7 +424,7 @@ void LLMResponseCache::clear() {
     
     // Record cache cleared
     if (metrics_collector_) {
-        metrics_collector_->recordCacheSize(cache_name_, 0.0);
+        metrics_collector_->recordCacheSize(cache_name_, 0);
     }
 }
 
@@ -496,7 +496,7 @@ std::vector<float> LLMResponseCache::generateSimpleEmbedding(const std::string& 
     std::string lower_prompt;
     lower_prompt.reserve(prompt.size());
     for (char c : prompt) {
-        lower_prompt += std::tolower(c);
+        lower_prompt += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
     }
     
     // Reusable hasher to avoid repeated construction

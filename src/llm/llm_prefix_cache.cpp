@@ -183,7 +183,7 @@ public:
     }
     
     std::optional<PrefixCacheEntry> getLongestMatch(const std::string& text,
-                                                     const std::vector<float>& embedding) {
+                                                     const std::vector<float>& /*embedding*/) {
         std::lock_guard<std::mutex> lock(mutex_);
         
         std::optional<PrefixCacheEntry> longest;

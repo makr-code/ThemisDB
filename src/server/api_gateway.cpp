@@ -571,7 +571,7 @@ bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
     return rate_limiter_->allowRequest(client_id);
 }
 
-bool APIGateway::checkLoadShedding(const http::request<http::string_body>& req) {
+bool APIGateway::checkLoadShedding(const http::request<http::string_body>& /*req*/) {
     if (!load_shedder_) {
         return true;
     }

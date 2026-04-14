@@ -233,7 +233,7 @@ double PromptEvaluator::computeRelevance(
 bool PromptEvaluator::isStatisticallySignificant(
     const std::vector<double>& baseline_scores,
     const std::vector<double>& new_scores,
-    double confidence_level
+    double /*confidence_level*/
 ) {
     if (baseline_scores.empty() || new_scores.empty()) {
         return false;

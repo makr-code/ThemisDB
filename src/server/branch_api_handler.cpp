@@ -253,12 +253,12 @@ void BranchApiHandler::handleDeleteBranch(const httplib::Request& req, httplib::
     sendJson(res, result);
 }
 
-void BranchApiHandler::handleGetStats(const httplib::Request& req, httplib::Response& res) {
+void BranchApiHandler::handleGetStats(const httplib::Request& /*req*/, httplib::Response& res) {
     auto stats = branch_manager_.getStats();
     sendJson(res, stats.toJson());
 }
 
-void BranchApiHandler::handleGetActiveBranch(const httplib::Request& req, httplib::Response& res) {
+void BranchApiHandler::handleGetActiveBranch(const httplib::Request& /*req*/, httplib::Response& res) {
     auto span = Tracer::startSpan("handleGetActiveBranch");
     std::string active_branch = branch_manager_.getActiveBranch();
     

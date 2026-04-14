@@ -126,7 +126,7 @@ bool AdvancedVectorIndex::initializeIndex() {
             
             case Config::Type::HNSW_FLAT: {
                 // HNSW without IVF (best accuracy)
-                auto* hnsw = new faiss::IndexHNSWFlat(dimension_, 32);
+                auto* hnsw = new faiss::IndexHNSWFlat(static_cast<int>(dimension_), 32);
                 idx = hnsw;
                 THEMIS_INFO("Created HNSW Flat index");
                 break;
@@ -333,12 +333,12 @@ AdvancedVectorIndex::Stats AdvancedVectorIndex::getStats() const {
         // Estimate compression ratio for PQ
         if (config_.index_type == Config::Type::IVF_PQ) {
             // PQ compresses each vector from d*4 bytes to m*nbits/8 bytes
-            double flat_size = dimension_ * sizeof(float);
+            double flat_size = static_cast<double>(dimension_) * sizeof(float);
             double pq_size = config_.pq_m * config_.pq_nbits / 8.0;
             stats.compression_ratio = flat_size / pq_size;
         }
         
-        stats.memory_usage_bytes = stats.total_vectors * dimension_ * sizeof(float) / stats.compression_ratio;
+            stats.memory_usage_bytes = static_cast<size_t>(static_cast<double>(stats.total_vectors * dimension_ * sizeof(float)) / stats.compression_ratio);
     }
 #endif
     

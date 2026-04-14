@@ -329,7 +329,7 @@ void DatabaseConnectionManager::closeAll() {
 
 std::shared_ptr<DatabaseConnectionManager::Connection> 
 DatabaseConnectionManager::reconnect(
-    std::shared_ptr<Connection> old_conn
+    std::shared_ptr<Connection> /*old_conn*/
 ) {
     spdlog::info("Attempting to reconnect database connection");
     

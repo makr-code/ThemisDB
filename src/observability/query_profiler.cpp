@@ -463,6 +463,7 @@ void QueryProfiler::cleanup_old_profiles() {
 }
 
 void QueryProfiler::log_slow_query(const QueryProfile& profile) {
+    (void)profile;
     // Log slow query (could be integrated with logging system)
     // For now, just a placeholder
 }

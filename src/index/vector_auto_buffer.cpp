@@ -96,7 +96,7 @@ void VectorAutoBuffer::stop() {
     THEMIS_INFO("VectorAutoBuffer stopped, final flush: {} vectors", flushed);
 }
 
-std::string VectorAutoBuffer::makeBufferKey(const BaseEntity& entity) const {
+std::string VectorAutoBuffer::makeBufferKey(const BaseEntity& /*entity*/) const {
     // Use entity type/namespace as buffer key
     // For now, use a simple "vectors" namespace
     // In production, this could be extracted from entity metadata
@@ -439,9 +439,11 @@ void VectorAutoBuffer::setConfig(const VectorAutoBufferConfig& config) {
 }
 
 std::vector<BaseEntity> VectorAutoBuffer::applyCompression(const std::vector<BaseEntity>& entities) {
-    // Compression implementation placeholder
-    // For now, return entities as-is
-    // Future: Implement quantization, PQ, etc.
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provide a stable non-compressing path until compression pipeline is implemented.
+    // Activation: Always active; this function currently acts as a placeholder pass-through.
+    // Production Delta: Returns original entities without quantization or PQ compression.
+    // Removal Plan: Replace with configurable compression backends and remove pass-through-only behavior.
     return entities;
 }
 

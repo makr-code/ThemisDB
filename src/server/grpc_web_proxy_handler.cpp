@@ -222,7 +222,7 @@ http::response<http::string_body> GrpcWebProxyHandler::handleStatus(
 
 http::response<http::string_body> GrpcWebProxyHandler::handlePost(
     const http::request<http::string_body>& req,
-    const std::string& method)
+    const std::string& /*method*/)
 {
     // Validate Content-Type
     const std::string content_type{req[http::field::content_type]};

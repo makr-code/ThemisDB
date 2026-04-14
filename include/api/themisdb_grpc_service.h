@@ -69,6 +69,12 @@ namespace api {
  * constructor the corresponding RPC stubs delegate to them rather than
  * returning UNIMPLEMENTED.  See ThemisDBGrpcServiceFactory for a fluent
  * builder that wires all components together.
+ *
+ * STUB/SIMULATION NOTE:
+ * Purpose: Keep gRPC wrapper type available even when generated protobuf stubs are absent.
+ * Activation: Active when generated themisdb gRPC headers are not available on include path.
+ * Production Delta: service() returns nullptr and RPC registration is skipped instead of serving requests.
+ * Removal Plan: Remove fallback behavior once protobuf code generation is mandatory in all builds.
  */
 class ThemisDBGrpcService {
 public:

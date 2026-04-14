@@ -54,7 +54,7 @@ PKIKeyProvider::PKIKeyProvider(std::shared_ptr<utils::VCCPKIClient> pki,
 
 // File-based constructor
 PKIKeyProvider::PKIKeyProvider(const std::string& cert_path,
-                               const std::string& private_key_path,
+                               const std::string& /*private_key_path*/,
                                std::shared_ptr<themis::RocksDBWrapper> db,
                                const std::string& service_id,
                                bool validate_cert)
