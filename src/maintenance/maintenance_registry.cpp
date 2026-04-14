@@ -211,19 +211,19 @@ void registerDefaultMaintenanceSetup(
     // Register default schedules (disabled by default so operators can enable)
     auto daily = defaultDailySchedule();
     daily.enabled = false;
-    orchestrator.createSchedule(daily);
+    (void)orchestrator.createSchedule(daily);
 
     auto weekly = defaultWeeklySchedule();
     weekly.enabled = false;
-    orchestrator.createSchedule(weekly);
+    (void)orchestrator.createSchedule(weekly);
 
     auto monthly = defaultMonthlySchedule();
     monthly.enabled = false;
-    orchestrator.createSchedule(monthly);
+    (void)orchestrator.createSchedule(monthly);
 
     auto quarterly = defaultQuarterlySchedule();
     quarterly.enabled = false;
-    orchestrator.createSchedule(quarterly);
+    (void)orchestrator.createSchedule(quarterly);
 
     // Register index maintenance health probe
     if (index_mgr) {

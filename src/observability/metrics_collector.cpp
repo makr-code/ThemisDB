@@ -155,7 +155,7 @@ void MetricsCollector::recordCPUUsage(double percent) {
     setGauge("cpu_usage_percent", percent, {});
 }
 
-void MetricsCollector::recordDiskIOps([[maybe_unused]] size_t read_ops, size_t write_ops) {
+void MetricsCollector::recordDiskIOps([[maybe_unused]] size_t read_ops, [[maybe_unused]] size_t write_ops) {
     incrementCounter("disk_read_ops_total", {});
     incrementCounter("disk_write_ops_total", {});
 }

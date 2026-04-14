@@ -473,6 +473,7 @@ std::variant<std::vector<ReleaseInfo>, std::string> UpdateChecker::fetchReleases
     
     return releases;
 #else
+    (void)limit;
     return std::string("CURL support not enabled - cannot fetch releases");
 #endif
 }
@@ -547,6 +548,7 @@ std::variant<json, std::string> UpdateChecker::httpGet(const std::string& url) {
     
     return result;
 #else
+    (void)url;
     return std::string("CURL support not enabled");
 #endif
 }
