@@ -55,8 +55,7 @@
  *   or Airflow Connections instead.
  */
 
-#ifndef THEMIS_SCHEDULER_EXTERNAL_SCHEDULER_ADAPTER_H
-#define THEMIS_SCHEDULER_EXTERNAL_SCHEDULER_ADAPTER_H
+#pragma once
 
 #include "scheduler/task_scheduler.h"
 #include <string>
@@ -269,5 +268,3 @@ private:
 
 } // namespace scheduler
 } // namespace themis
-
-#endif // THEMIS_SCHEDULER_EXTERNAL_SCHEDULER_ADAPTER_H

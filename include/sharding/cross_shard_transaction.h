@@ -27,8 +27,7 @@
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_SHARDING_CROSS_SHARD_TRANSACTION_H
-#define THEMISDB_SHARDING_CROSS_SHARD_TRANSACTION_H
+#pragma once
 
 #include "sharding/consensus_module.h"
 #include "sharding/distributed_transaction.h"
@@ -630,5 +629,3 @@ private:
 
 } // namespace sharding
 } // namespace themisdb
-
-#endif // THEMISDB_SHARDING_CROSS_SHARD_TRANSACTION_H

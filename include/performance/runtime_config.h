@@ -27,6 +27,7 @@
 #include <string>
 #include <unordered_set>
 #include <mutex>
+#include <shared_mutex>
 
 namespace themis {
 namespace performance {
@@ -84,7 +85,7 @@ public:
      * @param operation_name Operation name
      */
     void enableOperation(const std::string& operation_name) {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::unique_lock<std::shared_mutex> lock(mutex_);
         enabled_operations_.insert(operation_name);
     }
 
@@ -93,7 +94,7 @@ public:
      * @param operation_name Operation name
      */
     void disableOperation(const std::string& operation_name) {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::unique_lock<std::shared_mutex> lock(mutex_);
         enabled_operations_.erase(operation_name);
     }
 
@@ -103,7 +104,7 @@ public:
      * @return true if enabled
      */
     bool isOperationEnabled(const std::string& operation_name) const {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::shared_lock<std::shared_mutex> lock(mutex_);
         // If no specific operations are enabled, all are enabled
         if (enabled_operations_.empty()) return true;
         return enabled_operations_.find(operation_name) != enabled_operations_.end();
@@ -113,7 +114,7 @@ public:
      * @brief Clear all operation filters
      */
     void clearOperationFilters() {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::unique_lock<std::shared_mutex> lock(mutex_);
         enabled_operations_.clear();
     }
 
@@ -145,7 +146,7 @@ private:
     std::atomic<uint32_t> sampling_rate_;
     std::atomic<uint64_t> operation_counter_;
     
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex mutex_;
     std::unordered_set<std::string> enabled_operations_;
 };
 

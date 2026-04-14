@@ -1307,18 +1307,16 @@ void TaskScheduler::unregisterFunction(const std::string& name) {
 // ===== Statistics =====
 
 TaskScheduler::Stats TaskScheduler::getStats() const {
-    std::lock_guard<std::mutex> lock(tasks_mutex_);
+    // Acquire both locks atomically (canonical order tasks < running) to avoid
+    // inversion against threads that acquire running_mutex_ alone.
+    std::scoped_lock lock(tasks_mutex_, running_mutex_);
     
     Stats stats;
     stats.registered_tasks = tasks_.size();
     stats.active_tasks = std::count_if(tasks_.begin(), tasks_.end(),
         [](const auto& pair) { return pair.second->enabled; });
     
-    {
-        std::lock_guard<std::mutex> running_lock(running_mutex_);
-        stats.running_tasks = running_task_threads_.size();
-    }
-    
+    stats.running_tasks = running_task_threads_.size();
     stats.total_executions = total_executions_.load();
     stats.failed_executions = failed_executions_.load();
     stats.last_run = last_run_;
@@ -1351,22 +1349,19 @@ std::string TaskScheduler::exportMetrics() const {
     size_t total_exec, failed_exec;
     std::vector<ScheduledTask> task_snapshot;
 
-    {
-        std::lock_guard<std::mutex> lock(tasks_mutex_);
-        registered_tasks = tasks_.size();
-        active_tasks = std::count_if(tasks_.begin(), tasks_.end(),
-                                     [](const auto& p) { return p.second->enabled; });
-        {
-            std::lock_guard<std::mutex> rlock(running_mutex_);
-            running_tasks = running_task_threads_.size();
-        }
-        total_exec   = total_executions_.load();
-        failed_exec  = failed_executions_.load();
+    // Acquire both locks atomically (canonical order tasks < running).
+    std::scoped_lock lock(tasks_mutex_, running_mutex_);
+    registered_tasks = tasks_.size();
+    active_tasks = std::count_if(tasks_.begin(), tasks_.end(),
+                                 [](const auto& p) { return p.second->enabled; });
+    running_tasks = running_task_threads_.size();
+    total_exec   = total_executions_.load();
+    failed_exec  = failed_executions_.load();
 
-        task_snapshot.reserve(tasks_.size());
-        for (const auto& [id, task] : tasks_) {
-            task_snapshot.push_back(*task);
-        }
+    task_snapshot.reserve(tasks_.size());
+    for (const auto& [id, task] : tasks_) {
+        task_snapshot.push_back(*task);
+    }
     }
 
     // ── Scheduler-level gauges ────────────────────────────────────────────
@@ -2686,12 +2681,12 @@ std::optional<scheduler::TaskExecutionResult> TaskScheduler::getLatestTaskResult
 // ===== Alertmanager Integration =====
 
 void TaskScheduler::setAlertmanager(std::shared_ptr<observability::Alertmanager> alertmanager) {
-    std::lock_guard<std::mutex> lock(alert_mutex_);
+    std::unique_lock<std::shared_mutex> lock(alert_mutex_);
     alertmanager_ = std::move(alertmanager);
 }
 
 std::shared_ptr<observability::Alertmanager> TaskScheduler::getAlertmanager() const {
-    std::lock_guard<std::mutex> lock(alert_mutex_);
+    std::shared_lock<std::shared_mutex> lock(alert_mutex_);
     return alertmanager_;
 }
 
@@ -2705,7 +2700,7 @@ void TaskScheduler::fireTaskFailureAlert(const ScheduledTask& task, const std::s
     // before calling sendAlert() to avoid holding the mutex during potentially blocking I/O.
     std::shared_ptr<observability::Alertmanager> am;
     {
-        std::lock_guard<std::mutex> lock(alert_mutex_);
+        std::unique_lock<std::shared_mutex> lock(alert_mutex_);
         am = alertmanager_;
     }
     if (!am) {
@@ -2736,7 +2731,7 @@ void TaskScheduler::fireTaskFailureAlert(const ScheduledTask& task, const std::s
     // sendAlert() may involve network I/O; called outside the lock
     auto result = am->sendAlert(alert);
     if (result) {
-        std::lock_guard<std::mutex> lock(alert_mutex_);
+        std::unique_lock<std::shared_mutex> lock(alert_mutex_);
         active_failure_alert_ids_[task.id] = alert_id;
         THEMIS_WARN("Task failure alert fired for task {} ({}): {}", task.id, task.name, error);
     } else {
@@ -2754,7 +2749,7 @@ void TaskScheduler::fireTaskSlaBreachAlert(const ScheduledTask& task, double ela
     // before calling sendAlert() to avoid holding the mutex during potentially blocking I/O.
     std::shared_ptr<observability::Alertmanager> am;
     {
-        std::lock_guard<std::mutex> lock(alert_mutex_);
+        std::unique_lock<std::shared_mutex> lock(alert_mutex_);
         am = alertmanager_;
     }
     if (!am) {
@@ -2802,7 +2797,7 @@ void TaskScheduler::resolveTaskFailureAlert(const std::string& task_id) {
     std::shared_ptr<observability::Alertmanager> am;
     std::string alert_id;
     {
-        std::lock_guard<std::mutex> lock(alert_mutex_);
+        std::unique_lock<std::shared_mutex> lock(alert_mutex_);
         if (!alertmanager_) {
             return;
         }

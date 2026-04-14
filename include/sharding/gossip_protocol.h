@@ -20,8 +20,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_SHARDING_GOSSIP_PROTOCOL_H
-#define THEMIS_SHARDING_GOSSIP_PROTOCOL_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -342,5 +341,3 @@ private:
 
 } // namespace sharding
 } // namespace themis
-
-#endif // THEMIS_SHARDING_GOSSIP_PROTOCOL_H

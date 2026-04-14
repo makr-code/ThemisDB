@@ -43,7 +43,7 @@ RouteRegistry& RouteRegistry::instance() {
 // ---------------------------------------------------------------------------
 
 void RouteRegistry::registerRoute(RouteEntry entry) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     // Replace existing entry with same path+method (last-registration-wins).
     auto it = std::find_if(entries_.begin(), entries_.end(),
         [&entry](const RouteEntry& e) {
@@ -57,12 +57,12 @@ void RouteRegistry::registerRoute(RouteEntry entry) {
 }
 
 std::vector<RouteEntry> RouteRegistry::entries() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     return entries_;
 }
 
 void RouteRegistry::clear() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     entries_.clear();
 }
 
@@ -71,7 +71,7 @@ void RouteRegistry::clear() {
 // ---------------------------------------------------------------------------
 
 json RouteRegistry::buildOpenApiSpec(const std::string& api_version) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
 
     // ---- paths object: merge all registered entries ----
     json paths = json::object();

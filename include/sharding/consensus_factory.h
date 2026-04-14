@@ -23,8 +23,7 @@
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_SHARDING_CONSENSUS_FACTORY_H
-#define THEMISDB_SHARDING_CONSENSUS_FACTORY_H
+#pragma once
 
 #include "sharding/consensus_module.h"
 #include <memory>
@@ -83,5 +82,3 @@ public:
 
 } // namespace sharding
 } // namespace themisdb
-
-#endif // THEMISDB_SHARDING_CONSENSUS_FACTORY_H

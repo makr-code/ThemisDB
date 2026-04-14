@@ -26,6 +26,7 @@
 #include <string>
 #include <atomic>
 #include <mutex>
+#include <shared_mutex>
 #include <boost/beast/http.hpp>
 
 namespace beast = boost::beast;
@@ -108,7 +109,7 @@ public:
     uint64_t getApplyLatencySumUs() const { return wal_apply_latency_sum_us_.load(std::memory_order_relaxed); }
     uint64_t getApplyLatencyCount() const { return wal_apply_latency_count_.load(std::memory_order_relaxed); }
     std::string getLastAppliedLsn() const { 
-        std::lock_guard<std::mutex> lock(wal_metrics_mutex_);
+        std::shared_lock<std::shared_mutex> lock(wal_metrics_mutex_);
         return wal_last_applied_lsn_; 
     }
 
@@ -132,7 +133,7 @@ private:
     std::atomic<uint64_t> wal_apply_latency_gt_1000ms_{0};
     std::atomic<uint64_t> wal_apply_latency_sum_us_{0};
     std::atomic<uint64_t> wal_apply_latency_count_{0};
-    mutable std::mutex wal_metrics_mutex_;
+    mutable std::shared_mutex wal_metrics_mutex_;
     std::string wal_last_applied_lsn_;
 
     // Helper methods

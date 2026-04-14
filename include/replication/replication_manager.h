@@ -546,7 +546,7 @@ private:
     std::chrono::steady_clock::time_point last_heartbeat_time_;
 
     // Leader lease expiry time; epoch when no lease is held.
-    mutable std::mutex lease_mutex_;
+    mutable std::shared_mutex lease_mutex_;
     std::chrono::steady_clock::time_point lease_expires_at_;
     
     std::mutex election_mutex_;

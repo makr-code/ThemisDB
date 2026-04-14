@@ -36,6 +36,7 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <mutex>
+#include <shared_mutex>
 #include <functional>
 #include <memory>
 
@@ -294,7 +295,7 @@ private:
     RocksDBWrapper& db_;
 
     // In-Memory Adjazenzlisten (thread-safe)
-    mutable std::mutex topology_mutex_;
+    mutable std::shared_mutex topology_mutex_;
     std::unordered_map<std::string, std::vector<AdjacencyInfo>> outEdges_; // fromPk -> [(edgeId, toPk)]
     std::unordered_map<std::string, std::vector<AdjacencyInfo>> inEdges_;  // toPk -> [(edgeId, fromPk)]
     bool topologyLoaded_ = false;

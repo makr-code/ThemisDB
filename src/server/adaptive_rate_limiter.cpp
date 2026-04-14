@@ -51,7 +51,7 @@ AdaptiveRateLimiter::AdaptiveRateLimiter(const Config& config)
 void AdaptiveRateLimiter::recordSample(const std::string& tenant_id,
                                        const BackendHealthSample& sample)
 {
-    std::lock_guard<std::mutex> lock(tenants_mutex_);
+    std::unique_lock<std::shared_mutex> lock(tenants_mutex_);
 
     auto it = tenants_.find(tenant_id);
     if (it == tenants_.end()) {
@@ -76,7 +76,7 @@ bool AdaptiveRateLimiter::allowRequest(const std::string& tenant_id)
 {
     total_requests_.fetch_add(1, std::memory_order_relaxed);
 
-    std::lock_guard<std::mutex> lock(tenants_mutex_);
+    std::unique_lock<std::shared_mutex> lock(tenants_mutex_);
 
     auto it = tenants_.find(tenant_id);
     if (it == tenants_.end()) {
@@ -108,7 +108,7 @@ bool AdaptiveRateLimiter::allowRequest(const std::string& tenant_id)
 
 size_t AdaptiveRateLimiter::getCurrentCapacity(const std::string& tenant_id) const
 {
-    std::lock_guard<std::mutex> lock(tenants_mutex_);
+    std::shared_lock<std::shared_mutex> lock(tenants_mutex_);
 
     auto it = tenants_.find(tenant_id);
     if (it == tenants_.end()) {
@@ -119,7 +119,7 @@ size_t AdaptiveRateLimiter::getCurrentCapacity(const std::string& tenant_id) con
 
 void AdaptiveRateLimiter::reset()
 {
-    std::lock_guard<std::mutex> lock(tenants_mutex_);
+    std::unique_lock<std::shared_mutex> lock(tenants_mutex_);
     tenants_.clear();
     tenants_.emplace("", TenantState{config_.base_capacity});
     total_requests_.store(0, std::memory_order_relaxed);

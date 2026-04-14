@@ -109,7 +109,7 @@ void TaskAuditManager::logSecurityEvent(const TaskSecurityEvent& event) {
 
 void TaskAuditManager::writeToAuditLog(const TaskAuditEvent& event) {
     // Write to dedicated task audit log
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     
     try {
         std::ofstream ofs(config_.audit_log_path, std::ios::app);
@@ -131,7 +131,7 @@ void TaskAuditManager::writeToAuditLog(const TaskAuditEvent& event) {
 }
 
 void TaskAuditManager::writeToSecurityLog(const TaskSecurityEvent& event) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     
     try {
         std::ofstream ofs(config_.security_log_path, std::ios::app);
@@ -155,7 +155,7 @@ void TaskAuditManager::writeToSecurityLog(const TaskSecurityEvent& event) {
 }
 
 void TaskAuditManager::cacheAuditEvent(const TaskAuditEvent& event) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     
     recent_audit_events_.push_back(event);
     
@@ -166,7 +166,7 @@ void TaskAuditManager::cacheAuditEvent(const TaskAuditEvent& event) {
 }
 
 void TaskAuditManager::cacheSecurityEvent(const TaskSecurityEvent& event) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     
     recent_security_events_.push_back(event);
     
@@ -219,7 +219,7 @@ bool TaskAuditManager::matchesQuery(const TaskAuditEvent& event,
 }
 
 std::vector<TaskAuditEvent> TaskAuditManager::queryAuditEvents(const AuditQueryParams& params) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     
     std::vector<TaskAuditEvent> results;
     
@@ -398,7 +398,7 @@ std::vector<TaskAuditEvent> TaskAuditManager::loadEventsFromFile(
 }
 
 std::vector<TaskSecurityEvent> TaskAuditManager::querySecurityEvents(const AuditQueryParams& params) const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     
     std::vector<TaskSecurityEvent> results;
     
@@ -641,7 +641,7 @@ bool TaskAuditManager::hasAnomalies(const std::string& task_id) const {
     }
     
     // Check recent events for anomalies
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     for (const auto& event : recent_audit_events_) {
         if (event.task_id == task_id && event.anomaly_metrics.is_anomalous) {
             return true;
@@ -658,12 +658,12 @@ void TaskAuditManager::resetTaskStatistics(const std::string& task_id) {
 }
 
 TaskAuditConfig TaskAuditManager::getConfig() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     return config_;
 }
 
 void TaskAuditManager::updateConfig(const TaskAuditConfig& config) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     config_ = config;
     
     if (config_.enable_anomaly_detection && !anomaly_detector_) {
@@ -680,7 +680,7 @@ void TaskAuditManager::flush() {
 }
 
 nlohmann::json TaskAuditManager::exportAnomalyStatistics() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     if (anomaly_detector_) {
         return anomaly_detector_->exportStatistics();
     }
@@ -688,7 +688,7 @@ nlohmann::json TaskAuditManager::exportAnomalyStatistics() const {
 }
 
 void TaskAuditManager::importAnomalyStatistics(const nlohmann::json& data) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     if (anomaly_detector_) {
         anomaly_detector_->importStatistics(data);
     }

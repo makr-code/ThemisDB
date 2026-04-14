@@ -28,6 +28,7 @@
 #include <functional>
 #include <memory>
 #include <mutex>
+#include <shared_mutex>
 #include <optional>
 #include <string>
 #include <vector>
@@ -249,7 +250,7 @@ private:
     AiInferenceResult dispatchCpuFallback(AiInferenceRequest& req);
 
     // ── State ─────────────────────────────────────────────────────────────────
-    mutable std::mutex                   mutex_;
+    mutable std::shared_mutex            mutex_;
     std::vector<AiHardwareCapability>    capabilities_;   ///< Ordered priority chain
     std::chrono::steady_clock::time_point last_probe_time_{};
     std::atomic<bool>                    initialized_{false};

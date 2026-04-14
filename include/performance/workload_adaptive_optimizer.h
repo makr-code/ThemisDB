@@ -31,6 +31,7 @@
 #include <cstdint>
 #include <functional>
 #include <mutex>
+#include <shared_mutex>
 #include <string>
 #include <thread>
 #include <vector>
@@ -215,14 +216,14 @@ private:
         std::string table_name;
     };
 
-    mutable std::mutex  obs_mutex_;
+    mutable std::shared_mutex  obs_mutex_;
     std::vector<QueryObs> observations_;  ///< circular buffer (appended, front evicted)
     std::atomic<size_t>   concurrent_queries_{0};
 
-    mutable std::mutex     strategy_mutex_;
+    mutable std::shared_mutex     strategy_mutex_;
     OptimizationStrategy   current_strategy_;
 
-    mutable std::mutex     stats_mutex_;
+    mutable std::shared_mutex     stats_mutex_;
     Stats                  stats_;
 
     AdaptationCallback     callback_;

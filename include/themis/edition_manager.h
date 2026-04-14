@@ -53,8 +53,7 @@
  *   }
  */
 
-#ifndef THEMIS_EDITION_MANAGER_H
-#define THEMIS_EDITION_MANAGER_H
+#pragma once
 
 #include "themis/edition.h"
 #include "themis/export.h"
@@ -264,5 +263,3 @@ private:
 
 } // namespace edition
 } // namespace themis
-
-#endif // THEMIS_EDITION_MANAGER_H
