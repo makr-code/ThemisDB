@@ -60,6 +60,18 @@ jobs:
                 echo "themisdb-${VERSION}-community-sourcecode-x64.zip"; return 0 ;;
               "themisdb-${VERSION}-source.zip.sha256")
                 echo "themisdb-${VERSION}-community-sourcecode-x64.zip.sha256"; return 0 ;;
+              "SHA256SUMS.txt")
+                echo "themisdb-${VERSION}-community-binary-x64.sha256sums.txt"; return 0 ;;
+              "themis-v${VERSION}-linux-x64.tar.gz")
+                echo "themisdb-${VERSION}-community-binary-x64.tar.gz"; return 0 ;;
+              "themis-v${VERSION}-linux-x64.tar.gz.sha256")
+                echo "themisdb-${VERSION}-community-binary-x64.tar.gz.sha256"; return 0 ;;
+              "themis-v${VERSION}-windows-x64.zip")
+                echo "themisdb-${VERSION}-community-binary-x64.zip"; return 0 ;;
+              "themis-v${VERSION}-windows-x64.zip.sha256")
+                echo "themisdb-${VERSION}-community-binary-x64.zip.sha256"; return 0 ;;
+              "themisdb-v${VERSION}-linux-x64-production.tar.gz")
+                echo "themisdb-${VERSION}-community-binary-x64.tar.gz"; return 0 ;;
               "themisdb-${VERSION}-Linux-x86_64.tar.gz")
                 echo "themisdb-${VERSION}-community-binary-x64.tar.gz"; return 0 ;;
               "themisdb-${VERSION}-Linux-x86_64.deb")
