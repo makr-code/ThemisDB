@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_graph_traversal.cpp                       ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:44:31                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:14:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

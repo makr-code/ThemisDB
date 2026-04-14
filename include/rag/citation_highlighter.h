@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            citation_highlighter.h                             ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:25:16                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 06:55:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

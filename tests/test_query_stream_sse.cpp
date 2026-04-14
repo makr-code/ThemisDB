@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_query_stream_sse.cpp                          ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:49:37                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:19:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

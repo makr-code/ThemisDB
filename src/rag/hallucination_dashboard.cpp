@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hallucination_dashboard.cpp                        ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:34:54                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:04:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

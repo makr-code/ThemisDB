@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_community_detection_functions.cpp             ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:42:13                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:11:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

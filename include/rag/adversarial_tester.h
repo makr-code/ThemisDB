@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adversarial_tester.h                               ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:25:14                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 06:55:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

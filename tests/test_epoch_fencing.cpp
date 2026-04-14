@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_epoch_fencing.cpp                             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 20:43:46                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 07:13:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

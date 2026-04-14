@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_security_negative_integration.cpp             ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-04-13 20:39:57                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-04-14 07:09:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

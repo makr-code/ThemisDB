@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            udf_api_handler.h                                  ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:26:39                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 06:56:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

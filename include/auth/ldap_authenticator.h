@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ldap_authenticator.h                               ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:20:30                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 06:50:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pmem_storage.cpp                                   ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:33:53                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:03:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

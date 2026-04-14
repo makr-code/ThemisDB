@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ethics_aql_queries.h                               ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:30:54                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 07:00:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

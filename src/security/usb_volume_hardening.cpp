@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            usb_volume_hardening.cpp                           ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 20:35:41                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 07:05:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

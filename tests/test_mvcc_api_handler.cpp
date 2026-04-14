@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_mvcc_api_handler.cpp                          ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:47:32                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:17:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            quantization.h                                     ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:23:11                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:53:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

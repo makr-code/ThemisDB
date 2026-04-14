@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            byzantine_attacks.h                                ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:38:32                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:08:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

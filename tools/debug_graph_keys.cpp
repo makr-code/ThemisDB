@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            debug_graph_keys.cpp                               ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:54:38                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:24:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            license_info.h                                     ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:27:39                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:57:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

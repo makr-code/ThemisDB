@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_traversal.cpp                                  ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:31:45                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:01:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     877                                            ║
+    • Total Lines:     863                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • dac91fef60  2026-04-04  Add local production readiness checklist and OpenAPI comp... ║
     • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 5cac3c4d25  2026-02-26  audit(graph): fix allVertices RocksDB fallback, cleanup f... ║
-    • f22c734c5e  2026-02-25  feat(graph): implement GPU-accelerated BFS/DFS for massiv... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

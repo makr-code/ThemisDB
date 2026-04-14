@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_rag_hybrid_retriever.cpp                     ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:18:50                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 06:48:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

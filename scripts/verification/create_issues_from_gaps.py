@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            create_issues_from_gaps.py                         ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:29:27                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:59:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

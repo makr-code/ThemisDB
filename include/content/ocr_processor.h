@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ocr_processor.h                                    ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:21:21                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 06:51:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            time_slice_scheduler.cpp                           ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:31:40                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:01:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_filter_pipeline.cpp                       ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-13 20:41:51                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-14 07:11:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

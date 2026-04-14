@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            temporal_spatial_query.h                           ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:21:51                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 06:51:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

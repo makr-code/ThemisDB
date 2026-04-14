@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_metrics_exporter.cpp                        ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:30:38                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:00:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     413                                            ║
+    • Total Lines:     412                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 7a9e3ad1cc  2026-03-14  fix: polish config metrics initialization ║
     • 985dc57d92  2026-03-14  fix: harden config metrics exporter compatibility ║
     • c74d69b89e  2026-03-13  Changes before error encountered        ║
     • 518f98f13e  2026-03-13  refine config metrics delta handling    ║
-    • f02db7d315  2026-03-13  fix: stabilize config metrics counters  ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            response_transformer.h                             ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:26:32                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 06:56:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

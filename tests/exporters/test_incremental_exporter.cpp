@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_incremental_exporter.cpp                      ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:38:45                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:08:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

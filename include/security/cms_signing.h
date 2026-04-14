@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cms_signing.h                                      ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:25:58                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:55:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

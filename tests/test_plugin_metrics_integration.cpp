@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_plugin_metrics_integration.cpp                ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:48:37                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:18:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_binary_protocol_buffers.cpp                   ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:41:14                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:11:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

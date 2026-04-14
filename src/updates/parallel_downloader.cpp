@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            parallel_downloader.cpp                            ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:37:43                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 07:07:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     491                                            ║
+    • Total Lines:     488                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 1d10fc7b3f  2026-03-13  feat(build): add redis_cache and AQL components to build ... ║
     • 354c827c49  2026-03-13  audit(updates): fix 5 issues found in parallel downloader ║
     • ab135ba46b  2026-03-13  feat(updates): implement Parallel File Downloads (Issue #... ║

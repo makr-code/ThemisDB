@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cdc_ws_handler.h                                   ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:20:54                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 06:50:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_user_storage_mount_latency.cpp               ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-13 20:19:01                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-14 06:48:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

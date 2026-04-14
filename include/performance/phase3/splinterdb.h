@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            splinterdb.h                                       ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:24:16                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:54:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_lock_manager.cpp                              ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-13 20:46:32                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-14 07:16:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

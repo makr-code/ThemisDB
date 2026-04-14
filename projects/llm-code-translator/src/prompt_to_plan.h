@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            prompt_to_plan.h                                   ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:28:59                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:58:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

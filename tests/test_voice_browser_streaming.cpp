@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_voice_browser_streaming.cpp                   ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:53:17                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 07:22:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

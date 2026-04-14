@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cost_based_rate_limiter.cpp                        ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:35:50                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 07:05:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

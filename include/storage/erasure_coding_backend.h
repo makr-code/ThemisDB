@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            erasure_coding_backend.h                           ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:27:02                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 06:56:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            whisper_config.cpp                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-13 20:38:12                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-14 07:07:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

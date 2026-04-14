@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vec_knn.h                                          ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-13 20:19:50                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-14 06:49:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_transaction_timeout.cpp                       ║
-  Version:         0.0.26                                             ║
-  Last Modified:   2026-04-13 20:52:42                                ║
+  Version:         0.0.27                                             ║
+  Last Modified:   2026-04-14 07:22:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

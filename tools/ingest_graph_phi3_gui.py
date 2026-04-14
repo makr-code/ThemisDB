@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ingest_graph_phi3_gui.py                           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-13 20:54:42                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-14 07:24:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

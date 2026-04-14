@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            udp_fast_path.h                                    ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:23:47                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 06:53:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

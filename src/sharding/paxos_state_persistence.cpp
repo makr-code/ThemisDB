@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            paxos_state_persistence.cpp                        ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:36:27                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 07:06:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

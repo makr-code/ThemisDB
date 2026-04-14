@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            eid_authenticator.h                                ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 20:20:28                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 06:50:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

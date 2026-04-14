@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cluster_config.h                                   ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:27:26                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 06:57:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

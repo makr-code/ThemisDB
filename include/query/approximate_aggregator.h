@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            approximate_aggregator.h                           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-13 20:24:51                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-14 06:54:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

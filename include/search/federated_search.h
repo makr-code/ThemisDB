@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            federated_search.h                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-13 20:25:49                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-14 06:55:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

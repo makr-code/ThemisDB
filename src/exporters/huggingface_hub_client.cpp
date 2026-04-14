@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            huggingface_hub_client.cpp                         ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:31:02                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 07:00:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     791                                            ║
+    • Total Lines:     786                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • 17ac0cd311  2026-03-16  feat(exporters): HuggingFace Hub Client HTTP 429 back-off... ║
     • c64ea5aac6  2026-03-11  feat(exporters): add hf_token_kek_id for KEK/KMS-protecte... ║
     • 07dbc30523  2026-03-11  feat(exporters): add memory-streaming upload API for Hugg... ║
-    • f838f77001  2026-03-11  docs(exporters): add Hub upload usage examples, update RO... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

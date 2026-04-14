@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hsm_provider.cpp                                   ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:35:34                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:05:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  ⚫ DRAFT                                        ║
     • Quality Score:   0.0/100                                        ║
-    • Total Lines:     367                                            ║
+    • Total Lines:     365                                            ║
     • Open Issues:     TODOs: 0, Stubs: 42                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • f82bf2ae9f  2026-03-04  Refactor tenant manager tests and add new test cases ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • a05c4ac445  2026-03-01  feat(security): enforce hard rejection of stub HSM in pro... ║
     • ffcf5ac92a  2026-03-01  fix: replace HSM stub with PKCS#11 production implementation ║
-    • 14140888fa  2026-02-22  feat: Complete HSM PKCS#11 direct integration with RSA-OA... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 📝 Draft / Stub                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

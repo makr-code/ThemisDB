@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_query_validator.cpp                            ║
-  Version:         0.0.31                                             ║
-  Last Modified:   2026-04-13 20:29:57                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-04-14 06:59:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

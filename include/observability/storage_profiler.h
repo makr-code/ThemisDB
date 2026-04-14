@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            storage_profiler.h                                 ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:24:04                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:53:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

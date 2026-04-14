@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_agent.cpp                                      ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:29:51                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 06:59:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

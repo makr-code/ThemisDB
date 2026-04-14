@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            archive_processor.cpp                              ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:30:39                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:00:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   86.0/100                                       ║
-    • Total Lines:     746                                            ║
+    • Total Lines:     744                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
     • 2737ade5bb  2026-03-11  fix(content/security): audit corrections - test rename, z... ║
     • 1bacdae51e  2026-03-11  fix(content/security): add zip-bomb protection in archive... ║
-    • c613ea7a9e  2026-03-04  Refactor error masking and enhance archive processor vali... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            metrics_exporter.py                                ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:19:09                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:49:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

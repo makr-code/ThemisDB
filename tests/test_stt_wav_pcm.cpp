@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_stt_wav_pcm.cpp                               ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:52:00                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:21:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

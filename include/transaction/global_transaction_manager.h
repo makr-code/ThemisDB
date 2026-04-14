@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            global_transaction_manager.h                       ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:28:00                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 06:57:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

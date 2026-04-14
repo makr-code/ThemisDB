@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_schema_changefeed.cpp                         ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-13 20:51:01                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-14 07:20:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

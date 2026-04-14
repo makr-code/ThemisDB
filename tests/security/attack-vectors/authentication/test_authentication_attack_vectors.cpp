@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_authentication_attack_vectors.cpp             ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:39:50                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 07:09:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

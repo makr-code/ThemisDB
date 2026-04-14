@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_spatial_correctness_integration.cpp           ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:39:16                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:09:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

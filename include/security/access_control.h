@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            access_control.h                                   ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:25:57                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:55:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

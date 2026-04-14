@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_w3c_trace_context_propagator.cpp              ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:53:28                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:23:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

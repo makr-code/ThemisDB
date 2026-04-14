@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            image_processor.h                                  ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:21:19                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:51:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

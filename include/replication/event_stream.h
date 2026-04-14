@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            event_stream.h                                     ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:25:36                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 06:55:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

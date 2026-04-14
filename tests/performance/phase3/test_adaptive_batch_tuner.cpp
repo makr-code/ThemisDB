@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_adaptive_batch_tuner.cpp                      ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:39:37                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:09:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            agentic_rag.h                                      ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:25:15                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 06:55:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

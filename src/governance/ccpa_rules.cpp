@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ccpa_rules.cpp                                     ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:31:19                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:01:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

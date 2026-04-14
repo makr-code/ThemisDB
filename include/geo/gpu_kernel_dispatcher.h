@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_kernel_dispatcher.h                            ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:21:50                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 06:51:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

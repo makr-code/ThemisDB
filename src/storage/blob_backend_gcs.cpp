@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            blob_backend_gcs.cpp                               ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:36:37                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 07:06:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     273                                            ║
+    • Total Lines:     269                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
     • e561df7fd1  2026-03-09  fix(storage): address second code review - read validatio... ║
     • bea3655f53  2026-03-09  fix(storage): address code review comments - path travers... ║

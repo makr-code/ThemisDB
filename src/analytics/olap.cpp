@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            olap.cpp                                           ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:29:44                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:59:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   90.0/100                                       ║
-    • Total Lines:     1766                                           ║
+    • Total Lines:     1765                                           ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
     • 3e8584c2c9  2026-04-13  fix(analytics): replace whole-class _WIN32 OLAPEngine stu... ║
     • 1e59da9797  2026-03-19  Fix remaining gaps: spdlog::warn in olap.cpp/analytics_ex... ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • d5fae2ab24  2026-03-18  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

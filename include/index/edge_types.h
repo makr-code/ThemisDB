@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            edge_types.h                                       ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:22:35                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:52:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

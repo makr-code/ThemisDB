@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            sync-issues-from-roadmap.py                        ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:29:25                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 06:59:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

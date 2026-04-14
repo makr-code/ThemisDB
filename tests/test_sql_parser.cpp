@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_sql_parser.cpp                                ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-13 20:51:48                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-14 07:21:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

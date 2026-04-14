@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            openssl_deleter.h                                  ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:28:25                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:58:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

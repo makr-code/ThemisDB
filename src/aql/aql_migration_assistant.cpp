@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_migration_assistant.cpp                        ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:29:54                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 06:59:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            fault_injector.py                                  ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:54:40                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:24:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

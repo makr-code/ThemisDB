@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            example_index_manager_di.cpp                       ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:19:33                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:49:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

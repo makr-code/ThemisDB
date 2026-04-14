@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            task_scheduler_api_handler.cpp                     ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:36:15                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:06:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

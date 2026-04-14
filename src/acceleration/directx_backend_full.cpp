@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            directx_backend_full.cpp                           ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:29:30                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:59:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

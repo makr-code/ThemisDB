@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            i_audit_log.h                                      ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:21:25                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 06:51:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

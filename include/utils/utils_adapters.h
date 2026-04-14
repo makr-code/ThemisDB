@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            utils_adapters.h                                   ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 20:28:30                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 06:58:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

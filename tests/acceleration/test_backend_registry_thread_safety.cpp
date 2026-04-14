@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_backend_registry_thread_safety.cpp            ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 20:38:15                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 07:08:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

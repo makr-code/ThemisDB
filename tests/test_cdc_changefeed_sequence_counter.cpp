@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_changefeed_sequence_counter.cpp           ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 20:41:40                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 07:11:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

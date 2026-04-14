@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            grpc_bridge.h                                      ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:20:09                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 06:50:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

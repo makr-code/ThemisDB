@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tenant_metrics_namespace.h                         ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-13 20:24:05                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-14 06:53:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

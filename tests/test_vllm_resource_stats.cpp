@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_vllm_resource_stats.cpp                       ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:53:16                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 07:22:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

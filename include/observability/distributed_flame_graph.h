@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            distributed_flame_graph.h                          ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:23:54                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 06:53:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            jwt_key_rotation_manager.h                         ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:20:29                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:50:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

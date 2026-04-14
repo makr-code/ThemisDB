@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rate_limiting_improvements.cpp                ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:50:20                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 07:20:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

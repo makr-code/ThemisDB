@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            database_connector.h                               ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:22:46                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 06:52:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

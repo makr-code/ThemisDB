@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_voice_coverage.cpp                            ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:53:19                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:22:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

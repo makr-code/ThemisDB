@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_http_client_pool.cpp                          ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:45:20                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:15:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

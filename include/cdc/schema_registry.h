@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            schema_registry.h                                  ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:21:09                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 06:51:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     856                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+    • Quality Score:   97.0/100                                       ║
+    • Total Lines:     862                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 3                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • f8098a60cb  2026-02-25  fix(cdc): remove unused includes; add TRANSACTION_COMMIT/... ║
     • 87c62f7315  2026-02-25  feat(cdc): schema-aware CDC with Avro/Protobuf schema reg... ║

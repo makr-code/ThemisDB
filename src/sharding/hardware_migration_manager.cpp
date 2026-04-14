@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hardware_migration_manager.cpp                     ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 20:36:24                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 07:06:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_geo_replication_consistency.cpp               ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:44:11                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 07:13:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

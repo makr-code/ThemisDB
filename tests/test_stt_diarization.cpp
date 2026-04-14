@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_stt_diarization.cpp                           ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:52:00                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:21:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

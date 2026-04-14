@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            replug_retriever.h                                 ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 20:25:31                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 06:55:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

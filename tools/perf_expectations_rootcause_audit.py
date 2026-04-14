@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            perf_expectations_rootcause_audit.py               ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-04-13 20:54:47                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-04-14 07:24:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   69.0/100                                       ║
-    • Total Lines:     826                                            ║
+    • Total Lines:     803                                            ║
     • Open Issues:     TODOs: 0, Stubs: 8                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rpc_service_integration_test.cpp                   ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:39:20                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:09:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

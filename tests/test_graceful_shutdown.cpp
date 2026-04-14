@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_graceful_shutdown.cpp                         ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:44:47                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:14:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

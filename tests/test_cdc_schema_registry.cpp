@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_schema_registry.cpp                       ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:41:59                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:11:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

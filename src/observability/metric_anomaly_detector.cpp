@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            metric_anomaly_detector.cpp                        ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:33:33                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 07:03:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

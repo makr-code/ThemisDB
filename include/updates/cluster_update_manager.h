@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cluster_update_manager.h                           ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:28:08                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 06:57:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

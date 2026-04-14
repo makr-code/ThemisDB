@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            directx_shader_utils.h                             ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:23:06                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:52:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

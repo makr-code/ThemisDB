@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ring_buffer.h                                      ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 20:29:39                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 06:59:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

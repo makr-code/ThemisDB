@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            opa_adapter.h                                      ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:21:59                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 06:51:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

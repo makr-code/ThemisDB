@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            assign-issue-priorities.py                         ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:29:06                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 06:58:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

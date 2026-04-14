@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            task_audit_manager.cpp                             ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:35:19                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:05:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,6 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 2e85cfe4c1  2026-04-14  chore: reduce compiler warnings in scheduler, query, secu... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 4228c5bc53  2026-02-23  fix(scheduler): close remaining audit gaps in searchable ... ║
     • ba3f28bb48  2026-02-23  feat(scheduler): implement searchable task execution hist... ║

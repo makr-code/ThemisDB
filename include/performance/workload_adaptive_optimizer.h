@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            workload_adaptive_optimizer.h                      ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-13 20:24:21                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-14 06:54:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

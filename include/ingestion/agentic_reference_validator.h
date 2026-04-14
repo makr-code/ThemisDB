@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            agentic_reference_validator.h                      ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:22:44                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 06:52:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
