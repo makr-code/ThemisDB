@@ -120,6 +120,11 @@ $pdo->exec('PRAGMA foreign_keys = ON');
  *   os_family      – "Linux" | "Windows" | "macOS" | "BSD" (nullable)
  *   cpu_arch       – "x86_64" | "aarch64" | … (nullable)
  *
+ * Build provenance columns:
+ *   build_channel  – "official" | "community"
+ *   build_id       – short Git SHA (7 hex chars), e.g. "a1b2c3d"
+ *   build_verified – 1 when the Ed25519 signature was valid, 0 otherwise
+ *
  * Performance columns (all nullable, present only when include_performance=true):
  *   perf_avg_query_latency_us      – average query latency (µs)
  *   perf_p99_query_latency_us      – P99 query latency (µs)
@@ -143,6 +148,10 @@ $pdo->exec(
         total_ram_mb   INTEGER,
         os_family      TEXT,
         cpu_arch       TEXT,
+        -- build provenance
+        build_channel  TEXT    NOT NULL DEFAULT 'community',
+        build_id       TEXT    NOT NULL DEFAULT 'unknown',
+        build_verified INTEGER NOT NULL DEFAULT 0,
         -- performance metrics (bucketed, anonymous)
         perf_avg_query_latency_us      INTEGER,
         perf_p99_query_latency_us      INTEGER,
@@ -155,11 +164,13 @@ $pdo->exec(
     )
     SQL
 );
-out('  ✓  Table hardware_telemetry (hardware + performance columns)');
+out('  ✓  Table hardware_telemetry (hardware + build provenance + performance columns)');
 
-// ── Migration: add performance columns to existing deployments ────────────────
-// SQLite does not support IF NOT EXISTS on ALTER TABLE, so we catch the error.
+// ── Migration: add build provenance + performance columns to existing deployments
 $perfColumns = [
+    'build_channel'                  => "TEXT    NOT NULL DEFAULT 'community'",
+    'build_id'                       => "TEXT    NOT NULL DEFAULT 'unknown'",
+    'build_verified'                 => 'INTEGER NOT NULL DEFAULT 0',
     'perf_avg_query_latency_us'      => 'INTEGER',
     'perf_p99_query_latency_us'      => 'INTEGER',
     'perf_queries_per_second_bucket' => 'INTEGER',
@@ -207,6 +218,14 @@ $pdo->exec(
     SQL
 );
 out('  ✓  Index idx_ht_os_arch');
+
+$pdo->exec(
+    <<<SQL
+    CREATE INDEX IF NOT EXISTS idx_ht_build_channel
+        ON hardware_telemetry (build_channel, build_verified)
+    SQL
+);
+out('  ✓  Index idx_ht_build_channel');
 
 // ── Verify ────────────────────────────────────────────────────────────────────
 

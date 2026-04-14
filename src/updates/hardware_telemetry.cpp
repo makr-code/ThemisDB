@@ -17,6 +17,7 @@
  */
 
 #include "updates/hardware_telemetry.h"
+#include "updates/build_verifier.h"
 #include "utils/logger.h"
 
 #define LOG_ERROR(...) SPDLOG_ERROR(__VA_ARGS__)
@@ -97,6 +98,11 @@ std::string HardwareSnapshot::toJson() const {
     if (total_ram_mb > 0)    { j["total_ram_mb"] = total_ram_mb; }
     if (!os_family.empty())  { j["os_family"]    = os_family; }
     if (!cpu_arch.empty())   { j["cpu_arch"]     = cpu_arch; }
+
+    // Build provenance
+    j["build_channel"]  = build_channel;
+    j["build_id"]       = build_id;
+    j["build_verified"] = build_verified;
 
     if (performance.has_value()) {
         const auto& p = *performance;
@@ -447,6 +453,14 @@ HardwareSnapshot HardwareTelemetryReporter::collect() const {
     if (config_.include_ram_mb)    { snap.total_ram_mb = hw_provider_->totalRamMb(); }
     if (config_.include_os)        { snap.os_family    = hw_provider_->osFamily(); }
     if (config_.include_arch)      { snap.cpu_arch     = hw_provider_->cpuArch(); }
+
+    // Build provenance – always included, no opt-out (coarse data only).
+    {
+        const auto bv     = verifyBuildSignature();
+        snap.build_channel  = bv.channel;
+        snap.build_id       = bv.build_id;
+        snap.build_verified = bv.verified;
+    }
 
     if (config_.include_performance && perf_provider_) {
         PerformanceSnapshot raw = perf_provider_->collect();

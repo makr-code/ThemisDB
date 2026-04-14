@@ -163,6 +163,28 @@ $cpuArch    = field($data, 'cpu_arch',     'string');
 if ($cpuCores   !== null && ($cpuCores < 0   || $cpuCores   > 65535))   { $cpuCores   = null; }
 if ($totalRamMb !== null && ($totalRamMb < 0 || $totalRamMb > 67108864)) { $totalRamMb = null; }
 
+// Build provenance fields.
+// build_channel must be exactly "official" or "community"; any other value
+// is normalised to "community" to prevent injection.
+$buildChannelRaw = field($data, 'build_channel', 'string');
+$buildChannel    = ($buildChannelRaw === 'official') ? 'official' : 'community';
+
+// build_id must be a short hex SHA (1–40 hex chars) or is replaced with "unknown".
+$buildIdRaw = field($data, 'build_id', 'string') ?? '';
+$buildId    = preg_match('/^[0-9a-f]{1,40}$/i', $buildIdRaw)
+    ? strtolower($buildIdRaw)
+    : 'unknown';
+
+// build_verified is a boolean (true/false or 1/0 from JSON).
+$buildVerifiedRaw = $data['build_verified'] ?? false;
+$buildVerified    = (int)(bool)$buildVerifiedRaw;
+
+// Sanity guard: never accept build_verified=1 for a community channel.
+// The C++ client should never send this combination, but defend server-side.
+if ($buildChannel !== 'official') {
+    $buildVerified = 0;
+}
+
 // Optional performance metrics – nested under "performance" key.
 // All values are expected to already be bucketed by the ThemisDB client.
 $perf = is_array($data['performance'] ?? null) ? $data['performance'] : [];
@@ -226,6 +248,7 @@ function storeViaSqlite(array $record): bool
         'INSERT INTO hardware_telemetry
             (received_at, instance_id, themis_version, timestamp_utc,
              cpu_model, cpu_cores, total_ram_mb, os_family, cpu_arch,
+             build_channel, build_id, build_verified,
              perf_avg_query_latency_us, perf_p99_query_latency_us,
              perf_queries_per_second_bucket, perf_cache_hit_rate_pct,
              perf_process_rss_mb_bucket, perf_uptime_seconds,
@@ -233,6 +256,7 @@ function storeViaSqlite(array $record): bool
          VALUES
             (:received_at, :instance_id, :themis_version, :timestamp_utc,
              :cpu_model, :cpu_cores, :total_ram_mb, :os_family, :cpu_arch,
+             :build_channel, :build_id, :build_verified,
              :perf_avg_query_latency_us, :perf_p99_query_latency_us,
              :perf_queries_per_second_bucket, :perf_cache_hit_rate_pct,
              :perf_process_rss_mb_bucket, :perf_uptime_seconds,
@@ -249,6 +273,9 @@ function storeViaSqlite(array $record): bool
         ':total_ram_mb'                   => $record['total_ram_mb'],
         ':os_family'                      => $record['os_family'],
         ':cpu_arch'                       => $record['cpu_arch'],
+        ':build_channel'                  => $record['build_channel'],
+        ':build_id'                       => $record['build_id'],
+        ':build_verified'                 => $record['build_verified'],
         ':perf_avg_query_latency_us'      => $record['perf_avg_query_latency_us'],
         ':perf_p99_query_latency_us'      => $record['perf_p99_query_latency_us'],
         ':perf_queries_per_second_bucket' => $record['perf_queries_per_second_bucket'],
@@ -295,6 +322,10 @@ $record = [
     'total_ram_mb'                   => $totalRamMb,
     'os_family'                      => $osFamily,
     'cpu_arch'                       => $cpuArch,
+    // build provenance
+    'build_channel'                  => $buildChannel,
+    'build_id'                       => $buildId,
+    'build_verified'                 => $buildVerified,
     // performance metrics (null when not sent)
     'perf_avg_query_latency_us'      => $perfAvgLatUs,
     'perf_p99_query_latency_us'      => $perfP99LatUs,

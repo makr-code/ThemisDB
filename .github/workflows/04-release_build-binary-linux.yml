@@ -163,7 +163,33 @@ jobs:
           ./vcpkg/vcpkg install --clean-after-build
 
       - name: Configure CMake
+        env:
+          THEMIS_BUILD_PRIVKEY: ${{ secrets.THEMIS_BUILD_PRIVKEY }}
         run: |
+          set -euo pipefail
+          VERSION="${{ steps.resolve.outputs.version }}"
+          BUILD_ID="$(git rev-parse --short HEAD)"
+          TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          CHANNEL="official"
+
+          # Sign the build manifest when the secret is available.
+          # Falls back silently to an unsigned community build if the secret
+          # is absent (e.g. forks, manual test runs without the secret).
+          if [ -n "${THEMIS_BUILD_PRIVKEY:-}" ]; then
+            pip install --quiet cryptography
+            SIG="$(python3 scripts/sign_build.py \
+              --channel   "${CHANNEL}" \
+              --version   "${VERSION}" \
+              --build-id  "${BUILD_ID}" \
+              --timestamp "${TIMESTAMP}" \
+              --verify)"
+            echo "::notice::Build signature generated for ${CHANNEL}/${VERSION}/${BUILD_ID}"
+          else
+            SIG=""
+            CHANNEL="community"
+            echo "::warning::THEMIS_BUILD_PRIVKEY not set – building as community (unsigned)"
+          fi
+
           cmake -S . -B build -G Ninja \
             -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
             -DCMAKE_C_COMPILER_LAUNCHER=ccache \
@@ -174,7 +200,9 @@ jobs:
             -DTHEMIS_BUILD_BENCHMARKS=OFF \
             -DTHEMIS_DOCS_DB_MODE=AUTO \
             -DTHEMIS_MODELS_MODE=PACKAGE \
-            -DTHEMIS_STRICT_BUILD=OFF
+            -DTHEMIS_STRICT_BUILD=OFF \
+            "-DTHEMIS_BUILD_CHANNEL=${CHANNEL}" \
+            "-DTHEMIS_BUILD_SIG=${SIG}"
 
       - name: Build
         run: cmake --build build --config ${{ env.BUILD_TYPE }} -j $(nproc)
