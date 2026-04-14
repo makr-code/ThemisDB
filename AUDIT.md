@@ -56,26 +56,26 @@ This document is the **root-level security and compliance audit record** for The
 | **gpu** | 2026-01 | ✅ | None | [src/gpu/AUDIT.md](src/gpu/AUDIT.md) |
 | **graph** | 2026-04 | ✅ | `DistributedGraphManager` read-path upgraded to `std::shared_mutex`; path constraint injection fixed (`isValidIdentifier`/`isValidFieldName`, PR #4299 + commit 23f569828d) | [src/graph/AUDIT.md](src/graph/AUDIT.md) |
 | **importers** | 2026-03 | ✅ | MySQL/MariaDB importer added (PR #4288) | [src/importers/AUDIT.md](src/importers/AUDIT.md) |
-| **index** | 2026-04 | 🟡 | Separator injection in tenant key fixed (#1872, 2026-04-07); GPU memory safety audit still open (#1885) | [src/index/AUDIT.md](src/index/AUDIT.md) |
+| **index** | 2026-04 | 🟡 | Separator injection in tenant key fixed (#1872, 2026-04-07); GPU memory safety audit still open (#1885); `IndexManager`/`TieredIndexManager`/`AdaptiveIndex` registry mutexes upgraded to `std::shared_mutex` (2026-04-14) | [src/index/AUDIT.md](src/index/AUDIT.md) |
 | **ingestion** | 2026-03 | 🟡 | OAuth 2.0 token refresh in connectors unclear (Issue #2408); YAML config loading + `user_context` propagation added (PR #4296) | [src/ingestion/AUDIT.md](src/ingestion/AUDIT.md) |
 | **llm** | 2026-01 | ✅ | None | [src/llm/AUDIT.md](src/llm/AUDIT.md) |
-| **maintenance** | 2026-03-12 | ✅ | RBAC roles enforced; all mutations audit-logged | [src/maintenance/AUDIT.md](src/maintenance/AUDIT.md) |
+| **maintenance** | 2026-04-14 | ✅ | RBAC roles enforced; all mutations audit-logged; `handlers_mutex_`/`tenant_configs_mutex_` upgraded to `std::shared_mutex` | [src/maintenance/AUDIT.md](src/maintenance/AUDIT.md) |
 | **metadata** | 2026-01 | ✅ | None | [src/metadata/AUDIT.md](src/metadata/AUDIT.md) |
 | **network** | 2026-03 | ✅ | UDP ingestion server + Bandwidth Management / QoS added (PR #4271, #4273) | [src/network/AUDIT.md](src/network/AUDIT.md) |
 | **observability** | 2026-03 | ✅ | `MetricsCollector` upgraded to `std::shared_mutex`; `ProvenanceTracker` live engine connection (PR #4272, #4268) | [src/observability/AUDIT.md](src/observability/AUDIT.md) |
-| **performance** | 2026-03 | ✅ | `HardwareAccelerator` AC-4 filter operator completeness; Intelligent Prefetching System (PR #4289, #4257) | [src/performance/AUDIT.md](src/performance/AUDIT.md) |
+| **performance** | 2026-04-14 | ✅ | `HardwareAccelerator` AC-4 filter operator completeness; Intelligent Prefetching System; `WorkloadAdaptiveOptimizer`/`WorkloadPredictor`/`RuntimeConfig` mutexes upgraded to `std::shared_mutex`; `HybridLogicalClock` mutex→atomic CAS (PR #4289, #4257) | [src/performance/AUDIT.md](src/performance/AUDIT.md) |
 | **plugins** | 2026-03 | ✅ | `PluginRegistry` global mutex upgraded to `std::shared_mutex`; WASM kernel scaffold added (PR #4256) | [src/plugins/AUDIT.md](src/plugins/AUDIT.md) |
 | **process** | 2026-03-12 | 🟡 | BPMN/EPK/YAML parser security audit scheduled (Target: Q2 2026) | [src/process/AUDIT.md](src/process/AUDIT.md) |
 | **prompt_engineering** | 2026-01 | ✅ | Injection detection (10+ patterns) verified | [src/prompt_engineering/AUDIT.md](src/prompt_engineering/AUDIT.md) |
 | **query** | 2026-03 | ✅ | Materialized Views & Incremental Maintenance added (PR #4258) | [src/query/AUDIT.md](src/query/AUDIT.md) |
-| **rag** | 2026-03 | ✅ | `LLMIntegration` / `LLMJudgeIntegration` stub/mock mode replaced with real engine (PR #4277) | [src/rag/AUDIT.md](src/rag/AUDIT.md) |
-| **replication** | 2026-01 | ✅ | None | [src/replication/AUDIT.md](src/replication/AUDIT.md) |
-| **scheduler** | 2026-03 | ✅ | `TaskScheduler` authenticated user context propagated to audit events (PR #4278) | [src/scheduler/AUDIT.md](src/scheduler/AUDIT.md) |
+| **rag** | 2026-04-14 | ✅ | `LLMIntegration` / `LLMJudgeIntegration` stub/mock mode replaced with real engine; `HTTPMetricsClient` stats_mutex_ upgraded to `std::shared_mutex` (PR #4277) | [src/rag/AUDIT.md](src/rag/AUDIT.md) |
+| **replication** | 2026-04-14 | ✅ | `ReplicationManager` lease_mutex_/replicas_mutex_ upgraded to `std::shared_mutex`; `TransactionRetryManager` stats_mutex_ upgraded to `std::shared_mutex` | [src/replication/AUDIT.md](src/replication/AUDIT.md) |
+| **scheduler** | 2026-04-14 | ✅ | `TaskScheduler` authenticated user context propagated to audit events; alert_mutex_ upgraded to `std::shared_mutex`; `TaskAuditManager`/`HybridRetentionManager`/`TaskResultStore` mutexes → `std::shared_mutex` (PR #4278) | [src/scheduler/AUDIT.md](src/scheduler/AUDIT.md) |
 | **search** | 2026-01 | ✅ | None | [src/search/AUDIT.md](src/search/AUDIT.md) |
 | **security** | 2026-03 | ✅ | `ArrowUserRegistrationPlugin` (SHA-256 auth, Apache Arrow-backed user store); PKIClient stub replaced; PII streaming pipeline complete (PR #4280, #4263) | [src/security/AUDIT.md](src/security/AUDIT.md) |
-| **server** | 2026-03 | ✅ | Versioned API Routing (`/v1/` + `/v2/`); `/v1/admin/shards` endpoints injected (PR #4285, #4262) | [src/server/AUDIT.md](src/server/AUDIT.md) |
+| **server** | 2026-04-14 | ✅ | Versioned API Routing (`/v1/` + `/v2/`); `/v1/admin/shards` endpoints injected; `RateLimiter`/`TokenBucket`/`AdaptiveRateLimiter`/`SseConnectionManager`/`RouteRegistry`/`WalApiHandler` mutexes upgraded to `std::shared_mutex` (PR #4285, #4262) | [src/server/AUDIT.md](src/server/AUDIT.md) |
 | **sharding** | 2026-03 | 🟡 | Advanced distributed observability metrics incomplete; `GpuErasureCoderOpenCL` encode/decode added; `OrphanDetector` wired (PR #4265, #4259) | [src/sharding/AUDIT.md](src/sharding/AUDIT.md) |
-| **storage** | 2026-03 | ✅ | `SecuritySignatureManager` full RocksDB iteration; proper SST size reporting (PR #4260, #4274) | [src/storage/AUDIT.md](src/storage/AUDIT.md) |
+| **storage** | 2026-04-14 | ✅ | `SecuritySignatureManager` full RocksDB iteration; proper SST size reporting; `HybridLogicalClock` mutex → lock-free atomic CAS (PR #4260, #4274) | [src/storage/AUDIT.md](src/storage/AUDIT.md) |
 | **temporal** | 2026-01 | ✅ | None | [src/temporal/AUDIT.md](src/temporal/AUDIT.md) |
 | **themis** | 2026-03 | ✅ | Wire Protocol V2 — RFC 7540 §6.3 / §5.3.1 full compliance (PR #4266, #4267) | [src/themis/AUDIT.md](src/themis/AUDIT.md) |
 | **timeseries** | 2026-03 | ✅ | `TSStore` single-point insert buffering + SIMD Gorilla decode dispatch (PR #4269) | [src/timeseries/AUDIT.md](src/timeseries/AUDIT.md) |

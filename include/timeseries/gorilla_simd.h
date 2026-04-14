@@ -20,8 +20,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_GORILLA_SIMD_H
-#define THEMIS_GORILLA_SIMD_H
+#pragma once
 
 #include "timeseries/gorilla.h"
 #include <cstdint>
@@ -87,5 +86,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_GORILLA_SIMD_H

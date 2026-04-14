@@ -38,8 +38,7 @@
  * - HTTPS only (no plain HTTP)
  */
 
-#ifndef THEMIS_TASK_SCHEDULER_API_HANDLER_H
-#define THEMIS_TASK_SCHEDULER_API_HANDLER_H
+#pragma once
 
 #include "scheduler/task_scheduler.h"
 #include <nlohmann/json.hpp>
@@ -253,5 +252,3 @@ private:
 
 } // namespace server
 } // namespace themis
-
-#endif // THEMIS_TASK_SCHEDULER_API_HANDLER_H

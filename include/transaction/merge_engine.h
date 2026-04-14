@@ -21,8 +21,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_MERGE_ENGINE_H
-#define THEMIS_MERGE_ENGINE_H
+#pragma once
 
 #include "transaction/snapshot_manager.h"
 #include "analytics/diff_engine.h"
@@ -298,5 +297,3 @@ private:
 
 } // namespace transaction
 } // namespace themis
-
-#endif // THEMIS_MERGE_ENGINE_H

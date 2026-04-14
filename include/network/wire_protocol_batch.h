@@ -56,9 +56,8 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <BaseTsd.h>
-#ifndef THEMIS_SSIZE_T_DEFINED
+#pragma once
 typedef SSIZE_T ssize_t;
-#define THEMIS_SSIZE_T_DEFINED
 #endif
 #else
 #include <netinet/in.h>
@@ -66,7 +65,6 @@ typedef SSIZE_T ssize_t;
 #include <sys/socket.h>
 #include <sys/uio.h>
 #include <unistd.h>
-#endif
 
 namespace themis {
 namespace network {

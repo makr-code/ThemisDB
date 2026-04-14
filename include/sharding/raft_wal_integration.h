@@ -20,8 +20,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMISDB_RAFT_WAL_INTEGRATION_H
-#define THEMISDB_RAFT_WAL_INTEGRATION_H
+#pragma once
 
 #include <memory>
 #include <string>
@@ -117,5 +116,3 @@ private:
 
 } // namespace sharding
 } // namespace themisdb
-
-#endif // THEMISDB_RAFT_WAL_INTEGRATION_H

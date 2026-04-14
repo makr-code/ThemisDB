@@ -20,8 +20,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_PITR_API_HANDLER_H
-#define THEMIS_PITR_API_HANDLER_H
+#pragma once
 
 #include "storage/pitr_manager.h"
 #include <memory>
@@ -119,5 +118,3 @@ private:
 
 } // namespace server
 } // namespace themis
-
-#endif // THEMIS_PITR_API_HANDLER_H

@@ -436,5 +436,15 @@ float cosine_distance(const float* a, const float* b, std::size_t dim) {
     return 1.0f - cosine_sim;
 }
 
+// batch_cosine_similarity: compute cosine_similarity(query, db[i]) for all i.
+// Implemented as 1.0f - cosine_distance per element; future SIMD optimisation
+// can fuse the norm computation across the batch.
+void batch_cosine_similarity(const float* query, const float* database,
+                              std::size_t n, std::size_t dim, float* results) {
+    for (std::size_t i = 0; i < n; ++i) {
+        results[i] = 1.0f - cosine_distance(query, database + i * dim, dim);
+    }
+}
+
 } // namespace simd
 } // namespace themis

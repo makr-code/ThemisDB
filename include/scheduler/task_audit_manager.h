@@ -33,13 +33,14 @@
  * - GDPR-compliant data handling
  */
 
-#ifndef THEMIS_TASK_AUDIT_MANAGER_H
-#define THEMIS_TASK_AUDIT_MANAGER_H
+#pragma once
 
 #include "scheduler/task_audit_event.h"
 #include "scheduler/task_anomaly_detector.h"
 #include "utils/audit_logger.h"
 #include <memory>
+#include <mutex>
+#include <shared_mutex>
 #include <string>
 #include <vector>
 #include <chrono>
@@ -245,7 +246,7 @@ private:
     TaskAuditConfig config_;
     std::unique_ptr<TaskAnomalyDetector> anomaly_detector_;
     
-    mutable std::mutex mutex_;
+    mutable std::shared_mutex mutex_;
     
     // In-memory cache for recent events (for querying)
     std::deque<TaskAuditEvent> recent_audit_events_;
@@ -266,5 +267,3 @@ private:
 
 } // namespace scheduler
 } // namespace themis
-
-#endif // THEMIS_TASK_AUDIT_MANAGER_H

@@ -21,8 +21,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_SHARDING_PROMETHEUS_METRICS_H
-#define THEMIS_SHARDING_PROMETHEUS_METRICS_H
+#pragma once
 
 #include <string>
 #include <map>
@@ -354,5 +353,3 @@ private:
 
 } // namespace sharding
 } // namespace themis
-
-#endif // THEMIS_SHARDING_PROMETHEUS_METRICS_H

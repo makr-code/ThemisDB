@@ -25,8 +25,7 @@
 // This file provides DLL export/import macros for all ThemisDB modules
 // Windows requires explicit __declspec(dllexport/dllimport) for shared libraries
 
-#ifndef THEMIS_EXPORT_H
-#define THEMIS_EXPORT_H
+#pragma once
 
 // Detect platform
 #if defined(_WIN32) || defined(_WIN64)
@@ -167,5 +166,3 @@
 #else
     #define THEMIS_CORE_API THEMIS_IMPORT_MACRO
 #endif
-
-#endif // THEMIS_EXPORT_H

@@ -23,8 +23,7 @@
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_SHARDING_DISTRIBUTED_TIME_COORDINATOR_H
-#define THEMISDB_SHARDING_DISTRIBUTED_TIME_COORDINATOR_H
+#pragma once
 
 #include "sharding/consensus_module.h"
 #include <memory>
@@ -140,5 +139,3 @@ private:
 };
 
 } // namespace themisdb::sharding
-
-#endif // THEMISDB_SHARDING_DISTRIBUTED_TIME_COORDINATOR_H

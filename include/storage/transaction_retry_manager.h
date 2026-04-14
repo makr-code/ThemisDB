@@ -26,8 +26,7 @@
 // Copyright (c) 2024 ThemisDB
 // Licensed under the MIT License
 
-#ifndef THEMISDB_TRANSACTION_RETRY_MANAGER_H
-#define THEMISDB_TRANSACTION_RETRY_MANAGER_H
+#pragma once
 
 #include <chrono>
 #include <functional>
@@ -36,6 +35,7 @@
 #include <string>
 #include <atomic>
 #include <mutex>
+#include <shared_mutex>
 #include <thread>
 #include <unordered_map>
 
@@ -389,7 +389,7 @@ private:
     std::uniform_real_distribution<double> jitter_dist_;
     
     // Stats mutex
-    mutable std::mutex stats_mutex_;
+    mutable std::shared_mutex stats_mutex_;
     
     // Alert callback
     AlertCallback alert_callback_;
@@ -397,5 +397,3 @@ private:
 
 }  // namespace storage
 }  // namespace themisdb
-
-#endif  // THEMISDB_TRANSACTION_RETRY_MANAGER_H

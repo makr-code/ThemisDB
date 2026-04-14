@@ -26,8 +26,7 @@
  * @brief CPU reference implementation of fused LoRA kernels
  */
 
-#ifndef THEMIS_LLM_LORA_CPU_FUSED_KERNELS_H
-#define THEMIS_LLM_LORA_CPU_FUSED_KERNELS_H
+#pragma once
 
 #include <cstddef>
 
@@ -119,5 +118,3 @@ void cpu_fused_lora_forward_parallel(
 } // namespace lora
 } // namespace llm
 } // namespace themis
-
-#endif // THEMIS_LLM_LORA_CPU_FUSED_KERNELS_H

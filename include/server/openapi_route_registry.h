@@ -25,6 +25,7 @@
 #pragma once
 
 #include <mutex>
+#include <shared_mutex>
 #include <string>
 #include <vector>
 #include <nlohmann/json.hpp>
@@ -128,7 +129,7 @@ public:
 private:
     RouteRegistry() = default;
 
-    mutable std::mutex       mutex_;
+    mutable std::shared_mutex mutex_;
     std::vector<RouteEntry>  entries_;
 };
 

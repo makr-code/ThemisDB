@@ -24,8 +24,7 @@
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_SHARDING_OPERATIONAL_METRICS_H
-#define THEMISDB_SHARDING_OPERATIONAL_METRICS_H
+#pragma once
 
 #include <string>
 #include <map>
@@ -410,5 +409,3 @@ private:
 
 }  // namespace sharding
 }  // namespace themisdb
-
-#endif  // THEMISDB_SHARDING_OPERATIONAL_METRICS_H

@@ -33,8 +33,7 @@
  * - Tamper-evident logging support
  */
 
-#ifndef THEMIS_TASK_AUDIT_EVENT_H
-#define THEMIS_TASK_AUDIT_EVENT_H
+#pragma once
 
 #include <string>
 #include <chrono>
@@ -293,5 +292,3 @@ TaskEventType taskEventTypeFromString(const std::string& s);
 
 } // namespace scheduler
 } // namespace themis
-
-#endif // THEMIS_TASK_AUDIT_EVENT_H

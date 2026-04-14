@@ -34,8 +34,7 @@
  * - HYPERSCALER: OEM/Custom (unlimited VRAM and nodes)
  */
 
-#ifndef THEMIS_EDITION_H
-#define THEMIS_EDITION_H
+#pragma once
 
 #include <string_view>
 
@@ -234,5 +233,3 @@ struct EditionInfo {
 
 } // namespace edition
 } // namespace themis
-
-#endif // THEMIS_EDITION_H

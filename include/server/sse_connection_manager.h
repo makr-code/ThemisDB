@@ -26,6 +26,7 @@
 #include <memory>
 #include <atomic>
 #include <mutex>
+#include <shared_mutex>
 #include <unordered_map>
 #include <set>
 #include <chrono>
@@ -155,7 +156,7 @@ private:
     boost::asio::io_context& ioc_;
     ConnectionConfig config_;
 
-    mutable std::mutex connections_mutex_;
+    mutable std::shared_mutex connections_mutex_;
     std::unordered_map<uint64_t, std::shared_ptr<Connection>> connections_;
     std::atomic<uint64_t> next_conn_id_{1};
 

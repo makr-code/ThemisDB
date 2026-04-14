@@ -194,47 +194,53 @@ Result<bool> MLModelManager::retireModel(
     const std::string& model_id,
     int drain_timeout_ms
 ) {
-    std::lock_guard<std::mutex> lock(models_mutex_);
-    
-    auto it = models_.find(model_id);
-    if (it == models_.end()) {
-        return themis::Err<bool>(
-            themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
-            "Model not found: " + model_id
-        );
+    // Step 1: mark as retired under the lock, then release before sleeping.
+    {
+        std::lock_guard<std::mutex> lock(models_mutex_);
+        auto it = models_.find(model_id);
+        if (it == models_.end()) {
+            return themis::Err<bool>(
+                themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                "Model not found: " + model_id
+            );
+        }
+        it->second->status = MLModelStatus::RETIRED;
     }
-    
-    auto& entry = it->second;
-    entry->status = MLModelStatus::RETIRED;
-    
-    // Wait for pending requests to drain
-    auto start = std::chrono::steady_clock::now();
+
+    // Step 2: poll active_requests outside the lock so other threads can
+    // decrement the counter without contending on models_mutex_.
+    auto start   = std::chrono::steady_clock::now();
     bool drained = false;
-    
+
     while (true) {
-        size_t active = 0;
-        for (const auto& inst : entry->instances) {
-            active += inst->active_requests;
+        {
+            std::lock_guard<std::mutex> lock(models_mutex_);
+            auto it = models_.find(model_id);
+            if (it == models_.end()) {
+                drained = true;  // model was removed; treat as fully drained
+                break;
+            }
+            size_t active = 0;
+            for (const auto& inst : it->second->instances) {
+                active += inst->active_requests;
+            }
+            if (active == 0) {
+                drained = true;
+                break;
+            }
         }
-        
-        if (active == 0) {
-            drained = true;
-            break;
-        }
-        
+
         auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::steady_clock::now() - start
         ).count();
-        
         if (elapsed >= drain_timeout_ms) {
             break;
         }
-        
+
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
-    
+
     THEMIS_INFO("Retired model: " + model_id + " (drained: " + std::to_string(drained) + ")");
-    
     return Ok(drained);
 }
 
@@ -1098,47 +1104,53 @@ Result<bool> MLModelManager::retireModel(
     const std::string& model_id,
     int drain_timeout_ms
 ) {
-    std::lock_guard<std::mutex> lock(models_mutex_);
-    
-    auto it = models_.find(model_id);
-    if (it == models_.end()) {
-        return themis::Err<bool>(
-            themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
-            "Model not found: " + model_id
-        );
+    // Step 1: mark as retired under the lock, then release before sleeping.
+    {
+        std::lock_guard<std::mutex> lock(models_mutex_);
+        auto it = models_.find(model_id);
+        if (it == models_.end()) {
+            return themis::Err<bool>(
+                themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                "Model not found: " + model_id
+            );
+        }
+        it->second->status = MLModelStatus::RETIRED;
     }
-    
-    auto& entry = it->second;
-    entry->status = MLModelStatus::RETIRED;
-    
-    // Wait for pending requests to drain
-    auto start = std::chrono::steady_clock::now();
+
+    // Step 2: poll active_requests outside the lock so other threads can
+    // decrement the counter without contending on models_mutex_.
+    auto start   = std::chrono::steady_clock::now();
     bool drained = false;
-    
+
     while (true) {
-        size_t active = 0;
-        for (const auto& inst : entry->instances) {
-            active += inst->active_requests;
+        {
+            std::lock_guard<std::mutex> lock(models_mutex_);
+            auto it = models_.find(model_id);
+            if (it == models_.end()) {
+                drained = true;  // model was removed; treat as fully drained
+                break;
+            }
+            size_t active = 0;
+            for (const auto& inst : it->second->instances) {
+                active += inst->active_requests;
+            }
+            if (active == 0) {
+                drained = true;
+                break;
+            }
         }
-        
-        if (active == 0) {
-            drained = true;
-            break;
-        }
-        
+
         auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::steady_clock::now() - start
         ).count();
-        
         if (elapsed >= drain_timeout_ms) {
             break;
         }
-        
+
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
-    
+
     THEMIS_INFO("Retired model: " + model_id + " (drained: " + std::to_string(drained) + ")");
-    
     return Ok(drained);
 }
 

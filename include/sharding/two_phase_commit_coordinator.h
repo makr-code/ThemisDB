@@ -41,8 +41,7 @@
 // meaning both in-process (unit-test) and real gRPC-backed participants can
 // be used interchangeably.
 
-#ifndef THEMISDB_SHARDING_TWO_PHASE_COMMIT_COORDINATOR_H
-#define THEMISDB_SHARDING_TWO_PHASE_COMMIT_COORDINATOR_H
+#pragma once
 
 #include "sharding/shard_rpc_server.h"
 #include "sharding/shard_rpc_client.h"
@@ -301,5 +300,3 @@ private:
 };
 
 } // namespace themis::sharding
-
-#endif // THEMISDB_SHARDING_TWO_PHASE_COMMIT_COORDINATOR_H

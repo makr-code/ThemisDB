@@ -21,8 +21,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_TIMESERIES_H
-#define THEMIS_TIMESERIES_H
+#pragma once
 
 #include <string>
 #include <string_view>
@@ -171,5 +170,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_TIMESERIES_H

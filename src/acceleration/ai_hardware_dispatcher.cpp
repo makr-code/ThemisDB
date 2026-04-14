@@ -89,7 +89,7 @@ AiHardwareDispatcher& AiHardwareDispatcher::instance() {
 void AiHardwareDispatcher::initialize(bool force) {
     auto now = std::chrono::steady_clock::now();
     {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::unique_lock<std::shared_mutex> lock(mutex_);
         if (!force && initialized_.load(std::memory_order_relaxed)) {
             if (now - last_probe_time_ < kCacheTTL) {
                 return;
@@ -117,7 +117,7 @@ void AiHardwareDispatcher::initialize(bool force) {
             return a.tops > b.tops;
         });
 
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     capabilities_    = std::move(caps);
     last_probe_time_ = now;
     initialized_.store(true, std::memory_order_release);
@@ -129,12 +129,12 @@ void AiHardwareDispatcher::initialize(bool force) {
 
 std::vector<AiHardwareCapability> AiHardwareDispatcher::probeCapabilities() {
     initialize();
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     return capabilities_;
 }
 
 BackendType AiHardwareDispatcher::bestBackend() const noexcept {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     for (const auto& c : capabilities_) {
         if (c.available) return c.type;
     }
@@ -142,7 +142,7 @@ BackendType AiHardwareDispatcher::bestBackend() const noexcept {
 }
 
 std::string AiHardwareDispatcher::bestOnnxEP() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     for (const auto& c : capabilities_) {
         if (c.available && !c.onnx_ep.empty()) return c.onnx_ep;
     }
@@ -150,7 +150,7 @@ std::string AiHardwareDispatcher::bestOnnxEP() const {
 }
 
 bool AiHardwareDispatcher::hasAccelerator() const noexcept {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     for (const auto& c : capabilities_) {
         if (c.available && c.type != BackendType::CPU) return true;
     }
@@ -158,7 +158,7 @@ bool AiHardwareDispatcher::hasAccelerator() const noexcept {
 }
 
 bool AiHardwareDispatcher::hasNPU() const noexcept {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     for (const auto& c : capabilities_) {
         if (!c.available) continue;
         if (c.type == BackendType::NPU_APPLE   ||
@@ -181,7 +181,7 @@ AiInferenceResult AiHardwareDispatcher::run(AiInferenceRequest& req) {
 
     std::vector<AiHardwareCapability> chain;
     {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::unique_lock<std::shared_mutex> lock(mutex_);
         chain = capabilities_;
     }
 
@@ -242,7 +242,7 @@ AiInferenceResult AiHardwareDispatcher::runOn(BackendType backend,
 // =============================================================================
 
 void AiHardwareDispatcher::logCapabilities() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     THEMIS_INFO("AiHardwareDispatcher — probed backends (priority order):");
     for (const auto& c : capabilities_) {
         if (c.available) {

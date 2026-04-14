@@ -25,8 +25,7 @@
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-#ifndef THEMISDB_SHARDING_RAFT_LOG_H
-#define THEMISDB_SHARDING_RAFT_LOG_H
+#pragma once
 
 #include <cstdint>
 #include <map>
@@ -395,5 +394,3 @@ private:
 
 }  // namespace sharding
 }  // namespace themisdb
-
-#endif  // THEMISDB_SHARDING_RAFT_LOG_H

@@ -24,8 +24,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_TIMESERIES_METRICS_H
-#define THEMIS_TIMESERIES_METRICS_H
+#pragma once
 
 #include <string>
 #include <atomic>
@@ -315,5 +314,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_TIMESERIES_METRICS_H

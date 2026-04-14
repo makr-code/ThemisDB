@@ -21,8 +21,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_LLM_INTERACTION_STORE_H
-#define THEMIS_LLM_INTERACTION_STORE_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -153,5 +152,3 @@ private:
 };
 
 } // namespace themis
-
-#endif // THEMIS_LLM_INTERACTION_STORE_H

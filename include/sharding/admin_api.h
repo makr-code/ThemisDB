@@ -20,8 +20,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-#ifndef THEMIS_SHARDING_ADMIN_API_H
-#define THEMIS_SHARDING_ADMIN_API_H
+#pragma once
 
 #include <string>
 #include <map>
@@ -127,5 +126,3 @@ private:
 
 } // namespace sharding
 } // namespace themis
-
-#endif // THEMIS_SHARDING_ADMIN_API_H

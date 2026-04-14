@@ -42,8 +42,7 @@
  *   }
  */
 
-#ifndef THEMIS_RUNTIME_LICENSE_GATE_H
-#define THEMIS_RUNTIME_LICENSE_GATE_H
+#pragma once
 
 #include "themis/export.h"
 #include "themis/license_info.h"
@@ -251,5 +250,3 @@ private:
 
 } // namespace license
 } // namespace themis
-
-#endif // THEMIS_RUNTIME_LICENSE_GATE_H

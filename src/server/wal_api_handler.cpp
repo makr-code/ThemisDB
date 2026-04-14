@@ -154,7 +154,7 @@ http::response<http::string_body> WALApiHandler::handleApply(
 
     wal_apply_success_.fetch_add(1, std::memory_order_relaxed);
     {
-        std::lock_guard<std::mutex> lock(wal_metrics_mutex_);
+        std::unique_lock<std::shared_mutex> lock(wal_metrics_mutex_);
         wal_last_applied_lsn_ = result.last_applied_lsn.toString();
     }
 

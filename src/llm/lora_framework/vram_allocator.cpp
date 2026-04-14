@@ -227,7 +227,7 @@ void* VRAMAllocator::allocate(size_t size_bytes, size_t alignment) {
         return nullptr;
     }
     
-    std::lock_guard<std::recursive_mutex> lock(mutex_);
+    std::lock_guard<std::mutex> lock(mutex_);
     
     // Align size
     size_bytes = align_up(size_bytes, alignment);
@@ -266,7 +266,7 @@ void VRAMAllocator::deallocate(void* ptr) {
         return;
     }
     
-    std::lock_guard<std::recursive_mutex> lock(mutex_);
+    std::lock_guard<std::mutex> lock(mutex_);
     
     // Find block in pool
     for (auto& block : memory_pool_) {
@@ -361,7 +361,7 @@ bool VRAMAllocator::download(void* dst, const void* src, size_t size_bytes) {
 }
 
 VRAMAllocator::Stats VRAMAllocator::get_stats() const {
-    std::lock_guard<std::recursive_mutex> lock(mutex_);
+    std::lock_guard<std::mutex> lock(mutex_);
     
     Stats stats;
     stats.total_bytes = pool_size_bytes_;
@@ -391,15 +391,16 @@ VRAMAllocator::Stats VRAMAllocator::get_stats() const {
 }
 
 void VRAMAllocator::reset() {
-    std::lock_guard<std::recursive_mutex> lock(mutex_);
-    
-    // Free all allocated blocks
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    // Free all allocated blocks using the non-locking helper so that we do
+    // not attempt to re-acquire mutex_ while already holding it.
     for (auto& block : memory_pool_) {
         if (block.ptr != nullptr) {
-            deallocate_to_backend(block.ptr);
+            release_backend_ptr_(block.ptr, block.size);
         }
     }
-    
+
     memory_pool_.clear();
     allocated_bytes_ = 0;
 }
@@ -471,27 +472,14 @@ void* VRAMAllocator::allocate_from_backend(size_t size_bytes, size_t alignment) 
     }
 }
 
-void VRAMAllocator::deallocate_to_backend(void* ptr) {
-    if (ptr == nullptr) {
-        return;
-    }
-    
-    // Find the block size for secure clearing
-    size_t block_size = 0;
-    {
-        std::lock_guard<std::recursive_mutex> lock(mutex_);
-        for (const auto& block : memory_pool_) {
-            if (block.ptr == ptr) {
-                block_size = block.size;
-                break;
-            }
-        }
-    }
-    
+void VRAMAllocator::release_backend_ptr_(void* ptr, size_t block_size) noexcept {
+    // Performs the actual backend-specific free without holding mutex_.
+    // Callers are responsible for any pool bookkeeping.
+    if (ptr == nullptr) return;
+
     switch (backend_) {
 #ifdef THEMIS_ENABLE_CUDA
         case acceleration::BackendType::CUDA:
-            // Securely clear VRAM before freeing
             if (block_size > 0) {
                 security::VRAMSecureClear::secureClearCUDA(ptr, block_size);
             }
@@ -501,19 +489,18 @@ void VRAMAllocator::deallocate_to_backend(void* ptr) {
 
 #ifdef THEMIS_ENABLE_HIP
         case acceleration::BackendType::HIP:
-            // Securely clear VRAM before freeing
             if (block_size > 0) {
                 security::VRAMSecureClear::secureClearHIP(ptr, block_size);
             }
             hipFree(ptr);
             break;
 #endif
-        
+
         case acceleration::BackendType::VULKAN:
         case acceleration::BackendType::DIRECTX:
             // TODO: Implement Vulkan/DirectX deallocation with secure clear
             break;
-            
+
         case acceleration::BackendType::CPU:
             if (block_size > 0) {
                 security::VRAMSecureClear::secureClearCPU(ptr, block_size);
@@ -524,10 +511,33 @@ void VRAMAllocator::deallocate_to_backend(void* ptr) {
             free(ptr);
 #endif
             break;
-            
+
         default:
             break;
     }
+}
+
+void VRAMAllocator::deallocate_to_backend(void* ptr) {
+    if (ptr == nullptr) {
+        return;
+    }
+
+    // Find the block size for secure clearing while holding the lock,
+    // then release the lock before calling release_backend_ptr_() so that
+    // re-entrant callers (reset, coalesce_free_blocks) can use the
+    // non-locking helper directly and avoid recursive locking.
+    size_t block_size = 0;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        for (const auto& block : memory_pool_) {
+            if (block.ptr == ptr) {
+                block_size = block.size;
+                break;
+            }
+        }
+    }
+
+    release_backend_ptr_(ptr, block_size);
 }
 
 VRAMBlock* VRAMAllocator::find_free_block(size_t size_bytes, size_t alignment) {

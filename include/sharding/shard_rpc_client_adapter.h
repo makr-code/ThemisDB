@@ -37,8 +37,7 @@
 //          ▼
 //   ShardRPCClient  ──gRPC/HTTP──▶  remote TwoPhaseCommitParticipant
 
-#ifndef THEMISDB_SHARDING_SHARD_RPC_CLIENT_ADAPTER_H
-#define THEMISDB_SHARDING_SHARD_RPC_CLIENT_ADAPTER_H
+#pragma once
 
 #include "sharding/shard_rpc_client.h"
 #include "sharding/shard_rpc_server.h"
@@ -160,5 +159,3 @@ private:
 };
 
 } // namespace themis::sharding
-
-#endif // THEMISDB_SHARDING_SHARD_RPC_CLIENT_ADAPTER_H

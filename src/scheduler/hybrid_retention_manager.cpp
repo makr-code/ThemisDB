@@ -62,7 +62,7 @@ HybridRetentionManager::~HybridRetentionManager() {
 // ===== Lifecycle =====
 
 void HybridRetentionManager::start() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     
     if (running_) {
         THEMIS_WARN("HybridRetentionManager already running");
@@ -91,7 +91,7 @@ void HybridRetentionManager::start() {
 }
 
 void HybridRetentionManager::stop() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     
     if (!running_) {
         return;
@@ -121,7 +121,7 @@ void HybridRetentionManager::stop() {
 // ===== Configuration =====
 
 void HybridRetentionManager::updateConfig(const HybridRetentionConfig& config) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     
     bool was_running = running_;
     if (was_running) {
@@ -141,7 +141,7 @@ void HybridRetentionManager::updateConfig(const HybridRetentionConfig& config) {
 }
 
 HybridRetentionConfig HybridRetentionManager::getConfig() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     return config_;
 }
 
@@ -190,18 +190,18 @@ void HybridRetentionManager::executeAll() {
 // ===== Statistics =====
 
 HybridRetentionStats HybridRetentionManager::getStats() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     return stats_;
 }
 
 void HybridRetentionManager::resetStats() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     stats_ = HybridRetentionStats{};
     THEMIS_INFO("HybridRetentionManager statistics reset");
 }
 
 nlohmann::json HybridRetentionManager::getStatusReport() const {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::shared_lock<std::shared_mutex> lock(mutex_);
     
     nlohmann::json report;
     report["running"] = running_;
@@ -659,7 +659,7 @@ nlohmann::json HybridRetentionManager::cleanupOriginalData(const nlohmann::json&
 }
 
 void HybridRetentionManager::updateStats(int stage, bool success, const nlohmann::json& result) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(mutex_);
     
     if (stage == 1) {
         stats_.stage1.compressions_total++;
