@@ -46,7 +46,6 @@
  */
 
 #include <gtest/gtest.h>
-#include "chimera/database_adapter.hpp"
 #include "chimera/themisdb_adapter.hpp"
 
 #include <algorithm>

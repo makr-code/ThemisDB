@@ -16,7 +16,8 @@
         "THEMIS_ENABLE_COMPILER_CACHE": "ON",
         "THEMIS_COMPILER_CACHE_PROGRAM": "",
         "THEMIS_BUILD_TESTS": "ON",
-        "THEMIS_BUILD_BENCHMARKS": "ON",
+        "THEMIS_BUILD_BENCHMARKS": "OFF",
+        "THEMIS_BUILD_CHIMERA": "OFF",
         "THEMIS_ENABLE_TRACING": "OFF",
         "THEMIS_ENABLE_ASAN": "OFF",
         "THEMIS_STRICT_BUILD": "OFF"
@@ -91,6 +92,7 @@
       "cacheVariables": {
         "THEMIS_BUILD_TESTS": "OFF",
         "THEMIS_BUILD_BENCHMARKS": "ON",
+        "THEMIS_BUILD_CHIMERA": "ON",
         "THEMIS_PERF_AUTO_ENABLE": "ON"
       }
     },
@@ -124,7 +126,8 @@
       "binaryDir": "${sourceDir}/build-linux-ninja-perf",
       "cacheVariables": {
         "THEMIS_BUILD_TESTS": "OFF",
-        "THEMIS_BUILD_BENCHMARKS": "ON"
+        "THEMIS_BUILD_BENCHMARKS": "ON",
+        "THEMIS_BUILD_CHIMERA": "ON"
       }
     },
     {

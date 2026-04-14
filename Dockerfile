@@ -232,6 +232,7 @@ COPY include ./include
 COPY src ./src
 COPY proto ./proto
 COPY internal ./internal
+COPY models ./models
 
 # Copy vcpkg manifests from deps stage
 COPY --from=deps /build/vcpkg.json ./vcpkg.json

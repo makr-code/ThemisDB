@@ -744,7 +744,20 @@ if(THEMIS_ENABLE_LLM)
         target_compile_options(ggml PRIVATE /Zc:char8_t-)
         message(STATUS "Applied /Zc:char8_t- to ggml target for MSVC compatibility")
     endif()
-    
+
+    # Fix: CompilerOptions.cmake adds -ffast-math globally for Release builds.
+    # -ffast-math implies -ffinite-math-only, which breaks ggml-cpu.c/vec.cpp/ops.cpp
+    # that explicitly require non-finite math (NaN/Inf).
+    # See: https://github.com/ggml-org/llama.cpp/pull/7154#issuecomment-2143844461
+    if(NOT MSVC)
+        foreach(_ggml_fix_target IN ITEMS ggml ggml-cpu ggml-alloc ggml-backend ggml-backend-reg)
+            if(TARGET ${_ggml_fix_target})
+                target_compile_options(${_ggml_fix_target} PRIVATE -fno-finite-math-only)
+            endif()
+        endforeach()
+        message(STATUS "llama.cpp: Applied -fno-finite-math-only to ggml targets (Release -ffast-math override)")
+    endif()
+
     # Ensure OpenMP is linked to llama target (only if found)
     if(TARGET llama)
         if(OpenMP_FOUND)

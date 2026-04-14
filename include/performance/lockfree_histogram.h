@@ -38,6 +38,7 @@
 
 #include <array>
 #include <atomic>
+#include <bit>
 #include <cstddef>
 #include <cstdint>
 #include <stdexcept>
@@ -253,7 +254,7 @@ private:
             uint64_t v = static_cast<uint64_t>(value);
             if (v == 0) return 0;
             // Count leading zeros to compute floor(log2(v))
-            std::size_t bit = 63u - static_cast<std::size_t>(__builtin_clzll(v));
+            std::size_t bit = 63u - static_cast<std::size_t>(std::countl_zero(v));
             std::size_t idx = bit + 1; // bucket i covers [2^(i-1), 2^i)
             return idx < NumBuckets ? idx : NumBuckets - 1;
         }

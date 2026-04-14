@@ -39,6 +39,7 @@
 #include <gtest/gtest.h>
 #include "cache/request_coalescer.h"
 
+#include <array>
 #include <atomic>
 #include <chrono>
 #include <memory>

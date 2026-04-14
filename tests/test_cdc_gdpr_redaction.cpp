@@ -34,6 +34,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "cdc/cdc_error.h"
 #include <rocksdb/options.h>
+#include <rocksdb/utilities/transaction_db.h>
 #include <filesystem>
 #include <thread>
 

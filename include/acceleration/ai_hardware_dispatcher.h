@@ -161,7 +161,8 @@ struct AiHardwareCapability {
  *   req.preferred_precision = PrecisionMode::FP16;
  *
  *   AiInferenceResult res = d.run(req);
- *   if (res.success) { /* use res.output */ }
+ *   if (res.success) { // use res.output
+ *   }
  * @endcode
  */
 class AiHardwareDispatcher {

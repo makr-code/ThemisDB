@@ -418,7 +418,7 @@ std::string LLMProcessAnalyzer::generatePrompt(
 
 std::string LLMProcessAnalyzer::callLLM(
     const std::string& prompt,
-    const std::map<std::string, [[maybe_unused]] std::string>& params
+    [[maybe_unused]] const std::map<std::string, std::string>& params
 ) {
     // When THEMIS_ENABLE_LLM_API is defined, delegate to the configured provider
     // (OpenAI, Anthropic, or a local model served over HTTP).

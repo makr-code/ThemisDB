@@ -62,7 +62,7 @@ namespace themisdb {
 namespace replication {
 
 // Forward declarations
-class WALEntry;
+struct WALEntry;
 class ReplicationStream;
 class LeaderElection;
 class CompressedReplicationStream;

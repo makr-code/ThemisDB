@@ -25,6 +25,7 @@
 
 #include <performance/huge_pages.h>
 #include <gtest/gtest.h>
+#include <chrono>
 #include <cstring>
 #include <iostream>
 

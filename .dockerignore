@@ -58,6 +58,7 @@ models/**
 !models/tinyllama-1.1b-q4_0.gguf
 projects/**
 external/**
+!external/chimera/
 compendium/**
 release/**
 site/**

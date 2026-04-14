@@ -261,7 +261,7 @@ public:
                 
                 // Update error stats
                 {
-                    std::lock_guard<std::mutex> lock(stats_mutex_);
+                    std::lock_guard<std::shared_mutex> lock(stats_mutex_);
                     stats_.errors_by_type[error_type]++;
                 }
                 

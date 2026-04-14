@@ -155,3 +155,18 @@ inline std::string generate_uuid_v7() {
 }
 
 } // namespace utils
+
+namespace themis {
+namespace utils {
+
+// Compatibility bridge: keep UUID helpers available under themis::utils.
+inline std::string generate_uuid_v4() {
+    return ::utils::generate_uuid_v4();
+}
+
+inline std::string generate_uuid_v7() {
+    return ::utils::generate_uuid_v7();
+}
+
+} // namespace utils
+} // namespace themis

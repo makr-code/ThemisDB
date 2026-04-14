@@ -66,6 +66,8 @@ namespace gpu {
  */
 class GPUModule {
 public:
+  GPUModule() = default;
+
     // -----------------------------------------------------------------------
     // Initialisation result
     // -----------------------------------------------------------------------
@@ -190,8 +192,6 @@ public:
     std::vector<GPUAuditLog::Event> getAuditLog(size_t last_n = 64) const;
 
 private:
-    GPUModule() = default;
-
     bool         initialized_ = false;
     GPUConfig    config_;
     GPUPolicy    policy_;

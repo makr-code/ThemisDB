@@ -199,9 +199,8 @@ TEST_F(TemporalCompressorTest, TCLZ4_03_DecompressRoundTrip) {
     ASSERT_TRUE(stored.contains("__compressed")) << "Expected compressed payload";
     EXPECT_EQ(stored["__compressed"].get<std::string>(), "lz4");
 
-    auto decoded = compressor.decompress(stored);
-    ASSERT_TRUE(decoded) << decoded.error().message();
-    EXPECT_EQ(*decoded, payload);
+    const auto decoded = TemporalCompressor::decompress(stored);
+    EXPECT_EQ(decoded, payload);
 }
 
 TEST_F(TemporalCompressorTest, TCLZ4_04_CompressionRatioPositive) {

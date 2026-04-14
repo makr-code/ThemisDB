@@ -106,7 +106,9 @@ TEST(ColumnarCacheTest, CC03_GetMiss) {
 // CC-04  PinGuard: pinned segment is not evicted
 // ===========================================================================
 TEST(ColumnarCacheTest, CC04_PinnedNotEvicted) {
-    ColumnarCache cache(ColumnarCache::Config{.max_bytes = 1}); // tiny limit
+    ColumnarCache::Config cfg;
+    cfg.max_bytes = 1; // tiny limit
+    ColumnarCache cache(cfg);
     cache.put(makeInt64Segment("t", "c", 0, {42}));
     auto guard = cache.get({"t", "c", 0}); // pin it
     EXPECT_TRUE(guard);
@@ -137,7 +139,9 @@ TEST(ColumnarCacheTest, CC05_PinReleaseDecrements) {
 TEST(ColumnarCacheTest, CC06_LRUEviction) {
     // Each int64 segment: 1 row × 8 bytes + 1 null byte = 9 bytes.
     // max_bytes = 18 → fits exactly 2 segments.
-    ColumnarCache cache(ColumnarCache::Config{.max_bytes = 18});
+    ColumnarCache::Config cfg;
+    cfg.max_bytes = 18;
+    ColumnarCache cache(cfg);
 
     cache.put(makeInt64Segment("t", "c", 0, {0})); // oldest
     cache.put(makeInt64Segment("t", "c", 1, {1}));
@@ -193,10 +197,10 @@ TEST(ColumnarCacheTest, CC09_ClearUnpinned) {
 // ===========================================================================
 TEST(ColumnarCacheTest, CC10_OnEvictCallback) {
     std::vector<SegmentKey> evicted;
-    ColumnarCache cache(ColumnarCache::Config{
-        .max_bytes = 9, // fits 1 int64 row
-        .on_evict  = [&evicted](const SegmentKey& k) { evicted.push_back(k); },
-    });
+    ColumnarCache::Config cfg;
+    cfg.max_bytes = 9; // fits 1 int64 row
+    cfg.on_evict = [&evicted](const SegmentKey& k) { evicted.push_back(k); };
+    ColumnarCache cache(cfg);
 
     cache.put(makeInt64Segment("t", "c", 0, {1}));
     cache.put(makeInt64Segment("t", "c", 1, {2})); // triggers eviction of seg 0
@@ -227,7 +231,9 @@ TEST(ColumnarCacheTest, CC11_BytesUsedTracking) {
 TEST(ColumnarCacheTest, CC12_ConcurrentAccess) {
     constexpr int N = 8;
     constexpr int OPS = 200;
-    ColumnarCache cache(ColumnarCache::Config{.max_bytes = 1024 * 1024});
+    ColumnarCache::Config cfg;
+    cfg.max_bytes = 1024 * 1024;
+    ColumnarCache cache(cfg);
     std::atomic<int> errors{0};
     std::vector<std::thread> threads;
 
