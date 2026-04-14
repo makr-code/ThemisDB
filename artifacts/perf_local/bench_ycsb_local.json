@@ -1,0 +1,129 @@
+{
+  "context": {
+    "date": "2026-04-14T11:29:07+02:00",
+    "host_name": "DESKTOP-712S8LO",
+    "executable": "C:\\VCC\\themis\\build-msvc-ninja-release\\cmake\\benchmarks\\bench_ycsb.exe",
+    "num_cpus": 20,
+    "mhz_per_cpu": 3696,
+    "caches": [
+      {
+        "type": "Data",
+        "level": 1,
+        "size": 32768,
+        "num_sharing": 2
+      },
+      {
+        "type": "Instruction",
+        "level": 1,
+        "size": 32768,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 2,
+        "size": 262144,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 3,
+        "size": 20971520,
+        "num_sharing": 20
+      }
+    ],
+    "load_avg": [],
+    "library_version": "v1.9.5",
+    "library_build_type": "release",
+    "json_schema_version": 1
+  },
+  "benchmarks": [
+    {
+      "name": "YCSBLiteFixture/WorkloadA/10000",
+      "family_index": 0,
+      "per_family_instance_index": 0,
+      "run_name": "YCSBLiteFixture/WorkloadA/10000",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 26353,
+      "real_time": 2.6967491366255295e+01,
+      "cpu_time": 2.7273934656395856e+01,
+      "time_unit": "us",
+      "items_per_second": 3.6665043478260872e+04
+    },
+    {
+      "name": "YCSBLiteFixture/WorkloadA/100000",
+      "family_index": 0,
+      "per_family_instance_index": 1,
+      "run_name": "YCSBLiteFixture/WorkloadA/100000",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 16000,
+      "real_time": 4.3031981251260731e+01,
+      "cpu_time": 4.2968750000000000e+01,
+      "time_unit": "us",
+      "items_per_second": 2.3272727272727272e+04
+    },
+    {
+      "name": "YCSBLiteFixture/WorkloadB/10000",
+      "family_index": 1,
+      "per_family_instance_index": 0,
+      "run_name": "YCSBLiteFixture/WorkloadB/10000",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 172308,
+      "real_time": 3.9526504864346306e+00,
+      "cpu_time": 3.8992675905935883e+00,
+      "time_unit": "us",
+      "items_per_second": 2.5645841860465117e+05
+    },
+    {
+      "name": "YCSBLiteFixture/WorkloadB/100000",
+      "family_index": 1,
+      "per_family_instance_index": 1,
+      "run_name": "YCSBLiteFixture/WorkloadB/100000",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 64000,
+      "real_time": 8.6557750000793021e+00,
+      "cpu_time": 8.7890625000000000e+00,
+      "time_unit": "us",
+      "items_per_second": 1.1377777777777778e+05
+    },
+    {
+      "name": "YCSBLiteFixture/WorkloadC/10000",
+      "family_index": 2,
+      "per_family_instance_index": 0,
+      "run_name": "YCSBLiteFixture/WorkloadC/10000",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 746667,
+      "real_time": 1.1252283815786048e+00,
+      "cpu_time": 1.1300218169545460e+00,
+      "time_unit": "us",
+      "items_per_second": 8.8493866666666663e+05
+    },
+    {
+      "name": "YCSBLiteFixture/WorkloadC/100000",
+      "family_index": 2,
+      "per_family_instance_index": 1,
+      "run_name": "YCSBLiteFixture/WorkloadC/100000",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 92490,
+      "real_time": 9.2088128446375475e+00,
+      "cpu_time": 9.2915450318953408e+00,
+      "time_unit": "us",
+      "items_per_second": 1.0762472727272728e+05
+    }

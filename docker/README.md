@@ -2,7 +2,8 @@
 
 > **⚠️ Hotfix notice (2026-04-08):** Tag `1.8.1-rc1` crashes at startup
 > with `Exit 139` (SIGSEGV in `rocksdb::ImmutableDBOptions::Dump`). The fix is
-> released in `themisdb/themisdb:1.8.1-rc2`; use that tag or newer.
+> released in `themisdb/themisdb:1.8.1-rc2-community-binary-x64` (canonical)
+> and `themisdb/themisdb:latest` (stable alias); use that tag or newer.
 > See [CHANGELOG.md](../CHANGELOG.md) for the full list of fixes applied.
 
 Complete Docker Compose environment for developing and testing the ThemisDB LoRA framework.

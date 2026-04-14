@@ -12,8 +12,8 @@ name: Build Binary Release · Windows
 # OUTPUTS
 # -------
 #   Packages uploaded as GitHub Release assets:
-#     ThemisDB-<VERSION>-Windows-x64.zip    (ZIP archive)
-#     ThemisDB-<VERSION>-Windows-x64.msi    (MSI installer, optional)
+#     themisdb-<VERSION>-community-binary-x64.zip (ZIP archive)
+#     themisdb-<VERSION>-community-binary-x64.msi (MSI installer, optional)
 #     SHA256SUMS-windows.txt                 (checksums)
 #
 # REQUIRED PERMISSIONS
@@ -155,8 +155,28 @@ jobs:
         id: collect
         shell: bash
         run: |
+          set -euo pipefail
+          VERSION="${{ steps.resolve.outputs.version }}"
+          BASENAME="themisdb-${VERSION}-community-binary-x64"
+
           mkdir -p dist
-          find build -maxdepth 2 \( -name "*.zip" -o -name "*.msi" \) -exec cp {} dist/ \;
+
+          first_match() {
+            local pattern="$1"
+            find build -maxdepth 2 -name "$pattern" -print | head -n 1
+          }
+
+          ZIP_SRC="$(first_match '*.zip')"
+          MSI_SRC="$(first_match '*.msi')"
+
+          if [[ -n "$ZIP_SRC" ]]; then cp "$ZIP_SRC" "dist/${BASENAME}.zip"; fi
+          if [[ -n "$MSI_SRC" ]]; then cp "$MSI_SRC" "dist/${BASENAME}.msi"; fi
+
+          if [[ -z "$ZIP_SRC" && -z "$MSI_SRC" ]]; then
+            echo "ERROR: No Windows package artifacts found in build/"
+            exit 1
+          fi
+
           echo "Packages:"
           ls -lh dist/
           cd dist

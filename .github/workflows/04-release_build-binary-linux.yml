@@ -11,9 +11,9 @@ name: Build Binary Release · Linux
 # OUTPUTS
 # -------
 #   Packages uploaded as GitHub Release assets:
-#     themisdb-<VERSION>-Linux-x86_64.tar.gz      (TGZ)
-#     themisdb-<VERSION>-Linux-x86_64.deb         (Debian package)
-#     themisdb-<VERSION>-Linux-x86_64.rpm         (RPM package)
+#     themisdb-<VERSION>-community-binary-x64.tar.gz (TGZ)
+#     themisdb-<VERSION>-community-binary-x64.deb    (Debian package)
+#     themisdb-<VERSION>-community-binary-x64.rpm    (RPM package)
 #     SHA256SUMS-linux.txt                         (checksums)
 #
 # REQUIRED PERMISSIONS
@@ -149,10 +149,30 @@ jobs:
         id: collect
         shell: bash
         run: |
+          set -euo pipefail
+          VERSION="${{ steps.resolve.outputs.version }}"
+          BASENAME="themisdb-${VERSION}-community-binary-x64"
+
           mkdir -p dist
-          find build -maxdepth 2 \
-            \( -name "*.tar.gz" -o -name "*.deb" -o -name "*.rpm" \) \
-            -exec cp {} dist/ \;
+
+          first_match() {
+            local pattern="$1"
+            find build -maxdepth 2 -name "$pattern" -print | head -n 1
+          }
+
+          TAR_SRC="$(first_match '*.tar.gz')"
+          DEB_SRC="$(first_match '*.deb')"
+          RPM_SRC="$(first_match '*.rpm')"
+
+          if [[ -n "$TAR_SRC" ]]; then cp "$TAR_SRC" "dist/${BASENAME}.tar.gz"; fi
+          if [[ -n "$DEB_SRC" ]]; then cp "$DEB_SRC" "dist/${BASENAME}.deb"; fi
+          if [[ -n "$RPM_SRC" ]]; then cp "$RPM_SRC" "dist/${BASENAME}.rpm"; fi
+
+          if [[ -z "$TAR_SRC" && -z "$DEB_SRC" && -z "$RPM_SRC" ]]; then
+            echo "ERROR: No Linux package artifacts found in build/"
+            exit 1
+          fi
+
           echo "Packages:"
           ls -lh dist/
           cd dist

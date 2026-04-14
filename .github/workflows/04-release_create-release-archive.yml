@@ -30,6 +30,7 @@ jobs:
             exit 1
           fi
           echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "ARCHIVE_BASENAME=themisdb-${VERSION}-community-sourcecode-x64" >> $GITHUB_ENV
           
       - name: Find commit for version
         id: find-commit
@@ -55,16 +56,16 @@ jobs:
       - name: Create source archive
         run: |
           chmod +x scripts/archive-version.sh
-          ./scripts/archive-version.sh "${{ env.VERSION }}" "${{ env.COMMIT_SHA }}"
+          ./scripts/archive-version.sh "${{ env.VERSION }}" "${{ env.COMMIT_SHA }}" "community" "sourcecode" "x64"
           
       - name: Display archive info
         run: |
-          ls -lh themisdb-${{ env.VERSION }}-source.zip
-          cat themisdb-${{ env.VERSION }}-source.zip.sha256
+          ls -lh "${{ env.ARCHIVE_BASENAME }}.zip"
+          cat "${{ env.ARCHIVE_BASENAME }}.zip.sha256"
           
       - name: Read SHA256 checksum into environment
         run: |
-          CHECKSUM=$(cat themisdb-${{ env.VERSION }}-source.zip.sha256)
+          CHECKSUM=$(cat "${{ env.ARCHIVE_BASENAME }}.zip.sha256")
           echo "ARCHIVE_SHA256=$CHECKSUM" >> $GITHUB_ENV
           echo "Archive SHA256: $CHECKSUM"
           
@@ -109,7 +110,7 @@ jobs:
             
             ```bash
             # Extract archive
-            unzip themisdb-${{ env.VERSION }}-source.zip
+            unzip ${{ env.ARCHIVE_BASENAME }}.zip
             cd themisdb-${{ env.VERSION }}
             
             # Build with CMake
@@ -125,8 +126,8 @@ jobs:
             
             **Commit:** ${{ env.COMMIT_SHA }}
           files: |
-            themisdb-${{ env.VERSION }}-source.zip
-            themisdb-${{ env.VERSION }}-source.zip.sha256
+            ${{ env.ARCHIVE_BASENAME }}.zip
+            ${{ env.ARCHIVE_BASENAME }}.zip.sha256
           draft: false
           prerelease: false
         env:
@@ -146,4 +147,4 @@ jobs:
           echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
           echo "| **Timestamp** | $(date -u +'%Y-%m-%d %H:%M:%S UTC') |" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "Files released: \`themisdb-${{ env.VERSION }}-source.zip\`, \`themisdb-${{ env.VERSION }}-source.zip.sha256\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "Files released: \`${{ env.ARCHIVE_BASENAME }}.zip\`, \`${{ env.ARCHIVE_BASENAME }}.zip.sha256\`" >> "$GITHUB_STEP_SUMMARY"

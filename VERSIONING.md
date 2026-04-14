@@ -106,15 +106,19 @@ Release dates are tracked in [`CHANGELOG.md`](CHANGELOG.md) and announced via Gi
 
 ## 6. Edition Versioning
 
-All five editions share the same `MAJOR.MINOR.PATCH` base version. Edition-specific builds are distinguished by branch and Docker tag:
+All five editions share the same `MAJOR.MINOR.PATCH` base version. Edition-specific builds are distinguished by branch and release naming convention:
 
 | Edition | Git branch | Docker tag pattern | Git tag pattern |
 |---|---|---|---|
-| COMMUNITY | `main` | `themisdb/themisdb:1.8.0` | `v1.8.0` |
-| ENTERPRISE | `enterprise` | `themisdb/themisdb-enterprise:1.8.0` | `enterprise-v1.8.0` |
+| COMMUNITY | `main` | `themisdb/themisdb:1.8.0-community-binary-x64` and `...-arm` | `v1.8.0` |
+| ENTERPRISE | `enterprise` | `<private-registry>/themisdb-enterprise:1.8.0-enterprise-binary-x64` and `...-arm` | `enterprise-v1.8.0` |
 | MILITARY | `enterprise` | (private registry) | `military-v1.8.0` |
-| HYPERSCALER | `hyperscaler` | (OEM registry) | `hyperscaler-v1.8.0` |
-| MINIMAL | `main` | `themisdb/themisdb-minimal:1.8.0` | `v1.8.0-minimal` |
+| HYPERSCALER | `hyperscaler` | `<oem-registry>/themisdb-hyperscaler:1.8.0-hyperscaler-binary-x64` and `...-arm` | `hyperscaler-v1.8.0` |
+| MINIMAL | `main` | `themisdb/themisdb-minimal:1.8.0-minimal-binary-x64` and `...-arm` | `v1.8.0-minimal` |
+
+Release assets on GitHub follow the same canonical basename:
+
+`themisdb-{version}-{edition}-{sourcecode|binary}-{arm|x86|x64}`
 
 See [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md) for branch rules, CI gates, and the edition feature matrix.
 
@@ -180,7 +184,7 @@ Before introducing a breaking change:
 | `-betaN` | Feature-complete, stabilising |
 | `-rcN` | Release candidate, feature-frozen |
 
-Pre-release versions are never considered "stable" for production use. Docker tags for pre-releases carry the full qualifier (e.g., `themisdb:1.9.0-rc1`) and the `latest` tag is only updated on stable releases.
+Pre-release versions are never considered "stable" for production use. Docker tags for pre-releases carry the full qualifier (e.g., `themisdb/themisdb:1.9.0-rc1-community-binary-x64`) and the `latest` tag is only updated on stable releases.
 
 ---
 

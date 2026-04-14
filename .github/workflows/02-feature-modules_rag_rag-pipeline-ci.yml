@@ -10,6 +10,12 @@ name: RAG Pipeline CI
 # See: src/rag/ROADMAP.md — Production Readiness Checklist
 
 on:
+  workflow_run:
+    workflows: ["🚦 Post-Merge Smoke Test"]
+    types: [completed]
+    branches:
+      - main
+      - develop
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -51,7 +57,11 @@ jobs:
   # ---------------------------------------------------------------------------
   rag-pipeline-tests:
     needs: ci-scope-classifier
-    if: needs.ci-scope-classifier.outputs.has_llm_changes == 'true'
+    if: >
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'schedule') ||
+      needs.ci-scope-classifier.outputs.has_llm_changes == 'true'
     name: RAG Pipeline (${{ matrix.os }} / ${{ matrix.compiler }})
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60

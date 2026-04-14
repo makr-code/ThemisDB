@@ -1076,8 +1076,8 @@ bool BackupManager::decryptFile(const std::string& src_path, const std::string& 
 }
 
 bool BackupManager::uploadToCloud(const std::string& local_path, [[maybe_unused]] const std::string& cloud_path,
-                                  StorageBackend backend, 
-                                  const std::map<std::string, [[maybe_unused]] std::string>& config,
+                                  StorageBackend backend,
+                                  const std::map<std::string, std::string>& /*config*/,
                                   [[maybe_unused]] std::error_code& ec) {
     // When the relevant SDK compile flag is set, use the real SDK:
     //   THEMIS_ENABLE_S3:     AWS SDK for C++ (github.com/aws/aws-sdk-cpp)
@@ -1096,7 +1096,7 @@ bool BackupManager::uploadToCloud(const std::string& local_path, [[maybe_unused]
 
 bool BackupManager::downloadFromCloud(const std::string& cloud_path, [[maybe_unused]] const std::string& local_path,
                                       StorageBackend backend,
-                                      const std::map<std::string, [[maybe_unused]] std::string>& config,
+                                      const std::map<std::string, std::string>& /*config*/,
                                       std::error_code& ec) {
     // Placeholder implementation
     try {

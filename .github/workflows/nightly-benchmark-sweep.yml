@@ -12,8 +12,12 @@ name: Nightly Benchmark Sweep
 #   present) are satisfied by this file and by CMakePresets.json respectively.
 
 on:
-  schedule:
-    - cron: '0 2 * * *'  # Daily at 02:00 UTC
+  workflow_run:
+    workflows: ["🚦 Post-Merge Smoke Test"]
+    types: [completed]
+    branches:
+      - main
+      - develop
   workflow_dispatch:
 
 concurrency:
@@ -22,6 +26,10 @@ concurrency:
 
 jobs:
   sweep:
+    if: >
+      github.event_name != 'workflow_run' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'schedule')
     name: Nightly Benchmark Sweep
     runs-on: ubuntu-latest
 

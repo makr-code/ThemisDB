@@ -1,6 +1,12 @@
 name: ML Anomaly Detector CI
 
 on:
+  workflow_run:
+    workflows: ["🚦 Post-Merge Smoke Test"]
+    types: [completed]
+    branches:
+      - main
+      - develop
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -32,7 +38,11 @@ jobs:
   # ---------------------------------------------------------------------------
   ml-anomaly-detector-unit-tests:
     needs: ci-scope-classifier
-    if: needs.ci-scope-classifier.outputs.has_code_changes == 'true'
+    if: >
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'schedule') ||
+      needs.ci-scope-classifier.outputs.has_code_changes == 'true'
     name: ML Anomaly Detector tests (${{ matrix.os }} / ${{ matrix.compiler }})
     runs-on: ${{ matrix.os }}
     permissions:

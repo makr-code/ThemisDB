@@ -395,7 +395,7 @@ Result<std::vector<std::pair<Vector, double>>> ThemisDBAdapter::search_vectors(
 Result<bool> ThemisDBAdapter::create_index(
     const std::string& collection,
     [[maybe_unused]] size_t dimensions,
-    const std::map<std::string, [[maybe_unused]] Scalar>& index_params
+    const std::map<std::string, Scalar>& /*index_params*/
 ) {
     if (!connected_) {
         return Result<bool>::err(

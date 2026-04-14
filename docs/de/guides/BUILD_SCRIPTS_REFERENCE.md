@@ -60,7 +60,7 @@ scripts/
 
 **Purpose:** Build COMMUNITY Edition (Open Source, 5 Nodes, 24GB GPU)
 
-**Location:** `scripts/build-community-release.ps1`
+**Location:** `.github/workflows/04-release_build-binary-linux.yml`
 
 **Usage:**
 
@@ -133,7 +133,7 @@ scripts/
 
 **Purpose:** Build ENTERPRISE Edition (100 Nodes, 256GB GPU, Requires License)
 
-**Location:** `scripts/build-enterprise-release.ps1`
+**Location:** `.github/workflows/04-release_publish-enterprise.yml`
 
 **Usage:**
 
@@ -218,7 +218,7 @@ scripts/
 
 **Purpose:** Build HYPERSCALER Edition (Unlimited Scale, Mandatory License)
 
-**Location:** `scripts/build-hyperscaler-release.ps1`
+**Location:** `.github/workflows/04-release_publish-hyperscaler.yml`
 
 **Usage:**
 
@@ -494,12 +494,12 @@ scripts/
 
 **Purpose:** Prepare release artifacts
 
-**Location:** `scripts/prepare-release.ps1`
+**Location:** `.github/workflows/04-release_create-release-archive.yml`
 
 **Usage:**
 
 ```powershell
-.\scripts\prepare-release.ps1 `
+.github/workflows/04-release_create-release-archive.yml `
   -Version <version> `
   [-Edition <COMMUNITY|ENTERPRISE|HYPERSCALER>] `
   [-Platforms <windows,linux,docker>]
@@ -509,7 +509,7 @@ scripts/
 
 ```powershell
 # Prepare v1.4.0 release
-.\scripts\prepare-release.ps1 `
+.github/workflows/04-release_create-release-archive.yml `
   -Version 1.4.0 `
   -Edition COMMUNITY `
   -Platforms windows,linux,docker
@@ -526,7 +526,7 @@ scripts/
 
 **Purpose:** Create release archives with checksums
 
-**Location:** `scripts/create-release-archive.ps1`
+**Location:** `.github/workflows/04-release_create-release-archive.yml`
 
 **Usage:**
 
@@ -560,7 +560,7 @@ scripts/
 
 **Purpose:** Create GitHub release
 
-**Location:** `scripts/create-github-release.ps1`
+**Location:** `.github/workflows/04-release_create-release-archive.yml`
 
 **Usage:**
 
@@ -590,12 +590,12 @@ scripts/
 
 **Purpose:** Create production deployment package
 
-**Location:** `scripts/package-production-simple.ps1`
+**Location:** `.github/workflows/04-release_build-binary-windows.yml`
 
 **Usage:**
 
 ```powershell
-.\scripts\package-production-simple.ps1 `
+.github/workflows/04-release_build-binary-windows.yml `
   -Edition <edition> `
   [-IncludeConfig] `
   [-IncludeDocs]
@@ -605,7 +605,7 @@ scripts/
 
 ```powershell
 # Production package with config
-.\scripts\package-production-simple.ps1 `
+.github/workflows/04-release_build-binary-windows.yml `
   -Edition ENTERPRISE `
   -IncludeConfig `
   -IncludeDocs
@@ -777,7 +777,7 @@ cd themisdb
   -SignArtifacts
 
 # 4. Package for deployment
-.\scripts\package-production-simple.ps1 `
+.github/workflows/04-release_build-binary-windows.yml `
   -Edition ENTERPRISE `
   -IncludeConfig
 
@@ -789,7 +789,7 @@ cd themisdb
 
 ```powershell
 # 1. Prepare release
-.\scripts\prepare-release.ps1 `
+.github/workflows/04-release_create-release-archive.yml `
   -Version 1.4.0 `
   -Edition COMMUNITY `
   -Platforms windows,linux,docker
@@ -842,7 +842,7 @@ wsl ./scripts/build-linux.sh --config release --edition COMMUNITY
   --platform linux/amd64,linux/arm64
 
 # 4. Package OEM
-.\scripts\package-production-simple.ps1 `
+.github/workflows/04-release_build-binary-windows.yml `
   -Edition HYPERSCALER `
   -IncludeConfig `
   -IncludeDocs

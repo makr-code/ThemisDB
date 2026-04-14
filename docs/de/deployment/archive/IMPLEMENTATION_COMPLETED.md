@@ -77,7 +77,7 @@ Die komplette Multi-Edition Architektur für ThemisDB v1.3.5 wurde erfolgreich i
 ### Phase 7: Build Scripts (ABGESCHLOSSEN)
 
 #### 7a. Community Edition Build
-**Datei: scripts/build-community-release.ps1**
+**Datei: .github/workflows/04-release_build-binary-linux.yml**
 - ✅ CMake Configuration mit COMMUNITY Edition
 - ✅ Multi-Platform Build (Windows/Linux/Docker)
 - ✅ Public Docker Hub Push
@@ -85,7 +85,7 @@ Die komplette Multi-Edition Architektur für ThemisDB v1.3.5 wurde erfolgreich i
 - ✅ Release Artefakt-Pakaging
 
 #### 7b. Enterprise Edition Build
-**Datei: scripts/build-enterprise-release.ps1**
+**Datei: .github/workflows/04-release_publish-enterprise.yml**
 - ✅ CMake Configuration mit ENTERPRISE Edition
 - ✅ Production & Development Varianten
 - ✅ License Key Validator Generation
@@ -93,7 +93,7 @@ Die komplette Multi-Edition Architektur für ThemisDB v1.3.5 wurde erfolgreich i
 - ✅ Code Signing Support
 
 #### 7c. Hyperscaler Edition Build
-**Datei: scripts/build-hyperscaler-release.ps1**
+**Datei: .github/workflows/04-release_publish-hyperscaler.yml**
 - ✅ CMake Configuration mit HYPERSCALER Edition
 - ✅ OEM/Custom Deployment Support
 - ✅ Umfassende Test Suite
@@ -101,7 +101,7 @@ Die komplette Multi-Edition Architektur für ThemisDB v1.3.5 wurde erfolgreich i
 - ✅ Alle Hardware-Optimierungen aktiviert
 
 #### 7d. Master Orchestrator
-**Datei: scripts/orchestrate-release.ps1**
+**Datei: .github/workflows/04-release_create-release-archive.yml**
 - ✅ Koordiniert alle 3 Edition-Builds
 - ✅ Generiert einheitliche Release Notes
 - ✅ Build Summary mit Statusbericht

@@ -27,10 +27,13 @@
 #if 1
 #include <benchmark/benchmark.h>
 #include "storage/base_entity.h"
+#include "storage/key_schema.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
+#include <optional>
 #include <random>
 #include <filesystem>
+#include <chrono>
 #include <string>
 #include <vector>
 #include <unordered_set>
@@ -146,7 +149,8 @@ namespace {
 class YCSBLiteFixture : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
-        db_path_ = "bench_ycsb_db";
+        db_path_ = std::string("tmp/bench_ycsb_") +
+                   std::to_string(std::chrono::steady_clock::now().time_since_epoch().count());
         cleanupTestDB(db_path_);
         
         // Configure database for YCSB workload
@@ -155,7 +159,7 @@ public:
         config.compression_default = "lz4";
         config.compression_bottommost = "zstd";
         config.block_cache_size_mb = 512;
-        config.write_buffer_size_mb = 64;
+        config.db_write_buffer_size_mb = 64;
         
         db_ = std::make_unique<themis::RocksDBWrapper>(config);
         if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
@@ -212,17 +216,30 @@ protected:
         std::exponential_distribution<double> dist(1.0);
         double skew = dist(rng);
         int64_t key_num = record_count_ - 1 - static_cast<int64_t>(skew * record_count_ / 10.0);
-        key_num = std::max(0L, std::min(key_num, record_count_ - 1));
+        if (key_num < 0) {
+            key_num = 0;
+        } else if (key_num >= record_count_) {
+            key_num = record_count_ - 1;
+        }
         return "user" + std::to_string(key_num);
+    }
+
+    std::optional<themis::BaseEntity> loadEntity(const std::string& table, const std::string& pk) {
+        const auto entity_key = themis::KeySchema::makeRelationalKey(table, pk);
+        auto blob = db_->get(entity_key);
+        if (!blob) {
+            return std::nullopt;
+        }
+        return themis::BaseEntity::deserialize(pk, *blob);
     }
     
     void doRead(const std::string& key) {
-        auto entity_opt = secondary_->get("usertable", key);
+        auto entity_opt = loadEntity("usertable", key);
         benchmark::DoNotOptimize(entity_opt);
     }
     
     void doUpdate(const std::string& key) {
-        auto entity_opt = secondary_->get("usertable", key);
+        auto entity_opt = loadEntity("usertable", key);
         if (entity_opt) {
             // Update one random field
             std::uniform_int_distribution<int> field_dist(0, FIELD_COUNT - 1);
@@ -247,14 +264,14 @@ protected:
     void doScan(const std::string& start_key, int scan_length) {
         // Simplified scan: read scan_length consecutive records
         for (int i = 0; i < scan_length; ++i) {
-            auto entity_opt = secondary_->get("usertable", start_key);
+            auto entity_opt = loadEntity("usertable", start_key);
             benchmark::DoNotOptimize(entity_opt);
         }
     }
     
     void doReadModifyWrite(const std::string& key) {
         // Read-modify-write: read, modify, write back
-        auto entity_opt = secondary_->get("usertable", key);
+        auto entity_opt = loadEntity("usertable", key);
         if (entity_opt) {
             // Modify one field
             entity_opt->setField("field0", makeRandomString(FIELD_LENGTH));

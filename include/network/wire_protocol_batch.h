@@ -56,8 +56,13 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <BaseTsd.h>
-#pragma once
-typedef SSIZE_T ssize_t;
+using ssize_t = SSIZE_T;
+#ifndef THEMIS_IOVEC_DEFINED
+#define THEMIS_IOVEC_DEFINED
+struct iovec {
+    void* iov_base;
+    size_t iov_len;
+};
 #endif
 #else
 #include <netinet/in.h>
@@ -65,6 +70,7 @@ typedef SSIZE_T ssize_t;
 #include <sys/socket.h>
 #include <sys/uio.h>
 #include <unistd.h>
+#endif
 
 namespace themis {
 namespace network {

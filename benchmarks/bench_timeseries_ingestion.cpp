@@ -44,7 +44,7 @@ class TimeseriesBenchmarkFixture : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& /*state*/) override {
         // Clean up any existing test database
-        test_db_path_ = std::string("C:\\tmp\\bench_ts_") +
+        test_db_path_ = std::string("tmp/bench_ts_") +
             std::to_string(std::chrono::steady_clock::now().time_since_epoch().count());
         if (std::filesystem::exists(test_db_path_)) {
             std::filesystem::remove_all(test_db_path_);

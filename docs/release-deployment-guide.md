@@ -62,7 +62,7 @@ scripts\check-build-status.bat
 **Command**:
 ```bash
 cd /path/to/themis
-bash scripts/build-release-linux.sh
+bash .github/workflows/04-release_build-binary-linux.yml
 ```
 
 **Expected Output**:
@@ -136,7 +136,7 @@ pip install PyGithub
 
 **Command**:
 ```bash
-python3 scripts/github-release.py \
+python3 .github/workflows/04-release_build-binary-linux.yml \
   --version v1.4.0 \
   --token <GitHub PAT> \
   --repo makr-code/ThemisDB
@@ -144,7 +144,7 @@ python3 scripts/github-release.py \
 
 **Dry Run** (preview without uploading):
 ```bash
-python3 scripts/github-release.py \
+python3 .github/workflows/04-release_build-binary-linux.yml \
   --version v1.4.0 \
   --token <GitHub PAT> \
   --dry-run

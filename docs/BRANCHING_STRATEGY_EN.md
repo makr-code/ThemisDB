@@ -148,7 +148,7 @@ git checkout -b release/1.4.0
 
 # Prepare version and documentation
 echo "1.4.0" > VERSION
-./scripts/prepare-release.sh 1.4.0
+./.github/workflows/04-release_create-release-archive.yml 1.4.0
 git add VERSION CHANGELOG.md
 git commit -m "chore: Prepare release v1.4.0"
 
@@ -272,7 +272,7 @@ git checkout -b release/1.4.0
 
 # Bump version
 echo "1.4.0" > VERSION
-./scripts/prepare-release.sh 1.4.0
+./.github/workflows/04-release_create-release-archive.yml 1.4.0
 
 git add VERSION CHANGELOG.md RELEASE_NOTES_v1.4.0.md
 git commit -m "chore: Prepare release v1.4.0"

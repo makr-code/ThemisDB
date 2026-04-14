@@ -31,12 +31,6 @@
 
 #ifdef __linux__
 #  include <sys/uio.h>
-#else
-// Minimal fallback so this header parses on non-Linux platforms.
-struct iovec {
-  void*  iov_base;
-  size_t iov_len;
-};
 #endif
 
 namespace themis {

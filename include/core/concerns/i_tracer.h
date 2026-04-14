@@ -168,7 +168,7 @@ public:
      */
     virtual std::unique_ptr<ISpan> startSpanFromHeaders(
             const std::string& name,
-            const std::map<std::string, [[maybe_unused]] std::string>& headers) {
+            const std::map<std::string, std::string>& /*headers*/) {
         return startSpan(name);
     }
 
@@ -187,7 +187,7 @@ public:
      *
      * @param headers Outgoing HTTP headers to populate.
      */
-    virtual void injectContext(std::map<std::string, [[maybe_unused]] std::string>& headers) {
+    virtual void injectContext(std::map<std::string, std::string>& /*headers*/) {
     }
 
     // -----------------------------------------------------------------------

@@ -11,7 +11,7 @@ on:
   #   1. Go to Actions → "Publish Docker image to Docker Hub" → Run workflow.
   #   2. Enter the release tag (e.g. v1.4.0 or v1.4.0-rc1).
   #   3. Choose build_target=debug to build a debug image (includes gdb,
-  #      valgrind, source); the tag will have a -debug suffix (e.g. 1.4.0-rc1-debug).
+  #      valgrind, source); tags will have a -debug suffix.
   #   4. Set dry_run=true to validate without actually pushing to Docker Hub.
   workflow_dispatch:
     inputs:
@@ -90,6 +90,7 @@ jobs:
           fi
 
           IMAGE="themisdb/themisdb"
+          RELEASE_FAMILY="${VERSION}-community-binary"
 
           # build_target: 'debug' (manual only) adds a -debug suffix to the tag
           # and suppresses :latest. Release events always produce a runtime image.
@@ -112,6 +113,7 @@ jobs:
           echo "version=$VERSION"                   >> "$GITHUB_OUTPUT"
           echo "stable=$STABLE"                     >> "$GITHUB_OUTPUT"
           echo "image=$IMAGE"                       >> "$GITHUB_OUTPUT"
+          echo "release_family=$RELEASE_FAMILY"     >> "$GITHUB_OUTPUT"
           echo "build_target=${BUILD_TARGET:-runtime}" >> "$GITHUB_OUTPUT"
           echo "tag_suffix=$TAG_SUFFIX"             >> "$GITHUB_OUTPUT"
 
@@ -119,7 +121,8 @@ jobs:
           # :latest is only added for stable runtime images.
           {
             echo "tags<<EOF"
-            echo "${IMAGE}:${VERSION}${TAG_SUFFIX}"
+            echo "${IMAGE}:${RELEASE_FAMILY}-x64${TAG_SUFFIX}"
+            echo "${IMAGE}:${RELEASE_FAMILY}-arm${TAG_SUFFIX}"
             if [[ "$STABLE" == "true" && -z "$TAG_SUFFIX" ]]; then
               echo "${IMAGE}:latest"
             fi
@@ -130,10 +133,12 @@ jobs:
           echo "  TAG_NAME     = $TAG_NAME"
           echo "  VERSION      = $VERSION"
           echo "  STABLE       = $STABLE"
+          echo "  FAMILY       = $RELEASE_FAMILY"
           echo "  BUILD_TARGET = ${BUILD_TARGET:-runtime}"
           echo "  TAG_SUFFIX   = ${TAG_SUFFIX:-(none)}"
           echo "  TAGS:"
-          echo "    ${IMAGE}:${VERSION}${TAG_SUFFIX}"
+          echo "    ${IMAGE}:${RELEASE_FAMILY}-x64${TAG_SUFFIX}"
+          echo "    ${IMAGE}:${RELEASE_FAMILY}-arm${TAG_SUFFIX}"
           if [[ "$STABLE" == "true" && -z "$TAG_SUFFIX" ]]; then
             echo "    ${IMAGE}:latest"
           fi

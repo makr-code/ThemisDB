@@ -1,10 +1,16 @@
 name: Validate AI-Guardrails
 
 on:
+  workflow_run:
+    workflows: ["🚦 Post-Merge Smoke Test"]
+    types: [completed]
+    branches:
+      - main
+      - develop
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
-      - '.github/COPILOT_INSTRUCTIONS.md'
+      - '.github/copilot-instructions.md'
       - '.github/copilot/**'
       - '.github/scripts/validate_copilot_refs.py'
   workflow_dispatch:
@@ -25,6 +31,9 @@ jobs:
   validate-copilot-instructions:
     needs: ci-scope-classifier
     if: >
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'schedule') ||
       needs.ci-scope-classifier.outputs.has_doc_only_changes == 'true' ||
       needs.ci-scope-classifier.outputs.has_config_changes == 'true'
     name: Validate Copilot Instructions
@@ -48,12 +57,12 @@ jobs:
       
       - name: Check file size
         run: |
-          MAIN_FILE=".github/COPILOT_INSTRUCTIONS.md"
+          MAIN_FILE=".github/copilot-instructions.md"
           LINE_COUNT=$(wc -l < "$MAIN_FILE")
           echo "Main file has $LINE_COUNT lines"
           
           if [ "$LINE_COUNT" -gt 300 ]; then
-            echo "❌ Error: Main COPILOT_INSTRUCTIONS.md is too large ($LINE_COUNT lines)"
+            echo "❌ Error: Main copilot-instructions.md is too large ($LINE_COUNT lines)"
             echo "Target is under 200 lines. Consider moving content to module files."
             exit 1
           else
@@ -130,7 +139,7 @@ jobs:
         with:
           files: .github/*.md .github/copilot/*.md
           config_file: .markdownlint.json
-          ignore_files: .github/COPILOT_INSTRUCTIONS.md.backup
+          ignore_files: .github/copilot-instructions.md.backup
         continue-on-error: true
 
       - name: Write job summary

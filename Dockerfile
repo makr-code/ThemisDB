@@ -15,7 +15,7 @@ ARG ENABLE_GPU=ON
 ARG FORCE_CPU_ONLY=OFF
 ARG BUILD_TESTS=OFF
 ARG BUILD_BENCHMARKS=OFF
-ARG TARGETARCH=amd64
+ARG TARGETARCH
 
 # ============================================================================
 # Stage 0: prebuilt - Dummy stage for optional pre-built artifacts
@@ -88,14 +88,19 @@ RUN set -eux; \
     fi; \
     \
     # Detect architecture triplet
-    case "${TARGETARCH}" in \
+    ARCH="${TARGETARCH:-}"; \
+    if [ -z "${ARCH}" ]; then \
+        ARCH="$(dpkg --print-architecture)"; \
+    fi; \
+    case "${ARCH}" in \
         amd64) TRIPLET="x64-linux" ;; \
         arm64) TRIPLET="arm64-linux" ;; \
         arm)   TRIPLET="arm-linux" ;; \
-        *)     echo "ERROR: Unsupported arch ${TARGETARCH}"; exit 1 ;; \
+        *)     echo "ERROR: Unsupported arch ${ARCH}"; exit 1 ;; \
     esac; \
     echo "${TRIPLET}" > /tmp/triplet.txt; \
-    echo "✓ Architecture: ${TRIPLET} (${TARGETARCH})"
+    echo "${ARCH}" > /tmp/targetarch.txt; \
+    echo "✓ Architecture: ${TRIPLET} (${ARCH})"
 
 # Copy vcpkg configuration
 COPY vcpkg-configuration.json ./
@@ -233,6 +238,7 @@ COPY --from=deps /build/vcpkg.json ./vcpkg.json
 COPY --from=deps /build/vcpkg-configuration.json ./vcpkg-configuration.json
 COPY --from=deps /build/vcpkg_installed /build/vcpkg_installed
 COPY --from=deps /tmp/triplet.txt /tmp/triplet.txt
+COPY --from=deps /tmp/targetarch.txt /tmp/targetarch.txt
 
 # Copy llama.cpp build artifacts
 COPY --from=llama /opt/llama.cpp /opt/llama.cpp
@@ -240,6 +246,7 @@ COPY --from=llama /opt/llama.cpp /opt/llama.cpp
 # Build ThemisDB with CMake (matching Windows presets)
 RUN set -eux; \
     TRIPLET=$(cat /tmp/triplet.txt); \
+    ARCH=$(cat /tmp/targetarch.txt); \
     EDITION_UPPER=$(echo "${THEMIS_EDITION}" | tr '[:lower:]' '[:upper:]'); \
     \
     echo "=========================================="; \
@@ -251,7 +258,7 @@ RUN set -eux; \
     echo "CPU-only:       ${FORCE_CPU_ONLY}"; \
     echo "Tests:          ${BUILD_TESTS}"; \
     echo "Benchmarks:     ${BUILD_BENCHMARKS}"; \
-    echo "Target Arch:    ${TARGETARCH}"; \
+    echo "Target Arch:    ${ARCH}"; \
     echo "vcpkg Triplet:  ${TRIPLET}"; \
     echo "=========================================="; \
     \
