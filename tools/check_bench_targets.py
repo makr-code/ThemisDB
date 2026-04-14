@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            check_bench_targets.py                             ║
-  Version:         1.1.0                                              ║
-  Last Modified:   2026-04-13                                         ║
-  Author:          ThemisDB CI                                        ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-04-14 07:24:12                                ║
+  Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     392                                            ║
+    • Total Lines:     856                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 99ffe76e1d  2026-04-14  feat(ci-guard): bench-source guard – allowlist, Grundkate... ║
     • acbec398e5  2026-04-13  feat(ci): implement bench-source CI guard (Issue #4, Maßn... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

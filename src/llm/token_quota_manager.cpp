@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            token_quota_manager.cpp                            ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:33:02                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:02:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

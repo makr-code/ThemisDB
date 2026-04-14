@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gguf_converter.cpp                                 ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:32:46                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:02:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

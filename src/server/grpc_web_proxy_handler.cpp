@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            grpc_web_proxy_handler.cpp                         ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:35:54                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:05:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,6 +14,7 @@
     • Open Issues:     TODOs: 0, Stubs: 3                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
     • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • de101321ad  2026-03-01  feat(server): implement gRPC-Web proxy handler for browse... ║

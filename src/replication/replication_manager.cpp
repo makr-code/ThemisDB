@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            replication_manager.cpp                            ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:35:14                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:05:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   89.0/100                                       ║
-    • Total Lines:     6230                                           ║
+    • Total Lines:     6217                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 64a9ae4eb6  2026-03-31  feat: enhance cache warmup logic and improve replication ... ║
     • 42e48dbc3c  2026-03-15  fix(replication): audit geo-replication – fix SESSION exp... ║
     • 7cd7172d73  2026-03-14  feat(replication): add GeoReplicationManager with consist... ║
     • 4a853813e8  2026-03-13  fix(replication): audit fixes — honor bidirectional_sync/... ║
-    • 23a0696d15  2026-03-13  feat(replication): implement BidirectionalReplicationMana... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_manager.cpp                                ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:30:40                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:00:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     2800                                           ║
+    • Total Lines:     2799                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • d331f64d17  2026-04-01  feat: add support for merge operator detection in Changef... ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • 4468db516b  2026-03-19  fix(content): dedup default-off, strengthen policy-absent... ║
-    • 55d1f82412  2026-03-19  fix(content): wire enable_deduplication config gate, add ... ║
-    • 67549ed6f9  2026-03-15  fix(content): wire ContentPolicy::embedding_model gate in... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

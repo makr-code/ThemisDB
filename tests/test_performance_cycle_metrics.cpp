@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_performance_cycle_metrics.cpp                 ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 20:48:20                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 07:18:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

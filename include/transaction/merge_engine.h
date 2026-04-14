@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            merge_engine.h                                     ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:28:00                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:57:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

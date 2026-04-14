@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cross_module_graph_lineage.cpp                ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 20:42:55                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 07:12:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

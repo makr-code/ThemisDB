@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rabitq_product_quantizer.cpp                  ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:39:45                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 07:09:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

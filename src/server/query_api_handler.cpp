@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_api_handler.cpp                              ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:36:05                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:05:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • fa06c3b8ad  2026-03-01  feat(query): wire per-query resource limits into HTTP API... ║
     • 64ea7ae225  2026-02-27  Update metadata annotations: resolve Stubs:1 in query_api... ║
-    • db120052be  2026-02-23  feat(api): Implement SSE/WebSocket streaming query result... ║
-    • b629d06e4a  2026-02-23  audit: fix thread-safety race, missed JOIN path, and COLL... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

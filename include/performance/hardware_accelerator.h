@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hardware_accelerator.h                             ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 20:24:10                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 06:54:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

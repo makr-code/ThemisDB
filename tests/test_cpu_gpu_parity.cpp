@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cpu_gpu_parity.cpp                            ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:42:47                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:12:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

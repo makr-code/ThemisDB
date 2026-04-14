@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auto_failover_manager.cpp                          ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-13 20:31:08                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-04-14 07:00:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     672                                            ║
+    • Total Lines:     669                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 296263aa37  2026-04-12  [MODULE] failover: Phase 4 chaos tests + Phase 5 queue-pr... ║
     • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
 ╠═════════════════════════════════════════════════════════════════════╣

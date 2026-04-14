@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wasm_plugin_loader.cpp                             ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:34:00                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 07:03:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   96.0/100                                       ║
-    • Total Lines:     356                                            ║
+    • Total Lines:     355                                            ║
     • Open Issues:     TODOs: 2, Stubs: 3                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • c5a4a68540  2026-03-15  feat(plugins): complete issue audit — unregisterFactory, ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║

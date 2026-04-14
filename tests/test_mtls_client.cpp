@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_mtls_client.cpp                               ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:47:23                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:17:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

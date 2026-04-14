@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_argument_store.cpp                            ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:40:52                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:10:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

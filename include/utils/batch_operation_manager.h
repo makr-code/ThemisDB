@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            batch_operation_manager.h                          ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:28:21                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:58:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

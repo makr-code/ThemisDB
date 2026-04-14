@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            import_wizard_builder.cpp                          ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:35:58                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:05:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

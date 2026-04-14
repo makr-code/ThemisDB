@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ann_index.cpp                                      ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:32:11                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:02:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     434                                            ║
+    • Total Lines:     433                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 0c973a2860  2026-02-26  Refactor and enhance ThemisDB components ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            replication_slot.cpp                               ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:35:15                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 07:05:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

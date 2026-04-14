@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            temporal_support.cpp                               ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:32:10                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 07:01:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

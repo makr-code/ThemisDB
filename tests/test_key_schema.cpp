@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_key_schema.cpp                                ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:46:07                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:15:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

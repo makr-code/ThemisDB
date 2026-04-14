@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            inverted_index.h                                   ║
-  Version:         0.0.18                                             ║
-  Last Modified:   2026-04-13 20:22:38                                ║
+  Version:         0.0.19                                             ║
+  Last Modified:   2026-04-14 06:52:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

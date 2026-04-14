@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_retention.cpp                             ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:41:58                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:11:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

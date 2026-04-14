@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            eviction_strategies.h                              ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:21:24                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:51:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     465                                            ║
+    • Total Lines:     464                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 0587578d8d  2026-02-27  feat(graph): plan cache eviction with size and TTL controls ║
     • 5f3f466a9e  2026-02-24  feat(cache): add configurable eviction policies (LFU, ARC... ║
-    • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

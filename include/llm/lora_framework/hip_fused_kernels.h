@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hip_fused_kernels.h                                ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:23:08                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:52:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

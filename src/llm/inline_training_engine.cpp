@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            inline_training_engine.cpp                         ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-04-13 20:32:40                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-04-14 07:02:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   92.0/100                                       ║
-    • Total Lines:     935                                            ║
+    • Total Lines:     944                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

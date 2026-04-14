@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_query_compiler.cpp                        ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:33:42                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 07:03:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1188                                           ║
+    • Total Lines:     1184                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 2efe68350e  2026-03-15  audit(performance): close gaps in AdaptiveQueryCompiler (... ║
     • 2fe39105e4  2026-03-15  feat(performance): implement AdaptiveQueryCompiler (v1.8.... ║
 ╠═════════════════════════════════════════════════════════════════════╣

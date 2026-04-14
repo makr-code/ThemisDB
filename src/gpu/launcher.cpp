@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            launcher.cpp                                       ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:31:35                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:01:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

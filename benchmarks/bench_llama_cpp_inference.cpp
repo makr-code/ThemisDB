@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_llama_cpp_inference.cpp                      ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-13 20:18:36                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-14 06:48:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   73.0/100                                       ║
-    • Total Lines:     251                                            ║
+    • Total Lines:     252                                            ║
     • Open Issues:     TODOs: 0, Stubs: 6                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

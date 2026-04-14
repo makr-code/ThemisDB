@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            idelivery_guarantee_config.h                       ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 20:21:06                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 06:50:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

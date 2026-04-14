@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            main_server.cpp                                    ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:33:02                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:02:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 17                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 9f5c953436  2026-04-07  feat(config): Introduce new hierarchical configuration st... ║
     • 5c0bdc6d43  2026-04-04  hotfix: address code-review feedback (port consistency, c... ║
     • eb00b82270  2026-04-04  hotfix: prevent SIGSEGV in RocksDB/LLM init on Docker sta... ║
     • c9b1433946  2026-03-15  feat(server): inject live ShardingManager into HttpServer... ║
-    • 985dc57d92  2026-03-14  fix: harden config metrics exporter compatibility ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 📝 Draft / Stub                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

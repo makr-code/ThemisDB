@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            dead_letter_queue.h                                ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:20:57                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 06:50:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

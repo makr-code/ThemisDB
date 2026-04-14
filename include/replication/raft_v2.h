@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            raft_v2.h                                          ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:25:41                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 06:55:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

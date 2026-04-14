@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            model_router.cpp                                   ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:32:56                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:02:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

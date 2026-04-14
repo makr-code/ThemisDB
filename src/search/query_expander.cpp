@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_expander.cpp                                 ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-04-13 20:35:28                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-04-14 07:05:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            knowledge_gap_detector.h                           ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:25:23                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:55:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     423                                            ║
+    • Total Lines:     424                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            differential_update_engine.cpp                     ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:36:09                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:05:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

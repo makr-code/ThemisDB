@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rtree_cpu_integration.cpp                     ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:39:04                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:08:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

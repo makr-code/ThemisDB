@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_http_sharding_admin.cpp                       ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:45:25                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 07:15:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

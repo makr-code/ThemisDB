@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            advanced_vector_index.cpp                          ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:32:10                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:01:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   90.0/100                                       ║
-    • Total Lines:     499                                            ║
+    • Total Lines:     485                                            ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • ba22b5bb24  2026-03-13  fix(backpressure): stabilize overload metrics test and al... ║
     • 7692054928  2026-03-12  feat(index): implement CUDA and HIP GPU backends, ADC opt... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║

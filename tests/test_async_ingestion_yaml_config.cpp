@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_async_ingestion_yaml_config.cpp               ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 20:40:56                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 07:10:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

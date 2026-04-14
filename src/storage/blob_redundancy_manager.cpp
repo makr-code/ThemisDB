@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            blob_redundancy_manager.cpp                        ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:36:37                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:06:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     1197                                           ║
+    • Total Lines:     1184                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • cc717dd8cb  2026-03-14  fix(storage): address PR review comments for BlobRedundan... ║
     • a5f0becd2a  2026-03-14  feat(storage): implement Reed-Solomon erasure coding for ... ║
     • 78f419ea26  2026-03-13  feat(storage): implement BlobRedundancyEventListener for ... ║

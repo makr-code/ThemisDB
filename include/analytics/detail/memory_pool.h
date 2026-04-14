@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            memory_pool.h                                      ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 20:19:55                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 06:49:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            import_api_handler.cpp                             ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:35:57                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:05:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   96.0/100                                       ║
-    • Total Lines:     612                                            ║
+    • Total Lines:     610                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 9bccf09a7c  2026-03-16  Changes before error encountered        ║
     • 8452353dc5  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
     • a2a0e15fab  2026-03-11  Changes before error encountered        ║
     • e4aae2a7f2  2026-03-11  feat(importers): PostgreSQL Importer v2.0 - FK preservati... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

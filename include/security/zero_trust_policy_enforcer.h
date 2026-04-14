@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            zero_trust_policy_enforcer.h                       ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:26:11                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 06:56:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

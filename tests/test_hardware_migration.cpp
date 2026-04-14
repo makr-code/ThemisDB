@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_hardware_migration.cpp                        ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 20:45:06                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 07:14:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

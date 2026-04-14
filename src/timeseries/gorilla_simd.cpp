@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gorilla_simd.cpp                                   ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:37:14                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 07:07:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

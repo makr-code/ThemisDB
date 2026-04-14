@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_whisper_plugin.cpp                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-13 20:38:12                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-14 07:07:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     517                                            ║
+    • Total Lines:     516                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • fdeed10753  2026-04-12  feat(whisper): v2.1.0 thread-safety, FfmpegAudioChunkRead... ║
     • 9919fc97a2  2026-04-07  feat(plugins): add whisper src impls (audio_chunk_reader,... ║
 ╠═════════════════════════════════════════════════════════════════════╣

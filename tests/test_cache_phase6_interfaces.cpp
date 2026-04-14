@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cache_phase6_interfaces.cpp                   ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-13 20:41:23                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-14 07:11:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

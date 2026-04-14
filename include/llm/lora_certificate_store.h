@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lora_certificate_store.h                           ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:23:04                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 06:52:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

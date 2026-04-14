@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            distributed_txn_api_handler.h                      ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:26:18                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:56:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

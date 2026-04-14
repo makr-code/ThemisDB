@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_otel_api_tracing.cpp                          ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:48:03                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 07:17:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

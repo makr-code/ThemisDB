@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            changefeed_api_handler.h                           ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:26:15                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:56:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     217                                            ║
+    • Total Lines:     216                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • b56122b397  2026-03-11  feat(cdc): extend at-least-once delivery guarantee to SSE... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 1c85680750  2026-02-24  Implement GDPR-aware PII field scrubbing HTTP endpoint fo... ║
-    • d05084392e  2026-02-22  Continue CDC compaction: GET/PUT retention endpoints, com... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            model_metadata_cache.cpp                           ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:32:55                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:02:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

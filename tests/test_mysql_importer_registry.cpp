@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_mysql_importer_registry.cpp                   ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-13 20:47:35                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-14 07:17:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

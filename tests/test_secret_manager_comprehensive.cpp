@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_secret_manager_comprehensive.cpp              ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:51:14                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:20:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_shard_router.h                            ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:26:41                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:56:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            data_augmentation.h                                ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:21:38                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 06:51:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

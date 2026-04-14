@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            spdlog_logger_adapter.h                            ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:21:31                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:51:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
-    • eaa0026578  2026-02-21  fix(core): restore setLevel() in SpdlogLoggerAdapter; fix... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

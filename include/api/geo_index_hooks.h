@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            geo_index_hooks.h                                  ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:20:05                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:49:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

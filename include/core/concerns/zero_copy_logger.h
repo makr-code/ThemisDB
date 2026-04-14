@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            zero_copy_logger.h                                 ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:21:33                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 06:51:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

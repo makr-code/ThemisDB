@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_api_handler.cpp                              ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:36:17                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:06:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1604                                           ║
+    • Total Lines:     1602                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • a2a0e15fab  2026-03-11  Changes before error encountered        ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 49fd402198  2026-03-01  feat(voice): expose speaker verification REST API endpoints ║
     • 75c7c24ea3  2026-03-01  feat(voice): implement voice session playback and search ... ║
-    • e6c4d3fc42  2026-02-28  fix(voice): refactor query parsing, address review commen... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

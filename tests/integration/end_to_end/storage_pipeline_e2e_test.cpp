@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            storage_pipeline_e2e_test.cpp                      ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:39:19                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:09:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

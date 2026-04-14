@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            themisdb_grpc_service.cpp                          ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:29:49                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 06:59:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   92.0/100                                       ║
-    • Total Lines:     850                                            ║
+    • Total Lines:     849                                            ║
     • Open Issues:     TODOs: 0, Stubs: 4                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • ed2d46e8d1  2026-04-13  fix(api): complete gRPC stub wiring — bounds checks, stop... ║
     • 11ddb98b9f  2026-04-09  Add comprehensive documentation and security measures for... ║
     • 825877267b  2026-04-07  feat(analytics): implement all 7 open TODOs in streaming_... ║
     • e2d928fc19  2026-04-07  fix(api): address code-review feedback – underscore UB fi... ║
-    • 02a975f292  2026-04-07  fix(api): AQL identifier injection, BatchWrite partial-fa... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

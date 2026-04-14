@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            perf_expectations_audit.py                         ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-04-13 20:54:46                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-04-14 07:24:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     961                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 4                             ║
+    • Quality Score:   90.0/100                                       ║
+    • Total Lines:     987                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 5                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • aac9b9ed5a  2026-04-14  feat(benchmarks): standardize LLM/RAG/LoRA artifact prefl... ║
     • 52681dd991  2026-04-13  fix(benchmarks): enforce Security/Governance benchmarks i... ║
     • 1071f1d20f  2026-04-13  feat(governance): Disabled-Stub-Policy für Benchmarks ein... ║
     • bd21a7cd4b  2026-04-13  [Governance] Introduce disabled benchmark policy with lin... ║
     • acbec398e5  2026-04-13  feat(ci): implement bench-source CI guard (Issue #4, Maßn... ║
-    • 0db099f642  2026-04-13  feat: add Performance Expectations Audit – automated CI v... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

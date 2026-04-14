@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            saml_auth_provider.h                               ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:26:34                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 06:56:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

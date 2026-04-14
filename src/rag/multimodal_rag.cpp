@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multimodal_rag.cpp                                 ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:35:00                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:04:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

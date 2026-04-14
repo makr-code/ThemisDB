@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_config_metrics_scrape.cpp                     ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:42:23                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 07:12:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

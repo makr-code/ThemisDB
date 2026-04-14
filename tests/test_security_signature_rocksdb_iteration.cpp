@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_security_signature_rocksdb_iteration.cpp      ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:51:16                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 07:20:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_path_resolver.h                             ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-13 20:21:14                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-14 06:51:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

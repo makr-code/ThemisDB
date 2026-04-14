@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            reconcile-issues-prs-docs.py                       ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:29:20                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 06:59:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

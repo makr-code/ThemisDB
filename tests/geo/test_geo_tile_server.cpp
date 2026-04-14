@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_geo_tile_server.cpp                           ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:39:00                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:08:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

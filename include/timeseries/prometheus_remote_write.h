@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            prometheus_remote_write.h                          ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:27:46                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 06:57:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

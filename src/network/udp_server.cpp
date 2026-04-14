@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            udp_server.cpp                                     ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:33:21                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 07:03:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

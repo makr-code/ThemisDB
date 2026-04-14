@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rbac_comprehensive.cpp                        ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:50:22                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:20:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

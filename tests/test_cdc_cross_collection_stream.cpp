@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_cross_collection_stream.cpp               ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:41:42                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:11:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

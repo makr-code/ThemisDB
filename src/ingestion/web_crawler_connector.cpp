@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            web_crawler_connector.cpp                          ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:32:31                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:02:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     665                                            ║
+    • Total Lines:     664                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • fa57b59d1c  2026-02-28  audit(ingestion): fix SSRF security gap, add missing docs... ║
     • 70c88bde28  2026-02-28  feat(ingestion): implement web crawler and sitemap ingest... ║

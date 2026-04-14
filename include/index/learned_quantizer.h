@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            learned_quantizer.h                                ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:22:39                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:52:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

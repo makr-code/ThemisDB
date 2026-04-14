@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_vector_index.cpp                               ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:32:15                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:02:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 95f4f2af0a  2026-03-13  fix(index): audit – searchBatch oversubscription path + l... ║
     • be007f370a  2026-03-13  refactor(index): address code review - extract prefetchSt... ║
     • dc534b8301  2026-03-13  feat(index): implement GPU memory oversubscription (v1.7.0) ║
     • 7692054928  2026-03-12  feat(index): implement CUDA and HIP GPU backends, ADC opt... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

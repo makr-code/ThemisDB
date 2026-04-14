@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cache_hit_rate_slo_monitor.cpp                     ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:30:21                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:00:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

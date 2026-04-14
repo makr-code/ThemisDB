@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            async_job_api_handler.cpp                          ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:35:47                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:05:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     532                                            ║
+    • Total Lines:     531                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • bc826baaf1  2026-03-17  fix(server): address review comments - namespace, deadloc... ║
     • ec399a5418  2026-03-16  Changes before error encountered        ║
     • 4b38231449  2026-03-16  Changes before error encountered        ║
-    • a56ed533eb  2026-03-11  fix(tracing): remove spans from helper/utility methods (o... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_replica_consistency.cpp                       ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-13 20:50:27                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-14 07:20:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

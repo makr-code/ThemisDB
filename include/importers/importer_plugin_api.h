@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            importer_plugin_api.h                              ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:22:18                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 06:52:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • fef91d1796  2026-03-15  fix(importers): audit fixes — remove duplicate legacy doc... ║
     • 2019b146f9  2026-03-15  feat(importers): Importer Plugin API v1.9.0 — stable C AB... ║
     • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c9a74cf8c0  2026-02-28  fix(importers): code audit — cleanup includes, fix docstr... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_dependency_graph.cpp                        ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:30:19                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:00:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

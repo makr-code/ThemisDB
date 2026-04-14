@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            Themis.SAGAVerifier_mvyhwfbc_wpftmp.AssemblyInfo.cs ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:54:23                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:24:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

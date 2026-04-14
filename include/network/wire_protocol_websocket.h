@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_websocket.h                          ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-13 20:23:50                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-14 06:53:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            inference_engine_enhanced.h                        ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:23:00                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:52:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

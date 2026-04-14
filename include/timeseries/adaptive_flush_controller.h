@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_flush_controller.h                        ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-13 20:27:41                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-14 06:57:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

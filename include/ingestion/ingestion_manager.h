@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ingestion_manager.h                                ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:22:48                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:52:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • a7cd4fa788  2026-03-11  feat(ingestion): LLM-driven semantic extraction pipeline ... ║
     • 0762b73749  2026-03-11  feat(ingestion): add ca_bundle_path to RetryConfig for co... ║
     • 1585d858e2  2026-03-10  feat(ingestion): implement end-to-end ingestion lineage t... ║
     • 5613cb3bfe  2026-03-09  fix(ingestion): remove last write stub; add DocumentWrite... ║
-    • 25f69a572f  2026-03-09  feat(ingestion): replace simulated HttpClient in HuggingF... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

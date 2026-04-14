@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            chain_visualizer.h                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-13 20:30:54                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-14 07:00:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

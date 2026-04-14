@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_vault_signing_provider_errors.cpp             ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:53:09                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:22:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

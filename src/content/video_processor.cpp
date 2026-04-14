@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            video_processor.cpp                                ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:30:48                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:00:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   68.0/100                                       ║
-    • Total Lines:     999                                            ║
+    • Total Lines:     997                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • a2d7c07202  2026-04-14  update after codefindings               ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 374b05b6ac  2026-02-28  Implement video frame extraction and scene detection (key... ║
     • 42d597244a  2026-02-26  fix(content): wire up extract_keyframes option and update... ║
-    • b410ac7d01  2026-02-26  feat(content): Extract video metadata and thumbnails - AP... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

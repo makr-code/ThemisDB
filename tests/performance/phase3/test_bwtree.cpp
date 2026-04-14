@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_bwtree.cpp                                    ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:39:37                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:09:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

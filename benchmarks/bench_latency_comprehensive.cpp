@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_latency_comprehensive.cpp                    ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:18:35                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 06:48:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

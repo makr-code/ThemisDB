@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            context_window_budget.h                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-13 20:22:58                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-14 06:52:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

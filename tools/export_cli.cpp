@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            export_cli.cpp                                     ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-13 20:54:40                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-14 07:24:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vulkan_backend.cpp                                 ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:31:42                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:01:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     274                                            ║
+    • Total Lines:     273                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 29be16c4ff  2026-02-27  fix(gpu): fix mutex deadlock and vendorName caching in Vu... ║
     • 082828cb4c  2026-02-27  feat(gpu): Vulkan compute backend for cross-vendor GPU su... ║

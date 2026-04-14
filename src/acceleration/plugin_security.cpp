@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_security.cpp                                ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:29:33                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:59:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • 6b9a39c6d8  2026-03-16  fix(acceleration): add CI workflow, fix overflow guard, c... ║
     • adb14cd81a  2026-03-16  feat(acceleration): implement PE certificate table extrac... ║
-    • b89c76ed90  2026-03-16  feat(test): add signature-invalid test cases for CRL/OCSP... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

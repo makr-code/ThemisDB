@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_multi_gpu_lora_advanced.cpp                  ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:18:41                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:48:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

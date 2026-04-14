@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_server.hpp                           ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:27:40                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:57:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

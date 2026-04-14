@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adapter_serving.cpp                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-13 20:37:20                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-14 07:07:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

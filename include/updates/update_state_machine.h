@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            update_state_machine.h                             ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-13 20:28:19                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-14 06:58:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            AboutWindow.g.cs                                   ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:54:05                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:23:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

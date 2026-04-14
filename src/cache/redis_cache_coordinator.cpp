@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            redis_cache_coordinator.cpp                        ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:30:26                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:00:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   91.0/100                                       ║
-    • Total Lines:     690                                            ║
+    • Total Lines:     688                                            ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
     • 5b1c0eb4ad  2026-03-14  fix(cache): address PR review comments on RedisCacheCoord... ║
     • 84e885494b  2026-03-14  feat(cache): implement RedisCacheCoordinator async pub/su... ║
     • 5c7846b533  2026-03-10  fix(cache): add missing #include <climits> to redis_cache... ║
-    • 022a28c27e  2026-03-10  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

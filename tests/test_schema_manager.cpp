@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_schema_manager.cpp                            ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:51:04                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:20:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

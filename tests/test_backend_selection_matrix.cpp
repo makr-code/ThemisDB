@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_backend_selection_matrix.cpp                  ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:41:08                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 07:10:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     824                                            ║
+    • Total Lines:     825                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

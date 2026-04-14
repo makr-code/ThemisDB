@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            web_crawler_connector.h                            ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-13 20:22:53                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-14 06:52:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            PiiEndpoint.cs                                     ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:54:00                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:23:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

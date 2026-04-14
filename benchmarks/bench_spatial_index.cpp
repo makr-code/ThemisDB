@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_spatial_index.cpp                            ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:18:55                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 06:48:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rocm_backend.cpp                                   ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-13 20:31:39                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-14 07:01:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
-    • Total Lines:     300                                            ║
+    • Total Lines:     299                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 140dad5bcc  2026-02-22  feat(gpu): implement ROCm/HIP backend parity with CUDA fe... ║
 ╠═════════════════════════════════════════════════════════════════════╣

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            sharding_metrics_handler.cpp                       ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:36:14                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:06:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

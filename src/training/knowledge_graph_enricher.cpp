@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            knowledge_graph_enricher.cpp                       ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-13 20:37:20                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-14 07:07:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   90.0/100                                       ║
-    • Total Lines:     655                                            ║
+    • Total Lines:     650                                            ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • f9bd877988  2026-03-15  feat: ProvenanceTracker live AQL connection, KGE fail-fas... ║
     • 26e49f8ba7  2026-03-11  fix: wire include_guidance in enrichSample; expose findRe... ║
     • b060c0cbce  2026-03-11  fix(training): guard findSimilarDocuments against max_res... ║
     • c5396a31a2  2026-03-11  feat(training): wire findSimilarDocuments to VectorIndexM... ║
-    • ce712594b0  2026-03-09  feat(training): Phase 3 enhancements - checkpoint manager... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
