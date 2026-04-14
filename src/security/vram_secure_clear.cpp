@@ -103,6 +103,9 @@ bool VRAMSecureClear::secureClearCUDA(void* ptr, size_t size_bytes, const Config
     
     return true;
 #else
+    (void)ptr;
+    (void)size_bytes;
+    (void)config;
     spdlog::warn("VRAM secure clear called but CUDA not enabled");
     return false;
 #endif
@@ -171,6 +174,9 @@ bool VRAMSecureClear::secureClearHIP(void* ptr, size_t size_bytes, const Config&
     
     return true;
 #else
+    (void)ptr;
+    (void)size_bytes;
+    (void)config;
     spdlog::warn("VRAM secure clear (HIP) called but HIP not enabled");
     return false;
 #endif
