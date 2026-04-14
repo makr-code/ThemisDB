@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Documentation
 
+- **Module-Docs Sync 📚 — 2026-04-14**
+  - 56 Module indexiert; 752 Primary-Markdown-Dateien in `src/` und `include/`
+  - 6 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
+  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
+  - Tool: `tools/module_docs_builder.py` v1.0.0
+  <!-- changelog-updater: module-docs-sync-2026-04-14 -->
+
 - **Root documentation overhaul — 2026-04-13**
   - `README.md` rewritten: project description, feature table, quick start, edition matrix, architecture overview, full link index
   - `QUICKSTART.md` added: Docker, Dev Container, and build-from-source quick start guide with first-query examples
