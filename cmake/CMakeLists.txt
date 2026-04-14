@@ -1977,6 +1977,7 @@ set(THEMIS_CORE_SOURCES
     ../src/updates/cluster_update_manager.cpp
     ../src/updates/preflight_health_check.cpp
     ../src/updates/tenant_update_scheduler.cpp
+    ../src/updates/hardware_telemetry.cpp
     
     # Geo utilities
     ../src/utils/geo/ewkb.cpp
