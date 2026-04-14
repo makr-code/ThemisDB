@@ -107,3 +107,51 @@ updates:
     
     # Optional: Email address for notifications
     # email_to: admin@example.com
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Anonymous Hardware Telemetry
+  # ──────────────────────────────────────────────────────────────────────────
+  # Sends a small, anonymous JSON snapshot of the host's hardware profile to
+  # the ThemisDB project so the maintainers can better understand deployment
+  # environments.  NO hostname, IP address, database content, or any
+  # personally identifiable information is ever collected.
+  #
+  # The only data sent is:
+  #   • A random, ephemeral instance UUID (regenerated on every restart)
+  #   • ThemisDB version string
+  #   • CPU model name  (can be disabled via include_cpu_model: false)
+  #   • Logical CPU core count  (include_cpu_cores: false to disable)
+  #   • Total RAM in MiB, rounded to nearest 1 024 MiB bucket  (include_ram_mb)
+  #   • OS family: "Linux" / "Windows" / "macOS"  (include_os)
+  #   • CPU architecture: "x86_64" / "aarch64" / …  (include_arch)
+  #
+  # This feature is DISABLED by default.  Set enabled: true to opt in.
+  telemetry:
+    # Master switch – must be explicitly set to true to enable.
+    enabled: false
+
+    # PHP receiver script hosted at https://api.themisdb.org/
+    # You can point this at your own collector by changing this URL.
+    endpoint_url: https://api.themisdb.org/telemetry.php
+
+    # How often to send a telemetry report (seconds).
+    # Minimum enforced at runtime: 86400 (24 h).  Values below 86400 are
+    # automatically clamped to 86400 by ThemisDB.
+    send_interval_seconds: 86400
+
+    # Fine-grained field switches – set any to false to strip that field.
+    include_cpu_model: true
+    include_cpu_cores: true
+    include_ram_mb:    true
+    include_os:        true
+    include_arch:      true
+
+    # Anonymous runtime performance metrics (query latency, QPS, cache hit
+    # rate, process RSS, uptime, active connections, DB size – all bucketed).
+    # Requires a performance provider to be wired in code; has no effect
+    # without one.  Disabled by default even when telemetry is enabled.
+    include_performance: false
+
+    # HTTP connection settings
+    http_timeout_seconds: 10
+    max_retries: 2

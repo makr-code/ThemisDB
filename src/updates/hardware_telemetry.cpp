@@ -61,6 +61,29 @@ namespace updates {
 using json = nlohmann::json;
 
 // ---------------------------------------------------------------------------
+// Bucketing helpers
+// ---------------------------------------------------------------------------
+
+namespace {
+
+/// Round `v` down to the nearest power of 2.  Returns 0 when v == 0.
+static uint32_t floorPow2(uint32_t v) noexcept {
+    if (v == 0) { return 0; }
+    uint32_t p = 1;
+    while (p * 2 <= v) { p *= 2; }
+    return p;
+}
+
+/// Round `v` down to a multiple of `bucket`.  Returns 0 when v == 0.
+template<typename T>
+static T floorBucket(T v, T bucket) noexcept {
+    if (v == 0 || bucket == 0) { return 0; }
+    return (v / bucket) * bucket;
+}
+
+} // anonymous namespace
+
+// ---------------------------------------------------------------------------
 // HardwareSnapshot::toJson
 // ---------------------------------------------------------------------------
 
@@ -74,6 +97,29 @@ std::string HardwareSnapshot::toJson() const {
     if (total_ram_mb > 0)    { j["total_ram_mb"] = total_ram_mb; }
     if (!os_family.empty())  { j["os_family"]    = os_family; }
     if (!cpu_arch.empty())   { j["cpu_arch"]     = cpu_arch; }
+
+    if (performance.has_value()) {
+        const auto& p = *performance;
+        json pj;
+        if (p.avg_query_latency_us > 0)
+            { pj["avg_query_latency_us"]      = p.avg_query_latency_us; }
+        if (p.p99_query_latency_us > 0)
+            { pj["p99_query_latency_us"]      = p.p99_query_latency_us; }
+        if (p.queries_per_second_bucket > 0)
+            { pj["queries_per_second_bucket"] = p.queries_per_second_bucket; }
+        if (p.cache_hit_rate_pct != 255)
+            { pj["cache_hit_rate_pct"]        = p.cache_hit_rate_pct; }
+        if (p.process_rss_mb_bucket > 0)
+            { pj["process_rss_mb_bucket"]     = p.process_rss_mb_bucket; }
+        if (p.uptime_seconds > 0)
+            { pj["uptime_seconds"]            = p.uptime_seconds; }
+        if (p.active_connections_bucket > 0)
+            { pj["active_connections_bucket"] = p.active_connections_bucket; }
+        if (p.db_size_mb_bucket > 0)
+            { pj["db_size_mb_bucket"]         = p.db_size_mb_bucket; }
+        if (!pj.empty()) { j["performance"] = std::move(pj); }
+    }
+
     return j.dump();
 }
 
@@ -368,10 +414,23 @@ HardwareTelemetryReporter::HardwareTelemetryReporter(
                                : std::make_shared<SystemHardwareInfoProvider>())
     , http_sender_(http_sender ? std::move(http_sender) : defaultHttpSend)
     , instance_id_(generateUuid()) {
+    // Enforce minimum send interval of 24 h regardless of what was configured.
+    constexpr int kMinIntervalSeconds = 86400;
+    if (config_.send_interval_seconds < kMinIntervalSeconds) {
+        LOG_WARN("Telemetry: send_interval_seconds {} is below the 24 h minimum; "
+                 "clamped to {}",
+                 config_.send_interval_seconds, kMinIntervalSeconds);
+        config_.send_interval_seconds = kMinIntervalSeconds;
+    }
 }
 
 HardwareTelemetryReporter::~HardwareTelemetryReporter() {
     stopBackgroundReporting();
+}
+
+void HardwareTelemetryReporter::setPerformanceProvider(
+        std::shared_ptr<IPerformanceMetricsProvider> provider) {
+    perf_provider_ = std::move(provider);
 }
 
 HardwareSnapshot HardwareTelemetryReporter::collect() const {
@@ -383,11 +442,34 @@ HardwareSnapshot HardwareTelemetryReporter::collect() const {
             std::chrono::duration_cast<std::chrono::seconds>(
                 std::chrono::system_clock::now().time_since_epoch()).count());
 
-    if (config_.include_cpu_model) { snap.cpu_model   = hw_provider_->cpuModel(); }
-    if (config_.include_cpu_cores) { snap.cpu_cores   = hw_provider_->cpuCores(); }
+    if (config_.include_cpu_model) { snap.cpu_model    = hw_provider_->cpuModel(); }
+    if (config_.include_cpu_cores) { snap.cpu_cores    = hw_provider_->cpuCores(); }
     if (config_.include_ram_mb)    { snap.total_ram_mb = hw_provider_->totalRamMb(); }
-    if (config_.include_os)        { snap.os_family   = hw_provider_->osFamily(); }
-    if (config_.include_arch)      { snap.cpu_arch    = hw_provider_->cpuArch(); }
+    if (config_.include_os)        { snap.os_family    = hw_provider_->osFamily(); }
+    if (config_.include_arch)      { snap.cpu_arch     = hw_provider_->cpuArch(); }
+
+    if (config_.include_performance && perf_provider_) {
+        PerformanceSnapshot raw = perf_provider_->collect();
+
+        // Apply bucketing to protect against workload fingerprinting.
+        PerformanceSnapshot bucketed;
+        bucketed.avg_query_latency_us      = raw.avg_query_latency_us;
+        bucketed.p99_query_latency_us      = raw.p99_query_latency_us;
+        bucketed.queries_per_second_bucket =
+            floorPow2(raw.queries_per_second_bucket);
+        bucketed.cache_hit_rate_pct        = raw.cache_hit_rate_pct;
+        bucketed.process_rss_mb_bucket     =
+            static_cast<uint32_t>(floorBucket<uint32_t>(
+                raw.process_rss_mb_bucket, 64u));
+        bucketed.uptime_seconds            = raw.uptime_seconds;
+        bucketed.active_connections_bucket =
+            floorPow2(raw.active_connections_bucket);
+        bucketed.db_size_mb_bucket         =
+            static_cast<uint32_t>(floorBucket<uint32_t>(
+                raw.db_size_mb_bucket, 512u));
+
+        snap.performance = bucketed;
+    }
 
     return snap;
 }

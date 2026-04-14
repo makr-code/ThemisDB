@@ -138,10 +138,10 @@ struct UpdatesConfig {
 
         // HTTP(S) endpoint that receives the JSON telemetry payload.
         // Override this in updates.yaml to point at your own collector.
-        std::string endpoint_url = "https://telemetry.themisdb.io/v1/hardware";
+        std::string endpoint_url = "https://api.themisdb.org/telemetry.php";
 
-        // How often to send a report (seconds).
-        int send_interval_seconds = 3600;
+        // How often to send a report (seconds).  Minimum enforced: 86400 (24 h).
+        int send_interval_seconds = 86400;
 
         // Fine-grained field switches – all default to true when telemetry
         // is enabled, so operators can strip individual fields if desired.
