@@ -943,7 +943,7 @@ size_t AdaptiveQueryCache::invalidate(const std::string& pattern) {
     
     // Phase 1: Invalidate L3 with proper iterator-based pattern matching
     if (l3_db_) {
-        std::lock_guard<std::mutex> lock(l3_mutex_);
+        std::unique_lock<std::mutex> lock(l3_mutex_);
         
         // Phase 1: Check circuit breaker before L3 operation
         if (l3_circuit_breaker_ && !l3_circuit_breaker_->allowRequest()) {
@@ -951,7 +951,7 @@ size_t AdaptiveQueryCache::invalidate(const std::string& pattern) {
             enhanced_metrics_.l3_circuit_breaker_open = true;
         } else {
             try {
-                // Use RocksDB iterator to scan all cache entries
+                // Scan to collect keys under the lock (protects l3_db_ pointer).
                 std::vector<std::string> keys_to_delete;
                 l3_db_->scanPrefix(QUERY_CACHE_PREFIX, [&](std::string_view key, std::string_view) {
                     // Extract fingerprint from key (remove prefix)
@@ -961,13 +961,17 @@ size_t AdaptiveQueryCache::invalidate(const std::string& pattern) {
                     }
                     return true;  // Continue iteration
                 });
-                
-                // Delete matched keys
+
+                // Release lock before issuing bulk deletes so readers are not
+                // blocked during the I/O-intensive delete phase.
+                lock.unlock();
+
                 for (const auto& key : keys_to_delete) {
                     l3_db_->del(key);
                     count++;
                 }
                 
+                lock.lock();
                 if (l3_circuit_breaker_) {
                     l3_circuit_breaker_->recordSuccess();
                     enhanced_metrics_.l3_circuit_breaker_open = false;
@@ -975,6 +979,7 @@ size_t AdaptiveQueryCache::invalidate(const std::string& pattern) {
                 
                 THEMIS_DEBUG("Invalidated {} L3 cache entries", keys_to_delete.size());
             } catch (const std::exception& e) {
+                if (!lock.owns_lock()) lock.lock();
                 THEMIS_WARN("Failed to invalidate L3 cache entries: {}", e.what());
                 enhanced_metrics_.l3_read_errors++;
                 if (l3_circuit_breaker_) {
@@ -1043,24 +1048,26 @@ void AdaptiveQueryCache::clear() {
     }
     
     if (l3_db_) {
-        std::lock_guard<std::mutex> lock(l3_mutex_);
-        // Clear L3 by deleting all keys with prefix
-        // Note: Simplified implementation
+        // Scan under lock to collect keys, then delete outside lock.
+        std::vector<std::string> keys;
+        std::vector<std::string> pii_ref_keys;
         try {
-            std::vector<std::string> keys;
-            l3_db_->scanPrefix(QUERY_CACHE_PREFIX, [&keys](std::string_view key, std::string_view) {
-                keys.emplace_back(key);
-                return true;
-            });
+            {
+                std::lock_guard<std::mutex> lock(l3_mutex_);
+                l3_db_->scanPrefix(QUERY_CACHE_PREFIX, [&keys](std::string_view key, std::string_view) {
+                    keys.emplace_back(key);
+                    return true;
+                });
+                // GDPR: Also collect L3 PII reference index entries
+                l3_db_->scanPrefix("pii_ref:", [&pii_ref_keys](std::string_view key, std::string_view) {
+                    pii_ref_keys.emplace_back(key);
+                    return true;
+                });
+            }
+            // Deletes happen outside l3_mutex_ to avoid blocking readers.
             for (const auto& key : keys) {
                 l3_db_->del(key);
             }
-            // GDPR: Also clear L3 PII reference index entries
-            std::vector<std::string> pii_ref_keys;
-            l3_db_->scanPrefix("pii_ref:", [&pii_ref_keys](std::string_view key, std::string_view) {
-                pii_ref_keys.emplace_back(key);
-                return true;
-            });
             for (const auto& key : pii_ref_keys) {
                 l3_db_->del(key);
             }
@@ -1860,34 +1867,42 @@ size_t AdaptiveQueryCache::invalidateTenant(const std::string& tenant_id) {
     
     // Invalidate L3
     if (l3_db_ && config_.enable_tenant_isolation) {
-        std::lock_guard<std::mutex> lock(l3_mutex_);
-        
-        if (l3_circuit_breaker_ && !l3_circuit_breaker_->allowRequest()) {
-            THEMIS_WARN("L3 circuit breaker open, skipping L3 tenant invalidation");
-        } else {
+        std::vector<std::string> keys_to_delete;
+        bool cb_allowed = false;
+        {
+            std::unique_lock<std::mutex> lock(l3_mutex_);
+            cb_allowed = !l3_circuit_breaker_ || l3_circuit_breaker_->allowRequest();
+            if (!cb_allowed) {
+                THEMIS_WARN("L3 circuit breaker open, skipping L3 tenant invalidation");
+            } else {
+                try {
+                    // Collect keys under lock; deletes happen outside.
+                    l3_db_->scanPrefix(QUERY_CACHE_PREFIX, [&](std::string_view key, std::string_view) {
+                        std::string key_str(key);
+                        if (key_str.find(tenant_prefix) != std::string::npos) {
+                            keys_to_delete.emplace_back(key_str);
+                        }
+                        return true;
+                    });
+                } catch (const std::exception& e) {
+                    THEMIS_WARN("Failed to scan tenant keys in L3: {}", e.what());
+                    if (l3_circuit_breaker_) l3_circuit_breaker_->recordFailure();
+                    cb_allowed = false;
+                }
+            }
+        }
+        if (cb_allowed && !keys_to_delete.empty()) {
             try {
-                std::vector<std::string> keys_to_delete;
-                l3_db_->scanPrefix(QUERY_CACHE_PREFIX, [&](std::string_view key, std::string_view) {
-                    std::string key_str(key);
-                    if (key_str.find(tenant_prefix) != std::string::npos) {
-                        keys_to_delete.emplace_back(key_str);
-                    }
-                    return true;
-                });
-                
                 for (const auto& key : keys_to_delete) {
                     l3_db_->del(key);
                     count++;
                 }
-                
-                if (l3_circuit_breaker_) {
-                    l3_circuit_breaker_->recordSuccess();
-                }
+                std::lock_guard<std::mutex> lock(l3_mutex_);
+                if (l3_circuit_breaker_) l3_circuit_breaker_->recordSuccess();
             } catch (const std::exception& e) {
                 THEMIS_WARN("Failed to invalidate tenant in L3: {}", e.what());
-                if (l3_circuit_breaker_) {
-                    l3_circuit_breaker_->recordFailure();
-                }
+                std::lock_guard<std::mutex> lock(l3_mutex_);
+                if (l3_circuit_breaker_) l3_circuit_breaker_->recordFailure();
             }
         }
     }
@@ -1999,28 +2014,46 @@ size_t AdaptiveQueryCache::invalidatePII(const std::string& pii_uuid) {
 
     // --- L3: scan pii_ref:{pii_uuid}: prefix in RocksDB ---
     if (l3_db_) {
-        std::lock_guard<std::mutex> lock(l3_mutex_);
+        std::vector<std::string> pii_ref_keys;
+        std::vector<std::string> cache_keys;
+        bool cb_allowed = false;
 
-        if (l3_circuit_breaker_ && !l3_circuit_breaker_->allowRequest()) {
-            THEMIS_WARN("L3 circuit breaker open, skipping L3 PII invalidation for uuid={}", pii_uuid);
-            enhanced_metrics_.l3_circuit_breaker_open = true;
-        } else {
-            try {
-                const std::string pii_ref_prefix = "pii_ref:" + pii_uuid + ":";
-                std::vector<std::string> pii_ref_keys;
-                std::vector<std::string> cache_keys;
-
-                l3_db_->scanPrefix(pii_ref_prefix, [&](std::string_view key, std::string_view) {
-                    pii_ref_keys.emplace_back(key);
-                    // Extract fingerprint: pii_ref:{uuid}:{fingerprint}
-                    std::string k(key);
-                    if (k.size() > pii_ref_prefix.size()) {
-                        cache_keys.emplace_back(
-                            QUERY_CACHE_PREFIX + k.substr(pii_ref_prefix.size()));
+        {
+            std::unique_lock<std::mutex> lock(l3_mutex_);
+            if (l3_circuit_breaker_ && !l3_circuit_breaker_->allowRequest()) {
+                THEMIS_WARN("L3 circuit breaker open, skipping L3 PII invalidation for uuid={}", pii_uuid);
+                enhanced_metrics_.l3_circuit_breaker_open = true;
+            } else {
+                cb_allowed = true;
+                try {
+                    const std::string pii_ref_prefix = "pii_ref:" + pii_uuid + ":";
+                    // Scan under lock to snapshot keys; deletes happen outside.
+                    l3_db_->scanPrefix(pii_ref_prefix, [&](std::string_view key, std::string_view) {
+                        pii_ref_keys.emplace_back(key);
+                        std::string k(key);
+                        if (k.size() > pii_ref_prefix.size()) {
+                            cache_keys.emplace_back(
+                                QUERY_CACHE_PREFIX + k.substr(pii_ref_prefix.size()));
+                        }
+                        return true;
+                    });
+                } catch (const std::exception& e) {
+                    THEMIS_WARN("Failed L3 PII scan for uuid={}: {}", pii_uuid, e.what());
+                    enhanced_metrics_.l3_read_errors++;
+                    if (l3_circuit_breaker_) {
+                        l3_circuit_breaker_->recordFailure();
+                        if (l3_circuit_breaker_->isOpen()) {
+                            enhanced_metrics_.l3_circuit_breaker_trips++;
+                            enhanced_metrics_.l3_circuit_breaker_open = true;
+                        }
                     }
-                    return true;
-                });
+                    cb_allowed = false;
+                }
+            }
+        }
 
+        if (cb_allowed) {
+            try {
                 for (const auto& ck : cache_keys) {
                     if (l3_db_->del(ck)) {
                         count++;
@@ -2029,13 +2062,14 @@ size_t AdaptiveQueryCache::invalidatePII(const std::string& pii_uuid) {
                 for (const auto& rk : pii_ref_keys) {
                     l3_db_->del(rk);
                 }
-
+                std::lock_guard<std::mutex> lock(l3_mutex_);
                 if (l3_circuit_breaker_) {
                     l3_circuit_breaker_->recordSuccess();
                     enhanced_metrics_.l3_circuit_breaker_open = false;
                 }
             } catch (const std::exception& e) {
                 THEMIS_WARN("Failed L3 PII invalidation for uuid={}: {}", pii_uuid, e.what());
+                std::lock_guard<std::mutex> lock(l3_mutex_);
                 enhanced_metrics_.l3_read_errors++;
                 if (l3_circuit_breaker_) {
                     l3_circuit_breaker_->recordFailure();

@@ -132,38 +132,58 @@ struct VaultKeyProvider::Impl {
         curl_global_cleanup();
     }
     
-    std::string performRequest(const std::string& url, const std::string& method, 
+    std::string performRequest(const std::string& url, const std::string& method,
                                 const std::string& body = "") {
         // If a test hook is set, call it (bypass curl). Useful for unit tests.
         if (test_request_override) {
             return test_request_override(url, method, body);
         }
-        std::lock_guard<std::mutex> lock(mutex);
-        
-        std::string response;
-        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-        
-        // Set custom request method
-        if (method == "GET") {
-            curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
-        } else if (method == "POST") {
-            curl_easy_setopt(curl, CURLOPT_POST, 1L);
-            curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body.c_str());
-        } else if (method == "LIST") {
-            curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "LIST");
+
+        // Duplicate the shared handle under the lock to get a private copy whose
+        // common options (TLS, timeout …) are already configured.  This lets us
+        // release the mutex before performing the blocking network call so that
+        // other threads can proceed with cache lookups or rotate their own handles
+        // concurrently.
+        CURL* local_curl = nullptr;
+        {
+            std::lock_guard<std::mutex> lock(mutex);
+            local_curl = curl_easy_duphandle(curl);
         }
-        
-        // Set headers
+        if (!local_curl) {
+            throw KeyOperationException("curl_easy_duphandle failed", -1, std::string(), true);
+        }
+
+        // Per-request setup on the private handle (no lock needed – local_curl is
+        // not shared).
+        std::string response;
+        curl_easy_setopt(local_curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(local_curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+        curl_easy_setopt(local_curl, CURLOPT_WRITEDATA, &response);
+
+        if (method == "GET") {
+            curl_easy_setopt(local_curl, CURLOPT_HTTPGET, 1L);
+        } else if (method == "POST") {
+            curl_easy_setopt(local_curl, CURLOPT_POST, 1L);
+            curl_easy_setopt(local_curl, CURLOPT_POSTFIELDS, body.c_str());
+        } else if (method == "LIST") {
+            curl_easy_setopt(local_curl, CURLOPT_CUSTOMREQUEST, "LIST");
+        }
+
         struct curl_slist* headers = nullptr;
         headers = curl_slist_append(headers, ("X-Vault-Token: " + config.vault_token).c_str());
         headers = curl_slist_append(headers, "Content-Type: application/json");
-        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-        
-        // Perform request
-        CURLcode res = curl_easy_perform(curl);
+        curl_easy_setopt(local_curl, CURLOPT_HTTPHEADER, headers);
+
+        // Perform request – mutex NOT held, allowing concurrent cache reads.
+        CURLcode res = curl_easy_perform(local_curl);
         curl_slist_free_all(headers);
-        
+
+        long http_code = 0;
+        if (res == CURLE_OK) {
+            curl_easy_getinfo(local_curl, CURLINFO_RESPONSE_CODE, &http_code);
+        }
+        curl_easy_cleanup(local_curl);
+
         if (res != CURLE_OK) {
             bool transient = false;
             switch (res) {
@@ -176,13 +196,9 @@ struct VaultKeyProvider::Impl {
             }
             throw KeyOperationException(std::string("CURL error: ") + curl_easy_strerror(res), -1, std::string(), transient);
         }
-        
-        // Check HTTP status
-        long http_code = 0;
-        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
-        
+
         if (http_code == 404) {
-            throw KeyNotFoundException("key", 0);  // Will be refined by caller
+            throw KeyNotFoundException("key", 0);
         } else if (http_code == 403) {
             throw KeyOperationException("Vault authentication failed (403 Forbidden)", (int)http_code, response, false);
         } else if (http_code >= 500) {
@@ -190,7 +206,7 @@ struct VaultKeyProvider::Impl {
         } else if (http_code >= 400) {
             throw KeyOperationException("Vault request failed (HTTP " + std::to_string(http_code) + "): " + response, (int)http_code, response, false);
         }
-        
+
         return response;
     }
     
@@ -604,29 +620,41 @@ void VaultKeyProvider::deleteKey(const std::string& key_id, uint32_t version) {
     
     // Perform deletion via Vault API
     std::string path = "/v1/" + impl_->config.kv_mount_path + "/metadata/keys/" + key_id;
-    
-    // Vault uses DELETE HTTP method
-    std::lock_guard<std::mutex> lock(impl_->mutex);
-    
+
+    // Duplicate the shared handle under the lock, then release before the
+    // blocking network call (same pattern as performRequest).
     std::string url = impl_->config.vault_addr + path;
-    curl_easy_setopt(impl_->curl, CURLOPT_URL, url.c_str());
-    curl_easy_setopt(impl_->curl, CURLOPT_CUSTOMREQUEST, "DELETE");
-    
+    std::string vault_token;
+    CURL* local_curl = nullptr;
+    {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        local_curl   = curl_easy_duphandle(impl_->curl);
+        vault_token  = impl_->config.vault_token;
+    }
+    if (!local_curl) {
+        throw KeyOperationException("curl_easy_duphandle failed during deleteKey");
+    }
+
     std::string response;
-    curl_easy_setopt(impl_->curl, CURLOPT_WRITEDATA, &response);
-    
+    curl_easy_setopt(local_curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(local_curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+    curl_easy_setopt(local_curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+    curl_easy_setopt(local_curl, CURLOPT_WRITEDATA, &response);
+
     struct curl_slist* headers = nullptr;
-    headers = curl_slist_append(headers, ("X-Vault-Token: " + impl_->config.vault_token).c_str());
-    curl_easy_setopt(impl_->curl, CURLOPT_HTTPHEADER, headers);
-    
-    CURLcode res = curl_easy_perform(impl_->curl);
+    headers = curl_slist_append(headers, ("X-Vault-Token: " + vault_token).c_str());
+    curl_easy_setopt(local_curl, CURLOPT_HTTPHEADER, headers);
+
+    CURLcode res = curl_easy_perform(local_curl);
     curl_slist_free_all(headers);
-    
+    curl_easy_cleanup(local_curl);
+
     if (res != CURLE_OK) {
         throw KeyOperationException(std::string("Failed to delete key: ") + curl_easy_strerror(res));
     }
     
-    // Clear from cache
+    // Clear from cache (re-acquire mutex for cache modification)
+    std::lock_guard<std::mutex> cache_lock(impl_->mutex);
     for (auto it = impl_->cache.begin(); it != impl_->cache.end();) {
         if (it->first.find(key_id + ":") == 0) {
             it = impl_->cache.erase(it);
@@ -681,39 +709,53 @@ uint32_t VaultKeyProvider::createKeyFromBytes(
     }
     
     std::string payload_str = payload.dump();
-    
-    std::lock_guard<std::mutex> lock(impl_->mutex);
-    
+
+    // Duplicate the shared handle under the lock, then release before the
+    // blocking network call (same pattern as performRequest).
     std::string url = impl_->config.vault_addr + path;
-    curl_easy_setopt(impl_->curl, CURLOPT_URL, url.c_str());
-    curl_easy_setopt(impl_->curl, CURLOPT_CUSTOMREQUEST, "POST");
-    curl_easy_setopt(impl_->curl, CURLOPT_POSTFIELDS, payload_str.c_str());
-    
+    std::string vault_token;
+    std::string kv_version;
+    CURL* local_curl = nullptr;
+    {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        local_curl  = curl_easy_duphandle(impl_->curl);
+        vault_token = impl_->config.vault_token;
+        kv_version  = impl_->config.kv_version;
+    }
+    if (!local_curl) {
+        throw KeyOperationException("curl_easy_duphandle failed during createKey");
+    }
+
     std::string response;
-    curl_easy_setopt(impl_->curl, CURLOPT_WRITEDATA, &response);
-    
+    curl_easy_setopt(local_curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(local_curl, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_easy_setopt(local_curl, CURLOPT_POSTFIELDS, payload_str.c_str());
+    curl_easy_setopt(local_curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+    curl_easy_setopt(local_curl, CURLOPT_WRITEDATA, &response);
+
     struct curl_slist* headers = nullptr;
     headers = curl_slist_append(headers, "Content-Type: application/json");
-    headers = curl_slist_append(headers, ("X-Vault-Token: " + impl_->config.vault_token).c_str());
-    curl_easy_setopt(impl_->curl, CURLOPT_HTTPHEADER, headers);
-    
-    CURLcode res = curl_easy_perform(impl_->curl);
+    headers = curl_slist_append(headers, ("X-Vault-Token: " + vault_token).c_str());
+    curl_easy_setopt(local_curl, CURLOPT_HTTPHEADER, headers);
+
+    CURLcode res = curl_easy_perform(local_curl);
     curl_slist_free_all(headers);
-    
+    curl_easy_cleanup(local_curl);
+
     if (res != CURLE_OK) {
         throw KeyOperationException(std::string("Failed to create key: ") + curl_easy_strerror(res));
     }
-    
+
     // Parse response to get version
     try {
         nlohmann::json resp_json = nlohmann::json::parse(response);
-        if (impl_->config.kv_version == "v2" && resp_json.contains("data") && resp_json["data"].contains("version")) {
+        if (kv_version == "v2" && resp_json.contains("data") && resp_json["data"].contains("version")) {
             return resp_json["data"]["version"].get<uint32_t>();
         }
     } catch (...) {
         // If parsing fails, return version 1 as default
     }
-    
+
     return 1;
 }
 
