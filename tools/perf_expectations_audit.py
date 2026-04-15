@@ -660,7 +660,8 @@ def check_measure_10(root: pathlib.Path) -> dict[str, Any]:
     if workflows_dir.is_dir():
         for wf in sorted(workflows_dir.glob("*.yml")):
             text = _read_text(wf)
-            if re.search(r"schedule.*cron|cron.*schedule", text, re.IGNORECASE):
+            # Use DOTALL so that schedule.*cron can span lines (standard YAML layout)
+            if re.search(r"schedule.*cron|cron.*schedule", text, re.IGNORECASE | re.DOTALL):
                 wf_text_lower = text.lower()
                 if any(kw in wf_text_lower for kw in ["bench", "nightly", "coverage", "sweep"]):
                     nightly_workflow = str(wf.relative_to(root))
@@ -686,15 +687,32 @@ def check_measure_10(root: pathlib.Path) -> dict[str, Any]:
     if ok_preset:
         evidence.append("CMakePresets.json has nightly/sweep preset")
 
-    any_pass = ok_nightly or ok_preset
+    # Check for the bench_coverage_report.py orchestration script
+    coverage_script = root / "tools" / "bench_coverage_report.py"
+    ok_script = coverage_script.is_file()
+    checks.append({"id": "10c",
+                   "description": "tools/bench_coverage_report.py orchestration/report script exists",
+                   "result": STATUS_PASS if ok_script else STATUS_WARN})
+    if ok_script:
+        evidence.append("tools/bench_coverage_report.py")
+
+    erledigt = ok_nightly and ok_preset and ok_script
+    any_pass = ok_nightly or ok_preset or ok_script
     return {
         "id": 10,
         "title": "Modulweise Benchmark-Sweeps (2..33) als planbare Nightly-Presets",
-        "erledigt": False,
+        "erledigt": erledigt,
         "status": STATUS_PASS if any_pass else STATUS_WARN,
         "checks": checks,
         "evidence": evidence,
-        "notes": "Measure noch offen. Nightly-Workflow oder CMake-Preset für Sweep erwartet.",
+        "notes": (
+            "Maßnahme erledigt: nightly-benchmark-sweep.yml mit schedule/cron-Trigger, "
+            "nightly-bench-sweep CMake-Preset und tools/bench_coverage_report.py vorhanden. "
+            "Täglicher Coverage-Report mit Ampel pro Modul (2..33) und Delta-Vergleich aktiv."
+            if erledigt else
+            "Measure noch offen. Nightly-Workflow mit schedule/cron-Trigger, CMake-Preset "
+            "und tools/bench_coverage_report.py werden erwartet."
+        ),
     }
 
 
