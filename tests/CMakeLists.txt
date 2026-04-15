@@ -20843,6 +20843,39 @@ else()
     message(STATUS "XDOMEA Connector focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_xdomea_connector.cpp")
 endif()
 
+# Document Store focused tests (IDocumentStore, IDocumentManager, lifecycle, schema evolution, diff/merge)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_document_store.cpp")
+    message(STATUS "Adding Document Store focused tests (v1.3.0)")
+
+    add_executable(test_document_store_focused
+        test_document_store.cpp
+    )
+
+    target_include_directories(test_document_store_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_document_store_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_document_store_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DocumentStoreFocusedTests COMMAND test_document_store_focused)
+
+    set_tests_properties(DocumentStoreFocusedTests PROPERTIES
+        LABELS "document;store;manager;lifecycle;schema;diff;merge;v1.3.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  DocumentStore: IDocumentStore, IDocumentManager, IDocumentLifecycleHook, IDocumentSchemaEvolution, IDocumentDiffMerge, IEncryptedDocumentEntity")
+else()
+    message(STATUS "Document Store focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_document_store.cpp")
+endif()
+
 # eID Authenticator focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_eid_authenticator.cpp")
     message(STATUS "Adding eID Authenticator focused tests (v1.9.0)")
