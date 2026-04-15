@@ -39,6 +39,7 @@ message(STATUS "GTest found - building unified test binary")
 include_directories(
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}/benchmarks
     ${GTest_INCLUDE_DIRS}
 )
 
