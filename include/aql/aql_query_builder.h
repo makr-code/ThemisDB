@@ -193,6 +193,35 @@ public:
     AQLQueryBuilder& replaceIn(const std::string& collection, const std::string& doc_expr);
 
     // =========================================================================
+    // Ingestion enrichment flag (opt-in)
+    // =========================================================================
+
+    /**
+     * @brief Enable or disable automatic ingestion enrichment for DML clauses.
+     *
+     * When enrichment is enabled **and** an `AQLIngestionBridge` has been made
+     * available to the query executor, every `INSERT`/`UPSERT`/`REPLACE`
+     * document payload is passed through the `WorkflowEngine` before being
+     * written to the database.  Extracted entities are appended to the document
+     * under the key `"_entities"` and are simultaneously written to the graph
+     * store (if a sink was configured on the bridge).
+     *
+     * This flag is purely advisory — the executor is responsible for honouring
+     * it.  It does not affect query generation (i.e. `build()` output is
+     * unchanged), and it is off by default to preserve existing behaviour.
+     *
+     * @param enabled  `true` to activate enrichment (default), `false` to
+     *                 deactivate.
+     * @return Reference to `*this` for fluent chaining.
+     */
+    AQLQueryBuilder& withIngestionEnrichment(bool enabled = true);
+
+    /**
+     * @brief Return `true` when ingestion enrichment has been requested.
+     */
+    bool hasIngestionEnrichment() const;
+
+    // =========================================================================
     // WINDOW analytics clause
     // =========================================================================
 

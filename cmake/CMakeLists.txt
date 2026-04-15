@@ -1857,6 +1857,9 @@ set(THEMIS_CORE_SOURCES
     ../src/ingestion/steps/ner_step.cpp
     ../src/ingestion/steps/llm_extract_step.cpp
 
+    # Toolbox module — system-wide access point for ingestion infrastructure
+    ../src/toolbox/ingestion_toolbox.cpp
+
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
     ../src/cdc/changefeed_buffer.cpp
@@ -2605,6 +2608,7 @@ if(THEMIS_ENABLE_LLM)
     ../src/aql/aql_query_diff_explainer.cpp
     ../src/aql/aql_model_router.cpp
     ../src/aql/aql_rollback_suggester.cpp
+    ../src/aql/aql_ingestion_bridge.cpp
 
         # Optional: gRPC service and generated proto headers (guarded by gRPC)
         # Only add when gRPC is available, otherwise skip to prevent missing headers
