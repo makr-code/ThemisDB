@@ -1397,11 +1397,13 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 
 #### 26. Observability-Modul
 
-| Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
-|---------|----------------|-----------------|--------|
-| OBS-1 Metrics Collection Overhead | < 1 % CPU @ 1k req/s |  |  |
-| OBS-2 Adaptive Span Sampling |  1 % bei > 10k Spans/s |  |  |
-| OBS-3 Metrics Scrape (16 Scraper) |  3× vs. Exclusive Mutex |  |  |
+<!-- Primary benchmark file: benchmarks/bench_observability_goals.cpp -->
+
+| Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status | Primärer Benchmarkfall |
+|---------|----------------|-----------------|--------|------------------------|
+| OBS-1 Metrics Collection Overhead | < 1 % CPU @ 1k req/s |  |  | `OBS1_SimulatedRequestWorkload` / `bench_observability_goals` |
+| OBS-2 Adaptive Span Sampling | ≤ 1 % CPU bei > 10k Spans/s |  |  | `OBS2_SpanThroughputStress`, `OBS2TracerFixture/SpanLifecycle` / `bench_observability_goals` |
+| OBS-3 Metrics Scrape (16 Scraper) | ≥ 3× vs. Exclusive Mutex |  |  | `OBS3_SharedMutexScrape` vs. `OBS3_ExclusiveMutexScrape` / `bench_observability_goals` |
 
 ---
 
