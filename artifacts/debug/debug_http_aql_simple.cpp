@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            debug_http_aql_simple.cpp                          ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:34:36                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:07:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

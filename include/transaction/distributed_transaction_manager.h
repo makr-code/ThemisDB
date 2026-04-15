@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            distributed_transaction_manager.h                  ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 18:44:34                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-15 04:14:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

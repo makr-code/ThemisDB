@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            themisdb_grpc_service_factory.h                    ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 18:36:43                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-15 04:09:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

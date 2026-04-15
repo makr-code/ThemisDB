@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            export_api_handler.cpp                             ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:51:45                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:19:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • ef1605ac5f  2026-03-11  fix(server): ExportApiHandler - 403 Forbidden for ERR_EXP... ║
     • 1b86d845d2  2026-03-11  feat(tracing): add OpenTelemetry spans to all major API h... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

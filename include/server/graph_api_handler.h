@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_api_handler.h                                ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:42:53                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:13:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     389                                            ║
+    • Total Lines:     388                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 11950d9f7a  2026-03-10  feat(graph): add EXPLAIN HTTP endpoint and focused test t... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • bc547c4337  2026-02-28  feat(graph): expose cost model calibration via HTTP API ║
-    • efa84641f0  2026-02-27  fix(graph): update stale file-header metadata after incre... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

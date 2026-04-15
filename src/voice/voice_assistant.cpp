@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_assistant.cpp                                ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:53:53                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:21:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     685                                            ║
+    • Total Lines:     684                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • b3d8aa4a55  2026-03-15  refactor: streamline performance statistics retrieval and... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • fc33113125  2026-03-01  feat(voice): implement language detection and auto-locale... ║
-    • 49fd402198  2026-03-01  feat(voice): expose speaker verification REST API endpoints ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ethics_evaluator.cpp                               ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 18:47:12                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 04:16:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 32f246a038  2026-04-08  feat(ethics_ai): enhance plugin configuration and overrid... ║
     • 9ab72c5089  2026-03-12  refactor: flatten plugin hierarchy to src/<name>/ and inc... ║
     • acdb250dbf  2026-03-12  feat: migrate plugins to src/include with CMake switches ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

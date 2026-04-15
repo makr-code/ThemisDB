@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_bi_temporal.cpp                               ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:55:36                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:22:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

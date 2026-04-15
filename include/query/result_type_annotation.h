@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            result_type_annotation.h                           ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:41:40                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:12:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

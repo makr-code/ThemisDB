@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_api_routing.cpp                               ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:56:08                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:22:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     282                                            ║
+    • Total Lines:     281                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 669dd39589  2026-02-24  feat: add versioned endpoint routing (/v1/, /v2/) with de... ║
     • e770ca65ca  2026-02-24  fix: extractVersionFromPath returns raw version string fo... ║
-    • b609fd7b91  2026-02-24  fix: correct HealthPathsAreNotVersioned test logic ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

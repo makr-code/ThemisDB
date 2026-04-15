@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ai_orchestrator.h                                  ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:39:25                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:10:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 39e499706c  2026-02-23  fix: code-audit – namespace corruption, wildcard false-po... ║
     • e2cf1a07ca  2026-02-22  feat: MCP ↔ AIOrchestrator bidirectional integration (MCP... ║
-    • 847458a5a2  2026-02-22  feat: Add YAML-configurable LLM Orchestration Modes (ask,... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

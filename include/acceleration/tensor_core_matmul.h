@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tensor_core_matmul.h                               ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:36:22                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:08:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 05b9b49f02  2026-04-13  feat(acceleration): Add INT8 quantize/dequantize helpers ... ║
     • e627c556bd  2026-03-15  feat(acceleration): BackendRegistry thread-safety, VLLMRe... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 57747c2d64  2026-02-23  feat(acceleration): Tensor Core FP16/BF16 matrix ops via ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

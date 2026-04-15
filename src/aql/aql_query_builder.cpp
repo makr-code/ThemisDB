@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_query_builder.cpp                              ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-04-14 18:46:25                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-04-15 04:15:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 0660d82e15  2026-03-15  fix(aql): audit fixes - standalone DML validation, getNex... ║
     • a6184aa197  2026-03-14  feat(aql): add graph traversal, DML, WINDOW, and subquery... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 2e58fd3cd9  2026-02-23  feat(aql): schema-aware query generation using live colle... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ws_transport.h                                     ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:37:39                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:09:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

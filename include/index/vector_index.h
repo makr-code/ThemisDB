@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vector_index.h                                     ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:39:12                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:10:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     525                                            ║
+    • Total Lines:     524                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • f38c013cdc  2026-03-29  Enhance various components with improvements and fixes ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • ade1fdc2ec  2026-02-25  fix(index): wire ann_backend_ into addEntity/searchKnn/sh... ║
-    • e6e7fc6bbf  2026-02-25  feat(index): DiskANN/ScaNN alternative ANN algorithms for... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

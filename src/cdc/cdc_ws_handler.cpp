@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cdc_ws_handler.cpp                                 ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:46:47                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:16:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     388                                            ║
+    • Total Lines:     387                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • c410b12cc7  2026-03-15  fix(cdc): address code review feedback - clarify ack_key ... ║
     • f9a6d3a601  2026-03-15  feat(cdc): integrate ConsumerGroupManager into CdcWebSock... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 13aae88f89  2026-02-24  fix(cdc): audit fixes — cdc_ws_overflow_total metric, cdc... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_safe_fail_module.cpp                      ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 19:00:22                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:25:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

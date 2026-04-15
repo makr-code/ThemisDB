@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rate_limiting_middleware.h                         ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:43:04                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:13:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

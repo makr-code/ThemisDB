@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            otel_tracer_adapter.h                              ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:37:58                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:09:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     227                                            ║
+    • Total Lines:     226                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • f20e6e8d74  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
     • 2826fa9ccd  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 522e9ae575  2026-02-24  feat(core): implement OTel tracer adapter flush() via Tra... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            delivery_tracker.h                                 ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:37:28                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:09:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • b56122b397  2026-03-11  feat(cdc): extend at-least-once delivery guarantee to SSE... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 3ba0b14cbd  2026-02-24  Audit fixes: remove unused include, ack_timeout precision... ║
-    • 970f1684c0  2026-02-24  Add at-least-once delivery tracker for CDC module (issue ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

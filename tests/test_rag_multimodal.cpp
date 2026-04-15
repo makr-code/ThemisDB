@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rag_multimodal.cpp                            ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 19:05:51                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:29:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

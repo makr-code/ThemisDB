@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cpu_backend.h                                      ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:36:17                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:08:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 57747c2d64  2026-02-23  feat(acceleration): Tensor Core FP16/BF16 matrix ops via ... ║
-    • a629043ab2  2026-02-22  Audit: document gaps found - benchmarks and stale annotat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

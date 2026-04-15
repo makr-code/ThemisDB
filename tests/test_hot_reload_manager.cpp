@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_hot_reload_manager.cpp                        ║
-  Version:         0.0.16                                             ║
-  Last Modified:   2026-04-14 19:00:52                                ║
+  Version:         0.0.17                                             ║
+  Last Modified:   2026-04-15 04:26:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     513                                            ║
+    • Total Lines:     512                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 3af72be8df  2026-03-12  fix(test): move GoogleTest assertions out of worker threa... ║
     • fe4e33c577  2026-03-12  feat(base): upgrade HotReloadManager mutex to shared_mute... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 11a2aa184f  2026-02-28  feat(base): integrate ModuleSandbox into HotReloadManager... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

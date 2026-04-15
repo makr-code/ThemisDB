@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            icdc_pause_control.h                               ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 18:37:34                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-15 04:09:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

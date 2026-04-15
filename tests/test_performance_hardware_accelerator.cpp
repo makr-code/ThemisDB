@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_performance_hardware_accelerator.cpp          ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 19:04:03                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-15 04:28:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

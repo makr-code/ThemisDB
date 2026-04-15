@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graphql.h                                          ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:36:38                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:08:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 6b7cdac827  2026-04-07  chore: plan variable substitution fix + doc update ║
     • e5cd79501d  2026-03-10  Changes before error encountered        ║
     • 6078846714  2026-03-10  feat(api): GraphQL WebSocket subscription handler + Query... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ws_handler.cpp                                ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 19:09:34                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:32:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     290                                            ║
+    • Total Lines:     289                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 899b3070e4  2026-03-14  fix(api/ws): clarify url_decode comment, document semanti... ║
     • 721f1507ea  2026-03-14  fix(api/ws): URL-decode query string parameters in WsChan... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b543ca34aa  2026-02-24  fix(api/ws): audit – scope doc consistency, /v2/cdc/strea... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

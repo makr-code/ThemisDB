@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_schema_registry.cpp                       ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:57:37                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:23:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • a64247126f  2026-03-08  Refactor code structure for improved readability and main... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • f8098a60cb  2026-02-25  fix(cdc): remove unused includes; add TRANSACTION_COMMIT/... ║
-    • 87c62f7315  2026-02-25  feat(cdc): schema-aware CDC with Avro/Protobuf schema reg... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

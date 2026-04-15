@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            icdc_filter_pipeline.h                             ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-14 18:37:33                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-15 04:09:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            metadata_snapshot.h                                ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-14 18:40:02                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-15 04:11:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

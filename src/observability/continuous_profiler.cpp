@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            continuous_profiler.cpp                            ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-14 18:49:23                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-15 04:17:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 654a7b5ae3  2026-02-22  fix(observability): fix two thread-safety bugs and Wreord... ║
-    • c9fc2c24ea  2026-02-22  feat(observability): implement pprof/async-profiler compa... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

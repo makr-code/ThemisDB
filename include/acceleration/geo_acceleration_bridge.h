@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            geo_acceleration_bridge.h                          ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:36:19                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:08:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • e38662530e  2026-02-24  feat(acceleration): implement GeoAccelerationBridge::popu... ║
     • 1315cab747  2026-02-24  Implement GeoAccelerationBridge::populateGeoDispatch() to... ║
-    • 6dd23063fc  2026-02-23  feat(acceleration): integrate GPU backend with geo module... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

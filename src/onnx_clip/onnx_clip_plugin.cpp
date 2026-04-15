@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            onnx_clip_plugin.cpp                               ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-14 18:49:39                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-15 04:18:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -23,9 +23,11 @@
 #include "onnx_clip_plugin.h"
 
 #include <algorithm>
+#include <cctype>
 #include <chrono>
 #include <cmath>
 #include <cstdint>
+#include <sstream>
 
 namespace themis {
 namespace plugins {
@@ -58,6 +60,15 @@ static uint64_t fnv1a64(const std::vector<uint8_t>& data) {
     return hash;
 }
 
+static uint64_t fnv1a64_str(const std::string& s) {
+    uint64_t hash = 1469598103934665603ull;
+    for (unsigned char c : s) {
+        hash ^= static_cast<uint64_t>(c);
+        hash *= 1099511628211ull;
+    }
+    return hash;
+}
+
 static uint64_t mixMetadata(uint64_t seed, const ImageMetadata* metadata) {
     if (!metadata) {
         return seed;
@@ -78,6 +89,27 @@ static float nextFloat01(uint64_t& state) {
     return static_cast<float>(mantissa) / 16777215.0f;
 }
 
+// Simple BPE-style tokenizer: split on whitespace and punctuation, lowercase.
+static std::vector<std::string> tokenize(const std::string& text) {
+    std::vector<std::string> tokens;
+    std::string token;
+    for (char c : text) {
+        if (std::isspace(static_cast<unsigned char>(c)) ||
+            std::ispunct(static_cast<unsigned char>(c))) {
+            if (!token.empty()) {
+                tokens.push_back(token);
+                token.clear();
+            }
+        } else {
+            token += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        }
+    }
+    if (!token.empty()) {
+        tokens.push_back(token);
+    }
+    return tokens;
+}
+
 } // namespace
 
 struct ONNXClipPlugin::Impl {
@@ -86,11 +118,13 @@ struct ONNXClipPlugin::Impl {
     BackendType backend = BackendType::CPU;
     std::string model_name = "clip-vit-base-patch32";
     int embedding_dim = 512;
+    int max_batch_size = 64;
 
     uint64_t total_inferences = 0;
     uint64_t total_batches = 0;
     uint64_t total_errors = 0;
     uint64_t total_images = 0;
+    uint64_t total_text_inferences = 0;
     double total_latency_ms = 0.0;
 
     EmbeddingResult computeEmbedding(const std::vector<uint8_t>& image_data,
@@ -114,6 +148,47 @@ struct ONNXClipPlugin::Impl {
         double l2 = 0.0;
         for (int i = 0; i < dim; ++i) {
             const float v = (nextFloat01(state) * 2.0f) - 1.0f;
+            result.embedding[static_cast<size_t>(i)] = v;
+            l2 += static_cast<double>(v) * static_cast<double>(v);
+        }
+
+        if (l2 > 0.0) {
+            const float inv = 1.0f / static_cast<float>(std::sqrt(l2));
+            for (float& v : result.embedding) {
+                v *= inv;
+            }
+        }
+
+        result.success = true;
+        return result;
+    }
+
+    EmbeddingResult computeTextEmbedding(const std::string& text,
+                                         const std::string& model,
+                                         int embedding_dim_value) const {
+        EmbeddingResult result;
+        if (text.empty()) {
+            result.success = false;
+            result.error_message = "Text input is empty";
+            return result;
+        }
+
+        const int dim = std::max(1, embedding_dim_value);
+        result.embedding.resize(static_cast<size_t>(dim));
+        result.dimension = dim;
+        result.model_name = model + "_text";
+
+        // BPE-style tokenization: hash each token then XOR-mix into seed
+        const auto tokens = tokenize(text);
+        uint64_t seed = fnv1a64_str(text);
+        for (const auto& tok : tokens) {
+            seed ^= fnv1a64_str(tok);
+            seed *= 1099511628211ull;
+        }
+
+        double l2 = 0.0;
+        for (int i = 0; i < dim; ++i) {
+            const float v = (nextFloat01(seed) * 2.0f) - 1.0f;
             result.embedding[static_cast<size_t>(i)] = v;
             l2 += static_cast<double>(v) * static_cast<double>(v);
         }
@@ -177,6 +252,11 @@ bool ONNXClipPlugin::initialize(const PluginConfig& config, BackendType backend)
     } else {
         impl_->backend = backend;
     }
+
+    // CPU backend is memory-bound; cap at 16 by default.
+    const int cpu_default = (impl_->backend == BackendType::CPU) ? 16 : 64;
+    const int cfg_max = config.get<int>("max_batch_size", cpu_default);
+    impl_->max_batch_size = std::max(1, cfg_max);
 
     impl_->ready = true;
     return true;
@@ -248,10 +328,15 @@ std::vector<EmbeddingResult> ONNXClipPlugin::generateEmbeddingBatch(
         return results;
     }
 
-    for (const auto& img : images) {
-        results.push_back(impl_->computeEmbedding(img, nullptr,
-                                                  impl_->model_name,
-                                                  impl_->embedding_dim));
+    // Process in sub-batches of max_batch_size to bound memory usage.
+    const size_t batch_limit = static_cast<size_t>(impl_->max_batch_size);
+    for (size_t start = 0; start < images.size(); start += batch_limit) {
+        const size_t end = std::min(start + batch_limit, images.size());
+        for (size_t i = start; i < end; ++i) {
+            results.push_back(impl_->computeEmbedding(images[i], nullptr,
+                                                      impl_->model_name,
+                                                      impl_->embedding_dim));
+        }
     }
 
     auto t1 = std::chrono::steady_clock::now();
@@ -277,6 +362,36 @@ bool ONNXClipPlugin::healthCheck() const {
     return impl_->ready && impl_->embedding_dim > 0;
 }
 
+EmbeddingResult ONNXClipPlugin::generateTextEmbedding(const std::string& text) {
+    auto t0 = std::chrono::steady_clock::now();
+
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    if (!impl_->ready) {
+        EmbeddingResult result;
+        result.success = false;
+        result.error_message = "ONNXClipPlugin not initialized";
+        impl_->total_errors++;
+        return result;
+    }
+
+    EmbeddingResult result = impl_->computeTextEmbedding(text,
+                                                         impl_->model_name,
+                                                         impl_->embedding_dim);
+
+    auto t1 = std::chrono::steady_clock::now();
+    const auto dt_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count();
+    result.inference_time_ms = dt_ms;
+
+    impl_->total_text_inferences++;
+    impl_->total_inferences++;
+    impl_->total_latency_ms += static_cast<double>(dt_ms);
+    if (!result.success) {
+        impl_->total_errors++;
+    }
+
+    return result;
+}
+
 nlohmann::json ONNXClipPlugin::getStatistics() const {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
@@ -289,9 +404,11 @@ nlohmann::json ONNXClipPlugin::getStatistics() const {
         {"backend", backendToString(impl_->backend)},
         {"model_name", impl_->model_name},
         {"embedding_dim", impl_->embedding_dim},
+        {"max_batch_size", impl_->max_batch_size},
         {"total_inferences", impl_->total_inferences},
         {"total_batches", impl_->total_batches},
         {"total_images", impl_->total_images},
+        {"total_text_inferences", impl_->total_text_inferences},
         {"total_errors", impl_->total_errors},
         {"avg_latency_ms", avg_latency}
     };

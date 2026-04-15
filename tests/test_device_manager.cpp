@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_device_manager.cpp                            ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:58:59                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:24:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 502a332ac7  2026-02-24  Refactor modular build configuration, enhance error loggi... ║
     • f2fa0c5eb7  2026-02-23  fix(acceleration): address code-audit gaps — deviceInfo()... ║
-    • bcf21826fe  2026-02-23  feat(acceleration): implement runtime device capability d... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

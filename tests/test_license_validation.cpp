@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_license_validation.cpp                        ║
-  Version:         0.0.36                                             ║
-  Last Modified:   2026-04-14 19:01:58                                ║
+  Version:         0.0.37                                             ║
+  Last Modified:   2026-04-15 04:27:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

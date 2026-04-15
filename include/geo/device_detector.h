@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            device_detector.h                                  ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:38:16                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:10:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

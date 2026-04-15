@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            continuous_agg.cpp                                 ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:52:58                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:20:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

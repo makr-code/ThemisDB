@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            kafka_importer_logger_stub.cpp                     ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 18:55:04                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 04:22:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tracing_middleware.cpp                             ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:46:19                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:15:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 8ddf5b3504  2026-03-10  fix(api): address code review - clean up test, remove sta... ║
     • e24bce921d  2026-03-10  feat(api): add OTLP/HTTP span exporter + wire into Tracin... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 2672276c02  2026-02-28  feat(api): add TracingMiddleware for X-Correlation-ID pro... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_compression_strategy.cpp                      ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:57:54                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:24:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

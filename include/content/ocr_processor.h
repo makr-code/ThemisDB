@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ocr_processor.h                                    ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:37:49                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:09:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 01d40ae53b  2026-03-11  feat(content): default OCR language-pack path to config/a... ║
     • 2ae4537816  2026-03-11  feat(content): default ocr_processor data_dir to config/a... ║
     • d83358f4c0  2026-03-11  feat(content): add 300-DPI rescaling and adaptive binaris... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

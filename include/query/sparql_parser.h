@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            sparql_parser.h                                    ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:41:42                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:12:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

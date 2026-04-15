@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_plugin_marketplace_manifest.cpp               ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 19:04:19                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:28:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 1184e5e03c  2026-02-26  audit: fix schema/validator inconsistencies and add integ... ║
-    • 2e03141567  2026-02-26  feat(plugins): plugin marketplace manifest format (JSON s... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

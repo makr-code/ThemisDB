@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_wire_protocol_websocket.cpp                   ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-14 19:09:30                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-15 04:32:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     624                                            ║
+    • Total Lines:     622                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

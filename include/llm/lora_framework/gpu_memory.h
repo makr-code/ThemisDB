@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_memory.h                                       ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:39:36                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:11:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

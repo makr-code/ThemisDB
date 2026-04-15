@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_timeseries_retention.cpp                      ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 19:08:10                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:31:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 3043a1a008  2026-04-12  docs(perf): aktualisiere Performance-Erwartungswerte und ... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e836dc9cf8  2026-02-22  test(timeseries): replace stubs with real unit tests for ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

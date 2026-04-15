@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cdc_materialized_view.cpp                          ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:46:47                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:16:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

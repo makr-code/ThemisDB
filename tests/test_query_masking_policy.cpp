@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_query_masking_policy.cpp                      ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 19:05:13                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:29:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     371                                            ║
+    • Total Lines:     370                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • f82bf2ae9f  2026-03-04  Refactor tenant manager tests and add new test cases ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 37baf981cf  2026-03-01  test(security): add edge-case tests for QueryMaskingPolicy ║
-    • b629d06e4a  2026-02-23  audit: fix thread-safety race, missed JOIN path, and COLL... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

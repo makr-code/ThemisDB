@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_io_scaler.h                               ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-14 18:40:06                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-15 04:11:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

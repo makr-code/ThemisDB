@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http2_session.cpp                                  ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:51:46                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:19:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 5375c249ad  2026-02-23  refactor(api): eliminate duplicated tenant path rewriting... ║
     • f779a67909  2026-02-23  feat(api): implement multi-tenant namespace routing ║
-    • f812b1ab77  2026-02-23  fix(server): audit fixes – HTTP/2 chunked decode, RFC 754... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

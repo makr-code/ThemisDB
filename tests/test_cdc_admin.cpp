@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_admin.cpp                                 ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:57:11                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:23:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • b3d8aa4a55  2026-03-15  refactor: streamline performance statistics retrieval and... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 0c0081835d  2026-02-24  cdc: fix test_cdc_admin.cpp DB type mismatch (DB -> Trans... ║
-    • 840def5a20  2026-02-24  cdc: add compactLog tests to test_cdc_admin, fix addTestE... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

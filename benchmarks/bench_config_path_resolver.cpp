@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_config_path_resolver.cpp                     ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:34:48                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:07:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

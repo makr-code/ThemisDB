@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_timeout_manager.h                              ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:36:56                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:09:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 9740c32650  2026-03-14  fix: allow configured llm retries       ║
     • cab6419cb1  2026-03-13  docs(aql): fix @note accuracy in executeWithTimeout — wor... ║
     • 2bc8ac6fde  2026-03-13  fix(aql): eliminate thread leak in LLMTimeoutManager::exe... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

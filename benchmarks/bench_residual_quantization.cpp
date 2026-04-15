@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_residual_quantization.cpp                    ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:35:21                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:08:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

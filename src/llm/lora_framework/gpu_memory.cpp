@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_memory.cpp                                     ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:48:42                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:17:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • cb587a07d0  2026-02-23  chore(acceleration): update file header to reflect resolv... ║
     • 0533f75fa2  2026-02-23  feat(acceleration): implement Vulkan fallback for non-NVI... ║
-    • d5166d8a2e  2026-02-23  feat(acceleration): implement Vulkan and DirectX runtime ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

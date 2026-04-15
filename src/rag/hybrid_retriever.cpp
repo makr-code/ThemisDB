@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hybrid_retriever.cpp                               ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:50:52                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:19:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

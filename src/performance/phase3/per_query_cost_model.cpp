@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            per_query_cost_model.cpp                           ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:49:48                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:18:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

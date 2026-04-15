@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_temporal_query_engine.cpp                     ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:55:41                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:22:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • fe76ac4765  2026-03-12  fix(temporal): address PR review comments on QueryCache a... ║
     • bce530ee49  2026-03-12  feat(temporal): implement Time-Travel Query Engine (v1.2.0) ║
     • 6e8942ed4f  2026-03-09  feat(temporal): implement bitemporal joins and SEQUENCED/... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

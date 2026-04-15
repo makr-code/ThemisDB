@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_accelerator.cpp                              ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:47:47                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:16:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • e010f4ac73  2026-03-12  fix(gpu): address review feedback on query_accelerator GP... ║
     • a896955d87  2026-03-12  feat(gpu): replace CPU fallback stubs with real CUDA/HIP ... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

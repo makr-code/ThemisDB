@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            inmemory_cache_impl.h                              ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:37:55                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:09:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

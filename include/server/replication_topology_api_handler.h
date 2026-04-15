@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            replication_topology_api_handler.h                 ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-14 18:43:04                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-15 04:13:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • ec68391445  2026-02-22  docs(replication): add topology visualizer docs + fix aut... ║
-    • da1a879d59  2026-02-22  feat(replication): add topology visualizer web UI (Issue ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            history_manager.h                                  ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:43:39                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:13:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • dfa2c62531  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
     • eb5e037bce  2026-02-25  feat(storage/transaction): harden history/conflict layer ... ║
-    • 886db46108  2026-02-24  Add atomic history/conflict layer to MVCCStore and Transa... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

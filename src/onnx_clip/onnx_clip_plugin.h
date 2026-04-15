@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            onnx_clip_plugin.h                                 ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 18:49:39                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 04:18:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -80,6 +80,8 @@ public:
     std::vector<EmbeddingResult> generateEmbeddingBatch(
         const std::vector<std::vector<uint8_t>>& images
     ) override;
+
+    EmbeddingResult generateTextEmbedding(const std::string& text) override;
     
     // Management
     bool healthCheck() const override;

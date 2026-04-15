@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rag_context_assembler.cpp                     ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-14 19:05:36                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-15 04:29:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

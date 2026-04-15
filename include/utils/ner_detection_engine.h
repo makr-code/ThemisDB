@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ner_detection_engine.h                             ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-14 18:45:01                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-15 04:14:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 607563ffe2  2026-02-22  Audit fixes: remove dead code, update ROADMAP, config and... ║
-    • b5853f10c8  2026-02-22  Implement ML-based NER detection engine for PII detection... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

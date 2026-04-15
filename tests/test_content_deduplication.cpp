@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_content_deduplication.cpp                     ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:58:07                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:24:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 4468db516b  2026-03-19  fix(content): dedup default-off, strengthen policy-absent... ║
     • 55d1f82412  2026-03-19  fix(content): wire enable_deduplication config gate, add ... ║
     • 05af902070  2026-03-18  feat(content): add perceptual hashing dedup perf tests an... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

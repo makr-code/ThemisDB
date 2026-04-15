@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            geo_ops_ext.h                                      ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:38:19                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:10:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

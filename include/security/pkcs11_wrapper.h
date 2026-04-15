@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pkcs11_wrapper.h                                   ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:42:36                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:13:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_index_manager_di.cpp                          ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 19:01:14                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:26:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     395                                            ║
+    • Total Lines:     394                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • e823c7d48e  2026-04-13  feat(index): add IndexManager::exportIndexStats for metad... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 49aa9b0586  2026-03-02  Add modules, extraction retries, and test fixes ║
-    • bb886db939  2026-02-28  feat(index): implement SecondaryIndexAdapter for partial/... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

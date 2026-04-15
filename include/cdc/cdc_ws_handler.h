@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cdc_ws_handler.h                                   ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:37:23                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:09:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • f9a6d3a601  2026-03-15  feat(cdc): integrate ConsumerGroupManager into CdcWebSock... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 13aae88f89  2026-02-24  fix(cdc): audit fixes — cdc_ws_overflow_total metric, cdc... ║
-    • 6d03c85c7f  2026-02-24  feat(cdc): WebSocket transport for /v2/cdc/stream with at... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_manifest_database_file_deletion.cpp           ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 19:02:27                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 04:27:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

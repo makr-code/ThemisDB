@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            image_generation_interface.h                       ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-14 18:40:55                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-15 04:11:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            model_quantization_pipeline.cpp                    ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:48:51                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:17:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 18a122393d  2026-02-28  audit: fix security and quality issues in ModelQuantizati... ║
     • e24aa3275e  2026-02-28  fix: address code review feedback in ModelQuantizationPip... ║
-    • 6bd2e07397  2026-02-28  feat(llm): add ModelQuantizationPipeline for GGUF/AWQ/GPT... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

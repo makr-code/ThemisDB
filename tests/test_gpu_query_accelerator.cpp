@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_query_accelerator.cpp                     ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 19:00:19                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:25:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 9cc43d8f28  2026-02-26  feat(gpu): implement GPU-accelerated ANN vector similarit... ║
     • dfa2c62531  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
-    • 486b0a16fc  2026-02-25  feat(gpu): add FP16/BF16 Tensor Core support to query acc... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

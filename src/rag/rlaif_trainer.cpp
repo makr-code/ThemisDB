@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rlaif_trainer.cpp                                  ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-14 18:51:03                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-15 04:19:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

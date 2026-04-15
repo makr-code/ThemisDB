@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_vulkan_backend.cpp                        ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 19:00:28                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:25:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_geo_rtree.cpp                                 ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-14 18:54:39                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-15 04:21:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 32b7c1baa9  2026-02-22  fix(geo): Fix memoryBytes test expectation and update ROA... ║
-    • 90f7ef343d  2026-02-22  feat(geo): Add in-memory R-tree spatial index (GeoRTree) ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

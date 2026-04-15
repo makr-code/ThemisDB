@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_erasure_coder_opencl.cpp                       ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:52:12                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:19:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

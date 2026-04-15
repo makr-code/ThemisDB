@@ -85,6 +85,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 ## Milestone: v1.5.0
 
+> **Release Target Document:** [`docs/de/releases/RELEASE_TARGET_v1.5.0.md`](docs/de/releases/RELEASE_TARGET_v1.5.0.md)
 > **Release Aggregation Document:** [`docs/de/releases/RELEASE_NOTES_v1.5.0.md`](docs/de/releases/RELEASE_NOTES_v1.5.0.md)
 
 Key PRs included in v1.5.0:

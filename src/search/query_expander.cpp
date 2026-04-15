@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_expander.cpp                                 ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-14 18:51:23                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-15 04:19:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 3a0def8028  2026-03-01  feat(search): improve spelling correction with frequency-... ║
     • 266c782dde  2026-02-23  audit: fix all gaps from issue review - metadata, docs, v... ║
-    • ca8c06fddb  2026-02-23  feat(search): add ranked spelling correction suggestions ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

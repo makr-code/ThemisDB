@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            knowledge_graph_retriever.cpp                      ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:50:53                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:19:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 33a346e4e2  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
     • 2f39a9ce6d  2026-02-24  fix(rag): correct edge_count decrement in KnowledgeGraph:... ║
-    • c5ef778993  2026-02-24  feat(rag): implement knowledge graph-augmented retrieval ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

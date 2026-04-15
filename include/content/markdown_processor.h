@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            markdown_processor.h                               ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:37:48                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:09:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

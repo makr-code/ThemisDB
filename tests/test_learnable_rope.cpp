@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_learnable_rope.cpp                            ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 19:01:52                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:27:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

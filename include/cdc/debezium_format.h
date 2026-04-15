@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            debezium_format.h                                  ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:37:28                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:09:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

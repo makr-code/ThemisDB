@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_accelerator.h                                ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:44:08                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:14:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     344                                            ║
+    • Total Lines:     343                                            ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 9cc43d8f28  2026-02-26  feat(gpu): implement GPU-accelerated ANN vector similarit... ║
     • dfa2c62531  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
-    • 2379d35368  2026-02-25  fix(gpu): remove spurious stats increment and fix data ra... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

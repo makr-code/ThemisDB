@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            opa_adapter.h                                      ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:38:30                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:10:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 99dc8e3f41  2026-02-27  feat(governance): integrate OPA as alternative policy eva... ║
     • 0766c4a216  2026-02-24  fix(auth/opa): code audit - remove redundant static, thre... ║
-    • 977edef79a  2026-02-24  feat(auth): add OPA adapter for fine-grained ABAC policy ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

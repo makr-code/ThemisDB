@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_content_processor_paths.cpp                  ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 18:34:48                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 04:07:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

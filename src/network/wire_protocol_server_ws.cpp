@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_server_ws.cpp                        ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-14 18:49:19                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-15 04:17:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1020                                           ║
+    • Total Lines:     1019                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 74b4817f77  2026-03-11  fix(network): prevent active_connection_count_ underflow ... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 6144e43473  2026-03-01  feat(network): implement WebSocket binary frame support f... ║
-    • 3e1a33c4cc  2026-03-01  feat(network/server): implement WebSocket binary frame su... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

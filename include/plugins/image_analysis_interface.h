@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            image_analysis_interface.h                         ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:40:55                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:11:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -511,6 +511,23 @@ public:
             results.push_back(generateEmbedding(img));
         }
         return results;
+    }
+
+    /**
+     * @brief Generate embedding vector for a text query
+     * 
+     * Uses the CLIP text encoder to generate a semantic embedding compatible
+     * with the image embedding space, enabling cross-modal similarity search.
+     * 
+     * @param text Natural language query string (max 77 tokens for CLIP)
+     * @return Embedding result with float vector in the same space as image embeddings
+     */
+    virtual EmbeddingResult generateTextEmbedding(const std::string& text) {
+        // Default: not supported
+        EmbeddingResult result;
+        result.success = false;
+        result.error_message = "Text embedding not supported by this plugin";
+        return result;
     }
     
     // ========================================================================

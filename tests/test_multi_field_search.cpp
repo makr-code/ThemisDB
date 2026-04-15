@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_multi_field_search.cpp                        ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 19:03:03                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:27:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rag_reranker.cpp                              ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-14 19:05:57                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-15 04:29:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • a152677ace  2026-02-22  Code audit: fix header metadata inaccuracies (line counts... ║
-    • 3987bc257e  2026-02-22  Add CrossEncoderReranker: header, implementation, tests, ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

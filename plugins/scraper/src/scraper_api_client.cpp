@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            scraper_api_client.cpp                             ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-14 18:45:25                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 04:15:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

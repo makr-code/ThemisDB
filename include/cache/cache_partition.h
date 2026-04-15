@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cache_partition.h                                  ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-14 18:37:16                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-15 04:09:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

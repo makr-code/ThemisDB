@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            api_key_authenticator.cpp                          ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:46:32                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:16:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 879ea3571e  2026-02-26  fix(auth): redact PII in log statements (LDAP, SAML, API ... ║
     • 5e72bf49f6  2026-02-24  Add audit logging to TokenBlacklist and ApiKeyAuthenticat... ║
-    • ad8c8cf55b  2026-02-23  feat(auth): implement API key authentication (static key ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

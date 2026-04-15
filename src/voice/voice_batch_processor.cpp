@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_batch_processor.cpp                          ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-14 18:53:54                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-15 04:21:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • f73eb05573  2026-02-23  chore(voice): audit fix - update metadata and ROADMAP aft... ║
-    • d9e5abd3f4  2026-02-22  feat(voice): integrate streaming STT into VoiceBatchProce... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

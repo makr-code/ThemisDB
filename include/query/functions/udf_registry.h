@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            udf_registry.h                                     ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:41:29                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:12:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
