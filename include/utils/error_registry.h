@@ -234,6 +234,16 @@ enum class ErrorCode {
     ERR_DOC_ENCRYPT_FAILED        = 9410,  ///< Encrypted entity operation failed
     ERR_DOC_INVALID_ARGUMENT      = 9411,  ///< A required argument is invalid or missing
 
+    // -------------------------------------------------------------------------
+    // Tool errors (ERR_TOOL_*) — 9500–9509
+    // -------------------------------------------------------------------------
+    ERR_TOOL_NOT_FOUND            = 9500,  ///< Named tool is not registered
+    ERR_TOOL_NOT_PERMITTED        = 9501,  ///< Tool not in mode's allowlist or in denylist
+    ERR_TOOL_EXECUTION_FAILED     = 9502,  ///< Tool execute() threw or returned error JSON
+    ERR_TOOL_INVALID_INPUT        = 9503,  ///< Input JSON does not satisfy the tool's inputSchema
+    ERR_TOOL_PLUGIN_NOT_A_TOOL    = 9504,  ///< Loaded plugin does not implement IThemisTool
+    ERR_TOOL_ALREADY_REGISTERED   = 9505,  ///< A tool with this name is already registered
+
     // Unknown
     ERR_UNKNOWN = 9999
 };

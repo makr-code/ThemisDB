@@ -37,6 +37,9 @@
 #pragma once
 
 #include "llm/llm_plugin_interface.h"
+#include "llm/themis_tool_interface.h"
+#include "plugins/plugin_manager.h"
+#include "utils/expected.h"
 #include <nlohmann/json.hpp>
 #include <chrono>
 #include <functional>
@@ -273,11 +276,89 @@ using ToolHandler = std::function<json(const json& args, const ModeSpec& mode)>;
  *
  * Tools are registered globally; each ModeSpec's tools_allowed/tools_denied
  * lists are consulted before dispatch.
+ *
+ * ## Dynamic tool loading (DLL/SO)
+ *
+ * Tool plugins are shared libraries that export the standard
+ * `createPlugin()`/`destroyPlugin()` C ABI and contain a class derived from
+ * IThemisTool.  The plugin.json manifest must set `"type": "agentic_tool"`.
+ *
+ * Example workflow:
+ * @code
+ * ToolRegistry registry;
+ * registry.loadToolsFromDirectory("plugins/tools");   // bulk load
+ * registry.loadToolPlugin("plugins/tools/libtool_search.so"); // single load
+ * registry.reloadTool("search_vector");               // hot-reload
+ * registry.unloadTool("search_vector");               // unload + deregister
+ * @endcode
+ *
+ * Statically registered tools (via registerTool()) and dynamically loaded
+ * tools coexist in the same registry and are dispatched through the same
+ * invokeTool() path.
  */
 class ToolRegistry {
 public:
-    /** @brief Register a tool handler. Overwrites any existing registration. */
+    ToolRegistry();
+    ~ToolRegistry();
+
+    // ── Static / built-in tool registration ──────────────────────────────────
+
+    /** @brief Register a tool handler. Overwrites any existing static registration. */
     void registerTool(const ToolSpec& spec, ToolHandler handler);
+
+    // ── Dynamic tool loading via PluginManager ────────────────────────────────
+
+    /**
+     * @brief Load a single tool plugin from a shared library path.
+     *
+     * The library must export `createPlugin()`/`destroyPlugin()` and the
+     * returned instance must implement IThemisTool.  On success the tool is
+     * automatically registered in the registry using the name reported by
+     * IThemisPlugin::getName().
+     *
+     * @param path    Absolute path to the .so / .dll.
+     * @param config  Optional JSON configuration string passed to initialize().
+     * @return Ok(void) on success, Err(ERR_TOOL_PLUGIN_NOT_A_TOOL) if the
+     *         plugin does not implement IThemisTool, or a plugin-layer error
+     *         from PluginManager on load failure.
+     */
+    Result<void> loadToolPlugin(const std::string& path,
+                                const std::string& config = "{}");
+
+    /**
+     * @brief Scan a directory for tool plugins and load all AGENTIC_TOOL ones.
+     *
+     * Delegates directory scanning to PluginManager::scanPluginDirectory()
+     * followed by loading every plugin with type == AGENTIC_TOOL.
+     *
+     * @param directory  Path to directory containing .so/.dll files.
+     * @return Ok(n) where n is the number of tools successfully loaded.
+     */
+    Result<size_t> loadToolsFromDirectory(const std::string& directory);
+
+    /**
+     * @brief Hot-reload a named tool plugin without stopping the registry.
+     *
+     * Delegates to PluginManager::reloadPlugin() (atomic swap with rollback).
+     * After the reload the tool handler is re-registered with the new instance.
+     * Statically registered tools cannot be reloaded via this method.
+     *
+     * @param name  Tool name as reported by IThemisPlugin::getName().
+     * @return Ok(void) on success, Err(ERR_TOOL_NOT_FOUND) if not a plugin tool.
+     */
+    Result<void> reloadTool(const std::string& name);
+
+    /**
+     * @brief Unload a dynamically loaded tool plugin and deregister it.
+     *
+     * Has no effect on statically registered tools.
+     *
+     * @param name  Tool name.
+     * @return Ok(void) on success, or a plugin-layer error on unload failure.
+     */
+    Result<void> unloadTool(const std::string& name);
+
+    // ── Dispatch ──────────────────────────────────────────────────────────────
 
     /** @brief Invoke a tool if permitted by mode's allowlist/denylist. */
     json invokeTool(const std::string& tool_name,
@@ -288,19 +369,28 @@ public:
     bool isAllowed(const std::string& tool_name,
                    const ModeSpec&    mode) const;
 
-    /** @brief List all registered tool names. */
+    /** @brief List all registered tool names (static + dynamic). */
     std::vector<std::string> listTools() const;
 
     /** @brief Get spec for a named tool; nullopt if not found. */
     std::optional<ToolSpec> getSpec(const std::string& tool_name) const;
 
+    /** @brief Returns true if the named tool was loaded from a plugin DLL. */
+    bool isPluginTool(const std::string& name) const;
+
 private:
     struct Entry {
         ToolSpec    spec;
         ToolHandler handler;
+        bool        is_plugin = false;  ///< true when backed by a DLL plugin
     };
-    std::unordered_map<std::string, Entry> tools_;
-    mutable std::shared_mutex              tools_mutex_; ///< guards tools_ for thread safety
+
+    /// Register a plugin-backed IThemisTool instance into tools_.
+    void registerPluginTool(IThemisTool* tool);
+
+    std::unordered_map<std::string, Entry>      tools_;
+    mutable std::shared_mutex                   tools_mutex_;   ///< guards tools_
+    std::unique_ptr<plugins::PluginManager>     plugin_manager_; ///< DLL lifecycle
 };
 
 // ============================================================================
