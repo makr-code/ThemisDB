@@ -1557,13 +1557,20 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_governance_policy_latency.cpp")
     target_link_libraries(bench_governance_policy_latency PRIVATE
         ${BENCHMARK_LIBS}
         themis_core
-        yaml-cpp
+        $<$<TARGET_EXISTS:yaml-cpp::yaml-cpp>:yaml-cpp::yaml-cpp>
         nlohmann_json::nlohmann_json
         Threads::Threads
     )
 
     target_compile_definitions(bench_governance_policy_latency PRIVATE
         THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_governance_policy_latency)
+
+    install(TARGETS bench_governance_policy_latency
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
     )
 
     message(STATUS "  Governance Policy Latency: policy evaluation, hot-swap latency, cache hit rates")

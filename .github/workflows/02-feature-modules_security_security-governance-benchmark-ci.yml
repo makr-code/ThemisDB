@@ -8,6 +8,17 @@ name: Security/Governance Benchmark CI
 #   - bench_governance_policy_latency     (PolicyEngine evaluate/checkQueryPermission)
 #   - bench_compliance_security_governance (GDPR/HIPAA/SOC2/PCI-DSS/CCPA)
 #
+# Root causes fixed (Issue #4537):
+#   1. SuiteGating.cmake: security suite group was conditionally gated by hardware/
+#      edition flags → fixed to enable security group unconditionally.
+#   2. benchmarks/CMakeLists.txt (bench_governance_policy_latency): target_link_libraries
+#      referenced bare 'yaml-cpp' instead of the namespaced 'yaml-cpp::yaml-cpp' target
+#      produced by modern yaml-cpp (≥ 0.7.0). This caused a link-time failure on any
+#      system using the CONFIG-mode package. Fixed to use the generator expression
+#      $<$<TARGET_EXISTS:yaml-cpp::yaml-cpp>:yaml-cpp::yaml-cpp> (same pattern as
+#      bench_compliance_security_governance). Additionally, the target was missing
+#      themis_apply_benchmark_release_flags() and install() calls, which have been added.
+#
 # All four targets are always built regardless of edition or hardware-feature
 # flags because the security suite gate (SuiteGating.cmake) has been fixed to
 # enable the security group unconditionally.
