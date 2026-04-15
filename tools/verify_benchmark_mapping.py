@@ -23,6 +23,7 @@
 """
 
 #!/usr/bin/env python3
+from __future__ import annotations
 """
 verify_benchmark_mapping.py
 
@@ -44,8 +45,6 @@ Checks performed:
   5. Every target-ID found in PERFORMANCE_EXPECTATIONS.md §1.2 module
      tables is present in the mapping.
 """
-
-from __future__ import annotations
 
 import json
 import os

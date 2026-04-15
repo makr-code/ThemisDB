@@ -153,6 +153,21 @@ jobs:
             2>&1 | tee "$ARTIFACT_DIR/audit/coverage_report.log"
 
       # -------------------------------------------------------------------------
+      # Validate goal-to-benchmark mapping (Check 7a) and append result to
+      # the job summary so coverage % is always visible after each nightly run.
+      # -------------------------------------------------------------------------
+      - name: Verify goal-to-benchmark mapping (Check 7a)
+        if: always()
+        run: |
+          python3 tools/verify_benchmark_mapping.py \
+            2>&1 | tee "$ARTIFACT_DIR/audit/mapping_check.log"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "### 🗺️ Goal-to-Benchmark Mapping (Check 7a)" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          cat "$ARTIFACT_DIR/audit/mapping_check.log" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+      # -------------------------------------------------------------------------
       # Save current results so the next nightly run can use them for delta.
       # -------------------------------------------------------------------------
       - name: Upload current results as "previous" reference for next run

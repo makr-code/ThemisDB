@@ -1046,6 +1046,33 @@
         "primary_benchmark": "WakeWordBenchFixture_RollingBuffer_1500ms",
         "file": "bench_voice_wake_word_batch.cpp",
         "status": "mapped"
+      },
+      "AC-1": {
+        "label": "CI-Job with THEMIS_ENABLE_VOICE_ASSISTANT=ON active",
+        "primary_benchmark": "",
+        "file": "bench_voice_assistant.cpp",
+        "status": "not_measurable",
+        "reason": "Validated by CI workflow presence (02-feature-modules_llm_voice-benchmark-ci.yml); no micro-benchmark applies"
+      },
+      "AC-2": {
+        "label": "bench_voice_assistant built and >=1 test run documented",
+        "primary_benchmark": "BM_VoiceCommandProcessing_SmallAudio",
+        "file": "bench_voice_assistant.cpp",
+        "status": "mapped"
+      },
+      "AC-3": {
+        "label": "Missing voice-dependency failure documented as SKIP",
+        "primary_benchmark": "",
+        "file": "bench_voice_assistant.cpp",
+        "status": "not_measurable",
+        "reason": "Validated by CI run_status step classification (SKIP_CONFIGURE/SKIP_BUILD/SKIP_RUN); not benchmarkable"
+      },
+      "AC-4": {
+        "label": "Voice CI report linked in PERFORMANCE_EXPECTATIONS.md",
+        "primary_benchmark": "",
+        "file": "bench_voice_assistant.cpp",
+        "status": "not_measurable",
+        "reason": "Documentation-only criterion (§5.9); not benchmarkable"
       }
     },
     "onnx_clip": {
