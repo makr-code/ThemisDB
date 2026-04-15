@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-04-09 -->
+<!-- Status: current | validated: 2026-04-15 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
@@ -6,10 +6,10 @@
 
 ## Current Status
 
-v0.0.2 — `GRPCServer` and `GRPCPlugin` provide a fully functional gRPC server with
-mTLS, service registration, and HTTP/2. The fail-closed TLS design is in place.
-Unit tests for the plugin lifecycle and server are now complete (30 tests).
-Advanced features (health service, interceptors, streaming helpers) are planned.
+v0.2.0 — `GRPCServer` and `GRPCPlugin` are production-ready.  The core server
+(mTLS, service registration, HTTP/2, keepalive tuning, multi-port binding,
+TLS hot-reload) and the header-only `BidiStreamAdapter<Req,Resp>` streaming
+helper are complete.  Tests now cover all new v0.2.0 features (51 tests).
 
 ---
 
@@ -27,8 +27,23 @@ Advanced features (health service, interceptors, streaming helpers) are planned.
 - [x] Max message size: 100 MB receive + 100 MB send
 - [x] `PluginCapabilities`: `supports_streaming=true`, `supports_batching=true`, `thread_safe=true`
 - [x] `extern "C"` export: `createPlugin()` / `destroyPlugin()`
+- [x] `RPCServerStats::uptime_seconds` incremental tracking with `std::chrono`
+- [x] Unit tests — `tests/test_grpc_plugin.cpp` (51 tests, `GrpcPluginTests`)
 
-- [x] Unit tests for server lifecycle and GRPCPlugin — `tests/test_grpc_plugin.cpp` (30 tests, `GrpcPluginTests`); covers `initialize`, `start` (insecure/TLS/mTLS guard), `stop`, `registerService`, `getStats`, all `IThemisPlugin` methods; registered in `tests/CMakeLists.txt` as `test_grpc_plugin` under `THEMIS_ENABLE_GRPC` guard (2026-04-08)
+### v0.2.0 — Completed 2026-04-15
+
+- [x] Connection keepalive tuning via `extra_config["keepalive_time_ms"]` / `keepalive_timeout_ms` (Target: Q3 2026)
+- [x] Multi-port binding: admin port via `extra_config["admin_port"]`; `getAdminAddress()` (Target: Q3 2026)
+- [x] TLS certificate hot-reload: `GRPCServer::reloadTls(cert, key, ca)` — fail-safe on invalid files (Target: Q3 2026)
+- [x] `buildSslCredentials()` helper factored out from `configureCredentials()` (Target: Q3 2026)
+- [x] `BidiStreamAdapter<Req,Resp>` header-only template (`src/rpc_grpc/bidi_stream_adapter.h`) (Target: Q3 2026)
+  - `onMessage(handler)` — registers inbound callback
+  - `run()` — blocking read loop
+  - `write(Resp)` — thread-safe write with backpressure (configurable queue depth)
+  - `finish(grpc::Status)` — unblocks writes, marks stream done
+  - `isFinished()`, `queueDepth()`, `finishStatus()`
+- [x] 20 new unit tests for `BidiStreamAdapter` — `tests/test_bidi_stream_adapter.cpp`
+- [x] 11 new unit tests for keepalive, multi-port, TLS hot-reload
 
 ---
 
@@ -40,26 +55,17 @@ Advanced features (health service, interceptors, streaming helpers) are planned.
 
 ## Planned Features
 
-### v0.1.0 — Tests and Uptime Tracking (Target: Q3 2026)
-
-- [x] Unit tests: `initialize`, `start` (insecure), `stop`, `registerService` (Target: Q3 2026)
-- [x] Fail-closed TLS test: start() returns false on bad cert path (Target: Q3 2026)
-- [ ] Integration tests: mTLS round-trip with real gRPC service (Target: Q3 2026)
-- [x] `RPCServerStats::uptime_seconds` incremental tracking with `std::chrono` (Target: Q3 2026)
-
-### v0.2.0 — Health and Observability (Target: Q4 2026)
+### v0.3.0 — Health and Observability (Target: Q4 2026)
 
 - [ ] Auto-register `grpc.health.v1.Health` service on `start()` (Target: Q4 2026)
 - [ ] Server-side gRPC interceptor for per-method latency and error rate (Target: Q4 2026)
 - [ ] Prometheus metrics: `grpc_requests_total`, `grpc_latency_seconds`, `grpc_active_connections` (Target: Q4 2026)
 - [ ] Structured access log: method, status code, duration, client CN (Target: Q4 2026)
 
-### v0.3.0 — Advanced Features (Target: Q1 2027)
+### v0.4.0 — Advanced Features (Target: Q1 2027)
 
-- [ ] Bidirectional streaming helper: `BidiStreamAdapter<Req, Resp>` (Target: Q1 2027)
-- [ ] Server-side TLS certificate hot-reload (SIGHUP trigger) (Target: Q1 2027)
-- [ ] Connection keepalive tuning: `grpc.keepalive_time_ms`, `grpc.keepalive_timeout_ms` config keys (Target: Q1 2027)
-- [ ] Multi-port binding for admin vs client traffic separation (Target: Q1 2027)
+- [ ] SIGHUP-triggered TLS certificate hot-reload (currently callable only via `reloadTls()`) (Target: Q1 2027)
+- [ ] SNI-based multi-host TLS on a single port (Target: Q1 2027)
 
 ---
 
@@ -79,15 +85,17 @@ Advanced features (health service, interceptors, streaming helpers) are planned.
 - [x] Already-running guard in `start()`
 - [x] Null service guard in `registerService()`
 - [x] Cert file load failure → fail-closed throw
+- [x] `reloadTls()` fail-safe: bad certs keep old credentials active
 
-### Phase 4: Tests [~]
-- [x] `tests/test_grpc_plugin.cpp` — GRPCPlugin + GRPCServer unit tests (30 tests, 2026-04-08)
+### Phase 4: Tests ✅
+- [x] `tests/test_grpc_plugin.cpp` — GRPCPlugin + GRPCServer unit tests (51 tests)
+- [x] `tests/test_bidi_stream_adapter.cpp` — BidiStreamAdapter unit tests (20 tests)
 - [x] Fail-closed TLS: start() returns false (no insecure fallback)
-- [x] Registered in `tests/CMakeLists.txt` as `test_grpc_plugin` (THEMIS_ENABLE_GRPC guard)
-- [ ] Integration test: mTLS round-trip with echo service
-- [ ] Integration tests (Target: Q3 2026)
+- [x] Keepalive, multi-port, TLS reload tests
+- [ ] Integration test: mTLS round-trip with echo service (Target: Q3 2026)
 
-### Phase 5: Performance / Hardening [ ]
+### Phase 5: Performance / Hardening [~]
+- [x] Keepalive tuning via channel arguments
 - [ ] Health service (Target: Q4 2026)
 - [ ] Interceptors + Prometheus (Target: Q4 2026)
 
@@ -103,9 +111,13 @@ Advanced features (health service, interceptors, streaming helpers) are planned.
 | Core RPC transport | ✅ | HTTP/2 + Protocol Buffers via gRPC C++ |
 | TLS / mTLS | ✅ | Fail-closed; mTLS requires and verifies client cert |
 | Service registration | ✅ | Any `grpc::Service*` accepted before start |
-| Thread safety | ✅ | Atomic running state; mutex-protected stats |
-| Unit/integration tests | ✅ | 30 unit tests in `test_grpc_plugin.cpp` (v0.0.2); integration tests planned Q3 2026 |
-| Uptime tracking | ⚠️ | Initialised to 0; incremental tracking planned Q3 2026 |
+| Thread safety | ✅ | Atomic running state; mutex-protected stats and TLS |
+| Uptime tracking | ✅ | Incremental via `std::chrono` in `getStats()` |
+| Keepalive tuning | ✅ | `extra_config["keepalive_time_ms/timeout_ms"]` |
+| Multi-port binding | ✅ | Admin port via `extra_config["admin_port"]` |
+| TLS hot-reload | ✅ | `reloadTls()` — fail-safe on bad certs |
+| BidiStreamAdapter | ✅ | Header-only; backpressure; thread-safe write |
+| Unit/integration tests | ✅ | 71 unit tests; integration tests planned Q3 2026 |
 | Health service | ❌ | Planned Q4 2026 |
 | Prometheus metrics | ❌ | Planned Q4 2026 |
 
@@ -113,6 +125,7 @@ Advanced features (health service, interceptors, streaming helpers) are planned.
 
 ## Known Issues & Limitations
 
-- `RPCServerStats::uptime_seconds` is set to 0 at start and never incremented.
-- No gRPC health-check service is auto-registered; load balancers requiring it need manual registration.
-- Single-port binding only; separate admin port requires a second `GRPCServer` instance.
+- gRPC health-check service is not auto-registered; load balancers requiring it need manual registration.
+- `reloadTls()` updates the cached credentials only; existing TLS sessions are not renegotiated.
+- SIGHUP-triggered hot-reload is not yet implemented (must call `reloadTls()` explicitly).
+

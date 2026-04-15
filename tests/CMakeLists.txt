@@ -362,6 +362,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_metadata_wal_recovery\\.cpp$"
     ".*test_discourse_engine\\.cpp$"
     ".*test_grpc_plugin\\.cpp$"
+    ".*test_bidi_stream_adapter\\.cpp$"
     ".*test_paxos_wal_recovery\\.cpp$"
     ".*test_paxos_persistence_recovery\\.cpp$"
         ".*test_argument_store_standalone\\.cpp$"
@@ -18017,6 +18018,48 @@ elseif(NOT THEMIS_ENABLE_GRPC)
     message(STATUS "gRPC Plugin tests skipped (gRPC disabled)")
 else()
     message(STATUS "gRPC Plugin tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_plugin.cpp")
+endif()
+
+# ============================================================================
+# BidiStreamAdapter Tests (src/rpc_grpc)
+# ============================================================================
+
+if(THEMIS_ENABLE_GRPC AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_bidi_stream_adapter.cpp")
+    message(STATUS "Adding BidiStreamAdapter tests")
+
+    add_executable(test_bidi_stream_adapter
+        test_bidi_stream_adapter.cpp
+    )
+
+    target_include_directories(test_bidi_stream_adapter PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/rpc_grpc
+    )
+
+    target_link_libraries(test_bidi_stream_adapter PRIVATE
+        ${TEST_LIBS}
+        gRPC::grpc++
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_bidi_stream_adapter PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_ENABLE_GRPC
+    )
+
+    add_test(NAME BidiStreamAdapterTests COMMAND test_bidi_stream_adapter)
+
+    set_tests_properties(BidiStreamAdapterTests PROPERTIES
+        LABELS "rpc;grpc;streaming;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  BidiStreamAdapter: construct, run, write, finish, queue depth")
+elseif(NOT THEMIS_ENABLE_GRPC)
+    message(STATUS "BidiStreamAdapter tests skipped (gRPC disabled)")
+else()
+    message(STATUS "BidiStreamAdapter tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_bidi_stream_adapter.cpp")
 endif()
 
 # ============================================================================
