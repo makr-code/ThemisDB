@@ -19,6 +19,7 @@ v1.5.1 — Production-ready. 15 public headers. LLM adapter Phase 1 complete.
 
 ## Planned
 
+- [x] SoC refactoring: `ITextGenerationBackend` interface decouples ingestion from `llm/` headers — `LegalLlmAdapter` now uses injected backend; `LlmIngestionBridge` in `llm/` is the only cross-module binding (Target: v1.6.0)
 - [ ] Phase 2 LLM pipeline: LoRA fine-tuning, SpaCy NLP, agentic verification (Target: v1.6.0)
 - [ ] Distributed checkpoint store (etcd-backed) (Target: v1.6.0)
 - [ ] Extended binary MIME detection XLSX/ODT/RTF (Target: v1.6.0)
