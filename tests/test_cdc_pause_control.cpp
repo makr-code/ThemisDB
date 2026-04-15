@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_pause_control.cpp                         ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 07:17:13                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:52:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

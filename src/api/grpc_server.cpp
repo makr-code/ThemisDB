@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            grpc_server.cpp                                    ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:11:22                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:48:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • ed2d46e8d1  2026-04-13  fix(api): complete gRPC stub wiring — bounds checks, stop... ║
     • f38c013cdc  2026-03-29  Enhance various components with improvements and fixes ║
-    • 97cd900111  2026-03-25  feat(api): gRPC Phase 4 – mutex fix, deadline, RPC stubs,... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

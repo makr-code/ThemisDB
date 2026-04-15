@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            knowledge_graph_enricher.cpp                       ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:14:59                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   90.0/100                                       ║
-    • Total Lines:     649                                            ║
+    • Total Lines:     647                                            ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • f9bd877988  2026-03-15  feat: ProvenanceTracker live AQL connection, KGE fail-fas... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

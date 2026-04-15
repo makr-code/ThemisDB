@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_judge_integration.h                            ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:08:46                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   86.0/100                                       ║
-    • Total Lines:     212                                            ║
+    • Total Lines:     211                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 67965456c8  2026-03-22  Add constructors with default config for various classes ... ║
-    • 883e2e12b5  2026-03-15  feat(rag): replace LLMIntegration stub + add ILLMInferenc... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

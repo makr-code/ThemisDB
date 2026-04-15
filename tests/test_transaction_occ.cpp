@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_transaction_occ.cpp                           ║
-  Version:         0.0.16                                             ║
-  Last Modified:   2026-04-15 07:23:06                                ║
+  Version:         0.0.18                                             ║
+  Last Modified:   2026-04-15 18:57:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     321                                            ║
+    • Total Lines:     320                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
-    • 35957f254a  2026-03-15  fix(transaction): correct OCC test for version-conflict d... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

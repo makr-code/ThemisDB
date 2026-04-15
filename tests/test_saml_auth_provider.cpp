@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_saml_auth_provider.cpp                        ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:22:06                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:56:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 9bdda37ccb  2026-03-11  fix(server): add enableSaml()/isSamlEnabled() to HttpServ... ║
-    • ec10fee122  2026-03-11  feat(server): SAML 2.0 SP - SamlAuthProvider, HTTP endpoi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

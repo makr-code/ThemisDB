@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            themisdb_adapter.hpp                               ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:06:20                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   88.0/100                                       ║
-    • Total Lines:     458                                            ║
+    • Total Lines:     456                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 95161c29db  2026-04-11  feat(chimera): Streaming result sets, prepared statements... ║
-    • 0701ac8f4d  2026-03-12  feat(chimera): implement async/promise-based API (IAsyncD... ║
-    • 3fea6d6b51  2026-03-12  refactor: clean up includes and remove unused transaction... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

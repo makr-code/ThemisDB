@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lora_certificate_store.h                           ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:07:18                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:45:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 59bb49e3e5  2026-03-15  feat: add Windows HCERTSTORE fallback and fix stale banne... ║
-    • f34b955773  2026-03-15  feat: implement LoRACertificateStore and fail-closed cert... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

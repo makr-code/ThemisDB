@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            importer_interfaces.h                              ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:06:54                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:45:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 56720d99e6  2026-03-14  feat(importers): add conflict_strategy to ImportConfig; m... ║
-    • cd2c9f40c4  2026-03-09  feat(importers): add abstract interface contracts and tests ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

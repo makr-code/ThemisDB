@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_query.cpp                                    ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:05:02                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:43:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 649f5c7538  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
     • 7e8c588d0f  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
     • 9a52ef6bb1  2026-04-13  perf(query): add 1:1 point-lookup benchmarks and pk_eq fa... ║
-    • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

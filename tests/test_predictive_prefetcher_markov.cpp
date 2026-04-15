@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_predictive_prefetcher_markov.cpp              ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 07:20:53                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:56:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • ae64858d0b  2026-03-18  test(cache): remove unused buildPrefetcher helper and imp... ║
     • 8041699747  2026-03-17  fix(cache): address all review comments on predictive pre... ║
-    • 68650737e0  2026-03-16  feat(cache): implement Markov prefetcher ML model - ToD b... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

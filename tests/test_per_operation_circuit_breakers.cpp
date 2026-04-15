@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_per_operation_circuit_breakers.cpp            ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:20:31                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:55:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • fd9fb319d0  2026-03-13  fix(aql): address code review - fix doc comments, remove ... ║
-    • 705fdc35a0  2026-03-13  feat(aql): implement per-operation-type circuit breakers ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

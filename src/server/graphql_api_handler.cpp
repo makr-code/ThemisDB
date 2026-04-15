@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graphql_api_handler.cpp                            ║
-  Version:         0.0.16                                             ║
-  Last Modified:   2026-04-15 07:14:13                                ║
+  Version:         0.0.18                                             ║
+  Last Modified:   2026-04-15 18:50:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     262                                            ║
+    • Total Lines:     261                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • d11498de07  2026-04-07  fix: address code review comments – shared error helper, ... ║
     • fc0c65a058  2026-04-07  feat(api/aql): AQL-GraphQL integration – cost model bridg... ║
-    • 1b86d845d2  2026-03-11  feat(tracing): add OpenTelemetry spans to all major API h... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

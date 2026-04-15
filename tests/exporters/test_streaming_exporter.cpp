@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_streaming_exporter.cpp                        ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:15:44                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:51:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     488                                            ║
+    • Total Lines:     486                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 74e74b4841  2026-03-15  audit: fix test guards, add ZSTD magic-number test, updat... ║
-    • f82bf2ae9f  2026-03-04  Refactor tenant manager tests and add new test cases ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

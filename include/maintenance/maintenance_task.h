@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            maintenance_task.h                                 ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:07:27                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:45:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     199                                            ║
+    • Total Lines:     197                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • f1b8c76ed7  2026-04-13  feat(maintenance): multi-tenant schedule isolation (v2.0.... ║
     • 12bb69b756  2026-04-13  feat(maintenance): multi-tenant schedule isolation (v2.0.... ║
-    • a63629a5c5  2026-03-12  feat: Force-Run Endpoint Window Override (v1.1.0) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

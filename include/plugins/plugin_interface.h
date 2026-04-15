@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_interface.h                                 ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:08:05                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     821                                            ║
+    • Total Lines:     825                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
     • 4e040a88ae  2026-04-07  chore: update checklist – add llama_cpp to plugin plan ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -86,6 +86,8 @@ enum class PluginType {
     LLM_BACKEND,       // LLM backends (llama.cpp, vLLM, etc.) - v1.5.0+
     AUDIO_PROCESSING,  // Audio transcription/processing (whisper.cpp, etc.) - v2.0.0
     IMAGE_GENERATION,  // Image generation (stable-diffusion.cpp, etc.) - v2.0.0
+    AGENTIC_TOOL,      // Agentic tool plugins loaded by ToolRegistry (JSON in/out) - v2.1.0
+    INGESTION_STEP,    // Ingestion workflow step plugins (IIngestionStep) - v2.0.0
     CUSTOM             // Custom plugins
 };
 
@@ -701,6 +703,8 @@ public:
         else if (type_str == "hsm_provider")    m.type = PluginType::HSM_PROVIDER;
         else if (type_str == "embedding")       m.type = PluginType::EMBEDDING;
         else if (type_str == "llm_backend")     m.type = PluginType::LLM_BACKEND;
+        else if (type_str == "agentic_tool")    m.type = PluginType::AGENTIC_TOOL;
+        else if (type_str == "ingestion_step")  m.type = PluginType::INGESTION_STEP;
         else                                    m.type = PluginType::CUSTOM;
 
         if (j.contains("binary") && j["binary"].is_object()) {

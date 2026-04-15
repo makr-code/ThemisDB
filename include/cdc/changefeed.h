@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            changefeed.h                                       ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:06:11                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     483                                            ║
+    • Total Lines:     482                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -18,7 +18,6 @@
     • c1118dfd68  2026-04-13  feat(cdc): GDPR redaction audit log (cdc_redactions CF) +... ║
     • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • 13a305368a  2026-04-13  feat(cdc): GDPR redaction audit log (cdc_redactions CF) +... ║
-    • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            downsampling.h                                     ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:10:02                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:47:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

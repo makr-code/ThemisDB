@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            verify_benchmark_mapping.py                        ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-15 07:24:30                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 18:58:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     384                                            ║
+    • Total Lines:     385                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -131,7 +131,10 @@ def check_files_exist(data: dict) -> bool:
     seen: set[str] = set()
     for module, targets in data["modules"].items():
         for tid, entry in targets.items():
-            fname = entry.get("file", "")
+            fname = entry.get("file") or ""
+            if not fname:
+                # null/empty file is valid for "nicht_messbar" entries
+                continue
             if fname in seen:
                 continue
             seen.add(fname)

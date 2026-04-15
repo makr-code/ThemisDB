@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            training_pipeline.h                                ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:10:12                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     464                                            ║
+    • Total Lines:     463                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 1082cc00f9  2026-03-20  Changes before error encountered        ║
-    • e6379c3181  2026-03-09  fix(training): audit gaps – provenance wiring, calibratio... ║
-    • ce712594b0  2026-03-09  feat(training): Phase 3 enhancements - checkpoint manager... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

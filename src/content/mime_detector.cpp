@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mime_detector.cpp                                  ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:11:42                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     585                                            ║
+    • Total Lines:     584                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 0e2644909c  2026-03-11  fix(content): thread-safe OCR routing — add shouldTrigger... ║
-    • 208e9c6f4c  2026-03-11  feat(content): add ContentPolicy::ocrEnabled() and wire O... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

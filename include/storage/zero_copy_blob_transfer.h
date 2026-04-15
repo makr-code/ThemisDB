@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            zero_copy_blob_transfer.h                          ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:09:50                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:47:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 9b6c7e67f4  2026-03-15  fix(storage): audit fixes for zero-copy blob transfers (I... ║
-    • dcaac1c5cc  2026-03-14  feat(storage): Zero-Copy Blob Transfers (Issue #231, v1.7.0) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

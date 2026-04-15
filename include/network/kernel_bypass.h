@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            kernel_bypass.h                                    ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-15 07:07:37                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 18:45:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

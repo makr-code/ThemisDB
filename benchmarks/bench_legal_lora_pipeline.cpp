@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_legal_lora_pipeline.cpp                      ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:04:54                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:43:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   87.0/100                                       ║
-    • Total Lines:     338                                            ║
+    • Total Lines:     337                                            ║
     • Open Issues:     TODOs: 7, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

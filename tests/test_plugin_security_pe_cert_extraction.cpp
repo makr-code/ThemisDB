@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_plugin_security_pe_cert_extraction.cpp        ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 07:20:43                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:55:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • 6b9a39c6d8  2026-03-16  fix(acceleration): add CI workflow, fix overflow guard, c... ║
-    • adb14cd81a  2026-03-16  feat(acceleration): implement PE certificate table extrac... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

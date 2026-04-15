@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mysql_importer.h                                   ║
-  Version:         0.0.16                                             ║
-  Last Modified:   2026-04-15 07:06:57                                ║
+  Version:         0.0.18                                             ║
+  Last Modified:   2026-04-15 18:45:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     220                                            ║
+    • Total Lines:     219                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 9bccf09a7c  2026-03-16  Changes before error encountered        ║
-    • 786e4a8dfe  2026-03-15  feat(importers): incremental import, MySQL benchmark, Mon... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

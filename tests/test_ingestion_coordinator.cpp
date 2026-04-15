@@ -3,21 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ingestion_coordinator.cpp                     ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:19:06                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:54:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🔴 ALPHA                                        ║
     • Quality Score:   34.0/100                                       ║
-    • Total Lines:     1346                                           ║
+    • Total Lines:     1345                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • b04a231b9f  2026-03-17  fix: address all 9 copilot review comments on coordinator... ║
-    • 962b4cb780  2026-03-17  Complete distributed ingestion coordinator: tests, CI wor... ║
-    • 3323309fb7  2026-03-16  feat(ingestion): close Issue #179 — Distributed Ingestion... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🚧 Early Development                                         ║
 ╚═════════════════════════════════════════════════════════════════════╝

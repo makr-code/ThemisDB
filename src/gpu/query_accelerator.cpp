@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_accelerator.cpp                              ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:11:59                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   88.0/100                                       ║
-    • Total Lines:     1235                                           ║
+    • Total Lines:     1233                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • e010f4ac73  2026-03-12  fix(gpu): address review feedback on query_accelerator GP... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

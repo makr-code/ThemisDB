@@ -3,21 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_temporal_compressor.cpp                       ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 07:16:09                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:52:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     235                                            ║
+    • Total Lines:     233                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 29ac1cf537  2026-04-14  fix                                     ║
     • 040083b025  2026-04-12  feat: StreamingIngestManager, TsStreamCursor, LZ4 compres... ║
-    • 79f0815052  2026-03-28  Add test statistics documentation and collection script ║
-    • 48fbf5b222  2026-03-21  Update search, temporal, and build artifacts ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

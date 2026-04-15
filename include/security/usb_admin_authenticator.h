@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            usb_admin_authenticator.h                          ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:09:11                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     217                                            ║
+    • Total Lines:     216                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 864799dac9  2026-03-24  feat(security): USB Volume Hardening against FAT manipula... ║
-    • c9429f8d3d  2026-03-09  feat(security): HMAC challenge-response, Windows MachineG... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

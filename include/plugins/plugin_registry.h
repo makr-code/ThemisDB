@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_registry.h                                  ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:08:05                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     301                                            ║
+    • Total Lines:     300                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • c5a4a68540  2026-03-15  feat(plugins): complete issue audit — unregisterFactory, ... ║
-    • ae40fc781e  2026-03-15  feat(plugins): upgrade PluginRegistry global mutex to sha... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

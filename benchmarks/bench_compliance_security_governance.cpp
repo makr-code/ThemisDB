@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_compliance_security_governance.cpp           ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:04:45                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:43:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   70.0/100                                       ║
-    • Total Lines:     893                                            ║
+    • Total Lines:     892                                            ║
     • Open Issues:     TODOs: 0, Stubs: 3                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

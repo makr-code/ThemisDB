@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            maintenance_schedule_store.cpp                     ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:12:36                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:49:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 5d2cef871d  2026-03-12  fix: address PR review comments for schedule persistence ║
-    • 9f068f7075  2026-03-12  feat: implement Schedule Persistence (RocksDB) for mainte... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

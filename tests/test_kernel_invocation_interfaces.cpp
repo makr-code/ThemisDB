@@ -3,18 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_kernel_invocation_interfaces.cpp              ║
-  Version:         0.0.31                                             ║
-  Last Modified:   2026-04-15 07:19:18                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-04-15 18:54:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   75.0/100                                       ║
-    • Total Lines:     474                                            ║
+    • Total Lines:     473                                            ║
     • Open Issues:     TODOs: 0, Stubs: 9                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

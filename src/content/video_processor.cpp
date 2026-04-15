@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            video_processor.cpp                                ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:11:43                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

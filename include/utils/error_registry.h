@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            error_registry.h                                   ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:10:29                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     317                                            ║
+    • Total Lines:     350                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
     • be815fa144  2026-04-15  feat(document): IDocumentStore, IDocumentManager, lifecyc... ║
     • a217820d8f  2026-04-12  feat(plugins): implement runtime capability escalation bl... ║
-    • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 5b530b6019  2026-03-16  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -233,6 +232,40 @@ enum class ErrorCode {
     ERR_DOC_COLLECTION_NOT_FOUND  = 9409,  ///< Collection does not exist
     ERR_DOC_ENCRYPT_FAILED        = 9410,  ///< Encrypted entity operation failed
     ERR_DOC_INVALID_ARGUMENT      = 9411,  ///< A required argument is invalid or missing
+
+    // -------------------------------------------------------------------------
+    // Tool errors (ERR_TOOL_*) — 9500–9509
+    // -------------------------------------------------------------------------
+    ERR_TOOL_NOT_FOUND            = 9500,  ///< Named tool is not registered
+    ERR_TOOL_NOT_PERMITTED        = 9501,  ///< Tool not in mode's allowlist or in denylist
+    ERR_TOOL_EXECUTION_FAILED     = 9502,  ///< Tool execute() threw or returned error JSON
+    ERR_TOOL_INVALID_INPUT        = 9503,  ///< Input JSON does not satisfy the tool's inputSchema
+    ERR_TOOL_PLUGIN_NOT_A_TOOL    = 9504,  ///< Loaded plugin does not implement IThemisTool
+    ERR_TOOL_ALREADY_REGISTERED   = 9505,  ///< A tool with this name is already registered
+
+    // -------------------------------------------------------------------------
+    // Workflow / Ingestion-Step errors (ERR_WORKFLOW_*) — 9600–9619
+    // -------------------------------------------------------------------------
+    ERR_WORKFLOW_PROFILE_NOT_FOUND    = 9600,  ///< YAML workflow profile could not be loaded
+    ERR_WORKFLOW_PROFILE_INVALID      = 9601,  ///< YAML profile fails schema validation
+    ERR_WORKFLOW_NO_MATCHING_PROFILE  = 9602,  ///< No loaded profile matches the file's MIME/name
+    ERR_WORKFLOW_STEP_NOT_REGISTERED  = 9603,  ///< Step references plugin name not in StepRegistry
+    ERR_WORKFLOW_STEP_EXECUTION_FAILED= 9604,  ///< A workflow step returned an error
+    ERR_WORKFLOW_STEP_NOT_A_STEP      = 9605,  ///< Loaded plugin does not implement IIngestionStep
+    ERR_WORKFLOW_STEP_ALREADY_REGISTERED = 9606, ///< A step with this name is already registered
+    ERR_WORKFLOW_CONTEXT_INVALID      = 9607,  ///< ExtractionContext is in an invalid state
+    ERR_WORKFLOW_MANIFEST_INVALID     = 9608,  ///< FileManifest is missing required fields
+    ERR_WORKFLOW_QUALITY_GATE_FAILED  = 9609,  ///< Output failed minimum quality gate
+    ERR_WORKFLOW_DECOMPRESS_FAILED    = 9610,  ///< Archive decompression step failed
+    ERR_WORKFLOW_OCR_FAILED           = 9611,  ///< OCR extraction step failed
+    ERR_WORKFLOW_EMBED_FAILED         = 9612,  ///< Embedding step failed
+    ERR_WORKFLOW_ASSEMBLE_FAILED      = 9613,  ///< Base-entity assembler step failed
+    ERR_WORKFLOW_SINK_FAILED          = 9614,  ///< Writing to graph/vector/document sink failed
+    ERR_WORKFLOW_STEP_CONDITION_ERROR = 9615,  ///< Step condition expression evaluation failed
+    ERR_WORKFLOW_CIRCULAR_DEPENDENCY  = 9616,  ///< Workflow step graph has a circular dependency
+    ERR_WORKFLOW_TIMEOUT              = 9617,  ///< Workflow or individual step exceeded timeout
+    ERR_WORKFLOW_QUARANTINED          = 9618,  ///< File quarantined after step failure with on_failure=quarantine
+    ERR_WORKFLOW_PLUGIN_LOAD_FAILED   = 9619,  ///< Dynamic step plugin (.so/.dll) could not be loaded
 
     // Unknown
     ERR_UNKNOWN = 9999

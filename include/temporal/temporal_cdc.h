@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            temporal_cdc.h                                     ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 07:09:53                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:47:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

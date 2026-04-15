@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            json_helpers.h                                     ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-15 07:10:31                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 18:47:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

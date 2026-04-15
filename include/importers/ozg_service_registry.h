@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ozg_service_registry.h                             ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 07:06:58                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:45:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

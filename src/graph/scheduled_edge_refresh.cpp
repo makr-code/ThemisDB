@@ -3,21 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            scheduled_edge_refresh.cpp                         ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:12:01                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:49:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     972                                            ║
+    • Total Lines:     970                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • 79f0815052  2026-03-28  Add test statistics documentation and collection script ║
-    • 89945cb4d4  2026-03-22  feat(graph): ANN-accelerated candidate discovery + CEP ca... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

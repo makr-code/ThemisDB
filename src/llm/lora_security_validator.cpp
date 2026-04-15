@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lora_security_validator.cpp                        ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:12:33                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   96.0/100                                       ║
-    • Total Lines:     1156                                           ║
+    • Total Lines:     1155                                           ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 59bb49e3e5  2026-03-15  feat: add Windows HCERTSTORE fallback and fix stale banne... ║
-    • f34b955773  2026-03-15  feat: implement LoRACertificateStore and fail-closed cert... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

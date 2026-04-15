@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            embedded_llm_stub.cpp                              ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 07:12:26                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:49:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • 67965456c8  2026-03-22  Add constructors with default config for various classes ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

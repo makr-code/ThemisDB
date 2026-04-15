@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            shard_router.cpp                                   ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:14:28                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
-    • Total Lines:     958                                            ║
+    • Total Lines:     957                                            ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

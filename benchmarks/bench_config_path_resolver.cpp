@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_config_path_resolver.cpp                     ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:04:46                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:43:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
-    • Total Lines:     452                                            ║
+    • Total Lines:     451                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • d38f9d8e27  2026-03-13  fix(config): fix broken AC-5 test; add AC-7 benchmark for... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

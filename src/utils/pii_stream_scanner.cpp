@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pii_stream_scanner.cpp                             ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:15:18                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 3b849f06c9  2026-03-15  feat(pii-streaming): complete remaining acceptance criter... ║
-    • 15a0bb6700  2026-03-09  feat(utils): add BloomFilter, ConsistentHashRing, RateLim... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

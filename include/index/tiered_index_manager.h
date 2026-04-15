@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tiered_index_manager.h                             ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:07:07                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:45:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     297                                            ║
+    • Total Lines:     296                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

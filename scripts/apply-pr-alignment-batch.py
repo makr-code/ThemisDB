@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            apply-pr-alignment-batch.py                        ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:11:02                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:48:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 8452353dc5  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
-    • bd46fdcaf1  2026-03-12  Refactor issue and PR reconciliation documents; update Po... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

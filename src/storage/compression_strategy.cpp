@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            compression_strategy.cpp                           ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:14:34                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     664                                            ║
+    • Total Lines:     663                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • d275653619  2026-04-14  update after codefindings               ║
     • a2d7c07202  2026-04-14  update after codefindings               ║
-    • 2386ec7ef9  2026-03-12  feat: implement GPU-accelerated compression (Zstd/Snappy/... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

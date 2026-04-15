@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cdc_admin.h                                        ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:06:11                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     372                                            ║
+    • Total Lines:     371                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • c1118dfd68  2026-04-13  feat(cdc): GDPR redaction audit log (cdc_redactions CF) +... ║
     • 13a305368a  2026-04-13  feat(cdc): GDPR redaction audit log (cdc_redactions CF) +... ║
-    • a9f387ce07  2026-03-11  feat(cdc): runtime-configurable change log retention poli... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ProvisionConfig.cs                                 ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 07:24:09                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:58:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

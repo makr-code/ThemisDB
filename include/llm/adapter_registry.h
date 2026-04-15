@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adapter_registry.h                                 ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:07:14                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • fe135d5215  2026-04-13  feat(llm): Speculative Decoding for Latency Reduction — v... ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 2873683f74  2026-03-18  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

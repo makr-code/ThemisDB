@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_circuit_breaker.cpp                       ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:12:38                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:49:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • bec9be5351  2026-03-11  fix(network): fix deadlock in shouldAllow() and add reset... ║
-    • a96f824fd9  2026-03-11  feat(network): implement AdaptiveCircuitBreaker for netwo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

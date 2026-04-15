@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            forecasting.h                                      ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:05:44                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:44:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     399                                            ║
+    • Total Lines:     419                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
     • a15f06cbdd  2026-03-25  feat(analytics): batch prediction, update(), parallel aut... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -150,7 +150,9 @@ enum class ForecastMethod {
     EXP_SMOOTHING,       ///< Simple exponential smoothing
     HOLT_WINTERS,        ///< Triple exponential smoothing
     ARIMA,               ///< AR(p) + I(d) + MA(q) model
-    ENSEMBLE             ///< Weighted combination of the above
+    ENSEMBLE,            ///< Weighted combination of the above
+    SARIMA,              ///< Seasonal ARIMA (p,d,q)(P,D,Q)_m
+    PROPHET              ///< Prophet-style trend + Fourier seasonality + changepoints
 };
 
 // ============================================================================
@@ -172,6 +174,22 @@ struct ForecastConfig {
     int    ar_order         = 2;     ///< autoregressive order p
     int    diff_order       = 1;     ///< differencing order d (0 or 1)
     int    ma_order         = 1;     ///< moving-average order q
+
+    // ---- SARIMA – seasonal ARIMA (p,d,q)(P,D,Q)_m ----
+    int    sarima_P         = 1;     ///< seasonal AR order
+    int    sarima_D         = 1;     ///< seasonal differencing order (0 or 1)
+    int    sarima_Q         = 1;     ///< seasonal MA order
+    int    sarima_m         = 0;     ///< seasonal period (0 = autodetect / disabled)
+
+    // ---- Prophet-style trend + seasonality ----
+    /// Scale for the piecewise linear changepoint prior (larger → more flexible).
+    double prophet_changepoint_prior_scale = 0.05;
+    /// Number of Fourier terms for weekly seasonality.
+    int    prophet_fourier_order_weekly    = 3;
+    /// Number of Fourier terms for yearly seasonality.
+    int    prophet_fourier_order_yearly    = 10;
+    /// Proportion of history to use for potential changepoints.
+    double prophet_changepoint_range       = 0.8;
 
     // ---- Confidence intervals ----
     bool   include_confidence = true;
@@ -387,6 +405,8 @@ inline const char* forecastMethodName(ForecastMethod m) noexcept {
         case ForecastMethod::HOLT_WINTERS:      return "HOLT_WINTERS";
         case ForecastMethod::ARIMA:             return "ARIMA";
         case ForecastMethod::ENSEMBLE:          return "ENSEMBLE";
+        case ForecastMethod::SARIMA:            return "SARIMA";
+        case ForecastMethod::PROPHET:           return "PROPHET";
         default:                                return "UNKNOWN";
     }
 }

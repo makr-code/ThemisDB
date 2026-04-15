@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rag_batch_evaluator.cpp                       ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:21:25                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:56:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

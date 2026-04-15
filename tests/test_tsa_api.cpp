@@ -3,18 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_tsa_api.cpp                                   ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:23:16                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:57:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  ⚫ DRAFT                                        ║
     • Quality Score:   2.0/100                                        ║
-    • Total Lines:     467                                            ║
+    • Total Lines:     466                                            ║
     • Open Issues:     TODOs: 0, Stubs: 19                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 📝 Draft / Stub                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

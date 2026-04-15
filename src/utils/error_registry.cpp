@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            error_registry.cpp                                 ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:15:17                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • be815fa144  2026-04-15  feat(document): IDocumentStore, IDocumentManager, lifecyc... ║
-    • ab3b22a88e  2026-03-09  feat(query): implement query cancellation via request ID ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

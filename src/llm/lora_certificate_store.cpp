@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lora_certificate_store.cpp                         ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:12:28                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:49:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   86.0/100                                       ║
-    • Total Lines:     368                                            ║
+    • Total Lines:     367                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 59bb49e3e5  2026-03-15  feat: add Windows HCERTSTORE fallback and fix stale banne... ║
-    • 91937bec6c  2026-03-15  fix: address code review — helper method, clearer test na... ║
-    • f34b955773  2026-03-15  feat: implement LoRACertificateStore and fail-closed cert... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

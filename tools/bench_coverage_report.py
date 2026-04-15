@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_coverage_report.py                           ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-15 07:24:14                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 18:58:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

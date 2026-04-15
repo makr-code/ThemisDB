@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_traversal.cpp                                  ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:12:00                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:49:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     862                                            ║
+    • Total Lines:     861                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • dac91fef60  2026-04-04  Add local production readiness checklist and OpenAPI comp... ║
-    • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

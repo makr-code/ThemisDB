@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ldap_connection_pool.cpp                           ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:11:31                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:48:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     432                                            ║
+    • Total Lines:     431                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 8964e83dc5  2026-03-12  Add updater class integration and GitHub Actions for plug... ║
-    • 522fea6c62  2026-03-12  Changes before error encountered        ║
-    • fc9c9664ad  2026-03-12  feat(auth): implement LDAP connection pooling (v1.2.0) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

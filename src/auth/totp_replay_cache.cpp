@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            totp_replay_cache.cpp                              ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:11:34                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     284                                            ║
+    • Total Lines:     283                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 6010e0a0d0  2026-03-12  fix(auth): address review comments on timing documentatio... ║
-    • b4e979f804  2026-03-12  fix(auth): constant-time comparison for recovery codes an... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

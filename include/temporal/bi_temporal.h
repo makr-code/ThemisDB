@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bi_temporal.h                                      ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:09:50                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     239                                            ║
+    • Total Lines:     238                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 6e698b5dbb  2026-03-12  fix(temporal): address PR review feedback on BiTemporalTable ║
-    • bf380a1af8  2026-03-12  feat(temporal): add gap detection, uniqueness constraints... ║
-    • 6e8942ed4f  2026-03-09  feat(temporal): implement bitemporal joins and SEQUENCED/... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

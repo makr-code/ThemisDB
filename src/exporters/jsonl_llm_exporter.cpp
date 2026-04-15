@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            jsonl_llm_exporter.cpp                             ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:11:51                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1147                                           ║
+    • Total Lines:     1145                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 44514d5a18  2026-03-15  feat(exporters): replace zlib with ZSTD as sole StreamWri... ║
-    • 2dba947651  2026-03-11  feat(exporters): PolicyEngine export authorization with a... ║
-    • a765a03691  2026-03-11  feat(exporters): add validate_template dry-run mode to ve... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gui_import_wizard.h                                ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:06:53                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:45:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 67965456c8  2026-03-22  Add constructors with default config for various classes ... ║
-    • 15e6e31437  2026-03-09  feat: implement all features from problem statement ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

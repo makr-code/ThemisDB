@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cdc_ws_handler.cpp                                 ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:11:37                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:48:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     386                                            ║
+    • Total Lines:     385                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • c410b12cc7  2026-03-15  fix(cdc): address code review feedback - clarify ack_key ... ║
-    • f9a6d3a601  2026-03-15  feat(cdc): integrate ConsumerGroupManager into CdcWebSock... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            themis_help_lora.cpp                               ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:12:24                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llama_wrapper.h                                    ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:07:18                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
-    • Total Lines:     654                                            ║
+    • Total Lines:     653                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            office_processor.h                                 ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:06:24                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     271                                            ║
+    • Total Lines:     270                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a8e6e67906  2026-03-11  feat(content): add focused test targets and fix stale doc... ║
-    • be3d43d961  2026-03-11  feat: LibreOffice headless fallback for legacy .doc/.xls/... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

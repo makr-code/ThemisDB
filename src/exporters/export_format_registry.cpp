@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            export_format_registry.cpp                         ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:11:49                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:48:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     228                                            ║
+    • Total Lines:     226                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 793fbd70ba  2026-03-22  feat(exporters): register JoinExporter in ExportFormatReg... ║
-    • 9ddf465a89  2026-03-11  fix(exporters): atomicity in loadTemplatesFromJson + ROAD... ║
-    • 3d3659d8fe  2026-03-11  feat(exporters): register format templates in ExportForma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            paxos_snapshot.cpp                                 ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:14:27                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     429                                            ║
+    • Total Lines:     428                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 874bea3493  2026-03-12  fix: address code review - rename use_compression to comp... ║
-    • 16db53f833  2026-03-12  feat(sharding): implement Raft snapshot compaction and lo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

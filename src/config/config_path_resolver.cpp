@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_path_resolver.cpp                           ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:11:40                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1826                                           ║
+    • Total Lines:     1824                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 1e2b358f1d  2026-03-15  feat(config): SIGHUP hot-reload inotify/kqueue/ReadDirect... ║
-    • 65d0f5d771  2026-03-14  fix(config): consolidate env-var cache helpers into anony... ║
-    • 7a9e3ad1cc  2026-03-14  fix: polish config metrics initialization ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            database_connection_manager.cpp                    ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:14:35                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   93.0/100                                       ║
-    • Total Lines:     615                                            ║
+    • Total Lines:     614                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

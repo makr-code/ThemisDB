@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            retention_manager.h                                ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:09:52                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     264                                            ║
+    • Total Lines:     263                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • eff45c52df  2026-03-12  Address PR review: fix resolveArchiveTag, retry exception... ║
-    • 9587568640  2026-03-12  Implement Automated Retention Policies: STORAGE_BASED typ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

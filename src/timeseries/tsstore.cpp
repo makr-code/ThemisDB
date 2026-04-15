@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tsstore.cpp                                        ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:14:57                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1336                                           ║
+    • Total Lines:     1335                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 0d8e07c708  2026-04-14  chore: reduce compiler warnings in scheduler, query, secu... ║
     • 2e85cfe4c1  2026-04-14  chore: reduce compiler warnings in scheduler, query, secu... ║
     • 040083b025  2026-04-12  feat: StreamingIngestManager, TsStreamCursor, LZ4 compres... ║
-    • 79f0815052  2026-03-28  Add test statistics documentation and collection script ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

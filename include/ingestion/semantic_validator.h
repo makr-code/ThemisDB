@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            semantic_validator.h                               ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:07:12                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:45:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     288                                            ║
+    • Total Lines:     314                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • a7cd4fa788  2026-03-11  feat(ingestion): LLM-driven semantic extraction pipeline ... ║
+    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -264,6 +264,31 @@ public:
      * @param fn  Custom validation function, or empty to reset
      */
     void setValidatorFn(ValidatorFn fn);
+
+    /**
+     * @brief Replace the internal `DeonticExtractor` with a pre-configured one.
+     *
+     * ## SoC / DIP note
+     *
+     * The default extractor uses built-in regex rules.  To activate an
+     * LLM-backed extractor, build one via `LegalLlmAdapter::buildExtractor()`
+     * and inject it here.  The `SemanticValidator` remains entirely free of
+     * any `llm/` or `LegalLlmAdapter` knowledge — the caller provides the
+     * pre-built extractor.
+     *
+     * Example:
+     * @code
+     * // In wiring code (not in ingestion/):
+     * LegalLlmAdapter adapter(bridge);
+     * DeonticExtractor llm_extractor = adapter.buildExtractor(0.75);
+     *
+     * SemanticValidator validator;
+     * validator.setExtractor(std::move(llm_extractor));
+     * @endcode
+     *
+     * @param extractor  Pre-configured DeonticExtractor (moved in).
+     */
+    void setExtractor(DeonticExtractor extractor);
 
 private:
     SemanticValidationResult validateBuiltin(const DeonticExtraction& extraction,

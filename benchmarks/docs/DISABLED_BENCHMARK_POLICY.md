@@ -89,7 +89,6 @@ introduced.  The table below lists them for reference:
 | `benchmarks/bench_lora_gpu.cpp` | `BM_LoRAGPU_Disabled` | #5 | v1.9.0 |
 | `benchmarks/bench_olap_analytics.cpp` | `BM_OLAP_Disabled` | #5 | v1.9.0 |
 | `benchmarks/bench_rag_ethics.cpp` | `BM_EthicalCompliance_Disabled` | #5 | v1.9.0 |
-| `benchmarks/bench_stream_protocol.cpp` | `BM_StreamProtocol_Disabled` | #5 | v1.9.0 |
 | `benchmarks/bench_tpcc.cpp` | `BM_TPCC_Disabled` | #5 | v1.9.0 |
 | `benchmarks/bench_video_processor.cpp` | `BM_VideoProcessor_Disabled` | #5 | v1.9.0 |
 | `benchmarks/bench_vulkan_lora.cpp` | `BM_VulkanLoRA_GPUDisabled` | #5 | v1.9.0 |

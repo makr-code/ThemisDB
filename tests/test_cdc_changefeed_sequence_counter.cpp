@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_changefeed_sequence_counter.cpp           ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 07:17:07                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:52:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 63b0ba3589  2026-03-16  feat(cdc): implement Changefeed sequence counter via Rock... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

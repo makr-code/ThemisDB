@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            module_loader.h                                    ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:09:56                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     1183                                           ║
+    • Total Lines:     1181                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • dea1ebd8b3  2026-03-13  fix(base): address PluginBundleLoader review comments (Zi... ║
-    • 2398e2296f  2026-03-12  feat(base): implement cross-platform PluginBundle format ... ║
-    • c2e0a8ff71  2026-03-12  feat: O(1) module lookup — replace loadedModules_ vector ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,18 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            database_connector.cpp                             ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:12:20                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:49:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     755                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Quality Score:   87.0/100                                       ║
+    • Total Lines:     761                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -455,7 +455,14 @@ public:
 
 private:
     // -----------------------------------------------------------------------
-    // Mock-based ingestion (unit tests)
+    // STUB/SIMULATION NOTE:
+    // Purpose: Enable unit-testing of DatabaseConnector without a live RDBMS
+    //   by using an injected row_fetch_fn_ instead of a real SQL connection.
+    // Activation: Active when row_fetch_fn_ is non-null (set via
+    //   DatabaseConnector::setRowFetchForTesting()).
+    // Production Delta: Rows come from the injected lambda instead of a real
+    //   database connection.  No connection pooling, no transaction management.
+    // Removal Plan: Not removed — remains the test-injection path.
     // -----------------------------------------------------------------------
     void ingestFromMock(IngestionStats& stats,
                         ProgressCallback& progress_callback) {

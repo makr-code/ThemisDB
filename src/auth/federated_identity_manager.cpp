@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            federated_identity_manager.cpp                     ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:11:30                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:48:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   96.0/100                                       ║
-    • Total Lines:     637                                            ║
+    • Total Lines:     636                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 66441eee78  2026-03-13  fix(auth): address RFC 8693 token exchange review feedback ║
-    • 9410e16988  2026-03-12  feat(auth): implement RFC 8693 token exchange in Federate... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

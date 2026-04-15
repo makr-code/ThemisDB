@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            schema_diff.h                                      ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-15 07:07:34                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 18:45:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

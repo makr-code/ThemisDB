@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            zipkin_tracer_adapter.h                            ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:06:30                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:44:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     391                                            ║
+    • Total Lines:     390                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

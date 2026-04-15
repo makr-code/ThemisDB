@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            grpc_web_proxy_handler.cpp                         ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:14:13                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:50:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • d275653619  2026-04-14  update after codefindings               ║
     • a2d7c07202  2026-04-14  update after codefindings               ║
-    • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

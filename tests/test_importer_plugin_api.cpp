@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_importer_plugin_api.cpp                       ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:19:04                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:54:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  ⚫ DRAFT                                        ║
     • Quality Score:   0.0/100                                        ║
-    • Total Lines:     915                                            ║
+    • Total Lines:     913                                            ║
     • Open Issues:     TODOs: 0, Stubs: 61                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • fef91d1796  2026-03-15  fix(importers): audit fixes — remove duplicate legacy doc... ║
-    • 2019b146f9  2026-03-15  feat(importers): Importer Plugin API v1.9.0 — stable C AB... ║
-    • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 📝 Draft / Stub                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

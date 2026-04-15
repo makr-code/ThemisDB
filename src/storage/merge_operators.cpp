@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            merge_operators.cpp                                ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:14:38                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

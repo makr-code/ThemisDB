@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_manager_llm.cpp                            ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:11:41                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     459                                            ║
+    • Total Lines:     458                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • d275653619  2026-04-14  update after codefindings               ║
     • a2d7c07202  2026-04-14  update after codefindings               ║
-    • efc8af71bb  2026-03-11  feat: add LLM-assisted content analysis methods and impro... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

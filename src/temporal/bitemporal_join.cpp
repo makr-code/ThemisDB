@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bitemporal_join.cpp                                ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:14:44                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
-    • 15e6e31437  2026-03-09  feat: implement all features from problem statement ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_tenant_buffer_manager.cpp                     ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:22:49                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:57:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     488                                            ║
+    • Total Lines:     487                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • c01cf83bc8  2026-03-11  fix(cdc): fix DB type mismatch in test_tenant_buffer_mana... ║
-    • a3ec4aa9e9  2026-03-10  refactor: update tenant metrics handling and improve modu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

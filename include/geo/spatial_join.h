@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            spatial_join.h                                     ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:06:42                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:44:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     167                                            ║
+    • Total Lines:     166                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 7811d1486a  2026-03-27  feat: Enhance backward compatibility and legacy support a... ║
-    • 3a43c52c92  2026-03-13  feat(geo): add SpatialJoinIterator lazy iterator and AQL ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ocr_processor.cpp                             ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:20:17                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:55:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     886                                            ║
+    • Total Lines:     884                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • b832e64389  2026-04-12  fix(content): implement OcrProcessor::generateEmbedding a... ║
-    • b3d8aa4a55  2026-03-15  refactor: streamline performance statistics retrieval and... ║
-    • 9d8c5ce371  2026-03-15  Refactor service mesh API handler to use fully qualified ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

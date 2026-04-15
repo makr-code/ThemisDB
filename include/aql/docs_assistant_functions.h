@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            docs_assistant_functions.h                         ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:05:57                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     347                                            ║
+    • Total Lines:     346                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 3a758b465a  2026-04-12  feat(aql): AQL module enhancements — Features 8, 10, 12, ... ║
     • a7b41e3e73  2026-03-22  feat(docs): refactor DocsAssistantFunctions to use unique... ║
-    • f62f9c89c4  2026-03-14  feat(aql): wire detectIntentWithNativeNLP() to IClassifyF... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

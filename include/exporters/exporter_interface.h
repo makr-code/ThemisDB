@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            exporter_interface.h                               ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:06:36                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     192                                            ║
+    • Total Lines:     191                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2dba947651  2026-03-11  feat(exporters): PolicyEngine export authorization with a... ║
-    • 3db37eb452  2026-03-10  feat(exporters): implement EXP-001 PolicyEngine auth, EXP... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

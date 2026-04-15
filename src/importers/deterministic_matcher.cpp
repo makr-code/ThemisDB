@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            deterministic_matcher.cpp                          ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:12:06                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:49:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

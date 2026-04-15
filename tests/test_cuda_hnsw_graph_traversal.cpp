@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cuda_hnsw_graph_traversal.cpp                 ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:17:51                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:53:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • da22cf1ef2  2026-04-13  feat(acceleration): CUDA HNSW visited array memory scalin... ║
-    • 15e6e31437  2026-03-09  feat: implement all features from problem statement ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

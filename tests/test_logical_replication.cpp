@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_logical_replication.cpp                       ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:19:35                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:55:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     321                                            ║
+    • Total Lines:     319                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 02ecdca194  2026-03-21  feat(replication): register logical_replication.cpp, add ... ║
-    • ca7fe627cf  2026-03-14  document persistence defaults and harden temp dir retries ║
-    • ac49d216f6  2026-03-14  adjust row filter warning and temp dir uniqueness ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

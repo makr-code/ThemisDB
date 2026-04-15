@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_temporal_conflict_resolver.cpp                ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:16:09                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:52:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     828                                            ║
+    • Total Lines:     827                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • e1fff5135a  2026-03-12  fix(temporal): address PR review findings on TemporalConf... ║
-    • de38266601  2026-03-12  fix: use find() instead of substr() for safer entity_id p... ║
-    • 1b0158e116  2026-03-12  feat: implement TemporalConflictDetector for temporal con... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

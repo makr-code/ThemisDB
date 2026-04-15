@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            qos_manager.h                                      ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:07:38                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     849                                            ║
+    • Total Lines:     848                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • ee630ecd9c  2026-03-15  fix(network): audit gaps – cwnd enforcement in allowSend(... ║
-    • 99da4f4e4d  2026-03-15  feat(network): implement Bandwidth Management and QoS (v1... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

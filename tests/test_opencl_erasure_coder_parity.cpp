@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_opencl_erasure_coder_parity.cpp               ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:20:20                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:55:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • b1cdd9490f  2026-03-15  fix(sharding): address code review - fix OpenCL buffer er... ║
-    • dc202efce1  2026-03-15  feat(sharding): implement OpenCL erasure coder encode/dec... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

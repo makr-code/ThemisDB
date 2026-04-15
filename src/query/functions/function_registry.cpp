@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            function_registry.cpp                              ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:13:32                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     156                                            ║
+    • Total Lines:     155                                            ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • fc0c65a058  2026-04-07  feat(api/aql): AQL-GraphQL integration – cost model bridg... ║
-    • 3da4977c8c  2026-03-14  fix(aql): address classify-bridge PR review comments ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

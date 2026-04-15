@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ai_orchestrator.cpp                                ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:12:24                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:49:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   96.0/100                                       ║
-    • Total Lines:     582                                            ║
+    • Total Lines:     714                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • cdc9749757  2026-03-18  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -52,7 +52,7 @@ void ToolRegistry::registerTool(const ToolSpec& spec, ToolHandler handler) {
         throw std::invalid_argument("ToolRegistry: tool name must not be empty");
     }
     std::unique_lock lock(tools_mutex_);
-    tools_[spec.name] = {spec, std::move(handler)};
+    tools_[spec.name] = {spec, std::move(handler), /*is_plugin=*/false};
     spdlog::debug("[ToolRegistry] Registered tool '{}'", spec.name);
 }
 
@@ -117,6 +117,138 @@ std::optional<ToolSpec> ToolRegistry::getSpec(const std::string& tool_name) cons
     auto it = tools_.find(tool_name);
     if (it == tools_.end()) return std::nullopt;
     return it->second.spec;
+}
+
+// ── Constructor / Destructor ─────────────────────────────────────────────────
+
+ToolRegistry::ToolRegistry()
+    : plugin_manager_(std::make_unique<plugins::PluginManager>()) {}
+
+ToolRegistry::~ToolRegistry() = default;
+
+// ── Private helper ────────────────────────────────────────────────────────────
+
+void ToolRegistry::registerPluginTool(IThemisTool* tool) {
+    ToolSpec spec;
+    spec.name        = tool->getName();
+    spec.description = tool->getVersion();  // version as a lightweight description proxy
+    spec.args_schema = tool->inputSchema();
+
+    // Capture a non-owning raw pointer — lifetime is managed by PluginManager.
+    ToolHandler handler = [tool](const json& args, const ModeSpec& /*mode*/) -> json {
+        return tool->execute(args);
+    };
+
+    std::unique_lock lock(tools_mutex_);
+    tools_[spec.name] = {std::move(spec), std::move(handler), /*is_plugin=*/true};
+    spdlog::info("[ToolRegistry] Plugin tool '{}' registered", tool->getName());
+}
+
+// ── Dynamic loading ────────────────────────────────────────────────────────────
+
+Result<void> ToolRegistry::loadToolPlugin(const std::string& path,
+                                           const std::string& config) {
+    auto result = plugin_manager_->loadPluginFromPath(path, config);
+    if (!result) {
+        return tl::unexpected(result.error());
+    }
+
+    auto* base = result.value();
+    auto* tool = dynamic_cast<IThemisTool*>(base);
+    if (!tool) {
+        // Not an IThemisTool — unload and report
+        (void)plugin_manager_->unloadPlugin(base->getName());
+        return ErrVoid(errors::ErrorCode::ERR_TOOL_PLUGIN_NOT_A_TOOL,
+                       "plugin at '" + path + "' does not implement IThemisTool");
+    }
+
+    registerPluginTool(tool);
+    return OkVoid();
+}
+
+Result<size_t> ToolRegistry::loadToolsFromDirectory(const std::string& directory) {
+    auto scan = plugin_manager_->scanPluginDirectory(directory);
+    if (!scan) {
+        return tl::unexpected(scan.error());
+    }
+
+    // Load every manifest with type == AGENTIC_TOOL
+    auto manifests = plugin_manager_->listPlugins();
+    size_t loaded = 0;
+    for (const auto& manifest : manifests) {
+        if (manifest.type != plugins::PluginType::AGENTIC_TOOL) continue;
+        if (plugin_manager_->isPluginLoaded(manifest.name)) continue;
+
+        auto res = plugin_manager_->loadPlugin(manifest.name);
+        if (!res) {
+            spdlog::warn("[ToolRegistry] Failed to load tool plugin '{}': {}",
+                         manifest.name, res.error().message());
+            continue;
+        }
+
+        auto* tool = dynamic_cast<IThemisTool*>(res.value());
+        if (!tool) {
+            spdlog::warn("[ToolRegistry] Plugin '{}' is not an IThemisTool — skipped",
+                         manifest.name);
+            (void)plugin_manager_->unloadPlugin(manifest.name);
+            continue;
+        }
+
+        registerPluginTool(tool);
+        ++loaded;
+    }
+
+    return loaded;
+}
+
+Result<void> ToolRegistry::reloadTool(const std::string& name) {
+    // Verify it is a plugin-backed tool
+    {
+        std::shared_lock lock(tools_mutex_);
+        auto it = tools_.find(name);
+        if (it == tools_.end() || !it->second.is_plugin) {
+            return ErrVoid(errors::ErrorCode::ERR_TOOL_NOT_FOUND,
+                           "tool '" + name + "' is not a loaded plugin tool");
+        }
+    }
+
+    auto res = plugin_manager_->reloadPlugin(name);
+    if (!res) return tl::unexpected(res.error());
+
+    // Re-register with the freshly loaded instance
+    auto get = plugin_manager_->getPlugin(name);
+    if (!get) return tl::unexpected(get.error());
+
+    auto* tool = dynamic_cast<IThemisTool*>(get.value());
+    if (!tool) {
+        return ErrVoid(errors::ErrorCode::ERR_TOOL_PLUGIN_NOT_A_TOOL,
+                       "reloaded plugin '" + name + "' no longer implements IThemisTool");
+    }
+
+    registerPluginTool(tool);
+    spdlog::info("[ToolRegistry] Tool '{}' hot-reloaded", name);
+    return OkVoid();
+}
+
+Result<void> ToolRegistry::unloadTool(const std::string& name) {
+    {
+        std::unique_lock lock(tools_mutex_);
+        auto it = tools_.find(name);
+        if (it != tools_.end() && it->second.is_plugin) {
+            tools_.erase(it);
+        }
+    }
+
+    if (plugin_manager_->isPluginLoaded(name)) {
+        return plugin_manager_->unloadPlugin(name);
+    }
+    return OkVoid();
+}
+
+bool ToolRegistry::isPluginTool(const std::string& name) const {
+    std::shared_lock lock(tools_mutex_);
+    auto it = tools_.find(name);
+    return it != tools_.end() && it->second.is_plugin;
 }
 
 // ============================================================================

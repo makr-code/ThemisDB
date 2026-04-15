@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            redis_cache.h                                      ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:06:29                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:44:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 9c5d3c282d  2026-03-13  fix(core): fix deadlock in RedisCache::invalidatePattern ... ║
-    • e1c78c3604  2026-03-13  feat(core): implement RedisCache distributed cache adapte... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

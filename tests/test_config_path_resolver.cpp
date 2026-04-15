@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_config_path_resolver.cpp                      ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:17:28                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:53:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1450                                           ║
+    • Total Lines:     1448                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • e5b103c366  2026-04-13  feat(config): Multi-Environment Config Overlay (dev/stagi... ║
     • 8aa77a0ee1  2026-03-16  fix(config): atomic enabled_ flag + concurrency stress te... ║
-    • 535cee36dc  2026-03-13  feat: export config metrics via Prometheus registry ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

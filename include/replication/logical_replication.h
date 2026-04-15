@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            logical_replication.h                              ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:08:55                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:46:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     207                                            ║
+    • Total Lines:     205                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 67965456c8  2026-03-22  Add constructors with default config for various classes ... ║
-    • 16aed6bb00  2026-03-15  refactor: enhance modular build configuration and improve... ║
-    • d2968d4872  2026-03-14  tighten logical replication diagnostics and randomness ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

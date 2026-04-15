@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cache_warmup.cpp                              ║
-  Version:         0.0.18                                             ║
-  Last Modified:   2026-04-15 07:16:59                                ║
+  Version:         0.0.20                                             ║
+  Last Modified:   2026-04-15 18:52:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     672                                            ║
+    • Total Lines:     671                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 64a9ae4eb6  2026-03-31  feat: enhance cache warmup logic and improve replication ... ║
-    • 20a1e4a441  2026-03-15  refactor(cache): address code review on warmup parallel b... ║
-    • 9d355f5841  2026-03-15  feat(cache): implement warmup parallel bulk load (v1.8.0) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

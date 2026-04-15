@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            capability_auto_generator.cpp                      ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:15:16                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     673                                            ║
+    • Total Lines:     672                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 283ba68aa2  2026-03-15  fix(utils): code audit fixes for Issue #217 — persistStat... ║
-    • 6e62688576  2026-03-15  feat(utils): implement CapabilityAutoGenerator state pers... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_file_watcher.h                              ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-15 07:06:20                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 18:44:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • aeb43de031  2026-04-12  feat(config): create include/config/ public header direct... ║
-    • 1e2b358f1d  2026-03-15  feat(config): SIGHUP hot-reload inotify/kqueue/ReadDirect... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

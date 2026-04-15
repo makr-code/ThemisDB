@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graphics_backends.cpp                              ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:11:18                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

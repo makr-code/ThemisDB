@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_engine.cpp                                   ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:13:37                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   87.0/100                                       ║
-    • Total Lines:     4539                                           ║
+    • Total Lines:     4538                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 9a52ef6bb1  2026-04-13  perf(query): add 1:1 point-lookup benchmarks and pk_eq fa... ║
     • d8c296b8a5  2026-04-11  feat(query): port v2.0.0 rewrite/profiler/approx-aggregat... ║
     • a9c8e3f831  2026-03-30  Fix schema migration ODR in modular tests and align query... ║
-    • 490de27f06  2026-03-26  fix: implement all P0/P1 blockers - QueryEngine, RAG, eth... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

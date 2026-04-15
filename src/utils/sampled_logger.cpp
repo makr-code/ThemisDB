@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            sampled_logger.cpp                                 ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:15:20                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a3ec4aa9e9  2026-03-10  refactor: update tenant metrics handling and improve modu... ║
-    • 15a0bb6700  2026-03-09  feat(utils): add BloomFilter, ConsistentHashRing, RateLim... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

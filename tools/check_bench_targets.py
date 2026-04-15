@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            check_bench_targets.py                             ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-15 07:24:15                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 18:58:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -462,7 +462,7 @@ def check_bench_targets(
     strict: bool = False,
     allowlist: Optional[dict[str, str]] = None,
     build_dir: Optional[Path] = None,
-) -> tuple[list[str], list[str], bool, list[str]]:
+) -> tuple[list[str], list[str], bool, list[str], list[str]]:
     """
     Check benchmark sources against CMake targets and (optionally) built binaries.
 
@@ -470,19 +470,27 @@ def check_bench_targets(
     ----------
     benchmarks_dir : directory containing bench_*.cpp files
     cmake_file     : benchmarks/CMakeLists.txt
-    strict         : require explicit add_executable(); auto-reg is not enough
+    strict         : require explicit add_executable(); auto-reg is not enough.
+                     In binary-check mode (--build-dir), strict also checks
+                     auto-registered (EXCLUDE_FROM_ALL) sources for binary presence.
     allowlist      : mapping of stem → reason for explicitly permitted absences
     build_dir      : when set, also verify actual built binaries exist here
 
     Returns
     -------
-    (orphaned, auto_reg_covered, auto_reg_present, binary_missing)
-        orphaned         – source stems with no CMake coverage (after allowlist filter)
-        auto_reg_covered – source stems covered only by auto-registration
-        auto_reg_present – whether the auto-registration block was found
-        binary_missing   – source stems with CMake coverage but no built binary
-                           (only populated when build_dir is provided; after
-                           allowlist filter)
+    (orphaned, auto_reg_covered, auto_reg_present, binary_missing,
+     auto_reg_binary_skipped)
+        orphaned              – source stems with no CMake coverage (after allowlist filter)
+        auto_reg_covered      – source stems covered only by auto-registration
+        auto_reg_present      – whether the auto-registration block was found
+        binary_missing        – source stems expected in build output but binary absent
+                                (only populated when build_dir is provided; after
+                                allowlist filter; auto-registered sources excluded
+                                unless strict=True)
+        auto_reg_binary_skipped – auto-registered sources not checked for binary
+                                  presence because they are EXCLUDE_FROM_ALL and are
+                                  not expected in a default build.  Only populated
+                                  when build_dir is provided and strict=False.
     """
     if allowlist is None:
         allowlist = {}
@@ -508,15 +516,25 @@ def check_bench_targets(
 
     # Optional binary-level check
     binary_missing: list[str] = []
+    auto_reg_binary_skipped: list[str] = []
     if build_dir is not None:
         built = find_built_binaries(build_dir)
         for stem in sources:
             if stem in allowlist:
                 continue
+            # In non-strict mode, auto-registered (EXCLUDE_FROM_ALL) sources are
+            # intentionally absent from a default build.  Skip them in the binary
+            # check and report them separately so the output is informative rather
+            # than noisy.  Use --strict to enforce binary presence for every source
+            # including auto-registered ones (requires building
+            # themis_benchmarks_all_eligible).
+            if auto_reg and not strict and stem not in explicit_targets:
+                auto_reg_binary_skipped.append(stem)
+                continue
             if stem not in built:
                 binary_missing.append(stem)
 
-    return orphaned, auto_reg_covered, auto_reg, binary_missing
+    return orphaned, auto_reg_covered, auto_reg, binary_missing, auto_reg_binary_skipped
 
 
 # ---------------------------------------------------------------------------
@@ -560,12 +578,15 @@ def format_text(
     strict: bool,
     allowlist: Optional[dict[str, str]] = None,
     binary_missing: Optional[list[str]] = None,
+    auto_reg_binary_skipped: Optional[list[str]] = None,
     allowlist_file: Optional[Path] = None,
 ) -> str:
     if allowlist is None:
         allowlist = {}
     if binary_missing is None:
         binary_missing = []
+    if auto_reg_binary_skipped is None:
+        auto_reg_binary_skipped = []
 
     lines: list[str] = []
 
@@ -584,6 +605,7 @@ def format_text(
     n_orphaned = len(orphaned)
     n_auto = len(auto_reg_covered)
     n_binary = len(binary_missing)
+    n_auto_skip = len(auto_reg_binary_skipped)
 
     # ── CMake-target check ──────────────────────────────────────────────────
     if n_orphaned == 0 and n_auto == 0:
@@ -651,6 +673,18 @@ def format_text(
                     f"  {_c(f'[{cat}]', _YELLOW)}"
                 )
 
+    if not quiet and auto_reg_binary_skipped:
+        lines.append("")
+        lines.append(
+            _c("ℹ️  BINARY CHECK", _CYAN, _BOLD)
+            + f"  {n_auto_skip} auto-registered (EXCLUDE_FROM_ALL) source(s) not checked"
+            " for binary presence (not built in a default build)."
+        )
+        lines.append(
+            "      Use --strict to enforce binary presence for all sources"
+            " (requires cmake --build --target themis_benchmarks_all_eligible)."
+        )
+
     # ── Allowlist summary ───────────────────────────────────────────────────
     if not quiet and allowlist:
         lines.append("")
@@ -677,11 +711,14 @@ def format_json(
     strict: bool,
     allowlist: Optional[dict[str, str]] = None,
     binary_missing: Optional[list[str]] = None,
+    auto_reg_binary_skipped: Optional[list[str]] = None,
 ) -> str:
     if allowlist is None:
         allowlist = {}
     if binary_missing is None:
         binary_missing = []
+    if auto_reg_binary_skipped is None:
+        auto_reg_binary_skipped = []
 
     def _with_category(stems: list[str]) -> list[dict[str, str]]:
         return [{"stem": s, "category": get_category(s)} for s in stems]
@@ -693,6 +730,7 @@ def format_json(
             "orphaned_sources": _with_category(orphaned),
             "auto_reg_covered_sources": _with_category(auto_reg_covered),
             "binary_missing_sources": _with_category(binary_missing),
+            "auto_reg_binary_skipped_sources": _with_category(auto_reg_binary_skipped),
             "allowlisted_sources": [
                 {"stem": s, "reason": r, "category": get_category(s)}
                 for s, r in sorted(allowlist.items())
@@ -702,6 +740,7 @@ def format_json(
                 "orphaned": len(orphaned),
                 "auto_reg_covered": len(auto_reg_covered),
                 "binary_missing": len(binary_missing),
+                "auto_reg_binary_skipped": len(auto_reg_binary_skipped),
                 "allowlisted": len(allowlist),
             },
         },
@@ -818,7 +857,7 @@ def main(argv: Optional[list[str]] = None) -> int:
         )
         return 2
 
-    orphaned, auto_reg_covered, auto_reg_present, binary_missing = check_bench_targets(
+    orphaned, auto_reg_covered, auto_reg_present, binary_missing, auto_reg_binary_skipped = check_bench_targets(
         bench_dir,
         cmake_file,
         strict=args.strict,
@@ -835,6 +874,7 @@ def main(argv: Optional[list[str]] = None) -> int:
                 strict=args.strict,
                 allowlist=allowlist,
                 binary_missing=binary_missing,
+                auto_reg_binary_skipped=auto_reg_binary_skipped,
             )
         )
     else:
@@ -847,6 +887,7 @@ def main(argv: Optional[list[str]] = None) -> int:
                 strict=args.strict,
                 allowlist=allowlist,
                 binary_missing=binary_missing,
+                auto_reg_binary_skipped=auto_reg_binary_skipped,
                 allowlist_file=allowlist_path,
             )
         )

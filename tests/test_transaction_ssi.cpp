@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_transaction_ssi.cpp                           ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 07:23:08                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:57:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
     • b6f602bb2d  2026-03-16  fix(transaction/ssi): fix detectConflicts range intersect... ║
-    • 97ce99dedd  2026-03-15  feat(transaction): Serializable Snapshot Isolation (SSI) ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

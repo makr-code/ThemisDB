@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            provenance_tracker.h                               ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:10:11                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:47:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • f9bd877988  2026-03-15  feat: ProvenanceTracker live AQL connection, KGE fail-fas... ║
-    • ce712594b0  2026-03-09  feat(training): Phase 3 enhancements - checkpoint manager... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

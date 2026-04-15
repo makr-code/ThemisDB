@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            task_scheduler_api_handler.cpp                     ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:14:20                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:50:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1002                                           ║
+    • Total Lines:     1001                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 8452353dc5  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
-    • a2a0e15fab  2026-03-11  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

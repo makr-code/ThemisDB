@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_geo_spatial_join.cpp                          ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:15:45                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:51:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     425                                            ║
+    • Total Lines:     424                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a183c645fa  2026-03-13  fix: address code review - extract collectGeometries help... ║
-    • 3a43c52c92  2026-03-13  feat(geo): add SpatialJoinIterator lazy iterator and AQL ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

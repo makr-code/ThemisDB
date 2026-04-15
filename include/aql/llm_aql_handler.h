@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_aql_handler.h                                  ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:05:58                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     722                                            ║
+    • Total Lines:     720                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 8332e5afa3  2026-04-13  Refactor and update various components for improved compa... ║
     • 3a758b465a  2026-04-12  feat(aql): AQL module enhancements — Features 8, 10, 12, ... ║
-    • 2e566adfce  2026-03-14  fix(aql): bounded worker pool - fix dangling ref, unbound... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

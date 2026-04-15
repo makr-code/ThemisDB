@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_log_aggregator.cpp                            ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:19:33                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:55:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • c05617ab9e  2026-03-11  feat(observability): Upgrade LogAggregator to IAsyncLogge... ║
-    • 4c437a31a4  2026-03-11  feat(observability): implement tracer.cpp and log_aggrega... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

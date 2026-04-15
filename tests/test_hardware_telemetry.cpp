@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_hardware_telemetry.cpp                        ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-04-15 07:18:50                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-15 18:54:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

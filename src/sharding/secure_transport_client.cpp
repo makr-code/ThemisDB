@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            secure_transport_client.cpp                        ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:14:28                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     227                                            ║
+    • Total Lines:     226                                            ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • afc6b2738b  2026-03-26  fix: Resolve BSI/RAG production blockers – JWT, mTLS, CRL... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

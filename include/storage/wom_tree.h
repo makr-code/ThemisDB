@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wom_tree.h                                         ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:09:49                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:47:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 74d75d5ad4  2026-03-14  fix(storage): address all 6 review comments on WOM Tree i... ║
-    • d617efc091  2026-03-13  feat(storage): implement Write-Optimized Merge (WOM) Tree... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

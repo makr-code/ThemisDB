@@ -14370,6 +14370,16 @@ set(INGESTION_CORE_SOURCES
     ${THEMIS_ROOT_DIR}/src/ingestion/semantic_validator.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/agentic_reference_validator.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/llm_adapter.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/workflow_engine.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/entity_assembler.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/ingestion_sinks.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/steps/parse_text_step.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/steps/chunk_text_step.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/steps/legal_metadata_step.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/steps/deontic_step.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/steps/base_entity_assembler_step.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/steps/ner_step.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/steps/llm_extract_step.cpp
 )
 
 # Helper macro for ingestion focused tests
@@ -14589,6 +14599,46 @@ add_ingestion_focused_test(
     IngestionLlmAdapterFocusedTests
     "ingestion;llm;deontic;legal;adapter;phase2;focused;unit"
     "IngestionLlmAdapter: LegalLlmAdapter config, Phase 1 regex fallback, JSON response parsing, Phase 2 health-check (THEMIS_ENABLE_LLM), integration skip-if-no-model"
+)
+
+add_ingestion_focused_test(
+    test_workflow_engine_focused
+    test_workflow_engine.cpp
+    WorkflowEngineFocusedTests
+    "ingestion;workflow;orchestration;yaml;steps;v2;focused;unit"
+    "WorkflowEngine: StepRegistry (SR-01..SR-05), profile loading (WE-01..WE-06), profile selection (WE-07..WE-10), step execution (WE-11..WE-15)"
+)
+
+add_ingestion_focused_test(
+    test_ingestion_base_entity_focused
+    test_ingestion_base_entity.cpp
+    IngestionBaseEntityFocusedTests
+    "ingestion;base-entity;extraction-context;file-manifest;v2;focused;unit"
+    "Ingestion BaseEntity: FileManifest (FM-01..FM-03), ExtractionContext (EC-01..EC-07), BaseEntity/EntityRelation/VectorRecord/BaseEntitySet (BA-01..BA-10)"
+)
+
+add_ingestion_focused_test(
+    test_ingestion_ner_llm_focused
+    test_ingestion_ner_llm.cpp
+    IngestionNerLlmFocusedTests
+    "ingestion;ner;llm;phase3;focused;unit"
+    "Ingestion Phase 3: builtin.ner_de (NE-01..NE-08), builtin.llm_extract (LE-01..LE-06)"
+)
+
+add_ingestion_focused_test(
+    test_ingestion_assembler_sinks_focused
+    test_ingestion_assembler_sinks.cpp
+    IngestionAssemblerSinksFocusedTests
+    "ingestion;assembler;sinks;phase4;focused;unit"
+    "Ingestion Phase 4: EntityNormalizer (EN-01..EN-08), RelationBuilder (RB-01..RB-06), InMemoryGraphWriter (GW-01..GW-05), InMemoryVectorWriter (VW-01..VW-05), InMemoryDocWriter (DW-01..DW-03), IngestionSinkBundle (SB-01..SB-03)"
+)
+
+add_ingestion_focused_test(
+    test_ingestion_legal_domain_focused
+    test_ingestion_legal_domain.cpp
+    LegalDomainFocusedTests
+    "ingestion;legal;domain;phase5;phase6;focused;unit"
+    "Ingestion Phase 5+6: DocumentStoreSinkAdapter (DS-01..DS-05), GesetzParser (LD-01..LD-04), TemporalExtractor (LD-05..LD-07), BehoerdenMapper (LD-08..LD-09), BescheidExtractor (LD-10..LD-11), CrossDocumentLinker (LD-12..LD-13), LegalEntityExport (LD-14..LD-15)"
 )
 # Metadata Module ÔÇô Focused Test Targets
 # ============================================================================

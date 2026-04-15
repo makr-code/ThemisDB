@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            semantic_validator.cpp                             ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:12:23                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:49:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     313                                            ║
+    • Total Lines:     317                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8452353dc5  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
-    • a7cd4fa788  2026-03-11  feat(ingestion): LLM-driven semantic extraction pipeline ... ║
+    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -87,6 +86,10 @@ void SemanticValidator::setQualityGates(const LegalQualityGates& gates) {
 
 void SemanticValidator::setValidatorFn(ValidatorFn fn) {
     validator_fn_ = std::move(fn);
+}
+
+void SemanticValidator::setExtractor(DeonticExtractor extractor) {
+    extractor_ = std::move(extractor);
 }
 
 SemanticValidationResult SemanticValidator::validate(

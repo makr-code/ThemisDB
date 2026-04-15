@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adversarial_tester.h                               ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:08:44                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:46:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     358                                            ║
+    • Total Lines:     357                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 8964e83dc5  2026-03-12  Add updater class integration and GitHub Actions for plug... ║
-    • 67ce513a63  2026-03-12  fix(rag): Address adversarial tester review comments ║
-    • babaf2c7e3  2026-03-12  feat(rag): Implement Adversarial Robustness Testing (v1.1... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

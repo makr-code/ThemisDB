@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ab_test_manager.cpp                           ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:16:10                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:52:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     871                                            ║
+    • Total Lines:     869                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 43a91f1793  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
-    • 37a487927b  2026-03-12  Korrigiere Fehlerbehandlung in get-Methode und aktualisie... ║
-    • d151e46cc1  2026-03-12  fix(base/ab_test_manager): address PR review feedback ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

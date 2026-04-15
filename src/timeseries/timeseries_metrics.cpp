@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            timeseries_metrics.cpp                             ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:14:56                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     520                                            ║
+    • Total Lines:     518                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • d275653619  2026-04-14  update after codefindings               ║
     • a2d7c07202  2026-04-14  update after codefindings               ║
-    • 16b61f181a  2026-03-13  fix(timeseries): audit fixes – catch-up dedup, prometheus... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            primary_docs_indexer.py                            ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:24:27                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:58:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

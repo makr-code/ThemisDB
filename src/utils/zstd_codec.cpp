@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            zstd_codec.cpp                                     ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:15:22                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 9623765ff2  2026-04-14  fix                                     ║
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • 47adc1e417  2026-04-13  feat(utils): UUID v7, LZ4 codec, streaming ZSTD API (#4522) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

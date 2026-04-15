@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_schema_validator.h                          ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-15 07:06:21                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 18:44:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     257                                            ║
+    • Total Lines:     255                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • aeb43de031  2026-04-12  feat(config): create include/config/ public header direct... ║
     • 64c72611d4  2026-03-22  feat(config): implement `not` JSON Schema keyword, upgrad... ║
-    • ee59cce514  2026-03-11  docs(config): update ARCHITECTURE.md and header metadata ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

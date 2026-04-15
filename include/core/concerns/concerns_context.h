@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            concerns_context.h                                 ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:06:24                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     441                                            ║
+    • Total Lines:     440                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 090f93ef21  2026-03-22  feat(core): implement InMemorySecrets and EnvSecretsProvi... ║
-    • e1c78c3604  2026-03-13  feat(core): implement RedisCache distributed cache adapte... ║
-    • 50ae658f67  2026-03-09  feat(core): implement dynamic log level adjustment and au... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

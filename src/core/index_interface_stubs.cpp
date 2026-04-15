@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            index_interface_stubs.cpp                          ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:11:46                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:48:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

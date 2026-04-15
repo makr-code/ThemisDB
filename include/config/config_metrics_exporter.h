@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_metrics_exporter.h                          ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-15 07:06:20                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 18:44:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     98                                             ║
+    • Total Lines:     97                                             ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • aeb43de031  2026-04-12  feat(config): create include/config/ public header direct... ║
-    • 985dc57d92  2026-03-14  fix: harden config metrics exporter compatibility ║
-    • 535cee36dc  2026-03-13  feat: export config metrics via Prometheus registry ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cdc_connector.cpp                                  ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:12:20                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:49:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     846                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     855                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2bab9f3259  2026-03-09  feat(ingestion): implement CdcConnector::ingestFromStream... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
+    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -561,7 +560,16 @@ private:
     }
 
     // -----------------------------------------------------------------------
-    // Mock-based ingestion (unit tests)
+    // STUB/SIMULATION NOTE:
+    // Purpose: Enable unit-testing of CdcConnector without a live database by
+    //   using an injected event_fetch_fn_ instead of a real CDC stream.
+    // Activation: Active when event_fetch_fn_ is non-null (set via
+    //   CdcConnector::setEventFetchForTesting()).
+    // Production Delta: Events come from the injected lambda instead of a real
+    //   database change-data-capture connection.  No network I/O or
+    //   authentication occurs.
+    // Removal Plan: Not removed — remains the test-injection path.  Production
+    //   path (ingestFromLive) must be used when event_fetch_fn_ is null.
     // -----------------------------------------------------------------------
     void ingestFromMock(IngestionStats& stats,
                         ProgressCallback& progress_callback) {

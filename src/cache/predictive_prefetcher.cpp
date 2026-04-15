@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            predictive_prefetcher.cpp                          ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:11:36                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:48:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 3b792a6ae0  2026-03-20  Refactor saga orchestrator, add compute types ║
     • 8041699747  2026-03-17  fix(cache): address all review comments on predictive pre... ║
-    • 68650737e0  2026-03-16  feat(cache): implement Markov prefetcher ML model - ToD b... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

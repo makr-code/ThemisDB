@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            huggingface_connector.cpp                          ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:12:21                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     717                                            ║
+    • Total Lines:     716                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 0762b73749  2026-03-11  feat(ingestion): add ca_bundle_path to RetryConfig for co... ║
-    • 25f69a572f  2026-03-09  feat(ingestion): replace simulated HttpClient in HuggingF... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

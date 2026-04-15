@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llama_wrapper.cpp                                  ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:12:27                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • a2d7c07202  2026-04-14  update after codefindings               ║
     • df59ab8148  2026-04-12  feat(llm): promote llama_wrapper, multi_lora_manager, pro... ║
     • dd98ecc0e0  2026-04-06  Add server crash error log for model loading and tensor i... ║
-    • 2b2fd4812b  2026-04-06  llm: kv-cache clear + mutex fix + crash protection for ge... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🚧 Early Development                                         ║
 ╚═════════════════════════════════════════════════════════════════════╝

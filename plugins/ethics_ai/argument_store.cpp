@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            argument_store.cpp                                 ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:10:40                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   96.0/100                                       ║
     • Total Lines:     357                                            ║
     • Open Issues:     TODOs: 2, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

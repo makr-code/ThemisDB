@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pki_client.cpp                                     ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:15:18                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   89.0/100                                       ║
-    • Total Lines:     840                                            ║
+    • Total Lines:     839                                            ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2680d3d042  2026-03-15  feat(pki): complete stub replacement — PKCS#10 CSR provis... ║
-    • 0f0e5dc3bc  2026-03-15  feat(pki): replace fallback stub verification with real P... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

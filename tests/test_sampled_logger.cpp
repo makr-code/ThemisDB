@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_sampled_logger.cpp                            ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:22:07                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:56:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-    • eea8f803ba  2026-03-09  feat(utils): implement HashChainAuditWriter/AuditLogVerif... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

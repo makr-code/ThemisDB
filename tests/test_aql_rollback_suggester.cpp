@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_aql_rollback_suggester.cpp                    ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-15 07:16:35                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 18:52:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

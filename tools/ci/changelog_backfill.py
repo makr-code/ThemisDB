@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            changelog_backfill.py                              ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-15 07:24:19                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-15 18:58:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

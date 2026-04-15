@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rag_adaptive_retrieval.cpp                    ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-15 07:21:22                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 18:56:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

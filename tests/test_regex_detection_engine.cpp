@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_regex_detection_engine.cpp                    ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 07:21:47                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-15 18:56:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     206                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • fd50a2b408  2026-03-03  test: Wave 2 - add tests for utils, regex PII detection, ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

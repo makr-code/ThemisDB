@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            MainViewModel.cs                                   ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 07:24:13                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:58:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

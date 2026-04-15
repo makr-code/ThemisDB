@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_canary_rollout.cpp                            ║
-  Version:         0.0.16                                             ║
-  Last Modified:   2026-04-15 07:16:59                                ║
+  Version:         0.0.18                                             ║
+  Last Modified:   2026-04-15 18:52:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  ⚫ DRAFT                                        ║
     • Quality Score:   0.0/100                                        ║
-    • Total Lines:     1264                                           ║
+    • Total Lines:     1263                                           ║
     • Open Issues:     TODOs: 0, Stubs: 39                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • f96a06748c  2026-03-14  Audit fixes: populate error_count/success_count in metric... ║
-    • 57c7d0bd94  2026-03-14  Implement CanaryDeployment with latency/memory/CPU/disk m... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 📝 Draft / Stub                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

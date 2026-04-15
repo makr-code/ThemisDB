@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_hot_reload_manager.cpp                        ║
-  Version:         0.0.19                                             ║
-  Last Modified:   2026-04-15 07:18:53                                ║
+  Version:         0.0.21                                             ║
+  Last Modified:   2026-04-15 18:54:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     511                                            ║
+    • Total Lines:     510                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 3af72be8df  2026-03-12  fix(test): move GoogleTest assertions out of worker threa... ║
-    • fe4e33c577  2026-03-12  feat(base): upgrade HotReloadManager mutex to shared_mute... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

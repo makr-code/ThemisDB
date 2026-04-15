@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_themis_wire_protocol_server.cpp               ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:22:52                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:57:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     825                                            ║
+    • Total Lines:     824                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 197320301a  2026-03-28  Implement SequenceU64Increment merge operator for RocksDB... ║
-    • e6f59e401f  2026-03-11  fix(security): sanitize user input in error messages + sy... ║
-    • 74c1c156e0  2026-03-11  fix(network): implement complete wire protocol V1 opcode ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

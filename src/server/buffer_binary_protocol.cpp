@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            buffer_binary_protocol.cpp                         ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:14:11                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     457                                            ║
+    • Total Lines:     456                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

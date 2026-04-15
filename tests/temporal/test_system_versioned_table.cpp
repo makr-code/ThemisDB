@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_system_versioned_table.cpp                    ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:16:08                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:52:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     453                                            ║
+    • Total Lines:     452                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • f5de57fcfe  2026-03-12  fix(temporal): address review comments on SystemVersioned... ║
-    • ea2a53ea6d  2026-03-12  feat(temporal): Full System-Versioned Table Support (v1.1.0) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

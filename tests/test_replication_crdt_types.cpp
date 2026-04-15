@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_replication_crdt_types.cpp                    ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:21:49                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:56:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a85d9f6643  2026-03-10  fix(replication): address code review – spelling fix and ... ║
-    • 8bc8c37687  2026-03-10  feat(replication): implement Phase 4 – Raft v2, CRDT expa... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

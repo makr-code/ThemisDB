@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rocksdb_wrapper.cpp                                ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:14:39                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
-    • Total Lines:     2575                                           ║
+    • Total Lines:     2574                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -18,7 +18,6 @@
     • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
     • df501a1b55  2026-04-09  fix(storage): address code review feedback on blob stream... ║
     • c1205d6286  2026-04-09  feat(storage): streaming blob write path – putBlob/getBlo... ║
-    • eb00b82270  2026-04-04  hotfix: prevent SIGSEGV in RocksDB/LLM init on Docker sta... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

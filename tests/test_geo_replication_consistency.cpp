@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_geo_replication_consistency.cpp               ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:18:29                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:53:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 42e48dbc3c  2026-03-15  fix(replication): audit geo-replication – fix SESSION exp... ║
-    • 7cd7172d73  2026-03-14  feat(replication): add GeoReplicationManager with consist... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

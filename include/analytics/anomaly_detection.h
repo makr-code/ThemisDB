@@ -3,21 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            anomaly_detection.h                                ║
-  Version:         0.0.30                                             ║
-  Last Modified:   2026-04-15 07:05:40                                ║
+  Version:         0.0.32                                             ║
+  Last Modified:   2026-04-15 18:44:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     380                                            ║
+    • Total Lines:     379                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • 44eac4601d  2026-03-18  fix(analytics): split mu_ into window_mu_+detector_mu_; t... ║
-    • f30c7008c1  2026-03-18  fix(analytics): add destructor + future-race fix to Strea... ║
-    • 0334298e8b  2026-03-17  fix(analytics): StreamingAnomalyDetector::process() - red... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

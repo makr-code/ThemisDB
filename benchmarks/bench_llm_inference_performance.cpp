@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_llm_inference_performance.cpp                ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:04:55                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:43:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   76.0/100                                       ║
-    • Total Lines:     582                                            ║
+    • Total Lines:     581                                            ║
     • Open Issues:     TODOs: 0, Stubs: 4                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 58bc3c47f7  2026-04-15  feat(benchmarks): standardize LLM/LoRA artifact preflight... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

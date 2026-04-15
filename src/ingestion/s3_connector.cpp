@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            s3_connector.cpp                                   ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:12:22                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:49:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     734                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Quality Score:   85.0/100                                       ║
+    • Total Lines:     752                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
     • d275653619  2026-04-14  update after codefindings               ║
     • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • a2d7c07202  2026-04-14  update after codefindings               ║
@@ -322,7 +323,16 @@ public:
         bool tmp_created = fs::create_directories(tmp_dir, ec);
 
         // -------------------------------------------------------------------
-        // Mock path (unit tests)
+        // STUB/SIMULATION NOTE:
+        // Purpose: Enable unit-testing of S3Connector without real AWS
+        //   credentials or network access by using injected list_fn_/fetch_fn_.
+        // Activation: Active when list_fn_ && fetch_fn_ are non-null (set via
+        //   S3Connector::setListFnForTesting() / setFetchFnForTesting()).
+        //   Takes priority over both the THEMIS_ENABLE_S3 path and the
+        //   not-supported error path.
+        // Production Delta: Object keys and content come from injected lambdas;
+        //   no AWS SDK calls, no IAM auth, no request signing, no retries.
+        // Removal Plan: Not removed — remains the test-injection path.
         // -------------------------------------------------------------------
         if (list_fn_ && fetch_fn_) {
             ingestFromMock(stats, progress_callback,
@@ -479,7 +489,15 @@ private:
     }
 
     // -----------------------------------------------------------------------
-    // Mock-based ingestion (unit tests)
+    // STUB/SIMULATION NOTE:
+    // Purpose: Enable unit-testing of S3Connector without a live S3 endpoint
+    //   by using injected list_fn_/fetch_fn_ lambdas.
+    // Activation: Called from the ingest() dispatch when list_fn_ and fetch_fn_
+    //   are non-null (set via S3Connector::setListFnForTesting() /
+    //   setFetchFnForTesting()).
+    // Production Delta: Object listing and fetching come from injected lambdas;
+    //   no AWS SDK, no network I/O, no checksum verification.
+    // Removal Plan: Not removed — remains the test-injection path.
     // -----------------------------------------------------------------------
     void ingestFromMock(IngestionStats& stats,
                         ProgressCallback& progress_callback,

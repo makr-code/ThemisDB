@@ -3,22 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            changefeed.cpp                                     ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:11:37                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1187                                           ║
+    • Total Lines:     1186                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • c1118dfd68  2026-04-13  feat(cdc): GDPR redaction audit log (cdc_redactions CF) +... ║
     • 13a305368a  2026-04-13  feat(cdc): GDPR redaction audit log (cdc_redactions CF) +... ║
     • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
-    • d331f64d17  2026-04-01  feat: add support for merge operator detection in Changef... ║
-    • 0e5e834e68  2026-03-31  chore: clean up empty code change sections in the changes... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tenant_update_scheduler.h                          ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:10:26                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:47:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • bcd8bdb1e3  2026-03-14  fix(updates): address all PR review comments for TenantUp... ║
-    • a2504b0259  2026-03-13  feat(updates): implement Multi-Tenant Update Scheduling (... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

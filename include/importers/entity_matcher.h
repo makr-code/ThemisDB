@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            entity_matcher.h                                   ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:06:52                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:45:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,20 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            postgres_importer.cpp                              ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:12:12                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
-    • Total Lines:     2411                                           ║
+    • Total Lines:     2409                                           ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 9d8c5ce371  2026-03-15  Refactor service mesh API handler to use fully qualified ... ║
-    • bd46fdcaf1  2026-03-12  Refactor issue and PR reconciliation documents; update Po... ║
-    • 9cdd82fbdd  2026-03-11  fix(importers): apply getSourceSchema performance parity ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

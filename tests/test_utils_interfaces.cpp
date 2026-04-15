@@ -3,21 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_utils_interfaces.cpp                          ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 07:23:24                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:57:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     546                                            ║
+    • Total Lines:     545                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
     • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
-    • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
-    • 071d9ee897  2026-03-20  feat(utils): implement abstract interfaces for the utils ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
