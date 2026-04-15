@@ -913,6 +913,10 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 | AN-8 | predictBatch() < 50 ms (1k Serien x 30 Steps) | `BM_OLAP_PredictBatch_1k30/1000` in `bench_olap_analytics` | Ja | 66,31 µs, 480,0 M items/s | Ziel im aktuellen Referenzlauf klar erreicht |
 | AN-9 | Auto-Tune Grid < 5 ms (9 Konfigurationen) | `BM_OLAP_AutoTune_Grid9/500` in `bench_olap_analytics` | Ja | 6,44 µs, 720,0 M items/s | Ziel im aktuellen Referenzlauf klar erreicht |
 | AN-10 | ARM NEON Aggregation >= 4 GB/s | keine direkte Zuordnung (x86_64 Lauf) | Nein | n/v | auf ARM-Runner messen; SIMD-Bandbreiten-Benchmark aktivieren |
+| AN-GB | GROUP BY Integer-Aggregation (neue Case) | `BM_OLAP_GroupBy_Int/1000000` in `bench_olap_analytics` | Ja | [Z] ≥500 K rows/s bei 1 M rows | Produktive Case registriert (v1.8.3); Messung ausstehend |
+| AN-WIN | Sliding-Window Running Aggregation (neue Case) | `BM_OLAP_WindowFunction/1000000` in `bench_olap_analytics` | Ja | [Z] ≥200 K rows/s bei 1 M rows | Produktive Case registriert (v1.8.3); Messung ausstehend |
+| AN-JOIN | 3-Tabellen Hash-Join + GROUP BY (neue Case) | `BM_OLAP_MultiJoin/100000` in `bench_olap_analytics` | Ja | [Z] ≥100 K rows/s bei 100 K Orders | Produktive Case registriert (v1.8.3); Messung ausstehend |
+| AN-TOPN | Top-N GROUP BY + ORDER BY LIMIT (neue Case) | `BM_OLAP_TopN_Sorted/1000000` in `bench_olap_analytics` | Ja | [Z] ≥300 K rows/s bei 1 M rows | Produktive Case registriert (v1.8.3); Messung ausstehend |
 
 ###### 6.1.1 Messbare Analytics-Proxies (v1.8.2)
 
@@ -922,6 +926,10 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 | `BM_OLAP_Sum_Optimized/1000000` | 3,589 G/s | optimierter Summen-Pfad |
 | `BM_OLAP_GroupBy_Optimized/1000000` | 48,528 M/s | GroupBy-Skalierung |
 | `BM_OLAP_ComplexQuery/1000000` | 51,613 M/s | komplexe Pipeline als Forecast-Proxy |
+| `BM_OLAP_GroupBy_Int/1000000` | [Z] ≥500 K rows/s | GROUP BY Integer-Aggregation (v1.8.3, AN-GB) |
+| `BM_OLAP_WindowFunction/1000000` | [Z] ≥200 K rows/s | Sliding-Window Running Aggregation (v1.8.3, AN-WIN) |
+| `BM_OLAP_MultiJoin/100000` | [Z] ≥100 K rows/s | 3-Tabellen Hash-Join + GROUP BY (v1.8.3, AN-JOIN) |
+| `BM_OLAP_TopN_Sorted/1000000` | [Z] ≥300 K rows/s | Top-N GROUP BY + ORDER BY LIMIT (v1.8.3, AN-TOPN) |
 
 ###### 6.1.2 Benchmark-Tickets (abgeleitet aus offenen Zielen)
 
@@ -1710,7 +1718,7 @@ Der Build ist mit `continue-on-error: true` versehen. Wenn Voice-Dependencies (S
 | Index | Gute Abdeckung | Kernbenchmarks vorhanden und lauffaehig; Luecken v.a. bei Spezialzielen (HNSW/GPU) |
 | Cache | Teilabdeckung | C-1 und C-4 sind messbar, aber C-2/C-3/C-5/C-6/C-7 weiterhin ohne dedizierte 1:1-Metrik im Report |
 | Storage | Teilabdeckung mit Zielverfehlung | Dedizierte CRUD-Cases vorhanden, jedoch nicht alle Storage-SLO-Profile (insb. Sustained NVMe/P99-Setup) 1:1 abgebildet |
-| Analytics | Teilabdeckung mit Zielverfehlung | Direkte Cases fuer AN-1/AN-2/AN-5/AN-7/AN-8/AN-9 sowie AN-3/AN-4 vorhanden; Export-Ziele weiter unter Ziel, AN-10 weiterhin plattformblockiert |
+| Analytics | **Produktiv (4 neue Cases, v1.8.3)** | `BM_OLAP_Disabled`-Stub entfernt; 4 produktive Cases registriert (`BM_OLAP_GroupBy_Int`, `BM_OLAP_WindowFunction`, `BM_OLAP_MultiJoin`, `BM_OLAP_TopN_Sorted`); weitere AN-1/AN-2/AN-5/AN-7/AN-8/AN-9 direkt messbar; Export-Ziele AN-3/AN-4 weiter unter Ziel, AN-10 plattformblockiert |
 | Timeseries | Teilabdeckung | Kernmetriken vorhanden, aber viele Unterziele ohne dedizierten Benchmark |
 | Geo | Teilabdeckung | Bench-Dateien vorhanden, v1.8.2-Lauf fuer Geo-Referenzfaelle bisher nicht ausgefuehrt |
 | Graph | Gute Abdeckung mit Zielverfehlung | Dedizierte Cases fuer Run-Plan 19/20 vorhanden, jedoch beide SLOs aktuell unter Ziel |
@@ -1934,7 +1942,7 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 | Prio | Maßnahme | Ursache(n) adressiert | Aufwand | Erfolgskriterium |
 |---|---|---|---|---|
 | 1 | `bench_query.cpp` Pagination-Benchmarks wieder registrieren und stabilisieren | 2, 4 | M | `BM_Pagination_Offset` und `BM_Pagination_Cursor` laufen ohne Timeout |
-| 2 | `bench_olap_analytics.cpp` von Disabled-Stub auf echte Cases umstellen | 2, 4 | M | mind. 4 produktive OLAP-Analytics-Cases in v1.8.2-Report |
+| 2 | ~~`bench_olap_analytics.cpp` von Disabled-Stub auf echte Cases umstellen~~ **ERLEDIGT** | 2, 4 | M | `BM_OLAP_Disabled`-Stub entfernt; 4 produktive Cases registriert: `BM_OLAP_GroupBy_Int`, `BM_OLAP_WindowFunction`, `BM_OLAP_MultiJoin`, `BM_OLAP_TopN_Sorted` |
 | 3 | ~~Security/Governance-Binaries inkl. Runtime-DLL-Sync erzwingen~~ **ERLEDIGT** | 1, 3, 5 | M | Alle 4 Binaries starten und produzieren vollstaendige Artefakte; DLL-Pfad-Fix und Security/Compliance-Benchmarkreparaturen verifiziert |
 | 4 | ~~Voice-Benchmark-Pfad für CI via `THEMIS_ENABLE_VOICE_ASSISTANT` optionalen Job aktivieren~~ **ERLEDIGT** | 1, 5 | S | Workflow `02-feature-modules_llm_voice-benchmark-ci.yml` erstellt: `THEMIS_ENABLE_VOICE_ASSISTANT=ON`, `bench_voice_assistant` gebaut, ≥1 Testlauf dokumentiert, fehlende Dependencies als SKIP ausgewiesen |
 | 5 | GPU-Benchmark-Matrix (CUDA/HIP/Vulkan) als separaten Runner etablieren | 1, 3 | L | GPU-disabled Stubs werden durch reale Messwerte ersetzt |

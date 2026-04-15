@@ -508,7 +508,7 @@ def _check_meta_causes(repo_root: Path, cmake_content: str) -> List[Finding]:
                 "document claim about disabled OLAP benchmarks is consistent. "
                 "No real AN-*/OLAP cases are registered yet.",
             ))
-        elif has_real_cases:
+        elif has_disabled_stub and has_real_cases:
             findings.append(Finding(
                 "META_CAUSE_2", "bench_olap_analytics disabled-stub (meta-cause 2)",
                 "FAIL", "olap_disabled_stub_stale",
@@ -516,6 +516,13 @@ def _check_meta_causes(repo_root: Path, cmake_content: str) -> List[Finding]:
                 "BM_OLAP_Disabled. The document's disabled-stub claim is STALE "
                 "and must be updated.",
                 evidence="File: benchmarks/bench_olap_analytics.cpp",
+            ))
+        elif has_real_cases:
+            findings.append(Finding(
+                "META_CAUSE_2", "bench_olap_analytics disabled-stub (meta-cause 2)",
+                "OK", "olap_stub_removed_real_cases_present",
+                "bench_olap_analytics.cpp has real BENCHMARK cases and no "
+                "BM_OLAP_Disabled stub – meta-cause 2 resolved (Issue #5).",
             ))
         else:
             findings.append(Finding(
