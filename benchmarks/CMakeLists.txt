@@ -251,7 +251,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_fused_kernels.cpp" AND (THEMIS_ENAB
     
     target_compile_definitions(bench_fused_kernels PRIVATE
         THEMIS_BENCHMARK_BUILD=1
+        THEMIS_ENABLE_GPU=1
     )
+
+    if(THEMIS_ENABLE_CUDA)
+        target_compile_definitions(bench_fused_kernels PRIVATE THEMIS_ENABLE_CUDA=1)
+    endif()
+    if(THEMIS_ENABLE_HIP)
+        target_compile_definitions(bench_fused_kernels PRIVATE THEMIS_ENABLE_HIP=1)
+    endif()
 
     themis_apply_benchmark_release_flags(bench_fused_kernels)
     
@@ -291,7 +299,15 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_fused_lora_ke
     
     target_compile_definitions(bench_fused_lora_kernels PRIVATE
         THEMIS_BENCHMARK_BUILD=1
+        THEMIS_ENABLE_GPU=1
     )
+
+    if(THEMIS_ENABLE_CUDA)
+        target_compile_definitions(bench_fused_lora_kernels PRIVATE THEMIS_ENABLE_CUDA=1)
+    endif()
+    if(THEMIS_ENABLE_HIP)
+        target_compile_definitions(bench_fused_lora_kernels PRIVATE THEMIS_ENABLE_HIP=1)
+    endif()
 
     themis_apply_benchmark_release_flags(bench_fused_lora_kernels)
     
@@ -373,7 +389,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_gpu_training_cycle.cpp" AND (THEMIS
     
     target_compile_definitions(bench_gpu_training_cycle PRIVATE
         THEMIS_BENCHMARK_BUILD=1
+        THEMIS_ENABLE_GPU=1
     )
+
+    if(THEMIS_ENABLE_CUDA)
+        target_compile_definitions(bench_gpu_training_cycle PRIVATE THEMIS_ENABLE_CUDA=1)
+    endif()
+    if(THEMIS_ENABLE_HIP)
+        target_compile_definitions(bench_gpu_training_cycle PRIVATE THEMIS_ENABLE_HIP=1)
+    endif()
 
     themis_apply_benchmark_release_flags(bench_gpu_training_cycle)
     
@@ -406,7 +430,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_multi_gpu_scaling.cpp" AND (THEMIS_
     
     target_compile_definitions(bench_multi_gpu_scaling PRIVATE
         THEMIS_BENCHMARK_BUILD=1
+        THEMIS_ENABLE_GPU=1
     )
+
+    if(THEMIS_ENABLE_CUDA)
+        target_compile_definitions(bench_multi_gpu_scaling PRIVATE THEMIS_ENABLE_CUDA=1)
+    endif()
+    if(THEMIS_ENABLE_HIP)
+        target_compile_definitions(bench_multi_gpu_scaling PRIVATE THEMIS_ENABLE_HIP=1)
+    endif()
 
     themis_apply_benchmark_release_flags(bench_multi_gpu_scaling)
     
@@ -544,7 +576,18 @@ if(THEMIS_ENABLE_LLM AND THEMIS_ENABLE_GPU AND EXISTS "${CMAKE_CURRENT_SOURCE_DI
     
     target_compile_definitions(bench_backend_comparison PRIVATE
         THEMIS_BENCHMARK_BUILD=1
+        THEMIS_ENABLE_GPU=1
     )
+
+    if(THEMIS_ENABLE_CUDA)
+        target_compile_definitions(bench_backend_comparison PRIVATE THEMIS_ENABLE_CUDA=1)
+    endif()
+    if(THEMIS_ENABLE_HIP)
+        target_compile_definitions(bench_backend_comparison PRIVATE THEMIS_ENABLE_HIP=1)
+    endif()
+    if(THEMIS_ENABLE_VULKAN)
+        target_compile_definitions(bench_backend_comparison PRIVATE THEMIS_ENABLE_VULKAN=1)
+    endif()
 
     themis_apply_benchmark_release_flags(bench_backend_comparison)
     
@@ -556,6 +599,155 @@ if(THEMIS_ENABLE_LLM AND THEMIS_ENABLE_GPU AND EXISTS "${CMAKE_CURRENT_SOURCE_DI
     message(STATUS "  Backend Comparison: CUDA vs HIP vs Vulkan vs CPU")
 else()
     message(STATUS "Backend Comparison benchmarks skipped (GPU disabled or file missing)")
+endif()
+
+# ============================================================================
+# GPU Backends Benchmark (Issue #5 — M05 GPU matrix)
+# bench_gpu_backends.cpp uses per-backend #ifdef guards (THEMIS_ENABLE_CUDA,
+# THEMIS_ENABLE_HIP, THEMIS_ENABLE_VULKAN) — always builds; GPU sections
+# activate at compile time when the matching flag is ON.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_gpu_backends.cpp")
+    message(STATUS "Adding GPU Backends benchmarks (CPU always + GPU per-backend flags)")
+
+    add_executable(bench_gpu_backends
+        bench_gpu_backends.cpp
+    )
+
+    target_link_libraries(bench_gpu_backends PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_gpu_backends PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    if(THEMIS_ENABLE_CUDA)
+        target_compile_definitions(bench_gpu_backends PRIVATE THEMIS_ENABLE_CUDA=1)
+    endif()
+    if(THEMIS_ENABLE_HIP)
+        target_compile_definitions(bench_gpu_backends PRIVATE THEMIS_ENABLE_HIP=1)
+    endif()
+    if(THEMIS_ENABLE_VULKAN)
+        target_compile_definitions(bench_gpu_backends PRIVATE THEMIS_ENABLE_VULKAN=1)
+    endif()
+
+    themis_apply_benchmark_release_flags(bench_gpu_backends)
+
+    install(TARGETS bench_gpu_backends
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    if(THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP OR THEMIS_ENABLE_VULKAN)
+        message(STATUS "  GPU Backends: real CUDA/HIP/Vulkan distance computation benchmarks enabled")
+    else()
+        message(STATUS "  GPU Backends: CPU-only path (no GPU flags set); GPU sections will skip at runtime")
+    endif()
+endif()
+
+# ============================================================================
+# Vulkan LoRA Benchmark (Issue #5 — M05 GPU matrix)
+# Guards with #ifndef THEMIS_ENABLE_GPU — real benchmarks require
+# THEMIS_ENABLE_GPU=ON (and ideally THEMIS_ENABLE_VULKAN for Vulkan path).
+# ============================================================================
+
+if(THEMIS_ENABLE_GPU AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_vulkan_lora.cpp")
+    message(STATUS "Adding Vulkan LoRA benchmarks (THEMIS_ENABLE_GPU=ON)")
+
+    add_executable(bench_vulkan_lora
+        bench_vulkan_lora.cpp
+    )
+
+    target_link_libraries(bench_vulkan_lora PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_vulkan_lora PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+        THEMIS_ENABLE_GPU=1
+    )
+
+    if(THEMIS_ENABLE_VULKAN)
+        target_compile_definitions(bench_vulkan_lora PRIVATE THEMIS_ENABLE_VULKAN=1)
+    endif()
+    if(THEMIS_ENABLE_CUDA)
+        target_compile_definitions(bench_vulkan_lora PRIVATE THEMIS_ENABLE_CUDA=1)
+    endif()
+    if(THEMIS_ENABLE_HIP)
+        target_compile_definitions(bench_vulkan_lora PRIVATE THEMIS_ENABLE_HIP=1)
+    endif()
+
+    themis_apply_benchmark_release_flags(bench_vulkan_lora)
+
+    install(TARGETS bench_vulkan_lora
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Vulkan LoRA: forward pass, memory bandwidth, pipeline throughput")
+else()
+    message(STATUS "Vulkan LoRA benchmarks skipped (THEMIS_ENABLE_GPU=OFF or file missing)")
+endif()
+
+# ============================================================================
+# LoRA GPU Benchmark (Issue #5 — M05 GPU matrix)
+# Guards with #ifndef THEMIS_ENABLE_GPU — real benchmarks require
+# THEMIS_ENABLE_GPU=ON.
+# ============================================================================
+
+if(THEMIS_ENABLE_GPU AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_lora_gpu.cpp")
+    message(STATUS "Adding LoRA GPU benchmarks (THEMIS_ENABLE_GPU=ON)")
+
+    add_executable(bench_lora_gpu
+        bench_lora_gpu.cpp
+    )
+
+    target_link_libraries(bench_lora_gpu PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_lora_gpu PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+        THEMIS_ENABLE_GPU=1
+    )
+
+    if(THEMIS_ENABLE_CUDA)
+        target_compile_definitions(bench_lora_gpu PRIVATE THEMIS_ENABLE_CUDA=1)
+    endif()
+    if(THEMIS_ENABLE_HIP)
+        target_compile_definitions(bench_lora_gpu PRIVATE THEMIS_ENABLE_HIP=1)
+    endif()
+
+    themis_apply_benchmark_release_flags(bench_lora_gpu)
+
+    install(TARGETS bench_lora_gpu
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  LoRA GPU: inference latency, batch throughput, memory bandwidth")
+else()
+    message(STATUS "LoRA GPU benchmarks skipped (THEMIS_ENABLE_GPU=OFF or file missing)")
 endif()
 
 # ============================================================================

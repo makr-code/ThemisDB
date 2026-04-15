@@ -172,6 +172,7 @@ jobs:
             --target bench_backend_comparison \
             --target bench_cuda_vs_cpu \
             --target bench_multi_gpu_scaling \
+            --target bench_lora_gpu \
             2>&1 | tee "$BENCH_OUT_DIR/build.log" || true
 
       - name: Run priority GPU benchmarks (CUDA)
@@ -186,6 +187,7 @@ jobs:
             bench_backend_comparison
             bench_cuda_vs_cpu
             bench_multi_gpu_scaling
+            bench_lora_gpu
           )
           for bin in "${BENCH_BINARIES[@]}"; do
             if [ -x "build_gpu_cuda/$bin" ]; then
@@ -351,6 +353,7 @@ jobs:
             --target bench_gpu_training_cycle \
             --target bench_fused_lora_kernels \
             --target bench_multi_gpu_scaling \
+            --target bench_lora_gpu \
             2>&1 | tee "$BENCH_OUT_DIR/build.log" || true
 
       - name: Run priority GPU benchmarks (HIP)
@@ -362,6 +365,7 @@ jobs:
             bench_gpu_training_cycle
             bench_fused_lora_kernels
             bench_multi_gpu_scaling
+            bench_lora_gpu
           )
           for bin in "${BENCH_BINARIES[@]}"; do
             if [ -x "build_gpu_hip/$bin" ]; then
@@ -467,6 +471,7 @@ jobs:
           cmake --build build_gpu_vulkan --parallel $(nproc) \
             --target bench_vulkan_lora \
             --target bench_gpu_backends \
+            --target bench_lora_gpu \
             2>&1 | tee "$BENCH_OUT_DIR/build.log" || true
 
       - name: Run priority GPU benchmarks (Vulkan)
@@ -475,6 +480,7 @@ jobs:
           BENCH_BINARIES=(
             bench_vulkan_lora
             bench_gpu_backends
+            bench_lora_gpu
           )
           for bin in "${BENCH_BINARIES[@]}"; do
             if [ -x "build_gpu_vulkan/$bin" ]; then
@@ -593,6 +599,8 @@ jobs:
             benchmarks/bench_fused_lora_kernels.cpp \
             benchmarks/bench_gpu_training_cycle.cpp \
             benchmarks/bench_vulkan_lora.cpp \
+            benchmarks/bench_lora_gpu.cpp \
+            benchmarks/bench_multi_gpu_scaling.cpp \
             benchmarks/bench_backend_comparison.cpp \
             benchmarks/bench_gpu_vector_index.cpp; do
             [ -f "$f" ] || continue

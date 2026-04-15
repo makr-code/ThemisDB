@@ -428,14 +428,19 @@ def check_measure_5(root: pathlib.Path) -> dict[str, Any]:
 
     all_pass = all(c["result"] in (STATUS_PASS, STATUS_WARN) for c in checks)
     has_fail = any(c["result"] == STATUS_FAIL for c in checks)
+    erledigt = all_pass and ok_workflow
     return {
         "id": 5,
-        "title": "GPU-Benchmark-Matrix (CUDA/HIP/Vulkan) als separaten Runner etablieren",
-        "erledigt": False,
+        "title": "GPU-Benchmark-Matrix (CUDA/HIP/Vulkan) als separaten Runner etablieren (ERLEDIGT)",
+        "erledigt": erledigt,
         "status": STATUS_FAIL if has_fail else (STATUS_WARN if not ok_workflow else STATUS_PASS),
         "checks": checks,
         "evidence": evidence,
-        "notes": "Measure noch offen. Separater GPU-Runner/Workflow noch nicht nachgewiesen.",
+        "notes": (
+            "Maßnahme erledigt: benchmarks/CMakeLists.txt enthält bench_gpu_backends/bench_vulkan_lora/bench_lora_gpu "
+            "Targets mit THEMIS_ENABLE_GPU=1 und bedingten CUDA/HIP/Vulkan-Compile-Definitionen. "
+            "Workflow 06-infrastructure_gpu_gpu-benchmark-matrix-ci.yml stellt CUDA/HIP/Vulkan Runner-Matrix bereit."
+        ) if erledigt else "Measure noch offen. Separater GPU-Runner/Workflow noch nicht nachgewiesen.",
     }
 
 
