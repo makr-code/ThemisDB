@@ -27,6 +27,10 @@ project(Themis VERSION ${_ver_numeric} LANGUAGES CXX)
 # Make project version available to all translation units
 add_compile_definitions(THEMIS_VERSION_STRING="${_ver}")
 
+# Build provenance: channel, Git SHA, timestamp, Ed25519 signature
+# Generates ${CMAKE_BINARY_DIR}/include/updates/build_info.h
+include(${CMAKE_CURRENT_SOURCE_DIR}/BuildInfo.cmake)
+
 # Include modular build configuration (post-v1.3.0 feature)
 # See docs/architecture/MODULARIZATION_PLAN.md for details
 include(${CMAKE_CURRENT_SOURCE_DIR}/ModularBuild.cmake)
@@ -1977,6 +1981,8 @@ set(THEMIS_CORE_SOURCES
     ../src/updates/cluster_update_manager.cpp
     ../src/updates/preflight_health_check.cpp
     ../src/updates/tenant_update_scheduler.cpp
+    ../src/updates/hardware_telemetry.cpp
+    ../src/updates/build_verifier.cpp
     
     # Geo utilities
     ../src/utils/geo/ewkb.cpp
