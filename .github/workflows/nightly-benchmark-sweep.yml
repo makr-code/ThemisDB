@@ -12,6 +12,8 @@ name: Nightly Benchmark Sweep
 #   present) are satisfied by this file and by CMakePresets.json respectively.
 
 on:
+  schedule:
+    - cron: '0 2 * * *'  # Nightly at 02:00 UTC — modules 2..33 sweep (§1.4 Maßnahme #10)
   workflow_run:
     workflows: ["🚦 Post-Merge Smoke Test"]
     types: [completed]

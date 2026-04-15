@@ -564,6 +564,7 @@ nav:
   - performance vector compression lossless: de/performance/performance_vector_compression_lossless.md
   - performance vulkan: de/performance/performance_vulkan.md
   - performance vulkan impl: de/performance/performance_vulkan_impl.md
+  - nightly bench sweep: de/performance/nightly_bench_sweep.md
 - Plugins:
   - Übersicht: de/plugins/README.md
   - DIFFERENTIAL UPDATE MODE: de/plugins/DIFFERENTIAL_UPDATE_MODE.md

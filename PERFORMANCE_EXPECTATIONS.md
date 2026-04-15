@@ -1944,7 +1944,7 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 | 7 | Ziel-ID-zu-Benchmark-Mapping-Datei erzwingen (pro Modul) | 4 | M | jede Ziel-ID in Tabellen hat exakt 1 primären Benchmarkfall |
 | 8 | Build-Check „source exists but binary missing“ als CI-Guard ergänzen | 5 | S | CI schlägt fehl, wenn `bench_*.cpp` ohne entsprechendes Target/Binary bleibt |
 | 9 | Disabled-Stub-Policy einführen (max. 1 Release erlaubt, danach Pflichtticket) | 2 | S | jede `*_Disabled`-Registrierung trägt Deadline und Issue-Referenz |
-| 10 | Modulweise Benchmark-Sweeps (2..33) als planbare Nightly-Presets | 1, 3, 4 | L | täglicher Coverage-Report mit Ampel pro Modul und Delta-Vergleich |
+| 10 | ~~Modulweise Benchmark-Sweeps (2..33) als planbare Nightly-Presets~~ **ERLEDIGT** | 1, 3, 4 | L | täglicher Coverage-Report mit Ampel pro Modul und Delta-Vergleich — implementiert via `nightly-benchmark-sweep.yml` (cron 02:00 UTC), CMake-Preset `nightly-bench-sweep`, `tools/bench_coverage_report.py` |
 
 ##### 1.4.1 Empfohlene Reihenfolge (2 Wochen)
 

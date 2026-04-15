@@ -31,7 +31,7 @@ und gibt eine klare Fehlermeldung aus.
 | 7 | Ziel-ID-zu-Benchmark-Mapping-Datei erzwingen | Nein | `benchmarks/benchmark_target_mapping.json` oder äquivalentes Dokument vorhanden |
 | 8 | CI-Guard „source exists but binary missing" | Nein | Kein `bench_*.cpp` ohne zugehöriges `add_executable()`-Target in `benchmarks/CMakeLists.txt` (Guard ist im Audit-Script implementiert) |
 | 9 | Disabled-Stub-Policy einführen | Nein | Alle `BENCHMARK(*_Disabled)`-Registrierungen enthalten Deadline-Kommentar + Issue-Referenz |
-| 10 | Modulweise Benchmark-Sweeps (2..33) als Nightly-Presets | Nein | Nightly-Workflow mit `schedule:`-Trigger für Benchmarks oder CMake-Preset mit `nightly`/`sweep`-Konfiguration |
+| 10 | Modulweise Benchmark-Sweeps (2..33) als Nightly-Presets | **Ja** | Nightly-Workflow `nightly-benchmark-sweep.yml` mit `schedule:`/`cron:`-Trigger (02:00 UTC), CMake-Preset `nightly-bench-sweep`, `tools/bench_coverage_report.py` vorhanden; Coverage-Docs: `docs/de/performance/nightly_bench_sweep.md` |
 
 ---
 
