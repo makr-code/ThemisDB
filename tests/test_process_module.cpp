@@ -44,10 +44,13 @@
 
 #include "index/process_graph.h"
 #include "process/bpmn_serializer.h"
+#include "process/dmn_evaluator.h"
 #include "process/epk_serializer.h"
 #include "process/llm_process_descriptor.h"
+#include "process/ocel_exporter.h"
 #include "process/process_graph_rag.h"
 #include "process/process_linker.h"
+#include "process/process_model_generator.h"
 #include "process/process_model_manager.h"
 #include "process/vcc_vpb_importer.h"
 #include "storage/rocksdb_wrapper.h"
@@ -1170,4 +1173,659 @@ TEST_F(ProcessModuleTest, GetAttachmentsAfterHardDelete) {
     auto remaining = linker_->getAttachments("noTmb-inst");
     ASSERT_EQ(remaining.size(), 1u);
     EXPECT_EQ(remaining[0].object_id, "noTmb-doc-a");
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 11. PPR-based GraphRAG Scoring (PPR-01 … PPR-05)
+// ─────────────────────────────────────────────────────────────────────────────
+
+class PprTest : public ::testing::Test {};
+
+// PPR-01: computePpr on empty graph returns empty result
+TEST_F(PprTest, EmptyGraphReturnsEmpty) {
+    themis::RocksDBWrapper::Config cfg;
+    cfg.db_path = "./data/test_ppr_01";
+    fs::remove_all(cfg.db_path);
+    cfg.memtable_size_mb = 16;
+    cfg.block_cache_size_mb = 32;
+    cfg.max_background_jobs = 1;
+    cfg.compression_default = "lz4";
+    cfg.compression_bottommost = "zstd";
+    auto db = std::make_unique<themis::RocksDBWrapper>(cfg);
+    ASSERT_TRUE(db->open());
+
+    themis::registerProcessEdgeTypes();
+    auto engine  = std::make_unique<themis::ProcessGraphManager>(*db);
+    auto mgr     = std::make_unique<themis::process::ProcessModelManager>(*db);
+    auto linker  = std::make_unique<themis::process::ProcessLinker>(*db);
+    auto rag     = std::make_unique<themis::process::ProcessGraphRag>(*db, *engine, *mgr, *linker);
+
+    json empty_graph = {{"nodes", json::array()}, {"edges", json::array()}};
+    auto result = rag->computePpr(empty_graph, {"n1"});
+    EXPECT_TRUE(result.empty());
+
+    db.reset();
+    fs::remove_all(cfg.db_path);
+}
+
+// PPR-02: computePpr on linear chain — seed nodes should have highest scores
+TEST_F(PprTest, LinearChainSeedHasHighScore) {
+    themis::RocksDBWrapper::Config cfg;
+    cfg.db_path = "./data/test_ppr_02";
+    fs::remove_all(cfg.db_path);
+    cfg.memtable_size_mb = 16;
+    cfg.block_cache_size_mb = 32;
+    cfg.max_background_jobs = 1;
+    cfg.compression_default = "lz4";
+    cfg.compression_bottommost = "zstd";
+    auto db = std::make_unique<themis::RocksDBWrapper>(cfg);
+    ASSERT_TRUE(db->open());
+
+    themis::registerProcessEdgeTypes();
+    auto engine  = std::make_unique<themis::ProcessGraphManager>(*db);
+    auto mgr     = std::make_unique<themis::process::ProcessModelManager>(*db);
+    auto linker  = std::make_unique<themis::process::ProcessLinker>(*db);
+    auto rag     = std::make_unique<themis::process::ProcessGraphRag>(*db, *engine, *mgr, *linker);
+
+    // 5-node linear chain: n1→n2→n3→n4→n5
+    json graph = {
+        {"nodes", json::array({
+            {{"id","n1"}},{{"id","n2"}},{{"id","n3"}},{{"id","n4"}},{{"id","n5"}}
+        })},
+        {"edges", json::array({
+            {{"from","n1"},{"to","n2"}},
+            {{"from","n2"},{"to","n3"}},
+            {{"from","n3"},{"to","n4"}},
+            {{"from","n4"},{"to","n5"}}
+        })}
+    };
+
+    themis::process::PprConfig ppr_cfg;
+    ppr_cfg.top_k_nodes = 5;
+    auto result = rag->computePpr(graph, {"n1"}, ppr_cfg);
+
+    ASSERT_GE(result.size(), 2u);
+    // n1 (the seed) should have the highest score
+    EXPECT_EQ(result[0].first, "n1");
+    // All scores should be positive
+    for (const auto& [nid, score] : result) {
+        EXPECT_GT(score, 0.f) << "Node " << nid << " has non-positive score";
+    }
+
+    db.reset();
+    fs::remove_all(cfg.db_path);
+}
+
+// PPR-03: computePpr on 10-node graph — top-k is respected
+TEST_F(PprTest, TopKRespected) {
+    themis::RocksDBWrapper::Config cfg;
+    cfg.db_path = "./data/test_ppr_03";
+    fs::remove_all(cfg.db_path);
+    cfg.memtable_size_mb = 16;
+    cfg.block_cache_size_mb = 32;
+    cfg.max_background_jobs = 1;
+    cfg.compression_default = "lz4";
+    cfg.compression_bottommost = "zstd";
+    auto db = std::make_unique<themis::RocksDBWrapper>(cfg);
+    ASSERT_TRUE(db->open());
+
+    themis::registerProcessEdgeTypes();
+    auto engine  = std::make_unique<themis::ProcessGraphManager>(*db);
+    auto mgr     = std::make_unique<themis::process::ProcessModelManager>(*db);
+    auto linker  = std::make_unique<themis::process::ProcessLinker>(*db);
+    auto rag     = std::make_unique<themis::process::ProcessGraphRag>(*db, *engine, *mgr, *linker);
+
+    // 10-node star: n0 connected to n1..n9
+    json nodes = json::array();
+    json edges = json::array();
+    for (int i = 0; i < 10; ++i) {
+        nodes.push_back({{"id", "n" + std::to_string(i)}});
+    }
+    for (int i = 1; i < 10; ++i) {
+        edges.push_back({{"from","n0"},{"to","n" + std::to_string(i)}});
+    }
+    json graph = {{"nodes", nodes}, {"edges", edges}};
+
+    themis::process::PprConfig ppr_cfg;
+    ppr_cfg.top_k_nodes = 3;
+    auto result = rag->computePpr(graph, {"n0"}, ppr_cfg);
+
+    EXPECT_EQ(result.size(), 3u);
+
+    db.reset();
+    fs::remove_all(cfg.db_path);
+}
+
+// PPR-04: computePpr with no matching seed node IDs falls back gracefully
+TEST_F(PprTest, UnknownSeedFallsBackToUniform) {
+    themis::RocksDBWrapper::Config cfg;
+    cfg.db_path = "./data/test_ppr_04";
+    fs::remove_all(cfg.db_path);
+    cfg.memtable_size_mb = 16;
+    cfg.block_cache_size_mb = 32;
+    cfg.max_background_jobs = 1;
+    cfg.compression_default = "lz4";
+    cfg.compression_bottommost = "zstd";
+    auto db = std::make_unique<themis::RocksDBWrapper>(cfg);
+    ASSERT_TRUE(db->open());
+
+    themis::registerProcessEdgeTypes();
+    auto engine  = std::make_unique<themis::ProcessGraphManager>(*db);
+    auto mgr     = std::make_unique<themis::process::ProcessModelManager>(*db);
+    auto linker  = std::make_unique<themis::process::ProcessLinker>(*db);
+    auto rag     = std::make_unique<themis::process::ProcessGraphRag>(*db, *engine, *mgr, *linker);
+
+    json graph = {
+        {"nodes", json::array({{{"id","a"}},{{"id","b"}},{{"id","c"}}})},
+        {"edges", json::array({{{"from","a"},{"to","b"}},{{"from","b"},{"to","c"}}})}
+    };
+
+    themis::process::PprConfig ppr_cfg;
+    ppr_cfg.top_k_nodes = 3;
+    // "unknown_node" is not in the graph
+    auto result = rag->computePpr(graph, {"unknown_node"}, ppr_cfg);
+    // Should still return k nodes (uniform personalisation fallback)
+    EXPECT_LE(result.size(), 3u);
+
+    db.reset();
+    fs::remove_all(cfg.db_path);
+}
+
+// PPR-05: computePpr performance — 200-node graph completes in < 100 ms
+TEST_F(PprTest, PerformanceLargeGraph) {
+    themis::RocksDBWrapper::Config cfg;
+    cfg.db_path = "./data/test_ppr_05";
+    fs::remove_all(cfg.db_path);
+    cfg.memtable_size_mb = 16;
+    cfg.block_cache_size_mb = 32;
+    cfg.max_background_jobs = 1;
+    cfg.compression_default = "lz4";
+    cfg.compression_bottommost = "zstd";
+    auto db = std::make_unique<themis::RocksDBWrapper>(cfg);
+    ASSERT_TRUE(db->open());
+
+    themis::registerProcessEdgeTypes();
+    auto engine  = std::make_unique<themis::ProcessGraphManager>(*db);
+    auto mgr     = std::make_unique<themis::process::ProcessModelManager>(*db);
+    auto linker  = std::make_unique<themis::process::ProcessLinker>(*db);
+    auto rag     = std::make_unique<themis::process::ProcessGraphRag>(*db, *engine, *mgr, *linker);
+
+    // Build linear chain of 200 nodes
+    json nodes = json::array();
+    json edges = json::array();
+    for (int i = 0; i < 200; ++i) {
+        nodes.push_back({{"id", "p" + std::to_string(i)}});
+    }
+    for (int i = 0; i < 199; ++i) {
+        edges.push_back({{"from","p" + std::to_string(i)},
+                         {"to",  "p" + std::to_string(i + 1)}});
+    }
+    json graph = {{"nodes", nodes}, {"edges", edges}};
+
+    themis::process::PprConfig ppr_cfg;
+    ppr_cfg.top_k_nodes = 20;
+
+    const auto t0 = std::chrono::steady_clock::now();
+    auto result = rag->computePpr(graph, {"p0"}, ppr_cfg);
+    const auto t1 = std::chrono::steady_clock::now();
+
+    const auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count();
+    EXPECT_LT(ms, 100) << "PPR on 200-node graph took " << ms << " ms (limit: 100 ms)";
+    EXPECT_GE(result.size(), 1u);
+
+    db.reset();
+    fs::remove_all(cfg.db_path);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 12. ProcessModelGenerator (PMG-01 … PMG-06)
+// ─────────────────────────────────────────────────────────────────────────────
+
+class ProcessModelGeneratorTest : public ::testing::Test {};
+
+// PMG-01: validate() passes for a valid minimal graph
+TEST_F(ProcessModelGeneratorTest, ValidatePassesForMinimalGraph) {
+    json graph = {
+        {"nodes", json::array({
+            {{"id","s1"},{"type","startEvent"},{"name","Start"}},
+            {{"id","a1"},{"type","userTask"},{"name","Task A"}},
+            {{"id","e1"},{"type","endEvent"},{"name","End"}}
+        })},
+        {"edges", json::array({
+            {{"from","s1"},{"to","a1"}},
+            {{"from","a1"},{"to","e1"}}
+        })}
+    };
+    auto result = themis::process::ProcessModelGenerator::validate(graph);
+    EXPECT_TRUE(result.ok) << "Errors: " << (result.errors.empty() ? "none" : result.errors[0]);
+}
+
+// PMG-02: validate() fails when no startEvent
+TEST_F(ProcessModelGeneratorTest, ValidateFailsNoStart) {
+    json graph = {
+        {"nodes", json::array({
+            {{"id","a1"},{"type","userTask"}},
+            {{"id","e1"},{"type","endEvent"}}
+        })},
+        {"edges", json::array({{{"from","a1"},{"to","e1"}}})}
+    };
+    auto result = themis::process::ProcessModelGenerator::validate(graph);
+    EXPECT_FALSE(result.ok);
+    EXPECT_FALSE(result.errors.empty());
+}
+
+// PMG-03: validate() fails when no endEvent
+TEST_F(ProcessModelGeneratorTest, ValidateFailsNoEnd) {
+    json graph = {
+        {"nodes", json::array({
+            {{"id","s1"},{"type","startEvent"}},
+            {{"id","a1"},{"type","userTask"}}
+        })},
+        {"edges", json::array({{{"from","s1"},{"to","a1"}}})}
+    };
+    auto result = themis::process::ProcessModelGenerator::validate(graph);
+    EXPECT_FALSE(result.ok);
+}
+
+// PMG-04: validate() fails for isolated node
+TEST_F(ProcessModelGeneratorTest, ValidateFailsIsolatedNode) {
+    json graph = {
+        {"nodes", json::array({
+            {{"id","s1"},{"type","startEvent"}},
+            {{"id","a1"},{"type","userTask"}},
+            {{"id","e1"},{"type","endEvent"}},
+            {{"id","iso"},{"type","userTask"}} // isolated
+        })},
+        {"edges", json::array({
+            {{"from","s1"},{"to","a1"}},
+            {{"from","a1"},{"to","e1"}}
+        })}
+    };
+    auto result = themis::process::ProcessModelGenerator::validate(graph);
+    EXPECT_FALSE(result.ok);
+}
+
+// PMG-05: fromLlmJson converts LLM JSON to ProcessModelRecord correctly
+TEST_F(ProcessModelGeneratorTest, FromLlmJsonProducesRecord) {
+    json llm_json = {
+        {"id", "bauantrag"},
+        {"name", "Bauantragsverfahren"},
+        {"domain", "ADMINISTRATION"},
+        {"events", json::array({
+            {{"id","s1"},{"type","startEvent"},{"name","Antrag eingegangen"}},
+            {{"id","e1"},{"type","endEvent"},{"name","Bescheid erteilt"}}
+        })},
+        {"activities", json::array({
+            {{"id","a1"},{"name","Vollständigkeitsprüfung"},{"type","userTask"},{"sla_hours",48}},
+            {{"id","a2"},{"name","Fachprüfung"},{"type","userTask"},{"sla_hours",120}},
+            {{"id","a3"},{"name","Bescheid erstellen"},{"type","userTask"},{"sla_hours",24}}
+        })},
+        {"gateways", json::array({
+            {{"id","g1"},{"name","Vollständig?"},{"type","exclusiveGateway"}}
+        })},
+        {"edges", json::array({
+            {{"id","f1"},{"from","s1"},{"to","a1"}},
+            {{"id","f2"},{"from","a1"},{"to","g1"}},
+            {{"id","f3"},{"from","g1"},{"to","a2"}},
+            {{"id","f4"},{"from","g1"},{"to","e1"}},
+            {{"id","f5"},{"from","a2"},{"to","a3"}},
+            {{"id","f6"},{"from","a3"},{"to","e1"}}
+        })}
+    };
+
+    auto rec = themis::process::ProcessModelGenerator::fromLlmJson(
+        llm_json, themis::process::ProcessDomain::ADMINISTRATION);
+
+    EXPECT_EQ(rec.id, "bauantrag");
+    EXPECT_EQ(rec.name, "Bauantragsverfahren");
+    EXPECT_EQ(rec.domain, themis::process::ProcessDomain::ADMINISTRATION);
+    ASSERT_TRUE(rec.normalized.contains("nodes"));
+    ASSERT_TRUE(rec.normalized.contains("edges"));
+    EXPECT_GE(rec.normalized["nodes"].size(), 6u); // 2 events + 3 activities + 1 gateway
+    EXPECT_GE(rec.normalized["edges"].size(), 5u);
+}
+
+// PMG-06: generateFromDescription returns false when no backend is set
+TEST_F(ProcessModelGeneratorTest, NoBackendReturnsFalse) {
+    themis::process::ProcessModelGenerator gen;
+    // No LLM backend configured
+    auto [ok, rec] = gen.generateFromDescription("Einfacher Testprozess");
+    EXPECT_FALSE(ok);
+}
+
+// PMG-07: generateFromDescription with mock backend generates valid model
+TEST_F(ProcessModelGeneratorTest, MockBackendGeneratesValidModel) {
+    themis::process::ProcessModelGenerator gen;
+
+    // Mock LLM that returns a valid JSON process model
+    gen.setLlmBackend([](const std::string& /*prompt*/) -> std::string {
+        return R"({
+            "id": "mock_proc",
+            "name": "Mock Process",
+            "domain": "BUSINESS",
+            "events": [
+                {"id":"s1","type":"startEvent","name":"Start"},
+                {"id":"e1","type":"endEvent","name":"End"}
+            ],
+            "activities": [
+                {"id":"a1","name":"Task 1","type":"userTask","sla_hours":8},
+                {"id":"a2","name":"Task 2","type":"userTask","sla_hours":16},
+                {"id":"a3","name":"Task 3","type":"userTask","sla_hours":24}
+            ],
+            "gateways": [],
+            "edges": [
+                {"id":"f1","from":"s1","to":"a1"},
+                {"id":"f2","from":"a1","to":"a2"},
+                {"id":"f3","from":"a2","to":"a3"},
+                {"id":"f4","from":"a3","to":"e1"}
+            ]
+        })";
+    });
+
+    themis::process::ProcessModelGenerator::Config cfg;
+    cfg.max_retries = 1;
+    auto [ok, rec] = gen.generateFromDescription("Test process", cfg);
+
+    ASSERT_TRUE(ok) << "Expected successful generation with mock backend";
+    EXPECT_EQ(rec.id, "mock_proc");
+    ASSERT_TRUE(rec.normalized.contains("nodes"));
+    ASSERT_TRUE(rec.normalized.contains("edges"));
+    EXPECT_GE(rec.normalized["nodes"].size(), 5u); // 2 events + 3 activities
+    EXPECT_GE(rec.normalized["edges"].size(), 4u);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 13. DmnEvaluator (DMN-01 … DMN-10)
+// ─────────────────────────────────────────────────────────────────────────────
+
+class DmnEvaluatorTest : public ::testing::Test {};
+
+// DMN-01: evaluateFeel wildcard '-' always matches
+TEST_F(DmnEvaluatorTest, FeelWildcardAlwaysMatches) {
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel("-", json(42)));
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel("-", json("hello")));
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel("-", json(nullptr)));
+}
+
+// DMN-02: evaluateFeel numeric comparisons
+TEST_F(DmnEvaluatorTest, FeelNumericComparisons) {
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel(">5", json(6.0)));
+    EXPECT_FALSE(themis::process::DmnEvaluator::evaluateFeel(">5", json(5.0)));
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel(">=5", json(5.0)));
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel("<100", json(99.0)));
+    EXPECT_FALSE(themis::process::DmnEvaluator::evaluateFeel("<100", json(100.0)));
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel("!=3", json(4.0)));
+    EXPECT_FALSE(themis::process::DmnEvaluator::evaluateFeel("!=3", json(3.0)));
+}
+
+// DMN-03: evaluateFeel range expressions
+TEST_F(DmnEvaluatorTest, FeelRangeExpressions) {
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel("[100..1000]", json(500.0)));
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel("[100..1000]", json(100.0)));
+    EXPECT_FALSE(themis::process::DmnEvaluator::evaluateFeel("[100..1000]", json(1001.0)));
+    EXPECT_FALSE(themis::process::DmnEvaluator::evaluateFeel("(100..1000)", json(100.0)));
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel("(100..1000)", json(101.0)));
+    EXPECT_FALSE(themis::process::DmnEvaluator::evaluateFeel("[100..1000)", json(1000.0)));
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel("[100..1000)", json(999.0)));
+}
+
+// DMN-04: evaluateFeel string equality with quotes
+TEST_F(DmnEvaluatorTest, FeelStringEquality) {
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel(R"("credit")", json("credit")));
+    EXPECT_FALSE(themis::process::DmnEvaluator::evaluateFeel(R"("credit")", json("debit")));
+    EXPECT_FALSE(themis::process::DmnEvaluator::evaluateFeel(R"("credit")", json(42)));
+}
+
+// DMN-05: evaluateFeel null checks
+TEST_F(DmnEvaluatorTest, FeelNullChecks) {
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel("null", json(nullptr)));
+    EXPECT_FALSE(themis::process::DmnEvaluator::evaluateFeel("null", json(42)));
+    EXPECT_TRUE(themis::process::DmnEvaluator::evaluateFeel("not(null)", json(42)));
+    EXPECT_FALSE(themis::process::DmnEvaluator::evaluateFeel("not(null)", json(nullptr)));
+}
+
+// DMN-06: loadFromJson with UNIQUE hit policy
+TEST_F(DmnEvaluatorTest, LoadFromJsonUniqueHitPolicy) {
+    json dt = {
+        {"id", "risk"},
+        {"name", "Risk Assessment"},
+        {"hit_policy", "UNIQUE"},
+        {"input_columns", {"amount", "type"}},
+        {"output_columns", {"risk_level"}},
+        {"rules", json::array({
+            {{"id","r1"}, {"inputs", json::array({">1000", R"("credit")"})},
+             {"outputs", {{"risk_level","HIGH"}}}},
+            {{"id","r2"}, {"inputs", json::array({"[100..1000]", "-"})},
+             {"outputs", {{"risk_level","MEDIUM"}}}},
+            {{"id","r3"}, {"inputs", json::array({"<100", "-"})},
+             {"outputs", {{"risk_level","LOW"}}}}
+        })}
+    };
+
+    themis::process::DmnEvaluator eval;
+    ASSERT_TRUE(eval.loadFromJson(dt));
+
+    // Test HIGH case
+    auto result = eval.evaluate("risk", {{"amount", 2000}, {"type", "credit"}});
+    ASSERT_TRUE(result.contains("risk_level"));
+    EXPECT_EQ(result["risk_level"].get<std::string>(), "HIGH");
+
+    // Test MEDIUM case
+    result = eval.evaluate("risk", {{"amount", 500}, {"type", "other"}});
+    ASSERT_TRUE(result.contains("risk_level"));
+    EXPECT_EQ(result["risk_level"].get<std::string>(), "MEDIUM");
+
+    // Test LOW case
+    result = eval.evaluate("risk", {{"amount", 50}, {"type", "cash"}});
+    ASSERT_TRUE(result.contains("risk_level"));
+    EXPECT_EQ(result["risk_level"].get<std::string>(), "LOW");
+}
+
+// DMN-07: COLLECT hit policy returns all matching rules
+TEST_F(DmnEvaluatorTest, CollectHitPolicyReturnsAll) {
+    json dt = {
+        {"id", "tags"},
+        {"name", "Tagging"},
+        {"hit_policy", "COLLECT"},
+        {"input_columns", {"score"}},
+        {"output_columns", {"tag"}},
+        {"rules", json::array({
+            {{"inputs", json::array({">=50"})}, {"outputs", {{"tag","pass"}}}},
+            {{"inputs", json::array({">=80"})}, {"outputs", {{"tag","excellent"}}}},
+            {{"inputs", json::array({"<50"})},  {"outputs", {{"tag","fail"}}}}
+        })}
+    };
+
+    themis::process::DmnEvaluator eval;
+    ASSERT_TRUE(eval.loadFromJson(dt));
+
+    auto result = eval.evaluate("tags", {{"score", 90}});
+    ASSERT_TRUE(result.is_array());
+    EXPECT_GE(result.size(), 2u); // both "pass" and "excellent" match
+}
+
+// DMN-08: evaluate returns empty object when no rule matches
+TEST_F(DmnEvaluatorTest, NoMatchReturnsEmpty) {
+    json dt = {
+        {"id", "strict"},
+        {"name", "Strict Table"},
+        {"hit_policy", "UNIQUE"},
+        {"input_columns", {"value"}},
+        {"output_columns", {"label"}},
+        {"rules", json::array({
+            {{"inputs", json::array({"=42"})}, {"outputs", {{"label","answer"}}}}
+        })}
+    };
+
+    themis::process::DmnEvaluator eval;
+    ASSERT_TRUE(eval.loadFromJson(dt));
+
+    auto result = eval.evaluate("strict", {{"value", 0}});
+    EXPECT_TRUE(result.empty());
+}
+
+// DMN-09: loadFromXml parses simplified DMN 1.5 XML
+TEST_F(DmnEvaluatorTest, LoadFromXmlParsesDecisionTable) {
+    const std::string dmn_xml = R"(<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/">
+  <decision id="approval" name="Approval Decision">
+    <decisionTable hitPolicy="FIRST">
+      <input id="i1" label="amount"/>
+      <output id="o1" label="decision" name="decision"/>
+      <rule id="r1">
+        <inputEntry id="ie1">>=1000</inputEntry>
+        <outputEntry id="oe1">approved</outputEntry>
+      </rule>
+      <rule id="r2">
+        <inputEntry id="ie2">&lt;1000</inputEntry>
+        <outputEntry id="oe2">rejected</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>)";
+
+    themis::process::DmnEvaluator eval;
+    ASSERT_TRUE(eval.loadFromXml(dmn_xml)) << "loadFromXml failed";
+    const auto decisions = eval.listDecisions();
+    EXPECT_FALSE(decisions.empty());
+}
+
+// DMN-10: listDecisions returns all loaded decision IDs
+TEST_F(DmnEvaluatorTest, ListDecisionsReturnsAllIds) {
+    themis::process::DmnEvaluator eval;
+
+    json dt1 = {{"id","d1"}, {"hit_policy","UNIQUE"},
+                {"input_columns",{"x"}}, {"output_columns",{"y"}}, {"rules",json::array()}};
+    json dt2 = {{"id","d2"}, {"hit_policy","UNIQUE"},
+                {"input_columns",{"a"}}, {"output_columns",{"b"}}, {"rules",json::array()}};
+
+    ASSERT_TRUE(eval.loadFromJson(dt1));
+    ASSERT_TRUE(eval.loadFromJson(dt2));
+
+    const auto ids = eval.listDecisions();
+    EXPECT_EQ(ids.size(), 2u);
+    EXPECT_NE(std::find(ids.begin(), ids.end(), "d1"), ids.end());
+    EXPECT_NE(std::find(ids.begin(), ids.end(), "d2"), ids.end());
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 14. OcelExporter (OCEL-01 … OCEL-04)
+// ─────────────────────────────────────────────────────────────────────────────
+
+class OcelExporterTest : public ProcessModuleTest {};
+
+// OCEL-01: exportInstance returns empty JSON for non-existent instance
+TEST_F(OcelExporterTest, ExportNonExistentInstanceReturnsEmpty) {
+    themis::process::OcelExporter exp(*db_, *engine_, *mgr_, *linker_);
+    auto result = exp.exportInstance("does-not-exist");
+    EXPECT_TRUE(result.empty());
+}
+
+// OCEL-02: exportInstance for a valid instance produces OCEL 2.0 structure
+TEST_F(OcelExporterTest, ExportInstanceProducesOcel2Structure) {
+    // Register a simple process model
+    const std::string bpmn_xml = R"(<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  <process id="ocel_test_proc" name="OCEL Test">
+    <startEvent id="s1" name="Start"/>
+    <userTask id="t1" name="Review"/>
+    <endEvent id="e1" name="End"/>
+    <sequenceFlow id="f1" sourceRef="s1" targetRef="t1"/>
+    <sequenceFlow id="f2" sourceRef="t1" targetRef="e1"/>
+  </process>
+</definitions>)";
+
+    auto import_result = mgr_->importBpmn(bpmn_xml);
+    ASSERT_TRUE(import_result.ok) << import_result.message;
+
+    // Start a process instance
+    auto [st, iid] = engine_->startProcess("ocel_test_proc", {{"applicant","Max Mustermann"}});
+    ASSERT_TRUE(st.ok) << st.message;
+
+    // Attach a document
+    linker_->attachObject(iid, "doc-ocel-001", "documents",
+                          themis::process::ProcessLinkType::HAS_DOCUMENT,
+                          std::nullopt, {{"title","Bauplan"}}, "u1");
+
+    themis::process::OcelExporter exp(*db_, *engine_, *mgr_, *linker_);
+    auto result = exp.exportInstance(iid);
+
+    ASSERT_FALSE(result.empty()) << "Expected non-empty OCEL JSON";
+    ASSERT_TRUE(result.contains("ocel:version")) << "Missing ocel:version";
+    EXPECT_EQ(result["ocel:version"].get<std::string>(), "2.0");
+    ASSERT_TRUE(result.contains("objectTypes"));
+    ASSERT_TRUE(result.contains("eventTypes"));
+    ASSERT_TRUE(result.contains("objects"));
+    ASSERT_TRUE(result.contains("events"));
+}
+
+// OCEL-03: OCEL objects list includes attached documents
+TEST_F(OcelExporterTest, ExportInstanceIncludesAttachments) {
+    const std::string bpmn_xml = R"(<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  <process id="ocel_att_proc" name="Attachment Test">
+    <startEvent id="s1" name="Start"/>
+    <endEvent id="e1" name="End"/>
+    <sequenceFlow id="f1" sourceRef="s1" targetRef="e1"/>
+  </process>
+</definitions>)";
+
+    auto import_result = mgr_->importBpmn(bpmn_xml);
+    ASSERT_TRUE(import_result.ok);
+
+    auto [st, iid] = engine_->startProcess("ocel_att_proc", {});
+    ASSERT_TRUE(st.ok);
+
+    linker_->attachObject(iid, "doc-A", "documents",
+                          themis::process::ProcessLinkType::HAS_DOCUMENT,
+                          std::nullopt, {}, "u1");
+    linker_->attachObject(iid, "doc-B", "documents",
+                          themis::process::ProcessLinkType::HAS_DOCUMENT,
+                          std::nullopt, {}, "u1");
+
+    themis::process::OcelExporter exp(*db_, *engine_, *mgr_, *linker_);
+    auto result = exp.exportInstance(iid);
+
+    ASSERT_TRUE(result.contains("objects"));
+    EXPECT_GE(result["objects"].size(), 2u);
+}
+
+// OCEL-04: objectTypes are correctly derived from object collections
+TEST_F(OcelExporterTest, ObjectTypesAreDerived) {
+    const std::string bpmn_xml = R"(<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  <process id="ocel_type_proc" name="Type Test">
+    <startEvent id="s1" name="Start"/>
+    <endEvent id="e1" name="End"/>
+    <sequenceFlow id="f1" sourceRef="s1" targetRef="e1"/>
+  </process>
+</definitions>)";
+
+    auto import_result = mgr_->importBpmn(bpmn_xml);
+    ASSERT_TRUE(import_result.ok);
+
+    auto [st, iid] = engine_->startProcess("ocel_type_proc", {});
+    ASSERT_TRUE(st.ok);
+
+    linker_->attachObject(iid, "doc-1", "documents",
+                          themis::process::ProcessLinkType::HAS_DOCUMENT,
+                          std::nullopt, {}, "u1");
+    linker_->attachObject(iid, "meta-1", "metadata",
+                          themis::process::ProcessLinkType::HAS_METADATA,
+                          std::nullopt, {}, "u1");
+
+    themis::process::OcelExporter exp(*db_, *engine_, *mgr_, *linker_);
+    auto result = exp.exportInstance(iid);
+
+    ASSERT_TRUE(result.contains("objectTypes"));
+    // Should have "documents" and "metadata" types
+    const auto& ot = result["objectTypes"];
+    bool has_documents = false;
+    bool has_metadata  = false;
+    for (const auto& t : ot) {
+        if (t["name"] == "documents") has_documents = true;
+        if (t["name"] == "metadata")  has_metadata  = true;
+    }
+    EXPECT_TRUE(has_documents);
+    EXPECT_TRUE(has_metadata);
 }
