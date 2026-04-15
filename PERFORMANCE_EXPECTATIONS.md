@@ -728,6 +728,8 @@ Interpretation:
 
 ##### 2.2 Pagination-A/B (Historische Parameter-Approximation)
 
+> **Status:** ✅ Produktiv registriert — `BM_Pagination_Offset` und `BM_Pagination_Cursor` sind in `benchmarks/bench_query.cpp` via `BENCHMARK(...)->Args(...)->MinTime(1.0)` registriert. Beide Benchmarks sind via `--benchmark_list_tests` sichtbar und laufen mit `--benchmark_min_time=1s` ohne Timeout.
+
 Quelle: `artifacts/perf_nv/query_pagination_2010_refresh.json`, `artifacts/perf_nv/query_pagination_5050.json`
 
 | Case | CPU-Zeit 20/10 | CPU-Zeit 50/50 | ms/Item 20/10 | ms/Item 50/50 | QPS 20/10 | QPS 50/50 | Delta-Einordnung |
@@ -1941,8 +1943,8 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 
 | Prio | Maßnahme | Ursache(n) adressiert | Aufwand | Erfolgskriterium |
 |---|---|---|---|---|
-| 1 | `bench_query.cpp` Pagination-Benchmarks wieder registrieren und stabilisieren | 2, 4 | M | `BM_Pagination_Offset` und `BM_Pagination_Cursor` laufen ohne Timeout |
-| 2 | ~~`bench_olap_analytics.cpp` von Disabled-Stub auf echte Cases umstellen~~ **ERLEDIGT** | 2, 4 | M | `BM_OLAP_Disabled`-Stub entfernt; 4 produktive Cases registriert: `BM_OLAP_GroupBy_Int`, `BM_OLAP_WindowFunction`, `BM_OLAP_MultiJoin`, `BM_OLAP_TopN_Sorted` |
+| 1 | ~~`bench_query.cpp` Pagination-Benchmarks wieder registrieren und stabilisieren~~ **ERLEDIGT** | 2, 4 | M | `BM_Pagination_Offset` und `BM_Pagination_Cursor` registriert mit `->MinTime(1.0)`, laufen ohne Timeout; Ergebnisse in §2.2 dokumentiert |
+| 2 | `bench_olap_analytics.cpp` von Disabled-Stub auf echte Cases umstellen | 2, 4 | M | mind. 4 produktive OLAP-Analytics-Cases in v1.8.2-Report |
 | 3 | ~~Security/Governance-Binaries inkl. Runtime-DLL-Sync erzwingen~~ **ERLEDIGT** | 1, 3, 5 | M | Alle 4 Binaries starten und produzieren vollstaendige Artefakte; DLL-Pfad-Fix und Security/Compliance-Benchmarkreparaturen verifiziert |
 | 4 | ~~Voice-Benchmark-Pfad für CI via `THEMIS_ENABLE_VOICE_ASSISTANT` optionalen Job aktivieren~~ **ERLEDIGT** | 1, 5 | S | Workflow `02-feature-modules_llm_voice-benchmark-ci.yml` erstellt: `THEMIS_ENABLE_VOICE_ASSISTANT=ON`, `bench_voice_assistant` gebaut, ≥1 Testlauf dokumentiert, fehlende Dependencies als SKIP ausgewiesen |
 | 5 | GPU-Benchmark-Matrix (CUDA/HIP/Vulkan) als separaten Runner etablieren | 1, 3 | L | GPU-disabled Stubs werden durch reale Messwerte ersetzt |
