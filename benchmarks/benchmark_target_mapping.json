@@ -821,6 +821,24 @@
         "primary_benchmark": "BM_GraphQL_Parse_Complex_Uncached",
         "file": "bench_api_endpoints.cpp",
         "status": "mapped"
+      },
+      "SP-1": {
+        "label": "V2-Frame-Header-Inspect Throughput",
+        "primary_benchmark": "BM_StreamProtocol_FrameHeaderBuild",
+        "file": "bench_stream_protocol.cpp",
+        "status": "mapped"
+      },
+      "SP-2": {
+        "label": "LZ4-Stream-Payload Compress+Decompress P95",
+        "primary_benchmark": "BM_StreamProtocol_LZ4Roundtrip",
+        "file": "bench_stream_protocol.cpp",
+        "status": "mapped"
+      },
+      "SP-3": {
+        "label": "WireProtocolMetrics Snapshot P99",
+        "primary_benchmark": "BM_StreamProtocol_MetricsSnapshot",
+        "file": "bench_stream_protocol.cpp",
+        "status": "mapped"
       }
     },
     "security": {

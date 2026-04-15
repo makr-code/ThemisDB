@@ -1,6 +1,6 @@
 ### 🌙 Nightly Benchmark Sweep — Coverage Report
 
-**Generated:** 2026-04-15T06:11:18Z  
+**Generated:** 2026-04-15T19:09:05Z  
 **Bench dir:** `artifacts/nightly`  
 **Previous run dir:** `n/a`
 
@@ -27,7 +27,7 @@
 | 20 | Importers | ⚪ | 0 | 0 | — | n/a |
 | 21 | API / Protocols | ⚪ | 0 | 0 | — | n/a |
 | 22 | Plugins / WASM | ⚪ | 0 | 0 | — | n/a |
-| 23 | Scheduler | ⚪ | 0 | 0 | — | n/a |
+| 23 | Scheduler | 🟢 | 7 | 0 | 46 | n/a |
 | 24 | Observability | ⚪ | 0 | 0 | — | n/a |
 | 25 | Acceleration | ⚪ | 0 | 0 | — | n/a |
 | 26 | Adaptive Query Compilation | ⚪ | 0 | 0 | — | n/a |
@@ -38,9 +38,11 @@
 | 31 | Governance | ⚪ | 0 | 0 | — | n/a |
 | 32 | Ethics AI | ⚪ | 0 | 0 | — | n/a |
 | 33 | System-Level (TPC/YCSB) | ⚪ | 0 | 0 | — | n/a |
+| 34 | Temporal | 🟢 | 13 | 0 | 3892 | n/a |
+| 35 | Process Mining | 🟢 | 22 | 0 | 32 | n/a |
 
 **Legend:** 🟢 OK / no regression &nbsp; 🟡 Minor regression (5–10 %) &nbsp; 🔴 Regression ≥ 10 % or errors &nbsp; ⚪ Not covered (no bench binary matched)
 
-**Coverage:** 0/32 modules have at least one benchmark  
+**Coverage:** 3/34 modules have at least one benchmark  
 **🔴 Regressions / errors:** 0  
 **🟡 Warnings (5–10 %):** 0

@@ -1,7 +1,7 @@
 {
-  "generated": "2026-04-15T06:11:18Z",
-  "total_modules": 32,
-  "covered_modules": 0,
+  "generated": "2026-04-15T19:09:05Z",
+  "total_modules": 34,
+  "covered_modules": 3,
   "modules": {
     "2": {
       "id": 2,
@@ -237,13 +237,15 @@
     "23": {
       "id": 23,
       "name": "Scheduler",
-      "bench_count": 0,
+      "bench_count": 7,
       "error_count": 0,
-      "bench_names": [],
-      "mean_cpu_ns": null,
+      "bench_names": [
+        "bench_task_scheduler"
+      ],
+      "mean_cpu_ns": 45.52571428571429,
       "mean_cpu_ns_prev": null,
       "mean_cpu_ns_delta_pct": null,
-      "status": "⚪"
+      "status": "🟢"
     },
     "24": {
       "id": 24,
@@ -354,6 +356,32 @@
       "mean_cpu_ns_prev": null,
       "mean_cpu_ns_delta_pct": null,
       "status": "⚪"
+    },
+    "34": {
+      "id": 34,
+      "name": "Temporal",
+      "bench_count": 13,
+      "error_count": 0,
+      "bench_names": [
+        "bench_temporal_queries"
+      ],
+      "mean_cpu_ns": 3891.954,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "🟢"
+    },
+    "35": {
+      "id": 35,
+      "name": "Process Mining",
+      "bench_count": 22,
+      "error_count": 0,
+      "bench_names": [
+        "bench_process_mining"
+      ],
+      "mean_cpu_ns": 32.24672727272727,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "🟢"
     }
   }
 }
