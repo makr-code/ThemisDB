@@ -3,17 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            key_derivation_service.hpp                         ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 05:39:46                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-15 04:14:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     114                                            ║
+    • Total Lines:     191                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 8332e5afa3  2026-04-13  Refactor and update various components for improved compa... ║
+    • 8e5567bf5e  2026-03-24  feat(user_storage_encrypted): v0.1.0 stdin key delivery, ... ║
     • 256e7651d1  2026-03-24  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -22,6 +24,10 @@
 
 #pragma once
 
+#include "encryption_backend_interface.hpp"
+#include <string>
+#include <vector>
+#include <cstdint>
 #include <vector>
 #include <cstdint>
 #include <string>
@@ -31,25 +37,52 @@ namespace plugins {
 namespace user_storage {
 
 /**
- * @brief Abstract interface for per-container key derivation.
+ * @brief Interface for key derivation services.
  *
- * Implementations derive a fixed-length encryption key from a master key,
- * an optional user identifier, a container identifier, and a per-container
- * random salt.  The derived key is used as the gocryptfs passphrase.
+ * Implementations derive a fixed-length cryptographic key from a master
+ * key (password) and a salt using a password-based KDF.
+ */
+class IKeyDerivationService {
+public:
+    virtual ~IKeyDerivationService() = default;
+
+    /**
+     * @brief Derive a 256-bit (32-byte) key from master_key and salt.
+     *
+     * @param master_key  Raw key material (must not be empty).
+     * @param salt        Per-container or per-user salt (must not be empty).
+     * @return 32-byte derived key on success, or error.
+     */
+    virtual Result<std::vector<uint8_t>> deriveKey(
+        const std::vector<uint8_t>& master_key,
+        const std::vector<uint8_t>& salt
+    ) const = 0;
+
+    /**
+     * @brief Generate a cryptographically random salt suitable for this KDF.
+     *
+     * @return 32-byte random salt.
+     */
+    virtual Result<std::vector<uint8_t>> generateSalt() const = 0;
+
+    /**
+     * @brief Load salt from a file, creating it with generateSalt() if absent.
+     *
+     * @param salt_file_path  Path to the salt file (e.g., ".themis_kdf_salt").
+     * @return Salt bytes.
+     */
+    virtual Result<std::vector<uint8_t>> loadOrCreateSalt(
+        const std::string& salt_file_path
+    ) const = 0;
+};
+
+/**
+ * @brief Abstract interface for per-container key derivation with domain separation.
  */
 class KeyDerivationService {
 public:
     virtual ~KeyDerivationService() = default;
 
-    /**
-     * @brief Derive a container encryption key.
-     *
-     * @param master_key    Master secret (never stored; provided at startup)
-     * @param user_id       Optional user identifier for domain separation
-     * @param container_id  Unique container path / identifier
-     * @param salt          16-byte (minimum) random salt; stored per-container
-     * @return              Derived key bytes (32 bytes for AES-256-GCM)
-     */
     virtual std::vector<uint8_t> derive(
         const std::vector<uint8_t>& master_key,
         const std::string& user_id,
@@ -57,23 +90,14 @@ public:
         const std::vector<uint8_t>& salt
     ) = 0;
 
-    /**
-     * @brief Generate a cryptographically random salt.
-     *
-     * @param length  Desired salt length in bytes (default: 16)
-     * @return        Random salt bytes
-     */
-    virtual std::vector<uint8_t> generateSalt(size_t length = 16) = 0;
+    virtual std::vector<uint8_t> generateSalt(size_t length) = 0;
 };
 
 /**
  * @brief Argon2id parameters.
  *
  * Defaults follow OWASP recommendations:
- *   - m = 65536 (64 MB)
- *   - t = 3 iterations
- *   - p = 4 threads
- *   - output = 32 bytes (AES-256-GCM key size)
+ *   - m = 65536 (64 MB), t = 3 iterations, p = 4 threads, output = 32 bytes
  */
 struct Argon2idParams {
     uint32_t memory_kb   = 65536;
@@ -83,19 +107,44 @@ struct Argon2idParams {
 };
 
 /**
- * @brief Argon2id-based KeyDerivationService implementation.
+ * @brief Argon2id key derivation service — unified implementation.
  *
- * Uses libargon2 (argon2id_hash_raw) to derive a 256-bit container key from
- * the master key plus domain-separation fields.  The combined "password" fed
- * to Argon2id is: master_key || user_id || container_id.
+ * Inherits from both IKeyDerivationService (Result<>-based API) and
+ * KeyDerivationService (plain-vector API) so a single instance can be used
+ * with either interface.
  *
- * Latency budget: ≤ 200 ms on reference hardware (4-core / 4 GB RAM).
+ * Parameters (NIST / OWASP recommended for interactive use):
+ *   - Memory:      m = 65536 KiB (64 MiB)
+ *   - Iterations:  t = 3
+ *   - Parallelism: p = 4
+ *   - Output:      32 bytes (256 bit)
+ *
+ * Requires libargon2 (apt: libargon2-dev).
  */
-class Argon2idKeyDerivationService : public KeyDerivationService {
+class Argon2idKeyDerivationService : public IKeyDerivationService, public KeyDerivationService {
 public:
+    // KDF parameters
+    static constexpr uint32_t kMemoryCost  = 65536; ///< KiB (64 MiB)
+    static constexpr uint32_t kTimeCost    = 3;
+    static constexpr uint32_t kParallelism = 4;
+    static constexpr uint32_t kKeyLength   = 32;    ///< bytes
+
     explicit Argon2idKeyDerivationService(const Argon2idParams& params = Argon2idParams{});
     ~Argon2idKeyDerivationService() override = default;
 
+    // IKeyDerivationService interface
+    Result<std::vector<uint8_t>> deriveKey(
+        const std::vector<uint8_t>& master_key,
+        const std::vector<uint8_t>& salt
+    ) const override;
+
+    Result<std::vector<uint8_t>> generateSalt() const override;
+
+    Result<std::vector<uint8_t>> loadOrCreateSalt(
+        const std::string& salt_file_path
+    ) const override;
+
+    // KeyDerivationService interface (domain-separated derive)
     std::vector<uint8_t> derive(
         const std::vector<uint8_t>& master_key,
         const std::string& user_id,
@@ -103,11 +152,14 @@ public:
         const std::vector<uint8_t>& salt
     ) override;
 
-    std::vector<uint8_t> generateSalt(size_t length = 16) override;
+    std::vector<uint8_t> generateSalt(size_t length) override;
 
 private:
     Argon2idParams params_;
 };
+
+/// @deprecated Use Argon2idKeyDerivationService which now implements both interfaces.
+using Argon2idContainerKeyService = Argon2idKeyDerivationService;
 
 } // namespace user_storage
 } // namespace plugins

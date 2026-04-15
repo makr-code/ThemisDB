@@ -25,6 +25,7 @@
 
 #include "security_level.hpp"
 #include "encryption_backend_interface.hpp"
+#include "irotation_store.hpp"
 #include <functional>
 #include <memory>
 #include <string>
@@ -32,32 +33,6 @@
 namespace themis {
 namespace plugins {
 namespace user_storage {
-
-/**
- * @brief Minimal key-value persistence interface for rotation state.
- *
- * Allows any backend (RocksDB, in-memory, file-based) to persist rotation
- * state without coupling the scheduler to a specific storage implementation.
- * Use makeRocksDBRotationStore() to create a RocksDB-backed instance.
- */
-class IRotationStore {
-public:
-    virtual ~IRotationStore() = default;
-
-    /**
-     * @brief Read a value by key.
-     * @param key  Storage key
-     * @param out  Value (set only when true is returned)
-     * @return     true if the key existed
-     */
-    virtual bool get(const std::string& key, std::string& out) const = 0;
-
-    /**
-     * @brief Write a key-value pair.
-     * @return true on success
-     */
-    virtual bool put(const std::string& key, const std::string& value) = 0;
-};
 
 /**
  * @brief Key rotation scheduler for automatic key rotation
@@ -87,7 +62,15 @@ public:
     
     KeyRotationScheduler();
     ~KeyRotationScheduler();
-    
+
+    /**
+     * @brief Attach a persistence store for rotation state.
+     *
+     * Must be called before initialize().  If initialize() is called without
+     * a store argument, the store set here is preserved.
+     */
+    void setRotationStore(std::shared_ptr<IRotationStore> store);
+
     /**
      * @brief Initialize scheduler, optionally loading persisted rotation state.
      *
@@ -150,7 +133,14 @@ public:
      * @return Timestamp in milliseconds, 0 if not scheduled
      */
     int64_t getNextRotationTime(SecurityLevel level);
-    
+
+    /**
+     * @brief Manually trigger rotation for a level (fires callback + persists state).
+     *
+     * Useful for testing and forced rotation scenarios.
+     */
+    void triggerRotation(SecurityLevel level);
+
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;

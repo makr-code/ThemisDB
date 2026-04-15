@@ -174,6 +174,8 @@ Result<std::vector<uint8_t>> Argon2idKeyDerivationService::loadOrCreateSalt(
     }
 
     return Result<std::vector<uint8_t>>(salt);
+}
+
 Argon2idKeyDerivationService::Argon2idKeyDerivationService(const Argon2idParams& params)
     : params_(params) {}
 

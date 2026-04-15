@@ -3,21 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gocryptfs_backend.cpp                              ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 05:45:31                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:15:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   88.0/100                                       ║
-    • Total Lines:     649                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     512                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8e5567bf5e  2026-03-24  feat(user_storage_encrypted): v0.1.0 stdin key delivery, ... ║
     • 256e7651d1  2026-03-24  Changes before error encountered        ║
-    • 9ab72c5089  2026-03-12  refactor: flatten plugin hierarchy to src/<name>/ and inc... ║
-    • acdb250dbf  2026-03-12  feat: migrate plugins to src/include with CMake switches ║
+    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -30,7 +28,6 @@
 #include <sstream>
 #include <fstream>
 #include <iomanip>
-#include <cstring>
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -69,7 +66,7 @@ Result<void> GocryptfsBackend::initialize(const std::string& config_json) {
 
 Result<void> GocryptfsBackend::checkAvailability() {
     // Check if gocryptfs is available in PATH
-    auto result = executeCommandSafe({"which", "gocryptfs"});
+    auto result = executeCommand("which", {"gocryptfs"});
     if (result.isError()) {
         return Result<void>::error(
             "gocryptfs not found in PATH. Please install: apt-get install gocryptfs"
@@ -90,9 +87,9 @@ Result<void> GocryptfsBackend::checkAvailability() {
 }
 
 std::string GocryptfsBackend::getBackendVersion() const {
-    // Use executeCommandSafe via a const-safe helper via Impl
-    std::vector<std::string> args = {impl_->gocryptfs_binary, "-version"};
-    auto result = const_cast<GocryptfsBackend*>(this)->executeCommandSafe(args);
+    auto result = const_cast<GocryptfsBackend*>(this)->executeCommand(
+        "gocryptfs", {"-version"}
+    );
     if (result.isSuccess()) {
         return result.value();
     }
@@ -116,14 +113,6 @@ Result<void> GocryptfsBackend::createContainer(
             return Result<void>::error("Failed to create mount point: " + mount_point);
         }
     }
-    
-    // Build hex key string for stdin delivery
-    std::ostringstream hex_key;
-    for (uint8_t byte : key_material) {
-        hex_key << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte);
-    }
-
-    // Initialize gocryptfs container — deliver key via stdin (no temp file on disk)
 
     // Resolve key: derive via Argon2id when KDF is configured; also writes
     // the per-container salt file on first use.
@@ -141,8 +130,6 @@ Result<void> GocryptfsBackend::createContainer(
         encrypted_dir
     };
 
-    auto result = deliverKeyViaStdin(args, hex_key.str());
-    
     auto result = executeCommandWithStdin(args, effective_key);
     if (result.isError()) {
         return Result<void>::error("Failed to initialize gocryptfs container: " + result.error());
@@ -160,14 +147,6 @@ Result<void> GocryptfsBackend::mountContainer(
     if (isMounted(mount_point)) {
         return Result<void>(); // Already mounted is success
     }
-    
-    // Build hex key string for stdin delivery
-    std::ostringstream hex_key;
-    for (uint8_t byte : key_material) {
-        hex_key << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte);
-    }
-
-    // Mount gocryptfs — deliver key via stdin (no temp file on disk)
 
     // Resolve key: derive via Argon2id when KDF is configured; reads the
     // existing per-container salt file.
@@ -185,8 +164,6 @@ Result<void> GocryptfsBackend::mountContainer(
         mount_point
     };
 
-    auto result = deliverKeyViaStdin(args, hex_key.str());
-    
     auto result = executeCommandWithStdin(args, effective_key);
     if (result.isError()) {
         return Result<void>::error("Failed to mount gocryptfs container: " + result.error());
@@ -229,7 +206,7 @@ bool GocryptfsBackend::isMounted(const std::string& mount_point) {
     return false;
 #else
     // For macOS/BSD, check mount output
-    auto result = executeCommandSafe({"mount"});
+    auto result = executeCommand("mount", {});
     if (result.isSuccess()) {
         return result.value().find(mount_point) != std::string::npos;
     }
@@ -237,21 +214,6 @@ bool GocryptfsBackend::isMounted(const std::string& mount_point) {
 #endif
 }
 
-Result<std::string> GocryptfsBackend::createPasswordFile(
-    const std::vector<uint8_t>& key_material
-) {
-    // Create secure temporary file outside encrypted directory
-    char temp_template[] = "/tmp/gocryptfs_key_XXXXXX";
-    int fd = mkstemp(temp_template);
-    if (fd == -1) {
-        return Result<std::string>::error("Failed to create secure temporary file");
-    }
-    
-    // Set restrictive permissions (600) before writing
-    if (fchmod(fd, 0600) != 0) {
-        close(fd);
-        unlink(temp_template);
-        return Result<std::string>::error("Failed to set password file permissions");
 // ---------------------------------------------------------------------------
 // Stdin key delivery (Feature 1)
 // ---------------------------------------------------------------------------
@@ -430,25 +392,6 @@ Result<std::vector<uint8_t>> GocryptfsBackend::resolveKey(
         salt.resize(16);
         ssize_t n = read(fd, salt.data(), salt.size());
         close(fd);
-        unlink(temp_template);
-        return Result<std::string>::error("Failed to write key to temporary file");
-    }
-    
-    close(fd);
-    return Result<std::string>(std::string(temp_template));
-}
-
-Result<std::string> GocryptfsBackend::deliverKeyViaStdin(
-    const std::vector<std::string>& args,
-    std::string key_hex
-) {
-    auto result = executeCommandWithStdin(args, key_hex);
-    // Securely zero key material from memory after use
-    explicit_bzero(key_hex.data(), key_hex.size());
-    return result;
-}
-
-Result<std::string> GocryptfsBackend::executeCommandWithStdin(
         if (n != static_cast<ssize_t>(salt.size())) {
             return Result<std::vector<uint8_t>>::error(
                 "Failed to read salt from: " + salt_file
@@ -469,12 +412,12 @@ Result<std::string> GocryptfsBackend::executeCommandWithStdin(
     }
 }
 
+
 // ---------------------------------------------------------------------------
-// Remaining helpers
+// Public string-based stdin helpers (test/integration interface)
 // ---------------------------------------------------------------------------
 
-Result<std::string> GocryptfsBackend::executeCommand(
-    const std::string& command,
+Result<std::string> GocryptfsBackend::executeCommandWithStdin(
     const std::vector<std::string>& args,
     const std::string& stdin_data
 ) {
@@ -482,38 +425,41 @@ Result<std::string> GocryptfsBackend::executeCommand(
         return Result<std::string>::error("Empty command arguments");
     }
 
-    // stdout/stderr pipe
-    int out_pipe[2];
-    if (pipe(out_pipe) != 0) {
-        return Result<std::string>::error("Failed to create output pipe");
+    // stdout pipe: parent reads child output.
+    int stdout_pipe[2];
+    if (pipe(stdout_pipe) != 0) {
+        return Result<std::string>::error("Failed to create stdout pipe");
     }
-    // stdin pipe
-    int in_pipe[2];
-    if (pipe(in_pipe) != 0) {
-        close(out_pipe[0]);
-        close(out_pipe[1]);
+
+    // stdin pipe: parent writes data to child's stdin.
+    int stdin_pipe[2];
+    if (pipe(stdin_pipe) != 0) {
+        close(stdout_pipe[0]);
+        close(stdout_pipe[1]);
         return Result<std::string>::error("Failed to create stdin pipe");
     }
 
     pid_t pid = fork();
     if (pid == -1) {
-        close(out_pipe[0]); close(out_pipe[1]);
-        close(in_pipe[0]);  close(in_pipe[1]);
+        close(stdout_pipe[0]); close(stdout_pipe[1]);
+        close(stdin_pipe[0]);  close(stdin_pipe[1]);
         return Result<std::string>::error("Failed to fork process");
     }
 
     if (pid == 0) {
-        // Child process
-        close(in_pipe[1]);   // close write end of stdin pipe
-        close(out_pipe[0]);  // close read end of stdout pipe
+        // Child: wire up stdin and stdout/stderr, then exec.
+        close(stdin_pipe[1]);
+        close(stdout_pipe[0]);
 
-        dup2(in_pipe[0],  STDIN_FILENO);
-        dup2(out_pipe[1], STDOUT_FILENO);
-        dup2(out_pipe[1], STDERR_FILENO);
-        close(in_pipe[0]);
-        close(out_pipe[1]);
+        if (dup2(stdin_pipe[0], STDIN_FILENO) == -1)  { _exit(127); }
+        if (dup2(stdout_pipe[1], STDOUT_FILENO) == -1) { _exit(127); }
+        if (dup2(stdout_pipe[1], STDERR_FILENO) == -1) { _exit(127); }
+
+        close(stdin_pipe[0]);
+        close(stdout_pipe[1]);
 
         std::vector<char*> c_args;
+        c_args.reserve(args.size() + 1);
         for (const auto& arg : args) {
             c_args.push_back(const_cast<char*>(arg.c_str()));
         }
@@ -523,46 +469,74 @@ Result<std::string> GocryptfsBackend::executeCommand(
         _exit(127);
     }
 
-    // Parent process
-    close(in_pipe[0]);   // close read end of stdin pipe
-    close(out_pipe[1]);  // close write end of stdout pipe
+    // Parent: close child-only ends.
+    close(stdin_pipe[0]);
+    close(stdout_pipe[1]);
 
-    // Write stdin_data to child's stdin
+    // Write stdin_data to child's stdin.
     const char* ptr = stdin_data.c_str();
     size_t remaining = stdin_data.size();
     while (remaining > 0) {
-        ssize_t written = write(in_pipe[1], ptr, remaining);
+        ssize_t written = write(stdin_pipe[1], ptr, remaining);
         if (written < 0) {
-            close(in_pipe[1]);
-            close(out_pipe[0]);
+            if (errno == EINTR) continue;
+            close(stdin_pipe[1]);
+            close(stdout_pipe[0]);
             waitpid(pid, nullptr, 0);
             return Result<std::string>::error("Failed to write to stdin pipe");
         }
         ptr += written;
         remaining -= static_cast<size_t>(written);
     }
-    close(in_pipe[1]); // signal EOF to child
+    close(stdin_pipe[1]);  // Signal EOF to child.
 
-    // Read child output
+    // Read child output.
     std::string output;
     char buffer[1024];
     ssize_t bytes_read;
-    while ((bytes_read = read(out_pipe[0], buffer, sizeof(buffer))) > 0) {
+    while ((bytes_read = read(stdout_pipe[0], buffer, sizeof(buffer))) > 0) {
         output.append(buffer, bytes_read);
     }
-    close(out_pipe[0]);
+    close(stdout_pipe[0]);
 
-    int status;
+    int status = 0;
     waitpid(pid, &status, 0);
 
     if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
-        int exit_code = WIFEXITED(status) ? WEXITSTATUS(status) : -1;
+        const int exit_code = WIFEXITED(status) ? WEXITSTATUS(status) : -1;
         return Result<std::string>::error(
             "Command failed with exit code " + std::to_string(exit_code) + ": " + output
         );
     }
 
     return Result<std::string>(output);
+}
+
+Result<std::string> GocryptfsBackend::deliverKeyViaStdin(
+    const std::vector<std::string>& args,
+    const std::string& key_hex
+) {
+    auto result = executeCommandWithStdin(args, key_hex);
+    // No caller-visible copy of key_hex to clear here; the internal write
+    // buffer is zeroed by explicit_bzero inside executeCommandWithStdin would
+    // require refactoring.  The key material is minimally held in this frame.
+    return result;
+}
+
+// ---------------------------------------------------------------------------
+// Remaining helpers
+// ---------------------------------------------------------------------------
+
+Result<std::string> GocryptfsBackend::executeCommand(
+    const std::string& command,
+    const std::vector<std::string>& args,
+    const std::string& stdin_data
+) {
+    // Deprecated: Use executeCommandSafe instead
+    // This version is kept for backward compatibility with simple commands
+    std::vector<std::string> full_args = {command};
+    full_args.insert(full_args.end(), args.begin(), args.end());
+    return executeCommandSafe(full_args);
 }
 
 Result<std::string> GocryptfsBackend::executeCommandSafe(

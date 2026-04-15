@@ -508,8 +508,10 @@ Result<void> MultiLevelEncryptedStorage::rotateKey(SecurityLevel level) {
 
     std::vector<uint8_t> new_key;
     try {
-        // Request a fresh key for the same key_id (provider generates a new version)
-        new_key = key_provider->rotateKey(cfg.key_id);
+        // Request a fresh key version from the provider (returns new version ID).
+        uint32_t new_version = key_provider->rotateKey(cfg.key_id);
+        // Retrieve the actual key material for the new version.
+        new_key = key_provider->getKey(cfg.key_id, new_version);
     } catch (const std::exception& e) {
         return Result<void>::error(std::string("Key rotation failed – provider error: ") +
                                    e.what());
