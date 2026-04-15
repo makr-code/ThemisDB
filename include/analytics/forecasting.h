@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            forecasting.h                                      ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-04-15 18:01:42                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:44:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

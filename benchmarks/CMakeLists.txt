@@ -2258,6 +2258,48 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_metrics_collector.cpp")
     message(STATUS "  MetricsCollector: counter/gauge/histogram recording, Prometheus export, contention behaviour")
 endif()
 
+# ============================================================================
+# Observability: 1:1 Goal-Coverage Benchmarks (Issue #4549)
+# Provides dedicated primary benchmark cases for every OBS goal ID:
+#   OBS-1  Metrics collection overhead  < 1 % CPU @ 1 000 req/s
+#   OBS-2  Adaptive span sampling        <= 1 % CPU overhead @ > 10 000 spans/s
+#   OBS-3  Concurrent Prometheus scrape  >= 3x vs exclusive-mutex baseline
+# Results include overhead, latency, and scaling data and are scientifically
+# reproducible (config labels, hardware info, google/benchmark JSON output).
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_observability_goals.cpp")
+    message(STATUS "Adding Observability: 1:1 goal-coverage benchmarks (OBS-1, OBS-2, OBS-3)")
+
+    add_executable(bench_observability_goals
+        bench_observability_goals.cpp
+    )
+
+    target_include_directories(bench_observability_goals PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_observability_goals PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_observability_goals PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_observability_goals)
+
+    install(TARGETS bench_observability_goals
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  OBS-1: metrics overhead, OBS-2: adaptive span sampling, OBS-3: shared-mutex scrape speedup")
+endif()
+
 # Index Module Benchmarks (Issue: #1884 — Performance benchmarks: QPS, recall, memory)
 # These benchmarks cover vector search, quantization, spatial indexing, and
 # approximate radius search.  All CPU-only benchmarks run without GPU hardware.

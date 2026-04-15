@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_task_scheduler_slo_retry.cpp                  ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 18:18:25                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 18:57:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

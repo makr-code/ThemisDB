@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_egov_data_driven.cpp                          ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 18:13:48                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:53:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • a53df4bcd3  2026-03-26  chore: remove old .json antrag fixtures, fix header comme... ║
     • f6270cfcf2  2026-03-26  feat: convert antrag fixtures to Markdown with JSON front... ║
-    • 0cb606c95a  2026-03-26  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

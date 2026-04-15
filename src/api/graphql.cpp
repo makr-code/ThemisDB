@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graphql.cpp                                        ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:07:21                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • c0ea85377e  2026-04-07  fix(graphql): implement variable substitution at executio... ║
     • 6b7cdac827  2026-04-07  chore: plan variable substitution fix + doc update ║
     • fc0c65a058  2026-04-07  feat(api/aql): AQL-GraphQL integration – cost model bridg... ║
-    • dac91fef60  2026-04-04  Add local production readiness checklist and OpenAPI comp... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

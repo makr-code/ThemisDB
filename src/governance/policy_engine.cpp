@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            policy_engine.cpp                                  ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:07:53                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • f38c013cdc  2026-03-29  Enhance various components with improvements and fixes ║
-    • f219a2915d  2026-03-13  feat(llm): add PolicyEngine::checkInferencePermission() f... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

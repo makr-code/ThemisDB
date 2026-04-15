@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            dmn_evaluator.cpp                                  ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-15 18:09:07                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-15 18:49:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

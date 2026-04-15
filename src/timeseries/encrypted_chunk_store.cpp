@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            encrypted_chunk_store.cpp                          ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:10:45                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     309                                            ║
+    • Total Lines:     308                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • c7373858e3  2026-03-14  fix(timeseries): address all PR review comments on chunk-... ║
-    • e6b1e7c6d7  2026-03-14  refactor(timeseries): address code review feedback on chu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

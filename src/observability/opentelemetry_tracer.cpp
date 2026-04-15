@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            opentelemetry_tracer.cpp                           ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:08:54                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:49:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     765                                            ║
+    • Total Lines:     764                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • e7d6bc4555  2026-03-13  feat(tests): add focused tests for consistent hash distri... ║
-    • b469275a84  2026-03-13  fix(observability): wire up multi-exporter dispatch, fix ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

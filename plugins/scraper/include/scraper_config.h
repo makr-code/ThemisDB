@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            scraper_config.h                                   ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:06:40                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 18:47:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

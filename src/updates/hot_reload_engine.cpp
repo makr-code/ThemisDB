@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hot_reload_engine.cpp                              ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:11:01                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

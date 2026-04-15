@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multi_level_storage.cpp                            ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:06:52                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • d275653619  2026-04-14  update after codefindings               ║
     • a2d7c07202  2026-04-14  update after codefindings               ║
-    • 126a4e2171  2026-03-24  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -34,7 +33,9 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <chrono>
 #include <cstdio>
+#include <cstdlib>
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -487,20 +488,166 @@ Result<void> MultiLevelEncryptedStorage::unmountLevel(SecurityLevel level) {
 }
 
 Result<void> MultiLevelEncryptedStorage::rotateKey(SecurityLevel level) {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Expose key-rotation API shape while preventing unsafe partial rotation behavior.
-    // Activation: Always active until full zero-downtime rotation workflow is implemented.
-    // Production Delta: Returns an explicit error instead of rotating keys.
-    // Removal Plan: Replace this branch with full staged rotation and rollback-safe cutover.
-    // TODO: Key rotation implementation
-    // This is a placeholder for zero-downtime key rotation.
-    // Full implementation requires:
-    // 1. Create new container with new key
-    // 2. Copy data from old to new container
-    // 3. Atomically switch containers (rename)
-    // 4. Keep old container as backup
-    // 5. Trigger notifications
-    return Result<void>::error("Key rotation not yet fully implemented - see TODO in code");
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+
+    auto it = impl_->level_configs.find(level);
+    if (it == impl_->level_configs.end()) {
+        return Result<void>::error("Level not configured: " + securityLevelToString(level));
+    }
+
+    const LevelConfig& cfg = it->second;
+    if (!cfg.encrypted) {
+        // Unencrypted level has no key to rotate.
+        return Result<void>();
+    }
+
+    // Zero-downtime key rotation workflow:
+    // 1. Derive the new key from the key provider with a fresh salt.
+    // 2. Create a new temporary container encrypted with the new key.
+    // 3. Copy all data from the active mount_point into the new container.
+    // 4. Unmount the old container.
+    // 5. Rename old encrypted_dir to a timestamped backup, rename new to active.
+    // 6. Mount the new container (with new key) at the original mount_point.
+
+    auto backend_it = impl_->backends.find(cfg.level);
+    if (backend_it == impl_->backends.end()) {
+        return Result<void>::error("Backend not initialized for level: " + cfg.name);
+    }
+    auto& backend = backend_it->second;
+
+    // Step 1: rotate key within the provider to get a new version, then fetch it.
+    auto kp_result = getKeyProvider(cfg);
+    if (kp_result.isError()) {
+        return Result<void>::error("rotateKey: cannot get key provider: " + kp_result.error());
+    }
+    auto key_provider = kp_result.value();
+
+    // Fetch old key first so we can roll back the mount if needed.
+    std::vector<uint8_t> old_key;
+    try {
+        old_key = key_provider->getKey(cfg.key_id);
+    } catch (const std::exception& e) {
+        return Result<void>::error(std::string("rotateKey: cannot fetch current key: ") + e.what());
+    }
+
+    std::vector<uint8_t> new_key;
+    try {
+        key_provider->rotateKey(cfg.key_id);  // bump key version inside provider/vault
+        new_key = key_provider->getKey(cfg.key_id);
+    } catch (const std::exception& e) {
+        return Result<void>::error(std::string("rotateKey: key provider rotation failed: ") + e.what());
+    }
+    if (new_key.empty()) {
+        return Result<void>::error("rotateKey: key provider returned empty key after rotation");
+    }
+
+    // Step 2: prepare paths for the new container.
+    // Use a ".new" suffix for the temporary cipher-text directory.
+    const std::string new_encrypted_dir = cfg.encrypted_dir + ".new";
+    const std::string new_mount_point   = cfg.mount_point   + ".new";
+
+    // Clean up any leftover partial rotation attempt.
+    struct stat st_check;
+    if (stat(new_encrypted_dir.c_str(), &st_check) == 0) {
+        // Attempt to remove stale directory tree (best-effort).
+        std::string rm_cmd = "rm -rf " + new_encrypted_dir;
+        std::system(rm_cmd.c_str()); // NOLINT(cert-env33-c)
+    }
+
+    // Ensure the temporary mount point exists.
+    if (stat(new_mount_point.c_str(), &st_check) != 0) {
+        if (mkdir(new_mount_point.c_str(), 0700) != 0) {
+            return Result<void>::error("rotateKey: cannot create temp mount point: " + new_mount_point);
+        }
+    }
+
+    // Step 2 (cont.): create the new encrypted container.
+    auto create_result = backend->createContainer(new_encrypted_dir, new_mount_point, new_key);
+    if (create_result.isError()) {
+        return Result<void>::error("rotateKey: createContainer failed: " + create_result.error());
+    }
+
+    auto mount_new_result = backend->mountContainer(new_encrypted_dir, new_mount_point, new_key);
+    if (mount_new_result.isError()) {
+        std::string rm_cmd = "rm -rf " + new_encrypted_dir;
+        std::system(rm_cmd.c_str()); // NOLINT(cert-env33-c)
+        rmdir(new_mount_point.c_str());
+        return Result<void>::error("rotateKey: cannot mount new container: " + mount_new_result.error());
+    }
+
+    // Step 3: copy all data from old mount_point to new_mount_point.
+    // Use cp -a to preserve timestamps and permissions.
+    std::string copy_cmd = "cp -a " + cfg.mount_point + "/. " + new_mount_point + "/";
+    int cp_rc = std::system(copy_cmd.c_str()); // NOLINT(cert-env33-c)
+    if (cp_rc != 0) {
+        // Roll back: unmount and remove new container.
+        backend->unmountContainer(new_mount_point);
+        std::string rm_cmd = "rm -rf " + new_encrypted_dir;
+        std::system(rm_cmd.c_str()); // NOLINT(cert-env33-c)
+        rmdir(new_mount_point.c_str());
+        return Result<void>::error("rotateKey: data copy failed (cp exit " + std::to_string(cp_rc) + ")");
+    }
+
+    // Step 4: unmount the OLD container.
+    auto umount_old = backend->unmountContainer(cfg.mount_point);
+    if (umount_old.isError()) {
+        // Unmount of old failed; roll back new container to avoid double-mount.
+        backend->unmountContainer(new_mount_point);
+        std::string rm_cmd = "rm -rf " + new_encrypted_dir;
+        std::system(rm_cmd.c_str()); // NOLINT(cert-env33-c)
+        rmdir(new_mount_point.c_str());
+        return Result<void>::error("rotateKey: cannot unmount old container: " + umount_old.error());
+    }
+
+    // Step 5: atomic directory swap.
+    //   old_encrypted_dir  → old_encrypted_dir.bak.<timestamp>
+    //   new_encrypted_dir  → old_encrypted_dir  (active)
+    auto now_s = std::to_string(
+        std::chrono::duration_cast<std::chrono::seconds>(
+            std::chrono::system_clock::now().time_since_epoch()
+        ).count()
+    );
+    std::string backup_dir = cfg.encrypted_dir + ".bak." + now_s;
+
+    if (rename(cfg.encrypted_dir.c_str(), backup_dir.c_str()) != 0) {
+        // Cannot rename old dir; remount old container to restore service.
+        backend->mountContainer(cfg.encrypted_dir, cfg.mount_point, old_key);
+        backend->unmountContainer(new_mount_point);
+        std::string rm_cmd = "rm -rf " + new_encrypted_dir;
+        std::system(rm_cmd.c_str()); // NOLINT(cert-env33-c)
+        rmdir(new_mount_point.c_str());
+        return Result<void>::error("rotateKey: cannot rename old container to backup");
+    }
+
+    if (rename(new_encrypted_dir.c_str(), cfg.encrypted_dir.c_str()) != 0) {
+        // Critical: try to restore old directory.
+        rename(backup_dir.c_str(), cfg.encrypted_dir.c_str());
+        backend->mountContainer(cfg.encrypted_dir, cfg.mount_point, old_key);
+        backend->unmountContainer(new_mount_point);
+        return Result<void>::error("rotateKey: cannot promote new container");
+    }
+
+    // Step 6: unmount new_mount_point and mount at canonical mount_point.
+    backend->unmountContainer(new_mount_point);
+    rmdir(new_mount_point.c_str());
+
+    auto final_mount = backend->mountContainer(cfg.encrypted_dir, cfg.mount_point, new_key);
+    if (final_mount.isError()) {
+        return Result<void>::error("rotateKey: final mount failed (data is safe in "
+                                    + cfg.encrypted_dir + "): " + final_mount.error());
+    }
+
+    THEMIS_INFO("rotateKey: rotation completed for level '{}'. Backup: {}", cfg.name, backup_dir);
+
+    // Send notification if configured.
+    if (!cfg.notification_email.empty()) {
+        std::string notify_cmd = "echo 'ThemisDB: key rotated for level " + cfg.name
+                                 + " at " + now_s + "' | mail -s 'Key Rotation Complete' "
+                                 + cfg.notification_email + " 2>/dev/null || true";
+        std::system(notify_cmd.c_str()); // NOLINT(cert-env33-c)
+    }
+
+    return Result<void>();
 }
 
 std::string MultiLevelEncryptedStorage::getBasePath(SecurityLevel level) {

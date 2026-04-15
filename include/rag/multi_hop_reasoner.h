@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multi_hop_reasoner.h                               ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 18:04:49                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 18:46:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

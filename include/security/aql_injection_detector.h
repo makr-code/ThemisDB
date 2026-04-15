@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_injection_detector.h                           ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:05:07                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 4e39463a86  2026-03-21  feat(security): implement AQL read-only context validatio... ║
-    • eb75d79f53  2026-03-12  feat(security): implement AQL AST-level injection validat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mixed_precision.cpp                                ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:08:36                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   85.0/100                                       ║
     • Total Lines:     210                                            ║
     • Open Issues:     TODOs: 1, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -24,6 +21,7 @@
 #include <spdlog/spdlog.h>
 #include <cmath>
 #include <cstring>
+#include <cstdint>
 #include <limits>
 #include <algorithm>
 
@@ -179,30 +177,105 @@ void MixedPrecisionTrainer::reset_stats() {
     current_loss_scale_ = config_.loss_scale;
 }
 
-// Simplified FP16 conversion for CPU (IEEE 754 half precision)
-// NOTE: This is a simplified implementation for Phase 1 (CPU-only)
-// Real GPU implementation would use native __half type from cuda_fp16.h
-// and perform proper mantissa/exponent conversion
+// File-local helper: decode a raw FP16 bit-pattern to float32.
+// Defined before fp32_to_fp16 so it can be called from there.
+static float fp16_to_fp32_bits(uint16_t f16) {
+    const uint32_t sign   = static_cast<uint32_t>((f16 >> 15) & 0x1u);
+    const uint32_t exp16  = static_cast<uint32_t>((f16 >> 10) & 0x1Fu);
+    const uint32_t mant16 = static_cast<uint32_t>( f16        & 0x3FFu);
+
+    uint32_t exp32;
+    uint32_t mant32;
+
+    if (exp16 == 0x1Fu) {
+        exp32  = 0xFFu;
+        mant32 = mant16 ? (mant16 << 13) : 0u;
+    } else if (exp16 == 0u) {
+        if (mant16 == 0u) {
+            exp32  = 0u;
+            mant32 = 0u;
+        } else {
+            // Subnormal FP16 → normalise into FP32
+            int e = -1;
+            uint32_t m = mant16 << 1;
+            while (!(m & 0x400u)) { m <<= 1; ++e; }
+            exp32  = static_cast<uint32_t>(127 - 15 - e);
+            mant32 = (m & 0x3FFu) << 13;
+        }
+    } else {
+        exp32  = static_cast<uint32_t>(exp16 + 127 - 15);
+        mant32 = mant16 << 13;
+    }
+
+    uint32_t f32 = (sign << 31) | (exp32 << 23) | mant32;
+    float out;
+    std::memcpy(&out, &f32, sizeof(out));
+    return out;
+}
+
+// CPU-based IEEE 754 FP32↔FP16 conversion using bit manipulation.
+// FP32: 1 sign + 8 exponent + 23 mantissa bits (bias 127)
+// FP16: 1 sign + 5 exponent + 10 mantissa bits (bias 15)
 float MixedPrecisionTrainer::fp32_to_fp16(float value) {
-    // Clamp to FP16 range
-    const float fp16_max = 65504.0f;
-    const float fp16_min = -65504.0f;
-    
-    if (value > fp16_max) return fp16_max;
-    if (value < fp16_min) return fp16_min;
-    if (std::isnan(value)) return std::numeric_limits<float>::quiet_NaN();
-    
-    // For CPU simulation, we just clamp to FP16 range
-    // TODO: In GPU implementation, convert to actual FP16 format:
-    //   - Extract sign, exponent, mantissa bits
-    //   - Convert to 16-bit representation (1 sign + 5 exp + 10 mantissa)
-    //   - Store as __half type for GPU operations
-    return value;
+    // Bit-cast float to uint32 without UB
+    uint32_t f32;
+    std::memcpy(&f32, &value, sizeof(f32));
+
+    const uint32_t sign     = (f32 >> 31) & 0x1u;
+    const uint32_t exp32    = (f32 >> 23) & 0xFFu;
+    const uint32_t mant32   =  f32        & 0x7FFFFFu;
+
+    uint32_t exp16;
+    uint32_t mant16;
+
+    if (exp32 == 0xFFu) {
+        // Inf or NaN
+        exp16  = 0x1Fu;
+        mant16 = (mant32 != 0) ? 0x200u : 0u; // preserve NaN vs Inf
+    } else if (exp32 == 0u) {
+        // Subnormal FP32 → FP16 zero (too small for FP16 subnormals)
+        exp16  = 0u;
+        mant16 = 0u;
+    } else {
+        int32_t exp_shifted = static_cast<int32_t>(exp32) - 127 + 15;
+        if (exp_shifted >= 31) {
+            // Overflow → FP16 infinity
+            exp16  = 0x1Fu;
+            mant16 = 0u;
+        } else if (exp_shifted <= 0) {
+            // Underflow → FP16 subnormal or zero
+            exp16  = 0u;
+            // Shift mantissa (implicit leading 1 included)
+            uint32_t mant_with_implicit = (mant32 | 0x800000u) >> (1 - exp_shifted);
+            mant16 = mant_with_implicit >> 13; // truncate to 10 bits
+        } else {
+            exp16  = static_cast<uint32_t>(exp_shifted);
+            // Round-to-nearest: look at bit 12 of the FP32 mantissa
+            uint32_t round_bit = (mant32 >> 12) & 0x1u;
+            mant16 = (mant32 >> 13) + round_bit;
+            if (mant16 > 0x3FFu) {
+                // Mantissa overflow → increment exponent
+                mant16 = 0u;
+                ++exp16;
+                if (exp16 >= 0x1Fu) { exp16 = 0x1Fu; mant16 = 0u; } // clamp to Inf
+            }
+        }
+    }
+
+    // Pack into 16-bit pattern, then reconstruct a float for storage.
+    // We store the FP16 bit-pattern in the lower 16 bits of a float32.
+    uint16_t f16 = static_cast<uint16_t>((sign << 15) | (exp16 << 10) | mant16);
+    // Decode the FP16 back to float so the caller works with ordinary floats.
+    return fp16_to_fp32_bits(f16);
 }
 
 float MixedPrecisionTrainer::fp16_to_fp32(float value) {
-    // No conversion needed for CPU simulation
-    return value;
+    // value stores the FP16 bit-pattern that fp32_to_fp16() encoded.
+    // Re-interpret the lower 16 bits as a raw FP16 word.
+    uint32_t f32_bits;
+    std::memcpy(&f32_bits, &value, sizeof(f32_bits));
+    uint16_t f16 = static_cast<uint16_t>(f32_bits & 0xFFFFu);
+    return fp16_to_fp32_bits(f16);
 }
 
 } // namespace lora

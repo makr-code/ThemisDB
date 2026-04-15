@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            check_openapi_completeness.py                      ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:07:09                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 18:48:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

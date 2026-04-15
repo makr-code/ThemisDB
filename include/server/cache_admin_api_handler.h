@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cache_admin_api_handler.h                          ║
-  Version:         0.0.19                                             ║
-  Last Modified:   2026-04-15 18:05:14                                ║
+  Version:         0.0.20                                             ║
+  Last Modified:   2026-04-15 18:46:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • 567534e518  2026-03-18  feat(cache): implement SLO monitor latency percentile tra... ║
-    • bb2eb0def8  2026-03-18  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

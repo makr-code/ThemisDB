@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_injection_attack_vectors.cpp                  ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:11:48                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:52:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 4e39463a86  2026-03-21  feat(security): implement AQL read-only context validatio... ║
-    • 9f7d34b9d6  2026-03-09  feat(security): add attack vector tests and promote PQ cr... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

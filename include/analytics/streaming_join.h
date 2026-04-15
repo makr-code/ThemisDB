@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            streaming_join.h                                   ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 18:01:43                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 18:44:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

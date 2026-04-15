@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_opentelemetry_full_integration.cpp            ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:16:07                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:55:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     876                                            ║
+    • Total Lines:     875                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • e7d6bc4555  2026-03-13  feat(tests): add focused tests for consistent hash distri... ║
-    • b469275a84  2026-03-13  fix(observability): wire up multi-exporter dispatch, fix ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

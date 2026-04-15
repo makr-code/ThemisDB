@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            iasync_llm_backend.h                               ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 18:01:57                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:44:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

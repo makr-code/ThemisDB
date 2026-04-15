@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_lora_weight_manipulation.cpp                  ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:15:30                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:55:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 4f40ba83eb  2026-03-11  fix(training): reset LoRA layer on setHyperparameters; ad... ║
-    • 5f8645a5b1  2026-03-11  feat(training): implement real LoRA weight manipulation f... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

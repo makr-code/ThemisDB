@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_metrics_stream_server.cpp                     ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:15:45                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:55:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     664                                            ║
+    • Total Lines:     663                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • e7d6bc4555  2026-03-13  feat(tests): add focused tests for consistent hash distri... ║
-    • ca2fee65a8  2026-03-13  fix(observability): widen JSON escape reserve and rename ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

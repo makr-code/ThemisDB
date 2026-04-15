@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            scraper_llm_evaluator.h                            ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 18:06:41                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 18:48:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

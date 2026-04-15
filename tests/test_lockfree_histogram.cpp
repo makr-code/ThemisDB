@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_lockfree_histogram.cpp                        ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 18:15:19                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 18:55:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
