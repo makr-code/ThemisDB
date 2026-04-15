@@ -39,6 +39,7 @@ message(STATUS "GTest found - building unified test binary")
 include_directories(
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}/benchmarks
     ${GTest_INCLUDE_DIRS}
 )
 
@@ -20843,6 +20844,39 @@ else()
     message(STATUS "XDOMEA Connector focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_xdomea_connector.cpp")
 endif()
 
+# Document Store focused tests (IDocumentStore, IDocumentManager, lifecycle, schema evolution, diff/merge)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_document_store.cpp")
+    message(STATUS "Adding Document Store focused tests (v1.3.0)")
+
+    add_executable(test_document_store_focused
+        test_document_store.cpp
+    )
+
+    target_include_directories(test_document_store_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(test_document_store_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_document_store_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DocumentStoreFocusedTests COMMAND test_document_store_focused)
+
+    set_tests_properties(DocumentStoreFocusedTests PROPERTIES
+        LABELS "document;store;manager;lifecycle;schema;diff;merge;v1.3.0;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  DocumentStore: IDocumentStore, IDocumentManager, IDocumentLifecycleHook, IDocumentSchemaEvolution, IDocumentDiffMerge, IEncryptedDocumentEntity")
+else()
+    message(STATUS "Document Store focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_document_store.cpp")
+endif()
+
 # eID Authenticator focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_eid_authenticator.cpp")
     message(STATUS "Adding eID Authenticator focused tests (v1.9.0)")
@@ -22530,4 +22564,59 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_storage_parquet_exporter.cpp")
     )
 
     message(STATUS "  StorageParquetExporter: PAR1 magic, INT32/INT64/FLOAT32/FLOAT64/BOOL, multi-column, stats, file export, error paths (15 tests)")
+endif()
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Projects module tests — ProjectVersioning, ProjectDiff, ProjectLifecycle,
+# ProjectTemplate, CollaborationManager
+# ──────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_projects.cpp")
+    message(STATUS "Adding Projects module tests (Issue #3491)")
+
+    add_executable(test_projects
+        test_projects.cpp
+        ${CMAKE_SOURCE_DIR}/src/projects/project_versioning.cpp
+        ${CMAKE_SOURCE_DIR}/src/projects/project_diff.cpp
+        ${CMAKE_SOURCE_DIR}/src/projects/project_lifecycle.cpp
+        ${CMAKE_SOURCE_DIR}/src/projects/project_template.cpp
+        ${CMAKE_SOURCE_DIR}/src/projects/collaboration_manager.cpp
+    )
+
+    target_include_directories(test_projects PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_projects PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_projects PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    if(WIN32)
+        themis_sync_runtime_dlls_for_target(test_projects)
+        add_dependencies(test_projects sync_test_runtime_dlls)
+    endif()
+
+    add_test(NAME ProjectsModuleTests COMMAND test_projects)
+
+    set_tests_properties(ProjectsModuleTests PROPERTIES
+        LABELS "projects;versioning;diff;lifecycle;template;collaboration;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Projects: ProjectVersioning (PV-01..PV-06), ProjectDiff (PD-01..PD-07), ProjectLifecycle (PL-01..PL-07), ProjectTemplate (PT-01..PT-05), CollaborationManager (CM-01..CM-08)")
+else()
+    message(STATUS "Projects module tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_projects.cpp")
 endif()

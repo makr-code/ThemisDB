@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            profiler.h                                         ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:14:15                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:38:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 4966e1aa6f  2026-02-25  fix(gpu): correct stale metadata banners and update ROADM... ║
-    • c110763ce7  2026-02-25  feat(gpu): implement GPU profiling integration (NVIDIA Ns... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

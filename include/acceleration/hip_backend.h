@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hip_backend.h                                      ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:08:45                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:32:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     241                                            ║
+    • Total Lines:     240                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • edaecffe60  2026-02-24  feat(acceleration): Add ROCm/HIP backend non-HIP fallback... ║
-    • 33de0a38ca  2026-02-23  fix(acceleration): add missing HIPGeoBackend — wire geo_k... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

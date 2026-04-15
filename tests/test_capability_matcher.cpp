@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_capability_matcher.cpp                        ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:23:32                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:48:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

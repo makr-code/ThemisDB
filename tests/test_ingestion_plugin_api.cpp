@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ingestion_plugin_api.cpp                      ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:26:41                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:51:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 03b2f7429b  2026-03-09  fix(plugins): resolve FUTURE_ENHANCEMENTS inconsistencies... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 90813ef53e  2026-02-28  feat(ingestion): Plugin API for third-party source connec... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 📝 Draft / Stub                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

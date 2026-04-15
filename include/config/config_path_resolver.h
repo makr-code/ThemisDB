@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_path_resolver.h                             ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-15 04:09:43                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 05:33:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 1e2b358f1d  2026-03-15  feat(config): SIGHUP hot-reload inotify/kqueue/ReadDirect... ║
     • c74d69b89e  2026-03-13  Changes before error encountered        ║
     • 967f3dafaa  2026-03-13  chore: polish config metrics exporter   ║
-    • 535cee36dc  2026-03-13  feat: export config metrics via Prometheus registry ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

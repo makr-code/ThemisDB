@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            docs_assistant_functions.h                         ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:09:11                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:33:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 3a758b465a  2026-04-12  feat(aql): AQL module enhancements — Features 8, 10, 12, ... ║
     • a7b41e3e73  2026-03-22  feat(docs): refactor DocsAssistantFunctions to use unique... ║
     • f62f9c89c4  2026-03-14  feat(aql): wire detectIntentWithNativeNLP() to IClassifyF... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

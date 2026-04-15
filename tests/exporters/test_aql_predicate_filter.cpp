@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_aql_predicate_filter.cpp                      ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:21:34                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:46:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • f82bf2ae9f  2026-03-04  Refactor tenant manager tests and add new test cases ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d2bec4ef79  2026-02-27  feat(exporters): implement AQL predicate filtering for ex... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

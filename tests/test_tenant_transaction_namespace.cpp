@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_tenant_transaction_namespace.cpp              ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:31:32                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:56:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • f770f4a5ba  2026-02-28  refactor(transaction): address code review feedback ║
-    • 14942b3a71  2026-02-28  feat(transaction): implement per-tenant transaction isola... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

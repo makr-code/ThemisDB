@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            path_constraints.h                                 ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:10:18                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:34:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 23f569828d  2026-02-28  fix(graph): fix query injection in path constraints (secu... ║
-    • cf39e23c31  2026-02-25  fix(graph): clear stale Stubs:1 metadata and outdated doc... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

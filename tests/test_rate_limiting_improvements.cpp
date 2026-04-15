@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rate_limiting_improvements.cpp                ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 04:30:06                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 05:54:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • f9f5fd4599  2026-03-13  fix(server): address second round of review comments on r... ║
     • b09d74434e  2026-03-13  fix(server): address all code review comments on rate lim... ║
     • f727c0a847  2026-03-13  test: improve tenant ID naming in rate limiting improveme... ║
-    • 855ed0268a  2026-03-13  feat(server): add adaptive and cost-based rate limiters f... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

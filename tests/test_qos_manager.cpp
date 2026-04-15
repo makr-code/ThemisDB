@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_qos_manager.cpp                               ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:29:22                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:53:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • b437bbe00f  2026-02-25  fix(network): audit – 3 bugs fixed in per-tenant bandwidt... ║
-    • a57c9c42c2  2026-02-25  feat(network): implement per-tenant network bandwidth quotas ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

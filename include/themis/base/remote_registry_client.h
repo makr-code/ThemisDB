@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            remote_registry_client.h                           ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:14:09                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:38:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 2c1b27b6f2  2026-03-15  feat(base): async retry RemoteRegistryClient + LLM RetryP... ║
     • e56570ab4b  2026-03-15  feat(base): add async methods to RemoteRegistryClient; fi... ║
     • 4e273a1302  2026-03-14  feat(base): implement async retry API for RemoteRegistryC... ║
-    • 8b7f5ae1f8  2026-03-14  Enforce shared ownership for async calls ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

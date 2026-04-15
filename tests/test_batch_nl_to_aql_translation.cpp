@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_batch_nl_to_aql_translation.cpp               ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-04-15 04:23:20                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-04-15 05:47:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 16aed6bb00  2026-03-15  refactor: enhance modular build configuration and improve... ║
     • 2e566adfce  2026-03-14  fix(aql): bounded worker pool - fix dangling ref, unbound... ║
     • db5df3fde9  2026-03-14  feat(aql): parallel execution of translateBatchNLToAQL() ... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_plugin_security_pe_cert_extraction.cpp        ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-15 04:28:50                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 05:53:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

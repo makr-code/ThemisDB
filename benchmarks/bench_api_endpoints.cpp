@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_api_endpoints.cpp                            ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:07:31                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:31:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 9d3ecaa0e4  2026-02-28  Add ThemisDB Wiki Integration plugin with documentation i... ║
-    • 0e4cab8355  2026-02-27  feat(api/benchmarks): add API endpoint performance benchm... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

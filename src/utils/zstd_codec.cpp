@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            zstd_codec.cpp                                     ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:21:11                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:45:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_time_slice_scheduler.cpp                  ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:25:55                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:50:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 39fdc2f9ae  2026-02-26  fix(gpu): audit fixes for GPUTimeSliceScheduler — double-... ║
-    • d2ffff70a2  2026-02-26  feat(gpu): add GPUTimeSliceScheduler for dynamic multi-te... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

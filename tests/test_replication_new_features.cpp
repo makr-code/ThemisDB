@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_replication_new_features.cpp                  ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 04:30:12                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 05:54:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 79f0815052  2026-03-28  Add test statistics documentation and collection script ║
     • b658e5c9c4  2026-03-13  feat(replication): close audit gaps — group_transactions,... ║
     • 7bab5cf61f  2026-03-13  fix(tests): address PR review feedback on ParallelReplica... ║
-    • fecf46c5a9  2026-03-13  feat: add ParallelReplicationWorker tests and update ROAD... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

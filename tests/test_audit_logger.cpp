@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_audit_logger.cpp                              ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:23:12                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:47:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • c613ea7a9e  2026-03-04  Refactor error masking and enhance archive processor vali... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • f7107b0654  2026-03-01  Protect audit log against loss: fsync, rotation, secondar... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

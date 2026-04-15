@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            SettingsDialogViewModel.cs                         ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:33:04                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:57:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

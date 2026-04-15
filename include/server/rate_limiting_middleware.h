@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rate_limiting_middleware.h                         ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:13:30                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:37:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 957edb06a0  2026-02-23  fix(api): eliminate duplicate prefix search in RateLimiti... ║
-    • 055442e28d  2026-02-23  feat(api): add rate limiting middleware with configurable... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

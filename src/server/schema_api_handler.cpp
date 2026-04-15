@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            schema_api_handler.cpp                             ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:19:51                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:44:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 1b86d845d2  2026-03-11  feat(tracing): add OpenTelemetry spans to all major API h... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b501b870f9  2026-02-28  feat(metadata): wire ColumnLineageTracker into REST API v... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

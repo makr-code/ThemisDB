@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_spatial_index_atomic.cpp                      ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:31:11                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:55:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

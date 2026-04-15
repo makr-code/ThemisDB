@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cycle_metrics.cpp                             ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:22:14                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:46:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • f82bf2ae9f  2026-03-04  Refactor tenant manager tests and add new test cases ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b4f7325498  2026-02-25  audit: fix cycle_metrics stubs, update metadata, add PMU ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

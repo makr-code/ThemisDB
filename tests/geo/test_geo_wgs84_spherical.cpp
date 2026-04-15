@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_geo_wgs84_spherical.cpp                       ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:21:47                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:46:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • e8e316290d  2026-02-25  fix(geo): add geodesicDistance delegation to GPU stub and... ║
-    • 674e35f16b  2026-02-25  feat(geo): implement WGS-84 spherical geometry support vi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

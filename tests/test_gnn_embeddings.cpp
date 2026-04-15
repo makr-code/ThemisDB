@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gnn_embeddings.cpp                            ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:25:35                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:50:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

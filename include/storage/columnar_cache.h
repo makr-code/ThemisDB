@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            columnar_cache.h                                   ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-15 04:13:52                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 05:38:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

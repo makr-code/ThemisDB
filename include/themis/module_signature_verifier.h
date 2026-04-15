@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            module_signature_verifier.h                        ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:14:19                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:38:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 4da3502dd0  2026-03-12  feat(themis): add THEMIS_BASE_API export macros to public... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 99408f61e7  2026-03-01  feat: add standalone ModuleSignatureVerifier for Authenti... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

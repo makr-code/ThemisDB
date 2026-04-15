@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            soc2_controls.h                                    ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:10:17                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:34:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

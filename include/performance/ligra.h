@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ligra.h                                            ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:11:49                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:36:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

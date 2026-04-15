@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_entity_api_handler_batch.cpp                  ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:25:09                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:49:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

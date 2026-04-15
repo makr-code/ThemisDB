@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_plugin_hot_plug.cpp                           ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:28:46                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:53:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

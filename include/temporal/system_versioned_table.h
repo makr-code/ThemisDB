@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            system_versioned_table.h                           ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:14:05                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:38:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • c5ff147e9f  2026-03-20  Changes before error encountered        ║
     • f5de57fcfe  2026-03-12  fix(temporal): address review comments on SystemVersioned... ║
     • ea2a53ea6d  2026-03-12  feat(temporal): Full System-Versioned Table Support (v1.1.0) ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

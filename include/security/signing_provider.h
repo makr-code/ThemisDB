@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            signing_provider.h                                 ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:13:13                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:37:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

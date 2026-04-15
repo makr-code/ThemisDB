@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_runtime_license_gate.cpp                      ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-15 04:30:24                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-15 05:55:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

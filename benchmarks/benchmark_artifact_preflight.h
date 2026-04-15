@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            benchmark_artifact_preflight.h                     ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-15 04:08:13                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-15 05:32:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

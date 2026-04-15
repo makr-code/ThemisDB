@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_hip_geo_kernels.cpp                           ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:21:49                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:46:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            knowledge_graph_enricher.cpp                       ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:20:40                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:45:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • f9bd877988  2026-03-15  feat: ProvenanceTracker live AQL connection, KGE fail-fas... ║
     • 26e49f8ba7  2026-03-11  fix: wire include_guidance in enrichSample; expose findRe... ║
-    • b060c0cbce  2026-03-11  fix(training): guard findSimilarDocuments against max_res... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

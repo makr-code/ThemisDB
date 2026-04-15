@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            outbox.cpp                                         ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:16:15                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:40:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 7d73e2cd29  2026-02-25  audit(cdc): fix stale ROADMAP Known Issues, document outb... ║
-    • 822f29a029  2026-02-25  feat(cdc): implement outbox pattern for transactional cha... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

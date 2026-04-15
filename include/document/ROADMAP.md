@@ -18,12 +18,19 @@ v1.2.0 — Public headers production-ready. `encrypted_entities.h` is production
 ## Planned
 
 - [x] Remove `document_manager_deprecated.h` after migration period (Target: v2.0.0)
-- [ ] Expose `IDocumentStore` abstract interface for pluggable backends (Target: v1.3.0)
+- [x] Expose `IDocumentStore` abstract interface for pluggable backends (Target: v1.3.0)
+- [x] Expose `IDocumentManager` CRUD interface with `Result<T>` error propagation (Target: v1.3.0)
+- [x] `IDocumentLifecycleHook` / `DocumentLifecycleEvent` for audit and side-effect dispatch (Target: v1.3.0)
+- [x] `IDocumentSchemaEvolution` with schema-version registry, `SchemaDescriptor`, `ValidationReport` (Target: v1.3.0)
+- [x] `IDocumentDiffMerge` with `DocumentDiff`, `MergeResult`, `MergeConflict` (Target: v1.3.0)
+- [x] `IEncryptedDocumentEntity` opaque handle with `KeyRotationDescriptor` / `reencrypt()` (Target: v1.3.0)
 
 ## Production Readiness Checklist
 
 - [x] Public headers compile cleanly with `-Wall -Wextra`
 - [x] Deprecated symbols annotated with `[[deprecated]]`
 - [x] `IXDOMEAConnector` header + 30 acceptance-criteria tests
-- [ ] `IDocumentStore` abstract interface published
+- [x] `IDocumentStore` abstract interface published (`document_store.h`)
+- [x] `IDocumentManager` + lifecycle + schema + diff/merge published (`document_manager.h`, `document_lifecycle.h`, `document_schema_evolution.h`, `document_diff_merge.h`)
+- [x] 38 acceptance-criteria tests in `tests/test_document_store.cpp` (DS/DM/DL/DSE/DDM)
 - [ ] Migration guide from deprecated API completed

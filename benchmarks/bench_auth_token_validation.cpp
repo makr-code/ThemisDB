@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_auth_token_validation.cpp                    ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:07:32                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:31:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 3cb5854195  2026-02-24  fix(bench): remove dead field and fix destruction order i... ║
-    • 09eb5b1d4e  2026-02-24  feat(auth): add token validation performance benchmarks (... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

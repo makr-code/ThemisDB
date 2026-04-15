@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_interface.h                                 ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:11:58                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:36:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     823                                            ║
+    • Total Lines:     822                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 4e040a88ae  2026-04-07  chore: update checklist – add llama_cpp to plugin plan ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1184e5e03c  2026-02-26  audit: fix schema/validator inconsistencies and add integ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

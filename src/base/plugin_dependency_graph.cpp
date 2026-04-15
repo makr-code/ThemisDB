@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_dependency_graph.cpp                        ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:16:10                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:40:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 0c61ebb630  2026-02-28  Code audit: fix topologicalOrder bug, remove unused inclu... ║
-    • 445546674a  2026-02-27  Add plugin dependency graph visualization for base module ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

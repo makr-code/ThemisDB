@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            learned_index.h                                    ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:10:42                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:34:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 5c7c849711  2026-02-27  Security fix: guard against integer-overflow DoS in deser... ║
-    • 1983b8223a  2026-02-27  Implement learned index structures (ML-based B-tree repla... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

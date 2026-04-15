@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cross_module_acceleration_index.cpp           ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-15 04:24:29                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 05:48:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

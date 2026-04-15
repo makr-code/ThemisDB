@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_config_path_resolver.cpp                     ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:07:36                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:31:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • d38f9d8e27  2026-03-13  fix(config): fix broken AC-5 test; add AC-7 benchmark for... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 90c733a509  2026-02-28  feat(benchmarks): add ConfigPathResolver cache hit rate a... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

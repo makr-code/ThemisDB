@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_json_schema_binding.cpp                       ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:22:04                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:46:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • f82bf2ae9f  2026-03-04  Refactor tenant manager tests and add new test cases ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 0f9839ae4f  2026-02-26  feat(llm): implement JSON schema binding support (Issue #... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

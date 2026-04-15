@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_server.h                             ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:11:32                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:35:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 267da6617b  2026-03-11  feat(network): full IPv6 support in Wire Protocol Server ... ║
     • e7af44ad0c  2026-03-11  fix(network): audit pass 2 — add CURSOR_NEXT (0x23), CURS... ║
     • c47502afd2  2026-03-11  feat(network): implement all WireProtocol V1 opcode handl... ║
-    • 710fcd61fe  2026-03-10  feat(network): implement Wire Protocol V1 opcode handlers... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

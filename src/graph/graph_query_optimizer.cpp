@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_query_optimizer.cpp                          ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:16:55                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:41:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 5bfa861df6  2026-03-23  Add runtime DLL copying functionality and error handling ║
     • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
     • 43a91f1793  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

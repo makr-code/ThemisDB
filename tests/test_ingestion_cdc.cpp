@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ingestion_cdc.cpp                             ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:26:35                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:51:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

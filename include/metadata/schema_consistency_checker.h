@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            schema_consistency_checker.h                       ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:11:19                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:35:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

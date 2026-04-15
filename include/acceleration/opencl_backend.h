@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            opencl_backend.h                                   ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:08:47                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:32:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

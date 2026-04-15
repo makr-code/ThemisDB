@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_spatial_index.cpp                             ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:21:49                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:46:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 8c6e72669f  2026-02-26  test(geo): add searchZRange tests and refactor lambda dup... ║
-    • bf209ef920  2026-02-26  feat(geo): implement missing R-tree spatial index methods... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_security.cpp                               ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:16:21                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:40:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • b2513b8c2f  2026-03-16  Fix compilation errors: kDefaultLookaheadBytes forward-de... ║
     • aa52e53300  2026-03-16  Changes before error encountered        ║
     • 2737ade5bb  2026-03-11  fix(content/security): audit corrections - test rename, z... ║
-    • 1bacdae51e  2026-03-11  fix(content/security): add zip-bomb protection in archive... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

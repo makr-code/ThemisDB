@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_oauth_pkce_flow.cpp                           ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:28:10                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:52:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 82b94dd7cf  2026-02-24  fix(auth): code-audit fixes for OAuth PKCE — EVP SHA-256,... ║
-    • 49afad4b81  2026-02-23  feat(auth): implement OAuth 2.0 PKCE flow for public clie... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

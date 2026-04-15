@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_voice_assistant.cpp                          ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:08:09                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:32:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • c0a50c2caf  2026-03-19  Refactor build flags, IO, benchmarks & tests ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e0a7ce2223  2026-03-01  feat(voice): add STT latency and TTS generation speed ben... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

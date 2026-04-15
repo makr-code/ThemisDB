@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_eviction_strategies.cpp                       ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:25:21                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:49:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 0587578d8d  2026-02-27  feat(graph): plan cache eviction with size and TTL controls ║
-    • 5f3f466a9e  2026-02-24  feat(cache): add configurable eviction policies (LFU, ARC... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

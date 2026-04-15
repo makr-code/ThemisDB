@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_shared_worker_pool.cpp                        ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-04-15 04:31:03                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 05:55:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • a2c5bc969d  2026-02-22  feat(llm): add SharedWorkerPool shared between AsyncInfer... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

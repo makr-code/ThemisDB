@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pmem_storage.cpp                                   ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:18:18                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:42:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • f93dd332c6  2026-02-23  audit(performance): add file banners and register PMem in... ║
-    • 5ee46e5976  2026-02-23  feat(performance): Persistent Memory (Optane) aware stora... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

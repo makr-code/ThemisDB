@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pmu_counters.cpp                                   ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:18:18                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:42:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • ce084b6c31  2026-04-13  fix(performance/phase4): complete PMU non-Linux stub cove... ║
     • c24f94c9c6  2026-03-22  feat(cmake): add join_exporter to THEMIS_CORE_SOURCES and... ║
     • 0bdd4b7ab6  2026-03-21  Changes before error encountered        ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

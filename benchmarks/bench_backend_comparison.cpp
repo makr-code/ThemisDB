@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_backend_comparison.cpp                       ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:07:32                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:31:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

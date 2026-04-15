@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_module.cpp                                ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:25:48                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:50:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

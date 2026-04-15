@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_query_engine_join.cpp                         ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:29:24                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:54:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

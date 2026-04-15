@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hybrid_search.h                                    ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:13:02                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:37:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • cae1e318a4  2026-02-25  audit(search): close remaining gaps from LLM re-ranking i... ║
-    • 96ef109a09  2026-02-25  feat(search): integrate LlmReranker into HybridSearch pip... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

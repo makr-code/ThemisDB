@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            backend_registry.cpp                               ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:15:47                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:40:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 2826fa9ccd  2026-04-14  fix(build): eliminate remaining MSVC warnings in clean re... ║
     • b5921c3ced  2026-04-13  feat(acceleration): BackendRegistry O(n²) → O(k) backend ... ║
     • e627c556bd  2026-03-15  feat(acceleration): BackendRegistry thread-safety, VLLMRe... ║
-    • 6afb158447  2026-03-15  feat(acceleration): replace std::cout with structured log... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

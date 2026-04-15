@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_postgres_importer_streaming.cpp               ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:29:01                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:53:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_bi_temporal.cpp                               ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:22:25                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:46:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 6e698b5dbb  2026-03-12  fix(temporal): address PR review feedback on BiTemporalTable ║
     • bf380a1af8  2026-03-12  feat(temporal): add gap detection, uniqueness constraints... ║
     • 6e8942ed4f  2026-03-09  feat(temporal): implement bitemporal joins and SEQUENCED/... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

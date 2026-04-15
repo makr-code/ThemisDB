@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_vulkan_compute_equivalents.cpp                ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:32:27                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:57:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • c5f10fdcb3  2026-02-23  fix(acceleration): add input validation and error handlin... ║
-    • 2b9cce943b  2026-02-23  feat(acceleration): implement Vulkan compute equivalents ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

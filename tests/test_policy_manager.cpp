@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_policy_manager.cpp                            ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:28:52                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:53:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • a7acef308f  2026-03-17  feat(governance): PolicyManager::reloadPolicies() with do... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

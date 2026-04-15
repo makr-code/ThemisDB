@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_aql_autocomplete.cpp                          ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:22:52                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:47:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 687871f137  2026-02-23  audit: fix COLLECT variable binding, unused includes, mul... ║
-    • 76634c39cd  2026-02-23  feat(aql): implement LSP-compatible AQL auto-complete API... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            maintenance_api_handler.cpp                        ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 04:19:44                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 05:44:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 12bb69b756  2026-04-13  feat(maintenance): multi-tenant schedule isolation (v2.0.... ║
     • 717093f9bc  2026-03-12  feat: implement IMaintenanceTaskHandler registry for main... ║
     • a63629a5c5  2026-03-12  feat: Force-Run Endpoint Window Override (v1.1.0) ║
-    • 1b86d845d2  2026-03-11  feat(tracing): add OpenTelemetry spans to all major API h... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

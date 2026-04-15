@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_filtered_vector_search.cpp                    ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:25:26                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:49:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

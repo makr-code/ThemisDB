@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            backup_manager.h                                   ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:13:50                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:38:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            html_processor.h                                   ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:09:46                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:33:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 8bd1fe74db  2026-02-26  Audit fixes: preserve_heading_markers, xhtml+xml registry... ║
-    • 5a022e6947  2026-02-26  Implement HTML content extraction with boilerplate removal ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_event_schema.cpp                          ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-15 04:23:46                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 05:48:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            document_parser.h                                  ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:33:34                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:58:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

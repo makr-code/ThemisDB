@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_plugin_capability_escalation.cpp              ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-15 04:28:43                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 05:53:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_parser.cpp                                     ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:18:40                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:43:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
     • c613ea7a9e  2026-03-04  Refactor error masking and enhance archive processor vali... ║
     • f82bf2ae9f  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

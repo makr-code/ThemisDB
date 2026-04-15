@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_loader.cpp                                  ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:15:49                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:40:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     322                                            ║
+    • Total Lines:     321                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • ce91302f75  2026-02-24  feat: erweitere die ModularBuild-Konfiguration und implem... ║
-    • 3f47ce19e8  2026-02-23  feat(acceleration): security hardening pass for plugin/dr... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

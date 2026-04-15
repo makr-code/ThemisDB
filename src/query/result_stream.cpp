@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            result_stream.cpp                                  ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:18:49                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:43:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 2899b1627c  2026-03-01  Fix ResultStream::nextBatch() to return error on exhauste... ║
-    • d8f3c7c0d4  2026-02-28  feat(query): implement ResultStream updateCursor for curs... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

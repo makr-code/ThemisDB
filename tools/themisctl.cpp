@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            themisctl.cpp                                      ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 04:33:36                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 05:58:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

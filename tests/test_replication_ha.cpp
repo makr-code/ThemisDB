@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_replication_ha.cpp                            ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:30:12                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:54:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
     • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
     • 64a9ae4eb6  2026-03-31  feat: enhance cache warmup logic and improve replication ... ║
-    • 387fde93e0  2026-03-13  feat(replication): implement MultiTierReplicationManager ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🚧 Early Development                                         ║
 ╚═════════════════════════════════════════════════════════════════════╝

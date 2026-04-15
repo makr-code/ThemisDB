@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_mig_manager.cpp                           ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:25:48                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:50:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 99ae2c9897  2026-02-28  feat(gpu): populate MIG fields in device_discovery and fi... ║
-    • 3d5f51a2fd  2026-02-27  feat(gpu): MIG partitioning support for NVIDIA A/H series ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

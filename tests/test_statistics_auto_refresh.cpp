@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_statistics_auto_refresh.cpp                   ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:31:15                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:55:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

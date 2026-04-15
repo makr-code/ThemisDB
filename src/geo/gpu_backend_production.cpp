@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_backend_production.cpp                         ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:16:39                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:41:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • e8953e1175  2026-04-13  docs(aql): Close all remaining ROADMAP items — Doxygen, L... ║
     • bddf692ff1  2026-03-12  fix(geo): reuse cpu_exact_ member for Phase 2, paralleliz... ║
     • 7bc7f44bff  2026-03-12  fix(geo): address review feedback — two-phase exact GPU i... ║
-    • 4d99d34798  2026-03-12  feat(geo): implement CUDA/OpenCL batch intersects, real G... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

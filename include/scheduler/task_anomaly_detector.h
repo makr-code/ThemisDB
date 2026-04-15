@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            task_anomaly_detector.h                            ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:12:58                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:37:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

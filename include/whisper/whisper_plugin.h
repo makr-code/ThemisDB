@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            whisper_plugin.h                                   ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-15 04:15:05                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 05:39:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     96                                             ║
+    • Total Lines:     97                                             ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 9db3a4a848  2026-04-15  feat(whisper): add language_confidence_threshold config +... ║
     • fdeed10753  2026-04-12  feat(whisper): v2.1.0 thread-safety, FfmpegAudioChunkRead... ║
     • 938636d98f  2026-04-07  feat(plugins): add audio/imggen interfaces, THEMIS_LLM_PL... ║
 ╠═════════════════════════════════════════════════════════════════════╣

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cycle_metrics_config.h                             ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:11:46                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:36:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • b4f7325498  2026-02-25  audit: fix cycle_metrics stubs, update metadata, add PMU ... ║
-    • 3fc5073575  2026-02-25  feat(performance/phase4): add PMU hardware counter integr... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

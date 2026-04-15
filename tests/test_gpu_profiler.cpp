@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_profiler.cpp                              ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:25:51                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:50:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

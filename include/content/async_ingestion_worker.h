@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            async_ingestion_worker.h                           ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:09:45                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:33:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 787af3dc11  2026-03-16  feat(content): implement YAML config loading and user_con... ║
     • 6d9fa9a163  2026-03-12  Remove WordPress plugins/docs, update worker ║
     • 517f27fd73  2026-03-11  feat(content): Add back-pressure metrics for ingestStream... ║
-    • fd07379dde  2026-03-11  feat(content): implement back-pressure in async_ingestion... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,20 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            perf_expectations_rootcause_audit.py               ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-15 04:33:32                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-15 05:58:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
-    • Quality Score:   69.0/100                                       ║
-    • Total Lines:     803                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 8                             ║
+    • Maturity Level:  🟠 BETA                                         ║
+    • Quality Score:   59.0/100                                       ║
+    • Total Lines:     810                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 10                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 6262db4796  2026-04-15  perf(olap): remove BM_OLAP_Disabled stub, activate 4 prod... ║
     • 68ce40a2f9  2026-04-13  feat: automated §1.5 root-cause audit for PERFORMANCE_EXP... ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: ⚠️  Needs Work                                              ║
+  Status: 🔧 In Progress                                               ║
 ╚═════════════════════════════════════════════════════════════════════╝
 """
 

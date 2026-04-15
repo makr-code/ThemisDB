@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            postgres_importer_mdm.cpp                          ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 04:17:08                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 05:41:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

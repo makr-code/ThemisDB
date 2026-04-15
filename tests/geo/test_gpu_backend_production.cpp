@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_backend_production.cpp                    ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:21:47                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:46:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • bddf692ff1  2026-03-12  fix(geo): reuse cpu_exact_ member for Phase 2, paralleliz... ║
     • 7bc7f44bff  2026-03-12  fix(geo): address review feedback — two-phase exact GPU i... ║
     • 4d99d34798  2026-03-12  feat(geo): implement CUDA/OpenCL batch intersects, real G... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

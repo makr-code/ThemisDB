@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            jit_aggregation.cpp                                ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:15:53                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:40:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • a0b664127e  2026-02-26  fix(analytics): remove unused includes from jit_aggregati... ║
-    • ebb5b620e7  2026-02-26  feat(analytics): implement JIT aggregation compiler for h... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

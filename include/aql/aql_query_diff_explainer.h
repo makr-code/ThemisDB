@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_query_diff_explainer.h                         ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-15 04:09:09                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-15 05:33:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

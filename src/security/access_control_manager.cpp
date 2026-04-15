@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            access_control_manager.cpp                         ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:19:26                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:43:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 949cf4eb21  2026-03-01  feat(security): integrate ZeroTrustPolicyEnforcer into Ac... ║
-    • 136ad815d4  2026-03-01  feat(security): integrate RLSManager into AccessControlMa... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

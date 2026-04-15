@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vectorized_execution.cpp                           ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:18:52                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:43:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

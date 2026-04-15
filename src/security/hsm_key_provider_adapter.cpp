@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hsm_key_provider_adapter.cpp                       ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:19:27                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:43:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • e52586aae2  2026-02-22  feat(security): implement HSM PKCS#11 direct DEK wrap/unw... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

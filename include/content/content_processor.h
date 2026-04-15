@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_processor.h                                ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:09:45                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:33:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 9d3ecaa0e4  2026-02-28  Add ThemisDB Wiki Integration plugin with documentation i... ║
-    • 95da435db9  2026-02-27  feat(content): add content deduplication via perceptual h... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

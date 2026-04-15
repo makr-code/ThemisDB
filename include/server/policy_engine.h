@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            policy_engine.h                                    ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:13:29                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:37:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • b74eab70d7  2026-02-25  fix(governance): emit governance_opa_fallback_total Prome... ║
-    • 977edef79a  2026-02-24  feat(auth): add OPA adapter for fine-grained ABAC policy ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

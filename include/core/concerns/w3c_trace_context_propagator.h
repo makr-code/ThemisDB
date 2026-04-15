@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            w3c_trace_context_propagator.h                     ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:09:55                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:34:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • de52d9bd5a  2026-02-27  chore(core): audit cleanup — remove unused include, updat... ║
-    • e8e481e71a  2026-02-27  feat(core): add W3CTraceContextPropagator for W3C TraceCo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

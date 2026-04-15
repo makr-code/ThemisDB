@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            streaming_window.cpp                               ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-04-15 04:15:54                                ║
+  Version:         0.0.29                                             ║
+  Last Modified:   2026-04-15 05:40:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   68.0/100                                       ║
-    • Total Lines:     1311                                           ║
+    • Total Lines:     1310                                           ║
     • Open Issues:     TODOs: 17, Stubs: 0                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

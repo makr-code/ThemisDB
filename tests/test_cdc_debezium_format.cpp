@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_debezium_format.cpp                       ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:23:42                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:48:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 18d7dc8045  2026-02-25  audit: fix Debezium roadmap markers, add FUTURE_ENHANCEME... ║
-    • df0b82e9b9  2026-02-24  feat(cdc): Debezium-compatible change event envelope form... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

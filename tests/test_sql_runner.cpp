@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_sql_runner.cpp                                ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:31:13                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:55:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • d64c558f44  2026-02-27  test(query): fix resource cleanup in executeSQL unit tests ║
-    • 099187166d  2026-02-26  feat(query): implement SQL dialect compatibility layer (e... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            perf_expectations_audit.py                         ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-15 04:33:32                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-15 05:58:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   90.0/100                                       ║
-    • Total Lines:     987                                            ║
+    • Total Lines:     1033                                           ║
     • Open Issues:     TODOs: 0, Stubs: 5                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 6a8974620a  2026-04-15  fix(audit): add CI workflow verification to voice benchma... ║
+    • e92bf9cc86  2026-04-15  feat(benchmarks): Nightly-Presets für Benchmark-Sweeps Mo... ║
     • 42c0aaa20a  2026-04-14  feat(benchmarks): standardize LLM/RAG/LoRA artifact prefl... ║
     • ee70111784  2026-04-13  fix(benchmarks): enforce Security/Governance benchmarks i... ║
     • cf3e31ffa9  2026-04-13  feat(governance): Disabled-Stub-Policy für Benchmarks ein... ║
-    • 3224c48c81  2026-04-13  [Governance] Introduce disabled benchmark policy with lin... ║
-    • aac9b9ed5a  2026-04-14  feat(benchmarks): standardize LLM/RAG/LoRA artifact prefl... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -428,14 +428,19 @@ def check_measure_5(root: pathlib.Path) -> dict[str, Any]:
 
     all_pass = all(c["result"] in (STATUS_PASS, STATUS_WARN) for c in checks)
     has_fail = any(c["result"] == STATUS_FAIL for c in checks)
+    erledigt = all_pass and ok_workflow
     return {
         "id": 5,
-        "title": "GPU-Benchmark-Matrix (CUDA/HIP/Vulkan) als separaten Runner etablieren",
-        "erledigt": False,
+        "title": "GPU-Benchmark-Matrix (CUDA/HIP/Vulkan) als separaten Runner etablieren (ERLEDIGT)",
+        "erledigt": erledigt,
         "status": STATUS_FAIL if has_fail else (STATUS_WARN if not ok_workflow else STATUS_PASS),
         "checks": checks,
         "evidence": evidence,
-        "notes": "Measure noch offen. Separater GPU-Runner/Workflow noch nicht nachgewiesen.",
+        "notes": (
+            "Maßnahme erledigt: benchmarks/CMakeLists.txt enthält bench_gpu_backends/bench_vulkan_lora/bench_lora_gpu "
+            "Targets mit THEMIS_ENABLE_GPU=1 und bedingten CUDA/HIP/Vulkan-Compile-Definitionen. "
+            "Workflow 06-infrastructure_gpu_gpu-benchmark-matrix-ci.yml stellt CUDA/HIP/Vulkan Runner-Matrix bereit."
+        ) if erledigt else "Measure noch offen. Separater GPU-Runner/Workflow noch nicht nachgewiesen.",
     }
 
 

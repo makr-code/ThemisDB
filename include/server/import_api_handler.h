@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            import_api_handler.h                               ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:13:25                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:37:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 9bccf09a7c  2026-03-16  Changes before error encountered        ║
     • 8452353dc5  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
     • e4aae2a7f2  2026-03-11  feat(importers): PostgreSQL Importer v2.0 - FK preservati... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

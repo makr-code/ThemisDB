@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_tracing_middleware.cpp                        ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:31:44                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:56:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

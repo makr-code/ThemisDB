@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_extensions.h                                 ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:12:21                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:36:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 3ac1c41432  2026-03-09  fix: clear all remaining stubs/TODOs across modules; upda... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • aee5ad1857  2026-02-24  Implement betweenness centrality and Louvain community de... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

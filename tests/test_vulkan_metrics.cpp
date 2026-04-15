@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_vulkan_metrics.cpp                            ║
-  Version:         0.0.20                                             ║
-  Last Modified:   2026-04-15 04:32:28                                ║
+  Version:         0.0.21                                             ║
+  Last Modified:   2026-04-15 05:57:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

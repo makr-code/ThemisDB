@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            knowledge_gap_detector.cpp                         ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:19:03                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:43:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 48168807ee  2026-04-13  feat(rag): wire FLARE retrieval-callback bridge — Knowled... ║
     • 5ef023b6a2  2026-04-13  feat(rag): wire FLARE retrieval-callback bridge — Knowled... ║
     • 72b3b04277  2026-03-09  Enable FLARE-Loop with TPT-Gating by default, add factory... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

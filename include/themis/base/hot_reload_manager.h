@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hot_reload_manager.h                               ║
-  Version:         0.0.17                                             ║
-  Last Modified:   2026-04-15 04:14:08                                ║
+  Version:         0.0.18                                             ║
+  Last Modified:   2026-04-15 05:38:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • fe4e33c577  2026-03-12  feat(base): upgrade HotReloadManager mutex to shared_mute... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 11a2aa184f  2026-02-28  feat(base): integrate ModuleSandbox into HotReloadManager... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

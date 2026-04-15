@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_migration_scanner.cpp                       ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:33:26                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:58:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     156                                            ║
+    • Total Lines:     155                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 5ced972524  2026-02-26  feat(config): add migration scanner impl header and unit ... ║
-    • 27d94c4d55  2026-02-24  fix(config): address code review - rename tp param, remov... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

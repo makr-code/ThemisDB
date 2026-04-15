@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_graph_traversal.cpp                       ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:25:46                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:50:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 5cac3c4d25  2026-02-26  audit(graph): fix allVertices RocksDB fallback, cleanup f... ║
-    • f22c734c5e  2026-02-25  feat(graph): implement GPU-accelerated BFS/DFS for massiv... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

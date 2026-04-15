@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            error_registry.h                                   ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:14:52                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:39:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • 5b530b6019  2026-03-16  Changes before error encountered        ║
     • 3db37eb452  2026-03-10  feat(exporters): implement EXP-001 PolicyEngine auth, EXP... ║
-    • ab3b22a88e  2026-03-09  feat(query): implement query cancellation via request ID ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -220,6 +219,20 @@ enum class ErrorCode {
     ERR_EXPORT_JOIN_PREDICATE_INVALID    = 9312,  ///< Join predicate could not be parsed
     ERR_EXPORT_JOIN_AMBIGUOUS_FIELD      = 9313,  ///< Field present in both collections without alias
     ERR_EXPORT_JOIN_MEMORY_LIMIT         = 9314,  ///< Right-side hash table exceeded memory budget
+
+    // Document Errors (9400-9499)
+    ERR_DOC_NOT_FOUND             = 9400,  ///< Document not found in the store
+    ERR_DOC_ALREADY_EXISTS        = 9401,  ///< Document with same ID already exists
+    ERR_DOC_INVALID_ID            = 9402,  ///< Document ID is empty or malformed
+    ERR_DOC_SCHEMA_SEALED         = 9403,  ///< Schema registry is sealed; cannot register new versions
+    ERR_DOC_SCHEMA_VERSION_NOT_FOUND = 9404, ///< Requested schema version does not exist
+    ERR_DOC_SCHEMA_VERSION_EXISTS = 9405,  ///< Schema version already registered
+    ERR_DOC_DIFF_NOT_FOUND        = 9406,  ///< One or both documents for diff/merge not found
+    ERR_DOC_MERGE_CONFLICT        = 9407,  ///< Three-way merge produced unresolvable conflicts
+    ERR_DOC_ACCESS_DENIED         = 9408,  ///< Collection ACL denied the requested operation
+    ERR_DOC_COLLECTION_NOT_FOUND  = 9409,  ///< Collection does not exist
+    ERR_DOC_ENCRYPT_FAILED        = 9410,  ///< Encrypted entity operation failed
+    ERR_DOC_INVALID_ARGUMENT      = 9411,  ///< A required argument is invalid or missing
 
     // Unknown
     ERR_UNKNOWN = 9999

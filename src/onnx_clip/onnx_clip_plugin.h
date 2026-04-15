@@ -3,21 +3,21 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            onnx_clip_plugin.h                                 ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 04:18:10                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 05:42:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     103                                            ║
+    • Total Lines:     105                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ccd6c6d9e7  2026-04-15  feat(onnx_clip): CLIP text encoder, native batch sub-spli... ║
     • 63cde823d4  2026-04-08  Add unit tests for Ethics AI and RAG Context Engine plugins ║
     • 9ab72c5089  2026-03-12  refactor: flatten plugin hierarchy to src/<name>/ and inc... ║
     • acdb250dbf  2026-03-12  feat: migrate plugins to src/include with CMake switches ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_metrics_exporter.h                          ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-15 04:09:42                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 05:33:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • aeb43de031  2026-04-12  feat(config): create include/config/ public header direct... ║
     • 985dc57d92  2026-03-14  fix: harden config metrics exporter compatibility ║
     • 535cee36dc  2026-03-13  feat: export config metrics via Prometheus registry ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

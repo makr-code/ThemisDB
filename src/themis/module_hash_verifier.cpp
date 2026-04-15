@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            module_hash_verifier.cpp                           ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:20:27                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:44:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 84e913c551  2026-02-23  Integrate ModuleHashVerifier into ModuleLoader (audit fix... ║
-    • fbab04c604  2026-02-23  Add SHA-256 module hash verifier (issue #2471) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

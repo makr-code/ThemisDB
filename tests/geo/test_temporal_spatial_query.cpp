@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_temporal_spatial_query.cpp                    ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:21:50                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:46:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 58d4f52327  2026-03-15  test(geo): add missing temporal-spatial query tests (cent... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 697b2ec1a8  2026-02-25  feat(geo): implement temporal-spatial queries (location a... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

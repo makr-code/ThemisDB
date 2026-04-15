@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_memory_oversubscription.h                      ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 04:10:40                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 05:34:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

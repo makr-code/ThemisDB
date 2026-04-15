@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_dead_letter_queue.cpp                     ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:23:41                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:48:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 33a346e4e2  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
-    • b7ab19d6f1  2026-02-24  feat(cdc): implement dead-letter queue for failed event d... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

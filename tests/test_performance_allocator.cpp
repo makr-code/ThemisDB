@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_performance_allocator.cpp                     ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:28:34                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:53:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 9b3cc73d2a  2026-02-25  fix(audit): complete jemalloc integration post-review gaps ║
-    • 08786682de  2026-02-25  feat: integrate jemalloc as alternative allocator ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

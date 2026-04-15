@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_path_resolver.cpp                           ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:16:19                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:40:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 65d0f5d771  2026-03-14  fix(config): consolidate env-var cache helpers into anony... ║
     • 7a9e3ad1cc  2026-03-14  fix: polish config metrics initialization ║
     • 985dc57d92  2026-03-14  fix: harden config metrics exporter compatibility ║
-    • c74d69b89e  2026-03-13  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

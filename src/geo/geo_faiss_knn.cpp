@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            geo_faiss_knn.cpp                                  ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-15 04:16:38                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-15 05:41:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

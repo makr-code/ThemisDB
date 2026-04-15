@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gap_fill.cpp                                       ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-15 04:20:34                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 05:45:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

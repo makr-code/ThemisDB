@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            markdown_processor.cpp                             ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:16:23                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:40:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 056a3b57fd  2026-02-27  Fix missing json spec declaration and unused variable; up... ║
-    • 9865e7b64f  2026-02-26  Implement Markdown processing and frontmatter parsing (is... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

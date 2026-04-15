@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            verify_benchmark_mapping.py                        ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-15 04:33:37                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-15 05:58:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -23,6 +23,7 @@
 """
 
 #!/usr/bin/env python3
+from __future__ import annotations
 """
 verify_benchmark_mapping.py
 
@@ -44,8 +45,6 @@ Checks performed:
   5. Every target-ID found in PERFORMANCE_EXPECTATIONS.md §1.2 module
      tables is present in the mapping.
 """
-
-from __future__ import annotations
 
 import json
 import os

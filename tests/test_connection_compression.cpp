@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_connection_compression.cpp                    ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:24:12                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:48:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

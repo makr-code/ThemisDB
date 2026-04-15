@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_query_validator.cpp                            ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-04-15 04:16:00                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-04-15 05:40:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 3a758b465a  2026-04-12  feat(aql): AQL module enhancements — Features 8, 10, 12, ... ║
     • 0660d82e15  2026-03-15  fix(aql): audit fixes - standalone DML validation, getNex... ║
     • a6184aa197  2026-03-14  feat(aql): add graph traversal, DML, WINDOW, and subquery... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

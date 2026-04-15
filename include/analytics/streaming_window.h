@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            streaming_window.h                                 ║
-  Version:         0.0.28                                             ║
-  Last Modified:   2026-04-15 04:08:56                                ║
+  Version:         0.0.29                                             ║
+  Last Modified:   2026-04-15 05:33:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     696                                            ║
+    • Total Lines:     695                                            ║
     • Open Issues:     TODOs: 4, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 40c9e6295b  2026-04-07  feat(analytics): implement 7 open TODOs in streaming_window ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • 5706ac4f36  2026-03-18  fix(analytics): streaming_window — configurable expiry in... ║
-    • f82bf2ae9f  2026-03-04  Refactor tenant manager tests and add new test cases ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

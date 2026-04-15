@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cot_tracer.cpp                                     ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-15 04:18:28                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 05:42:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_geo_device_detector.cpp                       ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:21:42                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:46:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

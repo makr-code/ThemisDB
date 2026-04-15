@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            geo_acceleration_bridge.cpp                        ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:15:49                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:40:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     374                                            ║
+    • Total Lines:     373                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • c1a4fe5689  2026-02-24  feat(geo): implement CUDA kernel dispatch for GPU spatial... ║
-    • e38662530e  2026-02-24  feat(acceleration): implement GeoAccelerationBridge::popu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

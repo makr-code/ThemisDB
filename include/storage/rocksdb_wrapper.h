@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rocksdb_wrapper.h                                  ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:13:58                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:38:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
     • c1205d6286  2026-04-09  feat(storage): streaming blob write path – putBlob/getBlo... ║
     • 197320301a  2026-03-28  Implement SequenceU64Increment merge operator for RocksDB... ║
-    • 8031d339d2  2026-03-15  feat(storage): implement RocksDB iteration for SecuritySi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

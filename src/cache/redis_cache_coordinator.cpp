@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            redis_cache_coordinator.cpp                        ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:16:12                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:40:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
     • 5b1c0eb4ad  2026-03-14  fix(cache): address PR review comments on RedisCacheCoord... ║
-    • 84e885494b  2026-03-14  feat(cache): implement RedisCacheCoordinator async pub/su... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_api_key_mgmt_handler.cpp                      ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:22:48                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:47:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 7d5f7450e1  2026-02-24  fix(api): restore missing function signature and fix crea... ║
-    • 44a32210ec  2026-02-23  feat(api): implement API key management endpoint (POST/GE... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

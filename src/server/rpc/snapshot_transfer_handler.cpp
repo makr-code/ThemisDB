@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            snapshot_transfer_handler.cpp                      ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:19:50                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:44:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • e374156ccf  2026-03-26  fix: Address code review – null guard in SetDB, last-inst... ║
     • 43ea0ace66  2026-03-26  fix: Fix 4+5 – XXH64 checksum, FinalizeSnapshot restore, ... ║
     • afc6b2738b  2026-03-26  fix: Resolve BSI/RAG production blockers – JWT, mTLS, CRL... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            temporal_migrator.h                                ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-15 04:14:08                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 05:38:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

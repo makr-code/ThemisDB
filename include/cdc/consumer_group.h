@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            consumer_group.h                                   ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:09:31                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:33:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 0e1d6bd1a1  2026-02-24  feat(cdc): implement at-least-once delivery with consumer... ║
-    • b01221ca96  2026-02-24  feat(cdc): implement consumer group semantics with offset... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

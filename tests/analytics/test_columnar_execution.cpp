@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_columnar_execution.cpp                        ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:21:26                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:45:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • 3d3cb24691  2026-03-18  test(analytics): add SIMD throughput perf tests for AC-6 ... ║
     • e517067372  2026-03-17  feat(analytics): add AVX-512 and ARM NEON SIMD vectorizat... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

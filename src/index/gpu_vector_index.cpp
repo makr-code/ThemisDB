@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_vector_index.cpp                               ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:17:13                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:41:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 95f4f2af0a  2026-03-13  fix(index): audit – searchBatch oversubscription path + l... ║
     • be007f370a  2026-03-13  refactor(index): address code review - extract prefetchSt... ║
-    • dc534b8301  2026-03-13  feat(index): implement GPU memory oversubscription (v1.7.0) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

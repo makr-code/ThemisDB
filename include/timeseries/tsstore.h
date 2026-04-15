@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tsstore.h                                          ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:14:26                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:38:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • 040083b025  2026-04-12  feat: StreamingIngestManager, TsStreamCursor, LZ4 compres... ║
     • 822b0afce6  2026-03-15  feat(timeseries): implement TSStore single-point insert b... ║
-    • a0ac59009f  2026-03-14  feat(timeseries): implement chunk-level AES-256-GCM encry... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

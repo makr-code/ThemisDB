@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_logical_replication.cpp                       ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 04:27:18                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 05:51:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • ca7fe627cf  2026-03-14  document persistence defaults and harden temp dir retries ║
     • ac49d216f6  2026-03-14  adjust row filter warning and temp dir uniqueness ║
     • d2968d4872  2026-03-14  tighten logical replication diagnostics and randomness ║
-    • a5d705aa25  2026-03-14  address review feedback on logical replication safety ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

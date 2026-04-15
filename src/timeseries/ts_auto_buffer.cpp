@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ts_auto_buffer.cpp                                 ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:20:36                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:45:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 822b0afce6  2026-03-15  feat(timeseries): implement TSStore single-point insert b... ║
     • a188b47e9a  2026-03-09  fix(timeseries): audit fixes - getStats regression, backp... ║
     • 9bdb7e29c1  2026-03-09  fix(timeseries): address code review - improve FlushContr... ║
-    • fe42ba76e2  2026-03-09  feat(timeseries): add FlushController adaptive flush, Dow... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

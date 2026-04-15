@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_oci_registry_client.cpp                       ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:28:12                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:52:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

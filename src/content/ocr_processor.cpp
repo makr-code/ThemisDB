@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ocr_processor.cpp                                  ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:16:23                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:40:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • b832e64389  2026-04-12  fix(content): implement OcrProcessor::generateEmbedding a... ║
     • 01d40ae53b  2026-03-11  feat(content): default OCR language-pack path to config/a... ║
-    • 2ae4537816  2026-03-11  feat(content): default ocr_processor data_dir to config/a... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

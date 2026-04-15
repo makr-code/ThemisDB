@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_pmu_counters.cpp                              ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:22:13                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:46:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 916a9c8d06  2026-03-21  test(performance/phase4): add non-Linux platform PMU back... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 3fc5073575  2026-02-25  feat(performance/phase4): add PMU hardware counter integr... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

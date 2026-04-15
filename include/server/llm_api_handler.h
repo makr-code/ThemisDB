@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_api_handler.h                                  ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:13:26                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:37:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 48168807ee  2026-04-13  feat(rag): wire FLARE retrieval-callback bridge — Knowled... ║
     • e8953e1175  2026-04-13  docs(aql): Close all remaining ROADMAP items — Doxygen, L... ║
     • 5ef023b6a2  2026-04-13  feat(rag): wire FLARE retrieval-callback bridge — Knowled... ║
-    • be24ea91fe  2026-03-13  fix(llm): wire PolicyEngine::checkInferencePermission() i... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

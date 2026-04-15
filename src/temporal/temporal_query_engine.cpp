@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            temporal_query_engine.cpp                          ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:20:26                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:44:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 43a91f1793  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
     • fe76ac4765  2026-03-12  fix(temporal): address PR review comments on QueryCache a... ║
     • bce530ee49  2026-03-12  feat(temporal): implement Time-Travel Query Engine (v1.2.0) ║
-    • 6e8942ed4f  2026-03-09  feat(temporal): implement bitemporal joins and SEQUENCED/... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

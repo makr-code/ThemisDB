@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_lora_auto_binding.cpp                        ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:07:49                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:31:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     538                                            ║
+    • Total Lines:     537                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -37,6 +37,7 @@
  */
 
 #include <benchmark/benchmark.h>
+#include "benchmark_artifact_preflight.h"
 #include "llm/multi_lora_manager.h"
 #include <chrono>
 #include <string>
@@ -75,12 +76,14 @@ void* getMockContext(int id) {
  * Target: <10ms as per requirements
  */
 static void BM_AutoBinding_FirstApplication(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, themis::bench::resolveLoraPath(), "LoRA adapter");
+    const std::string lora_path = themis::bench::resolveLoraPath();
     MultiLoRAManager mgr(createBenchConfig());
     const std::string base_model = "bench-model";
     void* ctx = getMockContext(1);
     
     // Pre-load adapter
-    mgr.loadLoRA("test-adapter", "/loras/test.bin", base_model, 1.0f);
+    mgr.loadLoRA("test-adapter", lora_path, base_model, 1.0f);
     
     for (auto _ : state) {
         auto start = std::chrono::high_resolution_clock::now();
@@ -104,12 +107,14 @@ BENCHMARK(BM_AutoBinding_FirstApplication)->UseManualTime();
  * Target: <1ms for intelligent reuse
  */
 static void BM_AutoBinding_ReuseOptimization(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, themis::bench::resolveLoraPath(), "LoRA adapter");
+    const std::string lora_path = themis::bench::resolveLoraPath();
     MultiLoRAManager mgr(createBenchConfig());
     const std::string base_model = "bench-model";
     void* ctx = getMockContext(1);
     
     // Pre-load and apply adapter
-    mgr.loadLoRA("test-adapter", "/loras/test.bin", base_model, 1.0f);
+    mgr.loadLoRA("test-adapter", lora_path, base_model, 1.0f);
     mgr.applyLoRA("test-adapter", reinterpret_cast<llama_context*>(ctx));
     
     for (auto _ : state) {
@@ -136,13 +141,15 @@ BENCHMARK(BM_AutoBinding_ReuseOptimization)->UseManualTime();
  * Target: <10ms for context switch
  */
 static void BM_AutoBinding_AdapterSwitching(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, themis::bench::resolveLoraPath(), "LoRA adapter");
+    const std::string lora_path = themis::bench::resolveLoraPath();
     MultiLoRAManager mgr(createBenchConfig());
     const std::string base_model = "bench-model";
     void* ctx = getMockContext(1);
     
-    // Pre-load two adapters
-    mgr.loadLoRA("adapter-a", "/loras/a.bin", base_model, 1.0f);
-    mgr.loadLoRA("adapter-b", "/loras/b.bin", base_model, 1.0f);
+    // Pre-load two adapters (same stub file, different logical names)
+    mgr.loadLoRA("adapter-a", lora_path, base_model, 1.0f);
+    mgr.loadLoRA("adapter-b", lora_path, base_model, 1.0f);
     
     bool use_a = true;
     for (auto _ : state) {
@@ -202,11 +209,13 @@ BENCHMARK(BM_ContextSwitch_Detection)->UseManualTime();
  * Target: <10ms for detection + rebinding
  */
 static void BM_ContextSwitch_Rebinding(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, themis::bench::resolveLoraPath(), "LoRA adapter");
+    const std::string lora_path = themis::bench::resolveLoraPath();
     MultiLoRAManager mgr(createBenchConfig());
     const std::string base_model = "bench-model";
     
     // Pre-load adapter
-    mgr.loadLoRA("test-adapter", "/loras/test.bin", base_model, 1.0f);
+    mgr.loadLoRA("test-adapter", lora_path, base_model, 1.0f);
     
     void* ctx1 = getMockContext(1);
     void* ctx2 = getMockContext(2);
@@ -241,14 +250,16 @@ BENCHMARK(BM_ContextSwitch_Rebinding)->UseManualTime();
  * Measures: Average hit rate over multiple requests
  */
 static void BM_Cache_HitRate(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, themis::bench::resolveLoraPath(), "LoRA adapter");
+    const std::string lora_path = themis::bench::resolveLoraPath();
     MultiLoRAManager mgr(createBenchConfig());
     const std::string base_model = "bench-model";
     
-    // Pre-load adapters
+    // Pre-load adapters (same stub file, different logical names)
     std::vector<std::string> adapter_ids;
     for (int i = 0; i < 5; ++i) {
         std::string id = "adapter-" + std::to_string(i);
-        mgr.loadLoRA(id, "/loras/" + id + ".bin", base_model, 1.0f);
+        mgr.loadLoRA(id, lora_path, base_model, 1.0f);
         adapter_ids.push_back(id);
     }
     
@@ -280,19 +291,21 @@ BENCHMARK(BM_Cache_HitRate);
  * Measures: Time to evict LRU adapter
  */
 static void BM_Cache_LRUEviction(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, themis::bench::resolveLoraPath(), "LoRA adapter");
+    const std::string lora_path = themis::bench::resolveLoraPath();
     MultiLoRAManager::Config cfg = createBenchConfig(3, 256);  // Small cache
     MultiLoRAManager mgr(cfg);
     const std::string base_model = "bench-model";
     
     for (auto _ : state) {
-        // Fill cache
+        // Fill cache (same stub file, different logical names)
         for (int i = 0; i < 3; ++i) {
-            mgr.loadLoRA("adapter-" + std::to_string(i), "/loras/a.bin", base_model, 1.0f);
+            mgr.loadLoRA("adapter-" + std::to_string(i), lora_path, base_model, 1.0f);
         }
         
         // Trigger eviction by loading 4th adapter
         auto start = std::chrono::high_resolution_clock::now();
-        mgr.loadLoRA("adapter-new", "/loras/new.bin", base_model, 1.0f);
+        mgr.loadLoRA("adapter-new", lora_path, base_model, 1.0f);
         auto end = std::chrono::high_resolution_clock::now();
         
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
@@ -322,12 +335,14 @@ BENCHMARK(BM_Cache_LRUEviction)->UseManualTime();
  * Measures: Overhead of checking memory usage
  */
 static void BM_Memory_StatsRetrieval(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, themis::bench::resolveLoraPath(), "LoRA adapter");
+    const std::string lora_path = themis::bench::resolveLoraPath();
     MultiLoRAManager mgr(createBenchConfig());
     const std::string base_model = "bench-model";
     
     // Pre-load some adapters
     for (int i = 0; i < 3; ++i) {
-        mgr.loadLoRA("adapter-" + std::to_string(i), "/loras/a.bin", base_model, 1.0f);
+        mgr.loadLoRA("adapter-" + std::to_string(i), lora_path, base_model, 1.0f);
     }
     
     for (auto _ : state) {
@@ -349,6 +364,8 @@ BENCHMARK(BM_Memory_StatsRetrieval)->UseManualTime();
  * Simulates: >80% VRAM usage triggering eviction
  */
 static void BM_Memory_PressureEviction(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, themis::bench::resolveLoraPath(), "LoRA adapter");
+    const std::string lora_path = themis::bench::resolveLoraPath();
     MultiLoRAManager::Config cfg = createBenchConfig(10, 100);  // Small VRAM budget
     MultiLoRAManager mgr(cfg);
     const std::string base_model = "bench-model";
@@ -356,7 +373,7 @@ static void BM_Memory_PressureEviction(benchmark::State& state) {
     for (auto _ : state) {
         // Load adapters until memory pressure
         for (int i = 0; i < 8; ++i) {
-            mgr.loadLoRA("adapter-" + std::to_string(i), "/loras/a.bin", base_model, 1.0f);
+            mgr.loadLoRA("adapter-" + std::to_string(i), lora_path, base_model, 1.0f);
         }
         
         // Trigger memory pressure eviction
@@ -392,10 +409,12 @@ BENCHMARK(BM_Memory_PressureEviction)->UseManualTime();
  * Measures: Cost of marking adapter as pinned
  */
 static void BM_Pinning_PinUnpin(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, themis::bench::resolveLoraPath(), "LoRA adapter");
+    const std::string lora_path = themis::bench::resolveLoraPath();
     MultiLoRAManager mgr(createBenchConfig());
     const std::string base_model = "bench-model";
     
-    mgr.loadLoRA("test-adapter", "/loras/test.bin", base_model, 1.0f);
+    mgr.loadLoRA("test-adapter", lora_path, base_model, 1.0f);
     
     for (auto _ : state) {
         auto start = std::chrono::high_resolution_clock::now();
@@ -416,24 +435,26 @@ BENCHMARK(BM_Pinning_PinUnpin)->UseManualTime();
  * Measures: Performance when some adapters are protected
  */
 static void BM_Pinning_EvictionProtection(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, themis::bench::resolveLoraPath(), "LoRA adapter");
+    const std::string lora_path = themis::bench::resolveLoraPath();
     MultiLoRAManager::Config cfg = createBenchConfig(4, 256);
     MultiLoRAManager mgr(cfg);
     const std::string base_model = "bench-model";
     
     for (auto _ : state) {
-        // Load and pin 2 adapters
-        mgr.loadLoRA("pinned-1", "/loras/p1.bin", base_model, 1.0f);
+        // Load and pin 2 adapters (same stub file, different logical names)
+        mgr.loadLoRA("pinned-1", lora_path, base_model, 1.0f);
         mgr.pinLoRA("pinned-1");
-        mgr.loadLoRA("pinned-2", "/loras/p2.bin", base_model, 1.0f);
+        mgr.loadLoRA("pinned-2", lora_path, base_model, 1.0f);
         mgr.pinLoRA("pinned-2");
         
         // Load 2 unpinned adapters
-        mgr.loadLoRA("temp-1", "/loras/t1.bin", base_model, 1.0f);
-        mgr.loadLoRA("temp-2", "/loras/t2.bin", base_model, 1.0f);
+        mgr.loadLoRA("temp-1", lora_path, base_model, 1.0f);
+        mgr.loadLoRA("temp-2", lora_path, base_model, 1.0f);
         
         // Try to load 5th adapter - should evict unpinned
         auto start = std::chrono::high_resolution_clock::now();
-        mgr.loadLoRA("new-adapter", "/loras/new.bin", base_model, 1.0f);
+        mgr.loadLoRA("new-adapter", lora_path, base_model, 1.0f);
         auto end = std::chrono::high_resolution_clock::now();
         
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
@@ -460,6 +481,8 @@ BENCHMARK(BM_Pinning_EvictionProtection)->UseManualTime();
  * Measures: Total overhead for full lifecycle
  */
 static void BM_Lifecycle_Complete(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, themis::bench::resolveLoraPath(), "LoRA adapter");
+    const std::string lora_path = themis::bench::resolveLoraPath();
     void* ctx = getMockContext(1);
     
     for (auto _ : state) {
@@ -469,7 +492,7 @@ static void BM_Lifecycle_Complete(benchmark::State& state) {
         auto start = std::chrono::high_resolution_clock::now();
         
         // Load
-        mgr.loadLoRA("test-adapter", "/loras/test.bin", base_model, 1.0f);
+        mgr.loadLoRA("test-adapter", lora_path, base_model, 1.0f);
         
         // Apply
         mgr.applyLoRA("test-adapter", reinterpret_cast<llama_context*>(ctx));
@@ -497,15 +520,17 @@ BENCHMARK(BM_Lifecycle_Complete)->UseManualTime();
  * Measures: Operations per second with realistic workload
  */
 static void BM_Throughput_MultiAdapter(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(state, themis::bench::resolveLoraPath(), "LoRA adapter");
+    const std::string lora_path = themis::bench::resolveLoraPath();
     MultiLoRAManager mgr(createBenchConfig(8, 512));
     const std::string base_model = "bench-model";
     void* ctx = getMockContext(1);
     
-    // Pre-load adapters
+    // Pre-load adapters (same stub file, different logical names)
     std::vector<std::string> adapters;
     for (int i = 0; i < 5; ++i) {
         std::string id = "adapter-" + std::to_string(i);
-        mgr.loadLoRA(id, "/loras/" + id + ".bin", base_model, 1.0f);
+        mgr.loadLoRA(id, lora_path, base_model, 1.0f);
         adapters.push_back(id);
     }
     

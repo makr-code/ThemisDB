@@ -3,15 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bidi_stream_adapter.h                              ║
-  Version:         0.1.0                                              ║
-  Last Modified:   2026-04-15                                         ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-15 05:43:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                       ║
-    • Total Lines:     ~220                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                              ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     256                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • d2e3e6ec74  2026-04-15  feat(rpc_grpc): v0.2.0 — BidiStreamAdapter, keepalive tun... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

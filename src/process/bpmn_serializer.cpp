@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bpmn_serializer.cpp                                ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 04:18:22                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 05:42:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • e8953e1175  2026-04-13  docs(aql): Close all remaining ROADMAP items — Doxygen, L... ║
     • b18a0735c6  2026-04-12  fix(process): replace regex BPMN parser with state-machin... ║
     • 3fea6d6b51  2026-03-12  refactor: clean up includes and remove unused transaction... ║
-    • 7f7a272409  2026-03-12  feat(process): add ProcessLinker, ProcessGraphRag, and mo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            webauthn_authenticator.h                           ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:09:22                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:33:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

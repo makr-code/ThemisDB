@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            export_format_registry.cpp                         ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 04:16:31                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 05:41:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

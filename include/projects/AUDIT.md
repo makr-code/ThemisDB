@@ -3,7 +3,7 @@
 
 # Audit Report — Projects Module
 
-- **Last Audit:** 2026-03-22
+- **Last Audit:** 2026-04-15
 - **Auditor:** Copilot
 - **Status:** ✅ Pass
 
@@ -11,8 +11,8 @@
 
 | Metric | Count |
 |---|---|
-| Header files audited | 1 |
-| Exported symbol groups | 1 |
+| Header files audited | 6 |
+| Exported symbol groups | 6 |
 | Open stubs | 0 |
 | Critical findings | 0 |
 
@@ -21,11 +21,21 @@
 | File | Exported Symbols | Notes |
 |---|---|---|
 | `DocumentManager/document_manager.h` | `DocumentManager` | Project CRUD, versioning, snapshots, templates |
+| `project_versioning.h` | `ProjectVersioning`, `SnapshotMeta` | Immutable snapshots, SHA-256 integrity, restore |
+| `project_diff.h` | `ProjectDiff`, `ProjectMerge`, `DeltaSet`, `DeltaEntry` | Structured field-level diff and three-way merge |
+| `project_lifecycle.h` | `ProjectLifecycle`, `ProjectStateTransition` | Atomic state machine + append-only audit trail |
+| `project_template.h` | `ProjectTemplate`, `BuiltinTemplate`, `TemplateOptions` | 7 built-in templates + custom JSON template factory |
+| `collaboration_manager.h` | `CollaborationManager`, `Change`, `Permission`, `User` | RBAC sharing, optimistic locking, event subscriptions |
 
 ## Findings
 
 ### Resolved
 - `DocumentManager` enforces project-level RBAC on all operations.
+- `ProjectVersioning` snapshots are content-addressed (SHA-256) and verified on restore.
+- `CollaborationManager::shareProject` rejects empty user IDs (permission_denied guard).
+- `ProjectTemplate::instantiateFromDefinition` validates schema before any storage writes; rolls back on failure.
+- `ProjectLifecycle` transition table enforces valid transitions; DELETED state is terminal.
+- All five new managers use `std::shared_mutex` for thread-safe concurrent access.
 
 ### Open
 - None.

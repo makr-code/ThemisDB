@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_performance_regression_detector.py            ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:08:22                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:32:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

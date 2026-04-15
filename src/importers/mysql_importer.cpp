@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mysql_importer.cpp                                 ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-04-15 04:17:06                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 05:41:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • a522f154ee  2026-03-16  feat(importers): wire & verify MySQL/MariaDB importer reg... ║
     • 9bccf09a7c  2026-03-16  Changes before error encountered        ║
     • 786e4a8dfe  2026-03-15  feat(importers): incremental import, MySQL benchmark, Mon... ║
-    • e8972c533b  2026-03-15  feat(importers): add MySQL-specific Prometheus metrics an... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

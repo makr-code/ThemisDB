@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_prompt_manager_multimodal.cpp                 ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:29:14                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:53:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_scalability_comprehensive.cpp                ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:08:02                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:32:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 9c9ead9b4f  2026-04-09  Implement feature X to enhance user experience and optimi... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 329b75bbbf  2026-02-07  Add comprehensive test coverage and scientific benchmarks... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

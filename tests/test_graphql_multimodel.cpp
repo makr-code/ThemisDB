@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_graphql_multimodel.cpp                        ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:26:03                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:50:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • d4f10b4fd2  2026-02-24  fix(api/graphql): correct SDL list-type rendering and upd... ║
-    • 89b024d9ff  2026-02-23  feat(api/graphql): complete multi-model GraphQL schema wi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

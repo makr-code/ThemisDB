@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_mixed_precision_perf.cpp                     ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:07:51                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:31:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            session_api_handler.h                              ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:13:36                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:37:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 5a16800952  2026-02-24  feat(auth): implement session management and revocation e... ║
-    • 125b23d98f  2026-02-24  feat(auth): implement session management and revocation e... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

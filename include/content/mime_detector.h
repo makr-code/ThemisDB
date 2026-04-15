@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mime_detector.h                                    ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:09:47                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:33:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

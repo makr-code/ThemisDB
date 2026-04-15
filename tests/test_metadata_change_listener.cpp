@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_metadata_change_listener.cpp                  ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-15 04:27:34                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 05:52:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_outbox.cpp                                ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:23:50                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:48:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 33a346e4e2  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
-    • 822f29a029  2026-02-25  feat(cdc): implement outbox pattern for transactional cha... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

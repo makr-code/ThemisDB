@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            storage_parquet_exporter.h                         ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-15 04:14:00                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 05:38:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
