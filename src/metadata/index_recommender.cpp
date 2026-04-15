@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            index_recommender.cpp                              ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:08:39                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • 7cfe304ea7  2026-03-16  feat(metadata): IndexRecommender cost-model benefit scori... ║
-    • 3073c6aca0  2026-03-16  feat(metadata): IndexRecommender access-pattern persisten... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

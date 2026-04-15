@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rocksdb_size_calculation.cpp                  ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:17:35                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:56:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 80ae5c5d3e  2026-03-15  fix(storage/audit): remove dead dsm.setRocksDBSize() call... ║
-    • 9f9d86ceb0  2026-03-15  feat(storage): implement proper size calculation in Rocks... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

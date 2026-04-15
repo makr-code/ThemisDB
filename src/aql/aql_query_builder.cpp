@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_query_builder.cpp                              ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-15 18:07:24                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-15 18:48:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 0660d82e15  2026-03-15  fix(aql): audit fixes - standalone DML validation, getNex... ║
-    • a6184aa197  2026-03-14  feat(aql): add graph traversal, DML, WINDOW, and subquery... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

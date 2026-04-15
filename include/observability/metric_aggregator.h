@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            metric_aggregator.h                                ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:03:52                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:45:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     387                                            ║
+    • Total Lines:     386                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 4cc689623c  2026-03-13  feat(observability): implement Metric Aggregation Pipelin... ║
-    • 41c4cd5fe8  2026-03-11  fix(observability): mark MetricAggregator move ops as del... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

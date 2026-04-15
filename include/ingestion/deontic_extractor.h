@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            deontic_extractor.h                                ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:03:08                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:45:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

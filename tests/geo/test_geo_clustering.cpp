@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_geo_clustering.cpp                            ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-04-15 18:11:30                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:51:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • c58d4f20b1  2026-03-17  fix(geo): address review feedback on perf tests and CI wo... ║
-    • 929c0490d2  2026-03-16  test(geo): add 2 performance tests to reach required coun... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

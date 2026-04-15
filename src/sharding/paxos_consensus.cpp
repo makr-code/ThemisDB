@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            paxos_consensus.cpp                                ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:10:19                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟠 BETA                                         ║
     • Quality Score:   48.0/100                                       ║
-    • Total Lines:     1159                                           ║
+    • Total Lines:     1158                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -395,6 +395,16 @@ void PaxosConsensus::onLeaderChange(
     on_leader_change_callback_ = std::move(callback);
 }
 
+void PaxosConsensus::setPrepareRPCCallback(PaxosPrepareCallback cb) {
+    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+    rpc_prepare_cb_ = std::move(cb);
+}
+
+void PaxosConsensus::setAcceptRPCCallback(PaxosAcceptCallback cb) {
+    std::lock_guard<std::mutex> lock(callbacks_mutex_);
+    rpc_accept_cb_ = std::move(cb);
+}
+
 // Private methods
 
 void PaxosConsensus::runProposer() {
@@ -546,47 +556,72 @@ bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry&
                  node_id_, slot, proposal.round, proposal.node_id);
     
     total_prepares_++;
-    
-    // In a single-node simulation, we always promise to ourselves
-    // In multi-node: Send prepare(proposal) to all acceptors
+
+    // Self-promise (local acceptor always promises to its own proposer)
     instance.prepare_promises.insert(node_id_);
-    
-    // Simulate timeout for collecting promises
+
+    // Send Phase-1 Prepare RPCs to all peer nodes.
+    // If a real RPC callback has been registered (via setPrepareRPCCallback),
+    // invoke it for every peer and count acknowledged promises.
+    // Without a callback we operate in single-node mode: only the self-promise
+    // counts, so quorum is only achievable when cluster_nodes_.size() == 1.
     auto start_time = std::chrono::steady_clock::now();
-    
-    // For now, simulate other nodes accepting
-    // In real implementation: Send RPC with timeout and wait for quorum of promises
+
     for (const auto& node : cluster_nodes_) {
-        if (node != node_id_) {
-            // Check if we've exceeded timeout
-            auto elapsed = std::chrono::steady_clock::now() - start_time;
-            if (elapsed > config_.paxos_prepare_timeout) {
-                spdlog::warn("Node {} prepare phase timed out for slot {} after {}ms",
-                           node_id_, slot,
-                           std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count());
-                break;
+        if (node == node_id_) continue;
+
+        auto elapsed = std::chrono::steady_clock::now() - start_time;
+        if (elapsed > config_.paxos_prepare_timeout) {
+            spdlog::warn("Node {} prepare phase timed out for slot {} after {}ms",
+                         node_id_, slot,
+                         std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count());
+            break;
+        }
+
+        PaxosPrepareCallback cb;
+        {
+            std::lock_guard<std::mutex> lock(callbacks_mutex_);
+            cb = rpc_prepare_cb_;
+        }
+
+        if (cb) {
+            // Real RPC path: ask the peer to promise
+            bool promised = cb(node, slot, proposal.round, node_id_);
+            if (promised) {
+                instance.prepare_promises.insert(node);
+                spdlog::debug("Node {} received promise from peer {} for slot {}",
+                              node_id_, node, slot);
+            } else {
+                spdlog::debug("Node {} peer {} rejected prepare for slot {}",
+                              node_id_, node, slot);
             }
-            
-            // Simulate promise from other nodes
-            // In production: Send RPC and wait for response
-            instance.prepare_promises.insert(node);
+        } else {
+            // No RPC callback: single-node mode only.
+            // Do NOT auto-insert the peer — that would falsely simulate quorum
+            // in a multi-node cluster where peers have not actually been reached.
+            spdlog::warn("Node {} has no Paxos prepare RPC callback; "
+                         "peer {} not counted (single-node mode)",
+                         node_id_, node);
         }
     }
-    
+
     // Check if we have quorum
     if (!hasQuorum(instance.prepare_promises.size())) {
         spdlog::warn("Node {} failed to get quorum in prepare phase for slot {} ({}/{})",
                     node_id_, slot, instance.prepare_promises.size(), cluster_nodes_.size());
         return false;
     }
-    
+
     spdlog::debug("Node {} got quorum ({}/{}) in prepare phase for slot {}",
-                 node_id_, instance.prepare_promises.size(), 
+                 node_id_, instance.prepare_promises.size(),
                  cluster_nodes_.size(), slot);
-    
-    // Phase 1b complete: We have quorum of promises
-    // If any acceptor returned a previously accepted value, use the one with highest ballot
-    // For now, we use our proposed value since we're simulating
+
+    // Phase 1b complete: quorum of promises received.
+    // If any acceptor returned a previously accepted value, the highest-ballot
+    // value MUST be proposed instead of our own (RFC Paxos safety property).
+    // TODO: propagate highest accepted value from promise responses
+    // once the RPC callback returns the peer's accepted proposal/value.
+
     
     // Move to accept phase
     return executeAcceptPhase(slot, proposal, value);
@@ -622,43 +657,66 @@ bool PaxosConsensus::executeAcceptPhase(
     }
     
     total_accepts_++;
-    
-    // Accept on self (we're also an acceptor)
+
+    // Self-accept (local acceptor always accepts its own proposer)
     if (handleAccept(slot, proposal, value)) {
         std::lock_guard<std::mutex> lock(state_mutex_);
         instances_[slot].accept_acks.insert(node_id_);
     }
-    
-    // In real implementation: Send accept(proposal, value) to all acceptors via RPC
-    // For now, simulate other nodes accepting with timeout
+
+    // Send Phase-2 Accept RPCs to all peer nodes.
+    // If a real RPC callback has been registered (via setAcceptRPCCallback),
+    // invoke it for every peer and count acknowledgements.
+    // Without a callback we operate in single-node mode; peers are NOT
+    // auto-inserted so quorum is only reachable in a 1-node cluster.
     {
         std::lock_guard<std::mutex> lock(state_mutex_);
         auto& instance = instances_[slot];
-        
+
         for (const auto& node : cluster_nodes_) {
-            if (node != node_id_) {
-                // Check if we've exceeded timeout
-                auto elapsed = std::chrono::steady_clock::now() - start_time;
-                if (elapsed > config_.paxos_accept_timeout) {
-                    spdlog::warn("Node {} accept phase timed out for slot {} after {}ms",
-                               node_id_, slot,
-                               std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count());
-                    break;
+            if (node == node_id_) continue;
+
+            auto elapsed = std::chrono::steady_clock::now() - start_time;
+            if (elapsed > config_.paxos_accept_timeout) {
+                spdlog::warn("Node {} accept phase timed out for slot {} after {}ms",
+                             node_id_, slot,
+                             std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count());
+                break;
+            }
+
+            PaxosAcceptCallback cb;
+            {
+                std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
+                cb = rpc_accept_cb_;
+            }
+
+            if (cb) {
+                // Real RPC path: ask the peer to accept the value
+                bool accepted = cb(node, slot, proposal.round, value);
+                if (accepted) {
+                    instance.accept_acks.insert(node);
+                    spdlog::debug("Node {} received accept-ack from peer {} for slot {}",
+                                  node_id_, node, slot);
+                } else {
+                    spdlog::debug("Node {} peer {} rejected accept for slot {}",
+                                  node_id_, node, slot);
                 }
-                
-                // Simulate acceptance from other nodes
-                // In production: Send RPC and wait for response
-                instance.accept_acks.insert(node);
+            } else {
+                // No RPC callback: single-node mode only.
+                // Do NOT auto-insert the peer.
+                spdlog::warn("Node {} has no Paxos accept RPC callback; "
+                             "peer {} not counted (single-node mode)",
+                             node_id_, node);
             }
         }
-        
+
         // Phase 2b: Check if we have quorum of accepts
         if (!hasQuorum(instance.accept_acks.size())) {
             spdlog::warn("Node {} failed to get quorum in accept phase for slot {} ({}/{})",
                         node_id_, slot, instance.accept_acks.size(), cluster_nodes_.size());
             return false;
         }
-        
+
         spdlog::debug("Node {} got quorum ({}/{}) in accept phase for slot {}",
                      node_id_, instance.accept_acks.size(),
                      cluster_nodes_.size(), slot);

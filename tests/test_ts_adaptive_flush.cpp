@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ts_adaptive_flush.cpp                         ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:18:46                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:57:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     410                                            ║
+    • Total Lines:     409                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • a188b47e9a  2026-03-09  fix(timeseries): audit fixes - getStats regression, backp... ║
-    • 9bdb7e29c1  2026-03-09  fix(timeseries): address code review - improve FlushContr... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_training_pipeline_e2e.cpp                     ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:18:38                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:57:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 346baf409c  2026-03-20  Add HyperparamSearch tests and update training module docs ║
-    • e6379c3181  2026-03-09  fix(training): audit gaps – provenance wiring, calibratio... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

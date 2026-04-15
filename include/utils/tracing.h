@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tracing.h                                          ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:06:31                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
     • 3b792a6ae0  2026-03-20  Refactor saga orchestrator, add compute types ║
-    • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

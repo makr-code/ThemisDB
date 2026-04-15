@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            imetadata_export_policy.h                          ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 18:03:37                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:45:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

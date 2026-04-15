@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            materialized_view.h                                ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:04:39                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:46:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

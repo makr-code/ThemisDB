@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_query_lazy_eval.cpp                          ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 18:01:04                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 18:43:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

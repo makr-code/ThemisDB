@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            geo_math.h                                         ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-15 18:02:39                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 18:44:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

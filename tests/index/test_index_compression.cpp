@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_index_compression.cpp                         ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:11:34                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 8fc0b58946  2026-03-14  refactor(index): address code review - fix DeltaEncoder d... ║
-    • 2cf21d36ba  2026-03-14  feat(index): implement index compression (v1.7.0, Issue #... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

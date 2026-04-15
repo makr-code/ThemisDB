@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            metrics_collector.h                                ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:03:53                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 692780f01b  2026-03-15  feat(observability): upgrade MetricsCollector to shared_m... ║
-    • 240f91cc62  2026-03-09  feat(observability): add Prometheus exemplar support on h... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

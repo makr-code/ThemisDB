@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            async_job_api_handler.h                            ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-04-15 18:05:13                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:46:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • bc826baaf1  2026-03-17  fix(server): address review comments - namespace, deadloc... ║
-    • 4b38231449  2026-03-16  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

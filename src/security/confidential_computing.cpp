@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            confidential_computing.cpp                         ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-04-15 18:10:01                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:50:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

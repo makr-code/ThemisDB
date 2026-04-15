@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_importer_interfaces.cpp                       ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:14:46                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:54:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • ceb71780fe  2026-03-15  audit(importers): add ImportConfig conflict field tests (... ║
-    • cd2c9f40c4  2026-03-09  feat(importers): add abstract interface contracts and tests ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_zero_trust_auth_verifier.cpp                  ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-04-15 18:19:25                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:58:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • c4908e405c  2026-03-13  fix(auth): address async re-evaluation review comments ║
-    • 3e0ffdc751  2026-03-12  feat(auth): implement zero-trust async policy re-evaluati... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

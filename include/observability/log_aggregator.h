@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            log_aggregator.h                                   ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:03:51                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:45:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     314                                            ║
+    • Total Lines:     313                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 467ac6db77  2026-03-11  audit(observability): fix outdated ILogger doc comment + ... ║
-    • c05617ab9e  2026-03-11  feat(observability): Upgrade LogAggregator to IAsyncLogge... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

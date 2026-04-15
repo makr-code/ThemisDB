@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cloud_backup.cpp                                   ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-04-15 18:10:16                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:50:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🔴 ALPHA                                        ║
     • Quality Score:   32.0/100                                       ║
-    • Total Lines:     707                                            ║
+    • Total Lines:     706                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -67,6 +67,16 @@ public:
     virtual std::string name() const = 0;
 };
 
+// STUB/SIMULATION NOTE:
+// Purpose: S3-compatible cloud backup provider placeholder. Implements the
+//          ICloudStorageProvider interface with graceful no-op behaviour so that
+//          the rest of the backup subsystem compiles and runs without AWS SDK.
+// Activation: Active when THEMIS_ENABLE_S3 is NOT defined. To enable real uploads,
+//             build with -DTHEMIS_ENABLE_S3=ON and link aws-sdk-cpp[s3] (vcpkg).
+// Production Delta: upload() / download() log a warning and return false. No data
+//                   is sent to or read from S3. Backup metadata is still recorded.
+// Removal Plan: Future Enhancement – not a core function. Scheduled post-v1.3.0.
+//               See include/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
 // S3-compatible storage provider (AWS S3, MinIO, etc.)
 class S3StorageProvider : public ICloudStorageProvider {
 public:
@@ -207,6 +217,15 @@ private:
     // std::shared_ptr<Aws::S3::S3Client> s3_client_;
 };
 
+// STUB/SIMULATION NOTE:
+// Purpose: Azure Blob Storage provider placeholder. Implements ICloudStorageProvider
+//          with no-op behaviour so the backup subsystem compiles without Azure SDK.
+// Activation: Active when THEMIS_ENABLE_AZURE is NOT defined. Build with
+//             -DTHEMIS_ENABLE_AZURE=ON and link azure-storage-blobs-cpp (vcpkg) for real.
+// Production Delta: upload() / download() log a warning and return false. No data reaches
+//                   Azure Blob Storage.
+// Removal Plan: Future Enhancement – not a core function. Scheduled post-v1.3.0.
+//               See include/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
 // Azure Blob Storage provider
 class AzureStorageProvider : public ICloudStorageProvider {
 public:
@@ -304,6 +323,15 @@ private:
     std::string container_;
 };
 
+// STUB/SIMULATION NOTE:
+// Purpose: Google Cloud Storage provider placeholder. Implements ICloudStorageProvider
+//          with no-op behaviour so the backup subsystem compiles without GCS SDK.
+// Activation: Active when THEMIS_ENABLE_GCS is NOT defined. Build with
+//             -DTHEMIS_ENABLE_GCS=ON and link google-cloud-cpp[storage] (vcpkg) for real.
+// Production Delta: upload() / download() log a warning and return false. No data reaches
+//                   Google Cloud Storage.
+// Removal Plan: Future Enhancement – not a core function. Scheduled post-v1.3.0.
+//               See include/sharding/FUTURE_ENHANCEMENTS.md §Cloud Storage.
 // Google Cloud Storage provider
 class GCSStorageProvider : public ICloudStorageProvider {
 public:

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_artifact_preflight.cpp                        ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-15 18:12:22                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-15 18:52:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

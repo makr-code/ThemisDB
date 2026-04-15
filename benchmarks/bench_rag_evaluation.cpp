@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_rag_evaluation.cpp                           ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:01:05                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:43:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

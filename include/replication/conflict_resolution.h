@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            conflict_resolution.h                              ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:04:55                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:46:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

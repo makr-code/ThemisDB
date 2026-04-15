@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_process_module.cpp                            ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:16:36                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:56:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • dc8a1dc60e  2026-04-15  feat(process): PPR GraphRAG scoring, LLM-to-BPMN generato... ║
     • b18a0735c6  2026-04-12  fix(process): replace regex BPMN parser with state-machin... ║
-    • 79f0815052  2026-03-28  Add test statistics documentation and collection script ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
