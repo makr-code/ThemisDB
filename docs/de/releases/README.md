@@ -50,7 +50,7 @@ ThemisDB Release-Dokumentation enthält:
 
 | Version | Datum | Fokus | Dokumentation |
 |---------|-------|-------|---------------|
-| **v1.5.0** | 03.02.2026 | GPU Kernel Sandbox, QueryMaskingPolicy, Geo CPU/GPU Benchmarks, Full GeoJSON RFC 7946, FAISS Quantizer, RFC 3161 TSA | [Release Notes](./RELEASE_NOTES_v1.5.0.md) |
+| **v1.5.0** | 03.02.2026 | GPU Kernel Sandbox, QueryMaskingPolicy, Geo CPU/GPU Benchmarks, Full GeoJSON RFC 7946, FAISS Quantizer, RFC 3161 TSA | [Release Target](./RELEASE_TARGET_v1.5.0.md) · [Release Notes](./RELEASE_NOTES_v1.5.0.md) |
 
 ### v1.3.x Serie (Dezember 2025)
 
