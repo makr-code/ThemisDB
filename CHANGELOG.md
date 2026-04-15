@@ -894,86 +894,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Distributed Query Optimizer (v1.5.x)** — dynamic shard row estimates, predicate selectivity, network latency hooks
 - **FAISS ADC distance table acceleration** — ~40% faster `IndexIVFPQ` search via precomputed distance tables; enabled by default
 - **Documentation validation CI** — `.github/workflows/documentation-validation.yml` with 5 jobs (link-check, markdown-lint, spell-check, structure-check, summary)
-- **44-module documentation audit** — all module READMEs, ROADMAPs, and ARCHITECTUREs aligned with actual source implementations
-- **Test + benchmark coverage audit** — 6 new benchmark suites + 21 new unit test files closing coverage gaps across all 44 modules
-- **RAG scientific foundations** — `docs/en/rag/RAG_SCIENTIFIC_FOUNDATIONS.md`: 460-line IEEE reference with 40 peer-reviewed citations
+- **44-module documentation audit** — all module READMEs, ROADMAPs, and ARCHITECTUREs aligned with actual source implementations (PRs #3472–#3479, #3481–#3484)
+- **Test + benchmark coverage audit** — 6 new benchmark suites + 21 new unit test files closing coverage gaps across all 44 modules (PR #3471)
+- **RAG scientific foundations** — `docs/en/rag/RAG_SCIENTIFIC_FOUNDATIONS.md`: 460-line IEEE reference with 40 peer-reviewed citations (PR #3485)
+- **API Versioning and Compatibility Strategy** — `Accept-Version` header, `API-Version` response header, 24-month deprecation policy, gRPC version negotiation, `APIVersionManager`, compatibility matrix v1.0.0–v1.4.1; related to #751
+- **Query Result Pagination** — cursor-based (1 h TTL), keyset O(log n), offset; `PaginatedResponse` with `PageInfo`; configurable page size 1–10,000; 17 tests; related to #751
+- **Plugin Metrics and Monitoring** — `PluginMetrics` class; P95/P99 call latency, memory per plugin, error counts; `GET /api/plugins/metrics`; Prometheus integration; < 1% overhead
+- **CHIMERA Suite Branding** — benchmark framework rebranded to "CHIMERA Suite" (_Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment_); `CHIMERA_RESULTS_*` naming; all docs and CI workflows updated
+- **Documentation Archival System** — formal process for archiving outdated documentation; 70+ historical documents moved to `docs/implementation-history/`
+- **Retroactive Release Building System** — pipeline for building reproducible binaries from historical version tags
+- **Schema Manager** — database self-awareness and introspection layer for runtime schema, field type, and index metadata queries
+- **Independent Health / Error Service** — dedicated health and error reporting on port **9090**; `/health`, `/readiness`, `/error-summary` endpoints; decoupled from main port 7777
+- **Root Cause Analyzer** — `RootCauseAnalyzer` with `analyzeIssue`, `findCorrelations`, `buildCausalGraph`; closes [#84](https://github.com/makr-code/ThemisDB/issues/84)
 
 ### ⚠️ Breaking Changes
-- **themis module migration** — module initialisation code migrated from `src/utils/` and `src/base/` to `src/themis/`; update `#include` paths accordingly
+- **themis module migration** — module initialisation code migrated from `src/utils/` and `src/base/` to `src/themis/`; update `#include` paths from `utils/themis_*.h` / `base/themis_*.h` to `themis/themis_*.h`
+
+### Performance
+- **Query Pagination** — O(log n) keyset pagination vs O(n) offset; ORDER BY values stored in cursors to eliminate extra DB lookups; cursor expiration prevents accumulation
+
+### Changed
+- **Documentation Reorganization** — fixed version inconsistencies across README, VERSION, and badges; 70+ historical documents archived; updated all broken links; cleaner root directory
+- Benchmark suite renamed to CHIMERA Suite with comprehensive rebranding
 
 ### Fixed
 - 119 broken documentation links corrected in hub/index files
 - `DiffEngine` initialization updated to accept optional `SnapshotManager` reference
 - Re-enabled `SnapshotManager` (was disabled due to incomplete type issues)
-
----
-
-### Added
-- **API Versioning and Compatibility Strategy**: Comprehensive API versioning infrastructure
-  - **Accept-Version header** support for REST APIs to specify desired API version
-  - **API-Version response header** indicating the API version used to process the request
-  - **Deprecation tracking system** with automated warning headers (Deprecation, Sunset, Link)
-  - **24-month deprecation policy** ensuring backward compatibility and smooth migrations
-  - **gRPC version negotiation** via metadata (`api-version` key)
-  - **Version resolution** supporting formats: `v1.4.1`, `v1.4`, `v1`, `latest`
-  - **APIVersionManager** class for centralized version management
-  - **Compatibility matrix** documenting supported versions (v1.0.0 to v1.4.1)
-  - **Migration guide framework** with templates and best practices
-  - Comprehensive documentation:
-    - [API Versioning Strategy](docs/api/API_VERSIONING.md)
-    - [Deprecation Registry](docs/api/DEPRECATION_REGISTRY.md)
-    - [Migration Guides](docs/migration/README.md)
-    - [v1.3 to v1.4 Migration Guide](docs/migration/v1.3-to-v1.4.md)
-  - Updated proto files with API version metadata
-  - Related to #751 (API-Versionierung und Kompatibilitäts-Strategie)
-- **Query Result Pagination**: Comprehensive pagination support for query results with multiple strategies
-  - **Cursor-based pagination** with expiration and versioning (1-hour TTL default)
-  - **Keyset pagination** using ORDER BY values for O(log n) performance
-  - **Configurable page sizes** with validation (min: 1, max: 10,000, default: 100)
-  - Enhanced `PaginatedResponse` with detailed metadata (`PageInfo`, `has_next_page`, `has_prev_page`)
-  - ORDER BY value encoding in cursors eliminates database lookups for sort values
-  - Cursor expiration prevents stale cursor accumulation
-  - Multiple pagination methods supported: CURSOR, OFFSET, KEYSET
-  - 17 comprehensive tests with 100% pass rate
-  - Backward compatible with existing pagination API
-  - Related to #751
-- **Plugin Metrics and Monitoring**: Comprehensive metrics tracking for all plugins with Prometheus integration
-  - `PluginMetrics` class for thread-safe metrics collection
-  - Automatic tracking of load time, reload time, function call latency (P95/P99)
-  - Resource usage monitoring (memory per plugin)
-  - Error tracking and count metrics
-  - JSON API endpoint: `/api/plugins/metrics`
-  - Prometheus metrics integrated into `/metrics` endpoint
-  - <1% performance overhead from instrumentation
-  - See [Plugin Metrics Documentation](docs/plugins/PLUGIN_METRICS.md)
-- **CHIMERA Suite Branding**: Rebranded benchmark framework to "CHIMERA Suite" (_Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment_)
-  - Tagline: "Benchmark the Unbenchmarkable"
-  - Vendor-neutral, scientifically rigorous benchmark framework
-  - Updated all documentation, scripts, and CI workflows
-  - Result files now use `CHIMERA_RESULTS_*` naming pattern
-  - See [CHIMERA Suite Documentation](benchmarks/chimera/README.md)
-- Documentation Archival System - Formal process for archiving outdated documentation
-- Retroactive Release Building System - Build binaries from historical version tags
-- Schema Manager for database self-awareness and introspection
-- Independent Health/Error service on alternate port (9090)
-
-### Performance
-- **Query Pagination Improvements**:
-  - Reduced database lookups by storing ORDER BY values in cursors
-  - O(log n) keyset pagination vs O(n) offset-based pagination
-  - Memory efficiency through configurable page size limits (max 10,000 items)
-  - Cursor expiration prevents stale cursor accumulation
-
-### Changed
-- **Documentation Reorganization**: Major cleanup and restructuring of documentation
-  - Fixed version inconsistencies across README, VERSION file, and badges
-  - Moved 70+ historical implementation documents to `docs/implementation-history/` archive
-  - Created comprehensive archive README explaining historical documents
-  - Updated all broken links in main documentation files
-  - Added archive reference in main documentation index
-  - Cleaner root directory with only essential documentation files
-- Improved documentation structure and organization
-- Benchmark suite renamed to CHIMERA Suite with comprehensive rebranding
 
 ---
 
