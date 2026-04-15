@@ -131,7 +131,10 @@ def check_files_exist(data: dict) -> bool:
     seen: set[str] = set()
     for module, targets in data["modules"].items():
         for tid, entry in targets.items():
-            fname = entry.get("file", "")
+            fname = entry.get("file") or ""
+            if not fname:
+                # null/empty file is valid for "nicht_messbar" entries
+                continue
             if fname in seen:
                 continue
             seen.add(fname)
