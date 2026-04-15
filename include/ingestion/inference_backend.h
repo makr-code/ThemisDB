@@ -86,6 +86,19 @@ public:
 // NullTextGenerationBackend — always-unavailable fallback / stub
 // ============================================================================
 
+// STUB/SIMULATION NOTE:
+// Purpose: Safe default when no real LLM plugin is configured; keeps all
+//   dependants (LegalLlmAdapter, NerDeStep, LlmExtractStep, DeonticStep,
+//   IngestionQualityJudge) compilable and runnable without a live LLM.
+// Activation: Always instantiated as the default in LegalLlmAdapter,
+//   NerDeStep, LlmExtractStep, DeonticStep, and IngestionManager when the
+//   caller does not inject a concrete ITextGenerationBackend.
+// Production Delta: isAvailable() returns false → all LLM-dependent paths
+//   fall back to deterministic regex/rule-based extraction.
+//   No actual text is generated; generate() returns an empty string.
+// Removal Plan: Not removed — remains the compile-time / no-config default.
+//   A real backend (e.g. LlmIngestionBridge) must be injected explicitly.
+
 /**
  * @brief No-op backend that signals unavailability.
  *

@@ -162,6 +162,16 @@ public:
 // InMemoryGraphWriter — reference implementation for tests
 // ─────────────────────────────────────────────────────────────────────────────
 
+// STUB/SIMULATION NOTE:
+// Purpose: Provide a fully functional but non-persistent IGraphWriter for use
+//   in unit tests, integration tests, and dry-run ingestion scenarios.
+// Activation: Explicitly instantiated by test code or by callers that do not
+//   have a real graph database available at test time.
+// Production Delta: Data exists only in process memory and is lost on
+//   destruction.  No ACID guarantees, no replication, no persistence.
+// Removal Plan: Not removed — retained as the canonical test double and for
+//   future in-memory graph scenarios (e.g. ephemeral batch imports).
+
 /**
  * @brief Thread-safe in-memory `IGraphWriter` implementation.
  *
@@ -191,6 +201,15 @@ private:
 // InMemoryVectorWriter — reference implementation for tests
 // ─────────────────────────────────────────────────────────────────────────────
 
+// STUB/SIMULATION NOTE:
+// Purpose: Provide a fully functional but non-persistent IVectorWriter for
+//   unit tests and dry-run ingestion scenarios.
+// Activation: Explicitly instantiated by test code or callers without a real
+//   vector store available.
+// Production Delta: Data exists only in process memory with no ANN index,
+//   no persistence, and no similarity-search capability.
+// Removal Plan: Not removed — retained as the canonical test double.
+
 /**
  * @brief Thread-safe in-memory `IVectorWriter` implementation.
  */
@@ -216,6 +235,15 @@ private:
 // ─────────────────────────────────────────────────────────────────────────────
 // InMemoryDocWriter — reference implementation for tests
 // ─────────────────────────────────────────────────────────────────────────────
+
+// STUB/SIMULATION NOTE:
+// Purpose: Provide a fully functional but non-persistent IDocWriter for unit
+//   tests and dry-run ingestion scenarios; also used by DocumentStoreSinkAdapter
+//   tests when no real IDocumentStore is wired.
+// Activation: Explicitly instantiated by test code.
+// Production Delta: Data exists only in process memory, serialised as JSON
+//   snapshots.  No schema evolution, no versioning, no encryption support.
+// Removal Plan: Not removed — retained as the canonical test double.
 
 /**
  * @brief Thread-safe in-memory `IDocWriter` implementation.

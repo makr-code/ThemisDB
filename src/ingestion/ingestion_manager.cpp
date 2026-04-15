@@ -1418,6 +1418,7 @@ private:
     bool lineage_enabled_ = false;            ///< Lineage tracking on/off
     std::shared_ptr<ITextGenerationBackend> text_gen_backend_; ///< injected AI backend (SoC)
     std::shared_ptr<WorkflowEngine> workflow_engine_; ///< injected workflow orchestrator (v2.0)
+    std::shared_ptr<ReIngestionController> reingestion_controller_; ///< LLM-as-judge loop (v2.1)
     mutable std::mutex mutex_;
 };
 
@@ -1716,6 +1717,20 @@ std::shared_ptr<WorkflowEngine>
 IngestionManager::getWorkflowEngine() const {
     std::lock_guard<std::mutex> lock(impl_->mutex_);
     return impl_->workflow_engine_;
+}
+
+// ---- LLM-as-judge re-ingestion quality control (v2.1) --------------------
+
+void IngestionManager::setReIngestionController(
+        std::shared_ptr<ReIngestionController> controller) {
+    std::lock_guard<std::mutex> lock(impl_->mutex_);
+    impl_->reingestion_controller_ = std::move(controller);
+}
+
+std::shared_ptr<ReIngestionController>
+IngestionManager::getReIngestionController() const {
+    std::lock_guard<std::mutex> lock(impl_->mutex_);
+    return impl_->reingestion_controller_;
 }
 // ============================================================================
 

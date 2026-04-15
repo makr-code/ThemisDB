@@ -93,6 +93,19 @@ public:
 // InMemorySharedCheckpointStore — thread-safe in-process implementation
 // ============================================================================
 
+// STUB/SIMULATION NOTE:
+// Purpose: Provide a fully functional ISharedCheckpointStore without requiring
+//   an external store (Redis, DB) so that single-process and test scenarios
+//   work out of the box.
+// Activation: Default implementation used by IngestionCoordinator when no
+//   external ISharedCheckpointStore is injected (e.g. via
+//   setSharedCheckpointStoreForTesting()).  Also the default in InProcessWorkerNode.
+// Production Delta: State is process-local and is lost on restart.  No
+//   cross-process coordination, no durable persistence, no TTL/expiry logic.
+// Removal Plan: Not removed — retained for single-process deployments and
+//   tests.  Multi-process / HA deployments must inject a Redis- or DB-backed
+//   implementation.
+
 /**
  * @brief `ISharedCheckpointStore` backed by a mutex-protected in-memory map.
  *

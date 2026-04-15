@@ -36,6 +36,7 @@
 #include <mutex>
 #include "ingestion/semantic_validator.h"
 #include "ingestion/inference_backend.h"
+#include "ingestion/ingestion_quality_judge.h"
 #include "ingestion/workflow_engine.h"
 
 namespace themis {
@@ -1315,6 +1316,31 @@ public:
      * @brief Return the currently configured workflow engine, or nullptr.
      */
     std::shared_ptr<WorkflowEngine> getWorkflowEngine() const;
+
+    // ---- LLM-as-judge re-ingestion quality control (v2.1) -----------------
+
+    /**
+     * @brief Attach a `ReIngestionController` for runtime quality control.
+     *
+     * When set, every call to `ingestFile()` (or the equivalent workflow-
+     * engine path) is wrapped in the quality-judge feedback loop:
+     *
+     *   1. Run WorkflowEngine on the document.
+     *   2. Evaluate extraction quality via the injected IngestionQualityJudge.
+     *   3. If quality fails and attempts remain, re-run with targeted hints.
+     *   4. Persist the best-quality extraction context.
+     *
+     * Pass `nullptr` to disable the quality-control loop and fall back to a
+     * single-pass ingestion (legacy behaviour).
+     *
+     * @param controller  Configured `ReIngestionController` instance, or nullptr.
+     */
+    void setReIngestionController(std::shared_ptr<ReIngestionController> controller);
+
+    /**
+     * @brief Return the active `ReIngestionController`, or nullptr when unset.
+     */
+    std::shared_ptr<ReIngestionController> getReIngestionController() const;
 
 private:
     class Impl;

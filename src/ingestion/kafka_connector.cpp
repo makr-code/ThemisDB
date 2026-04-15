@@ -237,7 +237,14 @@ private:
     }
 
     // -----------------------------------------------------------------------
-    // Mock-based ingestion (unit tests)
+    // STUB/SIMULATION NOTE:
+    // Purpose: Enable unit-testing of KafkaConnector without a live Kafka
+    //   broker by using an injected message_fn_ instead of a real consumer.
+    // Activation: Active when message_fn_ is non-null (set via
+    //   KafkaConnector::setMessageFnForTesting()).
+    // Production Delta: Messages come from the injected lambda instead of a
+    //   real Kafka consumer.  No broker connection, no offset management.
+    // Removal Plan: Not removed — remains the test-injection path.
     // -----------------------------------------------------------------------
     void ingestFromMock(IngestionStats& stats,
                         ProgressCallback& progress_callback) {

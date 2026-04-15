@@ -205,8 +205,18 @@ std::vector<json> TextProcessor::chunk(
 }
 
 std::vector<float> TextProcessor::generateEmbedding(const std::string& chunk_data) {
-    // Mock embedding generator using hash-based approach
-    // In production, this would call an external embedding service (e.g., Sentence-BERT)
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provide a deterministic, zero-dependency embedding for unit
+    //   tests and environments where no real embedding service is available.
+    // Activation: Always active — TextProcessor has no IEmbeddingBackend
+    //   injection point yet.  Replace this body once an embedding backend
+    //   interface is introduced (tracked as a future enhancement).
+    // Production Delta: Uses a hash-based deterministic formula instead of a
+    //   real transformer model (e.g. Sentence-BERT / all-mpnet-base-v2).
+    //   Output vectors are NOT semantically meaningful for similarity search.
+    // Removal Plan: Replace with an injected IEmbeddingBackend call (e.g.
+    //   ONNXClipPlugin or a Sentence-BERT plugin) and remove this path once
+    //   the embedding plugin interface is wired into TextProcessor.
     
     const int EMBEDDING_DIM = 768; // Standard for all-mpnet-base-v2
     std::vector<float> embedding(EMBEDDING_DIM, 0.0f);

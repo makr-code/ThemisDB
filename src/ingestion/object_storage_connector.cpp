@@ -271,7 +271,15 @@ private:
     }
 
     // -----------------------------------------------------------------------
-    // Mock-based ingestion (unit tests)
+    // STUB/SIMULATION NOTE:
+    // Purpose: Enable unit-testing of ObjectStorageConnector without a live
+    //   object-storage endpoint by using injected list_fn_/fetch_fn_ lambdas.
+    // Activation: Active when list_fn_ is non-null (set via
+    //   ObjectStorageConnector::setListFnForTesting()).
+    // Production Delta: Object keys and content come from injected lambdas
+    //   instead of real HTTP/S3/GCS calls.  No authentication, no retries,
+    //   no bandwidth throttling.
+    // Removal Plan: Not removed — remains the test-injection path.
     // -----------------------------------------------------------------------
     void ingestFromMock(IngestionStats& stats,
                         ProgressCallback& progress_callback) {

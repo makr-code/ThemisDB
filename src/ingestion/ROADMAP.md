@@ -226,6 +226,16 @@ v1.5.x – Production-grade data intake layer. All connectors (FileSystem, Huggi
 - [x] `LegalEntityExport` — JSON-LD + Turtle/N-Triples RDF for juris / EUR-Lex compatibility — `include/ingestion/legal_domain.h` (2026-04-15)
 - [x] Tests: LD-01..LD-15 + DS-01..DS-05 — `tests/test_ingestion_legal_domain.cpp` (2026-04-15)
 
+### Phase 7: LLM-as-judge Runtime Quality Control (Status: Completed ✅)
+- [x] `IngestionJudgeConfig` — per-dimension thresholds, LLM params, re-ingestion limits — `include/ingestion/ingestion_quality_judge.h` (2026-04-15)
+- [x] `IngestionQualityReport` — completeness/groundedness/entity_coverage/relation_coherence scores, missing_entities, ungrounded_claims, recommended_steps, rationales — `include/ingestion/ingestion_quality_judge.h` (2026-04-15)
+- [x] `IIngestionQualityObserver` — noexcept callbacks: onQualityEvaluated / onReIngestionTriggered / onReIngestionComplete — `include/ingestion/ingestion_quality_judge.h` (2026-04-15)
+- [x] `IngestionQualityJudge` — stateless LLM-prompt builder + score parser + observer dispatch; thread-safe; fail-open when backend unavailable — `include/ingestion/ingestion_quality_judge.h` + `src/ingestion/ingestion_quality_judge.cpp` (2026-04-15)
+- [x] `ReIngestionController` — feedback loop: run → evaluate → re-ingest until quality passes or max_reingestion_attempts exhausted; persists best-quality context — `include/ingestion/ingestion_quality_judge.h` + `src/ingestion/ingestion_quality_judge.cpp` (2026-04-15)
+- [x] `IngestionManager::setReIngestionController()` / `getReIngestionController()` — `include/ingestion/ingestion_manager.h` + `src/ingestion/ingestion_manager.cpp` (2026-04-15)
+- [x] Tests: IJ-01..IJ-08, QR-01..QR-04, RC-01..RC-06, IM-01..IM-02 (20 tests) — `tests/test_ingestion_quality_judge.cpp` (2026-04-15)
+- [x] Stub/mock audit: `NullTextGenerationBackend`, `InMemoryGraphWriter/VectorWriter/DocWriter`, `InMemorySharedCheckpointStore`, all connector `ingestFromMock` paths (cdc/database/kafka/s3/object_storage), `TextProcessor::generateEmbedding` — all upgraded to canonical `STUB/SIMULATION NOTE:` format (2026-04-15)
+
 ## Breaking Changes
 - `IngestionBuilder` fluent API is stable from v1.x.
 - Source connector interface may gain new lifecycle hooks in v1.6.0.
