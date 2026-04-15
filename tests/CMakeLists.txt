@@ -22531,3 +22531,58 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_storage_parquet_exporter.cpp")
 
     message(STATUS "  StorageParquetExporter: PAR1 magic, INT32/INT64/FLOAT32/FLOAT64/BOOL, multi-column, stats, file export, error paths (15 tests)")
 endif()
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Projects module tests — ProjectVersioning, ProjectDiff, ProjectLifecycle,
+# ProjectTemplate, CollaborationManager
+# ──────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_projects.cpp")
+    message(STATUS "Adding Projects module tests (Issue #3491)")
+
+    add_executable(test_projects
+        test_projects.cpp
+        ${CMAKE_SOURCE_DIR}/src/projects/project_versioning.cpp
+        ${CMAKE_SOURCE_DIR}/src/projects/project_diff.cpp
+        ${CMAKE_SOURCE_DIR}/src/projects/project_lifecycle.cpp
+        ${CMAKE_SOURCE_DIR}/src/projects/project_template.cpp
+        ${CMAKE_SOURCE_DIR}/src/projects/collaboration_manager.cpp
+    )
+
+    target_include_directories(test_projects PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_projects PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_projects PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    if(WIN32)
+        themis_sync_runtime_dlls_for_target(test_projects)
+        add_dependencies(test_projects sync_test_runtime_dlls)
+    endif()
+
+    add_test(NAME ProjectsModuleTests COMMAND test_projects)
+
+    set_tests_properties(ProjectsModuleTests PROPERTIES
+        LABELS "projects;versioning;diff;lifecycle;template;collaboration;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Projects: ProjectVersioning (PV-01..PV-06), ProjectDiff (PD-01..PD-07), ProjectLifecycle (PL-01..PL-07), ProjectTemplate (PT-01..PT-05), CollaborationManager (CM-01..CM-08)")
+else()
+    message(STATUS "Projects module tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_projects.cpp")
+endif()
