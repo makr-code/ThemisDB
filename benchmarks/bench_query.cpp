@@ -144,8 +144,7 @@ struct BenchEnv {
 };
 } // namespace
 
-// Pagination benchmarks (not currently registered with BENCHMARK() macros)
-// These can be enabled when needed for performance testing
+// Pagination benchmarks — registered below with conservative Args to keep runtime bounded.
 
 static void BM_Pagination_Offset(benchmark::State& state) {
     // Args: page_size, pages
@@ -721,10 +720,11 @@ static void BM_PointLookup_P99(benchmark::State& state) {
 }
 
 // Register with conservative defaults to keep runtime bounded in CI/local runs.
-BENCHMARK(BM_Pagination_Offset)->Args({20, 10})->Unit(benchmark::kMillisecond);
-BENCHMARK(BM_Pagination_Offset)->Args({50, 50})->Unit(benchmark::kMillisecond);
-BENCHMARK(BM_Pagination_Cursor)->Args({20, 10})->Unit(benchmark::kMillisecond);
-BENCHMARK(BM_Pagination_Cursor)->Args({50, 50})->Unit(benchmark::kMillisecond);
+// MinTime(1.0) satisfies --benchmark_min_time=1s without risk of timeout.
+BENCHMARK(BM_Pagination_Offset)->Args({20, 10})->Unit(benchmark::kMillisecond)->MinTime(1.0);
+BENCHMARK(BM_Pagination_Offset)->Args({50, 50})->Unit(benchmark::kMillisecond)->MinTime(1.0);
+BENCHMARK(BM_Pagination_Cursor)->Args({20, 10})->Unit(benchmark::kMillisecond)->MinTime(1.0);
+BENCHMARK(BM_Pagination_Cursor)->Args({50, 50})->Unit(benchmark::kMillisecond)->MinTime(1.0);
 BENCHMARK(BM_SimpleWhere)->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_ComplexWhere)->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_JoinUsersPosts)->Unit(benchmark::kMillisecond);
