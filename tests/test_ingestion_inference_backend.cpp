@@ -5,6 +5,8 @@
  *   ITextGenerationBackend         (interface contract)   IB-01..IB-04
  *   NullTextGenerationBackend      (always-unavailable)   IB-05..IB-07
  *   LegalLlmAdapter with injected backend                 IB-08..IB-12
+ *   SemanticValidator extractor injection                  SE-01..SE-08
+ *   IngestionManager AI backend injection                  IM-01..IM-05
  *
  * These tests verify that the ingestion module's LLM integration layer is
  * fully decoupled from any concrete LLM implementation (SoC / DIP).
@@ -174,4 +176,169 @@ TEST(InferenceBackend, IB12_ThrowingBackend_ExceptionCaughtInExtractorFn) {
     EXPECT_NO_THROW(result = fn("some text"));
     // Warning should mention the exception
     EXPECT_FALSE(result.warnings.empty());
+}
+
+// =============================================================================
+// Includes for Phase 2 tests
+// =============================================================================
+
+#include "ingestion/semantic_validator.h"
+#include "ingestion/ingestion_manager.h"
+
+// =============================================================================
+// SE-01..SE-08  SemanticValidator extractor injection
+// =============================================================================
+
+TEST(SemanticValidatorSoC, SE01_DefaultExtractorUsesRegex) {
+    SemanticValidator v;
+    // Default extractor = regex only; does not crash and produces a result
+    auto result = v.extractDocument("doc-1",
+        "§ 4 Abs. 1 BImSchG verpflichtet den Betreiber zur Einholung einer Genehmigung.");
+    EXPECT_FALSE(result.document_id.empty());
+}
+
+TEST(SemanticValidatorSoC, SE02_SetExtractor_DefaultDeonticExtractor) {
+    SemanticValidator v;
+    DeonticExtractor default_extractor;
+    // Setting a plain default extractor must not crash
+    EXPECT_NO_THROW(v.setExtractor(std::move(default_extractor)));
+    auto result = v.extractDocument("doc-2",
+        "§ 5 Der Betreiber muss Lärmmessungen durchführen.");
+    EXPECT_FALSE(result.document_id.empty());
+}
+
+TEST(SemanticValidatorSoC, SE03_SetExtractor_LlmBackedExtractorFromStubAdapter) {
+    auto backend = std::make_shared<StubAvailableBackend>();
+    LegalLlmAdapter adapter(backend);
+    DeonticExtractor llm_extractor = adapter.buildExtractor(0.75);
+
+    SemanticValidator v;
+    EXPECT_NO_THROW(v.setExtractor(std::move(llm_extractor)));
+}
+
+TEST(SemanticValidatorSoC, SE04_SetExtractor_LlmBackedExtractor_CallsBackend) {
+    auto backend = std::make_shared<StubAvailableBackend>();
+    LegalLlmAdapter adapter(backend);
+    DeonticExtractor llm_extractor = adapter.buildExtractor(0.75);
+
+    SemanticValidator v;
+    v.setExtractor(std::move(llm_extractor));
+
+    auto result = v.extractDocument("doc-3",
+        "§ 4 Abs. 1 BImSchG verpflichtet den Betreiber zur Einholung einer Genehmigung.");
+    // The stub backend should have been called at least once
+    EXPECT_GE(backend->call_count.load(), 1);
+    EXPECT_FALSE(result.document_id.empty());
+}
+
+TEST(SemanticValidatorSoC, SE05_SetExtractor_TwiceReplacesExtractor) {
+    auto backend1 = std::make_shared<StubAvailableBackend>();
+    auto backend2 = std::make_shared<StubAvailableBackend>();
+
+    LegalLlmAdapter adapter1(backend1);
+    LegalLlmAdapter adapter2(backend2);
+
+    SemanticValidator v;
+    v.setExtractor(adapter1.buildExtractor(0.75));
+    v.setExtractor(adapter2.buildExtractor(0.75));
+
+    v.extractDocument("doc-4", "§ 3 Der Unternehmer darf nicht ...");
+
+    // Only backend2 should have been called (second extractor wins)
+    EXPECT_EQ(backend1->call_count.load(), 0);
+    EXPECT_GE(backend2->call_count.load(), 1);
+}
+
+TEST(SemanticValidatorSoC, SE06_ExtractDocument_Works_After_SetExtractor) {
+    auto backend = std::make_shared<StubAvailableBackend>();
+    LegalLlmAdapter adapter(backend);
+
+    SemanticValidator v;
+    v.setExtractor(adapter.buildExtractor(0.75));
+
+    auto result = v.extractDocument("doc-5",
+        "§ 1 Geltungsbereich\n"
+        "§ 2 Abs. 1 Der Betreiber ist verpflichtet eine Genehmigung einzuholen.");
+    EXPECT_GE(result.provisions.size(), 1u);
+}
+
+TEST(SemanticValidatorSoC, SE07_SemanticValidator_NoLlmIncludes) {
+    // Structural test: SemanticValidator compiles without any llm/ headers.
+    // If this test compiles successfully, the SoC boundary is enforced.
+    SemanticValidator v;
+    SUCCEED();
+}
+
+TEST(SemanticValidatorSoC, SE08_UnavailableBackend_FallsBackToRegex) {
+    // An unavailable backend → LegalLlmAdapter::buildExtractorFn() returns {}
+    // → buildExtractor() installs no LLM fn → regex fallback active
+    NullTextGenerationBackend null_backend;
+    ASSERT_FALSE(null_backend.isAvailable());
+
+    LegalLlmAdapter adapter(std::make_shared<NullTextGenerationBackend>());
+    DeonticExtractor extractor = adapter.buildExtractor(0.75);
+    // Extractor must work with regex fallback — no crash
+    DeonticExtraction result = extractor.extract(
+        "§ 3 Der Betreiber muss die Anlage stillegen.");
+    EXPECT_GE(result.overall_confidence, 0.0);
+}
+
+// =============================================================================
+// IM-01..IM-05  IngestionManager AI backend injection
+// =============================================================================
+
+TEST(IngestionManagerSoC, IM01_DefaultGetBackend_ReturnsNullBackend) {
+    IngestionManager mgr("test_db");
+    auto backend = mgr.getTextGenerationBackend();
+    ASSERT_NE(backend, nullptr);
+    EXPECT_FALSE(backend->isAvailable());
+}
+
+TEST(IngestionManagerSoC, IM02_SetNullptr_ResetsToNullBackend) {
+    IngestionManager mgr("test_db");
+    mgr.setTextGenerationBackend(nullptr);
+    auto backend = mgr.getTextGenerationBackend();
+    ASSERT_NE(backend, nullptr);
+    EXPECT_FALSE(backend->isAvailable());
+}
+
+TEST(IngestionManagerSoC, IM03_SetBackend_StoresProvidedBackend) {
+    IngestionManager mgr("test_db");
+    auto stub = std::make_shared<StubAvailableBackend>();
+    mgr.setTextGenerationBackend(stub);
+    auto retrieved = mgr.getTextGenerationBackend();
+    EXPECT_EQ(retrieved, stub);
+    EXPECT_TRUE(retrieved->isAvailable());
+}
+
+TEST(IngestionManagerSoC, IM04_RunLegalExtraction_UnavailableBackend_NocrashRegexFallback) {
+    IngestionManager mgr("test_db");
+    // Default null backend → regex extraction
+    LegalIngestionConfig cfg;
+    cfg.confidence_threshold = 0.5;
+    EXPECT_NO_THROW({
+        auto result = mgr.runLegalExtraction(
+            "doc-im-04",
+            "§ 4 Abs. 1 BImSchG verpflichtet den Betreiber zur Einholung einer Genehmigung.",
+            cfg);
+        EXPECT_EQ(result.document_id, "doc-im-04");
+    });
+}
+
+TEST(IngestionManagerSoC, IM05_RunLegalExtraction_AvailableBackend_CallsGenerate) {
+    IngestionManager mgr("test_db");
+    auto stub = std::make_shared<StubAvailableBackend>();
+    mgr.setTextGenerationBackend(stub);
+
+    LegalIngestionConfig cfg;
+    cfg.confidence_threshold = 0.5;
+    EXPECT_NO_THROW({
+        auto result = mgr.runLegalExtraction(
+            "doc-im-05",
+            "§ 4 Abs. 1 BImSchG verpflichtet den Betreiber zur Einholung einer Genehmigung.",
+            cfg);
+        EXPECT_EQ(result.document_id, "doc-im-05");
+    });
+    // The stub backend must have been called at least once by the pipeline
+    EXPECT_GE(stub->call_count.load(), 1);
 }

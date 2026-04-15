@@ -35,6 +35,7 @@
 #include <atomic>
 #include <mutex>
 #include "ingestion/semantic_validator.h"
+#include "ingestion/inference_backend.h"
 
 namespace themis {
 namespace ingestion {
@@ -1244,6 +1245,48 @@ public:
         const std::string& document_id,
         const std::string& text,
         const LegalIngestionConfig& config) const;
+
+    // ── AI backend injection (SoC / DIP) ─────────────────────────────────────
+
+    /**
+     * @brief Inject a text-generation backend into the ingestion pipeline.
+     *
+     * When set, `runLegalExtraction()` builds a `LegalLlmAdapter` backed by
+     * this backend and injects it into the `SemanticValidator` so deontic
+     * extraction uses LLM inference instead of regex.
+     *
+     * The ingestion module never sees a concrete LLM class — it only depends
+     * on `ITextGenerationBackend` (defined in `ingestion/inference_backend.h`).
+     * The `LlmIngestionBridge` (in `llm/`) is the only binding between the
+     * two modules and is provided by wiring code (main / server bootstrap).
+     *
+     * Passing `nullptr` (or not calling this method) resets to the default
+     * `NullTextGenerationBackend`, which falls back to regex extraction.
+     *
+     * Thread-safety: the backend pointer is stored once at startup; concurrent
+     * calls to `runLegalExtraction()` are safe as long as the backend itself
+     * is thread-safe (required by `ITextGenerationBackend` contract).
+     *
+     * Example (wiring code):
+     * @code
+     * #include "llm/llm_ingestion_bridge.h"
+     * auto bridge = std::make_shared<LlmIngestionBridge>();
+     * mgr.setTextGenerationBackend(bridge);
+     * @endcode
+     *
+     * @param backend  Shared pointer to any `ITextGenerationBackend`.
+     *                 Pass `nullptr` to fall back to `NullTextGenerationBackend`.
+     */
+    void setTextGenerationBackend(
+        std::shared_ptr<ITextGenerationBackend> backend);
+
+    /**
+     * @brief Return the currently configured text-generation backend.
+     *
+     * Never returns null: if no backend has been set the result is a
+     * `NullTextGenerationBackend`.
+     */
+    std::shared_ptr<ITextGenerationBackend> getTextGenerationBackend() const;
 
 private:
     class Impl;
