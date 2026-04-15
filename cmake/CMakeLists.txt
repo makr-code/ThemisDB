@@ -1844,6 +1844,18 @@ set(THEMIS_CORE_SOURCES
     ../src/ingestion/semantic_validator.cpp
     ../src/ingestion/agentic_reference_validator.cpp
     ../src/ingestion/llm_adapter.cpp
+    # Ingestion v2.0 workflow engine + entity assembler + sinks
+    ../src/ingestion/workflow_engine.cpp
+    ../src/ingestion/entity_assembler.cpp
+    ../src/ingestion/ingestion_sinks.cpp
+    # Ingestion v2.0 builtin steps
+    ../src/ingestion/steps/parse_text_step.cpp
+    ../src/ingestion/steps/chunk_text_step.cpp
+    ../src/ingestion/steps/legal_metadata_step.cpp
+    ../src/ingestion/steps/deontic_step.cpp
+    ../src/ingestion/steps/base_entity_assembler_step.cpp
+    ../src/ingestion/steps/ner_step.cpp
+    ../src/ingestion/steps/llm_extract_step.cpp
 
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp

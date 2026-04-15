@@ -13,6 +13,7 @@
 #include "ingestion/ingestion_step.h"
 #include "ingestion/deontic_extractor.h"
 #include "ingestion/inference_backend.h"
+#include "ingestion/llm_adapter.h"
 #include "utils/error_registry.h"
 #include <nlohmann/json.hpp>
 
@@ -52,14 +53,27 @@ public:
 
     std::vector<std::string> supportedMimeTypes() const override { return {}; }
 
+    // Inject backend after construction (used by WorkflowEngine / IngestionManager)
+    void setBackend(std::shared_ptr<ITextGenerationBackend> b) {
+        backend_ = std::move(b);
+    }
+
     Result<void> execute(ExtractionContext& ctx,
                          const StepConfig& cfg) override {
         if (ctx.raw_text.empty() && ctx.chunks.empty()) return {};
 
         const double threshold =
             cfg.config.value("confidence_threshold", 0.5);
+        const bool use_llm = cfg.config.value("use_llm", false);
 
         DeonticExtractor extractor;
+
+        // Wire LLM backend when requested and available
+        if (use_llm && backend_ && backend_->isAvailable()) {
+            LegalLlmAdapter adapter(backend_);
+            const auto fn = adapter.buildExtractorFn();
+            if (fn) extractor.setExtractorFn(fn);
+        }
 
         auto process = [&](const std::string& text,
                            const std::string& section_ref) {

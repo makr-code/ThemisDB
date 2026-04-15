@@ -14370,11 +14370,15 @@ set(INGESTION_CORE_SOURCES
     ${THEMIS_ROOT_DIR}/src/ingestion/agentic_reference_validator.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/llm_adapter.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/workflow_engine.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/entity_assembler.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/ingestion_sinks.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/steps/parse_text_step.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/steps/chunk_text_step.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/steps/legal_metadata_step.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/steps/deontic_step.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/steps/base_entity_assembler_step.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/steps/ner_step.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/steps/llm_extract_step.cpp
 )
 
 # Helper macro for ingestion focused tests
@@ -14610,6 +14614,22 @@ add_ingestion_focused_test(
     IngestionBaseEntityFocusedTests
     "ingestion;base-entity;extraction-context;file-manifest;v2;focused;unit"
     "Ingestion BaseEntity: FileManifest (FM-01..FM-03), ExtractionContext (EC-01..EC-07), BaseEntity/EntityRelation/VectorRecord/BaseEntitySet (BA-01..BA-10)"
+)
+
+add_ingestion_focused_test(
+    test_ingestion_ner_llm_focused
+    test_ingestion_ner_llm.cpp
+    IngestionNerLlmFocusedTests
+    "ingestion;ner;llm;phase3;focused;unit"
+    "Ingestion Phase 3: builtin.ner_de (NE-01..NE-08), builtin.llm_extract (LE-01..LE-06)"
+)
+
+add_ingestion_focused_test(
+    test_ingestion_assembler_sinks_focused
+    test_ingestion_assembler_sinks.cpp
+    IngestionAssemblerSinksFocusedTests
+    "ingestion;assembler;sinks;phase4;focused;unit"
+    "Ingestion Phase 4: EntityNormalizer (EN-01..EN-08), RelationBuilder (RB-01..RB-06), InMemoryGraphWriter (GW-01..GW-05), InMemoryVectorWriter (VW-01..VW-05), InMemoryDocWriter (DW-01..DW-03), IngestionSinkBundle (SB-01..SB-03)"
 )
 # Metadata Module ÔÇô Focused Test Targets
 # ============================================================================
