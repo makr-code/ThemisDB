@@ -1,6 +1,7 @@
 name: Nightly Benchmark Sweep
 
-# Modulewise benchmark sweeps for modules 2–33 (PERFORMANCE_EXPECTATIONS.md §1.4, Maßnahme #10).
+# Modulewise benchmark sweeps for modules 2–35 (PERFORMANCE_EXPECTATIONS.md §1.4, Maßnahme #10).
+# Modules 34 (Temporal) and 35 (Process Mining) added 2026-04-15 (Wave-2 reference benchmarks).
 #
 # • Runs every night at 02:00 UTC and on manual dispatch.
 # • Uses the `nightly-bench-sweep` CMake preset (inherits linux-ninja-perf,
@@ -13,7 +14,7 @@ name: Nightly Benchmark Sweep
 
 on:
   schedule:
-    - cron: '0 2 * * *'  # Nightly at 02:00 UTC — modules 2..33 sweep (§1.4 Maßnahme #10)
+    - cron: '0 2 * * *'  # Nightly at 02:00 UTC — modules 2..35 sweep (§1.4 Maßnahme #10)
   workflow_run:
     workflows: ["🚦 Post-Merge Smoke Test"]
     types: [completed]

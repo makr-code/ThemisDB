@@ -71,6 +71,9 @@ MODULE_MAP: dict[int, dict[str, Any]] = {
     31: {"name": "Governance",      "patterns": ["governance", "policy", "compliance", "masking", "lineage"]},
     32: {"name": "Ethics AI",       "patterns": ["ethics", "constitutional", "confidence_detect"]},
     33: {"name": "System-Level (TPC/YCSB)", "patterns": ["tpcc", "ycsb", "tpc_", "system_bench"]},
+    # Modules 34–35: Process/Temporal (Wave-2 reference benchmarks, added 2026-04-15)
+    34: {"name": "Temporal",        "patterns": ["temporal_queries", "bitemporal", "bi_temporal", "temporal"]},
+    35: {"name": "Process Mining",  "patterns": ["process_mining", "process_retrieval"]},
 }
 
 GREEN = "🟢"
