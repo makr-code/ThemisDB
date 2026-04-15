@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-15 | Commit: e963d4e9ba -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md -->
 
 # ThemisDB Maintenance Module
@@ -16,10 +16,15 @@ halt-on-failure semantics, and aggregated per-module health reporting.
 |-----------------|------|
 | `include/maintenance/database_maintenance_orchestrator.h` | Primary public API |
 | `include/maintenance/maintenance_task.h` | Task types, job struct, job state enum |
-| `include/maintenance/maintenance_schedule.h` | Schedule entry with JSON serialization |
+| `include/maintenance/maintenance_schedule.h` | Schedule entry with JSON serialization and DAG dependency model |
+| `include/maintenance/maintenance_schedule_store.h` | RocksDB-backed schedule persistence |
 | `include/maintenance/maintenance_health_report.h` | Health report aggregation |
+| `include/maintenance/i_maintenance_task_handler.h` | Task handler interface |
+| `include/maintenance/maintenance_task_handler_impls.h` | Built-in handlers: storage compaction, replica validation, MVCC cleanup, function |
+| `include/maintenance/i_distributed_lock.h` | Distributed lock interface + `InProcessDistributedLock` |
 | `src/maintenance/database_maintenance_orchestrator.cpp` | Implementation |
 | `src/maintenance/maintenance_registry.cpp` | Default schedule bundles |
+| `src/maintenance/maintenance_schedule_store.cpp` | `MaintenanceScheduleStore` implementation |
 
 ## Key Classes
 
@@ -34,7 +39,8 @@ Central coordinator for all maintenance scheduling and execution.
 auto orchestrator = DatabaseMaintenanceOrchestrator(
     scheduler,           // TaskScheduler*
     index_maintenance,   // std::shared_ptr<IndexMaintenanceManager>
-    audit_logger         // std::shared_ptr<utils::AuditLogger>
+    audit_logger,        // std::shared_ptr<utils::AuditLogger>
+    storage              // IStorageEngine* (nullptr = in-memory-only)
 );
 
 orchestrator.start();
@@ -79,15 +85,20 @@ auto monthly_schedules = MaintenanceRegistry::getMonthlySchedules();
 - Cron-based execution via `TaskScheduler`
 - Maintenance window enforcement (UTC hour range)
 - Sequential task execution with halt-on-failure
+- Explicit per-task DAG dependency graph with Kahn's topological sort and cycle detection
+- RocksDB schedule persistence via `MaintenanceScheduleStore` (survives server restarts)
 - Per-module health probe registry and aggregation
 - Job lifecycle management (PENDING → RUNNING → SUCCEEDED/FAILED/CANCELLED/SKIPPED)
 - 24-hour job retention with automatic pruning
 - Audit logging and Prometheus-compatible metrics
+- `IMaintenanceTaskHandler` registry — modules wire real execution logic via `registerTaskHandler()`
+- `IDistributedLock` injection — prevents two cluster nodes from running the same schedule concurrently
+- Multi-tenant schedule isolation — per-tenant maintenance windows and job quotas via `TenantMaintenanceConfig`
 
 **Out of Scope:**
-- Schedule persistence (planned v1.1.0 — currently in-memory only)
-- Explicit DAG task dependencies (planned v1.2.0 — currently total order)
-- Distributed maintenance coordination (planned v2.0.0)
+- Raft-backed distributed lock implementation (interface provided; Raft integration planned v2.1.0)
+- REPLICA_VALIDATION wiring to sharding/replica module (handler class provided; startup wiring pending)
+- Maintenance impact prediction (planned v3.0.0)
 
 ## Task Types (19)
 
@@ -103,19 +114,23 @@ CUSTOM
 
 ## REST API
 
-11 endpoints under `/api/v1/maintenance/`:
+13 endpoints under `/api/v1/maintenance/`:
 
 - `POST /schedules` — create schedule
-- `GET /schedules` — list all
+- `GET /schedules` — list all (accepts `?tenant_id=` filter)
 - `GET /schedules/{id}` — get by ID
 - `PUT /schedules/{id}` — replace
 - `PATCH /schedules/{id}` — partial update
 - `DELETE /schedules/{id}` — delete
 - `POST /schedules/{id}/enable` — enable
 - `POST /schedules/{id}/disable` — disable
+- `POST /schedules/{id}/run` — trigger now (optional `{"force": true}` body)
 - `GET /jobs` — list recent jobs (last 24 hours)
 - `GET /jobs/{id}` — get job details
+- `POST /jobs/{id}/cancel` — cancel running job
 - `GET /health` — aggregated health report
+- `GET /task-handlers` — list registered task handlers
+- `GET /status` — orchestrator status snapshot
 
 **RBAC:** `maintenance:read` · `maintenance:write` · `maintenance:admin`
 
@@ -135,7 +150,7 @@ orchestrator.registerHealthProbe("my_module", []() -> ModuleHealthSignal {
 
 ## Tests
 
-40+ unit tests in `tests/test_maintenance_orchestrator.cpp` covering:
+55+ unit tests in `tests/test_database_maintenance_orchestrator.cpp` covering:
 - Schedule CRUD and validation
 - JSON round-trips (`toJson()` / `fromJson()` / `applyPatch()`)
 - Maintenance window enforcement and SKIPPED state
@@ -143,6 +158,11 @@ orchestrator.registerHealthProbe("my_module", []() -> ModuleHealthSignal {
 - `halt_on_task_failure` cascading behaviour
 - Health probe registration and aggregation
 - Metrics collection
+- RocksDB schedule persistence (restart-persistence round-trips)
+- DAG dependency ordering, cycle detection, and missing predecessor rejection
+- Force-run (`triggerNow(id, force=true)`)
+- `IDistributedLock` integration (tryAcquire, skip on lock held by peer)
+- Multi-tenant isolation (MT-01..MT-15): `tenant_id` round-trip, filter, window override, quota enforcement
 
 ## Wissenschaftliche Grundlagen
 

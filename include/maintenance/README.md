@@ -1,19 +1,20 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-15 | Commit: e963d4e9ba -->
 
 # Maintenance Module — Public Headers
 
-Scheduled database maintenance orchestration for ThemisDB: compaction, replica validation, MVCC cleanup, and health reporting.
+Scheduled database maintenance orchestration for ThemisDB: compaction, replica validation, MVCC cleanup, health reporting, RocksDB persistence, DAG dependency graph, distributed lock coordination, and multi-tenant isolation.
 
 ## Header Listing
 
 | Header | Purpose |
 |--------|---------|
-| `database_maintenance_orchestrator.h` | Central maintenance coordinator |
+| `database_maintenance_orchestrator.h` | Central maintenance coordinator; `TenantMaintenanceConfig` |
+| `i_distributed_lock.h` | Distributed lock interface; `InProcessDistributedLock` |
 | `i_maintenance_task_handler.h` | Task handler base interface |
 | `maintenance_task_handler_impls.h` | Built-in handlers (compaction, replica, MVCC, function) |
 | `maintenance_task.h` | Task and dependency types |
-| `maintenance_schedule.h` | Cron-based schedule entry |
-| `maintenance_schedule_store.h` | Schedule CRUD |
+| `maintenance_schedule.h` | Cron-based schedule entry with DAG support |
+| `maintenance_schedule_store.h` | RocksDB-backed schedule CRUD |
 | `maintenance_health_report.h` | Aggregated health reporting |
 
 ## Links

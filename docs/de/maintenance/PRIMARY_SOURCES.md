@@ -1,6 +1,6 @@
 [docs](../../index.md) > [de](../index.md) > [maintenance](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
 **Datum:** 2026-04-15  
-**Status:** draft  
+**Status:** current  
 **Primary (Quelle der Wahrheit):**
 - `include/maintenance/ARCHITECTURE.md`
 - `include/maintenance/AUDIT.md`
