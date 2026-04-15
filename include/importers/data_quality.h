@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            data_quality.h                                     ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:02:47                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:45:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

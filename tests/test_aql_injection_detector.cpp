@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_aql_injection_detector.cpp                    ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:12:10                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:52:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 7cbf9c7b9b  2026-03-12  fix(security): apply reviewer feedback on AQL AST-level v... ║
-    • eb75d79f53  2026-03-12  feat(security): implement AQL AST-level injection validat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

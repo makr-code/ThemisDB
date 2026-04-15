@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_security.h                                  ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:01:37                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • adb14cd81a  2026-03-16  feat(acceleration): implement PE certificate table extrac... ║
-    • e4976f04ef  2026-03-16  feat(acceleration): implement CRL/OCSP certificate revoca... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

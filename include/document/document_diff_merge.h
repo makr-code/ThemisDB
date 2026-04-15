@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            document_diff_merge.h                              ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-15 18:02:29                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-15 18:44:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

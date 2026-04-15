@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            metrics_stream_server.cpp                          ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:08:53                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:49:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     319                                            ║
+    • Total Lines:     318                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • ca2fee65a8  2026-03-13  fix(observability): widen JSON escape reserve and rename ... ║
-    • 67ef436e5f  2026-03-13  fix(observability): address PR review comments on Metrics... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

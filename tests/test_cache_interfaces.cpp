@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cache_interfaces.cpp                          ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:12:38                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:52:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 64a9ae4eb6  2026-03-31  feat: enhance cache warmup logic and improve replication ... ║
-    • 4887d03b44  2026-03-10  feat(cache): close Issue #1596 — 43 unit tests for all 5 ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

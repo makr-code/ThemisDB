@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            join_exporter.h                                    ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 18:02:36                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:44:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • b7791a4eb4  2026-03-16  Changes before error encountered        ║
-    • 5b530b6019  2026-03-16  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

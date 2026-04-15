@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            intelligent_prefetcher.cpp                         ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:09:03                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:49:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

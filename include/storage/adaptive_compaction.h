@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_compaction.h                              ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:05:36                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:47:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

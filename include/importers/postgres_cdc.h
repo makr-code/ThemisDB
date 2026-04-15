@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            postgres_cdc.h                                     ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:02:57                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:45:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

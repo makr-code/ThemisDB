@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            legal_metadata_step.cpp                            ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-04-15 18:08:23                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-04-15 18:49:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     106                                            ║
+    • Total Lines:     116                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

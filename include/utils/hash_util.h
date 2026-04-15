@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hash_util.h                                        ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-15 18:06:27                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 18:47:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

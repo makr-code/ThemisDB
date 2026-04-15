@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_federation.h                                 ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:04:42                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 7811d1486a  2026-03-27  feat: Enhance backward compatibility and legacy support a... ║
     • bc061a79df  2026-03-24  feat(query): QueryFederation shard-key routing v1.9.0 ║
-    • 097e8a5773  2026-03-24  feat(query,sharding): QueryFederation shard-key routing v... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

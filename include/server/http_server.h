@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_server.h                                      ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:05:17                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 040083b025  2026-04-12  feat: StreamingIngestManager, TsStreamCursor, LZ4 compres... ║
     • 9f5c953436  2026-04-07  feat(config): Introduce new hierarchical configuration st... ║
     • 4c09145112  2026-04-07  fix(http_server): correct member declaration order to pre... ║
-    • fc0c65a058  2026-04-07  feat(api/aql): AQL-GraphQL integration – cost model bridg... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

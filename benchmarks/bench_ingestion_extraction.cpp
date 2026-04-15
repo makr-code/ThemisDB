@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_ingestion_extraction.cpp                     ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 18:00:54                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 18:43:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

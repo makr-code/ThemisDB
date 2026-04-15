@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_parallel_executor.cpp                         ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:16:11                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:55:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     523                                            ║
+    • Total Lines:     522                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 9d8c5ce371  2026-03-15  Refactor service mesh API handler to use fully qualified ... ║
-    • c195c25f52  2026-03-14  fix(query): address PR review comments on ParallelExecutor ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

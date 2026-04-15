@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_backend_registry_thread_safety.cpp            ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 18:11:17                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:51:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   80.0/100                                       ║
-    • Total Lines:     264                                            ║
+    • Total Lines:     263                                            ║
     • Open Issues:     TODOs: 0, Stubs: 8                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • 7e7a568152  2026-03-18  fix(test): make BackendRegistry thread-safety tests self-... ║
-    • 5c98acccad  2026-03-18  fix(test): replace autoDetect() writer with lightweight r... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_temporal_aggregator.cpp                       ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:11:52                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:52:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • b3fcb5a661  2026-03-12  fix(temporal): address aggregator review feedback ║
-    • 1aeed84081  2026-03-12  feat(temporal): add GROUP BY, snapshot, and trend analysi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

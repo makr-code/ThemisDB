@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ingestion_plugin_api.cpp                      ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-04-15 18:14:56                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:54:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  ⚫ DRAFT                                        ║
     • Quality Score:   12.0/100                                       ║
-    • Total Lines:     336                                            ║
+    • Total Lines:     335                                            ║
     • Open Issues:     TODOs: 0, Stubs: 22                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

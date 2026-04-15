@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wasm_host_api.h                                    ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:04:10                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:46:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
