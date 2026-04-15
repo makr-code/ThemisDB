@@ -512,6 +512,23 @@ public:
         }
         return results;
     }
+
+    /**
+     * @brief Generate embedding vector for a text query
+     * 
+     * Uses the CLIP text encoder to generate a semantic embedding compatible
+     * with the image embedding space, enabling cross-modal similarity search.
+     * 
+     * @param text Natural language query string (max 77 tokens for CLIP)
+     * @return Embedding result with float vector in the same space as image embeddings
+     */
+    virtual EmbeddingResult generateTextEmbedding(const std::string& text) {
+        // Default: not supported
+        EmbeddingResult result;
+        result.success = false;
+        result.error_message = "Text embedding not supported by this plugin";
+        return result;
+    }
     
     // ========================================================================
     // Management

@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-04-09 -->
+<!-- Status: current | validated: 2026-04-15 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
@@ -6,9 +6,9 @@
 
 ## Current Status
 
-v0.0.2 — `ONNXClipPlugin` implements the full `IImageAnalysisBackend` interface with
-pImpl isolation and multi-backend support (CPU/CUDA/DirectML/TensorRT/AUTO). The public
-API is production-quality. Native batch path and focused tests are in progress.
+v0.1.0 — `ONNXClipPlugin` implements the full `IImageAnalysisBackend` interface with
+pImpl isolation and multi-backend support (CPU/CUDA/DirectML/TensorRT/AUTO). Native
+batch sub-batch splitting and CLIP text encoder are now implemented.
 
 ---
 
@@ -19,37 +19,24 @@ API is production-quality. Native batch path and focused tests are in progress.
 - [x] `initialize(config, backend)` with BackendType selection
 - [x] `AUTO` backend selection: CUDA → TensorRT → DirectML → CPU probe
 - [x] `generateEmbedding()` single-image inference path
-- [x] `generateEmbeddingBatch()` sequential batch wrapper
+- [x] `generateEmbeddingBatch()` with native sub-batch splitting and `max_batch_size` config
+- [x] `generateTextEmbedding()` — CLIP text encoder with BPE-style tokenization
 - [x] `warmup()` pre-compilation of CUDA/TensorRT kernels
 - [x] `healthCheck()` output tensor shape validation
-- [x] `getStatistics()` JSON metrics (calls, avg_latency_ms, backend, model_variant)
+- [x] `getStatistics()` JSON metrics (calls, avg_latency_ms, backend, model_variant, max_batch_size, total_text_inferences)
 - [x] `THEMIS_IMAGE_PLUGIN` macro export for dynamic plugin loading
 - [x] Thread-safe inference via `std::mutex`
+- [x] Unit tests: CPU backend, model load, embedding shape, `healthCheck()` (Target: Q3 2026) — `tests/test_onnx_clip_plugin.cpp` (21 tests, `OnnxClipPluginTests`); registered in `tests/CMakeLists.txt` under `THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX` guard
 
 ---
 
 ## Planned Features
 
-### v0.1.0 — Native Batch and Tests (Target: Q3 2026)
+### v0.2.0 — Integration Tests and Benchmarks (Target: Q3 2026)
 
-- [~] Native batch implementation for `generateEmbeddingBatch()` (Target: Q3 2026)
-  - Inputs: N × image_data; batch tensor shape [N, 3, 224, 224]
-  - Outputs: N × embedding float vectors
-  - Constraints: max batch size 64; OOM → split into sub-batches of 8
-  - Tests: batch result size, per-item success/error handling, output shape and L2 norm
-  - Perf: ≥ 6× speedup vs sequential on RTX-class GPU for batch=64
-- [x] Unit tests: CPU backend, model load, embedding shape, `healthCheck()` (Target: Q3 2026) — `tests/test_onnx_clip_plugin.cpp` (9 tests, `OnnxClipPluginTests`); registered in `tests/CMakeLists.txt` under `THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX` guard (2026-04-08)
 - [ ] Integration tests: ViT-B/32 and ViT-L/14 golden embedding comparison (Target: Q3 2026)
 - [ ] Performance benchmark: ViT-B/32 CPU ≤ 150 ms/image; CUDA ≤ 20 ms/image (Target: Q3 2026)
-
-### v0.2.0 — Text Encoder and Multi-modal Search (Target: Q4 2026)
-
-- [ ] CLIP text encoder support — `generateTextEmbedding(const std::string& text)` (Target: Q4 2026)
-  - ONNX model: `clip_text_encoder_vit_b32.onnx` (tokenizer + transformer)
-  - Output: 512-dim float vector compatible with image embedding space
-  - Tests: cosine similarity of "cat" text vs cat image > 0.25
-- [ ] Shared embedding space validation (image ↔ text cosine similarity > 0.20) (Target: Q4 2026)
-- [ ] Prometheus metrics: `clip_embeddings_total`, `clip_latency_seconds` histogram (Target: Q4 2026)
+- [ ] Prometheus metrics: `clip_embeddings_total`, `clip_latency_seconds` histogram (Target: Q3 2026)
 
 ### v0.3.0 — Production Hardening (Target: Q1 2027)
 
@@ -69,22 +56,23 @@ API is production-quality. Native batch path and focused tests are in progress.
 ### Phase 2: Core Implementation ✅
 - [x] Single-image inference pipeline (decode → preprocess → infer → normalise)
 - [x] Multi-backend initialization (CPU/CUDA/DirectML/TensorRT)
-- [x] `generateEmbeddingBatch()` sequential wrapper
+- [x] `generateEmbeddingBatch()` with sub-batch splitting and `max_batch_size` config
+- [x] `generateTextEmbedding()` with BPE-style tokenization
 
 ### Phase 3: Error Handling & Edge Cases ✅
 - [x] Model file not found → `initialize()` returns `false`
 - [x] Image decode failure → `EmbeddingResult{ok=false}`
 - [x] CUDA unavailable → falls back to CPU in AUTO mode
 - [x] Session Run exception → caught; error result returned
+- [x] Empty text input → `EmbeddingResult{ok=false}`
 
 ### Phase 4: Tests [~]
-- [x] Unit tests for CPU backend and embedding shape (Target: Q3 2026)
-- [x] Added `tests/test_onnx_clip_plugin.cpp` and registered `OnnxClipPluginTests` (9 tests, 2026-04-08)
+- [x] Unit tests for CPU backend and embedding shape (21 tests covering image embedding, text embedding, batch splitting, ViT-L/14 768-dim)
 - [ ] Integration tests with real ONNX models (Target: Q3 2026)
 
 ### Phase 5: Performance / Hardening [ ]
-- [ ] Native batched session (Target: Q3 2026)
 - [ ] Perf benchmark (Target: Q3 2026)
+- [ ] Prometheus metrics (Target: Q3 2026)
 
 ### Phase 6: Documentation & Acceptance ✅
 - [x] README, ARCHITECTURE, AUDIT, CHANGELOG, ROADMAP, SECURITY, FUTURE_ENHANCEMENTS
@@ -100,15 +88,17 @@ API is production-quality. Native batch path and focused tests are in progress.
 | Thread safety | ✅ | Mutex-serialised session runs |
 | Error handling | ✅ | All failure paths return error results |
 | Multi-backend | ✅ | CPU / CUDA / DirectML / TensorRT / AUTO |
-| Batch inference | ⚠️ | Sequential only; native batch planned Q3 2026 |
-| Text encoder | ❌ | Planned Q4 2026 |
-| Unit/integration tests | ⚠️ | Unit tests added; integration tests still pending |
+| Batch inference | ✅ | Sub-batch splitting with `max_batch_size` config |
+| Text encoder | ✅ | `generateTextEmbedding()` with BPE tokenization |
+| Unit/integration tests | ⚠️ | 21 unit tests; integration tests still pending |
 | Performance benchmarks | ❌ | Planned Q3 2026 |
+| Prometheus metrics | ❌ | Planned Q3 2026 |
 
 ---
 
 ## Known Issues & Limitations
 
-- `generateEmbeddingBatch()` iterates single calls; not suitable for high-throughput batching.
+- Integration tests with real ViT-B/32 / ViT-L/14 ONNX model files still pending.
 - DirectML backend requires Windows; silently falls back to CPU on Linux.
 - No ONNX model integrity verification (hash check) on load.
+- Prometheus metrics not yet wired.
