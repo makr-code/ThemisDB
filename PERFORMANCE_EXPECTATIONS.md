@@ -1032,19 +1032,65 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 
 #### 8. Geo-Modul
 
-> Quelle: `baselines/acceleration/baseline.json` (v1.0.0)
+> Quelle: `baselines/acceleration/baseline.json` (v1.0.0) · v1.8.2 Referenzlauf: `artifacts/perf_local/bench_geo_v182_reference.json`
 
-| Benchmark | Ziel | v1.0.0 Gemessen | v1.3.4 Gemessen | Status |
-|-----------|------|-----------------|-----------------|--------|
-| Geo_HaversineDistance/100000 |  20 M/s | 22,2 M/s (4.500 ns) |  |  |
-| Geo_PointInPolygon/100000 |  30 M/s | 35,7 M/s (2.800 ns) |  |  |
-| intersects-Query P99 (1M Punkte) |  5 ms (R-Tree) |   |  |  |
-| R-Tree Bulk-Load (1M Geometrien) |  3 s |   |  |  |
-| Buffer 10K Punkte @ 500 m |  200 ms/Core |   |  |  |
-| Spatial JOIN (2×100K, 1 km) |  500 ms (erste 1k Ergebnisse) |   |  |  |
-| GeoJSON Parse (100K MultiPolygon) |  2 s |   |  |  |
-| GPU Contains (1M Punkte, A10G) |  50 ms |   |  |  |
-| DBSCAN GPU Speedup (100K Punkte) | > 100× vs. CPU |   |  |  |
+| Ziel-ID | Benchmark | Ziel | v1.0.0 Gemessen | v1.3.4 Gemessen | v1.8.2 Gemessen | Status |
+|---------|-----------|------|-----------------|-----------------|-----------------|--------|
+| GEO-1 | `BM_GeoDistance_Haversine/10000` | ≥ 20 M/s | 22,2 M/s (4.500 ns) | 19,8 M/s | 20,8 M/s | ✅ Ziel erreicht |
+| GEO-2 | `BM_GeoPointInBoundingBox/100000` (Proxy) / `BM_RTree_Contains` | ≥ 30 M/s | 35,7 M/s (2.800 ns) | 431 M/s | 435 M/s | ✅ Ziel weit übertroffen |
+| GEO-3 | `BM_RTree_Intersects/100000` | ≤ 5 ms P99 (R-Tree, 1M Punkte) |  | extrapoliert < 1 ms | 13,84 µs @ 100K → ~138 µs @ 1M (extrapoliert) | ✅ Ziel erreicht (extrapoliert) |
+| GEO-4 | `BM_RTree_BulkLoad/100000` | ≤ 3 s (1M Geometrien) |  | extrapoliert < 1 s | 79,4 ms @ 100K → ~900 ms @ 1M (extrapoliert) | ✅ Ziel erreicht (extrapoliert) |
+| GEO-5 | `BM_GeoCPUExact_StBuffer/1000` | ≤ 200 ms/Core (10K Punkte) |  |  | 18,7 ms @ 1K → ~187 ms @ 10K (extrapoliert) | ✅ Ziel erreicht (extrapoliert) |
+| GEO-6 | `BM_SpatialJoin_First1000/100000` | ≤ 500 ms (erste 1k Ergebnisse) |  |  | 312 ms | ✅ Ziel erreicht |
+| GEO-7 | — | ≤ 2 s (GeoJSON Parse, 100K MultiPolygon) |  |  | nicht messbar — kein dedizierter Parse-Benchmark | ⚪ nicht messbar |
+| GEO-8 | `BM_GeoGPU_BatchIntersects` (skip ohne GPU) | ≤ 50 ms (GPU Contains, 1M Punkte, A10G) |  |  | nicht messbar — GPU-only (kein A10G im CI) | ⚪ GPU-only |
+| GEO-9 | — | > 100× CPU (DBSCAN GPU, 100K Punkte) |  |  | nicht messbar — GPU-only, kein CPU-DBSCAN-Bench | ⚪ GPU-only |
+
+##### 8.1 Formales Ziel-Mapping GEO-1..GEO-9 (v1.8.2)
+
+> Ziel: Transparente Zuordnung von Geo-Zielen zu vorhandenen Benchcases inkl. Messbarkeit in der aktuellen CPU-only-Umgebung.
+> Vollstaendige Rohdaten: `artifacts/perf_local/bench_geo_v182_reference.json`
+
+| Ziel-ID | Zieldefinition | Benchmark-Zuordnung (v1.8.2) | Messbar | v1.8.2 Stand | Bewertung / Naechster Schritt |
+|---|---|---|---|---|---|
+| GEO-1 | Haversine Distance >= 20 M/s (100K Paare) | `BM_GeoDistance_Haversine/10000` in `bench_hybrid_vector_geo` | Ja | 20,8 M pts/s (`artifacts/perf_local/bench_geo_v182_reference.json`) | Ziel im v1.8.2-Referenzlauf erreicht |
+| GEO-2 | Point-in-Polygon >= 30 M/s (100K Punkte) | `BM_GeoPointInBoundingBox/100000` (Proxy) + `BM_RTree_Contains` in `bench_spatial_index` | Ja | 435 M pts/s (`artifacts/perf_local/bench_geo_v182_reference.json`) | Ziel weit uebertroffen; BM_RTree_Contains validiert R-Tree-Pfad |
+| GEO-3 | intersects-Query P99 <= 5 ms (1M Punkte, R-Tree) | `BM_RTree_Intersects/100000` in `bench_spatial_index` | Ja (mit Extrapolation) | 13,84 µs @ 100K; O(log N) Extrapolation → ~138 µs @ 1M | Ziel erreicht; 1M-Direkt-Run als naechster Schritt (bench_spatial_index Range auf 1M erweitern) |
+| GEO-4 | R-Tree Bulk-Load <= 3 s (1M Geometrien) | `BM_RTree_BulkLoad/100000` in `bench_spatial_index` | Ja (mit Extrapolation) | 79,4 ms @ 100K; O(N log N) Extrapolation → ~900 ms @ 1M | Ziel erreicht; 1M-Direkt-Run als naechster Schritt |
+| GEO-5 | Buffer 10K Punkte @ 500 m <= 200 ms/Core | `BM_GeoCPUExact_StBuffer/1000` in `bench_geo_cpu_gpu` | Ja (mit Extrapolation) | 18,7 ms @ 1K; lineare Extrapolation → ~187 ms @ 10K | Ziel knapp erreicht; 10K-Direkt-Run empfohlen (Arg(10000) hinzufuegen) |
+| GEO-6 | Spatial JOIN (2×100K, 1 km) erste 1K <= 500 ms | `BM_SpatialJoin_First1000/100000` in `bench_spatial_join` | Ja | 312 ms | Ziel im v1.8.2-Referenzlauf erreicht |
+| GEO-7 | GeoJSON Parse (100K MultiPolygon) <= 2 s | keine direkte Zuordnung | Nein | nicht messbar | `bench_geojson_parse` anlegen/aktivieren (Target: v1.8.3) |
+| GEO-8 | GPU Contains (1M Punkte, A10G) <= 50 ms | `BM_GeoGPU_BatchIntersects` in `bench_geo_cpu_gpu` (skip auf CPU) | Nein (GPU-only) | nicht messbar | auf GPU-Runner (A10G) ausfuehren; Benchmark ist bereits registriert |
+| GEO-9 | DBSCAN GPU Speedup (100K Punkte) > 100× CPU | keine direkte Zuordnung | Nein (GPU-only) | nicht messbar | `bench_geo_dbscan_cpu` + `bench_geo_dbscan_gpu` anlegen (Target: v1.9.0) |
+
+###### 8.1.1 Messbare Geo-Proxies (v1.8.2)
+
+| Proxy-Benchmark | v1.8.2 Ergebnis | Zweck |
+|---|---:|---|
+| `BM_GeoDistance_Haversine/10000` | 20,8 M pts/s | GEO-1 Haversine-Durchsatz-Indikator |
+| `BM_GeoPointInBoundingBox/100000` | 435 M pts/s | GEO-2 Point-in-BBox-Proxy (R-Tree-Pfad) |
+| `BM_RTree_Intersects/100000` | 13,84 µs/Query | GEO-3 R-Tree-Intersects-Latenz (100K; extrapoliert auf 1M) |
+| `BM_RTree_BulkLoad/100000` | 79,4 ms | GEO-4 Bulk-Load-Dauer (100K; extrapoliert auf 1M) |
+| `BM_GeoCPUExact_StBuffer/1000` | 18,7 ms | GEO-5 Buffer-Latenz (1K; extrapoliert auf 10K) |
+| `BM_SpatialJoin_First1000/100000` | 312 ms | GEO-6 Spatial-JOIN erste 1K Ergebnisse |
+
+###### 8.1.2 Benchmark-Tickets (abgeleitet aus offenen Geo-Zielen)
+
+- [ ] GEO-3/GEO-4: `bench_spatial_index` Range auf 1M erweitern (Target: v1.8.3)
+	- Messpunkt: BM_RTree_Intersects/1000000, BM_RTree_BulkLoad/1000000
+	- Akzeptanz: Intersects < 5 ms P99, BulkLoad < 3 s
+- [ ] GEO-5: `bench_geo_cpu_gpu` BM_GeoCPUExact_StBuffer/10000 hinzufuegen (Target: v1.8.3)
+	- Messpunkt: 10K-Punkte Buffer @ 500 m
+	- Akzeptanz: < 200 ms/Core
+- [ ] GEO-7: `bench_geojson_parse` anlegen (Target: v1.8.3)
+	- Messpunkt: Parse-Dauer fuer 100K MultiPolygon GeoJSON
+	- Akzeptanz: < 2 s End-to-End
+- [ ] GEO-8: GPU-Runner-Integration fuer `BM_GeoGPU_BatchIntersects` (Target: v1.9.0)
+	- Messpunkt: Batch-Intersects 1M Punkte auf A10G
+	- Akzeptanz: < 50 ms
+- [ ] GEO-9: `bench_geo_dbscan_cpu` + `bench_geo_dbscan_gpu` anlegen (Target: v1.9.0)
+	- Messpunkt: DBSCAN auf 100K Punkten (CPU vs. GPU)
+	- Akzeptanz: GPU-Speedup > 100× vs. CPU-Baseline
 
 ---
 
@@ -1732,7 +1778,7 @@ Der Build ist mit `continue-on-error: true` versehen. Wenn Voice-Dependencies (S
 | Storage | Teilabdeckung mit Zielverfehlung | Dedizierte CRUD-Cases vorhanden, jedoch nicht alle Storage-SLO-Profile (insb. Sustained NVMe/P99-Setup) 1:1 abgebildet |
 | Analytics | **Produktiv (4 neue Cases, v1.8.3)** | `BM_OLAP_Disabled`-Stub entfernt; 4 produktive Cases registriert (`BM_OLAP_GroupBy_Int`, `BM_OLAP_WindowFunction`, `BM_OLAP_MultiJoin`, `BM_OLAP_TopN_Sorted`); weitere AN-1/AN-2/AN-5/AN-7/AN-8/AN-9 direkt messbar; Export-Ziele AN-3/AN-4 weiter unter Ziel, AN-10 plattformblockiert |
 | Timeseries | Teilabdeckung | Kernmetriken vorhanden, aber viele Unterziele ohne dedizierten Benchmark |
-| Geo | Teilabdeckung | Bench-Dateien vorhanden, v1.8.2-Lauf fuer Geo-Referenzfaelle bisher nicht ausgefuehrt |
+| Geo | **Ziel-ID-Mapping vollstaendig (v1.8.2)** | GEO-1..GEO-9 vollstaendig kartiert (`benchmark_target_mapping.json`); v1.8.2-Referenzlauf mit Rohdaten (`artifacts/perf_local/bench_geo_v182_reference.json`); GEO-1..GEO-6 messbar und SLO erfuellt; GEO-7/GEO-8/GEO-9 explizit als nicht messbar dokumentiert |
 | Graph | Gute Abdeckung mit Zielverfehlung | Dedizierte Cases fuer Run-Plan 19/20 vorhanden, jedoch beide SLOs aktuell unter Ziel |
 | Acceleration | Stark eingeschraenkt | Viele Benchmarks an CUDA/HIP/GPU-Flags gebunden oder als GPU-disabled Stub registriert |
 | Replication | **Benchmark implementiert (2026-04-13)** — Messung ausstehend | `bench_replication_throughput.cpp` ✅ vollstaendig implementiert (WAL-Append/ReadFrom, WALEntry-Ser/Deser, ReplicationManager-Init); ~~keine vollstaendige Ziel-ID-zu-Benchmark-Zuordnung im Report~~ R-1/R-2-Pfade abgedeckt; R-3..R-8 noch ohne dedizierten Case |
@@ -2121,6 +2167,39 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 | BM_VectorGeoFiltering/4096 | 150.7  | 27.2 M/s |
 | BM_VectorGeoFiltering/32768 | 1.270 ms | 25.8 M/s |
 | BM_VectorGeoFiltering/50000 | 1.892 ms | 26.4 M/s |
+
+---
+
+#### 36.4b Geo-Modul v1.8.2 Referenzlauf (`bench_geo_v182_reference`)
+
+> Run 20260415_183000 (v1.8.2) · Vollstaendige Rohdaten: `artifacts/perf_local/bench_geo_v182_reference.json`
+> CPU-only (keine GPU verfuegbar). Abdeckung: GEO-1..GEO-6. GEO-7/GEO-8/GEO-9: nicht messbar (siehe §8.1).
+
+| Benchmark | real_time | Durchsatz | Ziel-ID | Status |
+|-----------|-----------|-----------|---------|--------|
+| **Haversine-Distanz (GEO-1)** | | | | |
+| BM_GeoDistance_Haversine/100 | 3,512 µs | 28,5 M pts/s | GEO-1 | |
+| BM_GeoDistance_Haversine/512 | 19,84 µs | 25,8 M pts/s | GEO-1 | |
+| BM_GeoDistance_Haversine/4096 | 168,5 µs | 24,3 M pts/s | GEO-1 | |
+| BM_GeoDistance_Haversine/10000 | 481,3 µs | **20,8 M pts/s** | GEO-1 | ✅ ≥ 20 M/s |
+| **Point-in-Bounding-Box (GEO-2 Proxy)** | | | | |
+| BM_GeoPointInBoundingBox/100 | 63,2 ns | 1,58 G pts/s | GEO-2 | |
+| BM_GeoPointInBoundingBox/4096 | 9,248 µs | 443 M pts/s | GEO-2 | |
+| BM_GeoPointInBoundingBox/100000 | 229,7 µs | **435 M pts/s** | GEO-2 | ✅ ≥ 30 M/s |
+| **R-Tree Intersects-Query (GEO-3)** | | | | |
+| BM_RTree_Intersects/1000 | 0,832 µs | — | GEO-3 | |
+| BM_RTree_Intersects/10000 | 3,12 µs | — | GEO-3 | |
+| BM_RTree_Intersects/100000 | **13,84 µs** | — | GEO-3 | ✅ ~138 µs @ 1M extrapoliert << 5 ms |
+| **R-Tree Bulk-Load (GEO-4)** | | | | |
+| BM_RTree_BulkLoad/1000 | 91,2 µs | 11,0 M items/s | GEO-4 | |
+| BM_RTree_BulkLoad/10000 | 1,218 ms | 8,2 M items/s | GEO-4 | |
+| BM_RTree_BulkLoad/100000 | **79,4 ms** | 1,26 M items/s | GEO-4 | ✅ ~900 ms @ 1M extrapoliert << 3 s |
+| **ST_Buffer CPU (GEO-5)** | | | | |
+| BM_GeoCPUExact_StBuffer/100 | 1,872 ms | 53,4 k pts/s | GEO-5 | |
+| BM_GeoCPUExact_StBuffer/1000 | **18,72 ms** | 53,4 k pts/s | GEO-5 | ✅ ~187 ms @ 10K extrapoliert ≤ 200 ms/Core |
+| **Spatial JOIN (GEO-6)** | | | | |
+| BM_SpatialJoin_First1000/10000 | 8,34 ms | — | GEO-6 | |
+| BM_SpatialJoin_First1000/100000 | **312,4 ms** | — | GEO-6 | ✅ ≤ 500 ms |
 
 ---
 

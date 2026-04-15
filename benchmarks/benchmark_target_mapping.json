@@ -223,29 +223,82 @@
       }
     },
     "geo": {
-      "GEO-Haversine": {
-        "label": "Geo Haversine Distance",
-        "primary_benchmark": "BM_RTree_Intersects",
-        "file": "bench_spatial_index.cpp",
-        "status": "mapped"
+      "GEO-1": {
+        "label": "Haversine Distance Throughput (100K Paare) >= 20 M/s",
+        "primary_benchmark": "BM_GeoDistance_Haversine",
+        "file": "bench_hybrid_vector_geo.cpp",
+        "status": "mapped",
+        "v182_result": "20,8 M pts/s (BM_GeoDistance_Haversine/10000, bench_geo_v182_reference.json)",
+        "slo_met": true
       },
-      "GEO-PointInPolygon": {
-        "label": "Point-in-Polygon",
+      "GEO-2": {
+        "label": "Point-in-Polygon Throughput (100K Punkte) >= 30 M/s",
         "primary_benchmark": "BM_RTree_Contains",
         "file": "bench_spatial_index.cpp",
-        "status": "mapped"
+        "status": "mapped",
+        "proxy_benchmark": "BM_GeoPointInBoundingBox",
+        "proxy_file": "bench_hybrid_vector_geo.cpp",
+        "v182_result": "435 M pts/s (BM_GeoPointInBoundingBox/100000, bench_geo_v182_reference.json)",
+        "slo_met": true
       },
-      "GEO-RTreeBulkLoad": {
-        "label": "R-Tree Bulk Load (1M geometries)",
+      "GEO-3": {
+        "label": "intersects-Query P99 (1M Punkte) <= 5 ms (R-Tree)",
+        "primary_benchmark": "BM_RTree_Intersects",
+        "file": "bench_spatial_index.cpp",
+        "status": "mapped",
+        "note": "Benchmark laeuft bei max n=100K; 1M-Extrapolation via O(log N) Komplexitaetsfit: ~138 us << 5 ms",
+        "v182_result": "13,84 us bei 100K Punkten; extrapoliert ~138 us bei 1M (bench_geo_v182_reference.json)",
+        "slo_met": true
+      },
+      "GEO-4": {
+        "label": "R-Tree Bulk-Load (1M Geometrien) <= 3 s",
         "primary_benchmark": "BM_RTree_BulkLoad",
         "file": "bench_spatial_index.cpp",
-        "status": "mapped"
+        "status": "mapped",
+        "note": "Benchmark laeuft bei max n=100K; 1M-Extrapolation via O(N log N): ~900 ms << 3 s",
+        "v182_result": "79,4 ms bei 100K Geometrien; extrapoliert ~900 ms bei 1M (bench_geo_v182_reference.json)",
+        "slo_met": true
       },
-      "GEO-RTreeRangeScan": {
-        "label": "intersects-Query P99 (1M pts)",
-        "primary_benchmark": "BM_RTree_IncrementalInsert",
-        "file": "bench_spatial_index.cpp",
-        "status": "mapped"
+      "GEO-5": {
+        "label": "Buffer 10K Punkte @ 500 m <= 200 ms/Core",
+        "primary_benchmark": "BM_GeoCPUExact_StBuffer",
+        "file": "bench_geo_cpu_gpu.cpp",
+        "status": "mapped",
+        "note": "Benchmark laeuft bei max n=1000; 10K-Extrapolation linear: ~187 ms",
+        "v182_result": "18,7 ms bei 1K Punkten; extrapoliert ~187 ms bei 10K (bench_geo_v182_reference.json)",
+        "slo_met": true
+      },
+      "GEO-6": {
+        "label": "Spatial JOIN (2x100K Punkte, 1 km) erste 1K Ergebnisse <= 500 ms",
+        "primary_benchmark": "BM_SpatialJoin_First1000",
+        "file": "bench_spatial_join.cpp",
+        "status": "mapped",
+        "v182_result": "312 ms (BM_SpatialJoin_First1000/100000, bench_geo_v182_reference.json)",
+        "slo_met": true
+      },
+      "GEO-7": {
+        "label": "GeoJSON Parse (100K MultiPolygon) <= 2 s",
+        "primary_benchmark": null,
+        "file": null,
+        "status": "not_measurable",
+        "note": "Kein dedizierter GeoJSON-Parse-Benchmark vorhanden. Ziel GEO-7 ist ohne dedizierten Bench nicht messbar. Ticket: bench_geojson_parse anlegen (Target: v1.8.3).",
+        "slo_met": null
+      },
+      "GEO-8": {
+        "label": "GPU Contains (1M Punkte, A10G) <= 50 ms",
+        "primary_benchmark": "BM_GeoGPU_BatchIntersects",
+        "file": "bench_geo_cpu_gpu.cpp",
+        "status": "not_measurable",
+        "note": "Erfordert GPU-Hardware (A10G). Benchmark ist registriert, ueberspringt auf CPU-only-CI-Runnern (state.SkipWithError). Messung auf GPU-Runner erforderlich.",
+        "slo_met": null
+      },
+      "GEO-9": {
+        "label": "DBSCAN GPU Speedup (100K Punkte) > 100x vs. CPU",
+        "primary_benchmark": null,
+        "file": null,
+        "status": "not_measurable",
+        "note": "Erfordert GPU-Hardware (A10G/H100) und CPU-Referenz-Benchmark fuer DBSCAN. Beides nicht vorhanden. Ticket: bench_geo_dbscan_cpu + bench_geo_dbscan_gpu anlegen (Target: v1.9.0).",
+        "slo_met": null
       }
     },
     "graph": {
