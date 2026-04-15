@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            connection_compression.h                           ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 05:35:34                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 07:07:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 0ee0d57254  2026-03-14  fix(network): address PR review comments on wire protocol... ║
     • 543f66e654  2026-03-14  feat(network): implement wire protocol performance optimi... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

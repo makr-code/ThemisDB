@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_audit_log.h                                 ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-15 05:33:49                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-15 07:06:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • aeb43de031  2026-04-12  feat(config): create include/config/ public header direct... ║
     • 8aa77a0ee1  2026-03-16  fix(config): atomic enabled_ flag + concurrency stress te... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

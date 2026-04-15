@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_auth_anomaly_detection.cpp                    ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 05:47:37                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 07:16:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 5049fdc568  2026-03-12  fix(auth): address PR review comments on credential stuff... ║
     • 9de8da16fa  2026-03-12  feat(auth): implement credential stuffing persistent cros... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

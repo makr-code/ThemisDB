@@ -3,19 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            error_registry.cpp                                 ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:45:34                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:15:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   90.0/100                                       ║
-    • Total Lines:     1632                                           ║
+    • Total Lines:     1784                                           ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • be815fa144  2026-04-15  feat(document): IDocumentStore, IDocumentManager, lifecyc... ║
     • ab3b22a88e  2026-03-09  feat(query): implement query cancellation via request ID ... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

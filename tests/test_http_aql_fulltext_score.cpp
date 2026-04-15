@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_http_aql_fulltext_score.cpp                   ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:50:48                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:18:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

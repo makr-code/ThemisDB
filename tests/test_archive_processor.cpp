@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_archive_processor.cpp                         ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:47:32                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:16:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     532                                            ║
+    • Total Lines:     531                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2737ade5bb  2026-03-11  fix(content/security): audit corrections - test rename, z... ║
     • 1bacdae51e  2026-03-11  fix(content/security): add zip-bomb protection in archive... ║
-    • c613ea7a9e  2026-03-04  Refactor error masking and enhance archive processor vali... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

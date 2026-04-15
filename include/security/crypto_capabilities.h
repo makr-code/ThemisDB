@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            crypto_capabilities.h                              ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:37:28                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:09:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • d9d75ee094  2026-03-01  feat(security): implement FIPS 140-2/3 validated cryptogr... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

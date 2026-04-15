@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_token_blacklist_persistence.cpp               ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 05:56:24                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 07:22:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

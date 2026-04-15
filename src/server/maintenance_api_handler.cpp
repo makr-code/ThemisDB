@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            maintenance_api_handler.cpp                        ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 05:44:12                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 07:14:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     218                                            ║
+    • Total Lines:     217                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • f1b8c76ed7  2026-04-13  feat(maintenance): multi-tenant schedule isolation (v2.0.... ║
     • 12bb69b756  2026-04-13  feat(maintenance): multi-tenant schedule isolation (v2.0.... ║
     • 717093f9bc  2026-03-12  feat: implement IMaintenanceTaskHandler registry for main... ║
-    • a63629a5c5  2026-03-12  feat: Force-Run Endpoint Window Override (v1.1.0) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

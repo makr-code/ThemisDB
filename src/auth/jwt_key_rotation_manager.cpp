@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            jwt_key_rotation_manager.cpp                       ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:40:35                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:11:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 67965456c8  2026-03-22  Add constructors with default config for various classes ... ║
     • 6be7ad5fda  2026-03-12  fix(auth): address PR review comments on secure_memory ║
     • 45126cc05c  2026-03-12  refactor(auth): improve secure memory destructor comments... ║
-    • 7d76228b3c  2026-03-12  feat(auth): implement secure memory for key material (v1.... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

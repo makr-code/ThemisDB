@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graphql.cpp                                        ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:40:25                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:11:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 6b7cdac827  2026-04-07  chore: plan variable substitution fix + doc update ║
     • fc0c65a058  2026-04-07  feat(api/aql): AQL-GraphQL integration – cost model bridg... ║
     • dac91fef60  2026-04-04  Add local production readiness checklist and OpenAPI comp... ║
-    • 13e4bb2974  2026-03-26  Enhance GraphQL Performance Tests and Saga Operation Comp... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            secondary_index.cpp                                ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:41:42                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:12:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     4552                                           ║
+    • Total Lines:     4551                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 8332e5afa3  2026-04-13  Refactor and update various components for improved compa... ║
     • aab4886b64  2026-04-13  perf(index): cache fulltext-configs, ttl-seconds, composi... ║
     • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
-    • 8fc0b58946  2026-03-14  refactor(index): address code review - fix DeltaEncoder d... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

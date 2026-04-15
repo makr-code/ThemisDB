@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            columnar_execution.h                               ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 05:32:56                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 07:05:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

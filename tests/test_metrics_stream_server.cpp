@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_metrics_stream_server.cpp                     ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 05:52:15                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 07:19:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • e7d6bc4555  2026-03-13  feat(tests): add focused tests for consistent hash distri... ║
     • ca2fee65a8  2026-03-13  fix(observability): widen JSON escape reserve and rename ... ║
     • 67ef436e5f  2026-03-13  fix(observability): address PR review comments on Metrics... ║
-    • 413813f622  2026-03-13  feat(observability): implement real-time streaming metric... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ethics_evaluator.h                                 ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 05:40:58                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 07:11:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 87778519a4  2026-04-12  feat(ethics_ai): remove stubs — computed scoring, YAML fi... ║
     • 32f246a038  2026-04-08  feat(ethics_ai): enhance plugin configuration and overrid... ║
     • 9ab72c5089  2026-03-12  refactor: flatten plugin hierarchy to src/<name>/ and inc... ║
-    • acdb250dbf  2026-03-12  feat: migrate plugins to src/include with CMake switches ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

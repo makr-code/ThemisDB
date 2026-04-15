@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            verify_benchmark_mapping.py                        ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-15 05:58:34                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 07:24:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     385                                            ║
+    • Total Lines:     384                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • c1f4adb6a9  2026-04-15  fix(benchmarks): enforce goal-to-benchmark mapping for mo... ║
     • 904e201be9  2026-04-14  fix(benchmarks): standardize goal-ID→benchmark mapping, f... ║
     • 1f89357bb7  2026-04-14  fix(benchmarks): standardize goal-ID→benchmark mapping, f... ║
     • 5d4629af87  2026-04-13  feat(perf): add benchmark target mapping, verify script, ... ║

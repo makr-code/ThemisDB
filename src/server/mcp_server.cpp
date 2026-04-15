@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mcp_server.cpp                                     ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:44:12                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:14:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   71.0/100                                       ║
-    • Total Lines:     2368                                           ║
+    • Total Lines:     2367                                           ║
     • Open Issues:     TODOs: 0, Stubs: 3                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            compaction_manager.cpp                             ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 05:44:39                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 07:14:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 0fe58628b4  2026-03-14  fix: address code review feedback for AdaptiveCompactionS... ║
     • 229b864396  2026-03-14  feat(storage): implement AdaptiveCompactionScheduler (v1.... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

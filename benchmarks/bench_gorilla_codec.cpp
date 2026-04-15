@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_gorilla_codec.cpp                            ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-15 05:31:42                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 07:04:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_auto_labeler_production.cpp                   ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:47:40                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:16:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • c6daefeb71  2026-03-15  fix: add mean confidence per modality to THEMIS_INFO log;... ║
     • f499362b11  2026-03-11  feat(training): wire LegalAutoLabeler DB fetch to AQL que... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

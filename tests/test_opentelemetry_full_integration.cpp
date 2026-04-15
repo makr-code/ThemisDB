@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_opentelemetry_full_integration.cpp            ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 05:52:53                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 07:20:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

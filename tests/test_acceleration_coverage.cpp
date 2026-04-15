@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_acceleration_coverage.cpp                     ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 05:46:54                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 07:16:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 9b3ffd6f0a  2026-03-11  feat(acceleration): implement DirectX 12 compute shader b... ║
     • f82bf2ae9f  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

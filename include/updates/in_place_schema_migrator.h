@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            in_place_schema_migrator.h                         ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 05:39:08                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 07:10:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     224                                            ║
+    • Total Lines:     223                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

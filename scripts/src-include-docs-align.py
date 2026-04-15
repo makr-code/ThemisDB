@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            src-include-docs-align.py                          ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-15 05:40:15                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-15 07:11:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

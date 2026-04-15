@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_importer_throughput.cpp                      ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:31:45                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:04:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   82.0/100                                       ║
-    • Total Lines:     1119                                           ║
+    • Total Lines:     1118                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • c0a50c2caf  2026-03-19  Refactor build flags, IO, benchmarks & tests ║
     • d3edcb49cd  2026-03-15  fix(importers): fix empty tuple_str fallback in test delt... ║
     • 786e4a8dfe  2026-03-15  feat(importers): incremental import, MySQL benchmark, Mon... ║
-    • ceb71780fe  2026-03-15  audit(importers): add ImportConfig conflict field tests (... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

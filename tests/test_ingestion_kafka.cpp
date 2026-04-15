@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ingestion_kafka.cpp                           ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 05:51:04                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 07:19:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • ccd04f5f7c  2026-03-13  fix(ingestion): Add AC-6/AC-7 throughput and latency test... ║
     • b2a2c74ed3  2026-03-13  feat(ingestion): Kafka Consumer Source Connector - checkp... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

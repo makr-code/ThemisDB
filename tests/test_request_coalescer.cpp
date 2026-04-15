@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_request_coalescer.cpp                         ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-15 05:54:55                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-15 07:21:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

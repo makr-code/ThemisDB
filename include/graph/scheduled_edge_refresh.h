@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            scheduled_edge_refresh.h                           ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 05:34:26                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 07:06:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 89945cb4d4  2026-03-22  feat(graph): ANN-accelerated candidate discovery + CEP ca... ║
     • 1795733ac6  2026-03-21  Changes before error encountered        ║
     • bbaa6edd8e  2026-03-11  feat(graph): close issue gaps for ScheduledGraphEdgeRefre... ║
-    • 87955cec99  2026-03-11  feat(graph): implement ScheduledGraphEdgeRefreshEngine mo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

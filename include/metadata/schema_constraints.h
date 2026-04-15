@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            schema_constraints.h                               ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:35:31                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:07:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

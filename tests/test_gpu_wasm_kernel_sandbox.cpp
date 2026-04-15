@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_wasm_kernel_sandbox.cpp                   ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 05:50:24                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 07:18:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5139a04e10  2026-02-26  feat(gpu): WASM-based GPU kernel sandbox for untrusted th... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

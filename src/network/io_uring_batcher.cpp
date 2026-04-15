@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            io_uring_batcher.cpp                               ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-15 05:42:13                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-15 07:12:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

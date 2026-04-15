@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hardware_telemetry.h                               ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-15 05:39:08                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-15 07:10:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

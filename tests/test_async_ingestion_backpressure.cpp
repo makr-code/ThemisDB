@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_async_ingestion_backpressure.cpp              ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 05:47:34                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 07:16:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • ba22b5bb24  2026-03-13  fix(backpressure): stabilize overload metrics test and al... ║
     • 517f27fd73  2026-03-11  feat(content): Add back-pressure metrics for ingestStream... ║
     • 738fd45570  2026-03-11  fix(content): audit fixes for back-pressure implementatio... ║
-    • fd07379dde  2026-03-11  feat(content): implement back-pressure in async_ingestion... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

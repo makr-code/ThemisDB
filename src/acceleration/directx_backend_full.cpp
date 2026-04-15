@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            directx_backend_full.cpp                           ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:40:20                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:11:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 1ae2010848  2026-03-11  audit: fix post-implementation review findings for Direct... ║
     • 9b3ffd6f0a  2026-03-11  feat(acceleration): implement DirectX 12 compute shader b... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

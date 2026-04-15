@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            redis_token_blacklist.h                            ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 05:33:28                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 07:06:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

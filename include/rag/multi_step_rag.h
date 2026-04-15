@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multi_step_rag.h                                   ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-15 05:37:04                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-15 07:08:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

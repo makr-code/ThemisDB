@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_tenant_buffer_manager.cpp                     ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:56:14                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:22:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • c01cf83bc8  2026-03-11  fix(cdc): fix DB type mismatch in test_tenant_buffer_mana... ║
     • a3ec4aa9e9  2026-03-10  refactor: update tenant metrics handling and improve modu... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            warmup.cpp                                         ║
-  Version:         0.0.17                                             ║
-  Last Modified:   2026-04-15 05:40:43                                ║
+  Version:         0.0.18                                             ║
+  Last Modified:   2026-04-15 07:11:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     570                                            ║
+    • Total Lines:     569                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 64a9ae4eb6  2026-03-31  feat: enhance cache warmup logic and improve replication ... ║
     • 5942e7d691  2026-03-30  Fix warmupFromLog to enforce max_entries accurately and i... ║
     • 9c4b80d3bc  2026-03-22  Refactor AdaptiveQueryCache: Remove unused warmup functio... ║
-    • 20a1e4a441  2026-03-15  refactor(cache): address code review on warmup parallel b... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

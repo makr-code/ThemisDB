@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            compaction_manager.h                               ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 05:38:15                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 07:09:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

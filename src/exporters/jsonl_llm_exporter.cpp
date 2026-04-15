@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            jsonl_llm_exporter.cpp                             ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:41:03                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:11:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 44514d5a18  2026-03-15  feat(exporters): replace zlib with ZSTD as sole StreamWri... ║
     • 2dba947651  2026-03-11  feat(exporters): PolicyEngine export authorization with a... ║
     • a765a03691  2026-03-11  feat(exporters): add validate_template dry-run mode to ve... ║
-    • 3db37eb452  2026-03-10  feat(exporters): implement EXP-001 PolicyEngine auth, EXP... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

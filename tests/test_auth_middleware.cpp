@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_auth_middleware.cpp                           ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:47:37                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:16:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
     • 55c0429959  2026-03-15  refactor(auth): improve naming clarity in JWT scope test ... ║
     • 76eef4d701  2026-03-15  feat(auth): implement JWT scope extraction and role-to-sc... ║
-    • c97360e579  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

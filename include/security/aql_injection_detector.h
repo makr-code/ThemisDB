@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_injection_detector.h                           ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:37:27                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:09:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 4e39463a86  2026-03-21  feat(security): implement AQL read-only context validatio... ║
     • eb75d79f53  2026-03-12  feat(security): implement AQL AST-level injection validat... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

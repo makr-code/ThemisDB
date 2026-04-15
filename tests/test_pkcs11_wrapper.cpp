@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_pkcs11_wrapper.cpp                            ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 05:53:15                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 07:20:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 22978a7bba  2026-03-01  feat(security): add PKCS#11 C++ wrapper interface (pkcs11... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 📝 Draft / Stub                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

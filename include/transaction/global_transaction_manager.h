@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            global_transaction_manager.h                       ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 05:38:57                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 07:10:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
-    • 0f5ac9ce56  2026-03-10  feat(transaction): register 4 missing focused test target... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

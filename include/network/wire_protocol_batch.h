@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_batch.h                              ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 05:35:44                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 07:07:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • 7e8c588d0f  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
     • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
-    • c0a50c2caf  2026-03-19  Refactor build flags, IO, benchmarks & tests ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

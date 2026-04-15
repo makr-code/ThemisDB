@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_hsm_provider.cpp                              ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:50:43                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:18:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_zipkin_tracer_adapter.cpp                     ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 05:57:41                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 07:23:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 52726f0a2c  2026-02-26  feat(core): add Jaeger and Zipkin tracing backend adapters ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

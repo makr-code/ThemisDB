@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            logical_replication.cpp                            ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 05:43:40                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 07:13:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     734                                            ║
+    • Total Lines:     733                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 67965456c8  2026-03-22  Add constructors with default config for various classes ... ║
     • 16aed6bb00  2026-03-15  refactor: enhance modular build configuration and improve... ║
     • bb58b60db0  2026-03-14  Respect parallel_decoding config and document fallback be... ║
-    • ac49d216f6  2026-03-14  adjust row filter warning and temp dir uniqueness ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

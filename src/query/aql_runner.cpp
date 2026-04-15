@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_runner.cpp                                     ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:43:07                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:13:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     911                                            ║
+    • Total Lines:     910                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • f38c013cdc  2026-03-29  Enhance various components with improvements and fixes ║
     • 13e4bb2974  2026-03-26  Enhance GraphQL Performance Tests and Saga Operation Comp... ║
     • fe549ead12  2026-03-24  feat(query): wire QueryCompiler JIT hot-path into execute... ║
-    • acb2238a51  2026-03-14  refactor: clean up CMake configuration and improve test d... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

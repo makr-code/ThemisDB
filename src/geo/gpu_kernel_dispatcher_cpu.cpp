@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_kernel_dispatcher_cpu.cpp                      ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 05:41:08                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 07:11:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • c1a4fe5689  2026-02-24  feat(geo): implement CUDA kernel dispatch for GPU spatial... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

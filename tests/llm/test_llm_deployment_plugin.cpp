@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llm_deployment_plugin.cpp                     ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 05:46:31                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 07:15:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
     • 10bb6eb49b  2026-03-19  fix(llm): address PR review — key_prefix rename, source t... ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • f9096b78d4  2026-03-17  feat(llm): LLMDeploymentPlugin RocksDB model storage (v1.... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

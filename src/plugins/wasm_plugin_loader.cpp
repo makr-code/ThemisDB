@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wasm_plugin_loader.cpp                             ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 05:42:46                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 07:13:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

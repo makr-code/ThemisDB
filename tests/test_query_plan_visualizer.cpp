@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_query_plan_visualizer.cpp                     ║
-  Version:         0.0.22                                             ║
-  Last Modified:   2026-04-15 05:54:07                                ║
+  Version:         0.0.23                                             ║
+  Last Modified:   2026-04-15 07:21:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

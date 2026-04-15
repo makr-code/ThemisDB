@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            quality_control_pipeline.h                         ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:37:06                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:08:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 1fa567a3fc  2026-03-01  Wire CitationHighlighter into QualityControlPipeline Stag... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

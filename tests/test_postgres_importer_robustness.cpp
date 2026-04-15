@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_postgres_importer_robustness.cpp              ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:53:34                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:20:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

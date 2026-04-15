@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_rate_limiter.h                            ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 05:37:37                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 07:09:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • e963d4e9ba  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • b09d74434e  2026-03-13  fix(server): address all code review comments on rate lim... ║
-    • 855ed0268a  2026-03-13  feat(server): add adaptive and cost-based rate limiters f... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

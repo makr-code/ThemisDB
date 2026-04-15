@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            schema_migration.h                                 ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 05:39:12                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 07:10:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • a77e0317d7  2026-03-14  fix(updates): address all 11 code review comments on sche... ║
-    • 06ecc841a9  2026-03-14  feat(updates): implement Automatic Schema Migration Frame... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

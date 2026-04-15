@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_process_module.cpp                            ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 05:53:42                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 07:20:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1173                                           ║
+    • Total Lines:     1831                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • dc8a1dc60e  2026-04-15  feat(process): PPR GraphRAG scoring, LLM-to-BPMN generato... ║
     • b18a0735c6  2026-04-12  fix(process): replace regex BPMN parser with state-machin... ║
     • 79f0815052  2026-03-28  Add test statistics documentation and collection script ║
-    • 3fea6d6b51  2026-03-12  refactor: clean up includes and remove unused transaction... ║
-    • f56652abf2  2026-03-12  audit(process): focused tests, ProcessNotation enum fix, ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cep_engine.h                                       ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:32:56                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:05:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 5706ac4f36  2026-03-18  fix(analytics): streaming_window — configurable expiry in... ║
     • 41d5cc48b8  2026-03-17  fix(analytics): address all code review findings from aut... ║
     • c826f73cd8  2026-03-17  feat(analytics): implement memory pool allocator for hot ... ║
-    • 245a5fba1f  2026-03-16  fix(analytics): release window lock before invoking user ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

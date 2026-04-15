@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_concerns_context.cpp                          ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:48:32                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:17:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • c24f94c9c6  2026-03-22  feat(cmake): add join_exporter to THEMIS_CORE_SOURCES and... ║
     • 090f93ef21  2026-03-22  feat(core): implement InMemorySecrets and EnvSecretsProvi... ║
     • 30309f5dfc  2026-03-09  fix(core): rename misleading test name per code review ║
-    • 50ae658f67  2026-03-09  feat(core): implement dynamic log level adjustment and au... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

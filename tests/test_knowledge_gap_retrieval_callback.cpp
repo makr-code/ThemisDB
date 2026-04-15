@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_knowledge_gap_retrieval_callback.cpp          ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-15 05:51:25                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 07:19:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

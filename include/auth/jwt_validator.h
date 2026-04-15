@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            jwt_validator.h                                    ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:33:24                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:06:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     261                                            ║
+    • Total Lines:     260                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 435595de1f  2026-03-22  Changes before error encountered        ║
     • 76eef4d701  2026-03-15  feat(auth): implement JWT scope extraction and role-to-sc... ║
     • c97360e579  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
-    • 3071a3bb79  2026-03-12  fix(auth): address JWT JTI reviewer feedback ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

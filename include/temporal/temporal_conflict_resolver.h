@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            temporal_conflict_resolver.h                       ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:38:32                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:09:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • e1fff5135a  2026-03-12  fix(temporal): address PR review findings on TemporalConf... ║
     • 1b0158e116  2026-03-12  feat: implement TemporalConflictDetector for temporal con... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

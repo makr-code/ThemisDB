@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            setup.php                                          ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-15 05:31:29                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-15 07:04:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

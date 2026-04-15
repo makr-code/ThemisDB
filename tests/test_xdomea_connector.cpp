@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_xdomea_connector.cpp                          ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 05:57:34                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 07:23:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

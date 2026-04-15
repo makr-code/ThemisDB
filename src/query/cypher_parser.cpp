@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cypher_parser.cpp                                  ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 05:43:09                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 07:13:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 7811d1486a  2026-03-27  feat: Enhance backward compatibility and legacy support a... ║
     • 0c803aee60  2026-03-24  fix(query): address code review feedback in cypher_parser... ║
-    • eb8339ed39  2026-03-24  feat(query): implement CypherParser and CypherToAQLTransp... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

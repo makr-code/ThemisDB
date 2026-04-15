@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_lora_security.cpp                             ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:51:53                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:19:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 91937bec6c  2026-03-15  fix: address code review — helper method, clearer test na... ║
     • f34b955773  2026-03-15  feat: implement LoRACertificateStore and fail-closed cert... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

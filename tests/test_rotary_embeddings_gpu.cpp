@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rotary_embeddings_gpu.cpp                     ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:55:02                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:21:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

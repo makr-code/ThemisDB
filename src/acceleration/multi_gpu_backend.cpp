@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multi_gpu_backend.cpp                              ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 05:40:20                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 07:11:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

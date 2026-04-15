@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            huggingface_hub_client.h                           ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 05:34:08                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 07:06:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     269                                            ║
+    • Total Lines:     268                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • 17ac0cd311  2026-03-16  feat(exporters): HuggingFace Hub Client HTTP 429 back-off... ║
     • c64ea5aac6  2026-03-11  feat(exporters): add hf_token_kek_id for KEK/KMS-protecte... ║
-    • 07dbc30523  2026-03-11  feat(exporters): add memory-streaming upload API for Hugg... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

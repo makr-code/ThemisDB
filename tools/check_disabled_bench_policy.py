@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            check_disabled_bench_policy.py                     ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-15 05:58:17                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 07:24:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

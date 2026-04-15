@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            benchmark_hybrid_search.cpp                        ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-15 05:32:16                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-15 07:05:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     319                                            ║
+    • Total Lines:     318                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

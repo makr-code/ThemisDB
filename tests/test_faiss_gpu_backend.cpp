@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_faiss_gpu_backend.cpp                         ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-15 05:49:54                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 07:18:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

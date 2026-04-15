@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bwtree.h                                           ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:36:07                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:08:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 68293f6455  2026-03-09  fix(performance): complete all open tasks — implement rem... ║
     • 4cb76e4fe9  2026-03-09  fix(performance): implement epoch-based memory reclamatio... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

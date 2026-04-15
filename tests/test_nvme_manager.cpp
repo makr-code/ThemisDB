@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_nvme_manager.cpp                              ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 05:52:41                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 07:20:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

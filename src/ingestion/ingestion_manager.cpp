@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ingestion_manager.cpp                              ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:41:44                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:12:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     2280                                           ║
+    • Total Lines:     2279                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 5703120fe8  2026-03-14  feat(ingestion): Add S3-Compatible Object Storage Source ... ║
     • b2a2c74ed3  2026-03-13  feat(ingestion): Kafka Consumer Source Connector - checkp... ║
     • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-    • a7cd4fa788  2026-03-11  feat(ingestion): LLM-driven semantic extraction pipeline ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

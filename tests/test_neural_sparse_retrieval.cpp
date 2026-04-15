@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_neural_sparse_retrieval.cpp                   ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 05:52:37                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 07:20:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b3ea507887  2026-03-01  feat(search): implement SPLADE/BERT-based neural sparse r... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

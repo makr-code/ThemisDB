@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cache_admin_api_handler.cpp                   ║
-  Version:         0.0.17                                             ║
-  Last Modified:   2026-04-15 05:47:55                                ║
+  Version:         0.0.18                                             ║
+  Last Modified:   2026-04-15 07:16:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     849                                            ║
+    • Total Lines:     848                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 84e885494b  2026-03-14  feat(cache): implement RedisCacheCoordinator async pub/su... ║
     • d012eef80c  2026-03-10  feat(cache): implement 4 missing items from cache module ... ║
-    • a64247126f  2026-03-08  Refactor code structure for improved readability and main... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

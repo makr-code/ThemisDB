@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_vllm_resource_stats.cpp                       ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 05:57:08                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 07:23:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 3b792a6ae0  2026-03-20  Refactor saga orchestrator, add compute types ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • 137d06cfed  2026-03-18  fix: handle dtotal==0 CPU cache-hit and guard perf test a... ║
-    • 3254a3d48f  2026-03-18  feat(acceleration): VLLMResourceManager multi-GPU NVML mo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

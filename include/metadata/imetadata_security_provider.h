@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            imetadata_security_provider.h                      ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 05:35:29                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 07:07:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

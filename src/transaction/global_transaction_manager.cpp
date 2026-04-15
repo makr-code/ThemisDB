@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            global_transaction_manager.cpp                     ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 05:45:17                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 07:15:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     600                                            ║
+    • Total Lines:     599                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

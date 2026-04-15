@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_phase1_flash_attention.cpp                   ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:31:53                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:04:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   78.0/100                                       ║
-    • Total Lines:     342                                            ║
+    • Total Lines:     341                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

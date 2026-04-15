@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_async_io_multiscan.cpp                       ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:31:34                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:04:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

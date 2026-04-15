@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_retention_manager.cpp                         ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:46:51                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:16:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 1b4259583e  2026-03-12  Add safety comment for countdown predicate, clarify test ... ║
     • eff45c52df  2026-03-12  Address PR review: fix resolveArchiveTag, retry exception... ║
     • 1b897ee390  2026-03-12  Address code review: extract helpers, fix VERSION_COUNT_B... ║
-    • 9587568640  2026-03-12  Implement Automated Retention Policies: STORAGE_BASED typ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

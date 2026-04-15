@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            context_window_manager.h                           ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 05:36:22                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 07:08:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

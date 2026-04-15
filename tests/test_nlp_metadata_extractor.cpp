@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_nlp_metadata_extractor.cpp                    ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:52:38                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:20:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

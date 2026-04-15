@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            faiss_gpu_backend.cpp                              ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:40:20                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:11:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 69e2bedeef  2026-04-13  fix(acceleration): remove duplicate batchKnnSearch defini... ║
     • 47b5f76501  2026-04-13  feat(acceleration): FAISS GPU backend production-ready – ... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

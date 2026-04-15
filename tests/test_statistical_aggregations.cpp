@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_statistical_aggregations.cpp                  ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:55:56                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:22:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_jwt_validator.cpp                             ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:51:19                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:19:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     569                                            ║
+    • Total Lines:     568                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
     • fc7a85ac82  2026-03-12  fix(auth): address PR review - curl_multi_info_read, void... ║
     • 7f92471811  2026-03-12  fix(auth): address code review - fix member declaration o... ║
-    • 57fef95c4a  2026-03-12  feat(auth): async/non-blocking LDAP and HTTP authenticati... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

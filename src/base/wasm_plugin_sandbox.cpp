@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wasm_plugin_sandbox.cpp                            ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 05:40:41                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 07:11:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 2cf276ba53  2026-03-22  feat(base): implement WASM instruction fuel metering for ... ║
-    • 4a1d924519  2026-03-12  fix(base): correctly skip non-function WASM import descri... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

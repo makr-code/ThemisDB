@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            prompt_injection_detector.cpp                      ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 05:43:34                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 07:13:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • da5848ffb4  2026-03-10  fix: apply all 7 code review recommendations + LSN.toStri... ║
     • a3ec4aa9e9  2026-03-10  refactor: update tenant metrics handling and improve modu... ║
     • 50a648a065  2026-03-09  fix(rag): fix critical bugs found in code audit of Issue ... ║
-    • 2d6b717c75  2026-03-09  feat(rag): distributed RAG evaluation, benchmark harness,... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

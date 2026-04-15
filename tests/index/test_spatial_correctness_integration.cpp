@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_spatial_correctness_integration.cpp           ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 05:46:23                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 07:15:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 7c5d0fc7db  2026-02-28  feat(index): add HNSW recall@10 and spatial correctness i... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

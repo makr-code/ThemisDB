@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_metrics.h                                     ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:33:22                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:06:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 9de8da16fa  2026-03-12  feat(auth): implement credential stuffing persistent cros... ║
     • 47778fbd54  2026-03-12  fix(auth): suppress spurious drift warning for valid time... ║
     • 94bb63df8d  2026-03-12  feat(auth): TOTP/MFA configurable window enforcement and ... ║
-    • fc9c9664ad  2026-03-12  feat(auth): implement LDAP connection pooling (v1.2.0) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

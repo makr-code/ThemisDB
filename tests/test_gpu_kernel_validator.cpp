@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_kernel_validator.cpp                      ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:50:14                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:18:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

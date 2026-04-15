@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_envoy_xds.cpp                                 ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 05:49:41                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 07:18:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 7c7b6e302d  2026-03-01  Add service mesh sidecar proxy mode with Envoy xDS v3 com... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

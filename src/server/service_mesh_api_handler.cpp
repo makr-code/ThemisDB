@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            service_mesh_api_handler.cpp                       ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 05:44:20                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 07:14:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 9d8c5ce371  2026-03-15  Refactor service mesh API handler to use fully qualified ... ║
     • a56ed533eb  2026-03-11  fix(tracing): remove spans from helper/utility methods (o... ║
     • a2a0e15fab  2026-03-11  Changes before error encountered        ║
-    • 607608e9d8  2026-03-09  feat(server): add ServiceMeshApiHandler, update ROADMAP a... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

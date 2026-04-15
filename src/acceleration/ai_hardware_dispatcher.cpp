@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ai_hardware_dispatcher.cpp                         ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-15 05:40:19                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-15 07:11:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

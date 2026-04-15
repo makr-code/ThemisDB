@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mqtt_client_service.cpp                            ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 05:44:13                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 07:14:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 21fb5b70f6  2026-03-27  Add CMake source coverage audit workflow and baseline script ║
     • d0d07d689c  2026-03-23  fix(server/mqtt): remove bytes_sent double-count, remove ... ║
     • ed180bee27  2026-03-23  fix(server): fix use-after-scope in doConnect, replace ba... ║
-    • c9f5c0d13f  2026-03-23  feat(server): add MqttClientService — bidirectional MQTT ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

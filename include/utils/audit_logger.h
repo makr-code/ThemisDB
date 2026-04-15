@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            audit_logger.h                                     ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:39:15                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:10:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
     • 33f9fb7774  2026-03-14  feat(sharding): implement adaptive shard rebalancer with ... ║
     • 2dba947651  2026-03-11  feat(exporters): PolicyEngine export authorization with a... ║
-    • eea8f803ba  2026-03-09  feat(utils): implement HashChainAuditWriter/AuditLogVerif... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

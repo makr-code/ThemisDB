@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            openai_compat_adapter.h                            ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 05:35:19                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 07:07:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 8f8969876a  2026-02-27  feat(llm): OpenAI-compatible /v1/chat/completions passthr... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

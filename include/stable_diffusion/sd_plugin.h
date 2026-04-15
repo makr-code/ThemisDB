@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            sd_plugin.h                                        ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-15 05:38:11                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-15 07:09:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

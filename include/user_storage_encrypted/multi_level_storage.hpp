@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multi_level_storage.hpp                            ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 05:39:15                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 07:10:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 8131a0844f  2026-03-25  feat(user_storage_encrypted): v0.2.0 reconcileStaleMounts... ║
     • 126a4e2171  2026-03-24  Changes before error encountered        ║
     • 9ab72c5089  2026-03-12  refactor: flatten plugin hierarchy to src/<name>/ and inc... ║
-    • acdb250dbf  2026-03-12  feat: migrate plugins to src/include with CMake switches ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

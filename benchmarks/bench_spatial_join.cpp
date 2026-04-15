@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_spatial_join.cpp                             ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 05:32:05                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 07:05:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

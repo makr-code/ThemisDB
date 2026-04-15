@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wasm_handler_registry.h                            ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 05:37:59                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 07:09:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

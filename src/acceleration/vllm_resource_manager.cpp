@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vllm_resource_manager.cpp                          ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:40:22                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:11:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • dd319b9918  2026-04-13  Add CI/CD workflows and scripts for release management ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • 137d06cfed  2026-03-18  fix: handle dtotal==0 CPU cache-hit and guard perf test a... ║
-    • 3254a3d48f  2026-03-18  feat(acceleration): VLLMResourceManager multi-GPU NVML mo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

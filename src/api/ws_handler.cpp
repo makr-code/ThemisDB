@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ws_handler.cpp                                     ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 05:40:26                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 07:11:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 899b3070e4  2026-03-14  fix(api/ws): clarify url_decode comment, document semanti... ║
     • 721f1507ea  2026-03-14  fix(api/ws): URL-decode query string parameters in WsChan... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

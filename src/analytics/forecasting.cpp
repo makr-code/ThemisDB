@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            forecasting.cpp                                    ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 05:40:24                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 07:11:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • a15f06cbdd  2026-03-25  feat(analytics): batch prediction, update(), parallel aut... ║
     • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 89af7a908e  2026-03-17  perf(analytics): cache AVX-512 CPUID check in static cons... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

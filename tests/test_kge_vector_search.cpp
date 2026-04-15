@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_kge_vector_search.cpp                         ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 05:51:23                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 07:19:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 26e49f8ba7  2026-03-11  fix: wire include_guidance in enrichSample; expose findRe... ║
     • 1e735e3bd1  2026-03-11  docs(test): update test_kge_vector_search @file comment t... ║
     • b060c0cbce  2026-03-11  fix(training): guard findSimilarDocuments against max_res... ║
-    • c5396a31a2  2026-03-11  feat(training): wire findSimilarDocuments to VectorIndexM... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

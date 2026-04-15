@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graphql.h                                          ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:33:05                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:05:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • c0ea85377e  2026-04-07  fix(graphql): implement variable substitution at executio... ║
     • 6b7cdac827  2026-04-07  chore: plan variable substitution fix + doc update ║
     • e5cd79501d  2026-03-10  Changes before error encountered        ║
-    • 6078846714  2026-03-10  feat(api): GraphQL WebSocket subscription handler + Query... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

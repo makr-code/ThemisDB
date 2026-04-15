@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llama_resource_manager.h                           ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:35:07                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:07:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

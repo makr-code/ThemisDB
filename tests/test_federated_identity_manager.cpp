@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_federated_identity_manager.cpp                ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 05:49:54                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 07:18:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 66441eee78  2026-03-13  fix(auth): address RFC 8693 token exchange review feedback ║
     • 9410e16988  2026-03-12  feat(auth): implement RFC 8693 token exchange in Federate... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

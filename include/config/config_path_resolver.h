@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            config_path_resolver.h                             ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-15 05:33:51                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-15 07:06:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     474                                            ║
+    • Total Lines:     473                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • aeb43de031  2026-04-12  feat(config): create include/config/ public header direct... ║
     • 1e2b358f1d  2026-03-15  feat(config): SIGHUP hot-reload inotify/kqueue/ReadDirect... ║
     • c74d69b89e  2026-03-13  Changes before error encountered        ║
-    • 967f3dafaa  2026-03-13  chore: polish config metrics exporter   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

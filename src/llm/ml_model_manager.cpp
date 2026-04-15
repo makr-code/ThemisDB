@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ml_model_manager.cpp                               ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:42:02                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:12:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • e374156ccf  2026-03-26  fix: Address code review – null guard in SetDB, last-inst... ║
     • 43ea0ace66  2026-03-26  fix: Fix 4+5 – XXH64 checksum, FinalizeSnapshot restore, ... ║
-    • 490de27f06  2026-03-26  fix: implement all P0/P1 blockers - QueryEngine, RAG, eth... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

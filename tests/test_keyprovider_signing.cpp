@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_keyprovider_signing.cpp                       ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:51:23                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:19:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

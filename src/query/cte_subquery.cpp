@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cte_subquery.cpp                                   ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 05:43:08                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 07:13:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 010ee709e6  2026-03-15  docs(query): mark CTESubquery Phase 1 stub replacement co... ║
     • 4730efec66  2026-03-14  feat(query): replace CTESubquery Phase 1 stub with correl... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

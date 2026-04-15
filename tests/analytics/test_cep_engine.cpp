@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cep_engine.cpp                                ║
-  Version:         0.0.29                                             ║
-  Last Modified:   2026-04-15 05:45:55                                ║
+  Version:         0.0.30                                             ║
+  Last Modified:   2026-04-15 07:15:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 1e59da9797  2026-03-19  Fix remaining gaps: spdlog::warn in olap.cpp/analytics_ex... ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • ff338f68ce  2026-03-16  fix(analytics): address code review - log callback except... ║
-    • 245a5fba1f  2026-03-16  fix(analytics): release window lock before invoking user ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ab_test_manager.cpp                                ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 05:40:41                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 07:11:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • d151e46cc1  2026-03-12  fix(base/ab_test_manager): address PR review feedback ║
     • 2ac2680cb2  2026-03-12  feat(base): A/B test persistence, observability export, a... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

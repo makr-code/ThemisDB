@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_utils_standalone.cpp                          ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 05:57:00                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 07:23:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

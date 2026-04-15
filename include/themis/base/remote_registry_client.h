@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            remote_registry_client.h                           ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 05:38:34                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 07:09:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     269                                            ║
+    • Total Lines:     268                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 354c97d283  2026-03-16  feat: Add new erasure coding backend and related components ║
     • 2c1b27b6f2  2026-03-15  feat(base): async retry RemoteRegistryClient + LLM RetryP... ║
     • e56570ab4b  2026-03-15  feat(base): add async methods to RemoteRegistryClient; fi... ║
-    • 4e273a1302  2026-03-14  feat(base): implement async retry API for RemoteRegistryC... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

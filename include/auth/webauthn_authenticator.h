@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            webauthn_authenticator.h                           ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 05:33:31                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 07:06:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 3a5eb153f2  2026-02-24  feat(auth): implement WebAuthn/FIDO2 hardware token support ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
