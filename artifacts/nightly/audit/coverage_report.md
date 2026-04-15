@@ -1,6 +1,6 @@
 ### 🌙 Nightly Benchmark Sweep — Coverage Report
 
-**Generated:** 2026-04-15T19:45:45Z  
+**Generated:** 2026-04-15T19:48:28Z  
 **Bench dir:** `artifacts/nightly`  
 **Previous run dir:** `n/a`
 
