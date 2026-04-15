@@ -235,6 +235,8 @@ v1.5.x – Production-grade data intake layer. All connectors (FileSystem, Huggi
 - [x] `IngestionManager::setReIngestionController()` / `getReIngestionController()` — `include/ingestion/ingestion_manager.h` + `src/ingestion/ingestion_manager.cpp` (2026-04-15)
 - [x] Tests: IJ-01..IJ-08, QR-01..QR-04, RC-01..RC-06, IM-01..IM-02 (20 tests) — `tests/test_ingestion_quality_judge.cpp` (2026-04-15)
 - [x] Stub/mock audit: `NullTextGenerationBackend`, `InMemoryGraphWriter/VectorWriter/DocWriter`, `InMemorySharedCheckpointStore`, all connector `ingestFromMock` paths (cdc/database/kafka/s3/object_storage), `TextProcessor::generateEmbedding` — all upgraded to canonical `STUB/SIMULATION NOTE:` format (2026-04-15)
+- [x] Google Benchmarks: QJ01..QJ11 — `benchmarks/bench_ingestion_quality_judge.cpp` — fail-open path, single/all-dim eval, entity scaling, bullet-list parsing, observer dispatch (0/N), config mutation, ctor/dtor, CRAG-style feedback loop simulation — registered in `benchmarks/CMakeLists.txt` (2026-04-15)
+- [x] Header documentation: scientific paper references (LLM-as-judge Zheng et al. NeurIPS 2023, RAGAS Es et al. EACL 2024, CRAG Yan et al. ICLR 2024) and full SOLID / SoC annotation added to `include/ingestion/ingestion_quality_judge.h` (2026-04-15)
 
 ## Breaking Changes
 - `IngestionBuilder` fluent API is stable from v1.x.

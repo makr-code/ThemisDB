@@ -3575,6 +3575,47 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_ingestion_extraction.cpp")
 endif()
 
 # ============================================================================
+# Ingestion Phase 7 – IngestionQualityJudge Benchmarks
+# Validates: QJ01..QJ11 — evaluate() fast paths, observer dispatch, config
+#            mutation, ctor/dtor cost, CRAG-style feedback loop simulation
+# Scientific foundation:
+#   Zheng et al. (NeurIPS 2023) — LLM-as-judge
+#   Es et al. (EACL 2024) — RAGAS quality dimensions
+#   Yan et al. (ICLR 2024) — CRAG re-ingestion loop
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_ingestion_quality_judge.cpp")
+    message(STATUS "Adding IngestionQualityJudge benchmarks (Phase 7)")
+
+    add_executable(bench_ingestion_quality_judge
+        bench_ingestion_quality_judge.cpp
+    )
+
+    target_include_directories(bench_ingestion_quality_judge PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_ingestion_quality_judge PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_ingestion_quality_judge PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_ingestion_quality_judge)
+
+    install(TARGETS bench_ingestion_quality_judge
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  QualityJudge: fail-open path, single/all-dims eval, entity scaling, bullet-list parsing, observer dispatch, config mutation, ctor/dtor, CRAG feedback loop")
+endif()
+
+# ============================================================================
 # Process Module Import, Retrieval and Prompt-Size Benchmarks
 # Validates: BPMN/EPK import latency, RocksDB CRUD, LlmProcessDescriptor size
 # ============================================================================
