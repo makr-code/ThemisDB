@@ -1282,6 +1282,9 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 | NET-4 WebSocket Round-Trip P99 | < 2 ms (localhost) |  |  |
 | NET-5 QUIC 0-RTT Resumption P99 | < 2 ms |  |  |
 | NET-6 UDP Fast-Path GET P99 | < 500  (localhost) |  |  |
+| SP-1 V2-Frame-Header-Inspect Throughput | > 50 M ops/s | `BM_StreamProtocol_FrameHeaderBuild` in `bench_stream_protocol` |  |
+| SP-2 LZ4-Stream-Payload Compress+Decompress P95 | < 1 ms (16 KiB Payload) | `BM_StreamProtocol_LZ4Roundtrip/16384` in `bench_stream_protocol` |  |
+| SP-3 WireProtocolMetrics Snapshot P99 | < 5 ms (10k Samples) | `BM_StreamProtocol_MetricsSnapshot/10000` in `bench_stream_protocol` |  |
 
 ---
 
@@ -3022,6 +3025,9 @@ Write-Host "Profiling-Ergebnisse: $outDir"
 | DPDK Throughput | 100 Gbps | [Z] | FE L284 |
 | io_uring Latenz | 10 50  | [Z] | FE L285 |
 | io_uring Throughput | 10 Gbps | [Z] | FE L285 |
+| SP-1 V2-Frame-Header-Inspect Throughput | > 50 M ops/s | `BM_StreamProtocol_FrameHeaderBuild` in `bench_stream_protocol` | [Z] |
+| SP-2 LZ4-Stream-Payload Compress+Decompress P95 | < 1 ms (16 KiB) | `BM_StreamProtocol_LZ4Roundtrip/16384` in `bench_stream_protocol` | [Z] |
+| SP-3 WireProtocolMetrics Snapshot P99 | < 5 ms (10k Samples) | `BM_StreamProtocol_MetricsSnapshot/10000` in `bench_stream_protocol` | [Z] |
 
 ---
 
