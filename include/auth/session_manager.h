@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            session_manager.h                                  ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:09:21                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:33:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     223                                            ║
+    • Total Lines:     222                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 5a16800952  2026-02-24  feat(auth): implement session management and revocation e... ║
-    • 4994e3c4b0  2026-02-24  fix(auth): audit fixes - wire http server, fix enforceSes... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

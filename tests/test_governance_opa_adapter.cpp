@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_governance_opa_adapter.cpp                    ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:25:39                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:50:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • d2f3985dcf  2026-02-27  fix(governance): simulateDecision routes through OPA; add... ║
-    • 99dc8e3f41  2026-02-27  feat(governance): integrate OPA as alternative policy eva... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 📝 Draft / Stub                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

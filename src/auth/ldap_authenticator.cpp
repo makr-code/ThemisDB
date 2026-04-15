@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ldap_authenticator.cpp                             ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:16:03                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:40:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 57fef95c4a  2026-03-12  feat(auth): async/non-blocking LDAP and HTTP authenticati... ║
     • 3fea6d6b51  2026-03-12  refactor: clean up includes and remove unused transaction... ║
     • fc9c9664ad  2026-03-12  feat(auth): implement LDAP connection pooling (v1.2.0) ║
-    • 0f9b874f42  2026-03-12  fix(auth): address all reviewer comments on LDAP injectio... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_content_streaming_ingestion.cpp               ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:24:20                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:48:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • bde2cc7431  2026-02-27  audit(content): Fix gaps found in streaming ingestion – C... ║
-    • b01dffc8f8  2026-02-26  feat(content): Implement chunked streaming ingestion for ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            logical_replication.h                              ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 04:12:53                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 05:37:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 16aed6bb00  2026-03-15  refactor: enhance modular build configuration and improve... ║
     • d2968d4872  2026-03-14  tighten logical replication diagnostics and randomness ║
     • 5ec6ad7cd3  2026-03-14  add diagnostics and validation for logical replication slots ║
-    • 902333c151  2026-03-14  harden logical replication persistence and filters ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

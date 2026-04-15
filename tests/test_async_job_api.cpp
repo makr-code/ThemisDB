@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_async_job_api.cpp                             ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:23:12                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:47:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • baa1f73a15  2026-02-24  fix(api): code audit fixes for async job API ║
-    • e182799cd1  2026-02-23  feat(api): async job API for long-running AQL queries ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

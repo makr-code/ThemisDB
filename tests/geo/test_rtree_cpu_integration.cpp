@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rtree_cpu_integration.cpp                     ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:21:49                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:46:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 8026e73499  2026-03-13  fix(geo): purge stale per-PK RocksDB keys in SpatialIndex... ║
     • 10732a3a86  2026-03-12  feat(geo): add SpatialIndexManager::bulkLoad and improve ... ║
     • f82bf2ae9f  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

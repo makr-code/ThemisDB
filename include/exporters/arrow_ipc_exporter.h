@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            arrow_ipc_exporter.h                               ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:09:59                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:34:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • f7a4d85f3b  2026-02-26  Changes before error encountered        ║
-    • c7c509d739  2026-02-22  feat(exporters): add Parquet export for training datasets ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

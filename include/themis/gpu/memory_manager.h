@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            memory_manager.h                                   ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:14:12                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:38:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ws_transport.cpp                                   ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:16:16                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:40:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 1523b3d035  2026-02-24  fix(cdc): address audit gaps in WebSocket transport imple... ║
-    • 05a569b2c4  2026-02-24  feat(cdc): implement WebSocket transport as SSE fallback ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

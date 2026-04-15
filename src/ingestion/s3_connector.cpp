@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            s3_connector.cpp                                   ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 04:17:21                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 05:41:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • a2d7c07202  2026-04-14  update after codefindings               ║
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • 3257ddf75a  2026-03-14  fix(ingestion/s3): audit fixes – SDK init guard, .json te... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

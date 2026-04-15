@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            confidential_computing.h                           ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:13:07                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:37:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 73974b78a3  2026-02-23  fix(security): code-audit fixes — double-free, unused inc... ║
-    • 7b25b447d4  2026-02-23  feat(security): implement confidential computing support ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

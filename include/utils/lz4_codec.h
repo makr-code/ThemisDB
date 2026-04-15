@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lz4_codec.h                                        ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-15 04:14:55                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 05:39:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

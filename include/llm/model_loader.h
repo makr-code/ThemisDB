@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            model_loader.h                                     ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:11:06                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:35:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

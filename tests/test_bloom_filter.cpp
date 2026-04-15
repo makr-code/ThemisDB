@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_bloom_filter.cpp                              ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 04:23:26                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 05:47:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

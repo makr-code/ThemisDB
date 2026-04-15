@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cross_module_cache_anomaly.cpp                ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-15 04:24:30                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 05:48:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

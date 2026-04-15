@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_geo_raster.cpp                                ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:21:44                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:46:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

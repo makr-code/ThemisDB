@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_tsstore_batch.cpp                             ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-15 04:32:03                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 05:56:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

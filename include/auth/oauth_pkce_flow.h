@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            oauth_pkce_flow.h                                  ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:09:18                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:33:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

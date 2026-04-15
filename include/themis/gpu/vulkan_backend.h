@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vulkan_backend.h                                   ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:14:17                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:38:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 29be16c4ff  2026-02-27  fix(gpu): fix mutex deadlock and vendorName caching in Vu... ║
-    • 082828cb4c  2026-02-27  feat(gpu): Vulkan compute backend for cross-vendor GPU su... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

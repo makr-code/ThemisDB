@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_translator.cpp                                 ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:18:40                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:43:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

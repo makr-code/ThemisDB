@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            spatial_index.cpp                                  ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:17:16                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:41:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 43a91f1793  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
     • 8026e73499  2026-03-13  fix(geo): purge stale per-PK RocksDB keys in SpatialIndex... ║
-    • 10732a3a86  2026-03-12  feat(geo): add SpatialIndexManager::bulkLoad and improve ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

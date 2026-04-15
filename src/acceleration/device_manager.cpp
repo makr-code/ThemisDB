@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            device_manager.cpp                                 ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:15:48                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:40:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

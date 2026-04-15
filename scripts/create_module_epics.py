@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            create_module_epics.py                             ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:15:33                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:40:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 507fb1e555  2026-02-25  fix: remove dead variable epic_issue_id and fix dry-run o... ║
-    • 2c0bbaa4c4  2026-02-25  feat: add scripts/create_module_epics.py for module epic ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

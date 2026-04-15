@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            arrow_flight.cpp                                   ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:15:51                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:40:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     1032                                           ║
+    • Total Lines:     1031                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • f82bf2ae9f  2026-03-04  Refactor tenant manager tests and add new test cases ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 7d170c7692  2026-03-01  feat(build): update CMake configuration for benchmarks an... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

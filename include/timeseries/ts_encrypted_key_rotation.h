@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ts_encrypted_key_rotation.h                        ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 04:14:25                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 05:38:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

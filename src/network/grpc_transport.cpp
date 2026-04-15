@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            grpc_transport.cpp                                 ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:17:48                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:42:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 6a618fcfd3  2026-02-28  fix(network): upgrade insecure-TLS log to WARN, add start... ║
-    • c9048c0169  2026-02-28  feat(network): add gRPC native transport (separate from s... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

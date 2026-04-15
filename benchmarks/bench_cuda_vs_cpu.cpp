@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_cuda_vs_cpu.cpp                              ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:07:37                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:31:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • afd15512dd  2026-02-23  test(acceleration): add unit tests for CPU dispatch funct... ║
-    • 83905a9726  2026-02-23  feat(acceleration): add CUDA vs CPU benchmark harness (Is... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

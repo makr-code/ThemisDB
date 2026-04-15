@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mode_spec_loader.cpp                               ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:17:36                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:42:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 39e499706c  2026-02-23  fix: code-audit – namespace corruption, wildcard false-po... ║
-    • 847458a5a2  2026-02-22  feat: Add YAML-configurable LLM Orchestration Modes (ask,... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

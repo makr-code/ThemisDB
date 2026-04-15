@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            post_quantum_crypto.cpp                            ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:19:29                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:43:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • a1907cd745  2026-03-01  fix(security): address code review feedback on PQ crypto ... ║
-    • ba79a4714e  2026-03-01  feat(security): add post-quantum cryptography migration p... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

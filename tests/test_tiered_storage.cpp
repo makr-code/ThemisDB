@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_tiered_storage.cpp                            ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 04:31:37                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 05:56:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 066bfcbb23  2026-03-12  feat(storage): add size-based migration policy to TieredS... ║
     • e561df7fd1  2026-03-09  fix(storage): address second code review - read validatio... ║
     • bea3655f53  2026-03-09  fix(storage): address code review comments - path travers... ║
-    • 492304352e  2026-03-09  feat(storage): add GCS blob backend, tiered storage, and ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_adaptive_query_cache.cpp                     ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:07:29                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:31:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 40046ba1bc  2026-03-15  fix(cache): audit gap fixes for Issue #244 warmup paralle... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 62ed4b187b  2026-02-25  feat(cache): add AdaptiveQueryCache performance benchmark... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

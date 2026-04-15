@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            warmup.cpp                                         ║
-  Version:         0.0.16                                             ║
-  Last Modified:   2026-04-15 04:16:12                                ║
+  Version:         0.0.17                                             ║
+  Last Modified:   2026-04-15 05:40:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 5942e7d691  2026-03-30  Fix warmupFromLog to enforce max_entries accurately and i... ║
     • 9c4b80d3bc  2026-03-22  Refactor AdaptiveQueryCache: Remove unused warmup functio... ║
     • 20a1e4a441  2026-03-15  refactor(cache): address code review on warmup parallel b... ║
-    • 9d355f5841  2026-03-15  feat(cache): implement warmup parallel bulk load (v1.8.0) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

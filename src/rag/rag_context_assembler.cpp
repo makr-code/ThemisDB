@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rag_context_assembler.cpp                          ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-15 04:19:08                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 05:43:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

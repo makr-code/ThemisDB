@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cuda_hnsw_large_k.cpp                         ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-15 04:24:46                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 05:49:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

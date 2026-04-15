@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_geo_topology_router.cpp                       ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:25:33                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:50:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 0be4d68c31  2026-03-01  fix(network): enforce fallback_cross_region and remove de... ║
-    • 04ccda37be  2026-03-01  feat(network): Add GeoTopologyRouter for topology-aware r... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

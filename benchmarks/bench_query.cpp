@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_query.cpp                                    ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:07:57                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:31:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • d327986b2e  2026-04-15  fix(benchmarks): reactivate and stabilize BM_Pagination_O... ║
     • 649f5c7538  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
     • 7e8c588d0f  2026-04-14  ci(release): enforce canonical naming scheme and repair t... ║
     • 9a52ef6bb1  2026-04-13  perf(query): add 1:1 point-lookup benchmarks and pk_eq fa... ║
     • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
-    • ef29ea45e7  2026-04-11  feat(bench_query): add benchmarks for simple, complex que... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

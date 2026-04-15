@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_kafka_producer.cpp                        ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:23:48                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:48:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   80.0/100                                       ║
-    • Total Lines:     252                                            ║
+    • Total Lines:     251                                            ║
     • Open Issues:     TODOs: 0, Stubs: 8                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • a3f88599ca  2026-02-27  Add Debezium-compatible change event envelope format with... ║
-    • 4c5109651f  2026-02-26  Implement ICDCTransport interface; KafkaCDCProducer now i... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

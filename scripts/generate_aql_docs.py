@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            generate_aql_docs.py                               ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:15:38                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:40:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     712                                            ║
+    • Total Lines:     711                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 8546b76889  2026-02-23  chore(aql): code audit - remove dead code, fix README link ║
-    • 73784c95e7  2026-02-23  refactor(aql): address code review - export SKIP_HEADERS ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

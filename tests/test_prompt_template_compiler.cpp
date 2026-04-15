@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_prompt_template_compiler.cpp                  ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-15 04:29:17                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 05:53:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

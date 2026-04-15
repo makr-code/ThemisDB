@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lockfree_histogram.h                               ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-15 04:11:49                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 05:36:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

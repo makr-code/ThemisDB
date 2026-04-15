@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            video_processor.h                                  ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:09:48                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:33:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 374b05b6ac  2026-02-28  Implement video frame extraction and scene detection (key... ║
-    • 42d597244a  2026-02-26  fix(content): wire up extract_keyframes option and update... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

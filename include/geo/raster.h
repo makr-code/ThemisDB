@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            raster.h                                           ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:10:09                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:34:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 66ef9164d9  2026-02-25  audit(geo): fix 4 issues found in code review ║
-    • 617f8fc8aa  2026-02-25  feat(geo): implement raster elevation and heatmap queries ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

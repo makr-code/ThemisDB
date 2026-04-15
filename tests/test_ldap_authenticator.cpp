@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ldap_authenticator.cpp                        ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:26:59                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:51:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • fc7a85ac82  2026-03-12  fix(auth): address PR review - curl_multi_info_read, void... ║
     • 57fef95c4a  2026-03-12  feat(auth): async/non-blocking LDAP and HTTP authenticati... ║
     • 0f9b874f42  2026-03-12  fix(auth): address all reviewer comments on LDAP injectio... ║
-    • 83e36bcbd7  2026-03-12  security(auth): LDAP DN and filter injection prevention (... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            temporal_compressor.h                              ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-15 04:14:07                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 05:38:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            release_manifest.cpp                               ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:20:59                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:45:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            temporal_spatial_query.cpp                         ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:16:41                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:41:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 5d69ed57b7  2026-02-25  fix(geo): remove stale ROADMAP Known Issues entries and u... ║
-    • 697b2ec1a8  2026-02-25  feat(geo): implement temporal-spatial queries (location a... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

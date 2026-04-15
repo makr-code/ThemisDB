@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            parquet_exporter.h                                 ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:10:04                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:34:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

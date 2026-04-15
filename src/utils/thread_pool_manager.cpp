@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            thread_pool_manager.cpp                            ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:21:09                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:45:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

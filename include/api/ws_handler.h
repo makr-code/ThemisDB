@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ws_handler.h                                       ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:09:04                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:33:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 13aae88f89  2026-02-24  fix(cdc): audit fixes — cdc_ws_overflow_total metric, cdc... ║
-    • 6127ae88ad  2026-02-23  feat(api): implement WebSocket change subscription handle... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

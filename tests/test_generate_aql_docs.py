@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_generate_aql_docs.py                          ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:25:31                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:50:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 73784c95e7  2026-02-23  refactor(aql): address code review - export SKIP_HEADERS ... ║
-    • 0c7487f402  2026-02-23  feat(aql): add doc auto-generation script and reference docs ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

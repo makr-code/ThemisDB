@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rotary_embeddings_hip.cpp                          ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:17:15                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:41:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

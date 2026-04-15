@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_transaction_throughput.cpp                   ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:08:07                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:32:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • e7f8e6a5ec  2026-02-28  feat(transaction): add OCC performance benchmarks and fix... ║
-    • 26afecf7ae  2026-02-26  feat(transaction): add savepoint performance benchmarks t... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

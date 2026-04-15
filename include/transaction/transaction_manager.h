@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            transaction_manager.h                              ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:14:40                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:39:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • b6f602bb2d  2026-03-16  fix(transaction/ssi): fix detectConflicts range intersect... ║
     • 97ce99dedd  2026-03-15  feat(transaction): Serializable Snapshot Isolation (SSI) ... ║
     • 7be96cdad3  2026-03-14  fix(transaction): address PR review feedback on DeadlockP... ║
-    • 531f9a0959  2026-03-13  feat(transaction): implement Adaptive Deadlock Prevention... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

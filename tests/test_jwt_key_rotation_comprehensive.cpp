@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_jwt_key_rotation_comprehensive.cpp            ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:26:52                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:51:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

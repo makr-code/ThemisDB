@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            agentic_rag.cpp                                    ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:18:55                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:43:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 141136c016  2026-02-24  audit(rag): fix dead code, unused include, wrong metadata... ║
-    • 7845f6477b  2026-02-24  feat(rag): Agentic RAG with iterative retrieval loops (Ph... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

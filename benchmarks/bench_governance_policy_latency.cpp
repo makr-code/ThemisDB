@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_governance_policy_latency.cpp                ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:07:43                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:31:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • d37f0ed1a5  2026-02-28  fix: correct Total Lines count in benchmark file header (... ║
-    • a58d68ba97  2026-02-28  feat(governance): add policy evaluation latency benchmark... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_macro_manager.cpp                            ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:21:14                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:45:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     512                                            ║
+    • Total Lines:     511                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • e6c4d3fc42  2026-02-28  fix(voice): refactor query parsing, address review commen... ║
-    • 5b49c56fd6  2026-02-28  fix(voice): code audit – thread-safety, cmake build, stat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

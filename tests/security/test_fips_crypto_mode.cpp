@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_fips_crypto_mode.cpp                          ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:22:23                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:46:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

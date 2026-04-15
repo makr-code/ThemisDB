@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hsm_key_provider_adapter.h                         ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:13:08                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:37:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

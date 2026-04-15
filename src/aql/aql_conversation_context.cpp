@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_conversation_context.cpp                       ║
-  Version:         0.0.35                                             ║
-  Last Modified:   2026-04-15 04:15:55                                ║
+  Version:         0.0.36                                             ║
+  Last Modified:   2026-04-15 05:40:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • f38c013cdc  2026-03-29  Enhance various components with improvements and fixes ║
     • 67965456c8  2026-03-22  Add constructors with default config for various classes ... ║
-    • d630135feb  2026-03-13  fix(aql): address PR review comments on bounded conversat... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

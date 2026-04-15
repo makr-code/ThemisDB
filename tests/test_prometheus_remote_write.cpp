@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_prometheus_remote_write.cpp                   ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:29:09                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:53:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • d18db7b9ab  2026-03-01  fix(timeseries): code audit – 3 security fixes in prometh... ║
-    • fd0023de98  2026-02-28  feat(timeseries): implement Prometheus remote-write endpo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

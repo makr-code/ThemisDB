@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rag_knowledge_graph_retriever.cpp             ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:29:53                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:54:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

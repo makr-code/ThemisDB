@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            perf_expectations_audit.py                         ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-15 04:33:32                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-15 05:58:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   90.0/100                                       ║
-    • Total Lines:     987                                            ║
+    • Total Lines:     1033                                           ║
     • Open Issues:     TODOs: 0, Stubs: 5                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 6a8974620a  2026-04-15  fix(audit): add CI workflow verification to voice benchma... ║
+    • e92bf9cc86  2026-04-15  feat(benchmarks): Nightly-Presets für Benchmark-Sweeps Mo... ║
     • 42c0aaa20a  2026-04-14  feat(benchmarks): standardize LLM/RAG/LoRA artifact prefl... ║
     • ee70111784  2026-04-13  fix(benchmarks): enforce Security/Governance benchmarks i... ║
     • cf3e31ffa9  2026-04-13  feat(governance): Disabled-Stub-Policy für Benchmarks ein... ║
-    • 3224c48c81  2026-04-13  [Governance] Introduce disabled benchmark policy with lin... ║
-    • aac9b9ed5a  2026-04-14  feat(benchmarks): standardize LLM/RAG/LoRA artifact prefl... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            data_lineage.cpp                                   ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:16:44                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:41:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • c9b77cb477  2026-02-25  feat(governance): implement AI/ML model governance with t... ║
-    • 5a3c435795  2026-02-25  feat(governance): implement data lineage tracking for gov... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

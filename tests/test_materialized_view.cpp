@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_materialized_view.cpp                         ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 04:27:29                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 05:51:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

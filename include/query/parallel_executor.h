@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            parallel_executor.h                                ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 04:12:27                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 05:36:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

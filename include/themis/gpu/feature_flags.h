@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            feature_flags.h                                    ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:14:12                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:38:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     169                                            ║
+    • Total Lines:     168                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 5b1bf176bf  2026-02-28  feat(gpu): implement GPUP2PTransferManager for peer-to-pe... ║
-    • 082828cb4c  2026-02-27  feat(gpu): Vulkan compute backend for cross-vendor GPU su... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

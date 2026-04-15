@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_rate_limiter.h                                ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:09:13                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:33:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 71d99c4f28  2026-04-14  fix(concurrency): eliminate deadlocks, blocking I/O under... ║
     • 43a91f1793  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
     • daf194f998  2026-03-12  feat(auth): implement rate limiter distributed state sync... ║
-    • 9de8da16fa  2026-03-12  feat(auth): implement credential stuffing persistent cros... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

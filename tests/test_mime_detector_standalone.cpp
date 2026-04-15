@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_mime_detector_standalone.cpp                  ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:27:43                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:52:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

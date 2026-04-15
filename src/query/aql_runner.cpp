@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_runner.cpp                                     ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:18:40                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:43:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 13e4bb2974  2026-03-26  Enhance GraphQL Performance Tests and Saga Operation Comp... ║
     • fe549ead12  2026-03-24  feat(query): wire QueryCompiler JIT hot-path into execute... ║
     • acb2238a51  2026-03-14  refactor: clean up CMake configuration and improve test d... ║
-    • 441ccba689  2026-03-13  feat(geo/bench): AC5 – add spatial join performance bench... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

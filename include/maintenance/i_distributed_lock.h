@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            i_distributed_lock.h                               ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-15 04:11:10                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-15 05:35:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

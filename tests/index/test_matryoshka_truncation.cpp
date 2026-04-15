@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_matryoshka_truncation.cpp                     ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-15 04:21:56                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 05:46:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

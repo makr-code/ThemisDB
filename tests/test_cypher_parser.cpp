@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cypher_parser.cpp                             ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-15 04:24:48                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 05:49:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

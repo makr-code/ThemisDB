@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            AppSettings.cs                                     ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:33:02                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:57:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

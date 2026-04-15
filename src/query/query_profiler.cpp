@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_profiler.cpp                                 ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-15 04:18:48                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 05:43:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

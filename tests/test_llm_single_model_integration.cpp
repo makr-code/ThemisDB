@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llm_single_model_integration.cpp              ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:27:13                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:51:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • ac7f8d2913  2026-02-28  fix(llm-tests): correct wrong stat object in WorkerStatis... ║
-    • f40c17d3f9  2026-02-28  feat(llm): add single-model and multi-model integration t... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

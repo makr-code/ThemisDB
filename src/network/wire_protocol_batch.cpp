@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_batch.cpp                            ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 04:17:55                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 05:42:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • c0a50c2caf  2026-03-19  Refactor build flags, IO, benchmarks & tests ║
     • 354c97d283  2026-03-16  feat: Add new erasure coding backend and related components ║
-    • 0ee0d57254  2026-03-14  fix(network): address PR review comments on wire protocol... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

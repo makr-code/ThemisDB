@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_retention.cpp                             ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:23:52                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:48:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
     • a9f387ce07  2026-03-11  feat(cdc): runtime-configurable change log retention poli... ║
     • a64247126f  2026-03-08  Refactor code structure for improved readability and main... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

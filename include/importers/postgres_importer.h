@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            postgres_importer.h                                ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:10:33                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:34:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 8452353dc5  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
     • b8ff944e1b  2026-03-11  feat(importers): PostgreSQL importer v2.0 - Foreign Key P... ║
     • 8cf8f1d120  2026-03-11  feat(importers): v2.1 - additional constraint types, rela... ║
-    • e4aae2a7f2  2026-03-11  feat(importers): PostgreSQL Importer v2.0 - FK preservati... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

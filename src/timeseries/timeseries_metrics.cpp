@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            timeseries_metrics.cpp                             ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:20:36                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:45:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • a2d7c07202  2026-04-14  update after codefindings               ║
     • 16b61f181a  2026-03-13  fix(timeseries): audit fixes – catch-up dedup, prometheus... ║
     • 4dbd7efdea  2026-03-13  feat(timeseries): incremental continuous aggregation with... ║
-    • a188b47e9a  2026-03-09  fix(timeseries): audit fixes - getStats regression, backp... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

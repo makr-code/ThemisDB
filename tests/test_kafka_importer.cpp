@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_kafka_importer.cpp                            ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:26:53                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:51:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2421634e7d  2026-03-13  fix(kafka): rewrite tests to use production KafkaImporter... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 59453d3ae6  2026-02-28  feat(importers): Add Kafka consumer importer for real-tim... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

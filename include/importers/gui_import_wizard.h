@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gui_import_wizard.h                                ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 04:10:26                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 05:34:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

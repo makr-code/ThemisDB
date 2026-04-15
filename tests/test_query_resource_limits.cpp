@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_query_resource_limits.cpp                     ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:29:30                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:54:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 8554702d56  2026-02-28  fix(query): code-audit – remove unused includes, fix narr... ║
-    • 1b5d8a188d  2026-02-23  feat(query): implement per-query resource limits (max row... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

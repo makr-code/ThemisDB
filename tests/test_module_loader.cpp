@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_module_loader.cpp                             ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:27:47                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:52:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • dea1ebd8b3  2026-03-13  fix(base): address PluginBundleLoader review comments (Zi... ║
     • 2398e2296f  2026-03-12  feat(base): implement cross-platform PluginBundle format ... ║
     • e2d71ace58  2026-03-12  fix: address review feedback — thread-safe tests, insert_... ║
-    • c2e0a8ff71  2026-03-12  feat: O(1) module lookup — replace loadedModules_ vector ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

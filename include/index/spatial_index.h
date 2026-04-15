@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            spatial_index.h                                    ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:10:44                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:34:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 10732a3a86  2026-03-12  feat(geo): add SpatialIndexManager::bulkLoad and improve ... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 4e4639844f  2026-02-24  feat(geo): integrate R-tree index with CPU backend (Spati... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            zstd_compression.cpp                               ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:16:24                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:40:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

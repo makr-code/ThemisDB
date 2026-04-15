@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_middleware.h                                  ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:13:18                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:37:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 76eef4d701  2026-03-15  feat(auth): implement JWT scope extraction and role-to-sc... ║
     • c97360e579  2026-03-15  fix(auth,scheduler): JWT scope enforcement, Kerberos role... ║
     • b4f9cb129d  2026-03-12  refactor(auth): improve normalization helper and comment ... ║
-    • c21f255d82  2026-03-12  fix(auth): address review feedback on JWT issuer/audience... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

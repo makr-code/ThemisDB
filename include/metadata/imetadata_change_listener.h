@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            imetadata_change_listener.h                        ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-15 04:11:16                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 05:35:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

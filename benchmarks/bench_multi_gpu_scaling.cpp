@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_multi_gpu_scaling.cpp                        ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:07:52                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:31:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

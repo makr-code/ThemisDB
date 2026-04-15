@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            fix_doc_links.py                                   ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:15:35                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:40:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

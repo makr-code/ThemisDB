@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_changefeed_core.cpp                       ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 04:23:38                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 05:48:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • 5083e3481d  2026-03-18  Changes before error encountered        ║
     • c01cf83bc8  2026-03-11  fix(cdc): fix DB type mismatch in test_tenant_buffer_mana... ║
-    • cb4d4ce17e  2026-03-11  test(cdc): add 66 unit tests for ChangefeedBuffer and Cha... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

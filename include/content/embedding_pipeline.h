@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            embedding_pipeline.h                               ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:09:46                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:33:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • ee034a6578  2026-02-24  fix(content): audit — wire ContentMetrics, add ContentPol... ║
-    • efa41f4324  2026-02-24  feat(content): implement embedding generation pipeline (I... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

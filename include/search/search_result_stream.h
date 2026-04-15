@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            search_result_stream.h                             ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-15 04:13:06                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 05:37:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

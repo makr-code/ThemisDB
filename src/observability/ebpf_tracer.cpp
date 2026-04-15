@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ebpf_tracer.cpp                                    ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:17:59                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:42:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 7da0156c2a  2026-03-01  fix(observability/ebpf_tracer): audit fixes — data race, ... ║
-    • 5ffb981070  2026-02-28  feat(observability): implement eBPF-based low-overhead ke... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

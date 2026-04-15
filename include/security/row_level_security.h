@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            row_level_security.h                               ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:13:12                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:37:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 6ccd1422fa  2026-02-23  fix(security): audit - remove unused includes and fix col... ║
-    • e68be57216  2026-02-23  feat(security): implement row-level security policies in ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

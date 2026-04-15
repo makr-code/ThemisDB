@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_config_schema_validator.cpp                   ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:24:11                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:48:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 59093560d0  2026-04-13  feat(config): add performance acceptance test for ConfigS... ║
     • 64c72611d4  2026-03-22  feat(config): implement `not` JSON Schema keyword, upgrad... ║
     • ee59cce514  2026-03-11  docs(config): update ARCHITECTURE.md and header metadata ... ║
-    • ec0d1bcbc8  2026-03-11  feat(config): add validateFromString API for in-memory YA... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

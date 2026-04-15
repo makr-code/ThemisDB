@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            import_api_handler.cpp                             ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:19:43                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:44:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 9bccf09a7c  2026-03-16  Changes before error encountered        ║
     • 8452353dc5  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
-    • a2a0e15fab  2026-03-11  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

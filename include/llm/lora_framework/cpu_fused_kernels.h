@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cpu_fused_kernels.h                                ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:10:59                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:35:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

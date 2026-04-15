@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            chunked_response_writer.h                          ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:13:20                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:37:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • f812b1ab77  2026-02-23  fix(server): audit fixes – HTTP/2 chunked decode, RFC 754... ║
-    • e744b2ef4f  2026-02-23  feat(server): implement HTTP chunked transfer encoding fo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

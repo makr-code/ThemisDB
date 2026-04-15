@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_content_processor_chain.cpp                   ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:24:19                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:48:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • d96f6838de  2026-02-28  feat(content): add chunking stage gate and VIDEO category... ║
-    • 43013e4ee0  2026-02-27  Add configurable processing pipeline (processor chain) fo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

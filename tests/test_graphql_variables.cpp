@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_graphql_variables.cpp                         ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:26:04                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:50:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • c0ea85377e  2026-04-07  fix(graphql): implement variable substitution at executio... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 85fe20c2ba  2026-02-26  Add unit tests for Schema::introspect(), variable parsing... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

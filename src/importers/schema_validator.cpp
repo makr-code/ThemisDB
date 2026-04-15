@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            schema_validator.cpp                               ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:17:10                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:41:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 8638d7889d  2026-02-28  fix(importers): code audit fixes for schema validator PR ║
-    • 0011791747  2026-02-27  feat(importers): schema auto-detection and validation on ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

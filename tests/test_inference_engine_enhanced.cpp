@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_inference_engine_enhanced.cpp                 ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:26:33                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:51:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • d1f0cf3ca5  2026-03-19  fix(llm): address all PR review issues - sentinel deliver... ║
     • 3ea7ab4a41  2026-03-19  feat(llm): implement tool call parsing, submitStreaming, ... ║
     • c3fa684101  2026-03-11  fix(llm): audit pass 2 - fix generated_text, prompt-key c... ║
-    • 5f9187ff60  2026-03-11  feat(llm): implement KV-cache prewarming with embedding-b... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

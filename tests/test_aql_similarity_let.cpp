@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_aql_similarity_let.cpp                        ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:23:05                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:47:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

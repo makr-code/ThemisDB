@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            secondary_index.cpp                                ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:17:15                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:41:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • aab4886b64  2026-04-13  perf(index): cache fulltext-configs, ttl-seconds, composi... ║
     • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
     • 8fc0b58946  2026-03-14  refactor(index): address code review - fix DeltaEncoder d... ║
-    • 2cf21d36ba  2026-03-14  feat(index): implement index compression (v1.7.0, Issue #... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

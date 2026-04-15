@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cross_tenant_policy_inheritance.cpp                ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:16:43                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:41:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • b60af37548  2026-02-26  fix(governance): code audit – audit trail, Prometheus cou... ║
-    • 38afdcb9c2  2026-02-26  feat(governance): implement cross-tenant governance polic... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

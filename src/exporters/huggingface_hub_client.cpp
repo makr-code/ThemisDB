@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            huggingface_hub_client.cpp                         ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 04:16:32                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 05:41:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • 17ac0cd311  2026-03-16  feat(exporters): HuggingFace Hub Client HTTP 429 back-off... ║
-    • c64ea5aac6  2026-03-11  feat(exporters): add hf_token_kek_id for KEK/KMS-protecte... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

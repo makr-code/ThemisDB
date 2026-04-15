@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_ttl_policy.h                              ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-15 04:09:23                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 05:33:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

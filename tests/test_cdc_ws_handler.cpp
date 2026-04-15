@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_ws_handler.cpp                            ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:23:53                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:48:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • c0a50c2caf  2026-03-19  Refactor build flags, IO, benchmarks & tests ║
     • 2fed5b1c69  2026-03-15  fix(cdc): wire ConsumerGroupManager into WebSocket server... ║
     • c410b12cc7  2026-03-15  fix(cdc): address code review feedback - clarify ack_key ... ║
-    • f9a6d3a601  2026-03-15  feat(cdc): integrate ConsumerGroupManager into CdcWebSock... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

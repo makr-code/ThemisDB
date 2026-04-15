@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            json_schema_converter.h                            ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:10:57                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:35:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

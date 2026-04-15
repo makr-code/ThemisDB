@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_gpu_erasure.cpp                              ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:07:44                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:31:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_replay_controller.cpp                     ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-15 04:23:52                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 05:48:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

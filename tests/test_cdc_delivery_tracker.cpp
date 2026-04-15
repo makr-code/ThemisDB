@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_delivery_tracker.cpp                      ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:23:44                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:48:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 3ba0b14cbd  2026-02-24  Audit fixes: remove unused include, ack_timeout precision... ║
-    • 970f1684c0  2026-02-24  Add at-least-once delivery tracker for CDC module (issue ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

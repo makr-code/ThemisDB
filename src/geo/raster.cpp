@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            raster.cpp                                         ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:16:40                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:41:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

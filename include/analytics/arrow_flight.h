@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            arrow_flight.h                                     ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:08:49                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:32:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rag_document_summarizer.cpp                   ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:29:48                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:54:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

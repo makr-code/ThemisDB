@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wire_protocol_server.cpp                           ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:20:30                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:44:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • e7af44ad0c  2026-03-11  fix(network): audit pass 2 — add CURSOR_NEXT (0x23), CURS... ║
     • c47502afd2  2026-03-11  feat(network): implement all WireProtocol V1 opcode handl... ║
-    • e6f59e401f  2026-03-11  fix(security): sanitize user input in error messages + sy... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

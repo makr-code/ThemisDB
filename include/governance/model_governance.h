@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            model_governance.h                                 ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:10:14                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:34:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

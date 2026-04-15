@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rotary_embeddings_gpu_cpu.cpp                      ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:17:15                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:41:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     97                                             ║
+    • Total Lines:     96                                             ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

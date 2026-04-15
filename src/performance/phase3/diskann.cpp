@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            diskann.cpp                                        ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:18:16                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:42:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     529                                            ║
+    • Total Lines:     528                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 5432ec11fb  2026-02-28  fix(diskann): persist dimension in metadata; fix adapter ... ║
-    • cebce18b12  2026-02-28  feat(index): fix DiskANN offset tracking, implement graph... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

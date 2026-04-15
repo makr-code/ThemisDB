@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            parallel_scan.h                                    ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:12:27                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:36:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

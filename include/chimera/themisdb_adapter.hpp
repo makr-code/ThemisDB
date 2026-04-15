@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            themisdb_adapter.hpp                               ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:09:41                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:33:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 0701ac8f4d  2026-03-12  feat(chimera): implement async/promise-based API (IAsyncD... ║
     • 3fea6d6b51  2026-03-12  refactor: clean up includes and remove unused transaction... ║
     • c4c01c2428  2026-03-12  fix(chimera): address code review feedback on ThemisDB ad... ║
-    • 042f896b63  2026-03-12  refactor(chimera): address PR review feedback on transact... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

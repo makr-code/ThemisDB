@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_api_key_authenticator.cpp                     ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:22:47                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:47:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • d8c31d7ab2  2026-02-24  fix(auth): correct enum order and comment range in auth_e... ║
-    • ad8c8cf55b  2026-02-23  feat(auth): implement API key authentication (static key ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

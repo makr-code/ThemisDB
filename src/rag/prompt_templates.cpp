@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            prompt_templates.cpp                               ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:19:07                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:43:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

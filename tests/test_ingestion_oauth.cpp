@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ingestion_oauth.cpp                           ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:26:39                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:51:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 25f69a572f  2026-03-09  feat(ingestion): replace simulated HttpClient in HuggingF... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • b40bbc1612  2026-02-26  feat(ingestion): OAuth 2.0 token refresh handling in Gene... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

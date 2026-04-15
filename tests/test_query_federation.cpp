@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_query_federation.cpp                          ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:29:25                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:54:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

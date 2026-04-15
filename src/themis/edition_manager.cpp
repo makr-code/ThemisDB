@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            edition_manager.cpp                                ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:20:27                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:44:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • a4de3d12cc  2026-03-01  feat(themis): implement dynamic feature flag override API... ║
-    • 0cbb725b3a  2026-02-23  feat(themis): implement edition_manager.cpp for Community... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

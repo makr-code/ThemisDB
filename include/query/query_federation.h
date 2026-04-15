@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_federation.h                                 ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:12:29                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:36:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 7811d1486a  2026-03-27  feat: Enhance backward compatibility and legacy support a... ║
     • bc061a79df  2026-03-24  feat(query): QueryFederation shard-key routing v1.9.0 ║
     • 097e8a5773  2026-03-24  feat(query,sharding): QueryFederation shard-key routing v... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

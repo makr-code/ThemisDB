@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_aql_multi_statement_transaction.cpp           ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 04:22:58                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 05:47:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • b71ca305ed  2026-02-23  fix(query): track paren depth in parseTransactionBlock to... ║
-    • 190845ecd4  2026-02-23  feat(query): implement multi-statement transaction AQL (B... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

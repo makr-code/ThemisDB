@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rag_multi_hop_reasoner.cpp                    ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-15 04:29:54                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 05:54:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

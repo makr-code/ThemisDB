@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_aql_st_queryengine.cpp                        ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:21:40                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:46:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

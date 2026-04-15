@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            sharding_manager_edition.cpp                       ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 04:20:05                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 05:44:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 097e8a5773  2026-03-24  feat(query,sharding): QueryFederation shard-key routing v... ║
     • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
     • c9b1433946  2026-03-15  feat(server): inject live ShardingManager into HttpServer... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
