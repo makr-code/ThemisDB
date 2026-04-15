@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <chrono>
+#include <memory>
 #include <random>
 #include <sstream>
 #include <iomanip>
@@ -65,11 +66,14 @@ Sha256Digest ProjectVersioning::computeChecksum(const std::string& data) const {
     unsigned char digest[EVP_MAX_MD_SIZE];
     unsigned int  len = 0;
 
-    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
-    EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr);
-    EVP_DigestUpdate(ctx, data.data(), data.size());
-    EVP_DigestFinal_ex(ctx, digest, &len);
-    EVP_MD_CTX_free(ctx);
+    std::unique_ptr<EVP_MD_CTX, decltype(&EVP_MD_CTX_free)>
+        ctx(EVP_MD_CTX_new(), EVP_MD_CTX_free);
+    if (!ctx)
+        return {};
+
+    EVP_DigestInit_ex(ctx.get(), EVP_sha256(), nullptr);
+    EVP_DigestUpdate(ctx.get(), data.data(), data.size());
+    EVP_DigestFinal_ex(ctx.get(), digest, &len);
 
     std::ostringstream oss;
     for (unsigned int i = 0; i < len; ++i)
