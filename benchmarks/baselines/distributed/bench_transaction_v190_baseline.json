@@ -1,0 +1,132 @@
+{
+  "version": "1.9.0",
+  "profile": "v1.9.0",
+  "branch": "main",
+  "commit": "pending-first-run",
+  "timestamp": "2026-04-15T00:00:00Z",
+  "description": "v1.9.0 SLO baseline for the Transaction module. Covers TX-1..TX-8 via primary_case and fallback_case benchmarks defined in benchmark_target_mapping.json (Wave2). Populated on first CI/local run of bench_transaction_throughput.",
+  "slo_module": "transaction",
+  "wave": "Wave2",
+  "run_command": "bench_transaction_throughput --benchmark_out=bench_transaction_v190.json --benchmark_out_format=json --benchmark_repetitions=3 --benchmark_report_aggregates_only=true",
+  "run_command_fallback": "bench_transaction_throughput --benchmark_filter=BM_TransactionContention --benchmark_out=bench_transaction_contention_v190.json --benchmark_out_format=json",
+  "slo_coverage": {
+    "TX-1": {
+      "label": "OCC Commit P50",
+      "primary_case": "TransactionBenchmarkFixture_CommitLatency",
+      "primary_case_arg": 1,
+      "fallback_case": "TransactionBenchmarkFixture_OccOptimisticPut",
+      "slo_target": "≤ 100 µs",
+      "status": "mapped",
+      "measured_real_time_us": null,
+      "slo_met": null
+    },
+    "TX-2": {
+      "label": "OCC Commit P99",
+      "primary_case": "TransactionBenchmarkFixture_CommitLatency",
+      "primary_case_arg": 100,
+      "fallback_case": "TransactionBenchmarkFixture_OccReadVersionAndUpdate",
+      "slo_target": "≤ 5 ms",
+      "status": "mapped",
+      "measured_real_time_us": null,
+      "slo_met": null
+    },
+    "TX-3": {
+      "label": "2PC Throughput",
+      "primary_case": "TransactionBenchmarkFixture_WriteOnlyTransaction",
+      "fallback_case": "BM_TransactionContention",
+      "slo_target": "> 6 k/s",
+      "status": "mapped",
+      "measured_v134": "6.4 k/s",
+      "measured_tps_per_sec": null,
+      "slo_met": null,
+      "note": "v1.3.4 measured value: 6.4 k/s. Use 'tps' counter from benchmark output."
+    },
+    "TX-4": {
+      "label": "2PC Latenz (5 Shards)",
+      "primary_case": "TransactionBenchmarkFixture_MixedTransaction",
+      "fallback_case": "TransactionBenchmarkFixture_WriteOnlyTransaction",
+      "slo_target": "≤ 5 ms",
+      "status": "proxy",
+      "gap_ref": "TX-4-GAP",
+      "gap_effort_days": 4,
+      "measured_real_time_ms": null,
+      "slo_met": null
+    },
+    "TX-5": {
+      "label": "SAGA Compensation Time",
+      "primary_case": "TransactionBenchmarkFixture_AbortTransaction",
+      "fallback_case": "TransactionBenchmarkFixture_SavepointCreateAndRollback",
+      "slo_target": "≤ 20 ms",
+      "status": "proxy",
+      "gap_ref": "TX-5-GAP",
+      "gap_effort_days": 3,
+      "measured_real_time_us": null,
+      "slo_met": null
+    },
+    "TX-6": {
+      "label": "Deadlock Detection Overhead",
+      "primary_case": "TransactionBenchmarkFixture_ReadOnlyTransaction",
+      "fallback_case": "TransactionBenchmarkFixture_MixedTransaction",
+      "slo_target": "≤ 1 % overhead (vs. 5 % baseline)",
+      "status": "proxy",
+      "gap_ref": "TX-6-GAP",
+      "gap_effort_days": 3,
+      "measured_overhead_pct": null,
+      "slo_met": null
+    },
+    "TX-7": {
+      "label": "False Positive Rate",
+      "primary_case": "TransactionBenchmarkFixture_AbortTransaction",
+      "fallback_case": "TransactionBenchmarkFixture_OccOptimisticPut",
+      "slo_target": "< 5 %",
+      "status": "proxy",
+      "gap_ref": "TX-7-GAP",
+      "gap_effort_days": 3,
+      "measured_abort_rate_pct": null,
+      "slo_met": null
+    },
+    "TX-8": {
+      "label": "Low-Contention Success Rate",
+      "primary_case": "TransactionBenchmarkFixture_OccOptimisticPut",
+      "fallback_case": "TransactionBenchmarkFixture_ReadOnlyTransaction",
+      "slo_target": "> 90 %",
+      "status": "mapped",
+      "measured_success_rate_pct": null,
+      "slo_met": null
+    }
+  },
+  "missing_cases": [
+    {
+      "gap_id": "TX-4-GAP",
+      "title": "Verteilte 2PC-Latenz (5 echte Shards)",
+      "description": "Benchmark für 2PC-Commit-Latenz über 5 echte Shard-Koordinatoren. Erfordert DistributedTransactionCoordinator-Fixture mit 5 In-Process-Shard-Mocks.",
+      "effort_days": 4,
+      "target_milestone": "v1.10.0",
+      "blocking_slo": "TX-4"
+    },
+    {
+      "gap_id": "TX-5-GAP",
+      "title": "SAGA Compensation DAG Benchmark",
+      "description": "Benchmark für SAGA-Orchestrator mit parallelisiertem Compensation-DAG. Erfordert SagaOrchestrator-Fixture mit konfigurierbarer Step-Anzahl und Failure-Injektion.",
+      "effort_days": 3,
+      "target_milestone": "v1.10.0",
+      "blocking_slo": "TX-5"
+    },
+    {
+      "gap_id": "TX-6-GAP",
+      "title": "Deadlock-Detection-Overhead Mikrobenchmark",
+      "description": "Benchmark misst Lock-Graph-Cycle-Detection-Overhead pro Transaction. Erfordert kontrollierten Lock-Konten mit bekannter Cycle-Rate.",
+      "effort_days": 3,
+      "target_milestone": "v1.10.0",
+      "blocking_slo": "TX-6"
+    },
+    {
+      "gap_id": "TX-7-GAP",
+      "title": "OCC False-Positive-Rate Benchmark",
+      "description": "Benchmark misst False-Positive-Abort-Rate (Phantom-Conflicts) unter kontrollierten Workloads. Erfordert Fixture mit definierten Overlap-Wahrscheinlichkeiten.",
+      "effort_days": 3,
+      "target_milestone": "v1.10.0",
+      "blocking_slo": "TX-7"
+    }
+  ]
+}
