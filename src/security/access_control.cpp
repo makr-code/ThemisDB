@@ -35,6 +35,7 @@
 #include <sstream>
 #include <iomanip>
 #include <regex>
+#include <cstdlib>
 #include <openssl/evp.h>
 #include <openssl/rand.h>
 
@@ -91,6 +92,22 @@ AccessControl::AccessControl(const Config& config)
     );
     
     THEMIS_INFO("User registration will be handled via plugins (Apache Arrow, WebDAV)");
+
+    // Phase 2.2: apply THEMIS_MFA_REQUIRED_ROLES env override if set.
+    // Format: comma-separated role names, e.g. "admin,operator,superuser".
+    if (const char* env_roles = std::getenv("THEMIS_MFA_REQUIRED_ROLES")) {
+        std::vector<std::string> roles;
+        std::istringstream ss(env_roles);
+        std::string token;
+        while (std::getline(ss, token, ',')) {
+            if (!token.empty()) roles.push_back(token);
+        }
+        if (!roles.empty()) {
+            config_.session_config.mfa_required_roles = std::move(roles);
+            THEMIS_INFO("AccessControl: THEMIS_MFA_REQUIRED_ROLES override applied ({} roles)",
+                        config_.session_config.mfa_required_roles.size());
+        }
+    }
 }
 
 AccessControl::~AccessControl() {
@@ -178,21 +195,53 @@ AccessControl::AuthenticationResult AccessControl::authenticate(const Credential
         return AuthenticationResult::Failed("Invalid credentials");
     }
     
-    // Check if MFA is required
-    if (config_.session_config.require_mfa) {
-        if (!credentials.mfa_token.has_value()) {
-            return AuthenticationResult::RequiresMFA(credentials.user_id);
+    // Check if MFA is required — Phase 2.2: also check per-role requirements.
+    // The global require_mfa flag OR the role being in mfa_required_roles both
+    // trigger mandatory MFA.  At this point we have the user's roles from the
+    // auth_result.
+    {
+        auto& user_data_local = auth_result.value();
+        const auto& required_roles = config_.session_config.mfa_required_roles;
+
+        bool role_requires_mfa = false;
+        if (!required_roles.empty()) {
+            for (const auto& role : user_data_local.roles) {
+                for (const auto& req_role : required_roles) {
+                    if (role == req_role) {
+                        role_requires_mfa = true;
+                        break;
+                    }
+                }
+                if (role_requires_mfa) break;
+            }
         }
-        
-        if (!verifyMFA(credentials.user_id, credentials.mfa_token.value())) {
-            stats_.failed_authentications++;
-            logSecurityEvent(
-                utils::SecurityEventType::MFA_TOTP_FAILED,
-                credentials.user_id,
-                "authentication",
-                {{"reason", "Invalid MFA token"}}
-            );
-            return AuthenticationResult::Failed("Invalid MFA token");
+
+        bool mfa_needed = config_.session_config.require_mfa || role_requires_mfa;
+
+        if (mfa_needed) {
+            if (!credentials.mfa_token.has_value()) {
+                if (role_requires_mfa) {
+                    logSecurityEvent(
+                        utils::SecurityEventType::LOGIN_FAILED,
+                        credentials.user_id,
+                        "authentication",
+                        {{"reason", "MFA required for privileged role"},
+                         {"event", "MFA_SKIPPED_ADMIN"}}
+                    );
+                }
+                return AuthenticationResult::RequiresMFA(credentials.user_id);
+            }
+
+            if (!verifyMFA(credentials.user_id, credentials.mfa_token.value())) {
+                stats_.failed_authentications++;
+                logSecurityEvent(
+                    utils::SecurityEventType::MFA_TOTP_FAILED,
+                    credentials.user_id,
+                    "authentication",
+                    {{"reason", "Invalid MFA token"}}
+                );
+                return AuthenticationResult::Failed("Invalid MFA token");
+            }
         }
     }
     

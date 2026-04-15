@@ -92,6 +92,14 @@ public:
             std::chrono::seconds idle_timeout = std::chrono::minutes(30);
             bool require_mfa = false;
             int max_concurrent_sessions = 5;
+
+            // Phase 2.2: per-role MFA enforcement.
+            // Users whose RBAC role is in this list MUST provide a valid TOTP
+            // code at login, regardless of the global require_mfa flag.
+            // Default: admin and operator roles require MFA.
+            // Override at runtime via THEMIS_MFA_REQUIRED_ROLES env variable
+            // (comma-separated list).
+            std::vector<std::string> mfa_required_roles = {"admin", "operator"};
         } session_config;
         
         // Rate Limiting

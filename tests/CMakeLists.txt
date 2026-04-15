@@ -12388,6 +12388,82 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_fips_crypto_mode.cpp")
     message(STATUS "  FipsCryptoMode: FIPS activation, approved cipher suites, non-approved rejection")
 endif()
 
+# ============================================================================
+# Phase 3.3 — BehavioralAnomalyDetector Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_behavioral_anomaly_detector.cpp")
+    message(STATUS "Adding BehavioralAnomalyDetector tests (Phase 3.3)")
+
+    add_executable(test_behavioral_anomaly_detector
+        test_behavioral_anomaly_detector.cpp
+    )
+
+    target_include_directories(test_behavioral_anomaly_detector PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_behavioral_anomaly_detector PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_behavioral_anomaly_detector PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME BehavioralAnomalyDetectorTests
+             COMMAND test_behavioral_anomaly_detector)
+
+    set_tests_properties(BehavioralAnomalyDetectorTests PROPERTIES
+        LABELS "security;zero-trust;anomaly-detection;behavioral;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  BehavioralAnomalyDetector: burst rate, off-hours, privilege escalation, ring-buffer")
+endif()
+
+# ============================================================================
+# Phase 5.1+5.2 — GDPR Subject Rights + Cross-Border Transfer Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gdpr_and_cross_border.cpp")
+    message(STATUS "Adding GDPR Subject Rights + Cross-Border Transfer tests (Phase 5.1+5.2)")
+
+    add_executable(test_gdpr_and_cross_border
+        test_gdpr_and_cross_border.cpp
+    )
+
+    target_include_directories(test_gdpr_and_cross_border PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_gdpr_and_cross_border PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_gdpr_and_cross_border PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GdprAndCrossBorderTests
+             COMMAND test_gdpr_and_cross_border)
+
+    set_tests_properties(GdprAndCrossBorderTests PROPERTIES
+        LABELS "governance;gdpr;ccpa;compliance;cross-border;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  GdprSubjectRightsManager + CrossBorderTransferPolicy")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_access_control_manager.cpp")
     message(STATUS "Adding Access Control Manager focused tests")
 
