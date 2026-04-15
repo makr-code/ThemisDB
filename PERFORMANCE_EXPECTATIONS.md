@@ -1117,67 +1117,75 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 ### 5.3 Distributed and Transaction Modules
 
 > *Replication (§11), Sharding (§12), Transaction (§13)*
+>
+> **Wave2 (2026-04-15):** SLO-zu-Benchmark-Matrix vollständig aufgebaut.
+> Jede Ziel-ID hat `primary_case` + `fallback_case` in `benchmarks/benchmark_target_mapping.json` (v2.0).
+> v1.9.0-Profile-JSONs: `benchmarks/baselines/distributed/`.
+> Vollständige Matrix + Gap-Analyse: [`docs/benchmarks/slo_benchmark_matrix_v190.md`](../docs/benchmarks/slo_benchmark_matrix_v190.md)
 
 #### 11. Replication-Modul
 
-> **✅ Benchmark implementiert (2026-04-13):** `bench_replication_throughput.cpp` — PRODUCTION-READY.
-> Abgedeckte Pfade: WAL-Append (R-1/R-2), WALEntry-Serialisierung, ReplicationManager-Init.
-> Verbleibend: Erste Zielmessung ausfuehren und Ergebnisse in Tabelle eintragen (R-1..R-8).
+> **✅ Benchmark implementiert + Wave2 SLO-Matrix (2026-04-15):** `bench_replication_throughput.cpp` — PRODUCTION-READY.
+> **Wave2:** R-1..R-8 alle mit `primary_case`/`fallback_case` kartiert. Direkt messbar: R-2, R-6, R-7. Proxy-Cases: R-1, R-3, R-4, R-5, R-8.
+> Gap-Tickets: R-3-GAP (3d), R-4-GAP (2d), R-5-GAP (3d), R-8-GAP (5d). Gesamt-Aufwand: 13d.
+> v1.9.0-Profil: `benchmarks/baselines/distributed/bench_replication_v190_baseline.json`
 
-| Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
-|---------|----------------|-----------------|--------|
-| R-1 Replikations-Lag P99 (SEMI_SYNC) |  50 ms @ 10k Writes/s (LAN) |  |  |
-| R-2 WAL-Shipping Throughput (Zstd L3) |  500 MB/s/Follower (10 GbE) |  |  |
-| R-3 Leader-Failover |  10 s |  |  |
-| R-4 HLC Conflict Detection | < 5 /Write |  |  |
-| R-5 CRDT Merge |  1 /Merge |  |  |
-| R-6 WAL Replay (PITR, 100 GB) |  200 MB/s;  10 min |  |  |
-| R-7 CDC Event P99 |  1 ms (Commit → CDC Queue) |  |  |
-| R-8 Cross-DC Lag ASYNC |  200 ms P99 (50 ms RTT WAN) |  |  |
+| Ziel-ID | Erwartungswert | v1.3.4 Gemessen | v1.9.0 primary_case | v1.9.0 fallback_case | Benchmark-Status |
+|---------|----------------|-----------------|---------------------|----------------------|-----------------|
+| R-1 Replikations-Lag P99 (SEMI_SYNC) | ≤ 50 ms @ 10k Writes/s (LAN) |  | `WalBenchFixture_Append` | `BM_ReplicationLag` | `proxy` |
+| R-2 WAL-Shipping Throughput (Zstd L3) | ≥ 500 MB/s/Follower (10 GbE) |  | `WalBenchFixture_ReadFrom` | `WalBenchFixture_Append` | `mapped` |
+| R-3 Leader-Failover | ≤ 10 s |  | `BM_ReplicationManager_Initialize` | `WalBenchFixture_Append` | `proxy` ⚠️ R-3-GAP |
+| R-4 HLC Conflict Detection | < 5 µs/Write |  | `BM_WALEntry_Serialize` | `BM_WALEntry_Deserialize` | `proxy` ⚠️ R-4-GAP |
+| R-5 CRDT Merge | ≤ 1 µs/Merge |  | `BM_WALEntry_Deserialize` | `BM_WALEntry_Serialize` | `proxy` ⚠️ R-5-GAP |
+| R-6 WAL Replay (PITR, 100 GB) | ≥ 200 MB/s; ≤ 10 min |  | `WalBenchFixture_ReadFrom` | `WalBenchFixture_Append` | `mapped` |
+| R-7 CDC Event P99 | ≤ 1 ms (Commit → CDC Queue) |  | `ChangefeedBenchmarkFixture_EventRecordingThroughput` | `BM_RecordEventLatency` | `mapped` |
+| R-8 Cross-DC Lag ASYNC | ≤ 200 ms P99 (50 ms RTT WAN) |  | `WalBenchFixture_ReadFrom` | `BM_ReplicationLag` | `proxy` ⚠️ R-8-GAP |
 
 ---
 
 
 #### 12. Sharding-Modul
 
-> **✅ Benchmark implementiert (2026-04-13):** `bench_sharding_performance.cpp` — PRODUCTION-READY (790 Zeilen).
-> Abgedeckte Pfade: Scatter/Gather-Latenz, Cross-Shard-Joins, Rebalancing, Gossip-Overhead (SH-1..SH-12).
-> Verbleibend: Erste Zielmessung ausfuehren und Ergebnisse in Tabelle eintragen.
+> **✅ Benchmark implementiert + Wave2 SLO-Matrix (2026-04-15):** `bench_sharding_performance.cpp` — PRODUCTION-READY (790 Zeilen).
+> **Wave2:** SH-1..SH-12 alle mit `primary_case`/`fallback_case` kartiert. Direkt messbar: SH-1. Proxy-Cases: SH-2..SH-7, SH-9..SH-12. Not-measurable: SH-8 (GPU-Gate).
+> Gap-Tickets: SH-2-GAP..SH-12-GAP. Gesamt-Aufwand: 46d.
+> v1.9.0-Profil: `benchmarks/baselines/distributed/bench_sharding_v190_baseline.json`
 
-| Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
-|---------|----------------|-----------------|--------|
-| SH-1 Cross-Shard RPC P99 (LAN) | < 5 ms |  |  |
-| SH-2 Connection-Pool Hit-Rate | > 95 % @ 10k RPS |  |  |
-| SH-3 Percolator Commit P99 (10 Shards) | < 20 ms |  |  |
-| SH-4 Shard-Split Migration Downtime | 0 ms Read-Unavailability |  |  |
-| SH-5 Write-Latenz während Migration | < 20 % über Baseline P99 |  |  |
-| SH-6 Rebalancer Decision Cycle | < 10 s |  |  |
-| SH-7 Anti-Entropy Scan Throughput | > 1 GB/s (NVMe, 8 Worker) |  |  |
-| SH-8 GPU Reed-Solomon | > 4 GB/s (NVIDIA A10) |  |  |
-| SH-9 Snapshot (1 GB Raft-State) | < 10 s |  |  |
-| SH-10 Snapshot Kompressionsrate | < 35 % unkomprimiert (ZSTD L3) |  |  |
-| SH-11 Replica Catch-up | > 200 MB/s (10 GbE LAN) |  |  |
-| SH-12 Topology Change Propagation | < 500 ms (100 Nodes, Gossip) |  |  |
+| Ziel-ID | Erwartungswert | v1.3.4 Gemessen | v1.9.0 primary_case | v1.9.0 fallback_case | Benchmark-Status |
+|---------|----------------|-----------------|---------------------|----------------------|-----------------|
+| SH-1 Cross-Shard RPC P99 (LAN) | < 5 ms |  | `ScatterGatherFixture_ScatterGatherLatency` | `ShardRoutingFixture_SingleShardLookup` | `mapped` |
+| SH-2 Connection-Pool Hit-Rate | > 95 % @ 10k RPS |  | `ShardRoutingFixture_ConsistentHashPerformance` | `ShardRoutingFixture_BatchRouting` | `proxy` ⚠️ SH-2-GAP |
+| SH-3 Percolator Commit P99 (10 Shards) | < 20 ms |  | `CrossShardJoinFixture_BroadcastHashJoin` | `CrossShardJoinFixture_CoLocatedJoinSimulation` | `proxy` ⚠️ SH-3-GAP |
+| SH-4 Shard-Split Migration Downtime | 0 ms Read-Unavailability |  | `RebalancingFixture_BatchSerializationThroughput` | `RebalancingFixture_BatchDeserializationThroughput` | `proxy` ⚠️ SH-4-GAP |
+| SH-5 Write-Latenz während Migration | < 20 % über Baseline P99 |  | `RebalancingFixture_BatchSerializationThroughput` | `ShardRoutingFixture_BatchRouting` | `proxy` ⚠️ SH-5-GAP |
+| SH-6 Rebalancer Decision Cycle | < 10 s |  | `RebalancingFixture_BatchDeserializationThroughput` | `GossipOverheadFixture_VersionVectorMerge` | `proxy` ⚠️ SH-6-GAP |
+| SH-7 Anti-Entropy Scan Throughput | > 1 GB/s (NVMe, 8 Worker) |  | `GossipOverheadFixture_MessageSerialization` | `RebalancingFixture_BatchSerializationThroughput` | `proxy` ⚠️ SH-7-GAP |
+| SH-8 GPU Reed-Solomon | > 4 GB/s (NVIDIA A10) |  | `ScatterGatherFixture_ScatterGatherLatency` | `CrossShardJoinFixture_BroadcastHashJoin` | `not_measurable` 🚫 SH-8-GAP |
+| SH-9 Snapshot (1 GB Raft-State) | < 10 s |  | `CrossShardJoinFixture_BroadcastHashJoin` | `RebalancingFixture_BatchSerializationThroughput` | `proxy` ⚠️ SH-9-GAP |
+| SH-10 Snapshot Kompressionsrate | < 35 % unkomprimiert (ZSTD L3) |  | `RebalancingFixture_BatchDeserializationThroughput` | `CrossShardJoinFixture_CoLocatedJoinSimulation` | `proxy` ⚠️ SH-10-GAP |
+| SH-11 Replica Catch-up | > 200 MB/s (10 GbE LAN) |  | `GossipOverheadFixture_MessageSerialization` | `ShardRoutingFixture_ConsistentHashPerformance` | `proxy` ⚠️ SH-11-GAP |
+| SH-12 Topology Change Propagation | < 500 ms (100 Nodes, Gossip) |  | `GossipOverheadFixture_FanoutSelection` | `GossipOverheadFixture_MessageSerialization` | `proxy` ⚠️ SH-12-GAP |
 
 ---
 
 
 #### 13. Transaction-Modul
 
-> **✅ Benchmark implementiert (2026-04-13):** `bench_transaction_throughput.cpp` — PRODUCTION-READY (696 Zeilen, Quality 100/100).
-> Abgedeckte Pfade: ReadOnly/WriteOnly/MixedTransaction, CommitLatency, Abort, Savepoint (Create/Nested/Release), OCC-OptimisticPut/ReadVersionAndUpdate — TX-1, TX-2, TX-4..TX-8.
-> Verbleibend: Erste Zielmessung ausfuehren und Ergebnisse in Tabelle eintragen.
+> **✅ Benchmark implementiert + Wave2 SLO-Matrix (2026-04-15):** `bench_transaction_throughput.cpp` — PRODUCTION-READY (696 Zeilen, Quality 100/100).
+> **Wave2:** TX-1..TX-8 alle mit `primary_case`/`fallback_case` kartiert. Direkt messbar: TX-1, TX-2, TX-3, TX-8. Proxy-Cases: TX-4, TX-5, TX-6, TX-7.
+> Gap-Tickets: TX-4-GAP (4d), TX-5-GAP (3d), TX-6-GAP (3d), TX-7-GAP (3d). Gesamt-Aufwand: 13d.
+> v1.9.0-Profil: `benchmarks/baselines/distributed/bench_transaction_v190_baseline.json`
 
-| Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
-|---------|----------------|-----------------|--------|
-| TX-1 OCC Commit P50 | 100  |  |  |
-| TX-2 OCC Commit P99 | 5 ms |  |  |
-| TX-3 2PC Throughput |  6 k/s | 6,4 k/s |  |
-| TX-4 2PC Latenz (5 Shards) | 5 ms |  |  |
-| TX-5 SAGA Compensation Time | 20 ms |  |  |
-| TX-6 Deadlock Detection Overhead | 1 % (von 5 % verbessert) |  |  |
-| TX-7 False Positive Rate | < 5 % |  |  |
-| TX-8 Low-Contention Success Rate | > 90 % |  |  |
+| Ziel-ID | Erwartungswert | v1.3.4 Gemessen | v1.9.0 primary_case | v1.9.0 fallback_case | Benchmark-Status |
+|---------|----------------|-----------------|---------------------|----------------------|-----------------|
+| TX-1 OCC Commit P50 | ≤ 100 µs |  | `TransactionBenchmarkFixture_CommitLatency` (Arg=1) | `TransactionBenchmarkFixture_OccOptimisticPut` | `mapped` |
+| TX-2 OCC Commit P99 | ≤ 5 ms |  | `TransactionBenchmarkFixture_CommitLatency` (Arg=100) | `TransactionBenchmarkFixture_OccReadVersionAndUpdate` | `mapped` |
+| TX-3 2PC Throughput | > 6 k/s | 6,4 k/s | `TransactionBenchmarkFixture_WriteOnlyTransaction` | `BM_TransactionContention` | `mapped` |
+| TX-4 2PC Latenz (5 Shards) | ≤ 5 ms |  | `TransactionBenchmarkFixture_MixedTransaction` | `TransactionBenchmarkFixture_WriteOnlyTransaction` | `proxy` ⚠️ TX-4-GAP |
+| TX-5 SAGA Compensation Time | ≤ 20 ms |  | `TransactionBenchmarkFixture_AbortTransaction` | `TransactionBenchmarkFixture_SavepointCreateAndRollback` | `proxy` ⚠️ TX-5-GAP |
+| TX-6 Deadlock Detection Overhead | ≤ 1 % (von 5 % verbessert) |  | `TransactionBenchmarkFixture_ReadOnlyTransaction` | `TransactionBenchmarkFixture_MixedTransaction` | `proxy` ⚠️ TX-6-GAP |
+| TX-7 False Positive Rate | < 5 % |  | `TransactionBenchmarkFixture_AbortTransaction` | `TransactionBenchmarkFixture_OccOptimisticPut` | `proxy` ⚠️ TX-7-GAP |
+| TX-8 Low-Contention Success Rate | > 90 % |  | `TransactionBenchmarkFixture_OccOptimisticPut` | `TransactionBenchmarkFixture_ReadOnlyTransaction` | `mapped` |
 
 ---
 
@@ -1728,6 +1736,12 @@ Der Build ist mit `continue-on-error: true` versehen. Wenn Voice-Dependencies (S
 ### 6.13 Distributed Modules (Replication, Sharding, Transaction) Results
 
 > *SLO tables and measurement data: see §§11-13 / §5.3. Combined SLO/results tables are preserved in §5.*
+>
+> **Wave2 (2026-04-15):** SLO-zu-Benchmark-Matrix vollständig aufgebaut.
+> Alle 28 Ziel-IDs (R-1..R-8 + SH-1..SH-12 + TX-1..TX-8) haben `primary_case` + `fallback_case`.
+> v1.9.0-Profile-JSONs: `benchmarks/baselines/distributed/`.
+> Matrix-Dokument: [`docs/benchmarks/slo_benchmark_matrix_v190.md`](../docs/benchmarks/slo_benchmark_matrix_v190.md)
+> Gesamt-Aufwand offene Gap-Tickets: 72 Tage (Replication 13d + Sharding 46d + Transaction 13d).
 
 ### 6.14 AI/ML Module (LLM, RAG, Search) Results
 
@@ -1781,9 +1795,9 @@ Der Build ist mit `continue-on-error: true` versehen. Wenn Voice-Dependencies (S
 | Geo | **Ziel-ID-Mapping vollstaendig (v1.8.2)** | GEO-1..GEO-9 vollstaendig kartiert (`benchmark_target_mapping.json`); v1.8.2-Referenzlauf mit Rohdaten (`artifacts/perf_local/bench_geo_v182_reference.json`); GEO-1..GEO-6 messbar und SLO erfuellt; GEO-7/GEO-8/GEO-9 explizit als nicht messbar dokumentiert |
 | Graph | Gute Abdeckung mit Zielverfehlung | Dedizierte Cases fuer Run-Plan 19/20 vorhanden, jedoch beide SLOs aktuell unter Ziel |
 | Acceleration | Stark eingeschraenkt | Viele Benchmarks an CUDA/HIP/GPU-Flags gebunden oder als GPU-disabled Stub registriert |
-| Replication | **Benchmark implementiert (2026-04-13)** — Messung ausstehend | `bench_replication_throughput.cpp` ✅ vollstaendig implementiert (WAL-Append/ReadFrom, WALEntry-Ser/Deser, ReplicationManager-Init); ~~keine vollstaendige Ziel-ID-zu-Benchmark-Zuordnung im Report~~ R-1/R-2-Pfade abgedeckt; R-3..R-8 noch ohne dedizierten Case |
-| Sharding | **Benchmark implementiert (2026-04-13)** — Messung ausstehend | `bench_sharding_performance.cpp` ✅ vollstaendig implementiert (790 Zeilen, SH-1..SH-12-Pfade, Scatter/Gather/Cross-Shard/Rebalance/Gossip); ~~kein v1.8.2-Ziellauf dokumentiert~~ — Zielmessung als naechster Schritt |
-| Transaction | **Benchmark implementiert (2026-04-13)** — Messung ausstehend | `bench_transaction_throughput.cpp` ✅ vollstaendig implementiert (TX-1/TX-2/TX-4..TX-8: ReadOnly/WriteOnly/Mixed/CommitLatency/Abort/Savepoint/OCC); ~~ohne vollstaendige Ziel-SLO-Abdeckung~~ — SLO-Zielmessung als naechster Schritt |
+| Replication | **Wave2 SLO-Matrix vollständig (2026-04-15)** | R-1..R-8 vollständig kartiert mit `primary_case`/`fallback_case` (`benchmark_target_mapping.json` v2.0); v1.9.0-Profil-JSON: `bench_replication_v190_baseline.json`; direkt messbar: R-2/R-6/R-7; Proxy-Cases: R-1/R-3/R-4/R-5/R-8; Gap-Tickets R-3-GAP..R-8-GAP mit Aufwand 13d |
+| Sharding | **Wave2 SLO-Matrix vollständig (2026-04-15)** | SH-1..SH-12 vollständig kartiert mit `primary_case`/`fallback_case`; v1.9.0-Profil-JSON: `bench_sharding_v190_baseline.json`; direkt messbar: SH-1; Proxy-Cases: SH-2..SH-7/SH-9..SH-12; not_measurable: SH-8 (GPU-Gate); Gap-Tickets SH-2-GAP..SH-12-GAP mit Aufwand 46d |
+| Transaction | **Wave2 SLO-Matrix vollständig (2026-04-15)** | TX-1..TX-8 vollständig kartiert mit `primary_case`/`fallback_case`; v1.9.0-Profil-JSON: `bench_transaction_v190_baseline.json`; direkt messbar: TX-1/TX-2/TX-3/TX-8; Proxy-Cases: TX-4..TX-7; Gap-Tickets TX-4-GAP..TX-7-GAP mit Aufwand 13d |
 | LLM | **Benchmark implementiert (2026-04-13)** — GPU-abhaengig | `bench_llm_inference_performance.cpp` ✅ vollstaendig implementiert (Batch-Inference/LoRA-Load/Multi-LoRA/Adapter-Switch); ~~nur Stub/Skip~~ — Pfade sind registriert; L-1..L-8 erfordern weiterhin GPU/Modell-Artefakte fuer numerische Werte |
 | RAG | **Benchmark implementiert (2026-04-13)** — Messung ausstehend | `bench_rag_hybrid_retriever.cpp` ✅ vollstaendig implementiert (RRF- und Linear-Fusion, RA-1..RA-8-Pfade); ~~keine vollstaendige Zielabbildung~~ — Zielmessung als naechster Schritt |
 | Search | **Benchmark implementiert (2026-04-13)** — Messung ausstehend | `bench_rag_hybrid_retriever.cpp` (SE-1..SE-6 ueber RRF/HybridSearch-Cases) ✅ vollstaendig implementiert; ~~keine vollstaendige Zielabbildung im v1.8.2-Report~~ — Zielmessung als naechster Schritt |
@@ -2005,7 +2019,7 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 | 4 | ~~Voice-Benchmark-Pfad für CI via `THEMIS_ENABLE_VOICE_ASSISTANT` optionalen Job aktivieren~~ **ERLEDIGT** | 1, 5 | S | Workflow `02-feature-modules_llm_voice-benchmark-ci.yml` erstellt: `THEMIS_ENABLE_VOICE_ASSISTANT=ON`, `bench_voice_assistant` gebaut, ≥1 Testlauf dokumentiert, fehlende Dependencies als SKIP ausgewiesen |
 | 5 | ~~GPU-Benchmark-Matrix (CUDA/HIP/Vulkan) als separaten Runner etablieren~~ **ERLEDIGT** | 1, 3 | L | Workflow `06-infrastructure_gpu_gpu-benchmark-matrix-ci.yml` mit CUDA (sm_80/89/90), HIP (gfx1100/gfx90a) und Vulkan Jobs; `bench_gpu_backends`, `bench_vulkan_lora`, `bench_lora_gpu` als CMake-Targets hinzugefügt; `THEMIS_ENABLE_GPU=1`-Compile-Definitionen für alle GPU-Benchmark-Targets gesetzt — GPU-disabled Stubs werden durch reale Messwerte ersetzt sobald GPU-Runner registriert sind |
 | 6 | Modell-/Artefakt-Vorbereitung (LLM, LoRA, gguf) standardisieren | 3 | M | LLM/RAG/LoRA-Benchmarks laufen ohne Missing-Artifact-Fehler |
-| 7 | Ziel-ID-zu-Benchmark-Mapping-Datei erzwingen (pro Modul) | 4 | M | jede Ziel-ID in Tabellen hat exakt 1 primären Benchmarkfall |
+| 7 | ~~Ziel-ID-zu-Benchmark-Mapping-Datei erzwingen (pro Modul)~~ **ERLEDIGT (Wave2, 2026-04-15)** | 4 | M | `benchmark_target_mapping.json` v2.0: alle 203 Ziel-IDs kartiert; R-1..R-8/SH-1..SH-12/TX-1..TX-8 mit `primary_case`+`fallback_case`; v1.9.0-Profile-JSONs; Check 6a in `verify_benchmark_mapping.py` |
 | 8 | Build-Check „source exists but binary missing“ als CI-Guard ergänzen | 5 | S | CI schlägt fehl, wenn `bench_*.cpp` ohne entsprechendes Target/Binary bleibt |
 | 9 | Disabled-Stub-Policy einführen (max. 1 Release erlaubt, danach Pflichtticket) | 2 | S | jede `*_Disabled`-Registrierung trägt Deadline und Issue-Referenz |
 | 10 | ~~Modulweise Benchmark-Sweeps (2..33) als planbare Nightly-Presets~~ **ERLEDIGT** | 1, 3, 4 | L | täglicher Coverage-Report mit Ampel pro Modul und Delta-Vergleich — implementiert via `nightly-benchmark-sweep.yml` (cron 02:00 UTC), CMake-Preset `nightly-bench-sweep`, `tools/bench_coverage_report.py` |
