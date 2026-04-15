@@ -1,0 +1,129 @@
+{
+  "module": "maintenance",
+  "module_version": "2.0.0",
+  "validated": "2026-04-15",
+  "auditor": "Copilot",
+  "issue": "#4463",
+  "commit": "e963d4e9ba",
+  "missing_implementations": [
+    {
+      "id": "MI-01",
+      "title": "REPLICA_VALIDATION startup wiring to sharding/replica module",
+      "claim_source": "src/maintenance/ROADMAP.md",
+      "claim_section": "Planned Features / Short-term (v1.2.0)",
+      "claim": "Wire REPLICA_VALIDATION task to sharding/replica module once available",
+      "expected": "orchestrator.registerTaskHandler(REPLICA_VALIDATION, make_shared<ReplicaValidationHandler>(replica_mgr)) in http_server.cpp or equivalent startup code",
+      "observed": "ReplicaValidationHandler class exists in include/maintenance/maintenance_task_handler_impls.h; startup call site missing; task falls through to SKIPPED (correct fallback)",
+      "evidence_paths": [
+        "include/maintenance/maintenance_task_handler_impls.h",
+        "src/server/http_server.cpp"
+      ],
+      "severity": "medium",
+      "target_version": "v2.1.0",
+      "issue_title_suggestion": "[maintenance] Wire REPLICA_VALIDATION handler to sharding module at startup",
+      "label_suggestions": ["area:maintenance", "type:integration", "priority:medium"]
+    },
+    {
+      "id": "MI-02",
+      "title": "Raft-backed IDistributedLock implementation",
+      "claim_source": "src/maintenance/ROADMAP.md",
+      "claim_section": "Long-term (v2.0.0)",
+      "claim": "Distributed maintenance coordination via Raft – prevent two nodes running same schedule",
+      "expected": "Production Raft-backed IDistributedLock implementation delegating tryAcquire/release to src/replication/raft_v2.cpp",
+      "observed": "IDistributedLock interface exists; InProcessDistributedLock for single-node/tests exists; Raft-backed implementation not found in src/replication/ or src/maintenance/",
+      "evidence_paths": [
+        "include/maintenance/i_distributed_lock.h",
+        "src/replication/"
+      ],
+      "severity": "medium",
+      "target_version": "v2.1.0",
+      "issue_title_suggestion": "[maintenance] Implement Raft-backed IDistributedLock for production multi-node",
+      "label_suggestions": ["area:maintenance", "area:replication", "type:feature", "priority:medium", "milestone:v2.1.0"]
+    },
+    {
+      "id": "MI-03",
+      "title": "TSAN concurrent-read stress test (8 listSchedules + 1 createSchedule)",
+      "claim_source": "src/maintenance/FUTURE_ENHANCEMENTS.md",
+      "claim_section": "schedules_mutex_ Read-Path Upgrade",
+      "claim": "Add a TSAN-enabled test with 8 concurrent listSchedules threads + 1 createSchedule thread",
+      "expected": "Test case with 8 parallel listSchedules threads and 1 createSchedule thread, TSAN-compatible",
+      "observed": "tests/test_database_maintenance_orchestrator.cpp: no dedicated 8+1 reader/writer concurrency stress test found",
+      "evidence_paths": [
+        "tests/test_database_maintenance_orchestrator.cpp"
+      ],
+      "severity": "low",
+      "target_version": "v2.1.0",
+      "issue_title_suggestion": "[maintenance] Add TSAN concurrent-read stress test (8 listSchedules + 1 createSchedule)",
+      "label_suggestions": ["area:maintenance", "type:test", "priority:low"]
+    },
+    {
+      "id": "MI-04",
+      "title": "Restart-persistence integration test",
+      "claim_source": "src/maintenance/FUTURE_ENHANCEMENTS.md",
+      "claim_section": "Schedule Persistence (RocksDB)",
+      "claim": "Add a restart-persistence integration test: create 3 schedules, restart the orchestrator, verify all 3 are present",
+      "expected": "Integration test: create 3 schedules, stop orchestrator, restart with same storage, verify all 3 loaded via loadAll()",
+      "observed": "MaintenanceScheduleStore unit tests present; no explicit restart+loadAll integration test with real RocksDB backend found in test_database_maintenance_orchestrator.cpp",
+      "evidence_paths": [
+        "tests/test_database_maintenance_orchestrator.cpp",
+        "src/maintenance/maintenance_schedule_store.cpp"
+      ],
+      "severity": "low",
+      "target_version": "v2.1.0",
+      "issue_title_suggestion": "[maintenance] Add restart-persistence integration test for MaintenanceScheduleStore",
+      "label_suggestions": ["area:maintenance", "type:test", "priority:low"]
+    },
+    {
+      "id": "MI-05",
+      "title": "ML-based maintenance impact prediction",
+      "claim_source": "src/maintenance/ROADMAP.md",
+      "claim_section": "Long-term / Planned",
+      "claim": "Maintenance impact prediction – ML model to predict CPU/memory impact before execution",
+      "expected": "ML inference model for CPU/memory impact prediction; MaintenanceScheduleEntry::max_predicted_cpu_pct and max_predicted_mem_mb fields",
+      "observed": "Not implemented; target version v3.0.0 — not yet due",
+      "evidence_paths": [],
+      "severity": "low",
+      "target_version": "v3.0.0",
+      "issue_title_suggestion": "[maintenance] ML-based maintenance impact prediction (CPU/memory forecast)",
+      "label_suggestions": ["area:maintenance", "type:feature", "priority:low", "milestone:v3.0.0"]
+    }
+  ],
+  "verified_as_implemented": [
+    {
+      "claim": "RocksDB schedule persistence",
+      "evidence": ["src/maintenance/maintenance_schedule_store.cpp", "include/maintenance/maintenance_schedule_store.h"]
+    },
+    {
+      "claim": "Force-run {force: true}",
+      "evidence": ["include/maintenance/database_maintenance_orchestrator.h (triggerNow)", "tests/test_database_maintenance_orchestrator.cpp"]
+    },
+    {
+      "claim": "DAG dependency graph (MaintenanceTaskDependency, Kahn's sort)",
+      "evidence": ["include/maintenance/maintenance_schedule.h (MaintenanceTaskDependency)", "include/maintenance/database_maintenance_orchestrator.h (resolveTaskExecutionOrder)"]
+    },
+    {
+      "claim": "STORAGE_COMPACTION wired to CompactionManager",
+      "evidence": ["src/server/http_server.cpp (Issue #4587)"]
+    },
+    {
+      "claim": "MVCC_CLEANUP wired to MvccStore",
+      "evidence": ["src/server/http_server.cpp (Issue #4586)"]
+    },
+    {
+      "claim": "IMaintenanceTaskHandler registry (registerTaskHandler, listTaskHandlers)",
+      "evidence": ["include/maintenance/database_maintenance_orchestrator.h"]
+    },
+    {
+      "claim": "shared_mutex upgrade for schedules, jobs, handlers, tenant_configs",
+      "evidence": ["include/maintenance/database_maintenance_orchestrator.h (members)"]
+    },
+    {
+      "claim": "Multi-tenant isolation (TenantMaintenanceConfig, 15 tests MT-01..MT-15)",
+      "evidence": ["include/maintenance/database_maintenance_orchestrator.h (TenantMaintenanceConfig)", "tests/test_database_maintenance_orchestrator.cpp (MT-01..MT-15)"]
+    },
+    {
+      "claim": "IDistributedLock interface + InProcessDistributedLock",
+      "evidence": ["include/maintenance/i_distributed_lock.h"]
+    }
+  ]
+}

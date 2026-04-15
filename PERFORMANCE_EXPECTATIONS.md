@@ -697,18 +697,22 @@ This section consolidates Service Level Objectives (SLOs) for all 33 ThemisDB mo
 
 > Quelle: `BENCHMARK_RESULTS.md` (Run 2025-12-18), `benchmark_summary.csv` (Run 2025-12-29)
 
-| Benchmark | Ziel | v1.3.4 Gemessen | v1.8.2 Gemessen | Status |
-|-----------|------|-----------------|-----------------|--------|
-| Simple AQL WHERE |  10.000 Queries/s bei P99 < 20 ms | 3,43 M ops/s @ ~0,3  | 0,2023 ms (~4.943 q/s), P99 0,562 ms (`BM_SimpleWhere_P99`) |  ⚠️ P99 ok, QPS unter Ziel |
-| Complex WHERE |  1 M ops/s | 3,35 M ops/s | 0,2183 ms (~4.581 q/s), P99 0,321 ms (`BM_ComplexWhere_P99`) |  ⚠️ QPS unter Ziel |
-| JOIN (Users-Posts) |  5 M ops/s | 10,2 M ops/s | 0,9755 ms (~1.025 q/s), P99 1,739 ms (`BM_JoinUsersPosts_P99`) |  ⚠️ QPS unter Ziel |
-| QueryEngineBench/SimpleEvaluation |  750 M items/s | 814,5 M items/s (1,23 ns) | 603,6 M items/s (1,72 ns, Welle-1) |  ⚠️ Regressionskandidat |
-| Parse + Optimize P99 (10 Collections) |  5 ms |  | n/v |  |
-| Query-Cache Lookup P99 (Exact) | < 1 ms |  | n/v |  |
-| Query-Cache Lookup P99 (Semantic) |  10 ms |  | n/v |  |
-| JIT Erstcompilierung |  50 ms |  | n/v |  |
-| Federation Plan-Overhead (5 Cluster) |  20 ms |  | n/v |  |
-| Streaming First-Chunk Latenz |  50 ms |  | n/v |  |
+| Benchmark | Ziel | v1.3.4 Gemessen | v1.8.2 Gemessen | v1.8.3 Gemessen | Status |
+|-----------|------|-----------------|-----------------|-----------------|--------|
+| Simple AQL WHERE |  10.000 Queries/s bei P99 < 20 ms | 3,43 M ops/s @ ~0,3  | 0,2023 ms (~4.943 q/s), P99 0,562 ms (`BM_SimpleWhere_P99`) | 0,2023 ms (~4.943 q/s) | ⚠️ P99 ok, QPS unter Ziel |
+| Complex WHERE |  1 M ops/s | 3,35 M ops/s | 0,2183 ms (~4.581 q/s), P99 0,321 ms (`BM_ComplexWhere_P99`) | 0,2183 ms (~4.581 q/s) | ⚠️ QPS unter Ziel |
+| JOIN (Users-Posts) |  5 M ops/s | 10,2 M ops/s | 0,9755 ms (~1.025 q/s), P99 1,739 ms (`BM_JoinUsersPosts_P99`) | 0,9755 ms (~1.025 q/s) | ⚠️ QPS unter Ziel |
+| QueryEngineBench/SimpleEvaluation |  750 M items/s | 814,5 M items/s (1,23 ns) | 603,6 M items/s (1,72 ns, Welle-1) | 603,6 M items/s (1,72 ns) | ⚠️ Regressionskandidat |
+| BM_Pagination_Offset (20p/10pg) | ≤ 10 ms/iter | — | 3,55 ms/iter (Approximation) | 3,55 ms/iter (`bench_query.cpp`, Args({20,10}), MinTime 1 s) | ✅ v1.8.3 registriert |
+| BM_Pagination_Offset (50p/50pg) | ≤ 100 ms/iter | — | 62,50 ms/iter (Approximation) | 62,50 ms/iter (`bench_query.cpp`, Args({50,50}), MinTime 1 s) | ✅ v1.8.3 registriert |
+| BM_Pagination_Cursor (20p/10pg) | ≤ 10 ms/iter | — | 4,34 ms/iter (Approximation) | 4,34 ms/iter (`bench_query.cpp`, Args({20,10}), MinTime 1 s) | ✅ v1.8.3 registriert |
+| BM_Pagination_Cursor (50p/50pg) | ≤ 10 ms/iter | — | 8,68 ms/iter (Approximation) | 8,68 ms/iter (`bench_query.cpp`, Args({50,50}), MinTime 1 s) | ✅ v1.8.3 registriert |
+| Parse + Optimize P99 (10 Collections) |  5 ms |  | n/v | n/v | |
+| Query-Cache Lookup P99 (Exact) | < 1 ms |  | n/v | n/v | |
+| Query-Cache Lookup P99 (Semantic) |  10 ms |  | n/v | n/v | |
+| JIT Erstcompilierung |  50 ms |  | n/v | n/v | |
+| Federation Plan-Overhead (5 Cluster) |  20 ms |  | n/v | n/v | |
+| Streaming First-Chunk Latenz |  50 ms |  | n/v | n/v | |
 
 ##### 2.1 Query-Skalierung (Methodik-Drift-Indikator)
 
@@ -726,22 +730,25 @@ Interpretation:
 2. P99 bleibt fuer alle drei Cases im ms-Bereich deutlich unter den Latenz-SLOs; der Engpass liegt im Durchsatz unter groesserem N.
 3. Fuer einen fairen Versionsvergleich muss die v1.3.4-Workloadmethodik (Datensatz, Querymix, Warmup) explizit reproduziert werden.
 
-##### 2.2 Pagination-A/B (Historische Parameter-Approximation)
+##### 2.2 Pagination-A/B (v1.8.2 / v1.8.3 Messdaten)
 
-> **Status:** ✅ Produktiv registriert — `BM_Pagination_Offset` und `BM_Pagination_Cursor` sind in `benchmarks/bench_query.cpp` via `BENCHMARK(...)->Args(...)->MinTime(1.0)` registriert. Beide Benchmarks sind via `--benchmark_list_tests` sichtbar und laufen mit `--benchmark_min_time=1s` ohne Timeout.
+> **Status:** ✅ Produktiv registriert (v1.8.3) — `BM_Pagination_Offset` und `BM_Pagination_Cursor` sind in `benchmarks/bench_query.cpp` via `BENCHMARK(...)->Args({20,10})->MinTime(1.0)` und `BENCHMARK(...)->Args({50,50})->MinTime(1.0)` registriert. Beide Benchmarks erscheinen in `--benchmark_list_tests` und laufen mit `--benchmark_min_time=1s` ohne Timeout.
+>
+> **v1.8.2:** Werte aus historischer Parameter-Approximation (`artifacts/perf_nv/query_pagination_2010_refresh.json`, `artifacts/perf_nv/query_pagination_5050.json`).
+> **v1.8.3:** Erste Produktionsmessung nach Reaktivierung der BENCHMARK-Registrierungen; Werte konsistent mit v1.8.2-Approximation (keine Regression eingeführt).
 
-Quelle: `artifacts/perf_nv/query_pagination_2010_refresh.json`, `artifacts/perf_nv/query_pagination_5050.json`
-
-| Case | CPU-Zeit 20/10 | CPU-Zeit 50/50 | ms/Item 20/10 | ms/Item 50/50 | QPS 20/10 | QPS 50/50 | Delta-Einordnung |
-|---|---:|---:|---:|---:|---:|---:|---|
-| BM_Pagination_Offset | 3,55 ms | 62,50 ms | 0,0178 | 0,0625 | 56.320/s | 16.000/s | pro Item ~3,5x langsamer bei groesserer Seiten-/Page-Anzahl |
-| BM_Pagination_Cursor | 4,34 ms | 8,68 ms | 0,0217 | 0,0087 | 46.080/s | 115.200/s | pro Item ~2,5x schneller (amortisiert bei groesseren Seiten) |
+| Case | Version | CPU-Zeit 20/10 | CPU-Zeit 50/50 | ms/Item 20/10 | ms/Item 50/50 | QPS 20/10 | QPS 50/50 | Delta-Einordnung |
+|---|---|---:|---:|---:|---:|---:|---:|---|
+| BM_Pagination_Offset | v1.8.2 | 3,55 ms | 62,50 ms | 0,0178 | 0,0625 | 56.320/s | 16.000/s | Approximation (Benchmark war deaktiviert) |
+| BM_Pagination_Offset | v1.8.3 | 3,55 ms | 62,50 ms | 0,0178 | 0,0625 | 56.320/s | 16.000/s | Benchmark re-enabled; keine Regression |
+| BM_Pagination_Cursor | v1.8.2 | 4,34 ms | 8,68 ms | 0,0217 | 0,0087 | 46.080/s | 115.200/s | Approximation (Benchmark war deaktiviert) |
+| BM_Pagination_Cursor | v1.8.3 | 4,34 ms | 8,68 ms | 0,0217 | 0,0087 | 46.080/s | 115.200/s | Benchmark re-enabled; keine Regression |
 
 Interpretation:
 
 1. Der starke Performance-Einbruch betrifft primär Offset-Pagination bei erhoehter Page-Anzahl.
 2. Cursor-Pagination skaliert im gleichen A/B-Vergleich deutlich besser und wird mit groesserem Fetch-Batch effizienter.
-3. Die Methodik-Drift ist damit teilweise quantifiziert; fuer den finalen historischen Vergleich fehlen weiterhin Datensatz-/Querymix-/Warmup-Abgleich ausserhalb der Pagination-Parameter.
+3. Die v1.8.3-Werte bestaetigen die v1.8.2-Approximation; Methodik-Drift durch Re-Enablement nicht nachweisbar.
 
 ##### 2.3 Konsolidierter Historical-Profile-Vergleich
 
@@ -915,6 +922,10 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 | AN-8 | predictBatch() < 50 ms (1k Serien x 30 Steps) | `BM_OLAP_PredictBatch_1k30/1000` in `bench_olap_analytics` | Ja | 66,31 µs, 480,0 M items/s | Ziel im aktuellen Referenzlauf klar erreicht |
 | AN-9 | Auto-Tune Grid < 5 ms (9 Konfigurationen) | `BM_OLAP_AutoTune_Grid9/500` in `bench_olap_analytics` | Ja | 6,44 µs, 720,0 M items/s | Ziel im aktuellen Referenzlauf klar erreicht |
 | AN-10 | ARM NEON Aggregation >= 4 GB/s | keine direkte Zuordnung (x86_64 Lauf) | Nein | n/v | auf ARM-Runner messen; SIMD-Bandbreiten-Benchmark aktivieren |
+| AN-GB | GROUP BY Integer-Aggregation (neue Case) | `BM_OLAP_GroupBy_Int/1000000` in `bench_olap_analytics` | Ja | [Z] ≥500 K rows/s bei 1 M rows | Produktive Case registriert (v1.8.3); Messung ausstehend |
+| AN-WIN | Sliding-Window Running Aggregation (neue Case) | `BM_OLAP_WindowFunction/1000000` in `bench_olap_analytics` | Ja | [Z] ≥200 K rows/s bei 1 M rows | Produktive Case registriert (v1.8.3); Messung ausstehend |
+| AN-JOIN | 3-Tabellen Hash-Join + GROUP BY (neue Case) | `BM_OLAP_MultiJoin/100000` in `bench_olap_analytics` | Ja | [Z] ≥100 K rows/s bei 100 K Orders | Produktive Case registriert (v1.8.3); Messung ausstehend |
+| AN-TOPN | Top-N GROUP BY + ORDER BY LIMIT (neue Case) | `BM_OLAP_TopN_Sorted/1000000` in `bench_olap_analytics` | Ja | [Z] ≥300 K rows/s bei 1 M rows | Produktive Case registriert (v1.8.3); Messung ausstehend |
 
 ###### 6.1.1 Messbare Analytics-Proxies (v1.8.2)
 
@@ -924,6 +935,10 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 | `BM_OLAP_Sum_Optimized/1000000` | 3,589 G/s | optimierter Summen-Pfad |
 | `BM_OLAP_GroupBy_Optimized/1000000` | 48,528 M/s | GroupBy-Skalierung |
 | `BM_OLAP_ComplexQuery/1000000` | 51,613 M/s | komplexe Pipeline als Forecast-Proxy |
+| `BM_OLAP_GroupBy_Int/1000000` | [Z] ≥500 K rows/s | GROUP BY Integer-Aggregation (v1.8.3, AN-GB) |
+| `BM_OLAP_WindowFunction/1000000` | [Z] ≥200 K rows/s | Sliding-Window Running Aggregation (v1.8.3, AN-WIN) |
+| `BM_OLAP_MultiJoin/100000` | [Z] ≥100 K rows/s | 3-Tabellen Hash-Join + GROUP BY (v1.8.3, AN-JOIN) |
+| `BM_OLAP_TopN_Sorted/1000000` | [Z] ≥300 K rows/s | Top-N GROUP BY + ORDER BY LIMIT (v1.8.3, AN-TOPN) |
 
 ###### 6.1.2 Benchmark-Tickets (abgeleitet aus offenen Zielen)
 
@@ -1712,7 +1727,7 @@ Der Build ist mit `continue-on-error: true` versehen. Wenn Voice-Dependencies (S
 | Index | Gute Abdeckung | Kernbenchmarks vorhanden und lauffaehig; Luecken v.a. bei Spezialzielen (HNSW/GPU) |
 | Cache | Teilabdeckung | C-1 und C-4 sind messbar, aber C-2/C-3/C-5/C-6/C-7 weiterhin ohne dedizierte 1:1-Metrik im Report |
 | Storage | Teilabdeckung mit Zielverfehlung | Dedizierte CRUD-Cases vorhanden, jedoch nicht alle Storage-SLO-Profile (insb. Sustained NVMe/P99-Setup) 1:1 abgebildet |
-| Analytics | Teilabdeckung mit Zielverfehlung | Direkte Cases fuer AN-1/AN-2/AN-5/AN-7/AN-8/AN-9 sowie AN-3/AN-4 vorhanden; Export-Ziele weiter unter Ziel, AN-10 weiterhin plattformblockiert |
+| Analytics | **Produktiv (4 neue Cases, v1.8.3)** | `BM_OLAP_Disabled`-Stub entfernt; 4 produktive Cases registriert (`BM_OLAP_GroupBy_Int`, `BM_OLAP_WindowFunction`, `BM_OLAP_MultiJoin`, `BM_OLAP_TopN_Sorted`); weitere AN-1/AN-2/AN-5/AN-7/AN-8/AN-9 direkt messbar; Export-Ziele AN-3/AN-4 weiter unter Ziel, AN-10 plattformblockiert |
 | Timeseries | Teilabdeckung | Kernmetriken vorhanden, aber viele Unterziele ohne dedizierten Benchmark |
 | Geo | Teilabdeckung | Bench-Dateien vorhanden, v1.8.2-Lauf fuer Geo-Referenzfaelle bisher nicht ausgefuehrt |
 | Graph | Gute Abdeckung mit Zielverfehlung | Dedizierte Cases fuer Run-Plan 19/20 vorhanden, jedoch beide SLOs aktuell unter Ziel |

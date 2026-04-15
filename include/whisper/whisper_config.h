@@ -40,7 +40,8 @@ struct WhisperConfig {
     bool translate = false;          // translate to English if true
     int  beam_size = 5;
     bool print_progress = false;
-    float quality_threshold = 0.0f;  // minimum confidence to accept (0 = accept all)
+    float quality_threshold = 0.0f;             // minimum transcription confidence to accept (0 = accept all)
+    float language_confidence_threshold = 0.0f; // minimum detectLanguage confidence to accept (0 = accept all)
 
     static WhisperConfig fromJson(const json& j);
     json toJson() const;

@@ -21961,7 +21961,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/whisper/tests/test_whisper_plugin.
         LABELS "plugins;whisper;audio;v2.1.0"
         TIMEOUT 60
     )
-    message(STATUS "  WhisperPlugin: 36 tests (A-L)")
+    message(STATUS "  WhisperPlugin: 44 tests (A-N)")
 else()
     message(STATUS "  WhisperPlugin tests not found – skipped")
 endif()

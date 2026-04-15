@@ -86,7 +86,8 @@ private:
     std::atomic<uint64_t> transcription_count_{0};
     std::atomic<uint64_t> error_count_{0};
     std::string model_path_;
-    mutable std::mutex transcriber_mutex_;  ///< serializes transcriber calls
+    WhisperConfig cfg_;                         ///< config snapshot from initialize()
+    mutable std::mutex transcriber_mutex_;      ///< serializes transcriber calls
 };
 
 } // namespace whisper
