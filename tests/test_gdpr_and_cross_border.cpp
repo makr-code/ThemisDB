@@ -11,6 +11,7 @@
 
 #include <mutex>
 #include <atomic>
+#include <thread>
 
 using namespace themis::governance;
 

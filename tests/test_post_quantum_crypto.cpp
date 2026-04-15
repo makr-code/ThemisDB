@@ -528,8 +528,6 @@ TEST(PerformanceBaseline, DilithiumSignThroughput) {
 // Phase 7.1 — SPHINCS+ Hash-Based Signatures
 // ============================================================================
 
-using namespace themis::security;
-
 TEST(SphincsPlus, KeyGenerationProducesNonEmptyKeys) {
     SphincsPlus sphincs;
     auto kp = sphincs.generateKeyPair();

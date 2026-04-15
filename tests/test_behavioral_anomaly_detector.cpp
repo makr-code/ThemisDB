@@ -8,9 +8,20 @@
 #include "security/behavioral_anomaly_detector.h"
 #include <chrono>
 #include <thread>
+#include <ctime>
 
 using namespace themis::security;
 using Clock = std::chrono::system_clock;
+
+// Portable timegm: interprets struct tm as UTC and returns time_t.
+// timegm is POSIX (Linux/macOS) but not available on MSVC.
+static time_t portable_timegm(std::tm* t) {
+#if defined(_WIN32)
+    return _mkgmtime(t);
+#else
+    return timegm(t);
+#endif
+}
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -86,7 +97,7 @@ TEST(BehavioralAnomalyDetectorTest, OffHoursDetected) {
     std::tm t{};
     t.tm_year = 126; t.tm_mon = 0; t.tm_mday = 1;
     t.tm_hour = 2; t.tm_min = 0; t.tm_sec = 0;
-    auto off_hours_ts = Clock::from_time_t(timegm(&t));
+    auto off_hours_ts = Clock::from_time_t(portable_timegm(&t));
 
     auto res = det.scoreEvent(makeEvent("bob", "s3", "secret", "read", off_hours_ts));
     EXPECT_EQ(res.level, ThreatLevel::MEDIUM);
@@ -104,7 +115,7 @@ TEST(BehavioralAnomalyDetectorTest, InHoursNotFlagged) {
     std::tm t{};
     t.tm_year = 126; t.tm_mon = 0; t.tm_mday = 1;
     t.tm_hour = 14; t.tm_min = 0; t.tm_sec = 0;
-    auto in_hours_ts = Clock::from_time_t(timegm(&t));
+    auto in_hours_ts = Clock::from_time_t(portable_timegm(&t));
 
     auto res = det.scoreEvent(makeEvent("carol", "s4", "data", "read", in_hours_ts));
     EXPECT_EQ(res.level, ThreatLevel::LOW);
@@ -214,12 +225,12 @@ TEST(BehavioralAnomalyDetectorTest, UnusualResourceFlaggedAfterPriorAlert) {
     std::tm t{};
     t.tm_year = 126; t.tm_mon = 0; t.tm_mday = 1;
     t.tm_hour = 2; t.tm_min = 0; t.tm_sec = 0;
-    auto off_ts = Clock::from_time_t(timegm(&t));
+    auto off_ts = Clock::from_time_t(portable_timegm(&t));
     det.scoreEvent(makeEvent("hank", "s9", "known_resource", "read", off_ts));
 
     // Now access a brand-new resource in normal hours → MEDIUM (unusual resource)
     std::tm t2 = t; t2.tm_hour = 12;
-    auto normal_ts = Clock::from_time_t(timegm(&t2));
+    auto normal_ts = Clock::from_time_t(portable_timegm(&t2));
     auto res = det.scoreEvent(makeEvent("hank", "s9", "new_resource", "read", normal_ts));
     EXPECT_GE(static_cast<int>(res.level), static_cast<int>(ThreatLevel::MEDIUM));
 }
