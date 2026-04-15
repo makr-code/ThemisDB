@@ -68,6 +68,16 @@ bench_gpu_vector_index = "GPU_ONLY: requires CUDA/HIP; built only in gpu-enabled
 bench_active_vram_allocator = "GPU_ONLY: VRAM allocation benchmarks require physical GPU"
 bench_acceleration_dispatch = "GPU_ONLY: multi-backend dispatch requires at least one GPU backend"
 
+# CMake gate: THEMIS_ENABLE_CUDA and/or THEMIS_ENABLE_HIP
+bench_fused_kernels = "GPU_ONLY: fused CUDA/HIP compute kernels; requires THEMIS_ENABLE_CUDA or THEMIS_ENABLE_HIP"
+bench_gpu_backends = "GPU_ONLY: CUDA/HIP/Vulkan backend comparison; requires at least one GPU backend"
+bench_gpu_training_cycle = "GPU_ONLY: GPU training-cycle throughput; requires THEMIS_ENABLE_CUDA or THEMIS_ENABLE_HIP"
+bench_mixed_precision_perf = "GPU_ONLY: FP16/BF16 mixed-precision; requires THEMIS_ENABLE_CUDA or THEMIS_ENABLE_HIP"
+bench_multi_gpu_scaling = "GPU_ONLY: multi-GPU scale-out; requires THEMIS_ENABLE_CUDA or THEMIS_ENABLE_HIP"
+bench_lora_gpu = "GPU_ONLY: LoRA GPU inference; requires THEMIS_ENABLE_GPU"
+bench_vulkan_lora = "GPU_ONLY: Vulkan LoRA compute; requires THEMIS_ENABLE_GPU and THEMIS_ENABLE_VULKAN"
+bench_fused_lora_kernels = "GPU_ONLY: fused LoRA CUDA/HIP kernels; requires THEMIS_ENABLE_CUDA or THEMIS_ENABLE_HIP"
+
 
 # ────────────────────────────────────────────────────────────────────────────
 # PLATFORM – platform-specific; cannot build on all CI OS targets
@@ -88,3 +98,12 @@ bench_voice_assistant = "THIRD_PARTY: requires voice assistant model + audio har
 bench_image_analysis = "THIRD_PARTY: requires image-analysis model artefacts"
 bench_image_analysis_latency = "THIRD_PARTY: requires image-analysis model artefacts"
 bench_video_embedding = "THIRD_PARTY: requires video codec libraries not in CI environment"
+
+# CMake gate: THEMIS_ENABLE_LLM (requires llama.cpp runtime / model weights)
+bench_backend_comparison = "THIRD_PARTY: LLM+GPU inference backend comparison; requires THEMIS_ENABLE_LLM and GPU"
+bench_data_transfer = "THIRD_PARTY: LLM data-transfer pipeline; requires THEMIS_ENABLE_LLM"
+bench_gpu_vram_allocation = "THIRD_PARTY: LLM VRAM allocation patterns; requires THEMIS_ENABLE_LLM"
+bench_llm_inference_performance = "THIRD_PARTY: LLM inference throughput; requires THEMIS_ENABLE_LLM and model weights"
+bench_lora_auto_binding = "THIRD_PARTY: LoRA auto-binding; requires THEMIS_ENABLE_LLM"
+bench_multi_gpu_lora_advanced = "THIRD_PARTY: multi-GPU LoRA advanced; requires THEMIS_ENABLE_LLM and GPU"
+bench_multi_lora_fusion = "THIRD_PARTY: multi-LoRA fusion; requires THEMIS_ENABLE_LLM"
