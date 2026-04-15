@@ -1,7 +1,7 @@
 {
-  "generated": "2026-04-15T06:11:18Z",
-  "total_modules": 32,
-  "covered_modules": 0,
+  "generated": "2026-04-15T19:45:45Z",
+  "total_modules": 35,
+  "covered_modules": 1,
   "modules": {
     "2": {
       "id": 2,
@@ -354,6 +354,42 @@
       "mean_cpu_ns_prev": null,
       "mean_cpu_ns_delta_pct": null,
       "status": "⚪"
+    },
+    "34": {
+      "id": 34,
+      "name": "Temporal",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "35": {
+      "id": 35,
+      "name": "Process Mining",
+      "bench_count": 0,
+      "error_count": 0,
+      "bench_names": [],
+      "mean_cpu_ns": null,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "⚪"
+    },
+    "36": {
+      "id": 36,
+      "name": "ONNX-CLIP (Image Embedding)",
+      "bench_count": 14,
+      "error_count": 0,
+      "bench_names": [
+        "bench_onnx_clip_vit_backend",
+        "bench_onnx_clip_cpu"
+      ],
+      "mean_cpu_ns": 325.19544444444443,
+      "mean_cpu_ns_prev": null,
+      "mean_cpu_ns_delta_pct": null,
+      "status": "🟢"
     }
   }
 }
