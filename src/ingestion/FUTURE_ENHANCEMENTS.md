@@ -37,17 +37,36 @@ This document covers planned enhancements to the Ingestion module beyond what is
 
 ## Planned Features
 
+### SoC Refactoring: Ingestion/AI Separation (DIP)
+**Priority:** High
+**Target Version:** v1.6.0
+**Status:** ✅ Implemented (2026-04-15)
+
+The ingestion module no longer includes any `llm/` headers directly.  The concrete
+LLM backend is injected via the new `ITextGenerationBackend` interface
+(`include/ingestion/inference_backend.h`).  The cross-module binding lives in
+`LlmIngestionBridge` (`include/llm/llm_ingestion_bridge.h` / `src/llm/llm_ingestion_bridge.cpp`)
+which wraps `LLMPluginManager::instance().generate()`.
+
+Wiring code (main/server bootstrap) creates an `LlmIngestionBridge` and passes
+it to `LegalLlmAdapter(bridge)`.  12 tests in `tests/test_ingestion_inference_backend.cpp`
+(IB-01..IB-12).
+
+---
+
 ### `LLMIngestionAdapter` Phase 2: Wire llama.cpp
 **Priority:** High
 **Target Version:** v1.8.0
-**Status:** ✅ Implemented
+**Status:** ✅ Implemented (superseded by SoC refactoring above)
 
-`ingestion/llm_adapter.cpp` now fully implements Phase 2: `#include "llm/llama_resource_manager.h"` and `#include "llm/llm_plugin_manager.h"` are active under `THEMIS_ENABLE_LLM`; the `buildExtractorFn()` lambda calls `LLMPluginManager::instance().generate()` with a structured German legal extraction prompt and parses the JSON response via `nlohmann::json::parse()`.
+`ingestion/llm_adapter.cpp` uses the injected `ITextGenerationBackend`
+(formerly called `LLMPluginManager::instance().generate()` directly).
+The prompt assembly and JSON parsing logic is unchanged; only the backend
+call is now abstracted through the interface.
 
 **Implementation Notes:**
-- `[x]` Uncomment `#include "llm/llama_resource_manager.h"` and wire the `buildExtractorFn()` callback to `LLMPluginManager::instance().generate()` when `THEMIS_ENABLE_LLM` is defined.
+- `[x]` SoC: replaced direct `llm/` includes with `ITextGenerationBackend` injection.
 - `[x]` Replace the naive line-by-line JSON parser with `nlohmann::json::parse()` — locates the outermost `{…}` block to handle LLM preamble noise, then extracts `deontic_category`, `confidence`, and `entities`.
-- `[x]` Add a Phase 2 model health check at `buildExtractorFn()` — throws `std::runtime_error` when a model path is configured but the GGUF file is not accessible.
 - `[x]` Add integration tests for `LLMIngestionAdapter` with a real (small) GGUF model file (see `tests/test_ingestion_llm_adapter.cpp`, skipped with `GTEST_SKIP` when no model is available).
 
 ---

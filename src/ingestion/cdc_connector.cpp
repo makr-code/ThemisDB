@@ -561,7 +561,16 @@ private:
     }
 
     // -----------------------------------------------------------------------
-    // Mock-based ingestion (unit tests)
+    // STUB/SIMULATION NOTE:
+    // Purpose: Enable unit-testing of CdcConnector without a live database by
+    //   using an injected event_fetch_fn_ instead of a real CDC stream.
+    // Activation: Active when event_fetch_fn_ is non-null (set via
+    //   CdcConnector::setEventFetchForTesting()).
+    // Production Delta: Events come from the injected lambda instead of a real
+    //   database change-data-capture connection.  No network I/O or
+    //   authentication occurs.
+    // Removal Plan: Not removed — remains the test-injection path.  Production
+    //   path (ingestFromLive) must be used when event_fetch_fn_ is null.
     // -----------------------------------------------------------------------
     void ingestFromMock(IngestionStats& stats,
                         ProgressCallback& progress_callback) {

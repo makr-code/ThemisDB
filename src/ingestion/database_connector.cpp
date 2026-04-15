@@ -455,7 +455,14 @@ public:
 
 private:
     // -----------------------------------------------------------------------
-    // Mock-based ingestion (unit tests)
+    // STUB/SIMULATION NOTE:
+    // Purpose: Enable unit-testing of DatabaseConnector without a live RDBMS
+    //   by using an injected row_fetch_fn_ instead of a real SQL connection.
+    // Activation: Active when row_fetch_fn_ is non-null (set via
+    //   DatabaseConnector::setRowFetchForTesting()).
+    // Production Delta: Rows come from the injected lambda instead of a real
+    //   database connection.  No connection pooling, no transaction management.
+    // Removal Plan: Not removed — remains the test-injection path.
     // -----------------------------------------------------------------------
     void ingestFromMock(IngestionStats& stats,
                         ProgressCallback& progress_callback) {

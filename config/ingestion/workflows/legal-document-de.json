@@ -1,0 +1,92 @@
+{
+  "apiVersion": "themis.ingestion/v1",
+  "kind": "IngestionWorkflow",
+  "name": "legal-document-de",
+  "description": "Deutsche Rechtsdokumente (Gesetze, Verordnungen, Bescheide) — PDF/DOCX/HTML",
+
+  "file_patterns": {
+    "mime_types": [
+      "application/pdf",
+      "text/html",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "text/plain"
+    ],
+    "filename_patterns": [
+      "*Gesetz*",
+      "*Verordnung*",
+      "*Bescheid*",
+      "*Richtlinie*",
+      "*Satzung*",
+      "*Verwaltungsvorschrift*",
+      "*BImSchG*",
+      "*GmbHG*",
+      "*HGB*",
+      "*StGB*",
+      "*VwGO*",
+      "*ZPO*"
+    ]
+  },
+
+  "steps": [
+    {
+      "name": "parse_text",
+      "plugin": "builtin.parse_text",
+      "on_failure": "abort",
+      "config": {
+        "ocr_enabled": true,
+        "ocr_language": "deu+eng",
+        "fallback_ocr_on_empty": true,
+        "language": "de"
+      }
+    },
+    {
+      "name": "chunk",
+      "plugin": "builtin.chunk_text",
+      "on_failure": "skip",
+      "config": {
+        "strategy": "section",
+        "size": 512,
+        "overlap": 64
+      }
+    },
+    {
+      "name": "extract_metadata",
+      "plugin": "builtin.legal_metadata",
+      "on_failure": "skip",
+      "config": {
+        "norm_pattern": "§\\s*\\d+[a-zA-Z]?(?:\\s+Abs\\.?\\s*\\d+)?",
+        "date_pattern": "\\d{1,2}\\.\\d{1,2}\\.\\d{4}",
+        "aktenzeichen_pattern": "[A-Z]{1,3}\\s?\\d+/\\d{2,4}"
+      }
+    },
+    {
+      "name": "deontic_extract",
+      "plugin": "builtin.deontic_extractor",
+      "on_failure": "skip",
+      "config": {
+        "confidence_threshold": 0.65,
+        "use_llm": true
+      }
+    },
+    {
+      "name": "assemble",
+      "plugin": "builtin.base_entity_assembler",
+      "on_failure": "abort",
+      "config": {
+        "graph_relations": ["cites", "regulates", "amends", "supersedes", "part_of"],
+        "dedup_strategy": "canonical_id"
+      }
+    }
+  ],
+
+  "output": {
+    "graph": true,
+    "vector": true,
+    "document_store": true,
+    "quality_gate": {
+      "min_entities": 1,
+      "min_quality_score": 0.2
+    }
+  }
+}

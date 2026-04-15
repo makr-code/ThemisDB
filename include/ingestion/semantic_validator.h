@@ -265,6 +265,31 @@ public:
      */
     void setValidatorFn(ValidatorFn fn);
 
+    /**
+     * @brief Replace the internal `DeonticExtractor` with a pre-configured one.
+     *
+     * ## SoC / DIP note
+     *
+     * The default extractor uses built-in regex rules.  To activate an
+     * LLM-backed extractor, build one via `LegalLlmAdapter::buildExtractor()`
+     * and inject it here.  The `SemanticValidator` remains entirely free of
+     * any `llm/` or `LegalLlmAdapter` knowledge — the caller provides the
+     * pre-built extractor.
+     *
+     * Example:
+     * @code
+     * // In wiring code (not in ingestion/):
+     * LegalLlmAdapter adapter(bridge);
+     * DeonticExtractor llm_extractor = adapter.buildExtractor(0.75);
+     *
+     * SemanticValidator validator;
+     * validator.setExtractor(std::move(llm_extractor));
+     * @endcode
+     *
+     * @param extractor  Pre-configured DeonticExtractor (moved in).
+     */
+    void setExtractor(DeonticExtractor extractor);
+
 private:
     SemanticValidationResult validateBuiltin(const DeonticExtraction& extraction,
                                               const std::string& text) const;

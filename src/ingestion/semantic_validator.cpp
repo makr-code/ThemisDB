@@ -89,6 +89,10 @@ void SemanticValidator::setValidatorFn(ValidatorFn fn) {
     validator_fn_ = std::move(fn);
 }
 
+void SemanticValidator::setExtractor(DeonticExtractor extractor) {
+    extractor_ = std::move(extractor);
+}
+
 SemanticValidationResult SemanticValidator::validate(
         const DeonticExtraction& extraction, const std::string& text) const {
     if (validator_fn_) {
