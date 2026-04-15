@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vcc_vpb_importer.cpp                               ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:13:13                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:09:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 3fea6d6b51  2026-03-12  refactor: clean up includes and remove unused transaction... ║
     • f56652abf2  2026-03-12  audit(process): focused tests, ProcessNotation enum fix, ... ║
-    • 7f7a272409  2026-03-12  feat(process): add ProcessLinker, ProcessGraphRag, and mo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            encrypted_chunk_store.h                            ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:10:03                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:06:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • c7373858e3  2026-03-14  fix(timeseries): address all PR review comments on chunk-... ║
     • e6b1e7c6d7  2026-03-14  refactor(timeseries): address code review feedback on chu... ║
-    • a0ac59009f  2026-03-14  feat(timeseries): implement chunk-level AES-256-GCM encry... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

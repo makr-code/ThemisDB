@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_plugin_security_crl_ocsp.cpp                  ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 07:20:41                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 18:16:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 25f9a09910  2026-04-02  Refactor tests and improve assertions   ║
     • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
     • b89c76ed90  2026-03-16  feat(test): add signature-invalid test cases for CRL/OCSP... ║
-    • e4976f04ef  2026-03-16  feat(acceleration): implement CRL/OCSP certificate revoca... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

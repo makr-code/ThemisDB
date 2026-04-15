@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cep_engine.cpp                                ║
-  Version:         0.0.30                                             ║
-  Last Modified:   2026-04-15 07:15:33                                ║
+  Version:         0.0.31                                             ║
+  Last Modified:   2026-04-15 18:11:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1429                                           ║
+    • Total Lines:     1428                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • f38c013cdc  2026-03-29  Enhance various components with improvements and fixes ║
     • 1e59da9797  2026-03-19  Fix remaining gaps: spdlog::warn in olap.cpp/analytics_ex... ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • ff338f68ce  2026-03-16  fix(analytics): address code review - log callback except... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

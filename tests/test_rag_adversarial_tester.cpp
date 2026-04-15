@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rag_adversarial_tester.cpp                    ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:21:23                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:17:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

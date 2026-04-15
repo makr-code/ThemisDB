@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_raft_wal_integration.cpp                      ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:21:21                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:17:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 36430300eb  2026-03-13  fix(sharding): address all snapshot compaction PR review ... ║
     • 874bea3493  2026-03-12  fix: address code review - rename use_compression to comp... ║
-    • 16db53f833  2026-03-12  feat(sharding): implement Raft snapshot compaction and lo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

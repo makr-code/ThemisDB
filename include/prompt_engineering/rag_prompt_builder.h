@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rag_prompt_builder.h                               ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:08:26                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:04:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

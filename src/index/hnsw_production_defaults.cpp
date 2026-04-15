@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hnsw_production_defaults.cpp                       ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:12:17                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:08:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

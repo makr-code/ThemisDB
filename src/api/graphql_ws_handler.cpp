@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graphql_ws_handler.cpp                             ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:11:22                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:07:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • e442ddfb53  2026-03-17  fix(api): address PR review — CI path, alive-flag tests, ... ║
     • 6fe3cb23d1  2026-03-17  audit(api): fix move-ctor UB, renumber steps, drop dead f... ║
-    • 1812297f72  2026-03-17  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            smart_routing.h                                    ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:09:25                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:05:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

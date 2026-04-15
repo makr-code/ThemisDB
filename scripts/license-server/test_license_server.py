@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_license_server.py                             ║
-  Version:         0.0.39                                             ║
-  Last Modified:   2026-04-15 07:11:10                                ║
+  Version:         0.0.40                                             ║
+  Last Modified:   2026-04-15 18:07:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

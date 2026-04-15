@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            blob_backend_gcs.h                                 ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:09:38                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:05:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
     • bea3655f53  2026-03-09  fix(storage): address code review comments - path travers... ║
-    • 492304352e  2026-03-09  feat(storage): add GCS blob backend, tiered storage, and ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

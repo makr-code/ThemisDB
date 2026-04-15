@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ts_adaptive_flush.cpp                         ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:23:10                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:18:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • a188b47e9a  2026-03-09  fix(timeseries): audit fixes - getStats regression, backp... ║
     • 9bdb7e29c1  2026-03-09  fix(timeseries): address code review - improve FlushContr... ║
-    • fe42ba76e2  2026-03-09  feat(timeseries): add FlushController adaptive flush, Dow... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

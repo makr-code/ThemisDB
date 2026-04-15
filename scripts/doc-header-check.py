@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            doc-header-check.py                                ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:11:04                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:07:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 72315421ac  2026-03-12  docs: fix audit gaps — validate-docs.sh, Wiki/Archive str... ║
     • 1f04e03bd3  2026-03-11  docs: implement documentation system infrastructure (Phas... ║
-    • cd0e6cba85  2026-03-09  Create doc-header-check.py script       ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

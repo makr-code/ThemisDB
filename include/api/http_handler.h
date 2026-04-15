@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_handler.h                                     ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:05:50                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:01:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

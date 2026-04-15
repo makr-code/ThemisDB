@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_query_optimizer.cpp                          ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:12:00                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:07:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 5bfa861df6  2026-03-23  Add runtime DLL copying functionality and error handling ║
     • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
-    • 43a91f1793  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

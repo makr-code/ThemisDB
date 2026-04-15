@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            otlp_exporter.cpp                                  ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:11:22                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:07:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

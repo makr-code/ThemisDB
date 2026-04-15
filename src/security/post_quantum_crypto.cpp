@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            post_quantum_crypto.cpp                            ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:14:07                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-15 18:10:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   91.0/100                                       ║
-    • Total Lines:     923                                            ║
+    • Total Lines:     922                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

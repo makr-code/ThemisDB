@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            metric_aggregator.h                                ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:07:47                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:03:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 4cc689623c  2026-03-13  feat(observability): implement Metric Aggregation Pipelin... ║
     • 41c4cd5fe8  2026-03-11  fix(observability): mark MetricAggregator move ops as del... ║
-    • 913128b505  2026-03-11  feat(observability): add MetricAggregator for Prometheus ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

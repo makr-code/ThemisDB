@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_canonical_resolver.cpp                        ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:17:00                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:12:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

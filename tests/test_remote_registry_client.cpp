@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_remote_registry_client.cpp                    ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:21:47                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-15 18:17:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     690                                            ║
+    • Total Lines:     689                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • c0a50c2caf  2026-03-19  Refactor build flags, IO, benchmarks & tests ║
     • 2c1b27b6f2  2026-03-15  feat(base): async retry RemoteRegistryClient + LLM RetryP... ║
-    • e56570ab4b  2026-03-15  feat(base): add async methods to RemoteRegistryClient; fi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

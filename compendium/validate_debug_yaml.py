@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            validate_debug_yaml.py                             ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:05:26                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:01:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

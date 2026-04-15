@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_aql_functions.cpp                            ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:04:42                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:00:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

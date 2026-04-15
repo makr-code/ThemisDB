@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_metrics_aggregation.cpp                       ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:19:56                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:15:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 368dd1e324  2026-03-13  fix(observability): populate AggregatedMetric.labels in a... ║
     • 4cc689623c  2026-03-13  feat(observability): implement Metric Aggregation Pipelin... ║
-    • 913128b505  2026-03-11  feat(observability): add MetricAggregator for Prometheus ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

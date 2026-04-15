@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_config_encrypted_store.cpp                    ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:17:27                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:13:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • fd5694677a  2026-03-16  Changes before error encountered        ║
-    • 6690594e54  2026-03-11  feat(config): encrypted config storage with AES-256-GCM a... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

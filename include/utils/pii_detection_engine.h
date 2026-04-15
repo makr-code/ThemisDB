@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pii_detection_engine.h                             ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:10:32                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:06:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     418                                            ║
+    • Total Lines:     417                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • b2513b8c2f  2026-03-16  Fix compilation errors: kDefaultLookaheadBytes forward-de... ║
-    • 3b849f06c9  2026-03-15  feat(pii-streaming): complete remaining acceptance criter... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

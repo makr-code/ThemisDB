@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_adaptive_join_strategies.cpp                  ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:16:16                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:12:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     701                                            ║
+    • Total Lines:     700                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 1a5facd331  2026-03-14  style(query): align inline comments in AC4 test for consi... ║
     • 8700b97f42  2026-03-14  fix(query): address review comments on adaptive join stra... ║
-    • 1d922789fd  2026-03-14  fix(query): standardize number formatting to 1,000/10,000... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

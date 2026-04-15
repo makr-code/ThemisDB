@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_jwt_token_revocation_integration.cpp          ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:19:16                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:15:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 3071a3bb79  2026-03-12  fix(auth): address JWT JTI reviewer feedback ║
     • 6903f59100  2026-03-12  feat(auth): JWT JTI replay prevention warning (v1.2.0) ║
-    • 1470edf9b1  2026-03-12  feat(auth): mandatory JWT issuer and audience validation ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

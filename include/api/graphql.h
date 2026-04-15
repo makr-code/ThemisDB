@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graphql.h                                          ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:05:47                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:01:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     600                                            ║
+    • Total Lines:     599                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • c0ea85377e  2026-04-07  fix(graphql): implement variable substitution at executio... ║
     • 6b7cdac827  2026-04-07  chore: plan variable substitution fix + doc update ║
-    • e5cd79501d  2026-03-10  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

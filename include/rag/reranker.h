@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            reranker.h                                         ║
-  Version:         0.0.16                                             ║
-  Last Modified:   2026-04-15 07:08:51                                ║
+  Version:         0.0.17                                             ║
+  Last Modified:   2026-04-15 18:04:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

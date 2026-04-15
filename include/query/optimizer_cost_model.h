@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            optimizer_cost_model.h                             ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:08:36                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:04:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

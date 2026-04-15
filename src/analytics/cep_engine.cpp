@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cep_engine.cpp                                     ║
-  Version:         0.0.30                                             ║
-  Last Modified:   2026-04-15 07:11:19                                ║
+  Version:         0.0.31                                             ║
+  Last Modified:   2026-04-15 18:07:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     2475                                           ║
+    • Total Lines:     2474                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 248ee0806f  2026-03-19  Changes before error encountered        ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • 5706ac4f36  2026-03-18  fix(analytics): streaming_window — configurable expiry in... ║
-    • 5a0ad39722  2026-03-17  fix(analytics): address code-review polish — rename effec... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

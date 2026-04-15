@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            timestamp_utils.h                                  ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:10:34                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:06:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

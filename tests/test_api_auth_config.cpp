@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_api_auth_config.cpp                           ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:16:21                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:12:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

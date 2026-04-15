@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            root-docs-hygiene.py                               ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-15 07:11:13                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-15 18:07:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

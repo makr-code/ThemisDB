@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_config_metrics_scrape.cpp                     ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:17:28                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:13:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     193                                            ║
+    • Total Lines:     192                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 518f98f13e  2026-03-13  refine config metrics delta handling    ║
     • f02db7d315  2026-03-13  fix: stabilize config metrics counters  ║
-    • 535cee36dc  2026-03-13  feat: export config metrics via Prometheus registry ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

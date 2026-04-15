@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_legal_extraction.cpp                          ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:19:23                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:15:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_user_storage_features.cpp                     ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 07:10:55                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 18:06:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • d8ee6d7cfe  2026-04-15  fix(user_storage_encrypted): repair broken merge artifact... ║
     • 8131a0844f  2026-03-25  feat(user_storage_encrypted): v0.2.0 reconcileStaleMounts... ║
     • 8e5567bf5e  2026-03-24  feat(user_storage_encrypted): v0.1.0 stdin key delivery, ... ║
-    • 126a4e2171  2026-03-24  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

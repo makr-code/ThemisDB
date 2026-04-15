@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_olap_performance.cpp                         ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:04:58                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:00:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_otlp_exporter.cpp                             ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:20:24                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:16:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     447                                            ║
+    • Total Lines:     446                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 409f1cad8c  2026-04-13  feat(api/otlp): persistent CURL handle, deque queue, and ... ║
     • 8bea1245ba  2026-04-13  feat(api/otlp): persistent CURL handle, deque queue, and ... ║
-    • db1d1e8c22  2026-03-14  feat(api/otlp): add exponential-backoff retry in OtlpExpo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            conflict_resolution.cpp                            ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:13:53                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:09:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 79f0815052  2026-03-28  Add test statistics documentation and collection script ║
     • f7a7b43c19  2026-03-09  fix(replication): fix inverted HLC comparison and remove ... ║
-    • 3ed3b012d6  2026-03-09  feat(replication): implement new module features - observ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

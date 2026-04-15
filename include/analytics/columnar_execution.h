@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            columnar_execution.h                               ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:05:40                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-15 18:01:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • d16f38e0d1  2026-03-18  fix(analytics): address all 5 code review issues — null t... ║
     • e517067372  2026-03-17  feat(analytics): add AVX-512 and ARM NEON SIMD vectorizat... ║
-    • c826f73cd8  2026-03-17  feat(analytics): implement memory pool allocator for hot ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

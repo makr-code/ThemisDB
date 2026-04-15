@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            shard_repair_engine.cpp                            ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:14:28                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:10:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 35b0161a0f  2026-03-13  fix(sharding): wire IOPS throttle and GPU flag into Shard... ║
     • f205c3d0d1  2026-03-13  fix(sharding): address code review feedback - capture sca... ║
-    • 096960f501  2026-03-13  feat(sharding): implement Reed-Solomon repair engine para... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

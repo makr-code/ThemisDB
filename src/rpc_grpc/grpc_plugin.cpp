@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            grpc_plugin.cpp                                    ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:14:00                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:09:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

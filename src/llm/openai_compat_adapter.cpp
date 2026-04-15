@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            openai_compat_adapter.cpp                          ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:12:34                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-15 18:08:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     427                                            ║
+    • Total Lines:     426                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

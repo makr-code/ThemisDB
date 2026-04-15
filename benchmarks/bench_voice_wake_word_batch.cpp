@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_voice_wake_word_batch.cpp                    ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-15 07:05:14                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 18:01:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

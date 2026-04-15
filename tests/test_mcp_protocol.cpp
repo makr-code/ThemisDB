@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_mcp_protocol.cpp                              ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:19:44                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:15:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            crdt_importer.cpp                                  ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:12:05                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:08:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

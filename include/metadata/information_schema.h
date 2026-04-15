@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            information_schema.h                               ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:07:32                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:03:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            distributed_task_coordinator.h                     ║
-  Version:         0.0.16                                             ║
-  Last Modified:   2026-04-15 07:09:00                                ║
+  Version:         0.0.17                                             ║
+  Last Modified:   2026-04-15 18:05:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

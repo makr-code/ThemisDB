@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_update_pipeline.cpp                          ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 07:05:12                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:01:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • c0a50c2caf  2026-03-19  Refactor build flags, IO, benchmarks & tests ║
-    • 3c11df78a1  2026-03-03  feat(benchmarks): add 6 missing benchmark suites for acce... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

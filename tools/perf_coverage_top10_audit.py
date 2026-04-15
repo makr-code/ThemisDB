@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            perf_coverage_top10_audit.py                       ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-15 07:24:25                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-15 18:19:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

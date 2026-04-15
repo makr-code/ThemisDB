@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_lora_checkpoint_manager.cpp                   ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:19:37                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:15:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

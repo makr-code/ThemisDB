@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_task_scheduler_auth_context.cpp               ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 07:22:46                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 18:18:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

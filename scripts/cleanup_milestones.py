@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cleanup_milestones.py                              ║
-  Version:         0.0.37                                             ║
-  Last Modified:   2026-04-15 07:11:04                                ║
+  Version:         0.0.38                                             ║
+  Last Modified:   2026-04-15 18:07:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

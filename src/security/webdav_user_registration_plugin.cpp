@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            webdav_user_registration_plugin.cpp                ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:14:10                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:10:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • d275653619  2026-04-14  update after codefindings               ║
     • a2d7c07202  2026-04-14  update after codefindings               ║
     • fa3aa40919  2026-03-26  fix: replace Result<void>::Err() with themis::ErrVoid(Err... ║
-    • 4e39463a86  2026-03-21  feat(security): implement AQL read-only context validatio... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

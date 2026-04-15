@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ingestion_coordinator.cpp                          ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:12:21                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-15 18:08:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            manifest_signer.cpp                                ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:14:07                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:10:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

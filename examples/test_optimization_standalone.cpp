@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_optimization_standalone.cpp                   ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:05:34                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:01:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

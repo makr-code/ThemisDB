@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_cdc_pipeline.cpp                             ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 07:04:44                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:00:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

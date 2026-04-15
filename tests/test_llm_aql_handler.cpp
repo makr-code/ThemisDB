@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llm_aql_handler.cpp                           ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:19:26                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:15:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • e7d6bc4555  2026-03-13  feat(tests): add focused tests for consistent hash distri... ║
     • f5c74c7e83  2026-03-13  fix(aql): add mock chat executor injection + AC#5 integra... ║
-    • dc13f3fdb3  2026-03-13  feat(aql): implement post-generation AQL validation with ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

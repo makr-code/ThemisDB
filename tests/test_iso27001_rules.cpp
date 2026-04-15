@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_iso27001_rules.cpp                            ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-15 07:19:14                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 18:15:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

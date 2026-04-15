@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_token_estimator.h                              ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:05:59                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:01:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • c28ecfee98  2026-03-13  feat(aql): accurate token-count estimation - TiktokenEsti... ║
     • d630135feb  2026-03-13  fix(aql): address PR review comments on bounded conversat... ║
-    • d231050f3c  2026-03-13  feat(aql): bounded conversation history with context-wind... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

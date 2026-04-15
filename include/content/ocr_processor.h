@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ocr_processor.h                                    ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:06:24                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-15 18:02:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     193                                            ║
+    • Total Lines:     192                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • b832e64389  2026-04-12  fix(content): implement OcrProcessor::generateEmbedding a... ║
     • 01d40ae53b  2026-03-11  feat(content): default OCR language-pack path to config/a... ║
-    • 2ae4537816  2026-03-11  feat(content): default ocr_processor data_dir to config/a... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

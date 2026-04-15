@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_syntax_highlighter.h                           ║
-  Version:         0.0.34                                             ║
-  Last Modified:   2026-04-15 07:05:56                                ║
+  Version:         0.0.35                                             ║
+  Last Modified:   2026-04-15 18:01:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

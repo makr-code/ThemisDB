@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            abuse_detector.h                                   ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 07:06:22                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 18:02:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

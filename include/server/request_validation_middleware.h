@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            request_validation_middleware.h                    ║
-  Version:         0.0.32                                             ║
-  Last Modified:   2026-04-15 07:09:21                                ║
+  Version:         0.0.33                                             ║
+  Last Modified:   2026-04-15 18:05:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

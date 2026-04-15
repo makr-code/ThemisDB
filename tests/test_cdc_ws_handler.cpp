@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_ws_handler.cpp                            ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:17:15                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-15 18:12:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     617                                            ║
+    • Total Lines:     616                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 197320301a  2026-03-28  Implement SequenceU64Increment merge operator for RocksDB... ║
     • c0a50c2caf  2026-03-19  Refactor build flags, IO, benchmarks & tests ║
-    • 2fed5b1c69  2026-03-15  fix(cdc): wire ConsumerGroupManager into WebSocket server... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

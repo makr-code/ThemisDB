@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            epoch_fencing.h                                    ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 07:09:30                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 18:05:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ssi_predicate_locking.cpp                     ║
-  Version:         0.0.16                                             ║
-  Last Modified:   2026-04-15 07:22:35                                ║
+  Version:         0.0.17                                             ║
+  Last Modified:   2026-04-15 18:18:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

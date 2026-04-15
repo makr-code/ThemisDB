@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_distributed_gateway.cpp                       ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:18:01                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:13:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • c4f67f41ce  2026-03-11  fix(server): audit gaps – quorum detection CRITICAL log, ... ║
     • 9a8c6f89be  2026-03-11  fix(server): address code review: use unordered_set in no... ║
-    • 46bcc08db6  2026-03-11  feat(server): implement distributed API gateway with Raft... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

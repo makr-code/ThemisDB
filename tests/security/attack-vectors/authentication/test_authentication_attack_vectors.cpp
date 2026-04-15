@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_authentication_attack_vectors.cpp             ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:16:02                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:11:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 43a91f1793  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
     • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-    • 9f7d34b9d6  2026-03-09  feat(security): add attack vector tests and promote PQ cr... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

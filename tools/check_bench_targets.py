@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            check_bench_targets.py                             ║
-  Version:         0.0.7                                              ║
-  Last Modified:   2026-04-15 07:24:15                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-04-15 18:19:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_crypto_attack_vectors.cpp                     ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:16:03                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:11:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

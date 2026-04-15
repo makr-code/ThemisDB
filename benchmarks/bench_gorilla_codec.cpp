@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_gorilla_codec.cpp                            ║
-  Version:         0.0.43                                             ║
-  Last Modified:   2026-04-15 07:04:50                                ║
+  Version:         0.0.44                                             ║
+  Last Modified:   2026-04-15 18:00:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • cafa45a9d4  2026-03-15  fix(audit): upgrade tsstore decode path to GorillaSIMDDec... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

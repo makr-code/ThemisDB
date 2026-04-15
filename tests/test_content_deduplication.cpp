@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_content_deduplication.cpp                     ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:17:30                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-15 18:13:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • 4468db516b  2026-03-19  fix(content): dedup default-off, strengthen policy-absent... ║
     • 55d1f82412  2026-03-19  fix(content): wire enable_deduplication config gate, add ... ║
-    • 05af902070  2026-03-18  feat(content): add perceptual hashing dedup perf tests an... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

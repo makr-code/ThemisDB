@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            module_sandbox.cpp                                 ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:11:34                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:07:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     769                                            ║
+    • Total Lines:     768                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • eaa41f488a  2026-03-12  fix(base): address code review comments on cgroup v2 impl... ║
     • 3e7d72433e  2026-03-12  feat(base): implement cgroup v2 resource enforcement for ... ║
-    • 79d50b0795  2026-03-11  docs(base): add WASM sandbox configuration examples and a... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

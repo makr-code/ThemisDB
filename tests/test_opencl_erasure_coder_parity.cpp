@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_opencl_erasure_coder_parity.cpp               ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:20:20                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:16:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

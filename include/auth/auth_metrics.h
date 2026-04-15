@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auth_metrics.h                                     ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:06:00                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:01:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     452                                            ║
+    • Total Lines:     451                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 9de8da16fa  2026-03-12  feat(auth): implement credential stuffing persistent cros... ║
     • 47778fbd54  2026-03-12  fix(auth): suppress spurious drift warning for valid time... ║
-    • 94bb63df8d  2026-03-12  feat(auth): TOTP/MFA configurable window enforcement and ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

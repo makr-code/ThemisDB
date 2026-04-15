@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            snapshot_manager.cpp                               ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:15:06                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:10:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tree_of_thoughts.h                                 ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 07:08:29                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 18:04:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

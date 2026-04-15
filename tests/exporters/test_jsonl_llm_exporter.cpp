@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_jsonl_llm_exporter.cpp                        ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:15:44                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:11:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 74e74b4841  2026-03-15  audit: fix test guards, add ZSTD magic-number test, updat... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

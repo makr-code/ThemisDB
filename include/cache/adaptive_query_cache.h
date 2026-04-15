@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_query_cache.h                             ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:06:06                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:02:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • c4d262210f  2026-03-22  Changes before error encountered        ║
     • 68650737e0  2026-03-16  feat(cache): implement Markov prefetcher ML model - ToD b... ║
-    • 9d355f5841  2026-03-15  feat(cache): implement warmup parallel bulk load (v1.8.0) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

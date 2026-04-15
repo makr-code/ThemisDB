@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            advanced_metrics.cpp                               ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:12:47                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:08:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

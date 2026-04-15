@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_openai_compat_adapter.cpp                     ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:15:56                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-15 18:11:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • f38c013cdc  2026-03-29  Enhance various components with improvements and fixes ║
     • be24ea91fe  2026-03-13  fix(llm): wire PolicyEngine::checkInferencePermission() i... ║
-    • f219a2915d  2026-03-13  feat(llm): add PolicyEngine::checkInferencePermission() f... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

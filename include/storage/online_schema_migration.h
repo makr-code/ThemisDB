@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            online_schema_migration.h                          ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:09:45                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:05:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

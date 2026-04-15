@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ts_stream_cursor.cpp                               ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-15 07:14:57                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 18:10:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

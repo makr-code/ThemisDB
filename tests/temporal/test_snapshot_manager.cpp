@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_snapshot_manager.cpp                          ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:16:08                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:11:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 56d5342011  2026-03-12  fix(tests): correct stale fake_time comments in GC tests ║
     • 72f3ebe873  2026-03-12  refactor(temporal): address review feedback on snapshot G... ║
-    • 8098dfcd90  2026-03-12  feat(temporal): implement snapshot isolation - versioning... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

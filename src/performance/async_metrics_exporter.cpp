@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            async_metrics_exporter.cpp                         ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:13:00                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:09:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

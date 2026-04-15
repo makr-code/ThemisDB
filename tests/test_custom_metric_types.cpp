@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_custom_metric_types.cpp                       ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:17:54                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:13:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

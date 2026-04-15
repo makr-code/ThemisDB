@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_bidi_stream_adapter.cpp                       ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-15 07:16:50                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-15 18:12:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

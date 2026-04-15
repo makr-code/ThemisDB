@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            anomaly_detection.cpp                              ║
-  Version:         0.0.30                                             ║
-  Last Modified:   2026-04-15 07:11:19                                ║
+  Version:         0.0.31                                             ║
+  Last Modified:   2026-04-15 18:07:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
     • 44eac4601d  2026-03-18  fix(analytics): split mu_ into window_mu_+detector_mu_; t... ║
     • f30c7008c1  2026-03-18  fix(analytics): add destructor + future-race fix to Strea... ║
-    • 0334298e8b  2026-03-17  fix(analytics): StreamingAnomalyDetector::process() - red... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

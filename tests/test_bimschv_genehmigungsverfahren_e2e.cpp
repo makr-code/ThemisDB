@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_bimschv_genehmigungsverfahren_e2e.cpp         ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 07:16:51                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 18:12:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

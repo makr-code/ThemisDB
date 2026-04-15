@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_bandwidth_management_qos.cpp                  ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:16:47                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:12:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

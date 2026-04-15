@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_prompt_engineering.cpp                       ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:05:02                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:01:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • c0a50c2caf  2026-03-19  Refactor build flags, IO, benchmarks & tests ║
     • bc45eff974  2026-03-10  fix(bench_prompt_engineering): use static shared instance... ║
-    • 7e2ca9025d  2026-03-10  feat(prompt_engineering): add performance benchmarks (16 ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

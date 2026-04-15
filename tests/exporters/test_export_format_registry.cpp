@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_export_format_registry.cpp                    ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:15:42                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:11:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 9ddf465a89  2026-03-11  fix(exporters): atomicity in loadTemplatesFromJson + ROAD... ║
     • 3d3659d8fe  2026-03-11  feat(exporters): register format templates in ExportForma... ║
-    • 3db37eb452  2026-03-10  feat(exporters): implement EXP-001 PolicyEngine auth, EXP... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

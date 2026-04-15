@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_erasure_coder_opencl.cpp                       ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:14:24                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:10:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • b1e2d2221f  2026-03-15  chore(sharding): update opencl file header metadata (v1.8... ║
     • b1cdd9490f  2026-03-15  fix(sharding): address code review - fix OpenCL buffer er... ║
-    • dc202efce1  2026-03-15  feat(sharding): implement OpenCL erasure coder encode/dec... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

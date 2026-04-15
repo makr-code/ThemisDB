@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_exporters.cpp                                ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:04:48                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:00:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

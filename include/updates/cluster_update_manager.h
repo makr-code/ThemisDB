@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cluster_update_manager.h                           ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:10:21                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:06:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 38c2b57942  2026-03-14  Fix applied_version doc and empty-string comment in rollb... ║
     • 19430da268  2026-03-14  Address PR review: clean API, add NodeRollbackFunc, fix a... ║
-    • 02e5353bcd  2026-03-14  Implement ClusterUpdateManager for distributed cluster up... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

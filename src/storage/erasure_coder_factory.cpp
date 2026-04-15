@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            erasure_coder_factory.cpp                          ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 07:14:36                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 18:10:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

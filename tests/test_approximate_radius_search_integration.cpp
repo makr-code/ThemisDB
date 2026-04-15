@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_approximate_radius_search_integration.cpp     ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:16:24                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:12:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

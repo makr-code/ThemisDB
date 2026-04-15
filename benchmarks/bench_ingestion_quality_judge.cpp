@@ -1,5 +1,27 @@
 /*
 ╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            bench_ingestion_quality_judge.cpp                  ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-04-15 18:00:55                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   74.0/100                                       ║
+    • Total Lines:     592                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 7                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • db7df90e31  2026-04-15  feat(ingestion): Google Benchmarks QJ01–QJ11 + SoC/OOP do... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
+╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB – Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_ingestion_quality_judge.cpp                  ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_memory_oversubscription.cpp               ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:15:48                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:11:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 95f4f2af0a  2026-03-13  fix(index): audit – searchBatch oversubscription path + l... ║
     • be007f370a  2026-03-13  refactor(index): address code review - extract prefetchSt... ║
-    • dc534b8301  2026-03-13  feat(index): implement GPU memory oversubscription (v1.7.0) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

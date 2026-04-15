@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_extended_context.cpp                         ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:04:49                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:00:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

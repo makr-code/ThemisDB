@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_zero_copy_blob_transfers.cpp                  ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:23:50                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:19:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

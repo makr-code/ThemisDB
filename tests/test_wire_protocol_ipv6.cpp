@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_wire_protocol_ipv6.cpp                        ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:23:42                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:19:16                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

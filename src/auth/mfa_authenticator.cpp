@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            mfa_authenticator.cpp                              ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:11:31                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:07:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 47778fbd54  2026-03-12  fix(auth): suppress spurious drift warning for valid time... ║
     • 94bb63df8d  2026-03-12  feat(auth): TOTP/MFA configurable window enforcement and ... ║
-    • b4e979f804  2026-03-12  fix(auth): constant-time comparison for recovery codes an... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

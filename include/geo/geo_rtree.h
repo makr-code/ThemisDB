@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            geo_rtree.h                                        ║
-  Version:         0.0.16                                             ║
-  Last Modified:   2026-04-15 07:06:42                                ║
+  Version:         0.0.17                                             ║
+  Last Modified:   2026-04-15 18:02:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

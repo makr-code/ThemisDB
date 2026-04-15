@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            system_versioned_table.h                           ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:09:52                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:05:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • c5ff147e9f  2026-03-20  Changes before error encountered        ║
     • f5de57fcfe  2026-03-12  fix(temporal): address review comments on SystemVersioned... ║
-    • ea2a53ea6d  2026-03-12  feat(temporal): Full System-Versioned Table Support (v1.1.0) ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

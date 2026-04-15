@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cache_replication_coordinator.h                    ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:06:08                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-15 18:02:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_bi_temporal.cpp                               ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:16:07                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:11:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 6e698b5dbb  2026-03-12  fix(temporal): address PR review feedback on BiTemporalTable ║
     • bf380a1af8  2026-03-12  feat(temporal): add gap detection, uniqueness constraints... ║
-    • 6e8942ed4f  2026-03-09  feat(temporal): implement bitemporal joins and SEQUENCED/... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

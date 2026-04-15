@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            module_sandbox.h                                   ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:09:56                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:05:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • eaa41f488a  2026-03-12  fix(base): address code review comments on cgroup v2 impl... ║
     • 3e7d72433e  2026-03-12  feat(base): implement cgroup v2 resource enforcement for ... ║
-    • 34c6bf19d8  2026-03-11  feat(base): implement WASM runtime injection in module_sa... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

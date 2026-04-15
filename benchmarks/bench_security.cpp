@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_security.cpp                                 ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:05:07                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:01:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 40456a3c45  2026-04-11  perf(audit): reduce hash-chain writer overhead in benchmarks ║
     • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
-    • 2cfa27ed12  2026-03-10  feat(security): add focused test targets, bench_security.... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_join.h                                    ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:08:30                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:04:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 8700b97f42  2026-03-14  fix(query): address review comments on adaptive join stra... ║
     • 1d922789fd  2026-03-14  fix(query): standardize number formatting to 1,000/10,000... ║
-    • 29f190c8f1  2026-03-14  feat(query): implement Adaptive Join Strategies (v1.7.0, ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

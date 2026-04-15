@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_query_cache_manager.cpp                       ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 07:21:10                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:16:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

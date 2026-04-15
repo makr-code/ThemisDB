@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            streaming_window.cpp                               ║
-  Version:         0.0.30                                             ║
-  Last Modified:   2026-04-15 07:11:22                                ║
+  Version:         0.0.31                                             ║
+  Last Modified:   2026-04-15 18:07:21                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 40c9e6295b  2026-04-07  feat(analytics): implement 7 open TODOs in streaming_window ║
     • 248ee0806f  2026-03-19  Changes before error encountered        ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 5706ac4f36  2026-03-18  fix(analytics): streaming_window — configurable expiry in... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

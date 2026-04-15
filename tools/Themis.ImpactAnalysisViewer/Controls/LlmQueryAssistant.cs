@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            LlmQueryAssistant.cs                               ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:24:00                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:19:33                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

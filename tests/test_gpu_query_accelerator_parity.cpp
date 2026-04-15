@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_gpu_query_accelerator_parity.cpp              ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:18:38                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:14:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

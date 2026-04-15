@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_sharding_transaction_wal.cpp                  ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 07:22:28                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:18:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
-    • f24988a562  2026-03-03  test: Wave 3 - add tests for query cache manager, transac... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

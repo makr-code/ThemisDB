@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_kernel_fallback_dispatcher.cpp                ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:19:18                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-15 18:15:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  ⚫ DRAFT                                        ║
     • Quality Score:   0.0/100                                        ║
-    • Total Lines:     593                                            ║
+    • Total Lines:     592                                            ║
     • Open Issues:     TODOs: 0, Stubs: 48                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_opa_adapter.cpp                               ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 07:20:19                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-15 18:16:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  ⚫ DRAFT                                        ║
     • Quality Score:   0.0/100                                        ║
-    • Total Lines:     294                                            ║
+    • Total Lines:     293                                            ║
     • Open Issues:     TODOs: 0, Stubs: 24                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

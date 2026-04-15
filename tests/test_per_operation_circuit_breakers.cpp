@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_per_operation_circuit_breakers.cpp            ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:20:31                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:16:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

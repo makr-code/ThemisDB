@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            importer_interfaces.h                              ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 07:06:54                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:02:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

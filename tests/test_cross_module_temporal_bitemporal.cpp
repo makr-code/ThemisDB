@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cross_module_temporal_bitemporal.cpp          ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-15 07:17:46                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 18:13:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_vector_index_comprehensive.cpp                ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:23:28                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:19:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

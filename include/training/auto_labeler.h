@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            auto_labeler.h                                     ║
-  Version:         0.0.45                                             ║
-  Last Modified:   2026-04-15 07:10:07                                ║
+  Version:         0.0.46                                             ║
+  Last Modified:   2026-04-15 18:06:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • ac63c2ec8d  2026-04-12  [WIP] Update developer documentation for module training ... ║
     • f499362b11  2026-03-11  feat(training): wire LegalAutoLabeler DB fetch to AQL que... ║
-    • ce712594b0  2026-03-09  feat(training): Phase 3 enhancements - checkpoint manager... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
