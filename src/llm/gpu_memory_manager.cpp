@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_memory_manager.cpp                             ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:48:34                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:17:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 26e49f8ba7  2026-03-11  fix: wire include_guidance in enrichSample; expose findRe... ║
     • bdd5a732d8  2026-03-11  Address code review: deduplicate VRAM auto-detection, fix... ║
     • 8ff806630f  2026-03-11  Fix 3 bugs in gpu_memory_manager: getTotalVRAM semantics,... ║
-    • f82bf2ae9f  2026-03-04  Refactor tenant manager tests and add new test cases ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🔧 In Progress                                               ║
 ╚═════════════════════════════════════════════════════════════════════╝

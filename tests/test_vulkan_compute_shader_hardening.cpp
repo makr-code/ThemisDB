@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_vulkan_compute_shader_hardening.cpp           ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 19:09:14                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 04:32:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

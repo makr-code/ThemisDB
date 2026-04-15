@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            export_encryption.cpp                              ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:47:15                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:16:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   96.0/100                                       ║
-    • Total Lines:     1090                                           ║
+    • Total Lines:     1089                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 7d170c7692  2026-03-01  feat(build): update CMake configuration for benchmarks an... ║
     • 0164731569  2026-02-28  Code audit: 5 security fixes in export_encryption.cpp + 1... ║
-    • 6cbe0e9543  2026-02-28  Implement AES-256-GCM export encryption (Phase 3 security... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

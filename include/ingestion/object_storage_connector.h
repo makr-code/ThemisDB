@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            object_storage_connector.h                         ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:39:19                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:10:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

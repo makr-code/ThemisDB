@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_otel_tracer_adapter.cpp                       ║
-  Version:         0.0.24                                             ║
-  Last Modified:   2026-04-14 19:03:45                                ║
+  Version:         0.0.25                                             ║
+  Last Modified:   2026-04-15 04:28:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

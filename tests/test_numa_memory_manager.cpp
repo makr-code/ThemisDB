@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_numa_memory_manager.cpp                       ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-14 19:03:23                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-15 04:28:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

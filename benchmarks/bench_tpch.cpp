@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_tpch.cpp                                     ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:35:29                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:08:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

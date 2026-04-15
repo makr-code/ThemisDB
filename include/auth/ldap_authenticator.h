@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ldap_authenticator.h                               ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:37:02                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:09:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 57fef95c4a  2026-03-12  feat(auth): async/non-blocking LDAP and HTTP authenticati... ║
     • fc9c9664ad  2026-03-12  feat(auth): implement LDAP connection pooling (v1.2.0) ║
     • 0f9b874f42  2026-03-12  fix(auth): address all reviewer comments on LDAP injectio... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

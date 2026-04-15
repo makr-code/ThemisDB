@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_api_handler.h                                ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:43:03                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:13:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 64ea7ae225  2026-02-27  Update metadata annotations: resolve Stubs:1 in query_api... ║
     • db120052be  2026-02-23  feat(api): Implement SSE/WebSocket streaming query result... ║
-    • 617224a490  2026-02-23  feat(security): implement dynamic data masking for PII fi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

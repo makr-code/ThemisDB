@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_replication_crdt_types.cpp                    ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 19:06:15                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 04:30:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

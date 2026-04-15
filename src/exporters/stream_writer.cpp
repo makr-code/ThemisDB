@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            stream_writer.cpp                                  ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:47:20                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:16:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 44514d5a18  2026-03-15  feat(exporters): replace zlib with ZSTD as sole StreamWri... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • fb579790be  2026-02-28  Audit: fix stale Stubs annotations, ROADMAP, and P2 place... ║
-    • 5b487cd13d  2026-02-28  Implement ZSTD streaming compression in StreamWriter and ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

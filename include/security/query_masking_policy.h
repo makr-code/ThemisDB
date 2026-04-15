@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_masking_policy.h                             ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:42:38                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:13:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • b629d06e4a  2026-02-23  audit: fix thread-safety race, missed JOIN path, and COLL... ║
-    • 617224a490  2026-02-23  feat(security): implement dynamic data masking for PII fi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

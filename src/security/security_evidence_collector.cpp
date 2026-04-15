@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            security_evidence_collector.cpp                    ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 18:51:32                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 04:19:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

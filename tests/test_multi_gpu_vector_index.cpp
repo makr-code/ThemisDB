@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_multi_gpu_vector_index.cpp                    ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 19:03:06                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:27:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

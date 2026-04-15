@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_subscription_auth.cpp                     ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:57:38                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:23:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 33a346e4e2  2026-02-25  Refactor code structure and remove redundant code blocks ... ║
     • 2b222c3819  2026-02-24  fix(cdc): correct test names and add feature-disabled aut... ║
-    • 69f0286bdd  2026-02-24  feat(cdc): add subscription authorization security audit ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

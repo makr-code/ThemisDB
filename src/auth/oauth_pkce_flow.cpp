@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            oauth_pkce_flow.cpp                                ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:46:36                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:16:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   98.0/100                                       ║
-    • Total Lines:     499                                            ║
+    • Total Lines:     498                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • fc7a85ac82  2026-03-12  fix(auth): address PR review - curl_multi_info_read, void... ║
     • 57fef95c4a  2026-03-12  feat(auth): async/non-blocking LDAP and HTTP authenticati... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 82b94dd7cf  2026-02-24  fix(auth): code-audit fixes for OAuth PKCE — EVP SHA-256,... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

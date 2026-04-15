@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_reranker.cpp                                   ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:51:20                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:19:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 8b78c9c56b  2026-02-28  Fix temperature stub in LlmQueryRewriter and add temperat... ║
     • 39eff90ac1  2026-02-23  fix(search/llm_reranker): sort fallback path, strengthen ... ║
-    • dd484664be  2026-02-23  feat(search): add LlmReranker for configurable re-ranking... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

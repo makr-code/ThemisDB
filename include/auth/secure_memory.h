@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            secure_memory.h                                    ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 18:37:10                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 04:09:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

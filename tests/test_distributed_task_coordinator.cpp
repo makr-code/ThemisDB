@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_distributed_task_coordinator.cpp              ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-14 18:59:10                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-15 04:25:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     531                                            ║
+    • Total Lines:     530                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 6bdc7ab4ad  2026-03-01  feat(scheduler): implement distributed cron leader electi... ║
-    • 0367b9a102  2026-02-22  Fix test bug and stop-race-condition in DistributedTaskCo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

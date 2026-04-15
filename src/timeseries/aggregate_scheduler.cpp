@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aggregate_scheduler.cpp                            ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:52:57                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:20:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

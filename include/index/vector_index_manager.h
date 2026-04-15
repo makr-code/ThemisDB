@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vector_index_manager.h                             ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:39:12                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:10:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

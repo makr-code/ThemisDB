@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_multi_lora_fusion.cpp                        ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:35:09                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:07:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

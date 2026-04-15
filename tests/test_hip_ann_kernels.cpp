@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_hip_ann_kernels.cpp                           ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 19:00:50                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:26:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • fd8ef9b56a  2026-02-23  test(acceleration): add HIPVectorBackend capability field... ║
     • 33de0a38ca  2026-02-23  fix(acceleration): add missing HIPGeoBackend — wire geo_k... ║
-    • 32123c0149  2026-02-23  feat(acceleration): add ROCm/HIP ANN and geo kernel files... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

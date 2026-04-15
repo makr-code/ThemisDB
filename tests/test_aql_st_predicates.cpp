@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_aql_st_predicates.cpp                         ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:56:32                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:23:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

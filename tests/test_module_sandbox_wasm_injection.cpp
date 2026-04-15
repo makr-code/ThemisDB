@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_module_sandbox_wasm_injection.cpp             ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-14 19:02:57                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 04:27:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            Entity.cs                                          ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:36:01                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:08:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

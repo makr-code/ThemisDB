@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            faceted_search.h                                   ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-14 18:42:22                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-15 04:13:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

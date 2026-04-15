@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_ts_query_optimizer.cpp                        ║
-  Version:         0.0.40                                             ║
-  Last Modified:   2026-04-14 19:08:37                                ║
+  Version:         0.0.41                                             ║
+  Last Modified:   2026-04-15 04:31:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

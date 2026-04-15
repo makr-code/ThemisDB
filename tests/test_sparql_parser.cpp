@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_sparql_parser.cpp                             ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 19:07:32                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:31:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

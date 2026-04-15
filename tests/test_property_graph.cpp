@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_property_graph.cpp                            ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 19:05:02                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:29:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

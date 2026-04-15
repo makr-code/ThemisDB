@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_feature_flags.cpp                             ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:59:43                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:25:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 57bf541b22  2026-02-24  chore(core): code audit — fix stale annotations and expli... ║
     • 6dc891cbd3  2026-02-24  feat(core): feature flag interface for runtime enable/dis... ║
-    • 1579feab71  2026-02-23  feat(core): add IFeatureFlags interface as a first-class ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

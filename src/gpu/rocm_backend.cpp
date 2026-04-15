@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rocm_backend.cpp                                   ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-14 18:47:48                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-15 04:16:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

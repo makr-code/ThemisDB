@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            function_registry.cpp                              ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:50:22                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:18:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • fc0c65a058  2026-04-07  feat(api/aql): AQL-GraphQL integration – cost model bridg... ║
     • 3da4977c8c  2026-03-14  fix(aql): address classify-bridge PR review comments ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 5239b2166d  2026-02-24  Code audit: register betweenness centrality at startup an... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

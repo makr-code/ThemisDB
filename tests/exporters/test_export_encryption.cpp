@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_export_encryption.cpp                         ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:54:26                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:21:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • ac6890aa58  2026-03-11  fix(exporters): EXPORT_DENIED severity MEDIUM, authorizat... ║
     • 2dba947651  2026-03-11  feat(exporters): PolicyEngine export authorization with a... ║
     • f82bf2ae9f  2026-03-04  Refactor tenant manager tests and add new test cases ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

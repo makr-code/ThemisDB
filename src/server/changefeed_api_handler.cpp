@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            changefeed_api_handler.cpp                         ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:51:41                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:19:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 13a305368a  2026-04-13  feat(cdc): GDPR redaction audit log (cdc_redactions CF) +... ║
     • 5a69555883  2026-03-11  chore(cdc): audit fixes - documentation, THEMIS_ENABLE_SS... ║
     • b56122b397  2026-03-11  feat(cdc): extend at-least-once delivery guarantee to SSE... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

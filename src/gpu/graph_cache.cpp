@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_cache.cpp                                    ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:47:45                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:16:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • dfa2c62531  2026-02-25  Merge branch 'develop' into copilot/implement-gpu-profili... ║
     • 2379d35368  2026-02-25  fix(gpu): remove spurious stats increment and fix data ra... ║
-    • 70833d6474  2026-02-25  feat(gpu): implement CUDA graph capture for recurring que... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_embedding_cache_performance.cpp              ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:34:53                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:07:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

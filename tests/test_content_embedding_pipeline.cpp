@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_content_embedding_pipeline.cpp                ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:58:07                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:24:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 67549ed6f9  2026-03-15  fix(content): wire ContentPolicy::embedding_model gate in... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • ee034a6578  2026-02-24  fix(content): audit — wire ContentMetrics, add ContentPol... ║
-    • efa41f4324  2026-02-24  feat(content): implement embedding generation pipeline (I... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

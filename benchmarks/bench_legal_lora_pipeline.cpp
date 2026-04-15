@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_legal_lora_pipeline.cpp                      ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:35:04                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:07:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   87.0/100                                       ║
-    • Total Lines:     340                                            ║
+    • Total Lines:     339                                            ║
     • Open Issues:     TODOs: 7, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 202546ee10  2026-04-13  perf: add Disabled-Stub-Policy comments to all 21 *_Disab... ║
     • 9c9ead9b4f  2026-04-09  Implement feature X to enhance user experience and optimi... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • fa57b59d1c  2026-02-28  audit(ingestion): fix SSRF security gap, add missing docs... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

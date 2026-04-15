@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            websocket_session.cpp                              ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:52:08                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:19:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     834                                            ║
+    • Total Lines:     833                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2fed5b1c69  2026-03-15  fix(cdc): wire ConsumerGroupManager into WebSocket server... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 3e1a33c4cc  2026-03-01  feat(network/server): implement WebSocket binary frame su... ║
-    • 6d03c85c7f  2026-02-24  feat(cdc): WebSocket transport for /v2/cdc/stream with at... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            export_encryption.h                                ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:38:08                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:10:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 7d170c7692  2026-03-01  feat(build): update CMake configuration for benchmarks an... ║
     • 6cbe0e9543  2026-02-28  Implement AES-256-GCM export encryption (Phase 3 security... ║
-    • 5515f88c16  2026-02-28  feat(exporters): implement AES-256-GCM export encryption ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

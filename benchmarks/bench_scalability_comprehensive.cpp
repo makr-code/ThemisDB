@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_scalability_comprehensive.cpp                ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:35:22                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:08:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            onnx_clip_plugin.h                                 ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:45:17                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:15:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

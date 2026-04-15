@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_lora_finetuner.cpp                             ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:46:22                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:15:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 3a758b465a  2026-04-12  feat(aql): AQL module enhancements — Features 8, 10, 12, ... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • c6f709c2c4  2026-02-23  fix(aql): wire epoch_callback to LoRATrainingService::reg... ║
-    • 43fff097c8  2026-02-23  feat(aql): fine-tuned local LoRA adapter for ThemisDB-spe... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_incremental_exporter.cpp                      ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:54:29                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:21:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 9d3ecaa0e4  2026-02-28  Add ThemisDB Wiki Integration plugin with documentation i... ║
     • 1851e06892  2026-02-27  fix(exporters): include skipped_entities in ExportStats::... ║
-    • 985852ac2c  2026-02-27  feat(exporters): implement incremental/delta export with ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

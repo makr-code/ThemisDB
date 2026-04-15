@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            schema_validator.h                                 ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:39:00                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:10:36                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

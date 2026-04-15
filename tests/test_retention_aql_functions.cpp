@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_retention_aql_functions.cpp                   ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 19:06:22                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:30:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 28a4b23b94  2026-02-23  Refactor tests and update error handling ║
-    • 333279f4df  2026-02-22  test: replace retention AQL and HTTP API stubs with real ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

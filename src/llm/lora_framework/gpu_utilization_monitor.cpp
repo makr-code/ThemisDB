@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_utilization_monitor.cpp                        ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:48:42                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:17:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

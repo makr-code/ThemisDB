@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_mysql_importer.cpp                            ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-14 19:03:13                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-15 04:27:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 786e4a8dfe  2026-03-15  feat(importers): incremental import, MySQL benchmark, Mon... ║
     • 5dcbb0ae0b  2026-03-15  fix(importers): improve MetricNamingConventionFollowed te... ║
     • e8972c533b  2026-03-15  feat(importers): add MySQL-specific Prometheus metrics an... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            __init__.py                                        ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:46:08                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:15:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

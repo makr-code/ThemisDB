@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_failover_chaos_scenarios.cpp                  ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-14 18:59:41                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-15 04:25:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_password_policy.cpp                           ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 19:03:53                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:28:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 3487250b75  2026-02-28  Add min_entropy_bits to PasswordPolicy for configurable e... ║
     • 167d3943a9  2026-02-24  fix(auth): audit — remove regex from public header, fix d... ║
-    • 6353f8b64a  2026-02-23  feat(auth): implement configurable password policy enforc... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

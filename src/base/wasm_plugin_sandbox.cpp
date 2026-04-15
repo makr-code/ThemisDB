@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wasm_plugin_sandbox.cpp                            ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:46:43                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:16:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • 2cf276ba53  2026-03-22  feat(base): implement WASM instruction fuel metering for ... ║
     • 4a1d924519  2026-03-12  fix(base): correctly skip non-function WASM import descri... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

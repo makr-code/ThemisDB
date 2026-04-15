@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            whisper_plugin.cpp                                 ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-04-14 18:54:02                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-04-15 04:21:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   92.0/100                                       ║
-    • Total Lines:     175                                            ║
+    • Total Lines:     176                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llm_vision_integration.cpp                    ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 19:02:10                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:27:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 0cf6e7c7cd  2026-02-26  fix(llm): include image_paths in cache key; update ROADMA... ║
     • 53b07730b4  2026-02-26  feat(llm): implement multi-modal input support (image + t... ║
-    • 28a4b23b94  2026-02-23  Refactor tests and update error handling ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

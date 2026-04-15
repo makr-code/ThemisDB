@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_plugin_interface.h                             ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:39:32                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:10:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • bc505b7f56  2026-04-07  feat(rag): implement context-window budget, RAGContextAss... ║
     • 01a86c4f10  2026-04-07  Changes before error encountered        ║
     • 938636d98f  2026-04-07  feat(plugins): add audio/imggen interfaces, THEMIS_LLM_PL... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_streaming_handler.cpp                         ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-14 18:55:13                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-15 04:22:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • a195600044  2026-02-22  fix(llm): audit fixes for streaming_handler — RFC 8259 co... ║
-    • b4b1483a9e  2026-02-22  feat(llm): streaming token output via SSE/chunked responses ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

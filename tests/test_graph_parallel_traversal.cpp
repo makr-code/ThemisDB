@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_graph_parallel_traversal.cpp                  ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-14 19:00:32                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-15 04:26:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 771ab826b0  2026-02-25  feat(graph): add fan_out_threshold for parallel frontier ... ║
-    • c97d71912e  2026-02-22  Add parallel multi-source BFS/DFS implementation (graph/p... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

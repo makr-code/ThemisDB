@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_distributed_tracing.cpp                       ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:59:10                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:25:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 22017ffdcc  2026-03-01  feat(tests): initialize tracer in DistributedTracingTest ... ║
-    • 95fb262d5f  2026-02-27  feat(observability): add adaptive sampling rate for high-... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

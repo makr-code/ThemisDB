@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ccpa_rules.h                                       ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:38:24                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:10:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 7844e4d322  2026-02-25  fix(ccpa): resolve DataPortability semantic conflict and ... ║
     • 8d92986f6d  2026-02-25  feat(governance): implement CCPA/CPRA data subject rights... ║
-    • 8b8292ad08  2026-02-25  feat(governance): implement CCPA/CPRA compliance rule set... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

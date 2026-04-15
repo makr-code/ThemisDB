@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            huggingface_connector.h                            ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:39:17                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:10:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     183                                            ║
+    • Total Lines:     182                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 25f69a572f  2026-03-09  feat(ingestion): replace simulated HttpClient in HuggingF... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • eda6e27def  2026-02-28  fix(ingestion): reject_invalid=false mode, schema_violati... ║
-    • b40bbc1612  2026-02-26  feat(ingestion): OAuth 2.0 token refresh handling in Gene... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

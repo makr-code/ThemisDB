@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_directx_backend.cpp                           ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:58:59                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:24:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

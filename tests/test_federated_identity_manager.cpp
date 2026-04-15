@@ -3,21 +3,20 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_federated_identity_manager.cpp                ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:59:43                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:25:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     941                                            ║
+    • Total Lines:     940                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 66441eee78  2026-03-13  fix(auth): address RFC 8693 token exchange review feedback ║
     • 9410e16988  2026-03-12  feat(auth): implement RFC 8693 token exchange in Federate... ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-    • 497f5c0a72  2026-02-24  fix(auth): audit fixes – ROADMAP status, token size guard... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

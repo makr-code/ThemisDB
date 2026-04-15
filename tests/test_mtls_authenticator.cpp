@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_mtls_authenticator.cpp                        ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 19:03:02                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:27:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 32da2ea9d2  2026-02-24  feat(auth): implement mTLS certificate-based authentication ║
     • b12ea8a40d  2026-02-24  fix(auth): correct verify_expiry=false and inline PEM bun... ║
-    • 5cc90b16b8  2026-02-24  feat(auth): implement mTLS certificate-based authentication ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

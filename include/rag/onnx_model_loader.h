@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            onnx_model_loader.h                                ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:42:00                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:12:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

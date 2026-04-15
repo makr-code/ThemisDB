@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            jwt_validator.h                                    ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:37:02                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:09:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

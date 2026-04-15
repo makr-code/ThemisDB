@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cross_collection_stream.h                          ║
-  Version:         0.0.10                                             ║
-  Last Modified:   2026-04-14 18:37:26                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-04-15 04:09:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,6 @@
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 288df1bc27  2026-02-26  fix(cdc): fix GCC compilation error - use RetentionPolicy... ║
     • f47fb5739c  2026-02-25  audit(cdc): fix test fixture DB isolation, delete move ct... ║
-    • 8b27dc1d6f  2026-02-24  feat(cdc): implement cross-collection change aggregation ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

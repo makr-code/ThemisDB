@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            anomaly_detection.h                                ║
-  Version:         0.0.27                                             ║
-  Last Modified:   2026-04-14 18:36:24                                ║
+  Version:         0.0.28                                             ║
+  Last Modified:   2026-04-15 04:08:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • 44eac4601d  2026-03-18  fix(analytics): split mu_ into window_mu_+detector_mu_; t... ║
     • f30c7008c1  2026-03-18  fix(analytics): add destructor + future-race fix to Strea... ║
     • 0334298e8b  2026-03-17  fix(analytics): StreamingAnomalyDetector::process() - red... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

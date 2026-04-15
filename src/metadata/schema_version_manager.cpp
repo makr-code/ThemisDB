@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            schema_version_manager.cpp                         ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:49:03                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:17:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
     • 9f3ff691f6  2026-02-22  audit: update stubs counter, ROADMAP status, and runbook ... ║
-    • 8e85a68b61  2026-02-22  feat(metadata): implement generateMigrationScript for sch... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

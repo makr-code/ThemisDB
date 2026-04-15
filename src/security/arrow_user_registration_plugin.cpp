@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            arrow_user_registration_plugin.cpp                 ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:51:25                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:19:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     272                                            ║
+    • Total Lines:     273                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
@@ -18,7 +18,6 @@
     • a2d7c07202  2026-04-14  update after codefindings               ║
     • 4e39463a86  2026-03-21  feat(security): implement AQL read-only context validatio... ║
     • f2b393ae5c  2026-03-15  feat(security): implement Apache Arrow integration for Ar... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

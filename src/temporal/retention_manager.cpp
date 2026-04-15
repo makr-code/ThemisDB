@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            retention_manager.cpp                              ║
-  Version:         0.0.42                                             ║
-  Last Modified:   2026-04-14 18:52:45                                ║
+  Version:         0.0.43                                             ║
+  Last Modified:   2026-04-15 04:20:23                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -18,7 +18,6 @@
     • eff45c52df  2026-03-12  Address PR review: fix resolveArchiveTag, retry exception... ║
     • 1b897ee390  2026-03-12  Address code review: extract helpers, fix VERSION_COUNT_B... ║
     • 9587568640  2026-03-12  Implement Automated Retention Policies: STORAGE_BASED typ... ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
