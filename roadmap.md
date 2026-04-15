@@ -134,11 +134,19 @@ Key PRs and features included in v1.7.0:
 | HybridSearch production hardening | search | Configurable metric, strict validation, `SearchStats`, exception safety |
 | Distributed Query Optimizer | query | Dynamic shard row estimates, predicate selectivity, latency hooks |
 | FAISS ADC distance tables | index | ~40% faster `IndexIVFPQ` search |
+| CHIMERA Suite Branding | benchmarks | Rebranded benchmark framework; `CHIMERA_RESULTS_*` naming; docs + CI updated |
+| API Versioning and Compatibility Strategy | server / api | `Accept-Version` / `API-Version` headers, deprecation policy, `APIVersionManager` |
+| Query Result Pagination | query / server | Cursor / keyset / offset pagination; `PaginatedResponse`; 17 tests |
+| Plugin Metrics and Monitoring | plugins | `PluginMetrics`; P95/P99 latency; Prometheus integration |
+| Schema Manager | storage | Runtime schema, field type, and index metadata introspection |
+| Independent Health / Error Service | server | Dedicated port 9090; `/health`, `/readiness`, `/error-summary` |
 | [#3471](https://github.com/makr-code/ThemisDB/pull/3471) | tests / benchmarks | Coverage audit: 6 benchmarks + 21 unit test files |
 | [#3472–#3484](https://github.com/makr-code/ThemisDB/pull/3484) | docs (all modules) | Full 44-module documentation audit and sync |
 | [#3480](https://github.com/makr-code/ThemisDB/pull/3480) | ci | Documentation validation CI workflow |
 | [#3485](https://github.com/makr-code/ThemisDB/pull/3485) | rag / research | RAG scientific foundations (40 IEEE citations) |
 | [#84](https://github.com/makr-code/ThemisDB/issues/84) | observability | Root Cause Analyzer — `RootCauseAnalyzer` with `analyzeIssue`, `findCorrelations`, `buildCausalGraph` |
+| Documentation Archival System | docs | Formal archival process; 70+ documents moved to `docs/implementation-history/` |
+| Retroactive Release Building System | ci / docs | Reproducible binary builds from historical version tags |
 
 **Breaking change:** `themis` module initialisation code migrated from `src/utils/` / `src/base/` to `src/themis/`.
 
