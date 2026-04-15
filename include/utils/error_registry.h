@@ -220,6 +220,20 @@ enum class ErrorCode {
     ERR_EXPORT_JOIN_AMBIGUOUS_FIELD      = 9313,  ///< Field present in both collections without alias
     ERR_EXPORT_JOIN_MEMORY_LIMIT         = 9314,  ///< Right-side hash table exceeded memory budget
 
+    // Document Errors (9400-9499)
+    ERR_DOC_NOT_FOUND             = 9400,  ///< Document not found in the store
+    ERR_DOC_ALREADY_EXISTS        = 9401,  ///< Document with same ID already exists
+    ERR_DOC_INVALID_ID            = 9402,  ///< Document ID is empty or malformed
+    ERR_DOC_SCHEMA_SEALED         = 9403,  ///< Schema registry is sealed; cannot register new versions
+    ERR_DOC_SCHEMA_VERSION_NOT_FOUND = 9404, ///< Requested schema version does not exist
+    ERR_DOC_SCHEMA_VERSION_EXISTS = 9405,  ///< Schema version already registered
+    ERR_DOC_DIFF_NOT_FOUND        = 9406,  ///< One or both documents for diff/merge not found
+    ERR_DOC_MERGE_CONFLICT        = 9407,  ///< Three-way merge produced unresolvable conflicts
+    ERR_DOC_ACCESS_DENIED         = 9408,  ///< Collection ACL denied the requested operation
+    ERR_DOC_COLLECTION_NOT_FOUND  = 9409,  ///< Collection does not exist
+    ERR_DOC_ENCRYPT_FAILED        = 9410,  ///< Encrypted entity operation failed
+    ERR_DOC_INVALID_ARGUMENT      = 9411,  ///< A required argument is invalid or missing
+
     // Unknown
     ERR_UNKNOWN = 9999
 };
