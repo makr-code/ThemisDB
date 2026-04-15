@@ -167,7 +167,7 @@ IngestionQualityReport IngestionQualityJudge::evaluate(
 
     IngestionQualityReport report;
     report.doc_id       = ctx.manifest.source_uri;
-    report.judge_backend = backend_->describe();
+    report.judge_backend = backend_->description();
 
     // ---- Fail-open when context is too sparse or backend unavailable ----
     const bool sparse_context =
@@ -175,8 +175,7 @@ IngestionQualityReport IngestionQualityJudge::evaluate(
         ctx.entities.size() < config_.min_entities_for_eval;
 
     if (sparse_context || !backend_->isAvailable()) {
-        report.passed = true;   // fail-open
-        report.overall_score = 1.0;
+        report.passed = true;   // fail-open; scores remain -1.0 (not evaluated)
         return report;
     }
 
