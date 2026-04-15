@@ -77,7 +77,41 @@ public:
 };
 
 /**
- * @brief Argon2id key derivation service.
+ * @brief Abstract interface for per-container key derivation with domain separation.
+ */
+class KeyDerivationService {
+public:
+    virtual ~KeyDerivationService() = default;
+
+    virtual std::vector<uint8_t> derive(
+        const std::vector<uint8_t>& master_key,
+        const std::string& user_id,
+        const std::string& container_id,
+        const std::vector<uint8_t>& salt
+    ) = 0;
+
+    virtual std::vector<uint8_t> generateSalt(size_t length) = 0;
+};
+
+/**
+ * @brief Argon2id parameters.
+ *
+ * Defaults follow OWASP recommendations:
+ *   - m = 65536 (64 MB), t = 3 iterations, p = 4 threads, output = 32 bytes
+ */
+struct Argon2idParams {
+    uint32_t memory_kb   = 65536;
+    uint32_t iterations  = 3;
+    uint32_t parallelism = 4;
+    uint32_t output_len  = 32;
+};
+
+/**
+ * @brief Argon2id key derivation service — unified implementation.
+ *
+ * Inherits from both IKeyDerivationService (Result<>-based API) and
+ * KeyDerivationService (plain-vector API) so a single instance can be used
+ * with either interface.
  *
  * Parameters (NIST / OWASP recommended for interactive use):
  *   - Memory:      m = 65536 KiB (64 MiB)
@@ -87,14 +121,18 @@ public:
  *
  * Requires libargon2 (apt: libargon2-dev).
  */
-class Argon2idKeyDerivationService : public IKeyDerivationService {
+class Argon2idKeyDerivationService : public IKeyDerivationService, public KeyDerivationService {
 public:
     // KDF parameters
-    static constexpr uint32_t kMemoryCost  = 65536; ///< KiB
+    static constexpr uint32_t kMemoryCost  = 65536; ///< KiB (64 MiB)
     static constexpr uint32_t kTimeCost    = 3;
     static constexpr uint32_t kParallelism = 4;
     static constexpr uint32_t kKeyLength   = 32;    ///< bytes
 
+    explicit Argon2idKeyDerivationService(const Argon2idParams& params = Argon2idParams{});
+    ~Argon2idKeyDerivationService() override = default;
+
+    // IKeyDerivationService interface
     Result<std::vector<uint8_t>> deriveKey(
         const std::vector<uint8_t>& master_key,
         const std::vector<uint8_t>& salt
@@ -105,74 +143,8 @@ public:
     Result<std::vector<uint8_t>> loadOrCreateSalt(
         const std::string& salt_file_path
     ) const override;
-};
 
-/**
- * @brief Abstract interface for per-container key derivation.
- *
- * Implementations derive a fixed-length encryption key from a master key,
- * an optional user identifier, a container identifier, and a per-container
- * random salt.  The derived key is used as the gocryptfs passphrase.
- */
-class KeyDerivationService {
-public:
-    virtual ~KeyDerivationService() = default;
-
-    /**
-     * @brief Derive a container encryption key.
-     *
-     * @param master_key    Master secret (never stored; provided at startup)
-     * @param user_id       Optional user identifier for domain separation
-     * @param container_id  Unique container path / identifier
-     * @param salt          16-byte (minimum) random salt; stored per-container
-     * @return              Derived key bytes (32 bytes for AES-256-GCM)
-     */
-    virtual std::vector<uint8_t> derive(
-        const std::vector<uint8_t>& master_key,
-        const std::string& user_id,
-        const std::string& container_id,
-        const std::vector<uint8_t>& salt
-    ) = 0;
-
-    /**
-     * @brief Generate a cryptographically random salt.
-     *
-     * @param length  Desired salt length in bytes (default: 16)
-     * @return        Random salt bytes
-     */
-    virtual std::vector<uint8_t> generateSalt(size_t length = 16) = 0;
-};
-
-/**
- * @brief Argon2id parameters.
- *
- * Defaults follow OWASP recommendations:
- *   - m = 65536 (64 MB)
- *   - t = 3 iterations
- *   - p = 4 threads
- *   - output = 32 bytes (AES-256-GCM key size)
- */
-struct Argon2idParams {
-    uint32_t memory_kb   = 65536;
-    uint32_t iterations  = 3;
-    uint32_t parallelism = 4;
-    uint32_t output_len  = 32;
-};
-
-/**
- * @brief Argon2id-based KeyDerivationService implementation.
- *
- * Uses libargon2 (argon2id_hash_raw) to derive a 256-bit container key from
- * the master key plus domain-separation fields.  The combined "password" fed
- * to Argon2id is: master_key || user_id || container_id.
- *
- * Latency budget: ≤ 200 ms on reference hardware (4-core / 4 GB RAM).
- */
-class Argon2idContainerKeyService : public KeyDerivationService {
-public:
-    explicit Argon2idContainerKeyService(const Argon2idParams& params = Argon2idParams{});
-    ~Argon2idContainerKeyService() override = default;
-
+    // KeyDerivationService interface (domain-separated derive)
     std::vector<uint8_t> derive(
         const std::vector<uint8_t>& master_key,
         const std::string& user_id,
@@ -180,11 +152,14 @@ public:
         const std::vector<uint8_t>& salt
     ) override;
 
-    std::vector<uint8_t> generateSalt(size_t length = 16) override;
+    std::vector<uint8_t> generateSalt(size_t length) override;
 
 private:
     Argon2idParams params_;
 };
+
+/// @deprecated Use Argon2idKeyDerivationService which now implements both interfaces.
+using Argon2idContainerKeyService = Argon2idKeyDerivationService;
 
 } // namespace user_storage
 } // namespace plugins

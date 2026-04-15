@@ -107,6 +107,40 @@ public:
 
     Result<void> checkAvailability() override;
 
+    // -----------------------------------------------------------------------
+    // Public test / integration helpers
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Execute a command with @p stdin_data written to its stdin.
+     *
+     * Forks the process, executes @p args[0] via execvp, writes @p stdin_data
+     * to its standard input, and returns the collected stdout/stderr.
+     *
+     * @param args        argv for execvp (args[0] is the executable)
+     * @param stdin_data  Data to write to the child's stdin
+     * @return            Child output on success, or error description
+     */
+    Result<std::string> executeCommandWithStdin(
+        const std::vector<std::string>& args,
+        const std::string& stdin_data
+    );
+
+    /**
+     * @brief Deliver @p key_hex to a command via stdin, then clear the buffer.
+     *
+     * Equivalent to executeCommandWithStdin(args, key_hex) but explicitly
+     * zeroes @p key_hex after the write to limit key material exposure.
+     *
+     * @param args     argv for execvp
+     * @param key_hex  Hex-encoded key to write (cleared on return)
+     * @return         Child output on success, or error description
+     */
+    Result<std::string> deliverKeyViaStdin(
+        const std::vector<std::string>& args,
+        const std::string& key_hex
+    );
+
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
@@ -154,13 +188,7 @@ private:
     Result<std::string> executeCommand(
         const std::string& command,
         const std::vector<std::string>& args,
-        std::string key_hex
-    );
-
-    /// Execute command with arbitrary stdin data.
-    Result<std::string> executeCommandWithStdin(
-        const std::vector<std::string>& args,
-        const std::string& stdin_data
+        const std::string& stdin_data = ""
     );
 
     /// Execute command safely via fork/execvp (no shell).

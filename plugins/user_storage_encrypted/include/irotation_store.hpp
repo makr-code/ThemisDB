@@ -13,6 +13,9 @@
 
 #pragma once
 
+// IRotationStore (get/put interface), NullRotationStore, and FileRotationStore
+// are all defined in key_rotation_scheduler.hpp through irotation_store.hpp.
+// This header makes them available from the plugins include path.
 #include "encryption_backend_interface.hpp"
 #include "security_level.hpp"
 #include <cstdint>
@@ -32,9 +35,6 @@ namespace user_storage {
  * SecurityLevel-based convenience methods (save/load) are implemented
  * in this base class using the standard key format:
  *   "user_storage:rotation_state:{level_name}"  →  JSON {"last_check_ms": N}
- *
- * Allows any backend (in-memory, file-backed, RocksDB, …) to persist
- * rotation state without coupling the scheduler to a specific storage.
  */
 class IRotationStore {
 public:

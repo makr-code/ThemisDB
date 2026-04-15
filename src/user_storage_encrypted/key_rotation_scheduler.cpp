@@ -3,21 +3,9 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            key_rotation_scheduler.cpp                         ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 04:21:03                                ║
+  Version:         0.1.0                                              ║
+  Last Modified:   2026-04-15                                         ║
   Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     328                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 8e5567bf5e  2026-03-24  feat(user_storage_encrypted): v0.1.0 stdin key delivery, ... ║
-    • 256e7651d1  2026-03-24  Changes before error encountered        ║
-    • 9ab72c5089  2026-03-12  refactor: flatten plugin hierarchy to src/<name>/ and inc... ║
-    • acdb250dbf  2026-03-12  feat: migrate plugins to src/include with CMake switches ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -42,7 +30,7 @@ struct RotationSchedule {
     bool auto_rotate;
     KeyRotationScheduler::RotationCallback callback;
     int64_t last_check_ms;
-    
+
     RotationSchedule()
         : level(SecurityLevel::OFFEN)
         , interval_days(90)
@@ -57,17 +45,14 @@ struct KeyRotationScheduler::Impl {
     std::atomic<bool> running;
     std::thread scheduler_thread;
     int check_interval_seconds;
-    std::shared_ptr<IRotationStore> store;
-    
-    Impl() : running(false), check_interval_seconds(3600),
-             store(std::make_shared<NullRotationStore>()) {}
-    std::shared_ptr<IRotationStore> store;  // Feature 3: optional persistence backend
+    std::shared_ptr<IRotationStore> store;  // optional persistence backend
 
-    // Condition variable used by shutdown() to interrupt the sleep in the loop.
+    // Condition variable used by shutdown() to interrupt the sleep.
     std::condition_variable cv;
     std::mutex cv_mutex;
 
-    Impl() : running(false), check_interval_seconds(3600) {}
+    Impl() : running(false), check_interval_seconds(3600),
+             store(std::make_shared<NullRotationStore>()) {}
 };
 
 KeyRotationScheduler::KeyRotationScheduler()
@@ -85,7 +70,6 @@ void KeyRotationScheduler::setRotationStore(std::shared_ptr<IRotationStore> stor
     }
 }
 
-Result<void> KeyRotationScheduler::initialize(int check_interval_seconds) {
 Result<void> KeyRotationScheduler::initialize(
     int check_interval_seconds,
     std::shared_ptr<IRotationStore> store
@@ -95,10 +79,13 @@ Result<void> KeyRotationScheduler::initialize(
     }
 
     impl_->check_interval_seconds = check_interval_seconds;
-    impl_->store = std::move(store);
+    // Only replace the store when a non-null store is provided so that a prior
+    // call to setRotationStore() is not silently discarded.
+    if (store) {
+        impl_->store = std::move(store);
+    }
     impl_->running = true;
 
-    // Start scheduler thread
     impl_->scheduler_thread = std::thread([this]() {
         schedulerLoop();
     });
@@ -124,25 +111,17 @@ Result<void> KeyRotationScheduler::scheduleRotation(
     RotationCallback callback
 ) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
-    
-    RotationSchedule schedule;
-    schedule.level = level;
-    schedule.interval_days = interval_days;
-    schedule.auto_rotate = auto_rotate;
-    schedule.callback = callback;
 
-    // Load persisted last_check_ms (0 if not found)
-    auto loaded = impl_->store->load(level);
-    schedule.last_check_ms = loaded.isSuccess() ? loaded.value() : getCurrentTimeMs();
-    
-    // If no persisted state, initialise to now
-    if (schedule.last_check_ms == 0) {
-        schedule.last_check_ms = getCurrentTimeMs();
-    }
+    RotationSchedule schedule;
+    schedule.level        = level;
+    schedule.interval_days = interval_days;
+    schedule.auto_rotate  = auto_rotate;
+    schedule.callback     = callback;
+    schedule.last_check_ms = getCurrentTimeMs();
 
     impl_->schedules[level] = schedule;
 
-    // Feature 3: load previously persisted last_check_ms if available.
+    // Load previously persisted last_check_ms if available.
     if (impl_->store) {
         const std::string key =
             "user_storage:rotation_state:" + securityLevelToString(level);
@@ -159,7 +138,7 @@ Result<void> KeyRotationScheduler::scheduleRotation(
                         j["interval_days"].get<int>();
                 }
             } catch (...) {
-                // Corrupted state; proceed with current time
+                // Corrupted state; proceed with current time.
             }
         }
     }
@@ -174,31 +153,54 @@ void KeyRotationScheduler::cancelRotation(SecurityLevel level) {
 
 bool KeyRotationScheduler::isRotationDue(SecurityLevel level, int64_t last_rotation_ms) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
-    
+
     auto it = impl_->schedules.find(level);
     if (it == impl_->schedules.end()) {
         return false;
     }
-    
+
     const auto& schedule = it->second;
-    int64_t interval_ms = static_cast<int64_t>(schedule.interval_days) * 24 * 3600 * 1000;
-    int64_t elapsed_ms = getCurrentTimeMs() - last_rotation_ms;
-    
+    const int64_t interval_ms =
+        static_cast<int64_t>(schedule.interval_days) * 24 * 3600 * 1000;
+    const int64_t elapsed_ms = getCurrentTimeMs() - last_rotation_ms;
+
     return elapsed_ms >= interval_ms;
 }
 
 int64_t KeyRotationScheduler::getNextRotationTime(SecurityLevel level) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
-    
+
     auto it = impl_->schedules.find(level);
     if (it == impl_->schedules.end()) {
         return 0;
     }
-    
+
     const auto& schedule = it->second;
-    int64_t interval_ms = static_cast<int64_t>(schedule.interval_days) * 24 * 3600 * 1000;
-    
+    const int64_t interval_ms =
+        static_cast<int64_t>(schedule.interval_days) * 24 * 3600 * 1000;
+
     return schedule.last_check_ms + interval_ms;
+}
+
+void KeyRotationScheduler::triggerRotation(SecurityLevel level) {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+
+    auto it = impl_->schedules.find(level);
+    if (it == impl_->schedules.end()) {
+        return;
+    }
+
+    auto& schedule = it->second;
+    const int64_t now = getCurrentTimeMs();
+    schedule.last_check_ms = now;
+
+    if (schedule.callback) {
+        try {
+            schedule.callback(level, true, "");
+        } catch (...) {}
+    }
+
+    persistRotationState(level);
 }
 
 void KeyRotationScheduler::schedulerLoop() {
@@ -206,44 +208,26 @@ void KeyRotationScheduler::schedulerLoop() {
         {
             std::lock_guard<std::mutex> lock(impl_->mutex);
 
-            int64_t now_ms = getCurrentTimeMs();
+            const int64_t now_ms = getCurrentTimeMs();
             for (auto& pair : impl_->schedules) {
                 auto& schedule = pair.second;
-                
-                if (!schedule.auto_rotate) {
-                    continue;
-                }
-
-                int64_t now = getCurrentTimeMs();
-                int64_t interval_ms = static_cast<int64_t>(schedule.interval_days) * 24 * 3600 * 1000;
-                if (now - schedule.last_check_ms >= interval_ms) {
-                    schedule.last_check_ms = now;
-                    // Persist updated timestamp
-                    impl_->store->save(schedule.level, now);
-
-                    if (schedule.callback) {
-                        schedule.callback(schedule.level, true, "");
 
                 if (!schedule.auto_rotate || !schedule.callback) {
                     continue;
                 }
 
-                int64_t interval_ms =
+                const int64_t interval_ms =
                     static_cast<int64_t>(schedule.interval_days) * 24 * 3600 * 1000;
 
                 if (now_ms - schedule.last_check_ms >= interval_ms) {
-                    // Invoke the rotation callback.
                     try {
                         schedule.callback(schedule.level, true, "");
                     } catch (...) {
                         // Callback must not propagate exceptions.
                     }
 
-                    // Update last_check_ms and persist (Feature 3).
                     schedule.last_check_ms = now_ms;
-                    if (impl_->store) {
-                        persistRotationState(schedule.level);
-                    }
+                    persistRotationState(schedule.level);
                 }
             }
         }
@@ -257,21 +241,6 @@ void KeyRotationScheduler::schedulerLoop() {
     }
 }
 
-void KeyRotationScheduler::triggerRotation(SecurityLevel level) {
-    std::lock_guard<std::mutex> lock(impl_->mutex);
-    auto it = impl_->schedules.find(level);
-    if (it == impl_->schedules.end()) {
-        return;
-    }
-    auto& schedule = it->second;
-    int64_t now = getCurrentTimeMs();
-    schedule.last_check_ms = now;
-    impl_->store->save(level, now);
-    if (schedule.callback) {
-        schedule.callback(level, true, "");
-    }
-}
-
 int64_t KeyRotationScheduler::getCurrentTimeMs() const {
     auto now = std::chrono::system_clock::now();
     auto duration = now.time_since_epoch();
@@ -279,7 +248,7 @@ int64_t KeyRotationScheduler::getCurrentTimeMs() const {
 }
 
 // ---------------------------------------------------------------------------
-// Feature 3: Rotation state persistence helpers (called with mutex held)
+// Persistence helpers (called with mutex held)
 // ---------------------------------------------------------------------------
 
 void KeyRotationScheduler::persistRotationState(SecurityLevel level) {

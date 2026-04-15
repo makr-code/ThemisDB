@@ -435,14 +435,7 @@ TEST_F(StaleMountReconciliationTest, ShutdownAfterInitializeNoCrash) {
     MultiLevelEncryptedStorage storage;
     storage.initialize("{}");
     EXPECT_NO_THROW(storage.shutdown());
-#include "../include/key_rotation_scheduler.hpp"
-#include "../include/multi_level_storage.hpp"
-#include "../include/security_level.hpp"
-
-#include <gtest/gtest.h>
-#include <nlohmann/json.hpp>
-#include <filesystem>
-#include <fstream>
+}
 #include <sstream>
 #include <map>
 #include <string>
@@ -594,7 +587,7 @@ TEST(GocryptfsStdinTest, ConstructorWithKdfServiceCompiles) {
 // Feature 2: Argon2id key derivation function
 // ---------------------------------------------------------------------------
 
-class Argon2idKdfTest : public ::testing::Test {
+class Argon2idDeriveTest : public ::testing::Test {
 protected:
     // Use minimal parameters for fast tests.
     Argon2idParams fast_params{
@@ -605,7 +598,7 @@ protected:
     };
 };
 
-TEST_F(Argon2idKdfTest, DeterministicOutput) {
+TEST_F(Argon2idDeriveTest, DeterministicOutput) {
     Argon2idKeyDerivationService kdf(fast_params);
 
     std::vector<uint8_t> master_key(32, 0xAA);
@@ -618,7 +611,7 @@ TEST_F(Argon2idKdfTest, DeterministicOutput) {
     EXPECT_EQ(key1.size(), 32u);
 }
 
-TEST_F(Argon2idKdfTest, DifferentContainerIdProducesDifferentKey) {
+TEST_F(Argon2idDeriveTest, DifferentContainerIdProducesDifferentKey) {
     Argon2idKeyDerivationService kdf(fast_params);
 
     std::vector<uint8_t> master_key(32, 0xAA);
@@ -630,7 +623,7 @@ TEST_F(Argon2idKdfTest, DifferentContainerIdProducesDifferentKey) {
     EXPECT_NE(key1, key2) << "Different container_id must produce different derived key";
 }
 
-TEST_F(Argon2idKdfTest, DifferentUserIdProducesDifferentKey) {
+TEST_F(Argon2idDeriveTest, DifferentUserIdProducesDifferentKey) {
     Argon2idKeyDerivationService kdf(fast_params);
 
     std::vector<uint8_t> master_key(32, 0xAA);
@@ -642,7 +635,7 @@ TEST_F(Argon2idKdfTest, DifferentUserIdProducesDifferentKey) {
     EXPECT_NE(key1, key2) << "Different user_id must produce different derived key";
 }
 
-TEST_F(Argon2idKdfTest, DifferentSaltProducesDifferentKey) {
+TEST_F(Argon2idDeriveTest, DifferentSaltProducesDifferentKey) {
     Argon2idKeyDerivationService kdf(fast_params);
 
     std::vector<uint8_t> master_key(32, 0xAA);
@@ -655,7 +648,7 @@ TEST_F(Argon2idKdfTest, DifferentSaltProducesDifferentKey) {
     EXPECT_NE(key1, key2) << "Different salt must produce different derived key";
 }
 
-TEST_F(Argon2idKdfTest, OutputLengthIs32Bytes) {
+TEST_F(Argon2idDeriveTest, OutputLengthIs32Bytes) {
     Argon2idKeyDerivationService kdf(fast_params);
     std::vector<uint8_t> master_key(16, 0x01);
     std::vector<uint8_t> salt(16, 0x02);
@@ -663,7 +656,7 @@ TEST_F(Argon2idKdfTest, OutputLengthIs32Bytes) {
     EXPECT_EQ(derived.size(), 32u);
 }
 
-TEST_F(Argon2idKdfTest, RejectsEmptyMasterKey) {
+TEST_F(Argon2idDeriveTest, RejectsEmptyMasterKey) {
     Argon2idKeyDerivationService kdf(fast_params);
     std::vector<uint8_t> empty_key;
     std::vector<uint8_t> salt(16, 0x01);
@@ -673,7 +666,7 @@ TEST_F(Argon2idKdfTest, RejectsEmptyMasterKey) {
     );
 }
 
-TEST_F(Argon2idKdfTest, RejectsTooShortSalt) {
+TEST_F(Argon2idDeriveTest, RejectsTooShortSalt) {
     Argon2idKeyDerivationService kdf(fast_params);
     std::vector<uint8_t> master_key(32, 0x01);
     std::vector<uint8_t> short_salt(4, 0x01);  // < 8 bytes
@@ -683,13 +676,13 @@ TEST_F(Argon2idKdfTest, RejectsTooShortSalt) {
     );
 }
 
-TEST_F(Argon2idKdfTest, GenerateSaltProducesCorrectLength) {
+TEST_F(Argon2idDeriveTest, GenerateSaltProducesCorrectLength) {
     Argon2idKeyDerivationService kdf(fast_params);
     auto salt = kdf.generateSalt(16);
     EXPECT_EQ(salt.size(), 16u);
 }
 
-TEST_F(Argon2idKdfTest, GenerateSaltIsRandom) {
+TEST_F(Argon2idDeriveTest, GenerateSaltIsRandom) {
     Argon2idKeyDerivationService kdf(fast_params);
     auto s1 = kdf.generateSalt(16);
     auto s2 = kdf.generateSalt(16);
