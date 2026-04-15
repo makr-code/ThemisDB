@@ -162,6 +162,71 @@ v1.5.x – Production-grade data intake layer. All connectors (FileSystem, Huggi
 - PDF/DOCX ingestion requires external converters (pdftotext, pandoc); not handled natively.
 - `CdcConnector`: full replication driver requires `THEMIS_ENABLE_CDC_STREAM` at compile time; without it, `ingestFromStream()` returns `CONNECTOR_NOT_SUPPORTED`. The source file always compiles (uses `#ifdef` internally).
 
+---
+
+## Ingestion v2.0 — Universal File Ingestion with Workflow Orchestration (Target: v2.0.0)
+
+> First use case: **Legal Documents** (Gesetze, Verordnungen, Bescheide, Vorschriften)
+
+### Phase 1: Foundation — Core Data Structures + WorkflowEngine (Target: v2.0.0)
+- [x] `IIngestionStep` interface + `PluginType::INGESTION_STEP` — `include/ingestion/ingestion_step.h` (2026-04-15)
+- [x] `ExtractionContext` struct — `include/ingestion/extraction_context.h` (2026-04-15)
+- [x] `FileManifest` struct — `include/ingestion/file_manifest.h` (2026-04-15)
+- [x] `BaseEntity`, `EntityRelation`, `VectorRecord`, `BaseEntitySet` — `include/ingestion/base_entity.h` (2026-04-15)
+- [x] `StepRegistry` (thread-safe, supports dlopen) — `include/ingestion/workflow_engine.h` (2026-04-15)
+- [x] `WorkflowEngine` (YAML/JSON profile loading, profile selection, step execution) — `include/ingestion/workflow_engine.h` + `src/ingestion/workflow_engine.cpp` (2026-04-15)
+- [x] `IngestionManager::setWorkflowEngine()` / `getWorkflowEngine()` — `include/ingestion/ingestion_manager.h` (2026-04-15)
+- [x] `ERR_WORKFLOW_*` error codes 9600–9619 — `include/utils/error_registry.h` (2026-04-15)
+- [x] `FileFormat` extended: EPUB, XLSX, CSV, ZIP, SHP, GEOJSON, DXF, PNG, JPG, MD, DB — `include/ingestion/filesystem_ingester.h` (2026-04-15)
+- [x] `PluginType::INGESTION_STEP` added — `include/plugins/plugin_interface.h` (2026-04-15)
+- [x] Tests: SR-01..SR-05 (StepRegistry), WE-01..WE-15 (WorkflowEngine) — `tests/test_workflow_engine.cpp` (2026-04-15)
+- [x] Tests: FM-01..FM-03, EC-01..EC-07, BA-01..BA-10 — `tests/test_ingestion_base_entity.cpp` (2026-04-15)
+
+### Phase 2: Builtin Steps (Target: v2.0.0)
+- [x] `builtin.parse_text` — `src/ingestion/steps/parse_text_step.cpp` (2026-04-15)
+- [x] `builtin.chunk_text` — fixed / sentence / §-aware section strategy — `src/ingestion/steps/chunk_text_step.cpp` (2026-04-15)
+- [x] `builtin.legal_metadata` — regex norm/date/Aktenzeichen extractor — `src/ingestion/steps/legal_metadata_step.cpp` (2026-04-15)
+- [x] `builtin.deontic_extractor` — wraps `DeonticExtractor` + `SemanticValidator` — `src/ingestion/steps/deontic_step.cpp` (2026-04-15)
+- [x] `builtin.base_entity_assembler` — dedup + canonical-ID finalisation — `src/ingestion/steps/base_entity_assembler_step.cpp` (2026-04-15)
+- [ ] `builtin.decompress` — ZIP/tar/gzip unpack, recursive re-ingestion (Target: Q3 2026)
+- [ ] `builtin.legal_reference_extractor` — wraps `AgenticReferenceValidator` as a Step (Target: Q3 2026)
+- [ ] `builtin.chunk_embed` — text chunk → vector (ONNX-CLIP / multilingual-E5) (Target: Q3 2026)
+
+### Phase 3: YAML Workflow Profiles (Target: v2.0.0)
+- [x] `config/ingestion/workflows/legal-document-de.json` — Pilot: German legal documents (2026-04-15)
+- [x] `config/ingestion/workflows/default.json` — Fallback for unknown file types (2026-04-15)
+- [x] `config/ingestion/workflows/geo-data.json` — SHP/GeoJSON/KML (2026-04-15)
+- [x] `config/ingestion/workflows/image-document.json` — PNG/JPG + OCR + CLIP (2026-04-15)
+- [x] `config/ingestion/workflows/spreadsheet.json` — XLSX/CSV (2026-04-15)
+- [ ] Migrate YAML format with native yaml-cpp parser (currently JSON subset only) (Target: Q3 2026)
+- [ ] DLL step plugin sandbox (manifest `allowedPaths`, `allowedMime`) (Target: Q3 2026)
+
+### Phase 4: NER + LLM Integration (Target: v2.1.0)
+- [ ] `builtin.ner_de` — NER via `ITextGenerationBackend` (spaCy-wrapper or LLM-based) (Target: Q4 2026)
+- [ ] `builtin.llm_extract` — generic LLM step with prompt template from YAML (Target: Q4 2026)
+- [ ] LLM-based deontic analysis (`use_llm: true` in deontic_extractor step config) (Target: Q4 2026)
+- [ ] Multilingual support: `language: de | en | fr | ...` profile parameter (Target: Q4 2026)
+- [ ] Tests: NE-01..NE-08, LE-01..LE-06
+
+### Phase 5: BaseEntity Sink — Graph + Vector (Target: v2.1.0)
+- [ ] `EntityNormalizer` — canonical-ID generation for legal provisions (`law:<norm>:§<n>:Abs<m>`) (Target: Q4 2026)
+- [ ] `RelationBuilder` — cross-refs → `CITES`, `AMENDS`, `SUPERSEDES` edges (Target: Q4 2026)
+- [ ] `GraphWriter` — `BaseEntitySet.nodes/edges` → ThemisDB Graph Store (Target: Q4 2026)
+- [ ] `VectorWriter` — `BaseEntitySet.chunks` → ThemisDB Vector Index (Target: Q4 2026)
+- [ ] Integration with `IDocumentStore` (document module) (Target: Q4 2026)
+- [ ] Tests: BA-01..BA-08, GW-01..GW-05, VW-01..VW-05
+
+### Phase 6: Legal Domain Specialisation (Target: v2.3.0)
+- [ ] `GesetzStruktur` parser: Teil → Abschnitt → § recursive hierarchy (Target: Q1 2027)
+- [ ] Temporal validity: `effective_from` / `effective_to` extraction from metadata + text (Target: Q1 2027)
+- [ ] Behörden-Mapping: norm reference → responsible authority (lookup DLL) (Target: Q1 2027)
+- [ ] Bescheid-specific entities: `Aktenzeichen`, `Antragsteller`, `Bescheiddatum`, `Auflagen` (Target: Q1 2027)
+- [ ] Cross-document linking: § X Gesetz Y → § Z Gesetz W (graph edge across files) (Target: Q1 2027)
+- [ ] `LegalEntityExport`: JSON-LD / RDF-ready for juris / EUR-Lex compatibility (Target: Q1 2027)
+- [ ] Tests: LD-01..LD-15
+
 ## Breaking Changes
 - `IngestionBuilder` fluent API is stable from v1.x.
 - Source connector interface may gain new lifecycle hooks in v1.6.0.
+- `FileFormat` enum extended in v2.0.0 — switch statements that previously covered all enum values must add cases for: `MD`, `EPUB`, `XLSX`, `CSV`, `ZIP`, `SHP`, `GEOJSON`, `DXF`, `PNG`, `JPG`, `DB`.
+- `PluginType` enum extended with `INGESTION_STEP` — any serialisation/deserialisation of `PluginType` strings must handle `"ingestion_step"`.

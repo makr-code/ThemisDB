@@ -36,6 +36,7 @@
 #include <mutex>
 #include "ingestion/semantic_validator.h"
 #include "ingestion/inference_backend.h"
+#include "ingestion/workflow_engine.h"
 
 namespace themis {
 namespace ingestion {
@@ -1287,6 +1288,33 @@ public:
      * `NullTextGenerationBackend`.
      */
     std::shared_ptr<ITextGenerationBackend> getTextGenerationBackend() const;
+
+    /**
+     * @brief Inject the workflow orchestration engine.
+     *
+     * When a `WorkflowEngine` is set, calls to `ingestFile()` route through
+     * the YAML-driven pipeline (Stage 1–5 as described in ARCHITECTURE.md)
+     * instead of the legacy `FileSystemIngester` / `runLegalExtraction()` path.
+     *
+     * The legacy path remains fully functional when no `WorkflowEngine` is
+     * set (backward compatibility).
+     *
+     * Passing `nullptr` disables the workflow engine and reverts to the legacy
+     * path.
+     *
+     * Thread-safety: the engine pointer is stored once at startup; concurrent
+     * calls to `ingestFile()` are safe as long as the engine itself is
+     * thread-safe (guaranteed by `WorkflowEngine`).
+     *
+     * @param engine  Shared pointer to a configured `WorkflowEngine`.
+     *                Pass `nullptr` to revert to legacy mode.
+     */
+    void setWorkflowEngine(std::shared_ptr<WorkflowEngine> engine);
+
+    /**
+     * @brief Return the currently configured workflow engine, or nullptr.
+     */
+    std::shared_ptr<WorkflowEngine> getWorkflowEngine() const;
 
 private:
     class Impl;

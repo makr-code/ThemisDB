@@ -124,7 +124,19 @@ enum class FileFormat {
     TXT,        ///< Plain text
     HTML,       ///< HTML document
     XML,        ///< XML document
-    JSON        ///< JSON document
+    JSON,       ///< JSON document
+    MD,         ///< Markdown
+    EPUB,       ///< EPUB e-book
+    XLSX,       ///< Microsoft Excel (Open XML)
+    CSV,        ///< Comma-separated values
+    ZIP,        ///< ZIP archive (may contain nested documents)
+    SHP,        ///< ESRI Shapefile (geo vector data)
+    GEOJSON,    ///< GeoJSON geo vector data
+    DXF,        ///< Drawing Exchange Format (CAD)
+    PNG,        ///< Portable Network Graphics image
+    JPG,        ///< JPEG image
+    DB,         ///< Generic database / SQLite file
+    UNKNOWN     ///< Unknown or undetected format
 };
 
 /**

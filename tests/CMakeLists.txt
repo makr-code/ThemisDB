@@ -14369,6 +14369,12 @@ set(INGESTION_CORE_SOURCES
     ${THEMIS_ROOT_DIR}/src/ingestion/semantic_validator.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/agentic_reference_validator.cpp
     ${THEMIS_ROOT_DIR}/src/ingestion/llm_adapter.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/workflow_engine.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/steps/parse_text_step.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/steps/chunk_text_step.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/steps/legal_metadata_step.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/steps/deontic_step.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/steps/base_entity_assembler_step.cpp
 )
 
 # Helper macro for ingestion focused tests
@@ -14588,6 +14594,22 @@ add_ingestion_focused_test(
     IngestionLlmAdapterFocusedTests
     "ingestion;llm;deontic;legal;adapter;phase2;focused;unit"
     "IngestionLlmAdapter: LegalLlmAdapter config, Phase 1 regex fallback, JSON response parsing, Phase 2 health-check (THEMIS_ENABLE_LLM), integration skip-if-no-model"
+)
+
+add_ingestion_focused_test(
+    test_workflow_engine_focused
+    test_workflow_engine.cpp
+    WorkflowEngineFocusedTests
+    "ingestion;workflow;orchestration;yaml;steps;v2;focused;unit"
+    "WorkflowEngine: StepRegistry (SR-01..SR-05), profile loading (WE-01..WE-06), profile selection (WE-07..WE-10), step execution (WE-11..WE-15)"
+)
+
+add_ingestion_focused_test(
+    test_ingestion_base_entity_focused
+    test_ingestion_base_entity.cpp
+    IngestionBaseEntityFocusedTests
+    "ingestion;base-entity;extraction-context;file-manifest;v2;focused;unit"
+    "Ingestion BaseEntity: FileManifest (FM-01..FM-03), ExtractionContext (EC-01..EC-07), BaseEntity/EntityRelation/VectorRecord/BaseEntitySet (BA-01..BA-10)"
 )
 # Metadata Module ÔÇô Focused Test Targets
 # ============================================================================

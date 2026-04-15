@@ -1417,6 +1417,7 @@ private:
     IngestionLineageStore lineage_store_;     ///< In-memory lineage record store
     bool lineage_enabled_ = false;            ///< Lineage tracking on/off
     std::shared_ptr<ITextGenerationBackend> text_gen_backend_; ///< injected AI backend (SoC)
+    std::shared_ptr<WorkflowEngine> workflow_engine_; ///< injected workflow orchestrator (v2.0)
     mutable std::mutex mutex_;
 };
 
@@ -1703,6 +1704,18 @@ IngestionManager::getTextGenerationBackend() const {
         return std::make_shared<NullTextGenerationBackend>();
     }
     return impl_->text_gen_backend_;
+}
+
+void IngestionManager::setWorkflowEngine(
+        std::shared_ptr<WorkflowEngine> engine) {
+    std::lock_guard<std::mutex> lock(impl_->mutex_);
+    impl_->workflow_engine_ = std::move(engine);
+}
+
+std::shared_ptr<WorkflowEngine>
+IngestionManager::getWorkflowEngine() const {
+    std::lock_guard<std::mutex> lock(impl_->mutex_);
+    return impl_->workflow_engine_;
 }
 // ============================================================================
 
