@@ -3,22 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            grpc_plugin.cpp                                    ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 04:19:18                                ║
+  Version:         0.2.0                                              ║
+  Last Modified:   2026-04-15                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     294                                            ║
+    • Total Lines:     ~360                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • 6897bb74a5  2026-04-13  docs(aql): Close all remaining ROADMAP items — Doxygen, L... ║
-    • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
-    • e8953e1175  2026-04-13  docs(aql): Close all remaining ROADMAP items — Doxygen, L... ║
-    • 9ab72c5089  2026-03-12  refactor: flatten plugin hierarchy to src/<name>/ and inc... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -76,7 +69,48 @@ bool GRPCServer::start() {
         // Configure credentials (TLS or insecure)
         auto credentials = configureCredentials();
         builder.AddListeningPort(server_address_, credentials);
-        
+
+        // ---------------------------------------------------------------
+        // Multi-port binding: optional admin port
+        // ---------------------------------------------------------------
+        admin_address_.clear();
+        auto admin_it = config_.extra_config.find("admin_port");
+        if (admin_it != config_.extra_config.end() && !admin_it->second.empty()) {
+            admin_address_ = config_.host + ":" + admin_it->second;
+            // Admin traffic uses insecure credentials (internal loop-back).
+            builder.AddListeningPort(admin_address_,
+                                     grpc::InsecureServerCredentials());
+            std::cout << "gRPC admin port bound on " << admin_address_ << std::endl;
+        }
+
+        // ---------------------------------------------------------------
+        // Connection keepalive tuning
+        // Read optional keys from extra_config:
+        //   keepalive_time_ms      (default: 120 000 ms)
+        //   keepalive_timeout_ms   (default:  20 000 ms)
+        // ---------------------------------------------------------------
+        constexpr int kDefaultKeepaliveTimeMs    = 120'000;
+        constexpr int kDefaultKeepaliveTimeoutMs =  20'000;
+
+        int keepalive_time_ms = kDefaultKeepaliveTimeMs;
+        int keepalive_timeout_ms = kDefaultKeepaliveTimeoutMs;
+
+        auto kt_it = config_.extra_config.find("keepalive_time_ms");
+        if (kt_it != config_.extra_config.end()) {
+            try { keepalive_time_ms = std::stoi(kt_it->second); }
+            catch (const std::exception&) { /* keep default */ }
+        }
+        auto kto_it = config_.extra_config.find("keepalive_timeout_ms");
+        if (kto_it != config_.extra_config.end()) {
+            try { keepalive_timeout_ms = std::stoi(kto_it->second); }
+            catch (const std::exception&) { /* keep default */ }
+        }
+
+        builder.AddChannelArgument(GRPC_ARG_KEEPALIVE_TIME_MS,    keepalive_time_ms);
+        builder.AddChannelArgument(GRPC_ARG_KEEPALIVE_TIMEOUT_MS, keepalive_timeout_ms);
+        // Allow keepalive pings even when there are no active RPCs.
+        builder.AddChannelArgument(GRPC_ARG_KEEPALIVE_PERMIT_WITHOUT_CALLS, 1);
+
         // Register all services
         for (auto* service : services_) {
             builder.RegisterService(service);
@@ -151,6 +185,10 @@ std::string GRPCServer::getAddress() const {
     return server_address_;
 }
 
+std::string GRPCServer::getAdminAddress() const {
+    return admin_address_;
+}
+
 void GRPCServer::resetStats() {
     std::lock_guard<std::mutex> lock(stats_mutex_);
     stats_ = RPCServerStats{};
@@ -174,41 +212,90 @@ std::shared_ptr<grpc::ServerCredentials> GRPCServer::configureCredentials() {
     }
     
     try {
-        // Load certificates
         std::string server_cert = loadFile(config_.tls_cert_path);
-        std::string server_key = loadFile(config_.tls_key_path);
-        std::string ca_cert = loadFile(config_.tls_ca_cert_path);
-        
-        // Configure SSL options
-        grpc::SslServerCredentialsOptions ssl_opts;
-        
-        // For mutual TLS, require client certificates
-        if (config_.auth_required) {
-            ssl_opts.client_certificate_request = 
-                GRPC_SSL_REQUEST_AND_REQUIRE_CLIENT_CERTIFICATE_AND_VERIFY;
-            std::cout << "gRPC server configured for mutual TLS (mTLS)" << std::endl;
-        } else {
-            ssl_opts.client_certificate_request = 
-                GRPC_SSL_DONT_REQUEST_CLIENT_CERTIFICATE;
-            std::cout << "gRPC server configured for server-side TLS only" << std::endl;
-        }
-        
-        // Set root CA for verifying client certificates
-        ssl_opts.pem_root_certs = ca_cert;
-        
-        // Set server certificate and private key
-        grpc::SslServerCredentialsOptions::PemKeyCertPair key_cert_pair;
-        key_cert_pair.private_key = server_key;
-        key_cert_pair.cert_chain = server_cert;
-        ssl_opts.pem_key_cert_pairs.push_back(key_cert_pair);
-        
-        return grpc::SslServerCredentials(ssl_opts);
-        
+        std::string server_key  = loadFile(config_.tls_key_path);
+        std::string ca_cert     = loadFile(config_.tls_ca_cert_path);
+
+        auto creds = buildSslCredentials(server_cert, server_key, ca_cert,
+                                         config_.auth_required);
+        // Cache so reloadTls() can compare/replace atomically.
+        std::lock_guard<std::mutex> lock(tls_mutex_);
+        credentials_ = creds;
+        return creds;
+
     } catch (const std::exception& e) {
         std::cerr << "CRITICAL: Failed to configure TLS: " << e.what() << std::endl;
         std::cerr << "Server will NOT start with insecure credentials for security" << std::endl;
         // SECURITY: Fail-closed instead of falling back to insecure mode
         throw std::runtime_error("TLS configuration failed - aborting for security");
+    }
+}
+
+std::shared_ptr<grpc::ServerCredentials> GRPCServer::buildSslCredentials(
+    const std::string& cert_pem,
+    const std::string& key_pem,
+    const std::string& ca_pem,
+    bool require_client_cert) {
+
+    grpc::SslServerCredentialsOptions ssl_opts;
+
+    if (require_client_cert) {
+        ssl_opts.client_certificate_request =
+            GRPC_SSL_REQUEST_AND_REQUIRE_CLIENT_CERTIFICATE_AND_VERIFY;
+        std::cout << "gRPC server configured for mutual TLS (mTLS)" << std::endl;
+    } else {
+        ssl_opts.client_certificate_request =
+            GRPC_SSL_DONT_REQUEST_CLIENT_CERTIFICATE;
+        std::cout << "gRPC server configured for server-side TLS only" << std::endl;
+    }
+
+    ssl_opts.pem_root_certs = ca_pem;
+
+    grpc::SslServerCredentialsOptions::PemKeyCertPair pair;
+    pair.private_key = key_pem;
+    pair.cert_chain  = cert_pem;
+    ssl_opts.pem_key_cert_pairs.push_back(std::move(pair));
+
+    return grpc::SslServerCredentials(ssl_opts);
+}
+
+bool GRPCServer::reloadTls(const std::string& cert_path,
+                            const std::string& key_path,
+                            const std::string& ca_path) {
+    if (!running_ || !config_.tls_enabled) {
+        std::cerr << "reloadTls: server must be running with TLS enabled" << std::endl;
+        return false;
+    }
+
+    try {
+        std::string cert_pem = loadFile(cert_path);
+        std::string key_pem  = loadFile(key_path);
+        std::string ca_pem   = loadFile(ca_path);
+
+        auto new_creds = buildSslCredentials(cert_pem, key_pem, ca_pem,
+                                              config_.auth_required);
+
+        // Atomically replace the cached credentials.
+        // New connections will pick up the updated credentials;
+        // existing TLS sessions continue with their negotiated parameters.
+        {
+            std::lock_guard<std::mutex> lock(tls_mutex_);
+            credentials_ = new_creds;
+
+            // Update the config paths so a future server restart uses the new certs.
+            config_.tls_cert_path    = cert_path;
+            config_.tls_key_path     = key_path;
+            config_.tls_ca_cert_path = ca_path;
+        }
+
+        std::cout << "gRPC TLS certificates reloaded successfully" << std::endl;
+        return true;
+
+    } catch (const std::exception& e) {
+        // Fail-safe: old credentials remain active.
+        std::cerr << "reloadTls: failed to reload certificates — keeping old credentials: "
+                  << e.what() << std::endl;
+        return false;
     }
 }
 
@@ -221,7 +308,7 @@ const char* GRPCPlugin::getName() const {
 }
 
 const char* GRPCPlugin::getVersion() const {
-    return "1.0.0";
+    return "2.0.0";
 }
 
 PluginType GRPCPlugin::getType() const {

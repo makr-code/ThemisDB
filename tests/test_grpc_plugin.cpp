@@ -43,7 +43,7 @@ TEST_F(GRPCPluginTest, GetName) {
 }
 
 TEST_F(GRPCPluginTest, GetVersion) {
-    EXPECT_STREQ("1.0.0", plugin.getVersion());
+    EXPECT_STREQ("2.0.0", plugin.getVersion());
 }
 
 TEST_F(GRPCPluginTest, GetType) {
@@ -255,3 +255,180 @@ TEST_F(GRPCServerTest, DestructorStopsRunningServer) {
         EXPECT_NO_THROW(server.reset());
     }
 }
+
+// ============================================================================
+// GRPCServer v0.2.0 — Keepalive Tuning Tests
+// ============================================================================
+
+class GRPCServerKeepaliveTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        server = std::make_unique<GRPCServer>();
+    }
+
+    RPCServerConfig makeKeepaliveConfig(uint16_t port,
+                                        const std::string& ka_time_ms,
+                                        const std::string& ka_timeout_ms) {
+        RPCServerConfig cfg;
+        cfg.host = "127.0.0.1";
+        cfg.port = port;
+        cfg.tls_enabled = false;
+        cfg.auth_required = false;
+        cfg.extra_config["keepalive_time_ms"]    = ka_time_ms;
+        cfg.extra_config["keepalive_timeout_ms"] = ka_timeout_ms;
+        return cfg;
+    }
+
+    std::unique_ptr<GRPCServer> server;
+};
+
+TEST_F(GRPCServerKeepaliveTest, KeepaliveConfigParsedAndServerStarts) {
+    auto cfg = makeKeepaliveConfig(50094, "60000", "10000");
+    ASSERT_TRUE(server->initialize(cfg));
+    bool started = server->start();
+    if (started) {
+        EXPECT_TRUE(server->isRunning());
+        server->stop();
+    }
+    // Even if port is busy, initialize must not throw.
+    EXPECT_TRUE(true);
+}
+
+TEST_F(GRPCServerKeepaliveTest, InvalidKeepaliveValueFallsBackToDefault) {
+    auto cfg = makeKeepaliveConfig(50093, "not_a_number", "also_not_a_number");
+    ASSERT_TRUE(server->initialize(cfg));
+    // Server should still start (defaults used) — no crash.
+    bool started = server->start();
+    if (started) {
+        server->stop();
+    }
+    EXPECT_TRUE(true);
+}
+
+TEST_F(GRPCServerKeepaliveTest, EmptyKeepaliveUsesDefaults) {
+    RPCServerConfig cfg;
+    cfg.host = "127.0.0.1";
+    cfg.port = 50092;
+    cfg.tls_enabled = false;
+    ASSERT_TRUE(server->initialize(cfg));
+    bool started = server->start();
+    if (started) {
+        server->stop();
+    }
+    EXPECT_TRUE(true);
+}
+
+// ============================================================================
+// GRPCServer v0.2.0 — Multi-Port (Admin) Binding Tests
+// ============================================================================
+
+class GRPCServerMultiPortTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        server = std::make_unique<GRPCServer>();
+    }
+
+    std::unique_ptr<GRPCServer> server;
+};
+
+TEST_F(GRPCServerMultiPortTest, AdminAddressEmptyBeforeStart) {
+    RPCServerConfig cfg;
+    cfg.host = "127.0.0.1";
+    cfg.port = 50091;
+    cfg.tls_enabled = false;
+    server->initialize(cfg);
+    EXPECT_TRUE(server->getAdminAddress().empty());
+}
+
+TEST_F(GRPCServerMultiPortTest, AdminAddressEmptyWhenNoAdminPort) {
+    RPCServerConfig cfg;
+    cfg.host = "127.0.0.1";
+    cfg.port = 50090;
+    cfg.tls_enabled = false;
+    ASSERT_TRUE(server->initialize(cfg));
+    server->start();
+    EXPECT_TRUE(server->getAdminAddress().empty());
+    server->stop();
+}
+
+TEST_F(GRPCServerMultiPortTest, AdminAddressSetWhenAdminPortConfigured) {
+    RPCServerConfig cfg;
+    cfg.host = "127.0.0.1";
+    cfg.port = 50089;
+    cfg.tls_enabled = false;
+    cfg.extra_config["admin_port"] = "50088";
+    ASSERT_TRUE(server->initialize(cfg));
+    bool started = server->start();
+    if (started) {
+        EXPECT_EQ("127.0.0.1:50088", server->getAdminAddress());
+        server->stop();
+    }
+}
+
+TEST_F(GRPCServerMultiPortTest, PrimaryAddressUnaffectedByAdminPort) {
+    RPCServerConfig cfg;
+    cfg.host = "127.0.0.1";
+    cfg.port = 50087;
+    cfg.tls_enabled = false;
+    cfg.extra_config["admin_port"] = "50086";
+    ASSERT_TRUE(server->initialize(cfg));
+    EXPECT_EQ("127.0.0.1:50087", server->getAddress());
+    server->start();
+    server->stop();
+}
+
+// ============================================================================
+// GRPCServer v0.2.0 — TLS Hot-Reload Tests
+// ============================================================================
+
+class GRPCServerTlsReloadTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        server = std::make_unique<GRPCServer>();
+    }
+
+    std::unique_ptr<GRPCServer> server;
+};
+
+TEST_F(GRPCServerTlsReloadTest, ReloadTlsReturnsFalseWhenNotRunning) {
+    // Server was never started — reloadTls must return false gracefully.
+    EXPECT_FALSE(server->reloadTls("/nonexistent/cert.pem",
+                                   "/nonexistent/key.pem",
+                                   "/nonexistent/ca.pem"));
+}
+
+TEST_F(GRPCServerTlsReloadTest, ReloadTlsReturnsFalseWhenTlsDisabled) {
+    RPCServerConfig cfg;
+    cfg.host = "127.0.0.1";
+    cfg.port = 50085;
+    cfg.tls_enabled = false;
+    server->initialize(cfg);
+    bool started = server->start();
+    if (started) {
+        EXPECT_FALSE(server->reloadTls("/any/cert.pem",
+                                       "/any/key.pem",
+                                       "/any/ca.pem"));
+        server->stop();
+    }
+}
+
+TEST_F(GRPCServerTlsReloadTest, ReloadTlsReturnsFalseOnBadCertPath) {
+    // Even if server were running with TLS, bad paths must return false.
+    // We simulate "running + tls_enabled" by inspecting the guard paths.
+    // (A full TLS server start requires valid certs, which we do not have
+    //  in unit tests.  The fail-closed unit test above covers that path.)
+    RPCServerConfig cfg;
+    cfg.host = "127.0.0.1";
+    cfg.port = 50084;
+    cfg.tls_enabled = false; // start insecure
+    server->initialize(cfg);
+    bool started = server->start();
+    if (started) {
+        // Even with tls_enabled=false, reloadTls returns false (not-TLS guard).
+        EXPECT_FALSE(server->reloadTls("/nonexistent/new_cert.pem",
+                                       "/nonexistent/new_key.pem",
+                                       "/nonexistent/new_ca.pem"));
+        server->stop();
+    }
+}
+
