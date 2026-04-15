@@ -39,6 +39,33 @@ extern "C" {
     void llama_lora_adapter_free(void* adapter);
     bool themis_llama_lora_available();
     void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora);
+
+    // Additional llama.cpp API needed for batch inference
+    struct llama_model;
+    struct llama_vocab;
+    struct llama_batch;
+
+    struct llama_model* llama_get_model(const struct llama_context* ctx);
+    const struct llama_vocab* llama_model_get_vocab(const struct llama_model* model);
+    int32_t llama_vocab_n_tokens(const struct llama_vocab* vocab);
+    int32_t llama_vocab_eos(const struct llama_vocab* vocab);
+    uint32_t llama_n_ctx(const struct llama_context* ctx);
+    void llama_kv_cache_clear(struct llama_context* ctx);
+
+    int32_t llama_tokenize(
+        const struct llama_vocab* vocab,
+        const char* text, int32_t text_len,
+        int32_t* tokens, int32_t n_tokens_max,
+        bool add_special, bool parse_special);
+
+    int32_t llama_token_to_piece(
+        const struct llama_vocab* vocab,
+        int32_t token, char* buf, int32_t length,
+        int32_t lstrip, bool special);
+
+    struct llama_batch llama_batch_get_one(int32_t* tokens, int32_t n_tokens);
+    int llama_decode(struct llama_context* ctx, struct llama_batch batch);
+    float* llama_get_logits_ith(struct llama_context* ctx, int32_t i);
 }
 
 namespace themis {
@@ -492,83 +519,197 @@ bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* con
 
 std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
     const std::vector<std::pair<InferenceRequest, std::string>>& requests,
-    [[maybe_unused]] llama_context* model_context
+    llama_context* model_context
 ) {
     spdlog::info("Multi-LoRA batch inference: {} requests", requests.size());
-    
+
     if (!config_.enable_multi_lora_batch) {
         errors::logError(errors::ErrorCode::ERR_LORA_BATCHING_DISABLED);
         return {};
     }
-    
-    // Multi-LoRA batch inference implementation
-    // This allows processing multiple requests with different LoRAs in a single batch
-    // Similar to vLLM's continuous batching with adapter switching
-    
+
+    // A valid llama_context is required for inference.
+    if (!model_context) {
+        spdlog::error("batchInferenceMultiLoRA: null model_context — cannot run inference");
+        std::vector<InferenceResponse> error_responses(requests.size());
+        for (auto& r : error_responses) {
+            r.success        = false;
+            r.error_message  = "No llama_context provided";
+        }
+        return error_responses;
+    }
+
+    // Retrieve model and vocabulary from the context
+    struct llama_model* lmodel = llama_get_model(model_context);
+    if (!lmodel) {
+        spdlog::error("batchInferenceMultiLoRA: llama_get_model returned null");
+        std::vector<InferenceResponse> error_responses(requests.size());
+        for (auto& r : error_responses) { r.success = false; r.error_message = "llama_get_model failed"; }
+        return error_responses;
+    }
+
+    const struct llama_vocab* vocab = llama_model_get_vocab(lmodel);
+    const int32_t n_vocab    = llama_vocab_n_tokens(vocab);
+    const int32_t eos_token  = llama_vocab_eos(vocab);
+    const int32_t ctx_size   = static_cast<int32_t>(llama_n_ctx(model_context));
+
     // Prepare responses vector in request order
     std::vector<InferenceResponse> responses(requests.size());
-    
-    // Group requests by LoRA for efficiency
+
+    // Group requests by LoRA adapter for efficiency
     std::map<std::string, std::vector<size_t>> lora_to_requests;
     for (size_t i = 0; i < requests.size(); ++i) {
-        const auto& [request, lora_id] = requests[i];
-        lora_to_requests[lora_id].push_back(i);
+        lora_to_requests[requests[i].second].push_back(i);
     }
-    
+
     spdlog::debug("Batch has {} unique LoRAs", lora_to_requests.size());
-    
-    // Process each LoRA group
+
+    // Process each LoRA group sequentially: apply adapter → generate → remove adapter
     for (const auto& [lora_id, indices] : lora_to_requests) {
         spdlog::debug("Processing {} requests with LoRA {}", indices.size(), lora_id);
-        
+
         // Verify LoRA is loaded
         auto* lora = getLoRA(lora_id);
         if (!lora) {
             spdlog::warn("LoRA {} not loaded, skipping {} requests", lora_id, indices.size());
             for (size_t idx : indices) {
-                InferenceResponse error_response;
-                error_response.text = "Error: LoRA not loaded";
-                error_response.model_used = "unknown";
-                error_response.lora_used = lora_id;
-                error_response.tokens_generated = 0;
-                responses[idx] = error_response;
+                responses[idx].success       = false;
+                responses[idx].error_message = "LoRA not loaded: " + lora_id;
+                responses[idx].model_used    = "unknown";
+                responses[idx].lora_used     = lora_id;
             }
             continue;
         }
-        
-        // Process requests with this LoRA
-        // Use llama.cpp's batch processing API
-        for (size_t idx : indices) {
-            const auto& [request, _] = requests[idx];
-            
-            InferenceResponse response;
-            response.model_used = lora->base_model_id;
-            response.lora_used = lora_id;
-            
-            // STUB/SIMULATION NOTE:
-            // Purpose: Placeholder response for batch multi-LoRA inference until the
-            //          llama.cpp batch decoding API is fully wired (llama_batch / llama_decode).
-            // Activation: Always active in the current build – this code path is reached
-            //             whenever inferBatch() is called with a loaded LoRA.
-            // Production Delta: Returns a static "Mock response for: …" string instead of
-            //                   real model output. tokens_generated and latency_ms are fixed
-            //                   placeholder values (10 tokens, 1 ms).
-            // Removal Plan: Replace with llama_batch-based parallel decode loop.
-            //               Tracked in src/llm/ROADMAP.md §Batch Inference.
-            response.text = "Mock response for: " + request.prompt;
-            response.tokens_generated = 10;
-            response.latency_ms = 1;
-            
-            spdlog::warn("Batch multi-LoRA inference called but llama.cpp backend integration incomplete");
-            
-            responses[idx] = response;
+
+        // Apply this LoRA adapter to the context
+        const bool lora_applied = applyLoRA(lora_id, model_context);
+        if (!lora_applied) {
+            spdlog::warn("Failed to apply LoRA {}, continuing without adapter", lora_id);
+            // Non-fatal: proceed with base model weights
         }
-        
+
+        // Run inference for each request in this LoRA group
+        for (size_t idx : indices) {
+            const InferenceRequest& request = requests[idx].first;
+            auto wall_start = std::chrono::steady_clock::now();
+
+            InferenceResponse response;
+            response.model_used  = lora->base_model_id;
+            response.lora_used   = lora_id;
+            response.request_id  = request.request_id;
+            response.trace_id    = request.trace_id;
+            response.span_id     = request.span_id;
+
+            // --- Tokenise prompt ---
+            const int32_t max_prompt_tokens = ctx_size / 2;
+            std::vector<int32_t> prompt_tokens(static_cast<size_t>(max_prompt_tokens));
+            int32_t n_prompt = llama_tokenize(
+                vocab,
+                request.prompt.c_str(),
+                static_cast<int32_t>(request.prompt.size()),
+                prompt_tokens.data(),
+                max_prompt_tokens,
+                /*add_special=*/true,
+                /*parse_special=*/false);
+
+            if (n_prompt < 0) {
+                // Buffer too small: retry with exact size
+                prompt_tokens.resize(static_cast<size_t>(-n_prompt));
+                n_prompt = llama_tokenize(
+                    vocab,
+                    request.prompt.c_str(),
+                    static_cast<int32_t>(request.prompt.size()),
+                    prompt_tokens.data(),
+                    -n_prompt,
+                    true, false);
+            }
+            if (n_prompt <= 0) {
+                response.success       = false;
+                response.error_message = "llama_tokenize failed for prompt";
+                responses[idx] = response;
+                continue;
+            }
+            prompt_tokens.resize(static_cast<size_t>(n_prompt));
+            response.tokens_prompt = n_prompt;
+
+            // --- Prefill (process prompt) ---
+            llama_kv_cache_clear(model_context);
+            struct llama_batch batch = llama_batch_get_one(
+                prompt_tokens.data(), n_prompt);
+            if (llama_decode(model_context, batch) != 0) {
+                response.success       = false;
+                response.error_message = "llama_decode failed during prompt prefill";
+                responses[idx] = response;
+                continue;
+            }
+
+            // --- Greedy token generation loop ---
+            const int max_new_tokens = std::max(1, request.max_tokens);
+            std::vector<int32_t> generated;
+            generated.reserve(static_cast<size_t>(max_new_tokens));
+
+            for (int tok_idx = 0; tok_idx < max_new_tokens; ++tok_idx) {
+                // Greedy sampling: argmax over vocabulary logits
+                float* logits = llama_get_logits_ith(model_context, -1);
+                int32_t next_token = 0;
+                float   best_logit = logits[0];
+                for (int32_t v = 1; v < n_vocab; ++v) {
+                    if (logits[v] > best_logit) {
+                        best_logit = logits[v];
+                        next_token = v;
+                    }
+                }
+
+                if (next_token == eos_token) break;
+
+                generated.push_back(next_token);
+
+                // Feed next token back into the model
+                struct llama_batch next_batch = llama_batch_get_one(&next_token, 1);
+                if (llama_decode(model_context, next_batch) != 0) {
+                    spdlog::warn("llama_decode failed at token {} of request idx {}",
+                                 tok_idx, idx);
+                    break;
+                }
+            }
+
+            // --- Detokenise generated tokens ---
+            std::string generated_text;
+            generated_text.reserve(generated.size() * 4);
+            char piece_buf[256];
+            for (int32_t token_id : generated) {
+                int32_t n_chars = llama_token_to_piece(
+                    vocab, token_id, piece_buf, sizeof(piece_buf), 0, false);
+                if (n_chars > 0)
+                    generated_text.append(piece_buf, static_cast<size_t>(n_chars));
+            }
+
+            auto wall_end = std::chrono::steady_clock::now();
+            float latency_ms = static_cast<float>(
+                std::chrono::duration_cast<std::chrono::microseconds>(
+                    wall_end - wall_start).count()) / 1000.0f;
+
+            response.text             = std::move(generated_text);
+            response.tokens_generated = static_cast<int>(generated.size());
+            response.latency_ms       = static_cast<int64_t>(latency_ms);
+            response.inference_time_ms = latency_ms;
+            response.tokens_per_second = latency_ms > 0.0f
+                ? static_cast<float>(response.tokens_generated) / (latency_ms / 1000.0f)
+                : 0.0f;
+            response.success = true;
+
+            responses[idx] = std::move(response);
+        }
+
+        // Remove this LoRA adapter from the context before applying the next one
+        if (lora_applied)
+            removeLoRA(lora_id, model_context);
+
         // Update usage statistics
         lora->last_used = std::chrono::system_clock::now();
         lora->use_count += indices.size();
     }
-    
+
     spdlog::info("Multi-LoRA batch inference completed: {} responses", responses.size());
     return responses;
 }
