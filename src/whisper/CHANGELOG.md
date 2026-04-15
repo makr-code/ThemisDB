@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- `WhisperConfig.language_confidence_threshold` — `detectLanguage()` now returns `"unknown"` when
+  detected confidence is below the configured threshold (0 = disabled, default)
 - Real whisper.cpp inference integration (requires `THEMIS_ENABLE_WHISPER=ON`)
 - Streaming token output during transcription
 - Speaker diarisation (multi-speaker attribution)
