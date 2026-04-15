@@ -17,13 +17,26 @@
     • d275653619  2026-04-14  update after codefindings               ║
     • a2d7c07202  2026-04-14  update after codefindings               ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: 📝 Draft / Stub                                              ║
+  Status: 🟡 Documented Stub (dev-fallback; see STUB/SIMULATION NOTE)                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 // Minimal stub implementation for TimestampAuthority.
 // Deterministic, non-cryptographic timestamps (no OpenSSL / CURL).
 #ifndef THEMIS_USE_OPENSSL_TSA
+
+// STUB/SIMULATION NOTE:
+// Purpose: Software-only deterministic TSA fallback for development and CI environments
+//          where OpenSSL TSA (libcurl + openssl TSA protocol) is not available.
+//          Issues locally-generated timestamps without RFC 3161 compliance.
+//          Production mode is explicitly blocked unless THEMIS_ALLOW_TSA_STUB=1 is set.
+// Activation: Compiled when THEMIS_USE_OPENSSL_TSA is NOT defined (default dev build).
+//             Build with -DTHEMIS_USE_OPENSSL_TSA=ON (requires openssl + libcurl) to
+//             replace with the RFC 3161-compliant implementation.
+// Production Delta: No RFC 3161 token, no TSA signature, no external TSA server contact.
+//                   Timestamps are local system clock only. Not legally binding.
+// Removal Plan: Replaced at build time when -DTHEMIS_USE_OPENSSL_TSA=ON is set.
+//               All regulated/compliance deployments must use the real TSA backend.
 
 #include "security/timestamp_authority.h"
 #include "utils/logger.h"

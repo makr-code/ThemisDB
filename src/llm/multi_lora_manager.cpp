@@ -362,6 +362,14 @@ LoRASlot* MultiLoRAManager::getLoRA(const std::string& lora_id) {
 }
 
 bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* context) {
+    // STUB/SIMULATION NOTE:
+    // Purpose: Allow unit tests to exercise LoRA lifecycle (load/apply/remove) without a
+    //          real llama_context. When context is null the adapter is marked active in
+    //          metadata only – no llama_lora_adapter_set() call is made.
+    // Activation: Runtime – triggered whenever applyLoRA is called with context == nullptr
+    //             (only happens in test code; production server always passes a valid ctx).
+    // Production Delta: No actual llama.cpp adapter is applied. State change is in-memory.
+    // Removal Plan: Permanent test-gate; no removal needed. Protected by null guard below.
     // In test mode, allow null context (mock inference)
     if (!context) {
         spdlog::warn("applyLoRA called with null context (test/mock mode)");
@@ -424,6 +432,12 @@ bool MultiLoRAManager::applyLoRA(const std::string& lora_id, llama_context* cont
 }
 
 bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* context) {
+    // STUB/SIMULATION NOTE:
+    // Purpose: Null-context gate for unit tests. Marks LoRA as inactive in metadata
+    //          without calling llama_lora_adapter_remove() on a real context.
+    // Activation: Runtime – null context only occurs in test code.
+    // Production Delta: No llama.cpp adapter removal; state change is in-memory only.
+    // Removal Plan: Permanent test-gate; guarded by null check.
     if (!context) {
         spdlog::warn("removeLoRA called with null context (test/mock mode)");
         auto* lora = getLoRA(lora_id);
@@ -531,8 +545,16 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
             response.model_used = lora->base_model_id;
             response.lora_used = lora_id;
             
-            // Real inference would happen here via llama.cpp batch API
-            // For now, return mock response
+            // STUB/SIMULATION NOTE:
+            // Purpose: Placeholder response for batch multi-LoRA inference until the
+            //          llama.cpp batch decoding API is fully wired (llama_batch / llama_decode).
+            // Activation: Always active in the current build – this code path is reached
+            //             whenever inferBatch() is called with a loaded LoRA.
+            // Production Delta: Returns a static "Mock response for: …" string instead of
+            //                   real model output. tokens_generated and latency_ms are fixed
+            //                   placeholder values (10 tokens, 1 ms).
+            // Removal Plan: Replace with llama_batch-based parallel decode loop.
+            //               Tracked in src/llm/ROADMAP.md §Batch Inference.
             response.text = "Mock response for: " + request.prompt;
             response.tokens_generated = 10;
             response.latency_ms = 1;
