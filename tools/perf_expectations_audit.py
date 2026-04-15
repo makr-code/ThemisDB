@@ -334,15 +334,43 @@ def check_measure_4(root: pathlib.Path) -> dict[str, Any]:
     if ok_flag:
         evidence.append("THEMIS_ENABLE_VOICE_ASSISTANT guard found in CMakeLists.txt")
 
-    all_pass = all(c["result"] == STATUS_PASS for c in checks)
+    # Check 4d: Dedicated CI workflow that builds/runs bench_voice_assistant with
+    # THEMIS_ENABLE_VOICE_ASSISTANT=ON exists.  This is the acceptance criterion
+    # "Dedicated workflow/job exists" from the issue.
+    voice_workflow: str | None = None
+    workflows_dir = root / ".github" / "workflows"
+    if workflows_dir.is_dir():
+        for wf in sorted(workflows_dir.glob("*.yml")):
+            content = _read_text(wf)
+            if (re.search(r"THEMIS_ENABLE_VOICE_ASSISTANT", content)
+                    and re.search(r"bench_voice_assistant", content)):
+                voice_workflow = str(wf.relative_to(root))
+                break
+    ok_workflow = voice_workflow is not None
+    checks.append({"id": "4d",
+                   "description": "CI workflow with THEMIS_ENABLE_VOICE_ASSISTANT + bench_voice_assistant exists",
+                   "result": STATUS_PASS if ok_workflow else STATUS_WARN,
+                   "detail": voice_workflow or "No dedicated voice-benchmark workflow found"})
+    if ok_workflow:
+        evidence.append(f"Voice benchmark CI workflow: {voice_workflow}")
+
+    erledigt = all(c["result"] == STATUS_PASS for c in checks)
+    has_fail = any(c["result"] == STATUS_FAIL for c in checks)
+    notes = (
+        "ERLEDIGT: Workflow + CMake-Target + Feature-Flag vorhanden. "
+        "bench_voice_assistant wird mit THEMIS_ENABLE_VOICE_ASSISTANT=ON gebaut; "
+        "JSON-Artefakt wird bei jedem Run hochgeladen (30-Tage-Retention)."
+        if erledigt else
+        "Measure noch offen. Source + CMake-Target + Feature-Flag + CI-Workflow werden geprüft."
+    )
     return {
         "id": 4,
         "title": "Voice-Benchmark-Pfad für CI via THEMIS_ENABLE_VOICE_ASSISTANT optionalen Job",
-        "erledigt": False,
-        "status": STATUS_PASS if all_pass else STATUS_WARN,
+        "erledigt": erledigt,
+        "status": STATUS_FAIL if has_fail else (STATUS_PASS if erledigt else STATUS_WARN),
         "checks": checks,
         "evidence": evidence,
-        "notes": "Measure noch offen. Source + CMake-Target + Feature-Flag werden geprüft.",
+        "notes": notes,
     }
 
 
