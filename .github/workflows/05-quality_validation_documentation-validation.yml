@@ -1,24 +1,9 @@
 name: Documentation Validation
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - 'docs/**'
-      - 'compendium/**'
-      - 'aql/**'
-      - 'scripts/docs-lint.py'
-      - 'scripts/link-check.py'
-      - 'scripts/toc-check.py'
-      - 'scripts/doc-header-check.py'
-      - 'scripts/drift-detector.py'
-      - 'scripts/validate-docs.sh'
-      - 'mkdocs.yml'
-      - 'mkdocs-nopdf.yml'
-  # Called by docs/docs-pipeline.yml as Stage 1 (validate).
-  # All push/PR events are funnelled through docs-pipeline.yml so this
-  # workflow is never triggered directly by those events, preventing
-  # duplicate runs.
+  # Called exclusively by docs_docs-pipeline.yml as Stage 1 (validate).
+  # All push/PR events are funnelled through docs_docs-pipeline.yml so this
+  # workflow has no direct push/PR triggers, preventing duplicate runs.
   workflow_call:
   workflow_dispatch:
 
@@ -244,6 +229,7 @@ jobs:
             --check-metadata \
             --metadata-paths \
               docs/de/development/DOC_METADATA.md \
+              docs/de/development/README.md \
               docs/de/development/developers.md
 
       - name: Generate metadata report (JSON)
@@ -253,6 +239,7 @@ jobs:
             --check-metadata \
             --metadata-paths \
               docs/de/development/DOC_METADATA.md \
+              docs/de/development/README.md \
               docs/de/development/developers.md \
             --format json --output /tmp/metadata-report.json
         continue-on-error: true

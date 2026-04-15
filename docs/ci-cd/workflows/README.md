@@ -12,7 +12,7 @@ Für jeden Workflow wird Aufgabe, Auslöser, Eingaben und Funktionsweise beschri
 | ♻️ Reusable | Wiederverwendbarer Workflow, der von anderen aufgerufen wird |
 | ⏰ Geplant | Zeitgesteuert (Cron) |
 
-**Gesamt: 217 Workflows**
+**Gesamt: 216 Workflows**
 
 ## 01 · Core
 
@@ -215,7 +215,6 @@ Für jeden Workflow wird Aufgabe, Auslöser, Eingaben und Funktionsweise beschri
 
 | Workflow | Typ | Dokumentation |
 |----------|-----|---------------|
-| Doc Metadata Check | 🔄 CI/CD | [docs/doc-metadata-check.md](docs/doc-metadata-check.md) |
 | Documentation Pipeline | 🔄 CI/CD | [docs/docs-pipeline.md](docs/docs-pipeline.md) |
 | Primary-Docs Index Generator | 🔄 CI/CD | [docs/primary-docs-index.md](docs/primary-docs-index.md) |
 
