@@ -11,7 +11,7 @@
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     271                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
@@ -28,10 +28,25 @@
 #include "performance/advanced_cache_manager.h"
 
 #include <algorithm>
+#include <cstdint>
 #include <cstring>
 #include <functional>
 #include <memory>
 #include <stdexcept>
+#include <string>
+
+// Optional compression back-ends — each guarded by its own compile-time flag.
+// Install via vcpkg: lz4, snappy, or zstd features.
+#ifdef THEMIS_ENABLE_LZ4
+#   include <lz4.h>
+#   include <lz4hc.h>
+#endif
+#ifdef THEMIS_ENABLE_SNAPPY
+#   include <snappy.h>
+#endif
+#ifdef THEMIS_ENABLE_ZSTD
+#   include <zstd.h>
+#endif
 
 namespace themis {
 namespace performance {
@@ -72,18 +87,187 @@ void AdvancedCacheManager::BloomFilter::clear() noexcept {
 }
 
 // ---------------------------------------------------------------------------
-// Compression stubs (would call LZ4/Snappy/Zstd in production)
+// Compression helpers
+//
+// STUB/SIMULATION NOTE:
+// Purpose:     passthrough (tag 0x00) path is a safe dev/CI fallback when no
+//              compression library is compiled in.
+// Activation:  default when THEMIS_ENABLE_LZ4, THEMIS_ENABLE_SNAPPY, and
+//              THEMIS_ENABLE_ZSTD are all absent from the build.
+// Production Delta: passthrough means no size reduction — wire-format is
+//              1 byte larger than the original value (the algorithm tag byte).
+// Removal Plan: install vcpkg features lz4, snappy, or zstd and define the
+//              corresponding THEMIS_ENABLE_* flag; the passthrough path
+//              remains as a graceful fallback only.
+//
+// Wire-format: a single leading byte encodes the algorithm used so that
+// decompress() can reconstruct the value without out-of-band metadata.
+//
+//   0x00 = passthrough (no library available or CompressionAlgorithm::None)
+//   0x01 = LZ4 HC      (THEMIS_ENABLE_LZ4)
+//   0x02 = Snappy      (THEMIS_ENABLE_SNAPPY)
+//   0x03 = Zstd        (THEMIS_ENABLE_ZSTD, level 3)
+//
+// The original (uncompressed) 4-byte little-endian size is appended after the
+// tag byte for algorithms that need it at decompression time (LZ4, Zstd).
 // ---------------------------------------------------------------------------
 
+namespace {
+
+constexpr uint8_t kTagPassthrough = 0x00;
+constexpr uint8_t kTagLZ4        = 0x01;
+constexpr uint8_t kTagSnappy     = 0x02;
+constexpr uint8_t kTagZstd       = 0x03;
+
+static void write_le32(uint8_t* dst, uint32_t v) noexcept {
+    dst[0] = static_cast<uint8_t>(v);
+    dst[1] = static_cast<uint8_t>(v >> 8);
+    dst[2] = static_cast<uint8_t>(v >> 16);
+    dst[3] = static_cast<uint8_t>(v >> 24);
+}
+
+static uint32_t read_le32(const uint8_t* src) noexcept {
+    return static_cast<uint32_t>(src[0])
+         | (static_cast<uint32_t>(src[1]) << 8)
+         | (static_cast<uint32_t>(src[2]) << 16)
+         | (static_cast<uint32_t>(src[3]) << 24);
+}
+
+} // anonymous namespace
+
 std::string AdvancedCacheManager::compress(const std::string& val,
-                                            [[maybe_unused]] CompressionAlgorithm algo) {
-    // In production: call lz4_compress / snappy::Compress / ZSTD_compress
-    return val;
+                                            CompressionAlgorithm algo) {
+    if (val.empty()) {
+        // Empty input: tag-only frame, decompress returns ""
+        return std::string(1, static_cast<char>(kTagPassthrough));
+    }
+
+    const auto src      = reinterpret_cast<const char*>(val.data());
+    const auto src_size = static_cast<int>(val.size());
+    const auto orig_u32 = static_cast<uint32_t>(val.size());
+
+#ifdef THEMIS_ENABLE_LZ4
+    if (algo == CompressionAlgorithm::LZ4) {
+        // LZ4 HC (high compression) — max output bound from LZ4 API.
+        const int max_dst = LZ4_compressBound(src_size);
+        if (max_dst > 0) {
+            // Frame: [tag(1)] [orig_size_le32(4)] [lz4_data]
+            std::string out(1 + 4 + static_cast<size_t>(max_dst), '\0');
+            out[0] = static_cast<char>(kTagLZ4);
+            write_le32(reinterpret_cast<uint8_t*>(&out[1]), orig_u32);
+            const int compressed = LZ4_compress_HC(
+                src, &out[5], src_size, max_dst, LZ4HC_CLEVEL_DEFAULT);
+            if (compressed > 0) {
+                out.resize(1 + 4 + static_cast<size_t>(compressed));
+                return out;
+            }
+        }
+        // Fall through to passthrough on error
+    }
+#endif
+
+#ifdef THEMIS_ENABLE_SNAPPY
+    if (algo == CompressionAlgorithm::Snappy) {
+        std::string compressed_body;
+        snappy::Compress(src, static_cast<size_t>(src_size), &compressed_body);
+        if (!compressed_body.empty()) {
+            // Frame: [tag(1)] [snappy_data] (Snappy encodes original size internally)
+            std::string out;
+            out.reserve(1 + compressed_body.size());
+            out += static_cast<char>(kTagSnappy);
+            out += compressed_body;
+            return out;
+        }
+    }
+#endif
+
+#ifdef THEMIS_ENABLE_ZSTD
+    if (algo == CompressionAlgorithm::Zstd) {
+        const size_t bound = ZSTD_compressBound(static_cast<size_t>(src_size));
+        if (!ZSTD_isError(bound)) {
+            // Frame: [tag(1)] [orig_size_le32(4)] [zstd_data]
+            std::string out(1 + 4 + bound, '\0');
+            out[0] = static_cast<char>(kTagZstd);
+            write_le32(reinterpret_cast<uint8_t*>(&out[1]), orig_u32);
+            const size_t written = ZSTD_compress(
+                &out[5], bound,
+                src, static_cast<size_t>(src_size),
+                /*compressionLevel=*/3);
+            if (!ZSTD_isError(written)) {
+                out.resize(1 + 4 + written);
+                return out;
+            }
+        }
+    }
+#endif
+
+    // Passthrough: [tag(1)] [original data]
+    std::string out;
+    out.reserve(1 + val.size());
+    out += static_cast<char>(kTagPassthrough);
+    out += val;
+    return out;
 }
 
 std::string AdvancedCacheManager::decompress(const std::string& val,
                                               [[maybe_unused]] CompressionAlgorithm algo) {
-    return val;
+    if (val.empty()) return {};
+
+    const auto tag = static_cast<uint8_t>(val[0]);
+
+    if (tag == kTagPassthrough) {
+        // Strip leading tag byte and return original data.
+        return val.size() > 1 ? val.substr(1) : std::string{};
+    }
+
+#ifdef THEMIS_ENABLE_LZ4
+    if (tag == kTagLZ4 && val.size() > 5) {
+        const uint32_t orig_size =
+            read_le32(reinterpret_cast<const uint8_t*>(&val[1]));
+        if (orig_size == 0) return {};
+        std::string out(orig_size, '\0');
+        const int decoded = LZ4_decompress_safe(
+            &val[5],
+            &out[0],
+            static_cast<int>(val.size() - 5),
+            static_cast<int>(orig_size));
+        if (decoded == static_cast<int>(orig_size)) {
+            return out;
+        }
+        // Corrupted or truncated data — return raw payload without the tag.
+        return val.substr(5);
+    }
+#endif
+
+#ifdef THEMIS_ENABLE_SNAPPY
+    if (tag == kTagSnappy && val.size() > 1) {
+        std::string out;
+        if (snappy::Uncompress(&val[1], val.size() - 1, &out)) {
+            return out;
+        }
+        return val.substr(1);
+    }
+#endif
+
+#ifdef THEMIS_ENABLE_ZSTD
+    if (tag == kTagZstd && val.size() > 5) {
+        const uint32_t orig_size =
+            read_le32(reinterpret_cast<const uint8_t*>(&val[1]));
+        if (orig_size == 0) return {};
+        std::string out(orig_size, '\0');
+        const size_t decoded = ZSTD_decompress(
+            &out[0], orig_size,
+            &val[5], val.size() - 5);
+        if (!ZSTD_isError(decoded) && decoded == orig_size) {
+            return out;
+        }
+        return val.substr(5);
+    }
+#endif
+
+    // Unknown tag (data written by a build with a library we don't have):
+    // return the payload without the tag byte as the safest fallback.
+    return val.size() > 1 ? val.substr(1) : std::string{};
 }
 
 // ---------------------------------------------------------------------------

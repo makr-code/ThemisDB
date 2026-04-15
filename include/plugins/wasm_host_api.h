@@ -179,6 +179,13 @@ public:
      */
     WasmPluginRuntime runtime() const noexcept { return runtime_; }
 
+    /**
+     * @brief Store an opaque runtime-specific instance handle.
+     * Called by loadWasmPlugin() immediately after construction.
+     * The handle is freed in ~WasmHostAPI based on runtime_.
+     */
+    void setRuntimeInstance(void* handle) noexcept { wasm_instance_ = handle; }
+
 private:
     WasmPluginRuntime runtime_;
     std::string       module_name_;
