@@ -13,6 +13,8 @@
 #include "ingestion/ingestion_sinks.h"
 #include <nlohmann/json.hpp>
 #include <sstream>
+#include <chrono>
+#include <stdexcept>
 
 namespace themis {
 namespace ingestion {
@@ -211,6 +213,102 @@ Result<void> IngestionSinkBundle::writeAll(const BaseEntitySet& entity_set,
         if (!r) return Result<void>{tl::make_unexpected(r.error())};
     }
     return {};
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DocumentStoreSinkAdapter — Phase 5: IDocumentStore wiring
+// ─────────────────────────────────────────────────────────────────────────────
+
+DocumentStoreSinkAdapter::DocumentStoreSinkAdapter(
+    std::shared_ptr<themis::document::IDocumentStore> store)
+    : store_(std::move(store))
+{
+    if (!store_) {
+        throw std::invalid_argument("DocumentStoreSinkAdapter: store must not be null");
+    }
+}
+
+nlohmann::json DocumentStoreSinkAdapter::serialise(const BaseEntitySet& es) {
+    nlohmann::json j;
+    j["source_file_id"] = es.source_file_id;
+    j["quality_score"]  = es.quality_score;
+
+    nlohmann::json nodes = nlohmann::json::array();
+    for (const auto& e : es.nodes) {
+        nlohmann::json ej;
+        ej["id"]         = e.id;
+        ej["type"]       = e.type;
+        ej["label"]      = e.label;
+        ej["source_doc"] = e.source_doc;
+        nlohmann::json props;
+        for (const auto& [k, v] : e.properties) props[k] = v;
+        ej["properties"] = std::move(props);
+        nodes.push_back(std::move(ej));
+    }
+    j["nodes"] = std::move(nodes);
+
+    nlohmann::json edges = nlohmann::json::array();
+    for (const auto& r : es.edges) {
+        nlohmann::json rj;
+        rj["from_id"]       = r.from_id;
+        rj["to_id"]         = r.to_id;
+        rj["relation_type"] = r.relation_type;
+        rj["weight"]        = r.weight;
+        nlohmann::json rprops;
+        for (const auto& [k, v] : r.properties) rprops[k] = v;
+        rj["properties"] = std::move(rprops);
+        edges.push_back(std::move(rj));
+    }
+    j["edges"] = std::move(edges);
+
+    nlohmann::json chunks = nlohmann::json::array();
+    for (const auto& c : es.chunks) {
+        nlohmann::json cj;
+        cj["chunk_id"]    = c.chunk_id;
+        cj["doc_id"]      = c.doc_id;
+        cj["chunk_index"] = c.chunk_index;
+        cj["text"]        = c.text;
+        cj["embedding"]   = c.embedding;
+        chunks.push_back(std::move(cj));
+    }
+    j["chunks"] = std::move(chunks);
+    return j;
+}
+
+Result<std::string> DocumentStoreSinkAdapter::writeDocument(
+    const BaseEntitySet& entity_set, const std::string& collection)
+{
+    // Generate a stable document ID from source_file_id when available.
+    std::string doc_id = entity_set.source_file_id.empty()
+        ? ("ingested-" + std::to_string(
+               std::chrono::steady_clock::now().time_since_epoch().count()))
+        : ("ingested-" + entity_set.source_file_id);
+
+    themis::document::DocumentRecord rec;
+    rec.id            = doc_id;
+    rec.collection_id = collection;
+    rec.body          = serialise(entity_set);
+
+    auto result = store_->put(rec);
+    if (!result) {
+        // If already exists, attempt update
+        if (result.error().code() == errors::ErrorCode::ERR_DOC_ALREADY_EXISTS) {
+            auto upd = store_->update(collection, doc_id, rec.body);
+            if (!upd) return tl::make_unexpected(upd.error());
+        } else {
+            return tl::make_unexpected(result.error());
+        }
+    }
+    {
+        std::lock_guard<std::mutex> lk(mtx_);
+        ++count_;
+    }
+    return doc_id;
+}
+
+std::size_t DocumentStoreSinkAdapter::documentCount() const {
+    std::lock_guard<std::mutex> lk(mtx_);
+    return count_;
 }
 
 } // namespace ingestion

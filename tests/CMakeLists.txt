@@ -14631,6 +14631,14 @@ add_ingestion_focused_test(
     "ingestion;assembler;sinks;phase4;focused;unit"
     "Ingestion Phase 4: EntityNormalizer (EN-01..EN-08), RelationBuilder (RB-01..RB-06), InMemoryGraphWriter (GW-01..GW-05), InMemoryVectorWriter (VW-01..VW-05), InMemoryDocWriter (DW-01..DW-03), IngestionSinkBundle (SB-01..SB-03)"
 )
+
+add_ingestion_focused_test(
+    test_ingestion_legal_domain_focused
+    test_ingestion_legal_domain.cpp
+    LegalDomainFocusedTests
+    "ingestion;legal;domain;phase5;phase6;focused;unit"
+    "Ingestion Phase 5+6: DocumentStoreSinkAdapter (DS-01..DS-05), GesetzParser (LD-01..LD-04), TemporalExtractor (LD-05..LD-07), BehoerdenMapper (LD-08..LD-09), BescheidExtractor (LD-10..LD-11), CrossDocumentLinker (LD-12..LD-13), LegalEntityExport (LD-14..LD-15)"
+)
 # Metadata Module ÔÇô Focused Test Targets
 # ============================================================================
 

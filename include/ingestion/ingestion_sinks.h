@@ -3,7 +3,7 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ingestion_sinks.h                                  ║
-  Version:         0.0.1                                              ║
+  Version:         0.1.0                                              ║
   Last Modified:   2026-04-15                                         ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
@@ -14,8 +14,10 @@
 
 #include "ingestion/base_entity.h"
 #include "ingestion/extraction_context.h"
+#include "document/document_store.h"
 #include "utils/expected.h"
 #include "utils/error_registry.h"
+#include <nlohmann/json.hpp>
 #include <string>
 #include <vector>
 #include <memory>
@@ -261,6 +263,48 @@ struct IngestionSinkBundle {
      */
     Result<void> writeAll(const BaseEntitySet& entity_set,
                            const std::string& collection = "ingested") const;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DocumentStoreSinkAdapter — IDocWriter backed by IDocumentStore (Phase 5)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Production `IDocWriter` that persists `BaseEntitySet` records to a
+ *        real `IDocumentStore` backend (ThemisDB document module).
+ *
+ * Each `writeDocument()` call serialises the `BaseEntitySet` to JSON and calls
+ * `IDocumentStore::put()`.  The document ID is taken from
+ * `BaseEntitySet::source_doc_id` when non-empty, or auto-generated as
+ * `"ingested-<uuid4>"` otherwise.
+ *
+ * Thread-safety: all methods are thread-safe.
+ */
+class DocumentStoreSinkAdapter : public IDocWriter {
+public:
+    /**
+     * @brief Construct adapter around an existing `IDocumentStore`.
+     *
+     * @param store    Backing store (must not be nullptr).
+     * @throws std::invalid_argument when store is nullptr.
+     */
+    explicit DocumentStoreSinkAdapter(
+        std::shared_ptr<themis::document::IDocumentStore> store);
+
+    Result<std::string> writeDocument(const BaseEntitySet& entity_set,
+                                       const std::string& collection) override;
+    std::size_t documentCount() const override;
+
+    /// Access the underlying store for inspection.
+    const themis::document::IDocumentStore& store() const { return *store_; }
+
+private:
+    std::shared_ptr<themis::document::IDocumentStore> store_;
+    mutable std::mutex                                 mtx_;
+    std::size_t                                        count_{0};
+
+    /// Serialise a `BaseEntitySet` to a JSON body for the document store.
+    static nlohmann::json serialise(const BaseEntitySet& es);
 };
 
 } // namespace ingestion

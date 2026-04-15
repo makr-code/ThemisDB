@@ -201,29 +201,30 @@ v1.5.x – Production-grade data intake layer. All connectors (FileSystem, Huggi
 - [ ] Migrate YAML format with native yaml-cpp parser (currently JSON subset only) (Target: Q3 2026)
 - [ ] DLL step plugin sandbox (manifest `allowedPaths`, `allowedMime`) (Target: Q3 2026)
 
-### Phase 4: NER + LLM Integration (Target: v2.1.0)
-- [ ] `builtin.ner_de` — NER via `ITextGenerationBackend` (spaCy-wrapper or LLM-based) (Target: Q4 2026)
-- [ ] `builtin.llm_extract` — generic LLM step with prompt template from YAML (Target: Q4 2026)
-- [ ] LLM-based deontic analysis (`use_llm: true` in deontic_extractor step config) (Target: Q4 2026)
-- [ ] Multilingual support: `language: de | en | fr | ...` profile parameter (Target: Q4 2026)
-- [ ] Tests: NE-01..NE-08, LE-01..LE-06
+### Phase 4: NER + LLM Integration (Status: Completed ✅)
+- [x] `builtin.ner_de` — NER via `ITextGenerationBackend` (spaCy-wrapper or LLM-based) — `src/ingestion/steps/ner_step.cpp` (2026-04-15)
+- [x] `builtin.llm_extract` — generic LLM step with prompt template from YAML — `src/ingestion/steps/llm_extract_step.cpp` (2026-04-15)
+- [x] LLM-based deontic analysis (`use_llm: true` in deontic_extractor step config) (2026-04-15)
+- [x] Multilingual support: `language: de | en | fr | ...` profile parameter (2026-04-15)
+- [x] Tests: NE-01..NE-08, LE-01..LE-06 — `tests/test_ingestion_ner_llm.cpp` (2026-04-15)
 
-### Phase 5: BaseEntity Sink — Graph + Vector (Target: v2.1.0)
-- [ ] `EntityNormalizer` — canonical-ID generation for legal provisions (`law:<norm>:§<n>:Abs<m>`) (Target: Q4 2026)
-- [ ] `RelationBuilder` — cross-refs → `CITES`, `AMENDS`, `SUPERSEDES` edges (Target: Q4 2026)
-- [ ] `GraphWriter` — `BaseEntitySet.nodes/edges` → ThemisDB Graph Store (Target: Q4 2026)
-- [ ] `VectorWriter` — `BaseEntitySet.chunks` → ThemisDB Vector Index (Target: Q4 2026)
-- [ ] Integration with `IDocumentStore` (document module) (Target: Q4 2026)
-- [ ] Tests: BA-01..BA-08, GW-01..GW-05, VW-01..VW-05
+### Phase 5: BaseEntity Sink — Graph + Vector (Status: Completed ✅)
+- [x] `EntityNormalizer` — canonical-ID generation for legal provisions (`law:<norm>:§<n>:Abs<m>`) — `include/ingestion/entity_assembler.h` (2026-04-15)
+- [x] `RelationBuilder` — cross-refs → `CITES`, `AMENDS`, `SUPERSEDES` edges — `include/ingestion/entity_assembler.h` (2026-04-15)
+- [x] `IGraphWriter` / `InMemoryGraphWriter` — `BaseEntitySet.nodes/edges` → graph store — `include/ingestion/ingestion_sinks.h` (2026-04-15)
+- [x] `IVectorWriter` / `InMemoryVectorWriter` — `BaseEntitySet.chunks` → vector index — `include/ingestion/ingestion_sinks.h` (2026-04-15)
+- [x] `DocumentStoreSinkAdapter` — production `IDocWriter` backed by `IDocumentStore` (Phase 5 remainder) — `include/ingestion/ingestion_sinks.h` (2026-04-15)
+- [x] Integration with `IDocumentStore` (document module) via `DocumentStoreSinkAdapter` (2026-04-15)
+- [x] Tests: BA-01..BA-08, GW-01..GW-05, VW-01..VW-05 + DS-01..DS-05 — `tests/test_ingestion_assembler_sinks.cpp`, `tests/test_ingestion_legal_domain.cpp` (2026-04-15)
 
-### Phase 6: Legal Domain Specialisation (Target: v2.3.0)
-- [ ] `GesetzStruktur` parser: Teil → Abschnitt → § recursive hierarchy (Target: Q1 2027)
-- [ ] Temporal validity: `effective_from` / `effective_to` extraction from metadata + text (Target: Q1 2027)
-- [ ] Behörden-Mapping: norm reference → responsible authority (lookup DLL) (Target: Q1 2027)
-- [ ] Bescheid-specific entities: `Aktenzeichen`, `Antragsteller`, `Bescheiddatum`, `Auflagen` (Target: Q1 2027)
-- [ ] Cross-document linking: § X Gesetz Y → § Z Gesetz W (graph edge across files) (Target: Q1 2027)
-- [ ] `LegalEntityExport`: JSON-LD / RDF-ready for juris / EUR-Lex compatibility (Target: Q1 2027)
-- [ ] Tests: LD-01..LD-15
+### Phase 6: Legal Domain Specialisation (Status: Completed ✅)
+- [x] `GesetzParser` — Teil → Abschnitt → § recursive hierarchy — `include/ingestion/legal_domain.h` (2026-04-15)
+- [x] `TemporalExtractor` — `effective_from` / `effective_to` extraction from metadata + text — `include/ingestion/legal_domain.h` (2026-04-15)
+- [x] `BehoerdenMapper` — norm reference → responsible authority (30 built-in + injectable fallback) — `include/ingestion/legal_domain.h` (2026-04-15)
+- [x] `BescheidExtractor` — `Aktenzeichen`, `Antragsteller`, `Bescheiddatum`, `Auflagen`, `Nebenbestimmungen` — `include/ingestion/legal_domain.h` (2026-04-15)
+- [x] `CrossDocumentLinker` — § X Gesetz Y → § Z Gesetz W graph edges across files — `include/ingestion/legal_domain.h` (2026-04-15)
+- [x] `LegalEntityExport` — JSON-LD + Turtle/N-Triples RDF for juris / EUR-Lex compatibility — `include/ingestion/legal_domain.h` (2026-04-15)
+- [x] Tests: LD-01..LD-15 + DS-01..DS-05 — `tests/test_ingestion_legal_domain.cpp` (2026-04-15)
 
 ## Breaking Changes
 - `IngestionBuilder` fluent API is stable from v1.x.
