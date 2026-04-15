@@ -19109,6 +19109,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_module.cpp")
         ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
         ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
         ${CMAKE_SOURCE_DIR}/src/process/process_graph_rag.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_generator.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/ocel_exporter.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/dmn_evaluator.cpp
         ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
         ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
         ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp

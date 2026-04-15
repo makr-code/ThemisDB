@@ -5,6 +5,54 @@ Format: [Semantic Versioning](https://semver.org/), newest first.
 
 ---
 
+## [2.0.0] – 2026-04-15
+
+### Added
+
+- **`ProcessModelGenerator`** (`src/process/process_model_generator.cpp`,
+  `include/process/process_model_generator.h`):
+  LLM-to-BPMN generator. Converts natural language process descriptions into
+  `ProcessModelRecord` objects via iterative LLM calls (up to `Config::max_retries`
+  validate-and-fix cycles). Based on ProcessGPT (Busch 2023).
+  - `generateFromDescription(description, cfg)` — builds a BPMN model from text.
+  - `refine(existing, feedback, cfg)` — iteratively refines an existing model.
+  - `validate(normalized_graph)` — BPMN semantic checks (startEvent, endEvent,
+    no isolated nodes, gateway outgoing edges).
+  - `fromLlmJson(llm_json, domain)` — converts LLM JSON response to `ProcessModelRecord`.
+  - 7 tests: PMG-01..PMG-07.
+
+- **`OcelExporter`** (`src/process/ocel_exporter.cpp`,
+  `include/process/ocel_exporter.h`):
+  OCEL 2.0 export for process mining tools (PM4Py, Celonis, ProM). Based on
+  OCEL 2.0 spec (Berti 2023, doi:10.5281/zenodo.8428111).
+  - `exportInstance(instance_id)` — single instance to OCEL 2.0 JSON.
+  - `exportModel(model_id)` — all instances of a model to OCEL 2.0 JSON.
+  - `exportFiltered(model_id, from_ms, to_ms)` — time-window export.
+  - Objects from `ProcessLinker` attachments; events from `ProcessToken` visit log.
+  - 4 tests: OCEL-01..OCEL-04.
+
+- **PPR-based GraphRAG Scoring** (`src/process/process_graph_rag.cpp`,
+  `include/process/process_graph_rag.h`):
+  Personalized PageRank as an alternative to BFS in `ProcessGraphRag::retrieve()`.
+  Based on HippoRAG (Gutierrez 2024, NeurIPS 2024).
+  - `computePpr(normalized_graph, seeds, config)` — power-iteration PPR.
+  - `PprConfig` struct with `damping`, `max_iterations`, `convergence_epsilon`, `top_k_nodes`.
+  - `ProcessRagConfig::use_ppr` — enables PPR path in `retrieve()`.
+  - 5 tests: PPR-01..PPR-05.
+
+- **`DmnEvaluator`** (`src/process/dmn_evaluator.cpp`,
+  `include/process/dmn_evaluator.h`):
+  DMN 1.5 decision table evaluator. Based on OMG DMN 1.5 spec.
+  - `loadFromJson(dmn_json)` — loads from JSON schema.
+  - `loadFromXml(dmn_xml)` — simplified DMN 1.5 XML parser (state-machine tokenizer).
+  - `evaluate(decision_id, context)` — evaluates decision with UNIQUE/FIRST/COLLECT
+    hit policy support.
+  - `evaluateFeel(expr, value)` — FEEL subset evaluator: numeric comparisons,
+    ranges `[a..b]`, string equality, null/boolean, wildcard `-`.
+  - 10 tests: DMN-01..DMN-10.
+
+---
+
 ## [1.0.0] – 2026-03-12
 
 ### Added

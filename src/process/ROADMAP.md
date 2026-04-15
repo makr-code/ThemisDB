@@ -142,22 +142,26 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
 - [ ] Real-time SLA monitoring via CEP engine (Target: Q4 2026)
 - [ ] Cross-case bottleneck analytics (Target: Q4 2026)
 
-### Phase 7: State-of-the-Art – SotA-Derived Features (Status: Planned)
+### Phase 7: State-of-the-Art – SotA-Derived Features (Status: In Progress)
 
 > Wissenschaftliche Grundlagen: [`docs/de/process/STATE_OF_THE_ART.md`](../../docs/de/process/STATE_OF_THE_ART.md)
 
-- [ ] PPR-basiertes GraphRAG Scoring (HippoRAG-Ansatz, Gutierrez 2024) (Target: Q2 2026)
+- [x] PPR-basiertes GraphRAG Scoring (HippoRAG-Ansatz, Gutierrez 2024) (Target: Q2 2026)
   - Ersetzt BFS in `ProcessGraphRag::extractSubgraph()` durch Personalized PageRank
   - Multi-Hop-Anfragen werden korrekt bewertet; relevante entfernte Knoten fließen in Kontext
   - Perf: ≤ 20 ms für 500-Knoten-Graph; Tests: 3-Hop-Anfrage korrekt aufgelöst
-- [ ] LLM-to-BPMN Generator (ProcessGPT, Busch 2023) (Target: Q2 2026)
+  - `ProcessRagConfig::use_ppr=true` aktiviert PPR-Pfad; `PprConfig` mit damping/top_k/eps
+  - PPR-01..PPR-05 Tests ✅
+- [x] LLM-to-BPMN Generator (ProcessGPT, Busch 2023) (Target: Q2 2026)
   - `ProcessModelGenerator::generateFromDescription()`: Freitext → ProcessModelRecord
   - Max 3 Validierungsrunden (generate → BPMN-check → fix); keine Deadlocks/isolierten Knoten
   - Tests: generiertes Bauantrag-Modell hat ≥ 5 Knoten, ≥ 1 Gateway, deploybar
-- [ ] OCEL 2.0 Export (Berti 2023) (Target: Q2 2026)
-  - `OcelExporter::exportInstance/exportModel()` → PM4Py/Celonis-kompatibles JSON
+  - PMG-01..PMG-07 Tests ✅
+- [x] OCEL 2.0 Export (Berti 2023) (Target: Q2 2026)
+  - `OcelExporter::exportInstance/exportModel/exportFiltered()` → PM4Py/Celonis-kompatibles JSON
   - Event-Objekt-Beziehungen aus ProcessLinker-Anhängen
   - Tests: OCEL 2.0 JSON-Schema-Validierung; Round-trip mit PM4Py
+  - OCEL-01..OCEL-04 Tests ✅
 - [ ] Leiden-Community-Detection für Prozesscluster (GraphRAG, Edge 2024) (Target: Q3 2026)
   - `ProcessCommunityDetector::detect()` → thematische Knotengruppen
   - LLM-Community-Reports pro Cluster, gecacht unter `proc:community:`
@@ -171,10 +175,11 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
   - `ObjectCentricTracer`: OCEL 2.0 Log aus Instanz + Anhängen; DFG pro Objekttyp
   - Konvergenz/Divergenz-Analyse für Verwaltungsvorgänge (Antragsteller, Dokument, Prüfer)
   - Perf: DFG-Berechnung ≤ 5 s für 10.000 Events
-- [ ] DMN 1.5 Entscheidungstabellen (OMG 2023) (Target: Q3 2026)
+- [x] DMN 1.5 Entscheidungstabellen (OMG 2023) (Target: Q3 2026)
   - `DmnEvaluator::loadFromXml/Json()`, `evaluate()`, `evaluateFeel()`
-  - FEEL-Subset: numerische Vergleiche, Bereiche `[a..b]`, String-Gleichheit
-  - Integration in `checkCompliance()`: DMN-referenzierende Knoten werden zur Laufzeit ausgewertet
+  - FEEL-Subset: numerische Vergleiche, Bereiche `[a..b]`, String-Gleichheit, null, boolean
+  - Hit-Policies: UNIQUE, FIRST, COLLECT
+  - DMN-01..DMN-10 Tests ✅
 - [ ] FIM-Prozessbibliothek-Import (FITKO 2024) (Target: Q4 2026)
   - `FimImporter::importFimXml()`, `importFimCatalogue()`, `importFromFitkoApi()`
   - 5.000+ standardisierte Verwaltungsprozesse aus dem Bundesportal importierbar
