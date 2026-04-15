@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [server](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-14  
+**Datum:** 2026-04-15  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `include/server/ARCHITECTURE.md`
@@ -64,4 +64,4 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`server`** 
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-14*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-15*
