@@ -56,6 +56,8 @@ public:
 		const std::vector<std::vector<uint8_t>>& images
 	) override;
 
+	EmbeddingResult generateTextEmbedding(const std::string& text) override;
+
 	bool healthCheck() const override;
 	nlohmann::json getStatistics() const override;
 	void warmup() override;

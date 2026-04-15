@@ -74,10 +74,14 @@ if (result.ok) {
 // 4. Batch processing
 auto batch_results = plugin.generateEmbeddingBatch({image1, image2, image3});
 
-// 5. Health and stats
+// 5. Text embedding (for cross-modal similarity search)
+auto text_result = plugin.generateTextEmbedding("a photo of a cat");
+// text_result.embedding is compatible with image embeddings
+
+// 6. Health and stats
 plugin.warmup();
 bool healthy = plugin.healthCheck();
-auto stats = plugin.getStatistics();  // JSON: calls, avg_latency_ms, backend_name, etc.
+auto stats = plugin.getStatistics();  // JSON: calls, avg_latency_ms, backend_name, max_batch_size, etc.
 ```
 
 ---
@@ -97,6 +101,8 @@ THEMIS_IMAGE_PLUGIN(themis::plugins::image::ONNXClipPlugin)
 |-----|----------|---------|-------------|
 | `model_path` | Yes | — | Path to ONNX model file |
 | `model_variant` | No | `ViT-B/32` | `"ViT-B/32"` or `"ViT-L/14"` |
+| `model.embedding_dim` | No | `512` | Embedding dimension (512 for ViT-B/32, 768 for ViT-L/14) |
+| `max_batch_size` | No | 16 (CPU) / 64 (GPU) | Maximum images per sub-batch call |
 | `num_threads` | No | 4 | CPU thread count (CPU backend) |
 | `gpu_device_id` | No | 0 | GPU device index (CUDA/TensorRT) |
 

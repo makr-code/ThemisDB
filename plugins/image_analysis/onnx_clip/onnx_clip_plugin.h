@@ -77,6 +77,8 @@ public:
     std::vector<EmbeddingResult> generateEmbeddingBatch(
         const std::vector<std::vector<uint8_t>>& images
     ) override;
+
+    EmbeddingResult generateTextEmbedding(const std::string& text) override;
     
     // Management
     bool healthCheck() const override;
