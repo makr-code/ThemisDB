@@ -31,7 +31,9 @@ Covers:
 - CLI exit codes via main()
 - Edge cases: single module, all passing, mixed results
 """
-
+# ThemisDB - Hybrid Database System
+# File: test_cross_module_regression_detector.py  Version: 0.0.15
+# Status: ✅ Production Ready
 from __future__ import annotations
 
 import json

@@ -1285,6 +1285,44 @@
         "file": "bench_tpcc.cpp",
         "status": "mapped"
       }
+    },
+    "chimera": {
+      "CHI-1": {
+        "label": "Relational Sort Throughput",
+        "primary_benchmark": "run_ci_benchmarks:relational_sort",
+        "file": "external/chimera/run_ci_benchmarks.py",
+        "workload_family": "relational",
+        "target_module": "query",
+        "maps_to_module_id": 27,
+        "status": "mapped"
+      },
+      "CHI-2": {
+        "label": "Vector Dot-Product Throughput",
+        "primary_benchmark": "run_ci_benchmarks:vector_dot_product",
+        "file": "external/chimera/run_ci_benchmarks.py",
+        "workload_family": "vector",
+        "target_module": "index",
+        "maps_to_module_id": 27,
+        "status": "mapped"
+      },
+      "CHI-3": {
+        "label": "Document Lookup Throughput",
+        "primary_benchmark": "run_ci_benchmarks:document_lookup",
+        "file": "external/chimera/run_ci_benchmarks.py",
+        "workload_family": "document",
+        "target_module": "cache",
+        "maps_to_module_id": 27,
+        "status": "mapped"
+      },
+      "CHI-4": {
+        "label": "Graph BFS Throughput",
+        "primary_benchmark": "run_ci_benchmarks:graph_bfs",
+        "file": "external/chimera/run_ci_benchmarks.py",
+        "workload_family": "graph",
+        "target_module": "graph",
+        "maps_to_module_id": 27,
+        "status": "mapped"
+      }
     }
   },
   "coverage_summary": {
