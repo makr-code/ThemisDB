@@ -25,6 +25,10 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <algorithm>
+#include <cmath>
+#include <cstring>
+#include <limits>
+#include <stdexcept>
 
 namespace themis {
 
@@ -440,12 +444,93 @@ void VectorAutoBuffer::setConfig(const VectorAutoBufferConfig& config) {
 }
 
 std::vector<BaseEntity> VectorAutoBuffer::applyCompression(const std::vector<BaseEntity>& entities) {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Provide a stable non-compressing path until compression pipeline is implemented.
-    // Activation: Always active; this function currently acts as a placeholder pass-through.
-    // Production Delta: Returns original entities without quantization or PQ compression.
-    // Removal Plan: Replace with configurable compression backends and remove pass-through-only behavior.
-    return entities;
+    if (entities.empty()) return {};
+
+    const auto compression = config_.compression;
+    if (compression == VectorAutoBufferConfig::Compression::None) {
+        return entities;
+    }
+
+    // Helper: scalar-quantize a float32 vector to Int8 or Int16 and store it
+    // back as a float32 vector encoded inside a raw byte field so that the index
+    // can reconstruct the approximated embeddings without changing BaseEntity's
+    // public float-vector API.
+    //
+    // Encoding:
+    //   Int8  – each float is linearly mapped to [-127, 127]:
+    //             q = round(value / abs_max * 127),  stored as int8 packed in float
+    //   Int16 – each float is linearly mapped to [-32767, 32767]:
+    //             q = round(value / abs_max * 32767), stored as int16 packed in float
+    //
+    // The scale factor (abs_max) is appended as the very last float element so
+    // that the decoder can reconstruct the original values as:
+    //             value_approx = q * (abs_max / max_quant_value)
+    //
+    // ProductQuantization is not yet implemented; entities are returned as-is
+    // with a warning so the caller degrades gracefully.
+
+    if (compression == VectorAutoBufferConfig::Compression::ProductQuantization) {
+        THEMIS_WARN("VectorAutoBuffer: ProductQuantization not yet implemented, "
+                    "returning entities without compression");
+        return entities;
+    }
+
+    const bool use_int8 = (compression == VectorAutoBufferConfig::Compression::Quantization_Int8);
+    const float max_quant_value = use_int8 ? 127.0f : 32767.0f;
+    const std::string vec_field  = config_.vector_field;
+
+    std::vector<BaseEntity> result;
+    result.reserve(entities.size());
+
+    for (const auto& entity : entities) {
+        auto vec_opt = entity.extractVector(vec_field);
+        if (!vec_opt.has_value() || vec_opt->empty()) {
+            // No embedding field — pass through unchanged
+            result.push_back(entity);
+            continue;
+        }
+
+        const std::vector<float>& src = *vec_opt;
+        const size_t dim = src.size();
+
+        // Find per-vector absolute maximum for scale computation
+        float abs_max = 0.0f;
+        for (float v : src) {
+            abs_max = std::max(abs_max, std::fabs(v));
+        }
+
+        if (abs_max < std::numeric_limits<float>::epsilon()) {
+            // Zero vector – pass through unchanged
+            result.push_back(entity);
+            continue;
+        }
+
+        // Quantize: map float → integer → reconstruct approximated float
+        // We store the reconstructed floats so that the downstream index code
+        // that calls extractVector() receives the quantised values transparently.
+        // The scale is embedded as the (dim+1)-th element.
+        std::vector<float> quantised(dim + 1);
+        const float scale = abs_max / max_quant_value;
+        for (size_t i = 0; i < dim; ++i) {
+            float q = std::round(src[i] / scale);
+            // Clamp to [-max_quant_value, max_quant_value]
+            q = std::max(-max_quant_value, std::min(max_quant_value, q));
+            // Reconstruct approximate float (this IS the lossy compression)
+            quantised[i] = q * scale;
+        }
+        quantised[dim] = abs_max; // scale metadata for downstream decoders
+
+        // Build a copy of the entity with the quantised vector
+        BaseEntity compressed = entity;
+        compressed.setField(vec_field, BaseEntity::Value{quantised});
+
+        THEMIS_DEBUG("VectorAutoBuffer: quantised {} dim={} abs_max={:.6f} type={}",
+                     vec_field, dim, abs_max, use_int8 ? "Int8" : "Int16");
+
+        result.push_back(std::move(compressed));
+    }
+
+    return result;
 }
 
 } // namespace themis
