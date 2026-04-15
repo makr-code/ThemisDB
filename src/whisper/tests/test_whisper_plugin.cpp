@@ -41,6 +41,9 @@
  *   Group J (3)  – WhisperPlugin: double-init, getModelId, error_count
  *   Group K (3)  – Thread-safety: concurrent transcribe, atomic counters, detectLanguage
  *   Group L (3)  – FfmpegAudioChunkReader + CompositeAudioChunkReader routing
+ *   Group M (3)  – Language-detection confidence threshold (disabled, pass, suppress)
+ *   Group N (5)  – Additional config/WAV edge cases (beam_size clamp, threshold round-trip,
+ *                   threshold clamp, stereo 16-bit PCM decode, toJson key presence)
  */
 
 #include <gtest/gtest.h>
@@ -515,4 +518,111 @@ TEST(WhisperPluginFocusedTests, L3_CompositeRoutesByExtension) {
     // readFile() on an unsupported extension throws (no reader accepts it).
     float sr = 0.0f;
     EXPECT_THROW(composite.readFile("/tmp/test.xyz", sr), std::runtime_error);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Group M – Language-detection confidence threshold
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(WhisperPluginFocusedTests, M1_LanguageConfidenceThresholdDefaultZeroDisabled) {
+    // Default threshold of 0 means no filtering – all detections pass through.
+    WhisperConfig cfg;
+    EXPECT_FLOAT_EQ(cfg.language_confidence_threshold, 0.0f);
+
+    auto t = std::make_unique<InMemoryWhisperTranscriber>();
+    t->initialize(WhisperConfig{});
+    t->setNextLanguage({"de", 0.1f});  // very low confidence
+    WhisperPlugin p(std::move(t), std::make_unique<PresetReader>());
+    p.initialize("", cfg.toJson());
+
+    const auto res = p.detectLanguage({0.f}, 16000.f);
+    // With threshold 0, the raw result should pass through unchanged.
+    EXPECT_EQ(res.language, "de");
+}
+
+TEST(WhisperPluginFocusedTests, M2_LanguageDetectionPassesWhenAboveThreshold) {
+    const json cfgJson = {{"language_confidence_threshold", 0.5f}};
+    auto t = std::make_unique<InMemoryWhisperTranscriber>();
+    t->initialize(WhisperConfig{});
+    t->setNextLanguage({"en", 0.9f});  // confidence 0.9 >= threshold 0.5 → passes
+    WhisperPlugin p(std::move(t), std::make_unique<PresetReader>());
+    p.initialize("", cfgJson);
+
+    const auto res = p.detectLanguage({0.f}, 16000.f);
+    EXPECT_EQ(res.language, "en");
+    EXPECT_FLOAT_EQ(res.confidence, 0.9f);
+}
+
+TEST(WhisperPluginFocusedTests, M3_LanguageDetectionUnknownWhenBelowThreshold) {
+    const json cfgJson = {{"language_confidence_threshold", 0.7f}};
+    auto t = std::make_unique<InMemoryWhisperTranscriber>();
+    t->initialize(WhisperConfig{});
+    t->setNextLanguage({"fr", 0.4f});  // confidence 0.4 < threshold 0.7 → "unknown"
+    WhisperPlugin p(std::move(t), std::make_unique<PresetReader>());
+    p.initialize("", cfgJson);
+
+    const auto res = p.detectLanguage({0.f}, 16000.f);
+    EXPECT_EQ(res.language, "unknown");
+    EXPECT_FLOAT_EQ(res.confidence, 0.4f);  // raw confidence still reported
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Group N – Additional config / WAV edge cases
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(WhisperPluginFocusedTests, N1_BeamSizeClampedToOne) {
+    const auto cfg = WhisperConfig::fromJson({{"beam_size", 0}});
+    EXPECT_GE(cfg.beam_size, 1);
+}
+
+TEST(WhisperPluginFocusedTests, N2_LanguageConfidenceThresholdRoundTrip) {
+    WhisperConfig orig;
+    orig.language_confidence_threshold = 0.65f;
+    const auto restored = WhisperConfig::fromJson(orig.toJson());
+    EXPECT_FLOAT_EQ(restored.language_confidence_threshold, 0.65f);
+}
+
+TEST(WhisperPluginFocusedTests, N3_LanguageConfidenceThresholdClamped) {
+    // Values outside [0, 1] are clamped.
+    const auto cfgLow  = WhisperConfig::fromJson({{"language_confidence_threshold", -0.5f}});
+    const auto cfgHigh = WhisperConfig::fromJson({{"language_confidence_threshold",  2.0f}});
+    EXPECT_FLOAT_EQ(cfgLow.language_confidence_threshold,  0.0f);
+    EXPECT_FLOAT_EQ(cfgHigh.language_confidence_threshold, 1.0f);
+}
+
+TEST(WhisperPluginFocusedTests, N4_WavReaderParsesStereo16BitPcm) {
+    // Build a minimal stereo 16-bit PCM WAV and verify it decodes to mono.
+    const uint32_t num_channels  = 2;
+    const uint32_t num_samples   = 4;  // per channel
+    const uint32_t data_bytes    = num_samples * num_channels * 2;
+    const uint32_t riff_size     = 36 + data_bytes;
+    std::vector<uint8_t> b(44 + data_bytes, 0);
+    b[0]='R'; b[1]='I'; b[2]='F'; b[3]='F';
+    b[4]=(riff_size)&0xFF; b[5]=(riff_size>>8)&0xFF;
+    b[6]=(riff_size>>16)&0xFF; b[7]=(riff_size>>24)&0xFF;
+    b[8]='W'; b[9]='A'; b[10]='V'; b[11]='E';
+    b[12]='f'; b[13]='m'; b[14]='t'; b[15]=' ';
+    b[16]=16;                // fmt chunk size
+    b[20]=1;                 // PCM
+    b[22]=static_cast<uint8_t>(num_channels); // 2 channels
+    b[24]=0x80; b[25]=0x3E; // 16000 Hz
+    b[28]=0x00; b[29]=0xFA; // byte rate = 64000 (16000*2*2)
+    b[32]=4;                 // block align = 2*2
+    b[34]=16;                // bits per sample
+    b[36]='d'; b[37]='a'; b[38]='t'; b[39]='a';
+    b[40]=data_bytes&0xFF; b[41]=(data_bytes>>8)&0xFF;
+
+    const std::string path = writeTmpFile("stereo.wav", b);
+    WavAudioChunkReader r;
+    float sr = 0.0f;
+    ASSERT_NO_THROW({
+        auto samples = r.readFile(path, sr);
+        EXPECT_EQ(samples.size(), num_samples);
+        EXPECT_FLOAT_EQ(sr, 16000.0f);
+    });
+}
+
+TEST(WhisperPluginFocusedTests, N5_ToJsonContainsLanguageConfidenceThresholdKey) {
+    const json j = WhisperConfig{}.toJson();
+    EXPECT_TRUE(j.contains("language_confidence_threshold"));
 }

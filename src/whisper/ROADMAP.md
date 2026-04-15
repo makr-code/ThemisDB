@@ -23,8 +23,9 @@ v2.1.0 — Thread-safe. MP3/OGG input via FFmpeg adapter. Benchmarks wired.
 - [x] 36 unit tests (`WhisperPluginFocusedTests`, groups A–L)
 - [x] Plugin manifest (`plugins/whisper/plugin.json.in`)
 - [x] CMake registration (plugin + tests)
-- [x] Thread-safety: `transcription_count_` / `error_count_` are `std::atomic`, transcriber calls serialized via `transcriber_mutex_`
-- [x] Performance benchmarks wired (`benchmarks/bench_whisper_transcription.cpp`)
+- [x] `WhisperConfig.language_confidence_threshold` — filters low-confidence `detectLanguage()` results
+- [x] Thread-safety: `transcribe_mutex_` now also guards `detectLanguage()` + threshold filter
+- [x] 44 unit tests (groups A–N)
 
 ## In Progress
 
@@ -35,7 +36,7 @@ v2.1.0 — Thread-safe. MP3/OGG input via FFmpeg adapter. Benchmarks wired.
 - [ ] Streaming token output during transcription (Target: Q3 2026)
 - [ ] Speaker diarisation — multi-speaker attribution (Target: Q4 2026)
 - [ ] VAD pre-filter to skip silent segments (Target: Q3 2026)
-- [ ] Language-detection confidence threshold config (Target: Q3 2026)
+- [x] Language-detection confidence threshold config (Target: Q3 2026)
 
 ## Implementation Phases
 

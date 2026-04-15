@@ -61,6 +61,7 @@ bool WhisperPlugin::initialize(const std::string& model_path,
     model_path_ = model_path;
     WhisperConfig cfg = WhisperConfig::fromJson(config);
     cfg.model_path = model_path;
+    cfg_ = cfg;
 
     const bool ok = transcriber_->initialize(cfg);
     initialized_.store(ok, std::memory_order_release);
@@ -139,8 +140,17 @@ audio::TranscriptionResult WhisperPlugin::transcribeFile(const std::string& path
 audio::LanguageDetectionResult WhisperPlugin::detectLanguage(
         const std::vector<float>& pcm, float sample_rate) {
     if (!initialized_.load(std::memory_order_acquire)) return {};
-    std::lock_guard<std::mutex> lock(transcriber_mutex_);
-    return transcriber_->detectLanguage(pcm, sample_rate);
+    audio::LanguageDetectionResult result;
+    {
+        std::lock_guard<std::mutex> lock(transcriber_mutex_);
+        result = transcriber_->detectLanguage(pcm, sample_rate);
+    }
+    // Apply language-confidence threshold: return "unknown" when below threshold.
+    if (cfg_.language_confidence_threshold > 0.0f &&
+        result.confidence < cfg_.language_confidence_threshold) {
+        return {"unknown", result.confidence};
+    }
+    return result;
 }
 
 // ── getModelId / getStatistics ───────────────────────────────────────────────
