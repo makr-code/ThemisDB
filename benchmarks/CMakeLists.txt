@@ -1054,6 +1054,33 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_olap_performance.cpp")
     message(STATUS "  OLAP: Aggregations, GROUP BY, filters at scale")
 endif()
 
+# OLAP Analytics Benchmarks (≥4 productive cases, Maßnahme #2 / AN goals)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_olap_analytics.cpp")
+    message(STATUS "Adding OLAP Analytics benchmarks")
+
+    add_executable(bench_olap_analytics
+        bench_olap_analytics.cpp
+    )
+
+    target_link_libraries(bench_olap_analytics PRIVATE
+        ${BENCHMARK_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_olap_analytics PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_olap_analytics)
+
+    install(TARGETS bench_olap_analytics
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  OLAP Analytics: GroupBy, WindowFunction, MultiJoin, TopN (AN-GB/WIN/JOIN/TOPN)")
+endif()
+
 # Embedding Cache Performance Benchmarks
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_embedding_cache_performance.cpp")
     message(STATUS "Adding Embedding Cache Performance benchmarks")
