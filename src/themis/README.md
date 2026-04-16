@@ -29,14 +29,22 @@ This directory contains the implementation code for ThemisDB's core framework an
 
 ## Implementation Status
 
-**Note:** This directory is currently empty as ThemisDB uses a monolithic build architecture. Implementation files will be added as part of the modularization effort (v1.7.0+).
+This directory is active and contains Themis core implementation files.
 
-In the current monolithic build, the functionality described here is distributed across:
-- `src/core/` - Build and edition management
-- `src/security/` - License validation
-- `src/server/` - Wire protocol implementation
+Current implementation files in `src/themis/`:
+- `build_info.cpp`
+- `edition_manager.cpp`
+- `license_info.cpp`
+- `module_dependency_resolver.cpp`
+- `module_hash_verifier.cpp`
+- `module_loader.cpp`
+- `module_loader_linux.cpp`
+- `module_loader_win32.cpp`
+- `module_security.cpp`
+- `module_signature_verifier.cpp`
+- `wire_protocol_server.cpp`
 
-## Planned Implementation Files (v1.7.0+)
+## Implemented Core Files (v1.7.0+)
 
 ### Build & Edition Management
 
@@ -108,30 +116,19 @@ Implements the binary TCP protocol for high-performance client connections.
 
 ---
 
-## Current Architecture (Monolithic)
+## Current Architecture
 
-For now, these implementations are found in:
+The Themis implementation lives in `src/themis/`. Legacy or compatibility paths
+may still exist in other subsystems.
 
 ### Build Information
-```
-src/core/build_info.cpp (planned)
-```
-
-Currently handled by CMake-generated headers and runtime queries.
+`src/themis/build_info.cpp`
 
 ### License Management
-```
-src/security/license_manager.cpp (if exists)
-```
-
-Currently integrated with security module.
+`src/themis/license_info.cpp`
 
 ### Wire Protocol
-```
-src/server/wire_protocol_server.cpp (if exists)
-```
-
-Currently integrated with server module.
+`src/themis/wire_protocol_server.cpp`
 
 ---
 
@@ -323,18 +320,20 @@ target_link_libraries(themis-network
 
 ## Status
 
-**Planning Phase** (as of v1.5.0)
+**Implemented** (as of v1.8.0)
 
-⏳ **Planned Implementations:**
-- Build information (v1.7.0)
-- License validation (v1.7.0)
-- Module loading (v1.7.0)
-- Wire protocol server (v1.7.0)
+✅ **Delivered in `src/themis/`:**
+- Build information and reproducibility support
+- License validation and runtime license gating integration
+- Secure module loading (core + Linux + Windows split)
+- Module hash and signature verification
+- Module dependency resolution
+- Wire protocol server implementation
 
 📝 **Current Status:**
-- Functionality exists in monolithic build
-- Refactoring planned for modular architecture
-- Interfaces defined in `include/themis/`
+- `src/themis/` is the active implementation location for Themis core files
+- Public interfaces are defined in `include/themis/`
+- Additional modularization and hardening remain tracked in `ROADMAP.md`
 
 ---
 
