@@ -1,14 +1,14 @@
-[docs](../../README.md) > [en](../README.md) > [chimera](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
-**Datum:** 2026-04-16
-**Status:** draft
-**Primary (Quelle der Wahrheit):**
+[docs](../../index.md) > [en](../index.md) > [chimera](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
+**Date:** 2026-04-16  
+**Status:** draft  
+**Primary Source:**
 - `src/chimera/ARCHITECTURE.md`
 - `src/chimera/CHANGELOG.md`
 - `src/chimera/FUTURE_ENHANCEMENTS.md`
 - `src/chimera/README.md`
 - `src/chimera/ROADMAP.md`
 
-**Bezug / Reference:**
+**Reference:**
 - Tool: `tools/module_docs_builder.py`
 - Context: Auto-generated index of all primary Markdown files for module `chimera`
 
