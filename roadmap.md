@@ -66,7 +66,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **security** | ✅ Production-ready | [src/security/ROADMAP.md](src/security/ROADMAP.md) |
 | **server** | ✅ Production-ready | [src/server/ROADMAP.md](src/server/ROADMAP.md) |
 | **sharding** | ✅ Production-ready — mTLS RPC integration, WAL/consensus recovery, consistent-hash routing (>10K ops/s), chaos-engineering suite all verified | [src/sharding/ROADMAP.md](src/sharding/ROADMAP.md) |
-| **stable_diffusion** | ✅ Production-ready (v2.2.0) — `SDCppGenerator` (stable-diffusion.cpp C API), real PNG encoder (IDAT/CRC32/Adler32), img2img, batch generation, thread-safe | [src/stable_diffusion/ROADMAP.md](src/stable_diffusion/ROADMAP.md) |
+| **stable_diffusion** | ✅ Production-ready (v2.3.0) — `SDCppGenerator` (stable-diffusion.cpp C API), real PNG encoder (IDAT/CRC32/Adler32), img2img, batch generation, thread-safe; `SDPluginAdapter`+`SDPluginRegistrar` PluginManager hot-plug integration | [src/stable_diffusion/ROADMAP.md](src/stable_diffusion/ROADMAP.md) |
 | **storage** | ✅ Production-ready (v1.8.0) — RocksDB-based persistent storage incl. MVCC/WAL/backup-PITR/NVMe/erasure coding/2PC | [src/storage/ROADMAP.md](src/storage/ROADMAP.md) |
 | **temporal** | ✅ Production-ready (v1.2.0 C++ engine) — System-versioned + bi-temporal queries, time-travel, temporal joins, index acceleration | [src/temporal/ROADMAP.md](src/temporal/ROADMAP.md) |
 | **themis** | ✅ Production-ready — All core components migrated to `src/themis/`; Wire Protocol V2 delivered; integration tests added (v1.8.0) | [src/themis/ROADMAP.md](src/themis/ROADMAP.md) |
@@ -77,7 +77,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **utils** | ✅ Production-ready | [src/utils/ROADMAP.md](src/utils/ROADMAP.md) |
 | **user_storage_encrypted** | ✅ Production-ready (v0.1.0) — Argon2id KDF, gocryptfs backend, AES-256-GCM encrypted user storage; stdin key delivery | [src/user_storage_encrypted/ROADMAP.md](src/user_storage_encrypted/ROADMAP.md) |
 | **voice** | ✅ Production-ready | [src/voice/ROADMAP.md](src/voice/ROADMAP.md) |
-| **whisper** | ✅ Production-ready (v2.1.0) — Thread-safe; FFmpeg audio chunk reader (MP3/OGG); CompositeAudioChunkReader; 36 tests | [src/whisper/ROADMAP.md](src/whisper/ROADMAP.md) |
+| **whisper** | ✅ Production-ready (v2.1.0) — Thread-safe; FFmpeg audio chunk reader (MP3/OGG); CompositeAudioChunkReader; `WhisperPluginAdapter`+`WhisperPluginRegistrar` PluginManager hot-plug integration; 44+12 tests | [src/whisper/ROADMAP.md](src/whisper/ROADMAP.md) |
 
 **Legend:** ✅ Production-ready · 🟡 Beta · 🔴 Alpha · 🚧 In active hardening · *(55 modules total)*
 
