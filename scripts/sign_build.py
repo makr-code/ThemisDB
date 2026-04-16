@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            sign_build.py                                      ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-15 18:07:13                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-15 18:48:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

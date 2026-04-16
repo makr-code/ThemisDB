@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_themisdb_grpc_service.cpp                     ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-04-15 18:18:30                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:57:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 02a975f292  2026-04-07  fix(api): AQL identifier injection, BatchWrite partial-fa... ║
     • 6a26e097b8  2026-03-25  fix(api): address code review – AQL injection escaping, t... ║
-    • 97cd900111  2026-03-25  feat(api): gRPC Phase 4 – mutex fix, deadline, RPC stubs,... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🚧 Early Development                                         ║
 ╚═════════════════════════════════════════════════════════════════════╝

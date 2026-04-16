@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_bandwidth_management_qos.cpp                  ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:12:30                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:52:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • ee630ecd9c  2026-03-15  fix(network): audit gaps – cwnd enforcement in allowSend(... ║
-    • 99da4f4e4d  2026-03-15  feat(network): implement Bandwidth Management and QoS (v1... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

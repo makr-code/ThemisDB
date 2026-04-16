@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            key_rotation_scheduler.hpp                         ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:06:24                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:47:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • d8ee6d7cfe  2026-04-15  fix(user_storage_encrypted): repair broken merge artifact... ║
     • 8e5567bf5e  2026-03-24  feat(user_storage_encrypted): v0.1.0 stdin key delivery, ... ║
-    • 256e7651d1  2026-03-24  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

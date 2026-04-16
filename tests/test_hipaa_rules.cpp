@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_hipaa_rules.cpp                               ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-04-15 18:14:34                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-04-15 18:54:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

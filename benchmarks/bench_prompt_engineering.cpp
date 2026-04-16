@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_prompt_engineering.cpp                       ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:01:02                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:43:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     375                                            ║
+    • Total Lines:     374                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • c0a50c2caf  2026-03-19  Refactor build flags, IO, benchmarks & tests ║
-    • bc45eff974  2026-03-10  fix(bench_prompt_engineering): use static shared instance... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

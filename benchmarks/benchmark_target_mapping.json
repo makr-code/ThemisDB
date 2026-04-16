@@ -1,6 +1,6 @@
 {
-  "version": "1.1",
-  "description": "Maps every Ziel-ID from PERFORMANCE_EXPECTATIONS.md §1.2 to exactly one primary benchmark case (1:1 mapping). Each entry carries a 'status' field: 'mapped' (direct 1:1 case), 'proxy' (indirect proxy metric), 'not_measurable' (no benchmark possible), or 'gap' (benchmark missing, open subtask). Optional 'fallback_case' names an alternative benchmark when the primary is unavailable. Used by CI gate (Check 7a) and tools/verify_benchmark_mapping.py.",
+  "version": "2.0",
+  "description": "Maps every Ziel-ID from PERFORMANCE_EXPECTATIONS.md §1.2 to exactly one primary benchmark case (1:1 mapping). Each entry carries a \"status\" field: \"mapped\" (direct 1:1 case), \"proxy\" (indirect proxy metric), \"not_measurable\" (no benchmark possible), or \"gap\" (benchmark missing, open subtask). \"primary_case\" is the canonical benchmark name for the SLO (mirrors primary_benchmark). \"fallback_case\" names an alternative benchmark when the primary is unavailable or hardware-gated. Used by CI gate (Check 7a) and tools/verify_benchmark_mapping.py. Wave2: v2.0 — primary_case/fallback_case added for replication/sharding/transaction modules.",
   "modules": {
     "query": {
       "Q-SimpleWhere": {
@@ -325,174 +325,331 @@
       "R-1": {
         "label": "Replikations-Lag P99 (SEMI_SYNC)",
         "primary_benchmark": "WalBenchFixture_Append",
+        "primary_case": "WalBenchFixture_Append",
+        "fallback_case": "BM_ReplicationLag",
         "file": "bench_replication_throughput.cpp",
-        "status": "mapped"
+        "fallback_file": "bench_changefeed_throughput.cpp",
+        "status": "proxy",
+        "slo_target": "≤ 50 ms @ 10k Writes/s (LAN)",
+        "notes": "WAL append throughput is a latency proxy; direct semi-sync lag requires a running replica cluster."
       },
       "R-2": {
         "label": "WAL-Shipping Throughput (Zstd L3)",
         "primary_benchmark": "WalBenchFixture_ReadFrom",
+        "primary_case": "WalBenchFixture_ReadFrom",
+        "fallback_case": "WalBenchFixture_Append",
         "file": "bench_replication_throughput.cpp",
-        "status": "mapped"
+        "status": "mapped",
+        "slo_target": "≥ 500 MB/s/Follower (10 GbE)",
+        "notes": "ReadFrom/1000 measures sequential WAL read rate; compression overhead is system-level."
       },
       "R-3": {
         "label": "Leader-Failover",
         "primary_benchmark": "BM_ReplicationManager_Initialize",
+        "primary_case": "BM_ReplicationManager_Initialize",
+        "fallback_case": "WalBenchFixture_Append",
         "file": "bench_replication_throughput.cpp",
-        "status": "mapped"
+        "status": "proxy",
+        "slo_target": "≤ 10 s",
+        "notes": "Initialization time is a lower-bound proxy. Direct failover benchmark (Raft leadership transfer) is a gap — see missing-cases §R-3-GAP.",
+        "gap_ref": "R-3-GAP",
+        "gap_effort_days": 3
       },
       "R-4": {
         "label": "HLC Conflict Detection",
         "primary_benchmark": "BM_WALEntry_Serialize",
+        "primary_case": "BM_WALEntry_Serialize",
+        "fallback_case": "BM_WALEntry_Deserialize",
         "file": "bench_replication_throughput.cpp",
-        "status": "mapped"
+        "status": "proxy",
+        "slo_target": "< 5 µs/Write",
+        "notes": "WALEntry serialization measures per-write overhead as proxy for HLC stamping cost. Direct HLC benchmark is a gap — see §R-4-GAP.",
+        "gap_ref": "R-4-GAP",
+        "gap_effort_days": 2
       },
       "R-5": {
         "label": "CRDT Merge",
         "primary_benchmark": "BM_WALEntry_Deserialize",
+        "primary_case": "BM_WALEntry_Deserialize",
+        "fallback_case": "BM_WALEntry_Serialize",
         "file": "bench_replication_throughput.cpp",
-        "status": "mapped"
+        "status": "proxy",
+        "slo_target": "≤ 1 µs/Merge",
+        "notes": "WALEntry deserialization is a structural proxy for CRDT merge cost. Direct CRDT benchmark is a gap — see §R-5-GAP.",
+        "gap_ref": "R-5-GAP",
+        "gap_effort_days": 3
       },
       "R-6": {
         "label": "WAL Replay (PITR, 100 GB)",
-        "primary_benchmark": "WalBenchFixture_Append",
+        "primary_benchmark": "WalBenchFixture_ReadFrom",
+        "primary_case": "WalBenchFixture_ReadFrom",
+        "fallback_case": "WalBenchFixture_Append",
         "file": "bench_replication_throughput.cpp",
-        "status": "mapped"
+        "status": "mapped",
+        "slo_target": "≥ 200 MB/s; ≤ 10 min",
+        "notes": "ReadFrom/1000 measures sequential WAL read throughput as a direct analog for PITR replay rate."
       },
       "R-7": {
         "label": "CDC Event P99",
         "primary_benchmark": "ChangefeedBenchmarkFixture_EventRecordingThroughput",
+        "primary_case": "ChangefeedBenchmarkFixture_EventRecordingThroughput",
+        "fallback_case": "BM_RecordEventLatency",
         "file": "bench_changefeed_throughput.cpp",
-        "status": "mapped"
+        "status": "mapped",
+        "slo_target": "≤ 1 ms (Commit → CDC Queue)",
+        "notes": "EventRecordingThroughput measures commit-to-queue latency directly."
       },
       "R-8": {
         "label": "Cross-DC Lag ASYNC",
         "primary_benchmark": "WalBenchFixture_ReadFrom",
+        "primary_case": "WalBenchFixture_ReadFrom",
+        "fallback_case": "BM_ReplicationLag",
         "file": "bench_replication_throughput.cpp",
-        "status": "mapped"
+        "fallback_file": "bench_changefeed_throughput.cpp",
+        "status": "proxy",
+        "slo_target": "≤ 200 ms P99 (50 ms RTT WAN)",
+        "notes": "WAL read throughput is a proxy for cross-DC replication rate. Direct cross-DC lag requires a WAN simulation setup — see §R-8-GAP.",
+        "gap_ref": "R-8-GAP",
+        "gap_effort_days": 5
       }
     },
     "sharding": {
       "SH-1": {
         "label": "Cross-Shard RPC P99 (LAN)",
         "primary_benchmark": "ScatterGatherFixture_ScatterGatherLatency",
+        "primary_case": "ScatterGatherFixture_ScatterGatherLatency",
+        "fallback_case": "ShardRoutingFixture_SingleShardLookup",
         "file": "bench_sharding_performance.cpp",
-        "status": "mapped"
+        "fallback_file": "bench_shard_routing.cpp",
+        "status": "mapped",
+        "slo_target": "< 5 ms",
+        "notes": "ScatterGather with 4 shards measures cross-shard round-trip latency directly."
       },
       "SH-2": {
         "label": "Connection-Pool Hit-Rate",
         "primary_benchmark": "ShardRoutingFixture_ConsistentHashPerformance",
+        "primary_case": "ShardRoutingFixture_ConsistentHashPerformance",
+        "fallback_case": "ShardRoutingFixture_BatchRouting",
         "file": "bench_shard_routing.cpp",
-        "status": "mapped"
+        "status": "proxy",
+        "slo_target": "> 95 % @ 10k RPS",
+        "notes": "ConsistentHash routing throughput is a proxy for connection-pool efficiency. Direct pool hit-rate measurement requires instrumented pool — see §SH-2-GAP.",
+        "gap_ref": "SH-2-GAP",
+        "gap_effort_days": 3
       },
       "SH-3": {
         "label": "Percolator Commit P99 (10 Shards)",
         "primary_benchmark": "CrossShardJoinFixture_BroadcastHashJoin",
+        "primary_case": "CrossShardJoinFixture_BroadcastHashJoin",
+        "fallback_case": "CrossShardJoinFixture_CoLocatedJoinSimulation",
         "file": "bench_sharding_performance.cpp",
-        "status": "mapped"
+        "status": "proxy",
+        "slo_target": "< 20 ms",
+        "notes": "BroadcastHashJoin (10-shard) measures multi-shard coordination latency as proxy for Percolator commit. Direct 2PC Percolator bench is a gap — see §SH-3-GAP.",
+        "gap_ref": "SH-3-GAP",
+        "gap_effort_days": 3
       },
       "SH-4": {
         "label": "Shard-Split Migration Downtime",
-        "primary_benchmark": "CrossShardJoinFixture_CoLocatedJoinSimulation",
+        "primary_benchmark": "RebalancingFixture_BatchSerializationThroughput",
+        "primary_case": "RebalancingFixture_BatchSerializationThroughput",
+        "fallback_case": "RebalancingFixture_BatchDeserializationThroughput",
         "file": "bench_sharding_performance.cpp",
-        "status": "mapped"
+        "status": "proxy",
+        "slo_target": "0 ms Read-Unavailability",
+        "notes": "Batch serialization throughput is a proxy for migration data-movement speed. Actual zero-downtime split requires a live-migration harness — see §SH-4-GAP.",
+        "gap_ref": "SH-4-GAP",
+        "gap_effort_days": 5
       },
       "SH-5": {
         "label": "Write-Latenz während Migration",
-        "primary_benchmark": "ShardRoutingFixture_BatchRouting",
-        "file": "bench_shard_routing.cpp",
-        "status": "mapped"
+        "primary_benchmark": "RebalancingFixture_BatchSerializationThroughput",
+        "primary_case": "RebalancingFixture_BatchSerializationThroughput",
+        "fallback_case": "ShardRoutingFixture_BatchRouting",
+        "file": "bench_sharding_performance.cpp",
+        "fallback_file": "bench_shard_routing.cpp",
+        "status": "proxy",
+        "slo_target": "< 20 % over Baseline P99",
+        "notes": "Batch serialization measures write overhead during data movement as a proxy. Direct concurrent-write-during-migration bench is a gap — see §SH-5-GAP.",
+        "gap_ref": "SH-5-GAP",
+        "gap_effort_days": 4
       },
       "SH-6": {
         "label": "Rebalancer Decision Cycle",
-        "primary_benchmark": "ShardRoutingFixture_SingleShardLookup",
-        "file": "bench_shard_routing.cpp",
-        "status": "mapped"
+        "primary_benchmark": "RebalancingFixture_BatchDeserializationThroughput",
+        "primary_case": "RebalancingFixture_BatchDeserializationThroughput",
+        "fallback_case": "GossipOverheadFixture_VersionVectorMerge",
+        "file": "bench_sharding_performance.cpp",
+        "status": "proxy",
+        "slo_target": "< 10 s",
+        "notes": "Deserialization throughput proxies for rebalancer decision processing. Direct decision-cycle bench needs scheduler mock — see §SH-6-GAP.",
+        "gap_ref": "SH-6-GAP",
+        "gap_effort_days": 3
       },
       "SH-7": {
         "label": "Anti-Entropy Scan Throughput",
-        "primary_benchmark": "ScatterGatherFixture_ScatterGatherLatency",
+        "primary_benchmark": "GossipOverheadFixture_MessageSerialization",
+        "primary_case": "GossipOverheadFixture_MessageSerialization",
+        "fallback_case": "RebalancingFixture_BatchSerializationThroughput",
         "file": "bench_sharding_performance.cpp",
-        "status": "mapped"
+        "status": "proxy",
+        "slo_target": "> 1 GB/s (NVMe, 8 Worker)",
+        "notes": "Gossip message serialization proxies anti-entropy scan overhead. Direct NVMe anti-entropy bench needs storage backend integration — see §SH-7-GAP.",
+        "gap_ref": "SH-7-GAP",
+        "gap_effort_days": 5
       },
       "SH-8": {
         "label": "GPU Reed-Solomon",
         "primary_benchmark": "ScatterGatherFixture_ScatterGatherLatency",
+        "primary_case": "ScatterGatherFixture_ScatterGatherLatency",
+        "fallback_case": "CrossShardJoinFixture_BroadcastHashJoin",
         "file": "bench_sharding_performance.cpp",
-        "status": "mapped"
+        "status": "not_measurable",
+        "slo_target": "> 4 GB/s (NVIDIA A10)",
+        "notes": "GPU Reed-Solomon requires NVIDIA A10 hardware. CPU fallback uses scatter-gather bandwidth. GPU-runner required for production measurement — see §SH-8-GAP.",
+        "gap_ref": "SH-8-GAP",
+        "gap_effort_days": 8,
+        "hardware_gate": "NVIDIA_A10_OR_EQUIVALENT"
       },
       "SH-9": {
         "label": "Snapshot (1 GB Raft-State)",
         "primary_benchmark": "CrossShardJoinFixture_BroadcastHashJoin",
+        "primary_case": "CrossShardJoinFixture_BroadcastHashJoin",
+        "fallback_case": "RebalancingFixture_BatchSerializationThroughput",
         "file": "bench_sharding_performance.cpp",
-        "status": "mapped"
+        "status": "proxy",
+        "slo_target": "< 10 s",
+        "notes": "BroadcastHashJoin data-size throughput proxies snapshot serialization speed. Direct 1 GB Raft snapshot bench needs persistent storage mock — see §SH-9-GAP.",
+        "gap_ref": "SH-9-GAP",
+        "gap_effort_days": 4
       },
       "SH-10": {
         "label": "Snapshot Kompressionsrate",
-        "primary_benchmark": "CrossShardJoinFixture_CoLocatedJoinSimulation",
+        "primary_benchmark": "RebalancingFixture_BatchDeserializationThroughput",
+        "primary_case": "RebalancingFixture_BatchDeserializationThroughput",
+        "fallback_case": "CrossShardJoinFixture_CoLocatedJoinSimulation",
         "file": "bench_sharding_performance.cpp",
-        "status": "mapped"
+        "status": "proxy",
+        "slo_target": "< 35 % unkomprimiert (ZSTD L3)",
+        "notes": "Deserialization throughput proxies snapshot decompression. Direct ZSTD compression-ratio bench is a gap — see §SH-10-GAP.",
+        "gap_ref": "SH-10-GAP",
+        "gap_effort_days": 2
       },
       "SH-11": {
         "label": "Replica Catch-up",
-        "primary_benchmark": "ShardRoutingFixture_ConsistentHashPerformance",
-        "file": "bench_shard_routing.cpp",
-        "status": "mapped"
+        "primary_benchmark": "GossipOverheadFixture_MessageSerialization",
+        "primary_case": "GossipOverheadFixture_MessageSerialization",
+        "fallback_case": "ShardRoutingFixture_ConsistentHashPerformance",
+        "file": "bench_sharding_performance.cpp",
+        "fallback_file": "bench_shard_routing.cpp",
+        "status": "proxy",
+        "slo_target": "> 200 MB/s (10 GbE LAN)",
+        "notes": "Gossip serialization throughput proxies catch-up data transfer. Direct replica catch-up bench needs running replica pair — see §SH-11-GAP.",
+        "gap_ref": "SH-11-GAP",
+        "gap_effort_days": 5
       },
       "SH-12": {
         "label": "Topology Change Propagation",
-        "primary_benchmark": "ShardRoutingFixture_BatchRouting",
-        "file": "bench_shard_routing.cpp",
-        "status": "mapped"
+        "primary_benchmark": "GossipOverheadFixture_FanoutSelection",
+        "primary_case": "GossipOverheadFixture_FanoutSelection",
+        "fallback_case": "GossipOverheadFixture_MessageSerialization",
+        "file": "bench_sharding_performance.cpp",
+        "status": "proxy",
+        "slo_target": "< 500 ms (100 Nodes, Gossip)",
+        "notes": "FanoutSelection measures gossip fan-out decision speed as a proxy for topology propagation time. Full 100-node propagation test needs cluster mock — see §SH-12-GAP.",
+        "gap_ref": "SH-12-GAP",
+        "gap_effort_days": 4
       }
     },
     "transaction": {
       "TX-1": {
         "label": "OCC Commit P50",
         "primary_benchmark": "TransactionBenchmarkFixture_CommitLatency",
+        "primary_case": "TransactionBenchmarkFixture_CommitLatency",
+        "fallback_case": "TransactionBenchmarkFixture_OccOptimisticPut",
         "file": "bench_transaction_throughput.cpp",
-        "status": "mapped"
+        "status": "mapped",
+        "slo_target": "≤ 100 µs",
+        "notes": "CommitLatency/1 (single-op transaction) measures P50 commit time directly."
       },
       "TX-2": {
         "label": "OCC Commit P99",
         "primary_benchmark": "TransactionBenchmarkFixture_CommitLatency",
+        "primary_case": "TransactionBenchmarkFixture_CommitLatency",
+        "fallback_case": "TransactionBenchmarkFixture_OccReadVersionAndUpdate",
         "file": "bench_transaction_throughput.cpp",
-        "status": "mapped"
+        "status": "mapped",
+        "slo_target": "≤ 5 ms",
+        "notes": "CommitLatency/100 (100-op transaction) measures high-percentile commit latency directly."
       },
       "TX-3": {
         "label": "2PC Throughput",
         "primary_benchmark": "TransactionBenchmarkFixture_WriteOnlyTransaction",
+        "primary_case": "TransactionBenchmarkFixture_WriteOnlyTransaction",
+        "fallback_case": "BM_TransactionContention",
         "file": "bench_transaction_throughput.cpp",
-        "status": "mapped"
+        "status": "mapped",
+        "slo_target": "> 6 k/s",
+        "measured_v134": "6.4 k/s",
+        "notes": "WriteOnlyTransaction (10 writes, 4 threads) measures commit throughput; tps counter reports k/s directly."
       },
       "TX-4": {
         "label": "2PC Latenz (5 Shards)",
         "primary_benchmark": "TransactionBenchmarkFixture_MixedTransaction",
+        "primary_case": "TransactionBenchmarkFixture_MixedTransaction",
+        "fallback_case": "TransactionBenchmarkFixture_WriteOnlyTransaction",
         "file": "bench_transaction_throughput.cpp",
-        "status": "mapped"
+        "status": "proxy",
+        "slo_target": "≤ 5 ms",
+        "notes": "MixedTransaction (5 RMW ops) approximates 5-shard 2PC latency in-process. True cross-shard 2PC latency requires distributed harness — see §TX-4-GAP.",
+        "gap_ref": "TX-4-GAP",
+        "gap_effort_days": 4
       },
       "TX-5": {
         "label": "SAGA Compensation Time",
         "primary_benchmark": "TransactionBenchmarkFixture_AbortTransaction",
+        "primary_case": "TransactionBenchmarkFixture_AbortTransaction",
+        "fallback_case": "TransactionBenchmarkFixture_SavepointCreateAndRollback",
         "file": "bench_transaction_throughput.cpp",
-        "status": "mapped"
+        "status": "proxy",
+        "slo_target": "≤ 20 ms",
+        "notes": "AbortTransaction measures rollback path as proxy for SAGA compensation. A dedicated SAGA bench with compensation DAG is a gap — see §TX-5-GAP.",
+        "gap_ref": "TX-5-GAP",
+        "gap_effort_days": 3
       },
       "TX-6": {
         "label": "Deadlock Detection Overhead",
         "primary_benchmark": "TransactionBenchmarkFixture_ReadOnlyTransaction",
+        "primary_case": "TransactionBenchmarkFixture_ReadOnlyTransaction",
+        "fallback_case": "TransactionBenchmarkFixture_MixedTransaction",
         "file": "bench_transaction_throughput.cpp",
-        "status": "mapped"
+        "status": "proxy",
+        "slo_target": "≤ 1 % overhead (vs. 5 % baseline)",
+        "notes": "ReadOnlyTransaction cost relative to mixed-transaction proxies deadlock-detector overhead delta. Direct overhead measurement via lock-graph cycle benchmark is a gap — see §TX-6-GAP.",
+        "gap_ref": "TX-6-GAP",
+        "gap_effort_days": 3
       },
       "TX-7": {
         "label": "False Positive Rate",
         "primary_benchmark": "TransactionBenchmarkFixture_AbortTransaction",
+        "primary_case": "TransactionBenchmarkFixture_AbortTransaction",
+        "fallback_case": "TransactionBenchmarkFixture_OccOptimisticPut",
         "file": "bench_transaction_throughput.cpp",
-        "status": "mapped"
+        "status": "proxy",
+        "slo_target": "< 5 %",
+        "notes": "AbortTransaction abort-rate counter approximates false-positive conflicts under no-contention load. Controlled-contention false-positive bench is a gap — see §TX-7-GAP.",
+        "gap_ref": "TX-7-GAP",
+        "gap_effort_days": 3
       },
       "TX-8": {
         "label": "Low-Contention Success Rate",
-        "primary_benchmark": "TransactionBenchmarkFixture_ReadOnlyTransaction",
+        "primary_benchmark": "TransactionBenchmarkFixture_OccOptimisticPut",
+        "primary_case": "TransactionBenchmarkFixture_OccOptimisticPut",
+        "fallback_case": "TransactionBenchmarkFixture_ReadOnlyTransaction",
         "file": "bench_transaction_throughput.cpp",
-        "status": "mapped"
+        "status": "mapped",
+        "slo_target": "> 90 %",
+        "notes": "OccOptimisticPut under low-contention workload measures success rate directly via commit vs. abort counters."
       }
     },
     "llm": {
@@ -821,6 +978,33 @@
         "primary_benchmark": "BM_GraphQL_Parse_Complex_Uncached",
         "file": "bench_api_endpoints.cpp",
         "status": "mapped"
+      },
+      "SP-1": {
+        "label": "V2-Frame-Header-Inspect Throughput",
+        "primary_benchmark": "BM_StreamProtocol_FrameHeaderBuild",
+        "primary_case": "BM_StreamProtocol_FrameHeaderBuild",
+        "fallback_case": "BM_StreamProtocol_MetricsSnapshot",
+        "slo_target": "> 50 M ops/s"
+        "file": "bench_stream_protocol.cpp",
+        "status": "mapped"
+      },
+      "SP-2": {
+        "label": "LZ4-Stream-Payload Compress+Decompress P95",
+        "primary_benchmark": "BM_StreamProtocol_LZ4Roundtrip",
+        "primary_case": "BM_StreamProtocol_LZ4Roundtrip",
+        "fallback_case": "BM_StreamProtocol_FrameHeaderBuild",
+        "file": "bench_stream_protocol.cpp",
+        "status": "mapped",
+        "slo_target": "< 1 ms (16 KiB Payload)"
+      },
+      "SP-3": {
+        "label": "WireProtocolMetrics Snapshot P99",
+        "primary_benchmark": "BM_StreamProtocol_MetricsSnapshot",
+        "primary_case": "BM_StreamProtocol_MetricsSnapshot",
+        "fallback_case": "BM_StreamProtocol_LZ4Roundtrip",
+        "file": "bench_stream_protocol.cpp",
+        "status": "mapped",
+        "slo_target": "< 5 ms (10k Samples)"
       }
     },
     "security": {
@@ -1307,6 +1491,44 @@
         "label": "TPC-C tpmC-Ziel",
         "primary_benchmark": "TPCCLiteFixture_PaymentTransaction",
         "file": "bench_tpcc.cpp",
+        "status": "mapped"
+      }
+    },
+    "chimera": {
+      "CHI-1": {
+        "label": "Relational Sort Throughput",
+        "primary_benchmark": "run_ci_benchmarks:relational_sort",
+        "file": "external/chimera/run_ci_benchmarks.py",
+        "workload_family": "relational",
+        "target_module": "query",
+        "maps_to_module_id": 27,
+        "status": "mapped"
+      },
+      "CHI-2": {
+        "label": "Vector Dot-Product Throughput",
+        "primary_benchmark": "run_ci_benchmarks:vector_dot_product",
+        "file": "external/chimera/run_ci_benchmarks.py",
+        "workload_family": "vector",
+        "target_module": "index",
+        "maps_to_module_id": 27,
+        "status": "mapped"
+      },
+      "CHI-3": {
+        "label": "Document Lookup Throughput",
+        "primary_benchmark": "run_ci_benchmarks:document_lookup",
+        "file": "external/chimera/run_ci_benchmarks.py",
+        "workload_family": "document",
+        "target_module": "cache",
+        "maps_to_module_id": 27,
+        "status": "mapped"
+      },
+      "CHI-4": {
+        "label": "Graph BFS Throughput",
+        "primary_benchmark": "run_ci_benchmarks:graph_bfs",
+        "file": "external/chimera/run_ci_benchmarks.py",
+        "workload_family": "graph",
+        "target_module": "graph",
+        "maps_to_module_id": 27,
         "status": "mapped"
       }
     }

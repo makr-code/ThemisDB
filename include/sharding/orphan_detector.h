@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            orphan_detector.h                                  ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:05:31                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • eed24c44d2  2026-03-15  feat: Wire OrphanDetector to DistributedCoordinator trans... ║
-    • 2bbac9e442  2026-03-14  feat: implement Percolator-style distributed transaction ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

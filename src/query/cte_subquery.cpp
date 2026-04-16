@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cte_subquery.cpp                                   ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:09:31                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 010ee709e6  2026-03-15  docs(query): mark CTESubquery Phase 1 stub replacement co... ║
-    • 4730efec66  2026-03-14  feat(query): replace CTESubquery Phase 1 stub with correl... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ts_auto_buffer.h                                   ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:06:02                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     442                                            ║
+    • Total Lines:     441                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • d9e68edf71  2026-03-15  fix: address code review - INVALID_INPUT status, test acc... ║
-    • 822b0afce6  2026-03-15  feat(timeseries): implement TSStore single-point insert b... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

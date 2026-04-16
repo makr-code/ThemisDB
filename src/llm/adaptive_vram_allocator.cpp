@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_vram_allocator.cpp                        ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:08:28                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:30                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • fe135d5215  2026-04-13  feat(llm): Speculative Decoding for Latency Reduction — v... ║
-    • 6e1dfd68ab  2026-03-11  feat(llm): implement ActiveVRAMAllocator for GPU memory m... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

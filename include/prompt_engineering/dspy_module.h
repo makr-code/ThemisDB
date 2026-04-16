@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            dspy_module.h                                      ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 18:04:22                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:46:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

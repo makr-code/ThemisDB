@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_memory_manager.cpp                             ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:08:30                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟠 BETA                                         ║
     • Quality Score:   48.0/100                                       ║
-    • Total Lines:     1711                                           ║
+    • Total Lines:     1710                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • f38c013cdc  2026-03-29  Enhance various components with improvements and fixes ║
-    • 26e49f8ba7  2026-03-11  fix: wire include_guidance in enrichSample; expose findRe... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🔧 In Progress                                               ║
 ╚═════════════════════════════════════════════════════════════════════╝

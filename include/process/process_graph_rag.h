@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            process_graph_rag.h                                ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:04:14                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:46:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • dc8a1dc60e  2026-04-15  feat(process): PPR GraphRAG scoring, LLM-to-BPMN generato... ║
-    • 7f7a272409  2026-03-12  feat(process): add ProcessLinker, ProcessGraphRag, and mo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

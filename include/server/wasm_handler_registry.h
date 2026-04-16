@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            wasm_handler_registry.h                            ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:05:27                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:47:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 8452353dc5  2026-03-12  Add unit tests for sync-issues-from-roadmap.py ║
-    • 33dfc284ad  2026-03-11  feat(server): WebAssembly Handler Registry for Edge Compu... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

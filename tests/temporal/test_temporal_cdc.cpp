@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_temporal_cdc.cpp                              ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 18:11:53                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:52:03                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

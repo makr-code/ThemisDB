@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            multi_level_storage.cpp                            ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:11:04                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
-    • Total Lines:     1036                                           ║
+    • Total Lines:     1035                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • d8ee6d7cfe  2026-04-15  fix(user_storage_encrypted): repair broken merge artifact... ║
     • 172e0dd5e1  2026-03-26  fix: address code review - safe filesystem copy, RFC 4180... ║
-    • 490de27f06  2026-03-26  fix: implement all P0/P1 blockers - QueryEngine, RAG, eth... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

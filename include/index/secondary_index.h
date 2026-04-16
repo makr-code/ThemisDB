@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            secondary_index.h                                  ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:03:04                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:11                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     518                                            ║
+    • Total Lines:     517                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • b55d2d72cc  2026-04-11  perf(index): reduce secondary-index write-path overhead (... ║
-    • 6a59ae4739  2026-03-15  fix(index-compression): audit fixes — CI composite action... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

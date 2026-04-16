@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_search_highlighter.cpp                        ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:17:55                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:57:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 15e6e31437  2026-03-09  feat: implement all features from problem statement ║
-    • 8312e2eafd  2026-03-09  feat(search): implement SearchHighlighter for highlight/s... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            interval_tree_index.h                              ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 18:05:50                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:47:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

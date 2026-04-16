@@ -1,3 +1,26 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            bench_stream_protocol.cpp                          ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:43:32                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     244                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 073c5d48f9  2026-04-15  perf(network): Reactivate Stream-Protocol-Benchmarks with... ║
+    • 202546ee10  2026-04-13  perf: add Disabled-Stub-Policy comments to all 21 *_Disab... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file bench_stream_protocol.cpp
  * @brief Stream-Protocol Benchmarks – Wire Protocol V2 (Issue #5, reactivated v1.9.0)

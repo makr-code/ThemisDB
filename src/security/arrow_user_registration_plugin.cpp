@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            arrow_user_registration_plugin.cpp                 ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:10:01                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • d275653619  2026-04-14  update after codefindings               ║
     • a2d7c07202  2026-04-14  update after codefindings               ║
-    • 4e39463a86  2026-03-21  feat(security): implement AQL read-only context validatio... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            profiler.cpp                                       ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-04-15 18:07:54                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:49:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

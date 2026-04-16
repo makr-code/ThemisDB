@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            snapshot_transfer_handler.h                        ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:05:23                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     203                                            ║
+    • Total Lines:     202                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

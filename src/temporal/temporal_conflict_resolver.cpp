@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            temporal_conflict_resolver.cpp                     ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:10:38                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:51:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     622                                            ║
+    • Total Lines:     621                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 43a91f1793  2026-03-13  feat(metrics): add metrics collector for credential-stuff... ║
-    • e1fff5135a  2026-03-12  fix(temporal): address PR review findings on TemporalConf... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

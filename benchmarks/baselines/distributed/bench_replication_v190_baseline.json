@@ -1,0 +1,132 @@
+{
+  "version": "1.9.0",
+  "profile": "v1.9.0",
+  "branch": "main",
+  "commit": "pending-first-run",
+  "timestamp": "2026-04-15T00:00:00Z",
+  "description": "v1.9.0 SLO baseline for the Replication module. Covers R-1..R-8 via primary_case and fallback_case benchmarks defined in benchmark_target_mapping.json (Wave2). Populated on first CI/local run of bench_replication_throughput + bench_changefeed_throughput.",
+  "slo_module": "replication",
+  "wave": "Wave2",
+  "run_command": "bench_replication_throughput --benchmark_out=bench_replication_v190.json --benchmark_out_format=json --benchmark_repetitions=3 --benchmark_report_aggregates_only=true",
+  "run_command_fallback": "bench_changefeed_throughput --benchmark_filter=BM_ReplicationLag|BM_RecordEventLatency --benchmark_out=bench_changefeed_v190.json --benchmark_out_format=json",
+  "slo_coverage": {
+    "R-1": {
+      "label": "Replikations-Lag P99 (SEMI_SYNC)",
+      "primary_case": "WalBenchFixture_Append",
+      "fallback_case": "BM_ReplicationLag",
+      "slo_target": "≤ 50 ms @ 10k Writes/s (LAN)",
+      "status": "proxy",
+      "measured_real_time_us": null,
+      "measured_items_per_sec": null,
+      "slo_met": null
+    },
+    "R-2": {
+      "label": "WAL-Shipping Throughput (Zstd L3)",
+      "primary_case": "WalBenchFixture_ReadFrom",
+      "fallback_case": "WalBenchFixture_Append",
+      "slo_target": "≥ 500 MB/s/Follower (10 GbE)",
+      "status": "mapped",
+      "measured_real_time_ms": null,
+      "measured_items_per_sec": null,
+      "slo_met": null
+    },
+    "R-3": {
+      "label": "Leader-Failover",
+      "primary_case": "BM_ReplicationManager_Initialize",
+      "fallback_case": "WalBenchFixture_Append",
+      "slo_target": "≤ 10 s",
+      "status": "proxy",
+      "gap_ref": "R-3-GAP",
+      "gap_effort_days": 3,
+      "measured_real_time_ms": null,
+      "slo_met": null
+    },
+    "R-4": {
+      "label": "HLC Conflict Detection",
+      "primary_case": "BM_WALEntry_Serialize",
+      "fallback_case": "BM_WALEntry_Deserialize",
+      "slo_target": "< 5 µs/Write",
+      "status": "proxy",
+      "gap_ref": "R-4-GAP",
+      "gap_effort_days": 2,
+      "measured_real_time_ns": null,
+      "slo_met": null
+    },
+    "R-5": {
+      "label": "CRDT Merge",
+      "primary_case": "BM_WALEntry_Deserialize",
+      "fallback_case": "BM_WALEntry_Serialize",
+      "slo_target": "≤ 1 µs/Merge",
+      "status": "proxy",
+      "gap_ref": "R-5-GAP",
+      "gap_effort_days": 3,
+      "measured_real_time_ns": null,
+      "slo_met": null
+    },
+    "R-6": {
+      "label": "WAL Replay (PITR, 100 GB)",
+      "primary_case": "WalBenchFixture_ReadFrom",
+      "fallback_case": "WalBenchFixture_Append",
+      "slo_target": "≥ 200 MB/s; ≤ 10 min",
+      "status": "mapped",
+      "measured_real_time_ms": null,
+      "measured_items_per_sec": null,
+      "slo_met": null
+    },
+    "R-7": {
+      "label": "CDC Event P99",
+      "primary_case": "ChangefeedBenchmarkFixture_EventRecordingThroughput",
+      "fallback_case": "BM_RecordEventLatency",
+      "slo_target": "≤ 1 ms (Commit → CDC Queue)",
+      "status": "mapped",
+      "measured_real_time_ms": null,
+      "measured_items_per_sec": null,
+      "slo_met": null
+    },
+    "R-8": {
+      "label": "Cross-DC Lag ASYNC",
+      "primary_case": "WalBenchFixture_ReadFrom",
+      "fallback_case": "BM_ReplicationLag",
+      "slo_target": "≤ 200 ms P99 (50 ms RTT WAN)",
+      "status": "proxy",
+      "gap_ref": "R-8-GAP",
+      "gap_effort_days": 5,
+      "measured_real_time_ms": null,
+      "slo_met": null
+    }
+  },
+  "missing_cases": [
+    {
+      "gap_id": "R-3-GAP",
+      "title": "Direkte Leader-Failover-Benchmark",
+      "description": "Benchmark für Raft-Leadership-Transfer inkl. Election-Timeout und Re-Synchronisierung. Benötigt zwei ReplicationManager-Instanzen und simulierten Leader-Crash.",
+      "effort_days": 3,
+      "target_milestone": "v1.10.0",
+      "blocking_slo": "R-3"
+    },
+    {
+      "gap_id": "R-4-GAP",
+      "title": "HLC Conflict-Detection Mikrobenchmark",
+      "description": "Direktes Benchmark für Hybrid Logical Clock Timestamp-Vergleich und Conflict-Detection-Pfad. Erfordert HLCTimestamp-Fixture mit kontrollierten Clock-Skews.",
+      "effort_days": 2,
+      "target_milestone": "v1.10.0",
+      "blocking_slo": "R-4"
+    },
+    {
+      "gap_id": "R-5-GAP",
+      "title": "CRDT Merge Mikrobenchmark",
+      "description": "Direktes Benchmark für G-Counter/OR-Set/LWW-Register CRDT-Merge-Operation. Erfordert CRDT-Datenstruktur-Fixture mit realistischen Delta-Größen.",
+      "effort_days": 3,
+      "target_milestone": "v1.10.0",
+      "blocking_slo": "R-5"
+    },
+    {
+      "gap_id": "R-8-GAP",
+      "title": "Cross-DC WAN-Latenz-Simulation",
+      "description": "Benchmark für asynchrone Cross-DC-Replikation unter WAN-Latenz (50 ms RTT). Erfordert tc/netem-basierte Netzwerkemulation oder Dual-Node-Test-Setup.",
+      "effort_days": 5,
+      "target_milestone": "v2.0.0",
+      "blocking_slo": "R-8"
+    }
+  ]
+}

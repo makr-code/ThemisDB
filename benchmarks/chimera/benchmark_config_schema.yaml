@@ -1,0 +1,161 @@
+# CHIMERA Benchmark Configuration Schema
+# Version: 1.0.0
+# Standard: IEEE Std 2807-2022, ISO/IEC 14756:2015
+#
+# This file documents the canonical schema for CHIMERA workload configurations.
+# It is used by external/chimera/run_ci_benchmarks.py and the BenchmarkHarness
+# class in benchmarks/chimera.py.
+
+# --------------------------------------------------------------------------
+# Top-level schema
+# --------------------------------------------------------------------------
+schema_version: "1.0"
+chimera_version: "1.5.0-dev"
+
+# --------------------------------------------------------------------------
+# Harness configuration
+# --------------------------------------------------------------------------
+harness:
+  # Number of warm-up iterations discarded before measurement begins.
+  # Purpose: stabilise JIT compilation, OS page cache, and CPU branch predictor.
+  warmup_iterations: 3
+
+  # Number of timed measurement iterations per workload.
+  # Must be >= 30 for Central Limit Theorem applicability.
+  run_iterations: 100
+
+  # Percentile latency targets (P50, P95, P99).
+  percentiles: [50.0, 95.0, 99.0]
+
+  # Timing resolution: wall-clock via time.perf_counter() (nanosecond precision).
+  timing: perf_counter
+
+# --------------------------------------------------------------------------
+# Canonical workloads
+# --------------------------------------------------------------------------
+workloads:
+
+  - workload_id: relational_sort
+    workload_family: relational
+    description: >
+      Sort a pre-shuffled integer sequence of 1000 elements.
+      Proxies query-engine ordering and storage-layer sort performance.
+    operation: _op_relational_sort  # defined in run_ci_benchmarks.py
+    target_modules:
+      - id: 4
+        name: Query
+      - id: 2
+        name: Storage
+    target_mapping_id: CHI-1
+    slo:
+      throughput_ops_per_sec_min: 10000
+      p99_latency_ms_max: 1.0
+    baseline_v1_5_0_dev:
+      throughput_ops_per_sec: 42503.0
+      mean_latency_ms: 0.024
+      p95_latency_ms: 0.023
+      p99_latency_ms: 0.034
+
+  - workload_id: vector_dot_product
+    workload_family: vector
+    description: >
+      Dot-product similarity search over a dense 64-dimensional float corpus
+      (64 vectors, stride 4). Proxies vector-index and embedding-layer throughput.
+    operation: _op_vector_dot_product  # defined in run_ci_benchmarks.py
+    target_modules:
+      - id: 10
+        name: "Vector / Embedding"
+      - id: 3
+        name: Index
+    target_mapping_id: CHI-2
+    slo:
+      throughput_ops_per_sec_min: 20000
+      p99_latency_ms_max: 0.5
+    baseline_v1_5_0_dev:
+      throughput_ops_per_sec: 75835.0
+      mean_latency_ms: 0.013
+      p95_latency_ms: 0.013
+      p99_latency_ms: 0.024
+
+  - workload_id: document_lookup
+    workload_family: document
+    description: >
+      Hash-map key-value read of a 200-entry in-memory store.
+      Proxies document-store and cache read-path latency.
+    operation: _op_document_lookup  # defined in run_ci_benchmarks.py
+    target_modules:
+      - id: 27
+        name: "Chimera Suite"
+      - id: 3
+        name: Index
+    target_mapping_id: CHI-3
+    slo:
+      throughput_ops_per_sec_min: 500000
+      p99_latency_ms_max: 0.01
+    baseline_v1_5_0_dev:
+      throughput_ops_per_sec: 2956804.0
+      mean_latency_ms: 0.00018
+      p95_latency_ms: 0.0002
+      p99_latency_ms: 0.00025
+
+  - workload_id: graph_bfs
+    workload_family: graph
+    description: >
+      Breadth-first traversal of a synthetic 64-node cyclic adjacency list
+      starting from node 0. Proxies graph-engine and AQL traversal throughput.
+    operation: _op_graph_bfs  # defined in run_ci_benchmarks.py
+    target_modules:
+      - id: 5
+        name: Graph
+    target_mapping_id: CHI-4
+    slo:
+      throughput_ops_per_sec_min: 10000
+      p99_latency_ms_max: 1.0
+    baseline_v1_5_0_dev:
+      throughput_ops_per_sec: 40373.0
+      mean_latency_ms: 0.025
+      p95_latency_ms: 0.025
+      p99_latency_ms: 0.033
+
+# --------------------------------------------------------------------------
+# Statistical methodology
+# --------------------------------------------------------------------------
+statistics:
+  # Outlier treatment: none (raw; IQR-based removal applied post-hoc)
+  outlier_removal: none
+  # Confidence interval: 95 % (two-tailed, Welch's t-test)
+  confidence_level: 0.95
+  # Regression thresholds (mean CPU time delta vs baseline)
+  regression_thresholds:
+    warning_pct: 5.0    # 🟡 — 5–10 % increase
+    critical_pct: 10.0  # 🔴 — ≥ 10 % increase (blocking)
+
+# --------------------------------------------------------------------------
+# Platform requirements
+# --------------------------------------------------------------------------
+platform:
+  python_min: "3.10"
+  architecture: ["x86_64", "arm64"]
+  ram_mb_min: 64
+  dependencies: []  # stdlib only
+  reproducibility:
+    - "All workloads are deterministic (no GPU, no network, no RNG)"
+    - "Results must be obtained on a quiet system (no concurrent load)"
+    - "Run at least 3 times and report median throughput"
+
+# --------------------------------------------------------------------------
+# Output schema reference
+# --------------------------------------------------------------------------
+output_schema:
+  description: "JSON output compatible with baselines/chimera/baseline.json"
+  fields:
+    version: "Semver string from VERSION file"
+    branch: "Git branch name"
+    commit: "Short git SHA"
+    timestamp: "ISO-8601 UTC string ending in 'Z'"
+    workloads:
+      "<workload_id>":
+        throughput_ops_per_sec: float
+        mean_latency_ms: float
+        p95_latency_ms: float
+        p99_latency_ms: float

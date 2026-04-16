@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_content_policy.cpp                            ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:13:13                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:53:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 0e2644909c  2026-03-11  fix(content): thread-safe OCR routing — add shouldTrigger... ║
-    • 208e9c6f4c  2026-03-11  feat(content): add ContentPolicy::ocrEnabled() and wire O... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

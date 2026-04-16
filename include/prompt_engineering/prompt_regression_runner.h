@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            prompt_regression_runner.h                         ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 18:04:27                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:46:19                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

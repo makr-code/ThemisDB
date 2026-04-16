@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            document_manager.h                                 ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-04-15 18:02:30                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-04-15 18:44:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

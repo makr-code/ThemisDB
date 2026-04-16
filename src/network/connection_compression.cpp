@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            connection_compression.cpp                         ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:08:41                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:49:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 0ee0d57254  2026-03-14  fix(network): address PR review comments on wire protocol... ║
-    • 543f66e654  2026-03-14  feat(network): implement wire protocol performance optimi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

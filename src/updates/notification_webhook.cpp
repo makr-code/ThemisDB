@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            notification_webhook.cpp                           ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-04-15 18:11:01                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:51:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

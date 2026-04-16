@@ -19,6 +19,3 @@
 [submodule "ffmpeg"]
 	path = ffmpeg
 	url = https://github.com/FFmpeg/FFmpeg.git
-[submodule "external/chimera"]
-	path = external/chimera
-	url = https://github.com/makr-code/chimera.git

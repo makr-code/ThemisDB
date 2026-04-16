@@ -27,7 +27,7 @@
 | 20 | Importers | ⚪ | 0 | 0 | — | n/a |
 | 21 | API / Protocols | ⚪ | 0 | 0 | — | n/a |
 | 22 | Plugins / WASM | ⚪ | 0 | 0 | — | n/a |
-| 23 | Scheduler | ⚪ | 0 | 0 | — | n/a |
+| 23 | Scheduler | 🟢 | 7 | 0 | 46 | n/a |
 | 24 | Observability | ⚪ | 0 | 0 | — | n/a |
 | 25 | Acceleration | ⚪ | 0 | 0 | — | n/a |
 | 26 | Adaptive Query Compilation | ⚪ | 0 | 0 | — | n/a |

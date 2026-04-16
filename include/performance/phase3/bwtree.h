@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bwtree.h                                           ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:04:05                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 68293f6455  2026-03-09  fix(performance): complete all open tasks — implement rem... ║
-    • 4cb76e4fe9  2026-03-09  fix(performance): implement epoch-based memory reclamatio... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

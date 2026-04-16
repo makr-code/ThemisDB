@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_dependency_resolution_engine.cpp              ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:13:39                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:53:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     715                                            ║
+    • Total Lines:     714                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 9921f0e1b1  2026-03-13  fix(updates/dependency-resolver): fix 3 bugs found during... ║
-    • 1f963fa6c7  2026-03-13  refine: address code review – fix test count, add edge-ca... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

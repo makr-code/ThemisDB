@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            kerberos_security.cpp                              ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:07:29                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:40                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

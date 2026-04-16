@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rag_prompt_builder.cpp                        ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:17:18                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:56:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

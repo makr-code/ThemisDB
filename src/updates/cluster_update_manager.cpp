@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cluster_update_manager.cpp                         ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:10:59                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     439                                            ║
+    • Total Lines:     438                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 38c2b57942  2026-03-14  Fix applied_version doc and empty-string comment in rollb... ║
-    • 19430da268  2026-03-14  Address PR review: clean API, add NodeRollbackFunc, fix a... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

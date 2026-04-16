@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_scheduled_edge_refresh.cpp                    ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:11:33                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • 79f0815052  2026-03-28  Add test statistics documentation and collection script ║
     • 89945cb4d4  2026-03-22  feat(graph): ANN-accelerated candidate discovery + CEP ca... ║
-    • 1795733ac6  2026-03-21  Changes before error encountered        ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

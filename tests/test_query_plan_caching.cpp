@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_query_plan_caching.cpp                        ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:16:57                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:56:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

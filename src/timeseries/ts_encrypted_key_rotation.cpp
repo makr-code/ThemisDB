@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ts_encrypted_key_rotation.cpp                      ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:10:47                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:17                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     254                                            ║
+    • Total Lines:     253                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 79f0815052  2026-03-28  Add test statistics documentation and collection script ║
-    • c7373858e3  2026-03-14  fix(timeseries): address all PR review comments on chunk-... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            distributed_cache_coordinator.cpp                  ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-04-15 18:07:33                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:48:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   99.0/100                                       ║
-    • Total Lines:     816                                            ║
+    • Total Lines:     815                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 39ac8c3efe  2026-03-20  Split default-arg constructors into overloads ║
-    • 5b1c0eb4ad  2026-03-14  fix(cache): address PR review comments on RedisCacheCoord... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

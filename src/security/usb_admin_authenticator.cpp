@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            usb_admin_authenticator.cpp                        ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:10:04                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 864799dac9  2026-03-24  feat(security): USB Volume Hardening against FAT manipula... ║
-    • c9429f8d3d  2026-03-09  feat(security): HMAC challenge-response, Windows MachineG... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

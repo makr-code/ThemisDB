@@ -237,13 +237,15 @@
     "23": {
       "id": 23,
       "name": "Scheduler",
-      "bench_count": 0,
+      "bench_count": 7,
       "error_count": 0,
-      "bench_names": [],
-      "mean_cpu_ns": null,
+      "bench_names": [
+        "bench_task_scheduler"
+      ],
+      "mean_cpu_ns": 45.52571428571429,
       "mean_cpu_ns_prev": null,
       "mean_cpu_ns_delta_pct": null,
-      "status": "⚪"
+      "status": "🟢"
     },
     "24": {
       "id": 24,

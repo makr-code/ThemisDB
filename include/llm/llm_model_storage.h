@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_model_storage.h                                ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:03:24                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:45:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vcc_vpb_importer.cpp                               ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:09:12                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:50:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     725                                            ║
+    • Total Lines:     724                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 3fea6d6b51  2026-03-12  refactor: clean up includes and remove unused transaction... ║
-    • f56652abf2  2026-03-12  audit(process): focused tests, ProcessNotation enum fix, ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
