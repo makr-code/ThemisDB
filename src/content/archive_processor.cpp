@@ -43,6 +43,7 @@
 #include <random>
 #include <sstream>
 #include <iomanip>
+#include <zlib.h>
 
 #ifdef _WIN32
 #include <io.h>
@@ -517,10 +518,152 @@ ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string& blob, co
 #endif
 }
 
-ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string& /*blob*/, ArchiveFormat /*format*/) {
+ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string& blob,
+                                                      ArchiveFormat format) {
     ArchiveExtractionResult result;
     result.success = false;
-    result.error_message = "TAR extraction not yet implemented (requires libarchive)";
+
+    // ── Step 1: decompress for compressed variants ──────────────────────────
+    std::vector<uint8_t> raw_tar;
+
+    if (format == ArchiveFormat::TAR) {
+        raw_tar.assign(blob.begin(), blob.end());
+    } else if (format == ArchiveFormat::TAR_GZ) {
+        // Decompress with zlib (inflateInit2 with windowBits=47 enables gzip decoding)
+        z_stream zs{};
+        if (inflateInit2(&zs, 47) != Z_OK) {
+            result.error_message = "TAR.GZ: inflateInit2 failed";
+            return result;
+        }
+        zs.next_in  = reinterpret_cast<Bytef*>(const_cast<char*>(blob.data()));
+        zs.avail_in = static_cast<uInt>(blob.size());
+
+        std::vector<uint8_t> out_buf(1 << 20);  // 1 MiB chunks
+        int ret;
+        do {
+            zs.next_out  = out_buf.data();
+            zs.avail_out = static_cast<uInt>(out_buf.size());
+            ret = inflate(&zs, Z_NO_FLUSH);
+            if (ret == Z_STREAM_ERROR || ret == Z_DATA_ERROR || ret == Z_MEM_ERROR) {
+                inflateEnd(&zs);
+                result.error_message = "TAR.GZ: inflate error";
+                return result;
+            }
+            const std::size_t written = out_buf.size() - zs.avail_out;
+            raw_tar.insert(raw_tar.end(), out_buf.begin(), out_buf.begin() + written);
+        } while (ret != Z_STREAM_END);
+        inflateEnd(&zs);
+    } else {
+        // TAR_BZ2 / TAR_XZ require libbz2 / liblzma which are optional.
+        result.error_message = "TAR.BZ2 / TAR.XZ extraction requires libbz2 / liblzma "
+                               "(not linked in this build). Use TAR or TAR.GZ, or build "
+                               "with THEMIS_HAVE_LIBARCHIVE for full support.";
+        return result;
+    }
+
+    // ── Step 2: create temp directory ──────────────────────────────────────
+    std::string temp_dir = fs::temp_directory_path() / ("themis_tar_" + generateRandomString(8));
+    try {
+        fs::create_directories(temp_dir);
+    } catch (const std::exception& e) {
+        result.error_message = std::string("TAR: failed to create temp dir: ") + e.what();
+        return result;
+    }
+    result.temp_directory = temp_dir;
+
+    // ── Step 3: parse POSIX/ustar TAR ──────────────────────────────────────
+    // Each header block is 512 bytes; data follows in 512-byte blocks.
+    constexpr std::size_t BLOCK = 512;
+    std::size_t offset     = 0;
+    uint64_t total_size    = 0;
+    std::size_t file_count = 0;
+    int consecutive_zero_blocks = 0;
+
+    while (offset + BLOCK <= raw_tar.size()) {
+        const uint8_t* hdr = raw_tar.data() + offset;
+        offset += BLOCK;
+
+        // Two consecutive zero blocks signal end-of-archive
+        bool all_zero = true;
+        for (std::size_t b = 0; b < BLOCK; ++b) if (hdr[b]) { all_zero = false; break; }
+        if (all_zero) {
+            if (++consecutive_zero_blocks >= 2) break;
+            continue;
+        }
+        consecutive_zero_blocks = 0;
+
+        // File size: octal string at offset 124, length 12
+        char size_str[13] = {};
+        std::memcpy(size_str, hdr + 124, 12);
+        const uint64_t entry_size = static_cast<uint64_t>(std::strtoull(size_str, nullptr, 8));
+
+        // File name (100 bytes at offset 0; ustar prefix at offset 345, length 155)
+        char name[256] = {};
+        const char* prefix = reinterpret_cast<const char*>(hdr + 345);
+        if (prefix[0] && std::strncmp(reinterpret_cast<const char*>(hdr + 257), "ustar", 5) == 0) {
+            std::snprintf(name, sizeof(name), "%.*s/%.*s", 155, prefix, 100,
+                          reinterpret_cast<const char*>(hdr));
+        } else {
+            std::snprintf(name, sizeof(name), "%.*s", 100, reinterpret_cast<const char*>(hdr));
+        }
+
+        // Type flag: '0' or '\0' = regular file, '5' = directory
+        const char typeflag = static_cast<char>(hdr[156]);
+
+        // Security: reject absolute paths and path traversal
+        std::string entry_name(name);
+        if (!entry_name.empty() && entry_name[0] == '/') entry_name = entry_name.substr(1);
+        if (entry_name.find("..") != std::string::npos) {
+            // Skip path traversal attempts
+            offset += ((entry_size + BLOCK - 1) / BLOCK) * BLOCK;
+            continue;
+        }
+
+        // Enforce security limits
+        if (++file_count > config_.max_file_count) {
+            result.error_message = "TAR: max_file_count exceeded";
+            cleanupTempDirectory(temp_dir);
+            return result;
+        }
+        if (entry_size > config_.max_file_size) {
+            result.error_message = "TAR: single file exceeds max_file_size";
+            cleanupTempDirectory(temp_dir);
+            return result;
+        }
+        total_size += entry_size;
+        if (total_size > config_.max_total_size) {
+            result.error_message = "TAR: total extracted size exceeds max_total_size";
+            cleanupTempDirectory(temp_dir);
+            return result;
+        }
+
+        const fs::path out_path = fs::path(temp_dir) / entry_name;
+
+        if (typeflag == '5' || (entry_name.size() > 1 && entry_name.back() == '/')) {
+            // Directory entry
+            try { fs::create_directories(out_path); } catch (...) {}
+        } else {
+            // Regular file (or hardlink '1', symlink '2' treated as file copy)
+            try { fs::create_directories(out_path.parent_path()); } catch (...) {}
+            if (entry_size > 0 && offset + entry_size <= raw_tar.size()) {
+                std::ofstream ofs(out_path, std::ios::binary);
+                if (!ofs.is_open()) {
+                    result.error_message = "TAR: failed to open output file: " + out_path.string();
+                    cleanupTempDirectory(temp_dir);
+                    return result;
+                }
+                ofs.write(reinterpret_cast<const char*>(raw_tar.data() + offset),
+                          static_cast<std::streamsize>(entry_size));
+                ofs.close();
+                result.extracted_files.push_back(out_path.string());
+            }
+        }
+
+        // Advance past data blocks (rounded up to 512)
+        offset += ((entry_size + BLOCK - 1) / BLOCK) * BLOCK;
+    }
+
+    result.success = true;
     return result;
 }
 
