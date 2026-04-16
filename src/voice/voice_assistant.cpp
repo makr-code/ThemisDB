@@ -677,5 +677,28 @@ const VoiceAudioStorage& VoiceAssistant::audioStorage() const {
     return audio_storage_;
 }
 
+content::TTSResult VoiceAssistant::synthesize(
+    const std::string& text,
+    const content::TTSOptions& options
+) {
+    if (!tts_processor_) {
+        content::TTSResult err;
+        err.success = false;
+        err.error_message = "TTS processor not initialized";
+        return err;
+    }
+    return tts_processor_->synthesize(text, options);
+}
+
+json VoiceAssistant::getAvailableVoices() const {
+    if (!tts_processor_) { return json::array(); }
+    return tts_processor_->getAvailableVoices();
+}
+
+std::vector<std::string> VoiceAssistant::getSupportedLanguages() const {
+    if (!tts_processor_) { return {}; }
+    return tts_processor_->getSupportedLanguages();
+}
+
 } // namespace voice
 } // namespace themis

@@ -33,6 +33,7 @@
 #include "voice/voice_assistant.h"
 #include "voice/voice_audio_storage.h"
 #include "voice/voice_macro.h"
+#include "content/tts_processor.h"
 #include "utils/http_client_pool.h"
 #include <sstream>
 #include <algorithm>
@@ -355,18 +356,33 @@ http::response<http::string_body> VoiceApiHandler::handleSynthesize(
     std::string format = body->value("format", "wav");
     bool return_base64 = body->value("return_base64", false);
     
-    // Synthesize audio (placeholder)
-    std::vector<uint8_t> audio_data;  // Would contain actual audio
-    
+    content::TTSOptions opts;
+    opts.voice_id = voice;
+    opts.speed    = speed;
+    opts.pitch    = pitch;
+    opts.format   = format;
+
+    auto tts_result = voice_assistant_->synthesize(text, opts);
+
+    if (!tts_result.success) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "TTS synthesis failed",
+            tts_result.error_message
+        );
+    }
+
+    std::string mime = tts_result.mime_type.empty() ? "audio/wav" : tts_result.mime_type;
+
     if (return_base64) {
         json result;
-        result["success"] = true;
-        result["audio_base64"] = encodeBase64(audio_data);
-        result["mime_type"] = "audio/wav";
-        result["duration_ms"] = 3000;
+        result["success"]      = true;
+        result["audio_base64"] = encodeBase64(tts_result.audio_data);
+        result["mime_type"]    = mime;
+        result["duration_ms"]  = tts_result.duration_ms;
         return createJsonResponse(result);
     } else {
-        return createAudioResponse(audio_data, "audio/wav");
+        return createAudioResponse(tts_result.audio_data, mime);
     }
 }
 
@@ -661,15 +677,8 @@ http::response<http::string_body> VoiceApiHandler::handleGetVoices(
     const http::request<http::string_body>& req
 ) {
     auto span = Tracer::startSpan("handleGetVoices");
-    // Get available voices (placeholder)
     json result;
-    result["voices"] = json::array({
-        {{"id", "default"}, {"name", "Default Voice"}, {"language", "en"}},
-        {{"id", "female_en"}, {"name", "Female English"}, {"language", "en"}},
-        {{"id", "male_en"}, {"name", "Male English"}, {"language", "en"}},
-        {{"id", "female_de"}, {"name", "Female German"}, {"language", "de"}}
-    });
-    
+    result["voices"] = voice_assistant_->getAvailableVoices();
     return createJsonResponse(result);
 }
 
