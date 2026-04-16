@@ -38,6 +38,12 @@ and multimodal inference headers are all stable.
 - [x] `IAQLQueryDiffExplainer` for explaining differences between two queries (Target: Q3 2026)
 - [x] `IAQLRollbackSuggester` for automatic rollback query generation (Target: Q4 2026)
 - [x] `IModelRouter` for multi-model routing and fallback (Target: Q3 2026)
+- [x] `AQLIngestionBridge` — opt-in ingestion enrichment for DML and NL→AQL translation (Target: v1.9.0)
+  - `enrichInsertPayload(json&)` runs WorkflowEngine on INSERT/UPSERT payloads, appends `_entities`
+  - `extractEntitiesForContext(text)` → `vector<BaseEntity>` for NL→AQL schema context injection
+  - `buildEntityContext(entities)` → compact entity string for LLM prompt enrichment
+  - `LLMAQLHandler::setIngestionBridge()` / `ingestionBridge()` — opt-in DI
+  - `AQLQueryBuilder::withIngestionEnrichment(bool)` / `hasIngestionEnrichment()` — DML enrichment flag
 
 ---
 
@@ -65,6 +71,12 @@ and multimodal inference headers are all stable.
 - [x] Doxygen fully annotated
 - [x] LoRA compile flag documented
 
+### Phase 7: Ingestion Bridge
+- [x] `AQLIngestionBridge` header (`include/aql/aql_ingestion_bridge.h`) (v1.9.0)
+- [x] `LLMAQLHandler::setIngestionBridge()` / `ingestionBridge()` (v1.9.0)
+- [x] `AQLQueryBuilder::withIngestionEnrichment()` / `hasIngestionEnrichment()` (v1.9.0)
+- [x] 27 unit tests in `tests/test_toolbox_ingestion.cpp`
+
 ---
 
 ## Production Readiness Checklist
@@ -74,3 +86,4 @@ and multimodal inference headers are all stable.
 - [x] Observability headers complete
 - [x] `THEMIS_ENABLE_GPU` guards GPU LoRA training; CPU LoRA always compiled (no separate `THEMIS_ENABLE_LORA` flag — verified and documented in `aql_lora_finetuner.h`)
 - [x] `IModelRouter` published (implemented in `aql_model_router.h` / `src/aql/aql_model_router.cpp`)
+- [x] `AQLIngestionBridge` published — opt-in entity enrichment for AQL DML and NL→AQL (v1.9.0)

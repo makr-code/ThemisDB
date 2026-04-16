@@ -100,6 +100,9 @@ public:
     // Schema snapshot attached via setSchema()
     std::vector<CollectionMetadata> schema;
 
+    // Opt-in ingestion enrichment flag for DML clauses
+    bool ingestion_enrichment = false;
+
     void reset() {
         for_clauses.clear();
         for_traverse_clauses.clear();
@@ -112,6 +115,7 @@ public:
         limit_offset = 0;
         return_expr.clear();
         dml_clauses.clear();
+        ingestion_enrichment = false;
     }
 
     // Renders the partial or complete query
@@ -721,6 +725,19 @@ std::string AQLQueryBuilder::getLLMSuggestion(
         spdlog::warn("AQLQueryBuilder::getLLMSuggestion failed: {}", e.what());
         return "";
     }
+}
+
+// ============================================================================
+// Ingestion enrichment flag
+// ============================================================================
+
+AQLQueryBuilder& AQLQueryBuilder::withIngestionEnrichment(bool enabled) {
+    impl_->ingestion_enrichment = enabled;
+    return *this;
+}
+
+bool AQLQueryBuilder::hasIngestionEnrichment() const {
+    return impl_->ingestion_enrichment;
 }
 
 } // namespace aql

@@ -32,6 +32,10 @@
 #include "llm/llm_plugin_interface.h"
 #include "llm/llama_wrapper.h"
 #include "sharding/circuit_breaker.h"
+
+// Forward-declare to avoid pulling in toolbox/ingestion headers transitively.
+// Consumers that use setIngestionBridge() must include aql_ingestion_bridge.h.
+namespace themis { namespace aql { class AQLIngestionBridge; } }
 #include <string>
 #include <cstdint>
 #include <functional>
@@ -659,6 +663,34 @@ public:
      *                   `CharDivisionEstimator{4}` is reinstated.
      */
     void setTokenEstimator(std::unique_ptr<TokenEstimator> estimator);
+
+    // =========================================================================
+    // Ingestion bridge (optional enrichment)
+    // =========================================================================
+
+    /**
+     * @brief Attach an `AQLIngestionBridge` to enable entity-context enrichment
+     *        of `translateNLToAQL()` calls.
+     *
+     * When set, `translateNLToAQL()` passes @p nl_query through the bridge's
+     * `extractEntitiesForContext()` and appends the resulting entity context
+     * string to the @p schema_context before constructing the LLM prompt.
+     * This improves NL→AQL translation accuracy for queries that reference
+     * domain entities (legal provisions, organisations, etc.).
+     *
+     * All other translation methods (streaming, batch, with-examples) also
+     * benefit from the injected entity context when a bridge is set.
+     *
+     * Pass @c nullptr to detach any previously set bridge (no-op).
+     *
+     * @param bridge  Shared `AQLIngestionBridge` instance, or nullptr.
+     */
+    void setIngestionBridge(std::shared_ptr<AQLIngestionBridge> bridge);
+
+    /**
+     * @brief Return the currently attached `AQLIngestionBridge`, or nullptr.
+     */
+    std::shared_ptr<AQLIngestionBridge> ingestionBridge() const;
 
 private:
     class Impl;

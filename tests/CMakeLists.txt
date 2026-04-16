@@ -103,6 +103,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_rag_pipeline_integration\\.cpp$"
         ".*test_rag_replug_retriever\\.cpp$"
         ".*test_rag_rlaif_trainer\\.cpp$"
+        ".*test_rag_ingestion_bridge\\.cpp$"
         ".*test_raid_lora_integration\\.cpp$"
         ".*test_training_service_registry\\.cpp$"
         ".*test_signature_verifier\\.cpp$"
@@ -22669,4 +22670,36 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_projects.cpp")
     message(STATUS "  Projects: ProjectVersioning (PV-01..PV-06), ProjectDiff (PD-01..PD-07), ProjectLifecycle (PL-01..PL-07), ProjectTemplate (PT-01..PT-05), CollaborationManager (CM-01..CM-08)")
 else()
     message(STATUS "Projects module tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_projects.cpp")
+endif()
+
+# RAGIngestionBridge tests (subset of AllTests)
+# Covers: RAGIngestionBridge construction (RI-01..RI-07), indexDocument (RI-08..RI-16),
+#         extractEntitiesForContext (RI-17..RI-18), buildEntityContext (RI-19..RI-21),
+#         enrichRetrievedDocuments (RI-22..RI-25), move semantics (RI-26..RI-27)
+#         (from test_rag_ingestion_bridge.cpp)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_ingestion_bridge.cpp")
+    add_test(NAME RAGIngestionBridgeTests
+        COMMAND themis_tests --gtest_filter=RAGIngestionBridgeTest.*)
+    set_tests_properties(RAGIngestionBridgeTests PROPERTIES
+        LABELS "rag;toolbox;ingestion;bridge;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  RAGIngestionBridge: RI-01..RI-27 (construction, indexDocument, extractEntities, buildEntityContext, enrichRetrievedDocuments, move semantics)")
+else()
+    message(STATUS "RAGIngestionBridge tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_rag_ingestion_bridge.cpp")
+endif()
+# Covers: IFormatExtractor (FE-01..FE-03), ToolboxBuilder (TB-01..TB-12),
+#         ContentToolboxBridge construction (CTB-01..CTB-05),
+#         format_parse_step factories (FM-01..FM-08)
+#         (from test_content_toolbox_bridge.cpp)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_content_toolbox_bridge.cpp")
+    add_test(NAME ContentToolboxBridgeTests
+        COMMAND themis_tests --gtest_filter=FormatExtractor.*:ToolboxBuilderTest.*:ContentToolboxBridgeTest.*:FormatParseStep.*)
+    set_tests_properties(ContentToolboxBridgeTests PROPERTIES
+        LABELS "toolbox;content;bridge;ingestion;format-extractor;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  ContentToolboxBridge: FE-01..FE-03, TB-01..TB-12, CTB-01..CTB-05, FM-01..FM-08")
+else()
+    message(STATUS "ContentToolboxBridge tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_content_toolbox_bridge.cpp")
 endif()
