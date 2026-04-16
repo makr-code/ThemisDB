@@ -4,9 +4,40 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ThemisDB Admin</title>
+  <!-- CSRF nonce placeholder — populated by app.js at page load -->
+  <meta name="csrf-nonce" id="meta-csrf-nonce" content="" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+
+  <!-- ===================================================================
+       Login overlay (Phase 2 — shown when THEMIS_AUTH_ENABLED=true)
+       Hidden by default; revealed by auth.js when a 401 is received.
+       =================================================================== -->
+  <div id="login-overlay" class="login-overlay hidden" role="dialog" aria-modal="true" aria-label="Admin login">
+    <div class="login-card">
+      <div class="login-brand">
+        <span class="logo">⚖</span>
+        <span class="brand-name">ThemisDB Admin</span>
+      </div>
+      <h2 class="login-title">Sign in</h2>
+      <form id="login-form" novalidate>
+        <div class="form-row">
+          <label for="login-username">Username</label>
+          <input type="text"     id="login-username" name="username"
+                 autocomplete="username" required autofocus />
+        </div>
+        <div class="form-row">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" name="password"
+                 autocomplete="current-password" required />
+        </div>
+        <div id="login-error" class="login-error hidden" role="alert"></div>
+        <button type="submit" class="btn btn-primary btn-block" id="btn-login">Sign in</button>
+      </form>
+    </div>
+  </div>
+
   <header class="topbar">
     <div class="topbar-brand">
       <span class="logo">⚖</span>
@@ -21,6 +52,8 @@
     </nav>
     <div class="topbar-right">
       <span id="connection-status" class="status-badge status-checking">Connecting…</span>
+      <span id="logged-in-user" class="topbar-user hidden"></span>
+      <button class="btn btn-sm btn-outline hidden" id="btn-logout">Sign out</button>
       <a class="btn btn-sm btn-outline" href="/openapi.json" target="_blank">OpenAPI</a>
     </div>
   </header>
@@ -132,7 +165,7 @@
   </main>
 
   <footer class="footer">
-    <span>ThemisDB Admin UI v1.0.0</span>
+    <span>ThemisDB Admin UI v1.1.0</span>
     <span>—</span>
     <span id="footer-server-url">API: /api</span>
   </footer>

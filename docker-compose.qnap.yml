@@ -60,10 +60,12 @@ services:
       - THEMIS_DATA_DIR=/var/lib/themis/data
       - THEMIS_METRICS_ENABLED=true
       - THEMIS_TRACING_ENABLED=false
-      # Uncomment to require authentication:
+      # Uncomment to require authentication (Phase 2):
       # - THEMIS_AUTH_ENABLED=true
       # - THEMIS_ADMIN_USER=admin
       # - THEMIS_ADMIN_PASSWORD=changeme
+      # MFA enforcement for admin role (Phase 2):
+      # - THEMIS_MFA_REQUIRED_ROLES=admin,operator
     healthcheck:
       test: ["CMD", "curl", "-fL", "http://localhost:8080/health"]
       interval: 30s
@@ -90,14 +92,23 @@ services:
     build:
       context: ./docker/admin-ui
       dockerfile: Dockerfile
-    image: themisdb-admin-ui:1.0.0
+    image: themisdb-admin-ui:1.1.0
     container_name: themisdb-admin-ui
     restart: unless-stopped
     ports:
-      - "18766:80"     # Admin UI web interface
+      - "18766:80"     # Admin UI web interface (HTTP)
+      # Uncomment for direct TLS (Phase 2 Option B — see docker/admin-ui/nginx.ssl.conf):
+      # - "18767:443"
     depends_on:
       themis:
         condition: service_healthy
+    volumes:
+      # Audit log read-only mount (Phase 2) — lets the admin UI serve log
+      # download links without needing write access to the data directory.
+      - themis-logs:/var/log/themis:ro
+      # TLS certificates (Phase 2 Option B — uncomment and set real paths):
+      # - /share/certs/admin.crt:/etc/nginx/ssl/cert.crt:ro
+      # - /share/certs/admin.key:/etc/nginx/ssl/cert.key:ro
     networks:
       - themis-net
     healthcheck:

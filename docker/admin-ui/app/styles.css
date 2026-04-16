@@ -357,3 +357,87 @@ a:hover { text-decoration: underline; }
   border-top: 1px solid var(--color-border);
   background: var(--color-surface);
 }
+
+/* ============================================================================
+ * Login overlay (Phase 2)
+ * ============================================================================ */
+.login-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, .55);
+  backdrop-filter: blur(4px);
+}
+
+.login-overlay.hidden {
+  display: none;
+}
+
+.login-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 36px 40px;
+  width: 100%;
+  max-width: 360px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, .4);
+}
+
+.login-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.login-brand .logo {
+  font-size: 24px;
+}
+
+.login-brand .brand-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.login-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 20px;
+  color: var(--color-text);
+}
+
+.login-error {
+  background: rgba(255, 80, 80, .12);
+  border: 1px solid var(--color-danger);
+  border-radius: 6px;
+  color: var(--color-danger);
+  font-size: 13px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+}
+
+.login-error.hidden {
+  display: none;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: 8px;
+}
+
+/* ---- Topbar user indicator ----------------------------------------------- */
+.topbar-user {
+  font-size: 13px;
+  color: var(--color-text-dim);
+  padding: 0 6px;
+}
+
+.topbar-user.hidden {
+  display: none;
+}

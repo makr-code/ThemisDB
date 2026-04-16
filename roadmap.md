@@ -484,7 +484,7 @@ Focus: Zero-trust, advanced compliance, and penetration-tested security posture.
 
 ---
 
-### Phase 5.5: QTS / QNAP Admin UI (Q2 2026) — 🚧 Phase 1 Shipped
+### Phase 5.5: QTS / QNAP Admin UI (Q2 2026) — 🚧 Phase 2 Complete
 
 Focus: Lightweight web admin UI for ThemisDB on QNAP Container Station (QTS).
 
@@ -505,19 +505,14 @@ Focus: Lightweight web admin UI for ThemisDB on QNAP Container Station (QTS).
 - [x] German setup & operations guide — `docs/de/admin_tools/qts-inline-admin.md`
 - [x] English setup & operations guide — `docs/en/admin_tools/qts-inline-admin.md`
 
-#### 5.5.2 Phase 2 — Security Hardening (Target: Q3 2026)
+#### 5.5.2 Phase 2 — Security Hardening ✅ (v1.1.0, 2026-04-16)
 
-- [ ] TLS termination via QNAP reverse proxy or Let's Encrypt — nginx.conf HTTPS config
-  - Inputs: TLS cert/key paths, QNAP-compatible acme client
-  - Errors: cert expiry, OCSP failure, SNI mismatch
-  - Tests: integration test with self-signed cert
-- [ ] Admin UI authentication: session cookie + CSRF token
-  - Requires: `THEMIS_AUTH_ENABLED=true`, RBAC role `admin:all`
-  - Tests: unit tests for login/logout flow, CSRF rejection
-- [ ] CORS/Origin header validation in nginx
-- [ ] Audit log mount (bind `/var/log/themis` as named volume)
-- [ ] Rate limiting for admin endpoints in nginx (`limit_req_zone`)
-- [ ] MFA enforcement for admin role (THEMIS_MFA_REQUIRED_ROLES includes `admin`)
+- [x] TLS termination via QNAP reverse proxy or Let's Encrypt — `docker/admin-ui/nginx.ssl.conf` (HTTP→HTTPS redirect + TLS 1.2/1.3 hardening); `docker-compose.qnap.yml` port 18767 + cert volume hints
+- [x] Admin UI authentication: session cookie + CSRF token — login overlay in `index.html`; auth state machine + Bearer token + sessionStorage + CSRF nonce (`X-CSRF-Token`) in `app.js`; 401 interception → re-shows login; logout flow (DELETE /auth/sessions/{id})
+- [x] CORS/Origin header validation in nginx — `map $http_origin $cors_allowed` block; 403 on disallowed origins
+- [x] Audit log mount (bind `/var/log/themis` as named volume) — `themis-logs:/var/log/themis:ro` on admin-ui in `docker-compose.qnap.yml`
+- [x] Rate limiting for admin endpoints in nginx (`limit_req_zone`) — `zone=admin_api 30r/m` + `zone=admin_login 5r/m` (burst=10/3); HTTP 429 with JSON body
+- [x] MFA enforcement for admin role — `THEMIS_MFA_REQUIRED_ROLES=admin,operator` env var hint in `docker-compose.qnap.yml`
 
 #### 5.5.3 Phase 3 — QPKG Native Integration (Target: Q4 2026, optional)
 

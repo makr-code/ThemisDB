@@ -17,7 +17,7 @@ FROM nginx:1.25-alpine
 
 LABEL org.opencontainers.image.title="ThemisDB Admin UI"
 LABEL org.opencontainers.image.description="Web-based admin interface for ThemisDB"
-LABEL org.opencontainers.image.version="1.0.0"
+LABEL org.opencontainers.image.version="1.1.0"
 
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
