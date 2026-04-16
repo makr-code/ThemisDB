@@ -30,6 +30,12 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`chimera`**
 | `README.md` | [`src/chimera/README.md`](../../../src/chimera/README.md) |
 | `ROADMAP.md` | [`src/chimera/ROADMAP.md`](../../../src/chimera/ROADMAP.md) |
 
+### `include/chimera/`
+
+| Datei | Pfad |
+|-------|------|
+| `README.md` | [`include/chimera/README.md`](../../../include/chimera/README.md) |
+
 ---
 
 *Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-16*
