@@ -26,16 +26,24 @@
 #include "utils/serialization.h"
 #include "utils/logger.h"
 #include "utils/geo/ewkb.h"
-#include <simdjson.h>
 #include <nlohmann/json.hpp>
 #include <stdexcept>
 #include <sstream>
 #include <limits>
 
+#if __has_include(<simdjson.h>)
+#include <simdjson.h>
+#define THEMIS_HAS_SIMDJSON 1
+#else
+#define THEMIS_HAS_SIMDJSON 0
+#endif
+
 namespace themis {
 
 // Global simdjson parser (thread-local for thread safety)
+#if THEMIS_HAS_SIMDJSON
 thread_local simdjson::ondemand::parser g_parser;
+#endif
 
 // ===== Constructors =====
 
@@ -240,6 +248,7 @@ BaseEntity::FieldMap BaseEntity::parseJson() const {
     FieldMap fields;
     
     try {
+#if THEMIS_HAS_SIMDJSON
         // Use simdjson on-demand API for maximum speed
         simdjson::padded_string padded(reinterpret_cast<const char*>(blob_.data()), blob_.size());
 
@@ -334,6 +343,47 @@ BaseEntity::FieldMap BaseEntity::parseJson() const {
         THEMIS_ERROR("simdjson parse error: {}", e.what());
         throw std::runtime_error("JSON parse failed");
     }
+#else
+        auto json_obj = nlohmann::json::parse(blob_.begin(), blob_.end());
+        if (!json_obj.is_object()) {
+            throw std::runtime_error("JSON parse failed: root is not an object");
+        }
+
+        for (auto it = json_obj.begin(); it != json_obj.end(); ++it) {
+            const std::string key = it.key();
+            const auto& value = it.value();
+
+            if (value.is_null()) {
+                fields[key] = std::monostate{};
+            } else if (value.is_boolean()) {
+                fields[key] = value.get<bool>();
+            } else if (value.is_number_integer() || value.is_number_unsigned()) {
+                fields[key] = value.get<int64_t>();
+            } else if (value.is_number_float()) {
+                fields[key] = value.get<double>();
+            } else if (value.is_string()) {
+                fields[key] = value.get<std::string>();
+            } else if (value.is_array()) {
+                std::vector<float> vec;
+                bool is_float_vec = true;
+                for (const auto& elem : value) {
+                    if (elem.is_number()) {
+                        vec.push_back(static_cast<float>(elem.get<double>()));
+                    } else {
+                        is_float_vec = false;
+                        break;
+                    }
+                }
+                if (is_float_vec && !vec.empty()) {
+                    fields[key] = vec;
+                }
+            }
+        }
+    } catch (const nlohmann::json::exception& e) {
+        THEMIS_ERROR("nlohmann::json parse error: {}", e.what());
+        throw std::runtime_error("JSON parse failed");
+    }
+#endif
     
     return fields;
 }

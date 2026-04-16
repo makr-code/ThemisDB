@@ -19,7 +19,7 @@ Implements the Retrieval-Augmented Generation pipeline for ThemisDB, combining v
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — Basic RAG pipeline with vector retrieval and LLM integration operational; hybrid search and re-ranking in progress.
+**Maturity:** 🟢 Production-Ready — Retrieval, hybrid search, re-ranking, context management, and LLM-backed generation pipeline are operational.
 
 ## Overview
 

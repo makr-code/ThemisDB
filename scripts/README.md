@@ -201,8 +201,26 @@ See the [add-doc-metadata workflow](../.github/workflows/add-doc-metadata.yml) f
 ### LLM & Benchmarking Scripts (New in v1.3.0+)
 Scripts for managing LLM models and running inferencing benchmarks:
 - `download-ollama-models.ps1` - Download models from Ollama and convert to GGUF
+- `prepare_release_mini_llm.py` - Prepare a small GGUF release bundle for llama.cpp (`default.gguf` + manifest)
 - `run-llm-benchmarks.ps1` - Execute LLM inferencing benchmarks
 - `setup-llm-benchmarks.ps1` - Complete workflow: download + build + benchmark
+
+### Release Asset Helpers
+
+Scripts for release packaging with bundled documentation and LLM assets:
+
+- `generate_docs_database.py` - Generate the precompiled documentation JSON database
+- `generate_docs_rocksdb.py` - Generate importer code for docs.db / RocksDB documentation bundle
+- `prepare_release_mini_llm.py` - Download or stage a small GGUF model as `models/default.gguf`
+
+**Quick Start:**
+```bash
+# Prepare release mini model bundle
+python3 scripts/prepare_release_mini_llm.py --output-dir release/models
+
+# Generate documentation database JSON
+python3 scripts/generate_docs_database.py --output data/docs_database.json
+```
 
 **Quick Start:**
 ```powershell

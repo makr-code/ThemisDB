@@ -1,8 +1,13 @@
 # PII Redaction Policy Check
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/05-quality_security_pii-redaction-check.yml`
+> **Workflow-Datei (historisch):** .github/workflows/05-quality_security_pii-redaction-check.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -23,7 +28,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **PII Redaction
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `pii-leakage-lint`
 **Anzeigename:** PII Leakage Static Lint
@@ -76,3 +81,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **PII Redaction
 
 - [Workflow-Datei](../../../.github/workflows/05-quality_security_pii-redaction-check.yml)
 - [Alle Workflows](../README.md)
+
+

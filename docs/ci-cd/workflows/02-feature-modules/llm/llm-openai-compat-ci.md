@@ -1,8 +1,13 @@
 # LLM OpenAI-Compat Adapter CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules_llm_llm-openai-compat-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/02-feature-modules_llm_llm-openai-compat-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -23,7 +28,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **LLM OpenAI-Co
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `llm-openai-compat`
 **Anzeigename:** LLM OpenAI-Compat Adapter Tests
@@ -45,3 +50,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **LLM OpenAI-Co
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_llm_llm-openai-compat-ci.yml)
 - [Alle Workflows](../README.md)
+
+

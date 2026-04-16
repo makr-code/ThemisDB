@@ -365,7 +365,7 @@ http::response<http::string_body> SchemaApiHandler::handlePutSchema(
 
         // Extract and validate table name from URL
         std::string table_name;
-        std::string url_error = extractAndValidateSchemaTableName(req.target(), table_name);
+        std::string url_error = extractAndValidateSchemaTableName(std::string(req.target()), table_name);
         
         if (!url_error.empty()) {
             json error_resp;
@@ -497,7 +497,7 @@ http::response<http::string_body> SchemaApiHandler::handlePatchSchema(
 
         // Extract and validate table name from URL
         std::string table_name;
-        std::string url_error = extractAndValidateSchemaTableName(req.target(), table_name);
+        std::string url_error = extractAndValidateSchemaTableName(std::string(req.target()), table_name);
         
         if (!url_error.empty()) {
             json error_resp;

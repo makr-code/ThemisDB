@@ -51,14 +51,14 @@ ThemisDB ist eine Multi-Model Datenbank für moderne Anwendungen mit:
 
 ```bash
 # 1. Pull Docker image
-docker pull themisdb/themis:1.2.0
+docker pull themisdb/themisdb:latest
 
 # 2. Start ThemisDB
 docker run -d \
   -p 9042:9042 \
   -v /data/themis:/data \
   --name themisdb \
-  themisdb/themis:1.2.0
+    themisdb/themisdb:latest
 
 # 3. Connect with Python client
 pip install themisdb-client

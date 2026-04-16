@@ -1,8 +1,13 @@
 # Governance Module CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/governance-module-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/governance-module-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -23,7 +28,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Governance Mo
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `governance-unit-tests`
 **Anzeigename:** Governance unit tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -77,3 +82,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Governance Mo
 
 - [Workflow-Datei](../.github/workflows/governance-module-ci.yml)
 - [Alle Workflows](README.md)
+
+

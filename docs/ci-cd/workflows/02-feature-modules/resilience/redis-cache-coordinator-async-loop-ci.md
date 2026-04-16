@@ -1,8 +1,13 @@
 # RedisCacheCoordinator Async Pub/Sub CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules_resilience_redis-cache-coordinator-async-loop-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/02-feature-modules_resilience_redis-cache-coordinator-async-loop-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -23,7 +28,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **RedisCacheCoo
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `redis-cache-coordinator-tests`
 **Anzeigename:** RedisCacheCoordinator (${{ matrix.name }})
@@ -47,3 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **RedisCacheCoo
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_resilience_redis-cache-coordinator-async-loop-ci.yml)
 - [Alle Workflows](../README.md)
+
+

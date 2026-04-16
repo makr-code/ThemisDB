@@ -894,7 +894,7 @@ void registerLLMEndpoints(crow::SimpleApp& app, llm::LLMModelLoader& loader) {
 
 ```dockerfile
 # Dockerfile.llm
-FROM themisdb/themis:latest
+FROM themisdb/themisdb:latest
 
 # Install llama.cpp dependencies
 RUN apt-get update && apt-get install -y \

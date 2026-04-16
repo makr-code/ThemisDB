@@ -1,8 +1,13 @@
 # Classify Bridge CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/08-maintenance_classify-bridge-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/08-maintenance_classify-bridge-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -23,7 +28,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Classify Brid
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `classify-bridge-tests`
 **Anzeigename:** Classify Bridge (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -45,3 +50,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Classify Brid
 
 - [Workflow-Datei](../../.github/workflows/08-maintenance_classify-bridge-ci.yml)
 - [Alle Workflows](../README.md)
+
+

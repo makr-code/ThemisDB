@@ -91,6 +91,14 @@ Use this checklist before go-live. Every item must be marked ✅.
 - [ ] Audit logging is configured to a persistent external sink (SIEM / S3 / Syslog)
 - [ ] Health endpoints are bound to an internal-only address if possible
 
+### Docker Image
+
+- [ ] Community image pulled from `themisdb/themisdb` on Docker Hub (do **not** use `makr-code/themisdb`)
+- [ ] Image built **without** `THEMIS_ENABLE_ENCRYPTED_STORAGE=ON` unless gocryptfs at-rest encryption is explicitly required
+- [ ] No CRITICAL or HIGH CVEs in the deployed image (verify with `docker scout cves <image>` before go-live)
+- [ ] Container runs as non-root user (`themisdb`, UID 999) — confirm with `docker run --rm <image> id`
+- [ ] Known accepted CVEs (no upstream fix) tracked in `docs/audit-reports/cve-waivers.md`
+
 ---
 
 ## Required Production Settings

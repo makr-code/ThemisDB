@@ -1,8 +1,13 @@
 # Versioned API Routing CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/versioned-api-routing-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/versioned-api-routing-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -23,7 +28,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Versioned API
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `versioned-api-routing-tests`
 **Anzeigename:** Versioned API Routing (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -46,3 +51,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Versioned API
 
 - [Workflow-Datei](../.github/workflows/versioned-api-routing-ci.yml)
 - [Alle Workflows](README.md)
+
+

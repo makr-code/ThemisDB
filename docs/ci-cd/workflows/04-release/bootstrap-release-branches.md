@@ -1,5 +1,9 @@
 # [Manual] Bootstrap Release Branches
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🖱️ **Manuell**
 
 > **Workflow-Datei:** `.github/workflows/04-release_bootstrap-release-branches.yml`
@@ -43,3 +47,4 @@ Manuell ausgelöster Workflow für: **Bootstrap Release Branches**.
 
 - [Workflow-Datei](../../.github/workflows/04-release_bootstrap-release-branches.yml)
 - [Alle Workflows](../README.md)
+

@@ -872,8 +872,8 @@ ACTION alert('security');
 ## V. Deployment & Infrastructure
 
 ### Container-Support ✅
-- **GitHub Container Registry:** `ghcr.io/makr-code/themis`
-- **Docker Hub:** `themisdb/themis` (optional)
+- **GitHub Container Registry:** `ghcr.io/makr-code/themisdb`
+- **Docker Hub:** `themisdb/themisdb` (optional)
 - **Multi-Arch:** x64-linux, arm64-linux
 - **Tags:** `latest`, `g<shortsha>`, arch-spezifisch
 - **Runtime:** `Dockerfile.runtime` mit Entrypoint `/usr/local/bin/themis_server`

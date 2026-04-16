@@ -1,8 +1,21 @@
 # Publish Docker image to Docker Hub (on GitHub Release)
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/04-release_dockerhub-publish-on-release.yml`
+> **Workflow-Datei (aktuell aktiv):** `.github/workflows/04-release_publish-community.yml`
+> **Workflow-Datei (historisch):** `.github/workflows/04-release_dockerhub-publish-on-release.yml`
+> **Aktueller Stand:** `.github/WORKFLOW_REGISTRY.md`
+
+## Docker Hub Registry
+
+- **Namespace / Repository:** `themisdb/themisdb`
+- **Docker Hub URL:** <https://hub.docker.com/r/themisdb/themisdb>
+- **Veröffentlichte Tags:** `latest`, `<semver>` (z. B. `1.8.1-rc1`)
+- **Plattformen:** `linux/amd64`, `linux/arm64`
 
 ## Aufgabe
 
@@ -15,14 +28,16 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Publish Docke
 
 ## Eingaben (Inputs)
 
+Die folgende Tabelle beschreibt den **aktiven** Workflow
+`.github/workflows/04-release_publish-community.yml`.
+
 | Name | Beschreibung | Pflicht | Standard |
 |------|--------------|---------|----------|
-| `tag_name` | Release tag to build and push (e.g. v1.4.0 or v1.4.0-rc1) | ✅ | — |
-| `build_target` | Docker build target.
-runtime = lean production image (default).
-debug   = includes gdb/valgrind/strace/source; tag gets -debug suffix; no :latest.
- | — | `runtime` |
-| `dry_run` | Dry-run: build the image but do NOT push to Docker Hub | — | `false` |
+| `tag_name` | Release-Tag fuer `workflow_dispatch` (z. B. `v1.8.1-rc1`) | ✅ | — |
+| `dry_run` | Build ausfuehren, aber nicht pushen (`true` = kein Push) | ✅ | `false` |
+
+> Hinweis: `build_target` war ein Input im historischen Legacy-Workflow,
+> ist im aktiven Community-Publish-Workflow jedoch nicht mehr vorhanden.
 
 ## Jobs
 
@@ -48,5 +63,7 @@ debug   = includes gdb/valgrind/strace/source; tag gets -debug suffix; no :lates
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/04-release_dockerhub-publish-on-release.yml)
+- [Aktiver Workflow](../../../../.github/workflows/04-release_publish-community.yml) — `04-release_publish-community.yml`
+- [Historische Workflow-Datei](../../../../.github/workflows/04-release_dockerhub-publish-on-release.yml)
 - [Alle Workflows](../README.md)
+

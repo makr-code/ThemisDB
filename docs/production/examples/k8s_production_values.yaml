@@ -28,7 +28,7 @@ replicaCount: 3
 # Image
 # ---------------------------------------------------------------------------
 image:
-  repository: ghcr.io/makr-code/themisdb
+  repository: themisdb/themisdb
   pullPolicy: IfNotPresent
   tag: ""  # defaults to chart appVersion; pin to a specific version in production
 

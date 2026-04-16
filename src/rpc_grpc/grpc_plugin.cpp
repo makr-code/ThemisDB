@@ -122,6 +122,12 @@ bool GRPCServer::start() {
         for (auto* service : services_) {
             builder.RegisterService(service);
         }
+            // gRPC requires at least one completion queue or a registered sync service.
+            // When no services are registered (e.g., in tests or idle mode), add a CQ
+            // so BuildAndStart() can succeed.
+            if (services_.empty()) {
+                idle_cq_ = builder.AddCompletionQueue();
+            }
         
         // Set max message sizes
         builder.SetMaxReceiveMessageSize(100 * 1024 * 1024); // 100 MB
@@ -156,6 +162,14 @@ void GRPCServer::stop() {
     if (server_ && running_) {
         std::cout << "Shutting down gRPC server..." << std::endl;
         server_->Shutdown();
+            if (idle_cq_) {
+                idle_cq_->Shutdown();
+                // Drain pending events
+                void* tag = nullptr;
+                bool ok = false;
+                while (idle_cq_->Next(&tag, &ok)) {}
+                idle_cq_.reset();
+            }
         running_ = false;
         std::cout << "gRPC server stopped" << std::endl;
     }

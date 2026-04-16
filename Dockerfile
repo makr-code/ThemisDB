@@ -12,9 +12,12 @@
 ARG THEMIS_EDITION=COMMUNITY
 ARG ENABLE_LLM=ON
 ARG ENABLE_GPU=ON
+ARG INCLUDE_DOCS_DB=ON
+ARG INCLUDE_MINI_LLM=ON
 ARG FORCE_CPU_ONLY=OFF
 ARG BUILD_TESTS=OFF
 ARG BUILD_BENCHMARKS=OFF
+ARG THEMIS_ENABLE_ENCRYPTED_STORAGE=OFF
 ARG TARGETARCH
 
 # ============================================================================
@@ -44,7 +47,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     rm -f /etc/apt/apt.conf.d/docker-clean && \
     echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache && \
-    apt-get update && apt-get install -y --no-install-recommends \
+    apt-get update && apt-get -y upgrade && apt-get install -y --no-install-recommends \
         # Build tools
         build-essential cmake ninja-build git curl ca-certificates pkg-config \
         # vcpkg dependencies
@@ -54,7 +57,8 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         aria2 \
         # System libraries
         libssl-dev zlib1g-dev libkrb5-dev && \
-    apt-get clean
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Clone and bootstrap vcpkg, capture current HEAD as baseline
 RUN git clone https://github.com/microsoft/vcpkg.git ${VCPKG_ROOT} && \
@@ -211,6 +215,25 @@ RUN if [ "$ENABLE_LLM" = "ON" ]; then \
     fi
 
 # ============================================================================
+# Stage 3b: mini-llm - Prepare a small GGUF model for release/runtime bundles
+# ============================================================================
+FROM base AS mini-llm
+
+ARG ENABLE_LLM
+ARG INCLUDE_MINI_LLM
+
+WORKDIR /opt/themis-mini-llm
+
+COPY scripts/prepare_release_mini_llm.py ./scripts/prepare_release_mini_llm.py
+
+RUN mkdir -p /opt/themis-mini-llm/models && \
+    if [ "$ENABLE_LLM" = "ON" ] && [ "$INCLUDE_MINI_LLM" = "ON" ]; then \
+        python3 ./scripts/prepare_release_mini_llm.py --output-dir /opt/themis-mini-llm/models; \
+    else \
+        echo "Mini LLM disabled - leaving models directory empty"; \
+    fi
+
+# ============================================================================
 # Stage 4: build - Compile ThemisDB
 # ============================================================================
 FROM deps AS build
@@ -218,6 +241,7 @@ FROM deps AS build
 ARG THEMIS_EDITION
 ARG ENABLE_LLM
 ARG ENABLE_GPU
+ARG INCLUDE_DOCS_DB
 ARG FORCE_CPU_ONLY
 ARG BUILD_TESTS
 ARG BUILD_BENCHMARKS
@@ -280,19 +304,24 @@ RUN set -eux; \
         -DTHEMIS_ENABLE_TRACING=OFF \
         -DTHEMIS_STRICT_BUILD=OFF \
         -DCMAKE_EXPORT_COMPILE_COMMANDS=ON && \
+    mkdir -p build/data && \
     \
-    # Build themis_server
+    # Build themis_server and optional release data assets
     echo "Building themis_server..." && \
-    ninja -C build -j$(nproc) themis_server && \
+    if [ "$INCLUDE_DOCS_DB" = "ON" ]; then \
+        ninja -C build -j$(nproc) themis_server docs_database; \
+    else \
+        ninja -C build -j$(nproc) themis_server; \
+    fi && \
     \
     # Verify binary
-    if [ ! -f build/themis_server ]; then \
+    if [ ! -f build/bin/themis_server ]; then \
         echo "ERROR: themis_server binary not found"; \
         exit 1; \
     fi; \
     \
     echo "✓ ThemisDB built successfully"; \
-    ls -lh build/themis_server
+    ls -lh build/bin/themis_server
 
 # ============================================================================
 # Stage 5: runtime - Production image (minimal)
@@ -300,6 +329,7 @@ RUN set -eux; \
 FROM ubuntu:24.04 AS runtime
 
 ARG THEMIS_EDITION
+ARG THEMIS_ENABLE_ENCRYPTED_STORAGE=OFF
 
 # Metadata labels (OCI standard)
 LABEL org.opencontainers.image.title="ThemisDB" \
@@ -316,11 +346,14 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 WORKDIR /opt/themis
 
-# Install minimal runtime dependencies + gocryptfs for user storage encryption
+# Install minimal runtime dependencies
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     rm -f /etc/apt/apt.conf.d/docker-clean && \
-    apt-get update && apt-get install -y --no-install-recommends \
+    set -eux; \
+    apt-get update; \
+    apt-get -y upgrade; \
+    apt-get install -y --no-install-recommends \
         ca-certificates \
         libssl3t64 \
         zlib1g \
@@ -334,15 +367,17 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         libzstd1 \
         libsnappy1v5 \
         curl \
-        gocryptfs \
-        fuse \
-        libsodium23 && \
-    echo "user_allow_other" >> /etc/fuse.conf && \
-    apt-get clean && \
+        libsodium23; \
+    if [ "${THEMIS_ENABLE_ENCRYPTED_STORAGE}" = "ON" ]; then \
+        apt-get install -y --no-install-recommends gocryptfs fuse; \
+        echo "user_allow_other" >> /etc/fuse.conf; \
+    fi; \
+    apt-get purge -y --auto-remove tar || true; \
+    apt-get clean; \
     rm -rf /var/lib/apt/lists/*
 
 # Copy themis_server binary
-COPY --from=build /src/build/themis_server /opt/themis/bin/themis_server
+COPY --from=build /src/build/bin/themis_server /opt/themis/bin/themis_server
 
 # Bundle exactly one default GGUF model for startup initialization.
 # Other models remain runtime/on-demand.
@@ -351,13 +386,44 @@ COPY models/tinyllama-1.1b-q4_0.gguf /opt/themis/models/default.gguf
 # Copy llama.cpp libraries (if LLM enabled)
 COPY --from=llama /opt/llama.cpp/build/lib*.so* /usr/local/lib/
 
-# Copy vcpkg runtime libraries (shared libs) if present
-RUN --mount=type=bind,from=deps,source=/build/vcpkg_installed,target=/deps_vcpkg,readonly \
-    mkdir -p /opt/themis/lib && \
-    cp -a /deps_vcpkg/*/lib/*.so* /opt/themis/lib/ 2>/dev/null || true
+# Copy bundled mini model when available
+COPY --from=mini-llm /opt/themis-mini-llm/models/ /opt/themis/models/
 
-# Update library cache
-RUN ldconfig
+# Copy llama.cpp libraries from llama stage to bin/ with symlink handling
+COPY --from=llama /opt/llama.cpp/build/bin/ /opt/themis/bin/
+
+# Create symlinks for version-specific llama libraries
+RUN set +e; \
+    cd /opt/themis/bin && \
+    \
+    # Create symlinks for libllama (e.g., libllama.so.0 -> libllama.so.0.0.7974)
+    for lib in libllama*.so.*; do \
+        [ -e "$lib" ] && ln -sf "$lib" "${lib%.so*}.so.0" 2>/dev/null || true; \
+    done; \
+    \
+    # Create symlinks for libggml
+    for lib in libggml*.so.*; do \
+        [ -e "$lib" ] && ln -sf "$lib" "${lib%.so*}.so.0" 2>/dev/null || true; \
+    done; \
+    \
+    # Create symlinks for libmtmd
+    for lib in libmtmd*.so.*; do \
+        [ -e "$lib" ] && ln -sf "$lib" "${lib%.so*}.so.0" 2>/dev/null || true; \
+    done; \
+    \
+    echo "✓ Installed llama.cpp libraries in /opt/themis/bin:"; \
+    ls -lh lib*.so* 2>&1 | head -10 || echo "⚠ No libs found"; \
+    set -e
+
+# Copy vcpkg runtime libraries (shared libs) to bin/ for simplicity
+RUN --mount=type=bind,from=deps,source=/build/vcpkg_installed,target=/deps_vcpkg,readonly \
+    (find /deps_vcpkg -name "*.so*" -path "*/lib/*" 2>/dev/null | head -50 | xargs -I {} cp -af {} /opt/themis/bin/ 2>/dev/null || true) && \
+    echo "✓ vcpkg libraries copied to /opt/themis/bin"
+
+# Copy configuration files into canonical Linux config path
+COPY config/config.yaml /etc/themis/config/config.yaml
+COPY config/pii_patterns.yaml /etc/themis/config/pii_patterns.yaml
+COPY config/ai_ml/lora_training_config.yaml /etc/themis/config/ai_ml/lora_training_config.yaml
 
 # Create required directories:
 #   /data           – persistent database files (mount a volume here)
@@ -410,7 +476,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     rm -rf /var/lib/apt/lists/*
 
 # Copy binary and libraries
-COPY --from=build /src/build/themis_server /opt/themis/bin/themis_server
+COPY --from=build /src/build/bin/themis_server /opt/themis/bin/themis_server
 COPY --from=build /src/build/compile_commands.json /opt/themis/
 COPY --from=llama /opt/llama.cpp/build/lib*.so* /usr/local/lib/
 COPY models/tinyllama-1.1b-q4_0.gguf /opt/themis/models/default.gguf

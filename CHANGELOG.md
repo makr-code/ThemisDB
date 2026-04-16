@@ -7,169 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Documentation
+### Security
 
-- **Module-Docs Sync 📚 — 2026-04-15**
-  - 56 Module indexiert; 752 Primary-Markdown-Dateien in `src/` und `include/`
-  - 6 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
-  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
-  - Tool: `tools/module_docs_builder.py` v1.0.0
-  <!-- changelog-updater: module-docs-sync-2026-04-15 -->
+- **Docker Image Security Hardening** 🔒
+  - `THEMIS_ENABLE_ENCRYPTED_STORAGE` Build-ARG hinzugefügt (default: `OFF`):
+    `gocryptfs` und `fuse` werden nur noch installiert, wenn der ARG explizit auf `ON` gesetzt wird.
+    Dadurch entfällt Go-stdlib 1.22.2 aus dem Standard-Runtime-Image.
+  - `tar` wird nach Paketinstallation aus dem Runtime-Image entfernt (`apt-get purge -y --auto-remove tar`).
+  - CVE-Scan (Docker Scout) vor und nach den Änderungen: 39 CVEs (inkl. 3 CRITICAL, 11 HIGH)
+    → 3 CVEs verbleibend (alle LOW/MEDIUM, kein upstream-Fix verfügbar).
+  - Community-Image auf DockerHub veröffentlicht: `themisdb/themisdb:latest` und `themisdb/themisdb:1.8.1-rc1`.
+  - Verbleibende CVEs: CVE-2024-2236 (libgcrypt20, LOW), CVE-2024-56433 (shadow, LOW),
+    CVE-2025-45582 (tar, MEDIUM) — alle ohne upstream-Fix; Waiver dokumentiert in
+    `docs/audit-reports/cve-waivers.md`.
 
-- **Module-Docs Sync 📚 — 2026-04-14**
-  - 56 Module indexiert; 752 Primary-Markdown-Dateien in `src/` und `include/`
-  - 6 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
-  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
-  - Tool: `tools/module_docs_builder.py` v1.0.0
-  <!-- changelog-updater: module-docs-sync-2026-04-14 -->
+## [1.8.1-rc1] - 2026-04-04
 
-- **Root documentation overhaul — 2026-04-13**
-  - `README.md` rewritten: project description, feature table, quick start, edition matrix, architecture overview, full link index
-  - `QUICKSTART.md` added: Docker, Dev Container, and build-from-source quick start guide with first-query examples
-  - `VERSIONING.md` added: dedicated versioning policy (SemVer, release types, cadence, EOL table, deprecation policy, breaking-change rules)
-  - `SOP.md` added: Standard Operating Procedures for stable release, hotfix, RC promotion, rollback, security response, dependency update, contributor onboarding, and incident response
-  - `MAINTAINERS.md` added: maintainer roster and module ownership
-  - `GOVERNANCE.md` added: project governance model (roles, decision-making, contribution policy)
-  - `.github/CODEOWNERS` expanded: now covers all 46 source modules, include/ headers, tests, docs, deployment, and root docs
-  - `.github/pull_request_template.md` updated: added Linked Issues field, Breaking Change checklist, CHANGELOG reminder
-  - `INDEX.md` updated: VERSIONING.md, SOP.md, GOVERNANCE.md, MAINTAINERS.md added to important documents section
-  - `compendium/docs/appendix_d_feature_status.md` overhauled: updated from v1.5.0-dev to v1.8.0; now covers all 46 modules with per-class feature tables, section references, version history, and v1.9/v2.0 planned items
-  - `compendium/docs/index.md` updated: version bumped from 1.4.0-alpha to 1.8.0; full 7-part structured TOC added covering all 44 chapters and 7 appendices
-  - `docs/migration/v1.7-to-v1.8.md` added: comprehensive migration guide for the three breaking changes in v1.8.0 (unversioned HTTP 301 redirects, zlib→ZSTD StreamWriter, CI workflow relocation)
-  - `docs/migration/README.md` updated: v1.7→v1.8 guide linked; full version path updated
-  - `compendium/docs/chapter_21_auth.md` §21.10 added: full API reference for JWTValidator, OAuth2PKCEHandler, SAMLAuthenticator, WebAuthnAuthenticator, LDAPAuthenticator, MFAManager, SessionManager, FederatedOIDCProvider, GSSAPIAuthenticator; includes YAML config example and performance table
-  - `compendium/docs/chapter_18_ha.md` §18.10–18.11 added: WALArchivalManager (lifecycle tiers), LogicalReplicationManager (parallel decoding), FaultInjector (5 fault types), ChaosScheduler (cron + event trigger), DisasterRecoveryManager (7-step plan), AutoFailoverManager
-  - `compendium/docs/chapter_40_data_governance_compliance.md` §40.11 added: PolicyEngine (OPA fallback, hot-reload, simulate), DataMasker (5 strategies), DataLineageTracker (append-only, upstream/downstream), ComplianceReporter (GDPR/HIPAA/CCPA/PCI/SOC2), PolicyManager hot-reload
-  - `compendium/docs/chapter_06_graph.md` §6.10 added: GraphQueryOptimizer (BFS/DFS/BIDIRECTIONAL/A*/Dijkstra, EMA cost model, plan cache), DistributedGraphManager (mTLS, EXPLAIN, streaming), pipeline diagram, performance table
-  - `roadmap.md` v2.1: updated header (Last Updated 2026-04-13, Current Release v1.8.1-rc2, scope 55 modules); 9 missing modules added to Module Status Summary (chaos/failover/ethics_ai/llama_cpp/stable_diffusion/whisper/onnx_clip/rpc_grpc/user_storage_encrypted); acceleration upgraded ✅ Production-ready (v1.8.0); Vulkan Known Issue marked Fixed; Milestone Delta updated to 2026-04-13 with full 2026-04-12/13 shipped-item table; new §Milestone: v1.9.0 section with acceptance criteria
-  <!-- changelog-updater: compendium-phase1-2026-04-13 -->
-
-- **Module-Docs Sync 📚 — 2026-04-13**
-- **Compendium Chapter Extensions — 2026-04-13 Session 2**
-  - §21.10 in `chapter_21_auth.md`: JWTValidator, OAuth2PkceFlow, SAMLAuthenticator, WebAuthnAuthenticator, LDAPAuthenticator, MFAAuthenticator, SessionManager, PasswordPolicy, FederatedIdentityManager
-  - §9.11 in `chapter_09_timeseries.md`: BiTemporalTable, BiTemporalJoin, TemporalQueryEngine, SnapshotManager (SQL:2011)
-  - §20.11 in `chapter_20_backup.md`: BackupManager (RAID0/1/5/6/10), PITRManager, TieredStorageManager
-  - §16.11 in `chapter_16_ml.md`: TrainingPipeline, IncrementalLoRATrainer, AutoLabeler, LoRACheckpointManager, ProvenanceTracker
-  - §11.10 in `chapter_11_realtime.md`: Changefeed, CdcMaterializedView, CdcAdmin, ConsumerGroup
-  - §25.11 in `chapter_25_devops_infrastructure.md`: ClusterUpdateManager, CanaryRollout, HotReloadEngine, InPlaceSchemaMigrator, BlueGreenDeployment
-  - §17.24–17.27 in `chapter_17_llm_integration.md`: PagedKVCache, ContinuousBatchScheduler, SpeculativeDecoder, OpenAICompatAdapter, LoRARouter, AdapterRegistry, ModelRouter; fixed duplicate §17.23
-  - `appendix_d_feature_status.md`: 33 neue Komponenten-Einträge (v1.8.0)
-  <!-- changelog-updater: compendium-chapter-extensions-2026-04-13-session2 -->
-
-
-  - 56 Module indexiert; 754 Primary-Markdown-Dateien in `src/` und `include/`
-  - 6 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
-  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
-  - Tool: `tools/module_docs_builder.py` v1.0.0
-  <!-- changelog-updater: module-docs-sync-2026-04-13 -->
-
-- **Milestone- und Release-Sync - 2026-04-11**
-  - Referenzierte offene Sub-Issue-PRs mit Versionsbezug auf ihre Ziel-Milestones ausgerichtet und abgeschlossen.
-  - Konfliktbehaftete Alt-PRs #4507 und #4515 durch Port-Ersatz-PRs #4569 und #4570 ersetzt.
-  - Release-Dokumentation fuer v1.9.0, v1.9.1, v1.10.0 und v2.0.0 in `docs/de/releases/` synchronisiert.
-  <!-- changelog-updater: milestone-release-sync-2026-04-11 -->
-
-- **Module-Docs Sync 📚 — 2026-04-11**
-  - 56 Module indexiert; 747 Primary-Markdown-Dateien in `src/` und `include/`
-  - 6 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
-  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
-  - Tool: `tools/module_docs_builder.py` v1.0.0
-  <!-- changelog-updater: module-docs-sync-2026-04-11 -->
-
-- **Module-Docs Sync 📚 — 2026-04-10**
-  - 57 Module indexiert; 761 Primary-Markdown-Dateien in `src/` und `include/`
-  - 7 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
-  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
-  - Tool: `tools/module_docs_builder.py` v1.0.0
-  <!-- changelog-updater: module-docs-sync-2026-04-10 -->
-
-## [1.8.1-rc2] - 2026-04-08
-
-### Fixed — Hotfix: Docker image SIGSEGV on startup (`Exit 139`)
-
-> **Priority: P0** – Release-blocker for container users.
-> Released in: `themisdb/themisdb:1.8.1-rc2`
-> Affected tags: `themisdb/themisdb:latest`, `themisdb/themisdb:1.8.1-rc1`
-
-- **`LlamaWrapper::Config::enable_response_cache` changed default `true` → `false`**
-  The LLM response cache was enabled by default, causing `LlamaWrapper` to open a
-  RocksDB database unconditionally at construction time — even during function-registry
-  initialisation before `main()`. This triggered a SIGSEGV in
-  `rocksdb::ImmutableDBOptions::Dump` (frame `std::_Rb_tree<rocksdb::Temperature,…>`).
-  The cache is now opt-in; set `enable_response_cache = true` and configure
-  `response_cache_config.cache_dir` explicitly when a persistent cache is desired.
-
-- **`LLMResponseCache::Config::cache_dir` default changed `"./llm_cache"` → `""`**
-  An empty `cache_dir` activates pure in-memory mode, avoiding any RocksDB
-  initialisation unless a concrete writable path is provided.
-
-- **`LLMResponseCache` constructor: non-fatal RocksDB failures**
-  A failed `RocksDB::Open()` (exception or API error) no longer aborts initialisation;
-  the cache degrades gracefully to in-memory-only mode and emits a `WARN` log instead
-  of a fatal `ERROR`.
-
-- **`LLMResponseCache` RocksDB config: conservative memory defaults for embedded use**
-  When the cache opens its own RocksDB, it now uses 64 MB block cache, 32 MB
-  memtable, and 64 MB write buffer (down from 1 GB / 512 MB / 2 GB) to prevent
-  OOM failures in resource-constrained containers.
-
-- **`themis_help_lora.cpp`: removed unconditional `enable_response_cache = true`**
-  `ThemisHelpLoRA` no longer forces the response cache on; it inherits the safe
-  default (`false`) and lets callers opt in.
-
-- **`RocksDBWrapper::configureOptions()`: fixed `int64_t` → `uint64_t` cast for `db_paths`**
-  `rocksdb::DbPath` constructor expects `uint64_t` for `target_size`; the previous
-  `static_cast<int64_t>` was a sign-unsafe conversion that could corrupt the options
-  struct on large path sizes.
-
-- **`main_server.cpp`: added `--data-dir` / `--config=VALUE` CLI argument support**
-  The Dockerfile `CMD` uses `--data-dir=/data` and `--config=/etc/…` (equals-separated)
-  which were silently ignored. Both forms are now parsed correctly, making the
-  container start with the intended data directory.
-
-- **`Dockerfile` runtime stage — library and directory hardening:**
-  - Added `libnuma1`, `liblz4-1`, `libzstd1`, `libsnappy1v5` to runtime deps
-    (required by RocksDB compression codecs; absence caused silent fallback or crash).
-  - Pre-creates `/data/rocksdb`, `/data/llm_cache`, `/etc/themis` with correct
-    ownership so the server never fails on a missing writable directory at first start.
-  - Updated `HEALTHCHECK` start-period to 30 s and retries to 5 to tolerate slow
-    cold-start on constrained hardware.
-  - Removed broken `--config=/etc/themis/config.yml` from `CMD` (file does not exist
-    in a fresh container); server now starts cleanly without a config file.
-
-### Documentation
-
-- **Module-Docs Sync 📚 — 2026-04-09**
-  - 55 Module indexiert; 712 Primary-Markdown-Dateien in `src/` und `include/`
-  - 5 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
-  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
-  - Tool: `tools/module_docs_builder.py` v1.0.0
-  <!-- changelog-updater: module-docs-sync-2026-04-09 -->
-
-- **Module-Docs Sync 📚 — 2026-04-08**
-  - 55 Module indexiert; 712 Primary-Markdown-Dateien in `src/` und `include/`
-  - 5 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
-  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
-  - Tool: `tools/module_docs_builder.py` v1.0.0
-  <!-- changelog-updater: module-docs-sync-2026-04-08 -->
-
-- **Module-Docs Sync 📚 — 2026-04-07**
-  - 52 Module indexiert; 691 Primary-Markdown-Dateien in `src/` und `include/`
-  - 17 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
-  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
-  - Tool: `tools/module_docs_builder.py` v1.0.0
-  <!-- changelog-updater: module-docs-sync-2026-04-07 -->
-
-### Tests
-
-- **Connector-Mode Live-Tests: LLM/RAG-Stabilisierung**
-  - `tests/test_connector_mode_api.cpp` verbessert für langsamere Startphasen und variable LLM-Laufzeit.
-  - Health-Check in `SetUp()` wartet nun per Polling bis zu 20 Sekunden statt einmalig sofort zu skippen.
-  - Neue LLM-spezifische Timeout-Konfiguration: `THEMIS_CONNECTOR_TEST_LLM_TIMEOUT_MS` (Default: 30000 ms).
-  - LLM-lastige Endpunkte (`/api/v1/llm/models/load`, `/api/v1/llm/inference`, `/api/v1/llm/rag`, `/v2/documents`) nutzen verlängerte Request-Timeouts.
-  - Multi-Query-RAG-Test wurde gegen sporadisch leere Erstantworten gehärtet (kurzer Retry + robuste Gesamtschwelle).
-
-## [1.8.0-rc1] - 2026-04-04
+> **Release Notes:** [`docs/de/releases/RELEASE_NOTES_v1.8.1-rc1.md`](docs/de/releases/RELEASE_NOTES_v1.8.1-rc1.md)
 
 ### Added
 - **README: Comprehensive Technology & Feature Badges** 🏷️
@@ -513,20 +367,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added proper error handling with default case in PITR progress phase conversion
 
 ### Documentation
-
-- **Module-Docs Sync 📚 — 2026-04-06**
-  - 52 Module indexiert; 691 Primary-Markdown-Dateien in `src/` und `include/`
-  - 17 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
-  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
-  - Tool: `tools/module_docs_builder.py` v1.0.0
-  <!-- changelog-updater: module-docs-sync-2026-04-06 -->
-
-- **Module-Docs Sync 📚 — 2026-04-05**
-  - 52 Module indexiert; 691 Primary-Markdown-Dateien in `src/` und `include/`
-  - 17 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
-  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
-  - Tool: `tools/module_docs_builder.py` v1.0.0
-  <!-- changelog-updater: module-docs-sync-2026-04-05 -->
 
 - **Module-Docs Sync 📚 — 2026-04-04**
   - 52 Module indexiert; 691 Primary-Markdown-Dateien in `src/` und `include/`
@@ -894,33 +734,86 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Distributed Query Optimizer (v1.5.x)** — dynamic shard row estimates, predicate selectivity, network latency hooks
 - **FAISS ADC distance table acceleration** — ~40% faster `IndexIVFPQ` search via precomputed distance tables; enabled by default
 - **Documentation validation CI** — `.github/workflows/documentation-validation.yml` with 5 jobs (link-check, markdown-lint, spell-check, structure-check, summary)
-- **44-module documentation audit** — all module READMEs, ROADMAPs, and ARCHITECTUREs aligned with actual source implementations (PRs #3472–#3479, #3481–#3484)
-- **Test + benchmark coverage audit** — 6 new benchmark suites + 21 new unit test files closing coverage gaps across all 44 modules (PR #3471)
-- **RAG scientific foundations** — `docs/en/rag/RAG_SCIENTIFIC_FOUNDATIONS.md`: 460-line IEEE reference with 40 peer-reviewed citations (PR #3485)
-- **API Versioning and Compatibility Strategy** — `Accept-Version` header, `API-Version` response header, 24-month deprecation policy, gRPC version negotiation, `APIVersionManager`, compatibility matrix v1.0.0–v1.4.1; related to #751
-- **Query Result Pagination** — cursor-based (1 h TTL), keyset O(log n), offset; `PaginatedResponse` with `PageInfo`; configurable page size 1–10,000; 17 tests; related to #751
-- **Plugin Metrics and Monitoring** — `PluginMetrics` class; P95/P99 call latency, memory per plugin, error counts; `GET /api/plugins/metrics`; Prometheus integration; < 1% overhead
-- **CHIMERA Suite Branding** — benchmark framework rebranded to "CHIMERA Suite" (_Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment_); `CHIMERA_RESULTS_*` naming; all docs and CI workflows updated
-- **Documentation Archival System** — formal process for archiving outdated documentation; 70+ historical documents moved to `docs/implementation-history/`
-- **Retroactive Release Building System** — pipeline for building reproducible binaries from historical version tags
-- **Schema Manager** — database self-awareness and introspection layer for runtime schema, field type, and index metadata queries
-- **Independent Health / Error Service** — dedicated health and error reporting on port **9090**; `/health`, `/readiness`, `/error-summary` endpoints; decoupled from main port 7777
-- **Root Cause Analyzer** — `RootCauseAnalyzer` with `analyzeIssue`, `findCorrelations`, `buildCausalGraph`; closes [#84](https://github.com/makr-code/ThemisDB/issues/84)
+- **44-module documentation audit** — all module READMEs, ROADMAPs, and ARCHITECTUREs aligned with actual source implementations
+- **Test + benchmark coverage audit** — 6 new benchmark suites + 21 new unit test files closing coverage gaps across all 44 modules
+- **RAG scientific foundations** — `docs/en/rag/RAG_SCIENTIFIC_FOUNDATIONS.md`: 460-line IEEE reference with 40 peer-reviewed citations
 
 ### ⚠️ Breaking Changes
-- **themis module migration** — module initialisation code migrated from `src/utils/` and `src/base/` to `src/themis/`; update `#include` paths from `utils/themis_*.h` / `base/themis_*.h` to `themis/themis_*.h`
-
-### Performance
-- **Query Pagination** — O(log n) keyset pagination vs O(n) offset; ORDER BY values stored in cursors to eliminate extra DB lookups; cursor expiration prevents accumulation
-
-### Changed
-- **Documentation Reorganization** — fixed version inconsistencies across README, VERSION, and badges; 70+ historical documents archived; updated all broken links; cleaner root directory
-- Benchmark suite renamed to CHIMERA Suite with comprehensive rebranding
+- **themis module migration** — module initialisation code migrated from `src/utils/` and `src/base/` to `src/themis/`; update `#include` paths accordingly
 
 ### Fixed
 - 119 broken documentation links corrected in hub/index files
 - `DiffEngine` initialization updated to accept optional `SnapshotManager` reference
 - Re-enabled `SnapshotManager` (was disabled due to incomplete type issues)
+
+---
+
+### Added
+- **API Versioning and Compatibility Strategy**: Comprehensive API versioning infrastructure
+  - **Accept-Version header** support for REST APIs to specify desired API version
+  - **API-Version response header** indicating the API version used to process the request
+  - **Deprecation tracking system** with automated warning headers (Deprecation, Sunset, Link)
+  - **24-month deprecation policy** ensuring backward compatibility and smooth migrations
+  - **gRPC version negotiation** via metadata (`api-version` key)
+  - **Version resolution** supporting formats: `v1.4.1`, `v1.4`, `v1`, `latest`
+  - **APIVersionManager** class for centralized version management
+  - **Compatibility matrix** documenting supported versions (v1.0.0 to v1.4.1)
+  - **Migration guide framework** with templates and best practices
+  - Comprehensive documentation:
+    - [API Versioning Strategy](docs/api/API_VERSIONING.md)
+    - [Deprecation Registry](docs/api/DEPRECATION_REGISTRY.md)
+    - [Migration Guides](docs/migration/README.md)
+    - [v1.3 to v1.4 Migration Guide](docs/migration/v1.3-to-v1.4.md)
+  - Updated proto files with API version metadata
+  - Related to #751 (API-Versionierung und Kompatibilitäts-Strategie)
+- **Query Result Pagination**: Comprehensive pagination support for query results with multiple strategies
+  - **Cursor-based pagination** with expiration and versioning (1-hour TTL default)
+  - **Keyset pagination** using ORDER BY values for O(log n) performance
+  - **Configurable page sizes** with validation (min: 1, max: 10,000, default: 100)
+  - Enhanced `PaginatedResponse` with detailed metadata (`PageInfo`, `has_next_page`, `has_prev_page`)
+  - ORDER BY value encoding in cursors eliminates database lookups for sort values
+  - Cursor expiration prevents stale cursor accumulation
+  - Multiple pagination methods supported: CURSOR, OFFSET, KEYSET
+  - 17 comprehensive tests with 100% pass rate
+  - Backward compatible with existing pagination API
+  - Related to #751
+- **Plugin Metrics and Monitoring**: Comprehensive metrics tracking for all plugins with Prometheus integration
+  - `PluginMetrics` class for thread-safe metrics collection
+  - Automatic tracking of load time, reload time, function call latency (P95/P99)
+  - Resource usage monitoring (memory per plugin)
+  - Error tracking and count metrics
+  - JSON API endpoint: `/api/plugins/metrics`
+  - Prometheus metrics integrated into `/metrics` endpoint
+  - <1% performance overhead from instrumentation
+  - See [Plugin Metrics Documentation](docs/plugins/PLUGIN_METRICS.md)
+- **CHIMERA Suite Branding**: Rebranded benchmark framework to "CHIMERA Suite" (_Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment_)
+  - Tagline: "Benchmark the Unbenchmarkable"
+  - Vendor-neutral, scientifically rigorous benchmark framework
+  - Updated all documentation, scripts, and CI workflows
+  - Result files now use `CHIMERA_RESULTS_*` naming pattern
+  - See [CHIMERA Suite Documentation](benchmarks/chimera/README.md)
+- Documentation Archival System - Formal process for archiving outdated documentation
+- Retroactive Release Building System - Build binaries from historical version tags
+- Schema Manager for database self-awareness and introspection
+- Independent Health/Error service on alternate port (9090)
+
+### Performance
+- **Query Pagination Improvements**:
+  - Reduced database lookups by storing ORDER BY values in cursors
+  - O(log n) keyset pagination vs O(n) offset-based pagination
+  - Memory efficiency through configurable page size limits (max 10,000 items)
+  - Cursor expiration prevents stale cursor accumulation
+
+### Changed
+- **Documentation Reorganization**: Major cleanup and restructuring of documentation
+  - Fixed version inconsistencies across README, VERSION file, and badges
+  - Moved 70+ historical implementation documents to `docs/implementation-history/` archive
+  - Created comprehensive archive README explaining historical documents
+  - Updated all broken links in main documentation files
+  - Added archive reference in main documentation index
+  - Cleaner root directory with only essential documentation files
+- Improved documentation structure and organization
+- Benchmark suite renamed to CHIMERA Suite with comprehensive rebranding
 
 ---
 

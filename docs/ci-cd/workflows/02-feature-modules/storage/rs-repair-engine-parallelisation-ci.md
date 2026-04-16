@@ -1,8 +1,13 @@
 # RS Repair Engine Parallelisation CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules_storage_rs-repair-engine-parallelisation-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/02-feature-modules_storage_rs-repair-engine-parallelisation-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -22,7 +27,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **RS Repair Eng
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `rs-repair-tests`
 **Anzeigename:** RS Repair Parallelisation (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -45,3 +50,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **RS Repair Eng
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_storage_rs-repair-engine-parallelisation-ci.yml)
 - [Alle Workflows](../README.md)
+
+

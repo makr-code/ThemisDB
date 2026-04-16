@@ -135,8 +135,8 @@ Eigenes Base-Image erstellen mit allen Dependencies, davon ableiten.
    - Nur themis_server kompilieren
    
 3. **Testen und Pushen**
-   - Image bauen: `docker build -t themisdb/themis:v0.1.0-alpha .`
-   - Image pushen: `docker push themisdb/themis:v0.1.0-alpha`
+  - Image bauen: `docker build -t themisdb/themisdb:v0.1.0-alpha .`
+  - Image pushen: `docker push themisdb/themisdb:v0.1.0-alpha`
    - Tags: qnap-latest, latest
 
 4. **QNAP Deployment Test**

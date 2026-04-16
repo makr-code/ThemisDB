@@ -1,8 +1,13 @@
 # Module Docs Sync
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/08-maintenance_module-docs-sync.yml`
+> **Workflow-Datei (historisch):** .github/workflows/08-maintenance_module-docs-sync.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -51,3 +56,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Module Docs S
 
 - [Workflow-Datei](../../.github/workflows/08-maintenance_module-docs-sync.yml)
 - [Alle Workflows](../README.md)
+
+

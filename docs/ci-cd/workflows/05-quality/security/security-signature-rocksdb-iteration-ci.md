@@ -1,8 +1,13 @@
 # Security Signature RocksDB Iteration CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/05-quality_security_security-signature-rocksdb-iteration-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/05-quality_security_security-signature-rocksdb-iteration-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -23,7 +28,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Security Sign
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `security-signature-rocksdb-iteration-unit-tests`
 **Anzeigename:** SecuritySignature RocksDB Iteration tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -46,3 +51,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Security Sign
 
 - [Workflow-Datei](../../../.github/workflows/05-quality_security_security-signature-rocksdb-iteration-ci.yml)
 - [Alle Workflows](../README.md)
+
+

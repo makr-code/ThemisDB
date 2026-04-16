@@ -5975,6 +5975,84 @@ if(THEMIS_BUILD_ADMIN_TOOLS)
     add_subdirectory(${THEMIS_ROOT_DIR}/tools ${CMAKE_CURRENT_BINARY_DIR}/tools)
 endif()
 
+# themisctl — Unified Management CLI (C++ tool, can be built independently)
+option(THEMIS_BUILD_THEMISCTL "Build themisctl unified management CLI" ON)
+if(THEMIS_BUILD_THEMISCTL AND EXISTS "${THEMIS_ROOT_DIR}/tools/themisctl.cpp")
+    add_executable(themisctl
+        ${THEMIS_ROOT_DIR}/tools/themisctl.cpp
+    )
+    
+    target_compile_features(themisctl PRIVATE cxx_std_17)
+    
+    # cpp-httplib provides the HTTP client (header-only)
+    find_package(httplib QUIET)
+    if(httplib_FOUND)
+        target_link_libraries(themisctl PRIVATE httplib::httplib)
+    endif()
+    
+    find_package(nlohmann_json QUIET)
+    if(nlohmann_json_FOUND)
+        target_link_libraries(themisctl PRIVATE nlohmann_json::nlohmann_json)
+    endif()
+    
+    # OpenSSL is optional (HTTPS support via cpp-httplib)
+    find_package(OpenSSL QUIET)
+    if(OpenSSL_FOUND)
+        target_link_libraries(themisctl PRIVATE OpenSSL::SSL OpenSSL::Crypto)
+        target_compile_definitions(themisctl PRIVATE CPPHTTPLIB_OPENSSL_SUPPORT)
+    endif()
+    
+    # GNU Readline for REPL command history (optional)
+    find_package(Readline QUIET)
+    if(Readline_FOUND)
+        target_link_libraries(themisctl PRIVATE ${READLINE_LIBRARIES})
+        target_include_directories(themisctl PRIVATE ${READLINE_INCLUDE_DIR})
+        target_compile_definitions(themisctl PRIVATE THEMISCTL_ENABLE_READLINE=1)
+        message(STATUS "themisctl: readline found — REPL will use line editing")
+    else()
+        find_library(READLINE_LIB readline)
+        if(READLINE_LIB)
+            target_link_libraries(themisctl PRIVATE ${READLINE_LIB})
+            target_compile_definitions(themisctl PRIVATE THEMISCTL_ENABLE_READLINE=1)
+            message(STATUS "themisctl: readline found (manual)")
+        else()
+            message(STATUS "themisctl: readline not found — using plain getline()")
+        endif()
+    endif()
+    
+    install(TARGETS themisctl
+        RUNTIME DESTINATION bin
+        COMPONENT tools
+    )
+    
+    # Shell completion scripts (optional)
+    if(EXISTS "${THEMIS_ROOT_DIR}/tools/completion/themisctl.bash")
+        install(FILES ${THEMIS_ROOT_DIR}/tools/completion/themisctl.bash
+            DESTINATION share/bash-completion/completions
+            RENAME themisctl
+            COMPONENT tools
+        )
+    endif()
+    
+    if(EXISTS "${THEMIS_ROOT_DIR}/tools/completion/_themisctl")
+        install(FILES ${THEMIS_ROOT_DIR}/tools/completion/_themisctl
+            DESTINATION share/zsh/site-functions
+            COMPONENT tools
+        )
+    endif()
+    
+    if(EXISTS "${THEMIS_ROOT_DIR}/tools/completion/themisctl.fish")
+        install(FILES ${THEMIS_ROOT_DIR}/tools/completion/themisctl.fish
+            DESTINATION share/fish/vendor_completions.d
+            COMPONENT tools
+        )
+    endif()
+    
+    message(STATUS "themisctl unified management CLI: ENABLED")
+else()
+    message(STATUS "themisctl: disabled or source not found")
+endif()
+
 # Export CLI Tool (themis-export)
 if(EXISTS "${THEMIS_ROOT_DIR}/tools/export_cli.cpp")
     add_executable(themis-export

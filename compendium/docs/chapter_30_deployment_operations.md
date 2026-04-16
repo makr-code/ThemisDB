@@ -405,7 +405,7 @@ appVersion: "1.3.4"
 replicaCount: 3
 
 image:
-  repository: themisdb/themis
+  repository: themisdb/themisdb
   tag: v1.3.4
   pullPolicy: IfNotPresent
 

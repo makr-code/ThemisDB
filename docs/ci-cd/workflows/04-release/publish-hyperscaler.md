@@ -1,8 +1,13 @@
 # Publish · Hyperscaler Edition
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/04-release_publish-hyperscaler.yml`
+> **Workflow-Datei (historisch):** .github/workflows/04-release_publish-hyperscaler.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -81,3 +86,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Publish · Hy
 
 - [Workflow-Datei](../../.github/workflows/04-release_publish-hyperscaler.yml)
 - [Alle Workflows](../README.md)
+
+

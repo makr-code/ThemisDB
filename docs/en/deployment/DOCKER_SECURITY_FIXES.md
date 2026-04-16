@@ -74,7 +74,7 @@ docker scout cves themis:latest
 
 2. **Trivy Integration:**
 ```bash
-trivy image themisdb/themis-server:latest
+trivy image themisdb/themisdb:latest
 ```
 
 3. **GitHub Actions Security Scan:**
@@ -82,7 +82,7 @@ trivy image themisdb/themis-server:latest
 - name: Run Trivy vulnerability scanner
   uses: aquasecurity/trivy-action@master
   with:
-    image-ref: 'themisdb/themis-server:latest'
+    image-ref: 'themisdb/themisdb:latest'
     format: 'sarif'
     output: 'trivy-results.sarif'
 ```
@@ -91,7 +91,7 @@ trivy image themisdb/themis-server:latest
 
 1. **Regelmäßige Updates:** Images monatlich neu bauen
 2. **Read-Only Filesystem:** `--read-only` Flag verwenden
-3. **Non-Root User:** Bereits implementiert (User: themis, UID: 999)
+3. **Non-Root User:** Bereits implementiert (User: themisdb, UID: 999)
 4. **Resource Limits:** CPU/Memory Limits setzen
 5. **Network Policies:** Nur erforderliche Ports exponieren
 

@@ -214,7 +214,7 @@ nlohmann::json LoraTrainFunction::execute(
     } catch (const std::exception& e) {
         json error;
         error["error"] = std::string("LORA_TRAIN failed: ") + e.what();
-        error["adapter_id"] = args.size() > 0 ? args[0] : nullptr;
+        error["adapter_id"] = args.size() > 0 ? args[0] : json(nullptr);
         return error;
     }
 }
@@ -757,7 +757,7 @@ nlohmann::json LoraLineageFunction::execute(
         for (size_t i = 0; i < versions.size() && i < static_cast<size_t>(depth); ++i) {
             json version;
             version["version"] = versions[i];
-            version["parent"] = (i > 0) ? versions[i - 1] : nullptr;
+            version["parent"] = (i > 0) ? json(versions[i - 1]) : json(nullptr);
             
             // Add timestamp (placeholder)
             auto now = std::chrono::system_clock::now();

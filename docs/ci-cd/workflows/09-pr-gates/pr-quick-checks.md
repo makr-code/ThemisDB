@@ -1,8 +1,13 @@
 # PR Quick Checks
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/09-pr-gates_pr-quick-checks.yml`
+> **Workflow-Datei (historisch):** .github/workflows/09-pr-gates_pr-quick-checks.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -68,3 +73,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **PR Quick Chec
 
 - [Workflow-Datei](../../.github/workflows/09-pr-gates_pr-quick-checks.yml)
 - [Alle Workflows](../README.md)
+
+

@@ -1,8 +1,13 @@
 # Documentation Validation
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 ♻️ **Reusable Workflow**
 
-> **Workflow-Datei:** `.github/workflows/05-quality_validation_documentation-validation.yml`
+> **Workflow-Datei (historisch):** .github/workflows/05-quality_validation_documentation-validation.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -147,3 +152,5 @@ Wiederverwendbarer Hilfs-Workflow: **Documentation Validation**.
 
 - [Workflow-Datei](../../../.github/workflows/05-quality_validation_documentation-validation.yml)
 - [Alle Workflows](../README.md)
+
+
