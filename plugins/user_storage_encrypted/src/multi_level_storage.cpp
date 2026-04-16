@@ -40,6 +40,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <errno.h>
+#include <dirent.h>
 
 using json = nlohmann::json;
 
@@ -836,9 +837,28 @@ Result<void> MultiLevelEncryptedStorage::deleteUser(const std::string& user_id, 
 }
 
 Result<std::vector<User>> MultiLevelEncryptedStorage::listUsers(SecurityLevel level) {
-    // TODO: Implement directory listing for users
-    // This requires iterating through the users directory and reading all JSON files
-    return Result<std::vector<User>>::error("listUsers() not yet implemented - use getUser() for now");
+    std::string base = getBasePath(level);
+    if (base.empty()) {
+        return Result<std::vector<User>>::error("Invalid security level");
+    }
+    std::string dir = base + "/users";
+    DIR* d = opendir(dir.c_str());
+    if (!d) {
+        if (errno == ENOENT) {
+            return Result<std::vector<User>>(std::vector<User>{});
+        }
+        return Result<std::vector<User>>::error("Cannot open users directory: " + dir);
+    }
+    std::vector<User> users;
+    struct dirent* entry = nullptr;
+    while ((entry = readdir(d)) != nullptr) {
+        std::string name = entry->d_name;
+        if (name.size() < 6 || name.substr(name.size() - 5) != ".json") { continue; }
+        auto res = readUserFile(dir + "/" + name);
+        if (!res.isError()) { users.push_back(res.value()); }
+    }
+    closedir(d);
+    return Result<std::vector<User>>(std::move(users));
 }
 
 // Group Management API Implementation
@@ -878,9 +898,28 @@ Result<void> MultiLevelEncryptedStorage::deleteGroup(const std::string& group_id
 }
 
 Result<std::vector<Group>> MultiLevelEncryptedStorage::listGroups(SecurityLevel level) {
-    // TODO: Implement directory listing for groups
-    // This requires iterating through the groups directory and reading all JSON files
-    return Result<std::vector<Group>>::error("listGroups() not yet implemented - use getGroup() for now");
+    std::string base = getBasePath(level);
+    if (base.empty()) {
+        return Result<std::vector<Group>>::error("Invalid security level");
+    }
+    std::string dir = base + "/groups";
+    DIR* d = opendir(dir.c_str());
+    if (!d) {
+        if (errno == ENOENT) {
+            return Result<std::vector<Group>>(std::vector<Group>{});
+        }
+        return Result<std::vector<Group>>::error("Cannot open groups directory: " + dir);
+    }
+    std::vector<Group> groups;
+    struct dirent* entry = nullptr;
+    while ((entry = readdir(d)) != nullptr) {
+        std::string name = entry->d_name;
+        if (name.size() < 6 || name.substr(name.size() - 5) != ".json") { continue; }
+        auto res = readGroupFile(dir + "/" + name);
+        if (!res.isError()) { groups.push_back(res.value()); }
+    }
+    closedir(d);
+    return Result<std::vector<Group>>(std::move(groups));
 }
 
 // Health Check Implementation

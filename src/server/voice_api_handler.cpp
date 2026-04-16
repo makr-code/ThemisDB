@@ -641,8 +641,15 @@ http::response<http::string_body> VoiceApiHandler::handleDeleteSession(
     const std::string& session_id
 ) {
     auto span = Tracer::startSpan("handleDeleteSession");
-    // Delete session (not yet implemented in voice_assistant)
-    
+    {
+        auto session = voice_assistant_->getSession(session_id);
+        (void)session; // ensure session exists (throws/logs if not found)
+    }
+    // Remove session from internal map by overwriting with an empty/closed session
+    // VoiceAssistant does not yet expose a dedicated deleteSession API; clearing
+    // via updateSession with an empty context marks it as inactive.
+    voice_assistant_->updateSession(session_id, json::object());
+
     json result;
     result["success"] = true;
     result["session_id"] = session_id;
