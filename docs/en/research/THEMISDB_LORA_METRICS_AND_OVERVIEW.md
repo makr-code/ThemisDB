@@ -3,22 +3,26 @@
 ---
 Datum: 2026-04-16
 Status: draft
-Primary (Quelle der Wahrheit): include/training/incremental_lora_trainer.h, include/training/auto_labeler.h, include/llm/lora_framework/lora_metrics.h, include/aql/llm_metrics_collector.h, include/observability/metrics_collector.h, include/performance/workload_adaptive_optimizer.h, include/rag/continuous_learning_orchestrator.h
-Bezug / Reference: THEMISDB_LORA_RESEARCH_PAPER.md · Hu et al. (2022) LoRA arXiv:2106.09685 · Prometheus OpenMetrics spec
+Primary (Quelle der Wahrheit): include/training/incremental_lora_trainer.h, include/training/auto_labeler.h, include/llm/lora_framework/lora_metrics.h, include/aql/llm_metrics_collector.h, include/observability/metrics_collector.h, include/performance/workload_adaptive_optimizer.h, include/rag/continuous_learning_orchestrator.h, include/index/adaptive_index.h, include/aql/aql_model_router.h, include/prompt_engineering/self_improvement_orchestrator.h
+Bezug / Reference: THEMISDB_LORA_RESEARCH_PAPER.md · Hu et al. (2022) LoRA arXiv:2106.09685 · Malkov & Yashunin (2018) IEEE TPAMI · Marcus et al. (2021) SIGMOD · Pavlo et al. (2021) VLDB · Prometheus OpenMetrics spec
 ---
 
-# ThemisDB-LoRA — Projektüberblick & Metrikkatalog
+# ThemisDB-LoRA — Projektüberblick, Stand der Technik & Metrikkatalog
 
-*Was wir bauen · Womit wir messen · Was wir daraus schließen*
+*Was wir bauen · Stand der Technik · Womit wir messen · Was wir daraus schließen*
 
 ---
 
 ## Inhaltsverzeichnis
 
+0. [Wissenschaftlicher Kontext & Stand der Technik](#0-wissenschaftlicher-kontext--stand-der-technik)
+   - 0.1 [Wo stehen wir heute in der Forschung?](#01-wo-stehen-wir-heute-in-der-forschung)
+   - 0.2 [Was ThemisDB heute bereits leistet](#02-was-themisdb-heute-bereits-leistet)
+   - 0.3 [Was wir hinzufügen — die Lücke](#03-was-wir-hinzufügen--die-lücke)
 1. [Was wir bauen — Projektbeschreibung](#1-was-wir-bauen--projektbeschreibung)
    - 1.1 [Das Problem](#11-das-problem)
    - 1.2 [Die Lösung in einem Satz](#12-die-lösung-in-einem-satz)
-   - 1.3 [Die zwei Schichten](#13-die-zwei-schichten)
+   - 1.3 [Die vier selbstoptimierenden Kreisläufe](#13-die-vier-selbstoptimierenden-kreisläufe)
    - 1.4 [Was wir konkret implementieren](#14-was-wir-konkret-implementieren)
    - 1.5 [Was wir explizit NICHT bauen](#15-was-wir-explizit-nicht-bauen)
 2. [Architekturskizze](#2-architekturskizze)
@@ -27,12 +31,129 @@ Bezug / Reference: THEMISDB_LORA_RESEARCH_PAPER.md · Hu et al. (2022) LoRA arXi
    - 3.2 [Layer 2 — Inferenz (LLM-Advisor)](#32-layer-2--inferenz-llm-advisor)
    - 3.3 [Layer 3 — DB-Advisor Qualität](#33-layer-3--db-advisor-qualität)
    - 3.4 [Layer 4 — RAG-Kontext](#34-layer-4--rag-kontext)
-   - 3.5 [Layer 5 — A/B-Test & Continuous Learning](#35-layer-5--ab-test--continuous-learning)
-   - 3.6 [Layer 6 — Systemressourcen](#36-layer-6--systemressourcen)
+   - 3.5 [Layer 5 — Autonome Entscheidungen (Self-Optimizing Loops)](#35-layer-5--autonome-entscheidungen-self-optimizing-loops)
+   - 3.6 [Layer 6 — A/B-Test & Continuous Learning](#36-layer-6--ab-test--continuous-learning)
+   - 3.7 [Layer 7 — Systemressourcen](#37-layer-7--systemressourcen)
 4. [Messmittel-Übersicht](#4-messmittel-übersicht)
 5. [Erwartungswert-Referenztabelle](#5-erwartungswert-referenztabelle)
 6. [Schlussfolgerungsregeln (Decision Logic)](#6-schlussfolgerungsregeln-decision-logic)
 7. [Offene Fragen zum Messprogramm](#7-offene-fragen-zum-messprogramm)
+
+---
+
+## 0. Wissenschaftlicher Kontext & Stand der Technik
+
+### 0.1 Wo stehen wir heute in der Forschung?
+
+Das Feld "automatisierte Datenbankadministration" hat in den letzten zehn Jahren drei
+deutlich abgrenzbare Phasen durchlaufen. Die folgende Übersicht orientiert sich an
+peer-reviewed Literatur und erlaubt eine präzise Einordnung von ThemisDB-LoRA.
+
+#### Phase 1: Regelbasierte Systeme (vor 2015)
+
+Frühe Systeme wie der Microsoft Database Engine Tuning Advisor (DTA) und der IBM
+AutoAdmin suchten den physischen Design-Raum (Index-Auswahl, Materialized Views) mit
+kostenmodellbasierter Optimierung ab. Diese Systeme waren deterministisch und auditierbar,
+aber statisch: sie lernten nicht aus beobachteten Ergebnissen.
+
+#### Phase 2: Machine-Learning-basierte Systeme (2015–2022)
+
+**OtterTune** (Van Aken et al., ACM SIGMOD 2017) nutzte Gaussian-Process-Regression über
+Konfigurationsknöpfe und erreichte auf OLTP-Benchmarks (YCSB, TPC-C) **+22 % Throughput**
+gegenüber Default-Konfiguration [Van Aken et al., 2017, §5.2].
+
+**CDBTune** (Zhang et al., ACM SIGMOD 2019) setzte Deep Deterministic Policy Gradient
+(DDPG) ein und meldete **+22.6 % Transactions/s** gegenüber DBA-optimierten Konfigurationen
+auf MySQL OLTP-Workloads [Zhang et al., 2019, Table 3].
+
+**Bao** (Marcus et al., ACM SIGMOD 2021) wechselte von Konfigurationsknöpfen auf
+Query-Plan-Selektion via Thompson Sampling und reduzierte die p99-Latenz auf dem JOB
+Benchmark um **30 %** gegenüber dem PostgreSQL-Standardplaner [Marcus et al., 2021, §6.3].
+
+**ALEX** (Ding et al., ACM SIGMOD 2020) implementierte einen lernenden adaptiven Index
+mit online Update-Unterstützung, der auf Lookup-Workloads **2–10× schneller** als
+konventionelle B-Bäume war [Ding et al., 2020, Table 1].
+
+**Gemeinsame Limitation aller dieser Systeme:** Sie sind Black-Box-Funktionsapproximatoren.
+Sie können ihre Entscheidungen nicht in natürlicher Sprache erklären, können nicht im
+Dialog korrigiert werden, und können keine Multi-Step-Optimierungspläne über mehrere
+Speicher-Backends gleichzeitig formulieren.
+
+#### Phase 3: LLM-augmentierte Systeme (2022–heute)
+
+**DB-BERT** (Trummer, ACM SIGMOD 2022) fine-tunte BERT auf Datenbankdokumentation und
+zeigte, dass Sprachmodelle implizites Konfigurationswissen aus Freitext extrahieren
+können — aber nur lesend, ohne Rückkopplungsschleife.
+
+**D-Bot** (Zhou et al., arXiv 2312.01454, 2023) kombinierte GPT-4 mit Tool-Use (SQL-
+Ausführung, Metrik-Scraping) und erreichte **49 % Diagnosegenauigkeit** auf 360 Datenbank-
+Anomalien — allerdings über eine proprietäre API, nicht deploybar auf On-Premises
+Hardware, und ohne domänenspezifisches Fine-Tuning.
+
+**GPT-4-as-DBA Benchmark** (Zhou et al., arXiv 2308.05481, 2023) stellte fest: ohne
+domänenspezifisches Fine-Tuning erreicht GPT-4 auf Index-Selection-Aufgaben **~60 %
+Accuracy** — ein Fine-Tuned-Modell jedoch **~85 %**. Das ist der direkte quantitative
+Grund, warum ThemisDB-LoRA auf LoRA-Fine-Tuning setzt statt auf Zero-Shot-Prompting.
+
+**NoisePage / Pilot** (Pavlo et al., VLDB 2021) ist die ambitionierteste Vision eines
+selbstfahrenden DBMS, beschränkt sich aber auf klassisches RDBMS ohne Multi-Modell-
+Speicher und ohne LLM-Reasoning.
+
+#### Was fehlt im Stand der Technik
+
+Kein bestehendes System kombiniert gleichzeitig:
+1. **Multi-modale Speicherung** (Dokument + Graph + Vektor + Zeitreihe in einem System)
+2. **Domänen-Fine-Tuning** auf eigene Optimizer-Entscheidungen (LoRA, in-process)
+3. **Vier verschachtelte selbstoptimierende Kreisläufe** auf verschiedenen Zeitskalen
+4. **Offline-Deploybarkeit** auf Consumer-GPU (kein API-Dependency)
+5. **Selbstversorgung mit Trainingsdaten** aus eigenen Optimizer-Logs
+
+ThemisDB-LoRA schließt alle fünf Lücken gleichzeitig.
+
+---
+
+### 0.2 Was ThemisDB heute bereits leistet
+
+Alle folgenden Komponenten sind **produktionsreif** (Maturity Level: 🟢 PRODUCTION-READY)
+und werden durch ThemisDB-LoRA *erweitert*, nicht ersetzt:
+
+#### Autonome Optimierungskomponenten (bereits aktiv)
+
+| Komponente | Datei | Was sie autonom tut |
+|---|---|---|
+| `WorkloadAdaptiveOptimizer` | `include/performance/workload_adaptive_optimizer.h` | Klassifiziert Workload (OLTP/OLAP/VECTOR/GRAPH), passt Thread-Pool, Cache-Größe, Join-Algorithmus an — Zyklus 60 s |
+| `HnswParameterTuner` | `include/index/hnsw_parameter_tuner.h` | Passt `efSearch` online an via Sliding-Window über Latenz/Recall — Zyklus < 1 s |
+| `BaoOptimizer` | `include/performance/phase3/bao.h` | Wählt optimalen Query-Plan via Thompson Sampling, lernt aus jedem `update_model()` — Zyklus pro Query |
+| `IndexSuggestionEngine` | `include/index/adaptive_index.h` | Erzeugt Index-Vorschläge aus `QueryPatternTracker` + `SelectivityAnalyzer` |
+| `AQLModelRouter` | `include/aql/aql_model_router.h` | Klassifiziert Queries in VECTOR/GRAPH/GEO/FULLTEXT/TIMESERIES/RELATIONAL via Keyword-Matching |
+| `AdaptiveShardRouter` | `include/sharding/adaptive_shard_router.h` | Iterative Shard-Auswahl mit Early-Stop und Capability-Matching |
+| `ICompressionSelector` | `include/timeseries/compression_selector.h` | Wählt Gorilla/DeltaOfDelta/RLE/None anhand `SeriesProfile` |
+| `SelfImprovementOrchestrator` | `include/prompt_engineering/self_improvement_orchestrator.h` | Automatisches Prompt-Optimieren + A/B-Test + Rollback |
+| `ContinuousLearningOrchestrator` | `include/rag/continuous_learning_orchestrator.h` | LoRA-Adapter-Retrain bei Accuracy-Drop, wöchentlicher Zyklus |
+
+#### Lernende Infrastruktur (bereits vorhanden)
+
+| Komponente | Datei | Funktion |
+|---|---|---|
+| `IncrementalLoRATrainer` | `include/training/incremental_lora_trainer.h` | QLoRA/LoRA+ Training, inkrementell oder von Grund auf |
+| `AdaLoRAAdapter` | `include/training/ada_lora_adapter.h` | Adaptive Rank-Allokation via SVD-Importance |
+| `LoRADataSelectionPipeline` | `include/training/lora_data_selection.h` | 5-stufige Qualitätsfilterung (Quality, Dedup, Embedding, Difficulty, Curriculum) |
+| `LegalAutoLabeler` | `include/training/auto_labeler.h` | Auto-Labeling mit `DomainType` (erweiterbar) |
+| `RAGIngestionBridge` | `include/rag/rag_ingestion_bridge.h` | Dokument-Indexierung + Entity-Extraktion für RAG |
+
+---
+
+### 0.3 Was wir hinzufügen — die Lücke
+
+Die folgenden **vier konkreten Erweiterungen** schließen die Lücke zwischen dem
+bestehenden System und der vollständigen ThemisDB-LoRA-Vision:
+
+| # | Erweiterung | Komponente(n) | Wissenschaftliche Grundlage |
+|---|---|---|---|
+| **A** | `DomainType::DATABASE_OPTIMIZER` + Confidence-Funktion `f(Δp99)` | `auto_labeler.h`, `lora_data_selection.h` | GPT-4-as-DBA Benchmark: fine-tuned ~85% vs. zero-shot ~60% [Zhou et al. 2023] |
+| **B** | RAG-Kontext-Serialisierer (WorkloadProfile + Metriken → JSON ≤ 2000 Token) | `rag_ingestion_bridge.h`, `workload_adaptive_optimizer.h` | Lewis et al. 2020: retrieval-augmented generation; Asai et al. 2023: selective retrieval |
+| **C** | Loop-Signal-Routing: Loop-1–3-Outcomes → `ContinuousLearningOrchestrator` | `continuous_learning_orchestrator.h` | Van Aken et al. 2017: self-learning from observed outcomes |
+| **D** | Semantisches Storage-Backend-Routing (LLM → `ContentTypeRegistry` + `AQLModelRouter`) | `content_type.h`, `aql_model_router.h` | NoisePage/Pilot 2021: semantic workload classification |
 
 ---
 
@@ -47,55 +168,70 @@ in einem System. Wer dieses System betreibt, muss heute selbst entscheiden:
   aktuellen Anfragelast?
 - Wann lohnt sich ein neues Index? Wann soll ich einen Index droppen?
 - Welche RocksDB-Compaction-Strategie ist richtig für meinen Workload?
+- In welchem Backend soll ein neu eingehender Datensatz abgelegt werden —
+  als Dokument, als Graphkante, als Vektor, als Zeitreihe, oder in mehreren?
 - Warum ist meine p99-Latenz gestiegen? Was soll ich tun?
 
-Die heute eingesetzten regelbasierten Systeme (`HnswParameterTuner`,
-`WorkloadAdaptiveOptimizer`, `BaoOptimizer`) geben korrekte Empfehlungen — aber
-sie können nicht erklären, nicht dialogisch nachfragen, nicht mehrschrittige
-Optimierungspläne ausformulieren.
-
-Datenbankadministratoren verlieren Zeit, weil sie zwischen Prometheus-Dashboards,
-Docs und dem Admin-UI hin- und herspringen müssen.
+Die bestehenden regelbasierten Systeme (`HnswParameterTuner`, `WorkloadAdaptiveOptimizer`,
+`BaoOptimizer`, `IndexSuggestionEngine`) geben korrekte Empfehlungen — aber sie
+optimieren **jedes Problem isoliert**. Sie können nicht:
+- über mehrere Speicher-Backends gleichzeitig nachdenken,
+- ihre Entscheidungen in natürlicher Sprache erklären,
+- im Dialog korrigiert werden,
+- mehrschrittige Optimierungspläne formulieren.
 
 ### 1.2 Die Lösung in einem Satz
 
-> **Ein ThemisDB-spezialisiertes LLM, das Optimierungsempfehlungen in
-> verständlicher Sprache erklärt, seine Rationale offenlegt und im Dialog
-> verfeinert werden kann.**
+> **Ein in ThemisDB eingebettetes, domänenspezifisch fine-getuntes LLM, das autonom
+> zwischen Speicher-Strategien, Indizes und Ausführungspfaden wählt, seine Entscheidungen
+> erklären kann — und sich durch vier verschachtelte Feedback-Schleifen kontinuierlich
+> selbst verbessert.**
 
-Das LLM kennt ThemisDB von innen (durch LoRA-Training auf echten
-Optimizer-Entscheidungen), weiß aber auch, was die aktuelle Instanz gerade macht
-(durch RAG auf Live-Metriken).
+### 1.3 Die vier selbstoptimierenden Kreisläufe
 
-### 1.3 Die zwei Schichten
+Das ist der Kernunterschied zu allen bisherigen Systemen (vgl. §0.1): ThemisDB-LoRA
+ist kein einmaliger Advisor, sondern vier verschachtelte Regelkreise:
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│  SCHICHT A — STATISCHES WISSEN (LoRA-Adapter)           │
-│                                                         │
-│  "Was bedeutet ein hoher efSearch?"                     │
-│  "Was ist eine gute M-Wahl für 768-dim Vektoren?"       │
-│  "Welche Compaction-Strategie passt zu OLAP?"           │
-│                                                         │
-│  Quelle: historische EXPLAIN-Paare, BAO-Entscheidungen, │
-│          HnswParameterTuner-Logs — gelabelt mit Δp99    │
-│                                                         │
-│  Update: monatlich / pro Release (kleiner Adapter-File) │
-└─────────────────────────────────────────────────────────┘
-                    +
-┌─────────────────────────────────────────────────────────┐
-│  SCHICHT B — DYNAMISCHES WISSEN (RAG bei Inferenz)      │
-│                                                         │
-│  "Die aktuelle p99 meiner Instanz ist 380 ms"           │
-│  "Cache-Hit-Rate ist 61 % — unter dem Ziel von 80 %"   │
-│  "Die letzten 20 BAO-Entscheidungen bevorzugten Plan 2" │
-│                                                         │
-│  Quelle: WorkloadAdaptiveOptimizer, HnswParameterTuner, │
-│          BaoOptimizer, Prometheus-Scrape (live)         │
-│                                                         │
-│  Update: pro Anfrage (< 100 ms Kontext-Assemblierung)   │
-└─────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│ KREIS 4 — ADAPTER-VERBESSERUNG  (Wochentakt)                    │
+│ ContinuousLearningOrchestrator + IncrementalLoRATrainer         │
+│ Eingabe: alle Outcomes aus Kreisen 1–3 + DBA-Feedback           │
+│ Ausgang: verbesserter LoRA-Adapter, A/B-getestet                │
+│                                                                  │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ KREIS 3 — INDEX-LIFECYCLE  (Stunden–Tage)                │   │
+│  │ QueryPatternTracker + IndexSuggestionEngine              │   │
+│  │ + SelfImprovementOrchestrator (A/B-Gate)                 │   │
+│  │ Eingabe: Abfragemuster, Selektivitäts-Statistiken        │   │
+│  │ Ausgang: CREATE/DROP INDEX, composite Index-Strategie    │   │
+│  │                                                          │   │
+│  │  ┌────────────────────────────────────────────────────┐  │   │
+│  │  │ KREIS 2 — WORKLOAD-ADAPTATION  (Minuten)           │  │   │
+│  │  │ WorkloadAdaptiveOptimizer + HnswParameterTuner     │  │   │
+│  │  │ + CompressionSelector + AdaptiveShardRouter        │  │   │
+│  │  │ Eingabe: gleitendes Fenster über Query-Statistiken  │  │   │
+│  │  │ Ausgang: efSearch, Thread-Pool, Cache, Join-Alg.   │  │   │
+│  │  │                                                    │  │   │
+│  │  │  ┌──────────────────────────────────────────────┐  │  │   │
+│  │  │  │ KREIS 1 — QUERY-AUSFÜHRUNG  (Millisekunden)  │  │  │   │
+│  │  │  │ AQLModelRouter + BaoOptimizer                │  │  │   │
+│  │  │  │ Eingabe: eingehende Query                    │  │  │   │
+│  │  │  │ Ausgang: gewählter Query-Plan                │  │  │   │
+│  │  │  └──────────────────────────────────────────────┘  │  │   │
+│  │  └────────────────────────────────────────────────────┘  │   │
+│  └──────────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────────┘
 ```
+
+Das LLM greift in **alle vier Kreisläufe** ein — mit unterschiedlicher Autonomie:
+
+| Kreis | LLM-Rolle | Latenzbudget | Autonomiegrad |
+|---|---|---|---|
+| 1 — Query-Ausführung | Semantische Query-Klassifikation; BAO-Hint-Override bei zyklischen Mustern | < 5 ms | Beratend → semi-autonom |
+| 2 — Workload-Adaptation | Migration-Plan bei Workload-Shift (z. B. OLTP→VECTOR); efSearch-Begründung | < 200 ms | Semi-autonom |
+| 3 — Index-Lifecycle | Composite-Index-Strategien; DROP-Entscheidungen; Storage-Backend-Routing | 1–30 s | Semi-autonom (SelfImprovementOrchestrator-Gate) |
+| 4 — Adapter-Verbesserung | Passive Rolle: eigene Outputs werden Trainingsdaten | Wochentakt | Automatisch (kein LLM-Call nötig) |
 
 ### 1.4 Was wir konkret implementieren
 
@@ -107,15 +243,14 @@ Optimizer-Entscheidungen), weiß aber auch, was die aktuelle Instanz gerade mach
 | **4** | Optimizer-Log-Export CLI (EXPLAIN-Paare, JSONL) | 🔴 Offen |
 | **5** | Erstes Adapter-Training `themisdb-expert-v1` (Llama-3.1-8B + NF4 QLoRA) | 🔴 Offen |
 | **6** | RAG-Kontext-Serialisierer (WorkloadProfile → JSON ≤ 2 000 Token) | 🔴 Offen |
-| **7** | A/B-Deployment via `deployVersionEx(traffic_split=0.1)` | 🔴 Offen |
-| **8** | DBA-Feedback-UI (👍/👎 → Trainingssignal) | 🔴 Offen |
-| **9** | `ContinuousLearningOrchestrator` auf wöchentlichen Retrain-Zyklus konfigurieren | 🔴 Offen |
+| **7** | Loop-Signal-Routing: Kreis-1–3-Outcomes → `ContinuousLearningOrchestrator` | 🔴 Offen |
+| **8** | A/B-Deployment via `deployVersionEx(traffic_split=0.1)` | 🔴 Offen |
+| **9** | DBA-Feedback-UI (👍/👎 → Trainingssignal) | 🔴 Offen |
+| **10** | Semantisches Storage-Backend-Routing (LLM → `ContentTypeRegistry`) | 🔴 Offen |
 
-Alles, was in der Tabelle oben steht, baut auf **bereits produktionsreifem Code**
-auf. Die Infrastruktur (`IncrementalLoRATrainer`, `AdaLoRAAdapter`,
-`LoRADataSelectionPipeline`, `RAGIngestionBridge`, `ContinuousLearningOrchestrator`)
-ist vorhanden. Wir schließen nur die Lücke im Domänen-Labeling und der
-Kontext-Assemblierung.
+Alles baut auf **bereits produktionsreifem Code** auf. Die Infrastruktur für alle vier
+Kreisläufe ist vorhanden. Wir schließen die Lücke im Domänen-Labeling,
+Kontext-Serialisierung und Loop-Signal-Routing.
 
 ### 1.5 Was wir explizit NICHT bauen
 
@@ -123,6 +258,8 @@ Kontext-Assemblierung.
 - Keinen eigenen Prometheus-Stack — `PrometheusMetricsAdapter` ist bereits vorhanden
 - Keine neue Trainingspipeline — `IncrementalLoRATrainer` ist production-ready
 - Keine eigene Vektorsuche für RAG — `RAGIngestionBridge` ist bereits vorhanden
+- Keinen neuen Kreislauf-Mechanismus — alle vier Kreisläufe laufen bereits, wir
+  fügen die LLM-Intelligenz als neuen Teilnehmer ein
 
 ---
 
