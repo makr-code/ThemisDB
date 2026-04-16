@@ -22,7 +22,9 @@
 #include "llm/llama_wrapper.h"
 #include "llm/ethical_guidelines_manager.h"
 #include <memory>
+#include <mutex>
 #include <string>
+#include <unordered_map>
 #include <vector>
 #include <functional>
 
@@ -196,6 +198,9 @@ public:
     
     /**
      * @brief Clear response cache
+     *
+     * Clears the in-memory embedding cache.  Subsequent calls to embed()
+     * will recompute embeddings from the model.
      */
     void clearCache();
     
@@ -218,6 +223,10 @@ private:
     std::unique_ptr<LlamaWrapper> wrapper_;
     Config config_;
     std::unique_ptr<EthicalGuidelinesManager> ethical_guidelines_;
+
+    // Embedding cache: text → embedding vector (thread-safe via cache_mutex_)
+    mutable std::mutex cache_mutex_;
+    std::unordered_map<std::string, std::vector<float>> embedding_cache_;
     
     // Internal helpers
     InferenceRequest createRequest(

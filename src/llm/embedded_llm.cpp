@@ -144,7 +144,19 @@ std::string EmbeddedLLM::chatSimple(
 // ═══════════════════════════════════════════════════════════
 
 std::vector<float> EmbeddedLLM::embed(const std::string& text) {
-    return wrapper_->embed(text);
+    {
+        std::lock_guard<std::mutex> lk(cache_mutex_);
+        auto it = embedding_cache_.find(text);
+        if (it != embedding_cache_.end()) {
+            return it->second;
+        }
+    }
+    auto embedding = wrapper_->embed(text);
+    {
+        std::lock_guard<std::mutex> lk(cache_mutex_);
+        embedding_cache_.emplace(text, embedding);
+    }
+    return embedding;
 }
 
 std::vector<std::vector<float>> EmbeddedLLM::embedBatch(const std::vector<std::string>& texts) {
@@ -152,7 +164,7 @@ std::vector<std::vector<float>> EmbeddedLLM::embedBatch(const std::vector<std::s
     embeddings.reserve(texts.size());
     
     for (const auto& text : texts) {
-        embeddings.push_back(wrapper_->embed(text));
+        embeddings.push_back(embed(text));  // reuse cached embed()
     }
     
     return embeddings;
@@ -239,11 +251,13 @@ json EmbeddedLLM::getStats() const {
 }
 
 void EmbeddedLLM::clearCache() {
-    // Note: Cache clearing implementation depends on caching strategy
-    // Currently no caching is implemented at this layer
-    // Future: Could implement response cache with LRU eviction
-    // or call into model_loader_->clearCache() if caching is at that level
-    spdlog::info("Cache clearing requested (no-op: caching not yet implemented)");
+    std::size_t count;
+    {
+        std::lock_guard<std::mutex> lk(cache_mutex_);
+        count = embedding_cache_.size();
+        embedding_cache_.clear();
+    }
+    spdlog::info("EmbeddedLLM: embedding cache cleared ({} entries removed)", count);
 }
 
 // ═══════════════════════════════════════════════════════════
