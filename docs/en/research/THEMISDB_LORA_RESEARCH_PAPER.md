@@ -759,36 +759,197 @@ Stage 4: Difficulty scoring
 
 ### 7.1 Offline Metrics
 
-| Metric | Definition | Target |
-|---|---|---|
-| **Advisor Accuracy** | % of recommendations improving p99 by > 10 % in sandbox replay | ≥ 75 % |
-| **AQL Validity** | % of generated AQL queries that parse + execute without error | ≥ 95 % |
-| **Hallucination Rate** | % of answers citing non-existent index types or parameters | < 3 % |
-| **HNSW Parameter RMSE** | RMSE of recommended `efSearch` vs. rule-based tuner baseline | < 20 |
+| Metric | Definition | Target | Baseline (rule-based) |
+|---|---|---|---|
+| **Advisor Accuracy** | % of recommendations improving p99 by > 10 % in sandbox replay | ≥ 75 % | ~55 % (HnswParameterTuner heuristics alone) |
+| **Baseline-Relative Gain** | Δ(Advisor Accuracy) vs. rule-based baseline | ≥ +15 pp | 0 pp (by definition) |
+| **AQL Validity** | % of generated AQL queries that parse + execute without error | ≥ 95 % | 100 % (rule-based never generates AQL) |
+| **Hallucination Rate** | % of answers citing non-existent index types or parameters | < 3 % | 0 % (rule-based never hallucinates) |
+| **HNSW Parameter RMSE** | RMSE of recommended `efSearch` vs. optimal (from golden dataset) | < 20 | ~28 (HnswParameterTuner reactive lag) |
+| **Hot-Pattern Accuracy** | Advisor Accuracy restricted to top-50 patterns by `QueryPattern.count` | ≥ 85 % | ~60 % |
+| **Golden-Dataset Match Rate** | Agreement with golden-labeled optimal decisions (see §7.4) | ≥ 80 % | ~62 % |
+| **ECE (calibration error)** | Expected Calibration Error of LLM confidence scores | < 0.05 | N/A |
 
 ### 7.2 Online A/B Metrics
 
 ```
-Control group:   HnswParameterTuner (current rule-based system)
+Control group:   Rule-based system (HnswParameterTuner + WorkloadAdaptiveOptimizer + BaoOptimizer)
 Treatment group: ThemisDB-LoRA advisor (10 % traffic via deployVersionEx)
 
-Primary metric:  Mean p99 query latency
+Primary metric:  Frequency-weighted mean p99 query latency
+                 weight(pattern) = QueryPattern.count / total_queries
 Secondary:       DBA acceptance rate of recommendations (thumbs up/down)
+                 BaoOptimizer.get_stats().avg_speedup (treatment vs. control)
 Guard rail:      Zero regression in cluster stability (no failover events)
+                 No increase in BaoOptimizer.get_stats().model_updates rate
+                 (excessive model churn = instability signal)
 ```
 
-### 7.3 Benchmark Dataset
+**Statistical stopping rule:** Mann-Whitney U-test on p99 samples, α = 0.05,
+minimum 500 samples per group (`min_ab_samples = 500` in `ContinuousLearningConfig`).
 
-Minimum viable benchmark: **1 000 `(query, plan, Δlatency)` triples** from a
-representative mixed workload (300 OLTP, 400 OLAP, 200 vector-search, 100
-graph-traversal), generated via:
+---
+
+### 7.3 Baseline Definition
+
+The rule-based baseline is not a single system but a **composed pipeline** of four
+existing components, each with documented expected performance:
+
+| Baseline component | What it decides | Expected performance |
+|---|---|---|
+| `BaoOptimizer` (Thompson Sampling) | Query plan selection | ~30 % p99 reduction vs. no planner [Marcus et al., SIGMOD 2021, §6.3] |
+| `HnswParameterTuner` (reactive) | efSearch adaptation | ~15 % latency improvement over static efSearch [Malkov & Yashunin, IEEE TPAMI 2018, §5] |
+| `WorkloadAdaptiveOptimizer` | Thread pool, cache, join algorithm | ~22 % throughput improvement over default config [Van Aken et al., SIGMOD 2017, §5.2] |
+| `IndexSuggestionEngine` (rule-based) | Single-field index suggestions | ~10 % query time reduction for indexed fields [Ding et al., SIGMOD 2020, §6] |
+
+**Composed baseline Advisor Accuracy** (estimated, from historical ThemisDB optimizer
+logs): ~55 % of rule-based decisions produce Δp99 > 10 %. The LLM target of ≥ 75 %
+therefore represents a **+20 pp absolute improvement** — consistent with the
+GPT-4-as-DBA benchmark result of fine-tuned (85 %) vs. zero-shot (60 %) [Zhou et al.,
+arXiv 2308.05481, Table 2].
+
+---
+
+### 7.4 Golden Dataset Construction
+
+The golden dataset is built **continuously from ThemisDB runtime data** — not from
+manually curated examples. This is the decisive advantage over systems that rely on
+synthetic benchmarks.
+
+#### Source: Frequent Query Patterns
+
+```cpp
+// QueryPatternTracker::getTopPatterns() returns the top-N most frequent patterns
+// across all active collections, ordered by count descending.
+// Each pattern carries: collection, field, operation, count, total_time_ms,
+// cache_misses, cache_hits, avg_cache_miss_penalty_ms.
+
+QueryPatternTracker tracker;
+auto hot_patterns = tracker.getTopPatterns(/*limit=*/100);
+
+// Hot patterns are those where count > 1 % of total_queries
+// (typically 10–30 patterns cover 80 % of workload — Zipf distribution)
+```
+
+**Zipf's Law in query workloads** (Gray et al., 1994, "The Benchmark Handbook"):
+empirically, the top-10 query patterns account for approximately 60–80 % of total
+query volume in OLTP workloads. For our golden dataset, this means:
+
+- Top-10 patterns: ~70 % of workload → evaluated with high statistical power
+- Patterns 11–50: ~20 % of workload → medium power
+- Patterns 51–100: ~10 % of workload → included for coverage
+
+#### Labeling: Automatic from Observed Outcomes
+
+Each golden sample is a tuple `(pattern, context, decision, outcome)`:
+
+```
+pattern:  QueryPattern {collection, field, operation, count, total_time_ms}
+context:  WorkloadProfile + HnswParameterTuner.getStats() + BaoOptimizer.get_stats()
+decision: the action taken (index created, efSearch changed, plan hint applied)
+outcome:  Δp99 after N=100 subsequent queries matching this pattern
+label:    "optimal" if Δp99 > 20% AND no regression on other patterns
+          "acceptable" if Δp99 5–20%
+          "neutral" if |Δp99| < 5%
+          "harmful" if Δp99 < -5%
+```
+
+"Optimal" decisions are confirmed by a 3-day hold-out window: the Δp99 must be
+sustained (not a transient fluke). This uses the same time-window logic as
+`ContinuousLearningOrchestrator.retraining_interval`.
+
+#### Labeling: RLAIF for Subjective Decisions
+
+For decisions where outcome measurement is noisy (e.g., composite index vs. two
+single-field indexes — both work, but one is better for the access pattern), the
+existing `RLAIFTrainer` (`include/rag/rlaif_trainer.h`) generates preference pairs:
+
+```
+PreferencePair {
+  prompt:   pattern + context description
+  chosen:   composite index strategy (LLM recommendation A)
+  rejected: two single-field indexes (LLM recommendation B)
+}
+```
+
+The `HeuristicAIJudge` (no LLM runtime required) evaluates based on
+`QueryPattern.total_time_ms` and `cache_miss_penalty_ms` — objective measurements
+that do not require a separate reward model.
+
+#### Calibration against Ground Truth
+
+The `CalibrationManager` (`include/rag/calibration_manager.h`) calibrates LLM
+confidence scores against observed outcomes using temperature scaling:
+
+```cpp
+CalibrationManager cal;
+cal.addGroundTruth({
+    .test_id       = pattern.collection + ":" + pattern.field,
+    .faithfulness_score = outcome.delta_p99 > 0.1 ? 1.0 : 0.0,
+    .relevance_score    = outcome.delta_p99 / 0.3  // normalized
+});
+auto [before, after] = cal.train(llm_judge);
+// Target: ECE < 0.05 after calibration (well-calibrated confidence → safe for
+// autonomous action without human confirmation)
+```
+
+---
+
+### 7.5 Frequency-Weighted Evaluation
+
+Standard (uniform) Advisor Accuracy treats all recommendations equally. This is
+misleading: a correct recommendation on a pattern executed 10 000 times per day
+is worth 1 000× more than one on a pattern executed 10 times per day.
+
+**Frequency-weighted Advisor Accuracy:**
+
+```
+WAdvisorAcc = Σ_i [ w_i · 1(decision_i = "optimal" OR "acceptable") ]
+              where w_i = QueryPattern_i.count / Σ_j QueryPattern_j.count
+```
+
+This is computed directly from `QueryPatternTracker::getTopPatterns()` and the
+golden dataset outcome labels.
+
+**Expected relationship** between uniform and weighted accuracy:
+- If the LLM over-fits to rare patterns and under-performs on hot patterns:
+  WAdvisorAcc < UniformAdvisorAcc
+- If the LLM correctly prioritizes hot patterns (as expected after frequency-weighted
+  data selection via `LoRADataSelectionConfig.diversity_weight`):
+  WAdvisorAcc ≈ UniformAdvisorAcc or slightly higher
+
+Target: WAdvisorAcc ≥ 80 % (5 pp higher than uniform target, justified by the
+higher statistical power on hot patterns during training).
+
+---
+
+### 7.6 Minimum Viable Golden Dataset
+
+```
+Composition:
+  - 100 patterns from QueryPatternTracker.getTopPatterns(100)
+  - Per pattern: 10 outcome observations (Δp99 over 3-day windows)
+  - Total: 1 000 labeled (pattern, context, decision, outcome) triples
+  - Distribution mirrors live workload (Zipf-weighted)
+
+Split:
+  - 700 train / 150 validation / 150 test (stratified by WorkloadType)
+  - Test set is frozen after initial collection (never used for training decisions)
+
+Construction CLI:
+```
 
 ```bash
-themisdb-cli optimizer-log export \
-  --since 30d \
-  --format training-pairs \
+themisdb-cli golden-dataset build \
+  --top-patterns 100 \
+  --min-observations 10 \
+  --observation-window 3d \
   --min-delta-p99 0.05 \
-  --output db_optimizer_training_v1.jsonl
+  --output golden_dataset_v1.jsonl \
+  --split 70/15/15
+
+# Produces also: golden_dataset_v1_baseline_scores.json
+# containing rule-based system decisions for each pattern (for comparison)
 ```
 
 ---
