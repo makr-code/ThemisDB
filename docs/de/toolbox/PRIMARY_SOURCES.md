@@ -1,8 +1,10 @@
-[docs](../../index.md) > [de](../index.md) > [toolbox](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-16  
-**Status:** draft  
+[docs](../../README.md) > [de](../README.md) > [toolbox](./index.md) > [reference](./PRIMARY_SOURCES.md)
+**Datum:** 2026-04-16
+**Status:** draft
 **Primary (Quelle der Wahrheit):**
 - `include/toolbox/ROADMAP.md`
+- `include/toolbox/FUTURE_ENHANCEMENTS.md`
+- `src/toolbox/FUTURE_ENHANCEMENTS.md`
 
 **Bezug / Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -21,7 +23,14 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`toolbox`**
 | Datei | Pfad |
 |-------|------|
 | `ROADMAP.md` | [`include/toolbox/ROADMAP.md`](../../../include/toolbox/ROADMAP.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`include/toolbox/FUTURE_ENHANCEMENTS.md`](../../../include/toolbox/FUTURE_ENHANCEMENTS.md) |
+
+### `src/toolbox/`
+
+| Datei | Pfad |
+|-------|------|
+| `FUTURE_ENHANCEMENTS.md` | [`src/toolbox/FUTURE_ENHANCEMENTS.md`](../../../src/toolbox/FUTURE_ENHANCEMENTS.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-16*
+*Aktualisiert: 2026-04-16*
