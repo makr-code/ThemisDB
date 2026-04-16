@@ -484,6 +484,59 @@ Focus: Zero-trust, advanced compliance, and penetration-tested security posture.
 
 ---
 
+### Phase 5.5: QTS / QNAP Admin UI (Q2 2026) — 🚧 Phase 1 Shipped
+
+Focus: Lightweight web admin UI for ThemisDB on QNAP Container Station (QTS).
+
+#### 5.5.1 Phase 1 — Sidecar Admin UI MVP
+
+- [x] Static single-page admin UI (HTML/CSS/vanilla JS, no build step) — `docker/admin-ui/app/`
+- [x] nginx sidecar container with reverse proxy `/api/* → ThemisDB:8080` — `docker/admin-ui/nginx.conf`
+- [x] Admin UI Docker image (`docker/admin-ui/Dockerfile`) — nginx:1.25-alpine
+- [x] QNAP Container Station compose file — `docker-compose.qnap.yml`
+  - ThemisDB from Docker Hub (`makrcode/themisdb:latest`) on port 18765
+  - Admin UI sidecar on port 18766
+  - Bridge network `themis-net`; named volumes for data + logs
+- [x] Dashboard: health status, version, uptime, request count, DB size
+- [x] Collections browser: list with document count + size
+- [x] AQL query editor (Ctrl+Enter to execute)
+- [x] Backup/Restore UI (`POST /admin/backup`, `POST /admin/restore`)
+- [x] Monitoring: raw Prometheus metrics viewer (`GET /metrics`)
+- [x] German setup & operations guide — `docs/de/admin_tools/qts-inline-admin.md`
+- [x] English setup & operations guide — `docs/en/admin_tools/qts-inline-admin.md`
+
+#### 5.5.2 Phase 2 — Security Hardening (Target: Q3 2026)
+
+- [ ] TLS termination via QNAP reverse proxy or Let's Encrypt — nginx.conf HTTPS config
+  - Inputs: TLS cert/key paths, QNAP-compatible acme client
+  - Errors: cert expiry, OCSP failure, SNI mismatch
+  - Tests: integration test with self-signed cert
+- [ ] Admin UI authentication: session cookie + CSRF token
+  - Requires: `THEMIS_AUTH_ENABLED=true`, RBAC role `admin:all`
+  - Tests: unit tests for login/logout flow, CSRF rejection
+- [ ] CORS/Origin header validation in nginx
+- [ ] Audit log mount (bind `/var/log/themis` as named volume)
+- [ ] Rate limiting for admin endpoints in nginx (`limit_req_zone`)
+- [ ] MFA enforcement for admin role (THEMIS_MFA_REQUIRED_ROLES includes `admin`)
+
+#### 5.5.3 Phase 3 — QPKG Native Integration (Target: Q4 2026, optional)
+
+- [ ] QPKG package wrapping ThemisDB + Admin UI
+  - Inputs: QPKG build toolchain, QTS version matrix (5.x)
+  - Outputs: `.qpkg` installable via QTS App Center
+  - Tests: smoke install on QTS 5.1 + 5.2 test images
+- [ ] Native QTS menu shortcut and inline frame embedding
+- [ ] Automatic update mechanism via QPKG version check
+- [ ] Dependency declaration (Container Station, qpkg.cfg)
+
+**Acceptance Criteria (Phase 1):**
+- Admin UI accessible at `http://<QNAP-IP>:18766` after `docker compose -f docker-compose.qnap.yml up -d`
+- Dashboard shows live ThemisDB health and stats within 5 s
+- No external JS/CSS dependencies (fully self-contained SPA)
+- nginx serves static files ≤ 10 ms (P95), proxy latency adds ≤ 2 ms overhead
+
+---
+
 ### Phase 6: Documentation, SDK & Ecosystem (Q2–Q4 2027) — 📋 Planned
 
 Focus: Developer experience, official SDKs, and community ecosystem.

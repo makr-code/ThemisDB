@@ -1,0 +1,134 @@
+# ============================================================================
+# ThemisDB — QNAP Container Station Deployment
+# ============================================================================
+#
+# Phase 1 MVP: ThemisDB + Sidecar Admin UI
+# Designed for QNAP NAS running Container Station (Docker Engine).
+#
+# USAGE
+# ─────
+# 1. Copy this file to your QNAP shared folder (e.g. /Container/themisdb/).
+# 2. In Container Station → "Create Application" → upload this compose file.
+# 3. Or via SSH:
+#      cd /share/Container/themisdb
+#      docker compose -f docker-compose.qnap.yml up -d
+#
+# ACCESS
+# ──────
+#   ThemisDB HTTP API : http://<QNAP-IP>:18765
+#   ThemisDB gRPC     : <QNAP-IP>:18081
+#   Prometheus Metrics: http://<QNAP-IP>:19090
+#   Admin UI          : http://<QNAP-IP>:18766
+#
+# SECURITY NOTE
+# ─────────────
+# The admin UI is exposed on the local network only. For production use:
+#   - Enable HTTPS via a reverse proxy (e.g. QNAP's built-in Station Manager
+#     or an nginx proxy in front of this stack).
+#   - Set THEMIS_AUTH_ENABLED=true and configure strong credentials.
+#   - Restrict port 18766 to trusted subnets via QNAP firewall rules.
+#
+# IMAGE SOURCE
+# ────────────
+# ThemisDB: pulled from Docker Hub (makrcode/themisdb:latest).
+# Admin UI: built locally from docker/admin-ui/ in the ThemisDB repository,
+#           or pulled from Docker Hub once a pre-built image is published.
+# ============================================================================
+
+services:
+
+  # ==========================================================================
+  # ThemisDB Server (COMMUNITY Edition — Docker Hub image)
+  # ==========================================================================
+  themis:
+    image: makrcode/themisdb:latest
+    container_name: themisdb
+    restart: unless-stopped
+    ports:
+      - "18765:8080"   # HTTP REST / AQL API
+      - "18081:8081"   # gRPC
+      - "19090:9090"   # Prometheus metrics
+    volumes:
+      # Persistent data — stored on QNAP shared folder
+      - themis-data:/var/lib/themis/data
+      # Optional: mount a custom config file from the host
+      # - ./config/config.yaml:/etc/themis/config/config.yaml:ro
+      - themis-logs:/var/log/themis
+    environment:
+      - THEMIS_EDITION=COMMUNITY
+      - THEMIS_LOG_LEVEL=info
+      - THEMIS_DATA_DIR=/var/lib/themis/data
+      - THEMIS_METRICS_ENABLED=true
+      - THEMIS_TRACING_ENABLED=false
+      # Uncomment to require authentication:
+      # - THEMIS_AUTH_ENABLED=true
+      # - THEMIS_ADMIN_USER=admin
+      # - THEMIS_ADMIN_PASSWORD=changeme
+    healthcheck:
+      test: ["CMD", "curl", "-fL", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    networks:
+      - themis-net
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 4G
+        reservations:
+          cpus: '1'
+          memory: 512M
+
+  # ==========================================================================
+  # Admin UI — Sidecar Container (Phase 1 MVP)
+  # Serves a lightweight web dashboard that talks to ThemisDB via REST.
+  # nginx proxies /api/* → ThemisDB:8080 to avoid CORS issues.
+  # ==========================================================================
+  admin-ui:
+    build:
+      context: ./docker/admin-ui
+      dockerfile: Dockerfile
+    image: themisdb-admin-ui:1.0.0
+    container_name: themisdb-admin-ui
+    restart: unless-stopped
+    ports:
+      - "18766:80"     # Admin UI web interface
+    depends_on:
+      themis:
+        condition: service_healthy
+    networks:
+      - themis-net
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health-ui"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 128M
+        reservations:
+          cpus: '0.1'
+          memory: 32M
+
+# ============================================================================
+# Networks
+# ============================================================================
+networks:
+  themis-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24
+
+# ============================================================================
+# Volumes (persistent data on QNAP storage)
+# ============================================================================
+volumes:
+  themis-data:
+    driver: local
+  themis-logs:
+    driver: local
