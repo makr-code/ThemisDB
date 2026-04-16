@@ -31,6 +31,7 @@
 #include "utils/tracing.h"
 #include <sstream>
 #include <regex>
+#include <functional>
 
 namespace themis {
 namespace server {
@@ -422,15 +423,45 @@ http::response<http::string_body> EthicsApiHandler::handleGetMetrics(
         
         auto result = executeAQL(aql);
         
-        // If Prometheus format requested, convert
+        // If Prometheus format requested, convert JSON metrics to text format
         if (format == "prometheus") {
-            // For now, return as JSON
-            // TODO: Convert to Prometheus format
-            // # HELP ethics_decisions_total Total number of decisions made
-            // # TYPE ethics_decisions_total counter
-            // ethics_decisions_total 1234
+            // result is a JSON object; each key becomes a Prometheus metric.
+            // Nested objects are flattened with underscore separators.
+            // Non-numeric leaves are skipped.
+            std::string prom;
+            std::function<void(const nlohmann::json&, const std::string&)> flatten =
+                [&](const nlohmann::json& node, const std::string& prefix) {
+                    if (node.is_object()) {
+                        for (auto it = node.begin(); it != node.end(); ++it) {
+                            std::string key = prefix.empty()
+                                ? it.key()
+                                : prefix + "_" + it.key();
+                            flatten(it.value(), key);
+                        }
+                    } else if (node.is_number()) {
+                        prom += "# TYPE " + prefix + " gauge
+";
+                        prom += prefix + " " + node.dump() + "
+";
+                    }
+                    // arrays and strings are skipped
+                };
+
+            // result may be wrapped in an array (AQL RETURN produces an array)
+            if (result.is_array() && !result.empty()) {
+                flatten(result[0], "ethics");
+            } else {
+                flatten(result, "ethics");
+            }
+
+            http::response<http::string_body> prom_res{http::status::ok, 11};
+            prom_res.set(http::field::content_type, "text/plain; version=0.0.4");
+            prom_res.body() = prom;
+            prom_res.prepare_payload();
+            span.setStatus(true);
+            return prom_res;
         }
-        
+
         span.setStatus(true);
         return makeResponse(http::status::ok, result.dump(), req);
         

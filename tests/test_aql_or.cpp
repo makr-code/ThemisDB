@@ -450,3 +450,58 @@ TEST(AQLOrStub, DISABLED_LegacyAQLOr) {
     GTEST_SKIP() << "Legacy AQL OR tests temporarily disabled for build stability.";
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// New: Multiple FILTER clauses with OR — cartesian product DNF expansion
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Verify that two independent FILTER clauses each containing OR are
+// AND-combined via cartesian product into a DisjunctiveQuery.
+//
+// AQL: FOR doc IN col
+//        FILTER doc.a == 1 OR doc.a == 2
+//        FILTER doc.b == 10 OR doc.b == 20
+//        RETURN doc
+//
+// Expected DNF disjuncts:
+//   (a==1 AND b==10) OR (a==1 AND b==20) OR (a==2 AND b==10) OR (a==2 AND b==20)
+// i.e. 2 × 2 = 4 disjuncts.
+TEST(AQLOrMultipleFilters, CartesianProductExpansion) {
+    const std::string aql =
+        "FOR doc IN col "
+        "FILTER doc.a == 1 OR doc.a == 2 "
+        "FILTER doc.b == 10 OR doc.b == 20 "
+        "RETURN doc";
+
+    AQLParser parser;
+    auto parse_result = parser.parse(aql);
+    ASSERT_TRUE(parse_result.success) << parse_result.error;
+
+    auto tr = AQLTranslator::translate(parse_result.query);
+    ASSERT_TRUE(tr.success) << tr.error_message;
+
+    // Must produce a DisjunctiveQuery, not an error
+    ASSERT_TRUE(tr.disjunctive.has_value())
+        << "Expected DisjunctiveQuery but got non-disjunctive result";
+
+    // 2 disjuncts × 2 disjuncts → 4 combined disjuncts
+    EXPECT_EQ(tr.disjunctive->disjuncts.size(), 4u)
+        << "Cartesian product of 2×2 OR disjuncts should yield 4 conjuncts";
+}
+
+// Single FILTER with OR still works as before (regression guard)
+TEST(AQLOrMultipleFilters, SingleFilterOrStillWorks) {
+    const std::string aql =
+        "FOR doc IN col "
+        "FILTER doc.a == 1 OR doc.a == 2 "
+        "RETURN doc";
+
+    AQLParser parser;
+    auto parse_result = parser.parse(aql);
+    ASSERT_TRUE(parse_result.success) << parse_result.error;
+
+    auto tr = AQLTranslator::translate(parse_result.query);
+    ASSERT_TRUE(tr.success) << tr.error_message;
+    ASSERT_TRUE(tr.disjunctive.has_value());
+    EXPECT_EQ(tr.disjunctive->disjuncts.size(), 2u);
+}
+

@@ -22,6 +22,7 @@
  */
 
 #include "index/vector_auto_buffer.h"
+#include "index/product_quantizer.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <algorithm>
@@ -315,7 +316,8 @@ size_t VectorAutoBuffer::flushBuffer(const std::string& buffer_key, NamespaceBuf
     VectorIndexManager::Status status;
     
     if (!adds.empty()) {
-        status = vectorIndex_->addBatch(adds, config_.vector_field);
+        const auto compressed_adds = applyCompression(adds);
+        status = vectorIndex_->addBatch(compressed_adds, config_.vector_field);
         if (!status.ok) {
             THEMIS_ERROR("Failed to flush ADD batch for {}: {}", buffer_key, status.message);
             return 0;
@@ -323,7 +325,8 @@ size_t VectorAutoBuffer::flushBuffer(const std::string& buffer_key, NamespaceBuf
     }
     
     if (!updates.empty()) {
-        status = vectorIndex_->updateBatch(updates, config_.vector_field);
+        const auto compressed_updates = applyCompression(updates);
+        status = vectorIndex_->updateBatch(compressed_updates, config_.vector_field);
         if (!status.ok) {
             THEMIS_ERROR("Failed to flush UPDATE batch for {}: {}", buffer_key, status.message);
             return 0;
@@ -465,14 +468,94 @@ std::vector<BaseEntity> VectorAutoBuffer::applyCompression(const std::vector<Bas
     // The scale factor (abs_max) is appended as the very last float element so
     // that the decoder can reconstruct the original values as:
     //             value_approx = q * (abs_max / max_quant_value)
-    //
-    // ProductQuantization is not yet implemented; entities are returned as-is
-    // with a warning so the caller degrades gracefully.
 
     if (compression == VectorAutoBufferConfig::Compression::ProductQuantization) {
-        THEMIS_WARN("VectorAutoBuffer: ProductQuantization not yet implemented, "
-                    "returning entities without compression");
-        return entities;
+        // Product Quantization: train a per-batch codebook and replace each
+        // entity's embedding with the PQ-reconstructed (lossy) approximation.
+        //
+        // Pipeline:
+        //   1. Collect all valid embeddings from the batch as training data.
+        //   2. Validate that dim is divisible by pq_num_subvectors and that
+        //      the batch is large enough to train (≥ pq_num_centroids vectors).
+        //   3. Train a ProductQuantizer on the batch.
+        //   4. For each entity: encode → decode → store reconstructed vector.
+        //
+        // Fallback: If preconditions are not met (empty batch, wrong dim, too
+        // few training samples), the function logs a warning and returns the
+        // original entities without modification, matching the behaviour of
+        // the scalar-quantization path on zero-vectors.
+
+        const std::string vec_field       = config_.vector_field;
+        const int         num_subvectors  = std::max(1, config_.pq_num_subvectors);
+        const int         num_centroids   = std::max(2, config_.pq_num_centroids);
+
+        // Step 1: gather training vectors and determine dimensionality.
+        std::vector<std::vector<float>> training_vecs;
+        training_vecs.reserve(entities.size());
+        for (const auto& entity : entities) {
+            auto vec_opt = entity.extractVector(vec_field);
+            if (vec_opt.has_value() && !vec_opt->empty()) {
+                training_vecs.push_back(*vec_opt);
+            }
+        }
+
+        if (training_vecs.empty()) {
+            return entities;
+        }
+
+        const int dim = static_cast<int>(training_vecs[0].size());
+
+        // Step 2: precondition checks.
+        if (dim % num_subvectors != 0) {
+            THEMIS_WARN("VectorAutoBuffer: PQ skipped — dim={} not divisible by "
+                        "pq_num_subvectors={}; returning entities unchanged",
+                        dim, num_subvectors);
+            return entities;
+        }
+        if (static_cast<int>(training_vecs.size()) < num_centroids) {
+            THEMIS_WARN("VectorAutoBuffer: PQ skipped — batch size={} < "
+                        "pq_num_centroids={}; returning entities unchanged",
+                        training_vecs.size(), num_centroids);
+            return entities;
+        }
+
+        // Step 3: train.
+        ProductQuantizer::Config pq_cfg;
+        pq_cfg.num_subquantizers     = num_subvectors;
+        pq_cfg.num_centroids         = num_centroids;
+        pq_cfg.max_iterations        = 25;
+        pq_cfg.convergence_threshold = 0.001f;
+
+        ProductQuantizer pq(dim, pq_cfg);
+        auto train_status = pq.train(training_vecs);
+        if (!train_status.ok) {
+            THEMIS_WARN("VectorAutoBuffer: PQ training failed — {}; "
+                        "returning entities unchanged", train_status.message);
+            return entities;
+        }
+
+        // Step 4: encode → decode each entity.
+        std::vector<BaseEntity> result;
+        result.reserve(entities.size());
+
+        for (const auto& entity : entities) {
+            auto vec_opt = entity.extractVector(vec_field);
+            if (!vec_opt.has_value() || vec_opt->empty()) {
+                result.push_back(entity);
+                continue;
+            }
+            const auto codes        = pq.encode(*vec_opt);
+            const auto reconstructed = pq.decode(codes);
+
+            BaseEntity compressed = entity;
+            compressed.setField(vec_field, BaseEntity::Value{reconstructed});
+            result.push_back(std::move(compressed));
+        }
+
+        THEMIS_DEBUG("VectorAutoBuffer: PQ compression applied — "
+                     "entities={} dim={} subvectors={} centroids={}",
+                     entities.size(), dim, num_subvectors, num_centroids);
+        return result;
     }
 
     const bool use_int8 = (compression == VectorAutoBufferConfig::Compression::Quantization_Int8);

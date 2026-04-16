@@ -32,6 +32,7 @@ namespace themis {
     class GraphIndexManager;
     class GraphAnalytics;
     class SecondaryIndexManager;
+    class ProcessMining;
 }
 
 namespace themis {
@@ -221,6 +222,10 @@ public:
     void setSecondaryIndexManager(themis::SecondaryIndexManager* mgr) { secondary_idx_mgr_ = mgr; }
     themis::SecondaryIndexManager* getSecondaryIndexManager() const { return secondary_idx_mgr_; }
 
+    // Process mining engine access (for PM_DISCOVER_PROCESS, PM_VARIANTS, etc.)
+    void setProcessMining(themis::ProcessMining* pm) { process_mining_ = pm; }
+    themis::ProcessMining* getProcessMining() const { return process_mining_; }
+
 private:
     nlohmann::json current_doc_;
     std::unordered_map<std::string, nlohmann::json> variables_;
@@ -229,6 +234,7 @@ private:
     themis::GraphIndexManager* graph_mgr_ = nullptr;
     themis::GraphAnalytics* graph_analytics_ = nullptr;
     themis::SecondaryIndexManager* secondary_idx_mgr_ = nullptr;
+    themis::ProcessMining* process_mining_ = nullptr;
 };
 
 // ============================================================================

@@ -464,6 +464,54 @@ private:
 };
 
 /**
+ * Locally Repairable Code (LRC) Erasure Coder
+ *
+ * LRC organises @p data_shards into local groups.  Each group has one XOR
+ * local-parity shard so a single failure in that group can be repaired by
+ * reading only the other group members rather than all data shards.
+ * The remaining parity budget (parity_shards − n_local_groups) is spent on
+ * global Vandermonde parity shards that cover all data shards.
+ *
+ * Layout (total n = data_shards + parity_shards shards):
+ *   [d0 … dk-1] [lp0 … lp(g-1)] [gp0 … gp(m-1)]
+ *   where g = n_local_groups, m = parity_shards − g
+ *
+ * Default local group size is kDefaultLocalGroupSize (4).  The value is
+ * capped so that g ≤ parity_shards.
+ */
+class LocallyRepairableCoder : public ErasureCoder {
+public:
+    static constexpr uint32_t kDefaultLocalGroupSize = 4;
+
+    std::vector<std::vector<uint8_t>> encode(
+        const std::vector<uint8_t>& data,
+        uint32_t data_shards,
+        uint32_t parity_shards
+    ) override;
+
+    std::vector<uint8_t> decode(
+        const std::map<uint32_t, std::vector<uint8_t>>& available_chunks,
+        const std::vector<uint32_t>& missing_indices,
+        uint32_t data_shards,
+        uint32_t parity_shards
+    ) override;
+
+private:
+    // Return number of local groups for given data/parity counts.
+    static uint32_t localGroupCount(uint32_t data_shards, uint32_t parity_shards);
+
+    // GF(2^8) helpers (shared Vandermonde parity logic)
+    static uint8_t gf_mul(uint8_t a, uint8_t b);
+    static uint8_t gf_inv(uint8_t a);
+    static uint8_t gf_pow(uint8_t a, uint8_t exp);
+    static void gf_matrix_mul(const std::vector<std::vector<uint8_t>>& m,
+                               const std::vector<uint8_t>& v,
+                               std::vector<uint8_t>& result);
+    static bool invertMatrix(std::vector<std::vector<uint8_t>>& matrix);
+    static std::vector<std::vector<uint8_t>> buildVandermonde(uint32_t rows, uint32_t cols);
+};
+
+/**
  * Redundancy Strategy
  * Main class for managing RAID-like redundancy
  */

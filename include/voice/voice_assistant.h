@@ -360,6 +360,28 @@ public:
      * @brief Update session context
      */
     void updateSession(const std::string& session_id, const json& context);
+
+    /**
+     * @brief Synthesize text to speech using the embedded TTS processor.
+     *
+     * @param text       Text to synthesize.
+     * @param options    TTS options (voice, speed, pitch, format).
+     * @return TTS result containing audio_data, mime_type, duration_ms.
+     */
+    content::TTSResult synthesize(
+        const std::string& text,
+        const content::TTSOptions& options = {}
+    );
+
+    /**
+     * @brief Return the list of available TTS voices.
+     */
+    json getAvailableVoices() const;
+
+    /**
+     * @brief Return the list of supported TTS language codes.
+     */
+    std::vector<std::string> getSupportedLanguages() const;
     
     /**
      * @brief Get statistics

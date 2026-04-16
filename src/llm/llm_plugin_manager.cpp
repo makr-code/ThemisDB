@@ -19,6 +19,7 @@
 
 #include "llm/llm_plugin_manager.h"
 #include "llm/llama_wrapper.h"
+#include "llm/embedded_llm.h"
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <stdexcept>
@@ -371,7 +372,16 @@ LLMPluginManager::HealthStatus LLMPluginManager::getHealthStatus() const {
 }
 
 void LLMPluginManager::clearAllCaches() {
-    // TODO: integrate with actual cache implementations when available
+    // Clear embedding cache on the global EmbeddedLLM singleton if initialized.
+    auto& mgr = EmbeddedLLMManager::instance();
+    if (mgr.isInitialized()) {
+        mgr.get().clearCache();
+        spdlog::info("LLMPluginManager::clearAllCaches: EmbeddedLLM embedding cache cleared");
+    }
+    // Individual plugin-level caches (KV-cache, prefix-cache) are owned by the
+    // underlying inference runtime; we log a notice for callers that rely on this.
+    spdlog::debug("LLMPluginManager::clearAllCaches: runtime KV/prefix caches are "
+                  "managed by individual plugins and reset on model reload");
 }
 
 // ═══════════════════════════════════════════════════════════

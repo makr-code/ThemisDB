@@ -18,6 +18,7 @@
  */
 
 #include "llm/vision_encoder.h"
+#include "themis/module_hash_verifier.h"
 #include "utils/logger.h"
 #include <filesystem>
 #include <fstream>
@@ -113,8 +114,46 @@ VisionEncoder::VisionEncoder(const std::string& clip_model_path,
     
     // Check if model verification is enabled
     if (config_->isModelVerificationEnabled()) {
-        spdlog::info("Model verification enabled - checking model integrity");
-        // TODO: Implement checksum verification
+        const auto& mv = config_->getSecurityConfig().model_verification;
+        if (mv.verify_checksums) {
+            // Convention: expected digest in a sidecar file "<model_path>.sha256".
+            // Each sidecar contains exactly one hex-encoded SHA-256 line.
+            const std::string sidecar_path = clip_model_path + ".sha256";
+            if (std::filesystem::exists(sidecar_path)) {
+                std::ifstream sidecar(sidecar_path);
+                std::string expected_hash;
+                if (sidecar >> expected_hash && !expected_hash.empty()) {
+                    const std::string actual_hash =
+                        themis::modules::ModuleHashVerifier::computeSHA256(clip_model_path);
+                    if (actual_hash.empty()) {
+                        throw std::runtime_error(
+                            "VisionEncoder: failed to compute SHA-256 for model file: " +
+                            clip_model_path);
+                    }
+                    if (actual_hash != expected_hash) {
+                        throw std::runtime_error(
+                            "VisionEncoder: model integrity check failed for '" +
+                            clip_model_path +
+                            "'. Expected SHA-256: " + expected_hash +
+                            ", actual: " + actual_hash);
+                    }
+                    spdlog::info("VisionEncoder: model integrity verified (SHA-256 OK): {}",
+                                 clip_model_path);
+                } else {
+                    spdlog::warn(
+                        "VisionEncoder: sidecar '{}' is empty or unreadable — "
+                        "skipping checksum verification",
+                        sidecar_path);
+                }
+            } else {
+                spdlog::warn(
+                    "VisionEncoder: checksum verification requested but no sidecar '{}' "
+                    "found — skipping checksum verification",
+                    sidecar_path);
+            }
+        } else {
+            spdlog::info("Model verification enabled - checksum verification not requested");
+        }
     }
     
     // Load CLIP model

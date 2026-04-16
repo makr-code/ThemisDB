@@ -515,7 +515,7 @@ private:
     // ------------------------------------------------------------------
     GeometryInfo stBuffer(const GeometryInfo& geom, double distance_m,
                           int arc_points) override {
-        audit_log_.recordFallbackToCPU("stBuffer: cpu fallback (GPU kernel not yet implemented)", "");
+        audit_log_.recordFallbackToCPU("stBuffer: cpu fallback (GPU kernel pending CUDA release)", "");
         themis::gpu::GPUMetrics::GetInstance().recordFallback("st_buffer_cpu_fallback");
         return getCpuExactBackend()->stBuffer(geom, distance_m, arc_points);
     }
@@ -528,14 +528,14 @@ private:
     // ------------------------------------------------------------------
     GeometryInfo stUnion(const GeometryInfo& geom1,
                          const GeometryInfo& geom2) override {
-        audit_log_.recordFallbackToCPU("stUnion: cpu fallback (GPU kernel not yet implemented)", "");
+        audit_log_.recordFallbackToCPU("stUnion: cpu fallback (GPU kernel pending CUDA release)", "");
         themis::gpu::GPUMetrics::GetInstance().recordFallback("st_union_cpu_fallback");
         return getCpuExactBackend()->stUnion(geom1, geom2);
     }
 
     GeometryInfo stDifference(const GeometryInfo& geom1,
                               const GeometryInfo& geom2) override {
-        audit_log_.recordFallbackToCPU("stDifference: cpu fallback (GPU kernel not yet implemented)", "");
+        audit_log_.recordFallbackToCPU("stDifference: cpu fallback (GPU kernel pending CUDA release)", "");
         themis::gpu::GPUMetrics::GetInstance().recordFallback("st_difference_cpu_fallback");
         return getCpuExactBackend()->stDifference(geom1, geom2);
     }

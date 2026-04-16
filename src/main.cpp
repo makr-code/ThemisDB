@@ -33,6 +33,8 @@
 #include "transaction/transaction_manager.h"
 #include "query/query_engine.h"
 #include "query/query_optimizer.h"
+#include <nlohmann/json.hpp>
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <optional>
@@ -46,15 +48,14 @@ int main(int argc, char* argv[]) {
                   << "Options:\n"
                   << "  --db PATH         Database path (default: ./data/themis_test)\n"
                   << "  --db-path PATH    Alias for --db\n"
-                  << "  --config FILE     Configuration file (not yet implemented)\n"
+                  << "  --config FILE     Configuration file (JSON, supports 'db_path' key)\n"
                   << "  --version, -v     Show version information and exit\n"
                   << "  --help, -h        Show this help message\n";
     };
 
     // Parse command-line arguments
     std::string db_path = "./data/themis_test";
-    // TODO: Implement configuration file loading logic
-    [[maybe_unused]] std::optional<std::string> config_path;
+    std::optional<std::string> config_path;
     
     for (int i = 1; i < argc; ++i) {
         std::string arg = argv[i];
@@ -79,7 +80,6 @@ int main(int argc, char* argv[]) {
         } else if (arg == "--config") {
             if (i + 1 < argc) {
                 config_path = argv[++i];
-                std::cerr << "Warning: Configuration file support is not yet implemented. The provided path will be ignored." << std::endl;
             } else {
                 std::cerr << "Error: --config requires a value" << std::endl;
                 print_usage(argv[0]);
@@ -94,6 +94,26 @@ int main(int argc, char* argv[]) {
     
     // Initialize logger AFTER flag checks
     utils::Logger::init("vccdb.log", utils::Logger::Level::INFO);
+
+    // Load configuration file if provided
+    if (config_path) {
+        std::ifstream cfg_stream(*config_path);
+        if (!cfg_stream.is_open()) {
+            std::cerr << "Error: Cannot open config file: " << *config_path << std::endl;
+            return 1;
+        }
+        try {
+            nlohmann::json cfg = nlohmann::json::parse(cfg_stream);
+            if (cfg.contains("db_path") && cfg["db_path"].is_string()) {
+                db_path = cfg["db_path"].get<std::string>();
+            }
+            THEMIS_INFO("Loaded configuration from: {}", *config_path);
+        } catch (const nlohmann::json::exception& ex) {
+            std::cerr << "Error: Failed to parse config file " << *config_path
+                      << ": " << ex.what() << std::endl;
+            return 1;
+        }
+    }
     
     THEMIS_INFO("=== Themis Multi-Model Database System ===");
 #ifdef THEMIS_VERSION_STRING

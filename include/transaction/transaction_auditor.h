@@ -54,8 +54,9 @@ namespace themis {
  *     access to the in-memory log.
  *   - enableAuditing() and record() may safely be called concurrently.
  *
- * @note exportToKafka() and exportToS3() are not yet implemented and return
- *       Status::Error() as placeholders for future integration.
+ * @note exportToKafka() and exportToS3() require an injected
+ *       IAuditExportTransport (via setExportTransport()).  Without a
+ *       transport they return Status::Error("export transport not configured").
  */
 class TransactionAuditor {
 public:
@@ -203,31 +204,76 @@ public:
      */
     void clear();
 
+    // ── Export transport interface ────────────────────────────────────────────
+
+    /**
+     * @brief Pluggable transport interface for exporting audit records.
+     *
+     * Inject a concrete implementation via setExportTransport() to enable
+     * exportToKafka() and exportToS3().  In production, this would wrap
+     * librdkafka or aws-sdk-cpp.  In tests, a spy/mock can verify calls.
+     *
+     * Each method receives the serialised payload as newline-delimited JSON
+     * (NDJSON) so the caller can forward it verbatim.
+     */
+    struct IAuditExportTransport {
+        virtual ~IAuditExportTransport() = default;
+
+        /**
+         * Publish @p ndjson_payload to a Kafka @p topic.
+         * @return Status::OK() on success; Status::Error(...) on failure.
+         */
+        virtual Status sendKafka(const std::string& topic,
+                                 const std::string& ndjson_payload) = 0;
+
+        /**
+         * Write @p ndjson_payload to the S3-compatible object at
+         * @p bucket / @p key.
+         * @return Status::OK() on success; Status::Error(...) on failure.
+         */
+        virtual Status writeS3(const std::string& bucket,
+                               const std::string& key,
+                               const std::string& ndjson_payload) = 0;
+    };
+
+    /**
+     * @brief Inject an export transport.
+     *
+     * The auditor holds a raw pointer — the caller is responsible for keeping
+     * the transport alive for the lifetime of this auditor.  Pass nullptr to
+     * remove a previously set transport.
+     */
+    void setExportTransport(IAuditExportTransport* transport);
+
     // ── Export ───────────────────────────────────────────────────────────────
 
     /**
      * @brief Export the audit log to a Kafka topic.
      *
-     * @note Not yet implemented.  Returns Status::Error() as a placeholder.
-     *       Future versions will serialise each AuditRecord as a JSON
-     *       message and publish it to @p topic using the configured Kafka
-     *       producer.
+     * Serialises all in-memory AuditRecords as newline-delimited JSON (NDJSON)
+     * and publishes the payload to @p topic via the injected
+     * IAuditExportTransport.
      *
      * @param topic  Kafka topic name.
-     * @return Status::Error("exportToKafka: not yet implemented").
+     * @return Status::OK() on success.
+     *         Status::Error("export transport not configured") when no
+     *         transport has been set via setExportTransport().
      */
     Status exportToKafka(const std::string& topic);
 
     /**
      * @brief Export the audit log to an S3-compatible object store.
      *
-     * @note Not yet implemented.  Returns Status::Error() as a placeholder.
-     *       Future versions will serialise the audit log as newline-delimited
-     *       JSON and write it to @p bucket / @p prefix.
+     * Serialises all in-memory AuditRecords as newline-delimited JSON and
+     * writes the resulting object to @p bucket using a key derived from
+     * @p prefix and the current UTC timestamp
+     * (e.g. "logs/audit_20260416T115000Z.ndjson").
      *
      * @param bucket  S3 bucket name.
      * @param prefix  Key prefix (directory path) inside the bucket.
-     * @return Status::Error("exportToS3: not yet implemented").
+     * @return Status::OK() on success.
+     *         Status::Error("export transport not configured") when no
+     *         transport has been set via setExportTransport().
      */
     Status exportToS3(const std::string& bucket, const std::string& prefix);
 
@@ -235,6 +281,7 @@ private:
     std::atomic<bool>        enabled_{false};
     mutable std::mutex       log_mutex_;
     std::vector<AuditRecord> log_; ///< Append-only in-memory audit log
+    IAuditExportTransport*   export_transport_{nullptr};  ///< Injected export transport (not owned)
 };
 
 } // namespace themis

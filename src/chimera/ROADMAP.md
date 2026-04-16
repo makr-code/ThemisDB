@@ -65,6 +65,8 @@
 - Nur ThemisDB-Referenzadapter ist im Modulpfad `src/chimera/` vorhanden.
 - Teile des engine-backed Dispatches hängen an `THEMISDB_ENGINE_AVAILABLE`.
 - `Capability::CONNECTION_POOLING` wird als verfügbar gemeldet, ohne dedizierte Pooling-API-Implementierung im Adapter.
+- Include-Dokumentation (`include/chimera/README.md`) fehlt derzeit.
+- `shortest_path` mit `max_depth != 10` verwendet `dijkstraWithConstraints` (engine-backed); `traverse` mit mehreren `edge_labels` läuft als BFS-pro-Label mit Deduplication (engine-backed).
 
 ## Breaking Changes
 

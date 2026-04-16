@@ -778,3 +778,102 @@ TEST(KNNRegressionTest, PredictOneRegPerformance) {
         << "KNN predictOneReg (n=10 000) took " << us
         << " µs — limit is 1000 µs (1 ms)";
 }
+
+// ============================================================================
+// LRModel (LogisticRegression) regression proxy via expected-class value
+// Verifies LRModel::predictOneReg() no longer returns the 0.0 stub and
+// produces a value in [0, 1] for a binary-class training dataset.
+// ============================================================================
+
+/**
+ * Build a binary classification dataset: class = (x > 0.5 ? 1 : 0).
+ * When used as a regression proxy the expected output for x just above 0.5
+ * should be close to 1.0, and for x just below 0.5 it should be close to 0.0.
+ */
+static std::vector<DataPoint> makeBinaryData(int n) {
+    std::vector<DataPoint> pts;
+    pts.reserve(static_cast<size_t>(n));
+    for (int i = 0; i < n; ++i) {
+        DataPoint p;
+        p.id = "lr" + std::to_string(i);
+        double x = static_cast<double>(i) / static_cast<double>(n - 1);
+        p.set("x", x);
+        // Target for regression: 0 when x <= 0.5, 1 when x > 0.5
+        p.fields["y"] = (x > 0.5) ? 1.0 : 0.0;
+        pts.push_back(std::move(p));
+    }
+    return pts;
+}
+
+TEST(LRModelRegressorTest, PredictOneRegNotZeroStub) {
+    // Train LOGISTIC_REGRESSION on the binary dataset.
+    auto train = makeBinaryData(100);
+
+    AutoML automl;
+    AutoMLConfig cfg;
+    cfg.target               = "y";
+    cfg.task                 = AutoMLTask::REGRESSION;
+    cfg.metric               = AutoMLMetric::RMSE;
+    cfg.max_time_minutes     = 1;
+    cfg.max_trials           = 3;
+    cfg.cv_folds             = 2;
+    cfg.feature_engineering  = false;
+    cfg.ensemble             = false;
+    cfg.algorithms           = {ModelAlgorithm::LOGISTIC_REGRESSION};
+    cfg.random_seed          = 42;
+
+    AutoMLModel model = automl.trainRegressor(train, cfg);
+    ASSERT_EQ(model.task(), AutoMLTask::REGRESSION);
+
+    // Query point far above decision boundary: x = 0.9, expected y ≈ 1.0.
+    DataPoint qHigh;
+    qHigh.id = "qh";
+    qHigh.set("x", 0.9);
+
+    const std::string pred_str = model.predictOne(qHigh);
+    ASSERT_NO_THROW(std::stod(pred_str));
+    const double pred = std::stod(pred_str);
+
+    // Result must be a valid probability in [0, 1].
+    EXPECT_GE(pred, 0.0) << "LRModel::predictOneReg() returned value below 0";
+    EXPECT_LE(pred, 1.0) << "LRModel::predictOneReg() returned value above 1";
+
+    // Must not be the 0.0 stub for a clearly positive example.
+    EXPECT_NE(pred, 0.0) << "LRModel::predictOneReg() appears to still be the 0.0 stub";
+}
+
+TEST(LRModelRegressorTest, PredictOneRegRangeMonotonic) {
+    // The LR regression proxy must return higher values for x near 1.0
+    // (positive region) than for x near 0.0 (negative region).
+    auto train = makeBinaryData(100);
+
+    AutoML automl;
+    AutoMLConfig cfg;
+    cfg.target               = "y";
+    cfg.task                 = AutoMLTask::REGRESSION;
+    cfg.metric               = AutoMLMetric::RMSE;
+    cfg.max_time_minutes     = 1;
+    cfg.max_trials           = 3;
+    cfg.cv_folds             = 2;
+    cfg.feature_engineering  = false;
+    cfg.ensemble             = false;
+    cfg.algorithms           = {ModelAlgorithm::LOGISTIC_REGRESSION};
+    cfg.random_seed          = 42;
+
+    AutoMLModel model = automl.trainRegressor(train, cfg);
+
+    DataPoint qLow;
+    qLow.id = "ql";
+    qLow.set("x", 0.1);
+    const double predLow = std::stod(model.predictOne(qLow));
+
+    DataPoint qHigh;
+    qHigh.id = "qh";
+    qHigh.set("x", 0.9);
+    const double predHigh = std::stod(model.predictOne(qHigh));
+
+    // The logistic proxy must assign higher score to the positive region.
+    EXPECT_GT(predHigh, predLow)
+        << "LRModel regression proxy: predHigh=" << predHigh
+        << " should exceed predLow=" << predLow;
+}

@@ -41,8 +41,12 @@
  *  AC-13 queryAuditLog() returns records sorted most-recent-first
  *  AC-14 size() reflects the number of stored records
  *  AC-15 clear() removes all records; size() returns 0 afterwards
- *  AC-16 exportToKafka() returns an error status (not yet implemented)
- *  AC-17 exportToS3() returns an error status (not yet implemented)
+ *  AC-16 exportToKafka() without transport returns "transport not configured"
+ *  AC-16b exportToKafka() with injected transport serialises NDJSON and forwards it
+ *  AC-16c exportToKafka() on empty log returns OK without calling transport
+ *  AC-17 exportToS3() without transport returns "transport not configured"
+ *  AC-17b exportToS3() with injected transport builds correct S3 key and payload
+ *  AC-17c setExportTransport(nullptr) disables export again
  *  AC-18 AuditRecord::Result enum has COMMITTED, ABORTED, DEADLOCK values
  *  AC-19 Operation::Type enum has PUT, DELETE, ADD_EDGE, DELETE_EDGE, ADD_VECTOR values
  *  AC-20 Concurrent record() calls from multiple threads are all stored correctly
@@ -346,25 +350,126 @@ TEST(TransactionAuditorTest, AC15_Clear) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// AC-16 exportToKafka() returns error
+// AC-16 exportToKafka() without transport returns "transport not configured"
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST(TransactionAuditorTest, AC16_ExportToKafkaNotImplemented) {
+TEST(TransactionAuditorTest, AC16_ExportToKafkaNoTransport) {
     TransactionAuditor auditor;
     auto st = auditor.exportToKafka("my-topic");
     EXPECT_FALSE(st.ok);
-    EXPECT_NE(st.message.find("not yet implemented"), std::string::npos);
+    // Must report missing transport, not "not yet implemented"
+    EXPECT_NE(st.message.find("transport not configured"), std::string::npos)
+        << "Unexpected message: " << st.message;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// AC-17 exportToS3() returns error
+// AC-17 exportToS3() without transport returns "transport not configured"
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST(TransactionAuditorTest, AC17_ExportToS3NotImplemented) {
+TEST(TransactionAuditorTest, AC17_ExportToS3NoTransport) {
     TransactionAuditor auditor;
     auto st = auditor.exportToS3("my-bucket", "logs/");
     EXPECT_FALSE(st.ok);
-    EXPECT_NE(st.message.find("not yet implemented"), std::string::npos);
+    EXPECT_NE(st.message.find("transport not configured"), std::string::npos)
+        << "Unexpected message: " << st.message;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AC-16b / AC-17b exportToKafka / exportToS3 with injected transport
+// ─────────────────────────────────────────────────────────────────────────────
+
+namespace {
+/// Spy transport: records the last call's arguments and returns OK.
+struct SpyTransport : TransactionAuditor::IAuditExportTransport {
+    std::string last_kafka_topic;
+    std::string last_kafka_payload;
+    std::string last_s3_bucket;
+    std::string last_s3_key;
+    std::string last_s3_payload;
+    int kafka_calls{0};
+    int s3_calls{0};
+
+    TransactionAuditor::Status sendKafka(const std::string& topic,
+                                         const std::string& payload) override {
+        last_kafka_topic   = topic;
+        last_kafka_payload = payload;
+        ++kafka_calls;
+        return TransactionAuditor::Status::OK();
+    }
+
+    TransactionAuditor::Status writeS3(const std::string& bucket,
+                                       const std::string& key,
+                                       const std::string& payload) override {
+        last_s3_bucket  = bucket;
+        last_s3_key     = key;
+        last_s3_payload = payload;
+        ++s3_calls;
+        return TransactionAuditor::Status::OK();
+    }
+};
+} // anonymous namespace
+
+TEST(TransactionAuditorTest, AC16b_ExportToKafkaWithTransport) {
+    SpyTransport spy;
+    TransactionAuditor auditor;
+    auditor.setExportTransport(&spy);
+    auditor.enableAuditing(true);
+    auditor.record(makeRecord(42, "user1"));
+    auditor.record(makeRecord(43, "user2"));
+
+    auto st = auditor.exportToKafka("audit-topic");
+    EXPECT_TRUE(st.ok) << st.message;
+    EXPECT_EQ(spy.kafka_calls, 1);
+    EXPECT_EQ(spy.last_kafka_topic, "audit-topic");
+    // Payload must be non-empty NDJSON with both records
+    EXPECT_FALSE(spy.last_kafka_payload.empty());
+    // Each line is a JSON record; two records → at least 2 newlines
+    size_t newlines = std::count(spy.last_kafka_payload.begin(),
+                                  spy.last_kafka_payload.end(), '\n');
+    EXPECT_EQ(newlines, 2u);
+}
+
+TEST(TransactionAuditorTest, AC17b_ExportToS3WithTransport) {
+    SpyTransport spy;
+    TransactionAuditor auditor;
+    auditor.setExportTransport(&spy);
+    auditor.enableAuditing(true);
+    auditor.record(makeRecord(99, "admin"));
+
+    auto st = auditor.exportToS3("my-bucket", "audit/");
+    EXPECT_TRUE(st.ok) << st.message;
+    EXPECT_EQ(spy.s3_calls, 1);
+    EXPECT_EQ(spy.last_s3_bucket, "my-bucket");
+    // Key should start with the prefix and contain the timestamp suffix
+    EXPECT_EQ(spy.last_s3_key.substr(0, 6), "audit/")
+        << "Key: " << spy.last_s3_key;
+    EXPECT_NE(spy.last_s3_key.find(".ndjson"), std::string::npos)
+        << "Key should end with .ndjson: " << spy.last_s3_key;
+    EXPECT_FALSE(spy.last_s3_payload.empty());
+}
+
+TEST(TransactionAuditorTest, AC16c_ExportToKafkaEmptyLogReturnsOK) {
+    SpyTransport spy;
+    TransactionAuditor auditor;
+    auditor.setExportTransport(&spy);
+    // No records recorded — export should succeed without calling transport
+    auto st = auditor.exportToKafka("empty-topic");
+    EXPECT_TRUE(st.ok) << st.message;
+    EXPECT_EQ(spy.kafka_calls, 0);  // transport not called for empty log
+}
+
+TEST(TransactionAuditorTest, AC17c_SetNullTransportDisablesExport) {
+    SpyTransport spy;
+    TransactionAuditor auditor;
+    auditor.setExportTransport(&spy);
+    auditor.enableAuditing(true);
+    auditor.record(makeRecord(1, "u"));
+
+    // Remove transport
+    auditor.setExportTransport(nullptr);
+    auto st = auditor.exportToKafka("topic");
+    EXPECT_FALSE(st.ok);
+    EXPECT_EQ(spy.kafka_calls, 0);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

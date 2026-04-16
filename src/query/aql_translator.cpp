@@ -757,11 +757,35 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
             if (disjQuery.disjuncts.empty()) {
                 disjQuery.disjuncts = std::move(disjuncts);
             } else {
-                // Multiple filters with OR: combine via cartesian product (DNF expansion)
-                // For simplicity in v1, require single FILTER with OR
-                if (ast->filters.size() > 1) {
-                    return TranslationResult::Error("Multiple FILTER clauses with OR not yet supported - combine into single FILTER");
+                // Multiple FILTERs with OR: AND-combine via cartesian product (DNF expansion).
+                // If existing disjuncts = [A, B] and new disjuncts = [C, D], the result is
+                // [A∧C, A∧D, B∧C, B∧D] — each pair of conjuncts is merged.
+                std::vector<ConjunctiveQuery> merged;
+                merged.reserve(disjQuery.disjuncts.size() * disjuncts.size());
+                for (const auto& existing : disjQuery.disjuncts) {
+                    for (const auto& incoming : disjuncts) {
+                        ConjunctiveQuery combined;
+                        combined.table = existing.table;
+                        // Merge equality predicates
+                        combined.predicates = existing.predicates;
+                        combined.predicates.insert(combined.predicates.end(),
+                                                   incoming.predicates.begin(),
+                                                   incoming.predicates.end());
+                        // Merge range predicates
+                        combined.rangePredicates = existing.rangePredicates;
+                        combined.rangePredicates.insert(combined.rangePredicates.end(),
+                                                        incoming.rangePredicates.begin(),
+                                                        incoming.rangePredicates.end());
+                        // Preserve first non-null optional predicates
+                        combined.fulltextPredicate  = existing.fulltextPredicate  ? existing.fulltextPredicate  : incoming.fulltextPredicate;
+                        combined.phrasePredicate    = existing.phrasePredicate    ? existing.phrasePredicate    : incoming.phrasePredicate;
+                        combined.fuzzyPredicate     = existing.fuzzyPredicate     ? existing.fuzzyPredicate     : incoming.fuzzyPredicate;
+                        combined.spatialPredicate   = existing.spatialPredicate   ? existing.spatialPredicate   : incoming.spatialPredicate;
+                        combined.pk_eq              = existing.pk_eq              ? existing.pk_eq              : incoming.pk_eq;
+                        merged.push_back(std::move(combined));
+                    }
                 }
+                disjQuery.disjuncts = std::move(merged);
             }
         }
         

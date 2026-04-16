@@ -312,4 +312,258 @@ TEST(FlashAttention, StatusMessages) {
     EXPECT_STREQ(getStatusMessage(Status::ERROR_CUDA_ERROR), "CUDA error");
 }
 
+// ============================================================================
+// Attention Correctness Tests (CPU)
+//
+// These tests verify actual scaled dot-product attention numerics rather than
+// just checking that the output is non-zero.  The reference is computed inline
+// with the standard formula:
+//   S[i,j] = scale * dot(Q[i,:], K[j,:])
+//   A[i,j] = softmax_j(S[i,:])   (with optional causal mask)
+//   O[i,:] = sum_j A[i,j] * V[j,:]
+// ============================================================================
+
+namespace {
+
+// Compute reference output for a single (batch=1, head=1) slice.
+// Q, K, V: shape [seq_len, head_dim]
+// Returns O: shape [seq_len, head_dim]
+std::vector<float> referenceAttention(
+    const std::vector<float>& Q,
+    const std::vector<float>& K,
+    const std::vector<float>& V,
+    int seq_len, int head_dim,
+    float scale, bool causal)
+{
+    std::vector<float> O(static_cast<size_t>(seq_len * head_dim), 0.0f);
+    std::vector<float> scores(static_cast<size_t>(seq_len));
+
+    for (int i = 0; i < seq_len; ++i) {
+        // Dot-products
+        float max_s = -std::numeric_limits<float>::infinity();
+        for (int j = 0; j < seq_len; ++j) {
+            if (causal && j > i) {
+                scores[j] = -std::numeric_limits<float>::infinity();
+                continue;
+            }
+            float dot = 0.0f;
+            for (int d = 0; d < head_dim; ++d) {
+                dot += Q[i * head_dim + d] * K[j * head_dim + d];
+            }
+            scores[j] = scale * dot;
+            if (scores[j] > max_s) max_s = scores[j];
+        }
+        // Softmax
+        float sum = 0.0f;
+        for (int j = 0; j < seq_len; ++j) {
+            scores[j] = std::exp(scores[j] - max_s);
+            sum += scores[j];
+        }
+        if (sum > 0.0f) {
+            for (int j = 0; j < seq_len; ++j) scores[j] /= sum;
+        }
+        // Weighted sum of V
+        for (int d = 0; d < head_dim; ++d) {
+            float out = 0.0f;
+            for (int j = 0; j < seq_len; ++j) {
+                out += scores[j] * V[j * head_dim + d];
+            }
+            O[i * head_dim + d] = out;
+        }
+    }
+    return O;
+}
+
+// Helper: fill a Tensor from a flat vector (caller owns data pointer).
+void fillTensor(Tensor& t, std::vector<float>& buf, const std::vector<int>& shape) {
+    t.shape = shape;
+    t.size  = buf.size();
+    t.data  = buf.data();
+}
+
+} // anonymous namespace
+
+TEST(FlashAttentionCPU, ForwardMatchesReference_NoCausal) {
+    // batch=1, seq=4, heads=1, head_dim=4; no causal mask
+    const int B = 1, S = 4, H = 1, D = 4;
+    FlashAttentionConfig cfg;
+    cfg.batch_size    = B;
+    cfg.seq_len       = S;
+    cfg.num_heads     = H;
+    cfg.head_dim      = D;
+    cfg.scale         = 1.0f / std::sqrt(static_cast<float>(D));
+    cfg.use_causal_mask = false;
+
+    // Deterministic input values
+    std::vector<float> qbuf = {
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1
+    };
+    std::vector<float> kbuf = qbuf;
+    std::vector<float> vbuf = {
+        1, 2, 3, 4,
+        5, 6, 7, 8,
+        9,10,11,12,
+       13,14,15,16
+    };
+    std::vector<float> obuf(static_cast<size_t>(B * S * H * D), 0.0f);
+
+    Tensor Q, K, V, O;
+    fillTensor(Q, qbuf, {B, S, H, D});
+    fillTensor(K, kbuf, {B, S, H, D});
+    fillTensor(V, vbuf, {B, S, H, D});
+    fillTensor(O, obuf, {B, S, H, D});
+
+    FlashAttention fa(Backend::CPU, cfg);
+    ASSERT_EQ(fa.forward(Q, K, V, O), Status::SUCCESS);
+
+    // Compute reference
+    std::vector<float> ref = referenceAttention(qbuf, kbuf, vbuf, S, D, cfg.scale, false);
+
+    for (int i = 0; i < S * D; ++i) {
+        EXPECT_NEAR(O.data[i], ref[i], 1e-5f)
+            << "Mismatch at position " << i;
+    }
+}
+
+TEST(FlashAttentionCPU, ForwardMatchesReference_CausalMask) {
+    const int B = 1, S = 4, H = 1, D = 4;
+    FlashAttentionConfig cfg;
+    cfg.batch_size    = B;
+    cfg.seq_len       = S;
+    cfg.num_heads     = H;
+    cfg.head_dim      = D;
+    cfg.scale         = 1.0f / std::sqrt(static_cast<float>(D));
+    cfg.use_causal_mask = true;
+
+    std::vector<float> qbuf = {
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1
+    };
+    std::vector<float> kbuf = qbuf;
+    std::vector<float> vbuf = {
+        1, 2, 3, 4,
+        5, 6, 7, 8,
+        9,10,11,12,
+       13,14,15,16
+    };
+    std::vector<float> obuf(static_cast<size_t>(B * S * H * D), 0.0f);
+
+    Tensor Q, K, V, O;
+    fillTensor(Q, qbuf, {B, S, H, D});
+    fillTensor(K, kbuf, {B, S, H, D});
+    fillTensor(V, vbuf, {B, S, H, D});
+    fillTensor(O, obuf, {B, S, H, D});
+
+    FlashAttention fa(Backend::CPU, cfg);
+    ASSERT_EQ(fa.forward(Q, K, V, O), Status::SUCCESS);
+
+    std::vector<float> ref = referenceAttention(qbuf, kbuf, vbuf, S, D, cfg.scale, true);
+
+    for (int i = 0; i < S * D; ++i) {
+        EXPECT_NEAR(O.data[i], ref[i], 1e-5f)
+            << "Mismatch at position " << i;
+    }
+
+    // With causal mask, position 0 attends only to itself => O[0] == V[0]
+    for (int d = 0; d < D; ++d) {
+        EXPECT_NEAR(O.data[d], vbuf[d], 1e-5f)
+            << "Causal: position 0 should equal V[0] at dim " << d;
+    }
+}
+
+TEST(FlashAttentionCPU, ForwardUniformQKGivesUniformAttention) {
+    // When all Q and K rows are identical, softmax scores are uniform,
+    // so O[i] should equal the mean of all V rows.
+    const int B = 1, S = 3, H = 1, D = 2;
+    FlashAttentionConfig cfg;
+    cfg.batch_size    = B;
+    cfg.seq_len       = S;
+    cfg.num_heads     = H;
+    cfg.head_dim      = D;
+    cfg.scale         = 1.0f;
+    cfg.use_causal_mask = false;
+
+    // All query/key rows identical
+    std::vector<float> qbuf = {1, 0,  1, 0,  1, 0};
+    std::vector<float> kbuf = qbuf;
+    std::vector<float> vbuf = {1, 4,  2, 5,  3, 6};  // rows: [1,4],[2,5],[3,6]
+    std::vector<float> obuf(static_cast<size_t>(B * S * H * D), 0.0f);
+
+    Tensor Q, K, V, O;
+    fillTensor(Q, qbuf, {B, S, H, D});
+    fillTensor(K, kbuf, {B, S, H, D});
+    fillTensor(V, vbuf, {B, S, H, D});
+    fillTensor(O, obuf, {B, S, H, D});
+
+    FlashAttention fa(Backend::CPU, cfg);
+    ASSERT_EQ(fa.forward(Q, K, V, O), Status::SUCCESS);
+
+    // Expected output: mean of V rows = [2, 5] (for each query position)
+    const float expected_d0 = (1.0f + 2.0f + 3.0f) / 3.0f;
+    const float expected_d1 = (4.0f + 5.0f + 6.0f) / 3.0f;
+
+    for (int i = 0; i < S; ++i) {
+        EXPECT_NEAR(O.data[i * D + 0], expected_d0, 1e-5f)
+            << "Uniform attention: dim 0 mismatch at query " << i;
+        EXPECT_NEAR(O.data[i * D + 1], expected_d1, 1e-5f)
+            << "Uniform attention: dim 1 mismatch at query " << i;
+    }
+}
+
+TEST(FlashAttentionCPU, BackwardReturnsSuccessAndWritesGradients) {
+    const int B = 1, S = 4, H = 1, D = 4;
+    FlashAttentionConfig cfg;
+    cfg.batch_size    = B;
+    cfg.seq_len       = S;
+    cfg.num_heads     = H;
+    cfg.head_dim      = D;
+    cfg.scale         = 1.0f;
+    cfg.use_causal_mask = false;
+
+    const size_t total = static_cast<size_t>(B * S * H * D);
+    std::vector<float> do_buf(total, 1.0f);
+    std::vector<float> dq_buf(total, 0.0f);
+    std::vector<float> dk_buf(total, 0.0f);
+    std::vector<float> dv_buf(total, 0.0f);
+
+    Tensor dO, dQ, dK, dV;
+    fillTensor(dO, do_buf, {B, S, H, D});
+    fillTensor(dQ, dq_buf, {B, S, H, D});
+    fillTensor(dK, dk_buf, {B, S, H, D});
+    fillTensor(dV, dv_buf, {B, S, H, D});
+
+    FlashAttention fa(Backend::CPU, cfg);
+    ASSERT_EQ(fa.backward(dO, dQ, dK, dV), Status::SUCCESS);
+
+    // All gradient tensors must have received non-zero updates.
+    bool dq_nonzero = false, dk_nonzero = false, dv_nonzero = false;
+    for (size_t i = 0; i < total; ++i) {
+        if (std::abs(dQ.data[i]) > 1e-7f) dq_nonzero = true;
+        if (std::abs(dK.data[i]) > 1e-7f) dk_nonzero = true;
+        if (std::abs(dV.data[i]) > 1e-7f) dv_nonzero = true;
+    }
+    EXPECT_TRUE(dq_nonzero) << "dQ should have non-zero gradients";
+    EXPECT_TRUE(dk_nonzero) << "dK should have non-zero gradients";
+    EXPECT_TRUE(dv_nonzero) << "dV should have non-zero gradients";
+}
+
+TEST(FlashAttentionCPU, BackwardInvalidTensorReturnsError) {
+    FlashAttentionConfig cfg;
+    FlashAttention fa(Backend::CPU, cfg);
+
+    Tensor invalid;
+    const size_t sz = 64;
+    std::vector<float> buf(sz, 0.0f);
+    Tensor valid;
+    valid.data = buf.data(); valid.size = sz;
+    valid.shape = {1, 1, 1, static_cast<int>(sz)};
+
+    EXPECT_EQ(fa.backward(invalid, valid, valid, valid), Status::ERROR_INVALID_TENSOR);
+}
+
 

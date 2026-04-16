@@ -488,18 +488,25 @@ TEST_F(MCPIntegrationTest, QueryToolAutoDetectAQL) {
     EXPECT_EQ(parsed["language"], "aql");
 }
 
-TEST_F(MCPIntegrationTest, QueryToolUnsupportedLanguage) {
-    // Test SQL (not yet implemented)
+TEST_F(MCPIntegrationTest, QueryToolSQLTranspiledToAQL) {
+    // SQL is now transpiled to AQL and executed via the AQL engine.
+    // The query engine may or may not be initialised in this test fixture;
+    // either way the response must NOT contain "not yet implemented".
     json result = callTool("query", {
         {"query", "SELECT * FROM users"},
         {"language", "sql"}
     });
-    
+
     std::string result_text = result["result"]["content"][0]["text"];
     json parsed = json::parse(result_text);
-    
-    EXPECT_EQ(parsed["status"], "error");
-    EXPECT_NE(parsed["message"].get<std::string>().find("not yet implemented"), std::string::npos);
+
+    // The response should no longer claim SQL is "not yet implemented"
+    const std::string msg = parsed["message"].get<std::string>();
+    EXPECT_EQ(msg.find("not yet implemented"), std::string::npos)
+        << "SQL should no longer return 'not yet implemented'; got: " << msg;
+
+    // language field must be reflected
+    EXPECT_EQ(parsed["language"], "sql");
 }
 
 TEST_F(MCPIntegrationTest, QueryToolInvalidAQL) {

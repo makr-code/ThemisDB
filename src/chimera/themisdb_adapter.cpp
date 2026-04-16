@@ -464,19 +464,22 @@ Result<GraphPath> ThemisDBAdapter::shortest_path(
     // When a GraphIndexManager is wired in, delegate to its Dijkstra.
     if (graph_index_) {
 #if defined(THEMISDB_ENGINE_AVAILABLE)
-        // The GraphIndexManager::dijkstra API does not support a depth bound.
-        // Fail fast when a non-default max_depth is requested so callers are
-        // not silently surprised by unbounded graph exploration.
-        if (max_depth != 10U) { // 10 is the interface default
-            return Result<GraphPath>::err(
-                ErrorCode::NOT_IMPLEMENTED,
-                "shortest_path with a custom max_depth constraint is not supported "
-                "by the engine-backed GraphIndexManager; pass the default max_depth "
-                "(10) for unbounded Dijkstra search"
-            );
+        // Use dijkstraWithConstraints when a depth cap is requested so that
+        // paths longer than max_depth are pruned by the engine.  When max_depth
+        // equals the interface default (10 = "unbounded"), delegate to the
+        // unconstrained Dijkstra overload which is slightly more efficient.
+        GraphIndexManager::PathResult path_result;
+        GraphIndexManager::Status status;
+        if (max_depth != 10U) {
+            GraphIndexManager::PathConstraints constraints;
+            constraints.max_edge_count = static_cast<int>(max_depth);
+            std::tie(status, path_result) =
+                graph_index_->dijkstraWithConstraints(
+                    source_id, target_id, constraints);
+        } else {
+            std::tie(status, path_result) =
+                graph_index_->dijkstra(source_id, target_id);
         }
-        auto [status, path_result] =
-            graph_index_->dijkstra(source_id, target_id);
         if (!status.ok) {
             return Result<GraphPath>::err(
                 ErrorCode::INTERNAL_ERROR, status.message);
@@ -604,44 +607,42 @@ Result<std::vector<GraphNode>> ThemisDBAdapter::traverse(
 #if defined(THEMISDB_ENGINE_AVAILABLE)
         // Map edge_labels to the engine API:
         //   • no labels    -> unfiltered BFS
-        //   • single label -> BFS filtered by that edge type (engine overload)
-        //   • multi-label  -> not yet supported; fail explicitly to avoid
-        //                     silent divergence from the in-memory semantics.
-        if (edge_labels.size() > 1) {
-            return Result<std::vector<GraphNode>>::err(
-                ErrorCode::NOT_IMPLEMENTED,
-                "GraphIndexManager-backed traverse does not yet support "
-                "multi-label edge filters; use zero or one edge label"
-            );
-        }
-
-        std::pair<GraphIndexManager::Status, std::vector<std::string>> bfs_pair;
-        if (edge_labels.empty()) {
-            bfs_pair = graph_index_->bfs(start_id, static_cast<int>(max_depth));
-        } else {
-            // Use the overload that accepts an edge_type.
-            bfs_pair = graph_index_->bfs(
-                start_id,
-                static_cast<int>(max_depth),
-                edge_labels.front(),
-                /*graph_id=*/""
-            );
-        }
-
-        auto& [status, bfs_result] = bfs_pair;
-        if (!status.ok) {
-            return Result<std::vector<GraphNode>>::err(
-                ErrorCode::INTERNAL_ERROR, status.message);
-        }
+        //   • single label -> BFS filtered by that edge type
+        //   • multi-label  -> run one BFS per label and merge with deduplication
+        const int depth = static_cast<int>(max_depth);
+        std::unordered_set<std::string> seen_ids;
         std::vector<GraphNode> nodes;
-        nodes.reserve(bfs_result.size());
-        for (const auto& nid : bfs_result) {
-            auto it = graph_nodes_.find(nid);
-            if (it != graph_nodes_.end()) {
-                nodes.push_back(it->second);
-            } else {
-                GraphNode n; n.id = nid;
-                nodes.push_back(std::move(n));
+
+        auto append_bfs_results = [&](const std::vector<std::string>& bfs_result) {
+            for (const auto& nid : bfs_result) {
+                if (!seen_ids.insert(nid).second) continue; // already added
+                auto it = graph_nodes_.find(nid);
+                if (it != graph_nodes_.end()) {
+                    nodes.push_back(it->second);
+                } else {
+                    GraphNode n; n.id = nid;
+                    nodes.push_back(std::move(n));
+                }
+            }
+        };
+
+        if (edge_labels.empty()) {
+            auto [status, bfs_result] =
+                graph_index_->bfs(start_id, depth);
+            if (!status.ok) {
+                return Result<std::vector<GraphNode>>::err(
+                    ErrorCode::INTERNAL_ERROR, status.message);
+            }
+            append_bfs_results(bfs_result);
+        } else {
+            for (const auto& label : edge_labels) {
+                auto [status, bfs_result] =
+                    graph_index_->bfs(start_id, depth, label, /*graph_id=*/"");
+                if (!status.ok) {
+                    return Result<std::vector<GraphNode>>::err(
+                        ErrorCode::INTERNAL_ERROR, status.message);
+                }
+                append_bfs_results(bfs_result);
             }
         }
         return Result<std::vector<GraphNode>>::ok(std::move(nodes));

@@ -632,19 +632,31 @@ AiInferenceResult AiHardwareDispatcher::dispatchNNAPI(AiInferenceRequest& req) {
     if (!req.input_data || req.input_elements == 0) {
         return makeError(BackendType::NNAPI, "Invalid input: null or empty");
     }
-    // Android NNAPI: create model → add operations → identify inputs/outputs →
-    // compile → create execution → set inputs → compute → get outputs.
-    // This is best consumed via the TFLite NNAPI delegate or ONNX Runtime NNAPI EP.
+    // Android NNAPI is most reliably consumed via the ONNX Runtime NNAPI
+    // Execution Provider, which handles model compilation and execution
+    // scheduling through the Android NeuralNetworks API internally.
+    // Route through dispatchOnnxRuntime with NnapiExecutionProvider selected.
+#if defined(THEMIS_ORT_AVAILABLE)
+    req.chosen_ep = "NnapiExecutionProvider";
+    auto ort_result = dispatchOnnxRuntime(req);
+    // Re-stamp backend as NNAPI so callers see the correct backend type.
+    ort_result.backend_used = BackendType::NNAPI;
+    if (ort_result.success) {
+        ort_result.ep_used = "NnapiExecutionProvider";
+    }
+    return ort_result;
+#else
     AiInferenceResult result;
     result.success      = false;
     result.backend_used = BackendType::NNAPI;
-    result.error        = "NNAPI raw dispatch not yet implemented. "
-                          "Use ONNX Runtime NnapiExecutionProvider instead.";
+    result.error        = "NNAPI dispatch requires ONNX Runtime "
+                          "(build with THEMIS_HAS_ONNX_RUNTIME)";
     result.ep_used      = "NnapiExecutionProvider";
     return result;
+#endif  // THEMIS_ORT_AVAILABLE
 #else
     return makeError(BackendType::NNAPI, "NNAPI not available (non-Android platform)");
-#endif
+#endif  // THEMIS_HAS_NNAPI
 }
 
 AiInferenceResult AiHardwareDispatcher::dispatchOnnxRuntime(AiInferenceRequest& req) {

@@ -290,15 +290,17 @@ TEST_F(NewAQLFunctionsTest, PmListAdminModelsStub) {
 TEST_F(NewAQLFunctionsTest, PmExportBpmnStub) {
     auto& reg = FunctionRegistry::instance();
     
-    // Test PM_EXPORT_BPMN returns XML string
+    // Test PM_EXPORT_BPMN returns XML string even without an engine
     json model = {
-        {"activities", json::array({"A", "B"})}
+        {"nodes", json::array()},
+        {"edges", json::array()}
     };
     
     auto result = reg.call("PM_EXPORT_BPMN", {model}, ctx);
     EXPECT_TRUE(result.is_string());
     std::string xml = result.get<std::string>();
-    EXPECT_TRUE(xml.find("<bpmn>") != std::string::npos || 
+    // Without an injected engine the function returns a minimal BPMN envelope
+    EXPECT_TRUE(xml.find("definitions") != std::string::npos ||
                 xml.find("<?xml") != std::string::npos);
 }
 
@@ -341,3 +343,169 @@ TEST_F(NewAQLFunctionsTest, AllNewFunctionCategoriesRegistered) {
     EXPECT_GE(ethicsCount, 12) << "Expected at least 12 ethics functions";
     EXPECT_GE(processCount, 14) << "Expected at least 14 process mining functions";
 }
+
+// ============================================================================
+// PM function dispatch tests with real ProcessMining engine
+// ============================================================================
+
+#if !defined(_WIN32) && !defined(_WIN64)
+
+#include "analytics/process_mining.h"
+#include "storage/rocksdb_wrapper.h"
+#include <filesystem>
+
+class PmFunctionEngineTest : public ::testing::Test {
+protected:
+    static void SetUpTestSuite() {
+        registerBuiltinFunctions();
+    }
+
+    void SetUp() override {
+        db_path_ = std::filesystem::temp_directory_path() /
+                   ("pm_fn_test_" + std::to_string(reinterpret_cast<uintptr_t>(this)));
+        themis::RocksDBWrapper::Config cfg;
+        cfg.db_path = db_path_.string();
+        db_ = std::make_shared<themis::RocksDBWrapper>(cfg);
+        ASSERT_TRUE(db_->open());
+        pm_ = std::make_unique<themis::ProcessMining>(*db_);
+        ctx_.setProcessMining(pm_.get());
+    }
+
+    void TearDown() override {
+        pm_.reset();
+        db_.reset();
+        std::error_code ec;
+        std::filesystem::remove_all(db_path_, ec);
+    }
+
+    // Build a minimal event log JSON with 3 traces (A→B→C pattern)
+    static json makeSimpleEventLog() {
+        json log;
+        log["traces"] = json::array();
+        for (int t = 0; t < 3; ++t) {
+            json trace;
+            trace["case_id"] = "case-" + std::to_string(t);
+            trace["events"] = json::array({
+                {{"activity", "A"}, {"timestamp_ms", 1000}},
+                {{"activity", "B"}, {"timestamp_ms", 2000}},
+                {{"activity", "C"}, {"timestamp_ms", 3000}}
+            });
+            log["traces"].push_back(trace);
+        }
+        return log;
+    }
+
+    FunctionContext ctx_;
+    std::filesystem::path db_path_;
+    std::shared_ptr<themis::RocksDBWrapper> db_;
+    std::unique_ptr<themis::ProcessMining> pm_;
+};
+
+TEST_F(PmFunctionEngineTest, DiscoverProcessReturnsModel) {
+    auto& reg = FunctionRegistry::instance();
+    const json log = makeSimpleEventLog();
+    const json config = {{"algorithm", "alpha"}};
+
+    const json result = reg.call("PM_DISCOVER_PROCESS", {log, config}, ctx_);
+
+    ASSERT_TRUE(result.is_object());
+    EXPECT_FALSE(result.contains("error")) << result.dump();
+    // Must not carry the old stub marker
+    EXPECT_FALSE(result.value("_stub", false));
+    EXPECT_TRUE(result.contains("nodes"));
+    EXPECT_TRUE(result.contains("edges"));
+    EXPECT_GE(result["nodes"].size(), 1u);
+}
+
+TEST_F(PmFunctionEngineTest, DiscoverProcessHeuristicAlgorithm) {
+    auto& reg = FunctionRegistry::instance();
+    const json log = makeSimpleEventLog();
+    const json config = {{"algorithm", "heuristic"}, {"dependency_threshold", 0.5}};
+
+    const json result = reg.call("PM_DISCOVER_PROCESS", {log, config}, ctx_);
+
+    ASSERT_TRUE(result.is_object());
+    EXPECT_FALSE(result.contains("error")) << result.dump();
+    EXPECT_TRUE(result.contains("activities_count"));
+    EXPECT_GE(result.value("activities_count", 0u), 1u);
+}
+
+TEST_F(PmFunctionEngineTest, VariantsReturnsArray) {
+    auto& reg = FunctionRegistry::instance();
+    const json log = makeSimpleEventLog();
+
+    const json result = reg.call("PM_VARIANTS", {log, 10}, ctx_);
+
+    ASSERT_TRUE(result.is_array());
+    // 3 traces with identical sequence → 1 variant
+    ASSERT_GE(result.size(), 1u);
+    EXPECT_TRUE(result[0].contains("variant_id"));
+    EXPECT_TRUE(result[0].contains("activities"));
+    EXPECT_TRUE(result[0].contains("frequency"));
+}
+
+TEST_F(PmFunctionEngineTest, ConformanceWithDiscoveredModel) {
+    auto& reg = FunctionRegistry::instance();
+    const json log = makeSimpleEventLog();
+
+    // First discover the model
+    const json model = reg.call("PM_DISCOVER_PROCESS", {log}, ctx_);
+    ASSERT_FALSE(model.contains("error")) << model.dump();
+
+    // Now check conformance of the same log against its own model
+    const json conf = reg.call("PM_CONFORMANCE", {log, model}, ctx_);
+    ASSERT_TRUE(conf.is_object());
+    EXPECT_TRUE(conf.contains("fitness"));
+    EXPECT_TRUE(conf.contains("precision"));
+    EXPECT_GE(conf.value("fitness", -1.0), 0.0);
+    EXPECT_LE(conf.value("fitness", 2.0), 1.0);
+}
+
+TEST_F(PmFunctionEngineTest, BottlenecksReturnsList) {
+    auto& reg = FunctionRegistry::instance();
+    const json log = makeSimpleEventLog();
+
+    const json result = reg.call("PM_BOTTLENECKS", {log, 0.5}, ctx_);
+    // Result is an array (possibly empty for a simple log)
+    ASSERT_TRUE(result.is_array());
+}
+
+TEST_F(PmFunctionEngineTest, ExportBpmnWithRealModel) {
+    auto& reg = FunctionRegistry::instance();
+    const json log = makeSimpleEventLog();
+    const json model = reg.call("PM_DISCOVER_PROCESS", {log}, ctx_);
+    ASSERT_FALSE(model.contains("error")) << model.dump();
+
+    const json bpmn = reg.call("PM_EXPORT_BPMN", {model}, ctx_);
+    ASSERT_TRUE(bpmn.is_string());
+    const std::string xml = bpmn.get<std::string>();
+    // Must be non-trivial BPMN XML
+    EXPECT_FALSE(xml.empty());
+    EXPECT_TRUE(xml.find("definitions") != std::string::npos ||
+                xml.find("process") != std::string::npos ||
+                xml.find("<?xml") != std::string::npos);
+}
+
+TEST_F(PmFunctionEngineTest, DiscoverProcessWithoutEngineReturnsStub) {
+    auto& reg = FunctionRegistry::instance();
+    FunctionContext no_engine_ctx;  // No ProcessMining injected
+    const json log = makeSimpleEventLog();
+
+    const json result = reg.call("PM_DISCOVER_PROCESS", {log}, no_engine_ctx);
+    ASSERT_TRUE(result.is_object());
+    // Stub result must carry _stub=true and correct shape
+    EXPECT_TRUE(result.value("_stub", false));
+    EXPECT_EQ(result.value("activities_count", -1), 0);
+}
+
+TEST_F(PmFunctionEngineTest, VariantsWithoutEngineReturnsEmptyArray) {
+    auto& reg = FunctionRegistry::instance();
+    FunctionContext no_engine_ctx;
+    const json log = makeSimpleEventLog();
+
+    const json result = reg.call("PM_VARIANTS", {log}, no_engine_ctx);
+    ASSERT_TRUE(result.is_array());
+    EXPECT_EQ(result.size(), 0u);
+}
+
+#endif // !_WIN32
