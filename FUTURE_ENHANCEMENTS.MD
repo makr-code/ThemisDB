@@ -373,9 +373,21 @@ Every stub replacement **must** follow these six phases before marking `[x]`:
 
 ---
 
-### B-03 · `analytics` — `KNNRegressorModel::predictOneReg()` Stub
+### B-03 · `analytics` — `KNNRegressorModel::predictOneReg()` Stub — ✅ Completed alongside LRModel fix
 **Priority:** 🟡 Medium | **Target:** v1.8.0 | **Issue:** #3968
-**Stub location:** `src/analytics/automl.cpp` — `KNNRegressorModel::predictOneReg()` returns `0.0` unconditionally.
+
+> **Status:** `KNNModel::predictOneReg` was already implemented (inverse-distance-weighted mean).
+> `LRModel::predictOneReg` returned `0.0` (stub); replaced — see below.
+
+### B-03b · `analytics` — `LRModel::predictOneReg()` Stub ✅ Done (2026-04-16)
+**Priority:** 🟡 Medium | **Target:** v1.8.0
+**Stub location:** `src/analytics/automl.cpp` line 832 — `return 0.0` unconditionally.
+
+**Fix:** Compute the expected class value using `LogisticRegression::predictProbaOne(x)`:
+`v = Σ c * P(class=c)` for all classes c. For binary classification this equals P(class=1).
+
+**Tests added:** `LRModelRegressorTest::PredictOneRegNotZeroStub` and `PredictOneRegRangeMonotonic`
+in `tests/analytics/test_automl.cpp`.
 
 **Affected files:** `src/analytics/automl.cpp`
 
@@ -794,6 +806,17 @@ Every stub replacement **must** follow these six phases before marking `[x]`:
 **Implementation:**
 - `[ ]` macOS: use `kperf` framework for cycle / instruction counters.
 - `[ ]` Windows: use `QueryThreadCycleTime` / `QueryPerformanceCounter`.
+
+---
+
+### C-06 · `llm` — `VisionEncoder`: Checksum Verification ✅ Done (2026-04-16)
+**Priority:** 🟢 Low | **Was:** `src/llm/vision_encoder.cpp` line 117 — `// TODO: Implement checksum verification`.
+
+**Fix:** Implemented SHA-256 sidecar file verification using `ModuleHashVerifier::computeSHA256()`.
+Convention: `<model_path>.sha256` sidecar contains the expected hex digest.
+On mismatch: `std::runtime_error` with file path and both hashes.
+On missing sidecar: warns and continues (non-fatal, matches existing behaviour when verification config is absent).
+Gate: only runs when `config_->isModelVerificationEnabled()` && `mv.verify_checksums` are both true.
 
 ---
 

@@ -829,7 +829,17 @@ struct DTModel : ModelBase {
 struct LRModel : ModelBase {
     LogisticRegression lr;
     explicit LRModel(LogisticRegression l) : lr(std::move(l)) {}
-    double predictOneReg(const std::vector<double>&) const override { return 0.0; }
+    double predictOneReg(const std::vector<double>& x) const override {
+        // Compute the expected class value: sum(class_index * P(class_index)).
+        // For binary classification (classes 0 and 1) this equals P(class=1),
+        // the standard logistic-regression regression proxy.
+        // For k > 2 classes the result is the probability-weighted class index.
+        const auto proba = lr.predictProbaOne(x);
+        double v = 0.0;
+        for (size_t c = 0; c < proba.size(); ++c)
+            v += static_cast<double>(c) * proba[c];
+        return v;
+    }
     int    predictOneCls(const std::vector<double>& x) const override {
         auto p = lr.predictProbaOne(x);
         return static_cast<int>(std::max_element(p.begin(), p.end()) - p.begin());
