@@ -35,8 +35,8 @@ PNG output encoding, provenance stamp injection, per-generation statistics.
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta (v2.0.0) — Core pipeline operational in stub mode. Real inference
-available when `THEMIS_ENABLE_STABLE_DIFFUSION=ON` and a model file is present.
+**Maturity:** 🟡 Beta (v2.2.0) — Core pipeline operational in stub mode and with optional
+real inference when `THEMIS_ENABLE_STABLE_DIFFUSION=ON` and a model file is present.
 
 ## Quick Start
 
@@ -92,7 +92,7 @@ cmake -B build -DTHEMIS_ENABLE_STABLE_DIFFUSION=ON
 
 | Suite | Count | Labels |
 |---|---|---|
-| `SDPluginFocusedTests` | 30 | `plugins;stable_diffusion;image_generation;v2.0.0` |
+| `SDPluginFocusedTests` | 51 | `plugins;stable_diffusion;image_generation;v2.2.0` |
 
 ```bash
 ctest -R SDPluginFocusedTests --output-on-failure

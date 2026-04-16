@@ -29,44 +29,15 @@ Planned enhancements beyond v2.0.0. Core implementation in `src/stable_diffusion
 
 | Interface | Consumer | Notes |
 |-----------|----------|-------|
-| `IImageGenerationBackend::generateBatch(prompts, cfg)` | Batch API | Returns `vector<GeneratedImage>`; each entry independent |
-| `ISDGenerator::generateImg2Img(image, prompt, cfg)` | img2img path | New optional method; mask parameter added for inpainting |
-| `ISDGenerator::applyLoRA(lora_path, scale)` | LoRA hot-loading | Consistent with LLM module pattern |
+| `ISDGenerator::applyLoRA(lora_path, scale)` | LoRA hot-loading | Optional API addition for runtime adapter switching |
+| `SDGenerationConfig::controlnet_*` fields | ControlNet path | Backward-compatible additive config expansion |
+| `GeneratedImage::perceptual_hash` | Dedup/Audit | Optional output metadata for duplicate detection |
 
 ---
 
 ## Planned Features
 
-### 1. Real PNG Encoder — stb_image_write (Target: Q3 2026)
-
-**Problem:** Stub encoder produces IHDR+IEND only; pixel data is not included.
-
-**Solution:** Integrate `stb_image_write.h` (header-only) to encode the RGB byte buffer as
-a proper PNG with IDAT chunk.
-
-**Constraints:** Header-only; no CMake `find_library` required. Add `third_party/stb/` path.
-**Tests:** Add 2 unit tests verifying PNG magic bytes and correct image dimensions via a
-minimal PNG reader (read IHDR width/height fields).
-
----
-
-### 2. SDCppGenerator — Real stable-diffusion.cpp (Target: Q3 2026)
-
-**Problem:** `SDStubGenerator` returns black pixels; no real inference in v2.0.0.
-
-**Solution:** Add `SDCppGenerator : ISDGenerator` that wraps `stable_diffusion_init()` /
-`stable_diffusion_generate()` from stable-diffusion.cpp.
-
-**Inputs:** `SDConfig` (model_path, sampler, steps, cfg_scale, seed), `SDGenerationConfig`.
-**Outputs:** Raw RGB buffer.
-**Constraints:** Compiled only when `THEMIS_ENABLE_STABLE_DIFFUSION=ON`; linker-guarded.
-**Errors:** Model not found → `initialize()` returns `false`; generation failure → throw.
-**Tests:** Integration test with a tiny 64×64 GGUF model file in CI fixtures.
-**Perf target:** ≤ 10 s for 512×512, 20 steps on RTX 3090 or equivalent.
-
----
-
-### 3. ControlNet Support (Target: Q4 2026)
+### 1. ControlNet Support (Target: Q4 2026)
 
 **Problem:** No image conditioning available.
 
@@ -81,38 +52,46 @@ caller is warned via `GeneratedImage::error_message` (non-fatal).
 
 ---
 
-### 4. Image-to-Image (img2img) (Target: Q4 2026)
+### 2. LoRA Adapter Hot-Loading (Target: Q4 2026)
 
-**Problem:** No support for modifying existing images.
+**Problem:** Runtime LoRA switching is not available in `ISDGenerator`.
 
-**Solution:** Add `generateImg2Img(prompt, input_image_png, cfg)` to `IImageGenerationBackend`.
-`SDPlugin` decodes input PNG, passes it to `ISDGenerator::generateImg2Img()`.
+**Solution:** Add optional `applyLoRA(lora_path, scale)` API for `SDCppGenerator`, with
+no-op default in non-model generators.
 
-**Constraints:** Input PNG must be decoded before passing to the generator; `stb_image.h`
-will be used for decoding.
-**Errors:** Invalid PNG → `success=false`, `error_message`.
-**Tests:** 3 unit tests with preset input/output via `InMemorySDGenerator`.
+**Errors:** Missing LoRA file → return failure with actionable error text.
+**Tests:** Unit tests with mocked generator + integration test behind `THEMIS_ENABLE_STABLE_DIFFUSION`.
 
 ---
 
-### 5. Batch Generation (Target: Q4 2026)
+### 3. Perceptual Hash for Output Deduplication (Target: Q4 2026)
 
-**Problem:** Callers must loop and call `generate()` N times for batch jobs.
+**Problem:** `prompt_hash` fingerprints text input only; identical outputs are not detectable.
 
-**Solution:** Add `generateBatch(prompts, cfg)` returning `vector<GeneratedImage>`.
-Default implementation loops over `generate()`; `SDCppGenerator` may override with a
-parallelised implementation.
+**Solution:** Add optional `pHash` metadata for generated images to support deduplication and audits.
 
-**Perf target:** ≥ 4× throughput vs. sequential single calls for batch size ≥ 8 on GPU.
-**Tests:** 2 unit tests (batch of 1, batch of 3) with `InMemorySDGenerator`.
+**Errors:** Hashing failure must not fail generation; return empty `pHash` plus warning in logs.
+**Tests:** Deterministic pHash fixture tests over known image vectors.
+
+---
+
+### 4. Performance/Hardening Follow-ups (Target: Q1 2027)
+
+**Problem:** Roadmap Phase 5 contains open hardening items.
+
+**Solution:** Add benchmark and concurrency-audit deliverables:
+- benchmark: time-to-PNG for 512×512 (stub vs real model)
+- thread-safety audit for parallel `SDCppGenerator` usage
+
+**Tests:** Benchmark harness entry + stress tests gated for SD backend availability.
 
 ---
 
 ## Security / Reliability
 
-- All new image decoders (stb_image) must validate dimensions before allocation to
-  prevent integer-overflow-based heap attacks.
-- ControlNet model files must be subject to the same SHA-256 integrity check planned
-  for the main model (Target: v2.1.0).
-- `generateBatch` must apply `SDPromptSanitizer::isAllowed()` to every prompt
-  independently before processing.
+- Any new image decoder path must validate dimensions before allocation to prevent
+  integer-overflow-based heap attacks.
+- Model integrity verification (SHA-256 policy) remains required before production use
+  in high-assurance deployments.
+- Any future batch override in `SDCppGenerator` must preserve per-prompt
+  `SDPromptSanitizer::isAllowed()` checks.
