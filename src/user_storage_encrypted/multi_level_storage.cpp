@@ -25,6 +25,8 @@
 #include "gocryptfs_backend.hpp"
 #include <security/vault_key_provider.h>
 #include <security/mock_key_provider.h>
+#include <security/hsm_provider.h>
+#include <security/hsm_key_provider_adapter.h>
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <sstream>
@@ -436,9 +438,31 @@ Result<std::shared_ptr<KeyProvider>> MultiLevelEncryptedStorage::getKeyProvider(
             config.vault_mount
         );
     } else if (config.key_provider == "hsm") {
-        return Result<std::shared_ptr<KeyProvider>>::error(
-            "HSM key provider not yet implemented"
-        );
+        if (config.hsm_library.empty()) {
+            return Result<std::shared_ptr<KeyProvider>>::error(
+                "HSM library path not configured for level: " + config.name
+            );
+        }
+
+        // Build HSMProvider config from LevelConfig HSM fields
+        HSMProvider::Config hsm_cfg;
+        hsm_cfg.library_path = config.hsm_library;
+        hsm_cfg.slot_id      = config.hsm_slot;
+        hsm_cfg.key_label    = config.hsm_key_label.empty()
+                               ? "themis-kek"
+                               : config.hsm_key_label;
+
+        auto hsm = std::make_shared<HSMProvider>(hsm_cfg);
+        if (!hsm->initialize()) {
+            return Result<std::shared_ptr<KeyProvider>>::error(
+                "Failed to initialize HSM provider for level: " + config.name +
+                " (library: " + config.hsm_library + ")"
+            );
+        }
+
+        HSMKeyProviderAdapter::Config adapter_cfg;
+        adapter_cfg.kek_label = hsm_cfg.key_label;
+        provider = std::make_shared<HSMKeyProviderAdapter>(hsm, adapter_cfg);
     } else if (config.key_provider == "mock") {
         provider = std::make_shared<MockKeyProvider>();
     } else {
