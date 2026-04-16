@@ -2723,6 +2723,8 @@ if(THEMIS_ENABLE_LLM)
     # Phase 7: Multi-hop reasoning and adaptive retrieval
     ../src/rag/multi_hop_reasoner.cpp
     ../src/rag/adaptive_retrieval.cpp
+    # RAGIngestionBridge — toolbox/RAG integration layer
+    ../src/rag/rag_ingestion_bridge.cpp
     )
 endif()  # Close if(THEMIS_ENABLE_LLM)
 

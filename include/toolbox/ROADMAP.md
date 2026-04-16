@@ -40,6 +40,7 @@ as a globally injectable, DI-friendly service.
 - [ ] `RAGIngestionBridge` — analogue of `AQLIngestionBridge` for the RAG module
   - Exposes `indexDocument(text, collection)` for RAG pipeline
   - Deduplicates with existing vector index via `IVectorWriter`
+  - [x] DONE (2026-04-16) — `include/rag/rag_ingestion_bridge.h` + `src/rag/rag_ingestion_bridge.cpp`; 27 tests in `tests/test_rag_ingestion_bridge.cpp`
   - (Target: Q3 2026)
 - [ ] `IngestionToolboxMetrics` — Prometheus-compatible metrics for toolbox usage
   - `extractEntities_calls_total`, `extractEntities_latency_ms` (Target: Q4 2026)
@@ -60,9 +61,9 @@ as a globally injectable, DI-friendly service.
 - [x] `AQLQueryBuilder::withIngestionEnrichment()` / `hasIngestionEnrichment()`
 - [x] 27 unit tests in `tests/test_toolbox_ingestion.cpp`
 
-### Phase 3: Builder & RAG Bridge (Planned)
-- [ ] `ToolboxBuilder` fluent API
-- [ ] `RAGIngestionBridge`
+### Phase 3: Builder & RAG Bridge (Status: Completed ✅)
+- [x] `ToolboxBuilder` fluent API
+- [x] `RAGIngestionBridge`
 
 ### Phase 4: Observability (Planned)
 - [ ] `IngestionToolboxMetrics`
@@ -76,7 +77,8 @@ as a globally injectable, DI-friendly service.
 - [x] Thread-safe (std::mutex)
 - [x] `extractEntities()` degrades gracefully on workflow failure
 - [x] Unit tests covering construction, DI, edge cases
-- [ ] `ToolboxBuilder` (Target: Q3 2026)
+- [x] `ToolboxBuilder` (Target: Q3 2026)
+- [x] `RAGIngestionBridge` (Target: Q3 2026)
 - [ ] Metrics (Target: Q4 2026)
 
 ---
