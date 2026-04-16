@@ -1,10 +1,10 @@
-[docs](../../index.md) > [en](../index.md) > [toolbox](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-04-16  
-**Status:** draft  
-**Primary Source:**
+[docs](../../README.md) > [en](../README.md) > [toolbox](./index.md) > [reference](./PRIMARY_SOURCES.md)
+**Datum:** 2026-04-16
+**Status:** draft
+**Primary (Quelle der Wahrheit):**
 - `include/toolbox/ROADMAP.md`
 
-**Reference:**
+**Bezug / Reference:**
 - Tool: `tools/module_docs_builder.py`
 - Context: Auto-generated index of all primary Markdown files for module `toolbox`
 

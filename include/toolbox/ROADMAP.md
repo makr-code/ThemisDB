@@ -3,8 +3,8 @@
 
 # Roadmap — Toolbox Module (Public Headers)
 
-> **Module path:** `include/toolbox/`  
-> **Namespace:** `themis::toolbox`  
+> **Module path:** `include/toolbox/`
+> **Namespace:** `themis::toolbox`
 > **Dependency direction:** `toolbox/` → `ingestion/` (never reversed)
 
 ---
@@ -31,16 +31,16 @@ as a globally injectable, DI-friendly service.
 
 ## Planned Features 📋
 
-- [ ] `ToolboxBuilder` — fluent API for constructing production `IngestionToolbox`
+- [x] `ToolboxBuilder` — fluent API for constructing production `IngestionToolbox`
   instances with custom profiles, sinks, and backends (Target: Q3 2026)
   - `ToolboxBuilder::withWorkflowProfile(path)` → pre-loads YAML profiles
   - `ToolboxBuilder::withGraphWriter(IGraphWriter)` → attaches graph sink
   - `ToolboxBuilder::withTextBackend(ITextGenerationBackend)` → injects LLM
   - `ToolboxBuilder::build()` → returns fully configured `shared_ptr<IngestionToolbox>`
-- [ ] `RAGIngestionBridge` — analogue of `AQLIngestionBridge` for the RAG module
+- [x] `RAGIngestionBridge` — analogue of `AQLIngestionBridge` for the RAG module
   - Exposes `indexDocument(text, collection)` for RAG pipeline
   - Deduplicates with existing vector index via `IVectorWriter`
-  - [x] DONE (2026-04-16) — `include/rag/rag_ingestion_bridge.h` + `src/rag/rag_ingestion_bridge.cpp`; 27 tests in `tests/test_rag_ingestion_bridge.cpp`
+  - DONE (2026-04-16) — `include/rag/rag_ingestion_bridge.h` + `src/rag/rag_ingestion_bridge.cpp`; 27 tests in `tests/test_rag_ingestion_bridge.cpp`
   - (Target: Q3 2026)
 - [ ] `IngestionToolboxMetrics` — Prometheus-compatible metrics for toolbox usage
   - `extractEntities_calls_total`, `extractEntities_latency_ms` (Target: Q4 2026)

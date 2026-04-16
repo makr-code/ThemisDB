@@ -1,6 +1,6 @@
-[docs](../../index.md) > [de](../index.md) > [toolbox](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-16  
-**Status:** draft  
+[docs](../../README.md) > [de](../README.md) > [toolbox](./index.md) > [reference](./PRIMARY_SOURCES.md)
+**Datum:** 2026-04-16
+**Status:** draft
 **Primary (Quelle der Wahrheit):**
 - `include/toolbox/ROADMAP.md`
 
