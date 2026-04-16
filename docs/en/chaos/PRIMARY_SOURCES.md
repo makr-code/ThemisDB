@@ -1,7 +1,7 @@
-[docs](../../README.md) > [en](../README.md) > [chaos](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-16  
+[docs](../../index.md) > [en](../index.md) > [chaos](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
+**Date:** 2026-04-16  
 **Status:** draft  
-**Primary (Quelle der Wahrheit):**
+**Primary Source:**
 - `include/chaos/ARCHITECTURE.md`
 - `include/chaos/AUDIT.md`
 - `include/chaos/CHANGELOG.md`
@@ -17,7 +17,7 @@
 - `src/chaos/ROADMAP.md`
 - `src/chaos/SECURITY.md`
 
-**Bezug / Reference:**
+**Reference:**
 - Tool: `tools/module_docs_builder.py`
 - Context: Auto-generated index of all primary Markdown files for module `chaos`
 
