@@ -1,0 +1,247 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            rag_ingestion_bridge.cpp                           ║
+  Version:         0.1.0                                              ║
+  Last Modified:   2026-04-16                                         ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#include "rag/rag_ingestion_bridge.h"
+
+#include "ingestion/workflow_engine.h"
+#include "ingestion/extraction_context.h"
+
+#include <sstream>
+#include <iomanip>
+#include <stdexcept>
+#include <functional>  // std::hash
+
+namespace themis {
+namespace rag {
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Construction / destruction
+// ─────────────────────────────────────────────────────────────────────────────
+
+RAGIngestionBridge::RAGIngestionBridge(
+    std::shared_ptr<toolbox::IngestionToolbox> toolbox,
+    std::shared_ptr<ingestion::IVectorWriter>  vector_writer,
+    std::shared_ptr<ingestion::IGraphWriter>   graph_writer)
+    : toolbox_(std::move(toolbox))
+    , vector_writer_(std::move(vector_writer))
+    , graph_writer_(std::move(graph_writer))
+{
+    if (!toolbox_) {
+        throw std::invalid_argument(
+            "RAGIngestionBridge: toolbox must not be null");
+    }
+}
+
+RAGIngestionBridge::~RAGIngestionBridge() = default;
+
+RAGIngestionBridge::RAGIngestionBridge(RAGIngestionBridge&&) noexcept = default;
+RAGIngestionBridge& RAGIngestionBridge::operator=(RAGIngestionBridge&&) noexcept = default;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Core operations
+// ─────────────────────────────────────────────────────────────────────────────
+
+IndexResult RAGIngestionBridge::indexDocument(
+    const std::string& text,
+    const std::string& collection,
+    const std::string& mime,
+    const std::string& filename)
+{
+    if (text.empty()) {
+        return IndexResult{
+            .ok    = false,
+            .error = "empty input"
+        };
+    }
+
+    // Derive a stable document ID from collection + text
+    const std::string doc_hash = computeDocHash(text);
+    const std::string doc_id   = collection + "/" + doc_hash;
+
+    // Build an ExtractionContext and run the workflow
+    ingestion::ExtractionContext ctx;
+    ctx.manifest.detected_mime  = mime;
+    ctx.manifest.filename_stem  = filename;
+    ctx.manifest.extension      = "";
+    ctx.raw_text                = text;
+
+    auto engine = toolbox_->workflowEngine();
+    auto result = engine->execute(ctx);
+    if (!result) {
+        return IndexResult{
+            .ok         = false,
+            .doc_id     = doc_id,
+            .collection = collection,
+            .error      = "workflow execution failed"
+        };
+    }
+
+    const ingestion::BaseEntitySet& entity_set = result.value();
+    std::size_t vector_count = 0;
+    std::size_t entity_count = entity_set.nodes.size();
+
+    // Write vector chunks (stamp each chunk's source_file_id with our doc_id)
+    if (vector_writer_ && !entity_set.chunks.empty()) {
+        std::vector<ingestion::VectorRecord> stamped_chunks = entity_set.chunks;
+        for (auto& chunk : stamped_chunks) {
+            if (chunk.source_file_id.empty()) {
+                chunk.source_file_id = doc_id;
+            }
+            // Inject collection into metadata for downstream retrieval routing
+            chunk.metadata["collection"] = collection;
+        }
+
+        auto write_result = vector_writer_->writeVectors(stamped_chunks);
+        if (write_result) {
+            vector_count = stamped_chunks.size();
+        }
+        // Write failure is non-fatal: we still return a partial result
+    }
+
+    // Write graph entities / relations
+    if (graph_writer_) {
+        if (!entity_set.nodes.empty()) {
+            graph_writer_->writeEntities(entity_set.nodes);
+        }
+        if (!entity_set.edges.empty()) {
+            graph_writer_->writeRelations(entity_set.edges);
+        }
+    }
+
+    return IndexResult{
+        .ok           = true,
+        .doc_id       = doc_id,
+        .collection   = collection,
+        .entity_count = entity_count,
+        .vector_count = vector_count
+    };
+}
+
+std::size_t RAGIngestionBridge::enrichRetrievedDocuments(
+    std::vector<judge::RetrievedDocument>& docs)
+{
+    std::size_t enriched = 0;
+    for (auto& doc : docs) {
+        if (doc.content.empty()) {
+            continue;
+        }
+        auto entities = toolbox_->extractEntities(doc.content);
+        if (entities.empty()) {
+            continue;
+        }
+        const std::string context = buildEntityContext(entities);
+        if (!context.empty()) {
+            doc.metadata["_entities"] = context;
+            ++enriched;
+        }
+    }
+    return enriched;
+}
+
+std::vector<ingestion::BaseEntity>
+RAGIngestionBridge::extractEntitiesForContext(const std::string& text) {
+    return toolbox_->extractEntities(text);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Static helpers
+// ─────────────────────────────────────────────────────────────────────────────
+
+std::string RAGIngestionBridge::buildEntityContext(
+    const std::vector<ingestion::BaseEntity>& entities)
+{
+    if (entities.empty()) {
+        return {};
+    }
+
+    std::ostringstream oss;
+    oss << "Extracted entities:";
+    bool first = true;
+    for (const auto& e : entities) {
+        if (!first) {
+            oss << " |";
+        }
+        oss << " " << entityTypeName(e.entity_type);
+        if (!e.id.empty()) {
+            oss << " " << e.id;
+        }
+        first = false;
+    }
+    return oss.str();
+}
+
+std::string RAGIngestionBridge::computeDocHash(const std::string& text) {
+    // Derive a stable 16-character hex digest from the text.
+    // Uses two independent std::hash calls on overlapping halves so that
+    // both the beginning and end of long documents contribute to the hash.
+    // This is NOT cryptographically secure; it is only used as a stable,
+    // deterministic document key for idempotent upserts.
+    const std::size_t h1 = std::hash<std::string>{}(text);
+    const std::size_t h2 = std::hash<std::string>{}(
+        text.size() > 32 ? text.substr(text.size() / 2) : text
+    );
+    std::ostringstream oss;
+    oss << std::hex << std::setfill('0')
+        << std::setw(8) << (static_cast<uint32_t>(h1) & 0xFFFFFFFFu)
+        << std::setw(8) << (static_cast<uint32_t>(h2) & 0xFFFFFFFFu);
+    return oss.str();
+}
+
+std::string RAGIngestionBridge::entityTypeName(ingestion::EntityType et) {
+    using ET = ingestion::EntityType;
+    switch (et) {
+        case ET::UNKNOWN:              return "UNKNOWN";
+        case ET::CHUNK:                return "CHUNK";
+        case ET::PERSON:               return "PERSON";
+        case ET::ORGANIZATION:         return "ORGANIZATION";
+        case ET::LOCATION:             return "LOCATION";
+        case ET::DATE:                 return "DATE";
+        case ET::URL:                  return "URL";
+        case ET::TABLE_ROW:            return "TABLE_ROW";
+        case ET::GEO_FEATURE:          return "GEO_FEATURE";
+        case ET::IMAGE_REGION:         return "IMAGE_REGION";
+        case ET::LEGAL_PROVISION:      return "LEGAL_PROVISION";
+        case ET::LEGAL_NORM_REFERENCE: return "LEGAL_NORM_REFERENCE";
+        case ET::LEGAL_OBLIGATION:     return "LEGAL_OBLIGATION";
+        case ET::LEGAL_PROHIBITION:    return "LEGAL_PROHIBITION";
+        case ET::LEGAL_PERMISSION:     return "LEGAL_PERMISSION";
+        case ET::LEGAL_AUTHORITY:      return "LEGAL_AUTHORITY";
+        case ET::LEGAL_AKTENZEICHEN:   return "LEGAL_AKTENZEICHEN";
+        case ET::LEGAL_DECISION:       return "LEGAL_DECISION";
+        case ET::LEGAL_APPLICANT:      return "LEGAL_APPLICANT";
+        case ET::LEGAL_EFFECTIVE_DATE: return "LEGAL_EFFECTIVE_DATE";
+        default:                       return "UNKNOWN";
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Accessors
+// ─────────────────────────────────────────────────────────────────────────────
+
+std::shared_ptr<toolbox::IngestionToolbox>
+RAGIngestionBridge::toolbox() const {
+    return toolbox_;
+}
+
+std::shared_ptr<ingestion::IVectorWriter>
+RAGIngestionBridge::vectorWriter() const {
+    return vector_writer_;
+}
+
+std::shared_ptr<ingestion::IGraphWriter>
+RAGIngestionBridge::graphWriter() const {
+    return graph_writer_;
+}
+
+} // namespace rag
+} // namespace themis

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rate_limiter_v2.cpp                           ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:17:24                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:56:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 5bee4e8e41  2026-04-03  Implement Disaster Recovery Manager and associated tests ║
-    • ea7db4d78f  2026-03-11  feat(server): Redis backend for RateLimiterV2 (distribute... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

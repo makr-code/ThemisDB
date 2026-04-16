@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gpu_compression.cpp                                ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:10:30                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 72b5cb1957  2026-03-13  fix(gpu_compression): address all 10 review feedback items ║
-    • 2386ec7ef9  2026-03-12  feat: implement GPU-accelerated compression (Zstd/Snappy/... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

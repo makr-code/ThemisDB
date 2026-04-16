@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_continuous_agg_comprehensive.cpp              ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 18:13:16                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 18:53:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 16b61f181a  2026-03-13  fix(timeseries): audit fixes – catch-up dedup, prometheus... ║
-    • 4dbd7efdea  2026-03-13  feat(timeseries): incremental continuous aggregation with... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

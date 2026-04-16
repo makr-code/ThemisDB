@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            verify_benchmark_mapping.py                        ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-15 18:20:04                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 18:58:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -131,7 +131,10 @@ def check_files_exist(data: dict) -> bool:
     seen: set[str] = set()
     for module, targets in data["modules"].items():
         for tid, entry in targets.items():
-            fname = entry.get("file", "")
+            fname = entry.get("file") or ""
+            if not fname:
+                # null/empty file is valid for "nicht_messbar" entries
+                continue
             if fname in seen:
                 continue
             seen.add(fname)
@@ -281,6 +284,57 @@ def check_full_coverage(data: dict) -> bool:
 
 
 # ---------------------------------------------------------------------------
+# Check 6a – Wave2: fallback_case coverage for distributed modules
+# ---------------------------------------------------------------------------
+
+# Modules that must have primary_case + fallback_case per Wave2 issue
+_WAVE2_MODULES = {"replication", "sharding", "transaction"}
+
+
+def check_wave2_fallback_coverage(data: dict) -> bool:
+    """
+    Wave2 requirement: every Ziel-ID in replication/sharding/transaction must
+    carry both 'primary_case' and 'fallback_case' fields.
+    Emits a warning (not a hard failure) for each missing field so that the
+    check remains informational until the gap cases are fully resolved.
+    """
+    missing_primary: list[str] = []
+    missing_fallback: list[str] = []
+
+    for module in _WAVE2_MODULES:
+        targets = data["modules"].get(module, {})
+        for tid, entry in targets.items():
+            if "primary_case" not in entry:
+                missing_primary.append(f"{module}/{tid}")
+            if "fallback_case" not in entry:
+                missing_fallback.append(f"{module}/{tid}")
+
+    if missing_primary:
+        for mp in missing_primary:
+            _warn(f"Wave2: {mp} missing 'primary_case' field")
+    if missing_fallback:
+        for mf in missing_fallback:
+            _warn(f"Wave2: {mf} missing 'fallback_case' field")
+
+    total_checked = sum(
+        len(data["modules"].get(m, {})) for m in _WAVE2_MODULES
+    )
+    covered = total_checked - len(missing_fallback)
+    if not missing_primary and not missing_fallback:
+        _ok(
+            f"Wave2 fallback_case coverage: {covered}/{total_checked} "
+            f"entries in replication/sharding/transaction have primary_case+fallback_case"
+        )
+    else:
+        _warn(
+            f"Wave2 fallback_case coverage: {covered}/{total_checked} "
+            f"entries fully covered ({len(missing_fallback)} missing fallback_case, "
+            f"{len(missing_primary)} missing primary_case)"
+        )
+    return True  # warnings only; does not block CI gate
+
+
+# ---------------------------------------------------------------------------
 # Check 6 – status field validation and coverage quote
 # ---------------------------------------------------------------------------
 
@@ -367,6 +421,9 @@ def main() -> int:
 
     print("\n[6] Status field validation and coverage quote")
     results.append(check_status_and_coverage(data))
+
+    print("\n[6a] Wave2: primary_case + fallback_case coverage (replication/sharding/transaction)")
+    results.append(check_wave2_fallback_coverage(data))
 
     print("\n" + "=" * 60)
     passed = all(results)

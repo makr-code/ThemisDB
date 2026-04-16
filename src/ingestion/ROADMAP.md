@@ -238,6 +238,20 @@ v1.5.x – Production-grade data intake layer. All connectors (FileSystem, Huggi
 - [x] Google Benchmarks: QJ01..QJ11 — `benchmarks/bench_ingestion_quality_judge.cpp` — fail-open path, single/all-dim eval, entity scaling, bullet-list parsing, observer dispatch (0/N), config mutation, ctor/dtor, CRAG-style feedback loop simulation — registered in `benchmarks/CMakeLists.txt` (2026-04-15)
 - [x] Header documentation: scientific paper references (LLM-as-judge Zheng et al. NeurIPS 2023, RAGAS Es et al. EACL 2024, CRAG Yan et al. ICLR 2024) and full SOLID / SoC annotation added to `include/ingestion/ingestion_quality_judge.h` (2026-04-15)
 
+### Phase 8: Global Toolbox (Status: Completed ✅)
+- [x] `IngestionToolbox` — injectable system-wide service wrapping `WorkflowEngine` + `StepRegistry` + `ITextGenerationBackend` — `include/toolbox/ingestion_toolbox.h` + `src/toolbox/ingestion_toolbox.cpp` (namespace `themis::toolbox`) (2026-04-15)
+  - `createDefault()` factory pre-registers `builtin.ner_de` + `builtin.llm_extract`
+  - `setWorkflowEngine()` / `setTextBackend()` for DI (no singleton)
+  - `extractEntities(text, mime, filename)` convenience method
+- [x] `AQLIngestionBridge` — bridge in `aql/` consuming `toolbox/`; `ingestion/` never imported from `aql/` — `include/aql/aql_ingestion_bridge.h` + `src/aql/aql_ingestion_bridge.cpp` (2026-04-15)
+  - `enrichInsertPayload(json&)` — WorkflowEngine on INSERT/UPSERT payload → `_entities` + optional graph write
+  - `extractEntitiesForContext(text)` → `vector<BaseEntity>` for NL→AQL schema context injection
+  - `buildEntityContext(entities)` → compact entity string for LLM prompt enrichment
+- [x] `LLMAQLHandler::setIngestionBridge()` / `ingestionBridge()` — opt-in bridge injection (2026-04-15)
+- [x] `AQLQueryBuilder::withIngestionEnrichment()` / `hasIngestionEnrichment()` — advisory DML enrichment flag (2026-04-15)
+- [x] Tests: IT-01..IT-10, AB-01..AB-10, QB-01..QB-04, LH-01..LH-03 (27 tests) — `tests/test_toolbox_ingestion.cpp` (2026-04-15)
+- [x] ARCHITECTURE.md updated — "Global Ingestion Toolbox" section + `toolbox::` in namespace hierarchy
+
 ## Breaking Changes
 - `IngestionBuilder` fluent API is stable from v1.x.
 - Source connector interface may gain new lifecycle hooks in v1.6.0.

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            directx_backend_full.cpp                           ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:07:17                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 1ae2010848  2026-03-11  audit: fix post-implementation review findings for Direct... ║
-    • 9b3ffd6f0a  2026-03-11  feat(acceleration): implement DirectX 12 compute shader b... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

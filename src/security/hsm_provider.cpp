@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hsm_provider.cpp                                   ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:10:02                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -17,7 +17,7 @@
     • 7c2cc11ffb  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
     • ad6e8f172c  2026-04-14  refactor: replace (void)var; suppressions with C++17 [[ma... ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: 📝 Draft / Stub                                              ║
+  Status: 🟡 Documented Stub (dev-fallback; see STUB/SIMULATION NOTE)                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
@@ -28,6 +28,21 @@
 #ifdef THEMIS_ENABLE_HSM_REAL
 // Real PKCS#11 Implementierung in hsm_provider_pkcs11.cpp
 #else
+
+// STUB/SIMULATION NOTE:
+// Purpose: Software-only AES-256-GCM fallback for HSMProvider when no real HSM hardware
+//          is present. Provides deterministic key-wrap/unwrap for developer and CI use.
+//          Production mode is explicitly blocked unless THEMIS_ALLOW_HSM_STUB=1 env var
+//          is set, or the --allow-stub-hsm server flag is passed.
+// Activation: Compiled when THEMIS_ENABLE_HSM_REAL is NOT defined (default in dev builds).
+//             Build with -DTHEMIS_ENABLE_HSM_REAL=ON to replace this with the real PKCS#11
+//             implementation in hsm_provider_pkcs11.cpp.
+// Production Delta: Uses a randomly-generated in-memory KEK (not persisted across restarts,
+//                   not protected by HSM hardware). All crypto is software-only OpenSSL.
+//                   Not suitable for production key management.
+// Removal Plan: Replaced at build time by hsm_provider_pkcs11.cpp when
+//               -DTHEMIS_ENABLE_HSM_REAL=ON is set. No v1.x production deployment ships
+//               without a real HSM backend.
 
 #include "security/hsm_provider.h"
 #include "core/production_mode.h"

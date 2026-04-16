@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            epk_serializer.cpp                                 ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:09:08                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:49:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 3fea6d6b51  2026-03-12  refactor: clean up includes and remove unused transaction... ║
-    • 7f7a272409  2026-03-12  feat(process): add ProcessLinker, ProcessGraphRag, and mo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

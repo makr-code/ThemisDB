@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_active_vram_allocator.cpp                     ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:11:39                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     836                                            ║
+    • Total Lines:     835                                            ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • fe135d5215  2026-04-13  feat(llm): Speculative Decoding for Latency Reduction — v... ║
-    • bdd5a732d8  2026-03-11  Address code review: deduplicate VRAM auto-detection, fix... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

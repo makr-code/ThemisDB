@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_schema_version_manager.cpp                    ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:17:51                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:56:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-    • ab36d18bd2  2026-03-09  feat(metadata): update ROADMAP/FUTURE_ENHANCEMENTS, add a... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

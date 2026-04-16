@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_integration.cpp                                ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:09:44                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:50:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 313082fa28  2026-03-15  fix(rag): address review comments - fix comment wording a... ║
-    • 883e2e12b5  2026-03-15  feat(rag): replace LLMIntegration stub + add ILLMInferenc... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

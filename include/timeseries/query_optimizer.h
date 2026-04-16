@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_optimizer.h                                  ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:06:02                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 822b0afce6  2026-03-15  feat(timeseries): implement TSStore single-point insert b... ║
-    • fe42ba76e2  2026-03-09  feat(timeseries): add FlushController adaptive flush, Dow... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

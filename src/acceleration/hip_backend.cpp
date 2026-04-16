@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hip_backend.cpp                                    ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:07:17                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1151                                           ║
+    • Total Lines:     1150                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 8c426c95d2  2026-04-13  feat(acceleration): Kernel Block-Dimension Occupancy Tuni... ║
-    • 73d8f8a8db  2026-03-15  feat(acceleration): implement GPU hardware support gaps -... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

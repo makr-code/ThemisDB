@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            module_docs_issue_reporter.py                      ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:19:54                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-16 04:33:13                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • afcb89febb  2026-03-12  fix: robustness/performance/efficiency improvements for d... ║
-    • 212c6d4a65  2026-03-12  feat: add changelog_updater, module_docs_issue_reporter, ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -74,12 +73,22 @@ from typing import Any, Dict, List, Optional, Tuple
 DEFAULT_REPO = "makr-code/ThemisDB"
 
 # Label sets (must already exist in the target repository).
-LABELS_MODULE = ["type:documentation", "area:docs-audit", "priority:medium", "status:open"]
+LABELS_MODULE = [
+    "documentation",
+    "type:documentation",
+    "area:docs",
+    "lang:german",
+    "lang:english",
+    "priority:medium",
+    "priority:P2",
+    "milestone:current",
+]
 LABELS_DRIFT_DRIFTING = ["type:documentation", "area:docs-audit", "priority:low", "status:open"]
 LABELS_DRIFT_STALE = ["type:documentation", "area:docs-audit", "priority:medium", "status:open"]
 
-TITLE_PREFIX_MODULE = "[docs-sync]"
+TITLE_PREFIX_MODULE = "[MODULE]"
 TITLE_PREFIX_DRIFT = "[docs-drift]"
+DEFAULT_MODULE_MILESTONE = "v1.8.0"
 
 # [R2] Default timeout for all gh CLI subprocess calls (seconds).
 _GH_TIMEOUT = 30
@@ -143,17 +152,21 @@ def _create_issue(
     labels: List[str],
     body: str,
     dry_run: bool,
+    milestone: Optional[str] = None,
 ) -> bool:
     """Create a GitHub issue.  Returns True on success."""
     if dry_run:
         return True
-    rc, stdout, stderr = _run([
+    cmd = [
         "gh", "issue", "create",
         "--repo", repo,
         "--title", title,
         "--label", ",".join(labels),
         "--body", body,
-    ])
+    ]
+    if milestone:
+        cmd.extend(["--milestone", milestone])
+    rc, stdout, stderr = _run(cmd)
     if rc != 0:
         print(f"  ❌ gh error: {stderr or 'unknown'}", file=sys.stderr)
         return False
@@ -179,55 +192,96 @@ def _detect_format(report: Dict[str, Any]) -> str:
 # ---------------------------------------------------------------------------
 
 
-def _module_issue_title(module: str) -> str:
-    return f"{TITLE_PREFIX_MODULE} Modul `{module}`: Sekundärdokumentation fehlt"
+def _module_work_package_name(module: str, info: Dict[str, Any]) -> str:
+    files = info.get("files", [])
+    has_src = any(str(f).startswith("src/") for f in files)
+    has_include = any(str(f).startswith("include/") for f in files)
+    if has_include and not has_src:
+        return f"include_{module}"
+    return module
+
+
+def _module_issue_title(module: str, info: Dict[str, Any]) -> str:
+    return f"{TITLE_PREFIX_MODULE} {_module_work_package_name(module, info)}"
 
 
 def _module_issue_body(module: str, info: Dict[str, Any]) -> str:
     files = info.get("files", [])
     de_human = info.get("de_human_authored", 0)
+    module_name = _module_work_package_name(module, info)
     file_list = "\n".join(f"- `{f}`" for f in files[:20])
     if len(files) > 20:
         file_list += f"\n- … und {len(files) - 20} weitere"
 
     return f"""\
-## Zusammenfassung
+## Ziel
 
-Das Modul **`{module}`** wurde im Module-Docs-Sync-Lauf erkannt, hat aber \
-noch keine menschlich erstellte Sekundärdokumentation in `docs/de/{module}/`.
+Modulweiser Work Package für die Doku-Migration des Moduls **`{module_name}`**
+im Modell **Primary (`src/**`, `include/**`) → Secondary (`docs/*`) → Compendium**.
 
-| Feld | Wert |
-|------|------|
-| **Modul** | `{module}` |
-| **Primary-Markdown-Dateien** | {len(files)} |
-| **Menschlich erstellte DE-Docs** | {de_human} |
-| **Auto-generiert** | `docs/de/{module}/PRIMARY_SOURCES.md` ✅ |
-| **Erkannt von** | `tools/module_docs_builder.py` |
+## Scope (Primary/Secondary)
 
-## Primary Sources
+- **Primary (Source of Truth):**
+  - [ ] `src/{module}/` und/oder `include/{module}/` gegen Realstand prüfen
+  - [ ] `README.md`, `ARCHITECTURE.md`, `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md` konsolidieren
+- **Secondary (abgeleitet):**
+  - [ ] `docs/de/{module}/` und `docs/en/{module}/` aktualisieren/ergänzen
+  - [ ] Header/Breadcrumb/Primary-Referenzen nach Doku-Standard sicherstellen
+
+## Nicht-Ziele
+
+- Keine großen API/Feature-Rewrites
+- Keine vollständige Neuschreibung aller Texte außerhalb dieses Moduls
+- Keine Änderungen an fachfremden Modulen
+
+## Tasks 1–4 (verbindlich)
+
+### Task 1 — Reality-Check gegen Sourcecode
+
+- [ ] Primary-Doku gegen implementierten Code abgleichen
+- [ ] Abweichungen mit konkreten Dateipfaden dokumentieren
+
+### Task 2 — ROADMAP/FUTURE_ENHANCEMENTS-Verifikation
+
+- [ ] `ROADMAP.md`-Status pro Phase gegen Implementierung verifizieren
+- [ ] `FUTURE_ENHANCEMENTS.md` auf klare, implementierbare Hinweise prüfen
+
+### Task 3 — Research-Hinweise
+
+- [ ] Falls nötig, Research-Notizen mit Quellen/Constraints ergänzen
+- [ ] Entscheidungen nachvollziehbar in der Secondary-Doku verankern
+
+### Task 4 — Missing-Implementations-Report
+
+- [ ] `docs/de/{module}/missing-implementations.md` erstellen/aktualisieren
+- [ ] Offene Lücken mit Impact, Evidence, Priorisierung und Folge-Issues aufführen
+
+## Primärquellen (Auszug)
 
 {file_list}
 
-## Fehlende Sekundärdokumentation
+## Definition of Done (DoD)
 
-Mindestens eine der folgenden Dateien sollte manuell erstellt werden:
+- [ ] Scope (Primary/Secondary) erfüllt
+- [ ] Tasks 1–4 nachvollziehbar abgeschlossen
+- [ ] Secondary-Doku in DE/EN aktualisiert und verlinkt
+- [ ] `missing-implementations.md` vorhanden und konsistent
+- [ ] Validierung dokumentiert (z. B. `scripts/validate-docs.sh`, relevante Tests)
 
-- [ ] `docs/de/{module}/architecture.md` — Architektur & Designentscheidungen
-- [ ] `docs/de/{module}/README.md` — Modulübersicht für Nutzer/Entwickler
-- [ ] `docs/de/{module}/feature.md` — Feature-Beschreibung
+## Abschlussformat für Online-Agenten
 
-## Akzeptanzkriterien
+Bitte beim Abschlusskommentar posten:
 
-- [ ] Mindestens eine menschlich erstellte Sekundärdoku-Datei in `docs/de/{module}/` vorhanden
-- [ ] Breadcrumb, Datum, Status und Primary-Quellenangabe korrekt gesetzt
-- [ ] `docs/en/{module}/` entsprechend ergänzt (oder verlinkt)
-- [ ] Kein Drift erkannt (`Status: stable` oder `review`)
+- Geänderte Dateien (Primary + Secondary + ggf. Compendium)
+- Durchgeführte Validierung (Befehle + Ergebnis)
+- Offene Risiken/Restpunkte
 
 ## Referenz
 
 - Auto-generierter Index: [`docs/de/{module}/PRIMARY_SOURCES.md`](../docs/de/{module}/PRIMARY_SOURCES.md)
-- Tool: `tools/module_docs_builder.py`
 - Doku-Standard: `docs/CONTENT_MODEL.md`
+- Ziel-Milestone: `{DEFAULT_MODULE_MILESTONE}`
+- Primärdateien erkannt: **{len(files)}** · Menschlich erstellte DE-Docs: **{de_human}**
 """
 
 
@@ -236,6 +290,7 @@ def process_module_report(
     repo: str,
     dry_run: bool,
     quiet: bool,
+    milestone: Optional[str],
 ) -> Tuple[int, int, int]:
     """Process a module-findings report.  Returns (created, skipped, failed)."""
     modules_info: Dict[str, Any] = report.get("modules", {})
@@ -255,8 +310,8 @@ def process_module_report(
         print(f"  Found {len(existing_titles)} existing issue(s).\n")
 
     for module in sorted(underdoc):
-        title = _module_issue_title(module)
         info = modules_info.get(module, {})
+        title = _module_issue_title(module, info)
 
         if title in existing_titles:
             if not quiet:
@@ -265,7 +320,7 @@ def process_module_report(
             continue
 
         body = _module_issue_body(module, info)
-        ok = _create_issue(repo, title, LABELS_MODULE, body, dry_run)
+        ok = _create_issue(repo, title, LABELS_MODULE, body, dry_run, milestone=milestone)
 
         if ok:
             if not quiet:
@@ -437,6 +492,15 @@ def build_arg_parser() -> argparse.ArgumentParser:
         help="Check for duplicates and report, but do not create issues",
     )
     p.add_argument("--quiet", action="store_true", help="Suppress informational output")
+    p.add_argument(
+        "--module-milestone",
+        default=DEFAULT_MODULE_MILESTONE,
+        metavar="MILESTONE",
+        help=(
+            "Milestone title for module work-package issues "
+            f"(default: {DEFAULT_MODULE_MILESTONE}, empty disables milestone)"
+        ),
+    )
     return p
 
 
@@ -470,8 +534,9 @@ def main(argv=None) -> int:
         print()
 
     if fmt == "module":
+        milestone = args.module_milestone.strip() or None
         created, skipped, failed = process_module_report(
-            report, args.repo, args.dry_run, args.quiet
+            report, args.repo, args.dry_run, args.quiet, milestone
         )
     elif fmt == "drift":
         created, skipped, failed = process_drift_report(

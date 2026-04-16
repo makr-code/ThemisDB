@@ -3,18 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cloud_backup.cpp                              ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-04-15 18:13:03                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:53:00                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   84.0/100                                       ║
-    • Total Lines:     444                                            ║
+    • Total Lines:     443                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • f82bf2ae9f  2026-03-04  Refactor tenant manager tests and add new test cases ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

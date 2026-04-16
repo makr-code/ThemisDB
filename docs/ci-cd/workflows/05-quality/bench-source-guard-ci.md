@@ -21,7 +21,7 @@ itself, on every push to `main` / `develop`, and nightly via cron.
 
 ## How the Guard Works
 
-The guard performs two complementary checks:
+The guard performs three complementary checks:
 
 ### Check 8a – CMake-target coverage
 
@@ -44,20 +44,37 @@ the guard exits with code `1` and CI fails.
 `tools/check_bench_targets.py` itself exists in the repository so that
 developers can run the check locally and as a pre-commit hook.
 
-### Optional: Binary-level check (`--build-dir`)
+### Check 8c – Binary verification (`bench-binary-guard` CI job)
 
-When a build directory is passed via `--build-dir DIR`, the guard also
-verifies that each covered source has a corresponding executable
-(`bench_*` or `bench_*.exe`) present under `DIR`.  This mode is used by
-release-pipeline workflows that perform an actual build before running the
-guard.
+The `bench-binary-guard` CI job (Job 2 in the workflow) performs an actual
+build of the explicitly-wired benchmark targets and then runs
+`check_bench_targets.py --build-dir` to verify that each explicitly-wired,
+non-allowlisted source produced an executable.
+
+**What is checked:**
+
+| Source type | CMake target | Built by default | Binary-check result |
+|---|---|---|---|
+| Explicitly-wired (`add_executable`) | Explicit | ✅ Yes | ❌ FAIL if binary absent |
+| Auto-registered (`EXCLUDE_FROM_ALL`) | Auto-reg | ❌ No (opt-in) | ⬜ Skipped (informational) |
+| Allowlisted | Varies | Varies | ⬜ Skipped (permitted) |
+
+Auto-registered (`EXCLUDE_FROM_ALL`) sources are **not** checked for binary
+presence in the default mode.  They are intentionally absent from a standard
+`cmake --build` run.  Use `--strict` to enforce binary presence for every
+source; this requires building the `themis_benchmarks_all_eligible` aggregate
+target.
 
 ```bash
-# Example: verify binaries after building
-cmake -B build-release -DCMAKE_BUILD_TYPE=Release
-cmake --build build-release --target all_benchmarks
-python3 tools/check_bench_targets.py --build-dir build-release --no-color
+# Example: verify binaries after building ALL eligible benchmarks
+cmake -B build-release -DCMAKE_BUILD_TYPE=Release -DTHEMIS_BUILD_BENCHMARKS=ON -S cmake
+cmake --build build-release --target themis_benchmarks_all_eligible
+python3 tools/check_bench_targets.py --build-dir build-release --strict --no-color
 ```
+
+**Scope:** CI build uses `cmake -S cmake` (lightweight, no vcpkg), installs
+`libbenchmark-dev` from apt, and builds only the benchmarks. GPU/ARM/
+third-party sources are excluded via the allowlist.
 
 ---
 
@@ -238,7 +255,9 @@ python3 tools/check_bench_targets.py -q
 ## CI Workflow Details
 
 The workflow `.github/workflows/05-quality_build_bench-source-guard-ci.yml`
-runs two steps:
+runs two jobs:
+
+### Job 1: `bench-source-guard` (CMake-target check, fast)
 
 | Step | Tool | Checks |
 |---|---|---|
@@ -248,6 +267,25 @@ runs two steps:
 Both steps must pass for the PR to be mergeable.  The full audit JSON is
 uploaded as a CI artefact (`perf-audit-results-<sha>`) and appended to the
 job summary.
+
+### Job 2: `bench-binary-guard` (Build + binary verification, ~30-45 min)
+
+Runs after `bench-source-guard` passes.  Performs an actual build of
+all explicitly-wired benchmark targets and then runs the binary check.
+
+| Step | Action | Checks |
+|---|---|---|
+| `Install system dependencies` | apt-get | cmake, ninja, libbenchmark-dev, libssl-dev, … |
+| `Install Google Benchmark` | apt / source build | Google Benchmark library |
+| `Configure benchmark build` | `cmake -S cmake` | Configure without vcpkg |
+| `Build benchmark targets` | `cmake --build` | All explicitly-wired benchmarks |
+| `Run benchmark binary guard` | `check_bench_targets.py --build-dir` | 8c: built binaries present |
+
+The binary guard (step 8c) fails if any explicitly-wired, non-allowlisted
+`bench_*.cpp` source has no corresponding built binary under the build
+directory.
+
+Artefact: `bench-binary-guard-results-<sha>` (JSON with binary check results).
 
 ---
 

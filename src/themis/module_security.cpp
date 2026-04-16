@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            module_security.cpp                                ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:10:42                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:51:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

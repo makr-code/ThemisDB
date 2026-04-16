@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            compliance_reporting.h                             ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:02:40                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:44:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

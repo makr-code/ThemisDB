@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_continuous_agg_materialization.cpp            ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 18:19:26                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:58:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

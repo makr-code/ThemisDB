@@ -3,18 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_cdc_change_stream_compressor.cpp              ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-04-15 18:12:46                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:52:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     469                                            ║
+    • Total Lines:     468                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • a64247126f  2026-03-08  Refactor code structure for improved readability and main... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            print_primary_index_summary.py                     ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:19:54                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:58:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

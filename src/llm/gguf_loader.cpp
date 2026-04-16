@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            gguf_loader.cpp                                    ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:08:30                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:49:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

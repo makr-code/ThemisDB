@@ -429,6 +429,8 @@ themisdb::                        # Secondary root namespace (sharding, replicat
 ├── geo::                         # Geospatial operations
 ├── graph::                       # Graph processing
 ├── ingestion::                   # Multi-source data intake pipeline
+├── toolbox::                     # Global ingestion service (WorkflowEngine, StepRegistry, ITextGenerationBackend)
+│   └── (AQLIngestionBridge lives in aql/ and depends on toolbox/)
 ├── maintenance::                 # Centralized DB maintenance orchestration
 ├── metadata::                    # Schema management
 ├── network::                     # Network protocols
@@ -449,6 +451,55 @@ themisdb::                        # Secondary root namespace (sharding, replicat
 │   └── memory::                  # Memory utilities
 └── voice::                       # Voice assistant
 ```
+
+---
+
+## Global Ingestion Toolbox
+
+The **`themis::toolbox`** module (introduced in v1.9.0) exposes the ingestion
+infrastructure as a system-wide, injectable service so that modules such as
+`aql/`, `rag/`, and the query engine can access NER, entity assembly, and
+workflow orchestration without creating circular dependencies.
+
+### Components
+
+| Class / File | Purpose |
+|---|---|
+| `include/toolbox/ingestion_toolbox.h` | `IngestionToolbox` — holds `WorkflowEngine`, `StepRegistry`, `ITextGenerationBackend` |
+| `include/aql/aql_ingestion_bridge.h` | `AQLIngestionBridge` — connects the toolbox to AQL DML and NL→AQL translation |
+
+### Design Constraints
+
+1. **No reverse dependency**: `ingestion/` never imports `toolbox/` or `aql/`.
+   The dependency arrow is `aql/ → toolbox/ → ingestion/`.
+2. **Opt-in / additive**: All consumer-side integration is guarded by
+   `if (bridge)` / `withIngestionEnrichment()` checks — no breaking change
+   to existing code paths.
+3. **No singleton**: `IngestionToolbox` is always injected via constructor or
+   setter; `createDefault()` is a factory, not `getInstance()`.
+
+### Usage Pattern
+
+```cpp
+// Bootstrap (server startup)
+auto toolbox = themis::toolbox::IngestionToolbox::createDefault();
+auto bridge  = std::make_shared<themis::aql::AQLIngestionBridge>(toolbox);
+llm_handler.setIngestionBridge(bridge);
+
+// INSERT enrichment
+nlohmann::json doc = {{"text", raw_text}};
+bridge->enrichInsertPayload(doc);   // appends "_entities" array
+
+// NL→AQL context injection
+auto entities = bridge->extractEntitiesForContext(nl_query);
+auto ctx_str  = themis::aql::AQLIngestionBridge::buildEntityContext(entities);
+handler.translateNLToAQL(nl_query, base_schema + ctx_str);
+```
+
+### Roadmap
+
+See [`include/toolbox/ROADMAP.md`](include/toolbox/ROADMAP.md) for planned
+`ToolboxBuilder`, `RAGIngestionBridge`, and observability metrics.
 
 ---
 

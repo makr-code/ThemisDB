@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            adaptive_import.cpp                                ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:07:57                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:49:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

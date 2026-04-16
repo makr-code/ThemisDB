@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_automl.cpp                                    ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-04-15 18:11:20                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:51:38                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     782                                            ║
+    • Total Lines:     781                                            ║
     • Open Issues:     TODOs: 0, Stubs: 3                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 3b792a6ae0  2026-03-20  Refactor saga orchestrator, add compute types ║
     • 248ee0806f  2026-03-19  Changes before error encountered        ║
-    • 75df95bc72  2026-03-18  fix(analytics): address code review issues in KNN regress... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

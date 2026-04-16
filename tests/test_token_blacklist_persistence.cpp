@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_token_blacklist_persistence.cpp               ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:18:32                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:57:35                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   89.0/100                                       ║
-    • Total Lines:     372                                            ║
+    • Total Lines:     371                                            ║
     • Open Issues:     TODOs: 0, Stubs: 5                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 37a487927b  2026-03-12  Korrigiere Fehlerbehandlung in get-Methode und aktualisie... ║
-    • 3a23233d60  2026-03-12  fix(auth): address PR review comments on token blacklist ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

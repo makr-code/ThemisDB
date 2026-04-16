@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_async_ingestion_yaml_config.cpp               ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 18:12:24                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:52:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -16,7 +16,6 @@
   Revision History:                                                   ║
     • d331f64d17  2026-04-01  feat: add support for merge operator detection in Changef... ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • 787af3dc11  2026-03-16  feat(content): implement YAML config loading and user_con... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

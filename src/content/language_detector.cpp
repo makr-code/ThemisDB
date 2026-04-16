@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            language_detector.cpp                              ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-04-15 18:07:38                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:48:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

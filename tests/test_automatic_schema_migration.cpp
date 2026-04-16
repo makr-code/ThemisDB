@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_automatic_schema_migration.cpp                ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:12:28                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:52:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     662                                            ║
+    • Total Lines:     661                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • d331f64d17  2026-04-01  feat: add support for merge operator detection in Changef... ║
-    • a77e0317d7  2026-03-14  fix(updates): address all 11 code review comments on sche... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_rtree_cpu_integration.cpp                     ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-04-15 18:11:32                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:51:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 8026e73499  2026-03-13  fix(geo): purge stale per-PK RocksDB keys in SpatialIndex... ║
-    • 10732a3a86  2026-03-12  feat(geo): add SpatialIndexManager::bulkLoad and improve ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

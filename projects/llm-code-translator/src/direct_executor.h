@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            direct_executor.h                                  ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:06:54                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:12                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

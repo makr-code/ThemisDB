@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_aql_handler.cpp                                ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:07:28                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:48:39                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -27,6 +27,7 @@
 #include "aql/aql_confidence_scorer.h"
 #include "aql/aql_fewshot_example_library.h"
 #include "aql/aql_query_validator.h"
+#include "aql/aql_ingestion_bridge.h"
 #include "aql/llm_error_codes.h"
 #include "aql/llm_timeout_manager.h"
 #include "aql/llm_metrics_collector.h"
@@ -271,6 +272,9 @@ public:
     // Optional chat executor override (for unit tests)
     std::function<std::string(const std::vector<llm::ChatMessage>&)> chat_executor_;
     std::unordered_map<std::string, sharding::CircuitBreaker> circuit_breakers_;
+
+    // Optional AQLIngestionBridge for entity-context enrichment
+    std::shared_ptr<AQLIngestionBridge> ingestion_bridge_;
 };
 
 LLMAQLHandler::LLMAQLHandler() 
@@ -313,6 +317,14 @@ void LLMAQLHandler::setTokenEstimator(std::unique_ptr<TokenEstimator> estimator)
     } else {
         impl_->token_estimator_ = std::make_unique<CharDivisionEstimator>(4);
     }
+}
+
+void LLMAQLHandler::setIngestionBridge(std::shared_ptr<AQLIngestionBridge> bridge) {
+    impl_->ingestion_bridge_ = std::move(bridge);
+}
+
+std::shared_ptr<AQLIngestionBridge> LLMAQLHandler::ingestionBridge() const {
+    return impl_->ingestion_bridge_;
 }
 
 std::string LLMAQLHandler::executeInfer(

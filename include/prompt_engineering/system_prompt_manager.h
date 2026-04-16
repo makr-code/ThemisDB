@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            system_prompt_manager.h                            ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:04:32                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:46:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -1,25 +1,3 @@
-"""
-╔═════════════════════════════════════════════════════════════════════╗
-║ ThemisDB - Hybrid Database System                                   ║
-╠═════════════════════════════════════════════════════════════════════╣
-  File:            cross_module_regression_detector.py                ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-04-15 18:01:16                                ║
-  Author:          unknown                                            ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Quality Metrics:                                                    ║
-    • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     385                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • 2a1fb04231  2026-03-03  Merge branch 'develop' into copilot/audit-src-module-docu... ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Status: ✅ Production Ready                                          ║
-╚═════════════════════════════════════════════════════════════════════╝
-"""
-
 #!/usr/bin/env python3
 """
 Cross-Module Performance Regression Detector for ThemisDB
@@ -56,7 +34,9 @@ Exit codes:
     1  Blocking regressions detected at or above --fail-on threshold.
     2  Fatal error (bad arguments, missing files, JSON parse error).
 """
-
+# ThemisDB - Hybrid Database System
+# File: cross_module_regression_detector.py  Version: 0.0.14
+# Status: ✅ Production Ready
 from __future__ import annotations
 
 import argparse

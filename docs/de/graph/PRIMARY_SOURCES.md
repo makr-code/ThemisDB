@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [graph](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-15  
+**Datum:** 2026-04-16  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `include/graph/ARCHITECTURE.md`
@@ -57,4 +57,4 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`graph`** a
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-15*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-16*

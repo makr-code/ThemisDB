@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vault_signing_provider.h                           ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:05:13                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:46:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

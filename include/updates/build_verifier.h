@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            build_verifier.h                                   ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-04-15 18:06:18                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-04-15 18:47:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

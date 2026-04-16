@@ -3,20 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            columnar_execution.cpp                             ║
-  Version:         0.0.14                                             ║
-  Last Modified:   2026-04-15 18:07:18                                ║
+  Version:         0.0.15                                             ║
+  Last Modified:   2026-04-15 18:48:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1164                                           ║
+    • Total Lines:     1163                                           ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 971a3c49d5  2026-03-20  Build/test fixes and auth role mapping refactor ║
     • efdbcc2fc8  2026-03-19  merge: resolve conflicts with develop - keep predictive p... ║
-    • d16f38e0d1  2026-03-18  fix(analytics): address all 5 code review issues — null t... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

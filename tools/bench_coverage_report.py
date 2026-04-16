@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_coverage_report.py                           ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-04-15 18:19:48                                ║
+  Version:         0.0.9                                              ║
+  Last Modified:   2026-04-15 18:58:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -71,6 +71,10 @@ MODULE_MAP: dict[int, dict[str, Any]] = {
     31: {"name": "Governance",      "patterns": ["governance", "policy", "compliance", "masking", "lineage"]},
     32: {"name": "Ethics AI",       "patterns": ["ethics", "constitutional", "confidence_detect"]},
     33: {"name": "System-Level (TPC/YCSB)", "patterns": ["tpcc", "ycsb", "tpc_", "system_bench"]},
+    # Module 34–36: Wave-2 reference benchmark modules (added 2026-04-15)
+    34: {"name": "Temporal",        "patterns": ["temporal_queries", "bitemporal", "bi_temporal", "temporal"]},
+    35: {"name": "Process Mining",  "patterns": ["process_mining", "process_retrieval"]},
+    36: {"name": "ONNX-CLIP (Image Embedding)", "patterns": ["onnx_clip", "image_analysis"]},
 }
 
 GREEN = "🟢"

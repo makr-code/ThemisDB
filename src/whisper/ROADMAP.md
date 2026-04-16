@@ -20,7 +20,7 @@ v2.1.0 — Thread-safe. MP3/OGG input via FFmpeg adapter. Benchmarks wired.
 - [x] `InMemoryWhisperTranscriber` test double
 - [x] `WhisperPlugin` — provenance stamps, error counting, DL entry points
 - [x] `WhisperConfig::fromJson` / `toJson` with validation and clamping
-- [x] 36 unit tests (`WhisperPluginFocusedTests`, groups A–L)
+- [x] 44 unit tests (`WhisperPluginFocusedTests`, groups A–N)
 - [x] Plugin manifest (`plugins/whisper/plugin.json.in`)
 - [x] CMake registration (plugin + tests)
 - [x] `WhisperConfig.language_confidence_threshold` — filters low-confidence `detectLanguage()` results
@@ -59,7 +59,7 @@ v2.1.0 — Thread-safe. MP3/OGG input via FFmpeg adapter. Benchmarks wired.
 - [x] Max-output guard (500 MB) in `FfmpegAudioChunkReader`
 
 ### Phase 4 — Tests ✅
-- [x] 36 unit tests across groups A–L
+- [x] 44 unit tests across groups A–N
 - [x] Group K: thread-safety (concurrent transcribe, atomic error/success counters, detectLanguage)
 - [x] Group L: FfmpegAudioChunkReader canRead, graceful degradation, composite routing
 
@@ -73,7 +73,7 @@ v2.1.0 — Thread-safe. MP3/OGG input via FFmpeg adapter. Benchmarks wired.
 
 ## Production Readiness Checklist
 
-- [x] Unit tests present (36 tests)
+- [x] Unit tests present (44 tests)
 - [x] Stub mode for CI without model file
 - [x] Injection constructor for test doubles
 - [x] Provenance stamps on every result

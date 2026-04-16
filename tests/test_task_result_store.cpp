@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_task_result_store.cpp                         ║
-  Version:         0.0.13                                             ║
-  Last Modified:   2026-04-15 18:18:21                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-04-15 18:57:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,9 +12,6 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     231                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
-╠═════════════════════════════════════════════════════════════════════╣
-  Revision History:                                                   ║
-    • ffdbec7682  2026-03-03  test: add unit tests for statistical_aggregator, task_res... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

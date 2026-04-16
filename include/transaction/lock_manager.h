@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lock_manager.h                                     ║
-  Version:         0.0.44                                             ║
-  Last Modified:   2026-04-15 18:06:13                                ║
+  Version:         0.0.45                                             ║
+  Last Modified:   2026-04-15 18:47:37                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • b6f602bb2d  2026-03-16  fix(transaction/ssi): fix detectConflicts range intersect... ║
-    • 97ce99dedd  2026-03-15  feat(transaction): Serializable Snapshot Isolation (SSI) ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

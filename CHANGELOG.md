@@ -21,6 +21,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     CVE-2025-45582 (tar, MEDIUM) — alle ohne upstream-Fix; Waiver dokumentiert in
     `docs/audit-reports/cve-waivers.md`.
 
+### Documentation
+
+- **Module-Docs Sync 📚 — 2026-04-16**
+  - 56 Module indexiert; 752 Primary-Markdown-Dateien in `src/` und `include/`
+  - 6 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
+  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
+  - Tool: `tools/module_docs_builder.py` v1.0.0
+  <!-- changelog-updater: module-docs-sync-2026-04-16 -->
+
+- **Module-Docs Sync 📚 — 2026-04-15**
+  - 56 Module indexiert; 752 Primary-Markdown-Dateien in `src/` und `include/`
+  - 6 Module ohne Sekundärdokumentation erkannt; Issues erzeugt
+  - Sekundärdokumentation aktualisiert in `docs/de/` und `docs/en/`
+  - Tool: `tools/module_docs_builder.py` v1.0.0
+  <!-- changelog-updater: module-docs-sync-2026-04-15 -->
+
 ## [1.8.1-rc1] - 2026-04-04
 
 > **Release Notes:** [`docs/de/releases/RELEASE_NOTES_v1.8.1-rc1.md`](docs/de/releases/RELEASE_NOTES_v1.8.1-rc1.md)

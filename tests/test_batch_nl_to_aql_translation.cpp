@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_batch_nl_to_aql_translation.cpp               ║
-  Version:         0.0.38                                             ║
-  Last Modified:   2026-04-15 18:12:30                                ║
+  Version:         0.0.39                                             ║
+  Last Modified:   2026-04-15 18:52:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     431                                            ║
+    • Total Lines:     430                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 16aed6bb00  2026-03-15  refactor: enhance modular build configuration and improve... ║
-    • 2e566adfce  2026-03-14  fix(aql): bounded worker pool - fix dangling ref, unbound... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

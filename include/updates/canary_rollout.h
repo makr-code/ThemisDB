@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            canary_rollout.h                                   ║
-  Version:         0.0.17                                             ║
-  Last Modified:   2026-04-15 18:06:18                                ║
+  Version:         0.0.18                                             ║
+  Last Modified:   2026-04-15 18:47:41                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 16aed6bb00  2026-03-15  refactor: enhance modular build configuration and improve... ║
-    • 57c7d0bd94  2026-03-14  Implement CanaryDeployment with latency/memory/CPU/disk m... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

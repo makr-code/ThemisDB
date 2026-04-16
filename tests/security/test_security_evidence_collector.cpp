@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_security_evidence_collector.cpp               ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:11:51                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:52:01                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • edcfeb9848  2026-03-11  feat: add scripts for auditing and reconciling GitHub iss... ║
-    • c9429f8d3d  2026-03-09  feat(security): HMAC challenge-response, Windows MachineG... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            temporal_conflict_resolver.h                       ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:05:52                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:20                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • e1fff5135a  2026-03-12  fix(temporal): address PR review findings on TemporalConf... ║
-    • 1b0158e116  2026-03-12  feat: implement TemporalConflictDetector for temporal con... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

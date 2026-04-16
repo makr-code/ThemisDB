@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            openssl_deleter.h                                  ║
-  Version:         0.0.46                                             ║
-  Last Modified:   2026-04-15 18:06:29                                ║
+  Version:         0.0.47                                             ║
+  Last Modified:   2026-04-15 18:47:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -15,7 +15,6 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 2680d3d042  2026-03-15  feat(pki): complete stub replacement — PKCS#10 CSR provis... ║
-    • 0f0e5dc3bc  2026-03-15  feat(pki): replace fallback stub verification with real P... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

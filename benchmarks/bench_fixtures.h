@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            bench_fixtures.h                                   ║
-  Version:         0.0.6                                              ║
-  Last Modified:   2026-04-15 18:00:51                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-04-15 18:43:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║

@@ -3,14 +3,14 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            scheduled_edge_refresh.h                           ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:02:44                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:44:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     613                                            ║
+    • Total Lines:     612                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║

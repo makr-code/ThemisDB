@@ -3,19 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_postgres_import_integration_v2.cpp            ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-04-15 18:16:29                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-04-15 18:55:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     389                                            ║
+    • Total Lines:     388                                            ║
     • Open Issues:     TODOs: 0, Stubs: 0                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
     • 9a33042e66  2026-03-11  fix(importers): update version headers to 2.1.0 per code ... ║
-    • 17cc3c607f  2026-03-11  fix(importers): address code review findings - regex incl... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

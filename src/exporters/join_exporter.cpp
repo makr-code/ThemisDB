@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            join_exporter.cpp                                  ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-04-15 18:07:46                                ║
+  Version:         0.0.12                                             ║
+  Last Modified:   2026-04-15 18:48:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
