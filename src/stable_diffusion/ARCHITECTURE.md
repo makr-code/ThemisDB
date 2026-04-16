@@ -57,7 +57,7 @@ The plugin separates three orthogonal concerns:
                 │  │  ├──────────────────┤   │ │
                 │  │  │ InMemorySDGen.   │   │ │  (test double)
                 │  │  ├──────────────────┤   │ │
-                │  │  │ (SDCppGenerator) │   │ │  (real model, planned)
+                │  │  │ (SDCppGenerator) │   │ │  (real model, optional)
                 │  │  └──────────────────┘   │ │
                 │  └─────────────────────────┘ │
                 └──────────────────────────────┘
@@ -118,15 +118,15 @@ SDPlugin::generate(prompt, cfg)
 
 ## 7. PNG Encoding
 
-v2.0.0 includes a stub PNG encoder that produces structurally valid PNGs (IHDR + IEND) but
-omits the IDAT chunk. This is sufficient for all unit tests. A real encoder using
-`stb_image_write` is planned for v2.1.0.
+v2.2.0 includes a real PNG encoder that writes IHDR + IDAT + IEND using stored-deflate
+(zlib stream), CRC-32, and Adler-32 in `SDPlugin::encodeMinimalPng`.
 
 ---
 
 ## 8. Thread Safety
 
-`SDPlugin` is **not** thread-safe for concurrent `generate()` calls in v2.0.0.
+`SDPlugin` serialises `generate()`, `generateBatch()`, and `generateImg2Img()` with
+`generate_mutex_`. A dedicated parallel-call audit for `SDCppGenerator` is still pending.
 
 ---
 
@@ -134,4 +134,4 @@ omits the IDAT chunk. This is sufficient for all unit tests. A real encoder usin
 
 | Type | Files | Count |
 |---|---|---|
-| Unit (stub mode) | `src/stable_diffusion/tests/test_sd_plugin.cpp` | 30 |
+| Unit (stub mode + core backend paths) | `src/stable_diffusion/tests/test_sd_plugin.cpp` | 51 |

@@ -1,6 +1,6 @@
-[docs](../../index.md) > [de](../index.md) > [stable_diffusion](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-16  
-**Status:** draft  
+[docs](../INDEX.md) > [de](../INDEX.md) > [stable_diffusion](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
+**Datum:** 2026-04-16
+**Status:** draft
 **Primary (Quelle der Wahrheit):**
 - `include/stable_diffusion/ARCHITECTURE.md`
 - `include/stable_diffusion/AUDIT.md`
