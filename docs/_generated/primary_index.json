@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-22T13:29:20Z",
+  "generated_at": "2026-04-15T19:46:01Z",
   "generator": "primary_docs_indexer v0.0.1",
   "repo_root": "/home/runner/work/ThemisDB/ThemisDB",
   "scan_dirs": [
@@ -7,32 +7,32 @@
     "include",
     "examples"
   ],
-  "total_files": 323,
+  "total_files": 578,
   "entries": [
     {
       "path": "src/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 8791
+      "size_bytes": 12194
     },
     {
       "path": "src/ROADMAP.md",
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "incomplete",
-      "size_bytes": 66873
+      "size_bytes": 67075
     },
     {
       "path": "src/acceleration/ARCHITECTURE.md",
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 11491
     },
@@ -41,7 +41,7 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 4105
     },
@@ -50,7 +50,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 13192
     },
@@ -59,16 +59,16 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 14393
+      "size_bytes": 17192
     },
     {
       "path": "src/acceleration/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 4123
     },
@@ -77,7 +77,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 9712
     },
@@ -86,16 +86,16 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 4189
+      "size_bytes": 5675
     },
     {
       "path": "src/analytics/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 59095
     },
@@ -104,16 +104,16 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 12596
+      "size_bytes": 13935
     },
     {
       "path": "src/analytics/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 4334
     },
@@ -122,25 +122,25 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 8889
+      "size_bytes": 9329
     },
     {
       "path": "src/api/CHANGELOG.md",
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 2431
+      "size_bytes": 7490
     },
     {
       "path": "src/api/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "deprecated",
       "size_bytes": 8286
     },
@@ -149,25 +149,25 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 4341
+      "size_bytes": 7725
     },
     {
       "path": "src/api/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 4238
+      "size_bytes": 4291
     },
     {
       "path": "src/aql/ARCHITECTURE.md",
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 9323
     },
@@ -176,16 +176,16 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 3928
+      "size_bytes": 4726
     },
     {
       "path": "src/aql/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 28781
     },
@@ -194,16 +194,16 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 9394
+      "size_bytes": 12129
     },
     {
       "path": "src/aql/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 4626
     },
@@ -212,7 +212,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 10791
     },
@@ -221,16 +221,16 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 2834
+      "size_bytes": 6163
     },
     {
       "path": "src/auth/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 60711
     },
@@ -239,16 +239,16 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 5222
+      "size_bytes": 5835
     },
     {
       "path": "src/auth/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 4778
     },
@@ -257,43 +257,43 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 10630
+      "size_bytes": 10723
     },
     {
       "path": "src/base/CHANGELOG.md",
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 3187
+      "size_bytes": 4168
     },
     {
       "path": "src/base/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 13330
+      "size_bytes": 13254
     },
     {
       "path": "src/base/ROADMAP.md",
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 8798
+      "size_bytes": 9271
     },
     {
       "path": "src/base/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 4747
     },
@@ -302,7 +302,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 10049
     },
@@ -311,16 +311,16 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 3682
+      "size_bytes": 4707
     },
     {
       "path": "src/cache/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 13698
     },
@@ -329,16 +329,16 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 15208
+      "size_bytes": 16773
     },
     {
       "path": "src/cache/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 4481
     },
@@ -347,7 +347,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 9908
     },
@@ -356,16 +356,16 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 3394
+      "size_bytes": 5359
     },
     {
       "path": "src/cdc/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 6084
     },
@@ -374,79 +374,79 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 9527
+      "size_bytes": 15390
     },
     {
       "path": "src/cdc/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 4669
     },
     {
-      "path": "src/chimera/ARCHITECTURE.md",
+      "path": "src/chaos/ARCHITECTURE.md",
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 10075
+      "size_bytes": 622
     },
     {
-      "path": "src/chimera/CHANGELOG.md",
+      "path": "src/chaos/CHANGELOG.md",
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 4041
+      "size_bytes": 156
     },
     {
-      "path": "src/chimera/README.md",
+      "path": "src/chaos/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 28953
+      "size_bytes": 632
     },
     {
-      "path": "src/chimera/ROADMAP.md",
+      "path": "src/chaos/ROADMAP.md",
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 7186
+      "size_bytes": 1346
     },
     {
-      "path": "src/chimera/SECURITY.md",
+      "path": "src/chaos/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 4332
+      "size_bytes": 384
     },
     {
       "path": "src/config/ARCHITECTURE.md",
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 13049
+      "size_bytes": 13781
     },
     {
       "path": "src/config/CHANGELOG.md",
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "deprecated",
       "size_bytes": 3999
     },
@@ -455,7 +455,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "draft",
       "size_bytes": 31039
     },
@@ -464,7 +464,7 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 9565
     },
@@ -473,7 +473,7 @@
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 4501
     },
@@ -482,7 +482,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 13500
     },
@@ -491,7 +491,7 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 3174
     },
@@ -500,7 +500,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 2780
     },
@@ -509,7 +509,7 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 11313
     },
@@ -518,7 +518,7 @@
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 5322
     },
@@ -527,7 +527,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 6020
     },
@@ -536,7 +536,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 7720
     },
@@ -545,7 +545,7 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 4219
     },
@@ -554,7 +554,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 12879
     },
@@ -563,7 +563,7 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 7443
     },
@@ -572,16 +572,61 @@
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 4488
+    },
+    {
+      "path": "src/ethics_ai/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 9260
+    },
+    {
+      "path": "src/ethics_ai/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 5431
+    },
+    {
+      "path": "src/ethics_ai/README.md",
+      "type": "README",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 4979
+    },
+    {
+      "path": "src/ethics_ai/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 12417
+    },
+    {
+      "path": "src/ethics_ai/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 4220
     },
     {
       "path": "src/exporters/ARCHITECTURE.md",
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 13372
     },
@@ -590,7 +635,7 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 4308
     },
@@ -599,7 +644,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 12135
     },
@@ -608,7 +653,7 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 8760
     },
@@ -617,16 +662,61 @@
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 4682
+    },
+    {
+      "path": "src/failover/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 669
+    },
+    {
+      "path": "src/failover/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 159
+    },
+    {
+      "path": "src/failover/README.md",
+      "type": "README",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 737
+    },
+    {
+      "path": "src/failover/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2138
+    },
+    {
+      "path": "src/failover/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 466
     },
     {
       "path": "src/geo/ARCHITECTURE.md",
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 10141
     },
@@ -635,16 +725,16 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 2993
+      "size_bytes": 4494
     },
     {
       "path": "src/geo/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 6334
     },
@@ -653,16 +743,16 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 7866
+      "size_bytes": 9049
     },
     {
       "path": "src/geo/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 4509
     },
@@ -671,7 +761,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 10222
     },
@@ -680,16 +770,16 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 3679
+      "size_bytes": 4840
     },
     {
       "path": "src/governance/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 4674
     },
@@ -698,16 +788,16 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 6596
+      "size_bytes": 7069
     },
     {
       "path": "src/governance/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 5073
     },
@@ -716,7 +806,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 11472
     },
@@ -725,7 +815,7 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 3992
     },
@@ -734,7 +824,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 8241
     },
@@ -743,7 +833,7 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 9284
     },
@@ -752,7 +842,7 @@
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 5420
     },
@@ -761,7 +851,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 8854
     },
@@ -770,7 +860,7 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 2058
     },
@@ -779,7 +869,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 37200
     },
@@ -788,16 +878,16 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 8973
+      "size_bytes": 11326
     },
     {
       "path": "src/graph/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 3889
     },
@@ -806,7 +896,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 16774
     },
@@ -815,16 +905,16 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 3465
+      "size_bytes": 4267
     },
     {
       "path": "src/importers/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 7787
     },
@@ -833,7 +923,7 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 21348
     },
@@ -842,7 +932,7 @@
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 5666
     },
@@ -851,7 +941,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 10125
     },
@@ -860,16 +950,16 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 4404
+      "size_bytes": 5287
     },
     {
       "path": "src/index/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 36414
     },
@@ -878,16 +968,16 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 5717
+      "size_bytes": 7031
     },
     {
       "path": "src/index/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 6417
     },
@@ -896,16 +986,16 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 9724
+      "size_bytes": 17875
     },
     {
       "path": "src/ingestion/CHANGELOG.md",
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 3678
     },
@@ -914,7 +1004,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 14586
     },
@@ -923,25 +1013,70 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 15664
+      "size_bytes": 24514
     },
     {
       "path": "src/ingestion/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 5379
+    },
+    {
+      "path": "src/llama_cpp/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 4483
+    },
+    {
+      "path": "src/llama_cpp/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3642
+    },
+    {
+      "path": "src/llama_cpp/README.md",
+      "type": "README",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3723
+    },
+    {
+      "path": "src/llama_cpp/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 4783
+    },
+    {
+      "path": "src/llama_cpp/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3154
     },
     {
       "path": "src/llm/ARCHITECTURE.md",
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 14931
     },
@@ -950,7 +1085,7 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 4040
     },
@@ -959,7 +1094,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 7360
     },
@@ -968,16 +1103,16 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 7188
+      "size_bytes": 7616
     },
     {
       "path": "src/llm/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 6258
     },
@@ -986,7 +1121,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 3260
     },
@@ -995,52 +1130,52 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 5202
+      "size_bytes": 6822
     },
     {
       "path": "src/maintenance/CHANGELOG.md",
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 1790
+      "size_bytes": 4942
     },
     {
       "path": "src/maintenance/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 5004
+      "size_bytes": 9556
     },
     {
       "path": "src/maintenance/ROADMAP.md",
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 7163
+      "size_bytes": 10741
     },
     {
       "path": "src/maintenance/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 1882
+      "size_bytes": 2005
     },
     {
       "path": "src/metadata/ARCHITECTURE.md",
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 8448
     },
@@ -1049,16 +1184,16 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 3445
+      "size_bytes": 5439
     },
     {
       "path": "src/metadata/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 12361
     },
@@ -1067,16 +1202,16 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 6239
+      "size_bytes": 7746
     },
     {
       "path": "src/metadata/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 5974
     },
@@ -1085,7 +1220,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 12596
     },
@@ -1094,7 +1229,7 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 3949
     },
@@ -1103,7 +1238,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 41396
     },
@@ -1112,16 +1247,16 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 21763
+      "size_bytes": 25527
     },
     {
       "path": "src/network/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 3945
     },
@@ -1130,16 +1265,16 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 9213
+      "size_bytes": 9222
     },
     {
       "path": "src/observability/CHANGELOG.md",
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 2743
     },
@@ -1148,7 +1283,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 39560
     },
@@ -1157,25 +1292,70 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 14989
+      "size_bytes": 15919
     },
     {
       "path": "src/observability/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 3911
+    },
+    {
+      "path": "src/onnx_clip/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 6976
+    },
+    {
+      "path": "src/onnx_clip/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3971
+    },
+    {
+      "path": "src/onnx_clip/README.md",
+      "type": "README",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3709
+    },
+    {
+      "path": "src/onnx_clip/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 4725
+    },
+    {
+      "path": "src/onnx_clip/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3500
     },
     {
       "path": "src/performance/ARCHITECTURE.md",
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 8445
     },
@@ -1184,7 +1364,7 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 3588
     },
@@ -1193,7 +1373,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 37430
     },
@@ -1202,16 +1382,16 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 6921
+      "size_bytes": 12408
     },
     {
       "path": "src/performance/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 3845
     },
@@ -1220,7 +1400,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 9255
     },
@@ -1229,7 +1409,7 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 2837
     },
@@ -1238,7 +1418,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 5145
     },
@@ -1247,16 +1427,16 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 14862
+      "size_bytes": 14898
     },
     {
       "path": "src/plugins/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 3402
     },
@@ -1265,7 +1445,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 16040
     },
@@ -1274,34 +1454,43 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 5263
+      "size_bytes": 7733
     },
     {
       "path": "src/process/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 7430
+      "size_bytes": 11320
     },
     {
       "path": "src/process/ROADMAP.md",
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 13578
+      "size_bytes": 14341
+    },
+    {
+      "path": "src/process/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 4958
     },
     {
       "path": "src/prompt_engineering/ARCHITECTURE.md",
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 9256
     },
@@ -1310,16 +1499,16 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 3513
+      "size_bytes": 13758
     },
     {
       "path": "src/prompt_engineering/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 22850
     },
@@ -1328,16 +1517,16 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 8129
+      "size_bytes": 12872
     },
     {
       "path": "src/prompt_engineering/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 2692
     },
@@ -1346,7 +1535,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 10323
     },
@@ -1355,16 +1544,16 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 3680
+      "size_bytes": 7639
     },
     {
       "path": "src/query/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 33278
     },
@@ -1373,34 +1562,25 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 19344
+      "size_bytes": 23943
     },
     {
       "path": "src/query/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 2725
-    },
-    {
-      "path": "src/query/roadmap.md",
-      "type": "ROADMAP",
-      "extension": ".md",
-      "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
-      "status": "active",
-      "size_bytes": 2148
     },
     {
       "path": "src/rag/ARCHITECTURE.md",
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 11386
     },
@@ -1409,16 +1589,16 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 1013
+      "size_bytes": 2707
     },
     {
       "path": "src/rag/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 7981
     },
@@ -1427,16 +1607,16 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 10874
+      "size_bytes": 15340
     },
     {
       "path": "src/rag/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1298
     },
@@ -1445,7 +1625,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 7729
     },
@@ -1454,7 +1634,7 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1128
     },
@@ -1463,34 +1643,79 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 37907
+      "size_bytes": 37904
     },
     {
       "path": "src/replication/ROADMAP.md",
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 22644
+      "size_bytes": 22920
     },
     {
       "path": "src/replication/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 809
+    },
+    {
+      "path": "src/rpc_grpc/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 8254
+    },
+    {
+      "path": "src/rpc_grpc/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 5495
+    },
+    {
+      "path": "src/rpc_grpc/README.md",
+      "type": "README",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3043
+    },
+    {
+      "path": "src/rpc_grpc/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 6065
+    },
+    {
+      "path": "src/rpc_grpc/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3766
     },
     {
       "path": "src/scheduler/ARCHITECTURE.md",
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 9793
     },
@@ -1499,7 +1724,7 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1762
     },
@@ -1508,7 +1733,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 10238
     },
@@ -1517,7 +1742,7 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 10550
     },
@@ -1526,7 +1751,7 @@
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 807
     },
@@ -1535,7 +1760,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 11229
     },
@@ -1544,7 +1769,7 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 6886
     },
@@ -1553,7 +1778,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 14183
     },
@@ -1562,16 +1787,16 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 6469
+      "size_bytes": 7413
     },
     {
       "path": "src/search/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 766
     },
@@ -1580,7 +1805,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 11101
     },
@@ -1589,16 +1814,16 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 698
+      "size_bytes": 2170
     },
     {
       "path": "src/security/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 33908
     },
@@ -1607,16 +1832,16 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 13049
+      "size_bytes": 15676
     },
     {
       "path": "src/security/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1127
     },
@@ -1625,7 +1850,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 10021
     },
@@ -1634,16 +1859,16 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 1420
+      "size_bytes": 2774
     },
     {
       "path": "src/server/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 45485
     },
@@ -1652,16 +1877,16 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 17477
+      "size_bytes": 21978
     },
     {
       "path": "src/server/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 2143
     },
@@ -1670,7 +1895,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 8484
     },
@@ -1679,7 +1904,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 10201
     },
@@ -1688,16 +1913,16 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 694
+      "size_bytes": 1796
     },
     {
       "path": "src/sharding/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 8625
     },
@@ -1706,25 +1931,70 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 7916
+      "size_bytes": 9824
     },
     {
       "path": "src/sharding/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 982
+    },
+    {
+      "path": "src/stable_diffusion/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 5877
+    },
+    {
+      "path": "src/stable_diffusion/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3439
+    },
+    {
+      "path": "src/stable_diffusion/README.md",
+      "type": "README",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 4542
+    },
+    {
+      "path": "src/stable_diffusion/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 5472
+    },
+    {
+      "path": "src/stable_diffusion/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3218
     },
     {
       "path": "src/storage/ARCHITECTURE.md",
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 10937
     },
@@ -1733,7 +2003,7 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 2053
     },
@@ -1742,7 +2012,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 28962
     },
@@ -1751,16 +2021,16 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 15434
+      "size_bytes": 20199
     },
     {
       "path": "src/storage/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 2371
     },
@@ -1769,7 +2039,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 10173
     },
@@ -1778,16 +2048,16 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 1796
+      "size_bytes": 3198
     },
     {
       "path": "src/temporal/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 11843
     },
@@ -1796,16 +2066,16 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 11498
+      "size_bytes": 12464
     },
     {
       "path": "src/temporal/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 905
     },
@@ -1814,16 +2084,16 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 7461
+      "size_bytes": 7466
     },
     {
       "path": "src/themis/CHANGELOG.md",
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1316
     },
@@ -1832,7 +2102,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 10545
     },
@@ -1841,16 +2111,16 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 11455
+      "size_bytes": 12055
     },
     {
       "path": "src/themis/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1279
     },
@@ -1859,7 +2129,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 9572
     },
@@ -1868,16 +2138,16 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 759
+      "size_bytes": 2565
     },
     {
       "path": "src/timeseries/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 3299
     },
@@ -1886,16 +2156,16 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 5744
+      "size_bytes": 7631
     },
     {
       "path": "src/timeseries/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 873
     },
@@ -1904,7 +2174,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 10265
     },
@@ -1913,34 +2183,34 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 913
+      "size_bytes": 2378
     },
     {
       "path": "src/training/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 16526
+      "size_bytes": 16533
     },
     {
       "path": "src/training/ROADMAP.md",
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 12137
+      "size_bytes": 13834
     },
     {
       "path": "src/training/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1005
     },
@@ -1949,7 +2219,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 8710
     },
@@ -1958,7 +2228,7 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1821
     },
@@ -1967,7 +2237,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 36902
     },
@@ -1976,16 +2246,16 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 19941
+      "size_bytes": 24304
     },
     {
       "path": "src/transaction/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1032
     },
@@ -1994,7 +2264,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 7607
     },
@@ -2003,7 +2273,7 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1142
     },
@@ -2012,7 +2282,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 32391
     },
@@ -2021,25 +2291,70 @@
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 12203
+      "size_bytes": 12813
     },
     {
       "path": "src/updates/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1264
+    },
+    {
+      "path": "src/user_storage_encrypted/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 7658
+    },
+    {
+      "path": "src/user_storage_encrypted/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 9168
+    },
+    {
+      "path": "src/user_storage_encrypted/README.md",
+      "type": "README",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3400
+    },
+    {
+      "path": "src/user_storage_encrypted/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 6541
+    },
+    {
+      "path": "src/user_storage_encrypted/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 4196
     },
     {
       "path": "src/utils/ARCHITECTURE.md",
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 8721
     },
@@ -2048,7 +2363,7 @@
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1211
     },
@@ -2057,25 +2372,25 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 3336
+      "size_bytes": 3368
     },
     {
       "path": "src/utils/ROADMAP.md",
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 7169
+      "size_bytes": 8069
     },
     {
       "path": "src/utils/SECURITY.md",
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1110
     },
@@ -2084,16 +2399,16 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 10221
+      "size_bytes": 10342
     },
     {
       "path": "src/voice/CHANGELOG.md",
       "type": "CHANGELOG",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 836
     },
@@ -2102,16 +2417,16 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 26476
+      "size_bytes": 26877
     },
     {
       "path": "src/voice/ROADMAP.md",
       "type": "ROADMAP",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 6410
     },
@@ -2120,259 +2435,1411 @@
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "src",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1482
+    },
+    {
+      "path": "src/whisper/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 5344
+    },
+    {
+      "path": "src/whisper/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1987
+    },
+    {
+      "path": "src/whisper/README.md",
+      "type": "README",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 4009
+    },
+    {
+      "path": "src/whisper/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 4377
+    },
+    {
+      "path": "src/whisper/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "src",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2924
     },
     {
       "path": "include/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1515
+    },
+    {
+      "path": "include/acceleration/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 4774
+    },
+    {
+      "path": "include/acceleration/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1912
     },
     {
       "path": "include/acceleration/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 4426
+    },
+    {
+      "path": "include/acceleration/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2732
+    },
+    {
+      "path": "include/acceleration/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2652
     },
     {
       "path": "include/acceleration/raii/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 6116
+    },
+    {
+      "path": "include/analytics/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3569
+    },
+    {
+      "path": "include/analytics/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1748
     },
     {
       "path": "include/analytics/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 29744
+    },
+    {
+      "path": "include/analytics/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2397
+    },
+    {
+      "path": "include/analytics/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2530
+    },
+    {
+      "path": "include/api/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3445
+    },
+    {
+      "path": "include/api/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1896
     },
     {
       "path": "include/api/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 2361
+    },
+    {
+      "path": "include/api/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2530
+    },
+    {
+      "path": "include/api/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3165
+    },
+    {
+      "path": "include/aql/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3877
+    },
+    {
+      "path": "include/aql/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1987
     },
     {
       "path": "include/aql/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 14911
+    },
+    {
+      "path": "include/aql/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2668
+    },
+    {
+      "path": "include/aql/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2874
+    },
+    {
+      "path": "include/auth/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 4749
+    },
+    {
+      "path": "include/auth/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3298
     },
     {
       "path": "include/auth/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 31327
+    },
+    {
+      "path": "include/auth/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2599
+    },
+    {
+      "path": "include/auth/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3295
+    },
+    {
+      "path": "include/cache/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3762
+    },
+    {
+      "path": "include/cache/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2268
     },
     {
       "path": "include/cache/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 394
+    },
+    {
+      "path": "include/cache/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3594
+    },
+    {
+      "path": "include/cache/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2910
+    },
+    {
+      "path": "include/cdc/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3914
+    },
+    {
+      "path": "include/cdc/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1969
     },
     {
       "path": "include/cdc/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 525
     },
     {
-      "path": "include/chimera/README.md",
+      "path": "include/cdc/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3001
+    },
+    {
+      "path": "include/cdc/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3218
+    },
+    {
+      "path": "include/chaos/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 172
+    },
+    {
+      "path": "include/chaos/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 90
+    },
+    {
+      "path": "include/chaos/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 32265
+      "size_bytes": 246
+    },
+    {
+      "path": "include/chaos/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1490
+    },
+    {
+      "path": "include/chaos/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 162
+    },
+    {
+      "path": "include/config/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3460
+    },
+    {
+      "path": "include/config/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "deprecated",
+      "size_bytes": 2431
+    },
+    {
+      "path": "include/config/README.md",
+      "type": "README",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 6274
+    },
+    {
+      "path": "include/config/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2612
+    },
+    {
+      "path": "include/config/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2919
+    },
+    {
+      "path": "include/content/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 4679
+    },
+    {
+      "path": "include/content/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2148
     },
     {
       "path": "include/content/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 331
+    },
+    {
+      "path": "include/content/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2624
+    },
+    {
+      "path": "include/content/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3438
+    },
+    {
+      "path": "include/core/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 5064
+    },
+    {
+      "path": "include/core/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2591
     },
     {
       "path": "include/core/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 15613
+    },
+    {
+      "path": "include/core/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3113
+    },
+    {
+      "path": "include/core/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3700
     },
     {
       "path": "include/core/concerns/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 15905
+    },
+    {
+      "path": "include/document/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1485
+    },
+    {
+      "path": "include/document/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3297
     },
     {
       "path": "include/document/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 574
+    },
+    {
+      "path": "include/document/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2107
+    },
+    {
+      "path": "include/document/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "deprecated",
+      "size_bytes": 1310
+    },
+    {
+      "path": "include/exporters/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3130
+    },
+    {
+      "path": "include/exporters/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1524
     },
     {
       "path": "include/exporters/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 2751
+    },
+    {
+      "path": "include/exporters/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1634
+    },
+    {
+      "path": "include/exporters/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1941
+    },
+    {
+      "path": "include/failover/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 145
+    },
+    {
+      "path": "include/failover/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 93
+    },
+    {
+      "path": "include/failover/README.md",
+      "type": "README",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 312
+    },
+    {
+      "path": "include/failover/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1247
+    },
+    {
+      "path": "include/failover/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 173
+    },
+    {
+      "path": "include/geo/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2395
+    },
+    {
+      "path": "include/geo/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1402
     },
     {
       "path": "include/geo/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1907
+    },
+    {
+      "path": "include/geo/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2152
+    },
+    {
+      "path": "include/geo/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1773
+    },
+    {
+      "path": "include/governance/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2853
+    },
+    {
+      "path": "include/governance/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2242
     },
     {
       "path": "include/governance/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 3662
+    },
+    {
+      "path": "include/governance/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1496
+    },
+    {
+      "path": "include/governance/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2097
+    },
+    {
+      "path": "include/graph/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2140
+    },
+    {
+      "path": "include/graph/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1384
     },
     {
       "path": "include/graph/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 14679
+      "size_bytes": 14676
+    },
+    {
+      "path": "include/graph/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2195
+    },
+    {
+      "path": "include/graph/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1895
+    },
+    {
+      "path": "include/importers/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3673
+    },
+    {
+      "path": "include/importers/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1710
     },
     {
       "path": "include/importers/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 341
+    },
+    {
+      "path": "include/importers/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1825
+    },
+    {
+      "path": "include/importers/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2234
+    },
+    {
+      "path": "include/index/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 4622
+    },
+    {
+      "path": "include/index/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1978
     },
     {
       "path": "include/index/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 32874
+    },
+    {
+      "path": "include/index/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1745
+    },
+    {
+      "path": "include/index/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2008
+    },
+    {
+      "path": "include/ingestion/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2426
+    },
+    {
+      "path": "include/ingestion/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1040
+    },
+    {
+      "path": "include/ingestion/README.md",
+      "type": "README",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1163
+    },
+    {
+      "path": "include/ingestion/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1852
+    },
+    {
+      "path": "include/ingestion/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1161
+    },
+    {
+      "path": "include/llama_cpp/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 193
+    },
+    {
+      "path": "include/llama_cpp/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 94
+    },
+    {
+      "path": "include/llama_cpp/README.md",
+      "type": "README",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 276
+    },
+    {
+      "path": "include/llama_cpp/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1369
+    },
+    {
+      "path": "include/llama_cpp/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 191
+    },
+    {
+      "path": "include/llm/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 5926
+    },
+    {
+      "path": "include/llm/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1652
     },
     {
       "path": "include/llm/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1869
+    },
+    {
+      "path": "include/llm/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1302
+    },
+    {
+      "path": "include/llm/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1568
+    },
+    {
+      "path": "include/maintenance/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2802
+    },
+    {
+      "path": "include/maintenance/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2644
+    },
+    {
+      "path": "include/maintenance/README.md",
+      "type": "README",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1160
+    },
+    {
+      "path": "include/maintenance/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2570
+    },
+    {
+      "path": "include/maintenance/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1816
+    },
+    {
+      "path": "include/metadata/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2287
+    },
+    {
+      "path": "include/metadata/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1338
     },
     {
       "path": "include/metadata/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 7320
+      "size_bytes": 7317
+    },
+    {
+      "path": "include/metadata/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1486
+    },
+    {
+      "path": "include/metadata/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1328
+    },
+    {
+      "path": "include/network/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3607
+    },
+    {
+      "path": "include/network/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1877
     },
     {
       "path": "include/network/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 25681
+    },
+    {
+      "path": "include/network/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3280
+    },
+    {
+      "path": "include/network/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2349
+    },
+    {
+      "path": "include/observability/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3702
+    },
+    {
+      "path": "include/observability/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2084
     },
     {
       "path": "include/observability/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 23840
+    },
+    {
+      "path": "include/observability/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2273
+    },
+    {
+      "path": "include/observability/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2317
+    },
+    {
+      "path": "include/performance/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 4298
+    },
+    {
+      "path": "include/performance/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2310
     },
     {
       "path": "include/performance/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 4180
+    },
+    {
+      "path": "include/performance/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2722
+    },
+    {
+      "path": "include/performance/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2381
+    },
+    {
+      "path": "include/plugins/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3217
+    },
+    {
+      "path": "include/plugins/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1787
     },
     {
       "path": "include/plugins/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 21086
+      "size_bytes": 21116
+    },
+    {
+      "path": "include/plugins/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2216
+    },
+    {
+      "path": "include/plugins/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2311
+    },
+    {
+      "path": "include/process/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2593
+    },
+    {
+      "path": "include/process/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1103
     },
     {
       "path": "include/process/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 9154
+    },
+    {
+      "path": "include/process/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2476
+    },
+    {
+      "path": "include/process/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2301
+    },
+    {
+      "path": "include/projects/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3134
+    },
+    {
+      "path": "include/projects/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2104
     },
     {
       "path": "include/projects/DocumentManager/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1975
     },
@@ -2381,115 +3848,619 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 9779
+      "size_bytes": 4414
+    },
+    {
+      "path": "include/projects/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2865
+    },
+    {
+      "path": "include/projects/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1646
+    },
+    {
+      "path": "include/prompt_engineering/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3638
+    },
+    {
+      "path": "include/prompt_engineering/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2202
+    },
+    {
+      "path": "include/prompt_engineering/README.md",
+      "type": "README",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2140
+    },
+    {
+      "path": "include/prompt_engineering/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2361
+    },
+    {
+      "path": "include/prompt_engineering/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2601
+    },
+    {
+      "path": "include/query/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 4618
+    },
+    {
+      "path": "include/query/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2691
     },
     {
       "path": "include/query/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 41100
+    },
+    {
+      "path": "include/query/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2182
+    },
+    {
+      "path": "include/query/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2446
+    },
+    {
+      "path": "include/rag/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 6004
+    },
+    {
+      "path": "include/rag/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3263
     },
     {
       "path": "include/rag/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 40749
+    },
+    {
+      "path": "include/rag/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 5306
+    },
+    {
+      "path": "include/rag/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2608
+    },
+    {
+      "path": "include/replication/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2857
+    },
+    {
+      "path": "include/replication/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1548
     },
     {
       "path": "include/replication/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 24196
+      "size_bytes": 24193
+    },
+    {
+      "path": "include/replication/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2263
+    },
+    {
+      "path": "include/replication/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2433
+    },
+    {
+      "path": "include/scheduler/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2789
+    },
+    {
+      "path": "include/scheduler/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1713
     },
     {
       "path": "include/scheduler/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 22258
+    },
+    {
+      "path": "include/scheduler/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3248
+    },
+    {
+      "path": "include/scheduler/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2401
+    },
+    {
+      "path": "include/search/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3347
+    },
+    {
+      "path": "include/search/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2117
     },
     {
       "path": "include/search/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 27899
+    },
+    {
+      "path": "include/search/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3022
+    },
+    {
+      "path": "include/search/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2522
+    },
+    {
+      "path": "include/security/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 5514
+    },
+    {
+      "path": "include/security/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1728
     },
     {
       "path": "include/security/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 25232
+    },
+    {
+      "path": "include/security/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3162
+    },
+    {
+      "path": "include/security/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2065
+    },
+    {
+      "path": "include/server/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 9267
+    },
+    {
+      "path": "include/server/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3897
     },
     {
       "path": "include/server/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 23302
+    },
+    {
+      "path": "include/server/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3936
+    },
+    {
+      "path": "include/server/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3981
+    },
+    {
+      "path": "include/sharding/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 9442
+    },
+    {
+      "path": "include/sharding/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3728
     },
     {
       "path": "include/sharding/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 336
+    },
+    {
+      "path": "include/sharding/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 5268
+    },
+    {
+      "path": "include/sharding/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 4643
+    },
+    {
+      "path": "include/stable_diffusion/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 204
+    },
+    {
+      "path": "include/stable_diffusion/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 101
+    },
+    {
+      "path": "include/stable_diffusion/README.md",
+      "type": "README",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 375
+    },
+    {
+      "path": "include/stable_diffusion/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1575
+    },
+    {
+      "path": "include/stable_diffusion/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 193
+    },
+    {
+      "path": "include/storage/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 6515
+    },
+    {
+      "path": "include/storage/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 4393
     },
     {
       "path": "include/storage/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 19739
+    },
+    {
+      "path": "include/storage/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 5491
+    },
+    {
+      "path": "include/storage/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 5078
+    },
+    {
+      "path": "include/temporal/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 5564
+    },
+    {
+      "path": "include/temporal/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3085
     },
     {
       "path": "include/temporal/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 13437
+      "size_bytes": 13434
+    },
+    {
+      "path": "include/temporal/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 5253
+    },
+    {
+      "path": "include/temporal/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 5596
+    },
+    {
+      "path": "include/themis/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 4377
+    },
+    {
+      "path": "include/themis/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2803
     },
     {
       "path": "include/themis/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 23317
+    },
+    {
+      "path": "include/themis/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 5637
+    },
+    {
+      "path": "include/themis/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 6004
     },
     {
       "path": "include/themis/base/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 10282
     },
@@ -2498,61 +4469,376 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 41842
+    },
+    {
+      "path": "include/timeseries/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 5648
+    },
+    {
+      "path": "include/timeseries/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3419
     },
     {
       "path": "include/timeseries/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 346
+    },
+    {
+      "path": "include/timeseries/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 5237
+    },
+    {
+      "path": "include/timeseries/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3760
+    },
+    {
+      "path": "include/training/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 5390
+    },
+    {
+      "path": "include/training/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2443
+    },
+    {
+      "path": "include/training/README.md",
+      "type": "README",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2957
+    },
+    {
+      "path": "include/training/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 5121
+    },
+    {
+      "path": "include/training/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3785
+    },
+    {
+      "path": "include/transaction/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2940
+    },
+    {
+      "path": "include/transaction/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2103
     },
     {
       "path": "include/transaction/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 10012
+    },
+    {
+      "path": "include/transaction/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3383
+    },
+    {
+      "path": "include/transaction/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2509
+    },
+    {
+      "path": "include/updates/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3425
+    },
+    {
+      "path": "include/updates/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1935
     },
     {
       "path": "include/updates/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 17886
+    },
+    {
+      "path": "include/updates/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 4045
+    },
+    {
+      "path": "include/updates/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2838
+    },
+    {
+      "path": "include/user_storage_encrypted/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2058
+    },
+    {
+      "path": "include/user_storage_encrypted/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 846
+    },
+    {
+      "path": "include/user_storage_encrypted/README.md",
+      "type": "README",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1354
+    },
+    {
+      "path": "include/user_storage_encrypted/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2903
+    },
+    {
+      "path": "include/user_storage_encrypted/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2248
+    },
+    {
+      "path": "include/utils/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 6615
+    },
+    {
+      "path": "include/utils/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1065
     },
     {
       "path": "include/utils/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 321
+    },
+    {
+      "path": "include/utils/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3369
+    },
+    {
+      "path": "include/utils/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 2830
+    },
+    {
+      "path": "include/voice/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3382
+    },
+    {
+      "path": "include/voice/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1461
     },
     {
       "path": "include/voice/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "include",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
-      "size_bytes": 21939
+      "size_bytes": 21937
+    },
+    {
+      "path": "include/voice/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3724
+    },
+    {
+      "path": "include/voice/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 3052
+    },
+    {
+      "path": "include/whisper/ARCHITECTURE.md",
+      "type": "ARCHITECTURE",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 199
+    },
+    {
+      "path": "include/whisper/CHANGELOG.md",
+      "type": "CHANGELOG",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 92
+    },
+    {
+      "path": "include/whisper/README.md",
+      "type": "README",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 427
+    },
+    {
+      "path": "include/whisper/ROADMAP.md",
+      "type": "ROADMAP",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 1753
+    },
+    {
+      "path": "include/whisper/SECURITY.md",
+      "type": "SECURITY",
+      "extension": ".md",
+      "scan_dir": "include",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "incomplete",
+      "size_bytes": 176
     },
     {
       "path": "examples/01_hello_world/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 5157
     },
@@ -2561,7 +4847,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "incomplete",
       "size_bytes": 10456
     },
@@ -2570,7 +4856,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "incomplete",
       "size_bytes": 2276
     },
@@ -2579,7 +4865,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 2362
     },
@@ -2588,7 +4874,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 3243
     },
@@ -2597,7 +4883,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1720
     },
@@ -2606,7 +4892,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1769
     },
@@ -2615,7 +4901,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1828
     },
@@ -2624,7 +4910,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 3022
     },
@@ -2633,7 +4919,7 @@
       "type": "SECURITY",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 16167
     },
@@ -2642,7 +4928,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 3397
     },
@@ -2651,7 +4937,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 23405
     },
@@ -2660,7 +4946,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 8169
     },
@@ -2669,7 +4955,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 5423
     },
@@ -2678,7 +4964,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 2842
     },
@@ -2687,7 +4973,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1876
     },
@@ -2696,7 +4982,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1874
     },
@@ -2705,7 +4991,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1792
     },
@@ -2714,7 +5000,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1691
     },
@@ -2723,7 +5009,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1963
     },
@@ -2732,7 +5018,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1926
     },
@@ -2741,7 +5027,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1945
     },
@@ -2750,7 +5036,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 2228
     },
@@ -2759,7 +5045,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 21596
     },
@@ -2768,7 +5054,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 17940
     },
@@ -2777,7 +5063,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 1432
     },
@@ -2786,7 +5072,7 @@
       "type": "ARCHITECTURE",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 10994
     },
@@ -2795,7 +5081,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 6672
     },
@@ -2804,7 +5090,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 8230
     },
@@ -2813,7 +5099,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 7656
     },
@@ -2822,7 +5108,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 861
     },
@@ -2831,7 +5117,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 3402
     },
@@ -2840,7 +5126,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 6460
     },
@@ -2849,7 +5135,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 6406
     },
@@ -2858,7 +5144,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 4636
     },
@@ -2867,7 +5153,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 4669
     },
@@ -2876,7 +5162,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 9750
     },
@@ -2885,7 +5171,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 3741
     },
@@ -2894,16 +5180,25 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 9826
+    },
+    {
+      "path": "examples/replication/README.md",
+      "type": "README",
+      "extension": ".md",
+      "scan_dir": "examples",
+      "last_modified": "2026-04-15T19:42:19Z",
+      "status": "active",
+      "size_bytes": 4217
     },
     {
       "path": "examples/rope_visualization/README.md",
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 6610
     },
@@ -2912,7 +5207,7 @@
       "type": "README",
       "extension": ".md",
       "scan_dir": "examples",
-      "last_modified": "2026-03-22T08:58:55+01:00",
+      "last_modified": "2026-04-15T19:42:19Z",
       "status": "active",
       "size_bytes": 4162
     }
