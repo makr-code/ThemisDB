@@ -1801,6 +1801,15 @@ set(THEMIS_CORE_SOURCES
     $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<NOT:$<BOOL:${THEMIS_ENABLE_VOICE_ASSISTANT}>>>:../src/content/tts_processor.cpp>
     $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/content/content_manager_llm.cpp>
     
+    # Content ↔ Toolbox adapter layer (IFormatExtractor implementations)
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/adapters/pdf_extractor_adapter.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/adapters/image_extractor_adapter.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/adapters/archive_extractor_adapter.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/adapters/text_extractor_adapter.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<BOOL:${THEMIS_ENABLE_OFFICE}>>:../src/content/adapters/office_extractor_adapter.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<BOOL:${THEMIS_ENABLE_VOICE_ASSISTANT}>>:../src/content/adapters/audio_extractor_adapter.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/adapters/format_extractor_factory.cpp>
+    
     # Content Pipeline (GAP-005) - Enhanced with streaming and multi-modal support
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/zstd_compression.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/content_chunker.cpp>
@@ -1856,9 +1865,12 @@ set(THEMIS_CORE_SOURCES
     ../src/ingestion/steps/base_entity_assembler_step.cpp
     ../src/ingestion/steps/ner_step.cpp
     ../src/ingestion/steps/llm_extract_step.cpp
+    ../src/ingestion/steps/format_parse_step.cpp
 
     # Toolbox module — system-wide access point for ingestion infrastructure
     ../src/toolbox/ingestion_toolbox.cpp
+    ../src/toolbox/toolbox_builder.cpp
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/toolbox/content_toolbox_bridge.cpp>
 
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp

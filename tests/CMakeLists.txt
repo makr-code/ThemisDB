@@ -22670,3 +22670,20 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_projects.cpp")
 else()
     message(STATUS "Projects module tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_projects.cpp")
 endif()
+
+# ContentToolboxBridge tests (subset of AllTests)
+# Covers: IFormatExtractor (FE-01..FE-03), ToolboxBuilder (TB-01..TB-12),
+#         ContentToolboxBridge construction (CTB-01..CTB-05),
+#         format_parse_step factories (FM-01..FM-08)
+#         (from test_content_toolbox_bridge.cpp)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_content_toolbox_bridge.cpp")
+    add_test(NAME ContentToolboxBridgeTests
+        COMMAND themis_tests --gtest_filter=FormatExtractor.*:ToolboxBuilderTest.*:ContentToolboxBridgeTest.*:FormatParseStep.*)
+    set_tests_properties(ContentToolboxBridgeTests PROPERTIES
+        LABELS "toolbox;content;bridge;ingestion;format-extractor;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  ContentToolboxBridge: FE-01..FE-03, TB-01..TB-12, CTB-01..CTB-05, FM-01..FM-08")
+else()
+    message(STATUS "ContentToolboxBridge tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_content_toolbox_bridge.cpp")
+endif()
