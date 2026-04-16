@@ -877,6 +877,10 @@ target_link_libraries(themisdb_chimera
 
 ## Related Documentation
 
+- [ARCHITECTURE](./ARCHITECTURE.md) - Implemented module structure and runtime behavior
+- [ROADMAP](./ROADMAP.md) - Verified phase status against current implementation
+- [FUTURE_ENHANCEMENTS](./FUTURE_ENHANCEMENTS.md) - Actionable follow-up work packages
+- [CHANGELOG](./CHANGELOG.md) - Module-local documentation and implementation deltas
 - [Header Documentation](../../include/chimera/README.md) - Interface definitions and contracts
 - [Adapter Templates](../../adapters/chimera/README.md) - Creating custom adapters
 - [CHIMERA Benchmark Suite](../../benchmarks/chimera/README.md) - Benchmark framework
@@ -896,8 +900,8 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md) for guidelines.
 
 ---
 
-*Last Updated: March 2026*  
-*Module Version: v1.1.0 (All Adapters Implemented)*  
+*Last Updated: March 2026*
+*Module Version: v1.1.0 (All Adapters Implemented)*
 *Status: Beta — Simulation Mode; Production Driver Integration Pending*
 
 ## Scientific References
