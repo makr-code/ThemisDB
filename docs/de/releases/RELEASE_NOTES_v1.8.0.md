@@ -3,7 +3,7 @@
 **Release Date:** TBD (Target: Q2 2026)
 **Type:** Feature Release
 **Previous Version:** v1.7.0
-**Milestone:** v1.8.0
+**Milestone:** current (`milestone:current`)
 **Aggregation Issue:** [makr-code/ThemisDB#4300](https://github.com/makr-code/ThemisDB/issues/4300)
 
 ---
@@ -542,7 +542,7 @@ infrastructure.
 
 | Criterion | Status |
 |-----------|--------|
-| Feature freeze established | 🚧 In progress |
+| Feature freeze established | ✅ Done |
 | All included PRs merged to develop | ✅ Done |
 | Unit test coverage ≥ 80% (all new features) | ✅ Done |
 | Integration tests pass | ✅ Done |
@@ -552,6 +552,7 @@ infrastructure.
 | Documentation audit complete | ✅ Done |
 | All blocker PRs resolved | ✅ Done |
 | Regression test suite passes | ✅ Done |
+| Release documentation complete | ✅ Done |
 
 ### QA Status per PR Group
 
@@ -627,4 +628,4 @@ infrastructure.
 
 ---
 
-*This document was produced as part of the v1.8.0 Release Aggregation ([Issue #4300](https://github.com/makr-code/ThemisDB/issues/4300)). Last updated: 2026-03-17.*
+*This document was produced as part of the v1.8.0 Release Aggregation ([Issue #4300](https://github.com/makr-code/ThemisDB/issues/4300)). Last updated: 2026-04-16.*
