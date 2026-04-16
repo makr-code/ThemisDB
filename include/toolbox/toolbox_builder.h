@@ -22,6 +22,7 @@
 #include "ingestion/ingestion_sinks.h"
 #include "ingestion/inference_backend.h"
 #include "ingestion/workflow_engine.h"
+#include "ingestion/format_extractor.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -136,6 +137,44 @@ public:
      */
     ToolboxBuilder& withWorkflowEngine(
         std::shared_ptr<ingestion::WorkflowEngine> engine);
+
+    /**
+     * @brief Register a format extractor and wire it into the corresponding
+     *        builtin parse step.
+     *
+     * Calling this multiple times with different extractors registers all of
+     * them.  For each extractor, the matching builtin step is created and
+     * registered in the `StepRegistry` during `build()`:
+     *
+     *  - `IFormatExtractor` supporting `application/pdf`    → `builtin.parse_pdf`
+     *  - Supporting `application/vnd.openxmlformats-*`      → `builtin.parse_office`
+     *  - Supporting `image/*`                               → `builtin.parse_image`
+     *  - Supporting `application/zip` / `application/x-tar` → `builtin.parse_archive`
+     *  - Supporting `audio/*`                               → `builtin.parse_audio`
+     *
+     * When a `FormatExtractorFactory` (from `content/adapters/`) is available,
+     * use `withFormatExtractorFactory()` to register all extractors at once.
+     *
+     * @param extractor  Format extractor to register.  Must not be null.
+     * @return `*this` for chaining.
+     * @throws std::invalid_argument if @p extractor is null.
+     */
+    ToolboxBuilder& withFormatExtractor(
+        std::shared_ptr<ingestion::IFormatExtractor> extractor);
+
+    /**
+     * @brief Register all format extractors from a factory at once.
+     *
+     * Iterates over `factory->registeredMimeTypes()` and calls
+     * `withFormatExtractor()` for each distinct extractor.  This is the
+     * preferred way to wire a `content::adapters::FormatExtractorFactory`
+     * into the toolbox.
+     *
+     * @param factory  Pre-populated factory.  Must not be null.
+     * @return `*this` for chaining.
+     */
+    ToolboxBuilder& withFormatExtractorFactory(
+        std::shared_ptr<ingestion::IFormatExtractorFactory> factory);
 
     // ── Build ─────────────────────────────────────────────────────────────────
 
