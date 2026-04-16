@@ -91,6 +91,109 @@ The central research question of this paper is:
 
 ---
 
+## 2.1 The Evolution of Automated Database Administration
+
+Understanding where ThemisDB-LoRA sits in the research landscape requires a brief
+survey of how automated database administration has evolved over the past two decades.
+
+### 2.1.1 Rule-Based Era (Pre-2015)
+
+Early advisors such as the Microsoft Index Tuning Wizard (Chaudhuri & Narasayya, 1997)
+and later SQL Server Database Engine Tuning Advisor (DTA) employed cost-model-driven
+search over the physical design space — selecting indexes and materialised views that
+minimized the estimated execution cost under a workload. These systems were deterministic,
+auditable, and entirely static: the rules encoded expert knowledge at design time and did
+not adapt.
+
+Key limitation: they could not learn from observed outcomes. When a recommended index
+produced no speedup (e.g., due to a data distribution the cost model mis-estimated), the
+advisor had no signal to improve its next recommendation.
+
+### 2.1.2 Machine Learning Era (2015–2022)
+
+The first large-scale ML-based database tuning system was **OtterTune** (Van Aken et al.,
+2017 [ACM SIGMOD]). OtterTune uses Gaussian Process regression to model the relationship
+between configuration knobs (e.g., `innodb_buffer_pool_size`, `max_connections`) and
+throughput/latency targets. In controlled experiments it matched or exceeded expert-tuned
+configurations on OLTP benchmarks such as YCSB and TPC-C, achieving **throughput
+improvements of up to 22 %** vs. the default configuration.
+
+Deep-reinforcement-learning-based tuners followed:
+
+- **CDBTune** (Zhang et al., 2019 [ACM SIGMOD]) uses Deep Deterministic Policy Gradient
+  (DDPG) to tune MySQL configuration knobs. On OLTP workloads it reported a **22.6 %**
+  improvement in transactions-per-second vs. DBA-tuned configurations.
+- **QTune** (Li et al., 2019 [VLDB]) adds query-level features as state representation,
+  achieving superior generalisation across different workload patterns.
+- **Bao** (Marcus et al., 2021 [ACM SIGMOD]) shifts focus from database configuration to
+  query plan selection. It uses Thompson Sampling over a small set of per-query plan
+  hints, reducing tail latency (p99) by **30 %** on JOB benchmark vs. the PostgreSQL
+  default planner.
+
+**Critical limitation shared by all pre-2022 systems**: they are black-box function
+approximators. They cannot explain their decisions in natural language, cannot be
+corrected through dialogue, and cannot compose multi-step optimization plans that
+involve schema redesign, workload reclassification, and index management simultaneously.
+
+### 2.1.3 LLM-Augmented Database Administration (2022–present)
+
+The maturation of large language models opened a new paradigm:
+
+- **DB-BERT** (Trummer, 2022 [ACM SIGMOD]) fine-tunes BERT to extract configuration
+  hints from database documentation and online forum posts. It demonstrated that language
+  models can correctly interpret expert knowledge embedded in free text — but DB-BERT
+  is read-only (no fine-tuning pipeline) and limited to BERT-scale models.
+- **D-Bot** (Zhou et al., 2023 [arXiv:2312.01454]) shows that GPT-4 with tool-use
+  (SQL execution, metric scraping) can diagnose root causes of performance anomalies
+  with **49 % diagnosis accuracy** on a test suite of 360 database anomalies. However,
+  D-Bot uses zero-shot or few-shot prompting of a closed-source API: it is subject to
+  hallucination on proprietary query engines and cannot be deployed offline.
+- **GPT-4-as-DBA** (Zhou et al., 2023) benchmarks GPT-4 on the "DB-GPT" benchmark,
+  finding that without database-specific fine-tuning, GPT-4 achieves **~60 %** accuracy
+  on index selection tasks vs. **~85 %** for a domain-fine-tuned model.
+
+This last result establishes the core quantitative motivation for ThemisDB-LoRA: a
+domain-fine-tuned model is expected to exceed the zero-shot GPT-4 baseline by roughly
+25 percentage points on domain-specific tasks, while remaining deployable on-premises
+without API dependency.
+
+### 2.1.4 Parameter-Efficient Fine-Tuning (PEFT) as the Enabling Technology
+
+Full fine-tuning of a 7B-parameter model requires ≈ 28 GB of optimizer state in
+16-bit precision (Dettmers et al., 2023 [NeurIPS]). This makes full FT impractical on
+single-GPU setups. The PEFT family solves this:
+
+| Method | Trainable params | VRAM (7B model) | Accuracy vs. full FT |
+|---|---|---|---|
+| Full fine-tuning | 7 000 M (100 %) | ≈ 112 GB (fp16, Adam) | 100 % (baseline) |
+| LoRA r=8 (Hu et al. 2022) | ≈ 4 M (0.06 %) | ≈ 14 GB | ≈ 98 % |
+| QLoRA NF4 + LoRA r=8 (Dettmers et al. 2023) | ≈ 4 M (0.06 %) | ≈ **6.5 GB** | ≈ 97 % |
+| AdaLoRA r=4–16 adaptive (Zhang et al. 2023) | ≈ 2–8 M | ≈ 7–15 GB | ≈ 99 % on selected layers |
+
+QLoRA at NF4 quantization enables training on a **single RTX 3090 (24 GB)** — the
+exact hardware target for the ThemisDB home-lab and edge deployment profile.
+
+Critically, LoRA adapters are stored as small weight differential files (< 100 MB for
+rank-16 on a 7B model), enabling version-controlled, rollable deployment that integrates
+directly into ThemisDB's `IncrementalLoRATrainer` / `deployVersionEx` lifecycle.
+
+### 2.1.5 Retrieval-Augmented Generation for Grounding Live Database State
+
+RAG (Lewis et al., 2020 [NeurIPS]) was originally designed for knowledge-intensive NLP
+tasks. Its application to database administration differs in one critical way:
+
+- In NLP RAG, retrieved documents are static (Wikipedia, document corpora).
+- In DB administration RAG, retrieved "documents" are **live time-series metrics**:
+  current p99, cache-hit ratio, query plan features, HNSW recall estimates.
+
+Asai et al. (2023 [Self-RAG, ICLR]) show that selective retrieval (only retrieving when
+necessary) reduces hallucination while maintaining accuracy. Applied to the ThemisDB-LoRA
+architecture, this means: the LLM-Advisor should explicitly signal when it is grounding
+a recommendation in retrieved metric data vs. static adapter knowledge. This is the
+foundation for the uncertainty-aware response format proposed in Section 4.2.
+
+---
+
 ## 3. Background
 
 ### 3.1 Low-Rank Adaptation (LoRA)
@@ -175,6 +278,34 @@ std::string buildEntityContext(entities);
 
 In the ThemisDB-LoRA architecture, RAG is used exclusively for instance-specific,
 volatile operational data — not for domain knowledge (which lives in the adapter).
+
+### 3.6 HNSW — The Approximate Nearest-Neighbor Backbone of ThemisDB
+
+ThemisDB's vector search layer is built on the **Hierarchical Navigable Small World**
+(HNSW) algorithm (Malkov & Yashunin, 2018 [IEEE TPAMI 42(4)]). HNSW constructs a
+multi-layer proximity graph where each node is connected to its `M` nearest neighbors at
+each layer; search proceeds greedily from the top layer down, visiting at most `efSearch`
+candidates at the bottom layer.
+
+Empirical results from Malkov & Yashunin (2018) on SIFT-1M (1M 128-dim vectors):
+
+| `efSearch` | Recall@10 | Queries/s (1 core) |
+|---|---|---|
+| 16 | 0.88 | 11 500 |
+| 64 | 0.96 | 5 800 |
+| 128 | 0.99 | 2 900 |
+| 512 | > 0.999 | 750 |
+
+Key insight: the recall–speed trade-off is **nearly linear in log(efSearch)**. A 4×
+reduction of efSearch yields approximately 2× higher throughput at a recall cost of
+3–8 pp. This is the core parameter that `HnswParameterTuner` manages and that the
+LLM-Advisor must understand to give calibrated recommendations.
+
+For the LLM-Advisor, the training data must encode not just the parameter values but the
+*reasoning pattern*: "given a dataset of N vectors with dimension D, a workload with
+average query complexity C, and a current CPU utilization of U%, the optimal efSearch
+is approximately ...". This reasoning pattern is a prime candidate for LoRA encoding
+because it is stable (algorithmic, not data-dependent) yet requires multi-step reasoning.
 
 ---
 
