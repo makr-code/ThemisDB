@@ -26,6 +26,7 @@
 #include "index/secondary_index.h"
 #include "query/query_engine.h"
 #include "query/aql_runner.h"
+#include "query/cypher_parser.h"
 #include "index/graph_index.h"
 #include "llm/embedded_llm.h"
 #include "prompt_engineering/prompt_manager.h"
@@ -718,14 +719,87 @@ json McpServer::toolQuery(const json& args) {
                 {"results", *result}
             };
         }
-        // SQL and Cypher not yet implemented
+        // SQL and Cypher: transpile to AQL, then execute through the AQL engine
         else if (language == "sql" || language == "cypher") {
+            if (!query_engine_) {
+                return {
+                    {"status", "error"},
+                    {"message", "Query engine not initialized"},
+                    {"query", query},
+                    {"language", language}
+                };
+            }
+
+            // Transpile SQL/Cypher → AQL
+            std::string aql_query;
+            if (language == "sql") {
+                themis::query::SQLParser sql_parser;
+                auto parse_result = sql_parser.parse(query);
+                if (!parse_result) {
+                    return {
+                        {"status", "error"},
+                        {"message", fmt::format("SQL parse error: {}", parse_result.error().message())},
+                        {"query", query},
+                        {"language", language}
+                    };
+                }
+                themis::query::SQLToAQLTranspiler transpiler;
+                auto transpile_result = transpiler.transpile(*parse_result);
+                if (!transpile_result) {
+                    return {
+                        {"status", "error"},
+                        {"message", fmt::format("SQL→AQL transpilation failed: {}", transpile_result.error().message())},
+                        {"query", query},
+                        {"language", language}
+                    };
+                }
+                aql_query = *transpile_result;
+            } else {  // cypher
+                themis::query::CypherParser cypher_parser;
+                auto parse_result = cypher_parser.parse(query);
+                if (!parse_result) {
+                    return {
+                        {"status", "error"},
+                        {"message", fmt::format("Cypher parse error: {}", parse_result.error().message())},
+                        {"query", query},
+                        {"language", language}
+                    };
+                }
+                themis::query::CypherToAQLTranspiler transpiler;
+                auto transpile_result = transpiler.transpile(*parse_result);
+                if (!transpile_result) {
+                    return {
+                        {"status", "error"},
+                        {"message", fmt::format("Cypher→AQL transpilation failed: {}", transpile_result.error().message())},
+                        {"query", query},
+                        {"language", language}
+                    };
+                }
+                aql_query = *transpile_result;
+            }
+
+            // Execute the transpiled AQL query
+            auto result = executeAql(aql_query, *query_engine_);
+            if (!result) {
+                return {
+                    {"status", "error"},
+                    {"message", fmt::format("{} execution failed (via AQL transpilation): {}",
+                                           language == "sql" ? "SQL" : "Cypher",
+                                           result.error().message())},
+                    {"query", query},
+                    {"transpiled_aql", aql_query},
+                    {"language", language}
+                };
+            }
+
             return {
-                {"status", "error"},
-                {"message", fmt::format("{} query language not yet implemented", language)},
+                {"status", "success"},
+                {"message", fmt::format("{} query executed successfully (via AQL transpilation)",
+                                        language == "sql" ? "SQL" : "Cypher")},
                 {"query", query},
+                {"transpiled_aql", aql_query},
                 {"language", language},
-                {"note", "Use 'aql' language for full query support"}
+                {"results", *result}
             };
         }
         // Unknown language
