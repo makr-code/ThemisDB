@@ -16,7 +16,7 @@
 ### Phase 3: Error Handling & Edge Cases
 - [x] Parameter constraints represented in API documentation (Target: Q2 2026)
 ### Phase 4: Tests
-- [ ] Add dedicated API conformance tests at include boundary (Target: Q3 2026)
+- [x] Add dedicated API conformance tests at include boundary (`tests/test_chaos_framework.cpp`, `tests/test_chaos_scheduler.cpp`) (Target: Q3 2026)
 ### Phase 5: Performance/Hardening
 - [ ] Review ABI compatibility constraints for external consumers (Target: Q3 2026)
 - [x] Extended stress-benchmark coverage (`bench_chaos_stress.cpp`): FaultInjector inject/query/recover throughput, concurrent 1..16 threads, ChaosScheduler overhead (Target: Q3 2026)
