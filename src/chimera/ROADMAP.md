@@ -9,7 +9,7 @@
 ## In Progress
 
 - [ ] Konsolidierung der capability claims für Simulations- vs. Engine-Modus (Target: v1.8.0)
-- [ ] Präzisierung und Nachrüstung von Include-Dokumentation unter `include/chimera/` (Target: v1.8.0)
+- [x] Präzisierung und Nachrüstung von Include-Dokumentation unter `include/chimera/` (Target: v1.8.0)
 
 ## Planned Features
 
@@ -49,7 +49,7 @@
 ### Phase 6 — Dokumentation & Abnahme
 
 - [x] Modulbezogene Primary/Secondary-Doku-Migration gestartet (`docs/de|en/chimera/*`) (Target: v1.8.0)
-- [ ] Include-Readme und konsolidierte Modulnavigationspfade fertigstellen (Target: v1.8.0)
+- [x] Include-Readme und konsolidierte Modulnavigationspfade fertigstellen (`include/chimera/README.md`) (Target: v1.8.0)
 
 ## Production Readiness Checklist
 
@@ -57,7 +57,7 @@
 - [x] Streaming- und Prepared-Statement-Pfade testbar
 - [ ] Capability-Matrix deckt reales Verhalten ohne Widersprüche ab
 - [ ] Engine-Mode ohne `NOT_IMPLEMENTED`-Abbrüche für produktive Kernpfade
-- [ ] Include-API-Doku vollständig und mit Sourcecode konsistent
+- [x] Include-API-Doku vollständig und mit Sourcecode konsistent (`include/chimera/README.md`)
 - [ ] Sicherheits- und Lasttests für produktive Adapteranbindung dokumentiert
 
 ## Known Issues & Limitations

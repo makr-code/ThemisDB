@@ -37,10 +37,11 @@ Stub mode fully functional. stable-diffusion.cpp integration compiled when
 - [x] **Real PNG IDAT encoder** — `encodeMinimalPng()` produces valid IDAT block via stored-deflate + CRC32 + Adler32 (Issue: #4590) (2026-04-12)
 - [x] **`SDStubGenerator::generateImg2Img`** — returns input-image pass-through (Issue: #4590) (2026-04-12)
 - [x] **51 unit tests** (`SDPluginFocusedTests`, groups A–Q) — 6 new tests groups P–Q for SDCppGenerator + real PNG encoder (Issue: #4590) (2026-04-12)
+- [x] **`SDPluginAdapter` + `SDPluginRegistrar`** — `IThemisPlugin` adapter wrapping `SDPlugin`; `createPlugin`, `createAdapter`, `defaultReloadCallback`, `enableHotPlug`, `disableHotPlug`; 12 unit tests (`SDPluginRegistrarTests`, groups A–D) (2026-04-16)
 
 ## In Progress
 
-- [~] Integration with `PluginManager` hot-plug monitor
+*(none)*
 
 ## Planned Features
 
@@ -92,6 +93,11 @@ Stub mode fully functional. stable-diffusion.cpp integration compiled when
 - [x] `SDCppGenerator` — real stable-diffusion.cpp integration (compiled when `THEMIS_ENABLE_STABLE_DIFFUSION=ON`)
 - [ ] End-to-end integration test with a real GGUF model file
 - [ ] `SDCppGenerator` thread-safety audit for parallel calls
+
+### Phase 7 — PluginManager Hot-Plug Integration ✅ (v2.3.0)
+- [x] `SDPluginAdapter : IThemisPlugin` — wraps `SDPlugin`, implements `initialize(config_json)`, `shutdown()`, `getType()`, `getCapabilities()`, `getInstance()`; `PluginType::IMAGE_GENERATION`
+- [x] `SDPluginRegistrar` — `createPlugin()`, `createAdapter()`, `defaultReloadCallback()`, `enableHotPlug()`, `disableHotPlug()`
+- [x] 12 unit tests (`SDPluginRegistrarTests`, groups A–D) in `src/stable_diffusion/tests/test_sd_plugin_registrar.cpp`
 
 ## Known Issues & Limitations
 
