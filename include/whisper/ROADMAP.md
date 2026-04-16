@@ -7,7 +7,7 @@
   - Thread-safe `WhisperPlugin` via `transcriber_mutex_` + `std::atomic` counters (Issue: #4591)
   - `FfmpegAudioChunkReader` (popen ffmpeg, shell-escaped path, 500 MB cap) (Issue: #4591)
   - `CompositeAudioChunkReader` chaining multiple `IAudioChunkReader` implementations (Issue: #4591)
-  - 36 unit tests groups A–L (Issue: #4591)
+  - 44 unit tests groups A–N (Issue: #4591)
 
 ## In Progress
 - [ ] Add richer contract notes for multilingual/translation defaults (Target: Q3 2026)

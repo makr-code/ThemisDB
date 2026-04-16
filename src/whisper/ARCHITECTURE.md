@@ -1,6 +1,6 @@
 # Whisper Plugin — Architecture Guide
 
-<!-- Status: current | validated: 2026-04-07 | Primary: src/whisper/ -->
+<!-- Status: current | validated: 2026-04-16 | Primary: src/whisper/ -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 **Version:** 1.0
@@ -110,8 +110,8 @@ on `whisper_cpp >= 1.5.0`.
 
 ## 7. Thread Safety
 
-`WhisperPlugin` is **not** thread-safe for concurrent `transcribe()` calls in v2.0.0.
-Thread-safety is planned for v2.1.0 via an internal mutex around the transcriber call.
+`WhisperPlugin` is thread-safe for concurrent `transcribe()`, `transcribeFile()`, and
+`detectLanguage()` calls via `transcriber_mutex_` plus atomic counters.
 
 ---
 
@@ -119,7 +119,7 @@ Thread-safety is planned for v2.1.0 via an internal mutex around the transcriber
 
 | Type | Files | Count |
 |---|---|---|
-| Unit (stub mode) | `src/whisper/tests/test_whisper_plugin.cpp` | 30 |
+| Unit (stub mode) | `src/whisper/tests/test_whisper_plugin.cpp` | 44 |
 
-All 30 tests run without a whisper.cpp model file. `InMemoryWhisperTranscriber` is injected
-via the DI constructor for groups E–J.
+All 44 tests run without a whisper.cpp model file. `InMemoryWhisperTranscriber` is injected
+via the DI constructor for multiple groups (including E–N).

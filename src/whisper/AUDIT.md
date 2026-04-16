@@ -1,9 +1,9 @@
-<!-- Status: current | validated: 2026-04-12 -->
+<!-- Status: current | validated: 2026-04-16 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Whisper Plugin
 
-**Last Audit:** 2026-04-12
+**Last Audit:** 2026-04-16
 **Auditor:** Copilot
 **Status:** ✅ Pass (v2.1.0)
 
@@ -13,7 +13,7 @@
 |--------|--------|
 | Source files audited | 4 (`whisper_config.cpp`, `audio_chunk_reader.cpp`, `whisper_transcriber.cpp`, `whisper_plugin.cpp`) |
 | Test targets | 1 (`WhisperPluginFocusedTests`) |
-| Test count | 36 (groups A–L) |
+| Test count | 44 (groups A–N) |
 | Open security issues | 0 |
 | Open functional issues | 1 (real whisper.cpp not CI-tested) |
 | Build system registration | ✅ `tests/CMakeLists.txt` + `plugins/CMakeLists.txt` |
@@ -23,7 +23,7 @@
 
 Registered in:
 - `src/whisper/CMakeLists.txt` — `whisper_plugin` static library target
-- `tests/CMakeLists.txt` — `WhisperPluginFocusedTests` test target (36 tests)
+- `tests/CMakeLists.txt` — `WhisperPluginFocusedTests` test target (44 tests)
 - `plugins/CMakeLists.txt` — `THEMIS_PLUGIN_WHISPER` option
 - `benchmarks/CMakeLists.txt` — `bench_whisper_transcription` (9 scenarios)
 

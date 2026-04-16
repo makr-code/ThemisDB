@@ -1,7 +1,7 @@
-[docs](../../index.md) > [en](../index.md) > [whisper](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-04-16  
-**Status:** draft  
-**Primary Source:**
+[docs](../../README.md) > [en](../README.md) > [whisper](./README.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
+**Datum:** 2026-04-16
+**Status:** draft
+**Primary (Quelle der Wahrheit):**
 - `include/whisper/ARCHITECTURE.md`
 - `include/whisper/AUDIT.md`
 - `include/whisper/CHANGELOG.md`
@@ -17,7 +17,7 @@
 - `src/whisper/ROADMAP.md`
 - `src/whisper/SECURITY.md`
 
-**Reference:**
+**Bezug / Reference:**
 - Tool: `tools/module_docs_builder.py`
 - Context: Auto-generated index of all primary Markdown files for module `whisper`
 

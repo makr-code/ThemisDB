@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-04-07 -->
+<!-- Status: current | validated: 2026-04-16 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog — Whisper Plugin
@@ -8,12 +8,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-- `WhisperConfig.language_confidence_threshold` — `detectLanguage()` now returns `"unknown"` when
-  detected confidence is below the configured threshold (0 = disabled, default)
-- Real whisper.cpp inference integration (requires `THEMIS_ENABLE_WHISPER=ON`)
 - Streaming token output during transcription
 - Speaker diarisation (multi-speaker attribution)
 - VAD (voice activity detection) pre-filter
+
+## [2.1.0] — 2026-04-12
+
+### Added
+- `FfmpegAudioChunkReader` and `CompositeAudioChunkReader` for extension-based audio decoding
+- Thread-safety for `transcribe()`/`detectLanguage()` through `transcriber_mutex_`
+- `WhisperConfig.language_confidence_threshold` to suppress low-confidence language detection
+- Extended test coverage to groups A–N (`WhisperPluginFocusedTests`, 44 tests)
 
 ## [2.0.0] — 2026-04-07
 
