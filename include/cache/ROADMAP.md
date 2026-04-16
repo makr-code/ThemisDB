@@ -43,8 +43,8 @@ and covered by `tests/test_cache_phase6_interfaces.cpp`.
 
 ## Planned Features
 
-- [ ] Redis TLS enforcement at header level (Target: Q3 2026)
-- [ ] L3 encryption enforcement at header level (Target: Q3 2026)
+- [x] Redis TLS enforcement at header level (Target: Q3 2026)
+- [x] L3 encryption enforcement at header level (Target: Q3 2026)
 
 ---
 
@@ -79,5 +79,5 @@ and covered by `tests/test_cache_phase6_interfaces.cpp`.
 - [x] HMAC-signed Redis invalidation
 - [x] Lock-free L1 reads
 - [x] Phase 6 distribution headers covered by `tests/test_cache_phase6_interfaces.cpp`
-- [ ] L3 encryption enforcement at header level (currently operator-managed)
-- [ ] Redis TLS enforcement at header level
+- [x] L3 encryption enforcement at header level (currently operator-managed)
+- [x] Redis TLS enforcement at header level

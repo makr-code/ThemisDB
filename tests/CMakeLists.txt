@@ -23080,3 +23080,28 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_quantized_backend_header.cpp")
 
     message(STATUS "  QuantizedBackendHeader: config defaults, scheme enum, quantize/dequantize, matmul, calibration, capabilities (10 tests)")
 endif()
+
+# ============================================================================
+# Q3 2026 Interface Header Tests
+# (api, auth, cache, content, core — all Q3 2026 interface headers)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_q3_interface_headers.cpp")
+    add_executable(test_q3_interface_headers
+        test_q3_interface_headers.cpp
+    )
+    target_include_directories(test_q3_interface_headers PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+    target_link_libraries(test_q3_interface_headers PRIVATE
+        GTest::gtest GTest::gtest_main
+    )
+    add_test(NAME Q3InterfaceHeaderTests COMMAND test_q3_interface_headers)
+
+    set_tests_properties(Q3InterfaceHeaderTests PROPERTIES
+        LABELS "api;auth;cache;content;core;interface;q3-2026;unit"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  Q3InterfaceHeaders: subscription multiplexer, gateway hook, passkey, ABAC, auth event bus, Redis TLS, L3 encryption, content classifier, PII redactor, health probe, config hot-reloader (20 tests)")
+endif()
