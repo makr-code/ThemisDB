@@ -32,6 +32,8 @@
 #include "llm/adapter_registry.h"
 #include "storage/security_signature.h"
 #include <spdlog/spdlog.h>
+#include <openssl/evp.h>
+#include <openssl/pem.h>
 #include <algorithm>
 #include <cctype>
 #include <mutex>
@@ -302,12 +304,7 @@ AdapterRegistry::ValidationResult AdapterRegistry::validateCompatibility(
 // ============================================================================
 
 bool AdapterRegistry::signAdapter(const std::string& adapter_id,
-                                   [[maybe_unused]] const std::string& private_key) {
-    // NOTE: Real Ed25519 signing via `private_key` is not yet implemented.
-    // The `content_hash` field is populated, and the `signature` field is a
-    // placeholder token that makes `verifySignature()` deterministic for
-    // testing purposes.  A production implementation must replace this with
-    // an actual Ed25519 signature over `content_hash` using `private_key`.
+                                   const std::string& private_key) {
     std::unique_lock<std::shared_mutex> lock(impl_->rw_mu);
     if (!impl_->adapters.count(adapter_id)) {
         spdlog::warn("AdapterRegistry::signAdapter: adapter '{}' not found", adapter_id);
@@ -317,13 +314,70 @@ bool AdapterRegistry::signAdapter(const std::string& adapter_id,
     AdapterSignature sig;
     sig.signer_identity = "adapter_registry";
     sig.content_hash    = storage::SecuritySignatureManager::computeFileHash(adapter_id);
-    // ISO 8601 timestamp via system_clock
     auto now    = std::chrono::system_clock::now();
     auto time_t = std::chrono::system_clock::to_time_t(now);
     char buf[32];
     std::strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%SZ", std::gmtime(&time_t));
     sig.signing_timestamp = buf;
-    sig.signature         = "sig:" + sig.content_hash;  // Placeholder; real Ed25519 via private_key
+
+    // Perform real Ed25519 signature over content_hash when a PEM private key
+    // is provided.  Fall back to a deterministic placeholder when no key is
+    // supplied (useful in test/CI environments).
+    if (!private_key.empty()) {
+        BIO* bio = BIO_new_mem_buf(private_key.data(),
+                                   static_cast<int>(private_key.size()));
+        EVP_PKEY* pkey = PEM_read_bio_PrivateKey(bio, nullptr, nullptr, nullptr);
+        BIO_free(bio);
+
+        if (!pkey) {
+            spdlog::warn("AdapterRegistry::signAdapter: failed to parse private key for '{}'",
+                         adapter_id);
+            return false;
+        }
+
+        EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+        std::string signature_bytes;
+        bool sign_ok = false;
+
+        if (ctx && EVP_DigestSignInit(ctx, nullptr, nullptr, nullptr, pkey) == 1) {
+            std::size_t sig_len = 0;
+            if (EVP_DigestSign(ctx,
+                               nullptr, &sig_len,
+                               reinterpret_cast<const unsigned char*>(sig.content_hash.data()),
+                               sig.content_hash.size()) == 1) {
+                signature_bytes.resize(sig_len);
+                if (EVP_DigestSign(ctx,
+                                   reinterpret_cast<unsigned char*>(signature_bytes.data()),
+                                   &sig_len,
+                                   reinterpret_cast<const unsigned char*>(sig.content_hash.data()),
+                                   sig.content_hash.size()) == 1) {
+                    signature_bytes.resize(sig_len);
+                    sign_ok = true;
+                }
+            }
+        }
+        EVP_MD_CTX_free(ctx);
+        EVP_PKEY_free(pkey);
+
+        if (!sign_ok) {
+            spdlog::warn("AdapterRegistry::signAdapter: Ed25519 sign failed for '{}'",
+                         adapter_id);
+            return false;
+        }
+
+        // Hex-encode the raw signature bytes for storage
+        static constexpr char hex[] = "0123456789abcdef";
+        std::string hex_sig;
+        hex_sig.reserve(signature_bytes.size() * 2);
+        for (unsigned char c : signature_bytes) {
+            hex_sig += hex[(c >> 4) & 0xf];
+            hex_sig += hex[c & 0xf];
+        }
+        sig.signature = "ed25519:" + hex_sig;
+    } else {
+        // No private key: deterministic placeholder for testing
+        sig.signature = "sig:" + sig.content_hash;
+    }
 
     impl_->signatures[adapter_id] = sig;
 
