@@ -21,7 +21,7 @@ Implements horizontal scaling and distributed sharding for ThemisDB, providing p
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — Pluggable consensus (Raft/Gossip/Paxos), cross-shard transactions, ShardRepairEngine operational; full RPC integration and Paxos state persistence in progress.
+**Maturity:** 🚧 In Active Hardening — Core consensus and repair capabilities are operational; full RPC integration, persistent Paxos acceptor state, and failover orchestration remain in progress.
 
 ## Components
 

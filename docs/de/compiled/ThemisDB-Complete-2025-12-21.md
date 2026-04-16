@@ -4582,7 +4582,7 @@ themis_server --config /etc/themis/config.yaml
 ```bash
 docker run -p 8765:8765 \
   -v /data:/data \
-  ghcr.io/makr-code/themis:latest
+  ghcr.io/makr-code/themisdb:latest
 ```
 
 **Docker Compose:**
@@ -4599,8 +4599,8 @@ docker compose up --build
 **Status:** Production-Ready
 
 **Registries:**
-- ✅ **GHCR:** `ghcr.io/makr-code/themis`
-- ✅ **Docker Hub:** `themisdb/themis` (optional)
+- ✅ **GHCR:** `ghcr.io/makr-code/themisdb`
+- ✅ **Docker Hub:** `themisdb/themisdb` (optional)
 
 **Tags:**
 - `latest` - Latest stable

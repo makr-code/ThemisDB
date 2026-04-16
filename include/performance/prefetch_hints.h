@@ -123,7 +123,20 @@ inline void prefetch(const void* ptr, PrefetchHint hint = PrefetchHint::T0) noex
         // GCC/Clang: Use __builtin_prefetch(addr, rw, locality)
         // rw: 0 = read, 1 = write
         // locality: 0 (NTA) to 3 (T0)
-        __builtin_prefetch(ptr, 0, static_cast<int>(hint));
+        switch (hint) {
+            case PrefetchHint::T0:
+                __builtin_prefetch(ptr, 0, 3);
+                break;
+            case PrefetchHint::T1:
+                __builtin_prefetch(ptr, 0, 2);
+                break;
+            case PrefetchHint::T2:
+                __builtin_prefetch(ptr, 0, 1);
+                break;
+            case PrefetchHint::NTA:
+                __builtin_prefetch(ptr, 0, 0);
+                break;
+        }
     #else
         // No prefetch support on this platform
     #endif
@@ -146,7 +159,20 @@ inline void prefetch_write(void* ptr, PrefetchHint hint = PrefetchHint::T0) noex
         prefetch(ptr, hint);
     #elif defined(__GNUC__) || defined(__clang__)
         // GCC/Clang: rw = 1 for write
-        __builtin_prefetch(ptr, 1, static_cast<int>(hint));
+        switch (hint) {
+            case PrefetchHint::T0:
+                __builtin_prefetch(ptr, 1, 3);
+                break;
+            case PrefetchHint::T1:
+                __builtin_prefetch(ptr, 1, 2);
+                break;
+            case PrefetchHint::T2:
+                __builtin_prefetch(ptr, 1, 1);
+                break;
+            case PrefetchHint::NTA:
+                __builtin_prefetch(ptr, 1, 0);
+                break;
+        }
     #else
     #endif
 }

@@ -34,8 +34,8 @@ present. Multi-GPU and collective operation headers are available.
 
 ## Planned Features
 
-- [ ] `IComputeGraph` header for DAG-based kernel scheduling (Target: Q3 2026)
-- [ ] `QuantizedBackend` header for INT4/INT8 quantised inference (Target: Q3 2026)
+- [~] `IComputeGraph` header for DAG-based kernel scheduling (Target: Q3 2026)
+- [~] `QuantizedBackend` header for INT4/INT8 quantised inference (Target: Q3 2026)
 - [ ] `AccelProfiler` interface for per-kernel profiling hooks (Target: Q4 2026)
 - [ ] Unified `BackendHealthProbe` interface for liveness/readiness checks (Target: Q4 2026)
 
@@ -75,4 +75,4 @@ present. Multi-GPU and collective operation headers are available.
 - [x] Error codes unified across backends
 - [x] Security headers present for plugin and shader paths
 - [ ] Doxygen fully annotated on all exported types
-- [ ] `IComputeGraph` and `QuantizedBackend` headers published
+- [~] `IComputeGraph` and `QuantizedBackend` headers published

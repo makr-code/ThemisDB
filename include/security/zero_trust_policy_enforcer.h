@@ -28,6 +28,8 @@
 #include <mutex>
 #include <atomic>
 #include <functional>
+#include <array>
+#include <cstdint>
 
 namespace themis {
 namespace security {
@@ -38,6 +40,15 @@ namespace security {
  * Every inbound request must supply this context.  The enforcer uses
  * the fields to (a) re-verify the caller's identity and (b) check whether
  * the source network location is permitted under the active policies.
+ *
+ * Continuous verification fields (Phase 3.1):
+ *   - last_verified_at: when the session was last successfully verified.
+ *     Used by the continuous re-verification logic to decide whether a
+ *     full re-check is needed for this request.
+ *   - session_risk_score: a [0.0, 1.0] risk score accumulated during the
+ *     session.  Scores closer to 1.0 represent higher risk.  When the
+ *     score exceeds the NetworkPolicy::risk_score_threshold the session
+ *     is revoked and DENIED is returned.
  */
 struct ZeroTrustContext {
     std::string request_id;   ///< Unique request identifier (UUID or similar)
@@ -49,6 +60,17 @@ struct ZeroTrustContext {
     std::optional<std::string> device_id; ///< Optional device identifier
     std::chrono::system_clock::time_point timestamp = std::chrono::system_clock::now();
     std::unordered_map<std::string, std::string> attributes; ///< Extensible context
+
+    // ── Continuous re-verification fields (Phase 3.1) ─────────────────────
+    /// When the session was last successfully zero-trust verified.
+    /// Set to epoch (default) to force re-verification on the first request.
+    std::chrono::system_clock::time_point last_verified_at{};
+
+    /// Accumulated session risk score [0.0, 1.0].  A score of 0.0 means
+    /// no risk detected; 1.0 means the session should be immediately revoked.
+    /// Callers should update this field (e.g. from BehavioralAnomalyDetector)
+    /// before passing the context to verify().
+    double session_risk_score = 0.0;
 };
 
 /**
@@ -56,14 +78,30 @@ struct ZeroTrustContext {
  *
  * Zero-trust requires that access is granted only from explicitly permitted
  * network locations.  Policies can target a specific user or a role.
+ *
+ * Continuous re-verification fields (Phase 3.1):
+ *   - continuous_verification_interval_ms: when non-zero, force a full
+ *     re-verification whenever (now - last_verified_at) exceeds this value.
+ *     Set to 0 to disable continuous re-verification (per-request only).
+ *   - risk_score_threshold: if context.session_risk_score exceeds this
+ *     value the session is immediately revoked regardless of IP/token state.
+ *     Set to 1.0 (default) to effectively disable threshold-based revocation.
  */
 struct NetworkPolicy {
     std::string policy_id;                    ///< Unique policy identifier
     std::string identity;                     ///< user_id or role name this policy applies to
-    std::vector<std::string> allowed_cidrs;   ///< CIDRs from which access is permitted
+    std::vector<std::string> allowed_cidrs;   ///< CIDRs from which access is permitted (IPv4 and IPv6)
     std::vector<std::string> denied_cidrs;    ///< CIDRs that are always blocked (takes precedence)
     bool default_deny = true;                 ///< Zero-trust: deny unless explicitly allowed
     std::optional<std::chrono::seconds> max_token_age; ///< Maximum token age for this identity
+
+    // ── Continuous re-verification (Phase 3.1) ────────────────────────────
+    /// Interval between forced re-verifications (0 = disabled).
+    std::chrono::milliseconds continuous_verification_interval_ms{0};
+
+    /// Risk-score threshold in [0.0, 1.0].  Sessions with a risk score above
+    /// this value are immediately revoked.  Default 1.0 disables the check.
+    double risk_score_threshold = 1.0;
 };
 
 /**
@@ -211,7 +249,11 @@ public:
     /**
      * @brief Check whether a source IP is allowed under the policies for identity
      *
-     * @param client_ip IPv4 address (e.g. "192.168.1.1")
+     * Supports both IPv4 (dotted-decimal) and IPv6 (colon-hex) CIDRs.
+     * IPv4-mapped IPv6 addresses (::ffff:a.b.c.d) are normalised to IPv4
+     * before matching.
+     *
+     * @param client_ip IPv4 or IPv6 address string
      * @param identity  user_id whose policies are evaluated
      * @return true if access is permitted from this IP
      */
@@ -225,6 +267,7 @@ public:
      *   - Network policy passed: +0.4
      *   - Device ID present: +0.1
      *   - Request freshness (< 60 s): +0.1
+     *   - session_risk_score deducted from the final score
      *
      * @return Score in [0.0, 1.0]
      */
@@ -253,6 +296,23 @@ private:
     /// Convert dotted-decimal IPv4 string to 32-bit host-byte-order integer
     /// Returns false on parse error
     static bool parseIpv4(const std::string& ip, uint32_t& out);
+
+    /// Parse an IPv6 address string (colon-hex notation, including :: abbreviation)
+    /// into a 16-byte big-endian array.  Returns false on parse error.
+    static bool parseIpv6(const std::string& ip, std::array<uint8_t, 16>& out);
+
+    /// Check if a single IPv6 address falls within an IPv6 CIDR block.
+    /// The CIDR string must be in "addr/prefix" notation.
+    static bool ipv6MatchesCidr(const std::string& ip, const std::string& cidr);
+
+    /// Attempt to normalise an IPv4-mapped IPv6 address (::ffff:a.b.c.d) to
+    /// its IPv4 form.  Returns the original string unchanged if it is not
+    /// IPv4-mapped.
+    static std::string normaliseIpv4MappedIpv6(const std::string& ip);
+
+    /// Dispatch to the correct CIDR-matching implementation based on whether
+    /// the CIDR (and address) look like IPv6 or IPv4.
+    static bool ipMatchesCidrAny(const std::string& ip, const std::string& cidr);
 
     /// Find the first policy that applies to the given identity (by user_id).
     /// Returns nullptr if no policy is registered for this identity.

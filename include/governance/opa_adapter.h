@@ -93,6 +93,14 @@ public:
         std::string policy_path  = "themis/governance/allow";
         /// Total request timeout in milliseconds (default: 50 ms).
         long timeout_ms = 50;
+
+        /// Evaluation mode: REST (default) or WASM bundle.
+        enum class EvalMode { REST, WASM };
+        EvalMode mode = EvalMode::REST;
+
+        /// Path to pre-compiled OPA bundle (.wasm) for WASM evaluation mode.
+        /// Ignored when mode == REST.
+        std::string wasm_bundle_path;
     };
 
     explicit OpaAdapter(const Config& config);
@@ -131,6 +139,19 @@ private:
 
     /// Parse OPA response and extract a PolicyDecision.
     static std::optional<PolicyDecision> parseOpaResponse(const std::string& body);
+
+    // STUB/SIMULATION NOTE:
+    // Purpose: WASM-based OPA bundle evaluation path — evaluates pre-compiled
+    //          OPA bundles (.wasm) locally without requiring an OPA sidecar.
+    // Activation: Config::mode == EvalMode::WASM and wasm_bundle_path is set.
+    // Production Delta: Returns a stub PolicyDecision (allow=true, defaults)
+    //   rather than a real WASM evaluation. Actual WASM execution requires the
+    //   THEMIS_ENABLE_OPA_WASM build flag and a linked WASM runtime.
+    // Removal Plan: Replace stub with real opa-go-wasm binding when
+    //   THEMIS_ENABLE_OPA_WASM is enabled in the build.
+    std::optional<PolicyDecision> evaluateWasm(
+        const std::unordered_map<std::string, std::string>& headers,
+        const std::string& route) const;
 };
 
 } // namespace governance

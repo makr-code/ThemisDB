@@ -40,9 +40,9 @@ session management, token blacklisting (Redis + RocksDB), and German eID Online-
 
 ## Planned Features
 
-- [ ] `IPasskeyAuthenticator` for passkey (FIDO2 resident key) support (Target: Q3 2026)
-- [ ] `IAuthorizationPolicy` ABAC policy interface (Target: Q3 2026)
-- [ ] `IAuthEventBus` for auth event streaming to external SIEM (Target: Q4 2026)
+- [x] `IPasskeyAuthenticator` for passkey (FIDO2 resident key) support (Target: Q3 2026)
+- [x] `IAuthorizationPolicy` ABAC policy interface (Target: Q3 2026)
+- [x] `IAuthEventBus` for auth event streaming to external SIEM (Target: Q4 2026)
 
 ---
 
@@ -61,8 +61,8 @@ session management, token blacklisting (Redis + RocksDB), and German eID Online-
 - [x] Zero-trust verifier, auth rate limiter, principal validator
 
 ### Phase 5: Future Auth
-- [ ] `IPasskeyAuthenticator` (Q3 2026)
-- [ ] `IAuthorizationPolicy` ABAC (Q3 2026)
+- [x] `IPasskeyAuthenticator` (Q3 2026)
+- [x] `IAuthorizationPolicy` ABAC (Q3 2026)
 
 ### Phase 6: Documentation & Acceptance
 - [x] Architecture and audit docs present
@@ -77,5 +77,5 @@ session management, token blacklisting (Redis + RocksDB), and German eID Online-
 - [x] Audit logging required by all authenticators
 - [x] TOTP replay prevention present
 - [x] Zero-trust verification header present
-- [ ] ABAC policy interface published
-- [ ] Doxygen fully annotated
+- [x] ABAC policy interface published
+- [x] Doxygen fully annotated

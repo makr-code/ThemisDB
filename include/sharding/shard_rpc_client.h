@@ -102,7 +102,7 @@ public:
         int retry_delay_ms = 100;       // Initial delay between retries (exponential backoff)
         
         // mTLS Configuration (optional, required for production)
-        bool enable_mtls = false;       // Enable mutual TLS authentication
+        bool enable_mtls = true;        // Enable mutual TLS authentication (default: on)
         std::string tls_cert_path;      // Path to client certificate (PEM format)
         std::string tls_key_path;       // Path to client private key (PEM format)
         std::string tls_ca_cert_path;   // Path to CA certificate for server verification (PEM format)

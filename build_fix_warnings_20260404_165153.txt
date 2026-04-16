@@ -1,0 +1,187 @@
+#0 building with "themis-multi" instance using docker-container driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 17.23kB done
+#1 DONE 0.1s
+
+#2 resolve image config for docker-image://docker.io/docker/dockerfile:1.6
+#2 DONE 0.7s
+
+#3 docker-image://docker.io/docker/dockerfile:1.6@sha256:ac85f380a63b13dfcefa89046420e1781752bab202122f8f50032edf31be0021
+#3 resolve docker.io/docker/dockerfile:1.6@sha256:ac85f380a63b13dfcefa89046420e1781752bab202122f8f50032edf31be0021 0.0s done
+#3 CACHED
+
+#4 [internal] load metadata for docker.io/library/ubuntu:24.04
+#4 DONE 0.3s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 1.63kB done
+#5 DONE 0.0s
+
+#6 importing cache manifest from local:7363943241871380253
+#6 inferred cache manifest type: application/vnd.oci.image.manifest.v1+json done
+#6 DONE 0.0s
+
+#7 [runtime 1/8] FROM docker.io/library/ubuntu:24.04@sha256:186072bba1b2f436cbb91ef2567abca677337cfc786c86e107d25b7072feef0c
+#7 resolve docker.io/library/ubuntu:24.04@sha256:186072bba1b2f436cbb91ef2567abca677337cfc786c86e107d25b7072feef0c 0.1s done
+#7 DONE 0.1s
+
+#8 [internal] load build context
+#8 transferring context: 2.03MB 5.6s
+#8 transferring context: 2.03MB 5.8s done
+#8 DONE 5.8s
+
+#9 [build 11/13] COPY --from=deps /tmp/triplet.txt /tmp/triplet.txt
+#9 CACHED
+
+#10 [build  5/13] COPY src ./src
+#10 CACHED
+
+#11 [base 3/3] RUN git clone https://github.com/microsoft/vcpkg.git /opt/vcpkg &&     cd /opt/vcpkg &&     VCPKG_BASELINE=$(git rev-parse HEAD) &&     echo "${VCPKG_BASELINE}" > /tmp/vcpkg_baseline.txt &&     ./bootstrap-vcpkg.sh -disableMetrics &&     echo "Ô£ô vcpkg baseline: ${VCPKG_BASELINE}"
+#11 CACHED
+
+#12 [llama 3/3] RUN if [ "ON" = "ON" ]; then         echo "Building llama.cpp for LLM support...";         cd /opt/llama.cpp &&                 if [ -f src/llama-chat.cpp ]; then             sed -i 's/#define LU8(x) u8##x/#define LU8(x) (const char*)(x)/' src/llama-chat.cpp &&             sed -i 's/const char8_t \* haystack/const char* haystack/' src/llama-chat.cpp;         fi &&                 rm -rf build &&         mkdir -p build &&         cd build &&         cmake .. -G Ninja             -DCMAKE_BUILD_TYPE=Release             -DLLAMA_BUILD_TESTS=OFF             -DLLAMA_BUILD_EXAMPLES=OFF             -DLLAMA_BUILD_SERVER=OFF             -DLLAMA_BUILD_SHARED_LIB=ON             -DLLAMA_NATIVE=OFF             -DLLAMA_AVX2=ON &&         ninja -j4 &&         echo "Ô£ô llama.cpp built successfully";     else         echo "LLM disabled - skipping llama.cpp build";         mkdir -p /opt/llama.cpp/build/lib;     fi
+#12 CACHED
+
+#13 [llama 2/3] COPY llama.cpp ./llama.cpp
+#13 CACHED
+
+#14 [build  7/13] COPY internal ./internal
+#14 CACHED
+
+#15 [build 12/13] COPY --from=llama /opt/llama.cpp /opt/llama.cpp
+#15 CACHED
+
+#16 [build  8/13] COPY --from=deps /build/vcpkg.json ./vcpkg.json
+#16 CACHED
+
+#17 [runtime 2/8] RUN --mount=type=cache,target=/var/cache/apt,sharing=locked     --mount=type=cache,target=/var/lib/apt,sharing=locked     rm -f /etc/apt/apt.conf.d/docker-clean &&     apt-get update && apt-get install -y --no-install-recommends         ca-certificates         libssl3t64         zlib1g         libstdc++6         libgomp1         curl         gocryptfs         fuse         libsodium23 &&     echo "user_allow_other" >> /etc/fuse.conf &&     apt-get clean &&     rm -rf /var/lib/apt/lists/*
+#17 CACHED
+
+#18 [deps 6/6] RUN --mount=type=bind,from=prebuilt,target=/vcpkg-prebuilt,readonly     --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked     --mount=type=cache,target=/opt/vcpkg/packages,sharing=locked     --mount=type=cache,target=/opt/vcpkg/buildtrees,sharing=locked     set -eux;     TRIPLET=$(cat /tmp/triplet.txt);     mkdir -p /build/vcpkg_installed/${TRIPLET};         if [ -d /vcpkg-host-downloads ] && [ "$(ls -A /vcpkg-host-downloads 2>/dev/null)" ]; then         echo "­ƒôª Copying host downloads cache to BuildKit cache...";         cp -n /vcpkg-host-downloads/*.tar.gz /opt/vcpkg/downloads/ 2>/dev/null || true;         cp -n /vcpkg-host-downloads/*.zip /opt/vcpkg/downloads/ 2>/dev/null || true;         cp -n /vcpkg-host-downloads/*.7z /opt/vcpkg/downloads/ 2>/dev/null || true;         CACHED=$(ls /opt/vcpkg/downloads/*.tar.gz /opt/vcpkg/downloads/*.zip 2>/dev/null | wc -l);         echo "Ô£ô $CACHED cached downloads available";     else         echo "ÔÜá No host downloads cache, will download from internet";     fi;         export VCPKG_BINARY_SOURCES="clear;files,/opt/vcpkg/archives,readwrite";     export VCPKG_BUILD_TYPE=release;     export VCPKG_MAX_CONCURRENCY=8;         echo "­ƒôª Installing packages for ${TRIPLET}...";     /opt/vcpkg/vcpkg install         --triplet="${TRIPLET}"         --x-manifest-root=/build         --x-install-root=/build/vcpkg_installed         --allow-unsupported         --clean-after-build || {         echo "ERROR: vcpkg install failed";         exit 1;     };         ln -sf /build/vcpkg_installed/${TRIPLET}/include /build/include;     ln -sf /build/vcpkg_installed/${TRIPLET}/lib /build/lib;     ln -sf /build/vcpkg_installed/${TRIPLET}/debug/lib /build/debug;         if [ -d "/build/vcpkg_installed/${TRIPLET}/include" ]; then         ln -sf "/build/vcpkg_installed/${TRIPLET}/include" "/build/include";         echo "Ô£ô Created symlink: /build/include -> /build/vcpkg_installed/${TRIPLET}/include";     fi;         echo "Ô£ô Dependencies complete: ${TRIPLET}";     ls -lh /build/vcpkg_installed/${TRIPLET}/lib/ 2>/dev/null | head -20 || true
+#18 CACHED
+
+#19 [build  9/13] COPY --from=deps /build/vcpkg-configuration.json ./vcpkg-configuration.json
+#19 CACHED
+
+#20 [llama 1/3] WORKDIR /opt
+#20 CACHED
+
+#21 [build  6/13] COPY proto ./proto
+#21 CACHED
+
+#22 [runtime 5/8] RUN set +e;     cd /opt/themis/bin &&         for lib in libllama*.so.*; do         [ -e "$lib" ] && ln -sf "$lib" "${lib%.so*}.so.0" 2>/dev/null || true;     done;         for lib in libggml*.so.*; do         [ -e "$lib" ] && ln -sf "$lib" "${lib%.so*}.so.0" 2>/dev/null || true;     done;         for lib in libmtmd*.so.*; do         [ -e "$lib" ] && ln -sf "$lib" "${lib%.so*}.so.0" 2>/dev/null || true;     done;         echo "Ô£ô Installed llama.cpp libraries in /opt/themis/bin:";     ls -lh lib*.so* 2>&1 | head -10 || echo "ÔÜá No libs found";     set -e
+#22 CACHED
+
+#23 [build  4/13] COPY include ./include
+#23 CACHED
+
+#24 [build  3/13] COPY cmake ./cmake
+#24 CACHED
+
+#25 [deps 2/6] COPY docker/vcpkg-*.json ./
+#25 CACHED
+
+#26 [build  1/13] WORKDIR /src
+#26 CACHED
+
+#27 [runtime 4/8] COPY --from=llama /opt/llama.cpp/build/bin/ /opt/themis/bin/
+#27 CACHED
+
+#28 [deps 4/6] COPY vcpkg-configuration.json ./
+#28 CACHED
+
+#29 [build 13/13] RUN set -eux;     TRIPLET=$(cat /tmp/triplet.txt);     EDITION_UPPER=$(echo "COMMUNITY" | tr '[:lower:]' '[:upper:]');         echo "==========================================";     echo "Building ThemisDB ${EDITION_UPPER}";     echo "==========================================";     echo "Edition:        ${EDITION_UPPER}";     echo "LLM:            ON";     echo "GPU:            ON";     echo "CPU-only:       OFF";     echo "Tests:          OFF";     echo "Benchmarks:     OFF";     echo "Target Arch:    amd64";     echo "vcpkg Triplet:  ${TRIPLET}";     echo "==========================================";         cmake -S . -B build -G Ninja         -DCMAKE_BUILD_TYPE=Release         -DCMAKE_TOOLCHAIN_FILE=/opt/vcpkg/scripts/buildsystems/vcpkg.cmake         -DVCPKG_TARGET_TRIPLET=${TRIPLET}         -DVCPKG_INSTALLED_DIR=/build/vcpkg_installed         -DVCPKG_MANIFEST_MODE=OFF         -DTHEMIS_EDITION=${EDITION_UPPER}         -DTHEMIS_ENABLE_LLM=ON         -DTHEMIS_ENABLE_GPU=ON         -DTHEMIS_ENABLE_VULKAN=$([ "OFF" = "ON" ] && echo "OFF" || echo "ON")         -DTHEMIS_ENABLE_CUDA=OFF         -DTHEMIS_BUILD_TESTS=OFF         -DTHEMIS_BUILD_BENCHMARKS=OFF         -DTHEMIS_ENABLE_TRACING=OFF         -DTHEMIS_STRICT_BUILD=OFF         -DCMAKE_EXPORT_COMPILE_COMMANDS=ON &&         echo "Building themis_server..." &&     ninja -C build -j$(nproc) themis_server &&         if [ ! -f build/bin/themis_server ]; then         echo "ERROR: themis_server binary not found";         exit 1;     fi;         echo "Ô£ô ThemisDB built successfully";     ls -lh build/bin/themis_server
+#29 CACHED
+
+#30 [deps 5/6] COPY ports ./ports
+#30 CACHED
+
+#31 [build  2/13] COPY CMakeLists.txt VERSION ./
+#31 CACHED
+
+#32 [build 10/13] COPY --from=deps /build/vcpkg_installed /build/vcpkg_installed
+#32 CACHED
+
+#33 [base 2/3] RUN --mount=type=cache,target=/var/cache/apt,sharing=locked     --mount=type=cache,target=/var/lib/apt,sharing=locked     rm -f /etc/apt/apt.conf.d/docker-clean &&     echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache &&     apt-get update && apt-get install -y --no-install-recommends         build-essential cmake ninja-build git curl ca-certificates pkg-config         zip unzip tar wget flex bison python3 perl nasm         autoconf automake libtool         aria2         libssl-dev zlib1g-dev libkrb5-dev &&     apt-get clean
+#33 CACHED
+
+#34 [deps 3/6] RUN set -eux;     EDITION=$(echo "COMMUNITY" | tr '[:upper:]' '[:lower:]');     if [ -f "vcpkg-${EDITION}.json" ]; then         cp "vcpkg-${EDITION}.json" vcpkg.json;         echo "Ô£ô Edition: COMMUNITY";     else         echo "ERROR: vcpkg-${EDITION}.json not found"; exit 1;     fi;         case "amd64" in         amd64) TRIPLET="x64-linux" ;;         arm64) TRIPLET="arm64-linux" ;;         arm)   TRIPLET="arm-linux" ;;         *)     echo "ERROR: Unsupported arch amd64"; exit 1 ;;     esac;     echo "${TRIPLET}" > /tmp/triplet.txt;     echo "Ô£ô Architecture: ${TRIPLET} (amd64)"
+#34 CACHED
+
+#35 [runtime 3/8] COPY --from=build /src/build/bin/themis_server /opt/themis/bin/themis_server
+#35 CACHED
+
+#36 [deps 1/6] WORKDIR /build
+#36 CACHED
+
+#37 [runtime 6/8] RUN --mount=type=bind,from=deps,source=/build/vcpkg_installed,target=/deps_vcpkg,readonly     (find /deps_vcpkg -name "*.so*" -path "*/lib/*" 2>/dev/null | head -50 | xargs -I {} cp -af {} /opt/themis/bin/ 2>/dev/null || true) &&     echo "Ô£ô vcpkg libraries copied to /opt/themis/bin"
+#37 CACHED
+
+#38 [runtime 7/8] COPY config/ /opt/themis/config/
+#38 DONE 0.1s
+
+#39 [runtime 8/8] RUN mkdir -p /opt/themis/logs &&     mkdir -p /data &&     chmod 755 /opt/themis/logs /data &&     if ! id -u themis >/dev/null 2>&1; then         if getent passwd 1000 >/dev/null 2>&1; then             useradd -r -d /opt/themis -s /bin/false themis;         else             useradd -r -u 1000 -d /opt/themis -s /bin/false themis;         fi;     fi &&     chown -R themis:themis /opt/themis /data
+#39 DONE 2.9s
+
+#40 exporting to docker image format
+#40 exporting layers
+#40 exporting layers 4.4s done
+#40 exporting manifest sha256:a4b1c91cc83b7ec85c2674d4b1bb23e7593de98508ad75bd7934bc1abc1aee72 0.0s done
+#40 exporting config sha256:39f569f753d4526d1bf1fb8c2a180af42d555b5a48bc7732ea1fa97b690e6772 0.0s done
+#40 sending tarball
+#40 ...
+
+#41 importing to docker
+#41 loading layer 309e95394439 32.77kB / 401.74kB
+#41 loading layer 2cc06b04d4dd 425.98kB / 41.31MB
+#41 loading layer 309e95394439 401.74kB / 401.74kB 1.0s done
+#41 loading layer 2cc06b04d4dd 41.31MB / 41.31MB 0.8s done
+#41 DONE 1.0s
+
+#40 exporting to docker image format
+#40 sending tarball 6.8s done
+#40 DONE 11.4s
+
+#42 exporting cache to client directory
+#42 preparing build cache for export
+#42 preparing build cache for export 0.7s done
+#42 sending cache export
+#42 writing layer sha256:32af53fd1f7bcac9cc1b75bcf2a4e7818cdd37fab61d26c9e42ada51921bc0cd done
+#42 writing layer sha256:101551355a7ed8be8fd98feb2b6283e4f0909827ac9afbb0c3e0fce342e5fcf4 0.1s done
+#42 writing layer sha256:1ce292e516502a9984e80e0d9089652b268bb51a900b8848a387c0db0bc945f9 done
+#42 writing layer sha256:08ebe755cf0669ad7f45bd2c7ed7d5d26f49df7ebea751628020b0dba98a6216 done
+#42 writing layer sha256:3608d873d531b1a5aa17a7f0db2cb697d86511701a9019071e42487fddd87255 done
+#42 writing layer sha256:3de0c06ec0411ebf47a78f1b448a0a3b67c593cf6cc6e2443ff33e91e394e54f done
+#42 writing layer sha256:4c06464f1feac6e787403bced2165dfbc83be7e4a8eeeeafdc785102c35de92e done
+#42 writing layer sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1 0.1s done
+#42 writing layer sha256:4f7c6831930537d0fc55d831a136f9a18f453bef20e943321f15a3dc9545496e done
+#42 writing layer sha256:52ce7f1db6e607cbe9fbe5c3bf78e72b49a927bd8caa5847de9f05b39c0e4737 done
+#42 writing layer sha256:5467a2c7531b107e6378b37cc54b848c38c485bfe31e9f4e8d27b1863bdf990a done
+#42 writing layer sha256:56c5b910f153423f6efe2f7b009d175f23e860927ab8eb53674a520e83a1adb1 done
+#42 writing layer sha256:684f267dfe65d44405e1b356ce62fdf1ac987a92a33be2c43271fd160ffa98e7 done
+#42 writing layer sha256:6af2afd0eaf9ab30f560ad4aff593c6d1adc8c93592f624c7417b0adc9259265
+#42 writing layer sha256:7b161cf1abe2f01fe21ae529931628ba8748730d7c95224207ae770a7b0ec26c done
+#42 writing layer sha256:80a77951d77bb23beb131214598ec20025b70bb86d6e06437ab56690e0cb8061 done
+#42 writing layer sha256:817807f3c64e0b90b66edc7d90297f121cad2a7c2a3ee05a731557762f91e6c7 done
+#42 writing layer sha256:833f00eac13117712dc48b656cae93ca97784016a628e1afa515ee825c157fbb done
+#42 writing layer sha256:8f243f6725ccae45273a9740c2d401ab239232ff132ddab3a49e6be01c4a8c6f done
+#42 writing layer sha256:a4c8fbbb2e79b84aa8cdc142570d71fb92ec046cc23c53abffcccd2fb5bc44c3 done
+#42 writing layer sha256:a5076d71a0825ee18639de848f2adf85f0b5b1a9d4d06168c98faff9794f588c done
+#42 writing layer sha256:ae0b44275139ce6bee15b8d2cbfb527656dd4ab24d244f1b88ea133ebbb0be54 done
+#42 writing layer sha256:af8c2062f8b5cd89fd742245837c0060d627580aba6896ce01834e08e6f0795a done
+#42 writing layer sha256:d3f7cbde197d688c85967b98428733bfc06e05a5efd1b0622f8f869af2ff4e82 done
+#42 writing layer sha256:b27eb5c8962d7f3ba9eb5d2ed4fb4806cd8a1ec9a1c7c5ec0aad37b0bcbd488d done
+#42 writing layer sha256:dd3f698a4d31e50a953e4e15ba8923101871b75c27a670efc9f89c7f4f8b2b8e done
+#42 writing layer sha256:eab5f9c892c4204bb755f9b5e179e4d7876e47a7b8d71390965bde67c357f25c done
+#42 writing layer sha256:f42702883cbae244ee74c18db9ea051424bf827ec1597c3676be56f0a7b47869 done
+#42 writing layer sha256:fe5cde3f231a5db19c353eb823cfd205cfb3642c0097110dce4bfdd86fdfb864 done
+#42 writing layer sha256:6af2afd0eaf9ab30f560ad4aff593c6d1adc8c93592f624c7417b0adc9259265 0.8s done
+#42 sending cache export 1.0s done
+#42 writing config sha256:a175130a5afe076cc6b22bf6c407bf9a944e78fa58687a65044a1a4bb44939a8 0.0s done
+#42 writing cache image manifest sha256:ded83dbd6e19606be39174511c3a55c75cae1d1481bb6763e54f79389eeaf811 0.0s done
+#42 DONE 1.7s
+ERROR: (*service).Write failed: rpc error: code = Unavailable desc = ref layer-sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1 locked for 0s (since 2026-04-04 16:52:17.5570566 +0200 CEST m=+23.291663201): unavailable
+ERROR: (*service).Write failed: rpc error: code = Unavailable desc = ref layer-sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1 locked for 45.4006ms (since 2026-04-04 16:52:17.5570566 +0200 CEST m=+23.291663201): unavailable
+
+View build details: docker-desktop://dashboard/build/themis-multi/themis-multi0/4fujufjf2tjlvvaatil7pvird

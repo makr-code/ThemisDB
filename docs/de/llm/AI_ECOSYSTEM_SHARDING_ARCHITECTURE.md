@@ -947,7 +947,7 @@ services:
   # Shard 1: Legal Domain
   # ═══════════════════════════════════════════════════════════
   themis-shard-1:
-    image: themisdb/themis:ai-shard
+    image: themisdb/themisdb:ai-shard
     runtime: nvidia
     hostname: shard-1-legal
     environment:
@@ -981,7 +981,7 @@ services:
   # Shard 2: Medical Domain
   # ═══════════════════════════════════════════════════════════
   themis-shard-2:
-    image: themisdb/themis:ai-shard
+    image: themisdb/themisdb:ai-shard
     runtime: nvidia
     hostname: shard-2-medical
     environment:
@@ -1015,7 +1015,7 @@ services:
   # Shard 3: Environment Domain
   # ═══════════════════════════════════════════════════════════
   themis-shard-3:
-    image: themisdb/themis:ai-shard
+    image: themisdb/themisdb:ai-shard
     runtime: nvidia
     hostname: shard-3-environment
     environment:
@@ -1097,7 +1097,7 @@ spec:
     spec:
       containers:
       - name: themis
-        image: themisdb/themis:ai-shard
+        image: themisdb/themisdb:ai-shard
         env:
         - name: THEMIS_SHARD_ID
           valueFrom:

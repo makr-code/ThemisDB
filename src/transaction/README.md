@@ -15,7 +15,7 @@ The Transaction module provides ThemisDB's ACID-compliant transaction management
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — SAGA pattern and 2PC distributed transactions operational; advanced conflict resolution in progress.
+**Maturity:** 🟢 Production-Ready — ACID/MVCC transaction engine with SAGA and distributed transaction capabilities is production-grade.
 
 ## Scope
 

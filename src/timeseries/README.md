@@ -22,7 +22,7 @@ Provides time series data management and compression for ThemisDB, offering Gori
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — TSStore, Gorilla compression, and continuous aggregation operational; SIMD-accelerated decoder and chunk encryption planned.
+**Maturity:** 🟢 Production-Ready — TSStore, Gorilla compression, continuous aggregation, retention policies, and auto-batching are operational.
 
 ## Components
 

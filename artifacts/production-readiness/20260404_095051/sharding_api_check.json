@@ -1,0 +1,6 @@
+{
+  "durability_recovery_present": true,
+  "client_mtls_fields_present": true,
+  "checked_at": "2026-04-04T09:50:51.1620256+02:00",
+  "server_mtls_fields_present": true
+}

@@ -50,7 +50,7 @@ v1.7.0 — production. Full OTLP tracing, Prometheus metrics, eBPF tracing, SLO 
 - [x] `AlertmanagerClient` routing
 
 ### Phase 6 — Future Enhancements (Planned)
-- [ ] Exemplar support in OTLP metrics export (Target: Q3 2026)
+- [x] Exemplar support in OTLP metrics export (Target: Q3 2026)
 - [ ] Continuous profiling for GPU workloads (Target: Q4 2026)
 - [ ] Adaptive log sampling based on SLO burn rate (Target: Q4 2026)
 

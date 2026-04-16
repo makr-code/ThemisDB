@@ -47,9 +47,9 @@ v1.5.0 — production. AQL, SQL, SPARQL parsers; adaptive optimizer; vectorized 
 - [x] Workload cache strategy
 
 ### Phase 5 — Future Enhancements (Planned)
-- [ ] GraphQL query dialect support (Target: Q3 2026)
+- [x] GraphQL query dialect support (Target: Q3 2026)
 - [ ] GPU-accelerated vectorized execution (Target: Q4 2026)
-- [ ] Incremental view maintenance for materialized views (Target: Q3 2026)
+- [x] Incremental view maintenance for materialized views (Target: Q3 2026)
 
 ### Phase 6 — Documentation & Acceptance ✅
 - [x] All 35 headers documented

@@ -399,8 +399,8 @@ bool PIIDetector::verifyAndLoadEngine(const nlohmann::json& engine_config) {
                 engine = std::move(*engine_result);
             }
         } else {
-            // No PKI client - load unsigned
-            spdlog::warn("PIIDetector: Loading engine '{}' WITHOUT PKI verification", engine_type);
+            // No PKI client - load unsigned (expected for local/dev setups)
+            spdlog::info("PIIDetector: Loading engine '{}' without PKI verification", engine_type);
             auto engine_result = PIIDetectionEngineFactory::createUnsigned(engine_type);
             
             if (!engine_result) {

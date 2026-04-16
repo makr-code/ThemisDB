@@ -88,7 +88,7 @@ Each higher edition includes all features of the editions below it.
 
 ### 3.1 PR → `main` (Community lane)
 
-**Enforced by:** `.github/workflows/pr-path-gate-main.yml`
+**Enforced by:** `.github/workflows/09-pr-gates_path-policy.yml`
 
 The following paths are **blocked** in PRs targeting `main`:
 
@@ -111,7 +111,7 @@ The following paths are **blocked** in PRs targeting `main`:
 
 ### 3.2 PR → `enterprise` (Enterprise/Military lane)
 
-**Enforced by:** `.github/workflows/pr-path-gate-enterprise.yml`
+**Enforced by:** `.github/workflows/09-pr-gates_path-policy.yml`
 
 The following paths are **blocked** in PRs targeting `enterprise`:
 
@@ -131,7 +131,7 @@ The following paths are **blocked** in PRs targeting `enterprise`:
 
 ### 3.3 PR → `hyperscaler` (Hyperscaler lane)
 
-**Enforced by:** `.github/workflows/pr-path-gate-hyperscaler.yml`
+**Enforced by:** `.github/workflows/09-pr-gates_path-policy.yml`
 
 No paths are blocked in the Hyperscaler lane. Instead, **mandatory validations** run:
 - Helm charts in `helm/**` must include a `Chart.yaml`
@@ -173,9 +173,9 @@ src/               ← Sourcecode (public, allowed in all lanes)
 3. Open PR: release/community/vX.Y.Z → main
 
 4. CI gates must pass:
-   - pr-path-gate-main.yml  (no higher-edition artefacts)
-   - edition-community-ci.yml (COMMUNITY build green)
-   - pr-quick-checks.yml (lint + CMake validate + audit)
+   - 09-pr-gates_path-policy.yml  (no higher-edition artefacts)
+   - 03-editions_ci.yml (COMMUNITY build green)
+   - 09-pr-gates_quick-checks.yml (lint + CMake validate + audit)
 
 5. Merge (squash or merge commit) → main
 
@@ -183,7 +183,7 @@ src/               ← Sourcecode (public, allowed in all lanes)
    git push origin vX.Y.Z
 
 7. GitHub Release is created automatically
-   → dockerhub-publish-on-release.yml publishes Community Docker to DockerHub
+   → 04-release_publish-community.yml publishes Community Docker to DockerHub
 ```
 
 ### 4.2 Enterprise Release (`enterprise`)
@@ -197,16 +197,16 @@ src/               ← Sourcecode (public, allowed in all lanes)
 3. Open PR: release/enterprise/enterprise-vX.Y.Z → enterprise
 
 4. CI gates must pass:
-   - pr-path-gate-enterprise.yml (no Hyperscaler-only artefacts)
-   - edition-enterprise-ci.yml (ENTERPRISE build green on enterprise branch)
-   - edition-military-ci.yml (MILITARY build green on enterprise branch)
+   - 09-pr-gates_path-policy.yml (no Hyperscaler-only artefacts)
+   - 03-editions_ci.yml (ENTERPRISE build green on enterprise branch)
+   - 03-editions_ci.yml (MILITARY build green on enterprise branch)
 
 5. Merge → enterprise
 
 6. Tag: enterprise-vX.Y.Z  (on enterprise branch)
    git push origin enterprise-vX.Y.Z
 
-7. publish-enterprise.yml is triggered by the tag:
+7. 04-release_publish-private.yml is triggered by the tag:
    - Requires approval from 'enterprise-prod' environment reviewers
    - Builds ENTERPRISE + MILITARY artefacts
    - Signs artefacts with GPG
@@ -224,15 +224,15 @@ src/               ← Sourcecode (public, allowed in all lanes)
 3. Open PR: release/hyperscaler/hyperscaler-vX.Y.Z → hyperscaler
 
 4. CI gates must pass:
-   - pr-path-gate-hyperscaler.yml (Helm + Operator validation)
-   - edition-hyperscaler-ci.yml (HYPERSCALER build green)
+   - 09-pr-gates_path-policy.yml (Helm + Operator validation)
+   - 03-editions_ci.yml (HYPERSCALER build green)
 
 5. Merge → hyperscaler
 
 6. Tag: hyperscaler-vX.Y.Z  (on hyperscaler branch)
    git push origin hyperscaler-vX.Y.Z
 
-7. publish-hyperscaler.yml is triggered by the tag:
+7. 04-release_publish-private.yml is triggered by the tag:
    - Requires approval from 'hyperscaler-prod' environment reviewers
    - Builds HYPERSCALER artefacts, Docker image (multi-arch), Helm charts
    - Publishes Docker image to Hyperscaler private registry
@@ -247,48 +247,6 @@ src/               ← Sourcecode (public, allowed in all lanes)
 | Enterprise    | `enterprise-v{major}.{minor}.{patch}` | `enterprise-v2.1.0` |
 | Hyperscaler   | `hyperscaler-v{major}.{minor}.{patch}`| `hyperscaler-v3.0.0`|
 
-### 4.5 Release artefact naming convention
-
-All release assets (GitHub release files and Docker tags) must use:
-
-`themisdb-{version}-{edition}-{sourcecode|binary}-{arm|x86|x64}`
-
-Examples:
-
-- `themisdb-1.9.0-community-sourcecode-x64.zip`
-- `themisdb-1.9.0-community-binary-x64.zip`
-- `themisdb-1.9.0-community-binary-arm` (Docker tag)
-- `themisdb-1.9.0-enterprise-binary-x64.tar.gz`
-- `themisdb-1.9.0-hyperscaler-binary-arm` (Docker tag)
-
-Rules:
-
-- `edition` is always lowercase (`community`, `enterprise`, `hyperscaler`, `military`, `minimal`).
-- `sourcecode` is used for source archives, `binary` for executables/packages/containers.
-- `arm` and `x64` are the canonical architecture tokens for Docker multi-arch publication.
-- `latest` may exist as a compatibility alias, but versioned tags above are canonical.
-
-### 4.6 Cleanup of legacy names (GitHub + DockerHub)
-
-To clean up historical, non-canonical names:
-
-1. List release assets and flag non-matching names:
-
-  ```bash
-  gh release view <tag> --json assets --jq '.assets[].name' \
-    | grep -Ev '^themisdb-[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9.-]+)?-[a-z0-9-]+-(sourcecode|binary)-(arm|x86|x64)(\..+)?$'
-  ```
-
-2. Delete legacy GitHub assets after replacement upload:
-
-  ```bash
-  gh release delete-asset <tag> <asset-name> --yes
-  ```
-
-3. For DockerHub, delete legacy tags in the repository UI/API and keep only:
-  - canonical tags (`themisdb-{version}-{edition}-binary-{arm|x64}`)
-  - `latest` compatibility alias (stable releases only)
-
 ---
 
 ## 5. CI/CD Pipeline Architecture
@@ -297,40 +255,38 @@ To clean up historical, non-canonical names:
 
 | Workflow                  | Trigger              | Editions           |
 |---------------------------|----------------------|--------------------|
-| `edition-community-ci.yml`| push to develop      | COMMUNITY          |
-| `edition-enterprise-ci.yml`| push to develop     | ENTERPRISE         |
-| `edition-hyperscaler-ci.yml`| push to develop    | HYPERSCALER        |
-| `edition-military-ci.yml` | push to develop      | MILITARY           |
-| `edition-minimal-ci.yml`  | push to develop      | MINIMAL            |
-| `pr-quick-checks.yml`     | PR (all branches)    | static analysis    |
+| `03-editions_ci.yml`| push to develop      | COMMUNITY          |
+| `03-editions_ci.yml`| push to develop     | ENTERPRISE         |
+| `03-editions_ci.yml`| push to develop    | HYPERSCALER        |
+| `03-editions_ci.yml` | push to develop      | MILITARY           |
+| `03-editions_ci.yml`  | push to develop      | MINIMAL            |
+| `09-pr-gates_quick-checks.yml`     | PR (all branches)    | static analysis    |
 
 ### 5.2 On `main` (Community release lane)
 
 | Workflow                          | Trigger              | Action                          |
 |-----------------------------------|----------------------|---------------------------------|
-| `edition-community-ci.yml`        | push to main         | Build + test COMMUNITY          |
-| `edition-minimal-ci.yml`          | push to main         | Build + test MINIMAL            |
-| `pr-path-gate-main.yml`           | PR → main            | Block higher-edition artefacts  |
-| `dockerhub-publish-on-release.yml`| GitHub Release       | Publish Community Docker        |
-| `repair-github-release-assets.yml`| workflow_dispatch    | Normalize legacy release assets |
-| `repair-dockerhub-tags.yml`       | workflow_dispatch    | Detect/cleanup legacy Docker tags |
+| `03-editions_ci.yml`        | push to main         | Build + test COMMUNITY          |
+| `03-editions_ci.yml`          | push to main         | Build + test MINIMAL            |
+| `09-pr-gates_path-policy.yml`           | PR → main            | Block higher-edition artefacts  |
+| `04-release_publish-community.yml`| GitHub Release       | Publish Community Docker        |
 
 ### 5.3 On `enterprise` (Enterprise release lane)
 
 | Workflow                         | Trigger              | Action                          |
 |----------------------------------|----------------------|---------------------------------|
-| `edition-enterprise-ci.yml`      | push to enterprise   | Build + test ENTERPRISE         |
-| `edition-military-ci.yml`        | push to enterprise   | Build + test MILITARY           |
-| `pr-path-gate-enterprise.yml`    | PR → enterprise      | Block Hyperscaler-only artefacts|
-| `publish-enterprise.yml`         | tag `enterprise-v*`  | Publish (environment-gated)     |
+| `03-editions_ci.yml`      | push to enterprise   | Build + test ENTERPRISE         |
+| `03-editions_ci.yml`        | push to enterprise   | Build + test MILITARY           |
+| `09-pr-gates_path-policy.yml`    | PR → enterprise      | Block Hyperscaler-only artefacts|
+| `04-release_publish-private.yml`         | tag `enterprise-v*`  | Publish (environment-gated)     |
 
 ### 5.4 On `hyperscaler` (Hyperscaler release lane)
 
 | Workflow                         | Trigger              | Action                          |
 |----------------------------------|----------------------|---------------------------------|
-| `edition-hyperscaler-ci.yml`     | push to hyperscaler  | Build + test HYPERSCALER        |
-| `pr-path-gate-hyperscaler.yml`   | PR → hyperscaler     | Validate Helm/Operator          |
-| `publish-hyperscaler.yml`        | tag `hyperscaler-v*` | Publish Docker+Helm (env-gated) |
+| `03-editions_ci.yml`     | push to hyperscaler  | Build + test HYPERSCALER        |
+| `09-pr-gates_path-policy.yml`   | PR → hyperscaler     | Validate Helm/Operator          |
+| `04-release_publish-private.yml`        | tag `hyperscaler-v*` | Publish Docker+Helm (env-gated) |
 
 ---
 
@@ -420,7 +376,7 @@ git commit -m "revert: roll back enterprise-vX.Y.Z"
 git push origin enterprise
 git tag enterprise-vX.Y.(Z+1)
 git push origin enterprise-vX.Y.(Z+1)
-# → triggers publish-enterprise.yml (requires environment approval)
+# → triggers 04-release_publish-private.yml (requires environment approval)
 ```
 
 ### 7.3 Hyperscaler rollback
@@ -432,14 +388,14 @@ git commit -m "revert: roll back hyperscaler-vX.Y.Z"
 git push origin hyperscaler
 git tag hyperscaler-vX.Y.(Z+1)
 git push origin hyperscaler-vX.Y.(Z+1)
-# → triggers publish-hyperscaler.yml (requires environment approval)
+# → triggers 04-release_publish-private.yml (requires environment approval)
 ```
 
 ### 7.4 Docker rollback
 
 If a bad Docker image was pushed to DockerHub (Community):
 - Unpublish the tag in DockerHub UI (or via API).
-- Re-trigger `dockerhub-publish-on-release.yml` via `workflow_dispatch` with
+- Re-trigger `04-release_publish-community.yml` via `workflow_dispatch` with
   the previous stable tag.
 
 ---
@@ -632,7 +588,7 @@ Community Docker files remain at the repo root and are allowed in `main`:
   protects *build/runtime artefacts*. If proprietary enterprise code needs to be
   private, a separate private repository would be required for those modules.
 - **Branch creation via bootstrap workflow.** The `enterprise` and `hyperscaler`
-  branches need to be created once via the `bootstrap-release-branches.yml`
+  branches need to be created once via the `04-release_bootstrap-release-branches.yml`
   workflow (see §9). They are not automatically created on merge.
 - **Path-gate is not retroactive.** Existing content on `main` that violates the
   policy is not automatically removed. The gate only applies to new PRs.

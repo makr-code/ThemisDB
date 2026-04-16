@@ -21,8 +21,10 @@
 #include "utils/logger.h"
 
 #include <algorithm>
+#include <arpa/inet.h>
 #include <chrono>
 #include <cstdio>
+#include <cstring>
 #include <sstream>
 #include <stdexcept>
 
@@ -74,6 +76,48 @@ std::vector<NetworkPolicy> ZeroTrustPolicyEnforcer::getNetworkPolicies() const {
 
 VerificationResult ZeroTrustPolicyEnforcer::verify(const ZeroTrustContext& context) {
     metrics_.requests_total.fetch_add(1, std::memory_order_relaxed);
+
+    // ── Continuous re-verification (Phase 3.1) ────────────────────────────
+    // Check the active policy for this identity to determine the re-verification
+    // interval and risk-score threshold before the token/network checks.
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        const NetworkPolicy* policy = findPolicyForIdentity(context.user_id);
+
+        if (policy) {
+            // Risk-score revocation: if the accumulated session risk score
+            // exceeds the threshold, immediately revoke the session.
+            if (context.session_risk_score > policy->risk_score_threshold) {
+                metrics_.requests_denied.fetch_add(1, std::memory_order_relaxed);
+                THEMIS_WARN("ZeroTrust: session revoked — risk_score={:.3f} exceeds "
+                            "threshold={:.3f} for user='{}' request='{}'",
+                            context.session_risk_score, policy->risk_score_threshold,
+                            context.user_id, context.request_id);
+                auto result = VerificationResult::Deny(
+                    context.request_id,
+                    "Session revoked: risk score exceeded threshold",
+                    0.0,
+                    policy->policy_id
+                );
+                return result;
+            }
+
+            // Continuous re-verification interval: if the interval is non-zero
+            // and the session has not been re-verified within that window,
+            // fall through and perform a full token + network check now.
+            if (policy->continuous_verification_interval_ms.count() > 0) {
+                auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::system_clock::now() - context.last_verified_at);
+                if (elapsed >= policy->continuous_verification_interval_ms) {
+                    THEMIS_DEBUG("ZeroTrust: continuous re-verification triggered for "
+                                 "user='{}' (elapsed={}ms interval={}ms)",
+                                 context.user_id, elapsed.count(),
+                                 policy->continuous_verification_interval_ms.count());
+                    // Fall through to full token + network check below.
+                }
+            }
+        }
+    }
 
     // Step 1: identity (token) verification
     bool identity_ok = verifyToken(context.token, context.user_id);
@@ -168,7 +212,7 @@ bool ZeroTrustPolicyEnforcer::isIpAllowed(const std::string& client_ip,
 
     // Check denied CIDRs first (take precedence over allowed)
     for (const auto& cidr : policy->denied_cidrs) {
-        if (ipMatchesCidr(client_ip, cidr)) {
+        if (ipMatchesCidrAny(client_ip, cidr)) {
             THEMIS_DEBUG("ZeroTrust: IP '{}' matched denied CIDR '{}'", client_ip, cidr);
             return false;
         }
@@ -176,7 +220,7 @@ bool ZeroTrustPolicyEnforcer::isIpAllowed(const std::string& client_ip,
 
     // Check allowed CIDRs
     for (const auto& cidr : policy->allowed_cidrs) {
-        if (ipMatchesCidr(client_ip, cidr)) {
+        if (ipMatchesCidrAny(client_ip, cidr)) {
             return true;
         }
     }
@@ -205,6 +249,10 @@ double ZeroTrustPolicyEnforcer::computeTrustScore(const ZeroTrustContext& contex
     if (age.count() <= 60) {
         score += 0.1;
     }
+
+    // Deduct session risk score [0.0, 1.0] from the computed score.
+    // A session_risk_score of 0 has no impact; a score of 1 collapses trust to 0.
+    score -= context.session_risk_score;
 
     // Clamp to [0.0, 1.0]
     if (score < 0.0) score = 0.0;
@@ -276,6 +324,96 @@ bool ZeroTrustPolicyEnforcer::ipMatchesCidr(const std::string& ip,
 
     uint32_t mask = (~uint32_t{0}) << (32 - prefix_len);
     return (ip_int & mask) == (cidr_int & mask);
+}
+
+// ============================================================================
+// IPv6 helpers (Phase 3.2)
+// ============================================================================
+
+bool ZeroTrustPolicyEnforcer::parseIpv6(const std::string& ip,
+                                         std::array<uint8_t, 16>& out) {
+    // inet_pton(AF_INET6) handles all standard IPv6 representations including
+    // :: abbreviation and IPv4-mapped form (::ffff:a.b.c.d).
+    int rc = ::inet_pton(AF_INET6, ip.c_str(), out.data());
+    return rc == 1;
+}
+
+bool ZeroTrustPolicyEnforcer::ipv6MatchesCidr(const std::string& ip,
+                                                const std::string& cidr) {
+    auto slash = cidr.find('/');
+    if (slash == std::string::npos) {
+        // Treat bare address as /128 exact match
+        std::array<uint8_t, 16> a{}, b{};
+        if (!parseIpv6(ip, a) || !parseIpv6(cidr, b)) return false;
+        return a == b;
+    }
+
+    std::string cidr_addr = cidr.substr(0, slash);
+    std::string prefix_str = cidr.substr(slash + 1);
+
+    int prefix_len = 0;
+    try {
+        prefix_len = std::stoi(prefix_str);
+    } catch (...) {
+        THEMIS_WARN("ZeroTrust: invalid IPv6 CIDR prefix '{}' in '{}'", prefix_str, cidr);
+        return false;
+    }
+    if (prefix_len < 0 || prefix_len > 128) return false;
+
+    std::array<uint8_t, 16> ip_bytes{};
+    std::array<uint8_t, 16> cidr_bytes{};
+    if (!parseIpv6(ip, ip_bytes)) return false;
+    if (!parseIpv6(cidr_addr, cidr_bytes)) return false;
+
+    if (prefix_len == 0) return true; // /0 matches everything
+
+    // Compare the leading prefix_len bits
+    int full_bytes = prefix_len / 8;
+    int remaining_bits = prefix_len % 8;
+
+    for (int i = 0; i < full_bytes; ++i) {
+        if (ip_bytes[i] != cidr_bytes[i]) return false;
+    }
+    if (remaining_bits > 0) {
+        uint8_t mask = static_cast<uint8_t>(0xFFu << (8 - remaining_bits));
+        if ((ip_bytes[full_bytes] & mask) != (cidr_bytes[full_bytes] & mask)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+std::string ZeroTrustPolicyEnforcer::normaliseIpv4MappedIpv6(const std::string& ip) {
+    // IPv4-mapped IPv6 addresses start with ::ffff: in text form
+    constexpr std::string_view kPrefix = "::ffff:";
+    if (ip.size() > kPrefix.size() &&
+        ip.substr(0, kPrefix.size()) == kPrefix) {
+        std::string candidate = ip.substr(kPrefix.size());
+        uint32_t dummy = 0;
+        if (parseIpv4(candidate, dummy)) {
+            return candidate; // Return the IPv4 portion
+        }
+    }
+    return ip;
+}
+
+bool ZeroTrustPolicyEnforcer::ipMatchesCidrAny(const std::string& ip,
+                                                const std::string& cidr) {
+    // Detect IPv6 by presence of ':' in either the IP or the CIDR base address.
+    // If the IP is IPv4-mapped IPv6, normalise it first.
+    std::string normalised_ip = normaliseIpv4MappedIpv6(ip);
+
+    bool ip_is_v6 = (normalised_ip.find(':') != std::string::npos);
+    bool cidr_is_v6 = (cidr.find(':') != std::string::npos);
+
+    if (ip_is_v6 || cidr_is_v6) {
+        if (!ip_is_v6 || !cidr_is_v6) {
+            // Protocol mismatch after normalisation – cannot match
+            return false;
+        }
+        return ipv6MatchesCidr(normalised_ip, cidr);
+    }
+    return ipMatchesCidr(normalised_ip, cidr);
 }
 
 } // namespace security

@@ -1,8 +1,13 @@
 # User Storage Encrypted CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/user-storage-encrypted-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/user-storage-encrypted-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -23,7 +28,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **User Storage 
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `user-storage-encrypted-tests`
 **Anzeigename:** User Storage Encrypted tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -47,3 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **User Storage 
 
 - [Workflow-Datei](../.github/workflows/user-storage-encrypted-ci.yml)
 - [Alle Workflows](README.md)
+
+

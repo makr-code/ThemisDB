@@ -60,6 +60,7 @@
 #include "server/audit_api_handler.h"
 #include "server/export_api_handler.h"
 #include "server/admin_api_handler.h"
+#include "server/shard_repair_api_handler.h"
 #include "server/vector_api_handler.h"
 #include "server/rope_api_handler.h"
 #include "server/spatial_api_handler.h"
@@ -181,6 +182,7 @@ class MultiPrimaryCoordinator;
 class HealthMonitor;
 class CollectionRedundancyManager;
 class ConsistentHashRing;
+class ShardRepairEngine;
 class ShardTopology;
 class ShardingManager;
 }
@@ -434,6 +436,13 @@ public:
      */
     void setShardingManager(sharding::ShardingManager* mgr) {
         sharding_manager_ = mgr;
+    }
+
+    void setShardRepairEngine(std::shared_ptr<sharding::ShardRepairEngine> engine) {
+        shard_repair_engine_ = std::move(engine);
+        if (shard_repair_api_) {
+            shard_repair_api_->setRepairEngine(shard_repair_engine_);
+        }
     }
 
     /// @return the injected ShardingManager (may be nullptr before injection).
@@ -882,6 +891,7 @@ private:
     
     // Monitoring API Handler
     std::unique_ptr<themis::server::MonitoringApiHandler> monitoring_api_;
+    std::unique_ptr<themis::server::ShardRepairApiHandler> shard_repair_api_;
     // Cross-cutting concerns (lifecycle hooks + health probes); optional.
     std::shared_ptr<core::concerns::ConcernsContext> concerns_;
     // Query API Handler
@@ -1026,6 +1036,7 @@ private:
 
     // Live ShardingManager (injected via setShardingManager before start())
     sharding::ShardingManager* sharding_manager_{nullptr};
+    std::shared_ptr<sharding::ShardRepairEngine> shard_repair_engine_;
 
     // RAID redundancy components (optional)
     std::shared_ptr<sharding::CollectionRedundancyManager> redundancy_manager_;

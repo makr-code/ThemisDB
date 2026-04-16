@@ -152,7 +152,7 @@ When a hotfix is pushed (after merge to main), the workflow automatically:
 **Production Artifacts:**
 - Production binaries (90-day retention)
 - GitHub release with tarball
-- Docker image: `ghcr.io/makr-code/themisdb:latest`, `ghcr.io/makr-code/themisdb:vX.Y.Z`
+- Docker image (Community): `themisdb/themisdb:latest`, `themisdb/themisdb:<version>`
 - Documentation site (GitHub Pages)
 
 ---

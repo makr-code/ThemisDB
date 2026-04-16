@@ -34,8 +34,8 @@ gRPC, HTTP, WebSocket, rate limiting, audit logging, and OTLP tracing headers ar
 
 ## Planned Features
 
-- [ ] `ISubscriptionMultiplexer` header for multi-subscription fan-out (Target: Q3 2026)
-- [ ] `IAPIGatewayHook` for plugin-based API gateway extensions (Target: Q3 2026)
+- [x] `ISubscriptionMultiplexer` header for multi-subscription fan-out (Target: Q3 2026)
+- [x] `IAPIGatewayHook` for plugin-based API gateway extensions (Target: Q3 2026)
 - [ ] Resolve `ws_handler.h` / `websocket_handler.h` overlap (Target: v1.9.0)
 - [ ] `ICircuitBreaker` at API boundary for downstream protection (Target: Q4 2026)
 
@@ -57,7 +57,7 @@ gRPC, HTTP, WebSocket, rate limiting, audit logging, and OTLP tracing headers ar
 
 ### Phase 5: Hardening
 - [ ] Resolve WS handler overlap (v1.9.0)
-- [ ] `ISubscriptionMultiplexer` (Q3 2026)
+- [x] `ISubscriptionMultiplexer` (Q3 2026)
 
 ### Phase 6: Documentation & Acceptance
 - [x] Architecture and audit docs present

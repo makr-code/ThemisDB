@@ -1,8 +1,13 @@
 # AQL v1.8.0 Interfaces CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/aql-v1.8-interfaces-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/aql-v1.8-interfaces-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -23,7 +28,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **AQL v1.8.0 In
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `aql-v1-8-interfaces`
 **Anzeigename:** AQL v1.8.0 Interfaces (${{ matrix.compiler }})
@@ -45,3 +50,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **AQL v1.8.0 In
 
 - [Workflow-Datei](../.github/workflows/aql-v1.8-interfaces-ci.yml)
 - [Alle Workflows](README.md)
+
+

@@ -1,8 +1,13 @@
 # Arrow User Registration Plugin CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules_security_arrow-user-registration-plugin-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/02-feature-modules_security_arrow-user-registration-plugin-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -23,7 +28,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Arrow User Re
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `arrow-user-registration-plugin-tests`
 **Anzeigename:** Arrow User Registration Plugin (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -48,3 +53,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Arrow User Re
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_security_arrow-user-registration-plugin-ci.yml)
 - [Alle Workflows](../README.md)
+
+

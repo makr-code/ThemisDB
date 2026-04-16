@@ -1,8 +1,13 @@
 # Secret Scanning CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/05-quality_security_secret-scanning-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/05-quality_security_secret-scanning-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -66,3 +71,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Secret Scanni
 
 - [Workflow-Datei](../../../.github/workflows/05-quality_security_secret-scanning-ci.yml)
 - [Alle Workflows](../README.md)
+
+

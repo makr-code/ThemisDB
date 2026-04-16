@@ -1,8 +1,13 @@
 # S3-Compatible Object Storage Source Connector CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/07-data-pipelines_s3-compatible-object-storage-connector-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/07-data-pipelines_s3-compatible-object-storage-connector-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -23,7 +28,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **S3-Compatible
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `s3-connector-tests`
 **Anzeigename:** S3-Compatible Connector (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -47,3 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **S3-Compatible
 
 - [Workflow-Datei](../../.github/workflows/07-data-pipelines_s3-compatible-object-storage-connector-ci.yml)
 - [Alle Workflows](../README.md)
+
+

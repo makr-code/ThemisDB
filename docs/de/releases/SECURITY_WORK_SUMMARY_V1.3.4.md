@@ -146,17 +146,17 @@ RUN apt-get update && apt-get upgrade -y && \
 
 #### Trivy Integration
 ```bash
-trivy image themisdb/themis-server:latest
+trivy image themisdb/themisdb:latest
 ```
 
 #### Docker Scout
 ```bash
-docker scout cves themisdb/themis-server:latest
+docker scout cves themisdb/themisdb:latest
 ```
 
 ### Best Practices Implementiert
 
-✅ Non-Root User (themis:999)  
+✅ Non-Root User (themisdb:999)  
 ✅ Read-Only Filesystem-fähig  
 ✅ Resource Limits konfigurierbar  
 ✅ Minimale Paketinstallation  

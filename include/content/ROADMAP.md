@@ -32,8 +32,8 @@ embedding pipeline, plugin extensibility, and version management headers are com
 
 ## Planned Features
 
-- [ ] `IContentClassifier` for automated category tagging (Target: Q3 2026)
-- [ ] `IPIIRedactor` header for content-level PII redaction before storage (Target: Q3 2026)
+- [x] `IContentClassifier` for automated category tagging (Target: Q3 2026)
+- [x] `IPIIRedactor` header for content-level PII redaction before storage (Target: Q3 2026)
 - [ ] `IContentDiffProcessor` for structured content diff (Target: Q4 2026)
 - [ ] `IFederatedIngestPipeline` for multi-source content federation (Target: Q4 2026)
 
@@ -54,8 +54,8 @@ embedding pipeline, plugin extensibility, and version management headers are com
 - [x] Embedding pipeline, ingestion plugins, content plugin interface
 
 ### Phase 5: Advanced Content Headers
-- [ ] `IContentClassifier` (Q3 2026)
-- [ ] `IPIIRedactor` (Q3 2026)
+- [x] `IContentClassifier` (Q3 2026)
+- [x] `IPIIRedactor` (Q3 2026)
 
 ### Phase 6: Documentation & Acceptance
 - [x] Architecture and audit docs present
@@ -71,4 +71,4 @@ embedding pipeline, plugin extensibility, and version management headers are com
 - [x] Plugin extensibility headers present
 - [x] Embedding pipeline stable
 - [x] `mock_clip_processor.h` excluded from production install
-- [ ] `IPIIRedactor` header published
+- [x] `IPIIRedactor` header published

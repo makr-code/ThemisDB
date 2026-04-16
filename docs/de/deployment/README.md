@@ -138,21 +138,24 @@ cmake -B build \
 
 ```bash
 # Pull latest image
-docker pull ghcr.io/makr-code/themisdb:latest
+docker pull themisdb/themisdb:latest
 
 # Run with data volume
 docker run -d \
   -p 8765:8765 \
   -v /data/themis:/var/lib/themis \
-  ghcr.io/makr-code/themisdb:latest
+  themisdb/themisdb:latest
 ```
+
+> Community-Releases werden nach Docker Hub (`themisdb/themisdb`) via
+> `.github/workflows/04-release_publish-community.yml` veroeffentlicht.
 
 ### Multi-Arch Build
 
 ```bash
 # Build for multiple architectures
 docker buildx build --platform linux/amd64,linux/arm64 \
-  -t ghcr.io/makr-code/themisdb:latest \
+  -t themisdb/themisdb:latest \
   --push .
 ```
 

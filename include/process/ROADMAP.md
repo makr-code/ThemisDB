@@ -42,9 +42,9 @@ v1.0.1 — production. BPMN 2.0, EPK, and VCC-VPB import/export; LLM descriptors
 - [x] RocksDB versioning integration tests
 
 ### Phase 5 — Future Formats (Planned)
-- [ ] XPDL 2.2 import/export (Target: Q3 2026)
+- [x] XPDL 2.2 import/export (Target: Q3 2026)
 - [ ] BPMN simulation / conformance checking (Target: Q4 2026)
-- [ ] Multi-LLM descriptor adapters (Target: Q3 2026)
+- [x] Multi-LLM descriptor adapters (Target: Q3 2026)
 
 ### Phase 6 — Documentation & Acceptance ✅
 - [x] All headers documented in ARCHITECTURE.md
@@ -55,4 +55,4 @@ v1.0.1 — production. BPMN 2.0, EPK, and VCC-VPB import/export; LLM descriptors
 - [x] BPMN 2.0 conformance tested against OMG reference suite
 - [x] RocksDB versioning tested with concurrent process definition writes
 - [x] LLM descriptor validated against JSON schema for GPT-4 and Claude
-- [ ] XPDL import validated against WFMC reference documents (Target: Q3 2026)
+- [x] XPDL import validated against WFMC reference documents (Target: Q3 2026)

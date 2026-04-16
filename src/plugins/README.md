@@ -52,7 +52,7 @@ Implements the plugin system infrastructure for ThemisDB, providing dynamic plug
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta — Core plugin loading, manifest validation, Ed25519 signing, hot-reload, dependency resolution, health monitoring, metrics, OCI registry, and RPC integration are all implemented. WASM sandbox isolation and community marketplace are planned.
+**Maturity:** 🟢 Production-Ready — Core plugin loading, manifest validation, Ed25519 signing, hot-reload, dependency resolution, health monitoring, metrics, OCI registry, and RPC integration are all implemented. WASM sandbox isolation and community marketplace are planned.
 
 ## Documentation
 

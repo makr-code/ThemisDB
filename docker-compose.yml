@@ -7,8 +7,6 @@
 #   docker compose down                        # Stop services
 #   docker compose down -v                     # Stop and remove volumes
 
-version: '3.9'
-
 services:
   # ==========================================================================
   # ThemisDB Server - COMMUNITY Edition
@@ -25,30 +23,26 @@ services:
         FORCE_CPU_ONLY: "ON"
         BUILD_TESTS: "OFF"
         BUILD_BENCHMARKS: "OFF"
-      cache_from:
-        - type=registry,ref=ghcr.io/yourorg/themisdb:buildcache
-      cache_to:
-        - type=registry,ref=ghcr.io/yourorg/themisdb:buildcache,mode=max
     image: themisdb:community
     container_name: themisdb
     restart: unless-stopped
     ports:
-      - "8080:8080"        # HTTP API
-      - "8081:8081"        # gRPC
-      - "9090:9090"        # Metrics
+      - "18080:8080"       # HTTP API
+      - "18081:8081"       # gRPC
+      - "19090:9090"       # Metrics
     volumes:
-      - themis-data:/data
-      - ./config:/etc/themis:ro
+      - themis-data:/var/lib/themis/data
+      - ./config:/etc/themis/config:ro
       - ./logs:/var/log/themis
     environment:
       - THEMIS_EDITION=COMMUNITY
       - THEMIS_LOG_LEVEL=info
-      - THEMIS_DATA_DIR=/data
-      - THEMIS_CONFIG=/etc/themis/config.yml
+      - THEMIS_DATA_DIR=/var/lib/themis/data
+      - THEMIS_CONFIG=/etc/themis/config/config.yaml
       - THEMIS_METRICS_ENABLED=true
       - THEMIS_TRACING_ENABLED=false
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      test: ["CMD", "curl", "-fL", "http://localhost:8080/api/health"]
       interval: 30s
       timeout: 5s
       retries: 3

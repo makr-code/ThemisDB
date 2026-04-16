@@ -397,5 +397,100 @@ private:
     KyberKEM kyber_;
 };
 
+/**
+ * @brief SPHINCS+ hash-based digital signature scheme (Phase 7.1)
+ *
+ * NIST-standardised stateless hash-based signature scheme (FIPS 205 / SLH-DSA).
+ * SPHINCS+ provides a conservative security argument based solely on hash
+ * function security — unlike lattice-based schemes (Dilithium) it has no
+ * algebraic structure that could be attacked by future mathematical advances.
+ *
+ * @note This implementation uses an OpenSSL-backed software simulation
+ *       (SHA-256 HMAC + Ed25519) that is API-compatible with the full liboqs
+ *       backend.  Once liboqs is added as a vcpkg dependency the backend
+ *       will be replaced transparently.  The simulation is labeled
+ *       SPHINCSPLUS_SIM in diagnostic output.
+ *
+ * Supported variants:
+ *   SPHINCS_SHA2_256S — SPHINCS+-SHA2-256s (128-bit security, small signatures)
+ *   SPHINCS_SHA2_256F — SPHINCS+-SHA2-256f (128-bit security, fast signing)
+ *
+ * Performance targets (per NIST benchmarks):
+ *   Sign:   ≥ 100 ops/s (256s), ≥ 5 000 ops/s (256f)
+ *   Verify: ≥ 5 000 ops/s for both variants
+ *
+ * Thread safety: all methods are thread-safe.
+ */
+class SphincsPlus {
+public:
+    enum class Variant {
+        SPHINCS_SHA2_256S,  ///< Small signature, slower signing (conservative)
+        SPHINCS_SHA2_256F,  ///< Fast signing, larger signatures
+    };
+
+    explicit SphincsPlus(Variant variant = Variant::SPHINCS_SHA2_256S);
+    ~SphincsPlus();
+
+    // Non-copyable, movable
+    SphincsPlus(const SphincsPlus&)            = delete;
+    SphincsPlus& operator=(const SphincsPlus&) = delete;
+    SphincsPlus(SphincsPlus&&) noexcept;
+    SphincsPlus& operator=(SphincsPlus&&) noexcept;
+
+    /**
+     * @brief Asymmetric key pair for SPHINCS+ signing.
+     */
+    struct KeyPair {
+        std::vector<uint8_t> public_key;  ///< Verification key
+        std::vector<uint8_t> secret_key;  ///< Signing key (keep private)
+    };
+
+    /**
+     * @brief Generate a SPHINCS+ key pair.
+     *
+     * @return New key pair.
+     * @throws std::runtime_error on failure.
+     */
+    KeyPair generateKeyPair();
+
+    /**
+     * @brief Sign a message.
+     *
+     * @param message    Arbitrary byte sequence to sign.
+     * @param secret_key SPHINCS+ signing key from generateKeyPair().
+     * @return Signature bytes.
+     * @throws std::invalid_argument if secret_key size is unexpected.
+     * @throws std::runtime_error on signing failure.
+     */
+    std::vector<uint8_t> sign(const std::vector<uint8_t>& message,
+                               const std::vector<uint8_t>& secret_key);
+
+    /**
+     * @brief Verify a SPHINCS+ signature.
+     *
+     * @param message    Original message.
+     * @param signature  Signature to verify.
+     * @param public_key Signer's SPHINCS+ public key.
+     * @return true if the signature is authentic, false otherwise.
+     */
+    bool verify(const std::vector<uint8_t>& message,
+                const std::vector<uint8_t>& signature,
+                const std::vector<uint8_t>& public_key);
+
+    Variant getVariant() const noexcept { return variant_; }
+
+    /// Expected public key size in bytes.
+    size_t publicKeySize() const noexcept;
+    /// Expected secret key size in bytes.
+    size_t secretKeySize() const noexcept;
+    /// Signature size in bytes (variant-dependent).
+    size_t signatureSize() const noexcept;
+
+private:
+    Variant variant_;
+    struct Impl;
+    std::unique_ptr<Impl> impl_;
+};
+
 } // namespace security
 } // namespace themis

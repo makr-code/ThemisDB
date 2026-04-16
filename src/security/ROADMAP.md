@@ -101,6 +101,44 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
   - PostQuantumKeyProvider: Kyber-wrapped DEK wrapKeyWithKyber / unwrapKeyWithKyber
   - HybridEncryption: HYBRID / CLASSICAL_ONLY / POST_QUANTUM_ONLY modes; AES-256-GCM + Kyber-1024
   - Tests (production-ready): `tests/test_post_quantum_crypto.cpp` — 40 test cases; throughput ≥ 2 000 ops/s
+- [x] SPHINCS+ added as alternative signing option alongside Dilithium (`include/security/sphincs_plus.h`)
+  - SPHINCS+-SHA2-256s (small, conservative) and SPHINCS+-SHA2-256f (fast) parameter sets
+  - Hash-based, stateless, no secret-state management required
+  - Suitable for long-lived signatures and audit log signing (quantum-resistant beyond 2040)
+  - Tests: `tests/security/test_sphincs_plus.cpp`
+- [x] Post-Quantum Migration Plan (Phase 7.2) — Three-phase migration timeline:
+
+  #### Phase A — v1.x (current): Hybrid Mode
+  - Classical + PQ algorithms co-exist; PQ is opt-in via configuration.
+  - Default: AES-256-GCM + X25519 (TLS) + RSA-4096 / ECDSA-P384 (signatures).
+  - PQ opt-in: Kyber-1024 (DEK wrapping), Dilithium-5 or SPHINCS+ (signing), X25519-Kyber768 (TLS).
+
+  #### Phase B — v2.0: PQ-Default + Classical Fallback
+  - PQ algorithms become default; classical remains available via `THEMIS_CLASSICAL_FALLBACK=1`.
+  - Default: Kyber-1024 (DEK), Dilithium-5 (signatures), X25519-Kyber768 (TLS).
+  - Classical fallback configurable per key type.
+
+  #### Phase C — v3.0: PQ-Only Mode
+  - `THEMIS_PQ_ONLY_MODE=1` disables all classical algorithms.
+  - Classical algorithms removed from default build; only available via compatibility shim.
+  - Audit log signing: Dilithium-5 mandatory; SPHINCS+ as alternative.
+
+  #### Per-Key-Type Migration Table
+
+  | Key Type           | Phase A (v1.x)                  | Phase B (v2.0)               | Phase C (v3.0)           |
+  |--------------------|---------------------------------|------------------------------|--------------------------|
+  | DEK wrapping       | AES-256-GCM (classical)         | Kyber-1024 (default)         | Kyber-1024 only          |
+  | Digital signatures | RSA-4096 / ECDSA-P384           | Dilithium-5 (default)        | Dilithium-5 or SPHINCS+  |
+  | SPHINCS+ option    | SPHINCS+-SHA2-256s/256f opt-in  | SPHINCS+-SHA2-256s/256f opt-in | SPHINCS+ or Dilithium-5 |
+  | TLS handshake      | X25519 (classical)              | X25519-Kyber768 hybrid group | X25519-Kyber768 only     |
+  | Audit log signing  | HMAC-SHA256                     | Dilithium-5 (default)        | Dilithium-5 mandatory    |
+
+  #### THEMIS_PQ_ONLY_MODE=1 Environment Variable
+  - When set, the runtime refuses to load or generate classical-algorithm keys.
+  - Throws `PQOnlyModeViolation` exception if a classical algorithm is requested.
+  - CI gate: all PQ-only tests must pass before a v3.0 release tag is created.
+  - Set in production deployments requiring NIST PQC Standard compliance (FIPS 203/204/205).
+
 - [x] Systematic attack vector test suite (`tests/security/attack-vectors/`)
   - `crypto/test_crypto_attack_vectors.cpp` — IV/nonce reuse, tag tampering, bit-flip, key confusion, PQ key confusion, signature forgery
   - `injection/test_injection_attack_vectors.cpp` — AQL injection: comment markers, dangerous ops, boolean-blind, union, stacked queries, case bypass, oversized params; read-only context DDL/write rejection; unbounded FOR loop detection
@@ -125,7 +163,9 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
   - Access-control report from `RBAC::listRoles()` / `getRole()` — empty roles, admin wildcard detection
   - Security metrics snapshot: active keys, deprecated keys, role count, audit log entry count
   - Append-only JSON export with atomic file write; 12-month retention enforcement; retention verification
-  - Tests: 28 test cases in `tests/security/test_security_evidence_collector.cpp`
+  - NetworkControlsEvidence: TLS 1.3 cipher suites, mTLS shard count, rate-limiter config snapshot
+  - ChangeManagementEvidence: config audit trail, key rotation log, time window
+  - Tests: 34 test cases in `tests/security/test_security_evidence_collector.cpp` (+6 extended)
 - [x] Performance benchmarks for security hot-paths (`benchmarks/bench_security.cpp`)
   - AES-256-GCM encrypt/decrypt (1 KB / 64 KB / 1 MB); target ≥ 1 GB/s (AES-NI, single core)
   - RBAC single-role check and 100-role check; role hierarchy validation

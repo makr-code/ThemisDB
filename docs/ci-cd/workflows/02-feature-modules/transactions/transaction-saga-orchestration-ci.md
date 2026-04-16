@@ -1,8 +1,13 @@
 # SAGA Orchestration Engine CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules_transactions_transaction-saga-orchestration-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/02-feature-modules_transactions_transaction-saga-orchestration-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -23,7 +28,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **SAGA Orchestr
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `saga-orchestration-tests`
 **Anzeigename:** SAGA Orchestration (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -46,3 +51,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **SAGA Orchestr
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_transactions_transaction-saga-orchestration-ci.yml)
 - [Alle Workflows](../README.md)
+
+

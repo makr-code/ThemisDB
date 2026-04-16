@@ -1,8 +1,13 @@
 # SIMD Vectorization — AVX-512 and ARM NEON CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/simd-vectorization-avx512-arm-neon-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/simd-vectorization-avx512-arm-neon-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -23,7 +28,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **SIMD Vectoriz
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `simd-analytics-tests`
 **Anzeigename:** SIMD analytics tests (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -47,3 +52,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **SIMD Vectoriz
 
 - [Workflow-Datei](../.github/workflows/simd-vectorization-avx512-arm-neon-ci.yml)
 - [Alle Workflows](README.md)
+
+

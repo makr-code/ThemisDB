@@ -1,8 +1,13 @@
 # Remote Registry Client – Async Retry CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/02-feature-modules_resilience_remote-registry-client-async-retry-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/02-feature-modules_resilience_remote-registry-client-async-retry-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -22,7 +27,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Remote Regist
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `remote-registry-client-tests`
 **Anzeigename:** RemoteRegistryClient Async Retry (${{ matrix.os }} / ${{ matrix.compiler }})
@@ -45,3 +50,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Remote Regist
 
 - [Workflow-Datei](../../../.github/workflows/02-feature-modules_resilience_remote-registry-client-async-retry-ci.yml)
 - [Alle Workflows](../README.md)
+
+

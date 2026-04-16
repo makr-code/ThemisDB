@@ -52,7 +52,7 @@ public:
         std::string listen_address;     // Address to listen on (e.g., "0.0.0.0:50051")
         
         // mTLS Configuration (optional, required for production)
-        bool enable_mtls = false;       // Enable mutual TLS authentication
+        bool enable_mtls = true;        // Enable mutual TLS authentication (default: on)
         std::string tls_cert_path;      // Path to server certificate (PEM format)
         std::string tls_key_path;       // Path to server private key (PEM format)
         std::string tls_ca_cert_path;   // Path to CA certificate for client verification (PEM format)

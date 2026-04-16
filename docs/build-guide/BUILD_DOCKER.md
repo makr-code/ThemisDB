@@ -54,6 +54,22 @@ docker build -f docker/Dockerfile.minimal \
 --build-arg CMAKE_BUILD_TYPE=Release   # Release Config
 ```
 
+### Encrypted Storage (optional, OFF by default)
+
+```dockerfile
+--build-arg THEMIS_ENABLE_ENCRYPTED_STORAGE=ON   # gocryptfs + fuse einschließen
+```
+
+> [!WARNING]
+> `THEMIS_ENABLE_ENCRYPTED_STORAGE` ist standardmäßig `OFF`. Das Aktivieren installiert
+> `gocryptfs` (Go-Binär) und `fuse` ins Runtime-Image und bringt Go-stdlib-Abhängigkeiten
+> mit, die bekannte CVEs tragen können. Nur aktivieren, wenn At-Rest-Verschlüsselung via
+> gocryptfs explizit benötigt wird. Alternativer Ansatz: Verschlüsselung auf Storage-Ebene
+> (dm-crypt, LUKS) außerhalb des Containers.
+>
+> Standard-Community-Image (DockerHub `themisdb/themisdb:latest`) wird immer mit
+> `THEMIS_ENABLE_ENCRYPTED_STORAGE=OFF` gebaut.
+
 ## Image Structure
 
 Der `Dockerfile.themis-server` verwendet **Multi-Stage Build**:

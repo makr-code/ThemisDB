@@ -1,8 +1,13 @@
 # Validate AI-Guardrails
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/05-quality_validation_validate-ai-guardrails.yml`
+> **Workflow-Datei (historisch):** .github/workflows/05-quality_validation_validate-ai-guardrails.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -23,7 +28,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Validate AI-G
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/01-core_ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `validate-copilot-instructions`
 **Anzeigename:** Validate Copilot Instructions
@@ -75,3 +80,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Validate AI-G
 
 - [Workflow-Datei](../../../.github/workflows/05-quality_validation_validate-ai-guardrails.yml)
 - [Alle Workflows](../README.md)
+
+

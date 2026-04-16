@@ -1,8 +1,13 @@
 # LLM Deployment Plugin RocksDB Storage CI
 
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
+
 🔄 **CI/CD**
 
-> **Workflow-Datei:** `.github/workflows/llm-deployment-plugin-rocksdb-storage-ci.yml`
+> **Workflow-Datei (historisch):** .github/workflows/llm-deployment-plugin-rocksdb-storage-ci.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
@@ -23,7 +28,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **LLM Deploymen
 
 ### `ci-scope-classifier`
 **Typ:** Reusable Workflow Call
-**Verwendet:** `./.github/workflows/ci-scope-classifier.yml`
+**Verwendet:** `Historisch (fruehere CI-Generation). Aktueller Stand: .github/WORKFLOW_REGISTRY.md`
 
 ### `llm-deployment-rocksdb`
 **Anzeigename:** LLM Deployment Plugin RocksDB Storage Tests
@@ -45,3 +50,5 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **LLM Deploymen
 
 - [Workflow-Datei](../.github/workflows/llm-deployment-plugin-rocksdb-storage-ci.yml)
 - [Alle Workflows](README.md)
+
+

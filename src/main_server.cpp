@@ -1523,7 +1523,7 @@ int main(int argc, char* argv[]) {
                 THEMIS_ERROR("WAL gRPC Apply service NOT started due to TLS configuration errors");
             }
         } else {
-            THEMIS_WARN("WAL gRPC stubs not found; skipping gRPC Apply service startup");
+            THEMIS_INFO("WAL gRPC stubs not found; skipping gRPC Apply service startup");
         }
 #endif
         

@@ -79,6 +79,17 @@ runs:
         BUILD_DIR:         ${{ inputs.build-dir }}
         SOURCE_DIR:        ${{ inputs.source-dir }}
       run: |
+        # LLM is a mandatory capability for selected editions.
+        # Ensure llama.cpp is present before configure starts.
+        case "$EDITION" in
+          COMMUNITY|ENTERPRISE|HYPERSCALER)
+            if [ ! -d "llama.cpp" ]; then
+              echo "llama.cpp missing - initializing submodule..."
+              git submodule update --init --depth=1 llama.cpp
+            fi
+            ;;
+        esac
+
         # Build the cmake argument list as an array so that flag values that
         # contain spaces (e.g. coverage or sanitizer compiler flags) are
         # passed as single arguments rather than split by word splitting.
