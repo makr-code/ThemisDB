@@ -77,7 +77,11 @@ struct VectorAutoBufferConfig {
         ProductQuantization    // PQ for HNSW (10-32x reduction, configurable accuracy)
     };
     Compression compression = Compression::None;
-    
+
+    // Product Quantization parameters (used when compression == ProductQuantization)
+    int pq_num_subvectors = 8;    // Number of PQ sub-spaces (M); must divide vector dim
+    int pq_num_centroids  = 256;  // Number of centroids per sub-space (k); ≤ 256 for uint8 codes
+
     // Vector field name (default: "embedding")
     std::string vector_field = "embedding";
 };
