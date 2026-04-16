@@ -46,8 +46,8 @@ v1.6.0 — production. Full prompt lifecycle (template, versioning, optimization
 - [x] `PromptEngineeringMetrics`
 
 ### Phase 6 — Future Enhancements (Planned)
-- [ ] Structured output enforcement (JSON schema + regex grammar) (Target: Q3 2026)
-- [ ] Prompt compression / summarization for context reduction (Target: Q3 2026)
+- [x] Structured output enforcement (JSON schema + regex grammar) (Target: Q3 2026)
+- [x] Prompt compression / summarization for context reduction (Target: Q3 2026)
 - [ ] Adversarial prompt testing framework (Target: Q4 2026)
 
 ## Production Readiness Checklist
@@ -55,4 +55,4 @@ v1.6.0 — production. Full prompt lifecycle (template, versioning, optimization
 - [x] Injection detector validated against OWASP LLM Top 10 patterns
 - [x] Token budget manager tested across GPT-4, Claude 3, and Llama-3 tokenizers
 - [x] Reflection strategies validated on synthetic task improvement benchmarks
-- [ ] Structured output enforcement (Target: Q3 2026)
+- [x] Structured output enforcement (Target: Q3 2026)

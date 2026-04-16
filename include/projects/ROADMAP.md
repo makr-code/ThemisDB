@@ -32,14 +32,14 @@ v2.0.0 — `DocumentManager` (v1.0.0) plus five new production-ready headers: `P
 - [x] `ProjectVersioning`: immutable snapshot creation, SHA-256 verification, restore (Target: Q2 2026)
 - [x] `ProjectDiff` / `ProjectMerge`: field-level DeltaSet and three-way merge (Target: Q2 2026)
 - [x] `ProjectTemplate`: 7 built-in templates + custom JSON definitions (Target: Q2 2026)
-- [ ] Project import/export ZIP bundle (Target: Q3 2026)
+- [x] Project import/export ZIP bundle (Target: Q3 2026)
 - [ ] Cross-project object sharing with permission delegation (Target: Q4 2026)
-- [ ] Project templates from OCI registry (Target: Q3 2026)
+- [x] Project templates from OCI registry (Target: Q3 2026)
 
 ### Phase 4 — Collaboration ✅ (partial)
 - [x] `CollaborationManager`: RBAC sharing, optimistic locking, change callbacks (Target: Q2 2026)
 - [ ] Multi-user project locking with WebSocket notifications (Target: Q4 2026)
-- [ ] Project activity audit log REST API (Target: Q3 2026)
+- [x] Project activity audit log REST API (Target: Q3 2026)
 - [x] `ProjectLifecycle`: atomic state transitions with append-only audit trail (Target: Q2 2026)
 
 ### Phase 5 — Performance / Hardening (Planned)

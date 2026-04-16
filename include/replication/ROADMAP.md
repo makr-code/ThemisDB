@@ -46,7 +46,7 @@ v1.7.0 — production. Raft v2 consensus, schema-aware logical replication, mult
 
 ### Phase 5 — Future Enhancements (Planned)
 - [ ] Global transaction ordering (Spanner-style TrueTime) (Target: Q4 2026)
-- [ ] Change stream Kafka export (Target: Q3 2026)
+- [x] Change stream Kafka export (Target: Q3 2026)
 - [ ] Replication lag SLO alerting integration (Target: Q3 2026)
 
 ### Phase 6 — Documentation & Acceptance ✅

@@ -24,9 +24,9 @@ v1.4.0 — Production-ready. 6 public headers. `ScheduledGraphEdgeRefreshEngine`
 
 ## Planned
 
-- [ ] GPU BFS/DFS kernel coverage (Issue #1829) (Target: v1.5.0)
-- [ ] ANN/GNN graph embedding interface in `scheduled_edge_refresh.h` (Issue #1830) (Target: v1.5.0)
-- [ ] EXPLAIN plan inspection header (Target: v1.5.0)
+- [x] GPU BFS/DFS kernel coverage (Issue #1829) (Target: v1.5.0)
+- [x] ANN/GNN graph embedding interface in `scheduled_edge_refresh.h` (Issue #1830) (Target: v1.5.0)
+- [x] EXPLAIN plan inspection header (Target: v1.5.0)
 
 ## Implementation Phases
 
@@ -40,7 +40,7 @@ v1.4.0 — Production-ready. 6 public headers. `ScheduledGraphEdgeRefreshEngine`
 - [x] Scheduled edge refresh with ANN scoring
 
 ### Phase 4: GNN / Extended GPU (Planned)
-- [ ] GPU BFS/DFS kernels, ANN/GNN integration
+- [x] GPU BFS/DFS kernels, ANN/GNN integration
 
 ## Production Readiness Checklist
 
@@ -49,5 +49,5 @@ v1.4.0 — Production-ready. 6 public headers. `ScheduledGraphEdgeRefreshEngine`
 - [x] ANN index integration in edge refresh
 - [x] Bilingual documentation (EN + DE) for `ScheduledGraphEdgeRefreshEngine`
 - [x] Compendium §6.11 documented
-- [ ] GPU BFS/DFS kernel coverage
+- [x] GPU BFS/DFS kernel coverage
 - [ ] GNN embedding interface

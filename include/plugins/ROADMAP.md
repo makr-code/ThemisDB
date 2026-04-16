@@ -48,13 +48,13 @@ v1.3.0 — production. Hot-reload, Ed25519 signing, OCI distribution, WASM sandb
 - [x] `PluginDependencyResolver` topo-sort
 
 ### Phase 6 — Future Enhancements (Planned)
-- [ ] WASM Component Model support (Target: Q3 2026)
+- [x] WASM Component Model support (Target: Q3 2026)
 - [ ] Plugin sandboxing via Linux namespaces (Target: Q4 2026)
-- [ ] Signed OCI manifests with Sigstore/Cosign (Target: Q3 2026)
+- [x] Signed OCI manifests with Sigstore/Cosign (Target: Q3 2026)
 
 ## Production Readiness Checklist
 
 - [x] All plugins verified to implement `IThemisPlugin` before load
 - [x] Ed25519 verification tested with known-bad signatures
 - [x] WASM sandbox fuzz-tested against malformed bytecode
-- [ ] WASM Component Model upgrade (Target: Q3 2026)
+- [x] WASM Component Model upgrade (Target: Q3 2026)

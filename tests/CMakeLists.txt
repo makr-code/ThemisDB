@@ -23105,3 +23105,23 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_q3_interface_headers.cpp")
 
     message(STATUS "  Q3InterfaceHeaders: subscription multiplexer, gateway hook, passkey, ABAC, auth event bus, Redis TLS, L3 encryption, content classifier, PII redactor, health probe, config hot-reloader (20 tests)")
 endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_q3_module_interfaces.cpp")
+    add_executable(test_q3_module_interfaces
+        test_q3_module_interfaces.cpp
+    )
+    target_include_directories(test_q3_module_interfaces PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+    target_link_libraries(test_q3_module_interfaces PRIVATE
+        GTest::gtest GTest::gtest_main
+    )
+    add_test(NAME Q3ModuleInterfaceTests COMMAND test_q3_module_interfaces)
+
+    set_tests_properties(Q3ModuleInterfaceTests PROPERTIES
+        LABELS "graph;observability;plugins;process;query;replication;projects;prompt;interface;q3-2026;unit"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  Q3ModuleInterfaces: graph EXPLAIN/embedding/GPU BFS, OTLP exemplars, WASM component model, Cosign, XPDL, LLM adapters, GraphQL, incremental views, Kafka change stream, project bundle/audit, structured output, prompt compression (25 tests)")
+endif()
