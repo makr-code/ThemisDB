@@ -2,6 +2,7 @@
 **Date:** 2026-04-16  
 **Status:** draft  
 **Primary Source:**
+- `include/chimera/README.md`
 - `src/chimera/ARCHITECTURE.md`
 - `src/chimera/CHANGELOG.md`
 - `src/chimera/FUTURE_ENHANCEMENTS.md`
@@ -20,6 +21,12 @@ This index lists all Markdown documentation files for module **`chimera`** from 
 
 ## Primary Markdown Files
 
+### `include/chimera/`
+
+| File | Path |
+|------|------|
+| `README.md` | [`include/chimera/README.md`](../../../include/chimera/README.md) |
+
 ### `src/chimera/`
 
 | File | Path |
@@ -29,12 +36,6 @@ This index lists all Markdown documentation files for module **`chimera`** from 
 | `FUTURE_ENHANCEMENTS.md` | [`src/chimera/FUTURE_ENHANCEMENTS.md`](../../../src/chimera/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`src/chimera/README.md`](../../../src/chimera/README.md) |
 | `ROADMAP.md` | [`src/chimera/ROADMAP.md`](../../../src/chimera/ROADMAP.md) |
-
-### `include/chimera/`
-
-| File | Path |
-|------|------|
-| `README.md` | [`include/chimera/README.md`](../../../include/chimera/README.md) |
 
 ---
 
