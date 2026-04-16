@@ -1,6 +1,6 @@
-[docs](../../index.md) > [de](../index.md) > [whisper](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-04-16  
-**Status:** draft  
+[docs](../../README.md) > [de](../README.md) > [whisper](./README.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
+**Datum:** 2026-04-16
+**Status:** draft
 **Primary (Quelle der Wahrheit):**
 - `include/whisper/ARCHITECTURE.md`
 - `include/whisper/AUDIT.md`

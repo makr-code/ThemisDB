@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-04-07 | Primary: src/whisper/ -->
+<!-- Status: current | validated: 2026-04-16 | Primary: src/whisper/ -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Whisper Audio Transcription Plugin
@@ -30,8 +30,9 @@ speaker diarisation (future), integration with the RAG pipeline (handled by `rag
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta (v2.0.0) — Core pipeline operational in stub mode. Real whisper.cpp
-inference available when `THEMIS_ENABLE_WHISPER=ON` is set and a model file is present.
+**Maturity:** 🟢 Production-ready (v2.1.0 implementation state) — Core pipeline operational in
+stub mode and with optional `whisper.cpp`. Thread-safe `transcribe()` / `detectLanguage()` and
+multi-format decoding (`WAV` + `FFmpeg` reader chain) are implemented.
 
 ## Quick Start
 
@@ -39,18 +40,22 @@ inference available when `THEMIS_ENABLE_WHISPER=ON` is set and a model file is p
 #include "whisper/whisper_plugin.h"
 
 // Stub mode (no model required)
-auto plugin = std::make_unique<themis::audio::WhisperPlugin>();
+auto plugin = std::make_unique<themis::whisper::WhisperPlugin>();
 plugin->initialize("", {});
 
-auto result = plugin->transcribe("recording.wav", {});
+auto result = plugin->transcribeFile("recording.wav");
 if (result.success) {
     std::cout << result.text << "\n";
 }
 
 // With injected transcriber (tests)
-auto transcriber = std::make_unique<themis::audio::InMemoryWhisperTranscriber>();
-transcriber->setNextResult("Hallo Welt");
-auto plugin = std::make_unique<themis::audio::WhisperPlugin>(std::move(transcriber));
+auto transcriber = std::make_unique<themis::whisper::InMemoryWhisperTranscriber>();
+themis::audio::TranscriptionResult preset;
+preset.text = "Hallo Welt";
+transcriber->setNextResult(preset);
+auto plugin = std::make_unique<themis::whisper::WhisperPlugin>(
+    std::move(transcriber),
+    std::make_unique<themis::whisper::WavAudioChunkReader>());
 ```
 
 ## Architecture Overview
@@ -59,7 +64,7 @@ auto plugin = std::make_unique<themis::audio::WhisperPlugin>(std::move(transcrib
 ┌───────────────────────────────────┐
 │         WhisperPlugin             │  ← IAudioBackend
 │  ┌─────────────────────────────┐  │
-│  │   WavAudioChunkReader       │  │  ← zero-dep WAV parser (RIFF/PCM/float32)
+│  │   CompositeAudioChunkReader │  │  ← dispatches WAV + FFmpeg reader
 │  └─────────────────────────────┘  │
 │  ┌─────────────────────────────┐  │
 │  │   IWhisperTranscriber       │  │  ← strategy pattern
@@ -79,11 +84,22 @@ cmake -B build && cmake --build build --target test_whisper_plugin
 cmake -B build -DTHEMIS_ENABLE_WHISPER=ON
 ```
 
+## Installation
+
+Build through the repository CMake flow and enable whisper.cpp only when the optional
+runtime dependency is available.
+
+## Usage
+
+- Use `transcribeFile(path)` for file-based transcription.
+- Use `transcribe(samples, sample_rate)` for in-memory PCM data.
+- Use `detectLanguage(samples, sample_rate)` with optional confidence threshold filtering.
+
 ## Test Suite
 
 | Suite | Count | Labels |
 |---|---|---|
-| `WhisperPluginFocusedTests` | 30 | `plugins;whisper;audio;v2.0.0` |
+| `WhisperPluginFocusedTests` | 44 | `plugins;whisper;audio;v2.1.0` |
 
 ```bash
 ctest -R WhisperPluginFocusedTests --output-on-failure
