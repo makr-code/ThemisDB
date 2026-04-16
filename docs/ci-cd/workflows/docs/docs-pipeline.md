@@ -34,6 +34,10 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Documentation
 **Typ:** Reusable Workflow Call
 **Verwendet:** `./.github/workflows/05-quality_validation_documentation-validation.yml`
 
+Umfasst: docs-lint, link-check (intern), external-link-check, toc-validation,
+metadata-check (`DOC_METADATA.md`, `README.md`, `developers.md`),
+doc-header-check (changed-only), drift-detection, validation-summary.
+
 ### `build-site`
 **Anzeigename:** Build MkDocs Site
 
