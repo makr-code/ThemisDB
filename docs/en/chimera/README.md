@@ -8,6 +8,7 @@
 - `src/chimera/FUTURE_ENHANCEMENTS.md`
 - `src/chimera/CHANGELOG.md`
 - `src/chimera/themisdb_adapter.cpp`
+- `include/chimera/README.md`
 - `include/chimera/themisdb_adapter.hpp`
 - `include/chimera/database_adapter.hpp`
 - `tests/chimera/test_chimera_streaming.cpp`
@@ -46,7 +47,7 @@ Streaming and prepared statements are implemented and covered by dedicated tests
 
 ## Open items / known risks
 
-- Include-level documentation (`include/chimera/README.md`) is still missing.
+- Include-level documentation (`include/chimera/README.md`) has been added — API reference for both header files is now available.
 - Capability claims (e.g. connection pooling) are not fully mirrored by concrete adapter APIs.
 - Engine-backed paths still include `NOT_IMPLEMENTED` outcomes when build flags are unavailable.
 

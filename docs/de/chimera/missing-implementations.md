@@ -43,14 +43,14 @@ Offene Lücken betreffen vor allem **Produktionshärtung, Capability-Konsistenz 
 
 ---
 
-## Befund 3 — Include-Primärdokumentation für `include/chimera/` fehlt
+## Befund 3 — Include-Primärdokumentation für `include/chimera/` ✅ behoben
 
 | Feld | Inhalt |
 |---|---|
 | **Priorität** | Mittel |
 | **Impact** | Erhöhte Onboarding- und Integrationskosten für Consumer der Public Header |
 | **Evidence** | `include/chimera/` enthält Header (`database_adapter.hpp`, `themisdb_adapter.hpp`), aber keine Modul-README/ROADMAP/FUTURE-Dokumente |
-| **Folge-Issue (Vorschlag)** | `docs(chimera): add include/chimera primary docs for public API contracts` |
+| **Status** | ✅ Behoben — `include/chimera/README.md` wurde ergänzt (2026-04-16) |
 
 ---
 

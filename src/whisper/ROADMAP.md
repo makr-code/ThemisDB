@@ -26,10 +26,11 @@ v2.1.0 — Thread-safe. MP3/OGG input via FFmpeg adapter. Benchmarks wired.
 - [x] `WhisperConfig.language_confidence_threshold` — filters low-confidence `detectLanguage()` results
 - [x] Thread-safety: `transcribe_mutex_` now also guards `detectLanguage()` + threshold filter
 - [x] 44 unit tests (groups A–N)
+- [x] **`WhisperPluginAdapter` + `WhisperPluginRegistrar`** — `IThemisPlugin` adapter wrapping `WhisperPlugin`; `createPlugin`, `createAdapter`, `defaultReloadCallback`, `enableHotPlug`, `disableHotPlug`; 12 unit tests (`WhisperPluginRegistrarTests`, groups A–D) (2026-04-16)
 
 ## In Progress
 
-- [~] Integration with `PluginManager` hot-plug monitor
+*(none)*
 
 ## Planned Features
 
@@ -79,7 +80,13 @@ v2.1.0 — Thread-safe. MP3/OGG input via FFmpeg adapter. Benchmarks wired.
 - [x] Provenance stamps on every result
 - [x] Thread-safety verified for concurrent access
 - [x] Performance benchmarks wired (stub path exercised in CI)
+- [x] PluginManager hot-plug integration (`WhisperPluginAdapter` / `WhisperPluginRegistrar`)
 - [ ] Real whisper.cpp integration validated end-to-end (requires model file)
+
+### Phase 7 — PluginManager Hot-Plug Integration ✅ (v2.1.0)
+- [x] `WhisperPluginAdapter : IThemisPlugin` — wraps `WhisperPlugin`, implements `initialize(config_json)`, `shutdown()`, `getType()`, `getCapabilities()`, `getInstance()`; `PluginType::AUDIO_PROCESSING`
+- [x] `WhisperPluginRegistrar` — `createPlugin()`, `createAdapter()`, `defaultReloadCallback()`, `enableHotPlug()`, `disableHotPlug()`
+- [x] 12 unit tests (`WhisperPluginRegistrarTests`, groups A–D) in `src/whisper/tests/test_whisper_plugin_registrar.cpp`
 
 ## Known Issues & Limitations
 
