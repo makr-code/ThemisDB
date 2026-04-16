@@ -1,4 +1,4 @@
-[docs](../../index.md) > [de](../index.md) > [chaos](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
+[docs](../../README.md) > [de](../README.md) > [chaos](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
 **Datum:** 2026-04-16  
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
