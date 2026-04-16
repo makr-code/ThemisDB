@@ -10,7 +10,7 @@
 | **Component Version** | v1.7.0 |
 | **Headers Audited** | 8 (top-level; subdirectories audited separately) |
 | **Critical Findings** | 0 |
-| **Minor Findings** | 1 |
+| **Minor Findings** | 0 |
 
 ---
 
@@ -37,21 +37,21 @@ All 8 top-level public headers in `include/themis/` were reviewed for:
 | `license_info.h` | `LicenseInfo`, `LicenseStatus`, `LicenseConstraint` | ✅ License payload is opaque; private key material not present in public type |
 | `module_hash_verifier.h` | `ModuleHashVerifier`, `HashVerificationResult` | ✅ SHA-256; `[[nodiscard]]` on `verify()`; returns typed result, not raw bool |
 | `module_signature_verifier.h` | `ModuleSignatureVerifier`, `SignatureVerificationResult` | ✅ Ed25519 / RSA-PSS; `[[nodiscard]]` on `verify()` |
-| `runtime_license_gate.h` | `RuntimeLicenseGate`, `FeatureFlag`, `GateResult` | ⚠️ Minor: `GateResult` does not carry a human-readable denial reason; difficult to diagnose in production |
+| `runtime_license_gate.h` | `RuntimeLicenseGate`, `FeatureFlag`, `GateResult` | ✅ `GateResult` includes `LicenseDenialReason` and `message()` |
 
 ---
 
 ## Findings
 
-### Minor Finding 1 — `GateResult` Lacks Denial Reason String
+### Minor Finding 1 — `GateResult` Denial Reason *(Resolved in v1.7.1)*
 
 | Field | Detail |
 |-------|--------|
 | **File** | `runtime_license_gate.h` |
 | **Severity** | Minor |
-| **Status** | Open |
-| **Description** | `GateResult` exposes only a boolean `allowed` field.  When a feature is denied, there is no programmatic way to distinguish "feature not in tier" from "license expired" from "signature mismatch". |
-| **Recommendation** | Add a `GateResult::reason` field of type `LicenseDenialReason` enum and a `GateResult::message()` accessor returning a human-readable string for logging. |
+| **Status** | Closed |
+| **Description** | Historical finding: `GateResult` previously exposed only `allowed` without a structured reason. |
+| **Resolution** | `runtime_license_gate.h` now provides `LicenseDenialReason`, `GateResult::denial_reason`, and `GateResult::message()`. |
 
 ---
 
@@ -64,4 +64,4 @@ All 8 top-level public headers in `include/themis/` were reviewed for:
 - [x] No private key / license secret material in public type definitions
 - [x] Thread-safety of `EditionManager` singleton documented
 - [x] `export.h` is self-contained (no transitive includes)
-- [ ] `GateResult` denial reason *(Finding 1)*
+- [x] `GateResult` denial reason *(Finding 1 resolved in v1.7.1)*
