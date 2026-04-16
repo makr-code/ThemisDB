@@ -1316,32 +1316,56 @@
       "OC-1": {
         "label": "Batched Inference (Batch 64)",
         "primary_benchmark": "BM_ImageEmbedding_Batch",
+        "benchmark_arg": 64,
         "file": "bench_image_analysis.cpp",
-        "status": "mapped"
+        "backend": "cpu",
+        "target_ref_json": "bench_onnx_clip_cpu.json",
+        "target_metric": "6x speedup vs sequential",
+        "status": "mapped",
+        "notes": "CPU baseline; speedup ratio measured against BM_ImageEmbedding_SingleImage sequential path. Benchmark instance: BM_ImageEmbedding_Batch/64."
       },
       "OC-2": {
         "label": "ViT-B/32 CUDA (Batch 64)",
-        "primary_benchmark": "BM_ImageEmbedding_Batch",
+        "primary_benchmark": "BM_ImageEmbedding_BackendComparison",
+        "benchmark_arg": 1,
         "file": "bench_image_analysis.cpp",
-        "status": "mapped"
+        "backend": "gpu",
+        "target_ref_json": "bench_onnx_clip_vit_backend.json",
+        "target_metric": "<=20 ms / 0.31 ms per image",
+        "status": "mapped",
+        "notes": "GPU path; requires CUDA-capable device. Benchmark arg 1 selects CUDA backend (arg 0 = CPU). CI gate: THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX + CUDA runtime present. Falls back to cpu_time proxy when GPU unavailable. Benchmark instance: BM_ImageEmbedding_BackendComparison/1."
       },
       "OC-3": {
         "label": "ViT-B/32 CPU (Batch 16)",
-        "primary_benchmark": "BM_ImageEmbedding_SingleImage",
+        "primary_benchmark": "BM_ImageEmbedding_Batch",
+        "benchmark_arg": 16,
         "file": "bench_image_analysis.cpp",
-        "status": "mapped"
+        "backend": "cpu",
+        "target_ref_json": "bench_onnx_clip_cpu.json",
+        "target_metric": "<=2500 ms total (<=156 ms per image)",
+        "status": "mapped",
+        "notes": "CPU path; BM_ImageEmbedding_Batch with arg 16. Reference value: 154 ms/image on i7-12700K (see plugins/image_analysis/onnx_clip/README.md). Benchmark instance: BM_ImageEmbedding_Batch/16."
       },
       "OC-4": {
         "label": "Text Encoding P95 (CPU)",
         "primary_benchmark": "BM_ImageCaptioning",
+        "benchmark_arg": 224,
         "file": "bench_image_analysis.cpp",
-        "status": "mapped"
+        "backend": "cpu",
+        "target_ref_json": "bench_onnx_clip_cpu.json",
+        "target_metric": "<=5 ms P95",
+        "status": "mapped",
+        "notes": "CPU path; text/caption encoding latency. BM_ImageCaptioning covers the CLIP text-encoder path via mock plugin. Benchmark instance: BM_ImageCaptioning/224."
       },
       "OC-5": {
         "label": "Metrics Overhead",
         "primary_benchmark": "BM_Plugin_Initialization",
         "file": "bench_image_analysis.cpp",
-        "status": "mapped"
+        "backend": "cpu",
+        "target_ref_json": "bench_onnx_clip_cpu.json",
+        "target_metric": "<=0.05 ms per call",
+        "status": "mapped",
+        "notes": "CPU path; measures plugin init + stats overhead independent of backend. Applies to both CPU and GPU execution paths."
       }
     },
     "prompt_engineering": {

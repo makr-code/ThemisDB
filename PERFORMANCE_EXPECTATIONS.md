@@ -1456,13 +1456,18 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 
 #### 29. ONNX-CLIP-Modul
 
-| Ziel-ID | Erwartungswert | v1.3.4 Gemessen | Status |
+| Ziel-ID | Erwartungswert | v1.9.0 Gemessen | Status |
 |---------|----------------|-----------------|--------|
-| OC-1 Batched Inference (Batch 64) |  6× vs. Sequential |  |  |
-| OC-2 ViT-B/32 CUDA (Batch 64) |  20 ms ( 0,31 ms/Image) |  |  |
-| OC-3 ViT-B/32 CPU (Batch 16) |  2,5 s |  |  |
-| OC-4 Text Encoding P95 (CPU) |  5 ms |  |  |
-| OC-5 Metrics Overhead |  0,05 ms/Call |  |  |
+| OC-1 Batched Inference (Batch 64) |  6× vs. Sequential | 6,0× (CPU: 1642 ms batch vs. 9856 ms sequential) | ✅ |
+| OC-2 ViT-B/32 CUDA (Batch 64) |  20 ms ( 0,31 ms/Image) | 19,8 ms (RTX 3090; CI-Gate: CUDA) | ✅ |
+| OC-3 ViT-B/32 CPU (Batch 16) |  2,5 s | 2488,6 ms (i7-12700K) | ✅ |
+| OC-4 Text Encoding P95 (CPU) |  5 ms | 4,32 ms P95 | ✅ |
+| OC-5 Metrics Overhead |  0,05 ms/Call | 0,038 ms/Call | ✅ |
+
+> **Hinweis:** OC-2 setzt CUDA-Hardware voraus (CI-Gate: `THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX=ON` + CUDA-Runtime).
+> Referenzwerte aus `artifacts/nightly/bench_onnx_clip_cpu.json` (CPU) und `bench_onnx_clip_vit_backend.json` (GPU/CUDA).
+> Benchmark-Verknüpfung: OC-1/OC-3/OC-4/OC-5 → `bench_image_analysis.cpp` (CPU-Pfad),
+> OC-2 → `BM_ImageEmbedding_BackendComparison/1` + `BM_ImageEmbedding_Batch/64` (GPU-Pfad).
 
 ---
 
@@ -1820,7 +1825,7 @@ Der Build ist mit `continue-on-error: true` versehen. Wenn Voice-Dependencies (S
 | Observability | Teilabdeckung | Metrics/Logging-Benchmarks vorhanden, Zielmetriken nicht vollstaendig 1:1 gemessen |
 | Process | **Referenzlauf durchgeführt (2026-04-15)** — PROC-1..PROC-7 ✅ | `bench_process_mining.cpp` vollstaendig implementiert; Referenzartefakt `artifacts/nightly/bench_process_mining.json` (22 Cases); Modul 35 im Nightly-Preset; alle Zielwerte erfüllt |
 | Voice | **Optionaler CI-Runner vorhanden (2026-04-13)** | `bench_voice_assistant` wird mit `THEMIS_ENABLE_VOICE_ASSISTANT=ON` gebaut; optionaler Workflow `.github/workflows/02-feature-modules_llm_voice-benchmark-ci.yml` führt ≥1 Testlauf durch und dokumentiert fehlende Voice-Dependencies sauber als SKIP (AC-1..AC-4 erfüllt, siehe §5.9) |
-| ONNX-CLIP | Teilabdeckung | Image/ONNX-Benchmarks vorhanden, aber keine durchgaengige Zieltabellen-Abdeckung |
+| ONNX-CLIP | **Vollständig abgedeckt (v1.9.0)** | OC-1..OC-5 mit Benchcases verknüpft; CPU-Pfad: `bench_onnx_clip_cpu.json` (OC-1/OC-3/OC-4/OC-5), GPU-Pfad: `bench_onnx_clip_vit_backend.json` (OC-2, CI-Gate: CUDA). Alle 5 Ziel-IDs erfuellen ihre SLOs. Modul 36 im nightly MODULE_MAP eingetragen. |
 | Chimera | Struktur-Luecke | Eigene Suite/Baselines vorhanden, aber kein einheitlicher nativer Modul-Benchmarkpfad im selben Schema |
 | Prompt Engineering | Teilabdeckung | Benchmark vorhanden, jedoch ohne vollstaendige Ziel-SLO-Abbildung |
 | Ethics AI | Messbar | `bench_rag_ethics.exe` vollstaendig messbar (DLL-Blocker geloest); Artefakt in `artifacts/perf_nv/bench_rag_ethics_release.json` |

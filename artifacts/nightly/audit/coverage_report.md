@@ -1,6 +1,6 @@
 ### 🌙 Nightly Benchmark Sweep — Coverage Report
 
-**Generated:** 2026-04-15T19:09:05Z  
+**Generated:** 2026-04-15T19:48:28Z  
 **Bench dir:** `artifacts/nightly`  
 **Previous run dir:** `n/a`
 
@@ -38,11 +38,12 @@
 | 31 | Governance | ⚪ | 0 | 0 | — | n/a |
 | 32 | Ethics AI | ⚪ | 0 | 0 | — | n/a |
 | 33 | System-Level (TPC/YCSB) | ⚪ | 0 | 0 | — | n/a |
-| 34 | Temporal | 🟢 | 13 | 0 | 3892 | n/a |
-| 35 | Process Mining | 🟢 | 22 | 0 | 32 | n/a |
+| 34 | Temporal | ⚪ | 0 | 0 | — | n/a |
+| 35 | Process Mining | ⚪ | 0 | 0 | — | n/a |
+| 36 | ONNX-CLIP (Image Embedding) | 🟢 | 14 | 0 | 325 | n/a |
 
 **Legend:** 🟢 OK / no regression &nbsp; 🟡 Minor regression (5–10 %) &nbsp; 🔴 Regression ≥ 10 % or errors &nbsp; ⚪ Not covered (no bench binary matched)
 
-**Coverage:** 3/34 modules have at least one benchmark  
+**Coverage:** 1/35 modules have at least one benchmark  
 **🔴 Regressions / errors:** 0  
 **🟡 Warnings (5–10 %):** 0
