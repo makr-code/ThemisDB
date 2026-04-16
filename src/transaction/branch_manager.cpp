@@ -415,11 +415,19 @@ BranchManager::MergeResult BranchManager::mergeBranches(
         }
     }
     
-    // Fallback: MergeEngine not available
-    result.success = false;
-    result.message = "Non-fast-forward merge not yet implemented. "
-                     "Use force merge or rebase source branch. "
-                     "(MergeEngine not initialized)";
+    // Fallback: MergeEngine not available.
+    // Apply a last-writer-wins policy: advance the target branch to the
+    // source sequence without conflict detection.  Callers that require
+    // proper 3-way conflict resolution must inject a MergeEngine via
+    // setMergeEngine() before calling mergeBranches().
+    result.success = true;
+    result.merged_sequence = source_seq;
+    result.message = fmt::format(
+        "Non-fast-forward merge applied (last-writer-wins; no MergeEngine configured). "
+        "source_seq={}, target_seq={}, base_seq={}. "
+        "Inject a MergeEngine for 3-way merge with conflict detection.",
+        source_seq, target_seq, base_seq);
+    recordMergeStatus(source_branch, target_branch);
     
     return result;
 }
