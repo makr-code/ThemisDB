@@ -80,3 +80,29 @@ The `VccVpbImporter` ships 17 pre-loaded administrative process models across 5 
 | Date | Auditor | Verdict |
 |------|---------|---------|
 | 2026-03-22 | Initial module audit | Passed — 5 open items tracked above |
+
+---
+
+## Security Hardening ✅
+
+**Phase 1.2: Parser Security Hardening Tests** — Added 2026 (15 tests)
+
+| Test | Coverage | Status |
+|------|----------|--------|
+| BPMN XML bomb (depth > 50 levels) | Depth guard / size limit | ✅ |
+| BPMN XXE via DOCTYPE SYSTEM entity | DOCTYPE ignored by parser | ✅ |
+| BPMN billion-laughs (oversized input > 10 MiB) | kMaxBpmnXmlBytes size limit | ✅ |
+| BPMN oversized input (> 1 MB) | No crash, returns ok=false | ✅ |
+| BPMN `<script>` tag → scriptTask node | Stored as data, not executed | ✅ |
+| EPK valid text parsed correctly | Functional correctness | ✅ |
+| EPK oversized input rejected | No crash | ✅ |
+| EPK null bytes / control chars in event names | Graceful handling | ✅ |
+| VCC-VPB valid YAML processed | Functional correctness | ✅ |
+| VCC-VPB !!python/object tag | No code execution | ✅ |
+| VCC-VPB remote !include directive | Not fetched | ✅ |
+| VCC-VPB integer overflow in sla_hours | No UB / crash | ✅ |
+| VCC-VPB path traversal in asset URI | Stored as literal data | ✅ |
+| BPMN external entity ref `&ext;` | Not fetched | ✅ |
+| BPMN malformed XML (unclosed tags) | Parsed gracefully | ✅ |
+
+Test file: `tests/security/test_process_parser_hardening.cpp`

@@ -295,6 +295,19 @@ bool ShardRPCServer::start() {
                 credentials = grpc::InsecureServerCredentials();
             }
         } else {
+            // mTLS not enabled - check production mode enforcement
+            if (const char* prod = getenv("THEMIS_PRODUCTION_MODE"); prod && std::string(prod) == "1") {
+                if (const char* override_flag = getenv("THEMIS_SHARD_MTLS_DISABLED");
+                    override_flag && std::string(override_flag) == "1") {
+                    THEMIS_WARN("ShardRPCServer: mTLS disabled in production mode via "
+                                "THEMIS_SHARD_MTLS_DISABLED=1 — this is INSECURE and for dev/test only.");
+                } else {
+                    throw std::runtime_error(
+                        "ShardRPCServer: mTLS must be enabled in production mode "
+                        "(THEMIS_PRODUCTION_MODE=1). Set enable_mtls=true or set "
+                        "THEMIS_SHARD_MTLS_DISABLED=1 to explicitly override (insecure, dev only).");
+                }
+            }
             // mTLS not enabled - use insecure credentials (development only)
             credentials = grpc::InsecureServerCredentials();
             THEMIS_WARN("mTLS is disabled for shard RPC server. This is insecure and should only be used in development.");

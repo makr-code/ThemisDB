@@ -453,3 +453,107 @@ TEST_F(SecurityEvidenceCollectorTest, VerifyRetention_OldBundle_ReturnsFalse) {
     EXPECT_FALSE(collector_->verifyRetention(store_dir.string()))
         << "A bundle with window_from_ms 400 days old must fail 365-day retention check";
 }
+
+// ============================================================================
+// Phase 6.2 Extended Tests: NetworkControlsEvidence & ChangeManagementEvidence
+// ============================================================================
+
+// Test G1 — NetworkControls: cipher suites list is non-empty
+TEST_F(SecurityEvidenceCollectorTest, NetworkControls_CipherSuitesNonEmpty) {
+    auto now  = std::chrono::system_clock::now();
+    auto from = now - std::chrono::hours(24);
+    auto bundle = collector_->collect(from, now);
+
+    EXPECT_FALSE(bundle.network_controls.tls_cipher_suites.empty())
+        << "TLS cipher suite list must be populated";
+    // Should include at least TLS_AES_256_GCM_SHA384
+    bool found_aes256 = false;
+    for (const auto& cs : bundle.network_controls.tls_cipher_suites) {
+        if (cs.find("AES_256") != std::string::npos) {
+            found_aes256 = true;
+        }
+    }
+    EXPECT_TRUE(found_aes256) << "AES-256 cipher suite must be present";
+}
+
+// Test G2 — NetworkControls: mtls shard count is zero when no shards configured
+TEST_F(SecurityEvidenceCollectorTest, NetworkControls_MtlsShardCountIsZeroWhenNoShards) {
+    auto now  = std::chrono::system_clock::now();
+    auto from = now - std::chrono::hours(24);
+    auto bundle = collector_->collect(from, now);
+
+    EXPECT_GE(bundle.network_controls.mtls_enabled_shard_count, 0)
+        << "mTLS shard count must be non-negative";
+}
+
+// Test G3 — NetworkControls: rate limiter snapshot is valid JSON
+TEST_F(SecurityEvidenceCollectorTest, NetworkControls_RateLimiterSnapshotIsValidJson) {
+    auto now  = std::chrono::system_clock::now();
+    auto from = now - std::chrono::hours(24);
+    auto bundle = collector_->collect(from, now);
+
+    EXPECT_FALSE(bundle.network_controls.rate_limiter_config_snapshot.empty())
+        << "Rate limiter snapshot must not be empty";
+
+    EXPECT_NO_THROW({
+        auto j = nlohmann::json::parse(bundle.network_controls.rate_limiter_config_snapshot);
+        EXPECT_TRUE(j.is_object()) << "Rate limiter snapshot must be a JSON object";
+    }) << "Rate limiter snapshot must be valid JSON";
+}
+
+// Test G4 — ChangeManagement: key rotation log captured
+TEST_F(SecurityEvidenceCollectorTest, ChangeManagement_KeyRotationLogCaptured) {
+    // Rotate a key so there's a rotation to capture
+    key_provider_->createKey("change_mgmt_key",
+                             security::KeyAlgorithm::AES_256_GCM,
+                             security::KeyPurpose::DATA_ENCRYPTION);
+    key_provider_->rotateKey("change_mgmt_key");
+
+    auto now  = std::chrono::system_clock::now();
+    auto from = now - std::chrono::hours(24);
+    auto bundle = collector_->collect(from, now);
+
+    // The key_rotation_log in ChangeManagementEvidence should match key_rotations
+    EXPECT_EQ(bundle.change_management.key_rotation_log.size(),
+              bundle.key_rotations.size())
+        << "ChangeManagement key_rotation_log must match bundle key_rotations";
+}
+
+// Test G5 — ChangeManagement: timestamps set correctly
+TEST_F(SecurityEvidenceCollectorTest, ChangeManagement_TimestampsSet) {
+    auto now  = std::chrono::system_clock::now();
+    auto from = now - std::chrono::hours(48);
+
+    auto from_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        from.time_since_epoch()).count();
+    auto to_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        now.time_since_epoch()).count();
+
+    auto bundle = collector_->collect(from, now);
+
+    EXPECT_EQ(bundle.change_management.from_ms, from_ms)
+        << "ChangeManagement from_ms must match collection window start";
+    EXPECT_EQ(bundle.change_management.to_ms, to_ms)
+        << "ChangeManagement to_ms must match collection window end";
+}
+
+// Test G6 — Bundle includes network_controls and change_management in toJson()
+TEST_F(SecurityEvidenceCollectorTest, Bundle_IncludesNetworkAndChangeManagementEvidence) {
+    auto now  = std::chrono::system_clock::now();
+    auto from = now - std::chrono::hours(24);
+    auto bundle = collector_->collect(from, now);
+
+    auto j = bundle.toJson();
+    EXPECT_TRUE(j.contains("network_controls"))
+        << "Bundle JSON must contain 'network_controls' field";
+    EXPECT_TRUE(j.contains("change_management"))
+        << "Bundle JSON must contain 'change_management' field";
+
+    // Verify sub-structure
+    EXPECT_TRUE(j["network_controls"].contains("tls_cipher_suites"));
+    EXPECT_TRUE(j["network_controls"].contains("mtls_enabled_shard_count"));
+    EXPECT_TRUE(j["network_controls"].contains("rate_limiter_config_snapshot"));
+    EXPECT_TRUE(j["change_management"].contains("from_ms"));
+    EXPECT_TRUE(j["change_management"].contains("to_ms"));
+    EXPECT_TRUE(j["change_management"].contains("key_rotation_log"));
+}

@@ -22746,3 +22746,267 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_projects.cpp")
 else()
     message(STATUS "Projects module tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_projects.cpp")
 endif()
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Phase 1.2: Process Parser Security Hardening Tests
+# ──────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_process_parser_hardening.cpp")
+    message(STATUS "Adding Process Parser Security Hardening tests (Phase 1.2)")
+
+    add_executable(test_process_parser_hardening
+        security/test_process_parser_hardening.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
+    )
+
+    target_include_directories(test_process_parser_hardening PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_process_parser_hardening PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_process_parser_hardening PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ProcessParserHardeningTests COMMAND test_process_parser_hardening)
+
+    set_tests_properties(ProcessParserHardeningTests PROPERTIES
+        LABELS "security;process;bpmn;epk;vcc-vpb;hardening;phase1.2;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  ProcessParserHardening: XML bomb, XXE, billion-laughs, oversized, script-tag, EPK, VCC-VPB (15 tests)")
+endif()
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Phase 1.3: Vulkan Distance Kernel Hardening Tests
+# ──────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_vulkan_distance_kernel_hardening.cpp")
+    message(STATUS "Adding Vulkan Distance Kernel Hardening tests (Phase 1.3)")
+
+    add_executable(test_vulkan_distance_kernel_hardening
+        test_vulkan_distance_kernel_hardening.cpp
+    )
+
+    target_include_directories(test_vulkan_distance_kernel_hardening PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_vulkan_distance_kernel_hardening PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_vulkan_distance_kernel_hardening PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    if(THEMIS_ENABLE_VULKAN)
+        target_compile_definitions(test_vulkan_distance_kernel_hardening PRIVATE
+            THEMIS_ENABLE_VULKAN=1
+        )
+    endif()
+
+    add_test(NAME VulkanDistanceKernelHardeningTests COMMAND test_vulkan_distance_kernel_hardening)
+
+    set_tests_properties(VulkanDistanceKernelHardeningTests PROPERTIES
+        LABELS "security;vulkan;acceleration;kernel;hardening;phase1.3;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  VulkanDistanceKernelHardening: dispatch, max-elements, zero-guard, invalid-descriptor, push-constants, workgroup (10 tests)")
+endif()
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Phase 2.1: mTLS Default-On Enforcement Tests
+# ──────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_shard_mtls_enforcement.cpp")
+    message(STATUS "Adding Shard mTLS Enforcement tests (Phase 2.1)")
+
+    add_executable(test_shard_mtls_enforcement
+        test_shard_mtls_enforcement.cpp
+    )
+
+    target_include_directories(test_shard_mtls_enforcement PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_shard_mtls_enforcement PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_shard_mtls_enforcement PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ShardMtlsEnforcementTests COMMAND test_shard_mtls_enforcement)
+
+    set_tests_properties(ShardMtlsEnforcementTests PROPERTIES
+        LABELS "security;sharding;mtls;tls;enforcement;phase2.1;unit"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  ShardMtlsEnforcement: default=true, disabled-override, production-check, cert-paths (8 tests)")
+endif()
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Phase 2.3: OAuthTokenManager Tests
+# ──────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_oauth_token_manager.cpp")
+    message(STATUS "Adding OAuthTokenManager tests (Phase 2.3)")
+
+    add_executable(test_oauth_token_manager
+        test_oauth_token_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/ingestion/oauth_token_manager.cpp
+    )
+
+    target_include_directories(test_oauth_token_manager PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_oauth_token_manager PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    if(CURL_FOUND)
+        target_link_libraries(test_oauth_token_manager PRIVATE CURL::libcurl)
+    endif()
+
+    target_compile_definitions(test_oauth_token_manager PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME OAuthTokenManagerTests COMMAND test_oauth_token_manager)
+
+    set_tests_properties(OAuthTokenManagerTests PROPERTIES
+        LABELS "security;ingestion;oauth;token;refresh;backoff;phase2.3;unit"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  OAuthTokenManager: valid-token, near-expiry, concurrency, 429/503 backoff, 401 expiry, NullTokenManager, bearer-header (10 tests)")
+endif()
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Phase 2.4: Changefeed Governance Headers Tests
+# ──────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_changefeed_governance_headers.cpp")
+    message(STATUS "Adding Changefeed Governance Headers tests (Phase 2.4)")
+
+    add_executable(test_changefeed_governance_headers
+        test_changefeed_governance_headers.cpp
+    )
+
+    target_include_directories(test_changefeed_governance_headers PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_changefeed_governance_headers PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_changefeed_governance_headers PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ChangefeedGovernanceHeadersTests COMMAND test_changefeed_governance_headers)
+
+    set_tests_properties(ChangefeedGovernanceHeadersTests PROPERTIES
+        LABELS "security;governance;changefeed;headers;classification;phase2.4;unit"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  ChangefeedGovernanceHeaders: classification, redaction, mode, enforce, vs-nfd, geheim, audit (8 tests)")
+endif()
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Phase 5.3: OPA WASM Adapter Tests
+# ──────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_opa_wasm_adapter.cpp")
+    message(STATUS "Adding OPA WASM Adapter tests (Phase 5.3)")
+
+    add_executable(test_opa_wasm_adapter
+        test_opa_wasm_adapter.cpp
+        ${CMAKE_SOURCE_DIR}/src/governance/opa_adapter.cpp
+    )
+
+    target_include_directories(test_opa_wasm_adapter PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_opa_wasm_adapter PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    if(CURL_FOUND)
+        target_link_libraries(test_opa_wasm_adapter PRIVATE CURL::libcurl)
+    endif()
+
+    target_compile_definitions(test_opa_wasm_adapter PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME OpaWasmAdapterTests COMMAND test_opa_wasm_adapter)
+
+    set_tests_properties(OpaWasmAdapterTests PROPERTIES
+        LABELS "security;governance;opa;wasm;policy;phase5.3;unit"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  OpaWasmAdapter: REST-mode, WASM-missing-bundle, bundle-not-found, config, defaults, fallback-counter (8 tests)")
+endif()
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Phase 8.1: Graph Watermarking & Fingerprinting Tests
+# ──────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_watermarking.cpp")
+    message(STATUS "Adding Graph Watermarking tests (Phase 8.1)")
+
+    add_executable(test_graph_watermarking
+        test_graph_watermarking.cpp
+        ${CMAKE_SOURCE_DIR}/src/graph/graph_watermark.cpp
+    )
+
+    target_include_directories(test_graph_watermarking PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_graph_watermarking PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graph_watermarking PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME GraphWatermarkingTests COMMAND test_graph_watermarking)
+
+    set_tests_properties(GraphWatermarkingTests PROPERTIES
+        LABELS "security;graph;watermark;fingerprint;provenance;phase8.1;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  GraphWatermarking: embed+detect round-trip, partial, no-FP, tenant-isolation, perf, collision, empty (10 tests)")
+endif()

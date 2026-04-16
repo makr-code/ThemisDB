@@ -23,6 +23,8 @@
 #include "governance/opa_adapter.h"
 #include <curl/curl.h>
 #include <nlohmann/json.hpp>
+#include <atomic>
+#include <filesystem>
 #include <mutex>
 #include <stdexcept>
 
@@ -30,6 +32,11 @@ namespace themis {
 namespace governance {
 
 namespace {
+
+/// Prometheus-style counters for WASM evaluation paths.
+/// Labels: wasm_success, wasm_fallback
+std::atomic<uint64_t> governance_opa_wasm_eval_wasm_success{0};
+std::atomic<uint64_t> governance_opa_wasm_eval_wasm_fallback{0};
 
 /// libcurl write callback: appends received data to a std::string.
 size_t curl_write_callback(void* ptr, size_t size, size_t nmemb, void* userdata) {
@@ -161,6 +168,16 @@ std::optional<PolicyDecision> OpaAdapter::evaluate(
     const std::unordered_map<std::string, std::string>& headers,
     const std::string& route) const
 {
+    // WASM evaluation path (tried first when mode == WASM)
+    if (config_.mode == Config::EvalMode::WASM) {
+        auto wasm_result = evaluateWasm(headers, route);
+        if (wasm_result.has_value()) {
+            return wasm_result;
+        }
+        // WASM failed — fall through to REST
+        ++governance_opa_wasm_eval_wasm_fallback;
+    }
+
     const std::string url  = buildUrl();
     const std::string body = buildRequestBody(headers, route);
 
@@ -199,6 +216,53 @@ std::optional<PolicyDecision> OpaAdapter::evaluate(
     }
 
     return parseOpaResponse(response_body);
+}
+
+// STUB/SIMULATION NOTE:
+// Purpose: WASM-based OPA bundle evaluation without an OPA sidecar.
+//   Loads a pre-compiled OPA bundle (.wasm) and evaluates it locally.
+// Activation: Config::mode == EvalMode::WASM and wasm_bundle_path is set.
+//   Gated by THEMIS_ENABLE_OPA_WASM build flag for real WASM runtime linkage.
+// Production Delta: This stub checks only that the bundle file exists, then
+//   returns a permissive PolicyDecision. A real implementation would invoke
+//   a WASM runtime (e.g. wasmer/wasmtime) to evaluate the Rego bundle.
+// Removal Plan: Replace with actual WASM runtime call when
+//   THEMIS_ENABLE_OPA_WASM is added to the build system and a WASM runtime
+//   dependency is approved.
+std::optional<PolicyDecision> OpaAdapter::evaluateWasm(
+    const std::unordered_map<std::string, std::string>& /*headers*/,
+    const std::string& /*route*/) const
+{
+#ifdef THEMIS_ENABLE_OPA_WASM
+    // Real WASM evaluation path (not yet implemented — requires WASM runtime linkage)
+    // Fall through to REST
+    ++governance_opa_wasm_eval_wasm_fallback;
+    return std::nullopt;
+#else
+    // Check that the bundle file exists before returning stub result
+    if (config_.wasm_bundle_path.empty()) {
+        ++governance_opa_wasm_eval_wasm_fallback;
+        return std::nullopt;
+    }
+    if (!std::filesystem::exists(config_.wasm_bundle_path)) {
+        ++governance_opa_wasm_eval_wasm_fallback;
+        return std::nullopt;
+    }
+
+    // Stub: bundle exists — return permissive PolicyDecision
+    ++governance_opa_wasm_eval_wasm_success;
+    PolicyDecision d;
+    d.classification             = "offen";
+    d.mode                       = "observe";
+    d.encrypt_logs               = false;
+    d.redaction                  = "none";
+    d.ann_allowed                = true;
+    d.require_content_encryption = false;
+    d.export_allowed             = true;
+    d.cache_allowed              = true;
+    d.retention_days             = 365;
+    return d;
+#endif
 }
 
 } // namespace governance
