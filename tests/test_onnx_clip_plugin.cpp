@@ -349,3 +349,73 @@ TEST_F(ONNXClipPluginTest, ViTL14ProducesWith768DimEmbeddings) {
     }
     EXPECT_NEAR(1.0, std::sqrt(l2), 1e-4);
 }
+
+// ============================================================================
+// Prometheus Metrics & Integrity Check Tests
+// ============================================================================
+
+TEST_F(ONNXClipPluginTest, Statistics_PrometheusCountersZeroOnStart) {
+    ONNXClipPlugin plugin;
+    PluginConfig cfg;
+    ASSERT_TRUE(plugin.initialize(cfg, BackendType::CPU));
+
+    auto stats = plugin.getStatistics();
+    EXPECT_EQ(0u, stats["clip_embeddings_total"].get<uint64_t>());
+    EXPECT_EQ(0u, stats["clip_text_embeddings_total"].get<uint64_t>());
+    EXPECT_EQ(0u, stats["clip_batch_embeddings_total"].get<uint64_t>());
+}
+
+TEST_F(ONNXClipPluginTest, Statistics_EmbeddingCountIncrementsAfterGenerate) {
+    ONNXClipPlugin plugin;
+    PluginConfig cfg;
+    ASSERT_TRUE(plugin.initialize(cfg, BackendType::CPU));
+
+    plugin.generateEmbedding(makeImageBytes(512));
+
+    auto stats = plugin.getStatistics();
+    EXPECT_EQ(1u, stats["clip_embeddings_total"].get<uint64_t>());
+    EXPECT_EQ(0u, stats["clip_text_embeddings_total"].get<uint64_t>());
+    EXPECT_EQ(0u, stats["clip_batch_embeddings_total"].get<uint64_t>());
+}
+
+TEST_F(ONNXClipPluginTest, Statistics_TextEmbeddingCountIncrements) {
+    ONNXClipPlugin plugin;
+    PluginConfig cfg;
+    ASSERT_TRUE(plugin.initialize(cfg, BackendType::CPU));
+
+    plugin.generateTextEmbedding("a photo of a cat");
+
+    auto stats = plugin.getStatistics();
+    EXPECT_EQ(0u, stats["clip_embeddings_total"].get<uint64_t>());
+    EXPECT_EQ(1u, stats["clip_text_embeddings_total"].get<uint64_t>());
+    EXPECT_EQ(0u, stats["clip_batch_embeddings_total"].get<uint64_t>());
+}
+
+TEST_F(ONNXClipPluginTest, Statistics_BatchCounterSummedCorrectly) {
+    ONNXClipPlugin plugin;
+    PluginConfig cfg;
+    ASSERT_TRUE(plugin.initialize(cfg, BackendType::CPU));
+
+    std::vector<std::vector<uint8_t>> batch = {
+        makeImageBytes(256),
+        makeImageBytes(512),
+        makeImageBytes(1024)
+    };
+    plugin.generateEmbeddingBatch(batch);
+
+    auto stats = plugin.getStatistics();
+    EXPECT_EQ(0u, stats["clip_embeddings_total"].get<uint64_t>());
+    EXPECT_EQ(0u, stats["clip_text_embeddings_total"].get<uint64_t>());
+    EXPECT_EQ(3u, stats["clip_batch_embeddings_total"].get<uint64_t>());
+}
+
+TEST_F(ONNXClipPluginTest, IntegrityCheck_EmptyExpectedHashSkipsCheck) {
+    ONNXClipPlugin plugin;
+    // Empty model.expected_sha256 means integrity check is skipped;
+    // initialize() must succeed regardless.
+    nlohmann::json settings;
+    settings["model"]["expected_sha256"] = "";
+    PluginConfig cfg(settings);
+    EXPECT_TRUE(plugin.initialize(cfg, BackendType::CPU));
+    EXPECT_TRUE(plugin.isReady());
+}

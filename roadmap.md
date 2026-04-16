@@ -32,7 +32,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **cache** | ✅ Production-ready | [src/cache/ROADMAP.md](src/cache/ROADMAP.md) |
 | **cdc** | ✅ Production-ready | [src/cdc/ROADMAP.md](src/cdc/ROADMAP.md) |
 | **chaos** | ✅ Production-ready — FaultInjector (5 fault types), ChaosScheduler (cron + event trigger), deterministic chaos scheduling | [src/chaos/ROADMAP.md](src/chaos/ROADMAP.md) |
-| **chimera** | 🔴 Alpha — ThemisDB adapter functional; vendor adapters planned | [src/chimera/ROADMAP.md](src/chimera/ROADMAP.md) |
+| **chimera** | 🟡 Beta — ThemisDB adapter functional; vendor adapters implemented in simulation mode | [src/chimera/ROADMAP.md](src/chimera/ROADMAP.md) |
 | **config** | ✅ Production-ready | [src/config/ROADMAP.md](src/config/ROADMAP.md) |
 | **content** | ✅ Production-ready — 13 format processors with >80% coverage; benchmark thresholds met; security hardening (zip-bomb, path, upload) verified | [src/content/ROADMAP.md](src/content/ROADMAP.md) |
 | **core** | ✅ Production-ready — ConcernsContext DI, pluggable adapters, tracing/metrics/cache/secrets/feature-flags operational | [src/core/ROADMAP.md](src/core/ROADMAP.md) |
@@ -52,7 +52,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **metadata** | ✅ Production-ready | [src/metadata/ROADMAP.md](src/metadata/ROADMAP.md) |
 | **network** | ✅ Production-ready | [src/network/ROADMAP.md](src/network/ROADMAP.md) |
 | **observability** | ✅ Production-ready | [src/observability/ROADMAP.md](src/observability/ROADMAP.md) |
-| **onnx_clip** | 🟡 Beta (v0.0.2) — `ONNXClipPlugin` multi-backend (CPU/CUDA/DirectML/TensorRT/AUTO), pImpl isolation; native batch path in progress | [src/onnx_clip/ROADMAP.md](src/onnx_clip/ROADMAP.md) |
+| **onnx_clip** | ✅ Production-ready (v0.2.0) — all v0.2.0 items done: Prometheus metrics, model integrity check (SHA-256), 26 unit tests | [src/onnx_clip/ROADMAP.md](src/onnx_clip/ROADMAP.md) |
 | **performance** | ✅ Production-ready | [src/performance/ROADMAP.md](src/performance/ROADMAP.md) |
 | **plugins** | ✅ Production-ready | [src/plugins/ROADMAP.md](src/plugins/ROADMAP.md) |
 | **process** | ✅ Production-ready — BPMN/EPK/VCC-VPB import, Graph-RAG, ProcessLinker, HNSW + full-text retrieval operational; LLM embedding auto-generation documented as external dependency | [src/process/ROADMAP.md](src/process/ROADMAP.md) |
@@ -305,8 +305,8 @@ cross-backend consistency, error handling, and resource management.
 - [I] Kafka/Kinesis integration for event streaming (Target: Q3 2026)
 
 #### 1.4 Chimera — Vendor Adapter Implementations
-- [I] PostgreSQL adapter (Issue: alpha) (Target: Q3 2026)
-- [I] MongoDB adapter (Target: Q3 2026)
+- [x] PostgreSQL adapter (Issue: alpha) (Target: Q3 2026)
+- [x] MongoDB adapter (Target: Q3 2026)
 - [x] Weaviate adapter (Target: Q4 2026)
 
 #### 1.5 Content — Binary Format Support

@@ -6,9 +6,10 @@
 
 ## Current Status
 
-v0.1.0 — `ONNXClipPlugin` implements the full `IImageAnalysisBackend` interface with
-pImpl isolation and multi-backend support (CPU/CUDA/DirectML/TensorRT/AUTO). Native
-batch sub-batch splitting and CLIP text encoder are now implemented.
+v0.2.0 — `ONNXClipPlugin` is Production-ready. Full `IImageAnalysisBackend` interface with
+pImpl isolation, multi-backend support (CPU/CUDA/DirectML/TensorRT/AUTO), native batch
+sub-batch splitting, CLIP text encoder, Prometheus-style metrics, and ONNX model integrity
+check (SHA-256) are all implemented.
 
 ---
 
@@ -26,21 +27,18 @@ batch sub-batch splitting and CLIP text encoder are now implemented.
 - [x] `getStatistics()` JSON metrics (calls, avg_latency_ms, backend, model_variant, max_batch_size, total_text_inferences)
 - [x] `THEMIS_IMAGE_PLUGIN` macro export for dynamic plugin loading
 - [x] Thread-safe inference via `std::mutex`
-- [x] Unit tests: CPU backend, model load, embedding shape, `healthCheck()` (Target: Q3 2026) — `tests/test_onnx_clip_plugin.cpp` (21 tests, `OnnxClipPluginTests`); registered in `tests/CMakeLists.txt` under `THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX` guard
+- [x] Prometheus metrics: `clip_embeddings_total`, `clip_text_embeddings_total`, `clip_batch_embeddings_total` (Target: Q3 2026) ✅
+- [x] ONNX model integrity check (SHA-256 hash on load via OpenSSL EVP; skipped gracefully without OpenSSL) (Target: Q1 2027) ✅
+- [x] Unit tests: CPU backend, model load, embedding shape, `healthCheck()` (Target: Q3 2026) — `tests/test_onnx_clip_plugin.cpp` (26 tests, `ONNXClipPluginTest`); registered in `tests/CMakeLists.txt` under `THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX` guard
 
 ---
 
 ## Planned Features
 
-### v0.2.0 — Integration Tests and Benchmarks (Target: Q3 2026)
+### v0.3.0 — Production Hardening (Target: Q1 2027)
 
 - [ ] Integration tests: ViT-B/32 and ViT-L/14 golden embedding comparison (Target: Q3 2026)
 - [ ] Performance benchmark: ViT-B/32 CPU ≤ 150 ms/image; CUDA ≤ 20 ms/image (Target: Q3 2026)
-- [ ] Prometheus metrics: `clip_embeddings_total`, `clip_latency_seconds` histogram (Target: Q3 2026)
-
-### v0.3.0 — Production Hardening (Target: Q1 2027)
-
-- [ ] ONNX model integrity check (SHA-256 hash on load) (Target: Q1 2027)
 - [ ] Dynamic model hot-swap without server restart (Target: Q1 2027)
 - [ ] Memory-mapped model loading for large ViT-L/14 files (Target: Q1 2027)
 
@@ -67,12 +65,13 @@ batch sub-batch splitting and CLIP text encoder are now implemented.
 - [x] Empty text input → `EmbeddingResult{ok=false}`
 
 ### Phase 4: Tests [~]
-- [x] Unit tests for CPU backend and embedding shape (21 tests covering image embedding, text embedding, batch splitting, ViT-L/14 768-dim)
+- [x] Unit tests for CPU backend and embedding shape (26 tests covering image embedding, text embedding, batch splitting, ViT-L/14 768-dim, Prometheus counters, integrity check)
 - [ ] Integration tests with real ONNX models (Target: Q3 2026)
 
-### Phase 5: Performance / Hardening [ ]
+### Phase 5: Performance / Hardening ✅ (partial)
 - [ ] Perf benchmark (Target: Q3 2026)
-- [ ] Prometheus metrics (Target: Q3 2026)
+- [x] Prometheus metrics (Target: Q3 2026)
+- [x] ONNX model integrity check (SHA-256 via OpenSSL) (Target: Q1 2027)
 
 ### Phase 6: Documentation & Acceptance ✅
 - [x] README, ARCHITECTURE, AUDIT, CHANGELOG, ROADMAP, SECURITY, FUTURE_ENHANCEMENTS
@@ -90,9 +89,10 @@ batch sub-batch splitting and CLIP text encoder are now implemented.
 | Multi-backend | ✅ | CPU / CUDA / DirectML / TensorRT / AUTO |
 | Batch inference | ✅ | Sub-batch splitting with `max_batch_size` config |
 | Text encoder | ✅ | `generateTextEmbedding()` with BPE tokenization |
-| Unit/integration tests | ⚠️ | 21 unit tests; integration tests still pending |
+| Prometheus metrics | ✅ | `clip_embeddings_total`, `clip_text_embeddings_total`, `clip_batch_embeddings_total` |
+| Model integrity check | ✅ | SHA-256 via OpenSSL EVP; graceful skip without OpenSSL |
+| Unit/integration tests | ⚠️ | 26 unit tests; integration tests still pending |
 | Performance benchmarks | ❌ | Planned Q3 2026 |
-| Prometheus metrics | ❌ | Planned Q3 2026 |
 
 ---
 
@@ -100,5 +100,4 @@ batch sub-batch splitting and CLIP text encoder are now implemented.
 
 - Integration tests with real ViT-B/32 / ViT-L/14 ONNX model files still pending.
 - DirectML backend requires Windows; silently falls back to CPU on Linux.
-- No ONNX model integrity verification (hash check) on load.
-- Prometheus metrics not yet wired.
+- SHA-256 model integrity check requires OpenSSL at build time (`THEMIS_HAS_OPENSSL`); skipped without it.

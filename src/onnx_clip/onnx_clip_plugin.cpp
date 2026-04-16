@@ -28,7 +28,12 @@
 #include <chrono>
 #include <cmath>
 #include <cstdint>
+#include <fstream>
 #include <sstream>
+
+#ifdef THEMIS_HAS_OPENSSL
+#include <openssl/evp.h>
+#endif
 
 namespace themis {
 namespace plugins {
@@ -51,6 +56,52 @@ static const char* backendToString(BackendType backend) {
         default: return "unknown";
     }
 }
+
+#ifdef THEMIS_HAS_OPENSSL
+// Compute SHA-256 hex digest of a file. Returns empty string on I/O error.
+static std::string sha256HexOfFile(const std::string& path) {
+    std::ifstream file(path, std::ios::binary);
+    if (!file.is_open()) {
+        return {};
+    }
+
+    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+    if (!ctx) {
+        return {};
+    }
+
+    if (EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr) != 1) {
+        EVP_MD_CTX_free(ctx);
+        return {};
+    }
+
+    char buf[65536];
+    while (file.read(buf, sizeof(buf)) || file.gcount() > 0) {
+        if (EVP_DigestUpdate(ctx, buf, static_cast<size_t>(file.gcount())) != 1) {
+            EVP_MD_CTX_free(ctx);
+            return {};
+        }
+    }
+
+    unsigned char digest[EVP_MAX_MD_SIZE];
+    unsigned int digest_len = 0;
+    if (EVP_DigestFinal_ex(ctx, digest, &digest_len) != 1) {
+        EVP_MD_CTX_free(ctx);
+        return {};
+    }
+    EVP_MD_CTX_free(ctx);
+
+    // Encode as lowercase hex string
+    std::ostringstream hex;
+    hex << std::hex;
+    for (unsigned int i = 0; i < digest_len; ++i) {
+        hex.width(2);
+        hex.fill('0');
+        hex << static_cast<unsigned int>(digest[i]);
+    }
+    return hex.str();
+}
+#endif // THEMIS_HAS_OPENSSL
 
 static uint64_t fnv1a64(const std::vector<uint8_t>& data) {
     uint64_t hash = 1469598103934665603ull;
@@ -127,6 +178,11 @@ struct ONNXClipPlugin::Impl {
     uint64_t total_images = 0;
     uint64_t total_text_inferences = 0;
     double total_latency_ms = 0.0;
+
+    // Prometheus-style counters (incremented under mutex)
+    uint64_t clip_embeddings_total = 0;
+    uint64_t clip_text_embeddings_total = 0;
+    uint64_t clip_batch_embeddings_total = 0;
 
     EmbeddingResult computeEmbedding(const std::vector<uint8_t>& image_data,
                                      const ImageMetadata* metadata,
@@ -259,6 +315,34 @@ bool ONNXClipPlugin::initialize(const PluginConfig& config, BackendType backend)
     const int cfg_max = config.get<int>("max_batch_size", cpu_default);
     impl_->max_batch_size = std::max(1, cfg_max);
 
+    // Model integrity check: if expected_model_sha256 is set, verify the file hash.
+    const std::string model_path = config.get<std::string>("model.path", "");
+    const std::string expected_sha256 = config.get<std::string>("model.expected_sha256", "");
+
+    if (!expected_sha256.empty() && !model_path.empty()) {
+#ifdef THEMIS_HAS_OPENSSL
+        const std::string actual_sha256 = sha256HexOfFile(model_path);
+        if (actual_sha256.empty()) {
+            // Could not read model file — treat as integrity failure
+            return false;
+        }
+        if (actual_sha256 != expected_sha256) {
+            // THEMIS_ERROR: model integrity check failed
+            return false;
+        }
+#else
+        // STUB/SIMULATION NOTE:
+        // Purpose: OpenSSL is unavailable; SHA-256 integrity check cannot be performed.
+        // Activation: When THEMIS_HAS_OPENSSL is not defined at compile time.
+        // Production Delta: In production (OpenSSL available) the hash is verified;
+        //                   here the check is skipped, allowing any model file to load.
+        // Removal Plan: This branch remains as a build-configuration fallback; it is
+        //               never removed but should be unreachable in hardened deployments.
+        (void)model_path;
+        (void)expected_sha256;
+#endif // THEMIS_HAS_OPENSSL
+    }
+
     impl_->ready = true;
     return true;
 }
@@ -303,6 +387,7 @@ EmbeddingResult ONNXClipPlugin::generateEmbedding(
     impl_->total_images++;
     impl_->total_inferences++;
     impl_->total_latency_ms += static_cast<double>(dt_ms);
+    impl_->clip_embeddings_total++;
     if (!result.success) {
         impl_->total_errors++;
     }
@@ -354,6 +439,7 @@ std::vector<EmbeddingResult> ONNXClipPlugin::generateEmbeddingBatch(
     impl_->total_images += static_cast<uint64_t>(images.size());
     impl_->total_inferences += static_cast<uint64_t>(images.size());
     impl_->total_latency_ms += static_cast<double>(dt_ms);
+    impl_->clip_batch_embeddings_total += static_cast<uint64_t>(images.size());
 
     return results;
 }
@@ -386,6 +472,7 @@ EmbeddingResult ONNXClipPlugin::generateTextEmbedding(const std::string& text) {
     impl_->total_text_inferences++;
     impl_->total_inferences++;
     impl_->total_latency_ms += static_cast<double>(dt_ms);
+    impl_->clip_text_embeddings_total++;
     if (!result.success) {
         impl_->total_errors++;
     }
@@ -411,7 +498,10 @@ nlohmann::json ONNXClipPlugin::getStatistics() const {
         {"total_images", impl_->total_images},
         {"total_text_inferences", impl_->total_text_inferences},
         {"total_errors", impl_->total_errors},
-        {"avg_latency_ms", avg_latency}
+        {"avg_latency_ms", avg_latency},
+        {"clip_embeddings_total", impl_->clip_embeddings_total},
+        {"clip_text_embeddings_total", impl_->clip_text_embeddings_total},
+        {"clip_batch_embeddings_total", impl_->clip_batch_embeddings_total}
     };
 }
 

@@ -23010,3 +23010,73 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_watermarking.cpp")
 
     message(STATUS "  GraphWatermarking: embed+detect round-trip, partial, no-FP, tenant-isolation, perf, collision, empty (10 tests)")
 endif()
+
+# ============================================================================
+# IComputeGraph Header Tests (include/acceleration/compute_graph.h)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_compute_graph_header.cpp")
+    message(STATUS "Adding IComputeGraph header tests (acceleration, Target: Q3 2026)")
+
+    add_executable(test_compute_graph_header
+        test_compute_graph_header.cpp
+    )
+
+    target_include_directories(test_compute_graph_header PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_compute_graph_header PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_compute_graph_header PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ComputeGraphHeaderTests COMMAND test_compute_graph_header)
+
+    set_tests_properties(ComputeGraphHeaderTests PROPERTIES
+        LABELS "acceleration;compute-graph;dag;header;unit"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  ComputeGraphHeader: node/edge construction, compile, execute, toDot, stats, factory (10 tests)")
+endif()
+
+# ============================================================================
+# QuantizedBackend Header Tests (include/acceleration/quantized_backend.h)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_quantized_backend_header.cpp")
+    message(STATUS "Adding QuantizedBackend header tests (acceleration, Target: Q3 2026)")
+
+    add_executable(test_quantized_backend_header
+        test_quantized_backend_header.cpp
+    )
+
+    target_include_directories(test_quantized_backend_header PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_quantized_backend_header PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_quantized_backend_header PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME QuantizedBackendHeaderTests COMMAND test_quantized_backend_header)
+
+    set_tests_properties(QuantizedBackendHeaderTests PROPERTIES
+        LABELS "acceleration;quantization;int4;int8;header;unit"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  QuantizedBackendHeader: config defaults, scheme enum, quantize/dequantize, matmul, calibration, capabilities (10 tests)")
+endif()

@@ -44,6 +44,7 @@
 #include <vector>
 #include <string>
 #include <mutex>
+#include <cstdint>
 
 namespace themis {
 namespace plugins {
