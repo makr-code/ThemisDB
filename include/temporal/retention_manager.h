@@ -56,6 +56,61 @@ enum class RetentionType {
 };
 
 /**
+ * A single, comparable retention rule that captures one retention constraint.
+ *
+ * `RetentionRule` is a lightweight value type (no callbacks) that can be
+ * stored in ordered containers, compared for equality, and used as a map key.
+ * It complements `RetentionPolicy` (the full configuration object) for cases
+ * where rules must be enumerated, sorted, or deduplicated.
+ *
+ * Ordering is defined as:
+ *   1. By `type` (enum ordinal).
+ *   2. Within the same type, by the primary numeric bound
+ *      (`max_age_ms` / `max_versions` / `max_bytes`).
+ *   3. Finally by `tag` lexicographic order.
+ */
+struct RetentionRule {
+    RetentionType type{RetentionType::TIME_BASED};
+
+    /// For TIME_BASED: maximum age in milliseconds (0 = unlimited).
+    int64_t max_age_ms{0};
+
+    /// For VERSION_COUNT_BASED: maximum versions per key (0 = unlimited).
+    size_t max_versions{0};
+
+    /// For STORAGE_BASED: maximum total bytes for historical data (0 = unlimited).
+    uint64_t max_bytes{0};
+
+    /// Human-readable label (e.g. compliance tag). Used as tiebreaker.
+    std::string tag;
+
+    bool operator==(const RetentionRule& o) const noexcept {
+        return type == o.type
+            && max_age_ms == o.max_age_ms
+            && max_versions == o.max_versions
+            && max_bytes == o.max_bytes
+            && tag == o.tag;
+    }
+
+    bool operator!=(const RetentionRule& o) const noexcept {
+        return !(*this == o);
+    }
+
+    /// Strict weak ordering: (type, numeric_bound, tag).
+    bool operator<(const RetentionRule& o) const noexcept {
+        if (type != o.type)
+            return type < o.type;
+        if (max_age_ms != o.max_age_ms)
+            return max_age_ms < o.max_age_ms;
+        if (max_versions != o.max_versions)
+            return max_versions < o.max_versions;
+        if (max_bytes != o.max_bytes)
+            return max_bytes < o.max_bytes;
+        return tag < o.tag;
+    }
+};
+
+/**
  * Policy that governs how historical data is cleaned up.
  */
 struct RetentionPolicy {

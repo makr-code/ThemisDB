@@ -139,6 +139,15 @@ public:
      */
     size_t removeKey(const std::string& key);
 
+    /**
+     * Erase all entries for the given key.
+     *
+     * Alias for removeKey(key) provided for compatibility with standard
+     * container naming conventions (`erase` vs `remove`).
+     * Returns the number of entries removed.  O(n) worst-case.
+     */
+    size_t erase(const std::string& key);
+
     /** Remove all entries. O(n). */
     void clear();
 

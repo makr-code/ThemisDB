@@ -78,6 +78,32 @@ namespace temporal {
 // ChangeType
 // ============================================================================
 
+/**
+ * Policy applied when the ring-buffer event log reaches `max_log_size`.
+ *
+ * | Policy    | Behaviour                                                    |
+ * |-----------|--------------------------------------------------------------|
+ * | OVERWRITE | (default) The oldest event in the ring-buffer is silently    |
+ * |           | discarded to make room for the new event.  This is a        |
+ * |           | circular-overwrite (FIFO eviction) strategy: every new event |
+ * |           | always succeeds, but old events may be lost.                 |
+ * | BLOCK     | `publishEvent` blocks (under the internal mutex) until a     |
+ * |           | consumer drains at least one slot.  Use with caution in      |
+ * |           | latency-sensitive write paths; reserved for future use.      |
+ * | DROP      | The new event is silently dropped; the ring-buffer contents  |
+ * |           | are preserved.  `overflowCount()` is incremented for every   |
+ * |           | dropped event, giving the caller a way to detect back-        |
+ * |           | pressure without consuming CPU on lock contention.           |
+ *
+ * The current implementation supports OVERWRITE and DROP.  BLOCK is accepted
+ * as a constructor argument but falls back to OVERWRITE with a debug assertion.
+ */
+enum class OverflowPolicy {
+    OVERWRITE, ///< Evict oldest event to make room (default, never blocks)
+    BLOCK,     ///< Block until a consumer frees space (future / reserved)
+    DROP       ///< Silently discard new events when the buffer is full
+};
+
 /** Discriminator for the kind of change captured by a ChangeEvent. */
 enum class ChangeType {
     INSERT,          ///< A new row was inserted (no before_value)
@@ -150,7 +176,15 @@ class TemporalCDC {
 public:
     static constexpr size_t kDefaultMaxLogSize = 65536;
 
-    explicit TemporalCDC(size_t max_log_size = kDefaultMaxLogSize);
+    /**
+     * Construct a CDC instance.
+     *
+     * @param max_log_size  Ring-buffer capacity (number of events).
+     * @param policy        What to do when the buffer is full.
+     *                      Defaults to OVERWRITE (circular eviction).
+     */
+    explicit TemporalCDC(size_t max_log_size = kDefaultMaxLogSize,
+                         OverflowPolicy policy = OverflowPolicy::OVERWRITE);
 
     // Non-copyable; movable
     TemporalCDC(const TemporalCDC&)            = delete;
@@ -227,6 +261,21 @@ public:
     /** Clear the in-process event log.  Active subscriptions are unaffected. */
     void clearLog();
 
+    /**
+     * Return the number of events dropped or overwritten due to ring-buffer
+     * overflow since this CDC instance was constructed.
+     *
+     * - Under OVERWRITE policy: incremented each time the oldest entry is
+     *   evicted to make room for a new event.
+     * - Under DROP policy: incremented each time a new event is discarded
+     *   because the buffer is full.
+     *
+     * This counter is monotonically increasing and never resets automatically.
+     * It gives callers a lightweight way to detect back-pressure without
+     * inspecting individual events.
+     */
+    uint64_t overflowCount() const noexcept;
+
     // ── Public Helpers ────────────────────────────────────────────────────────
 
     /** Convert ChangeType enum to string representation. */
@@ -247,8 +296,10 @@ private:
     // ── State ─────────────────────────────────────────────────────────────────
 
     size_t                       max_log_size_;
+    OverflowPolicy               overflow_policy_;
     std::vector<ChangeEvent>     log_;         ///< Ring-buffer (front = oldest)
     std::atomic<uint64_t>        total_published_{0};
+    std::atomic<uint64_t>        overflow_count_{0};  ///< Evictions / drops due to overflow
 
     std::unordered_map<std::string, Subscription> subscriptions_;
 

@@ -409,6 +409,10 @@ double TemporalAggregator::applyFunc(AggregateFunc func,
         case AggregateFunc::MAX:
             if (values.empty()) return 0.0;
             return *std::max_element(values.begin(), values.end());
+        case AggregateFunc::FIRST_VALUE:
+            return values.empty() ? 0.0 : values.front();
+        case AggregateFunc::LAST_VALUE:
+            return values.empty() ? 0.0 : values.back();
     }
     return 0.0;
 }

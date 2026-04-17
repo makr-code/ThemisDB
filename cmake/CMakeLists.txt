@@ -4546,6 +4546,103 @@ if(THEMIS_BUILD_TESTS)
         message(STATUS "  TemporalMigrator: analyze/migrate/backfill/verify system-versioned table migration")
     endif()
 
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_retention_manager.cpp")
+        add_executable(test_retention_manager
+            ${THEMIS_ROOT_DIR}/tests/temporal/test_retention_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/retention_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/system_versioned_table.cpp
+        )
+        target_include_directories(test_retention_manager
+            PRIVATE ${THEMIS_ROOT_DIR}/include
+        )
+        target_link_libraries(test_retention_manager
+            PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+        )
+        gtest_discover_tests(test_retention_manager
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_retention_manager>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+            PROPERTIES
+                LABELS "temporal;retention;unit"
+                TIMEOUT 60
+        )
+        message(STATUS "  RetentionManager: retention policies, RetentionRule operators")
+    endif()
+
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_conflict_resolver.cpp")
+        add_executable(test_temporal_conflict_resolver
+            ${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_conflict_resolver.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/temporal_conflict_resolver.cpp
+        )
+        target_include_directories(test_temporal_conflict_resolver
+            PRIVATE ${THEMIS_ROOT_DIR}/include
+        )
+        target_link_libraries(test_temporal_conflict_resolver
+            PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+        )
+        gtest_discover_tests(test_temporal_conflict_resolver
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_conflict_resolver>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+            PROPERTIES
+                LABELS "temporal;conflict-resolver;unit"
+                TIMEOUT 60
+        )
+        message(STATUS "  TemporalConflictResolver: LWW/FWW/node-priority/CRDT/MergeResolver")
+    endif()
+
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_aggregator.cpp")
+        add_executable(test_temporal_aggregator
+            ${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_aggregator.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/temporal_aggregator.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/system_versioned_table.cpp
+        )
+        target_include_directories(test_temporal_aggregator
+            PRIVATE ${THEMIS_ROOT_DIR}/include
+        )
+        target_link_libraries(test_temporal_aggregator
+            PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+        )
+        gtest_discover_tests(test_temporal_aggregator
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_aggregator>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+            PROPERTIES
+                LABELS "temporal;aggregator;unit"
+                TIMEOUT 60
+        )
+        message(STATUS "  TemporalAggregator: tumbling/sliding/session windows, FIRST_VALUE/LAST_VALUE")
+    endif()
+
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_query_engine.cpp")
+        add_executable(test_temporal_query_engine
+            ${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_query_engine.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/temporal_query_engine.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/system_versioned_table.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/bi_temporal.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/temporal_index.cpp
+        )
+        target_include_directories(test_temporal_query_engine
+            PRIVATE ${THEMIS_ROOT_DIR}/include
+        )
+        target_link_libraries(test_temporal_query_engine
+            PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+        )
+        gtest_discover_tests(test_temporal_query_engine
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_query_engine>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+            PROPERTIES
+                LABELS "temporal;query-engine;unit"
+                TIMEOUT 60
+        )
+        message(STATUS "  TemporalQueryEngine: AS-OF/FROM-TO/BETWEEN/CONTAINED-IN/SEQUENCED-DISTINCT")
+    endif()
+
     add_executable(test_ts_auto_buffer_adaptive
         ${THEMIS_ROOT_DIR}/tests/test_ts_auto_buffer_adaptive.cpp
     )

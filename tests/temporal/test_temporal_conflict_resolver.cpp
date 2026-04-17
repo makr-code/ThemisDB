@@ -824,3 +824,130 @@ TEST_F(TemporalConflictDetectorTest, DetectOverlappingPeriods_NonIntegerFields_N
         EXPECT_NE(c.type, themisdb::temporal::ConflictType::OVERLAPPING_PERIODS);
     }
 }
+
+// ============================================================================
+// MergeResolver tests (MCR-01 .. MCR-07)
+// ============================================================================
+
+namespace {
+
+// Helper: create a snapshot with a JSON object payload
+TemporalSnapshot makeSnapObj(const std::string& id,
+                              uint64_t physical, uint32_t logical,
+                              const std::string& node_id,
+                              const nlohmann::json& data) {
+    TemporalSnapshot s;
+    s.snapshot_id        = id;
+    s.hlc.physical       = physical;
+    s.hlc.logical        = logical;
+    s.hlc.node_id        = node_id;
+    s.source_node_id     = node_id;
+    s.data               = data;
+    s.checksum           = "test";
+    return s;
+}
+
+} // namespace
+
+// MCR-01: No resolver set → default LWW-field strategy
+TEST(MergeResolverTest, MCR01_DefaultLWWFieldMerge) {
+    TemporalConflictResolver resolver(ConflictPolicy::CRDT_MERGE);
+    EXPECT_EQ(resolver.getMergeResolver(), nullptr);
+
+    auto local  = makeSnapObj("l", 100, 0, "A", {{"x", 1}, {"y", "old"}});
+    auto remote = makeSnapObj("r", 200, 0, "B", {{"x", 2}});
+
+    auto result = resolver.resolve(local, remote);
+    // remote is newer (physical 200); its x=2 should win
+    EXPECT_EQ(result.data["x"], 2);
+    // y from local should be present (only in local)
+    EXPECT_EQ(result.data["y"], "old");
+}
+
+// MCR-02: LWWFieldMergeResolver is commutative
+TEST(MergeResolverTest, MCR02_LWWCommutativity) {
+    LWWFieldMergeResolver lww;
+    auto a = makeSnapObj("a", 100, 0, "A", {{"k", "v1"}});
+    auto b = makeSnapObj("b", 200, 0, "B", {{"k", "v2"}});
+
+    auto ab = lww.merge(a, b);
+    auto ba = lww.merge(b, a);
+    EXPECT_EQ(ab.data, ba.data);
+}
+
+// MCR-03: LWWFieldMergeResolver is idempotent
+TEST(MergeResolverTest, MCR03_LWWIdempotency) {
+    LWWFieldMergeResolver lww;
+    auto a = makeSnapObj("a", 100, 0, "A", {{"k", 42}});
+
+    auto merged = lww.merge(a, a);
+    EXPECT_EQ(merged.data, a.data);
+}
+
+// MCR-04: UnionMergeResolver keeps all fields from both snapshots
+TEST(MergeResolverTest, MCR04_UnionKeepsAllFields) {
+    UnionMergeResolver uni;
+    auto a = makeSnapObj("a", 100, 0, "A", {{"x", 1}});
+    auto b = makeSnapObj("b", 200, 0, "B", {{"y", 2}});
+
+    auto result = uni.merge(a, b);
+    EXPECT_TRUE(result.data.contains("x"));
+    EXPECT_TRUE(result.data.contains("y"));
+}
+
+// MCR-05: UnionMergeResolver is commutative for field union
+TEST(MergeResolverTest, MCR05_UnionCommutativity) {
+    UnionMergeResolver uni;
+    auto a = makeSnapObj("a", 100, 0, "A", {{"x", 1}, {"shared", "a"}});
+    auto b = makeSnapObj("b", 200, 0, "B", {{"y", 2}, {"shared", "b"}});
+
+    auto ab = uni.merge(a, b);
+    auto ba = uni.merge(b, a);
+    // Both must contain all keys
+    EXPECT_EQ(ab.data.contains("x"),      ba.data.contains("x"));
+    EXPECT_EQ(ab.data.contains("y"),      ba.data.contains("y"));
+    EXPECT_EQ(ab.data.contains("shared"), ba.data.contains("shared"));
+}
+
+// MCR-06: CustomMergeResolver with injected lambda is called
+TEST(MergeResolverTest, MCR06_CustomMergeResolverCalled) {
+    bool called = false;
+    auto fn = [&](const TemporalSnapshot& a, const TemporalSnapshot& b) {
+        called = true;
+        TemporalSnapshot result = a;
+        result.data = {{"custom", true}};
+        return result;
+    };
+
+    TemporalConflictResolver resolver(ConflictPolicy::CRDT_MERGE);
+    resolver.setMergeResolver(std::make_shared<CustomMergeResolver>(fn));
+    EXPECT_NE(resolver.getMergeResolver(), nullptr);
+
+    auto a = makeSnapObj("a", 100, 0, "A", {{"k", 1}});
+    auto b = makeSnapObj("b", 200, 0, "B", {{"k", 2}});
+
+    auto result = resolver.resolve(a, b);
+    EXPECT_TRUE(called);
+    EXPECT_EQ(result.data["custom"], true);
+}
+
+// MCR-07: setMergeResolver(nullptr) resets to default LWW
+TEST(MergeResolverTest, MCR07_ResetToDefaultAfterNullptr) {
+    auto fn = [](const TemporalSnapshot& a, const TemporalSnapshot&) {
+        TemporalSnapshot result = a;
+        result.data = {{"custom", true}};
+        return result;
+    };
+    TemporalConflictResolver resolver(ConflictPolicy::CRDT_MERGE);
+    resolver.setMergeResolver(std::make_shared<CustomMergeResolver>(fn));
+
+    // Reset
+    resolver.setMergeResolver(nullptr);
+    EXPECT_EQ(resolver.getMergeResolver(), nullptr);
+
+    // Default LWW should kick in: newer wins
+    auto old_snap = makeSnapObj("a", 100, 0, "A", {{"k", "old"}});
+    auto new_snap = makeSnapObj("b", 200, 0, "B", {{"k", "new"}});
+    auto result   = resolver.resolve(old_snap, new_snap);
+    EXPECT_EQ(result.data["k"], "new");
+}

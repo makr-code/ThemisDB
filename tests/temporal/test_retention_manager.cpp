@@ -549,3 +549,71 @@ TEST_F(RetentionManagerTest, Retry_SucceedsEvenWithoutErrors) {
     EXPECT_EQ(stats.versions_deleted, 3u);
     EXPECT_TRUE(stats.errors.empty());
 }
+
+// ── RetentionRule tests (RR-01 .. RR-06) ─────────────────────────────────────
+
+// RR-01: Default construction produces a valid, zero-filled TIME_BASED rule
+TEST(RetentionRuleTest, RR01_DefaultConstruction) {
+    RetentionRule r;
+    EXPECT_EQ(r.type, RetentionType::TIME_BASED);
+    EXPECT_EQ(r.max_age_ms, 0);
+    EXPECT_EQ(r.max_versions, 0u);
+    EXPECT_EQ(r.max_bytes, 0u);
+    EXPECT_TRUE(r.tag.empty());
+}
+
+// RR-02: operator== identifies equal rules
+TEST(RetentionRuleTest, RR02_EqualityTrue) {
+    RetentionRule a, b;
+    a.type        = RetentionType::VERSION_COUNT_BASED;
+    a.max_versions = 5;
+    a.tag          = "gdpr";
+    b              = a;
+    EXPECT_TRUE(a == b);
+    EXPECT_FALSE(a != b);
+}
+
+// RR-03: operator== detects field differences
+TEST(RetentionRuleTest, RR03_EqualityFalse) {
+    RetentionRule a, b;
+    a.type = RetentionType::TIME_BASED;
+    a.max_age_ms = 1000;
+    b.type = RetentionType::TIME_BASED;
+    b.max_age_ms = 2000;
+    EXPECT_FALSE(a == b);
+    EXPECT_TRUE(a != b);
+}
+
+// RR-04: operator< orders by type enum ordinal
+TEST(RetentionRuleTest, RR04_LessThanByType) {
+    RetentionRule time_rule, version_rule;
+    time_rule.type    = RetentionType::TIME_BASED;
+    version_rule.type = RetentionType::VERSION_COUNT_BASED;
+    EXPECT_TRUE(time_rule < version_rule);
+    EXPECT_FALSE(version_rule < time_rule);
+}
+
+// RR-05: operator< for same type orders by numeric bound
+TEST(RetentionRuleTest, RR05_LessThanSameType) {
+    RetentionRule small, large;
+    small.type       = RetentionType::TIME_BASED;
+    small.max_age_ms = 100;
+    large.type       = RetentionType::TIME_BASED;
+    large.max_age_ms = 200;
+    EXPECT_TRUE(small < large);
+    EXPECT_FALSE(large < small);
+}
+
+// RR-06: rules are usable as std::set / std::map keys (strict weak ordering)
+TEST(RetentionRuleTest, RR06_UsableInOrderedContainer) {
+    std::set<RetentionRule> rules;
+    RetentionRule r1, r2, r3;
+    r1.type = RetentionType::TIME_BASED;    r1.max_age_ms = 1000;
+    r2.type = RetentionType::VERSION_COUNT_BASED; r2.max_versions = 5;
+    r3.type = RetentionType::STORAGE_BASED; r3.max_bytes = 1024;
+    rules.insert(r1);
+    rules.insert(r2);
+    rules.insert(r3);
+    rules.insert(r1); // duplicate — should not grow set
+    EXPECT_EQ(rules.size(), 3u);
+}

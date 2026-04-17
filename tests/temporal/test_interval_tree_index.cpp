@@ -206,3 +206,49 @@ TEST_F(IntervalTreeIndexTest, QueryPoint_ManyIntervals_ReturnsAllContaining) {
     ASSERT_EQ(results.size(), 1u);
     EXPECT_EQ(results[0].key, "k5");
 }
+
+// ============================================================================
+// erase() tests (ITX-ERASE-01 .. ITX-ERASE-04)
+// ============================================================================
+
+// ITX-ERASE-01: erase() removes all entries for the given key
+TEST_F(IntervalTreeIndexTest, Erase_RemovesAllEntriesForKey) {
+    tree.insert(makeEntry("alpha", 100, 200));
+    tree.insert(makeEntry("alpha", 300, 400));
+    tree.insert(makeEntry("beta",  100, 200));
+    ASSERT_EQ(tree.size(), 3u);
+
+    size_t removed = tree.erase("alpha");
+    EXPECT_EQ(removed, 2u);
+    EXPECT_EQ(tree.size(), 1u);
+    EXPECT_TRUE(tree.queryKey("alpha").empty());
+}
+
+// ITX-ERASE-02: erase() on a non-existent key returns 0 and leaves tree intact
+TEST_F(IntervalTreeIndexTest, Erase_NonExistentKey_ReturnsZero) {
+    tree.insert(makeEntry("x", 10, 20));
+    size_t removed = tree.erase("does_not_exist");
+    EXPECT_EQ(removed, 0u);
+    EXPECT_EQ(tree.size(), 1u);
+}
+
+// ITX-ERASE-03: erase() is equivalent to removeKey()
+TEST_F(IntervalTreeIndexTest, Erase_EquivalentToRemoveKey) {
+    IntervalTreeIndex t1{"t1"}, t2{"t2"};
+    t1.insert(makeEntry("k", 0, 100));
+    t1.insert(makeEntry("k", 200, 300));
+    t2.insert(makeEntry("k", 0, 100));
+    t2.insert(makeEntry("k", 200, 300));
+
+    size_t by_remove = t1.removeKey("k");
+    size_t by_erase  = t2.erase("k");
+
+    EXPECT_EQ(by_remove, by_erase);
+    EXPECT_EQ(t1.size(), t2.size());
+}
+
+// ITX-ERASE-04: erase() on an empty tree does not crash
+TEST_F(IntervalTreeIndexTest, Erase_EmptyTree_NoCrash) {
+    EXPECT_NO_THROW(tree.erase("any_key"));
+    EXPECT_EQ(tree.size(), 0u);
+}

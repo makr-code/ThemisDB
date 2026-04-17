@@ -89,8 +89,9 @@ ChangeEvent ChangeEvent::fromJson(const nlohmann::json& j) {
 // Construction
 // ============================================================================
 
-TemporalCDC::TemporalCDC(size_t max_log_size)
-    : max_log_size_(max_log_size > 0 ? max_log_size : 1) {
+TemporalCDC::TemporalCDC(size_t max_log_size, OverflowPolicy policy)
+    : max_log_size_(max_log_size > 0 ? max_log_size : 1)
+    , overflow_policy_(policy) {
     log_.reserve(std::min(max_log_size_, size_t{1024}));
 }
 
@@ -136,10 +137,18 @@ void TemporalCDC::publishEvent(const ChangeEvent& event) {
     {
         std::lock_guard<std::mutex> lk(mutex_);
 
-        // Append to ring-buffer log
+        // Append to ring-buffer log, applying the overflow policy when full
         if (log_.size() >= max_log_size_) {
-            // Evict oldest event (front of deque-like buffer)
+            if (overflow_policy_ == OverflowPolicy::DROP) {
+                // DROP: discard the new event, count it
+                overflow_count_.fetch_add(1, std::memory_order_relaxed);
+                total_published_.fetch_add(1, std::memory_order_relaxed);
+                return;
+            }
+            // OVERWRITE (and BLOCK which falls back to OVERWRITE):
+            // Evict oldest event (front of ring-buffer).
             log_.erase(log_.begin());
+            overflow_count_.fetch_add(1, std::memory_order_relaxed);
         }
         log_.push_back(event);
 
@@ -198,6 +207,10 @@ uint64_t TemporalCDC::totalPublished() const noexcept {
 void TemporalCDC::clearLog() {
     std::lock_guard<std::mutex> lk(mutex_);
     log_.clear();
+}
+
+uint64_t TemporalCDC::overflowCount() const noexcept {
+    return overflow_count_.load(std::memory_order_relaxed);
 }
 
 } // namespace temporal
