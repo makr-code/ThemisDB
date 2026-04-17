@@ -9,6 +9,7 @@
 - `include/server/README.md`
 - `include/server/ROADMAP.md`
 - `include/server/SECURITY.md`
+- `include/server/examples/README.md`
 - `src/server/ARCHITECTURE.md`
 - `src/server/AUDIT.md`
 - `src/server/CHANGELOG.md`
@@ -42,6 +43,12 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`server`** 
 | `README.md` | [`include/server/README.md`](../../../include/server/README.md) |
 | `ROADMAP.md` | [`include/server/ROADMAP.md`](../../../include/server/ROADMAP.md) |
 | `SECURITY.md` | [`include/server/SECURITY.md`](../../../include/server/SECURITY.md) |
+
+### `include/server/examples/`
+
+| Datei | Pfad |
+|-------|------|
+| `README.md` | [`include/server/examples/README.md`](../../../include/server/examples/README.md) |
 
 ### `src/server/`
 

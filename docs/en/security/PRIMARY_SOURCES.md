@@ -9,6 +9,7 @@
 - `include/security/README.md`
 - `include/security/ROADMAP.md`
 - `include/security/SECURITY.md`
+- `include/security/examples/README.md`
 - `src/security/ARCHITECTURE.md`
 - `src/security/AUDIT.md`
 - `src/security/CHANGELOG.md`
@@ -40,6 +41,12 @@ This index lists all Markdown documentation files for module **`security`** from
 | `README.md` | [`include/security/README.md`](../../../include/security/README.md) |
 | `ROADMAP.md` | [`include/security/ROADMAP.md`](../../../include/security/ROADMAP.md) |
 | `SECURITY.md` | [`include/security/SECURITY.md`](../../../include/security/SECURITY.md) |
+
+### `include/security/examples/`
+
+| File | Path |
+|------|------|
+| `README.md` | [`include/security/examples/README.md`](../../../include/security/examples/README.md) |
 
 ### `src/security/`
 
