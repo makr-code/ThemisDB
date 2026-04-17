@@ -42,8 +42,8 @@ ThemisDB has **comprehensive documentation for all 50 modules** with production-
 ### Docker (fastest)
 
 ```bash
-docker pull ghcr.io/makr-code/themisdb:latest
-docker run -p 8765:8765 -p 8766:8766 ghcr.io/makr-code/themisdb:latest
+docker pull 
+docker run
 ```
 
 Connect via the wire protocol on port `8766` or the REST/HTTP API on port `8765`.
