@@ -40,9 +40,16 @@ Bezug / Reference: Hu et al. (2022) LoRA arXiv:2106.09685 · Zhang et al. (2023)
    - 7.3 [Benchmark Dataset](#73-benchmark-dataset)
 8. [Open Research Questions](#8-open-research-questions)
 9. [Implementation Roadmap](#9-implementation-roadmap)
-10. [Related Work](#10-related-work)
-11. [Conclusion](#11-conclusion)
-12. [References](#12-references)
+10. [Distributed Knowledge Federation: RAID-5 of Intelligence](#10-distributed-knowledge-federation-raid-5-of-intelligence)
+    - 10.1 [The Problem: Shard-Local Learning](#101-the-problem-shard-local-learning)
+    - 10.2 [RAID Analogy on the Knowledge Level](#102-raid-analogy-on-the-knowledge-level)
+    - 10.3 [Architecture: Four Connection Layers](#103-architecture-four-connection-layers)
+    - 10.4 [Privacy and Security Guarantees](#104-privacy-and-security-guarantees)
+    - 10.5 [Optimisation Layers 5–10 in Distributed Mode](#105-optimisation-layers-510-in-distributed-mode)
+    - 10.6 [Implementation Timeline](#106-implementation-timeline)
+11. [Related Work](#11-related-work)
+12. [Conclusion](#12-conclusion)
+13. [References](#13-references)
 
 ---
 
@@ -1101,6 +1108,26 @@ retrieval quality (measured by RAG recall@k) vs. pure structural routing?
 
 ---
 
+### RQ12 — Federated Learning Privacy-Utility Trade-off
+
+> *What is the optimal (ε, δ) budget for differential privacy in federated LoRA
+> gradient aggregation across ThemisDB shards, and how does it affect adapter
+> convergence?*
+
+The `DifferentialPrivacyManager` is already implemented with configurable (ε, δ)
+parameters (default: ε=0.1, δ=1e-5). However, the empirical relationship between
+privacy budget and adapter quality degradation in a database-optimizer domain is
+unknown. Stronger privacy (lower ε) adds more noise to gradient aggregation and
+may slow convergence, especially in heterogeneous shard workloads where inter-shard
+signal is sparse. The key question: at what ε does the privacy noise dominate the
+gradient signal, and does FedProx (proximal regularisation) recover quality better
+than FedAvg in that regime?
+
+**Measurement approach:** vary ε ∈ {0.01, 0.05, 0.1, 0.5, 1.0} across 5-shard
+simulation; measure adapter accuracy (§7.1) after 5 federated rounds.
+
+---
+
 ## 9. Implementation Roadmap
 
 ```
@@ -1146,9 +1173,264 @@ Phase 6 (Q2 2027): Production hardening + full autonomy gate
   - [ ] Define per-operation autonomy thresholds (answer RQ9)
 ```
 
+Phase 6 (Q2 2027): Production hardening + full autonomy gate
+  - [ ] Tool-call validation layer (DDL safety gate; answer RQ8)
+  - [ ] Multi-instance generalization study (answer RQ4)
+  - [ ] Adapter merge experiment: legal + database-optimizer (answer RQ7)
+  - [ ] Loop oscillation test suite (answer RQ10)
+  - [ ] Define per-operation autonomy thresholds (answer RQ9)
+
+Phase 7 (Q3 2027): Distributed Knowledge Federation — RAID-5 of Intelligence
+  - [ ] Layer A: GossipProtocol::registerCustomHandler() + AdapterCapabilityAnnouncement broadcast
+  - [ ] Layer A: AdaptiveShardRouter::routeByDomain() for domain-aware query routing
+  - [ ] Layer B: IncrementalLoRATrainer::exportGradient() + applyGlobalDelta() hooks
+  - [ ] Layer B: FederatedAggregator re-used as LoRA-gradient bus (FedAvg/FedProx)
+  - [ ] Layer B: ContinuousLearningOrchestrator::FEDERATED_ROUND_START trigger (24 h interval)
+  - [ ] Layer C: QueryFederation RAG-aware merge strategy + FederatedRAGMerger
+  - [ ] Layer D: CrossShardFeedbackSync — DBA feedback as anonymised embedding via Gossip
+  - [ ] DP calibration study (answer RQ12): vary ε ∈ {0.01..1.0} over 5-shard simulation
+  - [ ] FederatedAIDecisionAuditor — global DBA decision timeline across all shards
+  - [ ] GDPR cross-border check: CrossBorderTransferPolicy for gradient aggregation
+```
+
 ---
 
-## 10. Related Work
+## 10. Distributed Knowledge Federation: RAID-5 of Intelligence
+
+*This section extends Section 4 (Architecture) and Section 9 (Roadmap) with
+Layer 11 of the ThemisDB intelligence stack: cross-shard propagation of learning
+outcomes. The full specification is maintained in
+`docs/en/research/DISTRIBUTED_KNOWLEDGE_FEDERATION.md`.*
+
+---
+
+### 10.1 The Problem: Shard-Local Learning
+
+The four self-optimising feedback loops (§4.4) operate identically on every shard
+of a ThemisDB cluster. However, in the current architecture the learning layers —
+`IncrementalLoRATrainer`, `RLAIFTrainer`, `ContinuousLearningOrchestrator` — are
+**shard-local**: each shard trains on its own workload observations and never shares
+insights with peer shards.
+
+This creates three concrete failure modes:
+
+1. **Cold-start on new shards.** A freshly provisioned shard must accumulate its own
+   training corpus before Loop 4 becomes effective. In a RAID-5 knowledge model, it
+   would inherit a weighted starting point from the cluster.
+
+2. **Fragmented DBA feedback.** A database administrator may submit a correction on
+   Shard 3; that correction never reaches Shard 7, which continues making the same
+   sub-optimal recommendation.
+
+3. **Missed cross-shard specialisation.** If Shard 7 has processed 14 000 security
+   audit queries and developed a highly accurate `SECURITY_MONITOR` adapter, a
+   security query routed to Shard 2 (which only has 200 such samples) will produce
+   an inferior response — even though a better answer exists in the cluster.
+
+---
+
+### 10.2 RAID Analogy on the Knowledge Level
+
+Classical RAID protects *data* through redundancy and parity. The same metaphor
+applies to *learned knowledge*:
+
+| RAID Level | Data Sharding (implemented) | Knowledge Sharding (new) |
+|---|---|---|
+| **RAID-0** | Striping, no redundancy | Each shard trains in isolation — no knowledge transfer |
+| **RAID-1** | Full mirroring | Full LoRA adapter sync to all shards — prohibitively expensive |
+| **RAID-5** | Striping + distributed parity | **FedAvg** — gradient aggregation with Differential Privacy |
+| **RAID-6** | Double parity | Hierarchical aggregation: Shard → Region → Global |
+| **RAID-10** | Mirror + Stripe | Specialised + shared adapters combined |
+
+**Target: RAID-5 for knowledge.** FedAvg-based LoRA adapter federation in which no
+shard ever sees the raw data of another shard. Each shard contributes only a
+differentially-private gradient to the global aggregation round.
+
+The formal privacy guarantee follows McMahan et al. (2018): with
+(ε = 0.1, δ = 1×10⁻⁵), the probability of inferring any individual training sample
+from the published aggregate is bounded by ε per query.
+
+---
+
+### 10.3 Architecture: Four Connection Layers
+
+The distributed intelligence architecture consists of four orthogonal layers that
+each solve a different knowledge-sharing problem.
+
+```
+┌──────────────────────────────────────────────────────────────────────────┐
+│            ThemisDB Distributed Knowledge Architecture                   │
+│                                                                          │
+│  Shard 1          Shard 2          Shard N         Global Aggregator     │
+│  ─────────        ─────────        ─────────       ──────────────────    │
+│  LoRA-Trainer  ←─ Gossip  ─→  LoRA-Trainer  ─→  FederatedAggregator    │
+│  RAGBridge     ←─ QueryFed ─→  RAGBridge     ─→  Merged RAG Context     │
+│  FeedbackColl  ←─ Gossip  ─→  FeedbackColl  ─→  Global RLAIF Round     │
+│  AdapterReg    ←─ Gossip  ─→  AdapterReg    ─→  Capability Announce    │
+│  ZeroTrust     ──────────────────────────────→  mTLS + SphincsPlus      │
+└──────────────────────────────────────────────────────────────────────────┘
+```
+
+#### Layer A — Gossip-Based Adapter Discovery
+
+**Purpose:** route queries to the domain-specialised shard without training.
+
+Every shard broadcasts its current adapter capabilities via the existing
+`GossipProtocol`. The payload is a new `AdapterCapabilityAnnouncement`:
+
+```json
+{
+  "shard_id": "shard-42",
+  "adapter_version": "v1.3.0",
+  "domain_type": "SECURITY_MONITOR",
+  "accuracy_delta": 0.12,
+  "training_samples": 14200,
+  "p99_delta_ms": -8.4
+}
+```
+
+The `AdaptiveShardRouter` receives these announcements via a registered custom handler
+and scores each shard per domain. An AQL query carrying a `domain_hint` is then routed
+to the highest-scoring shard — a routing improvement that requires *no* additional
+training and becomes active within one Gossip cycle (100–500 ms).
+
+**New interfaces required:**
+
+| Component | Extension |
+|---|---|
+| `GossipProtocol` | `registerCustomHandler(type, fn)` |
+| `AdaptiveShardRouter` | `updateAdapterCapability()`, `routeByDomain()` |
+| `AdapterRegistry` | `publishAsGossipPayload()` |
+
+#### Layer B — Federated LoRA Gradient Aggregation (RAID-5 Core)
+
+**Purpose:** propagate learning improvements across shards without raw-data sharing.
+
+Every 24 hours — triggered by a new `FEDERATED_ROUND_START` event in
+`ContinuousLearningOrchestrator` after Loop 4 completion — each shard exports its
+current LoRA gradient as an encrypted, opaque blob. These blobs are collected by
+the `FederatedAggregator` (already implemented for PostgreSQL schema federation,
+directly reusable for LoRA gradients):
+
+```
+Shard 1: IncrementalLoRATrainer → exportGradient() → encrypted_gradient_1
+Shard 2: IncrementalLoRATrainer → exportGradient() → encrypted_gradient_2
+Shard N: IncrementalLoRATrainer → exportGradient() → encrypted_gradient_N
+                    ↓
+FederatedAggregator::aggregateUpdates(updates, algorithm="FedAvg")
+                    ↓
+DifferentialPrivacyManager::addDifferentialPrivacy(stats, ε=0.1, δ=1e-5)
+                    ↓
+global_adapter_delta (anonymised, DP-protected)
+                    ↓
+IncrementalLoRATrainer::applyGlobalDelta() on all shards
+```
+
+**Privacy guarantee:** No shard ever sees raw training data from another shard.
+Only DP-noised gradient aggregates are shared across shard boundaries.
+
+**New interfaces required:**
+
+| Component | Extension |
+|---|---|
+| `IncrementalLoRATrainer` | `exportGradient()`, `applyGlobalDelta()` |
+| `ContinuousLearningOrchestrator` | `FEDERATED_ROUND_START` trigger |
+| `ILoRAFederationCoordinator` | New orchestration interface |
+
+#### Layer C — Cross-Shard RAG Federation
+
+**Purpose:** the LLM receives retrieval context from all shards, not just the local one.
+
+Today, `RAGIngestionBridge` is invoked once per query on the local shard. With
+`FederatedRAGMerger`, the `QueryFederation` fan-out mechanism (already implemented)
+is extended to scatter RAG retrieval across shards and merge the results:
+
+```
+AQL query → QueryFederation::fanOut()
+              ↓ parallel on every shard
+              RAGIngestionBridge::enrichRetrievedDocuments()  [shard-local]
+              ↓ merged by
+FederatedRAGMerger::merge(shardResults)   [relevance-ranked, deduped]
+              ↓
+ContinuousLearningOrchestrator (global): quality scoring + ranking
+              ↓
+LLM: answer from unified knowledge context of all shards
+```
+
+The `FederatedRAGMerger` uses the `accuracy_delta` scores published by Layer A to
+weight results: a SECURITY_MONITOR result from Shard 7 (delta=+0.12) ranks above
+the same type of result from Shard 2 (delta=+0.02).
+
+#### Layer D — Federated RLAIF
+
+**Purpose:** a DBA correction on one shard improves all shards.
+
+When a DBA submits feedback via `FeedbackCollector` on Shard 3, the feedback is
+converted to an anonymised embedding (no plaintext) and propagated via Gossip:
+
+```json
+{
+  "feedback_type": "DenormalizationHint_rejected",
+  "reason_embedding": [ 0.031, -0.142, ... ],
+  "shard_origin": "ANON"
+}
+```
+
+Every shard receives this summary via a registered `CrossShardFeedbackSync` handler
+and adds it as a new `PreferencePair` to its `RLAIFTrainer`. The next Loop 4 round
+on every shard therefore incorporates the global DBA knowledge.
+
+The `ZeroTrustPolicyEnforcer` verifies every Gossip message via the existing
+`SignedRequest` mechanism before the handler is invoked.
+
+---
+
+### 10.4 Privacy and Security Guarantees
+
+| Guarantee | Mechanism | Status |
+|---|---|---|
+| No raw data leaves a shard | Only DP-noised gradients and embeddings are shared | DP in `DifferentialPrivacyManager` (existing) |
+| Gradient transport is authenticated | `SignedRequest` + mTLS for all shard communication | Implemented |
+| Global audit log is post-quantum tamper-proof | `SphincsPlus` SPHINCS+-SHA2-256s signatures | Implemented (STUB until liboqs) |
+| EU GDPR compliance for gradient transfer | `CrossBorderTransferPolicy` checks adequacy | Implemented |
+| Feedback anonymisation | Embeddings only, no plaintext; `shard_origin: ANON` | New (Layer D) |
+| Continuous trust verification | `ZeroTrustPolicyEnforcer` verifies every Gossip message | Existing |
+
+---
+
+### 10.5 Optimisation Layers 5–10 in Distributed Mode
+
+The six optimisation layers (§4 of `LLM_OPTIMIZATION_LAYERS_MATRIX.md`) gain
+qualitatively new capabilities when combined with Layer 11:
+
+| Layer | Shard-local today | Distributed enhancement (Layer 11) |
+|---|---|---|
+| **L5 Transaction Semantics** | Deadlock hints per shard | Batch-hints propagated cross-shard via `CrossShardTransaction` |
+| **L6 Schema Evolution** | Dead-weight detection per shard | Federated access statistics — a field unused on Shard 1 but accessed daily on Shard 7 is not flagged as dead weight |
+| **L7 Security** | `IntentAlert` on local shard | Alert propagated via Gossip → all shards raise `session_risk_score` immediately |
+| **L8 Multi-Tenant** | `WorkloadFingerprint` per shard | Fingerprint transfer cross-shard: Shard B learns from Shard A's experience with a similar tenant fingerprint |
+| **L9 Explainability** | `AIDecisionAuditor` per shard | `FederatedAIDecisionAuditor` — DBA sees decisions from all shards in a single timeline |
+| **L10 Layout** | `LayoutHint` local | Layout hints propagated via Gossip to all shards |
+
+---
+
+### 10.6 Implementation Timeline
+
+Following the ROI-ordered implementation sequence:
+
+| Phase | Layer | Duration | Key deliverable |
+|---|---|---|---|
+| **7A** (Q3 2027) | Layer A — Adapter Gossip | 2 weeks | Domain-aware routing, no training required |
+| **7B** (Q3 2027) | Layer C — Federated RAG | 3 weeks | LLM sees knowledge from all shards |
+| **7C** (Q4 2027) | Layer B — Federated LoRA | 6 weeks | Gradient federation with DP guarantee |
+| **7D** (Q4 2027) | Layer D — Cross-Shard RLAIF | 3 weeks | DBA feedback propagation to all shards |
+
+Total: 14 calendar weeks. Layers A and C can run in parallel with Layers B and D,
+giving an effective critical-path duration of 9 weeks.
+
+---
+
+## 11. Related Work
 
 | System | Approach | Autonomous? | Difference to ThemisDB-LoRA |
 |---|---|---|---|
