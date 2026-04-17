@@ -79,6 +79,8 @@ void LoRAFederationCoordinator::submitGradient(const EncryptedGradient& gradient
             last_delta_ = delta;
             ++total_rounds_completed_;
 
+            emitFederationDecisionRecord(delta, "SUCCESS");
+
             std::function<void(const GlobalAdapterDelta&)> cb;
             cb = delta_callback_;
             if (cb) {
@@ -107,6 +109,8 @@ GlobalAdapterDelta LoRAFederationCoordinator::triggerAggregation() {
     auto delta = doAggregation();
     last_delta_ = delta;
     ++total_rounds_completed_;
+
+    emitFederationDecisionRecord(delta, "SUCCESS");
 
     if (delta_callback_) {
         delta_callback_(delta);
@@ -258,6 +262,42 @@ void LoRAFederationCoordinator::advanceRound() {
     std::lock_guard<std::mutex> lk(mutex_);
     ++current_round_;
     pending_gradients_.clear();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Decision Record integration
+// ─────────────────────────────────────────────────────────────────────────────
+
+void LoRAFederationCoordinator::setDecisionRecordProcessor(
+    std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> processor)
+{
+    std::lock_guard<std::mutex> lk(mutex_);
+    dr_processor_ = std::move(processor);
+}
+
+void LoRAFederationCoordinator::emitFederationDecisionRecord(
+    const GlobalAdapterDelta& delta,
+    const std::string& outcome) const
+{
+    // dr_processor_ is checked under the caller's mutex_ context
+    if (!dr_processor_) {
+        return;
+    }
+
+    themis::llm::DecisionRecord rec;
+    rec.decision_type = "FEDERATED_ROUND";
+    rec.component     = "LoRAFederationCoordinator";
+    rec.outcome       = outcome;
+    rec.confidence    = 1.0f;
+
+    rec.context["round"]        = std::to_string(delta.round);
+    rec.context["version"]      = delta.version;
+    rec.context["participants"] = std::to_string(delta.participants);
+    rec.context["algorithm"]    = delta.algorithm;
+    rec.context["epsilon_spent"] = std::to_string(delta.epsilon_spent);
+
+    // submit() is non-blocking — the processor's background thread handles I/O
+    dr_processor_->submit(std::move(rec));
 }
 
 } // namespace themis::distributed_knowledge

@@ -244,7 +244,48 @@ All three papers considered implemented when:
 
 ---
 
-## 9. Document Map
+## 10. Decision Record Traceability (Session S-16)
+
+### Overview
+
+Session S-16 adds a dedicated async YAML traceability layer for LLM/LoRA
+runtime decisions, independent of the existing `AIDecisionAuditor` (RocksDB).
+See `docs/decisions/ADR-001-decision-record-yaml-processor.md`.
+
+### Components Implemented (S-16)
+
+- [x] `DecisionRecordYamlProcessor` — async background thread, YAML writer,
+  bounded queue with backpressure.  Path: `logs/decisions/YYYY-MM-DD/`.
+  (12 unit tests in `tests/test_decision_record_yaml_processor.cpp`)
+- [x] `LoRAFederationCoordinator::setDecisionRecordProcessor()` — emits
+  `FEDERATED_ROUND` on every successful aggregation.
+- [x] `CrossShardFeedbackSync::setDecisionRecordProcessor()` — emits
+  `FEDERATED_FEEDBACK` (OUTBOUND + INBOUND).
+
+### Remaining Integration Tasks (Target: v1.9.0)
+
+- [ ] `LoraRouter::setDecisionRecordProcessor()` — `LORA_ADAPTER_SELECTION`
+- [ ] `AdapterLoadBalancer::setDecisionRecordProcessor()` — `LORA_RANK_ADJUSTMENT`
+- [ ] `LoraOrchestrator::setDecisionRecordProcessor()` — `LOOP_TRIGGER`
+- [ ] End-to-end integration test (federation round → YAML file on disk)
+
+### Document Map (Decision Records)
+
+```
+docs/decisions/
+└── ADR-001-decision-record-yaml-processor.md   ← Architecture Decision Record
+docs/issues/llm/
+└── DR-001-decision-record-yaml-integration.md  ← Work package / acceptance criteria
+logs/decisions/                                 ← Runtime output (gitignored, .gitkeep only)
+include/llm/
+└── decision_record_yaml_processor.h
+src/llm/
+└── decision_record_yaml_processor.cpp
+tests/
+└── test_decision_record_yaml_processor.cpp
+```
+
+## 11. Document Map
 
 ```
 docs/en/research/

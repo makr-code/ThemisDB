@@ -2,8 +2,8 @@
 <!-- Links: README.md · ROADMAP.md · ../../src/llm/ -->
 
 # LLM Module — Public Header Architecture
-**Version:** 1.16.0  
-**Module Path:** `include/llm/`  
+**Version:** 1.16.0
+**Module Path:** `include/llm/`
 **Implementation:** `../../src/llm/`
 
 ---
@@ -79,7 +79,8 @@ The LLM module is the largest public header surface in ThemisDB, providing inter
 | `sampling_strategy.h` | Token sampling strategies |
 | `streaming_handler.h` | SSE streaming response handler |
 | `token_quota_manager.h` | Per-tenant token quota |
-| `ai_decision_auditor.h` | AI decision audit logging |
+| `ai_decision_auditor.h` | AI decision audit logging (RocksDB + PKI) |
+| `decision_record_yaml_processor.h` | Async YAML decision traceability (see §Decision Traceability) |
 | `llm_model_audit_logger.h` | Model-level audit logging |
 | `llm_model_storage.h` | Model storage interface |
 | `llm_interaction_store.h` | Interaction history store |
@@ -96,6 +97,68 @@ The LLM module is the largest public header surface in ThemisDB, providing inter
 | `ai_orchestrator.h` | Multi-agent AI orchestration |
 | `vision_config.h` / `vision_encoder.h` / `vision_resource_monitor.h` | Vision model support |
 | `json_schema_converter.h` | JSON schema ↔ grammar conversion |
+
+## Decision Traceability Subsystem
+
+### Overview
+
+`DecisionRecordYamlProcessor` provides lightweight, **async, human-readable**
+traceability for every autonomous decision made by the LLM/LoRA stack.  It
+runs as an independent background thread and writes one YAML file per decision
+to `logs/decisions/YYYY-MM-DD/`.
+
+### Design
+
+```
+LLM/LoRA Component
+    │  submit(DecisionRecord)   [non-blocking, O(1)]
+    ▼
+DecisionRecordYamlProcessor
+    ├── std::queue<DecisionRecord>  [bounded, max_queue_depth=4096]
+    ├── std::thread writer_thread_  [independent of inference threads]
+    └── logs/decisions/YYYY-MM-DD/<ts>_<type>_<id>.yaml
+```
+
+### Injection Pattern
+
+All components that produce decisions accept the processor via:
+
+```cpp
+component.setDecisionRecordProcessor(shared_ptr<DecisionRecordYamlProcessor>);
+```
+
+Passing `nullptr` disables tracing with zero overhead.
+
+### Well-Known Decision Types
+
+| `decision_type` | Produced By |
+|-----------------|-------------|
+| `FEDERATED_ROUND` | `LoRAFederationCoordinator` |
+| `FEDERATED_FEEDBACK` | `CrossShardFeedbackSync` |
+| `LORA_ADAPTER_SELECTION` | `LoraRouter` (planned) |
+| `LORA_RANK_ADJUSTMENT` | `AdapterLoadBalancer` (planned) |
+| `LOOP_TRIGGER` | `LoraOrchestrator` (planned) |
+| `THRESHOLD_UPDATE` | `EthicsAwareConfidenceDetector` (planned) |
+| `CIRCUIT_BREAKER_OPEN` | `LoRAFederationCoordinator` (planned) |
+| `GDPR_ERASE` | `GdprSubjectRightsManager` (planned) |
+
+### vs. `AIDecisionAuditor`
+
+| Aspect | `AIDecisionAuditor` | `DecisionRecordYamlProcessor` |
+|--------|---------------------|-------------------------------|
+| Storage | RocksDB | YAML files |
+| Signing | Ed25519 PKI | None |
+| Blocking | Yes (hot-path sync) | No (async queue) |
+| Use case | Compliance audit | Developer traceability |
+| Dependency | RocksDB + OpenSSL | yaml-cpp |
+
+### References
+
+- `docs/decisions/ADR-001-decision-record-yaml-processor.md`
+- `docs/issues/llm/DR-001-decision-record-yaml-integration.md`
+- `tests/test_decision_record_yaml_processor.cpp`
+
+---
 
 ## References
 

@@ -1733,3 +1733,112 @@ this spans adapter storage security, gradient confidentiality, and CI pipeline g
 > `docs/en/research/DISTRIBUTED_KNOWLEDGE_FEDERATION.md §12.8` (EN) ·
 > `docs/de/research/VERTEILTES_WISSEN_FEDERATION.md §12.8` (DE) ·
 > Implementation work package: `docs/issues/distributed_knowledge/DK-OR-operational-resilience.md`
+
+---
+
+## §14 Decision Traceability — Async YAML Records for LLM/LoRA
+
+### Motivation
+
+A self-optimising database that makes thousands of autonomous decisions per hour
+(federated round aggregation, LoRA adapter selection, threshold changes,
+circuit-breaker transitions) must produce machine-readable, human-reviewable
+records that are:
+
+1. **Decoupled from the inference hot-path** — decision recording must not
+   block or add latency to query execution.
+2. **Human-readable** — reviewable in a pull request without tooling.
+3. **Structurally searchable** — `grep`, `jq`, or simple Python parsers can
+   extract patterns.
+4. **Lightweight** — no RocksDB, no PKI, no network round-trip.
+
+### Architecture
+
+```
+LLM/LoRA Decision Source                 DecisionRecordYamlProcessor
+──────────────────────────               ──────────────────────────────────
+LoRAFederationCoordinator                Background thread (independent)
+  submit(FEDERATED_ROUND) ─────────────► std::queue<DecisionRecord>
+                                              │
+CrossShardFeedbackSync                        │ drain & serialise
+  submit(FEDERATED_FEEDBACK) ──────────►     │
+                                              ▼
+LoraRouter (planned)                  logs/decisions/YYYY-MM-DD/
+  submit(LORA_ADAPTER_SELECTION) ───►   <ts>_FEDERATED_ROUND_<id>.yaml
+                                         <ts>_FEDERATED_FEEDBACK_<id>.yaml
+LoraOrchestrator (planned)               <ts>_LORA_ADAPTER_SELECTION_<id>.yaml
+  submit(LOOP_TRIGGER) ─────────────►
+```
+
+### YAML Record Schema
+
+Each record file contains:
+
+```yaml
+record_id: "20260417-143022-abc12"
+decision_type: "FEDERATED_ROUND"
+component: "LoRAFederationCoordinator"
+timestamp: "2026-04-17T14:30:22.456Z"
+latency_ms: 0
+outcome: "SUCCESS"
+confidence: 1.0
+context:
+  round: "42"
+  version: "global-v42"
+  participants: "5"
+  algorithm: "FedAvg"
+  epsilon_spent: "0.1"
+```
+
+### Async Thread Design
+
+`DecisionRecordYamlProcessor` owns a single `std::thread` (writer thread)
+that is independent of all LLM/LoRA inference threads.  The public `submit()`
+method is non-blocking: it moves the record into a bounded
+`std::queue<DecisionRecord>` (default capacity: 4096).  If the queue is full
+(disk I/O failure scenario), `submit()` returns `false` (backpressure) and
+a `BACKPRESSURE_DROP` counter is incremented — the calling thread is never
+blocked.  The writer thread drains the queue, serialises each record to YAML
+using `yaml-cpp`, creates the date-partitioned directory if needed, and flushes
+the file.
+
+Shutdown is cooperative: `stop()` signals the writer thread via a
+`std::condition_variable`, the thread drains the remaining queue, then exits.
+
+### Relationship to `AIDecisionAuditor`
+
+| Aspect | `AIDecisionAuditor` | `DecisionRecordYamlProcessor` |
+|--------|---------------------|-------------------------------|
+| Primary use | Compliance audit | Developer traceability |
+| Storage | RocksDB | YAML files |
+| Signing | Ed25519 / SPHINCS+ | None |
+| Blocking | Yes (hot-path sync) | No (async queue) |
+| Dependency | RocksDB + OpenSSL | yaml-cpp |
+| Queryable | Yes (key-range scan) | Via grep/jq |
+
+Both mechanisms can be active simultaneously.  They target different audiences:
+`AIDecisionAuditor` for regulatory/compliance reporting; `DecisionRecordYamlProcessor`
+for engineering review, debugging, and reproducibility.
+
+### Decision Types Taxonomy
+
+| Type | Trigger | Key Context Fields |
+|------|---------|--------------------|
+| `FEDERATED_ROUND` | FedAvg/FedProx aggregation complete | round, participants, algorithm, ε |
+| `FEDERATED_FEEDBACK` | Cross-shard RLAIF feedback propagated | direction, feedback_type, embedding_dim |
+| `LORA_ADAPTER_SELECTION` | `LoraRouter` routes a request | selected_adapter, policy, query_hash |
+| `LORA_RANK_ADJUSTMENT` | Dynamic rank change | old_rank, new_rank, trigger_metric |
+| `LOOP_TRIGGER` | Self-optimisation loop invoked | loop_id, cycle, trigger_reason |
+| `THRESHOLD_UPDATE` | Ethics/confidence threshold adjusted | old_threshold, new_threshold, source |
+| `CIRCUIT_BREAKER_OPEN` | DP budget or SLO exceeded | metric, threshold, current_value |
+| `CIRCUIT_BREAKER_CLOSED` | Recovery condition met | metric, recovery_value |
+| `BACKPRESSURE_DROP` | Processor queue full | queue_depth, dropped_total |
+| `GDPR_ERASE` | Subject erasure processed | subject_id (hashed), components_acked |
+| `OR_ADAPTIVE_THRESHOLD_CHANGE` | ML-driven OR threshold update | control_point, old_value, new_value |
+
+### References
+
+- Architecture Decision Record: `docs/decisions/ADR-001-decision-record-yaml-processor.md`
+- Work package: `docs/issues/llm/DR-001-decision-record-yaml-integration.md`
+- Header: `include/llm/decision_record_yaml_processor.h`
+- Tests: `tests/test_decision_record_yaml_processor.cpp`

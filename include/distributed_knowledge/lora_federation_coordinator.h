@@ -50,6 +50,7 @@
  */
 
 #include "distributed_knowledge/adapter_capability_announcement.h"
+#include "llm/decision_record_yaml_processor.h"
 
 #include <string>
 #include <vector>
@@ -287,6 +288,22 @@ public:
     void advanceRound();
 
     /**
+     * @brief Inject a `DecisionRecordYamlProcessor` for async YAML traceability.
+     *
+     * When set, every successful federated aggregation round emits a
+     * `FEDERATED_ROUND` decision record that is written asynchronously to
+     * `logs/decisions/YYYY-MM-DD/<ts>_FEDERATED_ROUND_<id>.yaml`.
+     *
+     * This is intentionally decoupled from the core aggregation path: the
+     * processor runs on its own background thread and the coordinator does not
+     * wait for the write to complete.
+     *
+     * @param processor  Shared processor instance (may be nullptr to disable).
+     */
+    void setDecisionRecordProcessor(
+        std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> processor);
+
+    /**
      * @brief Return the current configuration.
      */
     [[nodiscard]] const FederationConfig& config() const { return config_; }
@@ -297,6 +314,9 @@ private:
     std::map<std::string, EncryptedGradient> pending_gradients_; // shard_id → gradient
     std::optional<GlobalAdapterDelta>        last_delta_;
     std::function<void(const GlobalAdapterDelta&)> delta_callback_;
+
+    // Decision traceability (optional, non-blocking)
+    std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> dr_processor_;
 
     // Statistics
     uint64_t total_rounds_completed_{0};
@@ -310,6 +330,9 @@ private:
     [[nodiscard]] nlohmann::json applyDifferentialPrivacy(
         const nlohmann::json& aggregated) const;
     [[nodiscard]] std::string nextDeltaVersion() const;
+    /// Emit a FEDERATED_ROUND DecisionRecord (non-blocking, caller holds mutex_).
+    void emitFederationDecisionRecord(const GlobalAdapterDelta& delta,
+                                      const std::string& outcome) const;
 };
 
 } // namespace themis::distributed_knowledge

@@ -66,6 +66,7 @@ void CrossShardFeedbackSync::publishFeedback(FeedbackSummary summary) {
     {
         std::lock_guard<std::mutex> lk(mutex_);
         ++published_count_;
+        emitFeedbackDecisionRecord("OUTBOUND", summary);
     }
 
     if (gossip_message_fn_) {
@@ -97,6 +98,7 @@ void CrossShardFeedbackSync::handleInboundSummary(const nlohmann::json& payload)
         seen_ids_.insert(summary.summary_id);
         ++received_count_;
         cb = on_feedback_;
+        emitFeedbackDecisionRecord("INBOUND", summary);
     }
 
     if (cb) {
@@ -156,6 +158,40 @@ std::string CrossShardFeedbackSync::generateSummaryId() {
     std::ostringstream oss;
     oss << std::hex << now_ms << "-" << dist(rng);
     return oss.str();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Decision Record integration
+// ─────────────────────────────────────────────────────────────────────────────
+
+void CrossShardFeedbackSync::setDecisionRecordProcessor(
+    std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> processor)
+{
+    std::lock_guard<std::mutex> lk(mutex_);
+    dr_processor_ = std::move(processor);
+}
+
+void CrossShardFeedbackSync::emitFeedbackDecisionRecord(
+    const std::string& direction,
+    const FeedbackSummary& summary) const
+{
+    // Caller holds mutex_
+    if (!dr_processor_) {
+        return;
+    }
+
+    themis::llm::DecisionRecord rec;
+    rec.decision_type = "FEDERATED_FEEDBACK";
+    rec.component     = "CrossShardFeedbackSync";
+    rec.shard_id      = local_shard_id_;
+    rec.outcome       = "SUCCESS";
+    rec.record_id     = summary.summary_id;
+
+    rec.context["direction"]       = direction;
+    rec.context["feedback_type"]   = summary.feedback_type_label;
+    rec.context["embedding_dim"]   = std::to_string(summary.reason_embedding.size());
+
+    dr_processor_->submit(std::move(rec));
 }
 
 } // namespace themis::distributed_knowledge

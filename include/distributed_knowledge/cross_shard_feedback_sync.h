@@ -60,6 +60,7 @@
 #include <chrono>
 #include <optional>
 #include <nlohmann/json.hpp>
+#include "llm/decision_record_yaml_processor.h"
 
 namespace themis::distributed_knowledge {
 
@@ -224,6 +225,18 @@ public:
      */
     void setFeedbackCallback(FeedbackCallback cb);
 
+    /**
+     * @brief Inject a `DecisionRecordYamlProcessor` for async YAML traceability.
+     *
+     * When set, every call to `publishFeedback()` and every processed inbound
+     * summary emits a `FEDERATED_FEEDBACK` decision record written
+     * asynchronously by the processor's background thread.
+     *
+     * @param processor  Shared processor instance (may be nullptr to disable).
+     */
+    void setDecisionRecordProcessor(
+        std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> processor);
+
     // ── Observability ────────────────────────────────────────────────────────
 
     /**
@@ -252,6 +265,9 @@ private:
     std::function<void(nlohmann::json)>   gossip_message_fn_;
     FeedbackCallback                      on_feedback_;
 
+    // Decision traceability (optional, non-blocking)
+    std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> dr_processor_;
+
     // Deduplication
     std::unordered_set<std::string>       seen_ids_;
 
@@ -263,6 +279,8 @@ private:
     mutable std::mutex mutex_;
 
     [[nodiscard]] static std::string generateSummaryId();
+    void emitFeedbackDecisionRecord(const std::string& direction,
+                                    const FeedbackSummary& summary) const;
 };
 
 } // namespace themis::distributed_knowledge
