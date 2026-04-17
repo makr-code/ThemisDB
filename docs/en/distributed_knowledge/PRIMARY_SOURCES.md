@@ -1,12 +1,14 @@
-[docs](../../index.md) > [en](../index.md) > [distributed_knowledge](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-04-17  
-**Status:** draft  
-**Primary Source:**
+[docs](../../README.md) > [en](../README.md) > [distributed_knowledge](./README.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
+**Datum:** 2026-04-17
+**Status:** draft
+**Primary (Quelle der Wahrheit):**
+- `src/distributed_knowledge/README.md`
 - `src/distributed_knowledge/ARCHITECTURE.md`
 - `src/distributed_knowledge/FUTURE_ENHANCEMENTS.md`
 - `src/distributed_knowledge/ROADMAP.md`
+- `src/distributed_knowledge/CHANGELOG.md`
 
-**Reference:**
+**Bezug / Reference:**
 - Tool: `tools/module_docs_builder.py`
 - Context: Auto-generated index of all primary Markdown files for module `distributed_knowledge`
 
@@ -22,9 +24,11 @@ This index lists all Markdown documentation files for module **`distributed_know
 
 | File | Path |
 |------|------|
+| `README.md` | [`src/distributed_knowledge/README.md`](../../../src/distributed_knowledge/README.md) |
 | `ARCHITECTURE.md` | [`src/distributed_knowledge/ARCHITECTURE.md`](../../../src/distributed_knowledge/ARCHITECTURE.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/distributed_knowledge/FUTURE_ENHANCEMENTS.md`](../../../src/distributed_knowledge/FUTURE_ENHANCEMENTS.md) |
 | `ROADMAP.md` | [`src/distributed_knowledge/ROADMAP.md`](../../../src/distributed_knowledge/ROADMAP.md) |
+| `CHANGELOG.md` | [`src/distributed_knowledge/CHANGELOG.md`](../../../src/distributed_knowledge/CHANGELOG.md) |
 
 ---
 
