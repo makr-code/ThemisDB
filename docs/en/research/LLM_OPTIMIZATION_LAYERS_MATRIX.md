@@ -24,6 +24,7 @@ Bezug / Reference: Van Aken et al. (2017) OtterTune SIGMOD · Marcus et al. (202
 - [Layer 8 — Multi-Tenant Workload Isolation & Resource Policy](#layer-8--multi-tenant-workload-isolation--resource-policy)
 - [Layer 9 — Explainability & DBA Dialog](#layer-9--explainability--dba-dialog)
 - [Layer 10 — Storage Layout & Semantic Compression](#layer-10--storage-layout--semantic-compression)
+- [Layer 11 — Distributed Knowledge Sharding (RAID-5 of Intelligence)](#layer-11--distributed-knowledge-sharding-raid-5-of-intelligence)
 - [2. Cross-Layer Signal Interfaces](#2-cross-layer-signal-interfaces)
 - [3. Implementation Priority & Quick Wins](#3-implementation-priority--quick-wins)
 - [4. Open Research Questions](#4-open-research-questions)
@@ -696,9 +697,85 @@ include/llm/ai_orchestrator.h                    → LLM inference
 
 ---
 
+## Layer 11 — Distributed Knowledge Sharding (RAID-5 of Intelligence)
+
+> **Full documentation:** `docs/en/research/DISTRIBUTED_KNOWLEDGE_FEDERATION.md`
+
+### Motivation
+
+Layers 5–10 operate **shard-locally** — each shard optimises in isolation.
+Layer 11 is the infrastructure that propagates optimisation insights **across shard
+boundaries** without raw data ever crossing those boundaries.
+
+**Analogy:** Layers 5–10 are the data in a RAID array.
+Layer 11 is the RAID-5 controller that manages the parity (= distributed knowledge).
+
+### Position in the Matrix
+
+```
+┌────────┬──────────────────────────────────────┬────────────┬──────────────────────────┬───────────────┐
+│ Layer  │ Optimization Target                  │ Timescale  │ Semantic Input           │ Autonomy      │
+├────────┼──────────────────────────────────────┼────────────┼──────────────────────────┼───────────────┤
+│ 1–4    │ Query/Index/Adapter (local)          │ ms–weeks   │ Query patterns, metrics  │ high          │
+│ 5      │ Transaction conflict prediction      │ < 10 ms    │ Tx content, entity map   │ medium        │
+│ 6      │ Schema evolution orchestration       │ Days–weeks │ Usage patterns, types    │ Advisory      │
+│ 7      │ Security anomaly via semantics       │ < 100 ms   │ Session context, intent  │ medium → high │
+│ 8      │ Multi-tenant workload isolation      │ Seconds    │ Workload fingerprint     │ high          │
+│ 9      │ Explainability & DBA dialog          │ On-demand  │ All layer signals        │ Advisory      │
+│ 10     │ Layout & compression (semantic)      │ Hours      │ Semantic data type       │ Advisory      │
+├────────┼──────────────────────────────────────┼────────────┼──────────────────────────┼───────────────┤
+│ **11** │ **Distributed Knowledge Sharding**   │ **Hours–** │ **Gradients, embeddings**│ **Infra-**    │
+│        │ **RAID-5 for intelligence**           │ **Days**   │ **anon. metrics**        │ **structure** │
+└────────┴──────────────────────────────────────┴────────────┴──────────────────────────┴───────────────┘
+```
+
+### The Four Connection Layers
+
+| Connection Layer | Mechanism | New Component | Base Component |
+|---|---|---|---|
+| **A — Adapter Discovery** | Gossip payload | `AdapterCapabilityAnnouncement` | `GossipProtocol` |
+| **B — Federated LoRA** | FedAvg + DP | `LoRAFederationCoordinator` | `FederatedAggregator` |
+| **C — Federated RAG** | RRF merge | `FederatedRAGMerger` | `QueryFederation` + `RAGIngestionBridge` |
+| **D — Federated RLAIF** | Embedding gossip | `CrossShardFeedbackSync` | `FeedbackCollector` + `RLAIFTrainer` |
+
+### Cross-Shard Extension of Layers 5–10
+
+| Layer | Shard-local (today) | Cross-Shard with Layer 11 |
+|---|---|---|
+| L5 Tx-Semantics | Batch hints per shard | `CrossShardTransaction` hints via `QueryFederation` |
+| L6 Schema | Dead-weight report per shard | Aggregated across all shards — no seasonal field loss |
+| **L7 Security** | IntentAlert per shard | **Gossip propagation: anomaly shard warns all immediately** |
+| L8 Multi-Tenant | WorkloadFingerprint per shard | Cross-shard transfer for similar tenant fingerprints |
+| L9 Explainability | AIDecisionAuditor per shard | `FederatedAIDecisionAuditor` — global timeline of all shards |
+| L10 Layout | LayoutHint per shard | LayoutHint via Gossip — cross-shard compression strategy |
+
+### Differential Privacy Core
+
+Federated LoRA (Layer 11B) applies the **Gaussian mechanism**
+(Dwork & Roth 2014):
+
+```
+σ = Δf · √(2·ln(1.25/δ)) / ε
+```
+
+Recommended configuration: `ε = 0.1`, `δ = 1e-5`, max. `T = 50` rounds
+→ `ε_total = 5.0` (practically acceptable, Dwork & Roth §3.5).
+
+### New Acceptance Criteria for Layer 11
+
+| Criterion | Threshold |
+|---|---|
+| Gradient accuracy delta after round | ≥ +0 % (no regression) |
+| DP budget consumption per round | ε_round ≤ 0.1 |
+| Adapter routing quality (Precision@3) | ≥ 80 % for domain_hint queries |
+| Federated RAG recall | ≥ +15 % vs. shard-local |
+| DBA feedback propagation latency | ≤ 2 × gossip interval |
+
+---
+
 ## 2. Cross-Layer Signal Interfaces
 
-The six layers are not isolated. They share signal sources and produce
+The **seven** layers (5–11) are not isolated. They share signal sources and produce
 mutual inputs:
 
 ```

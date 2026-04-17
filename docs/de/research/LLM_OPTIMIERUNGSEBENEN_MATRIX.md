@@ -18,6 +18,7 @@
 - [Ebene 8 — Multi-Tenant Workload-Isolation & Ressourcenpolitik](#ebene-8--multi-tenant-workload-isolation--ressourcenpolitik)
 - [Ebene 9 — Erklärbarkeit & DBA-Dialog](#ebene-9--erklärbarkeit--dba-dialog)
 - [Ebene 10 — Speicher-Layout & Kompression auf Semantikebene](#ebene-10--speicher-layout--kompression-auf-semantikebene)
+- [Ebene 11 — Verteiltes Wissens-Sharding (RAID-5 der Intelligenz)](#ebene-11--verteiltes-wissens-sharding-raid-5-der-intelligenz)
 - [2. Schnittstellen zwischen den Ebenen](#2-schnittstellen-zwischen-den-ebenen)
 - [3. Implementierungsreihenfolge & Quick-Wins](#3-implementierungsreihenfolge--quick-wins)
 - [4. Offene Forschungsfragen](#4-offene-forschungsfragen)
@@ -694,9 +695,96 @@ include/storage/online_schema_migration.h        → DDL für Layout-Änderungen
 
 ---
 
+## Ebene 11 — Verteiltes Wissens-Sharding (RAID-5 der Intelligenz)
+
+> **Vollständige Dokumentation:** `docs/de/research/VERTEILTES_WISSEN_FEDERATION.md`
+
+### Motivation
+
+Die Ebenen 5–10 operieren **shard-lokal** — jeder Shard optimiert sich allein.
+Ebene 11 ist die Infrastruktur, die Optimierungseinsichten **shard-übergreifend**
+propagiert, ohne Rohdaten die Shard-Grenzen überschreiten zu lassen.
+
+**Analogie:** Ebenen 5–10 sind die Daten in einem RAID-Array.
+Ebene 11 ist der RAID-5-Controller, der die Parität (= verteiltes Wissen) verwaltet.
+
+### Position in der Matrix
+
+```
+┌────────┬──────────────────────────────────────┬────────────┬──────────────────────────┬───────────────┐
+│ Ebene  │ Optimierungsziel                     │ Zeitskala  │ Semantischer Input       │ Autonomie     │
+├────────┼──────────────────────────────────────┼────────────┼──────────────────────────┼───────────────┤
+│ 1–4    │ Query/Index/Adapter (lokal)          │ ms–Wochen  │ Query-Muster, Metriken   │ hoch          │
+│ 5      │ Transaktionskonflikt-Voraussage       │ < 10 ms    │ Tx-Inhalt, Entity-Map    │ mittel        │
+│ 6      │ Schema-Evolutions-Regie              │ Tage–Wochen│ Nutzungsmuster, Typen    │ Advisory      │
+│ 7      │ Sicherheits-Anomalie via Semantik    │ < 100 ms   │ Session-Kontext, Intent  │ mittel → hoch │
+│ 8      │ Multi-Tenant Workload-Isolation      │ Sekunden   │ Workload-Fingerprint     │ hoch          │
+│ 9      │ Erklärbarkeit & DBA-Dialog           │ On-demand  │ Alle Ebenen-Signale      │ Advisory      │
+│ 10     │ Layout & Kompression (Semantik)      │ Stunden    │ Semantischer Datentyp    │ Advisory      │
+├────────┼──────────────────────────────────────┼────────────┼──────────────────────────┼───────────────┤
+│ **11** │ **Verteiltes Wissens-Sharding**       │ **Stunden–**│ **Gradienten, Embeddings,**│ **Infrastruktur**│
+│        │ **RAID-5 für Intelligenz**            │ **Tage**   │ **anonyme Metriken**     │               │
+└────────┴──────────────────────────────────────┴────────────┴──────────────────────────┴───────────────┘
+```
+
+### Die vier Verbindungsebenen
+
+| Verbindungs-Ebene | Mechanismus | Neue Komponente | Basis-Komponente |
+|---|---|---|---|
+| **A — Adapter-Discovery** | Gossip-Payload | `AdapterCapabilityAnnouncement` | `GossipProtocol` |
+| **B — Federated LoRA** | FedAvg + DP | `LoRAFederationCoordinator` | `FederatedAggregator` |
+| **C — Federated RAG** | RRF-Merge | `FederatedRAGMerger` | `QueryFederation` + `RAGIngestionBridge` |
+| **D — Federated RLAIF** | Embedding-Gossip | `CrossShardFeedbackSync` | `FeedbackCollector` + `RLAIFTrainer` |
+
+### Cross-Shard-Erweiterung der Ebenen 5–10
+
+| Ebene | Shard-lokal (heute) | Cross-Shard mit Ebene 11 |
+|---|---|---|
+| E5 Tx-Semantik | Batch-Hints je Shard | `CrossShardTransaction`-Hints via `QueryFederation` |
+| E6 Schema | Dead-Weight-Report je Shard | Aggregiert über alle Shards — kein saisonaler Feldverlust |
+| **E7 Security** | IntentAlert je Shard | **Gossip-Propagation: Anomalie-Shard warnt alle sofort** |
+| E8 Multi-Tenant | WorkloadFingerprint je Shard | Cross-Shard-Transfer bei ähnlichem Tenant-Fingerprint |
+| E9 Explainability | AIDecisionAuditor je Shard | `FederatedAIDecisionAuditor` — globale Timeline aller Shards |
+| E10 Layout | LayoutHint je Shard | LayoutHint via Gossip — shard-übergreifende Komprimierung |
+
+### Differential-Privacy-Kern
+
+Federated LoRA (Ebene 11B) verwendet den **Gaussian-Mechanismus**
+(Dwork & Roth 2014):
+
+```
+σ = Δf · √(2·ln(1.25/δ)) / ε
+```
+
+Empfohlene Konfiguration: `ε = 0.1`, `δ = 1e-5`, max. `T = 50` Runden
+→ `ε_total = 5.0` (praktisch akzeptabel, Dwork & Roth §3.5).
+
+### Neue Akzeptanzkriterien für Ebene 11
+
+| Kriterium | Schwellenwert |
+|---|---|
+| Gradient-Accuracy-Delta nach Runde | ≥ +0 % (kein Rückschritt) |
+| DP-Budget-Verbrauch je Runde | ε_round ≤ 0.1 |
+| Adapter-Routing-Qualität (Precision@3) | ≥ 80 % für domain_hint-Queries |
+| RAG-Federated-Recall | ≥ +15 % vs. shard-lokal |
+| DBA-Feedback-Propagations-Latenz | ≤ 2 × Gossip-Intervall |
+
+### Offene Forschungsfragen für Ebene 11
+
+**RQ-E11-1** — Wie viele Trainings-Samples benötigt ein Shard mindestens vor dem Beitrag?
+*(Hypothese: n_k ≥ 500 — McMahan §4)*
+
+**RQ-E11-2** — Konvergiert FedAvg bei stark heterogener Shard-Spezialisierung?
+*(Hypothese: FedProx mit μ = 0.01 verhindert Divergenz bis 5× Heterogenität)*
+
+**RQ-E11-3** — Verletzt Gradient-Transfer über EU/Non-EU-Shards Art. 44 DSGVO?
+*(Hypothese: Nein — nur anonymisierte numerische Gradienten, kein personenbezogener Inhalt)*
+
+---
+
 ## 2. Schnittstellen zwischen den Ebenen
 
-Die sechs Ebenen sind nicht isoliert. Sie teilen Signal-Quellen und
+Die **sieben** Ebenen (5–11) sind nicht isoliert. Sie teilen Signal-Quellen und
 erzeugen gegenseitige Inputs:
 
 ```
@@ -715,12 +803,21 @@ erzeugen gegenseitige Inputs:
 │  Ebene 9 (DBA-Feedback)        ──►  Ebene 4 (RLAIF Loop)                │
 │                                                                         │
 │  Loops 1–4 (bekannt)           ──►  Ebene 9 (alle Decisions erklärbar)  │
+│                                                                         │
+│  Ebene 11 (Distributed Knowledge) — Cross-Shard-Transport für 5–10:    │
+│  Ebene 7 (IntentAlert)         ──►  E11-Gossip ──► alle Shards          │
+│  Ebene 6 (Dead-Weight)         ──►  E11-FedLoRA ──► globaler Report     │
+│  Ebene 9 (AIDecision)          ──►  E11-Audit  ──► Federated Timeline   │
+│  Ebene 4 (RLAIF)               ──►  E11-D      ──► Cross-Shard Feedback │
+│  Ebene 3/4 (LoRA-Training)     ──►  E11-B      ──► FedAvg + DP(ε,δ)    │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
 **Gemeinsamer AIDecisionAuditor:**
 Alle Ebenen schreiben strukturierte `DecisionRecord`-Einträge in `AIDecisionAuditor`.
 Ebene 9 liest daraus für Erklärungen. Ebene 4 (RLAIF) liest daraus für Training.
+**Ebene 11** erweitert dies zum `FederatedAIDecisionAuditor` — DBA sieht Entscheidungen
+aller Shards in einer globalen Timeline.
 
 **Gemeinsame Guardrail-Schicht:**
 Alle Ebenen mit `mittel`/`hoch` Autonomie durchlaufen den **Autonomie-Gate**
@@ -743,6 +840,10 @@ Alle Ebenen mit `mittel`/`hoch` Autonomie durchlaufen den **Autonomie-Gate**
 | 4 | **E6 Schema** | Online-DDL bereits vorhanden, Advisory-Only = kein Risiko | Dead-Weight-Report |
 | 5 | **E5 Transaction** | `DeadlockPredictor` als Basis vorhanden | Batch-Affinität für Session-Pattern |
 | 6 | **E10 Layout** | Langfristiger ROI (Speicherkosten), aufwändigere Migration | Columnar-Empfehlung für Zeitreihen |
+| 7a | **E11-A Adapter-Gossip** | Quick Win: kein Training, sofortiges Domain-Routing | `AdapterCapabilityAnnouncement` broadcasten |
+| 7b | **E11-C Federated RAG** | Nutzt vorhandene `QueryFederation` + `RAGIngestionBridge` | LLM sieht Wissen aller Shards |
+| 7c | **E11-B Federated LoRA** | Kern der verteilten Intelligenz | FedAvg + DP über Shard-Gradienten |
+| 7d | **E11-D Cross-Shard RLAIF** | DBA-Feedback wird global wirksam | Embedding-Gossip für Feedback-Summaries |
 
 ---
 
@@ -771,6 +872,21 @@ Entscheidungen? (Hypothese: +20–35 pp vs. Empfehlung ohne Reason-Feld)
 Product-Quantization für hochdimensionale Embeddings (1536 Dim)?
 (Hypothese: < 2 % Recall-Verlust bei 8×-Kompression — basierend auf JDH17)
 
+**RQ-E11-1** — Wie viele Trainings-Samples benötigt ein Shard mindestens,
+bevor sein Gradient-Beitrag das globale Modell nicht verschlechtert?
+(Hypothese: n_k ≥ 500 — McMahan et al. §4)
+
+**RQ-E11-2** — Konvergiert FedAvg bei stark heterogener Shard-Spezialisierung
+(Security-Shard vs. Schema-Shard) oder divergiert das globale Modell?
+(Hypothese: FedProx mit μ = 0.01 verhindert Divergenz bis 5× Heterogenität)
+
+**RQ-E11-3** — Verletzt Gradient-Transfer über EU/Non-EU-Shard-Grenzen Art. 44 DSGVO?
+(Hypothese: Nein — nur anonymisierte numerische Gradienten, kein personenbezogener Inhalt)
+
+**RQ-E11-4** — Wie groß ist der Federated-RAG-Recall-Gewinn (RRF) gegenüber
+rein shard-lokalem Retrieval?
+(Hypothese: ≥ +15 % Recall@10 bei domänen-übergreifenden Queries)
+
 ---
 
 ## 5. Referenzen
@@ -783,6 +899,12 @@ Product-Quantization für hochdimensionale Embeddings (1536 Dim)?
 - Ding et al. (2020). Self-Managing Database Systems with AI Planning. VLDB.
 - Pavlo et al. (2017). Self-Driving Database Management Systems. CIDR.
 - Negi et al. (2023). Robust Query Driven Cardinality Estimation under Changing Workloads. VLDB.
+- **McMahan, H.B. et al. (2017). Communication-Efficient Learning of Deep Networks from Decentralised Data. AISTATS.** *(Neu: Ebene 11)*
+- **Li, T. et al. (2020). Federated Optimization in Heterogeneous Networks (FedProx). MLSys.** *(Neu: Ebene 11)*
+- **Dwork, C. & Roth, A. (2014). The Algorithmic Foundations of Differential Privacy.** *(Neu: Ebene 11)*
+- **Cormack, G.V. et al. (2009). Reciprocal Rank Fusion. ACM SIGIR.** *(Neu: Ebene 11)*
+- ThemisDB: `docs/de/research/VERTEILTES_WISSEN_FEDERATION.md` *(Neu: vollständige Ebene-11-Dokumentation)*
+- ThemisDB: `docs/en/research/DISTRIBUTED_KNOWLEDGE_FEDERATION.md` *(Neu: englische Version)*
 - ThemisDB: `docs/en/research/THEMISDB_LORA_RESEARCH_PAPER.md`
 - ThemisDB: `docs/en/research/THEMISDB_LORA_METRICS_AND_OVERVIEW.md`
 - ThemisDB: `docs/de/research/MULTI_LAYER_FEEDBACK_LEARNING.md`
