@@ -24,6 +24,7 @@
 #include "llm/lora_framework/lora_provenance.h"
 #include "llm/lora_framework/adapter_consistency_checker.h"
 #include "llm/multi_lora_manager.h"
+#include "llm/decision_record_yaml_processor.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -476,6 +477,18 @@ public:
     /// Verify the Merkle audit chain integrity.
     /// Returns true when the chain is intact; false when tampered or corrupt.
     bool verifyAuditChain(const std::string& adapter_id) const;
+
+    /**
+     * @brief Inject a `DecisionRecordYamlProcessor` for async YAML traceability.
+     *
+     * When set, every `loadAdapter()` call emits a `LOOP_TRIGGER` decision
+     * record written asynchronously to
+     * `logs/decisions/YYYY-MM-DD/<ts>_LOOP_TRIGGER_<id>.yaml`.
+     *
+     * @param processor  Shared processor instance (may be nullptr to disable).
+     */
+    void setDecisionRecordProcessor(
+        std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> processor);
 
 private:
     class Impl;

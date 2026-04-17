@@ -23,6 +23,7 @@
 
 #pragma once
 
+#include "llm/decision_record_yaml_processor.h"
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -128,6 +129,19 @@ public:
     void markGPUHealthy(int gpu_device_id);
     bool shouldMigrateFromGPU(int gpu_device_id) const;
 
+    /**
+     * @brief Inject a `DecisionRecordYamlProcessor` for async YAML traceability.
+     *
+     * When set, every successful `rebalance()` call that performs at least one
+     * adapter migration emits a `LORA_RANK_ADJUSTMENT` decision record written
+     * asynchronously to
+     * `logs/decisions/YYYY-MM-DD/<ts>_LORA_RANK_ADJUSTMENT_<id>.yaml`.
+     *
+     * @param processor  Shared processor instance (may be nullptr to disable).
+     */
+    void setDecisionRecordProcessor(
+        std::shared_ptr<DecisionRecordYamlProcessor> processor);
+
     // Hot-load in-progress tracking
     /// Mark @p adapter_id as currently being hot-loaded.
     /// Requests for this adapter will be routed to @p fallback_id until
@@ -163,6 +177,9 @@ private:
 
     // Hot-load in-progress tracking: adapter_id → fallback_id
     std::unordered_map<std::string, std::string> hot_loading_adapters_;
+
+    // Decision traceability (optional, non-blocking)
+    std::shared_ptr<DecisionRecordYamlProcessor> dr_processor_;
     
     // Helper methods
     bool canPlaceOnGPU(int gpu_device_id, size_t vram_bytes) const;
@@ -177,6 +194,9 @@ private:
     bool performEviction(const std::string& adapter_id);
     
     int64_t getCurrentTimeMs() const;
+
+    /// Emit a LORA_RANK_ADJUSTMENT DecisionRecord (non-blocking, caller holds mutex_).
+    void emitRebalanceRecord(int migrations, int num_gpus, float avg_load) const;
 };
 
 } // namespace llm

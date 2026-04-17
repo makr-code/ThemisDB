@@ -18,6 +18,7 @@
  */
 
 #include "llm/lora_framework/lora_orchestrator.h"
+#include "llm/decision_record_yaml_processor.h"
 
 #include <algorithm>
 #include <atomic>
@@ -82,6 +83,9 @@ public:
 
     // Provenance manager for cryptographic audit and MVCC snapshots
     LoRAProvenanceManager provenance_mgr;
+
+    // Decision traceability (optional, non-blocking)
+    std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> dr_processor;
 };
 
 LoRAOrchestrator::LoRAOrchestrator(const Config& config) : impl_(std::make_unique<Impl>()) {
@@ -397,10 +401,20 @@ std::string LoRAOrchestrator::loadAdapter(const std::string& adapter_id, bool as
     job.updated_at = job.started_at;
     impl_->jobs[job.job_id] = job;
 
-    return job.job_id;
-}
+    // Emit LOOP_TRIGGER decision record (non-blocking)
+    if (impl_->dr_processor) {
+        themis::llm::DecisionRecord rec;
+        rec.decision_type = "LOOP_TRIGGER";
+        rec.component     = "LoRAOrchestrator";
+        rec.outcome       = async ? "RUNNING" : "SUCCESS";
+        rec.parameters["adapter_id"] = adapter_id;
+        rec.parameters["job_id"]     = job.job_id;
+        rec.parameters["async"]      = async ? "true" : "false";
+        impl_->dr_processor->submit(std::move(rec));
+    }
 
-std::optional<LoRAOrchestrator::JobInfo> LoRAOrchestrator::getJob(const std::string& job_id) const {
+    return job.job_id;
+}(const std::string& job_id) const {
     std::shared_lock<std::shared_mutex> lock(impl_->state_mutex);
     auto it = impl_->jobs.find(job_id);
     if (it != impl_->jobs.end()) {
@@ -565,6 +579,13 @@ std::vector<InferenceAuditEntry> LoRAOrchestrator::getInferenceAuditLog(
 
 bool LoRAOrchestrator::verifyAuditChain(const std::string& adapter_id) const {
     return impl_->provenance_mgr.verifyAuditChain(adapter_id);
+}
+
+void LoRAOrchestrator::setDecisionRecordProcessor(
+    std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> processor)
+{
+    std::unique_lock<std::shared_mutex> lock(impl_->state_mutex);
+    impl_->dr_processor = std::move(processor);
 }
 
 } // namespace lora

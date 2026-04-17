@@ -187,9 +187,9 @@ void CrossShardFeedbackSync::emitFeedbackDecisionRecord(
     rec.outcome       = "SUCCESS";
     rec.record_id     = summary.summary_id;
 
-    rec.context["direction"]       = direction;
-    rec.context["feedback_type"]   = summary.feedback_type_label;
-    rec.context["embedding_dim"]   = std::to_string(summary.reason_embedding.size());
+    rec.parameters["direction"]       = direction;
+    rec.parameters["feedback_type"]   = summary.feedback_type_label;
+    rec.parameters["embedding_dim"]   = std::to_string(summary.reason_embedding.size());
 
     dr_processor_->submit(std::move(rec));
 }

@@ -159,6 +159,8 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_model_router\\.cpp$"
         # LLM feedback store ÔÇô depends on llm/feedback_store.h / llm/i_feedback_plugin.h
         ".*test_feedback_store\\.cpp$"
+        # DR integration uses LoRAOrchestrator which is gated on THEMIS_ENABLE_LLM
+        ".*test_decision_record_integration\\.cpp$"
     )
 endif()
 

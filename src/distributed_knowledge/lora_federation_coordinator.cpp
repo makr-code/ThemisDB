@@ -290,11 +290,11 @@ void LoRAFederationCoordinator::emitFederationDecisionRecord(
     rec.outcome       = outcome;
     rec.confidence    = 1.0f;
 
-    rec.context["round"]        = std::to_string(delta.round);
-    rec.context["version"]      = delta.version;
-    rec.context["participants"] = std::to_string(delta.participants);
-    rec.context["algorithm"]    = delta.algorithm;
-    rec.context["epsilon_spent"] = std::to_string(delta.epsilon_spent);
+    rec.parameters["round"]        = std::to_string(delta.round);
+    rec.parameters["version"]      = delta.version;
+    rec.parameters["participants"] = std::to_string(delta.participants);
+    rec.parameters["algorithm"]    = delta.algorithm;
+    rec.parameters["epsilon_spent"] = std::to_string(delta.epsilon_spent);
 
     // submit() is non-blocking — the processor's background thread handles I/O
     dr_processor_->submit(std::move(rec));

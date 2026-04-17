@@ -23,6 +23,7 @@
 
 #include "llm/adapter_load_balancer.h"
 #include "llm/gpu_memory_manager.h"
+#include "llm/decision_record_yaml_processor.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <chrono>
@@ -340,7 +341,9 @@ bool AdapterLoadBalancer::rebalance() {
     last_rebalance_time_ = getCurrentTimeMs();
     
     spdlog::info("Load rebalancing completed: {} migrations", migrations);
-    
+
+    emitRebalanceRecord(migrations, static_cast<int>(healthy_gpus.size()), avg_load);
+
     return migrations > 0;
 }
 
@@ -647,6 +650,36 @@ std::string AdapterLoadBalancer::resolveAdapter(const std::string& adapter_id) c
         return it->second;
     }
     return adapter_id;
+}
+
+void AdapterLoadBalancer::setDecisionRecordProcessor(
+    std::shared_ptr<DecisionRecordYamlProcessor> processor)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    dr_processor_ = std::move(processor);
+}
+
+void AdapterLoadBalancer::emitRebalanceRecord(
+    int migrations, int num_gpus, float avg_load) const
+{
+    // dr_processor_ is checked under the caller's mutex_ context
+    if (!dr_processor_) {
+        return;
+    }
+
+    DecisionRecord rec;
+    rec.decision_type = "LORA_RANK_ADJUSTMENT";
+    rec.component     = "AdapterLoadBalancer";
+    rec.outcome       = migrations > 0 ? "SUCCESS" : "SKIPPED_BUDGET";
+
+    rec.parameters["migrations"]        = std::to_string(migrations);
+    rec.parameters["num_gpus"]          = std::to_string(num_gpus);
+    rec.parameters["avg_gpu_load"]      = std::to_string(avg_load);
+    rec.parameters["total_migrations"]  = std::to_string(total_migrations_);
+    rec.parameters["total_evictions"]   = std::to_string(total_evictions_);
+
+    // submit() is non-blocking — the processor's background thread handles I/O
+    dr_processor_->submit(std::move(rec));
 }
 
 } // namespace llm
