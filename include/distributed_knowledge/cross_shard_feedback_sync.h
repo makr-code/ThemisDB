@@ -226,6 +226,27 @@ public:
     void setFeedbackCallback(FeedbackCallback cb);
 
     /**
+     * @brief Inbound policy check type (DK-5 ZeroTrust integration).
+     *
+     * Returns `true` when the summary is acceptable and should be processed,
+     * `false` to silently drop it.  Mirrors the ZeroTrust "never trust,
+     * always verify" pattern without coupling to the full
+     * `ZeroTrustPolicyEnforcer` API.
+     */
+    using InboundPolicyCheck = std::function<bool(const FeedbackSummary&)>;
+
+    /**
+     * @brief Inject an inbound policy check (DK-5 DI-setter).
+     *
+     * When set, `handleInboundSummary()` calls the check before invoking the
+     * feedback callback.  Summaries that fail the check are dropped silently
+     * and `rejectedByPolicyCount()` is incremented.
+     *
+     * Typical use: wrap `ZeroTrustPolicyEnforcer::verify()` in a lambda.
+     */
+    void setInboundPolicyCheck(InboundPolicyCheck check);
+
+    /**
      * @brief Inject a `DecisionRecordYamlProcessor` for async YAML traceability.
      *
      * When set, every call to `publishFeedback()` and every processed inbound
@@ -255,6 +276,11 @@ public:
     [[nodiscard]] size_t deduplicatedCount() const;
 
     /**
+     * @brief Number of summaries rejected by the inbound policy check.
+     */
+    [[nodiscard]] size_t rejectedByPolicyCount() const;
+
+    /**
      * @brief Return observability stats as JSON.
      */
     [[nodiscard]] nlohmann::json getStats() const;
@@ -264,6 +290,7 @@ private:
     std::string                           local_shard_id_;
     std::function<void(nlohmann::json)>   gossip_message_fn_;
     FeedbackCallback                      on_feedback_;
+    InboundPolicyCheck                    policy_check_;
 
     // Decision traceability (optional, non-blocking)
     std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> dr_processor_;
@@ -272,9 +299,10 @@ private:
     std::unordered_set<std::string>       seen_ids_;
 
     // Counters
-    size_t published_count_   = 0;
-    size_t received_count_    = 0;
-    size_t deduplicated_count_ = 0;
+    size_t published_count_       = 0;
+    size_t received_count_        = 0;
+    size_t deduplicated_count_    = 0;
+    size_t rejected_by_policy_    = 0;
 
     mutable std::mutex mutex_;
 

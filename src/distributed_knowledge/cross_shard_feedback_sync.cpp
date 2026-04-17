@@ -91,6 +91,13 @@ void CrossShardFeedbackSync::handleInboundSummary(const nlohmann::json& payload)
             return;
         }
 
+        // ── DK-5: ZeroTrust / policy check ───────────────────────────────────
+        if (policy_check_ && !policy_check_(summary)) {
+            ++rejected_by_policy_;
+            return; // silent drop
+        }
+        // ─────────────────────────────────────────────────────────────────────
+
         // Evict oldest if cache full (simple: clear half the cache)
         if (seen_ids_.size() >= config_.dedup_cache_size) {
             seen_ids_.clear();
@@ -107,12 +114,17 @@ void CrossShardFeedbackSync::handleInboundSummary(const nlohmann::json& payload)
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// setFeedbackCallback
+// setFeedbackCallback / setInboundPolicyCheck
 // ─────────────────────────────────────────────────────────────────────────────
 
 void CrossShardFeedbackSync::setFeedbackCallback(FeedbackCallback cb) {
     std::lock_guard<std::mutex> lk(mutex_);
     on_feedback_ = std::move(cb);
+}
+
+void CrossShardFeedbackSync::setInboundPolicyCheck(InboundPolicyCheck check) {
+    std::lock_guard<std::mutex> lk(mutex_);
+    policy_check_ = std::move(check);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -134,13 +146,19 @@ size_t CrossShardFeedbackSync::deduplicatedCount() const {
     return deduplicated_count_;
 }
 
+size_t CrossShardFeedbackSync::rejectedByPolicyCount() const {
+    std::lock_guard<std::mutex> lk(mutex_);
+    return rejected_by_policy_;
+}
+
 nlohmann::json CrossShardFeedbackSync::getStats() const {
     std::lock_guard<std::mutex> lk(mutex_);
-    return {{"shard_id",          local_shard_id_},
-            {"published",         published_count_},
-            {"received",          received_count_},
-            {"deduplicated",      deduplicated_count_},
-            {"seen_ids_cached",   seen_ids_.size()}};
+    return {{"shard_id",             local_shard_id_},
+            {"published",            published_count_},
+            {"received",             received_count_},
+            {"deduplicated",         deduplicated_count_},
+            {"rejected_by_policy",   rejected_by_policy_},
+            {"seen_ids_cached",      seen_ids_.size()}};
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

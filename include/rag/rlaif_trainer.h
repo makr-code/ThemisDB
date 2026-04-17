@@ -66,6 +66,7 @@
 #pragma once
 
 #include "rag/rag_judge.h"
+#include "distributed_knowledge/cross_shard_feedback_sync.h"
 
 #include <chrono>
 #include <functional>
@@ -515,6 +516,41 @@ public:
      * @throws std::invalid_argument describing the first violation found.
      */
     static void validateConfig(const RLAIFConfig& config);
+
+    // ═══════════════════════════════════════════════════════════
+    // DK-5: Cross-shard RLAIF feedback integration
+    // ═══════════════════════════════════════════════════════════
+
+    /**
+     * @brief Aggregated stats for cross-shard preference pairs.
+     *
+     * Counters are updated by `addCrossShardSummary()`.
+     */
+    struct CrossShardStats {
+        size_t received_summaries = 0; ///< Total inbound summaries accepted
+        size_t applied_pairs      = 0; ///< Preference pairs added to dataset
+        size_t skipped_summaries  = 0; ///< Summaries skipped (embedding lookup failure)
+    };
+
+    /**
+     * @brief Ingest a cross-shard feedback summary as a synthetic preference pair.
+     *
+     * The caller is responsible for constructing the `PreferencePair` (e.g.
+     * via nearest-neighbour lookup on `summary.reason_embedding`).  This
+     * method is a type-safe wrapper that appends the pair to the dataset and
+     * increments the cross-shard counters.
+     *
+     * @param summary        Anonymised feedback summary from a remote shard.
+     * @param synthetic_pair Pre-constructed preference pair for the summary.
+     */
+    void addCrossShardSummary(
+        const distributed_knowledge::FeedbackSummary& summary,
+        const PreferencePair& synthetic_pair);
+
+    /**
+     * @brief Return counters for cross-shard preference pair ingestion.
+     */
+    [[nodiscard]] CrossShardStats getCrossShardStats() const;
 
 private:
     struct Impl;

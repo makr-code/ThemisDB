@@ -573,3 +573,107 @@ TEST(RLAIFTrainerFactory, CreateWithJudgeInjectsJudge)
     auto trainer = RLAIFTrainerFactory::createWithJudge(judge);
     EXPECT_EQ(trainer.judgeName(), "LengthJudge");
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DK-5: Cross-shard RLAIF feedback (RLAIF-CSS-01..03, ZT-FED-01)
+// ─────────────────────────────────────────────────────────────────────────────
+
+#include "distributed_knowledge/cross_shard_feedback_sync.h"
+
+using namespace themis::distributed_knowledge;
+using namespace themis::rag::training;
+
+namespace {
+
+PreferencePair makeSyntheticPair(const std::string& label = "cross-shard") {
+    PreferencePair pp;
+    pp.prompt   = "[" + label + "] query";
+    pp.chosen   = "good response from cross-shard knowledge";
+    pp.rejected = "poor response";
+    pp.preference_score = 0.8;
+    return pp;
+}
+
+} // namespace
+
+// RLAIF-CSS-01: addCrossShardSummary() increments applied_pairs counter
+TEST(RLAIFTrainerCrossShardTest, RLAIF_CSS_01_AddCrossShardSummary_IncrementsAppliedPairs) {
+    RLAIFTrainer trainer;
+    const size_t initial = trainer.getCrossShardStats().applied_pairs;
+
+    FeedbackSummary summary;
+    summary.summary_id          = "sum-001";
+    summary.feedback_type_label = "USER_NEGATIVE";
+    summary.reason_embedding    = std::vector<float>(384, 0.1f);
+
+    trainer.addCrossShardSummary(summary, makeSyntheticPair());
+
+    EXPECT_EQ(trainer.getCrossShardStats().applied_pairs, initial + 1);
+}
+
+// RLAIF-CSS-02: addCrossShardSummary() appends the PreferencePair to the dataset
+TEST(RLAIFTrainerCrossShardTest, RLAIF_CSS_02_AddCrossShardSummary_AppendsToDataset) {
+    RLAIFTrainer trainer;
+    const size_t initial_size = trainer.datasetSize();
+
+    FeedbackSummary summary;
+    summary.summary_id          = "sum-002";
+    summary.feedback_type_label = "HALLUCINATION_DETECTED";
+    summary.reason_embedding    = std::vector<float>(384, 0.5f);
+
+    auto pp = makeSyntheticPair("hal-shard");
+    trainer.addCrossShardSummary(summary, pp);
+
+    EXPECT_EQ(trainer.datasetSize(), initial_size + 1);
+    EXPECT_EQ(trainer.getDataset().back().prompt, pp.prompt);
+}
+
+// RLAIF-CSS-03: getCrossShardStats() returns consistent counters after multiple summaries
+TEST(RLAIFTrainerCrossShardTest, RLAIF_CSS_03_GetCrossShardStats_ConsistentCounters) {
+    RLAIFTrainer trainer;
+
+    for (int i = 0; i < 5; ++i) {
+        FeedbackSummary s;
+        s.summary_id          = "sum-" + std::to_string(i);
+        s.feedback_type_label = "USER_NEGATIVE";
+        s.reason_embedding    = std::vector<float>(384, static_cast<float>(i) * 0.01f);
+        trainer.addCrossShardSummary(s, makeSyntheticPair());
+    }
+
+    const auto stats = trainer.getCrossShardStats();
+    EXPECT_EQ(stats.received_summaries, 5u);
+    EXPECT_EQ(stats.applied_pairs,      5u);
+    EXPECT_EQ(stats.skipped_summaries,  0u);
+}
+
+// ZT-FED-01: handleInboundSummary() with rejecting policy → callback NOT called
+TEST(CrossShardFeedbackSyncPolicyTest, ZT_FED_01_RejectingPolicyCheck_CallbackNotInvoked) {
+    FeedbackSyncConfig cfg;
+    cfg.max_embedding_dim    = 3;
+    cfg.validate_embedding_dim = false; // allow any dim in this test
+
+    int callback_count = 0;
+    int gossip_count   = 0;
+
+    CrossShardFeedbackSync sync(
+        cfg, "shard-recv",
+        [&gossip_count](nlohmann::json) { ++gossip_count; });
+
+    sync.setFeedbackCallback([&callback_count](const FeedbackSummary&) {
+        ++callback_count;
+    });
+
+    // Inject always-reject policy
+    sync.setInboundPolicyCheck([](const FeedbackSummary&) { return false; });
+
+    FeedbackSummary s;
+    s.summary_id          = "zt-sum-001";
+    s.feedback_type_label = "USER_NEGATIVE";
+    s.reason_embedding    = {0.1f, 0.2f, 0.3f};
+
+    sync.handleInboundSummary(s.toJson());
+
+    EXPECT_EQ(callback_count, 0) << "Policy-rejected summary must NOT invoke feedback callback";
+    EXPECT_GE(sync.rejectedByPolicyCount(), 1u);
+}
+
