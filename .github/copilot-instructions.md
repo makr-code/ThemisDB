@@ -1,6 +1,6 @@
 # Copilot Instructions for Roadmap-Driven Implementation
 
-Diese Regeln steuern, wie Copilot in diesem Repository aus `ROADMAP.md` und `future_enhancement.md` produktive Implementierungen erzeugt.
+Diese Regeln steuern, wie Copilot in diesem Repository aus `ROADMAP.md` und `FUTURE_ENHANCEMENTS.md` produktive Implementierungen erzeugt.
 
 ## 1) Ziel
 
@@ -37,7 +37,7 @@ Beispiel:
 
 - `- [ ] CUDA geospatial distance and containment kernels (Target: Q3 2026)`
 
-## 3) Pflichtstruktur für `future_enhancement.md`
+## 3) Pflichtstruktur für `FUTURE_ENHANCEMENTS.md`
 
 Wenn vorhanden, MUSS die Datei pro Modul klare, implementierbare Hinweise enthalten:
 
