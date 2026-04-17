@@ -108,6 +108,25 @@ GlobalAdapterDelta LoRAFederationCoordinator::triggerAggregation() {
     }
     // ─────────────────────────────────────────────────────────────────────────
 
+    // ── DK-7: GDPR cross-border policy check ─────────────────────────────────
+    if (cross_border_policy_) {
+        for (const auto& [shard_id, _grad] : pending_gradients_) {
+            std::string region = "EU"; // default — EU shards are always allowed
+            auto loc_it = shard_locations_.find(shard_id);
+            if (loc_it != shard_locations_.end()) {
+                region = loc_it->second;
+            }
+            const auto decision = cross_border_policy_->checkTransfer(region);
+            if (!decision.allowed) {
+                throw std::runtime_error(
+                    "LoRAFederationCoordinator::triggerAggregation: Cross-border "
+                    "transfer blocked: region=" + region +
+                    ", shard=" + shard_id);
+            }
+        }
+    }
+    // ─────────────────────────────────────────────────────────────────────────
+
     if (pending_gradients_.size() < config_.min_participants) {
         throw std::runtime_error(
             "LoRAFederationCoordinator::triggerAggregation: insufficient "
@@ -120,6 +139,24 @@ GlobalAdapterDelta LoRAFederationCoordinator::triggerAggregation() {
     ++total_rounds_completed_;
 
     emitFederationDecisionRecord(delta, "SUCCESS");
+
+    // ── DK-7: Audit callback with optional SphincsPlus signature ─────────────
+    if (audit_record_callback_) {
+        nlohmann::json audit_rec = {
+            {"decision_type",  "FEDERATED_ROUND"},
+            {"round",          delta.round},
+            {"participants",   delta.participants},
+            {"epsilon_spent",  delta.epsilon_spent},
+            {"total_epsilon",  total_epsilon_spent_},
+            {"algorithm",      delta.algorithm},
+            {"delta_version",  delta.version}
+        };
+        if (signing_callback_) {
+            audit_rec["sphincs_signature"] = signing_callback_(audit_rec);
+        }
+        audit_record_callback_(audit_rec);
+    }
+    // ─────────────────────────────────────────────────────────────────────────
 
     if (delta_callback_) {
         delta_callback_(delta);
@@ -328,6 +365,38 @@ bool LoRAFederationCoordinator::verifyPrivacyBudget() const {
         return true;
     }
     return current_round_ <= config_.max_rounds;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DK-7: GDPR + Audit + SphincsPlus DI setters
+// ─────────────────────────────────────────────────────────────────────────────
+
+void LoRAFederationCoordinator::setCrossBorderPolicy(
+    std::shared_ptr<themis::governance::CrossBorderTransferPolicy> policy)
+{
+    std::lock_guard<std::mutex> lk(mutex_);
+    cross_border_policy_ = std::move(policy);
+}
+
+void LoRAFederationCoordinator::setShardLocations(
+    std::map<std::string, std::string> locations)
+{
+    std::lock_guard<std::mutex> lk(mutex_);
+    shard_locations_ = std::move(locations);
+}
+
+void LoRAFederationCoordinator::setAuditRecordCallback(
+    std::function<void(const nlohmann::json&)> callback)
+{
+    std::lock_guard<std::mutex> lk(mutex_);
+    audit_record_callback_ = std::move(callback);
+}
+
+void LoRAFederationCoordinator::setSigningCallback(
+    std::function<std::string(const nlohmann::json&)> signing_fn)
+{
+    std::lock_guard<std::mutex> lk(mutex_);
+    signing_callback_ = std::move(signing_fn);
 }
 
 } // namespace themis::distributed_knowledge

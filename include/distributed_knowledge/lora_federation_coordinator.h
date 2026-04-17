@@ -50,6 +50,7 @@
  */
 
 #include "distributed_knowledge/adapter_capability_announcement.h"
+#include "governance/cross_border_transfer.h"
 #include "llm/decision_record_yaml_processor.h"
 
 #include <string>
@@ -329,6 +330,46 @@ public:
      */
     [[nodiscard]] bool verifyPrivacyBudget() const;
 
+    // ── DK-7: Admin, GDPR, and audit hooks ──────────────────────────────────
+
+    /**
+     * @brief Inject a GDPR cross-border transfer policy (DK-7 DI-setter).
+     *
+     * When set, `triggerAggregation()` calls `checkTransfer()` for every
+     * participating shard's registered region before aggregation starts.
+     * If any shard's region is PROHIBITED, a `std::runtime_error` is thrown
+     * with the message "Cross-border transfer blocked: <region>".
+     */
+    void setCrossBorderPolicy(
+        std::shared_ptr<themis::governance::CrossBorderTransferPolicy> policy);
+
+    /**
+     * @brief Register a shard-id → region-code mapping for GDPR checks.
+     *
+     * Used by `setCrossBorderPolicy()`.  Unknown shards default to "EU".
+     * @param locations  Map of shard_id → ISO 3166-1 alpha-2 region code.
+     */
+    void setShardLocations(std::map<std::string, std::string> locations);
+
+    /**
+     * @brief Inject an audit record callback (DK-7 DI-setter).
+     *
+     * Called after every successful `triggerAggregation()` with a JSON
+     * audit record containing `decision_type`, `round`, `participants`,
+     * `epsilon_spent`, `algorithm`, and optional `sphincs_signature`.
+     */
+    void setAuditRecordCallback(
+        std::function<void(const nlohmann::json&)> callback);
+
+    /**
+     * @brief Inject a SphincsPlus signing callback (DK-7 DI-setter).
+     *
+     * When set, the audit record is passed to this callback to produce a
+     * post-quantum signature string that is stored in `audit_record["sphincs_signature"]`.
+     */
+    void setSigningCallback(
+        std::function<std::string(const nlohmann::json&)> signing_fn);
+
 private:
     FederationConfig                         config_;
     uint64_t                                 current_round_{1};
@@ -338,6 +379,14 @@ private:
 
     // Decision traceability (optional, non-blocking)
     std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> dr_processor_;
+
+    // DK-7: GDPR cross-border policy + shard location map
+    std::shared_ptr<themis::governance::CrossBorderTransferPolicy> cross_border_policy_;
+    std::map<std::string, std::string>               shard_locations_; // shard_id → region
+
+    // DK-7: Audit and signing callbacks
+    std::function<void(const nlohmann::json&)>       audit_record_callback_;
+    std::function<std::string(const nlohmann::json&)> signing_callback_;
 
     // Statistics
     uint64_t total_rounds_completed_{0};

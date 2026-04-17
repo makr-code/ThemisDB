@@ -22808,3 +22808,40 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge_integration.cp
 else()
     message(STATUS "DK-6 integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge_integration.cpp")
 endif()
+
+# ============================================================================
+# DK-7: Admin API, GDPR policy, and audit record tests
+# Covers: ADM-FED-01..03 (admin handler), AUD-FED-01..02 (audit),
+#         GDPR-FED-01 (CrossBorderTransferPolicy)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_federation_admin.cpp")
+    message(STATUS "Adding DK-7 federation admin/audit/GDPR tests")
+
+    add_executable(test_federation_admin_focused
+        test_federation_admin.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/lora_federation_coordinator.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/federated_rag_merger.cpp
+        ${THEMIS_ROOT_DIR}/src/api/federation_admin_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/governance/cross_border_transfer.cpp
+    )
+
+    target_include_directories(test_federation_admin_focused
+        PRIVATE ${THEMIS_ROOT_DIR}/include)
+
+    target_link_libraries(test_federation_admin_focused
+        PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+
+    target_compile_definitions(test_federation_admin_focused
+        PRIVATE THEMIS_TEST_BUILD=1)
+
+    add_test(NAME FederationAdminTests COMMAND test_federation_admin_focused)
+
+    set_tests_properties(FederationAdminTests PROPERTIES
+        LABELS "api;admin;federation;gdpr;audit;DK-7;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  DK-7: ADM-FED-01..03 (admin handler), AUD-FED-01..02 (audit/signing), GDPR-FED-01 (CrossBorderPolicy)")
+else()
+    message(STATUS "DK-7 federation admin tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_federation_admin.cpp")
+endif()
