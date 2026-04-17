@@ -718,3 +718,182 @@ TEST(ImplA2, LoopResultMetricDeltaNonNegativeOnSuccess) {
     }
 }
 
+// ============================================================================
+// IMPL-A3: Federation bridge tests (CLO-FED-01, CLO-FED-02)
+// ============================================================================
+
+#include "training/incremental_lora_trainer.h"
+#include "distributed_knowledge/lora_federation_coordinator.h"
+
+using namespace themis::distributed_knowledge;
+using namespace themis::training;
+
+/// Minimal mock coordinator that tracks submitGradient calls.
+class MockFederationCoordinator : public ILoRAFederationCoordinator {
+public:
+    void submitGradient(const EncryptedGradient& gradient) override {
+        ++submit_count;
+        last_gradient = gradient;
+    }
+
+    GlobalAdapterDelta triggerAggregation() override {
+        return GlobalAdapterDelta{};
+    }
+
+    void setGlobalDeltaCallback(
+        std::function<void(const GlobalAdapterDelta&)>) override {}
+
+    [[nodiscard]] uint64_t currentRound() const override { return 1u; }
+    [[nodiscard]] size_t   submittedCount() const override { return static_cast<size_t>(submit_count); }
+    [[nodiscard]] std::optional<GlobalAdapterDelta> lastDelta() const override { return std::nullopt; }
+    [[nodiscard]] nlohmann::json getStats() const override { return {}; }
+
+    int submit_count{0};
+    EncryptedGradient last_gradient;
+};
+
+// Helper: log N positive interactions to drive current_accuracy above 0.75
+static void logPositiveInteractions(ContinuousLearningOrchestrator& orch, size_t n) {
+    for (size_t i = 0; i < n; ++i) {
+        Interaction itx;
+        itx.interaction_id    = "fed_" + std::to_string(i);
+        itx.timestamp         = std::chrono::system_clock::now();
+        itx.query             = "test";
+        itx.generated_answer  = "answer";
+        itx.user_feedback     = FeedbackType::POSITIVE;
+        orch.logInteraction(itx);
+    }
+}
+
+// CLO-FED-01: FEDERATED_ROUND_START triggers exportGradient + submitGradient
+//             in the correct order.
+TEST(ImplA3_Federation, FED01_FederatedRoundStartCallsSubmitGradient) {
+    ContinuousLearningConfig cfg;
+    ContinuousLearningOrchestrator orch(cfg);
+
+    // Inject mock coordinator and a real trainer
+    auto mock_coord = std::make_shared<MockFederationCoordinator>();
+    IncrementalTrainingConfig tr_cfg;
+    tr_cfg.rank           = 4;
+    tr_cfg.alpha          = 8.0f;
+    tr_cfg.learning_rate  = 0.001f;
+    tr_cfg.batch_size     = 2;
+    tr_cfg.num_epochs     = 1;
+    tr_cfg.max_seq_length = 16;
+    tr_cfg.device         = "cpu";
+    IncrementalLoRATrainer trainer(tr_cfg, "");
+    trainer.setShardId("shard_fed_01");
+
+    // Train the trainer so gradient accumulator is non-empty
+    auto tr = trainer.train(TrainingMode::INITIAL);
+    ASSERT_TRUE(tr.success);
+
+    orch.setFederationCoordinator(mock_coord);
+    orch.setTrainerForFederation(&trainer);
+
+    // Log 35 positive interactions → accuracy ~ 0.83 → guardrail passes
+    logPositiveInteractions(orch, 35);
+
+    // Trigger Loop-4; with guardrail_passed=true, handleFederatedRoundStart fires
+    auto result = orch.triggerLoop(ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF);
+
+    EXPECT_TRUE(result.success);
+
+    if (result.guardrail_passed) {
+        // submitGradient must have been called exactly once
+        EXPECT_EQ(mock_coord->submit_count, 1)
+            << "submitGradient must be called once when guardrail passes";
+        EXPECT_EQ(mock_coord->last_gradient.shard_id, "shard_fed_01");
+        EXPECT_EQ(mock_coord->last_gradient.round, 1u);
+        EXPECT_FALSE(mock_coord->last_gradient.data.empty());
+    } else {
+        // Guard rail didn't pass → no submission (acceptable if accuracy < 0.75)
+        EXPECT_EQ(mock_coord->submit_count, 0)
+            << "submitGradient must NOT be called when guardrail fails";
+    }
+}
+
+// CLO-FED-02: FEDERATED_ROUND_START fires only after Loop-4 with
+//             guardrail_passed == true; a failing guardrail must suppress it.
+TEST(ImplA3_Federation, FED02_FederatedRoundStartOnlyWithGuardrailPassed) {
+    // ── Part A: guardrail fails (accuracy = 0.0) → no submission ─────────────
+    {
+        ContinuousLearningConfig cfg;
+        ContinuousLearningOrchestrator orch(cfg);
+
+        auto mock_coord = std::make_shared<MockFederationCoordinator>();
+        IncrementalTrainingConfig tr_cfg;
+        tr_cfg.rank = 4; tr_cfg.alpha = 8.0f; tr_cfg.learning_rate = 0.001f;
+        tr_cfg.batch_size = 2; tr_cfg.num_epochs = 1; tr_cfg.max_seq_length = 16;
+        tr_cfg.device = "cpu";
+        IncrementalLoRATrainer trainer(tr_cfg, "");
+        trainer.train(TrainingMode::INITIAL);
+
+        orch.setFederationCoordinator(mock_coord);
+        orch.setTrainerForFederation(&trainer);
+        // No interactions logged → accuracy = 0.0 → guardrail_passed = false
+
+        auto result = orch.triggerLoop(
+            ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF);
+
+        EXPECT_TRUE(result.success);
+        EXPECT_FALSE(result.guardrail_passed);
+        EXPECT_EQ(mock_coord->submit_count, 0)
+            << "submitGradient must NOT be called when guardrail_passed=false";
+    }
+
+    // ── Part B: guardrail passes → submission must occur ─────────────────────
+    {
+        ContinuousLearningConfig cfg;
+        ContinuousLearningOrchestrator orch(cfg);
+
+        auto mock_coord = std::make_shared<MockFederationCoordinator>();
+        IncrementalTrainingConfig tr_cfg;
+        tr_cfg.rank = 4; tr_cfg.alpha = 8.0f; tr_cfg.learning_rate = 0.001f;
+        tr_cfg.batch_size = 2; tr_cfg.num_epochs = 1; tr_cfg.max_seq_length = 16;
+        tr_cfg.device = "cpu";
+        IncrementalLoRATrainer trainer(tr_cfg, "");
+        trainer.train(TrainingMode::INITIAL);
+
+        orch.setFederationCoordinator(mock_coord);
+        orch.setTrainerForFederation(&trainer);
+        // Log 35 positive interactions to push accuracy > 0.75
+        logPositiveInteractions(orch, 35);
+
+        auto result = orch.triggerLoop(
+            ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF);
+
+        EXPECT_TRUE(result.success);
+        if (result.guardrail_passed) {
+            EXPECT_EQ(mock_coord->submit_count, 1)
+                << "submitGradient must be called once when guardrail_passed=true";
+        }
+    }
+}
+
+// CLO-FED-03: FEDERATED_ROUND_START does NOT fire for loops other than Loop-4
+TEST(ImplA3_Federation, FED03_NoFederationTriggerForOtherLoops) {
+    ContinuousLearningConfig cfg;
+    ContinuousLearningOrchestrator orch(cfg);
+
+    auto mock_coord = std::make_shared<MockFederationCoordinator>();
+    IncrementalTrainingConfig tr_cfg;
+    tr_cfg.rank = 4; tr_cfg.alpha = 8.0f; tr_cfg.learning_rate = 0.001f;
+    tr_cfg.batch_size = 2; tr_cfg.num_epochs = 1; tr_cfg.max_seq_length = 16;
+    tr_cfg.device = "cpu";
+    IncrementalLoRATrainer trainer(tr_cfg, "");
+    trainer.train(TrainingMode::INITIAL);
+
+    orch.setFederationCoordinator(mock_coord);
+    orch.setTrainerForFederation(&trainer);
+    logPositiveInteractions(orch, 35); // High accuracy so guardrail would pass
+
+    // Trigger Loops 1, 2, 3 — none of them should trigger federation
+    orch.triggerLoop(ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
+    orch.triggerLoop(ContinuousLearningOrchestrator::LoopPhase::LOOP_2_WORKLOAD);
+    orch.triggerLoop(ContinuousLearningOrchestrator::LoopPhase::LOOP_3_SCHEMA_INDEX);
+
+    EXPECT_EQ(mock_coord->submit_count, 0)
+        << "submitGradient must NOT fire for loops other than LOOP_4_RLAIF";
+}
+

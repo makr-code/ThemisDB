@@ -38,6 +38,10 @@
 #include "learning_metrics.h"
 #include "training/lora_data_selection.h"
 
+// Forward declarations for federation bridges (IMPL-A3)
+namespace themis::training { class IncrementalLoRATrainer; }
+namespace themis::distributed_knowledge { class ILoRAFederationCoordinator; }
+
 namespace themis::rag::learning {
 
 /**
@@ -292,6 +296,48 @@ class ContinuousLearningOrchestrator {
         LoopPhase phase,
         std::function<void(LoopPhase, const LoopResult&)> handler);
 
+    // ── IMPL-A3: Federation bridges ──────────────────────────────────────────
+
+    /**
+     * @brief Internal trigger events used to decouple inter-loop signals.
+     *
+     * - `FEDERATED_ROUND_START`: Fired automatically after a successful Loop-4
+     *   (`LOOP_4_RLAIF`) run in which `guardrail_passed == true`.  Triggers
+     *   `exportGradient()` on the injected trainer and `submitGradient()` on the
+     *   injected `ILoRAFederationCoordinator`.
+     */
+    enum class TriggerEvent {
+        FEDERATED_ROUND_START = 0,
+    };
+
+    /**
+     * @brief Inject an `ILoRAFederationCoordinator` for federated LoRA aggregation.
+     *
+     * When set, a successful Loop-4 completion with `guardrail_passed == true`
+     * automatically calls `coordinator->submitGradient()` with the gradient
+     * exported from the injected trainer.
+     *
+     * Pass `nullptr` to detach the coordinator.
+     *
+     * @param coordinator  Shared federation coordinator instance.
+     */
+    void setFederationCoordinator(
+        std::shared_ptr<themis::distributed_knowledge::ILoRAFederationCoordinator>
+            coordinator);
+
+    /**
+     * @brief Inject an `IncrementalLoRATrainer` for federated gradient export.
+     *
+     * The orchestrator calls `trainer->exportGradient()` when the
+     * `FEDERATED_ROUND_START` event fires.  The trainer must remain valid for
+     * the lifetime of this orchestrator (non-owning pointer).
+     *
+     * Pass `nullptr` to detach.
+     *
+     * @param trainer  Pointer to the local shard's trainer.
+     */
+    void setTrainerForFederation(themis::training::IncrementalLoRATrainer* trainer);
+
   private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
@@ -312,6 +358,9 @@ class ContinuousLearningOrchestrator {
 
     // Background thread
     void learningLoopThread();
+
+    // IMPL-A3: Federation event handler
+    void handleFederatedRoundStart();
 };
 
 } // namespace themis::rag::learning

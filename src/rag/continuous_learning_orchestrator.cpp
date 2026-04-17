@@ -29,6 +29,8 @@
 #include "rag/continuous_learning_orchestrator.h"
 #include "rag/bayesian_optimizer.h"
 #include "utils/logger.h"
+#include "distributed_knowledge/lora_federation_coordinator.h"
+#include "training/incremental_lora_trainer.h"
 
 #include <algorithm>
 #include <atomic>
@@ -96,6 +98,12 @@ struct ContinuousLearningOrchestrator::Impl {
     // ---- Loop orchestration (IMPL-A2) ----
     LoopPhase active_loop{LoopPhase::IDLE};
     std::unordered_map<int, std::function<void(LoopPhase, const LoopResult&)>> loop_handlers;
+
+    // ---- IMPL-A3: Federation bridges ----
+    std::shared_ptr<themis::distributed_knowledge::ILoRAFederationCoordinator>
+        federation_coordinator_;
+    themis::training::IncrementalLoRATrainer* trainer_for_federation_{nullptr};
+}; // struct ContinuousLearningOrchestrator::Impl
 
 
 ContinuousLearningOrchestrator::ContinuousLearningOrchestrator(const ContinuousLearningConfig &config)
@@ -847,7 +855,58 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
         }
     }
 
+    // IMPL-A3: Auto-trigger FEDERATED_ROUND_START after a successful Loop-4
+    // that has passed the guardrail check.  This fires outside all locks to
+    // avoid holding impl_->mutex while calling the federation coordinator.
+    if (phase == LoopPhase::LOOP_4_RLAIF && result.success && result.guardrail_passed) {
+        handleFederatedRoundStart();
+    }
+
     return result;
+}
+
+// ============================================================================
+// IMPL-A3: Federation bridge public API
+// ============================================================================
+
+void ContinuousLearningOrchestrator::setFederationCoordinator(
+    std::shared_ptr<themis::distributed_knowledge::ILoRAFederationCoordinator>
+        coordinator) {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    impl_->federation_coordinator_ = std::move(coordinator);
+}
+
+void ContinuousLearningOrchestrator::setTrainerForFederation(
+    themis::training::IncrementalLoRATrainer* trainer) {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    impl_->trainer_for_federation_ = trainer;
+}
+
+void ContinuousLearningOrchestrator::handleFederatedRoundStart() {
+    // Read coordinator and trainer pointers under the lock, then operate
+    // outside the lock so federation I/O does not block the orchestrator.
+    std::shared_ptr<themis::distributed_knowledge::ILoRAFederationCoordinator>
+        coordinator;
+    themis::training::IncrementalLoRATrainer* trainer{nullptr};
+
+    {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        coordinator = impl_->federation_coordinator_;
+        trainer     = impl_->trainer_for_federation_;
+    }
+
+    if (!coordinator || !trainer) {
+        spdlog::warn("CLO: FEDERATED_ROUND_START: coordinator or trainer not injected; skipping");
+        return;
+    }
+
+    try {
+        const uint64_t round = coordinator->currentRound();
+        auto gradient        = trainer->exportGradient(round);
+        coordinator->submitGradient(gradient);
+    } catch (const std::exception& e) {
+        spdlog::warn("CLO: FEDERATED_ROUND_START failed: {}", e.what());
+    }
 }
 
 } // namespace themis::rag::learning

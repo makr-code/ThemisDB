@@ -161,6 +161,9 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_feedback_store\\.cpp$"
         # DR integration uses LoRAOrchestrator which is gated on THEMIS_ENABLE_LLM
         ".*test_decision_record_integration\\.cpp$"
+        # IMPL-A3: includes distributed_knowledge/lora_federation_coordinator.h
+        # which transitively includes llm/decision_record_yaml_processor.h
+        ".*test_incremental_lora_trainer\\.cpp$"
     )
 endif()
 
@@ -22704,4 +22707,58 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_content_toolbox_bridge.cpp")
     message(STATUS "  ContentToolboxBridge: FE-01..FE-03, TB-01..TB-12, CTB-01..CTB-05, FM-01..FM-08")
 else()
     message(STATUS "ContentToolboxBridge tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_content_toolbox_bridge.cpp")
+endif()
+
+# ============================================================================
+# IMPL-A3: IncrementalLoRATrainer Federation Bridges — focused test target
+# Covers: exportGradient (ILT-EG-01..03), applyGlobalDelta (ILT-AG-01..02)
+# ============================================================================
+if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_incremental_lora_trainer.cpp")
+    message(STATUS "Adding IncrementalLoRATrainer federation bridge tests (IMPL-A3)")
+
+    add_executable(test_incremental_lora_trainer_focused
+        test_incremental_lora_trainer.cpp
+        ${THEMIS_ROOT_DIR}/src/training/incremental_lora_trainer.cpp
+        ${THEMIS_ROOT_DIR}/src/training/lora_checkpoint_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/training/adapter_serving.cpp
+        ${THEMIS_ROOT_DIR}/src/training/lora_data_selection.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/lora_federation_coordinator.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/adapter_capability_announcement.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+
+    target_include_directories(test_incremental_lora_trainer_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_incremental_lora_trainer_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        yaml-cpp::yaml-cpp
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_incremental_lora_trainer_focused PRIVATE
+        THEMIS_ENABLE_LLM=1
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME IncrementalLoRATrainerFederationTests
+        COMMAND test_incremental_lora_trainer_focused)
+
+    set_tests_properties(IncrementalLoRATrainerFederationTests PROPERTIES
+        LABELS "training;lora;federation;gradient;IMPL-A3;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  IncrementalLoRATrainer IMPL-A3: ILT-EG-01..03 (exportGradient), ILT-AG-01..02 (applyGlobalDelta)")
+else()
+    if(NOT THEMIS_ENABLE_LLM)
+        message(STATUS "IncrementalLoRATrainer federation tests skipped (THEMIS_ENABLE_LLM=OFF)")
+    else()
+        message(STATUS "IncrementalLoRATrainer federation tests not found")
+    endif()
 endif()
