@@ -327,7 +327,42 @@ protected:
             }
         });
 
-        // Index recommendations endpoint (all tables)
+        // Config validate endpoint (dry-run — returns validated config, no mutation)
+        s_srv_.Post("/config/validate", [](const httplib::Request& req, httplib::Response& res) {
+            try {
+                json body = json::parse(req.body);
+                // Check for explicitly invalid keys to exercise error path
+                if (body.contains("invalid_key")) {
+                    res.status = 400;
+                    res.set_content(R"({"error":"unknown key: invalid_key"})",
+                                    "application/json");
+                    return;
+                }
+                // Echo validated (merged) config
+                json validated = {
+                    {"server",   {{"port",8765},{"threads",4},{"request_timeout_ms",30000}}},
+                    {"features", {{"semantic_cache",false},{"llm_store",false},{"cdc",false},{"timeseries",false}}},
+                    {"logging",  {{"level","info"},{"format","text"}}}
+                };
+                // Apply proposed values to the validated output
+                for (const auto& [key, val] : body.items()) {
+                    if (validated.contains(key) && validated[key].is_object() && val.is_object()) {
+                        for (const auto& [inner, inner_val] : val.items()) {
+                            validated[key][inner] = inner_val;
+                        }
+                    } else {
+                        validated[key] = val;
+                    }
+                }
+                res.status = 200;
+                res.set_content(validated.dump(), "application/json");
+            } catch (...) {
+                res.status = 400;
+                res.set_content(R"({"error":"invalid json"})", "application/json");
+            }
+        });
+
+
         s_srv_.Get("/api/v1/metadata/index_recommendations",
                    [](const httplib::Request&, httplib::Response& res) {
             json j = {
@@ -910,4 +945,74 @@ TEST(ThemisctlConnFailTest, HealthReturnsThreeOnConnectionRefused) {
     int rc = cmdHealth({});
     std::cerr.rdbuf(old);
     EXPECT_EQ(rc, 3);
+}
+
+// ── config validate ───────────────────────────────────────────────────────────
+// CVL-01..06: themisctl config validate — dry-run + diff
+
+// CVL-01: validate with no proposed keys → passes, prints no-changes message
+TEST_F(ThemisctlHttpTest, CVL01_ConfigValidateNoArgs) {
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdConfig({"validate"});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    EXPECT_NE(capOut.str().find("no changes"), std::string::npos);
+}
+
+// CVL-02: validate with a dotted key change → passes, stdout contains diff
+TEST_F(ThemisctlHttpTest, CVL02_ConfigValidateDottedKey) {
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdConfig({"validate", "logging.level=debug"});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    EXPECT_NE(capOut.str().find("dry-run"), std::string::npos);
+}
+
+// CVL-03: validate with multiple keys → passes, output shows diff header
+TEST_F(ThemisctlHttpTest, CVL03_ConfigValidateMultipleKeys) {
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdConfig({"validate", "logging.level=warn", "features.cdc=true"});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    EXPECT_NE(capOut.str().find("Diff"), std::string::npos);
+}
+
+// CVL-04: validate with raw_json returns parseable JSON
+TEST_F(ThemisctlHttpTest, CVL04_ConfigValidateRawJson) {
+    g_ctx.raw_json = true;
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdConfig({"validate", "logging.level=info"});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    // Output should be parseable JSON
+    EXPECT_NO_THROW({
+        json j = json::parse(capOut.str());
+        EXPECT_TRUE(j.contains("logging"));
+    });
+}
+
+// CVL-05: validate with invalid key → server returns 400, command returns 1
+TEST_F(ThemisctlHttpTest, CVL05_ConfigValidateInvalidKey_ReturnsError) {
+    std::ostringstream capErr;
+    auto* oldErr = std::cerr.rdbuf(capErr.rdbuf());
+    std::ostringstream capOut;
+    auto* oldOut = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdConfig({"validate", "invalid_key=bad"});
+    std::cerr.rdbuf(oldErr);
+    std::cout.rdbuf(oldOut);
+    EXPECT_EQ(rc, 1);
+    EXPECT_NE(capErr.str().find("Validation failed"), std::string::npos);
+}
+
+// CVL-06: validate with malformed key=value pair → usage error (rc=2), no HTTP call
+TEST_F(ThemisctlHttpTest, CVL06_ConfigValidateMalformedPair_ReturnsUsageError) {
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = cmdConfig({"validate", "no-equals-sign"});
+    std::cerr.rdbuf(old);
+    EXPECT_EQ(rc, 2);
 }

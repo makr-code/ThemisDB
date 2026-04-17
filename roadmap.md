@@ -422,9 +422,9 @@ Focus: Enterprise-grade monitoring, alerting, and automated operations.
 - [I] Integration with JSON Schema / YAML schema validation (Issue: #1666) (Target: Q4 2026)
 
 #### 4.5 Maintenance — Advanced Orchestration
-- [ ] Explicit per-task DAG dependency graph with topological sort (Target: v1.2.0)
-- [ ] Replica consistency check integration with sharding/replication module (Target: v1.2.0)
-- [ ] StorageCompaction integration with `CompactionManager` (Target: v1.2.0)
+- [x] Explicit per-task DAG dependency graph with topological sort (Target: v1.2.0) — `MaintenanceTaskDependency` + `resolveTaskExecutionOrder` (Kahn's algorithm) in `database_maintenance_orchestrator.h/cpp` ✅
+- [x] Replica consistency check integration with sharding/replication module (Target: v1.2.0) — `ShardRepairEngine::runConsistencyCheck()` + `makeReplicaValidationHandler()` factory in `maintenance_task_handler_impls.h` ✅
+- [x] StorageCompaction integration with `CompactionManager` (Target: v1.2.0) — `StorageCompactionHandler` in `maintenance_task_handler_impls.h` wired to `CompactionManager::compactAll()` ✅
 
 #### 4.6 Process — Semantic Search & LLM Integration
 - [~] Auto-generate process model embeddings via LLM module on import (Target: Q2 2026)
@@ -454,7 +454,7 @@ Focus: Enterprise-grade monitoring, alerting, and automated operations.
   - GNU Readline integration when available (`THEMISCTL_ENABLE_READLINE`); plain getline() fallback
   - History persisted to `~/.themisctl_history`; exits on `exit`, `quit`, or EOF (Ctrl-D)
   - 9 tokenizer unit tests
-- [ ] `themisctl config` schema validation — dry-run + diff output (Target: Q3 2026)
+- [x] `themisctl config` schema validation — dry-run + diff output (Target: Q3 2026) — `themisctl config validate [key=value ...]` → POST `/config/validate`; diff display in `tools/themisctl.cpp` ✅
 - [ ] AgentRAG integration — `themisctl rag query <nl-question>` (Target: Q4 2026)
 
 ---
@@ -602,7 +602,7 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 | 12 | prompt_engineering | Token counting / context-window budget enforcement not implemented | 📋 Planned |
 | 13 | process | Embedding-based similarity search requires pre-computed embeddings; auto-generation not yet implemented | 🚧 In progress |
 | 14 | process | BPMN parser uses regex (not DOM/SAX); deeply nested sub-process pools may not parse correctly | ⚠️ Known limitation |
-| 15 | maintenance | Explicit per-task DAG dependency graph not yet implemented; tasks execute in list order | 📋 Planned v1.2.0 |
+| 15 | maintenance | Explicit per-task DAG dependency graph not yet implemented; tasks execute in list order | ✅ Resolved v1.2.0 |
 
 ---
 
