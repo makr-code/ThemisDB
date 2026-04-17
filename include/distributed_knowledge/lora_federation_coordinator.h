@@ -51,6 +51,7 @@
 
 #include "distributed_knowledge/adapter_capability_announcement.h"
 #include "governance/cross_border_transfer.h"
+#include "governance/gdpr_subject_rights.h"
 #include "llm/decision_record_yaml_processor.h"
 
 #include <string>
@@ -165,8 +166,11 @@ struct FederationConfig {
     // Privacy budget cap (DK-6)
     size_t max_rounds  = 0;     ///< Maximum federation rounds (0 = unlimited)
 
-    // Timeout
+    // Timeout (legacy chrono field kept for compatibility)
     std::chrono::minutes round_timeout{60}; ///< Max wait for all shards per round
+
+    // DK-OR: millisecond-precision timeout for aggregation (used by triggerAggregation())
+    size_t round_timeout_ms = 30000; ///< Aggregation timeout in ms (DK-OR-B-1); 0 = unlimited
 
     // Validate
     [[nodiscard]] bool isValid() const {
@@ -212,6 +216,19 @@ public:
      * @return The aggregated global delta.
      */
     virtual GlobalAdapterDelta triggerAggregation() = 0;
+
+    /**
+     * @brief Manually trigger aggregation with an explicit timeout.
+     *
+     * Runs the aggregation asynchronously and throws `std::runtime_error` if it
+     * does not complete within `timeout_ms` milliseconds.
+     *
+     * @param timeout_ms  Timeout in milliseconds.  Throws on expiry.
+     * @return The aggregated global delta.
+     * @throws std::runtime_error on timeout or when fewer than `min_participants`
+     *         contributed.
+     */
+    virtual GlobalAdapterDelta triggerAggregation(size_t timeout_ms) = 0;
 
     /**
      * @brief Register a callback invoked when a new global delta is ready.
@@ -274,6 +291,7 @@ public:
 
     void submitGradient(const EncryptedGradient& gradient) override;
     GlobalAdapterDelta triggerAggregation() override;
+    GlobalAdapterDelta triggerAggregation(size_t timeout_ms) override;
     void setGlobalDeltaCallback(
         std::function<void(const GlobalAdapterDelta&)> cb) override;
 
@@ -330,6 +348,26 @@ public:
      */
     [[nodiscard]] bool verifyPrivacyBudget() const;
 
+    // ── DK-OR: Operational Resilience ────────────────────────────────────────
+
+    /**
+     * @brief GDPR erase: clear pending gradients and reset round state (DK-OR-H-1).
+     *
+     * Clears `pending_gradients_`, resets `current_round_` to 0, and increments
+     * `erase_count_`.
+     *
+     * @param subject_id  Data subject identifier (for audit; may be empty).
+     * @param regulation  Applicable regulation.
+     */
+    themis::governance::StoreErasureResult erase(
+        const std::string& subject_id = "",
+        themis::governance::Regulation regulation = themis::governance::Regulation::GDPR);
+
+    /**
+     * @brief Number of GDPR erase operations performed.
+     */
+    [[nodiscard]] size_t eraseCount() const;
+
     // ── DK-7: Admin, GDPR, and audit hooks ──────────────────────────────────
 
     /**
@@ -379,6 +417,9 @@ private:
 
     // Decision traceability (optional, non-blocking)
     std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> dr_processor_;
+
+    // DK-OR: GDPR erase count
+    size_t erase_count_{0};
 
     // DK-7: GDPR cross-border policy + shard location map
     std::shared_ptr<themis::governance::CrossBorderTransferPolicy> cross_border_policy_;

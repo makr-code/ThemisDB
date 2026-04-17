@@ -406,3 +406,89 @@ TEST(DK6Integration, PrivacyBudgetRemaining_DecrementsWithEachRound) {
     EXPECT_GT(coord.privacyBudgetRemaining(), 0.0)
         << "Budget must not be exhausted after 1 of 5 rounds";
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DK-OR-Int-7: End-to-end OR resilience scenario
+//
+// Three-shard federation where one shard times out in the RAG merge step, a
+// high-risk inbound feedback is rejected by the ZeroTrust enforcer, and a GDPR
+// erase is performed — all within the same coordinator session.
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(DK_OR_Integration, DK_OR_Int_07_ResilienceEndToEnd) {
+    // ── Part 1: Federated aggregation ───────────────────────────────────────
+    FederationConfig fed_cfg;
+    fed_cfg.min_participants = 2;
+    fed_cfg.dp_epsilon       = 0.5;
+    fed_cfg.dp_delta         = 1e-5;
+    fed_cfg.dp_sensitivity   = 1.0;
+
+    LoRAFederationCoordinator coord(fed_cfg);
+
+    for (int s = 0; s < 3; ++s) {
+        EncryptedGradient g;
+        g.shard_id     = "shard-" + std::to_string(s);
+        g.round        = 1;
+        g.sample_count = 100;
+        g.data["w0"]   = 0.1 * (s + 1);
+        coord.submitGradient(g);
+    }
+    auto delta = coord.triggerAggregation();
+    EXPECT_GT(delta.participants, 0u);
+    EXPECT_GT(coord.currentRound(), 1u);
+
+    // ── Part 2: RAG merge with one timed-out shard ───────────────────────────
+    FederatedRAGMergerConfig rag_cfg;
+    rag_cfg.top_k            = 10;
+    rag_cfg.shard_timeout_ms = 500;
+    FederatedRAGMerger merger(rag_cfg);
+
+    std::vector<ShardRetrievalResult> shard_results;
+    for (int s = 0; s < 3; ++s) {
+        ShardRetrievalResult sr;
+        sr.shard_id  = "shard-" + std::to_string(s);
+        sr.ok        = true;
+        sr.timed_out = (s == 2);  // shard-2 timed out
+        for (int d = 0; d < 4; ++d) {
+            RetrievedDocument doc;
+            doc.doc_id          = sr.shard_id + "-d" + std::to_string(d);
+            doc.content         = "doc";
+            doc.shard_id        = sr.shard_id;
+            doc.relevance_score = 1.0 / (d + 1);
+            doc.rank_in_shard   = d + 1;
+            sr.documents.push_back(std::move(doc));
+        }
+        shard_results.push_back(std::move(sr));
+    }
+    auto ctx = merger.merge(shard_results);
+    EXPECT_EQ(ctx.shards_responded, 2u) << "shard-2 timed out, only 2 shards responded";
+    for (const auto& doc : ctx.documents) {
+        EXPECT_NE(doc.shard_id, "shard-2") << "timed-out shard docs must not appear";
+    }
+
+    // ── Part 3: ZeroTrust rejection for high-risk feedback ───────────────────
+    FeedbackSyncConfig sync_cfg;
+    sync_cfg.max_embedding_dim      = 4;
+    sync_cfg.validate_embedding_dim = true;
+
+    std::vector<nlohmann::json> sent;
+    CrossShardFeedbackSync sync(sync_cfg, "test-shard",
+        [&sent](nlohmann::json j) { sent.push_back(std::move(j)); });
+
+    // Reject all inbound feedback as high-risk
+    sync.setZeroTrustEnforcer([](const FeedbackSummary&) -> bool { return false; });
+
+    FeedbackSummary bad_fs;
+    bad_fs.summary_id          = "bad-1";
+    bad_fs.feedback_type_label = "INJECTED";
+    bad_fs.shard_origin        = "attacker";
+    bad_fs.reason_embedding.assign(4, 0.9f);
+
+    EXPECT_THROW(sync.handleInboundSummary(bad_fs.toJson()), std::runtime_error);
+
+    // ── Part 4: GDPR erase ───────────────────────────────────────────────────
+    auto erase_result = coord.erase("tenant-A");
+    EXPECT_TRUE(erase_result.success);
+    EXPECT_EQ(coord.submittedCount(), 0u);
+    EXPECT_EQ(coord.eraseCount(), 1u);
+}

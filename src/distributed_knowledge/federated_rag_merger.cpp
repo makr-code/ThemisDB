@@ -15,6 +15,7 @@
 #include "distributed_knowledge/federated_rag_merger.h"
 
 #include <algorithm>
+#include <limits>
 #include <sstream>
 #include <unordered_map>
 #include <unordered_set>
@@ -81,13 +82,30 @@ FederatedRAGMerger::FederatedRAGMerger(FederatedRAGMergerConfig config)
 MergedRAGContext FederatedRAGMerger::merge(
     const std::vector<ShardRetrievalResult>& shard_results) const
 {
+    // ── DK-OR-T: shard_timeout_ms handling ───────────────────────────────────
+    // shard_timeout_ms == 0 → immediate timeout for all shards
+    if (config_.shard_timeout_ms == 0 && !shard_results.empty()) {
+        throw std::runtime_error("all shards timed out");
+    }
+
+    // Count timed-out shards (pre-resolved results with timed_out==true)
+    if (config_.shard_timeout_ms != std::numeric_limits<size_t>::max()) {
+        const size_t timed_out_count = static_cast<size_t>(
+            std::count_if(shard_results.begin(), shard_results.end(),
+                          [](const ShardRetrievalResult& r) { return r.timed_out; }));
+        if (!shard_results.empty() && timed_out_count == shard_results.size()) {
+            throw std::runtime_error("all shards timed out");
+        }
+    }
+    // ─────────────────────────────────────────────────────────────────────────
+
     MergedRAGContext ctx;
     ctx.strategy_used  = config_.strategy;
     ctx.shards_queried = shard_results.size();
 
-    // Count candidates before merge
+    // Count candidates before merge (skip timed-out shards)
     for (const auto& sr : shard_results) {
-        if (sr.ok) {
+        if (sr.ok && !sr.timed_out) {
             ++ctx.shards_responded;
             ctx.total_candidate_count += sr.documents.size();
         }
@@ -142,7 +160,7 @@ std::vector<RetrievedDocument> FederatedRAGMerger::mergeRRF(
     std::unordered_map<std::string, RetrievedDocument> best_doc;
 
     for (const auto& sr : results) {
-        if (!sr.ok) continue;
+        if (!sr.ok || sr.timed_out) continue;
 
         // Optional per-shard specialisation boost
         double shard_boost = 1.0;
@@ -186,7 +204,7 @@ std::vector<RetrievedDocument> FederatedRAGMerger::mergeScoreWeighted(
     std::unordered_map<std::string, RetrievedDocument> best_doc;
 
     for (const auto& sr : results) {
-        if (!sr.ok) continue;
+        if (!sr.ok || sr.timed_out) continue;
 
         const double shard_weight =
             1.0 + (config_.boost_specialised ? sr.adapter_accuracy_delta : 0.0);
@@ -221,7 +239,7 @@ std::vector<RetrievedDocument> FederatedRAGMerger::mergeRoundRobin(
 {
     std::vector<const std::vector<RetrievedDocument>*> lists;
     for (const auto& sr : results) {
-        if (sr.ok && !sr.documents.empty()) {
+        if (sr.ok && !sr.timed_out && !sr.documents.empty()) {
             lists.push_back(&sr.documents);
         }
     }
@@ -258,6 +276,24 @@ std::vector<RetrievedDocument> FederatedRAGMerger::deduplicate(
             result.push_back(std::move(doc));
         }
     }
+    return result;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DK-OR: GDPR erase (clears cached merge context)
+// ─────────────────────────────────────────────────────────────────────────────
+
+themis::governance::StoreErasureResult FederatedRAGMerger::erase(
+    const std::string& /*subject_id*/,
+    themis::governance::Regulation /*regulation*/)
+{
+    ++erase_count_;
+    // FederatedRAGMerger is stateless (no cached merge contexts); erase is a
+    // no-op beyond incrementing the counter for audit.
+    themis::governance::StoreErasureResult result;
+    result.store_id       = "FederatedRAGMerger";
+    result.records_erased = 0;
+    result.success        = true;
     return result;
 }
 

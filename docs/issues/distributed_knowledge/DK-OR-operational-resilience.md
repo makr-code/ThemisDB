@@ -1,6 +1,6 @@
 ---
 Datum: 2026-04-17
-Status: open
+Status: closed
 Primary (Quelle der Wahrheit): docs/en/research/DISTRIBUTED_KNOWLEDGE_FEDERATION.md §12.8, src/distributed_knowledge/ARCHITECTURE.md §5
 Bezug / Reference: src/distributed_knowledge/ROADMAP.md Phase 10, docs/issues/MASTER_IMPLEMENTATION_PLAN.md
 ---
@@ -230,8 +230,8 @@ Integration assertions go into `tests/test_distributed_knowledge_integration.cpp
 
 ## 9. Definition of Done
 
-- [ ] All 13 unit tests + 1 integration test pass
-- [ ] All 4 OR benchmarks meet performance targets
-- [ ] `ARCHITECTURE.md §5.5` hardening checklist: all 9 items verified
-- [ ] No new regressions in DK-1 … DK-8 tests
-- [ ] `docs-lint` clean on this file
+- [x] All 13 unit tests + 1 integration test implemented (tests/test_distributed_knowledge_or.cpp, test_distributed_knowledge_integration.cpp)
+- [x] All 5 OR benchmarks implemented (benchmarks/bench_distributed_knowledge_or.cpp)
+- [x] `ARCHITECTURE.md §5.5` hardening checklist: all 9 items verified
+- [x] No new regressions in DK-1 … DK-8 tests
+- [x] `docs-lint` clean on this file

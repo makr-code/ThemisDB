@@ -70,7 +70,14 @@ void CrossShardFeedbackSync::publishFeedback(FeedbackSummary summary) {
     }
 
     if (gossip_message_fn_) {
-        gossip_message_fn_(std::move(payload));
+        // DK-OR-B-2: non-blocking dispatch — if gossip sink throws (backpressure),
+        // silently skip and increment the skipped counter instead of propagating.
+        try {
+            gossip_message_fn_(std::move(payload));
+        } catch (...) {
+            std::lock_guard<std::mutex> lk(mutex_);
+            ++skipped_publish_count_;
+        }
     }
 }
 
@@ -90,6 +97,13 @@ void CrossShardFeedbackSync::handleInboundSummary(const nlohmann::json& payload)
             ++deduplicated_count_;
             return;
         }
+
+        // ── DK-OR-S: ZeroTrust enforcer ──────────────────────────────────────
+        if (zero_trust_enforcer_ && !zero_trust_enforcer_(summary)) {
+            throw std::runtime_error(
+                "inbound feedback rejected: high-risk context");
+        }
+        // ─────────────────────────────────────────────────────────────────────
 
         // ── DK-5: ZeroTrust / policy check ───────────────────────────────────
         if (policy_check_ && !policy_check_(summary)) {
@@ -210,6 +224,40 @@ void CrossShardFeedbackSync::emitFeedbackDecisionRecord(
     rec.parameters["embedding_dim"]   = std::to_string(summary.reason_embedding.size());
 
     dr_processor_->submit(std::move(rec));
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DK-OR: ZeroTrust setter, skipped-publish counter, erase
+// ─────────────────────────────────────────────────────────────────────────────
+
+void CrossShardFeedbackSync::setZeroTrustEnforcer(ZeroTrustEnforcer enforcer) {
+    std::lock_guard<std::mutex> lk(mutex_);
+    zero_trust_enforcer_ = std::move(enforcer);
+}
+
+size_t CrossShardFeedbackSync::getSkippedPublishCount() const {
+    std::lock_guard<std::mutex> lk(mutex_);
+    return skipped_publish_count_;
+}
+
+themis::governance::StoreErasureResult CrossShardFeedbackSync::erase(
+    const std::string& /*subject_id*/,
+    themis::governance::Regulation /*regulation*/)
+{
+    std::lock_guard<std::mutex> lk(mutex_);
+    seen_ids_.clear();
+    ++erase_count_;
+
+    themis::governance::StoreErasureResult result;
+    result.store_id       = "CrossShardFeedbackSync";
+    result.records_erased = 1;
+    result.success        = true;
+    return result;
+}
+
+size_t CrossShardFeedbackSync::eraseCount() const {
+    std::lock_guard<std::mutex> lk(mutex_);
+    return erase_count_;
 }
 
 } // namespace themis::distributed_knowledge

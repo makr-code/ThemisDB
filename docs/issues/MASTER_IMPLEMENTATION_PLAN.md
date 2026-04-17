@@ -172,8 +172,8 @@ DK-1 (Build + Tests)   [no dependency on A or B]
 | **S-11** ✅ | DK-5 | CrossShardFeedbackSync wired to `FeedbackCollector` + RLAIF | S-5 |
 | **S-12** ✅ | DK-6 | End-to-end 7-scenario integration + privacy tests | S-9,10,11 |
 | **S-13** ✅ | DK-7 | Admin API + SphincsPlus audit + CrossBorderTransferPolicy | S-12 |
-| **S-14** | DK-8 | Performance benchmarks — all 4 targets met | S-12,13 |
-| **S-15** | DK-OR | Operational Resilience hardening — 14 tests + 4 benchmarks | S-14 |
+| **S-14** ✅ | DK-8 | Performance benchmarks — all 4 targets met | S-12,13 |
+| **S-15** ✅ | DK-OR | Operational Resilience hardening — 13 tests + 5 benchmarks | S-14 |
 
 **Parallel opportunities:**
 - S-1 + S-2 can run simultaneously (no dependency)

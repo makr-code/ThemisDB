@@ -22845,3 +22845,39 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_federation_admin.cpp")
 else()
     message(STATUS "DK-7 federation admin tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_federation_admin.cpp")
 endif()
+
+# ============================================================================
+# DK-8 / S-14 + DK-OR / S-15: Operational Resilience + memory-leak tests
+# Covers: DK-OR-B-01..02, T-01..03, E-01..02, S-01..02, H-01..03, ML-01
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge_or.cpp")
+    message(STATUS "Adding DK-OR / DK-8 Operational Resilience tests")
+
+    add_executable(test_distributed_knowledge_or_focused
+        test_distributed_knowledge_or.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/lora_federation_coordinator.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/federated_rag_merger.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/cross_shard_feedback_sync.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/adapter_capability_announcement.cpp
+    )
+
+    target_include_directories(test_distributed_knowledge_or_focused
+        PRIVATE ${THEMIS_ROOT_DIR}/include)
+
+    target_link_libraries(test_distributed_knowledge_or_focused
+        PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+
+    target_compile_definitions(test_distributed_knowledge_or_focused
+        PRIVATE THEMIS_TEST_BUILD=1)
+
+    add_test(NAME DK_OR_Tests COMMAND test_distributed_knowledge_or_focused)
+
+    set_tests_properties(DK_OR_Tests PROPERTIES
+        LABELS "distributed_knowledge;operational_resilience;DK-OR;DK-8;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  DK-OR: B-01..02 (backpressure), T-01..03 (timeout), E-01..02 (errors), S-01..02 (ZeroTrust), H-01..03 (erase), ML-01 (memory)")
+else()
+    message(STATUS "DK-OR tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge_or.cpp")
+endif()

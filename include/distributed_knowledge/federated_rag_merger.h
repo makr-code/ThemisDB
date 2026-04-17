@@ -52,9 +52,11 @@
 #include <vector>
 #include <map>
 #include <functional>
+#include <limits>
 #include <memory>
 #include <optional>
 #include <nlohmann/json.hpp>
+#include "governance/gdpr_subject_rights.h"
 
 namespace themis::distributed_knowledge {
 
@@ -110,6 +112,7 @@ struct ShardRetrievalResult {
     double   adapter_accuracy_delta = 0.0; ///< From AdapterCapabilityAnnouncement
     uint64_t latency_ms             = 0;
     bool     ok                     = true;
+    bool     timed_out              = false; ///< DK-OR-T: set true when shard exceeded deadline
     std::string error_message;             ///< Non-empty when ok == false
 };
 
@@ -154,6 +157,11 @@ struct FederatedRAGMergerConfig {
     double        rrf_constant      = 60.0;     ///< RRF constant k (Cormack 2009)
     bool          boost_specialised = true;     ///< Boost docs from specialised shards
     double        specialisation_boost = 1.2;  ///< Multiplier for adaptor accuracy_delta > 0
+
+    // DK-OR: per-shard timeout (0 = instant timeout; UINT64_MAX = no timeout)
+    size_t        shard_timeout_ms  = std::numeric_limits<size_t>::max();
+    ///< When 0: merge() throws "all shards timed out" immediately.
+    ///< When > 0: ShardRetrievalResult entries with timed_out==true are skipped.
 
     [[nodiscard]] bool isValid() const {
         return top_k > 0 && rrf_constant > 0.0 && specialisation_boost >= 1.0;
@@ -205,8 +213,24 @@ public:
 
     [[nodiscard]] const FederatedRAGMergerConfig& config() const { return config_; }
 
+    // ── DK-OR: GDPR erase ────────────────────────────────────────────────────
+
+    /**
+     * @brief Clear any cached merge context (DK-OR-H-2).
+     *
+     * Clears internal state and increments `erase_count_`.
+     */
+    themis::governance::StoreErasureResult erase(
+        const std::string& subject_id = "",
+        themis::governance::Regulation regulation = themis::governance::Regulation::GDPR);
+
+    [[nodiscard]] size_t eraseCount() const { return erase_count_; }
+
 private:
     FederatedRAGMergerConfig config_;
+
+    // DK-OR: GDPR erase count
+    mutable size_t erase_count_{0};
 
     // Merge strategy implementations
     [[nodiscard]] std::vector<RetrievedDocument> mergeRRF(

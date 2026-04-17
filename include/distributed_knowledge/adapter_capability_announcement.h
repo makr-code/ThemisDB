@@ -35,6 +35,7 @@
 #include <chrono>
 #include <optional>
 #include <nlohmann/json.hpp>
+#include "governance/gdpr_subject_rights.h"
 
 namespace themis::distributed_knowledge {
 
@@ -251,12 +252,24 @@ public:
      */
     [[nodiscard]] std::optional<AdapterCapabilityAnnouncement> lastAnnouncement() const;
 
+    /**
+     * @brief GDPR erase: clear buffered announcement payload (DK-OR).
+     *
+     * Clears `last_announcement_` and increments `erase_count_`.
+     */
+    themis::governance::StoreErasureResult erase(
+        const std::string& subject_id = "",
+        themis::governance::Regulation regulation = themis::governance::Regulation::GDPR);
+
+    [[nodiscard]] size_t eraseCount() const;
+
 private:
     std::string                          local_shard_id_;
     std::function<void(nlohmann::json)>  gossip_message_fn_;
     AnnouncementCallback                 on_announcement_;
     mutable std::mutex                   mutex_;
     std::optional<AdapterCapabilityAnnouncement> last_announcement_;
+    size_t                               erase_count_{0}; ///< DK-OR: GDPR erase ops
 };
 
 } // namespace themis::distributed_knowledge

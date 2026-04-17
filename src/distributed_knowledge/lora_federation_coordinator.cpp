@@ -26,6 +26,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <future>
 #include <limits>
 #include <random>
 #include <sstream>
@@ -216,6 +217,16 @@ GlobalAdapterDelta LoRAFederationCoordinator::doAggregation() {
     // ── Step 3: apply differential privacy ──────────────────────────────────
     aggregated = applyDifferentialPrivacy(aggregated);
 
+    // ── Step 3b: DK-OR-E-1 — NaN guard ──────────────────────────────────────
+    for (const auto& [key, val] : aggregated.items()) {
+        if (val.is_number() && std::isnan(val.get<double>())) {
+            throw std::runtime_error(
+                "NaN detected in gradient data for round " +
+                std::to_string(current_round_));
+        }
+    }
+    // ─────────────────────────────────────────────────────────────────────────
+
     // ── Step 4: build result ─────────────────────────────────────────────────
     GlobalAdapterDelta delta;
     delta.round        = current_round_;
@@ -397,6 +408,49 @@ void LoRAFederationCoordinator::setSigningCallback(
 {
     std::lock_guard<std::mutex> lk(mutex_);
     signing_callback_ = std::move(signing_fn);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DK-OR: Operational Resilience — timeout overload, erase
+// ─────────────────────────────────────────────────────────────────────────────
+
+GlobalAdapterDelta LoRAFederationCoordinator::triggerAggregation(size_t timeout_ms) {
+    // Run aggregation on a separate thread to enforce wall-clock timeout
+    auto future = std::async(std::launch::async,
+        [this]() -> GlobalAdapterDelta {
+            return triggerAggregation();
+        });
+
+    if (timeout_ms == 0 ||
+        future.wait_for(std::chrono::milliseconds(timeout_ms))
+            != std::future_status::ready)
+    {
+        throw std::runtime_error(
+            "LoRAFederationCoordinator::triggerAggregation: federation round "
+            "timed out after " + std::to_string(timeout_ms) + "ms");
+    }
+    return future.get();
+}
+
+themis::governance::StoreErasureResult LoRAFederationCoordinator::erase(
+    const std::string& /*subject_id*/,
+    themis::governance::Regulation /*regulation*/)
+{
+    std::lock_guard<std::mutex> lk(mutex_);
+    pending_gradients_.clear();
+    current_round_ = 0;
+    ++erase_count_;
+
+    themis::governance::StoreErasureResult result;
+    result.store_id      = "LoRAFederationCoordinator";
+    result.records_erased = 1;
+    result.success       = true;
+    return result;
+}
+
+size_t LoRAFederationCoordinator::eraseCount() const {
+    std::lock_guard<std::mutex> lk(mutex_);
+    return erase_count_;
 }
 
 } // namespace themis::distributed_knowledge

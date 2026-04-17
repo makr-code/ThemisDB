@@ -62,4 +62,28 @@ GossipAdapterPublisher::lastAnnouncement() const {
     return last_announcement_;
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// DK-OR: GDPR erase
+// ─────────────────────────────────────────────────────────────────────────────
+
+themis::governance::StoreErasureResult GossipAdapterPublisher::erase(
+    const std::string& /*subject_id*/,
+    themis::governance::Regulation /*regulation*/)
+{
+    std::lock_guard<std::mutex> lk(mutex_);
+    last_announcement_.reset();
+    ++erase_count_;
+
+    themis::governance::StoreErasureResult result;
+    result.store_id       = "GossipAdapterPublisher";
+    result.records_erased = 1;
+    result.success        = true;
+    return result;
+}
+
+size_t GossipAdapterPublisher::eraseCount() const {
+    std::lock_guard<std::mutex> lk(mutex_);
+    return erase_count_;
+}
+
 } // namespace themis::distributed_knowledge

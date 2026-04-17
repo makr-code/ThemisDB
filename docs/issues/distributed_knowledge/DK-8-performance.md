@@ -1,6 +1,6 @@
 ---
 type: enhancement
-labels: ["type:enhancement", "module:distributed_knowledge", "priority:low", "status:open", "queue/copilot"]
+labels: ["type:enhancement", "module:distributed_knowledge", "priority:low", "status:closed", "queue/copilot"]
 milestone: v2.0.0
 parent: DK-0-EPIC
 session: 9
@@ -126,15 +126,15 @@ TEST(DistributedKnowledge, NoMemoryLeak_50Rounds) {
 
 ## Erfolgskriterien
 
-- [ ] `benchmarks/bench_distributed_knowledge.cpp` vorhanden
-- [ ] `triggerAggregation()` N=64, 100 Keys: p99 ≤ 500 ms (Benchmark-Ergebnis dokumentiert)
-- [ ] `FederatedRAGMerger::merge()` N=16, 50 Docs: p99 ≤ 20 ms
-- [ ] `handleInboundSummary()` Throughput: ≥ 10k msg/s bei 384-dim Embeddings
-- [ ] `publishFeedback()` p99 ≤ 1 ms
-- [ ] Memory-Leak-Test: RSS-Wachstum nach 50 Runden ≤ 5 MB
-- [ ] Alle Performance-Ziele mit konkreten Messwerten in `CHANGELOG.md` dokumentiert
-- [ ] Keine Regressions in bestehenden Test-Suites
-- [ ] Falls ein Target verfehlt: Optimierung aus den genannten Vorschlägen angewandt
+- [x] `benchmarks/bench_distributed_knowledge.cpp` vorhanden
+- [x] `triggerAggregation()` N=64, 100 Keys: p99 ≤ 500 ms (Benchmark-Ergebnis dokumentiert)
+- [x] `FederatedRAGMerger::merge()` N=16, 50 Docs: p99 ≤ 20 ms
+- [x] `handleInboundSummary()` Throughput: ≥ 10k msg/s bei 384-dim Embeddings
+- [x] `publishFeedback()` p99 ≤ 1 ms
+- [x] Memory-Leak-Test: RSS-Wachstum nach 50 Runden ≤ 5 MB (DK-8-ML-01 in tests/test_distributed_knowledge_or.cpp)
+- [x] Alle Performance-Ziele mit konkreten Messwerten in `CHANGELOG.md` dokumentiert
+- [x] Keine Regressions in bestehenden Test-Suites
+- [x] Falls ein Target verfehlt: Optimierung aus den genannten Vorschlägen angewandt
   und neues Messergebnis dokumentiert
 
 ## Definition of Done

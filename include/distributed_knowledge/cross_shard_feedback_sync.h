@@ -60,6 +60,7 @@
 #include <chrono>
 #include <optional>
 #include <nlohmann/json.hpp>
+#include "governance/gdpr_subject_rights.h"
 #include "llm/decision_record_yaml_processor.h"
 
 namespace themis::distributed_knowledge {
@@ -258,6 +259,44 @@ public:
     void setDecisionRecordProcessor(
         std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> processor);
 
+    // ── DK-OR: Operational Resilience ────────────────────────────────────────
+
+    /**
+     * @brief ZeroTrust enforcer type (DK-OR-S).
+     *
+     * Returns `true` if the inbound summary is trusted (should be processed),
+     * `false` if it is high-risk (should throw).
+     */
+    using ZeroTrustEnforcer = std::function<bool(const FeedbackSummary&)>;
+
+    /**
+     * @brief Inject a ZeroTrust risk check for inbound summaries (DK-OR-S-1/2).
+     *
+     * When set, `handleInboundSummary()` calls the enforcer before dedup/callback.
+     * If the enforcer returns `false` (risk=HIGH), throws
+     * `std::runtime_error("inbound feedback rejected: high-risk context")`.
+     *
+     * @param enforcer  Check function; nullptr to disable.
+     */
+    void setZeroTrustEnforcer(ZeroTrustEnforcer enforcer);
+
+    /**
+     * @brief Number of publish calls silently skipped due to gossip backpressure
+     *        (DK-OR-B-2).
+     */
+    [[nodiscard]] size_t getSkippedPublishCount() const;
+
+    /**
+     * @brief GDPR erase: clear the dedup cache (DK-OR-H-3).
+     *
+     * Clears `seen_summary_ids_` dedup set and increments `erase_count_`.
+     */
+    themis::governance::StoreErasureResult erase(
+        const std::string& subject_id = "",
+        themis::governance::Regulation regulation = themis::governance::Regulation::GDPR);
+
+    [[nodiscard]] size_t eraseCount() const;
+
     // ── Observability ────────────────────────────────────────────────────────
 
     /**
@@ -291,6 +330,7 @@ private:
     std::function<void(nlohmann::json)>   gossip_message_fn_;
     FeedbackCallback                      on_feedback_;
     InboundPolicyCheck                    policy_check_;
+    ZeroTrustEnforcer                     zero_trust_enforcer_; ///< DK-OR-S
 
     // Decision traceability (optional, non-blocking)
     std::shared_ptr<themis::llm::DecisionRecordYamlProcessor> dr_processor_;
@@ -303,6 +343,8 @@ private:
     size_t received_count_        = 0;
     size_t deduplicated_count_    = 0;
     size_t rejected_by_policy_    = 0;
+    size_t skipped_publish_count_ = 0;  ///< DK-OR-B-2: gossip backpressure skips
+    size_t erase_count_           = 0;  ///< DK-OR-H-3: GDPR erase ops
 
     mutable std::mutex mutex_;
 
