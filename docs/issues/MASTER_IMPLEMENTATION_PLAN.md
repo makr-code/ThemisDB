@@ -164,7 +164,7 @@ DK-1 (Build + Tests)   [no dependency on A or B]
 | **S-3** ✅ | IMPL-A2 | Loop 1–4 explicit in `ContinuousLearningOrchestrator` | — |
 | **S-4** ✅ | IMPL-A3 | `exportGradient` + `applyGlobalDelta` + `FEDERATED_ROUND_START` | S-3 |
 | **S-5** ✅ | DK-2 | Gossip custom handler + `routeByDomain()` | S-1 |
-| **S-6** | IMPL-B5 + IMPL-B6 | TransactionSemanticAdvisor + SchemaDeadWeightDetector | S-3 |
+| **S-6** ✅ | IMPL-B5 + IMPL-B6 | TransactionSemanticAdvisor + SchemaDeadWeightDetector | S-3 |
 | **S-7** | IMPL-B7 + IMPL-B8 | IntentClassifier + WorkloadFingerprintEngine | S-3 |
 | **S-8** | IMPL-B9 + IMPL-B10 | ExplainabilityReasonBuilder + StorageLayoutAdvisor | S-3 |
 | **S-9** | DK-3 | FedLoRA wired to `IncrementalLoRATrainer` | S-4, S-5 |
@@ -194,8 +194,8 @@ DK-1 (Build + Tests)   [no dependency on A or B]
 - [ ] `applyGlobalDelta()` verifiably modifies adapter weights
 
 ### Paper 2 — Layers 5–10 complete when:
-- [ ] L5: `TransactionSemanticAdvisor` reduces retry cycles ≥ 15 % in conflict-test scenario
-- [ ] L6: `SchemaDeadWeightDetector` reports 0 false negatives for seasonal fields (180-day window)
+- [x] L5: `TransactionSemanticAdvisor` reduces retry cycles ≥ 15 % in conflict-test scenario
+- [x] L6: `SchemaDeadWeightDetector` reports 0 false negatives for seasonal fields (180-day window)
 - [ ] L7: `IntentClassifier` detects SQL-injection intent with precision ≥ 92 %
 - [ ] L8: `WorkloadFingerprintEngine` matches known patterns with accuracy ≥ 80 %
 - [ ] L9: `ExplainabilityReasonBuilder` produces causal chain for 100 % of autonomous decisions

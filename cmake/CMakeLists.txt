@@ -1459,6 +1459,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/transaction_retry_manager.cpp
     ../src/storage/compaction_manager.cpp
     ../src/storage/adaptive_compaction.cpp
+    ../src/storage/schema_dead_weight_detector.cpp
     ../src/storage/merge_operators.cpp
     ../src/storage/wom_tree.cpp
     ../src/storage/compressed_storage.cpp
@@ -1568,6 +1569,7 @@ set(THEMIS_CORE_SOURCES
     ../src/transaction/crash_recovery_manager.cpp
     ../src/transaction/global_transaction_manager.cpp
     ../src/transaction/deadlock_predictor.cpp
+    ../src/transaction/transaction_semantic_advisor.cpp
     
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
