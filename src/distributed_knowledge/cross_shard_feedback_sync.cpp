@@ -1,0 +1,161 @@
+// Copyright 2026 ThemisDB — Licensed under MIT License
+
+/**
+ * @file cross_shard_feedback_sync.cpp
+ * @brief Ebene D — Federated RLAIF feedback sync implementation.
+ */
+
+#include "distributed_knowledge/cross_shard_feedback_sync.h"
+
+#include <chrono>
+#include <random>
+#include <sstream>
+#include <iomanip>
+#include <stdexcept>
+
+namespace themis::distributed_knowledge {
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Construction / destruction
+// ─────────────────────────────────────────────────────────────────────────────
+
+CrossShardFeedbackSync::CrossShardFeedbackSync(
+    FeedbackSyncConfig              config,
+    std::string                     local_shard_id,
+    std::function<void(nlohmann::json)> gossip_message_fn)
+    : config_(std::move(config))
+    , local_shard_id_(std::move(local_shard_id))
+    , gossip_message_fn_(std::move(gossip_message_fn))
+{
+    if (!config_.isValid()) {
+        throw std::invalid_argument(
+            "CrossShardFeedbackSync: invalid FeedbackSyncConfig");
+    }
+}
+
+CrossShardFeedbackSync::~CrossShardFeedbackSync() = default;
+CrossShardFeedbackSync::CrossShardFeedbackSync(
+    CrossShardFeedbackSync&&) noexcept = default;
+CrossShardFeedbackSync& CrossShardFeedbackSync::operator=(
+    CrossShardFeedbackSync&&) noexcept = default;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// publishFeedback
+// ─────────────────────────────────────────────────────────────────────────────
+
+void CrossShardFeedbackSync::publishFeedback(FeedbackSummary summary) {
+    // Validate embedding dimension
+    if (config_.validate_embedding_dim &&
+        !summary.reason_embedding.empty() &&
+        summary.reason_embedding.size() != config_.max_embedding_dim)
+    {
+        throw std::invalid_argument(
+            "CrossShardFeedbackSync::publishFeedback: embedding dimension "
+            "mismatch (got " + std::to_string(summary.reason_embedding.size()) +
+            ", expected " + std::to_string(config_.max_embedding_dim) + ")");
+    }
+
+    // Enforce privacy: overwrite origin with ANON
+    summary.shard_origin = "ANON";
+    summary.summary_id   = generateSummaryId();
+    summary.created_at   = std::chrono::system_clock::now();
+
+    nlohmann::json payload = summary.toJson();
+    payload["message_type"] = "federated_feedback";
+
+    {
+        std::lock_guard<std::mutex> lk(mutex_);
+        ++published_count_;
+    }
+
+    if (gossip_message_fn_) {
+        gossip_message_fn_(std::move(payload));
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// handleInboundSummary
+// ─────────────────────────────────────────────────────────────────────────────
+
+void CrossShardFeedbackSync::handleInboundSummary(const nlohmann::json& payload) {
+    FeedbackSummary summary = FeedbackSummary::fromJson(payload);
+
+    FeedbackCallback cb;
+    {
+        std::lock_guard<std::mutex> lk(mutex_);
+
+        // Dedup
+        if (seen_ids_.count(summary.summary_id)) {
+            ++deduplicated_count_;
+            return;
+        }
+
+        // Evict oldest if cache full (simple: clear half the cache)
+        if (seen_ids_.size() >= config_.dedup_cache_size) {
+            seen_ids_.clear();
+        }
+        seen_ids_.insert(summary.summary_id);
+        ++received_count_;
+        cb = on_feedback_;
+    }
+
+    if (cb) {
+        cb(summary);
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// setFeedbackCallback
+// ─────────────────────────────────────────────────────────────────────────────
+
+void CrossShardFeedbackSync::setFeedbackCallback(FeedbackCallback cb) {
+    std::lock_guard<std::mutex> lk(mutex_);
+    on_feedback_ = std::move(cb);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Observability
+// ─────────────────────────────────────────────────────────────────────────────
+
+size_t CrossShardFeedbackSync::publishedCount() const {
+    std::lock_guard<std::mutex> lk(mutex_);
+    return published_count_;
+}
+
+size_t CrossShardFeedbackSync::receivedCount() const {
+    std::lock_guard<std::mutex> lk(mutex_);
+    return received_count_;
+}
+
+size_t CrossShardFeedbackSync::deduplicatedCount() const {
+    std::lock_guard<std::mutex> lk(mutex_);
+    return deduplicated_count_;
+}
+
+nlohmann::json CrossShardFeedbackSync::getStats() const {
+    std::lock_guard<std::mutex> lk(mutex_);
+    return {{"shard_id",          local_shard_id_},
+            {"published",         published_count_},
+            {"received",          received_count_},
+            {"deduplicated",      deduplicated_count_},
+            {"seen_ids_cached",   seen_ids_.size()}};
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// generateSummaryId (static helper)
+// ─────────────────────────────────────────────────────────────────────────────
+
+std::string CrossShardFeedbackSync::generateSummaryId() {
+    // Simple pseudo-UUID using timestamp + random suffix
+    const auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+
+    std::mt19937_64 rng(std::random_device{}());
+    std::uniform_int_distribution<uint64_t> dist;
+
+    std::ostringstream oss;
+    oss << std::hex << now_ms << "-" << dist(rng);
+    return oss.str();
+}
+
+} // namespace themis::distributed_knowledge

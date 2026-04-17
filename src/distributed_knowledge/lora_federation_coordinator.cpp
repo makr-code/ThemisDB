@@ -1,0 +1,263 @@
+// Copyright 2026 ThemisDB — Licensed under MIT License
+
+/**
+ * @file lora_federation_coordinator.cpp
+ * @brief Ebene B — Federated LoRA gradient aggregation implementation.
+ *
+ * Implements `LoRAFederationCoordinator` using FedAvg / FedProx / median
+ * aggregation and calibrated Gaussian noise for (ε, δ)-differential privacy.
+ *
+ * Aggregation delegates to the numeric logic in
+ * `FederatedImportCoordinator::FederatedAggregator` through an equivalent
+ * in-process implementation (the importer's class is not directly reusable
+ * without its PostgreSQL dependencies, so the same algorithm is applied here
+ * with the same DP formula).
+ *
+ * DP noise formula (Gaussian mechanism):
+ *   σ = sensitivity * sqrt(2 * ln(1.25 / δ)) / ε
+ *
+ * References:
+ *   McMahan et al. (2017). Communication-Efficient Learning of Deep Networks
+ *   from Decentralised Data. AISTATS 2017.
+ *   Dwork & Roth (2014). The Algorithmic Foundations of Differential Privacy.
+ */
+
+#include "distributed_knowledge/lora_federation_coordinator.h"
+
+#include <algorithm>
+#include <cmath>
+#include <random>
+#include <sstream>
+#include <stdexcept>
+
+namespace themis::distributed_knowledge {
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Construction / destruction
+// ─────────────────────────────────────────────────────────────────────────────
+
+LoRAFederationCoordinator::LoRAFederationCoordinator(FederationConfig config)
+    : config_(std::move(config))
+{
+    if (!config_.isValid()) {
+        throw std::invalid_argument(
+            "LoRAFederationCoordinator: invalid FederationConfig");
+    }
+}
+
+LoRAFederationCoordinator::~LoRAFederationCoordinator() = default;
+LoRAFederationCoordinator::LoRAFederationCoordinator(
+    LoRAFederationCoordinator&&) noexcept = default;
+LoRAFederationCoordinator& LoRAFederationCoordinator::operator=(
+    LoRAFederationCoordinator&&) noexcept = default;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// submitGradient
+// ─────────────────────────────────────────────────────────────────────────────
+
+void LoRAFederationCoordinator::submitGradient(const EncryptedGradient& gradient) {
+    std::lock_guard<std::mutex> lk(mutex_);
+
+    // Only accept gradients for the current round
+    if (gradient.round != current_round_) {
+        return; // silently ignore stale or future rounds
+    }
+
+    // Idempotent: ignore duplicate shard submissions
+    if (pending_gradients_.count(gradient.shard_id)) {
+        return;
+    }
+
+    pending_gradients_[gradient.shard_id] = gradient;
+
+    // Auto-trigger when all expected shards have submitted
+    if (pending_gradients_.size() >= config_.min_participants) {
+        // Aggregate synchronously on the submitting thread.
+        // In production this would be dispatched to a background worker.
+        try {
+            auto delta = doAggregation();
+            last_delta_ = delta;
+            ++total_rounds_completed_;
+
+            std::function<void(const GlobalAdapterDelta&)> cb;
+            cb = delta_callback_;
+            if (cb) {
+                cb(delta);
+            }
+        } catch (const std::exception&) {
+            // Aggregation failure: leave pending_gradients_ intact for retry
+        }
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// triggerAggregation
+// ─────────────────────────────────────────────────────────────────────────────
+
+GlobalAdapterDelta LoRAFederationCoordinator::triggerAggregation() {
+    std::lock_guard<std::mutex> lk(mutex_);
+
+    if (pending_gradients_.size() < config_.min_participants) {
+        throw std::runtime_error(
+            "LoRAFederationCoordinator::triggerAggregation: insufficient "
+            "participants (" + std::to_string(pending_gradients_.size()) +
+            " < " + std::to_string(config_.min_participants) + ")");
+    }
+
+    auto delta = doAggregation();
+    last_delta_ = delta;
+    ++total_rounds_completed_;
+
+    if (delta_callback_) {
+        delta_callback_(delta);
+    }
+    return delta;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// doAggregation (internal, caller holds mutex_)
+// ─────────────────────────────────────────────────────────────────────────────
+
+GlobalAdapterDelta LoRAFederationCoordinator::doAggregation() {
+    // ── Step 1: collect all numeric fields across gradients ──────────────────
+    // Determine the union of all keys present in any gradient
+    std::map<std::string, std::vector<std::pair<double, size_t>>> key_values;
+    // value: (gradient_value, sample_count) for FedAvg weighting
+
+    for (const auto& [shard_id, grad] : pending_gradients_) {
+        if (!grad.data.is_object()) continue;
+        for (const auto& [key, val] : grad.data.items()) {
+            if (val.is_number()) {
+                key_values[key].emplace_back(val.get<double>(), grad.sample_count);
+            }
+        }
+    }
+
+    // ── Step 2: aggregate per key ────────────────────────────────────────────
+    nlohmann::json aggregated = nlohmann::json::object();
+
+    for (const auto& [key, values] : key_values) {
+        if (config_.aggregation_algorithm == "median") {
+            std::vector<double> vals;
+            vals.reserve(values.size());
+            for (const auto& [v, _] : values) vals.push_back(v);
+            std::sort(vals.begin(), vals.end());
+            const size_t n = vals.size();
+            aggregated[key] = (n % 2 == 1)
+                ? vals[n / 2]
+                : (vals[n / 2 - 1] + vals[n / 2]) / 2.0;
+        } else {
+            // FedAvg (default) or FedProx (same aggregation, different local objective)
+            double total_weight = 0.0;
+            double weighted_sum = 0.0;
+            for (const auto& [v, samples] : values) {
+                const double w = config_.weight_by_sample_count
+                    ? static_cast<double>(samples)
+                    : 1.0;
+                weighted_sum  += v * w;
+                total_weight  += w;
+            }
+            aggregated[key] = (total_weight > 0.0)
+                ? weighted_sum / total_weight
+                : 0.0;
+        }
+    }
+
+    // ── Step 3: apply differential privacy ──────────────────────────────────
+    aggregated = applyDifferentialPrivacy(aggregated);
+
+    // ── Step 4: build result ─────────────────────────────────────────────────
+    GlobalAdapterDelta delta;
+    delta.round        = current_round_;
+    delta.version      = nextDeltaVersion();
+    delta.participants = pending_gradients_.size();
+    delta.algorithm    = config_.aggregation_algorithm;
+    delta.epsilon_spent = config_.dp_epsilon;
+    delta.delta        = std::move(aggregated);
+
+    total_epsilon_spent_    += config_.dp_epsilon;
+    total_gradients_processed_ += pending_gradients_.size();
+
+    // Advance round and clear pending
+    ++current_round_;
+    pending_gradients_.clear();
+
+    return delta;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// applyDifferentialPrivacy (internal)
+// ─────────────────────────────────────────────────────────────────────────────
+
+nlohmann::json LoRAFederationCoordinator::applyDifferentialPrivacy(
+    const nlohmann::json& aggregated) const
+{
+    // Gaussian mechanism: σ = sensitivity * sqrt(2 * ln(1.25/δ)) / ε
+    const double sigma = config_.dp_sensitivity
+        * std::sqrt(2.0 * std::log(1.25 / config_.dp_delta))
+        / config_.dp_epsilon;
+
+    std::mt19937 rng(std::random_device{}());
+    std::normal_distribution<double> noise_dist(0.0, sigma);
+
+    nlohmann::json noised = aggregated;
+    for (auto& [key, val] : noised.items()) {
+        if (val.is_number()) {
+            val = val.get<double>() + noise_dist(rng);
+        }
+    }
+    return noised;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// nextDeltaVersion (internal)
+// ─────────────────────────────────────────────────────────────────────────────
+
+std::string LoRAFederationCoordinator::nextDeltaVersion() const {
+    return "global-v" + std::to_string(total_rounds_completed_ + 1);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Accessors
+// ─────────────────────────────────────────────────────────────────────────────
+
+void LoRAFederationCoordinator::setGlobalDeltaCallback(
+    std::function<void(const GlobalAdapterDelta&)> cb)
+{
+    std::lock_guard<std::mutex> lk(mutex_);
+    delta_callback_ = std::move(cb);
+}
+
+uint64_t LoRAFederationCoordinator::currentRound() const {
+    std::lock_guard<std::mutex> lk(mutex_);
+    return current_round_;
+}
+
+size_t LoRAFederationCoordinator::submittedCount() const {
+    std::lock_guard<std::mutex> lk(mutex_);
+    return pending_gradients_.size();
+}
+
+std::optional<GlobalAdapterDelta> LoRAFederationCoordinator::lastDelta() const {
+    std::lock_guard<std::mutex> lk(mutex_);
+    return last_delta_;
+}
+
+nlohmann::json LoRAFederationCoordinator::getStats() const {
+    std::lock_guard<std::mutex> lk(mutex_);
+    return {{"current_round",             current_round_},
+            {"pending_gradients",          pending_gradients_.size()},
+            {"total_rounds_completed",     total_rounds_completed_},
+            {"total_gradients_processed",  total_gradients_processed_},
+            {"total_epsilon_spent",        total_epsilon_spent_},
+            {"algorithm",                  config_.aggregation_algorithm},
+            {"min_participants",           config_.min_participants}};
+}
+
+void LoRAFederationCoordinator::advanceRound() {
+    std::lock_guard<std::mutex> lk(mutex_);
+    ++current_round_;
+    pending_gradients_.clear();
+}
+
+} // namespace themis::distributed_knowledge
