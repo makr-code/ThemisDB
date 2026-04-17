@@ -64,7 +64,9 @@ enum class AggregateFunc {
     AVG,
     COUNT,
     MIN,
-    MAX
+    MAX,
+    FIRST_VALUE, ///< Value of measure_field from the earliest row (by sys_start) in the window
+    LAST_VALUE   ///< Value of measure_field from the latest  row (by sys_start) in the window
 };
 
 /**

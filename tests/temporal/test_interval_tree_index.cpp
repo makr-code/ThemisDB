@@ -357,3 +357,49 @@ TEST_F(IntervalTreeIndexTest, ConcurrentReads_SharedMutex_NoDeadlock) {
     EXPECT_EQ(total_hits.load(), NUM_THREADS * 50);
 }
 
+
+// ── erase() STL-alias tests (ITX-ERASE-01..04) ───────────────────────────────
+
+TEST(IntervalTreeEraseTest, ITX_ERASE_01_EraseExistingKey_ReturnsCount) {
+    IntervalTreeIndex tree{"test"};
+    tree.insert({"k1", {0, 10}});
+    tree.insert({"k1", {20, 30}});
+    tree.insert({"k2", {5, 15}});
+
+    size_t removed = tree.erase("k1");
+    EXPECT_EQ(removed, 2u);
+    EXPECT_EQ(tree.size(), 1u);
+}
+
+TEST(IntervalTreeEraseTest, ITX_ERASE_02_EraseAbsentKey_ReturnsZero) {
+    IntervalTreeIndex tree{"test"};
+    tree.insert({"k1", {0, 10}});
+
+    size_t removed = tree.erase("no_such_key");
+    EXPECT_EQ(removed, 0u);
+    EXPECT_EQ(tree.size(), 1u);
+}
+
+TEST(IntervalTreeEraseTest, ITX_ERASE_03_TreeRemainsQueryable_AfterErase) {
+    IntervalTreeIndex tree{"test"};
+    tree.insert({"k1", {0, 20}});
+    tree.insert({"k2", {5, 25}});
+
+    tree.erase("k1");
+
+    auto hits = tree.queryPoint(10);
+    EXPECT_EQ(hits.size(), 1u);
+    EXPECT_EQ(hits[0].key, "k2");
+}
+
+TEST(IntervalTreeEraseTest, ITX_ERASE_04_EraseAll_TreeEmpty) {
+    IntervalTreeIndex tree{"test"};
+    tree.insert({"a", {0, 5}});
+    tree.insert({"b", {10, 15}});
+
+    tree.erase("a");
+    tree.erase("b");
+
+    EXPECT_EQ(tree.size(), 0u);
+    EXPECT_TRUE(tree.queryPoint(2).empty());
+}

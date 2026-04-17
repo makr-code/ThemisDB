@@ -138,8 +138,9 @@ void TemporalCDC::publishEvent(const ChangeEvent& event) {
 
         // Append to ring-buffer log
         if (log_.size() >= max_log_size_) {
-            // Evict oldest event (front of deque-like buffer)
+            // Evict oldest event (front of deque-like buffer) — OVERWRITE policy
             log_.erase(log_.begin());
+            overflow_count_.fetch_add(1, std::memory_order_relaxed);
         }
         log_.push_back(event);
 
@@ -193,6 +194,10 @@ size_t TemporalCDC::logSize() const {
 
 uint64_t TemporalCDC::totalPublished() const noexcept {
     return total_published_.load(std::memory_order_relaxed);
+}
+
+uint64_t TemporalCDC::overflowCount() const noexcept {
+    return overflow_count_.load(std::memory_order_relaxed);
 }
 
 void TemporalCDC::clearLog() {

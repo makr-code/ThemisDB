@@ -38,6 +38,20 @@ namespace themisdb {
 namespace temporal {
 
 // ============================================================================
+// RetentionRule — comparison operators
+// ============================================================================
+
+bool RetentionRule::operator==(const RetentionRule& rhs) const noexcept {
+    return std::tie(type, period, max_versions, max_bytes, tag)
+        == std::tie(rhs.type, rhs.period, rhs.max_versions, rhs.max_bytes, rhs.tag);
+}
+
+bool RetentionRule::operator<(const RetentionRule& rhs) const noexcept {
+    return std::tie(type, period, max_versions, max_bytes, tag)
+        < std::tie(rhs.type, rhs.period, rhs.max_versions, rhs.max_bytes, rhs.tag);
+}
+
+// ============================================================================
 // Policy management
 // ============================================================================
 

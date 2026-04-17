@@ -141,6 +141,29 @@ struct ChangeEvent {
  * `max_log_size` (default 65536).  `replayChanges()` returns matching
  * events from this log.  Events older than the ring-buffer window are lost.
  *
+ * ### Ring-buffer overflow semantics
+ *
+ * The ring-buffer operates with **OVERWRITE** (oldest-eviction) policy:
+ *
+ *   - The buffer is a circular deque (`std::deque`) capped at `max_log_size`
+ *     entries.
+ *   - When a new event arrives and the buffer is at capacity, the **oldest**
+ *     event (front of the deque) is silently discarded to make room.
+ *   - There is no back-pressure on the caller, no blocking, and no error
+ *     is returned from `publishEvent()`.
+ *   - Consumers that require guaranteed delivery MUST use the subscription
+ *     API (`subscribeToChanges`) rather than `replayChanges()`, because
+ *     in-flight callbacks are invoked *before* the event is appended —
+ *     i.e. they are unaffected by overflow.
+ *   - The overflow count (total events lost since construction) is available
+ *     via `overflowCount()`.
+ *
+ * **Capacity guidance**:
+ *   - Default capacity 65 536 events ≈ 8–16 MiB depending on payload size.
+ *   - Increase `max_log_size` in the constructor for replay-heavy workloads.
+ *   - A future version will support BLOCK and DROP policies for strict
+ *     back-pressure (see `include/temporal/ROADMAP.md`, CDC v1.8.0 items).
+ *
  * ### Thread-safety
  * All public methods are thread-safe.  Callbacks are invoked under a
  * shared lock so they must not call `subscribeToChanges` or `unsubscribe`
@@ -224,6 +247,20 @@ public:
      */
     uint64_t totalPublished() const noexcept;
 
+    /**
+     * Return the total number of events that have been silently discarded
+     * due to ring-buffer overflow since construction.
+     *
+     * An overflow occurs when `publishEvent()` is called while the in-process
+     * log already holds `max_log_size` events.  The oldest event is evicted
+     * (OVERWRITE policy) and this counter is incremented.
+     *
+     * A non-zero value indicates that `replayChanges()` may no longer return
+     * the complete history.  Consumers that require guaranteed delivery should
+     * use the subscription API instead.
+     */
+    uint64_t overflowCount() const noexcept;
+
     /** Clear the in-process event log.  Active subscriptions are unaffected. */
     void clearLog();
 
@@ -249,6 +286,7 @@ private:
     size_t                       max_log_size_;
     std::vector<ChangeEvent>     log_;         ///< Ring-buffer (front = oldest)
     std::atomic<uint64_t>        total_published_{0};
+    std::atomic<uint64_t>        overflow_count_{0};  ///< Events evicted by OVERWRITE policy
 
     std::unordered_map<std::string, Subscription> subscriptions_;
 

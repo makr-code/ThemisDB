@@ -144,6 +144,25 @@ public:
      */
     size_t removeKey(const std::string& key);
 
+    /**
+     * @brief STL-style erase: remove all entries for the given key.
+     *
+     * This is an alias for `removeKey()` that follows STL container naming
+     * conventions (`erase` vs. `remove`).  It removes every interval entry
+     * associated with @p key from the tree while maintaining the AVL-balance
+     * invariant through tree rotations.
+     *
+     * Complexity:
+     *   - O(k·log n) where k is the number of intervals stored for @p key and
+     *     n is the total number of entries in the tree.
+     *   - For the common case of a unique-key index (k = 1) this degenerates
+     *     to O(log n).
+     *
+     * @param key  Logical key whose entries should be removed.
+     * @return     Number of entries actually removed (0 if the key was absent).
+     */
+    size_t erase(const std::string& key);
+
     /** Remove all entries. O(n). */
     void clear();
 
