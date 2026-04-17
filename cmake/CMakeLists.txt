@@ -1542,6 +1542,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/usb_admin_authenticator.cpp
     ../src/security/usb_volume_hardening.cpp
     ../src/security/aql_injection_detector.cpp
+    ../src/security/intent_classifier.cpp
     ../src/core/security_initialization.cpp
     ../src/performance/cycle_metrics.cpp
     ../src/performance/numa_topology.cpp
@@ -1656,6 +1657,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_security_audit.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SSE}>:../src/server/sse_connection_manager.cpp>
     ../src/server/cache_api_handler.cpp
+    ../src/server/workload_fingerprint_engine.cpp
     ../src/server/cache_admin_api_handler.cpp
     ../src/server/admin_api_handler.cpp
     ../src/server/vector_api_handler.cpp
