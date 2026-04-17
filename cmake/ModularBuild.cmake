@@ -990,6 +990,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/constitutional_reasoning_engine.cpp
     ../src/llm/ethics_aware_confidence_detector.cpp
     ../src/llm/ai_decision_auditor.cpp
+    ../src/llm/decision_record_yaml_processor.cpp
     ../src/llm/moral_analyzer.cpp
     ../src/llm/multi_perspective_generator.cpp
     ../src/llm/meta_prompt_generator.cpp
@@ -1028,6 +1029,8 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/ethics_aware_confidence_detector.cpp
     ../src/llm/moral_analyzer.cpp
     ../src/llm/multi_perspective_generator.cpp
+    # Decision Record YAML Processor (async, independent of llama.cpp / RocksDB)
+    ../src/llm/decision_record_yaml_processor.cpp
     # Feedback & Security
     ../src/llm/feedback_plugin_basic.cpp
     ../src/llm/llm_security_utils.cpp
