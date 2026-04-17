@@ -893,3 +893,17 @@ or recompile.
 
 Full tables with ThemisDB instances: `PERFORMANCE_EXPECTATIONS.md §14.1` and
 `docs/en/research/DISTRIBUTED_KNOWLEDGE_FEDERATION.md §12`.
+
+**Operational Resilience — Cross-Cutting Dimensions**
+
+The five dimensions are not independent classes — they instantiate the seven
+classes above with concrete resilience patterns. Full tables:
+`VERTEILTES_WISSEN_FEDERATION.md §12.8` · `DISTRIBUTED_KNOWLEDGE_FEDERATION.md §12.8`.
+
+| Dimension | Primary classes | ThemisDB instances (selection) |
+|---|---|---|
+| **Backpressure** | Fader · Closed Loop · Switch | `max_pending_requests`, Kafka-lag loop, HTTP-429 hard-drop |
+| **Timeout / Circuit Breaker** | Fader · Closed Loop · Causal Chain | `inference_timeout_ms`, `circuit_breaker.failure_threshold`, gRPC deadline |
+| **Errors / Warnings** | Open Loop · Causal Chain · Closed Loop | NaN score → pruning-stop, P99 alert → CI gate |
+| **Security** | Switch · Fader · Closed Loop · Causal Chain | TLS/MFA switch, RBAC fader, ZeroTrust closed loop, SIEM chain |
+| **Hardening** | Switch · Fader · Open Loop · Closed Loop | plaintext-deny switch, audit fader, SBOM CI loop, secret-scan gate |

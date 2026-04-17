@@ -933,3 +933,17 @@ und AdaLoRA die SLOs (Ebenen 5–11) zur **Laufzeit** beeinflussen.
 
 Vollständige Tabellen mit ThemisDB-Instanzen: `PERFORMANCE_EXPECTATIONS.md §14.1` und
 `docs/de/research/VERTEILTES_WISSEN_FEDERATION.md §12`.
+
+**Operational Resilience — Querschnittsdimensionen**
+
+Die fünf Dimensionen sind keine eigenständigen Klassen — sie instanziieren
+die sieben Klassen oben mit konkreten Resilienz-Mustern. Vollständige Tabellen:
+`VERTEILTES_WISSEN_FEDERATION.md §12.8` · `DISTRIBUTED_KNOWLEDGE_FEDERATION.md §12.8`.
+
+| Dimension | Primäre Klassen | ThemisDB-Instanzen (Auswahl) |
+|---|---|---|
+| **Backpressure** | Fader · Closed Loop · Switch | `max_pending_requests`, Kafka-Lag-Loop, HTTP-429-Hard-Drop |
+| **Timeout / Circuit Breaker** | Fader · Closed Loop · Kausalkette | `inference_timeout_ms`, `circuit_breaker.failure_threshold`, gRPC-Deadline |
+| **Errors / Warnings** | Open Loop · Kausalkette · Closed Loop | NaN-Score → Pruning-Stop, P99-Alert → CI-Gate |
+| **Security** | Switch · Fader · Closed Loop · Kausalkette | TLS/MFA-Switch, RBAC-Fader, ZeroTrust-Closed-Loop, SIEM-Kette |
+| **Hardening** | Switch · Fader · Open Loop · Closed Loop | Plaintext-Deny, Audit-Fader, SBOM-CI-Loop, Secret-Scan-Gate |

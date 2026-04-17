@@ -1123,3 +1123,17 @@ feedback (if any) to expect.
 The Δp99 rules in §6 and open research questions in §7 are all exercised through
 Closed Loop (class 5) or Agentic Solver (class 4) mechanisms — not through manual
 Switch or Fader adjustments.
+
+**Operational Resilience — Cross-Cutting Dimensions**
+
+The five dimensions below are not independent taxonomy classes — each instantiates
+one or more of the seven classes above with resilience-specific patterns.
+Full tables: `DISTRIBUTED_KNOWLEDGE_FEDERATION.md §12.8`.
+
+| Dimension | Primary classes | AdaLoRA / LoRA instances |
+|---|---|---|
+| **Backpressure** | Fader · Closed Loop · Switch | `max_pending_requests` fader, Kafka-lag closed loop, inference-queue hard-drop switch |
+| **Timeout / Circuit Breaker** | Fader · Closed Loop · Causal Chain | `inference_timeout_ms` fader, `circuit_breaker.*` closed loop, gRPC deadline causal chain |
+| **Errors / Warnings** | Open Loop · Causal Chain · Closed Loop | importance-score NaN → pruning-stop causal chain; P99 breach → CI gate closed loop |
+| **Security** | Switch · Fader · Closed Loop · Causal Chain | `tls.enforce` switch, RBAC-strictness fader, ZeroTrust session-risk closed loop, SIEM causal chain |
+| **Hardening** | Switch · Fader · Open Loop · Closed Loop | plaintext-deny switch, `audit.log_level` fader, SBOM-CI open loop, secret-scan closed loop |

@@ -634,6 +634,84 @@ The Differential Privacy guarantee (Dwork & Roth 2014, Gaussian mechanism,
 Layer B §4) is fully preserved throughout: only anonymised gradient
 statistics cross shard boundaries.
 
+### 12.8 Operational Resilience — Cross-Cutting Dimensions
+
+The following five dimensions are **not independent taxonomy classes** in the sense
+of §12.1–§12.7 — they are **cross-cutting patterns**: each dimension can instantiate
+multiple classes simultaneously. The table shows the ThemisDB instance, its class
+assignment, and the SLO reference.
+
+#### Backpressure — Capacity Signal Upstream
+
+Backpressure occurs when a downstream component signals its capacity limit.
+The upstream reaction depends on context: Fader (throttle), Closed Loop (count →
+adjust), Switch (hard-drop).
+
+| Mechanism | Class | Downstream signal | Upstream reaction | SLO |
+|---|---|---|---|---|
+| `max_pending_requests` fader | **Fader** | queue depth > threshold | throttle ingestion rate | dispatch latency P99 (L-5) |
+| Kafka queue depth → throttle | **Closed Loop** | topic-lag metric | adjust consumer rate | throughput (L-8) |
+| HTTP 429 (inference endpoint) | **Open Loop** | 429 response | caller waits / exponential backoff | TTFT (L-1) |
+| LLM inference queue hard-drop | **Switch** | queue full (ON) | request rejected (503) | availability (L-7) |
+
+#### Timeout / Circuit Breaker — Failure Containment
+
+Timeouts bound waiting time (Open Loop). Circuit Breakers measure error rates
+and proactively interrupt the path (Closed Loop).
+
+| Mechanism | Class | Trigger | Action | Config key |
+|---|---|---|---|---|
+| `inference_timeout_ms` | **Fader** | deadline exceeded | request aborted | `inference_timeout_ms` (100–30 000 ms) |
+| Circuit Breaker OPEN | **Closed Loop** | failure_rate ≥ threshold | path blocked, probe requests sent | `circuit_breaker.failure_threshold` |
+| Circuit Breaker HALF_OPEN → CLOSED | **Closed Loop** | probe succeeds | path restored | `circuit_breaker.half_open_probe_interval` |
+| gRPC deadline propagation | **Causal Chain** | client sets deadline | deadline propagated through all layers | gRPC metadata |
+| LoRA swap timeout | **Switch** | swap > 5 s | rollback to previous adapter | `hot_swap.timeout_ms` |
+
+#### Errors / Warnings — Signal Classification
+
+Errors and warnings are **events**, not control mechanisms. Their effect depends
+on which component receives them and how it reacts.
+
+| Signal | Class | Source | Consumer | Effect |
+|---|---|---|---|---|
+| AQL parser WARN (unknown function) | **Open Loop** | AQL parser | AuditLogger | log entry; query not interrupted |
+| Importance-score NaN → WARN | **Causal Chain** | AdaLoRA layer | PruningEngine → pruning disabled | rank budget fixed until next restart |
+| P99 > baseline + 20 % | **Closed Loop** | SLO monitor | CI gate | deployment blocked (§5 CI SLO gate) |
+| Federation sync error | **Causal Chain** | `lora_federation_coordinator` | `CrossShardFeedbackSync` → retry → alert | shard falls back to local score |
+| Security alert (risk = HIGH) | **Causal Chain** | LLM Intent Classifier | ZeroTrust → AuditLog → SIEM | session revoked (Chain 2 §12.7) |
+
+#### Security — Mechanisms by Class
+
+Security mechanisms span all seven classes; their class assignment determines
+operator effort and reaction time.
+
+| Mechanism | Class | ThemisDB instance | Reference |
+|---|---|---|---|
+| Enforce TLS | **Switch** | `tls.enforce` ON/OFF | docker/admin-ui/nginx.ssl.conf |
+| MFA for admin roles | **Switch** | `mfa_required_roles: [admin,operator]` | include/security/access_control.h |
+| RBAC strictness | **Fader** | `rbac.policy_version` (permissive ↔ strict) | src/security/access_control.cpp |
+| Login rate-limiting | **Fader** | 5 r/m → 30 r/m (nginx) | docker/admin-ui/nginx.conf |
+| ZeroTrust session-risk-score | **Closed Loop** | `session_risk_score` → `continuous_verification` | include/security/zero_trust_policy_enforcer.h |
+| SPHINCS+ post-quantum fallback | **Switch** | `pqc.enabled` | include/security/post_quantum_crypto.h |
+| Security anomaly escalation | **Causal Chain** | Intent→ZeroTrust→AuditLog→SIEM | §12.7 Chain 2 |
+| CSRF nonce validation | **Switch** | `csrf_validation.enabled` | docker/admin-ui/nginx.conf |
+
+#### Hardening — System Hardening
+
+Hardening measures close attack surfaces through configuration (Switch / Fader)
+and automated validation (Open Loop / Closed Loop).
+
+| Measure | Class | Mechanism | Activation |
+|---|---|---|---|
+| Reject plaintext API | **Switch** | `security.deny_plaintext_api` | ON in production |
+| Audit log level | **Fader** | `audit.log_level` (INFO→DEBUG→TRACE) | SIGHUP hot-reload |
+| Dependency pinning + SBOM | **Open Loop** | CI scan at every build | GitHub Actions |
+| Post-quantum fallback | **Switch** | `pqc.enabled` (SPHINCS+) | THEMIS_ENABLE_PQC=1 |
+| IPv6 CIDR allowlist | **Fader** | `network_policy.cidr_allowlist` | include/security/zero_trust_policy_enforcer.h |
+| Secret scanning (CI gate) | **Closed Loop** | secret-scanning alert → PR blocked | GitHub Actions |
+| Immutable config in container | **Switch** | read-only rootfs | docker-compose.qnap.yml |
+| GDPR erase-target validation | **Closed Loop** | GdprSubjectRightsManager → per-module ack | include/governance/gdpr_subject_rights.h |
+
 ---
 
 ## 13. References

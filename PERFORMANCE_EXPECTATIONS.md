@@ -1308,6 +1308,21 @@ DDL-Änderung erkannt
         — kein Rückpfad zum DDL-Trigger
 ```
 
+**Operational Resilience — Querschnittsdimensionen**
+
+> Vollständige Tabellen je Dimension: §12.8 in den Research-Papers
+> (`VERTEILTES_WISSEN_FEDERATION.md §12.8` · `DISTRIBUTED_KNOWLEDGE_FEDERATION.md §12.8`).
+> Die fünf Dimensionen sind **keine eigenständigen Klassen** — sie instanziieren
+> die sieben Klassen oben mit konkreten Resilienz-Mustern.
+
+| Dimension | Primäre Klassen | ThemisDB-Instanzen (Auswahl) |
+|---|---|---|
+| **Backpressure** | Fader · Closed Loop · Switch | `max_pending_requests`, Kafka-Lag-Closed-Loop, HTTP-429-Hard-Drop |
+| **Timeout / Circuit Breaker** | Fader · Closed Loop · Kausalkette | `inference_timeout_ms`, `circuit_breaker.failure_threshold`, gRPC-Deadline-Propagation |
+| **Errors / Warnings** | Open Loop · Kausalkette · Closed Loop | NaN-Score → Pruning-Stop (Kausalkette), P99-Alert → CI-Gate (Closed Loop) |
+| **Security** | Switch · Fader · Closed Loop · Kausalkette | TLS/MFA-Switch, RBAC-Fader, ZeroTrust-Closed-Loop, SIEM-Kausalkette |
+| **Hardening** | Switch · Fader · Open Loop · Closed Loop | Plaintext-Deny-Switch, Audit-Fader, SBOM-CI-Open-Loop, Secret-Scan-Gate |
+
 ---
 
 

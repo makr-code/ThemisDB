@@ -1649,3 +1649,17 @@ coupling.
 Agentic Solvers, and Closed Loops are system-controlled. Open Loops and Causal
 Chains are fire-and-forget — SLO effects must be validated by an independent
 monitoring path (§6 Δp99 rules).
+
+**Operational Resilience — Cross-Cutting Dimensions**
+
+The five dimensions below are not independent taxonomy classes — each instantiates
+one or more of the seven classes above with resilience-specific patterns.
+Full tables with all ThemisDB instances: `DISTRIBUTED_KNOWLEDGE_FEDERATION.md §12.8`.
+
+| Dimension | Primary classes | Key instances in this paper |
+|---|---|---|
+| **Backpressure** | Fader · Closed Loop · Switch | `max_pending_requests` Fader; Kafka-lag Closed Loop; inference-queue hard-drop Switch |
+| **Timeout / Circuit Breaker** | Fader · Closed Loop · Causal Chain | `inference_timeout_ms` Fader; `circuit_breaker.failure_threshold` Closed Loop; gRPC deadline Causal Chain; `hot_swap.timeout_ms` Switch |
+| **Errors / Warnings** | Open Loop · Causal Chain · Closed Loop | importance-score NaN → pruning disabled (Causal Chain); P99 breach → CI gate blocked (Closed Loop); AQL-WARN → AuditLog (Open Loop) |
+| **Security** | Switch · Fader · Closed Loop · Causal Chain | `tls.enforce` Switch; `rbac.policy_version` Fader; ZeroTrust `session_risk_score` Closed Loop; Intent→ZeroTrust→SIEM Causal Chain (§13 Chain 2) |
+| **Hardening** | Switch · Fader · Open Loop · Closed Loop | `security.deny_plaintext_api` Switch; `audit.log_level` Fader; SBOM-CI Open Loop; secret-scan-alert → PR-blocked Closed Loop |
