@@ -28,7 +28,8 @@ Bezug / Reference: McMahan et al. (2017) FedAvg AISTATS · Dwork & Roth (2014) D
 - [9. Full Architecture Diagram](#9-full-architecture-diagram)
 - [10. Implementation Order by ROI](#10-implementation-order-by-roi)
 - [11. Open Research Questions](#11-open-research-questions)
-- [12. References](#12-references)
+- [12. Runtime Influence Mechanisms: Switches · Levers · Optimizers](#12-runtime-influence-mechanisms-switches--levers--optimizers)
+- [13. References](#13-references)
 
 ---
 
@@ -512,7 +513,79 @@ heterogeneity — based on Li et al. 2020 §4.3)*
 
 ---
 
-## 12. References
+## 12. Runtime Influence Mechanisms: Switches · Levers · Optimizers
+
+> **Cross-reference:** `PERFORMANCE_EXPECTATIONS.md §14.1` · Paper 1
+> `docs/de/research/VERTEILTES_WISSEN_FEDERATION.md §12` ·
+> `config/lora/adalora_optimization_strategy.yaml` ·
+> `config/ai_ml/llm/llm_optimization_strategy.yaml`
+
+The insights from Paper 1 (FedAvg rank federation) and this paper
+(Semantic Advisors B5–B10) yield three clearly separable influence classes
+through which LLM infrastructure and AdaLoRA control ThemisDB performance
+at **runtime** — without restart, recompile, or model reload.
+
+### 12.1 Class 1 — Switches
+
+Switches are **binary code-path decisions**. Activation takes effect immediately
+and deterministically changes runtime behaviour.
+
+| Switch | Activation condition | Affected SLO |
+|---|---|---|
+| `bypass_dedup_cache_for_streaming` | Streaming request detected | TTFT −10 ms (L-1) |
+| `enable_draft_kv_cache` | Draft model present | Speculative decoding active (L-6/L-8) |
+| `hot_swap.enabled` | `THEMIS_ENABLE_LLM=1` set | LoRA swap without restart (L-3 ≤ 5 s) |
+| `importance_pruning.enabled` | AdaLoRA active | Rank-budget compression (§39.20) |
+| `federation.broadcast_importance_scores` | Feature flag IMPL-A3 active | Cross-shard pruning knowledge |
+
+### 12.2 Class 2 — Levers
+
+Levers are **numeric configuration parameters** with a measurable, continuous
+trade-off. They can be rewritten at runtime via hot-reload (SIGHUP).
+
+| Lever | Value range | Trade-off |
+|---|---|---|
+| `speculative_tokens` | 3 – 10 | TTFT ↔ acceptance rate (L-6) |
+| `total_rank_budget` | 128 – 1024 | memory footprint ↔ model quality |
+| `acceptance_threshold` | 0.6 – 0.9 | inference speed ↔ correctness |
+| `pruning_interval_steps` | 50 – 500 | pruning overhead ↔ adaptivity |
+| `worker_threads` | 2 – 16 | dispatch latency P99 ↔ CPU overhead (L-5) |
+| `chunked_prefill_size` | 512 – 2048 tokens | TTFT reduction ↔ decode interleave overhead |
+
+### 12.3 Class 3 — Optimizers
+
+Optimizers are **self-adapting feedback loops**. They observe the current
+runtime state and autonomously rewrite levers or switches.
+
+| Optimizer | Acts on | Interval | Linked issue |
+|---|---|---|---|
+| `WorkloadFingerprintEngine` (B8) | AdaLoRA `total_rank_budget` | every 100 queries | IMPL-B8 |
+| FedAvg rank aggregation (`lora_federation_coordinator`) | Importance-score distribution across all shards | per pruning step | IMPL-A3 |
+| `SelfImprovementModule` | Quality thresholds (acceptance, confidence) | continuous | DK-4 |
+| TIES-Merge SVD (`LoRAAdapterMerger`) | Adapter merging without checkpoint | at adapter switch | PR #4405 |
+| CI SLO gate (P99 > 20 % regression) | Deployment release | every CI run | §23 SLO Monitor |
+
+### 12.4 Effect Chain
+
+```
+WorkloadFingerprintEngine (B8)
+  └─ detects current query mix
+       └─ adjusts total_rank_budget
+            └─ AdaLoRA redistributes rank budget optimally per layer
+                 └─ lora_federation_coordinator propagates
+                    importance scores across all shards (FedAvg)
+                         └─ TTFT P99 L-1 decreases
+                            throughput L-8 increases
+                            — without manual intervention
+```
+
+The Differential Privacy guarantee (Dwork & Roth 2014, Gaussian mechanism,
+Layer B §4) is fully preserved throughout: only anonymised gradient
+statistics cross shard boundaries.
+
+---
+
+## 13. References
 
 **Federated Learning & Differential Privacy:**
 - McMahan, H.B. et al. (2017). Communication-Efficient Learning of Deep Networks from Decentralised Data. *AISTATS 2017*.

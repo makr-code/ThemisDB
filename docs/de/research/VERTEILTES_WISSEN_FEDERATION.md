@@ -28,7 +28,8 @@ Bezug / Reference: McMahan et al. (2017) FedAvg AISTATS · Dwork & Roth (2014) D
 - [9. Gesamtarchitektur-Diagramm](#9-gesamtarchitektur-diagramm)
 - [10. Implementierungsreihenfolge nach ROI](#10-implementierungsreihenfolge-nach-roi)
 - [11. Offene Forschungsfragen](#11-offene-forschungsfragen)
-- [12. Referenzen](#12-referenzen)
+- [12. Laufzeit-Einflussmechanismen: Schalter · Hebel · Optimierer](#12-laufzeit-einflussmechanismen-schalter--hebel--optimierer)
+- [13. Referenzen](#13-referenzen)
 
 ---
 
@@ -515,7 +516,79 @@ Heterogenität — basierend auf Li et al. 2020 §4.3)*
 
 ---
 
-## 12. Referenzen
+## 12. Laufzeit-Einflussmechanismen: Schalter · Hebel · Optimierer
+
+> **Querbezug:** `PERFORMANCE_EXPECTATIONS.md §14.1` · Paper 2
+> `docs/en/research/DISTRIBUTED_KNOWLEDGE_FEDERATION.md §12` ·
+> `config/lora/adalora_optimization_strategy.yaml` ·
+> `config/ai_ml/llm/llm_optimization_strategy.yaml`
+
+Die Erkenntnisse aus Paper 1 (FedAvg-Rank-Federation) und Paper 2
+(Semantic Advisors B5–B10) ermöglichen drei klar trennbare Einflussklassen,
+mit denen LLM und AdaLoRA die ThemisDB-Performance zur **Laufzeit** steuern —
+ohne Neustart, Recompile oder Modell-Reload.
+
+### 12.1 Klasse 1 — Schalter
+
+Schalter sind **binäre Codepfad-Entscheidungen**. Ihre Aktivierung tritt
+sofort in Kraft und verändert das Laufzeitverhalten deterministisch.
+
+| Schalter | Aktivierungsbedingung | Betroffenes SLO |
+|---|---|---|
+| `bypass_dedup_cache_for_streaming` | Streaming-Request erkannt | TTFT −10 ms (L-1) |
+| `enable_draft_kv_cache` | Draft-Modell vorhanden | Speculative Decoding aktiv (L-6/L-8) |
+| `hot_swap.enabled` | `THEMIS_ENABLE_LLM=1` gesetzt | LoRA-Swap ohne Neustart (L-3 ≤ 5 s) |
+| `importance_pruning.enabled` | AdaLoRA aktiv | Rank-Budget-Kompression (§39.20) |
+| `federation.broadcast_importance_scores` | Feature-Flag IMPL-A3 aktiv | Shard-übergreifendes Pruning-Wissen |
+
+### 12.2 Klasse 2 — Hebel
+
+Hebel sind **numerische Konfigurationsparameter** mit messbarem, kontinuierlichem
+Trade-off. Sie können zur Laufzeit umgeschrieben werden (Hot-Reload via SIGHUP).
+
+| Hebel | Wertebereich | Trade-off |
+|---|---|---|
+| `speculative_tokens` | 3 – 10 | TTFT ↔ Acceptance-Rate (L-6) |
+| `total_rank_budget` | 128 – 1024 | Memory-Footprint ↔ Modellqualität |
+| `acceptance_threshold` | 0.6 – 0.9 | Inferenzgeschwindigkeit ↔ Korrektheit |
+| `pruning_interval_steps` | 50 – 500 | Pruning-Overhead ↔ Adaptivität |
+| `worker_threads` | 2 – 16 | Dispatch-Latenz P99 ↔ CPU-Overhead (L-5) |
+| `chunked_prefill_size` | 512 – 2048 tokens | TTFT-Reduktion ↔ Decode-Interleave |
+
+### 12.3 Klasse 3 — Optimierer
+
+Optimierer sind **selbst-anpassende Feedback-Loops**. Sie beobachten den aktuellen
+Laufzeit-Zustand und schreiben Hebel oder Schalter autonom um.
+
+| Optimierer | Wirkt auf | Intervall | Verknüpftes Issue |
+|---|---|---|---|
+| `WorkloadFingerprintEngine` (B8) | AdaLoRA `total_rank_budget` | alle 100 Queries | IMPL-B8 |
+| FedAvg Rank-Aggregation (`lora_federation_coordinator`) | Importance-Score-Verteilung aller Shards | pro Pruning-Step | IMPL-A3 |
+| `SelfImprovementModule` | Qualitäts-Thresholds (Acceptance, Confidence) | kontinuierlich | DK-4 |
+| TIES-Merge SVD (`LoRAAdapterMerger`) | Adapter-Zusammenführung ohne Checkpoint | bei Adapter-Switch | PR #4405 |
+| CI SLO-Gate (P99 > 20 % Regression) | Deployment-Freigabe | jeder CI-Lauf | §23 SLO Monitor |
+
+### 12.4 Wirkungskette
+
+```
+WorkloadFingerprintEngine (B8)
+  └─ erkennt aktuellen Query-Mix
+       └─ passt total_rank_budget an
+            └─ AdaLoRA verteilt Rank-Budget per-Layer optimal
+                 └─ lora_federation_coordinator propagiert
+                    Importance-Scores shard-weit (FedAvg)
+                         └─ TTFT P99 L-1 sinkt
+                            Throughput L-8 steigt
+                            — ohne manuelle Intervention
+```
+
+Die Differential-Privacy-Garantie (Dwork & Roth 2014, Gaussian-Mechanismus,
+Ebene B §4) bleibt dabei vollständig erhalten: nur anonymisierte
+Gradient-Statistiken werden zwischen Shards ausgetauscht.
+
+---
+
+## 13. Referenzen
 
 **Federated Learning & Differential Privacy:**
 - McMahan, H.B. et al. (2017). Communication-Efficient Learning of Deep Networks from Decentralised Data. *AISTATS 2017*.

@@ -1212,6 +1212,53 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 | L-7 GPU Utilization (Mixed Workloads) |  10 % Verbesserung |  |  |
 | L-8 Speculative Decoding Throughput |  2× tokens/s (7B + 0,5B Draft) |  |  |
 
+##### 14.1 LLM/AdaLoRA — Laufzeit-Einflussmechanismen (Schalter · Hebel · Optimierer)
+
+> **Quelle:** Paper 1 `docs/de/research/VERTEILTES_WISSEN_FEDERATION.md` §12 ·
+> Paper 2 `docs/en/research/DISTRIBUTED_KNOWLEDGE_FEDERATION.md` §12 ·
+> Config: `config/lora/adalora_optimization_strategy.yaml` ·
+> `config/ai_ml/llm/llm_optimization_strategy.yaml`
+
+Die drei Klassen zeigen, wie LLM-Infrastruktur und AdaLoRA die oben gemessenen SLOs
+(L-1…L-8) zur **Laufzeit** beeinflussen — ohne Neustart oder Recompile.
+
+**Klasse 1 — Schalter** *(binär; Aktivierung ändert Codepfad sofort)*
+
+| Schalter | Aktivierungsbedingung | SLO-Wirkung |
+|---|---|---|
+| `bypass_dedup_cache_for_streaming` | Streaming-Request erkannt | TTFT −10 ms (L-1) |
+| `enable_draft_kv_cache` | Draft-Modell vorhanden | Speculative Decoding aktiv (L-6/L-8) |
+| `hot_swap.enabled` | `THEMIS_ENABLE_LLM=1` | LoRA-Swap ohne Neustart (L-3) |
+| `importance_pruning.enabled` | AdaLoRA aktiv | Rank-Budget-Reduktion (Appendix D §39.20) |
+| `federation.broadcast_importance_scores` | Feature-Flag DK-IMPL-A3 | Shard-übergreifendes Pruning-Wissen |
+
+**Klasse 2 — Hebel** *(numerisch; kontinuierlicher Trade-off)*
+
+| Hebel | Wertebereich | Trade-off |
+|---|---|---|
+| `speculative_tokens` | 3 – 10 | TTFT ↔ Acceptance-Rate |
+| `total_rank_budget` | 128 – 1024 | Memory-Footprint ↔ Modellqualität |
+| `acceptance_threshold` | 0.6 – 0.9 | Inferenzgeschwindigkeit ↔ Korrektheit |
+| `pruning_interval_steps` | 50 – 500 | Pruning-Overhead ↔ Adaptivität |
+| `worker_threads` | 2 – 16 | Dispatch-Latenz P99 ↔ CPU-Overhead (L-5) |
+| `chunked_prefill_size` | 512 – 2048 tokens | TTFT-Reduktion ↔ Decode-Interleave-Overhead |
+
+**Klasse 3 — Optimierer** *(Feedback-Loops; tunen sich selbst)*
+
+| Optimierer | Wirkt auf | Intervall | Verknüpftes Issue |
+|---|---|---|---|
+| `WorkloadFingerprintEngine` | AdaLoRA `total_rank_budget` | alle 100 Queries | IMPL-B8 |
+| FedAvg Rank-Aggregation (`lora_federation_coordinator`) | Importance-Score-Verteilung aller Shards | pro Pruning-Step | IMPL-A3 |
+| `SelfImprovementModule` | Qualitäts-Thresholds (Acceptance, Confidence) | kontinuierlich | DK-4 |
+| TIES-Merge SVD (`LoRAAdapterMerger`) | Adapter-Zusammenführung ohne Checkpoint | bei Adapter-Switch | PR #4405 |
+| CI SLO-Gate (P99 > 20 % Regression) | Deployment-Freigabe | jeder CI-Lauf | §23 SLO Monitor |
+
+> **Wirkungskette** (Paper 1 §12 → Paper 2 §12 → dieser Abschnitt):
+> `WorkloadFingerprintEngine` (B8) erkennt aktuellen Query-Mix →
+> passt `total_rank_budget` an → AdaLoRA verteilt Rank-Budget optimal →
+> `lora_federation_coordinator` propagiert Importance-Scores shard-weit →
+> TTFT P99 (L-1) und Throughput (L-8) verbessern sich ohne manuelle Intervention.
+
 ---
 
 
