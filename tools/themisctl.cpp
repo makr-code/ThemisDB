@@ -56,6 +56,8 @@
  *   admin stats                  Show observability health / node stats
  *   admin cache                  Show cache health and statistics
  *   index recommend [table]      Show automatic index recommendations
+ *   rag query [--collection C] [--top-k N] [--lora ID] <question>
+ *                                AgenticRAG natural-language query
  *   repl                         Start interactive REPL (with history)
  *
  * Exit codes:
@@ -892,6 +894,111 @@ static int cmdIndex(const std::vector<std::string>& args) {
     return 0;
 }
 
+// ── rag ───────────────────────────────────────────────────────────────────────
+//
+// rag query [--collection <name>] [--top-k <n>] [--lora <id>] <nl-question>
+//
+// Sends a natural-language question to the server's AgenticRAG endpoint
+// (POST /api/v1/llm/rag) and displays the generated answer together with
+// retrieval metadata.
+//
+// TRQ-01..06: argument validation, successful query, raw-JSON mode,
+//   collection/top-k flags, missing question error, connection error.
+//
+// Note: The endpoint mirrors the server-side LLMApiHandler::handleRAG()
+//   request format: {"query": "...", "collection": "...", "top_k": N,
+//   "lora_adapter": "..."}.  Response fields: "text", "query",
+//   "documents_retrieved", "tokens_generated", "inference_time_ms", "cache_hit".
+
+static int cmdRag(const std::vector<std::string>& args) {
+    // Usage: rag query [--collection C] [--top-k N] [--lora ID] <question...>
+    if (args.empty() || args[0] != "query") {
+        std::cerr << "Usage: themisctl rag query [--collection <name>] "
+                     "[--top-k <n>] [--lora <adapter-id>] <nl-question>\n";
+        return 2;
+    }
+
+    // Parse optional flags after "query".
+    std::string collection;
+    int         top_k = 5;
+    std::string lora_id;
+    std::vector<std::string> question_parts;
+
+    for (size_t i = 1; i < args.size(); ++i) {
+        if (args[i] == "--collection" && i + 1 < args.size()) {
+            collection = args[++i];
+        } else if (args[i] == "--top-k" && i + 1 < args.size()) {
+            try { top_k = std::stoi(args[++i]); }
+            catch (...) {
+                std::cerr << "[" << fail() << "] --top-k requires an integer\n";
+                return 2;
+            }
+        } else if (args[i] == "--lora" && i + 1 < args.size()) {
+            lora_id = args[++i];
+        } else {
+            // Remaining tokens form the natural-language question.
+            for (; i < args.size(); ++i) question_parts.push_back(args[i]);
+        }
+    }
+
+    if (question_parts.empty()) {
+        std::cerr << "[" << fail() << "] No question provided.\n"
+                  << "Usage: themisctl rag query [--collection <name>] "
+                     "[--top-k <n>] [--lora <adapter-id>] <nl-question>\n";
+        return 2;
+    }
+
+    // Join question tokens into a single string.
+    std::string question;
+    for (size_t i = 0; i < question_parts.size(); ++i) {
+        if (i > 0) question += ' ';
+        question += question_parts[i];
+    }
+
+    // Build request body.
+    json req_body;
+    req_body["query"] = question;
+    if (!collection.empty()) req_body["collection"] = collection;
+    req_body["top_k"] = top_k;
+    if (!lora_id.empty()) req_body["lora_adapter"] = lora_id;
+
+    Response r = httpPost("/api/v1/llm/rag", req_body.dump());
+    if (r.status == -1) {
+        std::cerr << "[" << fail() << "] " << r.body << "\n";
+        return 3;
+    }
+    if (!r.ok()) {
+        std::cerr << "[" << fail() << "] HTTP " << r.status << "\n";
+        try { std::cerr << json::parse(r.body).dump(2) << "\n"; }
+        catch (...) { std::cerr << r.body << "\n"; }
+        return 1;
+    }
+
+    if (g_ctx.raw_json) { printJson(r.body); return 0; }
+
+    try {
+        json j = json::parse(r.body);
+
+        std::string answer   = j.value("text", "");
+        int docs_retrieved   = j.value("documents_retrieved", 0);
+        int tokens_gen       = j.value("tokens_generated", 0);
+        int infer_ms         = j.value("inference_time_ms", 0);
+        bool cache_hit       = j.value("cache_hit", false);
+
+        std::cout << col(Color::Bold, "Answer:") << "\n"
+                  << answer << "\n\n"
+                  << col(Color::Dim, "documents_retrieved=") << docs_retrieved
+                  << col(Color::Dim, "  tokens_generated=") << tokens_gen
+                  << col(Color::Dim, "  inference_time_ms=") << infer_ms
+                  << col(Color::Dim, "  cache_hit=") << (cache_hit ? "true" : "false")
+                  << "\n";
+    } catch (...) {
+        std::cout << r.body << "\n";
+    }
+
+    return 0;
+}
+
 // ============================================================================
 // REPL support — shared tokeniser used by both cmdRepl and tests
 // ============================================================================
@@ -1058,6 +1165,8 @@ static void printHelp(const char* prog) {
             << "             Show observability/cache statistics\n"
         << "  " << col(Color::Cyan, "index") << " recommend [table]"
             << "        Show automatic index recommendations\n"
+        << "  " << col(Color::Cyan, "rag") << " query [--collection <name>] [--top-k <n>] [--lora <id>] <question>"
+            << "\n                              AgenticRAG natural-language query\n"
         << "  " << col(Color::Cyan, "repl")
             << "                        Start interactive REPL (with history)\n\n"
         << col(Color::Bold, "Examples") << ":\n"
@@ -1079,6 +1188,8 @@ static void printHelp(const char* prog) {
         << "  " << prog << " --json admin cache\n"
         << "  " << prog << " index recommend\n"
         << "  " << prog << " index recommend users\n"
+        << "  " << prog << " rag query 'Welche Unterlagen fehlen für den Bauantrag?'\n"
+        << "  " << prog << " rag query --collection procs --top-k 10 What is the next step?\n"
         << "  " << prog << " repl\n";
 }
 
@@ -1102,6 +1213,7 @@ static int dispatchCommand(const std::string& cmd,
         {"snapshot", cmdSnapshot},
         {"admin",    cmdAdmin},
         {"index",    cmdIndex},
+        {"rag",      cmdRag},
         {"repl",     cmdRepl},
     };
 

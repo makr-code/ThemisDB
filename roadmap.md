@@ -455,7 +455,7 @@ Focus: Enterprise-grade monitoring, alerting, and automated operations.
   - History persisted to `~/.themisctl_history`; exits on `exit`, `quit`, or EOF (Ctrl-D)
   - 9 tokenizer unit tests
 - [x] `themisctl config` schema validation — dry-run + diff output (Target: Q3 2026) — `themisctl config validate [key=value ...]` → POST `/config/validate`; diff display in `tools/themisctl.cpp` ✅
-- [ ] AgentRAG integration — `themisctl rag query <nl-question>` (Target: Q4 2026)
+- [x] AgentRAG integration — `themisctl rag query [--collection C] [--top-k N] [--lora ID] <nl-question>` → POST `/api/v1/llm/rag`; answer + retrieval metadata display in `tools/themisctl.cpp` (2026-04-17) ✅
 
 ---
 

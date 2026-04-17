@@ -411,6 +411,33 @@ protected:
             }
         });
 
+        // RAG query endpoint — POST /api/v1/llm/rag
+        // TRQ-01..06 server fixture: returns a canned answer; rejects missing query.
+        s_srv_.Post("/api/v1/llm/rag", [](const httplib::Request& req, httplib::Response& res) {
+            try {
+                json body = json::parse(req.body);
+                if (!body.contains("query") || body["query"].get<std::string>().empty()) {
+                    res.status = 400;
+                    res.set_content(R"({"error":"Missing 'query' field"})", "application/json");
+                    return;
+                }
+                std::string query = body["query"].get<std::string>();
+                json resp = {
+                    {"text",               "Das Bauamt benötigt noch den Lageplan und die Baugenehmigung."},
+                    {"query",              query},
+                    {"documents_retrieved",3},
+                    {"tokens_generated",   42},
+                    {"inference_time_ms",  17},
+                    {"cache_hit",          false}
+                };
+                res.status = 200;
+                res.set_content(resp.dump(), "application/json");
+            } catch (...) {
+                res.status = 400;
+                res.set_content(R"({"error":"invalid json"})", "application/json");
+            }
+        });
+
         // Bind and start server
         s_port_ = s_srv_.bind_to_any_port("localhost");
         s_thread_ = std::thread([] { s_srv_.listen_after_bind(); });
@@ -1013,6 +1040,72 @@ TEST_F(ThemisctlHttpTest, CVL06_ConfigValidateMalformedPair_ReturnsUsageError) {
     std::ostringstream capErr;
     auto* old = std::cerr.rdbuf(capErr.rdbuf());
     int rc = cmdConfig({"validate", "no-equals-sign"});
+    std::cerr.rdbuf(old);
+    EXPECT_EQ(rc, 2);
+}
+
+// ── rag query ─────────────────────────────────────────────────────────────────
+// TRQ-01..06: themisctl rag query — AgenticRAG natural-language query
+
+// TRQ-01: missing question → usage error (rc=2), no HTTP call
+TEST_F(ThemisctlHttpTest, TRQ01_RagQuery_MissingQuestion_ReturnsUsageError) {
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = cmdRag({"query"});
+    std::cerr.rdbuf(old);
+    EXPECT_EQ(rc, 2);
+}
+
+// TRQ-02: no sub-command → usage error (rc=2)
+TEST_F(ThemisctlHttpTest, TRQ02_RagNoSubCommand_ReturnsUsageError) {
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = cmdRag({});
+    std::cerr.rdbuf(old);
+    EXPECT_EQ(rc, 2);
+}
+
+// TRQ-03: successful query → rc=0, stdout contains answer text
+TEST_F(ThemisctlHttpTest, TRQ03_RagQuery_Success_PrintsAnswer) {
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdRag({"query", "Was fehlt noch für den Bauantrag?"});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    EXPECT_NE(capOut.str().find("Bauamt"), std::string::npos);
+}
+
+// TRQ-04: --collection and --top-k flags are forwarded, rc=0
+TEST_F(ThemisctlHttpTest, TRQ04_RagQuery_WithCollectionAndTopK) {
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdRag({"query", "--collection", "procs", "--top-k", "10", "What is the next step?"});
+    std::cout.rdbuf(old);
+    EXPECT_EQ(rc, 0);
+    EXPECT_NE(capOut.str().find("Answer"), std::string::npos);
+}
+
+// TRQ-05: raw_json mode returns parseable JSON with expected fields
+TEST_F(ThemisctlHttpTest, TRQ05_RagQuery_RawJson_ReturnsParseable) {
+    g_ctx.raw_json = true;
+    std::ostringstream capOut;
+    auto* old = std::cout.rdbuf(capOut.rdbuf());
+    int rc = cmdRag({"query", "List the required documents."});
+    std::cout.rdbuf(old);
+    g_ctx.raw_json = false;
+    EXPECT_EQ(rc, 0);
+    EXPECT_NO_THROW({
+        json j = json::parse(capOut.str());
+        EXPECT_TRUE(j.contains("text"));
+        EXPECT_TRUE(j.contains("documents_retrieved"));
+    });
+}
+
+// TRQ-06: invalid top-k value (non-integer) → usage error (rc=2)
+TEST_F(ThemisctlHttpTest, TRQ06_RagQuery_InvalidTopK_ReturnsUsageError) {
+    std::ostringstream capErr;
+    auto* old = std::cerr.rdbuf(capErr.rdbuf());
+    int rc = cmdRag({"query", "--top-k", "notanumber", "some question"});
     std::cerr.rdbuf(old);
     EXPECT_EQ(rc, 2);
 }
