@@ -166,7 +166,7 @@ DK-1 (Build + Tests)   [no dependency on A or B]
 | **S-5** ✅ | DK-2 | Gossip custom handler + `routeByDomain()` | S-1 |
 | **S-6** ✅ | IMPL-B5 + IMPL-B6 | TransactionSemanticAdvisor + SchemaDeadWeightDetector | S-3 |
 | **S-7** ✅ | IMPL-B7 + IMPL-B8 | IntentClassifier + WorkloadFingerprintEngine | S-3 |
-| **S-8** | IMPL-B9 + IMPL-B10 | ExplainabilityReasonBuilder + StorageLayoutAdvisor | S-3 |
+| **S-8** ✅ | IMPL-B9 + IMPL-B10 | ExplainabilityReasonBuilder + StorageLayoutAdvisor | S-3 |
 | **S-9** | DK-3 | FedLoRA wired to `IncrementalLoRATrainer` | S-4, S-5 |
 | **S-10** | DK-4 | Federated RAG merge in `QueryFederation` | S-5 |
 | **S-11** | DK-5 | CrossShardFeedbackSync wired to `FeedbackCollector` + RLAIF | S-5 |
@@ -198,8 +198,8 @@ DK-1 (Build + Tests)   [no dependency on A or B]
 - [x] L6: `SchemaDeadWeightDetector` reports 0 false negatives for seasonal fields (180-day window)
 - [x] L7: `IntentClassifier` detects SQL-injection intent with precision ≥ 92 %
 - [x] L8: `WorkloadFingerprintEngine` matches known patterns with accuracy ≥ 80 %
-- [ ] L9: `ExplainabilityReasonBuilder` produces causal chain for 100 % of autonomous decisions
-- [ ] L10: `StorageLayoutAdvisor` recommends columnar layout for time-series with ≥ +50 % compression
+- [x] L9: `ExplainabilityReasonBuilder` produces causal chain for 100 % of autonomous decisions
+- [x] L10: `StorageLayoutAdvisor` recommends columnar layout for time-series with ≥ +50 % compression
 - [ ] All 6 components write `DecisionRecord` to `AIDecisionAuditor`
 - [ ] All 6 components respect `GDPR-tagged` fields (no false deletion/archival)
 

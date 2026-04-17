@@ -1460,6 +1460,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/compaction_manager.cpp
     ../src/storage/adaptive_compaction.cpp
     ../src/storage/schema_dead_weight_detector.cpp
+    ../src/storage/storage_layout_advisor.cpp
     ../src/storage/merge_operators.cpp
     ../src/storage/wom_tree.cpp
     ../src/storage/compressed_storage.cpp
@@ -2729,6 +2730,8 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/adaptive_retrieval.cpp
     # RAGIngestionBridge — toolbox/RAG integration layer
     ../src/rag/rag_ingestion_bridge.cpp
+    # ExplainabilityReasonBuilder — Layer-9 causal explanation (IMPL-B9)
+    ../src/rag/explainability_reason_builder.cpp
     )
 endif()  # Close if(THEMIS_ENABLE_LLM)
 
