@@ -210,6 +210,34 @@ public:
      */
     std::vector<std::string> getAllKeys() const;
 
+    // ── Cross-node reconciliation ─────────────────────────────────────────────
+
+    /**
+     * Result of a merge operation.
+     */
+    struct MergeResult {
+        size_t rows_inserted{0};   ///< Rows from @p other not present locally
+        size_t rows_skipped{0};    ///< Rows that were already present (no diff)
+        size_t conflicts_lww{0};   ///< Rows accepted via Last-Writer-Wins (higher sys_time)
+    };
+
+    /**
+     * Merge all rows from another BiTemporalTable into this table.
+     *
+     * The merge follows Last-Writer-Wins (LWW) semantics based on
+     * `sys_time.start`: for each (key, valid_time) pair that exists in both
+     * tables, the row with the later `sys_time.start` wins.  Rows that exist
+     * only in @p other are inserted unconditionally.
+     *
+     * The operation is atomic on each key (keys are locked one at a time) and
+     * does not modify @p other.
+     *
+     * @param other  Source table.  Must not be the same object as @p this.
+     * @return       MergeResult with counters for inserted, skipped, and
+     *               conflict-resolved rows.
+     */
+    MergeResult merge(const BiTemporalTable& other);
+
     // ── Metadata ─────────────────────────────────────────────────────────────
 
     const std::string& tableName() const noexcept { return table_name_; }

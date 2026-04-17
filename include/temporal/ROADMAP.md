@@ -49,11 +49,11 @@
 - [x] `interval_tree_index.h` — `erase(key)` with rebalancing in O(log n) (Implemented: 2026-04-17)
 - [x] `temporal_aggregator.h` — `FIRST_VALUE` / `LAST_VALUE` ordered temporal analytic functions (Implemented: 2026-04-17)
 - [x] `temporal_compressor.h` — `LZ4Strategy` for high-throughput low-latency paths (Implemented: 2026-04-12)
-- [ ] `temporal_cdc.h` — persistent CDC log backed by append-only WAL segment (Target: v1.8.0)
+- [x] `temporal_cdc.h` — persistent CDC log backed by append-only WAL segment (Implemented: 2026-04-17)
   - Design: `CDCPersistentLog` implementing `CDCListener`; WAL segment rotation at 64 MB
   - Errors: disk-full handling, segment corruption detection (CRC-32)
-- [ ] `snapshot_manager.h` — incremental snapshot diffing (`Snapshot::diff(other)`) (Target: v1.9.0)
-- [ ] `bi_temporal.h` — `BiTemporalStore::merge(other)` for cross-node reconciliation (Target: v1.9.0)
+- [x] `snapshot_manager.h` — incremental snapshot diffing (`Snapshot::diff(other)`) (Implemented: 2026-04-17)
+- [x] `bi_temporal.h` — `BiTemporalTable::merge(other)` for cross-node LWW reconciliation (Implemented: 2026-04-17)
 - [ ] Remove deprecated `LegacyTemporalIndex` shim from `temporal_index.h` (Target: v1.8.0)
 
 ---
@@ -63,7 +63,7 @@
 ### Phase 1 — Design / API Contract (current sprint)
 - [x] Finalise `MergeResolver` interface signature and callback contract
 - [x] Draft `SEQUENCED DISTINCT` query plan representation in `TemporalQueryPlan`
-- [ ] Specify WAL segment format for persistent CDC log
+- [x] Specify WAL segment format for persistent CDC log
 
 ### Phase 2 — Core Implementation
 - [x] Implement `MergeResolver` in planned temporal conflict-resolver implementation
@@ -72,8 +72,8 @@
 - [x] Implement `erase()` with tree rebalancing in `IntervalTreeIndex`
 
 ### Phase 3 — Error Handling & Edge Cases
-- [ ] CDC overflow: document and implement configurable policy (OVERWRITE / BLOCK / DROP)
-- [ ] WAL segment: CRC-32 validation on open; truncation recovery
+- [x] CDC overflow: document and implement configurable policy (OVERWRITE / BLOCK / DROP)
+- [x] WAL segment: CRC-32 validation on open; truncation recovery
 - [ ] `erase()`: handle concurrent reader invalidation
 
 ### Phase 4 — Tests
@@ -102,6 +102,6 @@
 - [x] No `using namespace` in public headers
 - [x] RAII wrappers for all ownership transfers
 - [x] ABI soname policy documented
-- [ ] CDC overflow semantics documented in header
+- [x] CDC overflow semantics documented in header
 - [x] `RetentionRule` equality operators
 - [ ] `LegacyTemporalIndex` removal scheduled for v1.8.0

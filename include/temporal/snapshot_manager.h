@@ -40,6 +40,7 @@
 #include <mutex>
 #include <optional>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace themisdb {
@@ -179,6 +180,55 @@ public:
     size_t garbageCollectByCount(size_t max_snapshots);
 
     nlohmann::json getStatistics() const;
+
+    // ── Snapshot diffing ─────────────────────────────────────────────────────
+
+    /**
+     * Result of comparing two snapshots.
+     *
+     * Describes the incremental difference between an older snapshot (base)
+     * and a newer snapshot (other) on a per-table, per-key basis.
+     */
+    struct SnapshotDiff {
+        /** Keys whose latest version has a different data map in @p other. */
+        std::map<std::string /*table*/,
+                 std::vector<std::string /*key*/>> modified;
+
+        /** Keys present in @p other but absent from @p base. */
+        std::map<std::string, std::vector<std::string>> added;
+
+        /** Keys present in @p base but absent from @p other. */
+        std::map<std::string, std::vector<std::string>> removed;
+
+        /** Total tables examined (intersection of both snapshots). */
+        size_t tables_examined{0};
+
+        /** true when base and other are identical across all shared tables. */
+        bool empty() const noexcept {
+            return modified.empty() && added.empty() && removed.empty();
+        }
+
+        nlohmann::json toJson() const;
+    };
+
+    /**
+     * Compute the incremental difference between two snapshots.
+     *
+     * Both handles must be valid (not released).  The function compares each
+     * table that appears in both snapshots.  Tables that exist in only one
+     * snapshot are treated as entirely added or entirely removed.
+     *
+     * Complexity: O(R log R) where R is the total number of rows across all
+     * shared tables (sort + linear scan per table).
+     *
+     * @param base   Older snapshot handle.
+     * @param other  Newer snapshot handle.
+     * @return       SnapshotDiff; empty() == true when the snapshots are equal.
+     * @throws       std::invalid_argument when either handle is invalid or
+     *               refers to a released snapshot.
+     */
+    SnapshotDiff diff(const SnapshotHandle& base,
+                      const SnapshotHandle& other) const;
 
 private:
     struct SnapshotData {

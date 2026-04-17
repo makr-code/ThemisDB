@@ -414,3 +414,94 @@ TEST_F(TemporalSnapshotManagerTest, Isolation_ConcurrentInsert_NotInSnapshot) {
     EXPECT_FALSE(found_k3);
     EXPECT_EQ(rows.size(), 2u);
 }
+
+// ============================================================================
+// SnapshotDiff tests (SD2-01 .. SD2-06) — v1.9.0
+// ============================================================================
+
+class SnapshotDiffTest : public ::testing::Test {
+protected:
+    TemporalSnapshotManager mgr;
+
+    SystemVersionedTable buildTable(const std::string& name,
+                                    std::vector<std::pair<std::string, int>> kv) {
+        SystemVersionedTable t{name, "node_a"};
+        for (const auto& [k, v] : kv) {
+            t.insert(k, {{"val", v}});
+        }
+        return t;
+    }
+};
+
+TEST_F(SnapshotDiffTest, SD2_01_IdenticalSnapshotsAreEmpty) {
+    auto t = buildTable("tbl", {{"k1", 1}, {"k2", 2}});
+    auto h1 = mgr.createSnapshot({{"tbl", &t}});
+    auto h2 = mgr.createSnapshot({{"tbl", &t}});
+
+    auto d = mgr.diff(h1, h2);
+    EXPECT_TRUE(d.empty());
+    EXPECT_EQ(d.tables_examined, 1u);
+}
+
+TEST_F(SnapshotDiffTest, SD2_02_AddedKey) {
+    auto t1 = buildTable("tbl", {{"k1", 1}});
+    auto h1 = mgr.createSnapshot({{"tbl", &t1}});
+
+    // Add k2 after snapshot h1
+    t1.insert("k2", {{"val", 2}});
+    auto h2 = mgr.createSnapshot({{"tbl", &t1}});
+
+    auto d = mgr.diff(h1, h2);
+    EXPECT_FALSE(d.empty());
+    ASSERT_EQ(d.added["tbl"].size(), 1u);
+    EXPECT_EQ(d.added["tbl"][0], "k2");
+    EXPECT_TRUE(d.modified.empty());
+    EXPECT_TRUE(d.removed.empty());
+}
+
+TEST_F(SnapshotDiffTest, SD2_03_RemovedKey) {
+    auto t1 = buildTable("tbl", {{"k1", 1}, {"k2", 2}});
+    auto h1 = mgr.createSnapshot({{"tbl", &t1}});
+
+    // Delete k2 by marking it deleted (soft-delete via system versioning)
+    t1.softDelete("k2");
+    auto h2 = mgr.createSnapshot({{"tbl", &t1}});
+
+    // k2 is not removed from the table; data stays but version changes.
+    // In the diff, k2 might appear as modified.
+    auto d = mgr.diff(h1, h2);
+    EXPECT_FALSE(d.empty());
+}
+
+TEST_F(SnapshotDiffTest, SD2_04_ModifiedKey) {
+    auto t1 = buildTable("tbl", {{"k1", 10}});
+    auto h1 = mgr.createSnapshot({{"tbl", &t1}});
+
+    // Update k1
+    t1.update("k1", {{"val", 99}});
+    auto h2 = mgr.createSnapshot({{"tbl", &t1}});
+
+    auto d = mgr.diff(h1, h2);
+    ASSERT_FALSE(d.modified.empty());
+    ASSERT_EQ(d.modified["tbl"].size(), 1u);
+    EXPECT_EQ(d.modified["tbl"][0], "k1");
+}
+
+TEST_F(SnapshotDiffTest, SD2_05_InvalidBaseHandleThrows) {
+    auto t = buildTable("tbl", {{"k1", 1}});
+    auto h = mgr.createSnapshot({{"tbl", &t}});
+    SnapshotHandle bad_handle;  // empty snapshot_id → invalid
+    EXPECT_THROW(mgr.diff(bad_handle, h), std::invalid_argument);
+}
+
+TEST_F(SnapshotDiffTest, SD2_06_DiffToJsonContainsTables) {
+    auto t = buildTable("tbl", {{"k1", 1}});
+    auto h1 = mgr.createSnapshot({{"tbl", &t}});
+    t.update("k1", {{"val", 2}});
+    auto h2 = mgr.createSnapshot({{"tbl", &t}});
+
+    auto d = mgr.diff(h1, h2);
+    auto j = d.toJson();
+    EXPECT_TRUE(j.contains("tables_examined"));
+    EXPECT_TRUE(j.contains("modified"));
+}
