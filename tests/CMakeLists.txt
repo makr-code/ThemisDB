@@ -19383,6 +19383,51 @@ endif()
 
 
 # ============================================================================
+# Temporal Module -- TemporalTierManager Focused Tests
+# LSM three-tier (hot MemTable / warm L0 blocks / cold SST disk) with
+# Bloom-filter miss detection and pluggable LLM/LoRA decision hook.
+# Future plan: decision_fn will be wired to ThemisDB LoRA advisor for
+# autonomous tier decisions based on workload patterns.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_tier_manager.cpp")
+    message(STATUS "Adding Temporal: TemporalTierManager focused tests (LSM hot/warm/cold, Bloom filter, LoRA hook)")
+
+    add_executable(test_temporal_tier_manager_focused
+        temporal/test_temporal_tier_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/temporal_tier_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/temporal_cold_store.cpp
+    )
+
+    target_include_directories(test_temporal_tier_manager_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_temporal_tier_manager_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_temporal_tier_manager_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TemporalTierManagerFocusedTests COMMAND test_temporal_tier_manager_focused)
+
+    set_tests_properties(TemporalTierManagerFocusedTests PROPERTIES
+        LABELS "temporal;tier-manager;lsm;bloom-filter;hot;warm;cold;lora-hook;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  TemporalTierManager: BloomFilter, TierPolicy (thresholds + LoRA hook), hot/warm/cold flush, three-tier getAsOf/getHistory, concurrent reads")
+else()
+    message(STATUS "TemporalTierManager tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_tier_manager.cpp")
+endif()
+
+
+# ============================================================================
 # Temporal Module -- TemporalQueryEngine Focused Tests (v1.9.0)
 # Validates SQL:2011 FOR SYSTEM_TIME / FOR APPLICATION_TIME dispatch via
 # TemporalQuerySpec::asOf / fromTo / betweenAnd / containedIn / all.

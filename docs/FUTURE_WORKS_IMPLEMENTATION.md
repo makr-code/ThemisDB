@@ -546,3 +546,79 @@ Complete examples available:
 **Status**: Production-ready  
 **Last Updated**: 2026-04-06  
 **Version**: 1.0
+
+---
+
+## 11. Temporal Tiering — LLM / LoRA Autonomous Tier Decisions
+
+### Current Status
+
+The `TemporalTierManager` implements a three-tier LSM-style version store
+(hot MemTable → warm L0 blocks → cold SST on disk) with a threshold-based
+`TierPolicy::evaluate()` function as the Abwägungsentscheidung (tier-decision
+engine).
+
+### Future Plan — Autonomous ML/LoRA Tier Decisions
+
+> **Note (2026-04-17):** The `TierPolicy::decision_fn` hook is explicitly
+> designed to be replaced by a ThemisDB LoRA adapter that makes autonomous,
+> workload-aware tier decisions without hard-coded thresholds.
+
+#### What the LoRA advisor will observe
+
+| Signal                       | Source                                     |
+|------------------------------|--------------------------------------------|
+| Access frequency per key     | Hot-tier hit/miss counters                 |
+| Query timestamp distribution | `getAsOf()` call histogram                 |
+| RAM pressure ratio           | `TierDecisionContext::warm_pressure`       |
+| Version age                  | `oldest_hot_sys_start` relative to `now`   |
+| Key cardinality per table    | `tableStats()`                             |
+| Time-of-day / workload phase | System clock + workload fingerprint        |
+
+#### Wiring (planned)
+
+```cpp
+// Future API — not yet implemented
+TierPolicy policy;
+policy.decision_fn = [&lora_router](const TierDecisionContext& ctx)
+    -> TierDecision {
+    return lora_router.adviseTierDecision(ctx);
+};
+tier_manager.setPolicy(policy);
+```
+
+The `TierDecisionContext` struct is the stable input interface.
+The `TierDecision` enum is the stable output interface.
+Both are frozen; the LoRA model only needs to implement the mapping.
+
+#### Training strategy
+
+- Domain: `DATABASE_OPTIMIZER` (maps to existing `DomainType` enum).
+- Labels: `KEEP`, `FLUSH_HOT_TO_WARM`, `FLUSH_WARM_TO_COLD`.
+- Feature vector: context fields serialised to JSON for the LoRA input.
+- Data source: decision logs written by `DecisionRecordYamlProcessor`
+  whenever the built-in threshold logic fires (self-labelled training data).
+- Feedback loop: `WorkloadFingerprintEngine` supplies access-pattern
+  embeddings; `IntentClassifier` classifies query intent to enrich context.
+
+#### Milestones
+
+- `[ ]` Wire `TierDecisionContext` to `DecisionRecordYamlProcessor` log (Target: Q3 2026)
+- `[ ]` Collect 10 k labelled tier decisions for initial LoRA fine-tune (Target: Q3 2026)
+- `[ ]` Implement `LoRARouter::adviseTierDecision(ctx)` using fine-tuned adapter (Target: Q4 2026)
+- `[ ]` A/B test: threshold policy vs. LoRA policy, measure RAM savings + query latency (Target: Q4 2026)
+- `[ ]` Promote LoRA advisor to default; keep thresholds as fallback (Target: Q1 2027)
+
+#### Hook contract (stable, do not change)
+
+```cpp
+// in TierPolicy:
+std::function<TierDecision(const TierDecisionContext&)> decision_fn;
+// nullptr  → built-in thresholds (current production)
+// non-null → called synchronously on every insert(); must be fast
+```
+
+---
+
+**Status**: Hook implemented, LoRA wiring pending  
+**Last Updated**: 2026-04-17
