@@ -3872,3 +3872,40 @@ if(WIN32)
 endif()
 
 themis_report_benchmark_coverage("${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_LIST_FILE}")
+
+# ============================================================================
+# IntervalTreeIndex Erase Benchmarks (v1.7.0+)
+# ITEB-01: single-key erase on varying tree sizes
+# ITEB-02: bulk erase all keys
+# ITEB-03: rebuild baseline comparison
+# ITEB-04: mixed read/erase under concurrency
+# ITEB-05: large-payload erase
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_interval_tree_erase.cpp")
+    message(STATUS "Adding IntervalTreeIndex Erase benchmarks (ITEB-01..05)")
+
+    add_executable(bench_interval_tree_erase
+        bench_interval_tree_erase.cpp
+    )
+
+    target_link_libraries(bench_interval_tree_erase PRIVATE
+        themis_core
+        ${BENCHMARK_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_interval_tree_erase PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_interval_tree_erase)
+
+    install(TARGETS bench_interval_tree_erase
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  IntervalTreeIndex: erase vs rebuild, bulk erase, mixed read/erase, large payload")
+endif()

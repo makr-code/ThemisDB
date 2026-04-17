@@ -16,6 +16,66 @@ For implementation-level changes see [`../../src/temporal/CHANGELOG.md`](../../s
 
 ---
 
+## [1.9.0] — 2026-04-17
+
+### Added
+- `snapshot_manager.h` — `SnapshotDiff` struct (`added`, `modified`, `removed`
+  per table) and `TemporalSnapshotManager::diff(base, other)` for incremental
+  snapshot diffing; O(R log R); serialisable via `toJson()`.
+- `bi_temporal.h` — `BiTemporalTable::merge(other)`: cross-node Last-Writer-Wins
+  reconciliation keyed on `sys_time.start`; returns `MergeResult{rows_inserted,
+  rows_skipped, conflicts_lww}`; idempotent.
+
+---
+
+## [1.8.0] — 2026-04-17
+
+### Added
+- `temporal_cdc.h` — `CDCPersistentLog`: WAL-backed persistent CDC log
+  implementing `CDCListener`.  Append-only segment format with 8-byte magic
+  (`0x54444357`), version, and per-record CRC-32/ISO-HDLC.  Automatic segment
+  rotation at 64 MiB.  Truncation recovery on `open()`: corrupt tail records
+  are silently discarded.
+
+### Removed
+- `temporal_index.h` — `LegacyTemporalIndex` shim (deprecated since v1.6.0).
+  The class was absent from source at this version boundary; this entry
+  formally closes the deprecation cycle.
+
+---
+
+## [1.7.0] — 2026-04-17
+
+### Added
+- `interval_tree_index.h` — `erase(key)` STL-style alias for `removeKey()`;
+  exclusive-write lock ensures no concurrent reader invalidation; doxygen
+  caller-contract added.
+- `temporal_aggregator.h` — `AggregateFunc::FIRST_VALUE` and
+  `AggregateFunc::LAST_VALUE` ordered temporal analytic functions; implemented
+  in all four compute paths (TRANSACTION, VALID, BITEMPORAL, SNAPSHOT).
+- `temporal_query_engine.h` — `sequencedDistinct(table)` and
+  `sequencedDistinctForKey(table, key)` implementing SQL:2011 §13.4 SEQUENCED
+  DISTINCT; adjacent-period coalescing.
+
+---
+
+## [1.6.1] — 2026-04-17
+
+### Added
+- `retention_manager.h` — `RetentionRule` is now a proper value type with
+  `operator==`, `operator!=`, and `operator<` to support sorted containers and
+  equality assertions.
+- `temporal_cdc.h` — `OverflowPolicy` enum (`OVERWRITE`, `BLOCK`, `DROP`) for
+  the `CDCRingBuffer`; `overflowCount()` accessor; full Doxygen on ring-buffer
+  overflow semantics.
+- `temporal_conflict_resolver.h` — abstract `MergeResolver` strategy interface
+  with `LWWFieldMergeResolver`, `UnionMergeResolver`, and `CustomMergeResolver`
+  concrete implementations; `setMergeResolver` / `getMergeResolver` on
+  `TemporalConflictResolver`; `resolveCRDT()` delegates to the injected
+  resolver.
+
+---
+
 ## [1.6.0] — 2026-03-20
 
 ### Added

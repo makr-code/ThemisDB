@@ -158,6 +158,15 @@ public:
      *   - For the common case of a unique-key index (k = 1) this degenerates
      *     to O(log n).
      *
+     * @par Thread-safety
+     * `erase()` acquires an **exclusive** (`std::unique_lock`) on the internal
+     * `std::shared_mutex`.  All concurrent readers — including those holding a
+     * `std::shared_lock` via `queryPoint()`, `queryRange()`, or `queryKey()` —
+     * are **blocked** until the erase completes.  Callers that received results
+     * from a previous query call must not retain raw pointers or references into
+     * those result vectors after `erase()` returns; the returned
+     * `std::vector<IntervalEntry>` copies are safe to use independently.
+     *
      * @param key  Logical key whose entries should be removed.
      * @return     Number of entries actually removed (0 if the key was absent).
      */
