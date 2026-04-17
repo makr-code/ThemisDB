@@ -175,6 +175,126 @@ private:
  * 
  * Resolves conflicts for temporal snapshots based on HLC timestamps.
  */
+
+// ─── MergeResolver Strategy Interface ──────────────────────────────────────
+
+/**
+ * @brief Abstract strategy for CRDT-style merge of two conflicting snapshots.
+ *
+ * Implement this interface to provide custom merge semantics (e.g. GCounter
+ * accumulation, ORSet union, domain-specific field blending) that replace or
+ * extend the built-in LWW-per-field algorithm.
+ *
+ * ## Contract
+ *
+ * Implementations MUST satisfy:
+ *
+ *   Commutativity:  merge(a, b).data  ==  merge(b, a).data
+ *                   (field-level winner identity may differ; the data content
+ *                    must be equivalent)
+ *
+ *   Idempotency:    merge(a, a).data  ==  a.data
+ *
+ *   Determinism:    given the same inputs, the output is always the same.
+ *
+ * Thread-safety of the implementation is the responsibility of the concrete
+ * subclass.  `TemporalConflictResolver` does NOT hold a lock while calling
+ * `merge()`.
+ */
+class MergeResolver {
+public:
+    virtual ~MergeResolver() = default;
+
+    /**
+     * @brief Merge two conflicting snapshots into a single resolved snapshot.
+     *
+     * @param local  The locally-held snapshot version.
+     * @param remote The remotely-received snapshot version.
+     * @return A new `TemporalSnapshot` whose `data` represents the merged
+     *         state.  The metadata fields (snapshot_id, hlc, source_node_id,
+     *         checksum) are set by the implementation — typically to those of
+     *         the "dominant" input.
+     */
+    virtual TemporalSnapshot merge(
+        const TemporalSnapshot& local,
+        const TemporalSnapshot& remote
+    ) const = 0;
+};
+
+// ─── Built-in MergeResolver implementations ─────────────────────────────────
+
+/**
+ * @brief LWW-per-field merge: for each JSON field, the value from the snapshot
+ *        with the higher HLC timestamp is kept.  Fields present in only one
+ *        snapshot are always included.
+ *
+ * This preserves the behaviour of the original `resolveCRDT()` implementation
+ * and is the default when no custom `MergeResolver` is injected.
+ *
+ * Properties: commutative ✓, idempotent ✓.
+ */
+class LWWFieldMergeResolver : public MergeResolver {
+public:
+    TemporalSnapshot merge(
+        const TemporalSnapshot& local,
+        const TemporalSnapshot& remote
+    ) const override;
+};
+
+/**
+ * @brief Union merge: produces a snapshot whose `data` is the JSON-object
+ *        union of both inputs.
+ *
+ * - For fields present in both snapshots, the value from the snapshot with
+ *   the higher HLC is kept (same tie-breaking as LWW).
+ * - For fields present in only one snapshot, the single value is kept.
+ * - For non-object payloads, falls back to LWW (higher HLC wins outright).
+ *
+ * Compared to `LWWFieldMergeResolver`, this resolver is identical for
+ * non-overlapping field sets.  The distinction is conceptual: the name
+ * explicitly communicates OR-Set / union intent.
+ *
+ * Properties: commutative ✓, idempotent ✓.
+ */
+class UnionMergeResolver : public MergeResolver {
+public:
+    TemporalSnapshot merge(
+        const TemporalSnapshot& local,
+        const TemporalSnapshot& remote
+    ) const override;
+};
+
+/**
+ * @brief Adapter that wraps a caller-supplied `std::function` as a
+ *        `MergeResolver`.
+ *
+ * The provided callable receives `(local, remote)` and must return the merged
+ * snapshot.  The caller is responsible for ensuring commutativity, idempotency,
+ * and thread-safety of the callable.
+ */
+class CustomMergeResolver : public MergeResolver {
+public:
+    using MergeFn = std::function<TemporalSnapshot(
+        const TemporalSnapshot& local,
+        const TemporalSnapshot& remote
+    )>;
+
+    /**
+     * @param fn  Merge function.  Must not be null.
+     */
+    explicit CustomMergeResolver(MergeFn fn);
+
+    TemporalSnapshot merge(
+        const TemporalSnapshot& local,
+        const TemporalSnapshot& remote
+    ) const override;
+
+private:
+    MergeFn fn_;
+};
+
+// ─── TemporalConflictResolver ────────────────────────────────────────────────
+
 class TemporalConflictResolver {
 public:
     explicit TemporalConflictResolver(ConflictPolicy default_policy = ConflictPolicy::LAST_WRITE_WINS);
@@ -222,27 +342,31 @@ public:
     nlohmann::json getStatistics() const;
 
     /**
-     * Set a custom MergeResolver for CRDT_MERGE conflict resolution.
+     * @brief Inject a custom CRDT merge strategy.
      *
-     * When a resolver is set, `resolveCRDT()` delegates to it instead of
-     * using the built-in LWW-field strategy.  Pass `nullptr` to reset to
-     * the default `LWWFieldMergeResolver` behaviour.
+     * When @p resolver is non-null it is used by `resolveCRDT()` instead of
+     * the built-in `LWWFieldMergeResolver`.  Pass `nullptr` to revert to the
+     * default LWW-per-field behaviour.
      *
-     * @param resolver  Shared pointer to a MergeResolver implementation.
+     * The call is thread-safe; the resolver is replaced atomically under the
+     * internal mutex.
+     *
+     * @param resolver  Strategy to use, or `nullptr` to reset to the default.
      */
     void setMergeResolver(std::shared_ptr<MergeResolver> resolver);
 
     /**
-     * Return the currently active MergeResolver.
-     * Returns nullptr when no explicit resolver has been set (default LWW
-     * strategy is used directly).
+     * @brief Return the currently active MergeResolver.
+     *
+     * Returns `nullptr` when the built-in LWW-per-field default is active.
      */
     std::shared_ptr<MergeResolver> getMergeResolver() const;
-    
+
 private:
     ConflictPolicy default_policy_;
     std::vector<ConflictRecord> conflict_history_;
     std::map<std::string, ConflictRecord> unresolved_conflicts_;
+    std::shared_ptr<MergeResolver> merge_resolver_;  ///< null → use LWWFieldMergeResolver
     mutable std::mutex mutex_;
     std::shared_ptr<MergeResolver> merge_resolver_;  ///< Optional CRDT merge strategy
     

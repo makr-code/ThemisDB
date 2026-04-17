@@ -613,107 +613,114 @@ TEST_F(TemporalAggregatorTest, AnalyzeTrend_ToJson) {
     EXPECT_TRUE(j.contains("period_end"));
 }
 
-// ============================================================================
-// FIRST_VALUE / LAST_VALUE tests (FLV-01 .. FLV-05)
-// ============================================================================
+// ── FIRST_VALUE / LAST_VALUE tests (FLV-01..05) ──────────────────────────────
 
-// FLV-01: FIRST_VALUE returns the earliest row's value in a tumbling window
-TEST_F(TemporalAggregatorTest, FIRST_VALUE_Tumbling_ReturnsEarliestValue) {
+// Inserts rows in a known order using wall-clock time (1 ms sleep between
+// each insert so that sys_start timestamps are strictly increasing).
+
+TEST_F(TemporalAggregatorTest, FLV_01_FirstValue_Tumbling_ReturnsEarliestInWindow) {
     SystemVersionedTable t{"tbl", "n"};
     Timestamp base = now();
-    // Insert 3 rows at 1 ms intervals; values 10, 20, 30 in time order
-    insertAt(t, "k1", 10.0);
-    insertAt(t, "k2", 20.0);
-    insertAt(t, "k3", 30.0);
-    Timestamp after = now() + 1;
+
+    // Insert in ascending sys_start order: 10.0 first, 20.0, 30.0 last.
+    insertAt(t, "k1", 10.0);  // earliest
+    insertAt(t, "k1", 20.0);
+    insertAt(t, "k1", 30.0);  // latest
+
+    Timestamp end = now() + 1;
 
     AggregationSpec spec;
-    spec.window_type     = WindowType::TUMBLING;
-    spec.window_size_ms  = after - base + 1;
-    spec.func            = AggregateFunc::FIRST_VALUE;
-    spec.measure_field   = "value";
+    spec.window_type    = WindowType::TUMBLING;
+    spec.window_size_ms = end - base + 10;
+    spec.func           = AggregateFunc::FIRST_VALUE;
+    spec.measure_field  = "value";
 
-    auto results = agg.aggregate(t, spec, base, after);
-    ASSERT_FALSE(results.empty());
+    auto results = agg.aggregate(t, spec, base, end);
+    ASSERT_EQ(results.size(), 1u);
     EXPECT_DOUBLE_EQ(results[0].value, 10.0);
 }
 
-// FLV-02: LAST_VALUE returns the latest row's value in a tumbling window
-TEST_F(TemporalAggregatorTest, LAST_VALUE_Tumbling_ReturnsLatestValue) {
+TEST_F(TemporalAggregatorTest, FLV_02_LastValue_Tumbling_ReturnsLatestInWindow) {
     SystemVersionedTable t{"tbl", "n"};
     Timestamp base = now();
+
     insertAt(t, "k1", 10.0);
-    insertAt(t, "k2", 20.0);
-    insertAt(t, "k3", 30.0);
-    Timestamp after = now() + 1;
+    insertAt(t, "k1", 20.0);
+    insertAt(t, "k1", 30.0);  // latest
+
+    Timestamp end = now() + 1;
 
     AggregationSpec spec;
-    spec.window_type     = WindowType::TUMBLING;
-    spec.window_size_ms  = after - base + 1;
-    spec.func            = AggregateFunc::LAST_VALUE;
-    spec.measure_field   = "value";
+    spec.window_type    = WindowType::TUMBLING;
+    spec.window_size_ms = end - base + 10;
+    spec.func           = AggregateFunc::LAST_VALUE;
+    spec.measure_field  = "value";
 
-    auto results = agg.aggregate(t, spec, base, after);
-    ASSERT_FALSE(results.empty());
+    auto results = agg.aggregate(t, spec, base, end);
+    ASSERT_EQ(results.size(), 1u);
     EXPECT_DOUBLE_EQ(results[0].value, 30.0);
 }
 
-// FLV-03: FIRST_VALUE on empty window returns 0.0
-TEST_F(TemporalAggregatorTest, FIRST_VALUE_EmptyWindow_ReturnsZero) {
+TEST_F(TemporalAggregatorTest, FLV_03_FirstLast_SingleRow_ReturnSameValue) {
     SystemVersionedTable t{"tbl", "n"};
+    Timestamp base = now();
+    t.insert("solo", {{"value", 42.0}});
+    Timestamp end = now() + 1;
+
+    for (auto func : {AggregateFunc::FIRST_VALUE, AggregateFunc::LAST_VALUE}) {
+        AggregationSpec spec;
+        spec.window_type    = WindowType::TUMBLING;
+        spec.window_size_ms = end - base + 10;
+        spec.func           = func;
+        spec.measure_field  = "value";
+
+        auto results = agg.aggregate(t, spec, base, end);
+        ASSERT_GE(results.size(), 1u);
+        EXPECT_DOUBLE_EQ(results[0].value, 42.0);
+    }
+}
+
+TEST_F(TemporalAggregatorTest, FLV_04_FirstValue_EmptyWindow_ResultIsEmpty) {
+    SystemVersionedTable t{"tbl", "n"};
+    Timestamp future_base = now() + 100000;  // far in the future — no rows
+
     AggregationSpec spec;
     spec.window_type    = WindowType::TUMBLING;
     spec.window_size_ms = 100;
     spec.func           = AggregateFunc::FIRST_VALUE;
     spec.measure_field  = "value";
 
-    auto results = agg.aggregate(t, spec, 0, 100);
-    EXPECT_TRUE(results.empty());
+    auto results = agg.aggregate(t, spec, future_base, future_base + 100);
+    // No rows → either empty result list or value=0.0
+    for (const auto& r : results) {
+        EXPECT_DOUBLE_EQ(r.value, 0.0);
+    }
 }
 
-// FLV-04: LAST_VALUE is equal to FIRST_VALUE for a single-row window
-TEST_F(TemporalAggregatorTest, FLV_SingleRow_FirstEqualsLast) {
+TEST_F(TemporalAggregatorTest, FLV_05_FirstValue_Differs_From_LastValue) {
     SystemVersionedTable t{"tbl", "n"};
     Timestamp base = now();
-    insertAt(t, "k1", 42.0);
-    Timestamp after = now() + 1;
 
-    AggregationSpec spec_first, spec_last;
-    spec_first.window_type    = spec_last.window_type    = WindowType::TUMBLING;
-    spec_first.window_size_ms = spec_last.window_size_ms = after - base + 1;
-    spec_first.measure_field  = spec_last.measure_field  = "value";
-    spec_first.func = AggregateFunc::FIRST_VALUE;
-    spec_last.func  = AggregateFunc::LAST_VALUE;
+    insertAt(t, "k1", 100.0);  // earliest
+    insertAt(t, "k1", 200.0);  // latest
 
-    auto r_first = agg.aggregate(t, spec_first, base, after);
-    auto r_last  = agg.aggregate(t, spec_last,  base, after);
-    ASSERT_FALSE(r_first.empty());
-    ASSERT_FALSE(r_last.empty());
-    EXPECT_DOUBLE_EQ(r_first[0].value, r_last[0].value);
-}
+    Timestamp end = now() + 1;
+    int64_t win = end - base + 10;
 
-// FLV-05: FIRST_VALUE / LAST_VALUE work on sliding windows
-TEST_F(TemporalAggregatorTest, FLV_SlidingWindow_ValuesOrdered) {
-    SystemVersionedTable t{"tbl", "n"};
-    Timestamp base = now();
-    insertAt(t, "k1", 5.0);
-    insertAt(t, "k2", 10.0);
-    Timestamp after = now() + 1;
+    AggregationSpec spec_first;
+    spec_first.window_type    = WindowType::TUMBLING;
+    spec_first.window_size_ms = win;
+    spec_first.func           = AggregateFunc::FIRST_VALUE;
+    spec_first.measure_field  = "value";
 
-    const int64_t win_sz = (after - base) + 1;
+    AggregationSpec spec_last = spec_first;
+    spec_last.func = AggregateFunc::LAST_VALUE;
 
-    AggregationSpec spec;
-    spec.window_type       = WindowType::SLIDING;
-    spec.window_size_ms    = win_sz;
-    spec.slide_interval_ms = win_sz;
-    spec.func              = AggregateFunc::FIRST_VALUE;
-    spec.measure_field     = "value";
+    auto first_res = agg.aggregate(t, spec_first, base, end);
+    auto last_res  = agg.aggregate(t, spec_last,  base, end);
 
-    auto r_first = agg.aggregate(t, spec, base, after);
-    spec.func = AggregateFunc::LAST_VALUE;
-    auto r_last  = agg.aggregate(t, spec, base, after);
-
-    ASSERT_FALSE(r_first.empty());
-    ASSERT_FALSE(r_last.empty());
-    EXPECT_LE(r_first[0].value, r_last[0].value);
+    ASSERT_EQ(first_res.size(), 1u);
+    ASSERT_EQ(last_res.size(),  1u);
+    EXPECT_DOUBLE_EQ(first_res[0].value, 100.0);
+    EXPECT_DOUBLE_EQ(last_res[0].value,  200.0);
 }

@@ -1,11 +1,11 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-03-22 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # ThemisDB User Encrypted Storage Plugin
 
-**Version:** 0.2.0  
-**Status:** 🟢 Production-Ready (v0.2.0 — stale-mount reconciliation complete)
-**Last Updated:** 2026-04-06  
+**Version:** 0.1.0  
+**Status:** 🟢 Production-Ready (v0.1.0; stale mount reconciliation remains as hardening item)  
+**Last Updated:** 2026-03-22  
 **Module Path:** `src/user_storage_encrypted/`  
 **Namespace:** `themis::plugins::user_storage`
 

@@ -252,79 +252,123 @@ TEST_F(TemporalCDCTest, ClearLog_SubscriptionsIntact) {
     EXPECT_EQ(cdc.logSize(), 1u);
 }
 
-// ── OverflowPolicy tests (CDC-OVF-01 .. CDC-OVF-04) ──────────────────────────
+// ============================================================================
+// CDCPersistentLog tests (CDCPL-01 .. CDCPL-08) — v1.8.0
+// ============================================================================
 
-// CDC-OVF-01: Default OVERWRITE policy evicts oldest on overflow
-TEST(TemporalCDCOverflow, OVF01_DefaultOverwriteEvictsOldest) {
-    TemporalCDC cdc(3); // capacity 3
-    cdc.publishEvent([] {
-        ChangeEvent e; e.table_name = "t"; e.entity_id = "e1"; e.transaction_time = 1; return e;
-    }());
-    cdc.publishEvent([] {
-        ChangeEvent e; e.table_name = "t"; e.entity_id = "e2"; e.transaction_time = 2; return e;
-    }());
-    cdc.publishEvent([] {
-        ChangeEvent e; e.table_name = "t"; e.entity_id = "e3"; e.transaction_time = 3; return e;
-    }());
-    ASSERT_EQ(cdc.logSize(), 3u);
-    ASSERT_EQ(cdc.overflowCount(), 0u);
+#include <filesystem>
+#include <cstdlib>
 
-    // 4th event overflows — e1 must be evicted
-    cdc.publishEvent([] {
-        ChangeEvent e; e.table_name = "t"; e.entity_id = "e4"; e.transaction_time = 4; return e;
-    }());
-    EXPECT_EQ(cdc.logSize(), 3u);
-    EXPECT_EQ(cdc.overflowCount(), 1u);
-
-    // oldest remaining should be e2
-    auto events = cdc.replayChanges("t", {0, 100});
-    ASSERT_EQ(events.size(), 3u);
-    EXPECT_EQ(events[0].entity_id, "e2");
+namespace {
+std::string makeTempDir() {
+    char tmp[] = "/tmp/themisdb_wal_XXXXXX";
+    char* dir = ::mkdtemp(tmp);
+    return dir ? std::string(dir) : "/tmp/themisdb_wal_test";
 }
+} // namespace
 
-// CDC-OVF-02: DROP policy discards new events when full
-TEST(TemporalCDCOverflow, OVF02_DropPolicyDiscardsNewEvents) {
-    TemporalCDC cdc(2, OverflowPolicy::DROP);
-    cdc.publishEvent([] {
-        ChangeEvent e; e.table_name = "t"; e.entity_id = "e1"; e.transaction_time = 1; return e;
-    }());
-    cdc.publishEvent([] {
-        ChangeEvent e; e.table_name = "t"; e.entity_id = "e2"; e.transaction_time = 2; return e;
-    }());
-    ASSERT_EQ(cdc.logSize(), 2u);
+class CDCPersistentLogTest : public ::testing::Test {
+protected:
+    std::string tmp_dir_;
 
-    // This event must be dropped
-    cdc.publishEvent([] {
-        ChangeEvent e; e.table_name = "t"; e.entity_id = "e3"; e.transaction_time = 3; return e;
-    }());
-    EXPECT_EQ(cdc.logSize(), 2u);          // log unchanged
-    EXPECT_EQ(cdc.overflowCount(), 1u);    // one drop counted
-    EXPECT_EQ(cdc.totalPublished(), 3u);   // 3 attempts counted
-
-    auto events = cdc.replayChanges("t", {0, 100});
-    ASSERT_EQ(events.size(), 2u);
-    EXPECT_EQ(events[1].entity_id, "e2");  // e2 still present
-}
-
-// CDC-OVF-03: overflowCount() is monotone across multiple overflows
-TEST(TemporalCDCOverflow, OVF03_OverflowCountMonotone) {
-    TemporalCDC cdc(1, OverflowPolicy::DROP);
-    cdc.publishEvent([] {
-        ChangeEvent e; e.table_name = "t"; e.entity_id = "e1"; e.transaction_time = 1; return e;
-    }());
-    for (int i = 2; i <= 5; ++i) {
-        cdc.publishEvent([i] {
-            ChangeEvent e; e.table_name = "t";
-            e.entity_id = "e" + std::to_string(i);
-            e.transaction_time = static_cast<themisdb::temporal::Timestamp>(i);
-            return e;
-        }());
+    void SetUp() override {
+        tmp_dir_ = makeTempDir();
     }
-    EXPECT_EQ(cdc.overflowCount(), 4u);
+    void TearDown() override {
+        std::filesystem::remove_all(tmp_dir_);
+    }
+
+    ChangeEvent makeEvent(const std::string& table, const std::string& key) {
+        ChangeEvent ev;
+        ev.type             = ChangeType::INSERT;
+        ev.table_name       = table;
+        ev.entity_id        = key;
+        ev.after_value      = {{"k", key}};
+        ev.transaction_time = 42;
+        return ev;
+    }
+};
+
+TEST_F(CDCPersistentLogTest, CDCPL_01_OpenAndClose) {
+    CDCPersistentLog log(tmp_dir_, "test");
+    EXPECT_NO_THROW(log.open());
+    EXPECT_TRUE(log.isOpen());
+    log.close();
+    EXPECT_FALSE(log.isOpen());
 }
 
-// CDC-OVF-04: overflowCount() starts at 0 for empty CDC
-TEST(TemporalCDCOverflow, OVF04_InitialOverflowCountIsZero) {
-    TemporalCDC cdc;
-    EXPECT_EQ(cdc.overflowCount(), 0u);
+TEST_F(CDCPersistentLogTest, CDCPL_02_AppendAndReplay) {
+    CDCPersistentLog log(tmp_dir_, "test");
+    log.open();
+    log.append(makeEvent("orders", "o1"));
+    log.append(makeEvent("orders", "o2"));
+    log.close();
+
+    CDCPersistentLog log2(tmp_dir_, "test");
+    log2.open();
+    auto events = log2.replayAll();
+    log2.close();
+    EXPECT_EQ(events.size(), 2u);
+}
+
+TEST_F(CDCPersistentLogTest, CDCPL_03_TotalEventsCounter) {
+    CDCPersistentLog log(tmp_dir_, "test");
+    log.open();
+    for (int i = 0; i < 5; ++i) {
+        log.append(makeEvent("t", std::to_string(i)));
+    }
+    EXPECT_EQ(log.totalEventsAppended(), 5u);
+    log.close();
+}
+
+TEST_F(CDCPersistentLogTest, CDCPL_04_TotalBytesWritten) {
+    CDCPersistentLog log(tmp_dir_, "test");
+    log.open();
+    log.append(makeEvent("t", "k1"));
+    EXPECT_GT(log.totalBytesWritten(), 0u);
+    log.close();
+}
+
+TEST_F(CDCPersistentLogTest, CDCPL_05_AppendBeforeOpenThrows) {
+    CDCPersistentLog log(tmp_dir_, "test");
+    EXPECT_THROW(log.append(makeEvent("t", "k")), std::runtime_error);
+}
+
+TEST_F(CDCPersistentLogTest, CDCPL_06_ReplaySegmentByIndex) {
+    CDCPersistentLog log(tmp_dir_, "seg");
+    log.open();
+    log.append(makeEvent("t", "k1"));
+    log.close();
+
+    CDCPersistentLog log2(tmp_dir_, "seg");
+    log2.open();
+    auto events = log2.replaySegment(0);
+    log2.close();
+    EXPECT_EQ(events.size(), 1u);
+    EXPECT_EQ(events[0].entity_id, "k1");
+}
+
+TEST_F(CDCPersistentLogTest, CDCPL_07_ReplaySegmentOutOfRangeThrows) {
+    CDCPersistentLog log(tmp_dir_, "seg");
+    log.open();
+    log.close();
+    CDCPersistentLog log2(tmp_dir_, "seg");
+    log2.open();
+    EXPECT_THROW(log2.replaySegment(99), std::out_of_range);
+    log2.close();
+}
+
+TEST_F(CDCPersistentLogTest, CDCPL_08_IdempotentOpen) {
+    CDCPersistentLog log(tmp_dir_, "test");
+    log.open();
+    EXPECT_NO_THROW(log.open());  // second open should be no-op
+    log.append(makeEvent("t", "k1"));
+    log.close();
+    auto events = CDCPersistentLog(tmp_dir_, "test").replayAll();
+    // Can't replay after construction without open — check via open.
+    CDCPersistentLog log2(tmp_dir_, "test");
+    log2.open();
+    auto ev2 = log2.replayAll();
+    log2.close();
+    EXPECT_EQ(ev2.size(), 1u);
 }

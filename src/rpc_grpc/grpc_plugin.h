@@ -122,6 +122,9 @@ private:
 
     // Service implementations registered with this server
     std::vector<grpc::Service*> services_;
+    // Idle completion queue – created when no services are registered so that
+    // BuildAndStart() can succeed (drained on stop)
+    std::unique_ptr<grpc::ServerCompletionQueue> idle_cq_;
 
     /**
      * @brief Load file contents (for certificates)

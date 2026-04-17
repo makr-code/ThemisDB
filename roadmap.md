@@ -56,7 +56,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **onnx_clip** | ✅ Production-ready (v0.2.0) — all v0.2.0 items done: Prometheus metrics, model integrity check (SHA-256), 26 unit tests | [src/onnx_clip/ROADMAP.md](src/onnx_clip/ROADMAP.md) |
 | **performance** | ✅ Production-ready | [src/performance/ROADMAP.md](src/performance/ROADMAP.md) |
 | **plugins** | ✅ Production-ready | [src/plugins/ROADMAP.md](src/plugins/ROADMAP.md) |
-| **process** | ✅ Production-ready — BPMN/EPK/VCC-VPB import, Graph-RAG, ProcessLinker, HNSW + full-text retrieval operational; LLM embedding auto-generation documented as external dependency | [src/process/ROADMAP.md](src/process/ROADMAP.md) |
+| **process** | ✅ Production-ready — BPMN/EPK/VCC-VPB import, Graph-RAG, ProcessLinker, HNSW + full-text retrieval operational; ARIS-XML import (AML v9/v10) + AgenticRAG iterative Q&A (2026-04-17) | [src/process/ROADMAP.md](src/process/ROADMAP.md) |
 | **prompt_engineering** | ✅ Production-ready (v1.x) | [src/prompt_engineering/ROADMAP.md](src/prompt_engineering/ROADMAP.md) |
 | **query** | ✅ Production-ready | [src/query/ROADMAP.md](src/query/ROADMAP.md) |
 | **rag** | ✅ Production-ready | [src/rag/ROADMAP.md](src/rag/ROADMAP.md) |
@@ -459,15 +459,15 @@ Focus: Enterprise-grade monitoring, alerting, and automated operations.
 - [I] Integration with JSON Schema / YAML schema validation (Issue: #1666) (Target: Q4 2026)
 
 #### 4.5 Maintenance — Advanced Orchestration
-- [ ] Explicit per-task DAG dependency graph with topological sort (Target: v1.2.0)
-- [ ] Replica consistency check integration with sharding/replication module (Target: v1.2.0)
-- [ ] StorageCompaction integration with `CompactionManager` (Target: v1.2.0)
+- [x] Explicit per-task DAG dependency graph with topological sort (Target: v1.2.0) — `MaintenanceTaskDependency` + `resolveTaskExecutionOrder` (Kahn's algorithm) in `database_maintenance_orchestrator.h/cpp` ✅
+- [x] Replica consistency check integration with sharding/replication module (Target: v1.2.0) — `ShardRepairEngine::runConsistencyCheck()` + `makeReplicaValidationHandler()` factory in `maintenance_task_handler_impls.h` ✅
+- [x] StorageCompaction integration with `CompactionManager` (Target: v1.2.0) — `StorageCompactionHandler` in `maintenance_task_handler_impls.h` wired to `CompactionManager::compactAll()` ✅
 
 #### 4.6 Process — Semantic Search & LLM Integration
-- [~] Auto-generate process model embeddings via LLM module on import (Target: Q2 2026)
-- [ ] Full-text inverted index over process model descriptions (Target: Q2 2026)
-- [ ] AgenticRAG integration for iterative process question answering (Target: Q3 2026)
-- [ ] EPK ARIS-XML import (Target: Q3 2026)
+- [x] Auto-generate process model embeddings via LLM module on import (Target: Q2 2026)
+- [x] Full-text inverted index over process model descriptions (Target: Q2 2026)
+- [x] AgenticRAG integration for iterative process question answering (Target: Q3 2026) — `ProcessAgenticRag` in `include/process/process_agentic_rag.h` (2026-04-17)
+- [x] EPK ARIS-XML import (Target: Q3 2026) — `EpkArisXmlImporter` in `include/process/epk_aris_xml_importer.h`, AML v9/v10 (2026-04-17)
 
 #### 4.7 CLI Tooling — Unified Management Interface
 - [x] `themisctl` — unified ThemisDB CLI for server operations (Target: Q1 2026)
@@ -491,8 +491,8 @@ Focus: Enterprise-grade monitoring, alerting, and automated operations.
   - GNU Readline integration when available (`THEMISCTL_ENABLE_READLINE`); plain getline() fallback
   - History persisted to `~/.themisctl_history`; exits on `exit`, `quit`, or EOF (Ctrl-D)
   - 9 tokenizer unit tests
-- [ ] `themisctl config` schema validation — dry-run + diff output (Target: Q3 2026)
-- [ ] AgentRAG integration — `themisctl rag query <nl-question>` (Target: Q4 2026)
+- [x] `themisctl config` schema validation — dry-run + diff output (Target: Q3 2026) — `themisctl config validate [key=value ...]` → POST `/config/validate`; diff display in `tools/themisctl.cpp` ✅
+- [x] AgentRAG integration — `themisctl rag query [--collection C] [--top-k N] [--lora ID] <nl-question>` → POST `/api/v1/llm/rag`; answer + retrieval metadata display in `tools/themisctl.cpp` (2026-04-17) ✅
 
 ---
 
@@ -639,7 +639,7 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 | 12 | prompt_engineering | Token counting / context-window budget enforcement not implemented | 📋 Planned |
 | 13 | process | Embedding-based similarity search requires pre-computed embeddings; auto-generation not yet implemented | 🚧 In progress |
 | 14 | process | BPMN parser uses regex (not DOM/SAX); deeply nested sub-process pools may not parse correctly | ⚠️ Known limitation |
-| 15 | maintenance | Explicit per-task DAG dependency graph not yet implemented; tasks execute in list order | 📋 Planned v1.2.0 |
+| 15 | maintenance | Explicit per-task DAG dependency graph not yet implemented; tasks execute in list order | ✅ Resolved v1.2.0 |
 
 ---
 

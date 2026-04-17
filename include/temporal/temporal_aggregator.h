@@ -65,12 +65,8 @@ enum class AggregateFunc {
     COUNT,
     MIN,
     MAX,
-    /// Return the measure value of the earliest row (by sys_start) in the window.
-    /// Produces 0.0 when no rows with the measure field are present.
-    FIRST_VALUE,
-    /// Return the measure value of the latest row (by sys_start) in the window.
-    /// Produces 0.0 when no rows with the measure field are present.
-    LAST_VALUE
+    FIRST_VALUE, ///< Value of measure_field from the earliest row (by sys_start) in the window
+    LAST_VALUE   ///< Value of measure_field from the latest  row (by sys_start) in the window
 };
 
 /**

@@ -38,7 +38,7 @@
 - DAG dependency graph (`MaintenanceTaskDependency`, topological sort) — implemented v1.2.0 ✅
 - `IDistributedLock` interface + `InProcessDistributedLock` — implemented v2.0.0 ✅
 - Multi-tenant isolation (`TenantMaintenanceConfig`) — implemented v2.0.0 ✅
+- `REPLICA_VALIDATION` startup wiring — `ShardRepairEngine::runConsistencyCheck()` + `makeReplicaValidationHandler()` factory — implemented v1.2.0 ✅
 
 ### Open
-- REPLICA_VALIDATION startup wiring — handler class ready; call site in sharding module pending
 - Raft-backed `IDistributedLock` implementation — planned v2.1.0

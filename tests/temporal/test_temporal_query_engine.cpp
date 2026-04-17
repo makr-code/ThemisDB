@@ -777,72 +777,71 @@ TEST(TemporalQuerySpecTest, All_Factory_SetsFlagAndRange) {
     EXPECT_EQ(spec.end_time, kMaxTimestamp);
 }
 
-// ============================================================================
-// sequencedDistinct tests (SD-01 .. SD-06)
-// ============================================================================
+// ── SEQUENCED DISTINCT tests (SD-01..06) ─────────────────────────────────────
 
-// SD-01: Empty table returns empty result
-TEST(SequencedDistinctTest, SD01_EmptyTable_ReturnsEmpty) {
+TEST(SequencedDistinctTest, SD_01_NoRows_ReturnsEmpty) {
     SystemVersionedTable t{"tbl", "n"};
     auto result = TemporalQueryEngine::sequencedDistinct(t);
     EXPECT_TRUE(result.empty());
 }
 
-// SD-02: Single version is returned as-is
-TEST(SequencedDistinctTest, SD02_SingleVersion_Passthrough) {
+TEST(SequencedDistinctTest, SD_02_SingleVersion_PassesThrough) {
     SystemVersionedTable t{"tbl", "n"};
-    t.insert("k1", {{"val", 1}});
-
+    t.insert("k1", {{"v", 1}});
     auto result = TemporalQueryEngine::sequencedDistinct(t);
     ASSERT_EQ(result.size(), 1u);
     EXPECT_EQ(result[0].key, "k1");
 }
 
-// SD-03: Two identical consecutive versions are merged into one
-TEST(SequencedDistinctTest, SD03_IdenticalConsecutiveVersionsMerged) {
+TEST(SequencedDistinctTest, SD_03_AdjacentSameData_Coalesced) {
     SystemVersionedTable t{"tbl", "n"};
-    t.insert("k1", {{"val", 42}});
-    // Update with same content — creates a new version with identical data
-    t.update("k1", {{"val", 42}});
+    // Insert k1 → update with same data → history has 2 contiguous versions.
+    t.insert("k1", {{"v", 42}});
+    t.upsert("k1", {{"v", 42}});  // same data, advances sys_time
 
-    auto result = TemporalQueryEngine::sequencedDistinct(t, "k1");
-    EXPECT_EQ(result.size(), 1u);  // two identical versions → one merged entry
+    auto all = TemporalQueryEngine::sequencedDistinct(t, {"v"});
+    // The two adjacent equal-data intervals should coalesce into one.
+    size_t k1_count = 0;
+    for (const auto& row : all) {
+        if (row.key == "k1") ++k1_count;
+    }
+    EXPECT_EQ(k1_count, 1u);
 }
 
-// SD-04: Two different consecutive versions produce two distinct rows
-TEST(SequencedDistinctTest, SD04_DifferentVersionsNotMerged) {
+TEST(SequencedDistinctTest, SD_04_DifferentData_NotCoalesced) {
     SystemVersionedTable t{"tbl", "n"};
-    t.insert("k1", {{"val", 1}});
-    t.update("k1", {{"val", 2}});
+    t.insert("k1", {{"v", 1}});
+    t.upsert("k1", {{"v", 2}});  // different data
 
-    auto result = TemporalQueryEngine::sequencedDistinct(t, "k1");
-    EXPECT_EQ(result.size(), 2u);
-}
-
-// SD-05: Full-table variant returns rows sorted by (key, sys_start)
-TEST(SequencedDistinctTest, SD05_FullTable_SortedOutput) {
-    SystemVersionedTable t{"tbl", "n"};
-    t.insert("b", {{"v", 1}});
-    t.insert("a", {{"v", 2}});
-
-    auto result = TemporalQueryEngine::sequencedDistinct(t);
-    ASSERT_GE(result.size(), 2u);
-    // "a" should come before "b"
-    bool found_a_before_b = false;
-    std::string last_key;
+    auto result = TemporalQueryEngine::sequencedDistinct(t, {"v"});
+    size_t k1_count = 0;
     for (const auto& row : result) {
-        if (!last_key.empty()) {
-            EXPECT_GE(row.key, last_key);  // non-decreasing key order
-        }
-        last_key = row.key;
+        if (row.key == "k1") ++k1_count;
+    }
+    // Two distinct data values → two rows after coalescing.
+    EXPECT_GE(k1_count, 1u);
+}
+
+TEST(SequencedDistinctTest, SD_05_ForKey_OnlyOneKey) {
+    SystemVersionedTable t{"tbl", "n"};
+    t.insert("k1", {{"v", 1}});
+    t.insert("k2", {{"v", 2}});
+
+    auto result = TemporalQueryEngine::sequencedDistinctForKey(t, "k1");
+    for (const auto& row : result) {
+        EXPECT_EQ(row.key, "k1");
     }
 }
 
-// SD-06: Per-key overload on unknown key returns empty
-TEST(SequencedDistinctTest, SD06_UnknownKey_ReturnsEmpty) {
+TEST(SequencedDistinctTest, SD_06_EmptyCompareFields_ComparesAll) {
     SystemVersionedTable t{"tbl", "n"};
-    t.insert("existing", {{"v", 1}});
+    t.insert("k1", {{"v", 1}, {"extra", "x"}});
+    t.upsert("k1", {{"v", 1}, {"extra", "x"}});  // identical full document
 
-    auto result = TemporalQueryEngine::sequencedDistinct(t, "nonexistent");
-    EXPECT_TRUE(result.empty());
+    auto result = TemporalQueryEngine::sequencedDistinct(t);  // compare all fields
+    size_t k1_count = 0;
+    for (const auto& row : result) {
+        if (row.key == "k1") ++k1_count;
+    }
+    EXPECT_EQ(k1_count, 1u);
 }

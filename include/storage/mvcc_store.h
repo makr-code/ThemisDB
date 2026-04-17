@@ -232,6 +232,19 @@ public:
         return gcAllBefore(min_ts, GCOptions{});
     }
 
+    /**
+     * @brief Enumerate every distinct base key that has at least one versioned
+     *        entry in the store.
+     *
+     * Performs a single O(N) full scan.  The callback receives each unique
+     * base key exactly once.  Return @c false from the callback to stop
+     * iteration early.
+     *
+     * Intended for use by MVCCChainPruner::pruneAll() so that the pruner can
+     * migrate-then-delete per-key without duplicating the key-discovery logic.
+     */
+    void scanBaseKeys(std::function<bool(std::string_view base_key)> callback);
+
     // ─── Clock access ─────────────────────────────────────────────────────────
 
     /** Return the current HLC timestamp without advancing it. */

@@ -29,6 +29,7 @@
 
 #include "temporal/bi_temporal.h"
 #include <algorithm>
+#include <limits>
 
 namespace themisdb {
 namespace temporal {
@@ -510,3 +511,70 @@ size_t BiTemporalTable::closeCurrentRows(
 
 } // namespace temporal
 } // namespace themisdb
+
+// ============================================================================
+// BiTemporalTable::merge — cross-node LWW reconciliation (v1.9.0)
+// ============================================================================
+
+BiTemporalTable::MergeResult BiTemporalTable::merge(const BiTemporalTable& other) {
+    // Take a snapshot of the other table's rows under its own mutex, then
+    // merge into our own table under our mutex.  Never hold both locks
+    // simultaneously to avoid potential deadlock.
+    std::map<std::string, std::vector<VersionedDocument>> other_snapshot;
+    {
+        std::lock_guard<std::mutex> lk_other(other.mutex_);
+        other_snapshot = other.rows_;
+    }
+
+    MergeResult result;
+    std::lock_guard<std::mutex> lk_self(mutex_);
+
+    for (const auto& [key, other_versions] : other_snapshot) {
+        auto& self_versions = rows_[key];  // creates empty VersionList if absent
+
+        for (const auto& o_row : other_versions) {
+            // Check whether an identical row already exists locally.
+            bool found_exact = false;
+            bool found_conflict = false;
+            std::size_t conflict_idx = std::numeric_limits<std::size_t>::max();
+
+            for (std::size_t i = 0; i < self_versions.size(); ++i) {
+                const auto& s_row = self_versions[i];
+                // Match on valid_time period (the bi-temporal key dimension).
+                if (s_row.valid_time == o_row.valid_time) {
+                    if (s_row.sys_time.start == o_row.sys_time.start &&
+                        s_row.data           == o_row.data) {
+                        found_exact = true;
+                        break;
+                    }
+                    // Different sys_time or data → LWW conflict
+                    found_conflict = true;
+                    conflict_idx   = i;
+                    break;
+                }
+            }
+
+            if (found_exact) {
+                ++result.rows_skipped;
+                continue;
+            }
+
+            if (found_conflict) {
+                // LWW: the row with the later sys_time.start wins.
+                if (o_row.sys_time.start > self_versions[conflict_idx].sys_time.start) {
+                    self_versions[conflict_idx] = o_row;
+                    ++result.conflicts_lww;
+                } else {
+                    ++result.rows_skipped;
+                }
+                continue;
+            }
+
+            // No matching valid_time found locally → insert the foreign row.
+            self_versions.push_back(o_row);
+            ++result.rows_inserted;
+        }
+    }
+
+    return result;
+}

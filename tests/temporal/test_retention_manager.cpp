@@ -550,70 +550,48 @@ TEST_F(RetentionManagerTest, Retry_SucceedsEvenWithoutErrors) {
     EXPECT_TRUE(stats.errors.empty());
 }
 
-// ── RetentionRule tests (RR-01 .. RR-06) ─────────────────────────────────────
+// ── RetentionRule operator== / operator< (RR-01..06) ─────────────────────────
 
-// RR-01: Default construction produces a valid, zero-filled TIME_BASED rule
-TEST(RetentionRuleTest, RR01_DefaultConstruction) {
-    RetentionRule r;
-    EXPECT_EQ(r.type, RetentionType::TIME_BASED);
-    EXPECT_EQ(r.max_age_ms, 0);
-    EXPECT_EQ(r.max_versions, 0u);
-    EXPECT_EQ(r.max_bytes, 0u);
-    EXPECT_TRUE(r.tag.empty());
+TEST(RetentionRuleTest, RR_01_EqualityReflexive) {
+    auto r = RetentionRule::timeBased(std::chrono::hours(24), "GDPR");
+    EXPECT_EQ(r, r);
 }
 
-// RR-02: operator== identifies equal rules
-TEST(RetentionRuleTest, RR02_EqualityTrue) {
-    RetentionRule a, b;
-    a.type        = RetentionType::VERSION_COUNT_BASED;
-    a.max_versions = 5;
-    a.tag          = "gdpr";
-    b              = a;
-    EXPECT_TRUE(a == b);
-    EXPECT_FALSE(a != b);
+TEST(RetentionRuleTest, RR_02_EqualitySymmetric) {
+    auto r1 = RetentionRule::timeBased(std::chrono::hours(24), "GDPR");
+    auto r2 = RetentionRule::timeBased(std::chrono::hours(24), "GDPR");
+    EXPECT_EQ(r1, r2);
+    EXPECT_EQ(r2, r1);
 }
 
-// RR-03: operator== detects field differences
-TEST(RetentionRuleTest, RR03_EqualityFalse) {
-    RetentionRule a, b;
-    a.type = RetentionType::TIME_BASED;
-    a.max_age_ms = 1000;
-    b.type = RetentionType::TIME_BASED;
-    b.max_age_ms = 2000;
-    EXPECT_FALSE(a == b);
-    EXPECT_TRUE(a != b);
+TEST(RetentionRuleTest, RR_03_InequalityDifferentPeriod) {
+    auto r1 = RetentionRule::timeBased(std::chrono::hours(24));
+    auto r2 = RetentionRule::timeBased(std::chrono::hours(48));
+    EXPECT_NE(r1, r2);
 }
 
-// RR-04: operator< orders by type enum ordinal
-TEST(RetentionRuleTest, RR04_LessThanByType) {
-    RetentionRule time_rule, version_rule;
-    time_rule.type    = RetentionType::TIME_BASED;
-    version_rule.type = RetentionType::VERSION_COUNT_BASED;
-    EXPECT_TRUE(time_rule < version_rule);
-    EXPECT_FALSE(version_rule < time_rule);
+TEST(RetentionRuleTest, RR_04_InequalityDifferentType) {
+    auto r1 = RetentionRule::timeBased(std::chrono::hours(1));
+    auto r2 = RetentionRule::versionCount(5);
+    EXPECT_NE(r1, r2);
 }
 
-// RR-05: operator< for same type orders by numeric bound
-TEST(RetentionRuleTest, RR05_LessThanSameType) {
-    RetentionRule small, large;
-    small.type       = RetentionType::TIME_BASED;
-    small.max_age_ms = 100;
-    large.type       = RetentionType::TIME_BASED;
-    large.max_age_ms = 200;
-    EXPECT_TRUE(small < large);
-    EXPECT_FALSE(large < small);
+TEST(RetentionRuleTest, RR_05_LessThanism_TotalOrder) {
+    auto r1 = RetentionRule::timeBased(std::chrono::hours(1));
+    auto r2 = RetentionRule::timeBased(std::chrono::hours(2));
+    EXPECT_LT(r1, r2);
+    EXPECT_FALSE(r2 < r1);
+    EXPECT_FALSE(r1 < r1);
 }
 
-// RR-06: rules are usable as std::set / std::map keys (strict weak ordering)
-TEST(RetentionRuleTest, RR06_UsableInOrderedContainer) {
-    std::set<RetentionRule> rules;
-    RetentionRule r1, r2, r3;
-    r1.type = RetentionType::TIME_BASED;    r1.max_age_ms = 1000;
-    r2.type = RetentionType::VERSION_COUNT_BASED; r2.max_versions = 5;
-    r3.type = RetentionType::STORAGE_BASED; r3.max_bytes = 1024;
-    rules.insert(r1);
-    rules.insert(r2);
-    rules.insert(r3);
-    rules.insert(r1); // duplicate — should not grow set
-    EXPECT_EQ(rules.size(), 3u);
+TEST(RetentionRuleTest, RR_06_UsableInStdSet) {
+    std::set<RetentionRule> rule_set;
+    rule_set.insert(RetentionRule::timeBased(std::chrono::hours(24), "GDPR"));
+    rule_set.insert(RetentionRule::versionCount(10, "HIPAA"));
+    rule_set.insert(RetentionRule::storageBased(1024 * 1024));
+    EXPECT_EQ(rule_set.size(), 3u);
+
+    // Inserting a duplicate should not grow the set.
+    rule_set.insert(RetentionRule::timeBased(std::chrono::hours(24), "GDPR"));
+    EXPECT_EQ(rule_set.size(), 3u);
 }

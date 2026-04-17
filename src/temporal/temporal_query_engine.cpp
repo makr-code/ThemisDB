@@ -528,8 +528,100 @@ std::vector<VersionedDocument> TemporalQueryEngine::executeTemporalQuery(
 }
 
 // ============================================================================
-// Cached query helper
+// SEQUENCED DISTINCT  (SQL:2011 §13.4)
 // ============================================================================
+
+namespace {
+
+/// Compare two Documents by a subset of fields, or fully if fields is empty.
+bool documentsEqual(const Document& a,
+                    const Document& b,
+                    const std::vector<std::string>& fields) {
+    if (fields.empty()) {
+        return a == b;
+    }
+    for (const auto& f : fields) {
+        auto ia = a.find(f);
+        auto ib = b.find(f);
+        const bool a_missing = (ia == a.end());
+        const bool b_missing = (ib == b.end());
+        if (a_missing != b_missing) return false;
+        if (!a_missing && (*ia != *ib)) return false;
+    }
+    return true;
+}
+
+/// Coalesce a sorted (by sys_start) list of versions for a single key.
+/// Adjacent versions whose compared fields are equal and whose intervals are
+/// contiguous (i.e. v[i].sys_time.end == v[i+1].sys_time.start) are merged.
+std::vector<VersionedDocument> coalesceVersions(
+    std::vector<VersionedDocument> versions,
+    const std::vector<std::string>& compare_fields) {
+
+    if (versions.empty()) return {};
+
+    // Sort ascending by sys_start.
+    std::sort(versions.begin(), versions.end(),
+              [](const VersionedDocument& a, const VersionedDocument& b) {
+                  return a.sys_time.start < b.sys_time.start;
+              });
+
+    std::vector<VersionedDocument> result;
+    result.push_back(versions.front());
+
+    for (size_t i = 1; i < versions.size(); ++i) {
+        auto& last = result.back();
+        const auto& cur = versions[i];
+
+        const bool adjacent = (last.sys_time.end == cur.sys_time.start);
+        const bool same_data = documentsEqual(last.data, cur.data, compare_fields);
+
+        if (adjacent && same_data) {
+            // Merge: extend the last result's sys_time to cover cur's period.
+            last.sys_time.end = cur.sys_time.end;
+        } else {
+            result.push_back(cur);
+        }
+    }
+
+    return result;
+}
+
+} // anonymous namespace
+
+std::vector<VersionedDocument> TemporalQueryEngine::sequencedDistinct(
+    const SystemVersionedTable& table,
+    const std::vector<std::string>& compare_fields) {
+
+    const auto keys = table.getAllKeys();
+    std::vector<VersionedDocument> result;
+
+    for (const auto& key : keys) {
+        auto coalesced = coalesceVersions(table.getHistory(key), compare_fields);
+        for (auto& row : coalesced) {
+            result.push_back(std::move(row));
+        }
+    }
+
+    // Sort the global result by key, then sys_start for deterministic output.
+    std::sort(result.begin(), result.end(),
+              [](const VersionedDocument& a, const VersionedDocument& b) {
+                  if (a.key != b.key) return a.key < b.key;
+                  return a.sys_time.start < b.sys_time.start;
+              });
+
+    return result;
+}
+
+std::vector<VersionedDocument> TemporalQueryEngine::sequencedDistinctForKey(
+    const SystemVersionedTable& table,
+    const std::string& key,
+    const std::vector<std::string>& compare_fields) {
+
+    return coalesceVersions(table.getHistory(key), compare_fields);
+}
+
+
 
 namespace detail {
 

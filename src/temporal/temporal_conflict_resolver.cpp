@@ -196,51 +196,16 @@ TemporalSnapshot TemporalConflictResolver::resolveCRDT(
     const TemporalSnapshot& local,
     const TemporalSnapshot& remote
 ) {
-    // If an external MergeResolver has been injected, delegate to it.
+    // Delegate to the injected MergeResolver if one has been set; otherwise
+    // fall back to the built-in LWW-per-field strategy.
     std::shared_ptr<MergeResolver> resolver;
     {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::lock_guard<std::mutex> lk(mutex_);
         resolver = merge_resolver_;
     }
+
     if (resolver) {
         return resolver->merge(local, remote);
-    }
-
-    // Default: LWW-Register per field — keep the value from the snapshot with
-    // the higher HLC timestamp for each field (Last-Write-Wins per field).
-    LWWFieldMergeResolver lww;
-    return lww.merge(local, remote);
-}
-
-void TemporalConflictResolver::setMergeResolver(
-    std::shared_ptr<MergeResolver> resolver) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    merge_resolver_ = std::move(resolver);
-}
-
-std::shared_ptr<MergeResolver> TemporalConflictResolver::getMergeResolver() const {
-    std::lock_guard<std::mutex> lock(mutex_);
-    return merge_resolver_;
-}
-
-// ============================================================================
-// MergeResolver implementations
-// ============================================================================
-
-TemporalSnapshot LWWFieldMergeResolver::merge(
-    const TemporalSnapshot& local,
-    const TemporalSnapshot& remote) const {
-
-    const TemporalSnapshot& newer = (local.hlc < remote.hlc) ? remote : local;
-    const TemporalSnapshot& older = (local.hlc < remote.hlc) ? local  : remote;
-
-    nlohmann::json merged = older.data;
-    if (newer.data.is_object() && older.data.is_object()) {
-        for (auto& [key, value] : newer.data.items()) {
-            merged[key] = value;
-        }
-    } else {
-        merged = newer.data;
     }
     TemporalSnapshot result = newer;
     result.data = std::move(merged);
@@ -268,9 +233,8 @@ TemporalSnapshot UnionMergeResolver::merge(
     // Then add any fields from older that are absent in newer (true union)
     // (already present since we started from older.data — no extra step needed)
 
-    TemporalSnapshot result = newer;
-    result.data = std::move(merged);
-    return result;
+    // Built-in fallback: LWW-Register per field (preserved for backward compat).
+    return LWWFieldMergeResolver{}.merge(local, remote);
 }
 
 std::vector<ConflictRecord> TemporalConflictResolver::getUnresolvedConflicts() const {
@@ -663,6 +627,96 @@ std::optional<Conflict> TemporalConflictDetector::detectUniquenessViolation(
     c.remote_version   = remote;
     c.affected_columns = std::move(affected);
     return c;
+}
+
+// ============================================================================
+// MergeResolver Built-in Implementations
+// ============================================================================
+
+// ─── LWWFieldMergeResolver ───────────────────────────────────────────────────
+
+TemporalSnapshot LWWFieldMergeResolver::merge(
+    const TemporalSnapshot& local,
+    const TemporalSnapshot& remote
+) const {
+    // LWW-Register per field: for each JSON field keep the value from the
+    // snapshot with the higher HLC timestamp.  Fields present only in one
+    // snapshot are always included.
+
+    const TemporalSnapshot& newer = (local.hlc < remote.hlc) ? remote : local;
+    const TemporalSnapshot& older = (local.hlc < remote.hlc) ? local  : remote;
+
+    nlohmann::json merged = older.data;
+
+    if (newer.data.is_object() && older.data.is_object()) {
+        for (const auto& [key, value] : newer.data.items()) {
+            merged[key] = value;
+        }
+    } else {
+        merged = newer.data;
+    }
+
+    TemporalSnapshot result = newer;
+    result.data = std::move(merged);
+    return result;
+}
+
+// ─── UnionMergeResolver ──────────────────────────────────────────────────────
+
+TemporalSnapshot UnionMergeResolver::merge(
+    const TemporalSnapshot& local,
+    const TemporalSnapshot& remote
+) const {
+    // Union: keep every field from either snapshot; for fields present in
+    // both, take the value from the snapshot with the higher HLC.
+    // Non-object payloads fall back to LWW.
+
+    const TemporalSnapshot& newer = (local.hlc < remote.hlc) ? remote : local;
+    const TemporalSnapshot& older = (local.hlc < remote.hlc) ? local  : remote;
+
+    nlohmann::json merged;
+
+    if (newer.data.is_object() && older.data.is_object()) {
+        // Start with older fields as the baseline (union semantics: keep all).
+        merged = older.data;
+        // Overwrite/add all fields from the newer snapshot.
+        for (const auto& [key, value] : newer.data.items()) {
+            merged[key] = value;
+        }
+    } else {
+        merged = newer.data;
+    }
+
+    TemporalSnapshot result = newer;
+    result.data = std::move(merged);
+    return result;
+}
+
+// ─── CustomMergeResolver ─────────────────────────────────────────────────────
+
+CustomMergeResolver::CustomMergeResolver(MergeFn fn)
+    : fn_(std::move(fn))
+{}
+
+TemporalSnapshot CustomMergeResolver::merge(
+    const TemporalSnapshot& local,
+    const TemporalSnapshot& remote
+) const {
+    return fn_(local, remote);
+}
+
+// ============================================================================
+// TemporalConflictResolver – MergeResolver accessors
+// ============================================================================
+
+void TemporalConflictResolver::setMergeResolver(std::shared_ptr<MergeResolver> resolver) {
+    std::lock_guard<std::mutex> lk(mutex_);
+    merge_resolver_ = std::move(resolver);
+}
+
+std::shared_ptr<MergeResolver> TemporalConflictResolver::getMergeResolver() const {
+    std::lock_guard<std::mutex> lk(mutex_);
+    return merge_resolver_;
 }
 
 } // namespace temporal

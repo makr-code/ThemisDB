@@ -65,6 +65,7 @@
 #include "temporal/temporal_types.h"
 #include <atomic>
 #include <chrono>
+#include <cstdio>
 #include <filesystem>
 #include <fstream>
 #include <functional>
@@ -169,6 +170,29 @@ struct ChangeEvent {
  * `max_log_size` (default 65536).  `replayChanges()` returns matching
  * events from this log.  Events older than the ring-buffer window are lost.
  *
+ * ### Ring-buffer overflow semantics
+ *
+ * The ring-buffer operates with **OVERWRITE** (oldest-eviction) policy:
+ *
+ *   - The buffer is a circular deque (`std::deque`) capped at `max_log_size`
+ *     entries.
+ *   - When a new event arrives and the buffer is at capacity, the **oldest**
+ *     event (front of the deque) is silently discarded to make room.
+ *   - There is no back-pressure on the caller, no blocking, and no error
+ *     is returned from `publishEvent()`.
+ *   - Consumers that require guaranteed delivery MUST use the subscription
+ *     API (`subscribeToChanges`) rather than `replayChanges()`, because
+ *     in-flight callbacks are invoked *before* the event is appended —
+ *     i.e. they are unaffected by overflow.
+ *   - The overflow count (total events lost since construction) is available
+ *     via `overflowCount()`.
+ *
+ * **Capacity guidance**:
+ *   - Default capacity 65 536 events ≈ 8–16 MiB depending on payload size.
+ *   - Increase `max_log_size` in the constructor for replay-heavy workloads.
+ *   - A future version will support BLOCK and DROP policies for strict
+ *     back-pressure (see `include/temporal/ROADMAP.md`, CDC v1.8.0 items).
+ *
  * ### Thread-safety
  * All public methods are thread-safe.  Callbacks are invoked under a
  * shared lock so they must not call `subscribeToChanges` or `unsubscribe`
@@ -260,6 +284,20 @@ public:
      */
     uint64_t totalPublished() const noexcept;
 
+    /**
+     * Return the total number of events that have been silently discarded
+     * due to ring-buffer overflow since construction.
+     *
+     * An overflow occurs when `publishEvent()` is called while the in-process
+     * log already holds `max_log_size` events.  The oldest event is evicted
+     * (OVERWRITE policy) and this counter is incremented.
+     *
+     * A non-zero value indicates that `replayChanges()` may no longer return
+     * the complete history.  Consumers that require guaranteed delivery should
+     * use the subscription API instead.
+     */
+    uint64_t overflowCount() const noexcept;
+
     /** Clear the in-process event log.  Active subscriptions are unaffected. */
     void clearLog();
 
@@ -301,7 +339,7 @@ private:
     OverflowPolicy               overflow_policy_;
     std::vector<ChangeEvent>     log_;         ///< Ring-buffer (front = oldest)
     std::atomic<uint64_t>        total_published_{0};
-    std::atomic<uint64_t>        overflow_count_{0};  ///< Evictions / drops due to overflow
+    std::atomic<uint64_t>        overflow_count_{0};  ///< Events evicted by OVERWRITE policy
 
     std::unordered_map<std::string, Subscription> subscriptions_;
 
@@ -438,3 +476,188 @@ private:
 
 } // namespace temporal
 } // namespace themisdb
+
+// ============================================================================
+// CDCPersistentLog  (v1.8.0)
+// ============================================================================
+
+/**
+ * @brief Append-only, WAL-backed persistent CDC log.
+ *
+ * `CDCPersistentLog` implements the `CDCListener` interface (via
+ * `TemporalCDC::subscribeToChanges`) and durably persists each `ChangeEvent`
+ * to a binary append-only Write-Ahead Log (WAL) on the file-system.
+ *
+ * ## WAL segment format
+ *
+ * Each segment is an append-only binary file named
+ * `<segment_dir>/<prefix>_<segment_seq>.wal`.  A segment header is written
+ * once at creation time, followed by zero or more fixed-layout records:
+ *
+ * ```
+ * Segment file layout
+ * ───────────────────
+ * [HEADER]  magic(4) | version(2) | segment_seq(8) | created_at_ms(8)
+ * [RECORD]* payload_len(4) | crc32(4) | payload(<payload_len bytes JSON)
+ * ```
+ *
+ * `magic` = 0x54444357  ('TDCW' in little-endian)
+ * `version` = 0x0100 (major=1, minor=0)
+ *
+ * A new segment is created automatically when the current segment reaches or
+ * exceeds `max_segment_bytes` (default 64 MiB).
+ *
+ * ## CRC-32 validation
+ *
+ * Each record carries a CRC-32/ISO-HDLC checksum of the JSON payload bytes.
+ * On open (`open()`), the log scans all records in the segment directory and
+ * discards any tail record whose CRC does not match — providing truncation
+ * recovery without data loss on abrupt shutdown.
+ *
+ * ## Thread-safety
+ *
+ * All public methods are thread-safe.
+ *
+ * ## Usage
+ * ```cpp
+ * CDCPersistentLog wal("/var/lib/themisdb/cdc", "orders");
+ * wal.open();
+ *
+ * TemporalCDC cdc;
+ * cdc.subscribeToChanges("orders", [&](const ChangeEvent& ev) {
+ *     wal.append(ev);
+ * });
+ *
+ * // Replay all durable events:
+ * auto events = wal.replayAll();
+ * wal.close();
+ * ```
+ */
+class CDCPersistentLog {
+public:
+    /** Byte capacity at which a segment is rotated. Default: 64 MiB. */
+    static constexpr uint64_t kDefaultMaxSegmentBytes = 64ULL * 1024 * 1024;
+
+    /**
+     * Construct a CDCPersistentLog.
+     *
+     * @param segment_dir       Directory in which WAL segments are stored.
+     *                          Created automatically if it does not exist.
+     * @param log_prefix        Prefix for segment file names (e.g. "cdc" or
+     *                          a table name).  Must not be empty.
+     * @param max_segment_bytes Rotate to a new segment after this many bytes.
+     */
+    explicit CDCPersistentLog(std::string segment_dir,
+                               std::string log_prefix = "cdc",
+                               uint64_t max_segment_bytes = kDefaultMaxSegmentBytes);
+
+    ~CDCPersistentLog();
+
+    // Non-copyable, non-movable (file handles)
+    CDCPersistentLog(const CDCPersistentLog&)            = delete;
+    CDCPersistentLog& operator=(const CDCPersistentLog&) = delete;
+
+    /**
+     * Open the log: scan existing segments in `segment_dir`, recover any
+     * truncated tail record, and position the write head at the first valid
+     * segment for appending.
+     *
+     * Must be called exactly once before `append()`.
+     * Idempotent: calling open() again after close() re-opens the log.
+     *
+     * @throws std::runtime_error  on I/O errors during directory creation or
+     *                             segment scanning.
+     */
+    void open();
+
+    /**
+     * Flush and close the current segment file handle.
+     * Safe to call multiple times.
+     */
+    void close();
+
+    /**
+     * Append a ChangeEvent to the persistent log.
+     *
+     * The event is JSON-serialised, CRC-32 checked, and written atomically
+     * (length-prefixed) to the current segment.  If the segment exceeds
+     * `max_segment_bytes` after the write, a new segment is rotated.
+     *
+     * @throws std::runtime_error  when called before `open()`, or on I/O
+     *                             errors.
+     */
+    void append(const ChangeEvent& event);
+
+    /**
+     * Replay all persisted events from all segments in chronological order.
+     *
+     * Records with invalid CRC are silently skipped (truncation recovery).
+     * This is a read-only scan and can be called concurrently with `append()`.
+     *
+     * @throws std::runtime_error  on segment directory I/O errors.
+     */
+    std::vector<ChangeEvent> replayAll() const;
+
+    /**
+     * Replay events from a specific segment (by 0-based sequence number).
+     *
+     * @param segment_seq  Segment sequence number.
+     * @throws std::out_of_range   when @p segment_seq >= segmentCount().
+     * @throws std::runtime_error  on I/O errors.
+     */
+    std::vector<ChangeEvent> replaySegment(uint64_t segment_seq) const;
+
+    /** Number of WAL segments that have been created (including active). */
+    uint64_t segmentCount() const noexcept;
+
+    /** Total bytes written to all segments (approximation, not fsynced). */
+    uint64_t totalBytesWritten() const noexcept;
+
+    /** Total events successfully appended since open(). */
+    uint64_t totalEventsAppended() const noexcept;
+
+    /** true when the log is currently open for writing. */
+    bool isOpen() const noexcept;
+
+private:
+    // ── WAL constants ─────────────────────────────────────────────────────────
+    static constexpr uint32_t kMagic   = 0x54444357u;  // 'TDCW'
+    static constexpr uint16_t kVersion = 0x0100u;
+
+    // ── State ─────────────────────────────────────────────────────────────────
+    std::string  segment_dir_;
+    std::string  log_prefix_;
+    uint64_t     max_segment_bytes_;
+
+    mutable std::mutex mutex_;
+
+    // Active segment
+    std::FILE*   active_fd_{nullptr};
+    uint64_t     active_seq_{0};       ///< Sequence number of active segment
+    uint64_t     active_bytes_{0};     ///< Bytes written to active segment
+    bool         is_open_{false};
+
+    std::atomic<uint64_t> total_events_{0};
+    std::atomic<uint64_t> total_bytes_{0};
+
+    // ── Private helpers ───────────────────────────────────────────────────────
+
+    /** Build the full path for a segment with the given sequence number. */
+    std::string segmentPath(uint64_t seq) const;
+
+    /** Scan segment_dir_ for existing .wal files and return sorted seqs. */
+    std::vector<uint64_t> listSegmentSeqs() const;
+
+    /** Write the 22-byte segment header to @p fd. */
+    static void writeSegmentHeader(std::FILE* fd, uint64_t seq);
+
+    /** Validate the header of a segment file; return true on success. */
+    static bool validateSegmentHeader(std::FILE* fd);
+
+    /** Compute CRC-32/ISO-HDLC of @p data. */
+    static uint32_t crc32(const std::string& data) noexcept;
+
+    /** Rotate: close active segment, increment seq, open new segment. */
+    void rotate();
+};
+

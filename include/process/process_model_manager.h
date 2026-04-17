@@ -239,6 +239,23 @@ public:
         const ProcessModelRecord& meta = {}
     );
 
+    /**
+     * @brief Import an EPK model from an ARIS Markup Language (AML) XML document.
+     *
+     * Parses the first EPK `<Model>` found in the AML file produced by
+     * ARIS Designer 9.x / 10.x.  ARIS TypeNum values are mapped to the
+     * corresponding EPKNodeType values (see EpkArisXmlImporter for the
+     * full mapping table).
+     *
+     * @param aml_xml  Full AML XML string.
+     * @param meta     Optional metadata overrides (name, domain, owner, …).
+     * @return ProcessModelResult with the assigned model_id on success.
+     */
+    ProcessModelResult importArisXml(
+        std::string_view aml_xml,
+        const ProcessModelRecord& meta = {}
+    );
+
     // -------------------------------------------------------------------------
     // CRUD
     // -------------------------------------------------------------------------

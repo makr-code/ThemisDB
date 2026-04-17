@@ -826,128 +826,170 @@ TEST_F(TemporalConflictDetectorTest, DetectOverlappingPeriods_NonIntegerFields_N
 }
 
 // ============================================================================
-// MergeResolver tests (MCR-01 .. MCR-07)
+// MergeResolver Tests  (MCR-01..07)
+// ============================================================================
+// Tests verify that MergeResolver implementations satisfy the CRDT contracts
+// (commutativity, idempotency) and that TemporalConflictResolver correctly
+// delegates to an injected resolver.
 // ============================================================================
 
 namespace {
 
-// Helper: create a snapshot with a JSON object payload
-TemporalSnapshot makeSnapObj(const std::string& id,
-                              uint64_t physical, uint32_t logical,
-                              const std::string& node_id,
-                              const nlohmann::json& data) {
+// Helper: make a snapshot with arbitrary multi-field JSON data.
+TemporalSnapshot makeMultiFieldSnap(
+    const std::string& id,
+    uint64_t physical, uint32_t logical, const std::string& node_id,
+    nlohmann::json data
+) {
     TemporalSnapshot s;
-    s.snapshot_id        = id;
-    s.hlc.physical       = physical;
-    s.hlc.logical        = logical;
-    s.hlc.node_id        = node_id;
-    s.source_node_id     = node_id;
-    s.data               = data;
-    s.checksum           = "test";
+    s.snapshot_id    = id;
+    s.hlc.physical   = physical;
+    s.hlc.logical    = logical;
+    s.hlc.node_id    = node_id;
+    s.source_node_id = node_id;
+    s.data           = std::move(data);
+    s.checksum       = "chk";
     return s;
 }
 
-} // namespace
+} // anonymous namespace
 
-// MCR-01: No resolver set → default LWW-field strategy
-TEST(MergeResolverTest, MCR01_DefaultLWWFieldMerge) {
-    TemporalConflictResolver resolver(ConflictPolicy::CRDT_MERGE);
-    EXPECT_EQ(resolver.getMergeResolver(), nullptr);
+// MCR-01: LWWFieldMergeResolver is commutative.
+//         merge(a,b).data == merge(b,a).data  (field content, not metadata)
+TEST(MergeResolverTest, LWWField_Commutative) {
+    LWWFieldMergeResolver resolver;
 
-    auto local  = makeSnapObj("l", 100, 0, "A", {{"x", 1}, {"y", "old"}});
-    auto remote = makeSnapObj("r", 200, 0, "B", {{"x", 2}});
+    auto a = makeMultiFieldSnap("a", 1000, 1, "n1", {{"x", 1}, {"y", "hello"}});
+    auto b = makeMultiFieldSnap("b", 2000, 1, "n2", {{"x", 2}, {"z", true}});
 
-    auto result = resolver.resolve(local, remote);
-    // remote is newer (physical 200); its x=2 should win
-    EXPECT_EQ(result.data["x"], 2);
-    // y from local should be present (only in local)
-    EXPECT_EQ(result.data["y"], "old");
+    auto ab = resolver.merge(a, b);
+    auto ba = resolver.merge(b, a);
+
+    EXPECT_EQ(ab.data, ba.data)
+        << "LWWFieldMergeResolver must be commutative";
 }
 
-// MCR-02: LWWFieldMergeResolver is commutative
-TEST(MergeResolverTest, MCR02_LWWCommutativity) {
-    LWWFieldMergeResolver lww;
-    auto a = makeSnapObj("a", 100, 0, "A", {{"k", "v1"}});
-    auto b = makeSnapObj("b", 200, 0, "B", {{"k", "v2"}});
+// MCR-02: LWWFieldMergeResolver is idempotent.
+//         merge(a,a).data == a.data
+TEST(MergeResolverTest, LWWField_Idempotent) {
+    LWWFieldMergeResolver resolver;
 
-    auto ab = lww.merge(a, b);
-    auto ba = lww.merge(b, a);
-    EXPECT_EQ(ab.data, ba.data);
+    auto a = makeMultiFieldSnap("a", 1000, 1, "n1", {{"k", 42}});
+
+    auto aa = resolver.merge(a, a);
+
+    EXPECT_EQ(aa.data, a.data)
+        << "LWWFieldMergeResolver must be idempotent";
 }
 
-// MCR-03: LWWFieldMergeResolver is idempotent
-TEST(MergeResolverTest, MCR03_LWWIdempotency) {
-    LWWFieldMergeResolver lww;
-    auto a = makeSnapObj("a", 100, 0, "A", {{"k", 42}});
+// MCR-03: UnionMergeResolver includes fields from both snapshots.
+TEST(MergeResolverTest, Union_IncludesAllFields) {
+    UnionMergeResolver resolver;
 
-    auto merged = lww.merge(a, a);
-    EXPECT_EQ(merged.data, a.data);
+    auto a = makeMultiFieldSnap("a", 1000, 1, "n1", {{"from_a", 1}});
+    auto b = makeMultiFieldSnap("b", 2000, 1, "n2", {{"from_b", 2}});
+
+    auto merged = resolver.merge(a, b);
+
+    ASSERT_TRUE(merged.data.contains("from_a"))
+        << "Union merge must include fields from the older snapshot";
+    ASSERT_TRUE(merged.data.contains("from_b"))
+        << "Union merge must include fields from the newer snapshot";
+    EXPECT_EQ(merged.data["from_a"], 1);
+    EXPECT_EQ(merged.data["from_b"], 2);
 }
 
-// MCR-04: UnionMergeResolver keeps all fields from both snapshots
-TEST(MergeResolverTest, MCR04_UnionKeepsAllFields) {
-    UnionMergeResolver uni;
-    auto a = makeSnapObj("a", 100, 0, "A", {{"x", 1}});
-    auto b = makeSnapObj("b", 200, 0, "B", {{"y", 2}});
+// MCR-04: UnionMergeResolver is commutative.
+TEST(MergeResolverTest, Union_Commutative) {
+    UnionMergeResolver resolver;
 
-    auto result = uni.merge(a, b);
-    EXPECT_TRUE(result.data.contains("x"));
-    EXPECT_TRUE(result.data.contains("y"));
+    auto a = makeMultiFieldSnap("a", 1000, 1, "n1", {{"x", "alpha"}, {"shared", "old"}});
+    auto b = makeMultiFieldSnap("b", 2000, 1, "n2", {{"y", "beta"},  {"shared", "new"}});
+
+    auto ab = resolver.merge(a, b);
+    auto ba = resolver.merge(b, a);
+
+    EXPECT_EQ(ab.data, ba.data)
+        << "UnionMergeResolver must be commutative";
 }
 
-// MCR-05: UnionMergeResolver is commutative for field union
-TEST(MergeResolverTest, MCR05_UnionCommutativity) {
-    UnionMergeResolver uni;
-    auto a = makeSnapObj("a", 100, 0, "A", {{"x", 1}, {"shared", "a"}});
-    auto b = makeSnapObj("b", 200, 0, "B", {{"y", 2}, {"shared", "b"}});
-
-    auto ab = uni.merge(a, b);
-    auto ba = uni.merge(b, a);
-    // Both must contain all keys
-    EXPECT_EQ(ab.data.contains("x"),      ba.data.contains("x"));
-    EXPECT_EQ(ab.data.contains("y"),      ba.data.contains("y"));
-    EXPECT_EQ(ab.data.contains("shared"), ba.data.contains("shared"));
-}
-
-// MCR-06: CustomMergeResolver with injected lambda is called
-TEST(MergeResolverTest, MCR06_CustomMergeResolverCalled) {
+// MCR-05: CustomMergeResolver uses the provided callable.
+TEST(MergeResolverTest, Custom_CallableInvoked) {
     bool called = false;
-    auto fn = [&](const TemporalSnapshot& a, const TemporalSnapshot& b) {
-        called = true;
-        TemporalSnapshot result = a;
-        result.data = {{"custom", true}};
-        return result;
-    };
+    TemporalSnapshot expected_result =
+        makeMultiFieldSnap("custom", 9999, 0, "custom", {{"result", "custom"}});
 
-    TemporalConflictResolver resolver(ConflictPolicy::CRDT_MERGE);
-    resolver.setMergeResolver(std::make_shared<CustomMergeResolver>(fn));
-    EXPECT_NE(resolver.getMergeResolver(), nullptr);
+    CustomMergeResolver resolver(
+        [&](const TemporalSnapshot&, const TemporalSnapshot&) -> TemporalSnapshot {
+            called = true;
+            return expected_result;
+        }
+    );
 
-    auto a = makeSnapObj("a", 100, 0, "A", {{"k", 1}});
-    auto b = makeSnapObj("b", 200, 0, "B", {{"k", 2}});
+    auto a = makeMultiFieldSnap("a", 1000, 1, "n1", {});
+    auto b = makeMultiFieldSnap("b", 2000, 1, "n2", {});
 
-    auto result = resolver.resolve(a, b);
-    EXPECT_TRUE(called);
-    EXPECT_EQ(result.data["custom"], true);
+    auto result = resolver.merge(a, b);
+
+    EXPECT_TRUE(called)
+        << "CustomMergeResolver must invoke the provided callable";
+    EXPECT_EQ(result.snapshot_id, "custom");
+    EXPECT_EQ(result.data["result"], "custom");
 }
 
-// MCR-07: setMergeResolver(nullptr) resets to default LWW
-TEST(MergeResolverTest, MCR07_ResetToDefaultAfterNullptr) {
-    auto fn = [](const TemporalSnapshot& a, const TemporalSnapshot&) {
-        TemporalSnapshot result = a;
-        result.data = {{"custom", true}};
-        return result;
-    };
-    TemporalConflictResolver resolver(ConflictPolicy::CRDT_MERGE);
-    resolver.setMergeResolver(std::make_shared<CustomMergeResolver>(fn));
+// MCR-06: TemporalConflictResolver::setMergeResolver injects custom strategy
+//         that is used when ConflictPolicy::CRDT_MERGE is active.
+TEST(MergeResolverTest, InjectedResolverUsedByCRDTMerge) {
+    TemporalConflictResolver cr(ConflictPolicy::CRDT_MERGE);
 
-    // Reset
-    resolver.setMergeResolver(nullptr);
-    EXPECT_EQ(resolver.getMergeResolver(), nullptr);
+    bool called = false;
+    auto custom = std::make_shared<CustomMergeResolver>(
+        [&](const TemporalSnapshot& l, const TemporalSnapshot& r) -> TemporalSnapshot {
+            called = true;
+            // Return the newer snapshot unchanged.
+            return (l.hlc < r.hlc) ? r : l;
+        }
+    );
 
-    // Default LWW should kick in: newer wins
-    auto old_snap = makeSnapObj("a", 100, 0, "A", {{"k", "old"}});
-    auto new_snap = makeSnapObj("b", 200, 0, "B", {{"k", "new"}});
-    auto result   = resolver.resolve(old_snap, new_snap);
-    EXPECT_EQ(result.data["k"], "new");
+    cr.setMergeResolver(custom);
+    EXPECT_EQ(cr.getMergeResolver(), custom);
+
+    auto a = makeMultiFieldSnap("a", 1000, 1, "n1", {{"v", "a"}});
+    auto b = makeMultiFieldSnap("b", 2000, 1, "n2", {{"v", "b"}});
+
+    auto result = cr.resolve(a, b);
+
+    EXPECT_TRUE(called)
+        << "TemporalConflictResolver must delegate to the injected MergeResolver";
+    EXPECT_EQ(result.data["v"], "b");
+}
+
+// MCR-07: setMergeResolver(nullptr) reverts to built-in LWW-per-field behaviour.
+TEST(MergeResolverTest, NullResolverFallsBackToBuiltInLWW) {
+    TemporalConflictResolver cr(ConflictPolicy::CRDT_MERGE);
+
+    // First inject a custom resolver that always returns a sentinel.
+    auto sentinel = std::make_shared<CustomMergeResolver>(
+        [](const TemporalSnapshot&, const TemporalSnapshot&) -> TemporalSnapshot {
+            TemporalSnapshot s;
+            s.snapshot_id = "SENTINEL";
+            s.data = {{"sentinel", true}};
+            return s;
+        }
+    );
+    cr.setMergeResolver(sentinel);
+
+    // Now reset to nullptr — built-in LWW should take over.
+    cr.setMergeResolver(nullptr);
+    EXPECT_EQ(cr.getMergeResolver(), nullptr);
+
+    auto a = makeMultiFieldSnap("a", 1000, 1, "n1", {{"v", "old"}});
+    auto b = makeMultiFieldSnap("b", 2000, 1, "n2", {{"v", "new"}});
+
+    auto result = cr.resolve(a, b);
+
+    EXPECT_NE(result.snapshot_id, "SENTINEL")
+        << "After reset to nullptr, built-in LWW must be active";
+    // Built-in LWW should produce the newer snapshot's value for field "v".
+    EXPECT_EQ(result.data["v"], "new");
 }

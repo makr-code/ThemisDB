@@ -46,6 +46,7 @@
  *   schema [table]               Show schema (optionally for one table)
  *   config get                   Print current server configuration
  *   config set <key=value> ...   Hot-reload one or more config keys
+ *   config validate [key=value ...]  Dry-run + diff proposed config changes
  *   branch list                  List branches
  *   branch create <name>         Create a branch
  *   branch switch <name>         Switch the active branch
@@ -55,6 +56,8 @@
  *   admin stats                  Show observability health / node stats
  *   admin cache                  Show cache health and statistics
  *   index recommend [table]      Show automatic index recommendations
+ *   rag query [--collection C] [--top-k N] [--lora ID] <question>
+ *                                AgenticRAG natural-language query
  *   repl                         Start interactive REPL (with history)
  *
  * Exit codes:
@@ -529,8 +532,133 @@ static int cmdConfig(const std::vector<std::string>& args) {
         return 0;
     }
 
+    // ── config validate [key=value ...] ────────────────────────────────────
+    // Dry-run: send proposed changes to POST /config/validate and show a diff
+    // between the current config and the validated result.
+    //
+    // CVL-01..06: schema validation, diff display, dry-run semantics (no
+    // server-side mutation), error reporting, raw-JSON mode, empty args mode.
+    if (sub == "validate") {
+        // Build proposed patch from optional key=value args (same logic as set).
+        json proposed = json::object();
+        const std::vector<std::string> pairs(args.begin() + 1, args.end());
+        for (const auto& pair : pairs) {
+            auto eq = pair.find('=');
+            if (eq == std::string::npos) {
+                std::cerr << "[" << fail() << "] Invalid key=value pair: " << pair
+                          << " (missing '=')\n";
+                return 2;
+            }
+            std::string key   = pair.substr(0, eq);
+            std::string value = pair.substr(eq + 1);
+            auto dot = key.find('.');
+            if (dot != std::string::npos) {
+                std::string outer = key.substr(0, dot);
+                std::string inner = key.substr(dot + 1);
+                if (!proposed.contains(outer) || !proposed[outer].is_object()) {
+                    proposed[outer] = json::object();
+                }
+                if (value == "true")       proposed[outer][inner] = true;
+                else if (value == "false") proposed[outer][inner] = false;
+                else {
+                    try { proposed[outer][inner] = std::stold(value); }
+                    catch (...) { proposed[outer][inner] = value; }
+                }
+            } else {
+                if (value == "true")       proposed[key] = true;
+                else if (value == "false") proposed[key] = false;
+                else {
+                    try { proposed[key] = std::stold(value); }
+                    catch (...) { proposed[key] = value; }
+                }
+            }
+        }
+
+        // Fetch current config for diff base.
+        Response current_r = httpGet("/config");
+        json current_cfg;
+        if (current_r.status != -1 && current_r.ok()) {
+            try { current_cfg = json::parse(current_r.body); }
+            catch (...) { current_cfg = json::object(); }
+        }
+
+        // Send validate request (dry-run — server MUST NOT apply changes).
+        Response r = httpPost("/config/validate", proposed.dump());
+        if (r.status == -1) {
+            std::cerr << "[" << fail() << "] " << r.body << "\n";
+            return 3;
+        }
+        if (!r.ok()) {
+            if (g_ctx.raw_json) {
+                printJson(r.body);
+                return 1;
+            }
+            std::cerr << "[" << fail() << "] Validation failed (HTTP " << r.status << ")\n";
+            try {
+                json err = json::parse(r.body);
+                std::cerr << err.dump(2) << "\n";
+            } catch (...) { std::cerr << r.body << "\n"; }
+            return 1;
+        }
+
+        json validated;
+        try { validated = json::parse(r.body); }
+        catch (...) { validated = proposed; }
+
+        if (g_ctx.raw_json) {
+            printJson(r.body);
+            return 0;
+        }
+
+        // Print human-readable diff: current → validated.
+        std::cout << "[" << ok() << "] Config validation passed (dry-run — no changes applied).\n";
+        if (proposed.empty()) {
+            std::cout << "  (no changes proposed — server config is valid as-is)\n";
+            return 0;
+        }
+
+        std::cout << "\n" << col(Color::Bold, "Diff (current → validated):") << "\n";
+        for (const auto& [key, val] : proposed.items()) {
+            if (val.is_object()) {
+                for (const auto& [inner_key, inner_val] : val.items()) {
+                    std::string full_key = key + "." + inner_key;
+                    json old_val;
+                    if (current_cfg.contains(key) && current_cfg[key].is_object() &&
+                        current_cfg[key].contains(inner_key)) {
+                        old_val = current_cfg[key][inner_key];
+                    }
+                    json new_val = inner_val;
+                    if (validated.contains(key) && validated[key].is_object() &&
+                        validated[key].contains(inner_key)) {
+                        new_val = validated[key][inner_key];
+                    }
+                    if (old_val != new_val) {
+                        std::cout << "  " << col(Color::Cyan, full_key) << ": "
+                                  << col(Color::Red, old_val.dump()) << " → "
+                                  << col(Color::Bold, new_val.dump()) << "\n";
+                    } else {
+                        std::cout << "  " << col(Color::Dim, full_key) << ": "
+                                  << old_val.dump() << " (unchanged)\n";
+                    }
+                }
+            } else {
+                json old_val = current_cfg.contains(key) ? current_cfg[key] : json{};
+                json new_val = validated.contains(key) ? validated[key] : val;
+                if (old_val != new_val) {
+                    std::cout << "  " << col(Color::Cyan, key) << ": "
+                              << col(Color::Red, old_val.dump()) << " → "
+                              << col(Color::Bold, new_val.dump()) << "\n";
+                } else {
+                    std::cout << "  " << col(Color::Dim, key) << ": "
+                              << old_val.dump() << " (unchanged)\n";
+                }
+            }
+        }
+        return 0;
+    }
+
     std::cerr << "Unknown config sub-command: " << sub
-              << "\n  Valid sub-commands: get, set\n";
+              << "\n  Valid sub-commands: get, set, validate\n";
     return 2;
 }
 
@@ -766,6 +894,111 @@ static int cmdIndex(const std::vector<std::string>& args) {
     return 0;
 }
 
+// ── rag ───────────────────────────────────────────────────────────────────────
+//
+// rag query [--collection <name>] [--top-k <n>] [--lora <id>] <nl-question>
+//
+// Sends a natural-language question to the server's AgenticRAG endpoint
+// (POST /api/v1/llm/rag) and displays the generated answer together with
+// retrieval metadata.
+//
+// TRQ-01..06: argument validation, successful query, raw-JSON mode,
+//   collection/top-k flags, missing question error, connection error.
+//
+// Note: The endpoint mirrors the server-side LLMApiHandler::handleRAG()
+//   request format: {"query": "...", "collection": "...", "top_k": N,
+//   "lora_adapter": "..."}.  Response fields: "text", "query",
+//   "documents_retrieved", "tokens_generated", "inference_time_ms", "cache_hit".
+
+static int cmdRag(const std::vector<std::string>& args) {
+    // Usage: rag query [--collection C] [--top-k N] [--lora ID] <question...>
+    if (args.empty() || args[0] != "query") {
+        std::cerr << "Usage: themisctl rag query [--collection <name>] "
+                     "[--top-k <n>] [--lora <adapter-id>] <nl-question>\n";
+        return 2;
+    }
+
+    // Parse optional flags after "query".
+    std::string collection;
+    int         top_k = 5;
+    std::string lora_id;
+    std::vector<std::string> question_parts;
+
+    for (size_t i = 1; i < args.size(); ++i) {
+        if (args[i] == "--collection" && i + 1 < args.size()) {
+            collection = args[++i];
+        } else if (args[i] == "--top-k" && i + 1 < args.size()) {
+            try { top_k = std::stoi(args[++i]); }
+            catch (...) {
+                std::cerr << "[" << fail() << "] --top-k requires an integer\n";
+                return 2;
+            }
+        } else if (args[i] == "--lora" && i + 1 < args.size()) {
+            lora_id = args[++i];
+        } else {
+            // Remaining tokens form the natural-language question.
+            for (; i < args.size(); ++i) question_parts.push_back(args[i]);
+        }
+    }
+
+    if (question_parts.empty()) {
+        std::cerr << "[" << fail() << "] No question provided.\n"
+                  << "Usage: themisctl rag query [--collection <name>] "
+                     "[--top-k <n>] [--lora <adapter-id>] <nl-question>\n";
+        return 2;
+    }
+
+    // Join question tokens into a single string.
+    std::string question;
+    for (size_t i = 0; i < question_parts.size(); ++i) {
+        if (i > 0) question += ' ';
+        question += question_parts[i];
+    }
+
+    // Build request body.
+    json req_body;
+    req_body["query"] = question;
+    if (!collection.empty()) req_body["collection"] = collection;
+    req_body["top_k"] = top_k;
+    if (!lora_id.empty()) req_body["lora_adapter"] = lora_id;
+
+    Response r = httpPost("/api/v1/llm/rag", req_body.dump());
+    if (r.status == -1) {
+        std::cerr << "[" << fail() << "] " << r.body << "\n";
+        return 3;
+    }
+    if (!r.ok()) {
+        std::cerr << "[" << fail() << "] HTTP " << r.status << "\n";
+        try { std::cerr << json::parse(r.body).dump(2) << "\n"; }
+        catch (...) { std::cerr << r.body << "\n"; }
+        return 1;
+    }
+
+    if (g_ctx.raw_json) { printJson(r.body); return 0; }
+
+    try {
+        json j = json::parse(r.body);
+
+        std::string answer   = j.value("text", "");
+        int docs_retrieved   = j.value("documents_retrieved", 0);
+        int tokens_gen       = j.value("tokens_generated", 0);
+        int infer_ms         = j.value("inference_time_ms", 0);
+        bool cache_hit       = j.value("cache_hit", false);
+
+        std::cout << col(Color::Bold, "Answer:") << "\n"
+                  << answer << "\n\n"
+                  << col(Color::Dim, "documents_retrieved=") << docs_retrieved
+                  << col(Color::Dim, "  tokens_generated=") << tokens_gen
+                  << col(Color::Dim, "  inference_time_ms=") << infer_ms
+                  << col(Color::Dim, "  cache_hit=") << (cache_hit ? "true" : "false")
+                  << "\n";
+    } catch (...) {
+        std::cout << r.body << "\n";
+    }
+
+    return 0;
+}
+
 // ============================================================================
 // REPL support — shared tokeniser used by both cmdRepl and tests
 // ============================================================================
@@ -924,14 +1157,16 @@ static void printHelp(const char* prog) {
             << "                 Delete an entity\n"
         << "  " << col(Color::Cyan, "schema") << " [table]"
             << "               Show schema (all tables or a specific one)\n"
-        << "  " << col(Color::Cyan, "config") << " get|set [key=value ...]"
-            << "  Read or hot-reload server config\n"
+        << "  " << col(Color::Cyan, "config") << " get|set|validate [key=value ...]"
+            << "  Read, hot-reload, or dry-run validate server config\n"
         << "  " << col(Color::Cyan, "branch") << " list|create|switch|delete\n"
         << "  " << col(Color::Cyan, "snapshot") << " list|create [tag]\n"
         << "  " << col(Color::Cyan, "admin") << " stats|cache"
             << "             Show observability/cache statistics\n"
         << "  " << col(Color::Cyan, "index") << " recommend [table]"
             << "        Show automatic index recommendations\n"
+        << "  " << col(Color::Cyan, "rag") << " query [--collection <name>] [--top-k <n>] [--lora <id>] <question>"
+            << "\n                              AgenticRAG natural-language query\n"
         << "  " << col(Color::Cyan, "repl")
             << "                        Start interactive REPL (with history)\n\n"
         << col(Color::Bold, "Examples") << ":\n"
@@ -945,6 +1180,7 @@ static void printHelp(const char* prog) {
         << "  " << prog << " config get\n"
         << "  " << prog << " config set logging.level=debug request_timeout_ms=60000\n"
         << "  " << prog << " config set features.cdc=true\n"
+        << "  " << prog << " config validate features.cdc=true logging.level=info\n"
         << "  " << prog << " branch list\n"
         << "  " << prog << " branch create feature-x\n"
         << "  " << prog << " snapshot create v1.2.0\n"
@@ -952,6 +1188,8 @@ static void printHelp(const char* prog) {
         << "  " << prog << " --json admin cache\n"
         << "  " << prog << " index recommend\n"
         << "  " << prog << " index recommend users\n"
+        << "  " << prog << " rag query 'Welche Unterlagen fehlen für den Bauantrag?'\n"
+        << "  " << prog << " rag query --collection procs --top-k 10 What is the next step?\n"
         << "  " << prog << " repl\n";
 }
 
@@ -975,6 +1213,7 @@ static int dispatchCommand(const std::string& cmd,
         {"snapshot", cmdSnapshot},
         {"admin",    cmdAdmin},
         {"index",    cmdIndex},
+        {"rag",      cmdRag},
         {"repl",     cmdRepl},
     };
 

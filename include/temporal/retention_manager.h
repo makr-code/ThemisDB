@@ -42,6 +42,7 @@
 #include <optional>
 #include <string>
 #include <thread>
+#include <tuple>
 #include <vector>
 
 namespace themisdb {
@@ -56,58 +57,57 @@ enum class RetentionType {
 };
 
 /**
- * A single, comparable retention rule that captures one retention constraint.
+ * @brief Minimal, comparable representation of a single retention rule.
  *
- * `RetentionRule` is a lightweight value type (no callbacks) that can be
- * stored in ordered containers, compared for equality, and used as a map key.
- * It complements `RetentionPolicy` (the full configuration object) for cases
- * where rules must be enumerated, sorted, or deduplicated.
+ * `RetentionPolicy` is the full configuration object.  `RetentionRule`
+ * distils a policy down to its essential discriminant so that rules can be
+ * stored in ordered containers (`std::set`, `std::map`) and compared for
+ * equality without dragging in the non-comparable `should_keep` predicate.
  *
- * Ordering is defined as:
- *   1. By `type` (enum ordinal).
- *   2. Within the same type, by the primary numeric bound
- *      (`max_age_ms` / `max_versions` / `max_bytes`).
- *   3. Finally by `tag` lexicographic order.
+ * Field semantics per `RetentionType`:
+ *   - `TIME_BASED`:           only `period` is relevant.
+ *   - `VERSION_COUNT_BASED`:  only `max_versions` is relevant.
+ *   - `STORAGE_BASED`:        only `max_bytes` is relevant.
+ *   - `CUSTOM`:               only `tag` is relevant (predicate is not stored).
+ *
+ * Ordering (for `std::map` / `std::set`):
+ *   Lexicographic on `(type, period.count(), max_versions, max_bytes, tag)`.
  */
 struct RetentionRule {
-    RetentionType type{RetentionType::TIME_BASED};
+    RetentionType             type{RetentionType::TIME_BASED};
+    std::chrono::milliseconds period{0};       ///< TIME_BASED: retention window
+    size_t                    max_versions{0}; ///< VERSION_COUNT_BASED: history depth
+    uint64_t                  max_bytes{0};    ///< STORAGE_BASED: max historical bytes
+    std::string               tag;            ///< Compliance / identifier label
 
-    /// For TIME_BASED: maximum age in milliseconds (0 = unlimited).
-    int64_t max_age_ms{0};
-
-    /// For VERSION_COUNT_BASED: maximum versions per key (0 = unlimited).
-    size_t max_versions{0};
-
-    /// For STORAGE_BASED: maximum total bytes for historical data (0 = unlimited).
-    uint64_t max_bytes{0};
-
-    /// Human-readable label (e.g. compliance tag). Used as tiebreaker.
-    std::string tag;
-
-    bool operator==(const RetentionRule& o) const noexcept {
-        return type == o.type
-            && max_age_ms == o.max_age_ms
-            && max_versions == o.max_versions
-            && max_bytes == o.max_bytes
-            && tag == o.tag;
+    /**
+     * @brief Convenience factory: create a TIME_BASED rule.
+     */
+    static RetentionRule timeBased(std::chrono::milliseconds p,
+                                   std::string compliance_tag = {}) noexcept {
+        return {RetentionType::TIME_BASED, p, 0, 0, std::move(compliance_tag)};
     }
 
-    bool operator!=(const RetentionRule& o) const noexcept {
-        return !(*this == o);
+    /**
+     * @brief Convenience factory: create a VERSION_COUNT_BASED rule.
+     */
+    static RetentionRule versionCount(size_t n,
+                                      std::string compliance_tag = {}) noexcept {
+        return {RetentionType::VERSION_COUNT_BASED, std::chrono::milliseconds{0},
+                n, 0, std::move(compliance_tag)};
     }
 
-    /// Strict weak ordering: (type, numeric_bound, tag).
-    bool operator<(const RetentionRule& o) const noexcept {
-        if (type != o.type)
-            return type < o.type;
-        if (max_age_ms != o.max_age_ms)
-            return max_age_ms < o.max_age_ms;
-        if (max_versions != o.max_versions)
-            return max_versions < o.max_versions;
-        if (max_bytes != o.max_bytes)
-            return max_bytes < o.max_bytes;
-        return tag < o.tag;
+    /**
+     * @brief Convenience factory: create a STORAGE_BASED rule.
+     */
+    static RetentionRule storageBased(uint64_t max_b,
+                                      std::string compliance_tag = {}) noexcept {
+        return {RetentionType::STORAGE_BASED, std::chrono::milliseconds{0},
+                0, max_b, std::move(compliance_tag)};
     }
+
+    bool operator==(const RetentionRule& rhs) const noexcept;
+    bool operator<(const RetentionRule& rhs)  const noexcept;
 };
 
 /**

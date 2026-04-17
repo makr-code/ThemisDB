@@ -29,6 +29,7 @@
 
 #include "temporal/interval_tree_index.h"
 #include <algorithm>
+#include <cassert>
 
 namespace themisdb {
 namespace temporal {
@@ -41,7 +42,7 @@ IntervalTreeIndex::IntervalTreeIndex(std::string name)
     : name_(std::move(name)) {}
 
 // ============================================================================
-// Static node helpers
+// Static node helpers — subtree max-end and AVL height
 // ============================================================================
 
 Timestamp IntervalTreeIndex::nodeMaxEnd(const Node* n) noexcept {
@@ -55,6 +56,79 @@ void IntervalTreeIndex::updateSubtreeMax(Node* n) noexcept {
         n->subtree_max_end = n->left->subtree_max_end;
     if (n->right && n->right->subtree_max_end > n->subtree_max_end)
         n->subtree_max_end = n->right->subtree_max_end;
+}
+
+int IntervalTreeIndex::nodeHeight(const Node* n) noexcept {
+    return n ? n->height : 0;
+}
+
+int IntervalTreeIndex::balanceFactor(const Node* n) noexcept {
+    if (!n) return 0;
+    return nodeHeight(n->left.get()) - nodeHeight(n->right.get());
+}
+
+void IntervalTreeIndex::updateHeight(Node* n) noexcept {
+    if (!n) return;
+    n->height = 1 + std::max(nodeHeight(n->left.get()),
+                              nodeHeight(n->right.get()));
+}
+
+// ============================================================================
+// AVL rotations — both maintain subtree_max_end and height invariants
+// ============================================================================
+
+std::unique_ptr<IntervalTreeIndex::Node>
+IntervalTreeIndex::rotateRight(std::unique_ptr<Node> y) {
+    auto x     = std::move(y->left);
+    y->left    = std::move(x->right);
+    updateSubtreeMax(y.get());
+    updateHeight(y.get());
+    x->right   = std::move(y);
+    updateSubtreeMax(x.get());
+    updateHeight(x.get());
+    return x;
+}
+
+std::unique_ptr<IntervalTreeIndex::Node>
+IntervalTreeIndex::rotateLeft(std::unique_ptr<Node> x) {
+    auto y     = std::move(x->right);
+    x->right   = std::move(y->left);
+    updateSubtreeMax(x.get());
+    updateHeight(x.get());
+    y->left    = std::move(x);
+    updateSubtreeMax(y.get());
+    updateHeight(y.get());
+    return y;
+}
+
+// Rebalance a node after insert/remove, updating both height and max-end.
+std::unique_ptr<IntervalTreeIndex::Node>
+IntervalTreeIndex::balance(std::unique_ptr<Node> n) {
+    if (!n) return nullptr;
+    updateSubtreeMax(n.get());
+    updateHeight(n.get());
+
+    const int bf = balanceFactor(n.get());
+
+    if (bf > 1) {
+        // Left-heavy
+        if (balanceFactor(n->left.get()) < 0) {
+            // Left-Right case: double rotation
+            n->left = rotateLeft(std::move(n->left));
+        }
+        return rotateRight(std::move(n));
+    }
+
+    if (bf < -1) {
+        // Right-heavy
+        if (balanceFactor(n->right.get()) > 0) {
+            // Right-Left case: double rotation
+            n->right = rotateRight(std::move(n->right));
+        }
+        return rotateLeft(std::move(n));
+    }
+
+    return n;
 }
 
 // ============================================================================
@@ -84,8 +158,7 @@ IntervalTreeIndex::insertNode(std::unique_ptr<Node> root,
         }
     }
 
-    updateSubtreeMax(root.get());
-    return root;
+    return balance(std::move(root));
 }
 
 // ============================================================================
@@ -108,8 +181,7 @@ IntervalTreeIndex::detachMin(std::unique_ptr<Node> root,
         return right;
     }
     root->left = detachMin(std::move(root->left), out_node);
-    updateSubtreeMax(root.get());
-    return root;
+    return balance(std::move(root));
 }
 
 std::unique_ptr<IntervalTreeIndex::Node>
@@ -143,16 +215,14 @@ IntervalTreeIndex::removeNode(std::unique_ptr<Node> root,
             root->right = detachMin(std::move(root->right), successor);
             successor->left  = std::move(root->left);
             successor->right = std::move(root->right);
-            updateSubtreeMax(successor.get());
-            return successor;
+            return balance(std::move(successor));
         }
         // Not this node — search both sides for duplicate starts
         root->left  = removeNode(std::move(root->left),  key, range, removed_count);
         root->right = removeNode(std::move(root->right), key, range, removed_count);
     }
 
-    updateSubtreeMax(root.get());
-    return root;
+    return balance(std::move(root));
 }
 
 std::unique_ptr<IntervalTreeIndex::Node>
@@ -172,12 +242,10 @@ IntervalTreeIndex::removeKeyNode(std::unique_ptr<Node> root,
         root->right = detachMin(std::move(root->right), successor);
         successor->left  = std::move(root->left);
         successor->right = std::move(root->right);
-        updateSubtreeMax(successor.get());
-        return successor;
+        return balance(std::move(successor));
     }
 
-    updateSubtreeMax(root.get());
-    return root;
+    return balance(std::move(root));
 }
 
 // ============================================================================
@@ -185,9 +253,12 @@ IntervalTreeIndex::removeKeyNode(std::unique_ptr<Node> root,
 // ============================================================================
 
 void IntervalTreeIndex::insert(const IntervalEntry& entry) {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::unique_lock<std::shared_mutex> lk(mutex_);
     root_ = insertNode(std::move(root_), entry);
     ++size_;
+
+    // Update secondary key index
+    key_index_[entry.key].push_back(entry);
 
     // Maintain stats
     ++stats_.total_entries;
@@ -200,36 +271,54 @@ void IntervalTreeIndex::insert(const IntervalEntry& entry) {
 }
 
 size_t IntervalTreeIndex::remove(const std::string& key, const TimeRange& range) {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::unique_lock<std::shared_mutex> lk(mutex_);
     size_t removed = 0;
     root_ = removeNode(std::move(root_), key, range, removed);
     size_ -= removed;
     stats_.total_entries -= removed;
+
+    if (removed > 0) {
+        auto it = key_index_.find(key);
+        if (it != key_index_.end()) {
+            auto& bucket = it->second;
+            bucket.erase(
+                std::remove_if(bucket.begin(), bucket.end(),
+                    [&](const IntervalEntry& e) {
+                        return e.range.start == range.start &&
+                               e.range.end   == range.end;
+                    }),
+                bucket.end());
+            if (bucket.empty()) key_index_.erase(it);
+        }
+    }
     return removed;
 }
 
 size_t IntervalTreeIndex::removeKey(const std::string& key) {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::unique_lock<std::shared_mutex> lk(mutex_);
     size_t removed = 0;
     root_ = removeKeyNode(std::move(root_), key, removed);
     size_ -= removed;
     stats_.total_entries -= removed;
+    key_index_.erase(key);
     return removed;
 }
 
 size_t IntervalTreeIndex::erase(const std::string& key) {
+    // Delegate to removeKey — same implementation, STL-compatible name.
     return removeKey(key);
 }
 
 void IntervalTreeIndex::clear() {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::unique_lock<std::shared_mutex> lk(mutex_);
     root_.reset();
     size_ = 0;
+    key_index_.clear();
     stats_ = IntervalTreeStats{};
 }
 
 // ============================================================================
-// Query helpers (called under lock)
+// Query helpers (called under shared lock)
 // ============================================================================
 
 void IntervalTreeIndex::collectOverlap(const Node* n,
@@ -272,9 +361,7 @@ void IntervalTreeIndex::collectKey(const Node* n,
 }
 
 size_t IntervalTreeIndex::treeHeight(const Node* n) noexcept {
-    if (!n) return 0;
-    return 1 + std::max(treeHeight(n->left.get()),
-                        treeHeight(n->right.get()));
+    return static_cast<size_t>(nodeHeight(n));
 }
 
 // ============================================================================
@@ -283,7 +370,7 @@ size_t IntervalTreeIndex::treeHeight(const Node* n) noexcept {
 
 std::vector<IntervalEntry>
 IntervalTreeIndex::queryPoint(Timestamp t) const {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::shared_lock<std::shared_mutex> lk(mutex_);
     ++stats_.point_queries;
     std::vector<IntervalEntry> result;
     // A point query is a degenerate overlap query: [t, t+1)
@@ -301,7 +388,7 @@ IntervalTreeIndex::queryPoint(Timestamp t) const {
 
 std::vector<IntervalEntry>
 IntervalTreeIndex::queryOverlap(Timestamp from, Timestamp to) const {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::shared_lock<std::shared_mutex> lk(mutex_);
     ++stats_.overlap_queries;
     std::vector<IntervalEntry> result;
     collectOverlap(root_.get(), from, to, result);
@@ -316,9 +403,17 @@ IntervalTreeIndex::queryOverlap(const TimeRange& range) const {
 std::vector<IntervalEntry>
 IntervalTreeIndex::queryKey(const std::string& key,
                              std::optional<TimeRange> range) const {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::shared_lock<std::shared_mutex> lk(mutex_);
+    const auto it = key_index_.find(key);
+    if (it == key_index_.end()) return {};
+
     std::vector<IntervalEntry> result;
-    collectKey(root_.get(), key, range, result);
+    result.reserve(it->second.size());
+    for (const auto& entry : it->second) {
+        if (!range.has_value() || entry.range.overlaps(*range)) {
+            result.push_back(entry);
+        }
+    }
     return result;
 }
 
@@ -327,12 +422,11 @@ IntervalTreeIndex::queryKey(const std::string& key,
 // ============================================================================
 
 size_t IntervalTreeIndex::size() const noexcept {
-    std::lock_guard<std::mutex> lk(mutex_);
-    return size_;
+    return size_.load(std::memory_order_relaxed);
 }
 
 IntervalTreeStats IntervalTreeIndex::stats() const {
-    std::lock_guard<std::mutex> lk(mutex_);
+    std::shared_lock<std::shared_mutex> lk(mutex_);
     stats_.height = treeHeight(root_.get());
     return stats_;
 }

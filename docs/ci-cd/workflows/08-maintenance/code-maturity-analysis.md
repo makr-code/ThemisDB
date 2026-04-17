@@ -1,17 +1,21 @@
 # Code Maturity Analysis & Auto-Versioning
 
-🔄 **CI/CD**
+> [!WARNING]
+> Historische Workflow-Dokumentation (Legacy): Diese Seite beschreibt eine fruehere CI-Generation.
+> Der verbindliche aktuelle Stand ist der 8-Workflow-Kern in `.github/WORKFLOW_REGISTRY.md`.
 
-> **Workflow-Datei:** `.github/workflows/08-maintenance_code-maturity-analysis.yml`
+⏰ **Geplant**
+
+> **Workflow-Datei (historisch):** .github/workflows/08-maintenance_code-maturity-analysis.yml
+> **Aktueller Stand:** .github/WORKFLOW_REGISTRY.md
 
 ## Aufgabe
 
-Automatisch und zeitgesteuert ausgeführter Workflow: **Code Maturity Analysis & Auto-Versioning**.
+Zeitgesteuert ausgeführter Workflow: **Code Maturity Analysis & Auto-Versioning**.
 
 ## Auslöser (Triggers)
 
-- **`push`** — Automatisch bei relevanten Änderungen unter `src/`, `include/`, `tests/`, `benchmarks/`, `projects/`, `plugins/` sowie bei Änderungen am Workflow oder Analyseskript
-- **`schedule`** — Zeitgesteuert (Cron-Schedule) (`0 3 * * *`, täglich um 03:00 UTC)
+- **`schedule`** — Zeitgesteuert (Cron-Schedule) (`0 3 * * 1`)
 - **`workflow_dispatch`** — Manuell über die GitHub Actions UI ausführbar
 
 ## Jobs
@@ -40,3 +44,5 @@ Automatisch und zeitgesteuert ausgeführter Workflow: **Code Maturity Analysis &
 
 - [Workflow-Datei](../../.github/workflows/08-maintenance_code-maturity-analysis.yml)
 - [Alle Workflows](../README.md)
+
+

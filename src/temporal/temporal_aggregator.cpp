@@ -275,14 +275,26 @@ std::vector<AggregateResult> TemporalAggregator::aggregateSnapshots(
 
         // Aggregate over the active set.
         std::vector<double> values;
+        std::vector<std::pair<Timestamp, double>> snap_ordered;
         size_t count = 0;
+        const bool snap_need_order = (spec.func == AggregateFunc::FIRST_VALUE ||
+                                       spec.func == AggregateFunc::LAST_VALUE);
 
         for (const VersionedDocument* ver : active) {
             ++count;
             auto val = extractMeasure(ver->data, spec.measure_field);
             if (val.has_value() && spec.func != AggregateFunc::COUNT) {
-                values.push_back(*val);
+                if (snap_need_order) {
+                    snap_ordered.emplace_back(ver->sys_time.start, *val);
+                } else {
+                    values.push_back(*val);
+                }
             }
+        }
+
+        if (snap_need_order && !snap_ordered.empty()) {
+            std::sort(snap_ordered.begin(), snap_ordered.end());
+            for (auto& [ts, v] : snap_ordered) values.push_back(v);
         }
 
         if (spec.func == AggregateFunc::COUNT || count > 0) {
@@ -409,6 +421,8 @@ double TemporalAggregator::applyFunc(AggregateFunc func,
         case AggregateFunc::MAX:
             if (values.empty()) return 0.0;
             return *std::max_element(values.begin(), values.end());
+        // FIRST_VALUE / LAST_VALUE: caller must supply values sorted ascending
+        // by sys_start.  applyFunc sees them as a sorted sequence.
         case AggregateFunc::FIRST_VALUE:
             return values.empty() ? 0.0 : values.front();
         case AggregateFunc::LAST_VALUE:
@@ -440,7 +454,10 @@ std::vector<AggregateResult> TemporalAggregator::computeTumbling(
         }
 
         std::vector<double> values;
+        std::vector<std::pair<Timestamp, double>> ordered_vals; // for FIRST/LAST_VALUE
         size_t count = 0;
+        const bool need_order = (spec.func == AggregateFunc::FIRST_VALUE ||
+                                  spec.func == AggregateFunc::LAST_VALUE);
 
         for (const auto& row : rows) {
             Timestamp event_ts = row.sys_time.start;
@@ -449,9 +466,18 @@ std::vector<AggregateResult> TemporalAggregator::computeTumbling(
                 auto val = extractMeasure(row.data, spec.measure_field);
                 if (val.has_value() &&
                     spec.func != AggregateFunc::COUNT) {
-                    values.push_back(*val);
+                    if (need_order) {
+                        ordered_vals.emplace_back(event_ts, *val);
+                    } else {
+                        values.push_back(*val);
+                    }
                 }
             }
+        }
+
+        if (need_order && !ordered_vals.empty()) {
+            std::sort(ordered_vals.begin(), ordered_vals.end());
+            for (auto& [ts, v] : ordered_vals) values.push_back(v);
         }
 
         if (spec.func == AggregateFunc::COUNT || count > 0) {
@@ -492,7 +518,10 @@ std::vector<AggregateResult> TemporalAggregator::computeSliding(
         // Rows beyond 'to' are simply not in the input anyway.
 
         std::vector<double> values;
+        std::vector<std::pair<Timestamp, double>> ordered_vals;
         size_t count = 0;
+        const bool need_order_s = (spec.func == AggregateFunc::FIRST_VALUE ||
+                                    spec.func == AggregateFunc::LAST_VALUE);
 
         for (const auto& row : rows) {
             Timestamp event_ts = row.sys_time.start;
@@ -500,9 +529,18 @@ std::vector<AggregateResult> TemporalAggregator::computeSliding(
                 ++count;
                 auto val = extractMeasure(row.data, spec.measure_field);
                 if (val.has_value() && spec.func != AggregateFunc::COUNT) {
-                    values.push_back(*val);
+                    if (need_order_s) {
+                        ordered_vals.emplace_back(event_ts, *val);
+                    } else {
+                        values.push_back(*val);
+                    }
                 }
             }
+        }
+
+        if (need_order_s && !ordered_vals.empty()) {
+            std::sort(ordered_vals.begin(), ordered_vals.end());
+            for (auto& [ts, v] : ordered_vals) values.push_back(v);
         }
 
         if (spec.func == AggregateFunc::COUNT || count > 0) {
@@ -530,6 +568,8 @@ std::vector<AggregateResult> TemporalAggregator::computeSession(
     }
 
     std::vector<AggregateResult> results;
+    const bool need_order_sess = (spec.func == AggregateFunc::FIRST_VALUE ||
+                                   spec.func == AggregateFunc::LAST_VALUE);
 
     Timestamp session_start = kMinTimestamp - 1; // kInvalidTimestamp sentinel
     Timestamp session_end   = kMinTimestamp - 1;
@@ -538,6 +578,7 @@ std::vector<AggregateResult> TemporalAggregator::computeSession(
     auto isSet = [](Timestamp t) { return t != kMinTimestamp - 1; };
 
     std::vector<double> cur_values;
+    std::vector<std::pair<Timestamp, double>> cur_ordered;
     size_t              cur_count = 0;
 
     auto flushSession = [&]() {
@@ -546,6 +587,12 @@ std::vector<AggregateResult> TemporalAggregator::computeSession(
         }
         if (!isSet(session_start)) {
             return;
+        }
+        if (need_order_sess && !cur_ordered.empty()) {
+            std::sort(cur_ordered.begin(), cur_ordered.end());
+            cur_values.clear();
+            for (auto& [ts, v] : cur_ordered) cur_values.push_back(v);
+            cur_ordered.clear();
         }
         AggregateResult res;
         res.window_start  = session_start;
@@ -580,7 +627,11 @@ std::vector<AggregateResult> TemporalAggregator::computeSession(
 
         auto val = extractMeasure(row.data, spec.measure_field);
         if (val.has_value() && spec.func != AggregateFunc::COUNT) {
-            cur_values.push_back(*val);
+            if (need_order_sess) {
+                cur_ordered.emplace_back(event_ts, *val);
+            } else {
+                cur_values.push_back(*val);
+            }
         }
     }
 

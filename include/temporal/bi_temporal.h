@@ -213,34 +213,28 @@ public:
     // ── Cross-node reconciliation ─────────────────────────────────────────────
 
     /**
-     * Result returned by `merge()`.
+     * Result of a merge operation.
      */
     struct MergeResult {
-        size_t rows_adopted{0};    ///< Rows from `other` accepted (LWW winner)
-        size_t rows_skipped{0};    ///< Rows from `other` ignored (stale or equal)
-        size_t keys_seen{0};       ///< Total keys examined in `other`
+        size_t rows_inserted{0};   ///< Rows from @p other not present locally
+        size_t rows_skipped{0};    ///< Rows that were already present (no diff)
+        size_t conflicts_lww{0};   ///< Rows accepted via Last-Writer-Wins (higher sys_time)
     };
 
     /**
-     * Merge rows from `other` into this table using Last-Write-Wins (LWW).
+     * Merge all rows from another BiTemporalTable into this table.
      *
-     * For each key in `other`, the current row with the highest
-     * `sys_time.start` is taken as the authoritative version.  If that
-     * timestamp is strictly greater than the corresponding local current
-     * row's `sys_time.start`, the remote row wins:
+     * The merge follows Last-Writer-Wins (LWW) semantics based on
+     * `sys_time.start`: for each (key, valid_time) pair that exists in both
+     * tables, the row with the later `sys_time.start` wins.  Rows that exist
+     * only in @p other are inserted unconditionally.
      *
-     *   1. All local current rows for that key are closed at the remote
-     *      row's `sys_time.start`.
-     *   2. The remote row is inserted with its original `valid_time` and
-     *      `sys_time = [remote.sys_time.start, ∞)`.
+     * The operation is atomic on each key (keys are locked one at a time) and
+     * does not modify @p other.
      *
-     * If the local row has an equal or newer timestamp, the local version
-     * is kept unchanged (no action).
-     *
-     * @param other   Source table to merge from.  Must have the same
-     *                `tableName()` as `*this`; if names differ the call is
-     *                a no-op and returns an empty `MergeResult`.
-     * @return        Statistics describing the merge operation.
+     * @param other  Source table.  Must not be the same object as @p this.
+     * @return       MergeResult with counters for inserted, skipped, and
+     *               conflict-resolved rows.
      */
     MergeResult merge(const BiTemporalTable& other);
 
