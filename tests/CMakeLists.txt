@@ -19428,6 +19428,53 @@ endif()
 
 
 # ============================================================================
+# Storage -- MVCCChainPruner Focused Tests
+# Validates MVCC version chain migration from MVCCStore into TemporalTierManager.
+# Tests: MCP-01..08 (migrate, min_keep, no-op, sys_time, binary, pruneAll,
+#         safe-horizon monotonicity, safe-horizon zero guard).
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/storage/test_mvcc_chain_pruner.cpp")
+    message(STATUS "Adding Storage: MVCCChainPruner focused tests (MCP-01..08)")
+
+    add_executable(test_mvcc_chain_pruner_focused
+        storage/test_mvcc_chain_pruner.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/mvcc_chain_pruner.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/mvcc_store.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/temporal_tier_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/temporal_cold_store.cpp
+    )
+
+    target_include_directories(test_mvcc_chain_pruner_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_mvcc_chain_pruner_focused PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        themis_rocksdb_lib
+        nlohmann_json::nlohmann_json
+    )
+
+    target_compile_definitions(test_mvcc_chain_pruner_focused PRIVATE
+        THEMIS_UNIT_TEST=1
+    )
+
+    add_test(NAME MVCCChainPrunerFocusedTests COMMAND test_mvcc_chain_pruner_focused)
+
+    set_tests_properties(MVCCChainPrunerFocusedTests PROPERTIES
+        LABELS "storage;mvcc;chain-pruner;temporal-tier;gc;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  MVCCChainPruner: migrate, min_keep, no-op, sys_time, binary fallback, pruneAll, safe-horizon")
+else()
+    message(STATUS "MVCCChainPruner tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/storage/test_mvcc_chain_pruner.cpp")
+endif()
+
+
+# ============================================================================
 # Temporal Module -- TemporalQueryEngine Focused Tests (v1.9.0)
 # Validates SQL:2011 FOR SYSTEM_TIME / FOR APPLICATION_TIME dispatch via
 # TemporalQuerySpec::asOf / fromTo / betweenAnd / containedIn / all.
