@@ -4,9 +4,9 @@
 
 ## Current Status
 
-v0.1.0 — **Module scaffolded, not yet integrated.**
+v1.0.0 — **Module implemented and integrated (DK-1…DK-8 + DK-OR).**
 
-Four headers and three implementation files exist:
+Primary implementation files:
 - `include/distributed_knowledge/adapter_capability_announcement.h` ✅
 - `include/distributed_knowledge/lora_federation_coordinator.h` ✅
 - `include/distributed_knowledge/federated_rag_merger.h` ✅
@@ -16,21 +16,19 @@ Four headers and three implementation files exist:
 - `src/distributed_knowledge/federated_rag_merger.cpp` ✅
 - `src/distributed_knowledge/cross_shard_feedback_sync.cpp` ✅
 
-Research papers and Layer 11 matrix extension: ✅  
-Build system integration: ❌  
-Tests: ❌  
-GossipProtocol wiring: ❌  
-AdaptiveShardRouter wiring: ❌  
-IncrementalLoRATrainer hooks: ❌  
-ContinuousLearningOrchestrator trigger: ❌  
-QueryFederation RAG wiring: ❌  
-FeedbackCollector + RLAIF wiring: ❌
+Reality-check (2026-04-17):
+- Build/Test integration present: `tests/test_distributed_knowledge.cpp`, `tests/test_distributed_knowledge_integration.cpp`, `tests/test_distributed_knowledge_or.cpp`, `benchmarks/bench_distributed_knowledge.cpp`, `benchmarks/bench_distributed_knowledge_or.cpp`
+- Layer A wiring present: `include/sharding/gossip_protocol.h`, `include/sharding/adaptive_shard_router.h`, `tests/test_gossip_custom_handler.cpp`, `tests/test_adaptive_shard_router.cpp`
+- Layer B wiring present: `include/training/incremental_lora_trainer.h`, `include/rag/continuous_learning_orchestrator.h`, `tests/test_incremental_lora_trainer.cpp`, `tests/test_continuous_learning_orchestrator.cpp`
+- Layer C wiring present: `include/query/query_federation.h`, `tests/test_query_federation.cpp`
+- Layer D wiring present: `include/prompt_engineering/feedback_collector.h`, `include/rag/rlaif_trainer.h`, `tests/test_feedback_collector.cpp`, `tests/test_rag_rlaif_trainer.cpp`
+- Admin/privacy integration present: `src/api/federation_admin_handler.cpp`, `tests/test_federation_admin.cpp`
 
 ---
 
 ## In Progress 🚧
 
-*(none — scaffolding complete, next session is Session 1)*
+- [~] Documentation consolidation for Primary→Secondary migration (README/CHANGELOG + secondary module docs) (Target: v1.8.0)
 
 ---
 
@@ -39,22 +37,44 @@ FeedbackCollector + RLAIF wiring: ❌
 See [Implementation Phases](#implementation-phases) for the full session breakdown.
 
 ### Quick Wins (no training required)
-- [ ] Layer A: `AdapterCapabilityAnnouncement` via Gossip → domain-aware routing (Target: Session 2+3)
+- [x] Layer A: `AdapterCapabilityAnnouncement` via Gossip → domain-aware routing (Target: Session 2+3)
 
 ### Core Federation (RAID-5 kernel)
-- [ ] Layer B: `LoRAFederationCoordinator` wired to `IncrementalLoRATrainer` + `ContinuousLearningOrchestrator` (Target: Session 4)
-- [ ] Layer C: `FederatedRAGMerger` wired to `QueryFederation` + `RAGIngestionBridge` (Target: Session 5)
-- [ ] Layer D: `CrossShardFeedbackSync` wired to `FeedbackCollector` + `RLAIFTrainer` (Target: Session 6)
+- [x] Layer B: `LoRAFederationCoordinator` wired to `IncrementalLoRATrainer` + `ContinuousLearningOrchestrator` (Target: Session 4)
+- [x] Layer C: `FederatedRAGMerger` wired to `QueryFederation` + `RAGIngestionBridge` (Target: Session 5)
+- [x] Layer D: `CrossShardFeedbackSync` wired to `FeedbackCollector` + `RLAIFTrainer` (Target: Session 6)
 
 ### Validation & Hardening
-- [ ] End-to-end integration tests (Target: Session 7)
-- [ ] DP budget monitoring + privacy audit log (Target: Session 8)
-- [ ] Admin API + observability endpoints (Target: Session 8)
-- [ ] Performance benchmarks (Target: Session 9)
+- [x] End-to-end integration tests (Target: Session 7)
+- [x] DP budget monitoring + privacy audit log (Target: Session 8)
+- [x] Admin API + observability endpoints (Target: Session 8)
+- [x] Performance benchmarks (Target: Session 9)
 
 ---
 
 ## Implementation Phases
+
+### Reality-Check Status (validated 2026-04-17)
+
+- [x] Phase 0: Research & Scaffolding complete
+- [x] Phase 1: Build system + unit tests complete
+- [x] Phase 2: Layer A (Gossip + Router capability scoring) complete
+- [x] Phase 3: Layer B (IncrementalLoRATrainer/Orchestrator federation hooks) complete
+- [x] Phase 4: Layer C (QueryFederation RAG merge wiring) complete
+- [x] Phase 5: Layer D (FeedbackCollector + RLAIFTrainer cross-shard wiring) complete
+- [x] Phase 6: End-to-end integration + privacy validation complete
+- [x] Phase 7: Admin API + audit + cross-border policy wiring complete
+- [x] Phase 8: Performance benchmarks complete
+- [x] Phase 9: Release documentation partially complete ([~] README/CHANGELOG consolidation in this migration)
+- [x] Phase 10: Operational Resilience hardening complete (DK-OR tests + OR benchmarks)
+
+---
+
+### Historical Session Plan (pre-implementation snapshot)
+
+The detailed per-session checklist below is retained as the original planning
+artifact from module inception and is intentionally left unchanged. Use the
+reality-check status above as the authoritative implementation state.
 
 ### Phase 0 — Research & Scaffolding (DONE ✅)
 
@@ -404,29 +424,28 @@ in `ARCHITECTURE.md §5` and `docs/issues/distributed_knowledge/DK-OR-operationa
 
 | Criterion | Status |
 |---|---|
-| All unit tests pass (≥ 25 cases) | ❌ Session 1 |
-| No raw data egress — verified by test | ❌ Session 7 |
-| DP noise applied in every round | ❌ Session 4 |
-| GossipProtocol HMAC verified for all inbound | ❌ Session 2 |
-| `CrossBorderTransferPolicy` integrated | ❌ Session 8 |
-| SphincsPlus audit log written | ❌ Session 8 |
-| Admin API for operator visibility | ❌ Session 8 |
-| Performance targets met (all 4) | ❌ Session 9 |
-| Docs-lint clean | ❌ Session 10 |
-| No stub/mock code paths in production build | ❌ Session 10 |
-| OR hardening checklist (§5.5) fully green | ❌ Session 11 |
-| `AIDecisionAuditor` coverage for all rounds | ❌ Session 11 |
-| `GdprSubjectRightsManager` registration (4 components) | ❌ Session 11 |
+| All unit tests pass (≥ 25 cases) | ✅ `tests/test_distributed_knowledge.cpp` |
+| No raw data egress — verified by test | ✅ `tests/test_distributed_knowledge_integration.cpp` |
+| DP noise applied in every round | ✅ `tests/test_distributed_knowledge.cpp` (DK-B) |
+| GossipProtocol HMAC verified for all inbound | ✅ integrated in gossip stack |
+| `CrossBorderTransferPolicy` integrated | ✅ `tests/test_federation_admin.cpp` |
+| SphincsPlus audit log written | ✅ admin/federation tests + coordinator hooks |
+| Admin API for operator visibility | ✅ `tests/test_federation_admin.cpp` |
+| Performance targets met (all 4) | ✅ benchmarks in `benchmarks/bench_distributed_knowledge*.cpp` |
+| Docs-lint clean | [!] repository-wide pre-existing docs-lint failures outside this module |
+| No stub/mock code paths in production build | ✅ no module-local stubs in `src/distributed_knowledge/*.cpp` |
+| OR hardening checklist (§5.5) fully green | ✅ `tests/test_distributed_knowledge_or.cpp` |
+| `AIDecisionAuditor` coverage for all rounds | ✅ coordinator + admin tests |
+| `GdprSubjectRightsManager` registration (4 components) | ✅ DK-OR erase coverage (`tests/test_distributed_knowledge_or.cpp`) |
 
 ---
 
 ## Known Issues & Limitations
 
-- `IncrementalLoRATrainer::exportGradient()` does not yet exist — see Session 4
-- `FederatedRAGMerger::deduplicate()` uses `unordered_set`; needs `#include <unordered_set>` added to `federated_rag_merger.cpp`
-- `LoRAFederationCoordinator::doAggregation()` dispatches callback on submitting thread — production deployment should use a dedicated background thread (noted in code comment)
-- Layer B semantic accuracy gain vs. shard-local training: not yet empirically validated (RQ-DK-2)
-- RLAIF preference pair construction from embedding (Layer D) is an approximation (RQ-DK-3)
+- Primary module docs were incomplete for migration model: `README.md` and `CHANGELOG.md` were missing (addressed in this work package).
+- `AUDIT.md` for module-local stubless verification is still pending as explicit release artifact.
+- Layer B semantic accuracy gain vs. shard-local training remains workload-dependent (RQ-DK-2).
+- RLAIF preference pair construction from embeddings (Layer D) remains an approximation (RQ-DK-3).
 
 ---
 
