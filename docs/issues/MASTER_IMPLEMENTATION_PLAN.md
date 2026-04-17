@@ -91,6 +91,7 @@ Tier 3 — Distributed Intelligence (Paper 3): Layer 11A–D cross-shard federat
 | **DK-6** | End-to-end integration + privacy validation | P3 | [DK-6](./distributed_knowledge/DK-6-integration-tests.md) |
 | **DK-7** | Admin API + SphincsPlus audit + CrossBorderTransferPolicy | P3 | [DK-7](./distributed_knowledge/DK-7-admin-api.md) |
 | **DK-8** | Performance benchmarks + memory hardening | P3 | [DK-8](./distributed_knowledge/DK-8-performance.md) |
+| **DK-OR** | Operational Resilience hardening (backpressure, timeouts, GDPR erase, ZeroTrust, AuditLog) | P3 — OR | [DK-OR](./distributed_knowledge/DK-OR-operational-resilience.md) |
 
 ---
 
@@ -119,7 +120,8 @@ IMPL-0 (Master Epic)
     ├── DK-5  Layer 11D — Federated RLAIF
     ├── DK-6  End-to-End Integration & Privacy
     ├── DK-7  Admin API + Audit + GDPR
-    └── DK-8  Performance Benchmarks
+    ├── DK-8  Performance Benchmarks
+    └── DK-OR Operational Resilience Hardening
 ```
 
 ---
@@ -145,9 +147,10 @@ DK-1 (Build + Tests)   [no dependency on A or B]
          ▼
       DK-6 (Integration) ◄── requires DK-2,3,4,5 + IMPL-A3
          └──► DK-7 (Admin/Audit)  ──► DK-8 (Performance)
+                                          └──► DK-OR (Operational Resilience)
 ```
 
-**Critical path:** IMPL-A1 → IMPL-A2 → IMPL-A3 → DK-3 → DK-6 → DK-7 → DK-8
+**Critical path:** IMPL-A1 → IMPL-A2 → IMPL-A3 → DK-3 → DK-6 → DK-7 → DK-8 → DK-OR
 
 ---
 
@@ -170,6 +173,7 @@ DK-1 (Build + Tests)   [no dependency on A or B]
 | **S-12** | DK-6 | End-to-end 7-scenario integration + privacy tests | S-9,10,11 |
 | **S-13** | DK-7 | Admin API + SphincsPlus audit + CrossBorderTransferPolicy | S-12 |
 | **S-14** | DK-8 | Performance benchmarks — all 4 targets met | S-12,13 |
+| **S-15** | DK-OR | Operational Resilience hardening — 14 tests + 4 benchmarks | S-14 |
 
 **Parallel opportunities:**
 - S-1 + S-2 can run simultaneously (no dependency)
@@ -201,9 +205,13 @@ DK-1 (Build + Tests)   [no dependency on A or B]
 
 ### Paper 3 — Layer 11 complete when (see DK-0-EPIC):
 - [ ] All DK-1 through DK-8 closed
+- [ ] DK-OR closed: all 14 OR tests pass, all 4 OR benchmarks met
 - [ ] Federated RAG Recall@10 ≥ +15 % vs. shard-local
 - [ ] Privacy invariant: no shard raw data in `GlobalAdapterDelta`
 - [ ] DP budget monitoring: round 51 rejected after 50 × ε=0.1
+- [ ] `ARCHITECTURE.md §5.5` hardening checklist: all 9 items verified
+- [ ] `AIDecisionAuditor::recordDecision()` called for every federation round
+- [ ] `GdprSubjectRightsManager` erase acknowledged by all 4 components
 
 ---
 
@@ -224,13 +232,15 @@ DK-1 (Build + Tests)   [no dependency on A or B]
 
 All three papers considered implemented when:
 
-1. **All 18 issues closed** (IMPL-A1…A3, IMPL-B5…B10, DK-1…DK-8)
+1. **All 19 issues closed** (IMPL-A1…A3, IMPL-B5…B10, DK-1…DK-8, DK-OR)
 2. **CI green** — no regressions in existing 400+ tests
 3. **Privacy audit passed** — DK-6 Scenario 5 green
-4. **Performance targets met** — all 4 DK-8 benchmarks documented
+4. **Performance targets met** — all 4 DK-8 benchmarks + all 4 DK-OR benchmarks documented
 5. **DBA acceptance ≥ 75 %** — Layer 4 RLAIF criterion from Paper 1
-6. **`AIDecisionAuditor` coverage** — all 11 new components write `DecisionRecord`
-7. **Docs-lint clean** — all 5 new research/issue markdown files pass header check
+6. **`AIDecisionAuditor` coverage** — all 11 new components + every federation round write `DecisionRecord`
+7. **Docs-lint clean** — all research/issue markdown files pass header check
+8. **OR hardening checklist** — `ARCHITECTURE.md §5.5` all 9 items verified green
+9. **GDPR erase coverage** — all 4 `distributed_knowledge` components registered with `GdprSubjectRightsManager`
 
 ---
 
@@ -240,13 +250,17 @@ All three papers considered implemented when:
 docs/en/research/
 ├── THEMISDB_LORA_RESEARCH_PAPER.md       ← Paper 1 (foundation)
 ├── LLM_OPTIMIZATION_LAYERS_MATRIX.md     ← Paper 2 (semantic layers)
-├── DISTRIBUTED_KNOWLEDGE_FEDERATION.md   ← Paper 3 (distributed)
+├── DISTRIBUTED_KNOWLEDGE_FEDERATION.md   ← Paper 3 (distributed) — §12.8 canonical OR tables
 └── THEMISDB_LORA_METRICS_AND_OVERVIEW.md ← Loops 1–4 metrics
 
+docs/de/research/
+├── VERTEILTES_WISSEN_FEDERATION.md       ← Paper 3 (DE) — §12.8 canonical OR tables (DE)
+└── LLM_OPTIMIERUNGSEBENEN_MATRIX.md      ← Paper 2 (DE)
+
 src/distributed_knowledge/
-├── ARCHITECTURE.md
-├── ROADMAP.md                            ← Session plan for Paper 3
-└── FUTURE_ENHANCEMENTS.md
+├── ARCHITECTURE.md                       ← §5 Operational Resilience (control points, hardening checklist)
+├── ROADMAP.md                            ← Session plan (Phase 10: OR Hardening)
+└── FUTURE_ENHANCEMENTS.md               ← §G Adaptive OR (ML-driven circuit breakers)
 
 docs/issues/
 ├── MASTER_IMPLEMENTATION_PLAN.md         ← This document
@@ -264,4 +278,5 @@ docs/issues/
 └── distributed_knowledge/
     ├── DK-0-EPIC.md
     ├── DK-1-build-tests.md … DK-8-performance.md
+    └── DK-OR-operational-resilience.md   ← OR work package (14 tests, 4 benchmarks)
 ```

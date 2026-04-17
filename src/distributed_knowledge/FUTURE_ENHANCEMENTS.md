@@ -143,6 +143,50 @@ basic composition). Factor ~4× improvement.
 
 ---
 
+### G — Adaptive Operational Resilience (ML-Driven Control)
+
+**Scope:** Replace static OR thresholds (fixed `circuit_breaker.failure_threshold`,
+fixed `max_pending_requests`) with ML-learned adaptive thresholds that react to
+observed system state and federation health.
+
+**Design Constraints:**
+- Adaptive controller runs as an Agentic Solver (class 4) layered on top of the
+  existing static OR controls — it adjusts thresholds but never disables them
+- Changes to `circuit_breaker.failure_threshold` via hot-reload only; no restart required
+- Privacy invariant preserved: adaptive controller observes federation-round metadata
+  only, never gradient content
+
+**Required Interfaces:**
+- `FederationHealthMonitor` — time-series aggregation of per-round success/latency/epsilon_spent
+- `AdaptiveCircuitBreakerPolicy` — replaces static `failure_threshold` with ML prediction
+- `BackpressurePredictor` — predicts `max_pending_requests` saturation 30 s ahead
+- `FederationConfig::or_adaptive_enabled` (bool, default: false) — feature flag
+
+**Implementation Notes:**
+- `FederationHealthMonitor` subscribes to `LoRAFederationCoordinator` post-round events
+- Sliding window (configurable, default: 100 rounds) feeds a lightweight EWMA model
+- `AdaptiveCircuitBreakerPolicy::computeThreshold(metrics)` → new `failure_threshold`
+  applied via `FederationConfig` hot-reload (SIGHUP or admin API)
+- Fallback: if adaptive model confidence < 0.7, use static threshold from config
+
+**Test Strategy:**
+- Simulation test: 200 rounds with injected failure bursts → adaptive threshold converges
+  to stable value within 20 rounds (vs. manual static setting)
+- Regression test: adaptive mode disabled (`or_adaptive_enabled=false`) → identical
+  behaviour to current static implementation
+
+**Performance Targets:**
+- `FederationHealthMonitor::recordRound()` overhead ≤ 0.1 ms
+- `AdaptiveCircuitBreakerPolicy::computeThreshold()` ≤ 5 ms
+- Memory: sliding window of 100 rounds ≤ 50 KB
+
+**Security / Reliability:**
+- Adaptive threshold changes logged as `AIDecisionAuditor::recordDecision()` entries
+  with `decision_type = "OR_ADAPTIVE_THRESHOLD_CHANGE"`
+- Min/max clamps on thresholds enforced in `FederationConfig::isValid()`
+
+---
+
 ## Performance Targets (Post-v1.0)
 
 | Enhancement | Target |

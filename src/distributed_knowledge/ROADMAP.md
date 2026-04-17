@@ -348,6 +348,58 @@ and `RLAIFTrainer` (receive).
 
 ---
 
+### Phase 10 — Operational Resilience Hardening
+
+#### Session 11 — OR Implementation & Validation
+**Scope:** Implement and validate all Operational Resilience control points defined
+in `ARCHITECTURE.md §5` and `docs/issues/distributed_knowledge/DK-OR-operational-resilience.md`.
+
+**Tasks:**
+
+*Backpressure:*
+- [ ] Add `FederationConfig::round_timeout_ms` field (default: 30 000 ms) — timeout for `triggerAggregation()` (Target: Session 11)
+  - Tests: 2 new cases (`tests/test_distributed_knowledge.cpp`): round timeout → `std::runtime_error`; partial result returned for RAG
+- [ ] Implement non-blocking `publishFeedback()` dispatch: skip if gossip queue full; increment `skipped_publish_count_` counter (Target: Session 11)
+  - Tests: 1 new case: queue-full → `publishFeedback()` returns without throw; counter incremented
+
+*Timeout / Circuit Breaker:*
+- [ ] Propagate `shard_timeout_ms` into `FederatedRAGMerger::merge()`: each shard result awaited with deadline; `ok=false` on timeout (Target: Session 11)
+  - Errors: if all shards time out → throw `std::runtime_error("all shards timed out")`
+  - Tests: 3 new cases: one shard times out → partial merge; all time out → exception; zero timeout → immediate
+- [ ] `LoRAFederationCoordinator`: add `triggerAggregation()` with configurable `timeout_ms` parameter; existing overload calls new one with `round_timeout_ms` (Target: Session 11)
+
+*Error Signal Paths:*
+- [ ] `exportGradient()` validates all values in `data` map — if any NaN detected, throw `std::runtime_error("NaN in gradient data")` (Target: Session 11)
+  - Tests: 1 new case in `tests/test_incremental_lora_trainer.cpp`
+- [ ] `LoRAFederationCoordinator` writes `AIDecisionAuditor::recordDecision()` after each round:
+  `{decision_type="FEDERATED_ROUND", round_id, epsilon_spent, participants, outcome}` (Target: Session 11)
+  - Tests: 1 new case verifying `DecisionRecord` written with correct `decision_type`
+
+*Security Integration:*
+- [ ] `CrossShardFeedbackSync::handleInboundSummary()` calls `ZeroTrustPolicyEnforcer::evaluateRequest()` before processing; rejects with `std::runtime_error` if risk=HIGH (Target: Session 11)
+  - Tests: 2 new cases: risk=LOW → processed; risk=HIGH → rejected, counter incremented
+- [ ] All four module components register via `IGdprEraseTarget` with `GdprSubjectRightsManager` (Target: Session 11)
+  - Erase behaviour: `LoRAFederationCoordinator` clears `pending_gradients_`; `FederatedRAGMerger` clears cached merge contexts; `CrossShardFeedbackSync` clears dedup cache
+  - Tests: 3 new cases (one per component): erase called → state cleared, subsequent operations unaffected
+
+*Hardening Verification:*
+- [ ] `ARCHITECTURE.md §5.5` hardening checklist: all 9 items verified green before v1.0 release (Target: Session 11)
+- [ ] Add `bench_distributed_knowledge_or.cpp` with OR-specific micro-benchmarks:
+  - `triggerAggregation()` with timeout: P99 ≤ 500 ms for N=64 shards
+  - `publishFeedback()` under queue pressure: throughput ≥ 10 000 msg/s
+  - `handleInboundSummary()` with ZeroTrust check: overhead ≤ 1 ms per call
+
+**Acceptance Criteria:**
+- All 13 new OR tests pass
+- `AIDecisionAuditor::recordDecision()` called for every federation round
+- `GdprSubjectRightsManager` erase acknowledged by all 4 components
+- `ARCHITECTURE.md §5.5` hardening checklist fully green
+- No regressions in existing DK-1 … DK-8 tests
+
+**Issue:** `docs/issues/distributed_knowledge/DK-OR-operational-resilience.md`
+
+---
+
 ## Production Readiness Checklist
 
 | Criterion | Status |
@@ -362,6 +414,9 @@ and `RLAIFTrainer` (receive).
 | Performance targets met (all 4) | ❌ Session 9 |
 | Docs-lint clean | ❌ Session 10 |
 | No stub/mock code paths in production build | ❌ Session 10 |
+| OR hardening checklist (§5.5) fully green | ❌ Session 11 |
+| `AIDecisionAuditor` coverage for all rounds | ❌ Session 11 |
+| `GdprSubjectRightsManager` registration (4 components) | ❌ Session 11 |
 
 ---
 

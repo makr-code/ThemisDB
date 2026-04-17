@@ -1310,18 +1310,68 @@ DDL-Änderung erkannt
 
 **Operational Resilience — Querschnittsdimensionen**
 
-> Vollständige Tabellen je Dimension: §12.8 in den Research-Papers
-> (`VERTEILTES_WISSEN_FEDERATION.md §12.8` · `DISTRIBUTED_KNOWLEDGE_FEDERATION.md §12.8`).
-> Die fünf Dimensionen sind **keine eigenständigen Klassen** — sie instanziieren
-> die sieben Klassen oben mit konkreten Resilienz-Mustern.
+Die fünf Dimensionen sind **keine eigenständigen Klassen** — sie instanziieren
+die sieben Klassen oben mit konkreten Resilienz-Mustern und wirken quer
+über alle SLO-Ebenen L-1…L-8.
+Kanonische vollständige Tabellen je Dimension:
+`VERTEILTES_WISSEN_FEDERATION.md §12.8` · `DISTRIBUTED_KNOWLEDGE_FEDERATION.md §12.8`.
 
-| Dimension | Primäre Klassen | ThemisDB-Instanzen (Auswahl) |
-|---|---|---|
-| **Backpressure** | Fader · Closed Loop · Switch | `max_pending_requests`, Kafka-Lag-Closed-Loop, HTTP-429-Hard-Drop |
-| **Timeout / Circuit Breaker** | Fader · Closed Loop · Kausalkette | `inference_timeout_ms`, `circuit_breaker.failure_threshold`, gRPC-Deadline-Propagation |
-| **Errors / Warnings** | Open Loop · Kausalkette · Closed Loop | NaN-Score → Pruning-Stop (Kausalkette), P99-Alert → CI-Gate (Closed Loop) |
-| **Security** | Switch · Fader · Closed Loop · Kausalkette | TLS/MFA-Switch, RBAC-Fader, ZeroTrust-Closed-Loop, SIEM-Kausalkette |
-| **Hardening** | Switch · Fader · Open Loop · Closed Loop | Plaintext-Deny-Switch, Audit-Fader, SBOM-CI-Open-Loop, Secret-Scan-Gate |
+#### Backpressure — Kapazitätssignal flussaufwärts
+
+| Mechanismus | Klasse | Downstream-Signal | Upstream-Reaktion | SLO-Ebene |
+|---|---|---|---|---|
+| `max_pending_requests` | **Fader** | Queue-Tiefe > Schwelle | Ingestion-Rate gedrosselt | L-5 Dispatch-Latenz P99 |
+| Kafka-Topic-Lag → Throttle | **Closed Loop** | Topic-Lag-Metrik | Consumer-Rate angepasst | L-8 Throughput |
+| HTTP 429 (Inference Endpoint) | **Open Loop** | 429-Antwort | Exponential Backoff | L-1 TTFT |
+| LLM-Queue Hard-Drop | **Switch** | Queue voll (ON) | Request abgelehnt (503) | L-7 Availability |
+
+#### Timeout / Circuit Breaker — Ausfallbegrenzung
+
+| Mechanismus | Klasse | Auslöser | Aktion | Config-Key / SLO |
+|---|---|---|---|---|
+| `inference_timeout_ms` | **Fader** | Deadline überschritten | Request abgebrochen | `inference_timeout_ms` (100–30 000 ms) |
+| LoRA Hot-Swap Timeout | **Switch** | Swap > 5 s | Rollback auf vorherigen Adapter | `hot_swap.timeout_ms` |
+| Circuit Breaker OPEN | **Closed Loop** | `failure_rate ≥ failure_threshold` | Pfad gesperrt; Probe-Requests | `circuit_breaker.failure_threshold` |
+| Circuit Breaker HALF_OPEN | **Closed Loop** | Probe erfolgreich | Pfad wiederhergestellt | `circuit_breaker.half_open_probe_interval` |
+| gRPC-Deadline-Propagation | **Kausalkette** | Client setzt Deadline | Deadline durch alle Ebenen propagiert | gRPC-Metadata |
+
+#### Errors / Warnings — Signalklassifikation
+
+| Signal | Klasse | Quelle | Konsument | Wirkung / SLO |
+|---|---|---|---|---|
+| P99 > Baseline + 20 % | **Closed Loop** | SLO-Monitor | CI-Gate | Deployment geblockt (§5 Δp99-Regel) |
+| Importance-Score NaN | **Kausalkette** | AdaLoRA-Layer | PruningEngine → Pruning deaktiviert | Rank-Budget fixiert bis Neustart |
+| Federation-Sync-Fehler | **Kausalkette** | `LoRAFederationCoordinator` | `CrossShardFeedbackSync` → Retry → Alert | Shard fällt auf lokalen Score zurück |
+| L7 IntentClassifier Risiko=HIGH | **Kausalkette** | `IntentClassifier` | ZeroTrust → AuditLog → SIEM | Session gesperrt (L-7) |
+| AQL-Parser WARN | **Open Loop** | AQL-Parser | AuditLogger | Log-Eintrag; keine Query-Unterbrechung |
+
+#### Security — Mechanismen nach Klasse
+
+| Mechanismus | Klasse | ThemisDB-Instanz | Bezug |
+|---|---|---|---|
+| TLS erzwingen | **Switch** | `tls.enforce` | `docker/admin-ui/nginx.ssl.conf` |
+| MFA für Admin/Operator | **Switch** | `mfa_required_roles: [admin, operator]` | `include/security/access_control.h` |
+| RBAC-Strenge | **Fader** | `rbac.policy_version` | `src/security/access_control.cpp` |
+| Rate-Limiting Login | **Fader** | 5 r/m → 30 r/m (nginx) | `docker/admin-ui/nginx.conf` |
+| ZeroTrust Session-Risk-Regelkreis | **Closed Loop** | `session_risk_score` → Dauer-Verifikation | `include/security/zero_trust_policy_enforcer.h` |
+| SPHINCS+ Post-Quantum Audit | **Switch** | `pqc.enabled` | `include/security/post_quantum_crypto.h` |
+| Sicherheits-Anomalie → SIEM | **Kausalkette** | Intent → ZeroTrust → AuditLog → SIEM | `VERTEILTES_WISSEN_FEDERATION.md §12.7` |
+| CSRF-Nonce-Validierung | **Switch** | `csrf_validation.enabled` | `docker/admin-ui/nginx.conf` |
+
+#### Hardening — Systemhärtung
+
+| Maßnahme | Klasse | Mechanismus | Aktivierung |
+|---|---|---|---|
+| Plaintext-API ablehnen | **Switch** | `security.deny_plaintext_api` | ON in Production |
+| Audit-Log-Verbosität | **Fader** | `audit.log_level` (INFO → DEBUG → TRACE) | SIGHUP |
+| Dependency-Pinning + SBOM | **Open Loop** | CI-Scan bei jedem Build | GitHub Actions |
+| Post-Quantum-Fallback | **Switch** | `pqc.enabled` (SPHINCS+) | THEMIS_ENABLE_PQC=1 |
+| IPv6-CIDR-Whitelist | **Fader** | `network_policy.cidr_allowlist` | `include/security/zero_trust_policy_enforcer.h` |
+| Secret-Scan-Gate | **Closed Loop** | Alert → PR geblockt | GitHub Actions |
+| Immutable Config im Container | **Switch** | Read-only rootfs | `docker-compose.qnap.yml` |
+| GDPR Erase-Target-Validierung | **Closed Loop** | `GdprSubjectRightsManager` → per-Modul-ACK | `include/governance/gdpr_subject_rights.h` |
+
+> **Implementations-Arbeitspaket:** `docs/issues/distributed_knowledge/DK-OR-operational-resilience.md`
 
 ---
 

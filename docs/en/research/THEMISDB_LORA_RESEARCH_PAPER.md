@@ -67,7 +67,7 @@ We analyze the existing production-ready training infrastructure in ThemisDB
 (`IncrementalLoRATrainer`, `AdaLoRAAdapter`, `LegalAutoLabeler`,
 `LoRADataSelectionPipeline`), identify the architectural gap between static knowledge
 and live operational data, and specify a concrete `DomainType::DATABASE_OPTIMIZER`
-extension to the auto-labeling pipeline that would close this gap.  
+extension to the auto-labeling pipeline that would close this gap.
 We derive **eight open research questions** that govern the path from prototype to
 production.
 
@@ -502,8 +502,8 @@ as training signals into slower loops.
 
 #### Loop 1 — Query Execution (≤ 10 ms)
 
-**Components:** `AQLModelRouter`, `BaoOptimizer`, `HnswParameterTuner`  
-**Signal:** `QueryResult.execution_time_ms`, rows returned, success  
+**Components:** `AQLModelRouter`, `BaoOptimizer`, `HnswParameterTuner`
+**Signal:** `QueryResult.execution_time_ms`, rows returned, success
 **Update rule:** `BaoOptimizer::update_model()` — Thompson Sampling over plan arms
 
 Thompson Sampling converges on the best plan with high probability after
@@ -518,8 +518,8 @@ where the optimal plan alternates between time windows).
 
 #### Loop 2 — Workload Adaptation (60 s interval)
 
-**Components:** `WorkloadAdaptiveOptimizer`, `HnswParameterTuner`, `CompressionSelector`  
-**Signal:** Sliding window of `QueryObs` (is_write, complexity, latency_us, result_rows)  
+**Components:** `WorkloadAdaptiveOptimizer`, `HnswParameterTuner`, `CompressionSelector`
+**Signal:** Sliding window of `QueryObs` (is_write, complexity, latency_us, result_rows)
 **Update rule:** `classify_workload()` → `get_strategy()` → `apply_strategy()`
 
 `WorkloadAdaptiveOptimizer` exposes a typed `OptimizationStrategy` struct covering
@@ -541,8 +541,8 @@ HNSW collection rebuild with higher M=32 for the new 1536-dim embedding space."
 #### Loop 3 — Index Lifecycle (hours to days)
 
 **Components:** `QueryPatternTracker`, `SelectivityAnalyzer`, `IndexSuggestionEngine`,
-`SelfImprovementOrchestrator`  
-**Signal:** `QueryPattern.count / total_time_ms` aggregates + `SelectivityStats`  
+`SelfImprovementOrchestrator`
+**Signal:** `QueryPattern.count / total_time_ms` aggregates + `SelectivityStats`
 **Update rule:** `IndexSuggestionEngine` generates `IndexSuggestion`; gated by
 `SelfImprovementOrchestrator` A/B test before application
 
@@ -566,8 +566,8 @@ least `target_improvement = 10 %`, it is automatically dropped.
 #### Loop 4 — Adapter Improvement (weekly)
 
 **Components:** `ContinuousLearningOrchestrator`, `IncrementalLoRATrainer`,
-`LoRADataSelectionPipeline`, `AdaLoRAAdapter`  
-**Signal:** All Loop 1–3 outcomes, DBA feedback (👍/👎), `DataSelectionMetrics`  
+`LoRADataSelectionPipeline`, `AdaLoRAAdapter`
+**Signal:** All Loop 1–3 outcomes, DBA feedback (👍/👎), `DataSelectionMetrics`
 **Update rule:** `min_accuracy_drop = 0.05` → `runLoRARetraining()` →
 `deployVersionEx(version, traffic_split=0.1)` → promote or rollback
 
@@ -1490,93 +1490,93 @@ validate the architecture and calibrate its production deployment.
 
 ### Core LoRA / PEFT
 
-- **Hu et al. (2022)**  
-  *LoRA: Low-Rank Adaptation of Large Language Models.*  
+- **Hu et al. (2022)**
+  *LoRA: Low-Rank Adaptation of Large Language Models.*
   arXiv:2106.09685. ICLR 2022.
 
-- **Zhang et al. (2023)**  
-  *AdaLoRA: Adaptive Budget Allocation for Parameter-Efficient Fine-Tuning.*  
+- **Zhang et al. (2023)**
+  *AdaLoRA: Adaptive Budget Allocation for Parameter-Efficient Fine-Tuning.*
   arXiv:2303.10512. ICLR 2023.
 
-- **Dettmers et al. (2023)**  
-  *QLoRA: Efficient Finetuning of Quantized LLMs.*  
+- **Dettmers et al. (2023)**
+  *QLoRA: Efficient Finetuning of Quantized LLMs.*
   arXiv:2305.14314. NeurIPS 2023.
 
-- **Hayou et al. (2024)**  
-  *LoRA+: Efficient Low Rank Adaptation of Large Models.*  
+- **Hayou et al. (2024)**
+  *LoRA+: Efficient Low Rank Adaptation of Large Models.*
   arXiv:2402.12354. ICML 2024.
 
-- **Li & Liang (2021)**  
-  *Prefix-Tuning: Optimizing Continuous Prompts for Generation.*  
+- **Li & Liang (2021)**
+  *Prefix-Tuning: Optimizing Continuous Prompts for Generation.*
   arXiv:2101.00190. ACL 2021.
 
-- **Lester et al. (2021)**  
-  *The Power of Scale for Parameter-Efficient Prompt Tuning.*  
+- **Lester et al. (2021)**
+  *The Power of Scale for Parameter-Efficient Prompt Tuning.*
   arXiv:2104.08691. EMNLP 2021.
 
 ---
 
 ### Retrieval-Augmented Generation
 
-- **Lewis et al. (2020)**  
-  *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks.*  
+- **Lewis et al. (2020)**
+  *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks.*
   arXiv:2005.11401. NeurIPS 2020.
 
-- **Asai et al. (2023)**  
-  *Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection.*  
+- **Asai et al. (2023)**
+  *Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection.*
   arXiv:2310.11511. ICLR 2024.
 
-- **Gao et al. (2022)**  
-  *Precise Zero-Shot Dense Retrieval without Relevance Labels (HyDE).*  
+- **Gao et al. (2022)**
+  *Precise Zero-Shot Dense Retrieval without Relevance Labels (HyDE).*
   arXiv:2212.10496. ACL 2023.
 
 ---
 
 ### Approximate Nearest Neighbor Search
 
-- **Malkov & Yashunin (2018)**  
+- **Malkov & Yashunin (2018)**
   *Efficient and Robust Approximate Nearest Neighbor Search using Hierarchical
-  Navigable Small World Graphs.*  
+  Navigable Small World Graphs.*
   IEEE Transactions on Pattern Analysis and Machine Intelligence, 42(4), 824–836.
   DOI: 10.1109/TPAMI.2018.2889473. arXiv:1603.09320.
 
-- **Subramanya et al. (2019)**  
-  *DiskANN: Fast Accurate Billion-point Nearest Neighbor Search on a Single Node.*  
+- **Subramanya et al. (2019)**
+  *DiskANN: Fast Accurate Billion-point Nearest Neighbor Search on a Single Node.*
   NeurIPS 2019.
 
-- **Guo et al. (2020)**  
-  *Accelerating Large-Scale Inference with Anisotropic Vector Quantization (ScaNN).*  
+- **Guo et al. (2020)**
+  *Accelerating Large-Scale Inference with Anisotropic Vector Quantization (ScaNN).*
   arXiv:1908.10396. ICML 2020.
 
 ---
 
 ### Learned Database Optimization
 
-- **Marcus et al. (2021)**  
-  *Bao: Making Learned Query Optimization Practical.*  
+- **Marcus et al. (2021)**
+  *Bao: Making Learned Query Optimization Practical.*
   ACM SIGMOD 2021. DOI: 10.1145/3448016.3452838.
 
-- **Van Aken et al. (2017)**  
-  *Automatic Database Management System Tuning Through Large-scale Machine Learning.*  
+- **Van Aken et al. (2017)**
+  *Automatic Database Management System Tuning Through Large-scale Machine Learning.*
   ACM SIGMOD 2017. DOI: 10.1145/3035918.3064029.
 
-- **Zhang et al. (2019)**  
+- **Zhang et al. (2019)**
   *CDBTune: An End-to-End Automatic Cloud Database Tuning System Using Deep
-  Reinforcement Learning.*  
+  Reinforcement Learning.*
   ACM SIGMOD 2019. DOI: 10.1145/3299869.3300085.
 
-- **Li et al. (2019)**  
-  *QTune: A Query-Aware Database Tuning System with Deep Reinforcement Learning.*  
+- **Li et al. (2019)**
+  *QTune: A Query-Aware Database Tuning System with Deep Reinforcement Learning.*
   Proceedings of the VLDB Endowment, 12(12), 2118–2130.
   DOI: 10.14778/3352063.3352129.
 
-- **Ding et al. (2020)**  
-  *ALEX: An Updatable Adaptive Learned Index.*  
+- **Ding et al. (2020)**
+  *ALEX: An Updatable Adaptive Learned Index.*
   ACM SIGMOD 2020. DOI: 10.1145/3318464.3389711.
 
-- **Pavlo et al. (2021)**  
+- **Pavlo et al. (2021)**
   *Make Your Database System Dream of Electric Sheep: Towards Self-Driving
-  Operation (NoisePage / Pilot).*  
+  Operation (NoisePage / Pilot).*
   Proceedings of the VLDB Endowment, 14(12), 3211–3221.
   DOI: 10.14778/3476311.3476411.
 
@@ -1584,42 +1584,42 @@ validate the architecture and calibrate its production deployment.
 
 ### LLM-Augmented Database Administration
 
-- **Trummer (2022)**  
-  *DB-BERT: a Database Tuning Tool that "Reads" the Manual.*  
+- **Trummer (2022)**
+  *DB-BERT: a Database Tuning Tool that "Reads" the Manual.*
   ACM SIGMOD 2022. DOI: 10.1145/3514221.3517843.
 
-- **Zhou et al. (2023)**  
-  *D-Bot: Database Diagnosis System using Large Language Models.*  
+- **Zhou et al. (2023)**
+  *D-Bot: Database Diagnosis System using Large Language Models.*
   arXiv:2312.01454.
 
-- **Zhou et al. (2023)**  
-  *GPT-4-as-DBA (DB-GPT Benchmark): LLM-Based Database Administrator.*  
+- **Zhou et al. (2023)**
+  *GPT-4-as-DBA (DB-GPT Benchmark): LLM-Based Database Administrator.*
   arXiv:2308.05481.
 
 ---
 
 ### Reinforcement Learning and Bandit Algorithms
 
-- **Agrawal & Goyal (2012)**  
-  *Analysis of Thompson Sampling for the Multi-armed Bandit Problem.*  
+- **Agrawal & Goyal (2012)**
+  *Analysis of Thompson Sampling for the Multi-armed Bandit Problem.*
   Proceedings of COLT 2012. arXiv:1111.1797.
 
-- **Ouyang et al. (2022)**  
-  *Training Language Models to Follow Instructions with Human Feedback (InstructGPT).*  
+- **Ouyang et al. (2022)**
+  *Training Language Models to Follow Instructions with Human Feedback (InstructGPT).*
   arXiv:2203.02155. NeurIPS 2022.
 
 ---
 
 ### Control Theory for Feedback Systems
 
-- **Åström & Hägglund (2006)**  
-  *Advanced PID Control.*  
+- **Åström & Hägglund (2006)**
+  *Advanced PID Control.*
   ISA — The Instrumentation, Systems, and Automation Society, ISBN 1-55617-942-1.
 
 ---
 
-*Authors: ThemisDB Engineering Team*  
-*License: Apache-2.0*  
+*Authors: ThemisDB Engineering Team*
+*License: Apache-2.0*
 *Repository: github.com/makr-code/ThemisDB*
 
 ---
@@ -1653,13 +1653,83 @@ monitoring path (§6 Δp99 rules).
 **Operational Resilience — Cross-Cutting Dimensions**
 
 The five dimensions below are not independent taxonomy classes — each instantiates
-one or more of the seven classes above with resilience-specific patterns.
-Full tables with all ThemisDB instances: `DISTRIBUTED_KNOWLEDGE_FEDERATION.md §12.8`.
+one or more of the seven classes above with resilience-specific patterns. They apply
+orthogonally across all four LoRA loops and across the LoRA infrastructure stack.
+Canonical full tables with every ThemisDB instance:
+`DISTRIBUTED_KNOWLEDGE_FEDERATION.md §12.8` · `VERTEILTES_WISSEN_FEDERATION.md §12.8`.
 
-| Dimension | Primary classes | Key instances in this paper |
-|---|---|---|
-| **Backpressure** | Fader · Closed Loop · Switch | `max_pending_requests` Fader; Kafka-lag Closed Loop; inference-queue hard-drop Switch |
-| **Timeout / Circuit Breaker** | Fader · Closed Loop · Causal Chain | `inference_timeout_ms` Fader; `circuit_breaker.failure_threshold` Closed Loop; gRPC deadline Causal Chain; `hot_swap.timeout_ms` Switch |
-| **Errors / Warnings** | Open Loop · Causal Chain · Closed Loop | importance-score NaN → pruning disabled (Causal Chain); P99 breach → CI gate blocked (Closed Loop); AQL-WARN → AuditLog (Open Loop) |
-| **Security** | Switch · Fader · Closed Loop · Causal Chain | `tls.enforce` Switch; `rbac.policy_version` Fader; ZeroTrust `session_risk_score` Closed Loop; Intent→ZeroTrust→SIEM Causal Chain (§13 Chain 2) |
-| **Hardening** | Switch · Fader · Open Loop · Closed Loop | `security.deny_plaintext_api` Switch; `audit.log_level` Fader; SBOM-CI Open Loop; secret-scan-alert → PR-blocked Closed Loop |
+### Backpressure
+
+Backpressure occurs when a downstream component signals its capacity limit upstream.
+The three LoRA-relevant instances each map to a different class:
+
+| Mechanism | Class | Downstream signal | Upstream reaction | Config key |
+|---|---|---|---|---|
+| Inference request queue | **Fader** | `max_pending_requests` depth exceeded | ingestion throttled | `max_pending_requests` |
+| Kafka topic lag (Loop 4 training events) | **Closed Loop** | topic-lag metric | consumer rate adjusted | `kafka.consumer.max_poll_records` |
+| Inference endpoint HTTP 429 | **Open Loop** | 429 response | caller backs off (exponential) | — |
+| LLM queue hard-drop | **Switch** | queue full (ON) | request rejected with 503 | `llm.queue.hard_drop_enabled` |
+
+### Timeout / Circuit Breaker
+
+Timeouts bound waiting time (Open Loop / Fader). Circuit Breakers measure error rates
+and proactively block a path (Closed Loop), then probe recovery (HALF_OPEN state).
+
+| Mechanism | Class | Trigger | Action | Config key |
+|---|---|---|---|---|
+| Inference timeout | **Fader** | deadline exceeded | request aborted | `inference_timeout_ms` (100–30 000 ms) |
+| LoRA hot-swap timeout | **Switch** | swap duration > 5 s | rollback to previous adapter | `hot_swap.timeout_ms` |
+| Circuit Breaker OPEN | **Closed Loop** | `failure_rate ≥ failure_threshold` | path blocked; probe requests sent | `circuit_breaker.failure_threshold` |
+| Circuit Breaker HALF_OPEN → CLOSED | **Closed Loop** | probe request succeeds | path restored | `circuit_breaker.half_open_probe_interval` |
+| gRPC deadline propagation | **Causal Chain** | client sets context deadline | deadline propagated through all layers | gRPC context metadata |
+
+### Errors / Warnings
+
+Errors and warnings are **events**, not control classes. Their effect depends on
+which component receives them and how it reacts — the class is assigned to the
+*reaction*, not to the event itself.
+
+| Signal | Class | Source | Consumer | Effect |
+|---|---|---|---|---|
+| AQL parser WARN (unknown function) | **Open Loop** | AQL parser | AuditLogger | Log entry written; query not interrupted |
+| Importance-score NaN | **Causal Chain** | AdaLoRA layer | PruningEngine → pruning disabled | Rank budget fixed until restart |
+| P99 latency > baseline + 20 % | **Closed Loop** | SLO monitor | CI gate | Deployment blocked (§6 Δp99 rule) |
+| LoRA training convergence WARN | **Causal Chain** | `IncrementalLoRATrainer` | `ContinuousLearningOrchestrator` → retry | Retraining with reduced `learning_rate` |
+| Federation sync error | **Causal Chain** | `LoRAFederationCoordinator` | `CrossShardFeedbackSync` → retry → alert | Shard falls back to local importance score |
+
+### Security
+
+Security mechanisms in the LoRA stack span all seven classes. The class assignment
+determines operator effort and system reaction time.
+
+| Mechanism | Class | ThemisDB instance | Reference |
+|---|---|---|---|
+| Enforce TLS for all API endpoints | **Switch** | `tls.enforce` ON/OFF | `docker/admin-ui/nginx.ssl.conf` |
+| MFA for admin/operator roles | **Switch** | `mfa_required_roles: [admin, operator]` | `include/security/access_control.h` |
+| RBAC policy strictness | **Fader** | `rbac.policy_version` (permissive ↔ strict) | `src/security/access_control.cpp` |
+| Login rate-limiting (nginx) | **Fader** | 5 r/m → 30 r/m | `docker/admin-ui/nginx.conf` |
+| ZeroTrust session-risk continuous re-auth | **Closed Loop** | `session_risk_score` → `continuous_verification` | `include/security/zero_trust_policy_enforcer.h` |
+| SPHINCS+ post-quantum LoRA audit signature | **Switch** | `pqc.enabled` (THEMIS_ENABLE_PQC=1) | `include/security/post_quantum_crypto.h` |
+| Security anomaly → session revocation | **Causal Chain** | Intent Classifier → ZeroTrust → AuditLog → SIEM | §13 Causal Chain 2 |
+| CSRF nonce validation | **Switch** | `csrf_validation.enabled` | `docker/admin-ui/nginx.conf` |
+
+### Hardening
+
+Hardening closes attack surfaces and validates system integrity. In the LoRA stack
+this spans adapter storage security, gradient confidentiality, and CI pipeline gates.
+
+| Measure | Class | Mechanism | Activation |
+|---|---|---|---|
+| Reject plaintext API calls | **Switch** | `security.deny_plaintext_api` | ON in production |
+| Audit log verbosity | **Fader** | `audit.log_level` (INFO → DEBUG → TRACE) | SIGHUP hot-reload |
+| Dependency pinning + SBOM generation | **Open Loop** | CI scan on every build | GitHub Actions |
+| Post-quantum LoRA audit (SPHINCS+) | **Switch** | `pqc.enabled` | THEMIS_ENABLE_PQC=1 |
+| IPv6 CIDR allowlist for gradient transport | **Fader** | `network_policy.cidr_allowlist` | `include/security/zero_trust_policy_enforcer.h` |
+| Secret scanning gate | **Closed Loop** | secret-scanning alert → PR blocked | GitHub Actions |
+| LoRA adapter storage: immutable container rootfs | **Switch** | read-only rootfs | `docker-compose.qnap.yml` |
+| GDPR erase-target validation (adapter data) | **Closed Loop** | `GdprSubjectRightsManager` → per-module ACK | `include/governance/gdpr_subject_rights.h` |
+
+> **Canonical reference for all 20 OR instances with SLO cross-links:**
+> `docs/en/research/DISTRIBUTED_KNOWLEDGE_FEDERATION.md §12.8` (EN) ·
+> `docs/de/research/VERTEILTES_WISSEN_FEDERATION.md §12.8` (DE) ·
+> Implementation work package: `docs/issues/distributed_knowledge/DK-OR-operational-resilience.md`

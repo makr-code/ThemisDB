@@ -1127,13 +1127,59 @@ Switch or Fader adjustments.
 **Operational Resilience — Cross-Cutting Dimensions**
 
 The five dimensions below are not independent taxonomy classes — each instantiates
-one or more of the seven classes above with resilience-specific patterns.
-Full tables: `DISTRIBUTED_KNOWLEDGE_FEDERATION.md §12.8`.
+one or more of the seven classes above with resilience-specific patterns. They are
+exercised primarily through AdaLoRA feedback paths, CI SLO gates, and the
+distributed training infrastructure.
+Canonical full tables: `DISTRIBUTED_KNOWLEDGE_FEDERATION.md §12.8`.
 
-| Dimension | Primary classes | AdaLoRA / LoRA instances |
-|---|---|---|
-| **Backpressure** | Fader · Closed Loop · Switch | `max_pending_requests` fader, Kafka-lag closed loop, inference-queue hard-drop switch |
-| **Timeout / Circuit Breaker** | Fader · Closed Loop · Causal Chain | `inference_timeout_ms` fader, `circuit_breaker.*` closed loop, gRPC deadline causal chain |
-| **Errors / Warnings** | Open Loop · Causal Chain · Closed Loop | importance-score NaN → pruning-stop causal chain; P99 breach → CI gate closed loop |
-| **Security** | Switch · Fader · Closed Loop · Causal Chain | `tls.enforce` switch, RBAC-strictness fader, ZeroTrust session-risk closed loop, SIEM causal chain |
-| **Hardening** | Switch · Fader · Open Loop · Closed Loop | plaintext-deny switch, `audit.log_level` fader, SBOM-CI open loop, secret-scan closed loop |
+### Backpressure
+
+| Mechanism | Class | Downstream signal | Upstream reaction | SLO |
+|---|---|---|---|---|
+| Inference request queue depth | **Fader** | `max_pending_requests` exceeded | ingestion throttled | Dispatch latency P99 (L-5) |
+| Kafka training-event lag | **Closed Loop** | topic-lag metric | consumer rate adjusted | Throughput (L-8) |
+| Inference endpoint HTTP 429 | **Open Loop** | 429 response | caller backs off exponentially | TTFT (L-1) |
+| LLM queue hard-drop | **Switch** | queue full | request rejected (503) | Availability (L-7) |
+
+### Timeout / Circuit Breaker
+
+| Mechanism | Class | Trigger | Action | Config key |
+|---|---|---|---|---|
+| Inference timeout | **Fader** | deadline exceeded | request aborted | `inference_timeout_ms` |
+| LoRA hot-swap timeout | **Switch** | swap > 5 s | rollback to previous adapter | `hot_swap.timeout_ms` |
+| Circuit Breaker OPEN | **Closed Loop** | `failure_rate ≥ failure_threshold` | path blocked; probe requests | `circuit_breaker.failure_threshold` |
+| Circuit Breaker HALF_OPEN | **Closed Loop** | probe succeeds | path restored | `circuit_breaker.half_open_probe_interval` |
+| gRPC deadline propagation | **Causal Chain** | client sets deadline | propagated through all layers | gRPC metadata |
+
+### Errors / Warnings
+
+| Signal | Class | Source | Consumer | Effect |
+|---|---|---|---|---|
+| Importance-score NaN | **Causal Chain** | AdaLoRA layer | PruningEngine → pruning disabled | Rank budget fixed until restart |
+| P99 latency > baseline + 20 % | **Closed Loop** | SLO monitor | CI gate | Deployment blocked (§6 Δp99 rule) |
+| LoRA retraining convergence WARN | **Causal Chain** | `IncrementalLoRATrainer` | `ContinuousLearningOrchestrator` → retry | Reduced `learning_rate` on next attempt |
+| AQL parser WARN | **Open Loop** | AQL parser | AuditLogger | Log entry; query not interrupted |
+
+### Security
+
+| Mechanism | Class | ThemisDB instance | Reference |
+|---|---|---|---|
+| Enforce TLS | **Switch** | `tls.enforce` | `docker/admin-ui/nginx.ssl.conf` |
+| MFA for admin/operator | **Switch** | `mfa_required_roles: [admin, operator]` | `include/security/access_control.h` |
+| RBAC policy strictness | **Fader** | `rbac.policy_version` | `src/security/access_control.cpp` |
+| ZeroTrust session-risk loop | **Closed Loop** | `session_risk_score` → `continuous_verification` | `include/security/zero_trust_policy_enforcer.h` |
+| SPHINCS+ audit for LoRA rounds | **Switch** | `pqc.enabled` | `include/security/post_quantum_crypto.h` |
+| Security anomaly → SIEM | **Causal Chain** | Intent Classifier → ZeroTrust → AuditLog | `DISTRIBUTED_KNOWLEDGE_FEDERATION.md §12.7` |
+
+### Hardening
+
+| Measure | Class | Mechanism | Activation |
+|---|---|---|---|
+| Reject plaintext API | **Switch** | `security.deny_plaintext_api` | ON in production |
+| Audit log verbosity | **Fader** | `audit.log_level` (INFO → DEBUG → TRACE) | SIGHUP |
+| Dependency pinning + SBOM | **Open Loop** | CI scan on every build | GitHub Actions |
+| Secret scanning gate | **Closed Loop** | alert → PR blocked | GitHub Actions |
+| Immutable container rootfs | **Switch** | read-only rootfs | `docker-compose.qnap.yml` |
+| GDPR erase-target validation | **Closed Loop** | `GdprSubjectRightsManager` → ACK | `include/governance/gdpr_subject_rights.h` |
+
+> **Implementation work package:** `docs/issues/distributed_knowledge/DK-OR-operational-resilience.md`

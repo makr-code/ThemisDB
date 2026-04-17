@@ -116,7 +116,77 @@ distributed_knowledge module
 
 ---
 
-## 5. Configuration Reference
+## 5. Operational Resilience
+
+Operational Resilience (OR) is a **cross-cutting concern** that applies to all
+four integration layers (A–D). The patterns and their class assignments follow
+the seven-class taxonomy defined in `docs/en/research/DISTRIBUTED_KNOWLEDGE_FEDERATION.md §12`.
+
+### 5.1 Backpressure
+
+The `distributed_knowledge` module contributes to the system-wide backpressure
+chain by propagating capacity signals from the federation transport layer to the
+ingestion path.
+
+| Point | Mechanism | Class | Config key |
+|---|---|---|---|
+| Gossip fan-out queue | Hard-drop if `max_gossip_queue_depth` exceeded | **Switch** | `gossip.max_queue_depth` |
+| Federation round rate | DP budget exhaustion guards frequency | **Closed Loop** | `dp_epsilon` per round |
+| RAG merge fan-out | Timed-out shard silently skipped (partial result) | **Open Loop** | `FederatedRAGMergerConfig::shard_timeout_ms` |
+| Feedback publish queue | `publishFeedback()` skips if Gossip queue full | **Open Loop** | non-blocking dispatch |
+
+### 5.2 Timeout / Circuit Breaker
+
+| Point | Mechanism | Class | Config key |
+|---|---|---|---|
+| Federation round aggregation | `triggerAggregation()` has configurable round timeout | **Fader** | `FederationConfig::round_timeout_ms` |
+| Per-shard RAG result | `ShardRetrievalResult::ok = false` on timeout | **Switch** | `shard_timeout_ms` |
+| Inbound gossip verification | `GossipProtocol::verifyMessage()` HMAC; failed = silently dropped | **Open Loop** | `gossip.hmac_key` |
+| DP budget exhaustion | `verifyPrivacyBudget()` returns false → round skipped | **Closed Loop** | `dp_epsilon`, `dp_max_rounds` |
+| Privacy budget reset | Operator calls `/admin/federation/reset-budget` | **Switch** | DK-7 Admin API |
+
+### 5.3 Error Handling Policy
+
+Errors are classified by severity and handled consistently across all four layers:
+
+| Class | Behaviour | Rationale |
+|---|---|---|
+| **Fatal** (invalid config) | `std::invalid_argument` thrown at construction | Fail-fast before any data flows |
+| **Round-level error** (below `min_participants`) | `std::runtime_error` thrown from `triggerAggregation()` | Caller decides retry strategy |
+| **Shard-level error** (timeout, `ok=false`) | Silently skipped; merge continues with responding shards | Availability over perfect consistency |
+| **Idempotent duplicate** (duplicate `summary_id`, wrong round) | Silently ignored | Gossip delivers at-least-once; idempotency is required |
+| **Privacy violation** (DP budget exceeded) | Round skipped; alert written to `AIDecisionAuditor` | Privacy guarantee is non-negotiable |
+| **Privacy leak detected** (NaN in gradient) | `std::runtime_error` thrown from `exportGradient()` | Data integrity invariant violated |
+
+### 5.4 Security Integration Points
+
+| Invariant | Implementation | Layer |
+|---|---|---|
+| No raw training data in gradient | `EncryptedGradient::data` contains only numeric weight-delta map | B |
+| No raw query text in feedback | `shard_origin = "ANON"`, only `reason_embedding` transmitted | D |
+| All inbound gossip authenticated | `GossipProtocol::verifyMessage()` HMAC + mTLS | A, D |
+| Cross-border transfer checked | `CrossBorderTransferPolicy::checkTransfer()` before each round | B |
+| Post-quantum audit signature | `SphincsPlus`-signed record written after each round | B, D |
+| ZeroTrust for inbound feedback | `ZeroTrustPolicyEnforcer::evaluateRequest()` before `handleInboundSummary()` | D |
+| GDPR subject rights | Module registers with `GdprSubjectRightsManager` via `IGdprEraseTarget` | B, C, D |
+
+### 5.5 Hardening Checklist
+
+These items must be verified before each production release of the module:
+
+- [ ] `EncryptedGradient::data` passes property-based test: no verbatim training text (DK-6 Scenario 5)
+- [ ] DP noise is non-zero in every round (DK-B-5 unit test)
+- [ ] `GossipProtocol::verifyMessage()` rejects malformed HMAC (DK-A-3 unit test)
+- [ ] `CrossBorderTransferPolicy::checkTransfer()` blocks EU-boundary rounds (DK-7 test)
+- [ ] `SphincsPlus` audit record written and signature verifiable (DK-7 test)
+- [ ] `AIDecisionAuditor::recordDecision()` called for every federation round
+- [ ] Admin API `/admin/federation/stats` exposes `privacy_budget_remaining` field
+- [ ] Container rootfs read-only in `docker-compose.qnap.yml`
+- [ ] No `std::cout` or `printf` in production paths (all output via structured logger)
+
+---
+
+## 6. Configuration Reference
 
 ### Layer B — FederationConfig
 
@@ -159,7 +229,7 @@ struct FeedbackSyncConfig {
 
 ---
 
-## 6. Error Handling
+## 7. Error Handling
 
 | Situation | Behaviour |
 |---|---|
@@ -173,7 +243,7 @@ struct FeedbackSyncConfig {
 
 ---
 
-## 7. Testing Strategy
+## 8. Testing Strategy
 
 | Test Type | Target | Location |
 |---|---|---|
@@ -185,7 +255,7 @@ struct FeedbackSyncConfig {
 
 ---
 
-## 8. Module Conventions
+## 9. Module Conventions
 
 - Namespace: `themis::distributed_knowledge`
 - All classes use PIMPL or member `std::mutex mutex_` for thread safety
