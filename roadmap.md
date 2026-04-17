@@ -38,6 +38,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **core** | ✅ Production-ready — ConcernsContext DI, pluggable adapters, tracing/metrics/cache/secrets/feature-flags operational | [src/core/ROADMAP.md](src/core/ROADMAP.md) |
 | **ethics_ai** | ✅ Production-ready (v0.2.0) — PhilosophyLoader (YAML rich thesis objects), EthicsEvaluator (configurable weights), ChainVisualizer (DOT/Mermaid export) | [src/ethics_ai/ROADMAP.md](src/ethics_ai/ROADMAP.md) |
 | **exporters** | ✅ Production-ready | [src/exporters/ROADMAP.md](src/exporters/ROADMAP.md) |
+| **distributed_knowledge** | 🚧 In Progress (v0.1.0) — RAID-5 knowledge sharding: 4 headers scaffolded (AdapterCapabilityAnnouncement, LoRAFederationCoordinator, FederatedRAGMerger, CrossShardFeedbackSync); build system, tests, and all 4 layer wirings pending (DK-1…DK-8) | [src/distributed_knowledge/ROADMAP.md](src/distributed_knowledge/ROADMAP.md) |
 | **failover** | ✅ Production-ready — AutoFailoverManager (Raft-based, quorum), DisasterRecoveryManager (7-step DR plan with step hooks and dry_run) | [src/failover/ROADMAP.md](src/failover/ROADMAP.md) |
 | **geo** | ✅ Production-ready — CPU spatial queries stable; GPU dispatch with documented CPU fallback; WGS-84 boundaries explicitly documented | [src/geo/ROADMAP.md](src/geo/ROADMAP.md) |
 | **governance** | ✅ Production-ready — Policy engine incl. GDPR/HIPAA/CCPA/PCI/SOC2, OPA integration, model governance operational | [src/governance/ROADMAP.md](src/governance/ROADMAP.md) |
@@ -370,6 +371,32 @@ Focus: Deepen AI capabilities across prompt engineering, training, RAG, and anal
 - [I] Zero-copy Arrow data transfer optimisations (Issue: #1471) (Target: Q3 2026)
 - [I] Arrow Flight RPC support for remote analytics (Issue: #1472) (Target: Q3 2026)
 - [x] Predictive analytics and time-series forecasting (Issue: #1473)
+
+#### 2.6 LoRA Foundation — Loops 1–4 + Dataset (Target: Q3 2026)
+*Defined in: `docs/en/research/THEMISDB_LORA_RESEARCH_PAPER.md`*
+- [ ] IMPL-A1: Golden dataset CLI + `DatabaseDomainAutoLabeler` — Inputs: query logs + FeedbackCollector; Outputs: JSONL label + confidence ≥ 0.7 (Target: Q3 2026)
+- [ ] IMPL-A2: Loop 1–4 explicit orchestration in `ContinuousLearningOrchestrator` — `LoopPhase` enum, `triggerLoop()`, guardrails; all 4 loops named and testable (Target: Q3 2026)
+- [ ] IMPL-A3: `exportGradient()` + `applyGlobalDelta()` + `FEDERATED_ROUND_START` — bridge between LoRA pipeline and Layer 11B (Target: Q3 2026)
+
+#### 2.7 LLM Optimization Layers 5–10 (Target: Q3–Q4 2026)
+*Defined in: `docs/en/research/LLM_OPTIMIZATION_LAYERS_MATRIX.md`*
+- [ ] IMPL-B5: `TransactionSemanticAdvisor` — batch-affinity hints, `analyzeBatch()` ≤ 10 ms (Target: Q3 2026)
+- [ ] IMPL-B6: `SchemaDeadWeightDetector` — 180-day window, seasonality, 0 GDPR false-negatives (Target: Q3 2026)
+- [ ] IMPL-B7: `IntentClassifier` — SQL-injection/exfiltration, precision ≥ 80 % v1.0 → ≥ 92 % post-LoRA (Target: Q3 2026)
+- [ ] IMPL-B8: `WorkloadFingerprintEngine` — OLTP/OLAP/Batch, similarity-match ≥ 80 % accuracy (Target: Q3 2026)
+- [ ] IMPL-B9: `ExplainabilityReasonBuilder` — causal chain for 100 % of autonomous decision types (Target: Q4 2026)
+- [ ] IMPL-B10: `StorageLayoutAdvisor` — Row/Columnar/Hybrid, ≥ +50 % compression for time-series (Target: Q4 2026)
+
+#### 2.8 Distributed Knowledge — Layer 11 (Target: Q4 2026)
+*Defined in: `docs/en/research/DISTRIBUTED_KNOWLEDGE_FEDERATION.md` · `src/distributed_knowledge/ROADMAP.md`*
+- [ ] DK-1: Build system + 25 unit tests for `distributed_knowledge` module (Target: Q4 2026)
+- [ ] DK-2: Layer 11A — GossipProtocol `registerCustomHandler()` + `routeByDomain()` (Target: Q4 2026)
+- [ ] DK-3: Layer 11B — FedAvg + DP aggregation wired to `IncrementalLoRATrainer` (Target: Q4 2026)
+- [ ] DK-4: Layer 11C — `QueryFederation` RAG-aware merge, Recall@10 ≥ +15 % vs. shard-local (Target: Q4 2026)
+- [ ] DK-5: Layer 11D — `CrossShardFeedbackSync` wired to `FeedbackCollector` + RLAIF (Target: Q4 2026)
+- [ ] DK-6: End-to-end integration (7 scenarios) + privacy invariant test (Target: Q4 2026)
+- [ ] DK-7: Admin API + SphincsPlus audit + `CrossBorderTransferPolicy` (Target: Q4 2026)
+- [ ] DK-8: Performance benchmarks — `triggerAggregation()` ≤ 500 ms, `merge()` ≤ 20 ms (Target: Q4 2026)
 
 ---
 
