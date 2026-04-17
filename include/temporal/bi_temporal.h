@@ -210,6 +210,40 @@ public:
      */
     std::vector<std::string> getAllKeys() const;
 
+    // ── Cross-node reconciliation ─────────────────────────────────────────────
+
+    /**
+     * Result returned by `merge()`.
+     */
+    struct MergeResult {
+        size_t rows_adopted{0};    ///< Rows from `other` accepted (LWW winner)
+        size_t rows_skipped{0};    ///< Rows from `other` ignored (stale or equal)
+        size_t keys_seen{0};       ///< Total keys examined in `other`
+    };
+
+    /**
+     * Merge rows from `other` into this table using Last-Write-Wins (LWW).
+     *
+     * For each key in `other`, the current row with the highest
+     * `sys_time.start` is taken as the authoritative version.  If that
+     * timestamp is strictly greater than the corresponding local current
+     * row's `sys_time.start`, the remote row wins:
+     *
+     *   1. All local current rows for that key are closed at the remote
+     *      row's `sys_time.start`.
+     *   2. The remote row is inserted with its original `valid_time` and
+     *      `sys_time = [remote.sys_time.start, ∞)`.
+     *
+     * If the local row has an equal or newer timestamp, the local version
+     * is kept unchanged (no action).
+     *
+     * @param other   Source table to merge from.  Must have the same
+     *                `tableName()` as `*this`; if names differ the call is
+     *                a no-op and returns an empty `MergeResult`.
+     * @return        Statistics describing the merge operation.
+     */
+    MergeResult merge(const BiTemporalTable& other);
+
     // ── Metadata ─────────────────────────────────────────────────────────────
 
     const std::string& tableName() const noexcept { return table_name_; }

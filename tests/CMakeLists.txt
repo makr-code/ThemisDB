@@ -19345,9 +19345,55 @@ else()
     message(STATUS "BiTemporalTable tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_bi_temporal.cpp")
 endif()
 
-
 # ============================================================================
-# Temporal Module -- TemporalQueryEngine Focused Tests (v1.9.0)
+# Temporal Module -- v1.8.0 + v1.9.0 Focused Tests
+# Validates:
+#   CDCPersistentLog  (WAL, CRC-32, segment rotation, disk replay)
+#   SnapshotDiff      (diff added/removed/modified between two snapshots)
+#   BiTemporalTable::merge  (LWW cross-node reconciliation)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_v18_v19.cpp")
+    message(STATUS "Adding Temporal: v1.8.0+v1.9.0 focused tests (CDCPersistentLog, SnapshotDiff, BiTemporal::merge)")
+
+    add_executable(test_temporal_v18_v19_focused
+        temporal/test_temporal_v18_v19.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/temporal_cdc.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/snapshot_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/system_versioned_table.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/bi_temporal.cpp
+    )
+
+    target_include_directories(test_temporal_v18_v19_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_temporal_v18_v19_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_temporal_v18_v19_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TemporalV18V19FocusedTests COMMAND test_temporal_v18_v19_focused)
+
+    set_tests_properties(TemporalV18V19FocusedTests PROPERTIES
+        LABELS "temporal;cdc;wal;snapshot;diff;bitemporal;merge;lww;v1.8.0;v1.9.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CDCPersistentLog: CDCPL-01..08 (open, round-trip, filter table, filter time, bytes, segment count, rotation, error)")
+    message(STATUS "  SnapshotDiff: SD2-01..06 (identical, added, removed, modified, invalid handle, toJson)")
+    message(STATUS "  BiTemporalTable::merge: BTM-01..06 (empty remote, LWW remote wins, LWW local wins, new key, table mismatch, stats)")
+else()
+    message(STATUS "Temporal v1.8.0+v1.9.0 tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_v18_v19.cpp")
+endif()
+
+
 # Validates SQL:2011 FOR SYSTEM_TIME / FOR APPLICATION_TIME dispatch via
 # TemporalQuerySpec::asOf / fromTo / betweenAnd / containedIn / all.
 # ============================================================================

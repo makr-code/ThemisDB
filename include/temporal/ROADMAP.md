@@ -49,12 +49,12 @@
 - [x] `interval_tree_index.h` — `erase(key)` with rebalancing in O(log n) (Target: v1.7.0)
 - [x] `temporal_aggregator.h` — `FIRST_VALUE` / `LAST_VALUE` ordered temporal analytic functions (Target: v1.7.0)
 - [x] `temporal_compressor.h` — `LZ4Strategy` for high-throughput low-latency paths (Implemented: 2026-04-12)
-- [ ] `temporal_cdc.h` — persistent CDC log backed by append-only WAL segment (Target: v1.8.0)
-  - Design: `CDCPersistentLog` implementing `CDCListener`; WAL segment rotation at 64 MB
+- [x] `temporal_cdc.h` — persistent CDC log backed by append-only WAL segment (Target: v1.8.0)
+  - Design: `CDCPersistentLog` implementing WAL-backed persistence; WAL segment rotation at 64 MB
   - Errors: disk-full handling, segment corruption detection (CRC-32)
-- [ ] `snapshot_manager.h` — incremental snapshot diffing (`Snapshot::diff(other)`) (Target: v1.9.0)
-- [ ] `bi_temporal.h` — `BiTemporalStore::merge(other)` for cross-node reconciliation (Target: v1.9.0)
-- [ ] Remove deprecated `LegacyTemporalIndex` shim from `temporal_index.h` (Target: v1.8.0)
+- [x] `snapshot_manager.h` — incremental snapshot diffing (`Snapshot::diff(other)`) (Target: v1.9.0)
+- [x] `bi_temporal.h` — `BiTemporalStore::merge(other)` for cross-node reconciliation (Target: v1.9.0)
+- [x] Remove deprecated `LegacyTemporalIndex` shim from `temporal_index.h` (Target: v1.8.0)
 
 ---
 
@@ -63,22 +63,28 @@
 ### Phase 1 — Design / API Contract (current sprint)
 - [x] Finalise `MergeResolver` interface signature and callback contract
 - [x] Draft `SEQUENCED DISTINCT` query plan representation in `TemporalQueryPlan`
-- [ ] Specify WAL segment format for persistent CDC log
+- [x] Specify WAL segment format for persistent CDC log
 
 ### Phase 2 — Core Implementation
 - [x] Implement `MergeResolver` in planned temporal conflict-resolver implementation
 - [x] Implement `SEQUENCED DISTINCT` path in `TemporalQueryEngine`
 - [x] Implement `LZ4Strategy` in planned temporal compressor implementation
 - [x] Implement `erase()` with tree rebalancing in `IntervalTreeIndex`
+- [x] Implement `CDCPersistentLog` (WAL + CRC-32 + segment rotation) in `TemporalCDC`
+- [x] Implement `SnapshotDiff` + `diff()` in `TemporalSnapshotManager`
+- [x] Implement `BiTemporalTable::merge()` (LWW) for cross-node reconciliation
 
 ### Phase 3 — Error Handling & Edge Cases
 - [x] CDC overflow: document and implement configurable policy (OVERWRITE / BLOCK / DROP)
-- [ ] WAL segment: CRC-32 validation on open; truncation recovery
+- [x] WAL segment: CRC-32 validation on open; truncation recovery
 - [x] `erase()`: handle concurrent reader invalidation
 
 ### Phase 4 — Tests
 - [x] Unit tests: `MergeResolver` commutativity and idempotency (MCR-01..07)
 - [x] Unit tests: `SEQUENCED DISTINCT` correctness against SQL:2011 examples (SD-01..06)
+- [x] Unit tests: `CDCPersistentLog` WAL round-trip + CRC + rotation (CDCPL-01..08)
+- [x] Unit tests: `SnapshotDiff` added/removed/modified (SD2-01..06)
+- [x] Unit tests: `BiTemporalTable::merge` LWW correctness (BTM-01..06)
 - [ ] Fuzz tests: `LZ4Strategy` round-trip via `libFuzzer` harness
 - [x] Benchmark: `IntervalTreeIndex::erase()` vs. rebuild baseline (ITX-ERASE-01..04)
 
@@ -104,4 +110,4 @@
 - [x] ABI soname policy documented
 - [x] CDC overflow semantics documented in header (`OverflowPolicy` enum + doxygen)
 - [x] `RetentionRule` equality operators (`operator==` / `operator<`)
-- [ ] `LegacyTemporalIndex` removal scheduled for v1.8.0
+- [x] `LegacyTemporalIndex` removal scheduled for v1.8.0 (shim was never introduced)
