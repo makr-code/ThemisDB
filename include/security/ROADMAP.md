@@ -62,6 +62,23 @@ Implementation: `../../src/security/` at v1.5.0.
 ### Phase 6: Documentation & Sign-off ✅
 - This document
 
+### Phase 7: IntentClassifier — IMPL-B7 (Target: Q3 2026)
+
+> *Paper 2 — Layer 7: Security Anomaly Detection via Semantics*
+> Issue: [docs/issues/optimization_layers/IMPL-B7-intent-classifier.md](../../docs/issues/optimization_layers/IMPL-B7-intent-classifier.md)
+
+- [ ] New header: `include/security/intent_classifier.h`
+- [ ] `IntentClassifier::classify(const QueryContext&)` → `IntentAlert`
+- [ ] `IntentType` enum: `NORMAL`, `SQL_INJECTION_ATTEMPT`, `MASS_EXPORT`, `PRIVILEGE_ESCALATION`, `RECONNAISSANCE`, `UNKNOWN`
+- [ ] `IntentAlert { intent_type, confidence, affected_session_id, evidence_snippet }`
+- [ ] `MLAnomalyDetector` integration: `IntentClassifier` receives `AnomalyScore` as a prior to weight classification
+- [ ] `ZeroTrustPolicyEnforcer` integration: alert with `confidence ≥ 0.85` sets `session_risk_score` via existing API
+- [ ] Advisory mode gate: alerts below confidence threshold 0.85 are logged but do not block requests
+- [ ] Writes `DecisionRecord` to `AIDecisionAuditor`
+- [ ] GDPR guard: `evidence_snippet` limited to 128 chars; no PII in alert payload
+- [ ] Performance target: classification latency ≤ 5 ms p99
+- [ ] 9 unit tests `IC-01` … `IC-09` in `tests/test_intent_classifier.cpp`
+
 ---
 
 ## Production Readiness Checklist

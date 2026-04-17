@@ -777,3 +777,22 @@ public:
 - `HallucinationDashboard` rolling-window data must not be persisted to disk in unencrypted form; in-memory only by default
 - Evaluator score tampering: evaluation reports must include an HMAC over the score payload when transmitted across service boundaries
 - Knowledge-graph entity linking must enforce a maximum graph traversal depth of 5 hops to prevent query amplification attacks
+
+---
+
+## Paper 1+2 — Loop Orchestration, Explainability & Federated RAG (IMPL-A2, IMPL-A3, IMPL-B9)
+
+> Full papers: `docs/en/research/THEMISDB_LORA_RESEARCH_PAPER.md` · `docs/en/research/LLM_OPTIMIZATION_LAYERS_MATRIX.md`
+> See also: `include/rag/FUTURE_ENHANCEMENTS.md` §Paper 1+2
+
+### Loop 1–4 Explicit Orchestration (IMPL-A2)
+- `ContinuousLearningOrchestrator` gains `triggerLoop1…4()` with loop-interference cooldown guard
+- `RAGIngestionBridge` indexes optimizer-log documents for Loop 4 dataset enrichment
+
+### Federated RLAIF (IMPL-A3)
+- `FEDERATED_ROUND_START` event fires after Loop 4 (24 h guard)
+- `RLAIFTrainer` preference dataset propagated via `CrossShardFeedbackSync`
+
+### ExplainabilityReasonBuilder (IMPL-B9)
+- `CausalChain` generated for every autonomous loop decision (rule-based, ≤ 20 ms)
+- Written to `AIDecisionAuditor`; GDPR guard enforces no PII in chain

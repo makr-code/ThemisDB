@@ -22,18 +22,22 @@ v1.16.0 — Production-ready. ~75 public headers. Full inference, LoRA, KV-cache
 - [x] CUDA kernel fusion
 - [x] Per-tenant token quota manager
 - [x] Vision model headers
+- [x] `DecisionRecordYamlProcessor` — async YAML traceability for LLM/LoRA decisions (v1.17.0)
 
 ## Planned
 
-- [ ] Federated inference (Issue #1928) (Target: v1.17.0)
-- [ ] Real draft-model logits for speculative decoding (Target: v1.17.0)
-- [ ] Persistent disk-backed KV-cache (Target: v1.17.0)
-- [ ] Hard cancellation for in-flight requests (Target: v1.17.0)
+- [ ] Federated inference (Issue #1928) (Target: v1.18.0)
+- [ ] Real draft-model logits for speculative decoding (Target: v1.18.0)
+- [ ] Persistent disk-backed KV-cache (Target: v1.18.0)
+- [ ] Hard cancellation for in-flight requests (Target: v1.18.0)
+- [ ] `DecisionRecordYamlProcessor` integration: `LoraRouter`, `AdapterLoadBalancer`, `LoraOrchestrator` (Target: v1.9.0)
 
 ## Production Readiness Checklist
 
 - [x] Plugin interface stable
 - [x] Constitutional AI safety headers
 - [x] Per-tenant quota enforcement
+- [x] `DecisionRecordYamlProcessor` — async YAML decision traceability
 - [ ] Federated inference interface
 - [ ] Persistent KV-cache interface
+- [ ] Full DR integration (all LLM/LoRA components)

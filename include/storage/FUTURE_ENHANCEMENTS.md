@@ -773,3 +773,27 @@ Have ideas for storage module improvements? Open an issue or discussion:
 - Storage API header types never contain raw encryption keys; only opaque key identifiers
 - Column family operations are idempotent — duplicate add/drop calls are safe
 - Tiered storage migration is atomic at the SSTable level; partial migrations roll back on failure
+
+---
+
+## Paper 2 — Layer 6: SchemaDeadWeightDetector & Layer 10: StorageLayoutAdvisor
+
+> Research paper: `docs/en/research/LLM_OPTIMIZATION_LAYERS_MATRIX.md` §Layer 6 & 10
+> Issues: `docs/issues/optimization_layers/IMPL-B6-schema-deadweight.md` · `docs/issues/optimization_layers/IMPL-B10-layout-advisor.md`
+
+### SchemaDeadWeightDetector (IMPL-B6)
+- 180-day rolling access window; fields with 0 reads AND 0 writes → archival candidate
+- GDPR-tagged fields: always `recommendation = RETAIN`, regardless of access count
+- Seasonal protection: if prior 90-day window had any access, `seasonal` flag prevents auto-archival
+- Cross-shard aggregation: `setShardAccessSource(IShardAccessStats*)` merges access data from peer shards (Layer 11C)
+- Audit: every archival recommendation written to `AIDecisionAuditor`
+
+### StorageLayoutAdvisor (IMPL-B10)
+- Columnar recommendation: temporal time-series with ≥ 10 k rows/day write rate
+- Compression estimate: ≥ 50 % space improvement for columnar vs. row-store for analytics workloads
+- `LayoutType` enum: `ROW_STORE`, `COLUMNAR`, `HYBRID`, `COMPRESSED_COLUMNAR`, `TIERED`
+- Integrates with `distributed_knowledge` Layer 11C `FederatedRAGMerger` for cross-shard layout hints
+
+### Performance Targets
+- `SchemaDeadWeightDetector::analyzeCollection()` ≤ 50 ms for 1 000-field collection
+- `StorageLayoutAdvisor::adviseLayout()` ≤ 10 ms per collection profile

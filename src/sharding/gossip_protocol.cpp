@@ -24,6 +24,7 @@
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
+#include <iostream>
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 #include <openssl/err.h>
@@ -194,6 +195,22 @@ GossipMessage GossipProtocol::handleMessage(const GossipMessage& message) {
     }
     
     // Handle message based on type
+    // 1. Custom handlers are dispatched first (registered via registerCustomHandler)
+    {
+        std::function<void(const GossipMessage&)> custom_handler;
+        {
+            std::lock_guard<std::mutex> lock(peers_mutex_);
+            auto it = custom_handlers_.find(message.message_type);
+            if (it != custom_handlers_.end()) {
+                custom_handler = it->second;
+            }
+        }
+        if (custom_handler) {
+            custom_handler(message);
+        }
+    }
+
+    // 2. Built-in type handling
     if (message.message_type == "heartbeat") {
         // Update peer status
         PeerInfo peer;
@@ -255,6 +272,19 @@ void GossipProtocol::onPeerDiscovered(PeerDiscoveryCallback callback) {
 
 void GossipProtocol::onPeerLost(PeerLostCallback callback) {
     on_peer_lost_ = std::move(callback);
+}
+
+void GossipProtocol::registerCustomHandler(
+    const std::string& message_type,
+    std::function<void(const GossipMessage&)> handler
+) {
+    std::lock_guard<std::mutex> lock(peers_mutex_);
+    auto it = custom_handlers_.find(message_type);
+    if (it != custom_handlers_.end()) {
+        std::cerr << "[GossipProtocol] WARNING: duplicate registerCustomHandler for type '"
+                  << message_type << "' — previous handler overwritten\n";
+    }
+    custom_handlers_[message_type] = std::move(handler);
 }
 
 nlohmann::json GossipProtocol::getStatistics() const {

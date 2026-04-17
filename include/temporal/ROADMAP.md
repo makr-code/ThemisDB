@@ -38,57 +38,63 @@
 
 ## Planned Features
 
-- [ ] `temporal_cdc.h` — document ring-buffer overflow semantics in header doxygen (Target: v1.6.1)
-- [ ] `retention_manager.h` — add `operator==` / `operator<` to `RetentionRule` (Target: v1.6.1)
-- [ ] `temporal_conflict_resolver.h` — `MergeResolver` strategy for CRDT-style merges (Target: v1.7.0)
+- [x] `temporal_cdc.h` — document ring-buffer overflow semantics in header doxygen (Target: v1.6.1)
+- [x] `retention_manager.h` — add `operator==` / `operator<` to `RetentionRule` (Target: v1.6.1)
+- [x] `temporal_conflict_resolver.h` — `MergeResolver` strategy for CRDT-style merges (Target: v1.7.0)
   - Inputs: two `BiTemporalRecord<T>` with same `ValidTime`
   - Output: merged record; conflict log entry
   - Constraints: merge function must be commutative and idempotent
   - Tests: unit tests for commutativity + idempotency properties
-- [ ] `temporal_query_engine.h` — `SEQUENCED DISTINCT` query primitive (SQL:2011 §13.4) (Target: v1.7.0)
-- [ ] `interval_tree_index.h` — `erase(key)` with rebalancing in O(log n) (Target: v1.7.0)
-- [ ] `temporal_aggregator.h` — `FIRST_VALUE` / `LAST_VALUE` ordered temporal analytic functions (Target: v1.7.0)
+- [x] `temporal_query_engine.h` — `SEQUENCED DISTINCT` query primitive (SQL:2011 §13.4) (Target: v1.7.0)
+- [x] `interval_tree_index.h` — `erase(key)` with rebalancing in O(log n) (Target: v1.7.0)
+- [x] `temporal_aggregator.h` — `FIRST_VALUE` / `LAST_VALUE` ordered temporal analytic functions (Target: v1.7.0)
 - [x] `temporal_compressor.h` — `LZ4Strategy` for high-throughput low-latency paths (Implemented: 2026-04-12)
-- [ ] `temporal_cdc.h` — persistent CDC log backed by append-only WAL segment (Target: v1.8.0)
-  - Design: `CDCPersistentLog` implementing `CDCListener`; WAL segment rotation at 64 MB
+- [x] `temporal_cdc.h` — persistent CDC log backed by append-only WAL segment (Target: v1.8.0)
+  - Design: `CDCPersistentLog` implementing WAL-backed persistence; WAL segment rotation at 64 MB
   - Errors: disk-full handling, segment corruption detection (CRC-32)
-- [ ] `snapshot_manager.h` — incremental snapshot diffing (`Snapshot::diff(other)`) (Target: v1.9.0)
-- [ ] `bi_temporal.h` — `BiTemporalStore::merge(other)` for cross-node reconciliation (Target: v1.9.0)
-- [ ] Remove deprecated `LegacyTemporalIndex` shim from `temporal_index.h` (Target: v1.8.0)
+- [x] `snapshot_manager.h` — incremental snapshot diffing (`Snapshot::diff(other)`) (Target: v1.9.0)
+- [x] `bi_temporal.h` — `BiTemporalStore::merge(other)` for cross-node reconciliation (Target: v1.9.0)
+- [x] Remove deprecated `LegacyTemporalIndex` shim from `temporal_index.h` (Target: v1.8.0)
 
 ---
 
 ## Implementation Phases
 
 ### Phase 1 — Design / API Contract (current sprint)
-- [ ] Finalise `MergeResolver` interface signature and callback contract
-- [ ] Draft `SEQUENCED DISTINCT` query plan representation in `TemporalQueryPlan`
-- [ ] Specify WAL segment format for persistent CDC log
+- [x] Finalise `MergeResolver` interface signature and callback contract
+- [x] Draft `SEQUENCED DISTINCT` query plan representation in `TemporalQueryPlan`
+- [x] Specify WAL segment format for persistent CDC log
 
 ### Phase 2 — Core Implementation
-- [ ] Implement `MergeResolver` in planned temporal conflict-resolver implementation
-- [ ] Implement `SEQUENCED DISTINCT` path in `TemporalQueryEngine`
-- [ ] Implement `LZ4Strategy` in planned temporal compressor implementation
-- [ ] Implement `erase()` with tree rebalancing in `IntervalTreeIndex`
+- [x] Implement `MergeResolver` in planned temporal conflict-resolver implementation
+- [x] Implement `SEQUENCED DISTINCT` path in `TemporalQueryEngine`
+- [x] Implement `LZ4Strategy` in planned temporal compressor implementation
+- [x] Implement `erase()` with tree rebalancing in `IntervalTreeIndex`
+- [x] Implement `CDCPersistentLog` (WAL + CRC-32 + segment rotation) in `TemporalCDC`
+- [x] Implement `SnapshotDiff` + `diff()` in `TemporalSnapshotManager`
+- [x] Implement `BiTemporalTable::merge()` (LWW) for cross-node reconciliation
 
 ### Phase 3 — Error Handling & Edge Cases
-- [ ] CDC overflow: document and implement configurable policy (OVERWRITE / BLOCK / DROP)
-- [ ] WAL segment: CRC-32 validation on open; truncation recovery
-- [ ] `erase()`: handle concurrent reader invalidation
+- [x] CDC overflow: document and implement configurable policy (OVERWRITE / BLOCK / DROP)
+- [x] WAL segment: CRC-32 validation on open; truncation recovery
+- [x] `erase()`: handle concurrent reader invalidation
 
 ### Phase 4 — Tests
-- [ ] Unit tests: `MergeResolver` commutativity and idempotency
-- [ ] Unit tests: `SEQUENCED DISTINCT` correctness against SQL:2011 examples
+- [x] Unit tests: `MergeResolver` commutativity and idempotency (MCR-01..07)
+- [x] Unit tests: `SEQUENCED DISTINCT` correctness against SQL:2011 examples (SD-01..06)
+- [x] Unit tests: `CDCPersistentLog` WAL round-trip + CRC + rotation (CDCPL-01..08)
+- [x] Unit tests: `SnapshotDiff` added/removed/modified (SD2-01..06)
+- [x] Unit tests: `BiTemporalTable::merge` LWW correctness (BTM-01..06)
 - [ ] Fuzz tests: `LZ4Strategy` round-trip via `libFuzzer` harness
-- [ ] Benchmark: `IntervalTreeIndex::erase()` vs. rebuild baseline
+- [x] Benchmark: `IntervalTreeIndex::erase()` vs. rebuild baseline (ITX-ERASE-01..04)
 
 ### Phase 5 — Performance / Hardening
-- [ ] Profile `LZ4Strategy` — target ≥ 2 GB/s on timestamp columns
-- [ ] Validate `SEQUENCED DISTINCT` query plan avoids full-scan on indexed stores
+- [x] Profile `LZ4Strategy` — target ≥ 2 GB/s on timestamp columns
+- [x] Validate `SEQUENCED DISTINCT` query plan avoids full-scan on indexed stores
 - [ ] Stress-test persistent CDC log under 100k events/s sustained write rate
 
 ### Phase 6 — Documentation & Acceptance
-- [ ] Update all doxygen blocks for new symbols
+- [x] Update all doxygen blocks for new symbols
 - [ ] Update `ARCHITECTURE.md` interface inventory table
 - [ ] Update `CHANGELOG.md` under `[Unreleased]`
 - [ ] Peer review of public-header API changes
@@ -102,6 +108,6 @@
 - [x] No `using namespace` in public headers
 - [x] RAII wrappers for all ownership transfers
 - [x] ABI soname policy documented
-- [ ] CDC overflow semantics documented in header
-- [ ] `RetentionRule` equality operators
-- [ ] `LegacyTemporalIndex` removal scheduled for v1.8.0
+- [x] CDC overflow semantics documented in header (`OverflowPolicy` enum + doxygen)
+- [x] `RetentionRule` equality operators (`operator==` / `operator<`)
+- [x] `LegacyTemporalIndex` removal scheduled for v1.8.0 (shim was never introduced)

@@ -159,6 +159,11 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_model_router\\.cpp$"
         # LLM feedback store ÔÇô depends on llm/feedback_store.h / llm/i_feedback_plugin.h
         ".*test_feedback_store\\.cpp$"
+        # DR integration uses LoRAOrchestrator which is gated on THEMIS_ENABLE_LLM
+        ".*test_decision_record_integration\\.cpp$"
+        # IMPL-A3: includes distributed_knowledge/lora_federation_coordinator.h
+        # which transitively includes llm/decision_record_yaml_processor.h
+        ".*test_incremental_lora_trainer\\.cpp$"
     )
 endif()
 
@@ -19340,9 +19345,55 @@ else()
     message(STATUS "BiTemporalTable tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_bi_temporal.cpp")
 endif()
 
-
 # ============================================================================
-# Temporal Module -- TemporalQueryEngine Focused Tests (v1.9.0)
+# Temporal Module -- v1.8.0 + v1.9.0 Focused Tests
+# Validates:
+#   CDCPersistentLog  (WAL, CRC-32, segment rotation, disk replay)
+#   SnapshotDiff      (diff added/removed/modified between two snapshots)
+#   BiTemporalTable::merge  (LWW cross-node reconciliation)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_v18_v19.cpp")
+    message(STATUS "Adding Temporal: v1.8.0+v1.9.0 focused tests (CDCPersistentLog, SnapshotDiff, BiTemporal::merge)")
+
+    add_executable(test_temporal_v18_v19_focused
+        temporal/test_temporal_v18_v19.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/temporal_cdc.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/snapshot_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/system_versioned_table.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/bi_temporal.cpp
+    )
+
+    target_include_directories(test_temporal_v18_v19_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_temporal_v18_v19_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_temporal_v18_v19_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TemporalV18V19FocusedTests COMMAND test_temporal_v18_v19_focused)
+
+    set_tests_properties(TemporalV18V19FocusedTests PROPERTIES
+        LABELS "temporal;cdc;wal;snapshot;diff;bitemporal;merge;lww;v1.8.0;v1.9.0;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CDCPersistentLog: CDCPL-01..08 (open, round-trip, filter table, filter time, bytes, segment count, rotation, error)")
+    message(STATUS "  SnapshotDiff: SD2-01..06 (identical, added, removed, modified, invalid handle, toJson)")
+    message(STATUS "  BiTemporalTable::merge: BTM-01..06 (empty remote, LWW remote wins, LWW local wins, new key, table mismatch, stats)")
+else()
+    message(STATUS "Temporal v1.8.0+v1.9.0 tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_v18_v19.cpp")
+endif()
+
+
 # Validates SQL:2011 FOR SYSTEM_TIME / FOR APPLICATION_TIME dispatch via
 # TemporalQuerySpec::asOf / fromTo / betweenAnd / containedIn / all.
 # ============================================================================
@@ -22702,4 +22753,248 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_content_toolbox_bridge.cpp")
     message(STATUS "  ContentToolboxBridge: FE-01..FE-03, TB-01..TB-12, CTB-01..CTB-05, FM-01..FM-08")
 else()
     message(STATUS "ContentToolboxBridge tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_content_toolbox_bridge.cpp")
+endif()
+
+# ============================================================================
+# IMPL-A3: IncrementalLoRATrainer Federation Bridges — focused test target
+# Covers: exportGradient (ILT-EG-01..03), applyGlobalDelta (ILT-AG-01..02)
+# ============================================================================
+if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_incremental_lora_trainer.cpp")
+    message(STATUS "Adding IncrementalLoRATrainer federation bridge tests (IMPL-A3)")
+
+    add_executable(test_incremental_lora_trainer_focused
+        test_incremental_lora_trainer.cpp
+        ${THEMIS_ROOT_DIR}/src/training/incremental_lora_trainer.cpp
+        ${THEMIS_ROOT_DIR}/src/training/lora_checkpoint_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/training/adapter_serving.cpp
+        ${THEMIS_ROOT_DIR}/src/training/lora_data_selection.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/lora_federation_coordinator.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/adapter_capability_announcement.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+
+    target_include_directories(test_incremental_lora_trainer_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_incremental_lora_trainer_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        yaml-cpp::yaml-cpp
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_incremental_lora_trainer_focused PRIVATE
+        THEMIS_ENABLE_LLM=1
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME IncrementalLoRATrainerFederationTests
+        COMMAND test_incremental_lora_trainer_focused)
+
+    set_tests_properties(IncrementalLoRATrainerFederationTests PROPERTIES
+        LABELS "training;lora;federation;gradient;IMPL-A3;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  IncrementalLoRATrainer IMPL-A3: ILT-EG-01..03 (exportGradient), ILT-AG-01..02 (applyGlobalDelta)")
+else()
+    if(NOT THEMIS_ENABLE_LLM)
+        message(STATUS "IncrementalLoRATrainer federation tests skipped (THEMIS_ENABLE_LLM=OFF)")
+    else()
+        message(STATUS "IncrementalLoRATrainer federation tests not found")
+    endif()
+endif()
+
+# ============================================================================
+# DK-6: End-to-end distributed_knowledge integration tests
+# Covers: 7 Scenarios (Domain Routing, Federated LoRA, Federated RAG,
+#         Cross-Shard RLAIF, Privacy Invariant, Fault Tolerance, Privacy Budget)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge_integration.cpp")
+    message(STATUS "Adding DK-6 distributed_knowledge integration tests")
+
+    add_executable(test_distributed_knowledge_integration_focused
+        test_distributed_knowledge_integration.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/lora_federation_coordinator.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/federated_rag_merger.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/cross_shard_feedback_sync.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/rag_ingestion_bridge.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/rlaif_trainer.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/rag_judge.cpp
+        ${THEMIS_ROOT_DIR}/src/prompt_engineering/feedback_collector.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/adaptive_shard_router.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/shard_router.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/shard_topology.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/consistent_hash_ring.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/urn_resolver.cpp
+    )
+
+    target_include_directories(test_distributed_knowledge_integration_focused
+        PRIVATE ${THEMIS_ROOT_DIR}/include)
+
+    target_link_libraries(test_distributed_knowledge_integration_focused
+        PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+
+    target_compile_definitions(test_distributed_knowledge_integration_focused
+        PRIVATE THEMIS_TEST_BUILD=1)
+
+    add_test(NAME DistributedKnowledgeIntegrationTests
+        COMMAND test_distributed_knowledge_integration_focused)
+
+    set_tests_properties(DistributedKnowledgeIntegrationTests PROPERTIES
+        LABELS "distributed_knowledge;integration;DK-6;federation;rag;rlaif;privacy"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  DK-6: Scenario1_DomainRouting, Scenario2_FederatedLoRA, Scenario3_FederatedRAG, Scenario4_CrossShardRLAIF, Scenario5_PrivacyInvariant, Scenario6_FaultTolerance, PrivacyBudgetExhaustion")
+else()
+    message(STATUS "DK-6 integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge_integration.cpp")
+endif()
+
+# ============================================================================
+# DK-7: Admin API, GDPR policy, and audit record tests
+# Covers: ADM-FED-01..03 (admin handler), AUD-FED-01..02 (audit),
+#         GDPR-FED-01 (CrossBorderTransferPolicy)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_federation_admin.cpp")
+    message(STATUS "Adding DK-7 federation admin/audit/GDPR tests")
+
+    add_executable(test_federation_admin_focused
+        test_federation_admin.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/lora_federation_coordinator.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/federated_rag_merger.cpp
+        ${THEMIS_ROOT_DIR}/src/api/federation_admin_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/governance/cross_border_transfer.cpp
+    )
+
+    target_include_directories(test_federation_admin_focused
+        PRIVATE ${THEMIS_ROOT_DIR}/include)
+
+    target_link_libraries(test_federation_admin_focused
+        PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+
+    target_compile_definitions(test_federation_admin_focused
+        PRIVATE THEMIS_TEST_BUILD=1)
+
+    add_test(NAME FederationAdminTests COMMAND test_federation_admin_focused)
+
+    set_tests_properties(FederationAdminTests PROPERTIES
+        LABELS "api;admin;federation;gdpr;audit;DK-7;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  DK-7: ADM-FED-01..03 (admin handler), AUD-FED-01..02 (audit/signing), GDPR-FED-01 (CrossBorderPolicy)")
+else()
+    message(STATUS "DK-7 federation admin tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_federation_admin.cpp")
+endif()
+
+# ============================================================================
+# DK-8 / S-14 + DK-OR / S-15: Operational Resilience + memory-leak tests
+# Covers: DK-OR-B-01..02, T-01..03, E-01..02, S-01..02, H-01..03, ML-01
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge_or.cpp")
+    message(STATUS "Adding DK-OR / DK-8 Operational Resilience tests")
+
+    add_executable(test_distributed_knowledge_or_focused
+        test_distributed_knowledge_or.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/lora_federation_coordinator.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/federated_rag_merger.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/cross_shard_feedback_sync.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/adapter_capability_announcement.cpp
+    )
+
+    target_include_directories(test_distributed_knowledge_or_focused
+        PRIVATE ${THEMIS_ROOT_DIR}/include)
+
+    target_link_libraries(test_distributed_knowledge_or_focused
+        PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+
+    target_compile_definitions(test_distributed_knowledge_or_focused
+        PRIVATE THEMIS_TEST_BUILD=1)
+
+    add_test(NAME DK_OR_Tests COMMAND test_distributed_knowledge_or_focused)
+
+    set_tests_properties(DK_OR_Tests PROPERTIES
+        LABELS "distributed_knowledge;operational_resilience;DK-OR;DK-8;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  DK-OR: B-01..02 (backpressure), T-01..03 (timeout), E-01..02 (errors), S-01..02 (ZeroTrust), H-01..03 (erase), ML-01 (memory)")
+else()
+    message(STATUS "DK-OR tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge_or.cpp")
+endif()
+
+# EncryptedBlobBackend focused tests (EBB-01 … EBB-10)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_encrypted_blob_backend.cpp")
+    message(STATUS "Adding EncryptedBlobBackend focused tests")
+
+    add_executable(test_encrypted_blob_backend_focused
+        test_encrypted_blob_backend.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/encrypted_blob_backend.cpp
+    )
+
+    target_include_directories(test_encrypted_blob_backend_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_encrypted_blob_backend_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+        OpenSSL::Crypto
+    )
+
+    target_compile_definitions(test_encrypted_blob_backend_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME EncryptedBlobBackendTests COMMAND test_encrypted_blob_backend_focused)
+
+    set_tests_properties(EncryptedBlobBackendTests PROPERTIES
+        LABELS "storage;encryption;aes-gcm;blob;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  EncryptedBlobBackend: round-trip, tamper detection, stats, EBB-01..10")
+else()
+    message(STATUS "EncryptedBlobBackend tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_encrypted_blob_backend.cpp")
+endif()
+
+# VectorIndexBackend focused tests (VIB-01 … VIB-12)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_vector_index_comprehensive.cpp")
+    message(STATUS "Adding VectorIndexBackend focused tests (VIB)")
+
+    add_executable(test_vector_index_backend_focused
+        test_vector_index_comprehensive.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/vector_index_backend.cpp
+    )
+
+    target_include_directories(test_vector_index_backend_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_vector_index_backend_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_vector_index_backend_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME VectorIndexBackendTests COMMAND test_vector_index_backend_focused)
+
+    set_tests_properties(VectorIndexBackendTests PROPERTIES
+        LABELS "storage;vector;ann;hnsw;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  VectorIndexBackend: L2/COSINE/DOT_PRODUCT, upsert, remove, concurrency, VIB-01..12")
+else()
+    message(STATUS "VectorIndexBackend tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_vector_index_comprehensive.cpp")
 endif()

@@ -194,6 +194,8 @@ vccdb.log
 vccdb_server.log
 testsserver_start.log
 build_log.txt
+# Keep the decision-record directory structure in VCS (generated YAML files remain ignored)
+!logs/decisions/.gitkeep
 build_final.txt
 build_output.log
 build_attempt_*.txt

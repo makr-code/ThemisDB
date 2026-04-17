@@ -73,6 +73,30 @@ v1.7.0.
 ### Phase 6: Documentation & Sign-off ✅
 - This document
 
+### Phase 7: WorkloadFingerprintEngine — IMPL-B8 (Target: Q3 2026)
+
+> *Paper 2 — Layer 8: Multi-Tenant Workload Fingerprinting*
+> Issue: [docs/issues/optimization_layers/IMPL-B8-workload-fingerprint.md](../../docs/issues/optimization_layers/IMPL-B8-workload-fingerprint.md)
+
+- [ ] New header: `include/server/workload_fingerprint_engine.h`
+- [ ] `WorkloadFingerprintEngine::computeFingerprint(const TenantWorkloadWindow&)` → `WorkloadFingerprint`
+- [ ] `WorkloadPattern` enum: `OLTP_WRITE_HEAVY`, `OLTP_READ_HEAVY`, `ANALYTICAL`, `VECTOR_SEARCH`, `MIXED`, `BURST_INGEST`, `UNKNOWN`
+- [ ] `WorkloadFingerprint { tenant_id, dominant_pattern, confidence, qps_p50, qps_p99, read_write_ratio, vector_fraction, fingerprint_hash }`
+- [ ] Pattern matching against registered baseline fingerprints — Jaccard distance on feature vector
+- [ ] `fingerprintHash()` — 64-bit deterministic hash for cross-shard comparison (Layer 11D)
+- [ ] Writes `DecisionRecord` to `AIDecisionAuditor` when dominant_pattern changes
+- [ ] GDPR guard: `TenantWorkloadWindow` must not contain query content, only metrics
+- [ ] Performance target: fingerprint computation ≤ 1 ms for 1 000-query window
+- [ ] 8 unit tests `WFE-01` … `WFE-08` in `tests/test_workload_fingerprint_engine.cpp`:
+  - `WFE-01` write-heavy window → `OLTP_WRITE_HEAVY` pattern
+  - `WFE-02` vector search fraction ≥ 0.7 → `VECTOR_SEARCH` pattern
+  - `WFE-03` mixed window → `MIXED` with confidence < 0.8
+  - `WFE-04` `fingerprintHash()` is deterministic for same input
+  - `WFE-05` `DecisionRecord` written on pattern change
+  - `WFE-06` no query content in fingerprint (GDPR)
+  - `WFE-07` computation ≤ 1 ms for 1 000-query window
+  - `WFE-08` cross-shard Jaccard distance: identical workloads → distance 0.0
+
 ---
 
 ## Production Readiness Checklist

@@ -47,6 +47,11 @@ for large language models integrated with ThemisDB. It is responsible for:
 | `modality_parser.h` | `ModalityParser`, `TrainingSample` | Normalisation of text/tabular/structured inputs |
 | `knowledge_graph_enricher.h` | `KGEnricher`, `EnrichmentSpec` | Entity-relationship augmentation of training samples |
 | `provenance_tracker.h` | `ProvenanceTracker`, `ProvenanceRecord` | Data lineage and reproducibility metadata |
+| *(planned)* `training_interfaces.h` | `EncryptedGradient`, `GlobalAdapterDelta` | Federation bridge structs for cross-shard LoRA gradient exchange (IMPL-A3) |
+
+> **Paper 1 additions (IMPL-A1, IMPL-A3):**
+> - `DatabaseDomainAutoLabeler` (IMPL-A1): new labeler class in `auto_labeler.h` for `DomainType::DATABASE_OPTIMIZER`; labels `(query, explain_plan, Δlatency_ms)` triples with confidence `tanh(|Δlatency|/50)`
+> - `IncrementalLoRATrainer::exportGradient()` / `applyGlobalDelta()` (IMPL-A3): federation bridge methods; structs defined in `training_interfaces.h`
 
 ---
 

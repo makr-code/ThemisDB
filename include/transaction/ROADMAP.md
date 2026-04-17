@@ -66,6 +66,28 @@ stable under semantic versioning.
 - API reference Doxygen annotations on all new symbols.
 - Security review of cross-shard snapshot import path.
 
+### Phase 7 — TransactionSemanticAdvisor — IMPL-B5 (Target: Q3 2026)
+
+> *Paper 2 — Layer 5: Transaction Semantics & Conflict Prediction*
+> Issue: [docs/issues/optimization_layers/IMPL-B5-transaction-semantics.md](../../docs/issues/optimization_layers/IMPL-B5-transaction-semantics.md)
+
+- [ ] New header: `include/transaction/transaction_semantic_advisor.h`
+- [ ] `TransactionSemanticAdvisor::analyzeBatch(const TransactionBatch&)` — detects conflict-prone write-set patterns and suggests ordering or batching hints
+- [ ] `BatchAffinityHint { hint_type, affected_keys, confidence, retry_reduction_estimate }` output struct
+- [ ] `DeadlockPredictor` integration: `TransactionSemanticAdvisor` consults `DeadlockPredictor` scores to weight hints
+- [ ] Writes `DecisionRecord` to `AIDecisionAuditor` for every non-trivial hint (L9 audit trail)
+- [ ] GDPR field guard: advisor must not access or log GDPR-tagged field values
+- [ ] Performance target: hint latency ≤ 2 ms p99 at 10 k transactions/s
+- [ ] 8 unit tests `TSA-01` … `TSA-08` in `tests/test_transaction_semantic_advisor.cpp`:
+  - `TSA-01` conflict detected → BatchAffinityHint with confidence ≥ 0.8
+  - `TSA-02` non-conflicting batch → no hint emitted
+  - `TSA-03` DeadlockPredictor high score → hint confidence boosted
+  - `TSA-04` `DecisionRecord` written to `AIDecisionAuditor` for each hint
+  - `TSA-05` GDPR-tagged key values absent from hint payload
+  - `TSA-06` hint reduces retry count by ≥ 15 % in simulation scenario
+  - `TSA-07` hint latency ≤ 2 ms on 1 000-transaction batch
+  - `TSA-08` concurrency: advisor is thread-safe under 8-thread hammer test
+
 ## Production Readiness Checklist
 
 - [x] All headers compile under C++17 with `-Wall -Wextra`

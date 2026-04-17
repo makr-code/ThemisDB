@@ -776,3 +776,73 @@ TEST(TemporalQuerySpecTest, All_Factory_SetsFlagAndRange) {
     EXPECT_EQ(spec.start_time, kMinTimestamp);
     EXPECT_EQ(spec.end_time, kMaxTimestamp);
 }
+
+// ============================================================================
+// sequencedDistinct tests (SD-01 .. SD-06)
+// ============================================================================
+
+// SD-01: Empty table returns empty result
+TEST(SequencedDistinctTest, SD01_EmptyTable_ReturnsEmpty) {
+    SystemVersionedTable t{"tbl", "n"};
+    auto result = TemporalQueryEngine::sequencedDistinct(t);
+    EXPECT_TRUE(result.empty());
+}
+
+// SD-02: Single version is returned as-is
+TEST(SequencedDistinctTest, SD02_SingleVersion_Passthrough) {
+    SystemVersionedTable t{"tbl", "n"};
+    t.insert("k1", {{"val", 1}});
+
+    auto result = TemporalQueryEngine::sequencedDistinct(t);
+    ASSERT_EQ(result.size(), 1u);
+    EXPECT_EQ(result[0].key, "k1");
+}
+
+// SD-03: Two identical consecutive versions are merged into one
+TEST(SequencedDistinctTest, SD03_IdenticalConsecutiveVersionsMerged) {
+    SystemVersionedTable t{"tbl", "n"};
+    t.insert("k1", {{"val", 42}});
+    // Update with same content — creates a new version with identical data
+    t.update("k1", {{"val", 42}});
+
+    auto result = TemporalQueryEngine::sequencedDistinct(t, "k1");
+    EXPECT_EQ(result.size(), 1u);  // two identical versions → one merged entry
+}
+
+// SD-04: Two different consecutive versions produce two distinct rows
+TEST(SequencedDistinctTest, SD04_DifferentVersionsNotMerged) {
+    SystemVersionedTable t{"tbl", "n"};
+    t.insert("k1", {{"val", 1}});
+    t.update("k1", {{"val", 2}});
+
+    auto result = TemporalQueryEngine::sequencedDistinct(t, "k1");
+    EXPECT_EQ(result.size(), 2u);
+}
+
+// SD-05: Full-table variant returns rows sorted by (key, sys_start)
+TEST(SequencedDistinctTest, SD05_FullTable_SortedOutput) {
+    SystemVersionedTable t{"tbl", "n"};
+    t.insert("b", {{"v", 1}});
+    t.insert("a", {{"v", 2}});
+
+    auto result = TemporalQueryEngine::sequencedDistinct(t);
+    ASSERT_GE(result.size(), 2u);
+    // "a" should come before "b"
+    bool found_a_before_b = false;
+    std::string last_key;
+    for (const auto& row : result) {
+        if (!last_key.empty()) {
+            EXPECT_GE(row.key, last_key);  // non-decreasing key order
+        }
+        last_key = row.key;
+    }
+}
+
+// SD-06: Per-key overload on unknown key returns empty
+TEST(SequencedDistinctTest, SD06_UnknownKey_ReturnsEmpty) {
+    SystemVersionedTable t{"tbl", "n"};
+    t.insert("existing", {{"v", 1}});
+
+    auto result = TemporalQueryEngine::sequencedDistinct(t, "nonexistent");
+    EXPECT_TRUE(result.empty());
+}

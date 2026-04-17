@@ -1459,6 +1459,8 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/transaction_retry_manager.cpp
     ../src/storage/compaction_manager.cpp
     ../src/storage/adaptive_compaction.cpp
+    ../src/storage/schema_dead_weight_detector.cpp
+    ../src/storage/storage_layout_advisor.cpp
     ../src/storage/merge_operators.cpp
     ../src/storage/wom_tree.cpp
     ../src/storage/compressed_storage.cpp
@@ -1541,6 +1543,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/usb_admin_authenticator.cpp
     ../src/security/usb_volume_hardening.cpp
     ../src/security/aql_injection_detector.cpp
+    ../src/security/intent_classifier.cpp
     ../src/core/security_initialization.cpp
     ../src/performance/cycle_metrics.cpp
     ../src/performance/numa_topology.cpp
@@ -1568,6 +1571,7 @@ set(THEMIS_CORE_SOURCES
     ../src/transaction/crash_recovery_manager.cpp
     ../src/transaction/global_transaction_manager.cpp
     ../src/transaction/deadlock_predictor.cpp
+    ../src/transaction/transaction_semantic_advisor.cpp
     
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
@@ -1654,6 +1658,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_security_audit.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SSE}>:../src/server/sse_connection_manager.cpp>
     ../src/server/cache_api_handler.cpp
+    ../src/server/workload_fingerprint_engine.cpp
     ../src/server/cache_admin_api_handler.cpp
     ../src/server/admin_api_handler.cpp
     ../src/server/vector_api_handler.cpp
@@ -2699,6 +2704,8 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/bayesian_optimizer.cpp
     ../src/rag/ab_testing_framework.cpp
     ../src/rag/continuous_learning_orchestrator.cpp
+    # IMPL-A1: Database-domain auto-labeler for LoRA training (S-2)
+    ../src/training/database_domain_auto_labeler.cpp
     # Phase 4: Agentic RAG with iterative retrieval loops
     ../src/rag/agentic_rag.cpp
     # Phase 4: Multi-modal RAG (image + text retrieval)
@@ -2725,6 +2732,13 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/adaptive_retrieval.cpp
     # RAGIngestionBridge — toolbox/RAG integration layer
     ../src/rag/rag_ingestion_bridge.cpp
+    # ExplainabilityReasonBuilder — Layer-9 causal explanation (IMPL-B9)
+    ../src/rag/explainability_reason_builder.cpp
+    # DK-1: Distributed Knowledge Layer 11 — all four sub-components (S-1/S-9)
+    ../src/distributed_knowledge/adapter_capability_announcement.cpp
+    ../src/distributed_knowledge/lora_federation_coordinator.cpp
+    ../src/distributed_knowledge/federated_rag_merger.cpp
+    ../src/distributed_knowledge/cross_shard_feedback_sync.cpp
     )
 endif()  # Close if(THEMIS_ENABLE_LLM)
 
@@ -4532,6 +4546,103 @@ if(THEMIS_BUILD_TESTS)
         message(STATUS "  TemporalMigrator: analyze/migrate/backfill/verify system-versioned table migration")
     endif()
 
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_retention_manager.cpp")
+        add_executable(test_retention_manager
+            ${THEMIS_ROOT_DIR}/tests/temporal/test_retention_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/retention_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/system_versioned_table.cpp
+        )
+        target_include_directories(test_retention_manager
+            PRIVATE ${THEMIS_ROOT_DIR}/include
+        )
+        target_link_libraries(test_retention_manager
+            PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+        )
+        gtest_discover_tests(test_retention_manager
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_retention_manager>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+            PROPERTIES
+                LABELS "temporal;retention;unit"
+                TIMEOUT 60
+        )
+        message(STATUS "  RetentionManager: retention policies, RetentionRule operators")
+    endif()
+
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_conflict_resolver.cpp")
+        add_executable(test_temporal_conflict_resolver
+            ${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_conflict_resolver.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/temporal_conflict_resolver.cpp
+        )
+        target_include_directories(test_temporal_conflict_resolver
+            PRIVATE ${THEMIS_ROOT_DIR}/include
+        )
+        target_link_libraries(test_temporal_conflict_resolver
+            PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+        )
+        gtest_discover_tests(test_temporal_conflict_resolver
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_conflict_resolver>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+            PROPERTIES
+                LABELS "temporal;conflict-resolver;unit"
+                TIMEOUT 60
+        )
+        message(STATUS "  TemporalConflictResolver: LWW/FWW/node-priority/CRDT/MergeResolver")
+    endif()
+
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_aggregator.cpp")
+        add_executable(test_temporal_aggregator
+            ${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_aggregator.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/temporal_aggregator.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/system_versioned_table.cpp
+        )
+        target_include_directories(test_temporal_aggregator
+            PRIVATE ${THEMIS_ROOT_DIR}/include
+        )
+        target_link_libraries(test_temporal_aggregator
+            PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+        )
+        gtest_discover_tests(test_temporal_aggregator
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_aggregator>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+            PROPERTIES
+                LABELS "temporal;aggregator;unit"
+                TIMEOUT 60
+        )
+        message(STATUS "  TemporalAggregator: tumbling/sliding/session windows, FIRST_VALUE/LAST_VALUE")
+    endif()
+
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_query_engine.cpp")
+        add_executable(test_temporal_query_engine
+            ${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_query_engine.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/temporal_query_engine.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/system_versioned_table.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/bi_temporal.cpp
+            ${THEMIS_ROOT_DIR}/src/temporal/temporal_index.cpp
+        )
+        target_include_directories(test_temporal_query_engine
+            PRIVATE ${THEMIS_ROOT_DIR}/include
+        )
+        target_link_libraries(test_temporal_query_engine
+            PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
+        )
+        gtest_discover_tests(test_temporal_query_engine
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_query_engine>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+            PROPERTIES
+                LABELS "temporal;query-engine;unit"
+                TIMEOUT 60
+        )
+        message(STATUS "  TemporalQueryEngine: AS-OF/FROM-TO/BETWEEN/CONTAINED-IN/SEQUENCED-DISTINCT")
+    endif()
+
     add_executable(test_ts_auto_buffer_adaptive
         ${THEMIS_ROOT_DIR}/tests/test_ts_auto_buffer_adaptive.cpp
     )
@@ -5162,6 +5273,233 @@ if(THEMIS_BUILD_TESTS)
             CONFIGURATIONS Release Debug
         )
     endif()
+
+    # =========================================================================
+    # S-2 / IMPL-A1: DatabaseDomainAutoLabeler tests
+    # =========================================================================
+    add_executable(test_database_domain_auto_labeler
+        ${THEMIS_ROOT_DIR}/tests/test_database_domain_auto_labeler.cpp
+    )
+    target_link_libraries(test_database_domain_auto_labeler
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_database_domain_auto_labeler
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_database_domain_auto_labeler>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # =========================================================================
+    # S-3 / IMPL-A2: ContinuousLearningOrchestrator tests (Loops 1–4 + Fed)
+    # =========================================================================
+    add_executable(test_continuous_learning_orchestrator
+        ${THEMIS_ROOT_DIR}/tests/test_continuous_learning_orchestrator.cpp
+    )
+    target_link_libraries(test_continuous_learning_orchestrator
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_continuous_learning_orchestrator
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_continuous_learning_orchestrator>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # =========================================================================
+    # S-4 / IMPL-A3: IncrementalLoRATrainer federation hooks tests
+    # =========================================================================
+    add_executable(test_incremental_lora_trainer
+        ${THEMIS_ROOT_DIR}/tests/test_incremental_lora_trainer.cpp
+    )
+    target_link_libraries(test_incremental_lora_trainer
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_incremental_lora_trainer
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_incremental_lora_trainer>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # =========================================================================
+    # S-5 / DK-2: GossipProtocol custom handler tests
+    # =========================================================================
+    add_executable(test_gossip_custom_handler
+        ${THEMIS_ROOT_DIR}/tests/test_gossip_custom_handler.cpp
+    )
+    target_link_libraries(test_gossip_custom_handler
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_gossip_custom_handler
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gossip_custom_handler>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # =========================================================================
+    # S-5 / DK-2: AdaptiveShardRouter domain routing tests
+    # =========================================================================
+    add_executable(test_adaptive_shard_router
+        ${THEMIS_ROOT_DIR}/tests/test_adaptive_shard_router.cpp
+    )
+    target_link_libraries(test_adaptive_shard_router
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_adaptive_shard_router
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_adaptive_shard_router>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # =========================================================================
+    # S-6 / IMPL-B5: TransactionSemanticAdvisor tests
+    # =========================================================================
+    add_executable(test_transaction_semantic_advisor
+        ${THEMIS_ROOT_DIR}/tests/test_transaction_semantic_advisor.cpp
+    )
+    target_link_libraries(test_transaction_semantic_advisor
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_transaction_semantic_advisor
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_transaction_semantic_advisor>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # =========================================================================
+    # S-6 / IMPL-B6: SchemaDeadWeightDetector tests
+    # =========================================================================
+    add_executable(test_schema_dead_weight_detector
+        ${THEMIS_ROOT_DIR}/tests/test_schema_dead_weight_detector.cpp
+    )
+    target_link_libraries(test_schema_dead_weight_detector
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_schema_dead_weight_detector
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_schema_dead_weight_detector>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # =========================================================================
+    # S-7 / IMPL-B7: IntentClassifier tests
+    # =========================================================================
+    add_executable(test_intent_classifier
+        ${THEMIS_ROOT_DIR}/tests/test_intent_classifier.cpp
+    )
+    target_link_libraries(test_intent_classifier
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_intent_classifier
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_intent_classifier>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # =========================================================================
+    # S-7 / IMPL-B8: WorkloadFingerprintEngine tests
+    # =========================================================================
+    add_executable(test_workload_fingerprint_engine
+        ${THEMIS_ROOT_DIR}/tests/test_workload_fingerprint_engine.cpp
+    )
+    target_link_libraries(test_workload_fingerprint_engine
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_workload_fingerprint_engine
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_workload_fingerprint_engine>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # =========================================================================
+    # S-8 / IMPL-B9: ExplainabilityReasonBuilder tests
+    # =========================================================================
+    add_executable(test_explainability_reason_builder
+        ${THEMIS_ROOT_DIR}/tests/test_explainability_reason_builder.cpp
+    )
+    target_link_libraries(test_explainability_reason_builder
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_explainability_reason_builder
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_explainability_reason_builder>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # =========================================================================
+    # S-8 / IMPL-B10: StorageLayoutAdvisor tests
+    # =========================================================================
+    add_executable(test_storage_layout_advisor
+        ${THEMIS_ROOT_DIR}/tests/test_storage_layout_advisor.cpp
+    )
+    target_link_libraries(test_storage_layout_advisor
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_storage_layout_advisor
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_storage_layout_advisor>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # =========================================================================
+    # S-16 / DecisionRecordYamlProcessor unit tests
+    # =========================================================================
+    add_executable(test_decision_record_yaml_processor
+        ${THEMIS_ROOT_DIR}/tests/test_decision_record_yaml_processor.cpp
+    )
+    target_link_libraries(test_decision_record_yaml_processor
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_decision_record_yaml_processor
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_decision_record_yaml_processor>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # =========================================================================
+    # S-16 / DecisionRecord integration tests (LoRARouter, AdapterLoadBalancer,
+    #         LoRAOrchestrator wiring)
+    # =========================================================================
+    add_executable(test_decision_record_integration
+        ${THEMIS_ROOT_DIR}/tests/test_decision_record_integration.cpp
+    )
+    target_link_libraries(test_decision_record_integration
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_decision_record_integration
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_decision_record_integration>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # =========================================================================
+    # S-16 / DecisionRecord end-to-end test (YAML on disk, required fields)
+    # =========================================================================
+    add_executable(test_decision_record_e2e
+        ${THEMIS_ROOT_DIR}/tests/test_decision_record_e2e.cpp
+    )
+    target_link_libraries(test_decision_record_e2e
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_decision_record_e2e
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_decision_record_e2e>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # =========================================================================
+    # DK-1: Distributed Knowledge Layer 11 unit tests (25+ cases)
+    # =========================================================================
+    add_executable(test_distributed_knowledge
+        ${THEMIS_ROOT_DIR}/tests/test_distributed_knowledge.cpp
+    )
+    target_link_libraries(test_distributed_knowledge
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_distributed_knowledge
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_distributed_knowledge>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
 endif()
 
 # ============================================================================

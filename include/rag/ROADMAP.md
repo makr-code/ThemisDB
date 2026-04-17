@@ -74,6 +74,22 @@ v2.0.0 — production. Full RAG pipeline with hybrid retrieval, cross-encoder re
 - [x] 7 unit tests in `tests/test_knowledge_gap_retrieval_callback.cpp` (KGD-CB-01…07); CMake target `test_knowledge_gap_retrieval_callback`
 - [x] Reference documentation: `docs/flare_retrieval_callback_bridge.md`; Compendium §17.30
 
+### Phase 9 — Loop Orchestration, ExplainabilityReasonBuilder & Federated RLAIF (Target: Q3–Q4 2026)
+
+> *Paper 1 (IMPL-A2, IMPL-A3) + Paper 2 Layer 9 (IMPL-B9)*
+> Issues: [IMPL-A2](../../docs/issues/lora_loops/IMPL-A2-loop-orchestration.md) · [IMPL-A3](../../docs/issues/lora_loops/IMPL-A3-federation-hooks.md) · [IMPL-B9](../../docs/issues/optimization_layers/IMPL-B9-explainability.md)
+
+- [ ] `ContinuousLearningOrchestrator`: explicit `triggerLoop1…4()` methods + `FEDERATED_ROUND_START` event (IMPL-A2/A3)
+- [ ] `setFederationCoordinator(ILoRAFederationCoordinator*)` DI setter (IMPL-A3)
+- [ ] Loop-interference cooldown guard — shared `OptimizationLock` with per-resource cooldown (RQ10) (IMPL-A2)
+- [ ] `ExplainabilityReasonBuilder` — generates causal chain in natural language for every autonomous decision (IMPL-B9)
+  - New header: `include/rag/explainability_reason_builder.h`
+  - Inputs: `DecisionType`, `MetricSnapshot`, optional `LLM annotation`
+  - Output: `CausalChain { summary, steps[], confidence, contributing_loops[] }`
+  - Writes `DecisionRecord` to `AIDecisionAuditor` for every decision
+  - GDPR-tagged field guard: does not expose PII in reasoning chain
+- [ ] 20 new unit tests: `CLO-*` (12) + `ERB-*` (8) in dedicated test files
+
 ## Production Readiness Checklist
 
 - [x] HybridRetriever validated on BEIR benchmark

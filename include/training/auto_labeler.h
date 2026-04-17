@@ -100,9 +100,13 @@ using LabelingCallback = std::function<void(size_t processed,
  * - FINANCIAL: Financial regulatory text (obligation / prohibition / disclosure)
  */
 enum class DomainType {
-    LEGAL,      ///< German legal / regulatory domain (default)
-    MEDICAL,    ///< Medical / clinical / pharmaceutical domain
-    FINANCIAL,  ///< Financial regulation / compliance domain
+    LEGAL,               ///< German legal / regulatory domain (default)
+    MEDICAL,             ///< Medical / clinical / pharmaceutical domain
+    FINANCIAL,           ///< Financial regulation / compliance domain
+    DATABASE_OPTIMIZER,  ///< Query-plan optimization (IMPL-A1)
+    INDEX_ADVISOR,       ///< Index recommendation (IMPL-A1)
+    SCHEMA_ADVISOR,      ///< Schema evolution advisory (IMPL-A1)
+    SECURITY_MONITOR,    ///< Anomaly / threat detection (IMPL-A1)
 };
 
 /**

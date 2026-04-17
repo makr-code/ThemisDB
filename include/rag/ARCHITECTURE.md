@@ -67,6 +67,7 @@ The rag module implements the full Retrieval-Augmented Generation (RAG) pipeline
 | `response_parser.h` | `ResponseParser` | LLM response parsing and structured extraction |
 | `rubric_evaluator.h` | `RubricEvaluator` | Rubric-based scoring |
 | `streaming_retriever.h` | `StreamingRetriever` | SSE-based streaming retrieval |
+| *(planned)* `explainability_reason_builder.h` | `ExplainabilityReasonBuilder`, `CausalChain` | Natural-language causal chain for every autonomous RAG decision (IMPL-B9) |
 
 ## Integration Points
 
@@ -77,6 +78,11 @@ The rag module implements the full Retrieval-Augmented Generation (RAG) pipeline
 | `llm` | `LlmIntegration`, `LlmJudgeClient` | LLM provider calls |
 | `index` | `HybridRetriever`, `KnowledgeGraphRetriever` | Vector and graph index access |
 | `network` | `StreamingRetriever` | SSE streaming to clients |
+| *(planned)* `distributed_knowledge` | `FederatedRAGMerger` | Cross-shard RAG result merge for Layer 11C (DK-4) |
+
+> **Paper 1+2 additions (IMPL-A2, IMPL-A3, IMPL-B9):**
+> - `ContinuousLearningOrchestrator`: explicit `triggerLoop1…4()` + `FEDERATED_ROUND_START` event (IMPL-A2/A3)
+> - `ExplainabilityReasonBuilder` (IMPL-B9): generates `CausalChain` for every autonomous decision; writes `DecisionRecord` to `AIDecisionAuditor`
 
 ## Implementation
 

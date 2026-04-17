@@ -1,0 +1,206 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            workload_fingerprint_engine.cpp                    ║
+  Version:         0.1.0                                              ║
+  Last Modified:   2026-04-17                                         ║
+  Author:          copilot                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#include "server/workload_fingerprint_engine.h"
+
+#include <algorithm>
+#include <cmath>
+#include <numeric>
+#include <stdexcept>
+
+namespace themis {
+namespace server {
+
+// ---------------------------------------------------------------------------
+// Internal helpers
+// ---------------------------------------------------------------------------
+
+namespace {
+
+/// Normalise a vector so its elements sum to 1.0.
+/// If all elements are zero, returns a uniform distribution.
+void l1Normalise(std::vector<double>& v) {
+    const double sum = std::accumulate(v.begin(), v.end(), 0.0);
+    if (sum < 1e-9) {
+        const double uniform = 1.0 / static_cast<double>(v.size());
+        std::fill(v.begin(), v.end(), uniform);
+        return;
+    }
+    for (auto& x : v) x /= sum;
+}
+
+} // anonymous namespace
+
+// ---------------------------------------------------------------------------
+// WorkloadFingerprintEngine::classify
+// ---------------------------------------------------------------------------
+
+WorkloadFingerprintEngine::WorkloadFingerprint
+WorkloadFingerprintEngine::classify(
+    const std::string&         tenant_id,
+    const TenantWorkloadStats& stats
+) const {
+    // ── OLTP score ──────────────────────────────────────────────────────────
+    // High query rate, short latency, mostly reads.
+    double oltpScore = 0.0;
+    if (stats.query_count >= 1000)          oltpScore += 0.40;
+    else if (stats.query_count >= 100)      oltpScore += 0.20;
+    if (stats.avg_p99_ms <= 10.0)           oltpScore += 0.30;
+    else if (stats.avg_p99_ms <= 50.0)      oltpScore += 0.15;
+    if (stats.write_ratio < 0.30)           oltpScore += 0.15;
+    if (stats.avg_rows_per_query <= 100)    oltpScore += 0.15;
+
+    // ── OLAP score ──────────────────────────────────────────────────────────
+    // Low query count, heavy latency, large row scans, mostly reads.
+    double olapScore = 0.0;
+    if (stats.query_count <= 20)            olapScore += 0.30;
+    else if (stats.query_count <= 100)      olapScore += 0.15;
+    if (stats.avg_p99_ms >= 1000.0)         olapScore += 0.40;
+    else if (stats.avg_p99_ms >= 100.0)     olapScore += 0.20;
+    if (stats.avg_rows_per_query >= 100000) olapScore += 0.30;
+    else if (stats.avg_rows_per_query >= 10000) olapScore += 0.15;
+    if (stats.write_ratio < 0.10)           olapScore += 0.10;
+
+    // ── BATCH score ─────────────────────────────────────────────────────────
+    // Periodic bulk inserts, high write ratio.
+    double batchScore = 0.0;
+    if (stats.bulk_insert_count >= 5)       batchScore += 0.40;
+    else if (stats.bulk_insert_count >= 1)  batchScore += 0.25;
+    if (stats.write_ratio >= 0.70)          batchScore += 0.30;
+    else if (stats.write_ratio >= 0.50)     batchScore += 0.15;
+    if (stats.avg_rows_per_query >= 10000)  batchScore += 0.20;
+
+    // ── MIXED score ──────────────────────────────────────────────────────────
+    // Residual after the dominant classes.
+    const double maxSingle = std::max({oltpScore, olapScore, batchScore});
+    double mixedScore = 0.0;
+    if (maxSingle < 0.30) {
+        mixedScore = 0.40; // no clear winner → mixed
+    } else {
+        mixedScore = std::max(0.0, 0.20 - maxSingle * 0.10);
+    }
+
+    // ── Build normalised probability vector ─────────────────────────────────
+    // Order: [OLTP, OLAP, BATCH, MIXED]
+    std::vector<double> vec = {oltpScore, olapScore, batchScore, mixedScore};
+    l1Normalise(vec);
+
+    // ── Determine dominant pattern ─────────────────────────────────────────
+    const std::size_t domIdx = static_cast<std::size_t>(
+        std::max_element(vec.begin(), vec.end()) - vec.begin()
+    );
+    static const WorkloadPattern kPatternMap[] = {
+        WorkloadPattern::OLTP,
+        WorkloadPattern::OLAP,
+        WorkloadPattern::BATCH,
+        WorkloadPattern::MIXED,
+    };
+
+    WorkloadPattern pattern = WorkloadPattern::UNKNOWN;
+    double          confidence = 0.0;
+
+    if (stats.query_count == 0 && stats.bulk_insert_count == 0) {
+        pattern    = WorkloadPattern::UNKNOWN;
+        confidence = 0.0;
+    } else {
+        pattern    = kPatternMap[domIdx];
+        confidence = vec[domIdx];
+    }
+
+    WorkloadFingerprint fp;
+    fp.tenant_id          = tenant_id;
+    fp.pattern            = pattern;
+    fp.vector             = std::move(vec);
+    fp.confidence         = confidence;
+    fp.recommended_policy = buildPolicy(pattern);
+    return fp;
+}
+
+// ---------------------------------------------------------------------------
+// WorkloadFingerprintEngine::similarityTo (cosine similarity)
+// ---------------------------------------------------------------------------
+
+double WorkloadFingerprintEngine::similarityTo(
+    const WorkloadFingerprint& a,
+    const WorkloadFingerprint& b
+) const {
+    if (a.vector.size() != b.vector.size() || a.vector.empty()) {
+        return 0.0;
+    }
+
+    double dot  = 0.0;
+    double normA = 0.0;
+    double normB = 0.0;
+    for (std::size_t i = 0; i < a.vector.size(); ++i) {
+        dot   += a.vector[i] * b.vector[i];
+        normA += a.vector[i] * a.vector[i];
+        normB += b.vector[i] * b.vector[i];
+    }
+    const double denom = std::sqrt(normA) * std::sqrt(normB);
+    if (denom < 1e-12) return 0.0;
+    return std::clamp(dot / denom, 0.0, 1.0);
+}
+
+// ---------------------------------------------------------------------------
+// Static helpers
+// ---------------------------------------------------------------------------
+
+// static
+WorkloadFingerprintEngine::WorkloadFingerprint::PolicyRecommendation
+WorkloadFingerprintEngine::buildPolicy(WorkloadPattern pattern) {
+    WorkloadFingerprint::PolicyRecommendation rec;
+    switch (pattern) {
+        case WorkloadPattern::OLTP:
+            rec.max_connections     = 200;
+            rec.memory_limit        = "4GB";
+            rec.priority            = "HIGH";
+            rec.suggest_read_replica = false;
+            break;
+        case WorkloadPattern::OLAP:
+            rec.max_connections     = 20;
+            rec.memory_limit        = "32GB";
+            rec.priority            = "MEDIUM";
+            rec.suggest_read_replica = true;
+            break;
+        case WorkloadPattern::BATCH:
+            rec.max_connections     = 10;
+            rec.memory_limit        = "16GB";
+            rec.priority            = "LOW";
+            rec.suggest_read_replica = false;
+            break;
+        case WorkloadPattern::MIXED:
+            rec.max_connections     = 100;
+            rec.memory_limit        = "8GB";
+            rec.priority            = "MEDIUM";
+            rec.suggest_read_replica = false;
+            break;
+        default:
+            break;
+    }
+    return rec;
+}
+
+// static
+std::string WorkloadFingerprintEngine::patternName(WorkloadPattern p) {
+    switch (p) {
+        case WorkloadPattern::OLTP:    return "OLTP";
+        case WorkloadPattern::OLAP:    return "OLAP";
+        case WorkloadPattern::BATCH:   return "BATCH";
+        case WorkloadPattern::MIXED:   return "MIXED";
+        case WorkloadPattern::UNKNOWN: return "UNKNOWN";
+        default:                       return "UNKNOWN";
+    }
+}
+
+} // namespace server
+} // namespace themis

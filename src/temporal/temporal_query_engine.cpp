@@ -567,5 +567,80 @@ std::vector<VersionedDocument> queryAsOfCached(
 
 } // namespace detail
 
+// ============================================================================
+// sequencedDistinct — SQL:2011 §13.4
+// ============================================================================
+
+namespace {
+
+/// Merge the version history of a single key into sequenced-distinct rows.
+std::vector<VersionedDocument> mergeDistinctKey(
+    std::vector<VersionedDocument> history) {
+
+    if (history.empty()) return {};
+
+    // Sort by sys_start ascending.
+    std::sort(history.begin(), history.end(),
+              [](const VersionedDocument& a, const VersionedDocument& b) {
+                  return a.sys_time.start < b.sys_time.start;
+              });
+
+    std::vector<VersionedDocument> result;
+    VersionedDocument current = history.front();
+
+    for (size_t i = 1; i < history.size(); ++i) {
+        const VersionedDocument& next = history[i];
+
+        // Two versions are contiguous when the previous period's end == the
+        // next period's start (half-open interval adjacency).
+        const bool contiguous = (current.sys_time.end == next.sys_time.start);
+        const bool same_data  = (current.data == next.data);
+
+        if (contiguous && same_data) {
+            // Extend the current period to cover the next version.
+            current.sys_time.end = next.sys_time.end;
+        } else {
+            result.push_back(current);
+            current = next;
+        }
+    }
+    result.push_back(current);
+    return result;
+}
+
+} // anonymous namespace
+
+std::vector<VersionedDocument> TemporalQueryEngine::sequencedDistinct(
+    const SystemVersionedTable& table) {
+
+    const auto keys = table.getAllKeys();
+    std::vector<VersionedDocument> result;
+
+    for (const auto& key : keys) {
+        auto history = table.getHistory(key);
+        auto distinct = mergeDistinctKey(std::move(history));
+        for (auto& row : distinct) {
+            result.push_back(std::move(row));
+        }
+    }
+
+    // Sort final result by (key, sys_start) for deterministic output.
+    std::sort(result.begin(), result.end(),
+              [](const VersionedDocument& a, const VersionedDocument& b) {
+                  if (a.key != b.key) return a.key < b.key;
+                  return a.sys_time.start < b.sys_time.start;
+              });
+
+    return result;
+}
+
+std::vector<VersionedDocument> TemporalQueryEngine::sequencedDistinct(
+    const SystemVersionedTable& table,
+    const std::string& key) {
+
+    auto history = table.getHistory(key);
+    return mergeDistinctKey(std::move(history));
+}
+
 } // namespace temporal
 } // namespace themisdb

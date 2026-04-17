@@ -38,6 +38,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **core** | ✅ Production-ready — ConcernsContext DI, pluggable adapters, tracing/metrics/cache/secrets/feature-flags operational | [src/core/ROADMAP.md](src/core/ROADMAP.md) |
 | **ethics_ai** | ✅ Production-ready (v0.2.0) — PhilosophyLoader (YAML rich thesis objects), EthicsEvaluator (configurable weights), ChainVisualizer (DOT/Mermaid export) | [src/ethics_ai/ROADMAP.md](src/ethics_ai/ROADMAP.md) |
 | **exporters** | ✅ Production-ready | [src/exporters/ROADMAP.md](src/exporters/ROADMAP.md) |
+| **distributed_knowledge** | ✅ Production-ready (v1.0.0) — RAID-5 knowledge sharding: 4 layers (11A–11D) fully wired; DK-1…DK-8 + DK-OR all complete; 13 OR tests + 5 OR benchmarks; DecisionRecord traceability (S-16) | [src/distributed_knowledge/ROADMAP.md](src/distributed_knowledge/ROADMAP.md) |
 | **failover** | ✅ Production-ready — AutoFailoverManager (Raft-based, quorum), DisasterRecoveryManager (7-step DR plan with step hooks and dry_run) | [src/failover/ROADMAP.md](src/failover/ROADMAP.md) |
 | **geo** | ✅ Production-ready — CPU spatial queries stable; GPU dispatch with documented CPU fallback; WGS-84 boundaries explicitly documented | [src/geo/ROADMAP.md](src/geo/ROADMAP.md) |
 | **governance** | ✅ Production-ready — Policy engine incl. GDPR/HIPAA/CCPA/PCI/SOC2, OPA integration, model governance operational | [src/governance/ROADMAP.md](src/governance/ROADMAP.md) |
@@ -370,6 +371,42 @@ Focus: Deepen AI capabilities across prompt engineering, training, RAG, and anal
 - [I] Zero-copy Arrow data transfer optimisations (Issue: #1471) (Target: Q3 2026)
 - [I] Arrow Flight RPC support for remote analytics (Issue: #1472) (Target: Q3 2026)
 - [x] Predictive analytics and time-series forecasting (Issue: #1473)
+
+#### 2.6 LoRA Foundation — Loops 1–4 + Dataset (Target: Q3 2026)
+*Defined in: `docs/en/research/THEMISDB_LORA_RESEARCH_PAPER.md`*
+- [x] IMPL-A1: Golden dataset CLI + `DatabaseDomainAutoLabeler` — Inputs: query logs + FeedbackCollector; Outputs: JSONL label + confidence ≥ 0.7 (Target: Q3 2026)
+  (`include/training/database_domain_auto_labeler.h` + `src/training/database_domain_auto_labeler.cpp`, 8 tests in `tests/test_database_domain_auto_labeler.cpp`. `DomainType` extended in `include/training/auto_labeler.h`.)
+- [x] IMPL-A2: Loop 1–4 explicit orchestration in `ContinuousLearningOrchestrator` — `LoopPhase` enum, `triggerLoop()`, guardrails; all 4 loops named and testable (Target: Q3 2026)
+  (`include/rag/continuous_learning_orchestrator.h` + `src/rag/continuous_learning_orchestrator.cpp`. `getMissRate()`, `getProfileDrift()`, `newEntryCount()` accessors added. 10 tests appended to `tests/test_continuous_learning_orchestrator.cpp`.)
+- [x] IMPL-A3: `exportGradient()` + `applyGlobalDelta()` + `FEDERATED_ROUND_START` — bridge between LoRA pipeline and Layer 11B (Implemented: 2026-04-17)
+  (`include/training/incremental_lora_trainer.h` + `include/rag/continuous_learning_orchestrator.h`. 5 tests ILT-EG-01..03, ILT-AG-01..02 + 3 CLO-FED tests.)
+
+#### 2.7 LLM Optimization Layers 5–10 (Target: Q3–Q4 2026)
+*Defined in: `docs/en/research/LLM_OPTIMIZATION_LAYERS_MATRIX.md`*
+- [x] IMPL-B5: `TransactionSemanticAdvisor` — batch-affinity hints, `analyzeBatch()` ≤ 10 ms (Implemented: 2026-04-17)
+  (`include/transaction/transaction_semantic_advisor.h` + 8 tests TSA-01..08.)
+- [x] IMPL-B6: `SchemaDeadWeightDetector` — 180-day window, seasonality, 0 GDPR false-negatives (Implemented: 2026-04-17)
+  (`include/storage/schema_dead_weight_detector.h` + 10 tests SDWD-01..10.)
+- [x] IMPL-B7: `IntentClassifier` — SQL-injection/exfiltration, precision ≥ 80 % v1.0 → ≥ 92 % post-LoRA (Implemented: 2026-04-17)
+  (`include/security/intent_classifier.h` + 8 tests IC-01..08.)
+- [x] IMPL-B8: `WorkloadFingerprintEngine` — OLTP/OLAP/Batch, similarity-match ≥ 80 % accuracy (Implemented: 2026-04-17)
+  (`include/server/workload_fingerprint_engine.h` + 8 tests WFE-01..08.)
+- [x] IMPL-B9: `ExplainabilityReasonBuilder` — causal chain for 100 % of autonomous decision types (Implemented: 2026-04-17)
+  (`include/rag/explainability_reason_builder.h` + 10 tests ERB-01..10.)
+- [x] IMPL-B10: `StorageLayoutAdvisor` — Row/Columnar/Hybrid, ≥ +50 % compression for time-series (Implemented: 2026-04-17)
+  (`include/storage/storage_layout_advisor.h` + 10 tests SLA-01..10.)
+
+#### 2.8 Distributed Knowledge — Layer 11 (Implemented: 2026-04-17)
+*Defined in: `docs/en/research/DISTRIBUTED_KNOWLEDGE_FEDERATION.md` · `src/distributed_knowledge/ROADMAP.md`*
+- [x] DK-1: Build system + 25 unit tests for `distributed_knowledge` module (Implemented: 2026-04-17)
+- [x] DK-2: Layer 11A — GossipProtocol `registerCustomHandler()` + `routeByDomain()` (Implemented: 2026-04-17)
+- [x] DK-3: Layer 11B — FedAvg + DP aggregation wired to `IncrementalLoRATrainer` (Implemented: 2026-04-17)
+- [x] DK-4: Layer 11C — `QueryFederation` RAG-aware merge, Recall@10 ≥ +15 % vs. shard-local (Implemented: 2026-04-17)
+- [x] DK-5: Layer 11D — `CrossShardFeedbackSync` wired to `FeedbackCollector` + RLAIF (Implemented: 2026-04-17)
+- [x] DK-6: End-to-end integration (7 scenarios) + privacy invariant test (Implemented: 2026-04-17)
+- [x] DK-7: Admin API + SphincsPlus audit + `CrossBorderTransferPolicy` (Implemented: 2026-04-17)
+- [x] DK-8: Performance benchmarks — `triggerAggregation()` ≤ 500 ms, `merge()` ≤ 20 ms (Implemented: 2026-04-17)
+- [x] DK-OR: Operational Resilience hardening — backpressure, timeouts, GDPR erase, ZeroTrust (Implemented: 2026-04-17)
 
 ---
 

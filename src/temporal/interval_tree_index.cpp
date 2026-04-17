@@ -217,6 +217,10 @@ size_t IntervalTreeIndex::removeKey(const std::string& key) {
     return removed;
 }
 
+size_t IntervalTreeIndex::erase(const std::string& key) {
+    return removeKey(key);
+}
+
 void IntervalTreeIndex::clear() {
     std::lock_guard<std::mutex> lk(mutex_);
     root_.reset();

@@ -89,6 +89,39 @@ struct SnapshotMetadata {
 };
 
 /**
+ * Result of comparing two snapshots for the same table.
+ *
+ * - `added`    — rows present in `handle_b` but absent in `handle_a`.
+ * - `removed`  — rows present in `handle_a` but absent in `handle_b`.
+ * - `modified` — rows present in both snapshots whose `data` has changed
+ *                (contains the `handle_b` version).
+ */
+struct SnapshotDiff {
+    std::vector<VersionedDocument> added;
+    std::vector<VersionedDocument> removed;
+    std::vector<VersionedDocument> modified;
+
+    bool empty() const noexcept {
+        return added.empty() && removed.empty() && modified.empty();
+    }
+
+    size_t totalChanges() const noexcept {
+        return added.size() + removed.size() + modified.size();
+    }
+
+    nlohmann::json toJson() const {
+        auto to_json_arr = [](const std::vector<VersionedDocument>& v) {
+            nlohmann::json arr = nlohmann::json::array();
+            for (const auto& doc : v) { arr.push_back(doc.toJson()); }
+            return arr;
+        };
+        return {{"added",    to_json_arr(added)},
+                {"removed",  to_json_arr(removed)},
+                {"modified", to_json_arr(modified)}};
+    }
+};
+
+/**
  * TemporalSnapshotManager
  *
  * Captures the state of one or more SystemVersionedTable instances at the
@@ -179,6 +212,27 @@ public:
     size_t garbageCollectByCount(size_t max_snapshots);
 
     nlohmann::json getStatistics() const;
+
+    /**
+     * Compute the diff between two snapshots for a given table.
+     *
+     * Compares the rows in `handle_a` (the "before" snapshot) and `handle_b`
+     * (the "after" snapshot) for `table_name` and returns a `SnapshotDiff`
+     * that classifies every row as added, removed, or modified.
+     *
+     * - A row whose `key` appears only in `handle_b` is **added**.
+     * - A row whose `key` appears only in `handle_a` is **removed**.
+     * - A row whose `key` appears in both snapshots but with different `data`
+     *   is **modified** (the `handle_b` version is returned).
+     *
+     * If either handle is invalid or does not contain `table_name`, the
+     * corresponding side is treated as empty.
+     *
+     * Thread-safe.
+     */
+    [[nodiscard]] SnapshotDiff diff(const SnapshotHandle& handle_a,
+                                    const SnapshotHandle& handle_b,
+                                    const std::string& table_name) const;
 
 private:
     struct SnapshotData {

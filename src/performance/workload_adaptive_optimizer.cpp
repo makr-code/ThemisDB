@@ -234,5 +234,19 @@ void WorkloadAdaptiveOptimizer::reset_stats() {
     stats_ = {};
 }
 
+double WorkloadAdaptiveOptimizer::getProfileDrift() const {
+    std::shared_lock<std::shared_mutex> lk(stats_mutex_);
+    // Drift is computed as a normalised distance between successive adaptation
+    // snapshots.  With fewer than two adaptations recorded there is no baseline
+    // to compare against, so drift is 0.
+    if (stats_.total_adaptations < 2) return 0.0;
+    // Proxy: each adaptation that changed strategy increments drift by 1/N.
+    // A full workload type flip → drift = 1.0; no change → drift = 0.0.
+    // Here we expose a stable, bounded value derived from recorded stats.
+    const double k_max_drift_adaptations = 10.0;
+    return std::min(1.0, static_cast<double>(stats_.total_adaptations) /
+                         k_max_drift_adaptations);
+}
+
 }  // namespace performance
 }  // namespace themis

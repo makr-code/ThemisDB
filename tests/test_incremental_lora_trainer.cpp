@@ -1,0 +1,157 @@
+/**
+ * @file test_incremental_lora_trainer.cpp
+ * @brief Unit tests for IncrementalLoRATrainer federation bridges (IMPL-A3).
+ *
+ * Tests ILT-EG-01…03  — exportGradient() contract
+ * Tests ILT-AG-01…02  — applyGlobalDelta() contract
+ */
+
+#include <gtest/gtest.h>
+#include <stdexcept>
+#include <string>
+
+#include "training/incremental_lora_trainer.h"
+#include "distributed_knowledge/lora_federation_coordinator.h"
+
+using namespace themis::training;
+using namespace themis::distributed_knowledge;
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+static IncrementalTrainingConfig makeConfig() {
+    IncrementalTrainingConfig cfg;
+    cfg.training_data_collection = "";
+    cfg.base_model_path          = "";
+    cfg.adapter_version          = "";
+    cfg.rank                     = 4;
+    cfg.alpha                    = 8.0f;
+    cfg.learning_rate            = 0.001f;
+    cfg.batch_size               = 2;
+    cfg.num_epochs               = 1;
+    cfg.max_seq_length           = 16;
+    cfg.device                   = "cpu";
+    return cfg;
+}
+
+// Run one training cycle so the gradient accumulator is non-empty.
+static TrainingResult runOneTrain(IncrementalLoRATrainer& trainer) {
+    return trainer.train(TrainingMode::INITIAL);
+}
+
+// ---------------------------------------------------------------------------
+// ILT-EG-01 — exportGradient() after at least one train() call gives
+//             non-empty data
+// ---------------------------------------------------------------------------
+
+TEST(ImplA3_ExportGradient, EG01_NonEmptyDataAfterTraining) {
+    IncrementalLoRATrainer trainer(makeConfig(), "");
+    trainer.setShardId("shard_test_01");
+
+    auto result = runOneTrain(trainer);
+    EXPECT_TRUE(result.success);
+
+    EncryptedGradient grad = trainer.exportGradient(/*round=*/1);
+
+    EXPECT_EQ(grad.shard_id, "shard_test_01");
+    EXPECT_EQ(grad.round, 1u);
+    EXPECT_GT(grad.sample_count, 0u);
+    EXPECT_FALSE(grad.data.empty()) << "Gradient data map must be non-empty after training";
+
+    // Verify the expected layer names are present
+    EXPECT_TRUE(grad.data.contains("lora_A_layer_0"));
+    EXPECT_TRUE(grad.data.contains("lora_B_layer_0"));
+}
+
+// ---------------------------------------------------------------------------
+// ILT-EG-02 — exportGradient() throws std::runtime_error when no training
+//             has occurred since the last export (or ever)
+// ---------------------------------------------------------------------------
+
+TEST(ImplA3_ExportGradient, EG02_ThrowsWithoutTraining) {
+    IncrementalLoRATrainer trainer(makeConfig(), "");
+
+    EXPECT_THROW(
+        trainer.exportGradient(/*round=*/1),
+        std::runtime_error);
+}
+
+// ---------------------------------------------------------------------------
+// ILT-EG-03 — exportGradient() resets the accumulator; a second immediate
+//             call throws std::runtime_error
+// ---------------------------------------------------------------------------
+
+TEST(ImplA3_ExportGradient, EG03_ResetsAccumulatorOnExport) {
+    IncrementalLoRATrainer trainer(makeConfig(), "");
+    runOneTrain(trainer);
+
+    // First export succeeds
+    EXPECT_NO_THROW(trainer.exportGradient(/*round=*/1));
+
+    // Second export immediately after must throw because update_count == 0
+    EXPECT_THROW(
+        trainer.exportGradient(/*round=*/2),
+        std::runtime_error);
+}
+
+// ---------------------------------------------------------------------------
+// ILT-AG-01 — applyGlobalDelta() changes local weights measurably
+// ---------------------------------------------------------------------------
+
+TEST(ImplA3_ApplyGlobalDelta, AG01_ChangesLocalWeightsMeasurably) {
+    IncrementalLoRATrainer trainer(makeConfig(), "");
+    trainer.setFederatedLearningRate(0.1);
+
+    // Train first so known_layers_ is populated (required for applyGlobalDelta)
+    auto res = runOneTrain(trainer);
+    EXPECT_TRUE(res.success);
+
+    // Verify initial state (before applying delta)
+    EXPECT_DOUBLE_EQ(trainer.getLocalWeight("lora_A_layer_0"), 0.0);
+
+    // Build a delta with a known value for a known layer
+    GlobalAdapterDelta delta;
+    delta.round        = 1;
+    delta.version      = "global-v1";
+    delta.participants = 2;
+    delta.algorithm    = "FedAvg";
+    delta.epsilon_spent = 0.05;
+    delta.delta["lora_A_layer_0"] = 1.0;
+    delta.delta["lora_B_layer_0"] = 2.0;
+
+    trainer.applyGlobalDelta(delta);
+
+    // Expected: 0.0 + 0.1 * 1.0 = 0.1
+    EXPECT_NEAR(trainer.getLocalWeight("lora_A_layer_0"), 0.1, 1e-9);
+    // Expected: 0.0 + 0.1 * 2.0 = 0.2
+    EXPECT_NEAR(trainer.getLocalWeight("lora_B_layer_0"), 0.2, 1e-9);
+}
+
+// ---------------------------------------------------------------------------
+// ILT-AG-02 — applyGlobalDelta() with unknown layer names does not throw
+// ---------------------------------------------------------------------------
+
+TEST(ImplA3_ApplyGlobalDelta, AG02_UnknownLayerNamesAreIgnored) {
+    IncrementalLoRATrainer trainer(makeConfig(), "");
+    // No training → known_layers_ is empty → all delta layers are "unknown"
+
+    GlobalAdapterDelta delta;
+    delta.round        = 1;
+    delta.version      = "global-v1";
+    delta.participants = 1;
+    delta.algorithm    = "FedAvg";
+    delta.epsilon_spent = 0.01;
+    // Layers that do not exist in the local weight map (no training done)
+    delta.delta["unknown_layer_xyz"] = 99.0;
+    delta.delta["non_existent_head"] = -7.5;
+
+    // Must not throw
+    EXPECT_NO_THROW(trainer.applyGlobalDelta(delta));
+
+    // Because no training was done, known_layers_ is empty, so the unknown
+    // layers should have been ignored — local_weights_ is empty, getLocalWeight
+    // returns 0.0 for any name.
+    EXPECT_DOUBLE_EQ(trainer.getLocalWeight("unknown_layer_xyz"), 0.0)
+        << "Unknown layers (not seen during training) must be ignored";
+}

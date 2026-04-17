@@ -174,6 +174,9 @@ struct RLAIFTrainer::Impl {
 
     // Queue for batch processing.
     std::vector<std::pair<std::string, std::string>> queue; // (query, draft)
+
+    // DK-5: Cross-shard feedback counters
+    CrossShardStats cross_shard_stats;
 };
 
 // ============================================================
@@ -613,6 +616,24 @@ RLAIFTrainer RLAIFTrainerFactory::createWithJudge(
         trainer.loadDefaultPrinciples();
     }
     return trainer;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DK-5: Cross-shard RLAIF feedback ingestion
+// ─────────────────────────────────────────────────────────────────────────────
+
+void RLAIFTrainer::addCrossShardSummary(
+    const distributed_knowledge::FeedbackSummary& /*summary*/,
+    const PreferencePair& synthetic_pair)
+{
+    ++impl_->cross_shard_stats.received_summaries;
+    impl_->dataset.push_back(synthetic_pair);
+    ++impl_->cross_shard_stats.applied_pairs;
+}
+
+RLAIFTrainer::CrossShardStats RLAIFTrainer::getCrossShardStats() const
+{
+    return impl_->cross_shard_stats;
 }
 
 } // namespace themis::rag::training

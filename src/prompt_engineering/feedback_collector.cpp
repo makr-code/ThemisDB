@@ -28,6 +28,7 @@
 
 #include "prompt_engineering/feedback_collector.h"
 #include "storage/rocksdb_wrapper.h"
+#include "distributed_knowledge/cross_shard_feedback_sync.h"
 #include "utils/logger.h"
 #include <algorithm>
 #include <cstdint>
@@ -227,8 +228,40 @@ std::string FeedbackCollector::recordFeedback(
     
     THEMIS_DEBUG("Recorded feedback for prompt '{}': type={}, severity={}",
                  prompt_id, feedbackTypeToString(type), severity);
-    
+
+    // ── DK-5: Cross-shard publish (anonymised embedding, no raw text) ────────
+    if (cross_shard_sync_ && embedding_model_) {
+        try {
+            distributed_knowledge::FeedbackSummary summary;
+            summary.feedback_type_label = feedbackTypeToString(type);
+            summary.shard_origin        = "ANON"; // also enforced by sync
+            summary.reason_embedding    = embedding_model_->embed(query);
+            cross_shard_sync_->publishFeedback(std::move(summary));
+        } catch (const std::exception& e) {
+            // Cross-shard publish must never fail local recording
+            THEMIS_DEBUG("Cross-shard feedback publish failed (skipping): {}", e.what());
+        }
+    } else if (cross_shard_sync_ && !embedding_model_) {
+        THEMIS_DEBUG("Cross-shard feedback skipped: no embedding model set");
+    }
+    // ─────────────────────────────────────────────────────────────────────────
+
     return entry.id;
+}
+
+// ── DK-5: DI setters ─────────────────────────────────────────────────────────
+
+void FeedbackCollector::setCrossShardSync(
+    std::shared_ptr<distributed_knowledge::CrossShardFeedbackSync> sync)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    cross_shard_sync_ = std::move(sync);
+}
+
+void FeedbackCollector::setEmbeddingModel(std::shared_ptr<IEmbeddingModel> model)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    embedding_model_ = std::move(model);
 }
 
 std::vector<FeedbackEntry> FeedbackCollector::getFeedback(
@@ -881,6 +914,15 @@ std::vector<FailedQueryPattern> FeedbackCollector::extractPatterns(
               [](const auto& a, const auto& b) { return a.occurrences > b.occurrences; });
 
     return result;
+}
+
+size_t FeedbackCollector::newEntryCount() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    size_t total = 0;
+    for (const auto& [prompt_id, entries] : feedback_) {
+        total += entries.size();
+    }
+    return total;
 }
 
 } // namespace prompt_engineering

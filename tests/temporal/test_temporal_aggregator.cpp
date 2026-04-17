@@ -612,3 +612,108 @@ TEST_F(TemporalAggregatorTest, AnalyzeTrend_ToJson) {
     EXPECT_TRUE(j.contains("period_start"));
     EXPECT_TRUE(j.contains("period_end"));
 }
+
+// ============================================================================
+// FIRST_VALUE / LAST_VALUE tests (FLV-01 .. FLV-05)
+// ============================================================================
+
+// FLV-01: FIRST_VALUE returns the earliest row's value in a tumbling window
+TEST_F(TemporalAggregatorTest, FIRST_VALUE_Tumbling_ReturnsEarliestValue) {
+    SystemVersionedTable t{"tbl", "n"};
+    Timestamp base = now();
+    // Insert 3 rows at 1 ms intervals; values 10, 20, 30 in time order
+    insertAt(t, "k1", 10.0);
+    insertAt(t, "k2", 20.0);
+    insertAt(t, "k3", 30.0);
+    Timestamp after = now() + 1;
+
+    AggregationSpec spec;
+    spec.window_type     = WindowType::TUMBLING;
+    spec.window_size_ms  = after - base + 1;
+    spec.func            = AggregateFunc::FIRST_VALUE;
+    spec.measure_field   = "value";
+
+    auto results = agg.aggregate(t, spec, base, after);
+    ASSERT_FALSE(results.empty());
+    EXPECT_DOUBLE_EQ(results[0].value, 10.0);
+}
+
+// FLV-02: LAST_VALUE returns the latest row's value in a tumbling window
+TEST_F(TemporalAggregatorTest, LAST_VALUE_Tumbling_ReturnsLatestValue) {
+    SystemVersionedTable t{"tbl", "n"};
+    Timestamp base = now();
+    insertAt(t, "k1", 10.0);
+    insertAt(t, "k2", 20.0);
+    insertAt(t, "k3", 30.0);
+    Timestamp after = now() + 1;
+
+    AggregationSpec spec;
+    spec.window_type     = WindowType::TUMBLING;
+    spec.window_size_ms  = after - base + 1;
+    spec.func            = AggregateFunc::LAST_VALUE;
+    spec.measure_field   = "value";
+
+    auto results = agg.aggregate(t, spec, base, after);
+    ASSERT_FALSE(results.empty());
+    EXPECT_DOUBLE_EQ(results[0].value, 30.0);
+}
+
+// FLV-03: FIRST_VALUE on empty window returns 0.0
+TEST_F(TemporalAggregatorTest, FIRST_VALUE_EmptyWindow_ReturnsZero) {
+    SystemVersionedTable t{"tbl", "n"};
+    AggregationSpec spec;
+    spec.window_type    = WindowType::TUMBLING;
+    spec.window_size_ms = 100;
+    spec.func           = AggregateFunc::FIRST_VALUE;
+    spec.measure_field  = "value";
+
+    auto results = agg.aggregate(t, spec, 0, 100);
+    EXPECT_TRUE(results.empty());
+}
+
+// FLV-04: LAST_VALUE is equal to FIRST_VALUE for a single-row window
+TEST_F(TemporalAggregatorTest, FLV_SingleRow_FirstEqualsLast) {
+    SystemVersionedTable t{"tbl", "n"};
+    Timestamp base = now();
+    insertAt(t, "k1", 42.0);
+    Timestamp after = now() + 1;
+
+    AggregationSpec spec_first, spec_last;
+    spec_first.window_type    = spec_last.window_type    = WindowType::TUMBLING;
+    spec_first.window_size_ms = spec_last.window_size_ms = after - base + 1;
+    spec_first.measure_field  = spec_last.measure_field  = "value";
+    spec_first.func = AggregateFunc::FIRST_VALUE;
+    spec_last.func  = AggregateFunc::LAST_VALUE;
+
+    auto r_first = agg.aggregate(t, spec_first, base, after);
+    auto r_last  = agg.aggregate(t, spec_last,  base, after);
+    ASSERT_FALSE(r_first.empty());
+    ASSERT_FALSE(r_last.empty());
+    EXPECT_DOUBLE_EQ(r_first[0].value, r_last[0].value);
+}
+
+// FLV-05: FIRST_VALUE / LAST_VALUE work on sliding windows
+TEST_F(TemporalAggregatorTest, FLV_SlidingWindow_ValuesOrdered) {
+    SystemVersionedTable t{"tbl", "n"};
+    Timestamp base = now();
+    insertAt(t, "k1", 5.0);
+    insertAt(t, "k2", 10.0);
+    Timestamp after = now() + 1;
+
+    const int64_t win_sz = (after - base) + 1;
+
+    AggregationSpec spec;
+    spec.window_type       = WindowType::SLIDING;
+    spec.window_size_ms    = win_sz;
+    spec.slide_interval_ms = win_sz;
+    spec.func              = AggregateFunc::FIRST_VALUE;
+    spec.measure_field     = "value";
+
+    auto r_first = agg.aggregate(t, spec, base, after);
+    spec.func = AggregateFunc::LAST_VALUE;
+    auto r_last  = agg.aggregate(t, spec, base, after);
+
+    ASSERT_FALSE(r_first.empty());
+    ASSERT_FALSE(r_last.empty());
+    EXPECT_LE(r_first[0].value, r_last[0].value);
+}

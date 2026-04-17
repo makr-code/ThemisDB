@@ -410,6 +410,51 @@ public:
         const TemporalQuerySpec& spec,
         const std::vector<RowFilter>& filters = {});
 
+    // =========================================================================
+    // sequencedDistinct — SQL:2011 §13.4 SEQUENCED DISTINCT
+    // =========================================================================
+
+    /**
+     * Return sequenced-distinct rows for a SystemVersionedTable.
+     *
+     * A SEQUENCED DISTINCT operation (SQL:2011 §13.4) collapses consecutive
+     * versions of the same key that carry identical non-temporal data into a
+     * single representative period.  This removes duplicate states that arose
+     * from no-op updates (a row that was re-inserted with the same content).
+     *
+     * Algorithm:
+     *   1. For each key, retrieve the full version history sorted by sys_start.
+     *   2. Walk the history; whenever two adjacent versions have the same data
+     *      payload (compared as JSON), merge them into a single
+     *      VersionedDocument whose sys_time.start = earlier.sys_time.start and
+     *      sys_time.end = later.sys_time.end.
+     *   3. Gaps between adjacent periods (i.e. the key was absent for an
+     *      interval) break the merge chain.
+     *
+     * @param table  Source system-versioned table.
+     * @return       Deduplicated, merged rows.  Each row represents a maximal
+     *               contiguous period during which the key held a unique state.
+     *               Rows are ordered by key, then by sys_time.start.
+     */
+    static std::vector<VersionedDocument> sequencedDistinct(
+        const SystemVersionedTable& table);
+
+    /**
+     * Return sequenced-distinct rows for a specific key.
+     *
+     * Convenience overload that restricts the SEQUENCED DISTINCT operation to
+     * a single key.  See the full-table overload for a detailed description of
+     * the algorithm.
+     *
+     * @param table  Source system-versioned table.
+     * @param key    Key to process.
+     * @return       Deduplicated version history for the key, ordered by
+     *               sys_time.start.
+     */
+    static std::vector<VersionedDocument> sequencedDistinct(
+        const SystemVersionedTable& table,
+        const std::string& key);
+
 };
 
 // ============================================================================

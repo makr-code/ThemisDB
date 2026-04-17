@@ -251,3 +251,80 @@ TEST_F(TemporalCDCTest, ClearLog_SubscriptionsIntact) {
     EXPECT_EQ(delivered, 2);
     EXPECT_EQ(cdc.logSize(), 1u);
 }
+
+// ── OverflowPolicy tests (CDC-OVF-01 .. CDC-OVF-04) ──────────────────────────
+
+// CDC-OVF-01: Default OVERWRITE policy evicts oldest on overflow
+TEST(TemporalCDCOverflow, OVF01_DefaultOverwriteEvictsOldest) {
+    TemporalCDC cdc(3); // capacity 3
+    cdc.publishEvent([] {
+        ChangeEvent e; e.table_name = "t"; e.entity_id = "e1"; e.transaction_time = 1; return e;
+    }());
+    cdc.publishEvent([] {
+        ChangeEvent e; e.table_name = "t"; e.entity_id = "e2"; e.transaction_time = 2; return e;
+    }());
+    cdc.publishEvent([] {
+        ChangeEvent e; e.table_name = "t"; e.entity_id = "e3"; e.transaction_time = 3; return e;
+    }());
+    ASSERT_EQ(cdc.logSize(), 3u);
+    ASSERT_EQ(cdc.overflowCount(), 0u);
+
+    // 4th event overflows — e1 must be evicted
+    cdc.publishEvent([] {
+        ChangeEvent e; e.table_name = "t"; e.entity_id = "e4"; e.transaction_time = 4; return e;
+    }());
+    EXPECT_EQ(cdc.logSize(), 3u);
+    EXPECT_EQ(cdc.overflowCount(), 1u);
+
+    // oldest remaining should be e2
+    auto events = cdc.replayChanges("t", {0, 100});
+    ASSERT_EQ(events.size(), 3u);
+    EXPECT_EQ(events[0].entity_id, "e2");
+}
+
+// CDC-OVF-02: DROP policy discards new events when full
+TEST(TemporalCDCOverflow, OVF02_DropPolicyDiscardsNewEvents) {
+    TemporalCDC cdc(2, OverflowPolicy::DROP);
+    cdc.publishEvent([] {
+        ChangeEvent e; e.table_name = "t"; e.entity_id = "e1"; e.transaction_time = 1; return e;
+    }());
+    cdc.publishEvent([] {
+        ChangeEvent e; e.table_name = "t"; e.entity_id = "e2"; e.transaction_time = 2; return e;
+    }());
+    ASSERT_EQ(cdc.logSize(), 2u);
+
+    // This event must be dropped
+    cdc.publishEvent([] {
+        ChangeEvent e; e.table_name = "t"; e.entity_id = "e3"; e.transaction_time = 3; return e;
+    }());
+    EXPECT_EQ(cdc.logSize(), 2u);          // log unchanged
+    EXPECT_EQ(cdc.overflowCount(), 1u);    // one drop counted
+    EXPECT_EQ(cdc.totalPublished(), 3u);   // 3 attempts counted
+
+    auto events = cdc.replayChanges("t", {0, 100});
+    ASSERT_EQ(events.size(), 2u);
+    EXPECT_EQ(events[1].entity_id, "e2");  // e2 still present
+}
+
+// CDC-OVF-03: overflowCount() is monotone across multiple overflows
+TEST(TemporalCDCOverflow, OVF03_OverflowCountMonotone) {
+    TemporalCDC cdc(1, OverflowPolicy::DROP);
+    cdc.publishEvent([] {
+        ChangeEvent e; e.table_name = "t"; e.entity_id = "e1"; e.transaction_time = 1; return e;
+    }());
+    for (int i = 2; i <= 5; ++i) {
+        cdc.publishEvent([i] {
+            ChangeEvent e; e.table_name = "t";
+            e.entity_id = "e" + std::to_string(i);
+            e.transaction_time = static_cast<themisdb::temporal::Timestamp>(i);
+            return e;
+        }());
+    }
+    EXPECT_EQ(cdc.overflowCount(), 4u);
+}
+
+// CDC-OVF-04: overflowCount() starts at 0 for empty CDC
+TEST(TemporalCDCOverflow, OVF04_InitialOverflowCountIsZero) {
+    TemporalCDC cdc;
+    EXPECT_EQ(cdc.overflowCount(), 0u);
+}
