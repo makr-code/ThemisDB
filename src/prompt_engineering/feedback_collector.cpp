@@ -883,5 +883,14 @@ std::vector<FailedQueryPattern> FeedbackCollector::extractPatterns(
     return result;
 }
 
+size_t FeedbackCollector::newEntryCount() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    size_t total = 0;
+    for (const auto& [prompt_id, entries] : feedback_) {
+        total += entries.size();
+    }
+    return total;
+}
+
 } // namespace prompt_engineering
 } // namespace themis

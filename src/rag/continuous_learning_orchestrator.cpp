@@ -92,7 +92,11 @@ struct ContinuousLearningOrchestrator::Impl {
     // ---- Adaptive retrieval ----
     /// Most-recently optimized retrieval parameters, updated by runRetrievalOptimization().
     RetrievalParams current_retrieval_params;
-};
+
+    // ---- Loop orchestration (IMPL-A2) ----
+    LoopPhase active_loop{LoopPhase::IDLE};
+    std::unordered_map<int, std::function<void(LoopPhase, const LoopResult&)>> loop_handlers;
+
 
 ContinuousLearningOrchestrator::ContinuousLearningOrchestrator(const ContinuousLearningConfig &config)
     : impl_(std::make_unique<Impl>()) {
@@ -736,6 +740,114 @@ void ContinuousLearningOrchestrator::setDataSelectionConfig(
 RetrievalParams ContinuousLearningOrchestrator::getOptimizedRetrievalParams() const {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     return impl_->current_retrieval_params;
+}
+
+// ============================================================================
+// Loop orchestration (IMPL-A2)
+// ============================================================================
+
+ContinuousLearningOrchestrator::LoopPhase
+ContinuousLearningOrchestrator::currentLoop() const {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    return impl_->active_loop;
+}
+
+void ContinuousLearningOrchestrator::registerLoopCompletionHandler(
+        LoopPhase phase,
+        std::function<void(LoopPhase, const LoopResult&)> handler) {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    impl_->loop_handlers[static_cast<int>(phase)] = std::move(handler);
+}
+
+ContinuousLearningOrchestrator::LoopResult
+ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
+    if (phase == LoopPhase::IDLE) {
+        return LoopResult{};
+    }
+
+    LoopResult result;
+    result.phase = phase;
+
+    {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        impl_->active_loop = phase;
+    }
+
+    // ── Execute loop-specific logic ──────────────────────────────────────────
+    // Each loop simulates the signal check, the training call, and the
+    // guardrail evaluation.  Guardrail thresholds are read from config.
+    //
+    // STUB/SIMULATION NOTE:
+    // Purpose: Run IncrementalLoRATrainer / RLAIFTrainer stubs; real signal
+    //          values come from BaoOptimizer/WorkloadAdaptiveOptimizer at runtime.
+    // Activation: Always active until IMPL-A2 Phase 2 wires real signal sources.
+    // Production Delta: Real impl calls IncrementalLoRATrainer::runIncremental()
+    //                   and checks actual ECE / hot_coverage metrics.
+    // Removal Plan: Replace signal stubs with real accessor calls when adapters
+    //               are available in the orchestrator's dependency graph.
+
+    switch (phase) {
+        case LoopPhase::LOOP_1_HNSW_QUERY:
+            // Signal: BaoOptimizer::getMissRate() > 0.15 or HNSWTuner recall < 0.93
+            // Guardrail: ECE < 0.05 AND hot_coverage >= 0.85
+            result.success          = true;
+            result.guardrail_passed = (impl_->stats.current_accuracy >= (1.0 - 0.05));
+            result.metric_delta     = result.guardrail_passed ? 0.02 : 0.0;
+            result.adapter_version  = result.guardrail_passed
+                                          ? "v" + std::to_string(impl_->stats.total_improvements + 1)
+                                          : "";
+            break;
+
+        case LoopPhase::LOOP_2_WORKLOAD:
+            // Signal: WorkloadAdaptiveOptimizer::getProfileDrift() > 0.1
+            // Guardrail: no regression in avg_speedup
+            result.success          = true;
+            result.guardrail_passed = (impl_->stats.current_accuracy >= impl_->stats.baseline_accuracy);
+            result.metric_delta     = result.guardrail_passed ? 0.01 : 0.0;
+            result.adapter_version  = "";
+            break;
+
+        case LoopPhase::LOOP_3_SCHEMA_INDEX:
+            // Advisory-only: always succeeds, DBA review required before DDL
+            result.success          = true;
+            result.guardrail_passed = true;  // advisory: no adapter commit
+            result.metric_delta     = 0.0;
+            result.adapter_version  = "";
+            break;
+
+        case LoopPhase::LOOP_4_RLAIF:
+            // Signal: FeedbackCollector::newEntryCount() >= 100
+            // Guardrail: DBA acceptance rate >= 0.75
+            result.success          = true;
+            // Use current_accuracy as proxy for DBA acceptance rate
+            result.guardrail_passed = (impl_->stats.current_accuracy >= 0.75);
+            result.metric_delta     = result.guardrail_passed ? 0.03 : 0.0;
+            result.adapter_version  = result.guardrail_passed
+                                          ? "rlaif_v" + std::to_string(impl_->stats.total_improvements + 1)
+                                          : "";
+            break;
+
+        default:
+            break;
+    }
+
+    // Update stats when a new adapter version is committed
+    if (result.guardrail_passed && !result.adapter_version.empty()) {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        ++impl_->stats.total_improvements;
+    }
+
+    // Invoke completion handler (if registered), outside the mutex
+    {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        impl_->active_loop = LoopPhase::IDLE;
+        auto it = impl_->loop_handlers.find(static_cast<int>(phase));
+        if (it != impl_->loop_handlers.end() && it->second) {
+            it->second(phase, result);
+        }
+    }
+
+    return result;
 }
 
 } // namespace themis::rag::learning

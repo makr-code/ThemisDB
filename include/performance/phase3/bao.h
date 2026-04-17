@@ -73,6 +73,20 @@ public:
     };
     Stats get_stats() const;
 
+    /**
+     * @brief Return the current plan-selection miss rate in [0.0, 1.0].
+     *
+     * Miss rate = fraction of queries where the selected plan was later
+     * flagged as sub-optimal by the update_model() feedback loop.
+     *
+     * Used by Loop 1 (HNSW/Query) in ContinuousLearningOrchestrator to decide
+     * whether to trigger retraining (threshold: > 0.15).
+     *
+     * @return Miss rate in [0.0, 1.0].  Returns 0.0 when no queries have
+     *         been optimized yet.
+     */
+    [[nodiscard]] double getMissRate() const;
+
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;

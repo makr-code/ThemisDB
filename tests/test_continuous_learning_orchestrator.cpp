@@ -578,3 +578,143 @@ TEST_F(ContinuousLearningOrchestratorTest, OptimizedParamsThreadSafe) {
 
     SUCCEED();
 }
+
+// ============================================================================
+// IMPL-A2: Loop 1–4 Explicit Orchestration Tests
+// ============================================================================
+
+// Helper: create a uniquely-owned orchestrator on the heap.
+// ContinuousLearningOrchestrator is non-copyable (holds unique_ptr<Impl>).
+#define MAKE_ORCH()  \
+    ContinuousLearningConfig _cfg_; \
+    ContinuousLearningOrchestrator orch(_cfg_)
+
+// 1. Initial loop state is IDLE
+TEST(ImplA2, InitialLoopIsIdle) {
+    MAKE_ORCH();
+    EXPECT_EQ(orch.currentLoop(), ContinuousLearningOrchestrator::LoopPhase::IDLE);
+}
+
+// 2. triggerLoop(IDLE) is a no-op and returns an IDLE LoopResult
+TEST(ImplA2, TriggerIdleIsNoOp) {
+    MAKE_ORCH();
+    auto res = orch.triggerLoop(ContinuousLearningOrchestrator::LoopPhase::IDLE);
+    EXPECT_EQ(res.phase, ContinuousLearningOrchestrator::LoopPhase::IDLE);
+    EXPECT_FALSE(res.success);
+}
+
+// 3. triggerLoop(LOOP_1_HNSW_QUERY) completes and returns to IDLE
+TEST(ImplA2, TriggerLoop1CompletesAndReturnsToIdle) {
+    MAKE_ORCH();
+    auto res = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
+    EXPECT_EQ(res.phase,
+              ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
+    EXPECT_TRUE(res.success);
+    // After completion the orchestrator must return to IDLE
+    EXPECT_EQ(orch.currentLoop(),
+              ContinuousLearningOrchestrator::LoopPhase::IDLE);
+}
+
+// 4. triggerLoop(LOOP_2_WORKLOAD) sets success = true
+TEST(ImplA2, TriggerLoop2Returns) {
+    MAKE_ORCH();
+    auto res = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_2_WORKLOAD);
+    EXPECT_EQ(res.phase,
+              ContinuousLearningOrchestrator::LoopPhase::LOOP_2_WORKLOAD);
+    EXPECT_TRUE(res.success);
+}
+
+// 5. triggerLoop(LOOP_3_SCHEMA_INDEX) is always advisory — guardrail_passed = true
+TEST(ImplA2, Loop3AlwaysGuardrailPassed) {
+    MAKE_ORCH();
+    auto res = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_3_SCHEMA_INDEX);
+    EXPECT_TRUE(res.guardrail_passed);
+    EXPECT_TRUE(res.success);
+}
+
+// 6. triggerLoop(LOOP_4_RLAIF) returns
+TEST(ImplA2, TriggerLoop4Returns) {
+    MAKE_ORCH();
+    auto res = orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF);
+    EXPECT_EQ(res.phase,
+              ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF);
+    EXPECT_TRUE(res.success);
+}
+
+// 7. Completion handler is invoked for the triggered loop
+TEST(ImplA2, CompletionHandlerInvoked) {
+    MAKE_ORCH();
+
+    bool handler_called = false;
+    ContinuousLearningOrchestrator::LoopPhase captured_phase =
+        ContinuousLearningOrchestrator::LoopPhase::IDLE;
+
+    orch.registerLoopCompletionHandler(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY,
+        [&](ContinuousLearningOrchestrator::LoopPhase ph,
+            const ContinuousLearningOrchestrator::LoopResult&) {
+            handler_called  = true;
+            captured_phase  = ph;
+        });
+
+    orch.triggerLoop(ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
+
+    EXPECT_TRUE(handler_called);
+    EXPECT_EQ(captured_phase,
+              ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
+}
+
+// 8. Completion handler NOT invoked for a different loop phase
+TEST(ImplA2, CompletionHandlerNotInvokedForOtherPhase) {
+    MAKE_ORCH();
+
+    bool handler_called = false;
+    orch.registerLoopCompletionHandler(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_2_WORKLOAD,
+        [&](auto, auto) { handler_called = true; });
+
+    // Trigger a DIFFERENT loop
+    orch.triggerLoop(ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY);
+
+    EXPECT_FALSE(handler_called);
+}
+
+// 9. Registering a handler twice replaces the previous one
+TEST(ImplA2, HandlerOverwrittenBySecondRegistration) {
+    MAKE_ORCH();
+
+    int call_count = 0;
+    orch.registerLoopCompletionHandler(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_3_SCHEMA_INDEX,
+        [&](auto, auto) { ++call_count; });
+    // Overwrite
+    orch.registerLoopCompletionHandler(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_3_SCHEMA_INDEX,
+        [&](auto, auto) { call_count += 10; });
+
+    orch.triggerLoop(
+        ContinuousLearningOrchestrator::LoopPhase::LOOP_3_SCHEMA_INDEX);
+
+    // Only the second handler (+=10) should have fired, not both
+    EXPECT_EQ(call_count, 10);
+}
+
+// 10. LoopResult fields are populated — metric_delta >= 0 for successful loops
+TEST(ImplA2, LoopResultMetricDeltaNonNegativeOnSuccess) {
+    MAKE_ORCH();
+    for (auto phase : {
+             ContinuousLearningOrchestrator::LoopPhase::LOOP_1_HNSW_QUERY,
+             ContinuousLearningOrchestrator::LoopPhase::LOOP_2_WORKLOAD,
+             ContinuousLearningOrchestrator::LoopPhase::LOOP_3_SCHEMA_INDEX,
+             ContinuousLearningOrchestrator::LoopPhase::LOOP_4_RLAIF,
+         }) {
+        auto res = orch.triggerLoop(phase);
+        EXPECT_TRUE(res.success) << "phase=" << static_cast<int>(phase);
+        EXPECT_GE(res.metric_delta, 0.0) << "phase=" << static_cast<int>(phase);
+    }
+}
+

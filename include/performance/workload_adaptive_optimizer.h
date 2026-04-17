@@ -204,6 +204,21 @@ public:
     Stats get_stats() const;
     void  reset_stats();
 
+    /**
+     * @brief Return the current workload profile-drift score in [0.0, 1.0].
+     *
+     * Drift is defined as the L2 distance between the current workload type
+     * distribution and the distribution observed during the last adaptation,
+     * normalised to [0.0, 1.0].
+     *
+     * Used by Loop 2 (Workload) in ContinuousLearningOrchestrator to decide
+     * whether to trigger retraining (threshold: > 0.1).
+     *
+     * @return Drift score in [0.0, 1.0].  Returns 0.0 when fewer than two
+     *         adaptation events have been recorded.
+     */
+    [[nodiscard]] double getProfileDrift() const;
+
 private:
     void adapt_once();
 

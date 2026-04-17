@@ -259,6 +259,17 @@ public:
      * @return Number of entries deleted
      */
     size_t clearFeedback(const std::string& prompt_id);
+
+    /**
+     * @brief Return the total number of feedback entries recorded since last clear.
+     *
+     * Used by Loop 4 (RLAIF) in ContinuousLearningOrchestrator to decide
+     * whether sufficient preference-pair data has accumulated to trigger a
+     * training round (threshold: >= 100 entries).
+     *
+     * @return Total number of entries across all prompt IDs.
+     */
+    [[nodiscard]] size_t newEntryCount() const;
     
     /**
      * @brief Get feedback entries for a specific prompt (paginated)

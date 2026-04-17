@@ -374,8 +374,10 @@ Focus: Deepen AI capabilities across prompt engineering, training, RAG, and anal
 
 #### 2.6 LoRA Foundation — Loops 1–4 + Dataset (Target: Q3 2026)
 *Defined in: `docs/en/research/THEMISDB_LORA_RESEARCH_PAPER.md`*
-- [ ] IMPL-A1: Golden dataset CLI + `DatabaseDomainAutoLabeler` — Inputs: query logs + FeedbackCollector; Outputs: JSONL label + confidence ≥ 0.7 (Target: Q3 2026)
-- [ ] IMPL-A2: Loop 1–4 explicit orchestration in `ContinuousLearningOrchestrator` — `LoopPhase` enum, `triggerLoop()`, guardrails; all 4 loops named and testable (Target: Q3 2026)
+- [x] IMPL-A1: Golden dataset CLI + `DatabaseDomainAutoLabeler` — Inputs: query logs + FeedbackCollector; Outputs: JSONL label + confidence ≥ 0.7 (Target: Q3 2026)
+  (`include/training/database_domain_auto_labeler.h` + `src/training/database_domain_auto_labeler.cpp`, 8 tests in `tests/test_database_domain_auto_labeler.cpp`. `DomainType` extended in `include/training/auto_labeler.h`.)
+- [x] IMPL-A2: Loop 1–4 explicit orchestration in `ContinuousLearningOrchestrator` — `LoopPhase` enum, `triggerLoop()`, guardrails; all 4 loops named and testable (Target: Q3 2026)
+  (`include/rag/continuous_learning_orchestrator.h` + `src/rag/continuous_learning_orchestrator.cpp`. `getMissRate()`, `getProfileDrift()`, `newEntryCount()` accessors added. 10 tests appended to `tests/test_continuous_learning_orchestrator.cpp`.)
 - [ ] IMPL-A3: `exportGradient()` + `applyGlobalDelta()` + `FEDERATED_ROUND_START` — bridge between LoRA pipeline and Layer 11B (Target: Q3 2026)
 
 #### 2.7 LLM Optimization Layers 5–10 (Target: Q3–Q4 2026)

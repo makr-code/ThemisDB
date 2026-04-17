@@ -264,10 +264,14 @@ See `docs/decisions/ADR-001-decision-record-yaml-processor.md`.
 
 ### Remaining Integration Tasks (Target: v1.9.0)
 
-- [ ] `LoraRouter::setDecisionRecordProcessor()` — `LORA_ADAPTER_SELECTION`
-- [ ] `AdapterLoadBalancer::setDecisionRecordProcessor()` — `LORA_RANK_ADJUSTMENT`
-- [ ] `LoraOrchestrator::setDecisionRecordProcessor()` — `LOOP_TRIGGER`
-- [ ] End-to-end integration test (federation round → YAML file on disk)
+- [x] `LoraRouter::setDecisionRecordProcessor()` — `LORA_ADAPTER_SELECTION`
+  (9 tests in `tests/test_decision_record_integration.cpp`)
+- [x] `AdapterLoadBalancer::setDecisionRecordProcessor()` — `LORA_RANK_ADJUSTMENT`
+  (9 tests in `tests/test_decision_record_integration.cpp`)
+- [x] `LoraOrchestrator::setDecisionRecordProcessor()` — `LOOP_TRIGGER`
+  (9 tests in `tests/test_decision_record_integration.cpp`)
+- [x] End-to-end integration test (federation round → YAML file on disk)
+  (3 tests in `tests/test_decision_record_e2e.cpp`)
 
 ### Document Map (Decision Records)
 

@@ -28,6 +28,7 @@
 #pragma once
 
 #include <chrono>
+#include <functional>
 #include <memory>
 #include <string>
 #include <vector>
@@ -229,6 +230,67 @@ class ContinuousLearningOrchestrator {
      * @return Current optimized retrieval parameters (thread-safe read).
      */
     RetrievalParams getOptimizedRetrievalParams() const;
+
+    // ---- Loop orchestration (IMPL-A2) ----------------------------------------
+
+    /**
+     * @brief Named learning loops as defined in THEMISDB_LORA_RESEARCH_PAPER.md §5.
+     *
+     * - LOOP_1_HNSW_QUERY   : Daily, fully autonomous — HNSW/BaoOptimizer retraining.
+     * - LOOP_2_WORKLOAD     : Weekly, fully autonomous — workload-profile adaptation.
+     * - LOOP_3_SCHEMA_INDEX : Weekly, advisory-only  — schema / index suggestions.
+     * - LOOP_4_RLAIF        : Monthly, semi-autonomous — preference-pair RLAIF.
+     * - IDLE                : No loop currently active.
+     */
+    enum class LoopPhase {
+        IDLE                = 0,
+        LOOP_1_HNSW_QUERY   = 1,
+        LOOP_2_WORKLOAD     = 2,
+        LOOP_3_SCHEMA_INDEX = 3,
+        LOOP_4_RLAIF        = 4,
+    };
+
+    /**
+     * @brief Result produced by a loop execution.
+     */
+    struct LoopResult {
+        LoopPhase   phase            = LoopPhase::IDLE;
+        bool        success          = false;
+        bool        guardrail_passed = false; ///< False → adapter commit blocked.
+        std::string adapter_version;          ///< Newly registered adapter version (if any).
+        double      metric_delta     = 0.0;   ///< Δ(primary_metric) for this round.
+    };
+
+    /**
+     * @brief Return the currently active loop phase (IDLE when no loop runs).
+     */
+    [[nodiscard]] LoopPhase currentLoop() const;
+
+    /**
+     * @brief Explicitly trigger a named learning loop.
+     *
+     * Runs the loop's data pipeline, optional IncrementalLoRATrainer step, and
+     * guardrail check.  The registered completion handler (if any) is invoked
+     * synchronously before returning.
+     *
+     * @param phase  Loop to trigger.  Passing IDLE is a no-op.
+     * @return LoopResult describing the outcome.
+     */
+    LoopResult triggerLoop(LoopPhase phase);
+
+    /**
+     * @brief Register a completion handler for a specific loop phase.
+     *
+     * The handler is called (synchronously) at the end of every `triggerLoop()`
+     * invocation for the specified phase.  Only one handler per phase is
+     * supported; a second call overwrites the previous one.
+     *
+     * @param phase    Loop phase to register for.
+     * @param handler  Callable accepting (LoopPhase, LoopResult).
+     */
+    void registerLoopCompletionHandler(
+        LoopPhase phase,
+        std::function<void(LoopPhase, const LoopResult&)> handler);
 
   private:
     struct Impl;
