@@ -17,6 +17,7 @@
 - `src/rag/README.md`
 - `src/rag/ROADMAP.md`
 - `src/rag/SECURITY.md`
+- `src/rag/examples/README.md`
 
 **Bezug / Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -54,6 +55,12 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`rag`** aus
 | `README.md` | [`src/rag/README.md`](../../../src/rag/README.md) |
 | `ROADMAP.md` | [`src/rag/ROADMAP.md`](../../../src/rag/ROADMAP.md) |
 | `SECURITY.md` | [`src/rag/SECURITY.md`](../../../src/rag/SECURITY.md) |
+
+### `src/rag/examples/`
+
+| Datei | Pfad |
+|-------|------|
+| `README.md` | [`src/rag/examples/README.md`](../../../src/rag/examples/README.md) |
 
 ---
 

@@ -207,6 +207,31 @@ TemporalSnapshot TemporalConflictResolver::resolveCRDT(
     if (resolver) {
         return resolver->merge(local, remote);
     }
+    TemporalSnapshot result = newer;
+    result.data = std::move(merged);
+    return result;
+}
+
+TemporalSnapshot UnionMergeResolver::merge(
+    const TemporalSnapshot& local,
+    const TemporalSnapshot& remote) const {
+
+    const TemporalSnapshot& newer = (local.hlc < remote.hlc) ? remote : local;
+    const TemporalSnapshot& older = (local.hlc < remote.hlc) ? local  : remote;
+
+    if (!newer.data.is_object() || !older.data.is_object()) {
+        // Non-object payloads: newer wins outright
+        TemporalSnapshot result = newer;
+        return result;
+    }
+
+    // Start from older and layer in newer (newer wins on conflict)
+    nlohmann::json merged = older.data;
+    for (auto& [key, value] : newer.data.items()) {
+        merged[key] = value;
+    }
+    // Then add any fields from older that are absent in newer (true union)
+    // (already present since we started from older.data — no extra step needed)
 
     // Built-in fallback: LWW-Register per field (preserved for backward compat).
     return LWWFieldMergeResolver{}.merge(local, remote);

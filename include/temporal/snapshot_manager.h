@@ -90,6 +90,39 @@ struct SnapshotMetadata {
 };
 
 /**
+ * Result of comparing two snapshots for the same table.
+ *
+ * - `added`    — rows present in `handle_b` but absent in `handle_a`.
+ * - `removed`  — rows present in `handle_a` but absent in `handle_b`.
+ * - `modified` — rows present in both snapshots whose `data` has changed
+ *                (contains the `handle_b` version).
+ */
+struct SnapshotDiff {
+    std::vector<VersionedDocument> added;
+    std::vector<VersionedDocument> removed;
+    std::vector<VersionedDocument> modified;
+
+    bool empty() const noexcept {
+        return added.empty() && removed.empty() && modified.empty();
+    }
+
+    size_t totalChanges() const noexcept {
+        return added.size() + removed.size() + modified.size();
+    }
+
+    nlohmann::json toJson() const {
+        auto to_json_arr = [](const std::vector<VersionedDocument>& v) {
+            nlohmann::json arr = nlohmann::json::array();
+            for (const auto& doc : v) { arr.push_back(doc.toJson()); }
+            return arr;
+        };
+        return {{"added",    to_json_arr(added)},
+                {"removed",  to_json_arr(removed)},
+                {"modified", to_json_arr(modified)}};
+    }
+};
+
+/**
  * TemporalSnapshotManager
  *
  * Captures the state of one or more SystemVersionedTable instances at the

@@ -9,6 +9,7 @@
 - `include/storage/README.md`
 - `include/storage/ROADMAP.md`
 - `include/storage/SECURITY.md`
+- `include/storage/examples/README.md`
 - `src/storage/ARCHITECTURE.md`
 - `src/storage/AUDIT.md`
 - `src/storage/CHANGELOG.md`
@@ -40,6 +41,12 @@ This index lists all Markdown documentation files for module **`storage`** from 
 | `README.md` | [`include/storage/README.md`](../../../include/storage/README.md) |
 | `ROADMAP.md` | [`include/storage/ROADMAP.md`](../../../include/storage/ROADMAP.md) |
 | `SECURITY.md` | [`include/storage/SECURITY.md`](../../../include/storage/SECURITY.md) |
+
+### `include/storage/examples/`
+
+| File | Path |
+|------|------|
+| `README.md` | [`include/storage/examples/README.md`](../../../include/storage/examples/README.md) |
 
 ### `src/storage/`
 

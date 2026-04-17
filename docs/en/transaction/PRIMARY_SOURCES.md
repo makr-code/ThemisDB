@@ -9,6 +9,7 @@
 - `include/transaction/README.md`
 - `include/transaction/ROADMAP.md`
 - `include/transaction/SECURITY.md`
+- `include/transaction/examples/README.md`
 - `src/transaction/ARCHITECTURE.md`
 - `src/transaction/AUDIT.md`
 - `src/transaction/CHANGELOG.md`
@@ -40,6 +41,12 @@ This index lists all Markdown documentation files for module **`transaction`** f
 | `README.md` | [`include/transaction/README.md`](../../../include/transaction/README.md) |
 | `ROADMAP.md` | [`include/transaction/ROADMAP.md`](../../../include/transaction/ROADMAP.md) |
 | `SECURITY.md` | [`include/transaction/SECURITY.md`](../../../include/transaction/SECURITY.md) |
+
+### `include/transaction/examples/`
+
+| File | Path |
+|------|------|
+| `README.md` | [`include/transaction/examples/README.md`](../../../include/transaction/examples/README.md) |
 
 ### `src/transaction/`
 

@@ -100,6 +100,45 @@ v1.6.0 – AdaLoRA (adaptive rank pruning), LoRAAdapterMerger (TIES + linear), a
 - [x] Standalone focused test targets for training module (`ModalityParserFocusedTests`, `TrainingConvergenceFocusedTests`)
 - [?] Active learning loop (auto-select most informative unlabelled samples)
 
+### Phase 4: DATABASE_OPTIMIZER Domain AutoLabeler — IMPL-A1 (Target: Q3 2026)
+
+> *Paper 1 — §5 Training Data Pipeline / §7.4 Golden Dataset Construction*
+> Issue: [docs/issues/lora_loops/IMPL-A1-dataset-construction.md](../../docs/issues/lora_loops/IMPL-A1-dataset-construction.md)
+
+- [ ] Add `DomainType::DATABASE_OPTIMIZER` to `DomainType` enum in `include/training/auto_labeler.h`
+- [ ] Implement `DatabaseDomainAutoLabeler` class: extends `LegalAutoLabeler` infrastructure, labels `(query, plan, Δlatency)` triples
+- [ ] Add `DATABASE_OPTIMIZER` branch to `LegalAutoLabeler::categorize()` dispatch table
+- [ ] Add domain keywords (EXPLAIN, index scan, seq scan, hash join, latency, p99) to `LoRADataSelectionConfig`
+- [ ] Implement optimizer-log export CLI: emits JSONL with `(query, explain_plan, latency_delta_ms)` fields
+- [ ] Confidence score: `tanh(|Δlatency_ms| / 50)` — labels with |Δlatency| < 5 ms auto-rejected
+- [ ] Validation against `LoRADataSelectionPipeline` quality filters (duplicate-query dedup, min confidence 0.85)
+- [ ] Collect 1 000 labeled pairs from all 4 loops as minimum viable golden dataset
+- [ ] 8 new unit tests: `DBO-01` … `DBO-08` in `tests/test_training_database_optimizer.cpp`
+  - `DBO-01` categorize() returns `DATABASE_OPTIMIZER` for EXPLAIN output sample
+  - `DBO-02` confidence 0.0 for |Δlatency| = 0 ms
+  - `DBO-03` confidence ≥ 0.85 for |Δlatency| = 50 ms
+  - `DBO-04` domain keyword match triggers correct domain type
+  - `DBO-05` CLI export produces valid JSONL
+  - `DBO-06` duplicate query filtered by LoRADataSelectionPipeline
+  - `DBO-07` medical/legal domains unaffected by DATABASE_OPTIMIZER branch
+  - `DBO-08` 1 000 sample golden dataset passes all quality filters
+
+### Phase 5: Federation Bridges — IMPL-A3 (Target: Q3 2026)
+
+> *Paper 1+3 — §4.5 Adapter Lifecycle / Distributed Knowledge §Layer B*
+> Issue: [docs/issues/lora_loops/IMPL-A3-federation-hooks.md](../../docs/issues/lora_loops/IMPL-A3-federation-hooks.md)
+
+- [ ] Implement `IncrementalLoRATrainer::exportGradient()` → `EncryptedGradient` (opaque blob, AES-256-GCM)
+- [ ] Implement `IncrementalLoRATrainer::applyGlobalDelta(const GlobalAdapterDelta&)` → applies FedAvg aggregate to local adapter weights
+- [ ] Define `EncryptedGradient` and `GlobalAdapterDelta` structs in `training_interfaces.h`
+- [ ] Privacy invariant: `exportGradient()` output must never contain raw training samples — enforced by unit test
+- [ ] 5 new unit tests: `FED-01` … `FED-05` in `tests/test_training_federation_hooks.cpp`
+  - `FED-01` `exportGradient()` returns non-empty blob after training
+  - `FED-02` `applyGlobalDelta()` verifiably changes adapter weights (weight-diff ≠ 0)
+  - `FED-03` applying zero-delta leaves weights unchanged
+  - `FED-04` privacy: raw sample text absent from `EncryptedGradient` serialised bytes
+  - `FED-05` double-apply is idempotent when delta == 0
+
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (8 test files, 4,381 lines; ConfidenceCalibrator, ModalityParser, Pipeline E2E, Data Selection, Checkpoint, Provenance all covered)
 - [x] Integration tests (label → train → evaluate → deploy lifecycle) – `test_training_pipeline_e2e.cpp`

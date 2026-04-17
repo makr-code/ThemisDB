@@ -126,3 +126,29 @@
     **Spark: Cluster Computing with Working Sets.**
     *Proceedings of the 2nd USENIX Workshop on Hot Topics in Cloud Computing (HotCloud)*, 10.
     *(async pipeline orchestration patterns for ITrainingPipeline)*
+
+---
+
+## Paper 1 — Self-Optimising LoRA Loops (Cross-Module Vision)
+
+> Full research paper: `docs/en/research/THEMISDB_LORA_RESEARCH_PAPER.md`
+> Master plan: `docs/issues/MASTER_IMPLEMENTATION_PLAN.md`
+
+### DATABASE_OPTIMIZER Domain (IMPL-A1)
+- Extend `DomainType` enum with `DATABASE_OPTIMIZER` for automatic labeling of `(query, explain_plan, Δlatency_ms)` triples
+- Golden dataset construction from real workload captures; minimum 1 000 labeled pairs
+- Confidence scoring: `tanh(|Δlatency_ms| / 50)` — reproducible, workload-agnostic
+
+### Loop Orchestration Integration (IMPL-A2)
+- `IncrementalLoRATrainer` is Loop 4 in `ContinuousLearningOrchestrator`; it must be invokable via `triggerLoop4AdapterImprovement()`
+- Loop 4 completion fires `FEDERATED_ROUND_START` event (24 h cooldown guard)
+
+### Federation Bridges (IMPL-A3)
+- `exportGradient()` → `EncryptedGradient` (AES-256-GCM; no raw sample content may appear in blob)
+- `applyGlobalDelta(const GlobalAdapterDelta&)` → FedAvg aggregate applied to local adapter weights
+- Consumed by `LoRAFederationCoordinator` in `distributed_knowledge` module (Layer B)
+
+### Performance Targets
+- `exportGradient()` serialisation ≤ 50 ms for rank-32 adapter
+- `applyGlobalDelta()` weight update ≤ 100 ms for rank-32 adapter
+- Loop 4 full training cycle ≤ 30 min on single GPU, 5 min on 4-GPU cluster

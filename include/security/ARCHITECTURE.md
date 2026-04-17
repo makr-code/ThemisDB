@@ -79,7 +79,9 @@ security logic resides in `../../src/security/`; these headers define the contra
 | `vcc_pki_client.h` | `VccPkiClient` | VCC/internal PKI client |
 | `vram_secure_clear.h` | `VramSecureClear` | GPU VRAM secure memory zeroing |
 | `zero_trust_policy_enforcer.h` | `ZeroTrustPolicyEnforcer` | Zero-trust policy evaluation engine |
+| *(planned)* `intent_classifier.h` | `IntentClassifier`, `IntentAlert` | Layer 7: semantic query-intent analysis; sets `session_risk_score` via ZeroTrustPolicyEnforcer (IMPL-B7) |
 
 ---
 
 > Implementation details in `../../src/security/`. Header-only interfaces only; no business logic in `include/`.
+> **Paper 2 addition (IMPL-B7):** `IntentClassifier` receives `AnomalyScore` from `MLAnomalyDetector` as a prior; alerts with confidence ≥ 0.85 update `ZeroTrustContext::session_risk_score`.

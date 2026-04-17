@@ -101,6 +101,20 @@ API stable — no breaking changes planned before v2.0.0.
 - [ ] API reference (Doxygen HTML) published to docs site (Target: Q3 2026)
 - [ ] Migration guide v1.x → v2.0 (Target: Q4 2026)
 
+### Phase 7 — DATABASE_OPTIMIZER AutoLabeler (IMPL-A1) & Federation Bridges (IMPL-A3) (Target: Q3 2026)
+
+> *Paper 1 implementation items from `docs/issues/MASTER_IMPLEMENTATION_PLAN.md`*
+
+- [ ] `DomainType::DATABASE_OPTIMIZER` in `auto_labeler.h` + `DatabaseDomainAutoLabeler` class (IMPL-A1)
+- [ ] Optimizer-log export CLI: `(query, explain_plan, Δlatency_ms)` JSONL format (IMPL-A1)
+- [ ] Confidence function: `tanh(|Δlatency_ms| / 50)`, floor at 0.85 (IMPL-A1)
+- [ ] Collect 1 000 labeled pairs as minimum viable golden dataset (IMPL-A1)
+- [ ] `IncrementalLoRATrainer::exportGradient()` → `EncryptedGradient` (AES-256-GCM blob) (IMPL-A3)
+- [ ] `IncrementalLoRATrainer::applyGlobalDelta(const GlobalAdapterDelta&)` (IMPL-A3)
+- [ ] `EncryptedGradient` + `GlobalAdapterDelta` structs in `training_interfaces.h` (IMPL-A3)
+- [ ] Privacy invariant test: raw sample text absent from exported gradient blob (IMPL-A3)
+- [ ] 13 new unit tests across `test_training_database_optimizer.cpp` and `test_training_federation_hooks.cpp`
+
 ---
 
 ## Production Readiness Checklist

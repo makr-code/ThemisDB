@@ -89,6 +89,11 @@ The storage module provides:
 | `wal_storage.h` | `WalStorage` | WAL-backed durable write interface |
 | `wom_tree.h` | `WomTree` | Write-optimised merge tree structure |
 | `zero_copy_blob_transfer.h` | `ZeroCopyBlobTransfer` | Zero-copy blob send/receive via sendfile/splice |
+| *(planned)* `schema_dead_weight_detector.h` | `SchemaDeadWeightDetector`, `DeadWeightReport` | Layer 6: 180-day rolling access analysis; identifies archivable fields/collections (IMPL-B6) |
+| *(planned)* `storage_layout_advisor.h` | `StorageLayoutAdvisor`, `LayoutHint` | Layer 10: row/columnar/tiered layout recommendation per collection profile (IMPL-B10) |
+
+> **Paper 2 additions (IMPL-B6, IMPL-B10):**
+> Both advisors write `DecisionRecord` to `AIDecisionAuditor`. GDPR-tagged fields are always retained by `SchemaDeadWeightDetector`. `StorageLayoutAdvisor` feeds into the `distributed_knowledge` Layer 11C merge path.
 
 ---
 

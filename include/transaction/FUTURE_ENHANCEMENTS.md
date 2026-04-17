@@ -661,3 +661,29 @@ All new headers must include:
 ## License
 
 Copyright © 2024 ThemisDB Contributors. Licensed under Apache 2.0.
+
+---
+
+## Paper 2 — Layer 5: TransactionSemanticAdvisor (IMPL-B5)
+
+> Research paper: `docs/en/research/LLM_OPTIMIZATION_LAYERS_MATRIX.md` §Layer 5
+> Issue: `docs/issues/optimization_layers/IMPL-B5-transaction-semantics.md`
+
+### Scope
+- `TransactionSemanticAdvisor` complements the existing `DeadlockPredictor` with semantic-level batch ordering hints
+- Inputs: `TransactionBatch` (write-set key ranges + operation types), `DeadlockPredictor::predict()` score
+- Outputs: `BatchAffinityHint { hint_type, affected_keys, confidence, retry_reduction_estimate }`
+
+### Design Constraints
+- Hint computation must complete ≤ 2 ms p99 at 10 k transactions/s
+- Must not access GDPR-tagged field values — key-range analysis only
+- Non-blocking: advisor runs on a separate thread pool; results are advisory, never blocking
+
+### Integration Notes
+- `TransactionBatcher::setBatchConfig()` consumers may optionally query the advisor before submitting a batch
+- Advisor writes `DecisionRecord` to `AIDecisionAuditor` for every non-trivial hint (confidence ≥ 0.75)
+- Future: cross-shard hint sharing via `distributed_knowledge` Layer 11 workload fingerprint
+
+### Performance Targets
+- Hint computation: ≤ 2 ms p99 for 1 000-transaction batch
+- Retry reduction: ≥ 15 % fewer retries in simulation scenarios with high write-set overlap

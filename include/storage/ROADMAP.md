@@ -43,19 +43,19 @@ migration.
 
 ### Q2 2026
 
-- [ ] `vector_index_backend.h` — ANN / HNSW index backend interface
-      (Target: Q2 2026)
+- [x] `vector_index_backend.h` — ANN / HNSW index backend interface
+      (Implemented: 2026-04-17)
   - Supports cosine, dot-product, and L2 distance metrics
   - Inputs: float32 / float16 embedding vectors, index config
   - Outputs: k-NN result set with distance scores
   - Constraints: interface must be backend-agnostic (FAISS, hnswlib, custom)
-  - Tests: unit + recall@k benchmarks
+  - Tests: 12 unit tests VIB-01…VIB-12 in `tests/test_vector_index_comprehensive.cpp`
 
-- [ ] `encrypted_blob_backend.h` — transparent client-side encryption backend
-      (Target: Q2 2026)
+- [x] `encrypted_blob_backend.h` — transparent client-side encryption backend
+      (Implemented: 2026-04-17)
   - AES-256-GCM per-object key wrapping
-  - Key material via `security_signature_manager.h`
-  - Tests: encryption/decryption round-trip + key rotation tests
+  - Key material via `IEncryptionKeyProvider` (StaticKeyProvider bundled)
+  - Tests: 10 unit tests EBB-01…EBB-10 in `tests/test_encrypted_blob_backend.cpp`
 
 ### Q3 2026
 
@@ -123,6 +123,33 @@ migration.
 - [ ] Update ARCHITECTURE.md with new headers
 - [ ] Update CHANGELOG.md with all new symbols
 - [ ] Acceptance review against production-readiness checklist
+
+### Phase 7 — SchemaDeadWeightDetector (IMPL-B6) & StorageLayoutAdvisor (IMPL-B10) (Target: Q3–Q4 2026)
+
+> *Paper 2 — Layer 6: Schema Evolution Orchestration · Layer 10: Storage Layout Advisory*
+> Issues: [IMPL-B6](../../docs/issues/optimization_layers/IMPL-B6-schema-deadweight.md) · [IMPL-B10](../../docs/issues/optimization_layers/IMPL-B10-layout-advisor.md)
+
+#### SchemaDeadWeightDetector (IMPL-B6)
+
+- [x] New header: `include/storage/schema_dead_weight_detector.h` (Implemented: 2026-04-17)
+- [x] `SchemaDeadWeightDetector::analyzeCollection(const CollectionStats&)` → `DeadWeightReport`
+- [x] `DeadWeightCandidate { field_name, last_write_ts, access_count_30d, gdpr_tagged, recommendation }`
+- [x] Rolling 180-day access window (configurable) — field with 0 reads AND 0 writes → candidate
+- [x] GDPR guard: GDPR-tagged fields always classified `recommendation = RETAIN` regardless of access count
+- [x] Seasonal field protection: if `access_count_90d_prior > 0`, apply seasonal-flag — never auto-archived
+- [x] Cross-shard access aggregation hook: `setShardAccessSource(IShardAccessStats*)` for Layer 11C input
+- [x] Writes `DecisionRecord` to `AIDecisionAuditor` for every archival recommendation
+- [x] 10 unit tests `SDWD-01` … `SDWD-10` in `tests/test_schema_dead_weight_detector.cpp`
+
+#### StorageLayoutAdvisor (IMPL-B10)
+
+- [x] New header: `include/storage/storage_layout_advisor.h` (Implemented: 2026-04-17)
+- [x] `StorageLayoutAdvisor::adviseLayout(const CollectionProfile&)` → `LayoutHint`
+- [x] `LayoutType` enum: `ROW_STORE`, `COLUMNAR`, `HYBRID`, `COMPRESSED_COLUMNAR`, `TIERED`
+- [x] Columnar recommendation trigger: temporal time-series with ≥ 10 k rows/day write rate
+- [x] Compression estimate: ≥ 50 % compression ratio improvement for columnar vs. row-store
+- [x] Writes `DecisionRecord` to `AIDecisionAuditor`
+- [x] 10 unit tests `SLA-01` … `SLA-10` in `tests/test_storage_layout_advisor.cpp`
 
 ---
 

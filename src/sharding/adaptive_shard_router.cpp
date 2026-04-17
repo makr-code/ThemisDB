@@ -18,6 +18,7 @@
  */
 
 #include "sharding/adaptive_shard_router.h"
+#include "distributed_knowledge/adapter_capability_announcement.h"
 #include <algorithm>
 #include <chrono>
 #include <sstream>
@@ -62,6 +63,54 @@ AdaptiveShardRouter::AdaptiveShardRouter(
         truetime
     )
 {
+}
+
+void AdaptiveShardRouter::updateAdapterCapability(
+    const std::string& shard_id,
+    const themis::distributed_knowledge::AdapterCapabilityAnnouncement& announcement
+) {
+    std::lock_guard<std::mutex> lock(domain_scores_mutex_);
+    shard_domain_scores_[shard_id][announcement.domain_type] = announcement.accuracy_delta;
+}
+
+std::string AdaptiveShardRouter::routeByDomain(
+    themis::distributed_knowledge::AdapterDomainType domain
+) const {
+    std::lock_guard<std::mutex> lock(domain_scores_mutex_);
+
+    std::string best_shard;
+    double best_delta = std::numeric_limits<double>::lowest();
+    bool found = false;
+
+    for (const auto& [shard_id, domain_map] : shard_domain_scores_) {
+        auto it = domain_map.find(domain);
+        if (it != domain_map.end()) {
+            if (!found || it->second > best_delta) {
+                best_delta = it->second;
+                best_shard = shard_id;
+                found = true;
+            }
+        }
+    }
+
+    return best_shard; // empty string when no score exists for this domain
+}
+
+double AdaptiveShardRouter::getAdapterAccuracyDelta(
+    const std::string& shard_id,
+    themis::distributed_knowledge::AdapterDomainType domain
+) const {
+    std::lock_guard<std::mutex> lock(domain_scores_mutex_);
+
+    auto shard_it = shard_domain_scores_.find(shard_id);
+    if (shard_it == shard_domain_scores_.end()) {
+        return 0.0;
+    }
+    auto domain_it = shard_it->second.find(domain);
+    if (domain_it == shard_it->second.end()) {
+        return 0.0;
+    }
+    return domain_it->second;
 }
 
 nlohmann::json AdaptiveShardRouter::executeQuery(const std::string& query) {

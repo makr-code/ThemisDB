@@ -1212,6 +1212,167 @@ Hinweis 2026-04-12 (Update): `TimeseriesBenchmarkFixture/TimeRangeQuery/*` laeuf
 | L-7 GPU Utilization (Mixed Workloads) |  10 % Verbesserung |  |  |
 | L-8 Speculative Decoding Throughput |  2× tokens/s (7B + 0,5B Draft) |  |  |
 
+##### 14.1 LLM/AdaLoRA — Laufzeit-Einflussmechanismen (7 Klassen)
+
+> **Quelle:** Paper 1 `docs/de/research/VERTEILTES_WISSEN_FEDERATION.md` §12 ·
+> Paper 2 `docs/en/research/DISTRIBUTED_KNOWLEDGE_FEDERATION.md` §12 ·
+> Config: `config/lora/adalora_optimization_strategy.yaml` ·
+> `config/ai_ml/llm/llm_optimization_strategy.yaml`
+
+Die sieben Klassen zeigen, wie LLM-Infrastruktur und AdaLoRA die oben gemessenen SLOs
+(L-1…L-8) zur **Laufzeit** beeinflussen — ohne Neustart oder Recompile.
+
+**Klasse 1 — Switch** *(binär: ON | OFF — deterministischer Codepfad-Wechsel)*
+
+| Switch | Zustand ON | Zustand OFF | SLO-Wirkung |
+|---|---|---|---|
+| `bypass_dedup_cache_for_streaming` | Cache bypassed | Dedup aktiv | TTFT −10 ms (L-1) |
+| `enable_draft_kv_cache` | Speculative Decoding aktiv | Standard-Autoregressive | Throughput ×2 (L-6/L-8) |
+| `hot_swap.enabled` | LoRA-Swap ohne Neustart | Restart erforderlich | Swap ≤ 5 s (L-3) |
+| `importance_pruning.enabled` | Rank-Budget-Kompression | Fester Rank | Memory ↓ (§39.20) |
+| `federation.broadcast_importance_scores` | Cross-Shard-Pruning aktiv | Nur lokales Pruning | IMPL-A3 |
+
+**Klasse 2 — Fader** *(kontinuierlich signiert: −x … 0 … +x — Hot-Reload via SIGHUP)*
+
+> Fader sind gerichtete numerische Parameter mit **Neutral-Punkt**. Ein Wert
+> *unter* dem Neutral-Punkt dämpft eine Qualitätsdimension; ein Wert *darüber*
+> verstärkt sie — stets auf Kosten der Gegendimension.
+
+| Fader | Negativ-Pol (↓) | Neutral | Positiv-Pol (↑) | Trade-off |
+|---|---|---|---|---|
+| `acceptance_threshold` | 0.6 → permissiv → Throughput ↑ | 0.75 | 0.9 → streng → Korrektheit ↑ | Throughput ↔ Korrektheit |
+| `speculative_tokens` | 3 → konservativ → TTFT stabil | 6 | 10 → aggressiv → TTFT ↓ / Acceptance ↓ | TTFT ↔ Acceptance-Rate |
+| `total_rank_budget` | 128 → komprimiert → Memory ↓ | 512 | 1024 → expansiv → Qualität ↑ | Memory ↔ Modellqualität |
+| `pruning_interval_steps` | 50 → häufig → Overhead ↑ | 200 | 500 → selten → Adaptivität ↓ | Overhead ↔ Adaptivität |
+| `chunked_prefill_size` | 512 → klein → TTFT ↓ | 1024 | 2048 → groß → Interleave ↓ | TTFT ↔ Decode-Interleave |
+| `worker_threads` | 2 → wenig → Latenz P99 ↑ | 8 | 16 → viel → CPU-Overhead ↑ | Dispatch-Latenz ↔ CPU (L-5) |
+
+**Klasse 3 — Optimizer** *(minimiert/maximiert Zielfunktion; keine Umgebungswahrnehmung)*
+
+| Optimizer | Zielfunktion | Eingabe | Ausgabe | Issue |
+|---|---|---|---|---|
+| `WorkloadFingerprintEngine` (B8) | min. Klassifikationsfehler | Query-Mix-Histogramm | `total_rank_budget` | IMPL-B8 |
+| FedAvg Rank-Aggregation (`lora_federation_coordinator`) | min. federated loss | Importance-Scores aller Shards | Globaler Gewichts-Score | IMPL-A3 |
+| TIES-Merge SVD (`LoRAAdapterMerger`) | min. Parameterkonflikt | Adapter-Tensoren | Merged Checkpoint | PR #4405 |
+| BayesianOptimizer (RAG §RA-7) | max. F1@200 Events | Retrieval-Parameter | Optimale Hyperparameter | RA-7 |
+
+**Klasse 4 — Agentic Solver** *(Wahrnehmung → Entscheidung → Aktion; autonom)*
+
+| Agentic Solver | Wahrnehmung | Entscheidung | Aktion | Issue |
+|---|---|---|---|---|
+| `SelfImprovementModule` (DK-4) | Acceptance + Confidence Metriken | Threshold anpassen? | Config hot-rewrite | DK-4 |
+| LLM Intent Classifier (Ebene 7) | Query-Semantik + Session-Kontext | Risiko-Level (LOW/MED/HIGH) | Route / Throttle / Block | §8.7 |
+| `CrossShardFeedbackSync` | Per-Shard-Qualitäts-Deltas | Gradient propagieren? | Federated update broadcast | DK-6 |
+
+**Klasse 5 — Closed Loop** *(Ausgabe gemessen → als Korrektursignal zurückgeführt)*
+
+| Loop | Sensor (Ausgabe) | Regler | Stellgröße |
+|---|---|---|---|
+| AdaLoRA Rank-Allokation | Importance-Score pro Layer | AdaLoRA-Algorithmus | Rank-Budget per Layer |
+| CI SLO-Gate | P99 Regression vs. Baseline | Gate: block if > 20 % | Deployment-Freigabe |
+| RLAIF Quality-Loop (`SelfImprovementModule`) | Output-Qualität (AI/Human-Eval) | Threshold-Update-Logik | Acceptance-Threshold |
+
+**Klasse 6 — Open Loop** *(Aktion durch Input ausgelöst; kein Feedback-Pfad)*
+
+| Trigger | Aktion | Kein Feedback weil |
+|---|---|---|
+| `SIGHUP` vom Operator | Config hot-reload | Kein Quality-Signal zurück zum Operator |
+| Gossip-Broadcast (Importance-Scores) | Peer-Shards empfangen Scores | Sender erfährt nicht ob Peer reagiert hat |
+| LoRA Hot-Swap (Workload-Wechsel) | Neuer Adapter geladen | Kein downstream Quality-Signal zurück |
+| Kafka-Event → GraphDB | Daten geschrieben | Producer erhält kein Quality-Ack |
+
+**Klasse 7 — Kausalkette** *(gerichtete Mehrschritt-Ursache-Wirkung ohne Rückpfad)*
+
+```
+[Kette 1 — Workload-adaptive Rank-Optimierung]
+WorkloadFingerprintEngine erkennt schweren VECTOR-Workload
+  → erhöht total_rank_budget für Embedding-Ebenen
+    → AdaLoRA verteilt Rank optimal per Layer
+      → lora_federation_coordinator propagiert Importance-Scores shard-weit
+        → TTFT P99 (L-1) sinkt  ·  Throughput (L-8) steigt
+          — kein Rückpfad zum Workload-Fingerprint
+
+[Kette 2 — Security-Anomalie-Eskalation]
+Bulk-Export-Muster erkannt
+  → LLM Intent Classifier: Risiko = HIGH
+    → ZeroTrustPolicyEnforcer sperrt Session-Token
+      → AuditLogger schreibt Event
+        → SIEM-Alert ausgelöst
+          — kein Rückpfad zum Query-Optimizer
+
+[Kette 3 — Schema-Evolution-Propagation]
+DDL-Änderung erkannt
+  → DeadlockPredictor re-indexiert Conflict-Graph
+    → SelfImprovementModule lädt Schema-Wissens-Adapter nach
+      → FedAvg propagiert aktualisierte Importance-Scores
+        — kein Rückpfad zum DDL-Trigger
+```
+
+**Operational Resilience — Querschnittsdimensionen**
+
+Die fünf Dimensionen sind **keine eigenständigen Klassen** — sie instanziieren
+die sieben Klassen oben mit konkreten Resilienz-Mustern und wirken quer
+über alle SLO-Ebenen L-1…L-8.
+Kanonische vollständige Tabellen je Dimension:
+`VERTEILTES_WISSEN_FEDERATION.md §12.8` · `DISTRIBUTED_KNOWLEDGE_FEDERATION.md §12.8`.
+
+#### Backpressure — Kapazitätssignal flussaufwärts
+
+| Mechanismus | Klasse | Downstream-Signal | Upstream-Reaktion | SLO-Ebene |
+|---|---|---|---|---|
+| `max_pending_requests` | **Fader** | Queue-Tiefe > Schwelle | Ingestion-Rate gedrosselt | L-5 Dispatch-Latenz P99 |
+| Kafka-Topic-Lag → Throttle | **Closed Loop** | Topic-Lag-Metrik | Consumer-Rate angepasst | L-8 Throughput |
+| HTTP 429 (Inference Endpoint) | **Open Loop** | 429-Antwort | Exponential Backoff | L-1 TTFT |
+| LLM-Queue Hard-Drop | **Switch** | Queue voll (ON) | Request abgelehnt (503) | L-7 Availability |
+
+#### Timeout / Circuit Breaker — Ausfallbegrenzung
+
+| Mechanismus | Klasse | Auslöser | Aktion | Config-Key / SLO |
+|---|---|---|---|---|
+| `inference_timeout_ms` | **Fader** | Deadline überschritten | Request abgebrochen | `inference_timeout_ms` (100–30 000 ms) |
+| LoRA Hot-Swap Timeout | **Switch** | Swap > 5 s | Rollback auf vorherigen Adapter | `hot_swap.timeout_ms` |
+| Circuit Breaker OPEN | **Closed Loop** | `failure_rate ≥ failure_threshold` | Pfad gesperrt; Probe-Requests | `circuit_breaker.failure_threshold` |
+| Circuit Breaker HALF_OPEN | **Closed Loop** | Probe erfolgreich | Pfad wiederhergestellt | `circuit_breaker.half_open_probe_interval` |
+| gRPC-Deadline-Propagation | **Kausalkette** | Client setzt Deadline | Deadline durch alle Ebenen propagiert | gRPC-Metadata |
+
+#### Errors / Warnings — Signalklassifikation
+
+| Signal | Klasse | Quelle | Konsument | Wirkung / SLO |
+|---|---|---|---|---|
+| P99 > Baseline + 20 % | **Closed Loop** | SLO-Monitor | CI-Gate | Deployment geblockt (§5 Δp99-Regel) |
+| Importance-Score NaN | **Kausalkette** | AdaLoRA-Layer | PruningEngine → Pruning deaktiviert | Rank-Budget fixiert bis Neustart |
+| Federation-Sync-Fehler | **Kausalkette** | `LoRAFederationCoordinator` | `CrossShardFeedbackSync` → Retry → Alert | Shard fällt auf lokalen Score zurück |
+| L7 IntentClassifier Risiko=HIGH | **Kausalkette** | `IntentClassifier` | ZeroTrust → AuditLog → SIEM | Session gesperrt (L-7) |
+| AQL-Parser WARN | **Open Loop** | AQL-Parser | AuditLogger | Log-Eintrag; keine Query-Unterbrechung |
+
+#### Security — Mechanismen nach Klasse
+
+| Mechanismus | Klasse | ThemisDB-Instanz | Bezug |
+|---|---|---|---|
+| TLS erzwingen | **Switch** | `tls.enforce` | `docker/admin-ui/nginx.ssl.conf` |
+| MFA für Admin/Operator | **Switch** | `mfa_required_roles: [admin, operator]` | `include/security/access_control.h` |
+| RBAC-Strenge | **Fader** | `rbac.policy_version` | `src/security/access_control.cpp` |
+| Rate-Limiting Login | **Fader** | 5 r/m → 30 r/m (nginx) | `docker/admin-ui/nginx.conf` |
+| ZeroTrust Session-Risk-Regelkreis | **Closed Loop** | `session_risk_score` → Dauer-Verifikation | `include/security/zero_trust_policy_enforcer.h` |
+| SPHINCS+ Post-Quantum Audit | **Switch** | `pqc.enabled` | `include/security/post_quantum_crypto.h` |
+| Sicherheits-Anomalie → SIEM | **Kausalkette** | Intent → ZeroTrust → AuditLog → SIEM | `VERTEILTES_WISSEN_FEDERATION.md §12.7` |
+| CSRF-Nonce-Validierung | **Switch** | `csrf_validation.enabled` | `docker/admin-ui/nginx.conf` |
+
+#### Hardening — Systemhärtung
+
+| Maßnahme | Klasse | Mechanismus | Aktivierung |
+|---|---|---|---|
+| Plaintext-API ablehnen | **Switch** | `security.deny_plaintext_api` | ON in Production |
+| Audit-Log-Verbosität | **Fader** | `audit.log_level` (INFO → DEBUG → TRACE) | SIGHUP |
+| Dependency-Pinning + SBOM | **Open Loop** | CI-Scan bei jedem Build | GitHub Actions |
+| Post-Quantum-Fallback | **Switch** | `pqc.enabled` (SPHINCS+) | THEMIS_ENABLE_PQC=1 |
+| IPv6-CIDR-Whitelist | **Fader** | `network_policy.cidr_allowlist` | `include/security/zero_trust_policy_enforcer.h` |
+| Secret-Scan-Gate | **Closed Loop** | Alert → PR geblockt | GitHub Actions |
+| Immutable Config im Container | **Switch** | Read-only rootfs | `docker-compose.qnap.yml` |
+| GDPR Erase-Target-Validierung | **Closed Loop** | `GdprSubjectRightsManager` → per-Modul-ACK | `include/governance/gdpr_subject_rights.h` |
+
+> **Implementations-Arbeitspaket:** `docs/issues/distributed_knowledge/DK-OR-operational-resilience.md`
+
 ---
 
 

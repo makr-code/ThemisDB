@@ -16,6 +16,7 @@
 - `src/training/README.md`
 - `src/training/ROADMAP.md`
 - `src/training/SECURITY.md`
+- `src/training/examples/README.md`
 
 **Reference:**
 - Tool: `tools/module_docs_builder.py`
@@ -52,6 +53,12 @@ This index lists all Markdown documentation files for module **`training`** from
 | `README.md` | [`src/training/README.md`](../../../src/training/README.md) |
 | `ROADMAP.md` | [`src/training/ROADMAP.md`](../../../src/training/ROADMAP.md) |
 | `SECURITY.md` | [`src/training/SECURITY.md`](../../../src/training/SECURITY.md) |
+
+### `src/training/examples/`
+
+| File | Path |
+|------|------|
+| `README.md` | [`src/training/examples/README.md`](../../../src/training/examples/README.md) |
 
 ---
 

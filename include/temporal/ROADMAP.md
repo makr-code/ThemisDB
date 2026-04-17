@@ -83,8 +83,8 @@
 - [x] Benchmark: `IntervalTreeIndex::erase()` vs. rebuild baseline (`benchmarks/bench_interval_tree_erase.cpp`) (Implemented: 2026-04-17)
 
 ### Phase 5 — Performance / Hardening
-- [ ] Profile `LZ4Strategy` — target ≥ 2 GB/s on timestamp columns
-- [ ] Validate `SEQUENCED DISTINCT` query plan avoids full-scan on indexed stores
+- [x] Profile `LZ4Strategy` — target ≥ 2 GB/s on timestamp columns
+- [x] Validate `SEQUENCED DISTINCT` query plan avoids full-scan on indexed stores
 - [ ] Stress-test persistent CDC log under 100k events/s sustained write rate
 
 ### Phase 6 — Documentation & Acceptance

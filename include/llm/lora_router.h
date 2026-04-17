@@ -23,6 +23,7 @@
 #include "llm/multi_lora_manager.h"
 #include "llm/adapter_registry.h"
 #include "llm/lora_framework/embedding_provider.h"
+#include "llm/decision_record_yaml_processor.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -323,6 +324,18 @@ public:
      * @brief Get cache statistics
      */
     json getCacheStats() const;
+
+    /**
+     * @brief Inject a `DecisionRecordYamlProcessor` for async YAML traceability.
+     *
+     * When set, every successful non-cached routing decision emits a
+     * `LORA_ADAPTER_SELECTION` decision record written asynchronously to
+     * `logs/decisions/YYYY-MM-DD/<ts>_LORA_ADAPTER_SELECTION_<id>.yaml`.
+     *
+     * @param processor  Shared processor instance (may be nullptr to disable).
+     */
+    void setDecisionRecordProcessor(
+        std::shared_ptr<DecisionRecordYamlProcessor> processor);
     
 private:
     Config config_;
@@ -330,6 +343,9 @@ private:
     std::shared_ptr<AdapterRegistry> adapter_registry_;
     std::shared_ptr<AdapterLoadBalancer> load_balancer_;
     std::shared_ptr<MultiLoRAManager> lora_manager_;
+
+    // Decision traceability (optional, non-blocking)
+    std::shared_ptr<DecisionRecordYamlProcessor> dr_processor_;
     
     mutable std::mutex mutex_;
     
@@ -445,6 +461,9 @@ private:
      * @brief Evict expired cache entries
      */
     void evictExpiredCache();
+
+    /// Emit a LORA_ADAPTER_SELECTION DecisionRecord (non-blocking, caller holds mutex_).
+    void emitAdapterSelectionRecord(const RoutingDecision& decision) const;
 };
 
 } // namespace llm

@@ -111,6 +111,31 @@ v2.0.0 – Production-ready Retrieval-Augmented Generation system. 27 implementa
 - [x] `MultiHopReasoner` — multi-hop reasoning with query decomposition (`include/rag/multi_hop_reasoner.h`, `src/rag/multi_hop_reasoner.cpp`) (Target: Q2 2026) — heuristic + LLM-based decomposition; per-hop retrieval + inference with context injection; answer composition; factory helpers (single-hop, balanced, deep-reasoning); 15 unit tests
 - [x] `AdaptiveRetrieval` — adaptive retrieval depth based on query complexity (`include/rag/adaptive_retrieval.h`, `src/rag/adaptive_retrieval.cpp`) (Target: Q2 2026) — QueryComplexity tiers (SIMPLE/MODERATE/COMPLEX/VERY_COMPLEX); connective/question-word heuristic; IComplexityScorer plugin; top_k + similarity_threshold scaling; factory helpers (lightweight, balanced, high-recall); 15 unit tests
 
+### Phase 8: Loop 1–4 Explicit Orchestration & Federated RLAIF — IMPL-A2 + IMPL-A3 (Target: Q3 2026)
+
+> *Paper 1 — §4.4 The Four Self-Optimising Loops / §5.4 ContinuousLearningOrchestrator*
+> Issues: [IMPL-A2](../../docs/issues/lora_loops/IMPL-A2-loop-orchestration.md) · [IMPL-A3](../../docs/issues/lora_loops/IMPL-A3-federation-hooks.md)
+
+- [ ] Expose explicit named loop-trigger methods on `ContinuousLearningOrchestrator`:
+  - `triggerLoop1QueryExecution(const QueryExecutionOutcome&)` (Loop 1 — ≤ 10 ms BaoOptimizer feedback)
+  - `triggerLoop2WorkloadAdaptation()` (Loop 2 — 60 s interval, `WorkloadAdaptiveOptimizer` + HNSW)
+  - `triggerLoop3IndexLifecycle()` (Loop 3 — hours/days, `IndexSuggestionEngine`)
+  - `triggerLoop4AdapterImprovement()` (Loop 4 — weekly, `IncrementalLoRATrainer`)
+- [ ] Add `FEDERATED_ROUND_START` event type to `ContinuousLearningOrchestrator` (IMPL-A3)
+  - Fired after Loop 4 completes; 24 h minimum interval guard
+  - Invokes `ILoRAFederationCoordinator::startRound()` when coordinator is injected
+- [ ] Add `setFederationCoordinator(ILoRAFederationCoordinator*)` DI setter
+- [ ] Loop-interference cooldown guard: shared `OptimizationLock` with per-resource cooldown (RQ10)
+- [ ] JSON context serialiser for Loop 1–3 outcome signals → `≤ 2 000 tokens` context block
+- [ ] `RAGIngestionBridge` extension: index optimizer-log documents for RAG retrieval
+- [ ] 12 new unit tests in `tests/test_continuous_learning_orchestrator_loops.cpp`:
+  - `CLO-L1-01` … `CLO-L1-03`: Loop 1 trigger updates BaoOptimizer hint
+  - `CLO-L2-01` … `CLO-L2-03`: Loop 2 trigger updates WorkloadAdaptiveOptimizer
+  - `CLO-L3-01` … `CLO-L3-02`: Loop 3 trigger calls IndexSuggestionEngine
+  - `CLO-L4-01` … `CLO-L4-02`: Loop 4 trigger calls IncrementalLoRATrainer
+  - `CLO-FED-01`: `FEDERATED_ROUND_START` fires after Loop 4 + 24 h guard respected
+  - `CLO-COOL-01`: cooldown guard prevents concurrent loop interference
+
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (streaming_retriever: 28 test cases; reranker: 30+ test cases; document_splitter: 37 test cases)
 - [x] Unit tests coverage > 80% (streaming_retriever: 28 tests; reranker: 30+ tests; hybrid_retriever: 31 tests)

@@ -24,6 +24,7 @@
 #pragma once
 
 #include "training/adapter_serving.h"
+#include "distributed_knowledge/lora_federation_coordinator.h"
 
 #include <string>
 #include <vector>
@@ -376,6 +377,70 @@ public:
      * The metrics are reset at the start of each train() call.
      */
     TrainingMetrics getMetrics() const;
+
+    // ── IMPL-A3: Federation bridges ──────────────────────────────────────────
+
+    /**
+     * @brief Set the shard identifier used in exported gradients.
+     *
+     * The shard_id is embedded in every `EncryptedGradient` produced by
+     * `exportGradient()`.  Defaults to "default_shard" when not set.
+     *
+     * @param shard_id  Cluster-unique shard identifier.
+     */
+    void setShardId(const std::string& shard_id);
+
+    /**
+     * @brief Set the learning rate applied when incorporating a global delta.
+     *
+     * Controls the weight update in `applyGlobalDelta()`:
+     *   `local_weight[layer] += federated_lr * global_delta[layer]`
+     *
+     * Defaults to 0.01.  Must be positive.
+     *
+     * @param lr  Federated learning rate (> 0).
+     */
+    void setFederatedLearningRate(double lr);
+
+    /**
+     * @brief Export the accumulated gradient delta as a federated contribution.
+     *
+     * Reads the gradient accumulator that has been filled during `train()` calls
+     * since the last `exportGradient()` invocation (or since construction).
+     * The gradient is normalised: `data[layer] = Σ(deltas) / update_count`.
+     *
+     * After a successful export the accumulator is reset to zero so that the
+     * next export only reflects new training steps.
+     *
+     * @param federation_round  Current federated round number (embedded in the result).
+     * @return `EncryptedGradient` with non-empty `data` map.
+     * @throws std::runtime_error  When no training has occurred since the last export.
+     */
+    themis::distributed_knowledge::EncryptedGradient
+    exportGradient(uint64_t federation_round);
+
+    /**
+     * @brief Incorporate an aggregated global delta into the local adapter weights.
+     *
+     * Applies: `local_weight[layer] += federated_lr * delta.delta[layer]`
+     * for every layer name present in `delta.delta`.  Unknown layer names in the
+     * delta are silently ignored (forward-compatible with larger global models).
+     *
+     * @param delta  Aggregated weight delta produced by `LoRAFederationCoordinator`.
+     */
+    void applyGlobalDelta(
+        const themis::distributed_knowledge::GlobalAdapterDelta& delta);
+
+    /**
+     * @brief Return the current local weight for a named layer.
+     *
+     * Used by tests and observability tooling to verify that
+     * `applyGlobalDelta()` has modified the local weight map.
+     *
+     * @param layer_name  Layer identifier (e.g. "lora_A_layer_0").
+     * @return Current weight value, or 0.0 if the layer is not yet tracked.
+     */
+    double getLocalWeight(const std::string& layer_name) const;
 
 private:
     class Impl;

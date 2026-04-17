@@ -86,6 +86,91 @@ struct ConflictRecord {
 };
 
 /**
+ * Abstract strategy for CRDT-style merging of two conflicting snapshots.
+ *
+ * A `MergeResolver` encapsulates the merge function for the CRDT_MERGE
+ * conflict-resolution policy.  Implementations must be commutative and
+ * idempotent to preserve CRDT guarantees:
+ *
+ *   - Commutative:  merge(a, b) == merge(b, a)  (both field orderings converge)
+ *   - Idempotent:   merge(a, a).data == a.data   (re-merging is a no-op)
+ *
+ * The resolver receives the two conflicting snapshots (no guaranteed ordering)
+ * and must return the merged result.  It may also emit a conflict log entry
+ * via the optional `log_entry` out-parameter.
+ */
+class MergeResolver {
+public:
+    virtual ~MergeResolver() = default;
+
+    /**
+     * Merge two conflicting snapshots.
+     *
+     * @param local   One of the conflicting versions.
+     * @param remote  The other conflicting version.
+     * @return        Merged snapshot; must be commutative and idempotent.
+     */
+    virtual TemporalSnapshot merge(const TemporalSnapshot& local,
+                                   const TemporalSnapshot& remote) const = 0;
+};
+
+/**
+ * Last-Write-Wins per JSON field (LWW-Element-Register CRDT).
+ *
+ * For each field key, the value from whichever snapshot has the higher HLC
+ * timestamp is retained.  Fields present in only one snapshot are kept as-is.
+ * When HLC timestamps are equal the `local` snapshot wins as a tie-breaker.
+ *
+ * This is the default behaviour of `TemporalConflictResolver::resolveCRDT()`
+ * when no explicit `MergeResolver` has been injected.
+ */
+class LWWFieldMergeResolver : public MergeResolver {
+public:
+    TemporalSnapshot merge(const TemporalSnapshot& local,
+                           const TemporalSnapshot& remote) const override;
+};
+
+/**
+ * Union merge: collect ALL distinct field values from both snapshots.
+ *
+ * For each field key that appears in both snapshots, the value from the
+ * snapshot with the higher HLC timestamp is used (same LWW tie-break as
+ * `LWWFieldMergeResolver`).  Fields present in only one snapshot are kept
+ * unconditionally, so the result is a true union of both payloads.
+ *
+ * For non-object payloads (arrays, scalars) the newer value wins outright,
+ * matching the behaviour of `LWWFieldMergeResolver`.
+ */
+class UnionMergeResolver : public MergeResolver {
+public:
+    TemporalSnapshot merge(const TemporalSnapshot& local,
+                           const TemporalSnapshot& remote) const override;
+};
+
+/**
+ * User-supplied merge function wrapped as a `MergeResolver`.
+ *
+ * Allows callers to inject arbitrary merge logic at runtime without
+ * subclassing.  The provided function must honour the CRDT guarantees
+ * (commutativity + idempotency) for correctness.
+ */
+class CustomMergeResolver : public MergeResolver {
+public:
+    using MergeFn = std::function<TemporalSnapshot(const TemporalSnapshot&,
+                                                    const TemporalSnapshot&)>;
+
+    explicit CustomMergeResolver(MergeFn fn) : fn_(std::move(fn)) {}
+
+    TemporalSnapshot merge(const TemporalSnapshot& local,
+                           const TemporalSnapshot& remote) const override {
+        return fn_(local, remote);
+    }
+
+private:
+    MergeFn fn_;
+};
+
+/**
  * Temporal Conflict Resolver
  * 
  * Resolves conflicts for temporal snapshots based on HLC timestamps.
@@ -283,6 +368,7 @@ private:
     std::map<std::string, ConflictRecord> unresolved_conflicts_;
     std::shared_ptr<MergeResolver> merge_resolver_;  ///< null → use LWWFieldMergeResolver
     mutable std::mutex mutex_;
+    std::shared_ptr<MergeResolver> merge_resolver_;  ///< Optional CRDT merge strategy
     
     // Statistics
     std::atomic<uint64_t> total_conflicts_{0};

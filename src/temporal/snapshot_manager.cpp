@@ -213,6 +213,53 @@ nlohmann::json TemporalSnapshotManager::getStatistics() const {
             {"next_version", next_version_}};
 }
 
+SnapshotDiff TemporalSnapshotManager::diff(
+    const SnapshotHandle& handle_a,
+    const SnapshotHandle& handle_b,
+    const std::string& table_name) const {
+
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    // Collect rows keyed by document key for each snapshot.
+    auto rows_for = [&](const SnapshotHandle& h)
+        -> std::map<std::string, VersionedDocument>
+    {
+        std::map<std::string, VersionedDocument> out;
+        auto snap_it = snapshots_.find(h.snapshot_id);
+        if (snap_it == snapshots_.end()) { return out; }
+        auto tbl_it = snap_it->second.tables.find(table_name);
+        if (tbl_it == snap_it->second.tables.end()) { return out; }
+        for (const auto& row : tbl_it->second) {
+            out[row.key] = row;
+        }
+        return out;
+    };
+
+    const auto rows_a = rows_for(handle_a);
+    const auto rows_b = rows_for(handle_b);
+
+    SnapshotDiff result;
+
+    // Rows in B not in A → added
+    for (const auto& [key, row_b] : rows_b) {
+        if (rows_a.find(key) == rows_a.end()) {
+            result.added.push_back(row_b);
+        }
+    }
+
+    // Rows in A not in B → removed; same key but different data → modified
+    for (const auto& [key, row_a] : rows_a) {
+        auto it_b = rows_b.find(key);
+        if (it_b == rows_b.end()) {
+            result.removed.push_back(row_a);
+        } else if (it_b->second.data != row_a.data) {
+            result.modified.push_back(it_b->second);
+        }
+    }
+
+    return result;
+}
+
 // ============================================================================
 // Private helpers
 // ============================================================================
