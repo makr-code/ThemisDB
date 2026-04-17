@@ -22927,3 +22927,74 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge_or.cpp")
 else()
     message(STATUS "DK-OR tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge_or.cpp")
 endif()
+
+# EncryptedBlobBackend focused tests (EBB-01 … EBB-10)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_encrypted_blob_backend.cpp")
+    message(STATUS "Adding EncryptedBlobBackend focused tests")
+
+    add_executable(test_encrypted_blob_backend_focused
+        test_encrypted_blob_backend.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/encrypted_blob_backend.cpp
+    )
+
+    target_include_directories(test_encrypted_blob_backend_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_encrypted_blob_backend_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+        OpenSSL::Crypto
+    )
+
+    target_compile_definitions(test_encrypted_blob_backend_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME EncryptedBlobBackendTests COMMAND test_encrypted_blob_backend_focused)
+
+    set_tests_properties(EncryptedBlobBackendTests PROPERTIES
+        LABELS "storage;encryption;aes-gcm;blob;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  EncryptedBlobBackend: round-trip, tamper detection, stats, EBB-01..10")
+else()
+    message(STATUS "EncryptedBlobBackend tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_encrypted_blob_backend.cpp")
+endif()
+
+# VectorIndexBackend focused tests (VIB-01 … VIB-12)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_vector_index_comprehensive.cpp")
+    message(STATUS "Adding VectorIndexBackend focused tests (VIB)")
+
+    add_executable(test_vector_index_backend_focused
+        test_vector_index_comprehensive.cpp
+        ${CMAKE_SOURCE_DIR}/src/storage/vector_index_backend.cpp
+    )
+
+    target_include_directories(test_vector_index_backend_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_vector_index_backend_focused PRIVATE
+        ${TEST_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_vector_index_backend_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME VectorIndexBackendTests COMMAND test_vector_index_backend_focused)
+
+    set_tests_properties(VectorIndexBackendTests PROPERTIES
+        LABELS "storage;vector;ann;hnsw;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  VectorIndexBackend: L2/COSINE/DOT_PRODUCT, upsert, remove, concurrency, VIB-01..12")
+else()
+    message(STATUS "VectorIndexBackend tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_vector_index_comprehensive.cpp")
+endif()
