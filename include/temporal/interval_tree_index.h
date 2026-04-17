@@ -37,11 +37,13 @@
 #pragma once
 
 #include "temporal/temporal_types.h"
+#include <atomic>
 #include <cstddef>
 #include <memory>
-#include <mutex>
 #include <optional>
+#include <shared_mutex>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace themisdb {
@@ -91,21 +93,24 @@ struct IntervalTreeStats {
  * simpler `TemporalIndex` class.
  *
  * ## Key operations
- * | Operation         | Time complexity |
- * |-------------------|-----------------|
- * | insert()          | O(log n)        |
- * | remove()          | O(log n)        |
- * | queryPoint()      | O(log n + k)    |
- * | queryOverlap()    | O(log n + k)    |
- * | queryKey()        | O(n) worst-case |
- * | size()            | O(1)            |
+ * | Operation         | Time complexity                          |
+ * |-------------------|------------------------------------------|
+ * | insert()          | O(log n) — AVL-balanced                  |
+ * | remove()          | O(log n) — AVL-balanced                  |
+ * | queryPoint()      | O(log n + k)                             |
+ * | queryOverlap()    | O(log n + k)                             |
+ * | queryKey()        | O(k) via secondary key index             |
+ * | size()            | O(1) — atomic                            |
  *
- * Thread-safety: all public methods are thread-safe via an internal mutex.
+ * Thread-safety: reads use a shared lock (std::shared_mutex) so concurrent
+ * point/overlap/key queries do not block one another.  Writes acquire an
+ * exclusive lock.
  *
- * @note The tree is not balanced (no AVL/red-black rotations) because the
- *       primary workload in ThemisDB is read-heavy with batched inserts.
- *       For write-heavy production loads, replace the BST with a balanced
- *       variant; the public API remains unchanged.
+ * @note The BST is kept balanced via AVL rotations (LL, RR, LR, RL cases).
+ *       The `subtree_max_end` augmentation field is updated atomically during
+ *       each rotation so the invariant is preserved at all times.  A secondary
+ *       hash index (key → entries) provides O(k) queryKey() without a full
+ *       tree traversal.
  */
 class IntervalTreeIndex {
 public:
@@ -176,7 +181,7 @@ public:
 
     const std::string& name() const noexcept { return name_; }
 
-    /** O(1) — maintained incrementally. */
+    /** O(1) — maintained as an atomic counter. */
     size_t size() const noexcept;
 
     IntervalTreeStats stats() const;
@@ -190,6 +195,9 @@ private:
         /// Maximum `range.end` in this subtree (augmentation field).
         Timestamp subtree_max_end{kMinTimestamp};
 
+        /// AVL balance height (1 for a leaf node).
+        int height{1};
+
         std::unique_ptr<Node> left;
         std::unique_ptr<Node> right;
 
@@ -202,6 +210,14 @@ private:
 
     static Timestamp nodeMaxEnd(const Node* n) noexcept;
     static void      updateSubtreeMax(Node* n) noexcept;
+
+    // AVL helpers
+    static int  nodeHeight(const Node* n) noexcept;
+    static int  balanceFactor(const Node* n) noexcept;
+    static void updateHeight(Node* n) noexcept;
+    static std::unique_ptr<Node> rotateRight(std::unique_ptr<Node> y);
+    static std::unique_ptr<Node> rotateLeft(std::unique_ptr<Node> x);
+    static std::unique_ptr<Node> balance(std::unique_ptr<Node> n);
 
     static std::unique_ptr<Node> insertNode(std::unique_ptr<Node> root,
                                             const IntervalEntry& entry);
@@ -235,8 +251,13 @@ private:
 
     std::string               name_;
     std::unique_ptr<Node>     root_;
-    size_t                    size_{0};
-    mutable std::mutex        mutex_;
+    std::atomic<size_t>       size_{0};
+
+    /// Secondary index: key → copies of all entries with that key.
+    /// Provides O(k) queryKey() without a full BST traversal.
+    std::unordered_map<std::string, std::vector<IntervalEntry>> key_index_;
+
+    mutable std::shared_mutex mutex_;
     mutable IntervalTreeStats stats_;
 };
 
