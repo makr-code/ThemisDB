@@ -1097,3 +1097,29 @@ REGEL 6 — Confidence-Labeling
 ---
 
 *ThemisDB Engineering Team · 2026-04-16 · Apache-2.0*
+
+---
+
+## 8. Runtime Influence Mechanisms: 7 Classes
+
+> **Cross-reference:** `PERFORMANCE_EXPECTATIONS.md §14.1` ·
+> `docs/en/research/DISTRIBUTED_KNOWLEDGE_FEDERATION.md §12` ·
+> `docs/de/research/VERTEILTES_WISSEN_FEDERATION.md §12`
+
+The metrics catalogued in §3–§6 are governed at runtime by seven distinct mechanism
+classes. Understanding the class of a mechanism determines how to tune it and what
+feedback (if any) to expect.
+
+| # | Class | Semantics | AdaLoRA / LoRA instances |
+|---|---|---|---|
+| 1 | **Switch** | Binary ON/OFF — deterministic code-path flip | `enable_draft_kv_cache`, `hot_swap.enabled`, `importance_pruning.enabled` |
+| 2 | **Fader** | Continuous signed −x…0…+x — hot-reloadable | `acceptance_threshold` (0.6–0.75–0.9), `total_rank_budget` (128–512–1024), `speculative_tokens` (3–6–10) |
+| 3 | **Optimizer** | Solves objective function (min/max) — no environment perception | `WorkloadFingerprintEngine` (min. classification error), FedAvg rank aggregation (min. federated loss), TIES-Merge SVD |
+| 4 | **Agentic Solver** | Perception → Decision → Action — autonomous | `SelfImprovementModule` (perceives Acceptance + Confidence → rewrites thresholds), LLM Intent Classifier |
+| 5 | **Closed Loop** | Output measured → fed back as correction signal | AdaLoRA importance-score loop, CI SLO gate, RLAIF quality loop (§3 Loops 1–4) |
+| 6 | **Open Loop** | Triggered by input; no feedback path to sender | SIGHUP hot-reload, gossip broadcast of importance scores, event-triggered LoRA hot-swap |
+| 7 | **Causal Chain** | Directed multi-step cause-effect; no return path | WorkloadFingerprintEngine → `total_rank_budget` → AdaLoRA → FedAvg → TTFT P99↓ |
+
+The Δp99 rules in §6 and open research questions in §7 are all exercised through
+Closed Loop (class 5) or Agentic Solver (class 4) mechanisms — not through manual
+Switch or Fader adjustments.

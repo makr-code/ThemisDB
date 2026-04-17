@@ -513,7 +513,7 @@ heterogeneity — based on Li et al. 2020 §4.3)*
 
 ---
 
-## 12. Runtime Influence Mechanisms: Switches · Levers · Optimizers
+## 12. Runtime Influence Mechanisms: 7 Classes
 
 > **Cross-reference:** `PERFORMANCE_EXPECTATIONS.md §14.1` · Paper 1
 > `docs/de/research/VERTEILTES_WISSEN_FEDERATION.md §12` ·
@@ -521,62 +521,113 @@ heterogeneity — based on Li et al. 2020 §4.3)*
 > `config/ai_ml/llm/llm_optimization_strategy.yaml`
 
 The insights from Paper 1 (FedAvg rank federation) and this paper
-(Semantic Advisors B5–B10) yield three clearly separable influence classes
+(Semantic Advisors B5–B10) yield seven clearly separable influence classes
 through which LLM infrastructure and AdaLoRA control ThemisDB performance
 at **runtime** — without restart, recompile, or model reload.
 
-### 12.1 Class 1 — Switches
+### 12.1 Switch — Binary Code-Path Flip (ON | OFF)
 
 Switches are **binary code-path decisions**. Activation takes effect immediately
 and deterministically changes runtime behaviour.
 
-| Switch | Activation condition | Affected SLO |
-|---|---|---|
-| `bypass_dedup_cache_for_streaming` | Streaming request detected | TTFT −10 ms (L-1) |
-| `enable_draft_kv_cache` | Draft model present | Speculative decoding active (L-6/L-8) |
-| `hot_swap.enabled` | `THEMIS_ENABLE_LLM=1` set | LoRA swap without restart (L-3 ≤ 5 s) |
-| `importance_pruning.enabled` | AdaLoRA active | Rank-budget compression (§39.20) |
-| `federation.broadcast_importance_scores` | Feature flag IMPL-A3 active | Cross-shard pruning knowledge |
-
-### 12.2 Class 2 — Levers
-
-Levers are **numeric configuration parameters** with a measurable, continuous
-trade-off. They can be rewritten at runtime via hot-reload (SIGHUP).
-
-| Lever | Value range | Trade-off |
-|---|---|---|
-| `speculative_tokens` | 3 – 10 | TTFT ↔ acceptance rate (L-6) |
-| `total_rank_budget` | 128 – 1024 | memory footprint ↔ model quality |
-| `acceptance_threshold` | 0.6 – 0.9 | inference speed ↔ correctness |
-| `pruning_interval_steps` | 50 – 500 | pruning overhead ↔ adaptivity |
-| `worker_threads` | 2 – 16 | dispatch latency P99 ↔ CPU overhead (L-5) |
-| `chunked_prefill_size` | 512 – 2048 tokens | TTFT reduction ↔ decode interleave overhead |
-
-### 12.3 Class 3 — Optimizers
-
-Optimizers are **self-adapting feedback loops**. They observe the current
-runtime state and autonomously rewrite levers or switches.
-
-| Optimizer | Acts on | Interval | Linked issue |
+| Switch | State ON | State OFF | SLO effect |
 |---|---|---|---|
-| `WorkloadFingerprintEngine` (B8) | AdaLoRA `total_rank_budget` | every 100 queries | IMPL-B8 |
-| FedAvg rank aggregation (`lora_federation_coordinator`) | Importance-score distribution across all shards | per pruning step | IMPL-A3 |
-| `SelfImprovementModule` | Quality thresholds (acceptance, confidence) | continuous | DK-4 |
-| TIES-Merge SVD (`LoRAAdapterMerger`) | Adapter merging without checkpoint | at adapter switch | PR #4405 |
-| CI SLO gate (P99 > 20 % regression) | Deployment release | every CI run | §23 SLO Monitor |
+| `bypass_dedup_cache_for_streaming` | Cache bypassed | Dedup active | TTFT −10 ms (L-1) |
+| `enable_draft_kv_cache` | Speculative decoding active | Standard autoregressive | Throughput ×2 (L-6/L-8) |
+| `hot_swap.enabled` | LoRA swap without restart | Restart required | Swap ≤ 5 s (L-3) |
+| `importance_pruning.enabled` | Rank-budget compression | Fixed rank | Memory ↓ (§39.20) |
+| `federation.broadcast_importance_scores` | Cross-shard pruning active | Local pruning only | IMPL-A3 |
 
-### 12.4 Effect Chain
+### 12.2 Fader — Continuous Signed Parameter (−x … 0 … +x)
+
+Faders are **directional numeric parameters** with a neutral point.
+A value *below* the neutral point suppresses one quality dimension;
+a value *above* it amplifies another — always at the cost of the opposing
+dimension. Hot-reloadable via SIGHUP.
+
+| Fader | Negative pole (↓) | Neutral | Positive pole (↑) | Trade-off |
+|---|---|---|---|---|
+| `acceptance_threshold` | 0.6 → permissive → throughput ↑ | 0.75 | 0.9 → strict → correctness ↑ | Throughput ↔ Correctness |
+| `speculative_tokens` | 3 → conservative → TTFT stable | 6 | 10 → aggressive → TTFT ↓ / acceptance ↓ | TTFT ↔ Acceptance rate |
+| `total_rank_budget` | 128 → compressed → memory ↓ | 512 | 1024 → expansive → quality ↑ | Memory ↔ Model quality |
+| `pruning_interval_steps` | 50 → frequent → overhead ↑ | 200 | 500 → rare → adaptivity ↓ | Overhead ↔ Adaptivity |
+| `chunked_prefill_size` | 512 → small → TTFT ↓ | 1024 | 2048 → large → interleave ↓ | TTFT ↔ Decode interleave |
+| `worker_threads` | 2 → few → latency P99 ↑ | 8 | 16 → many → CPU overhead ↑ | Dispatch latency ↔ CPU (L-5) |
+
+### 12.3 Optimizer — Mathematical Objective Function
+
+Optimizers **solve an objective function** (min/max). They have no environment
+perception and are activated by external triggers.
+
+| Optimizer | Objective | Input | Output | Issue |
+|---|---|---|---|---|
+| `WorkloadFingerprintEngine` (B8) | min. classification error | query-mix histogram | `total_rank_budget` | IMPL-B8 |
+| FedAvg rank aggregation (`lora_federation_coordinator`) | min. federated loss | importance scores | global weight score | IMPL-A3 |
+| TIES-Merge SVD (`LoRAAdapterMerger`) | min. parameter conflict | adapter tensors | merged checkpoint | PR #4405 |
+| BayesianOptimizer (RAG §RA-7) | max. F1@200 events | retrieval parameters | optimal hyperparameters | RA-7 |
+
+### 12.4 Agentic Solver — Perception → Decision → Action
+
+Agentic solvers **perceive the environment**, make an independent decision,
+and execute an action — without operator intervention.
+
+| Agentic Solver | Perception | Decision | Action | Issue |
+|---|---|---|---|---|
+| `SelfImprovementModule` (DK-4) | acceptance + confidence metrics | adjust threshold? | config hot-rewrite | DK-4 |
+| LLM Intent Classifier (Layer 7) | query semantics + session context | risk level (LOW/MED/HIGH) | route / throttle / block | §8.7 |
+| `CrossShardFeedbackSync` | per-shard quality deltas | propagate gradient? | federated update broadcast | DK-6 |
+
+### 12.5 Closed Loop — Feedback Control
+
+Closed loops **measure the output** and feed it back as a correction signal
+into the input — classical control theory.
+
+| Loop | Sensor (output) | Controller | Actuator |
+|---|---|---|---|
+| AdaLoRA rank allocation | importance score per layer | AdaLoRA algorithm | rank budget per layer |
+| CI SLO gate | P99 regression vs. baseline | gate (block if > 20 %) | deployment release |
+| RLAIF quality loop | output quality (AI/human evaluator) | threshold-update logic | acceptance threshold |
+
+### 12.6 Open Loop — Triggered Action Without Feedback
+
+Open loops are **triggered by an input** and execute an action.
+There is no feedback path back to the sender.
+
+| Trigger | Action | No feedback because |
+|---|---|---|
+| `SIGHUP` from operator | config hot-reload | no quality signal returns to operator |
+| gossip broadcast (importance scores) | peer shards receive scores | sender does not learn whether peer acted |
+| LoRA hot-swap (workload change) | new adapter loaded | no downstream quality signal returned |
+| Kafka event → GraphDB | data written | producer receives no quality acknowledgement |
+
+### 12.7 Causal Chain — Directed Multi-Step Cause-Effect Sequence
+
+Causal chains are **directed cause-effect sequences** spanning multiple
+components. There is no return path to the originator.
 
 ```
-WorkloadFingerprintEngine (B8)
-  └─ detects current query mix
-       └─ adjusts total_rank_budget
-            └─ AdaLoRA redistributes rank budget optimally per layer
-                 └─ lora_federation_coordinator propagates
-                    importance scores across all shards (FedAvg)
-                         └─ TTFT P99 L-1 decreases
-                            throughput L-8 increases
-                            — without manual intervention
+[Chain 1 — Workload-adaptive rank optimisation]
+WorkloadFingerprintEngine detects heavy VECTOR workload
+  → increases total_rank_budget for embedding layers
+    → AdaLoRA redistributes rank optimally per layer
+      → lora_federation_coordinator propagates importance scores shard-wide
+        → TTFT P99 (L-1) decreases  ·  throughput (L-8) increases
+          — no return path to workload fingerprint
+
+[Chain 2 — Security anomaly escalation]
+Unusual bulk-export pattern detected
+  → LLM Intent Classifier: risk = HIGH
+    → ZeroTrustPolicyEnforcer revokes session token
+      → AuditLogger writes event
+        → SIEM alert triggered
+          — no return path to query optimiser
+
+[Chain 3 — Schema evolution propagation]
+DDL change detected
+  → DeadlockPredictor re-indexes conflict graph
+    → SelfImprovementModule loads updated schema-knowledge adapter
+      → FedAvg propagates updated importance scores shard-wide
+        — no return path to DDL trigger
 ```
 
 The Differential Privacy guarantee (Dwork & Roth 2014, Gaussian mechanism,

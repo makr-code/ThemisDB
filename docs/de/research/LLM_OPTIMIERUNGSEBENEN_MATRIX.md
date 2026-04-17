@@ -909,3 +909,27 @@ rein shard-lokalem Retrieval?
 - ThemisDB: `docs/en/research/THEMISDB_LORA_METRICS_AND_OVERVIEW.md`
 - ThemisDB: `docs/de/research/MULTI_LAYER_FEEDBACK_LEARNING.md`
 - ThemisDB: `docs/de/research/HYBRID_KONZEPT_THEMISDB.md`
+
+---
+
+## 6. Laufzeit-Einflussmechanismen: 7 Klassen
+
+> **Querbezug:** `PERFORMANCE_EXPECTATIONS.md §14.1` ·
+> `docs/de/research/VERTEILTES_WISSEN_FEDERATION.md §12` ·
+> `docs/en/research/DISTRIBUTED_KNOWLEDGE_FEDERATION.md §12`
+
+Diese sieben Klassen klassifizieren jeden Mechanismus, mit dem LLM-Infrastruktur
+und AdaLoRA die SLOs (Ebenen 5–11) zur **Laufzeit** beeinflussen.
+
+| # | Klasse | Semantik | Beispiele (Ebenen 5–11) |
+|---|---|---|---|
+| 1 | **Switch** | Binär ON/OFF — deterministischer Codepfad-Wechsel | `enable_draft_kv_cache`, `hot_swap.enabled`, `importance_pruning.enabled` |
+| 2 | **Fader** | Kontinuierlich signiert −x…0…+x — Hot-Reload via SIGHUP | `acceptance_threshold` (0.6–0.75–0.9), `total_rank_budget` (128–512–1024), `speculative_tokens` (3–6–10) |
+| 3 | **Optimizer** | Löst Zielfunktion (min/max) — keine Umgebungswahrnehmung | `WorkloadFingerprintEngine`, FedAvg Rank-Aggregation, TIES-Merge SVD |
+| 4 | **Agentic Solver** | Wahrnehmung → Entscheidung → Aktion — autonom | `SelfImprovementModule`, LLM Intent Classifier (Ebene 7), `CrossShardFeedbackSync` |
+| 5 | **Closed Loop** | Ausgabe gemessen → Korrektursignal zurückgeführt | AdaLoRA Rank-Allokation, CI SLO-Gate, RLAIF Quality-Loop |
+| 6 | **Open Loop** | Aktion durch Input, kein Feedback-Pfad | SIGHUP hot-reload, Gossip-Broadcast, LoRA Hot-Swap |
+| 7 | **Kausalkette** | Gerichtete Mehrschritt-Wirkungssequenz ohne Rückpfad | WorkloadFingerprintEngine → Rank-Budget → FedAvg → TTFT P99↓ |
+
+Vollständige Tabellen mit ThemisDB-Instanzen: `PERFORMANCE_EXPECTATIONS.md §14.1` und
+`docs/de/research/VERTEILTES_WISSEN_FEDERATION.md §12`.

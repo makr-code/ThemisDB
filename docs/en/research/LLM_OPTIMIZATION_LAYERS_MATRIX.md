@@ -868,3 +868,28 @@ high-dimensional embeddings (1536 dim)?
 - ThemisDB: `docs/en/research/THEMISDB_LORA_METRICS_AND_OVERVIEW.md`
 - ThemisDB: `docs/de/research/MULTI_LAYER_FEEDBACK_LEARNING.md`
 - ThemisDB: `docs/de/research/HYBRID_KONZEPT_THEMISDB.md`
+
+---
+
+## 6. Runtime Influence Mechanisms: 7 Classes
+
+> **Cross-reference:** `PERFORMANCE_EXPECTATIONS.md §14.1` ·
+> `docs/de/research/VERTEILTES_WISSEN_FEDERATION.md §12` ·
+> `docs/en/research/DISTRIBUTED_KNOWLEDGE_FEDERATION.md §12`
+
+These seven classes classify every mechanism by which LLM infrastructure and
+AdaLoRA affect ThemisDB SLOs (Layers 5–11) at **runtime** — without restart
+or recompile.
+
+| # | Class | Semantics | Examples (Layers 5–11) |
+|---|---|---|---|
+| 1 | **Switch** | Binary ON/OFF — deterministic code-path flip | `enable_draft_kv_cache`, `hot_swap.enabled`, `importance_pruning.enabled` |
+| 2 | **Fader** | Continuous signed −x…0…+x — hot-reloadable via SIGHUP | `acceptance_threshold` (0.6–0.75–0.9), `total_rank_budget` (128–512–1024), `speculative_tokens` (3–6–10) |
+| 3 | **Optimizer** | Solves objective function (min/max) — no environment perception | `WorkloadFingerprintEngine`, FedAvg rank aggregation, TIES-Merge SVD |
+| 4 | **Agentic Solver** | Perception → Decision → Action — autonomous | `SelfImprovementModule`, LLM Intent Classifier (Layer 7), `CrossShardFeedbackSync` |
+| 5 | **Closed Loop** | Output measured → fed back as correction signal | AdaLoRA rank allocation, CI SLO gate, RLAIF quality loop |
+| 6 | **Open Loop** | Action triggered by input; no feedback path to sender | SIGHUP hot-reload, gossip broadcast, LoRA hot-swap |
+| 7 | **Causal Chain** | Directed multi-step cause-effect sequence; no return path | WorkloadFingerprintEngine → rank budget → FedAvg → TTFT P99↓ |
+
+Full tables with ThemisDB instances: `PERFORMANCE_EXPECTATIONS.md §14.1` and
+`docs/en/research/DISTRIBUTED_KNOWLEDGE_FEDERATION.md §12`.

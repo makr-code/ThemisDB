@@ -1621,3 +1621,31 @@ validate the architecture and calibrate its production deployment.
 *Authors: ThemisDB Engineering Team*  
 *License: Apache-2.0*  
 *Repository: github.com/makr-code/ThemisDB*
+
+---
+
+## 13. Runtime Influence Mechanisms: 7 Classes
+
+> **Cross-reference:** `PERFORMANCE_EXPECTATIONS.md §14.1` ·
+> `docs/en/research/DISTRIBUTED_KNOWLEDGE_FEDERATION.md §12` ·
+> `docs/de/research/VERTEILTES_WISSEN_FEDERATION.md §12`
+
+Every LoRA and AdaLoRA mechanism described in this paper belongs to exactly one
+of the following seven runtime influence classes. The classification determines
+operator intent (tunable vs. autonomous), feedback expectations, and SLO
+coupling.
+
+| # | Class | Semantics | Instances in this paper |
+|---|---|---|---|
+| 1 | **Switch** | Binary ON/OFF — deterministic code-path flip | `enable_draft_kv_cache`, `hot_swap.enabled`, `importance_pruning.enabled`, `federation.broadcast_importance_scores` |
+| 2 | **Fader** | Continuous signed −x…0…+x — hot-reloadable via SIGHUP; neutral point separates suppressive from amplifying regime | `acceptance_threshold` (0.6–0.75–0.9), `total_rank_budget` (128–512–1024), `speculative_tokens` (3–6–10), `chunked_prefill_size`, `worker_threads` |
+| 3 | **Optimizer** | Solves a mathematical objective (min/max); no environment perception; triggered externally | `WorkloadFingerprintEngine` (min. workload-class error), FedAvg rank aggregation (min. federated loss), TIES-Merge SVD (min. sign conflict), BayesianOptimizer (max. F1) |
+| 4 | **Agentic Solver** | Perception → Decision → Action cycle; fully autonomous; no operator in the loop | `SelfImprovementModule` (Acceptance + Confidence → threshold rewrite), LLM Intent Classifier (query semantics → route/block), `CrossShardFeedbackSync` |
+| 5 | **Closed Loop** | Output measured; measurement fed back as correction signal into same process | AdaLoRA importance-score → rank reallocation loop, CI SLO gate (P99 regression blocks deploy), RLAIF quality loop |
+| 6 | **Open Loop** | Input triggers action; no feedback path returns to the trigger source | SIGHUP config hot-reload, gossip broadcast of importance scores, event-triggered LoRA hot-swap, Kafka → GraphDB write |
+| 7 | **Causal Chain** | Directed multi-component cause-effect sequence; no return path to originator | WorkloadFingerprintEngine → `total_rank_budget` → AdaLoRA per-layer reallocation → FedAvg shard propagation → TTFT P99↓ · Throughput↑ |
+
+**Key design rule:** Switches and Faders are operator-controlled; Optimizers,
+Agentic Solvers, and Closed Loops are system-controlled. Open Loops and Causal
+Chains are fire-and-forget — SLO effects must be validated by an independent
+monitoring path (§6 Δp99 rules).
