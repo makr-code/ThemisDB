@@ -18,7 +18,7 @@ ARG FORCE_CPU_ONLY=OFF
 ARG BUILD_TESTS=OFF
 ARG BUILD_BENCHMARKS=OFF
 ARG THEMIS_ENABLE_ENCRYPTED_STORAGE=OFF
-ARG TARGETARCH
+ARG TARGETARCH=amd64
 
 # ============================================================================
 # Stage 0: prebuilt - Dummy stage for optional pre-built artifacts
@@ -92,19 +92,14 @@ RUN set -eux; \
     fi; \
     \
     # Detect architecture triplet
-    ARCH="${TARGETARCH:-}"; \
-    if [ -z "${ARCH}" ]; then \
-        ARCH="$(dpkg --print-architecture)"; \
-    fi; \
-    case "${ARCH}" in \
+    case "${TARGETARCH}" in \
         amd64) TRIPLET="x64-linux" ;; \
         arm64) TRIPLET="arm64-linux" ;; \
         arm)   TRIPLET="arm-linux" ;; \
-        *)     echo "ERROR: Unsupported arch ${ARCH}"; exit 1 ;; \
+        *)     echo "ERROR: Unsupported arch ${TARGETARCH}"; exit 1 ;; \
     esac; \
     echo "${TRIPLET}" > /tmp/triplet.txt; \
-    echo "${ARCH}" > /tmp/targetarch.txt; \
-    echo "✓ Architecture: ${TRIPLET} (${ARCH})"
+    echo "✓ Architecture: ${TRIPLET} (${TARGETARCH})"
 
 # Copy vcpkg configuration
 COPY vcpkg-configuration.json ./
@@ -256,14 +251,17 @@ COPY include ./include
 COPY src ./src
 COPY proto ./proto
 COPY internal ./internal
-COPY models ./models
+COPY docs ./docs
+COPY compendium ./compendium
+COPY examples ./examples
+COPY scripts ./scripts
+COPY tools ./tools
 
 # Copy vcpkg manifests from deps stage
 COPY --from=deps /build/vcpkg.json ./vcpkg.json
 COPY --from=deps /build/vcpkg-configuration.json ./vcpkg-configuration.json
 COPY --from=deps /build/vcpkg_installed /build/vcpkg_installed
 COPY --from=deps /tmp/triplet.txt /tmp/triplet.txt
-COPY --from=deps /tmp/targetarch.txt /tmp/targetarch.txt
 
 # Copy llama.cpp build artifacts
 COPY --from=llama /opt/llama.cpp /opt/llama.cpp
@@ -271,7 +269,6 @@ COPY --from=llama /opt/llama.cpp /opt/llama.cpp
 # Build ThemisDB with CMake (matching Windows presets)
 RUN set -eux; \
     TRIPLET=$(cat /tmp/triplet.txt); \
-    ARCH=$(cat /tmp/targetarch.txt); \
     EDITION_UPPER=$(echo "${THEMIS_EDITION}" | tr '[:lower:]' '[:upper:]'); \
     \
     echo "=========================================="; \
@@ -283,7 +280,7 @@ RUN set -eux; \
     echo "CPU-only:       ${FORCE_CPU_ONLY}"; \
     echo "Tests:          ${BUILD_TESTS}"; \
     echo "Benchmarks:     ${BUILD_BENCHMARKS}"; \
-    echo "Target Arch:    ${ARCH}"; \
+    echo "Target Arch:    ${TARGETARCH}"; \
     echo "vcpkg Triplet:  ${TRIPLET}"; \
     echo "=========================================="; \
     \
@@ -341,7 +338,10 @@ LABEL org.opencontainers.image.title="ThemisDB" \
 
 ENV DEBIAN_FRONTEND=noninteractive \
     THEMIS_EDITION=${THEMIS_EDITION} \
-    LD_LIBRARY_PATH=/usr/local/lib:/opt/themis/lib \
+    LD_LIBRARY_PATH=/opt/themis/bin \
+    THEMIS_CONFIG_DIR=/etc/themis/config \
+    THEMIS_DATA_DIR=/var/lib/themis/data \
+    THEMIS_LOG_DIR=/var/log/themis \
     THEMIS_MODEL_DIR=/opt/themis/models
 
 WORKDIR /opt/themis
@@ -358,14 +358,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         libssl3t64 \
         zlib1g \
         libstdc++6 \
-        # OpenMP runtime required by RocksDB parallel compression and LLM libs
         libgomp1 \
-        # NUMA support for multi-socket performance (required by some RocksDB builds)
-        libnuma1 \
-        # liblzma for XZ compression support
-        liblz4-1 \
-        libzstd1 \
-        libsnappy1v5 \
         curl \
         libsodium23; \
     if [ "${THEMIS_ENABLE_ENCRYPTED_STORAGE}" = "ON" ]; then \
@@ -379,12 +372,8 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 # Copy themis_server binary
 COPY --from=build /src/build/bin/themis_server /opt/themis/bin/themis_server
 
-# Bundle exactly one default GGUF model for startup initialization.
-# Other models remain runtime/on-demand.
-COPY models/tinyllama-1.1b-q4_0.gguf /opt/themis/models/default.gguf
-
-# Copy llama.cpp libraries (if LLM enabled)
-COPY --from=llama /opt/llama.cpp/build/lib*.so* /usr/local/lib/
+# Copy prebuilt documentation assets when available
+COPY --from=build /src/build/data/ /opt/themis/data/
 
 # Copy bundled mini model when available
 COPY --from=mini-llm /opt/themis-mini-llm/models/ /opt/themis/models/
@@ -425,30 +414,35 @@ COPY config/config.yaml /etc/themis/config/config.yaml
 COPY config/pii_patterns.yaml /etc/themis/config/pii_patterns.yaml
 COPY config/ai_ml/lora_training_config.yaml /etc/themis/config/ai_ml/lora_training_config.yaml
 
-# Create required directories:
-#   /data           – persistent database files (mount a volume here)
-#   /data/llm_cache – LLM response cache RocksDB (writable at runtime)
-#   /data/rocksdb   – main RocksDB storage
-#   /etc/themis     – optional config file location
-# Non-root user "themis" owns all runtime paths.
-RUN mkdir -p /data/rocksdb /data/llm_cache /etc/themis && \
-    useradd -r -u 1000 -d /opt/themis -s /bin/false themis && \
-    chown -R themis:themis /opt/themis /data /etc/themis
+# Create canonical Linux runtime directories and compatibility links
+RUN mkdir -p /var/log/themis && \
+    mkdir -p /var/lib/themis/data && \
+    mkdir -p /opt/themis && \
+    mkdir -p /opt/themis/models && \
+    mkdir -p /opt/themis/data && \
+    ln -sfn /etc/themis/config /opt/themis/config && \
+    ln -sfn /var/log/themis /opt/themis/logs && \
+    chmod 755 /var/log/themis /var/lib/themis /var/lib/themis/data && \
+    if ! id -u themis >/dev/null 2>&1; then \
+        if getent passwd 1000 >/dev/null 2>&1; then \
+            useradd -r -d /opt/themis -s /bin/false themis; \
+        else \
+            useradd -r -u 1000 -d /opt/themis -s /bin/false themis; \
+        fi; \
+    fi && \
+    chown -R themis:themis /opt/themis /etc/themis /var/lib/themis /var/log/themis
 
 USER themis
 
 # Expose default port
-EXPOSE 8765
+EXPOSE 8080
 
-# Health check — polls the /health HTTP endpoint exposed by the server
-# (GET /health returns 200 when the server is ready to accept queries)
-HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=5 \
-    CMD curl -f http://localhost:8765/health || exit 1
+# Health check
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+    CMD curl -f http://localhost:8080/health || exit 1
 
 ENTRYPOINT ["/opt/themis/bin/themis_server"]
-# Default: use /data as working dir so relative paths resolve correctly.
-# The --config flag is optional; server starts without a config file.
-CMD ["--data-dir=/data"]
+CMD ["--config=/etc/themis/config/config.yaml", "--data-dir=/var/lib/themis/data"]
 
 # ============================================================================
 # Stage 6: debug - Development/debugging image
@@ -459,17 +453,15 @@ ARG THEMIS_EDITION
 
 ENV DEBIAN_FRONTEND=noninteractive \
     THEMIS_EDITION=${THEMIS_EDITION} \
-    LD_LIBRARY_PATH=/usr/local/lib:/opt/themis/lib \
-    THEMIS_MODEL_DIR=/opt/themis/models
+    LD_LIBRARY_PATH=/usr/local/lib:/opt/themis/lib
 
 WORKDIR /opt/themis
 
 # Install debug tools
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    apt-get update && apt-get install -y --no-install-recommends \
-        ca-certificates libssl3t64 zlib1g libstdc++6 libgomp1 \
-        libnuma1 liblz4-1 libzstd1 libsnappy1v5 curl \
+    apt-get update && apt-get -y upgrade && apt-get install -y --no-install-recommends \
+        ca-certificates libssl3t64 zlib1g libstdc++6 curl \
         gdb valgrind strace ltrace lsof htop vim less \
         netcat-openbsd telnet iproute2 dnsutils && \
     apt-get clean && \
@@ -479,7 +471,6 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 COPY --from=build /src/build/bin/themis_server /opt/themis/bin/themis_server
 COPY --from=build /src/build/compile_commands.json /opt/themis/
 COPY --from=llama /opt/llama.cpp/build/lib*.so* /usr/local/lib/
-COPY models/tinyllama-1.1b-q4_0.gguf /opt/themis/models/default.gguf
 RUN --mount=type=bind,from=deps,source=/build/vcpkg_installed,target=/deps_vcpkg,readonly \
     mkdir -p /opt/themis/lib && \
     cp -a /deps_vcpkg/*/lib/*.so* /opt/themis/lib/ 2>/dev/null || true
@@ -488,10 +479,10 @@ RUN --mount=type=bind,from=deps,source=/build/vcpkg_installed,target=/deps_vcpkg
 COPY --from=build /src /src
 
 RUN ldconfig && \
-    mkdir -p /data/rocksdb /data/llm_cache /etc/themis && \
-    chown -R root:root /opt/themis /data /etc/themis
+    mkdir -p /data && \
+    chown -R root:root /opt/themis /data
 
-EXPOSE 8765
+EXPOSE 8080
 
 ENTRYPOINT ["/opt/themis/bin/themis_server"]
-CMD ["--data-dir=/data"]
+CMD ["--config=/etc/themis/config.yml", "--data-dir=/data"]

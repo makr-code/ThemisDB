@@ -2,8 +2,8 @@
 
 ## Executive Summary
 
-**Date:** April 12, 2026  
-**Overall Progress:** 88% complete  
+**Date:** April 3, 2026  
+**Overall Progress:** 85% complete  
 **Current Phase:** Phase 5 (Production Readiness & Operations — in progress)
 
 ## Roadmap Overview
@@ -100,13 +100,13 @@ Status: **Production-ready for Phase 4 scope** ✅
 ### Code Metrics
 
 **Implementation (all phases through Phase 3):**
-- Files: 800+ source files across 46 modules
+- Files: 800+ source files across 50 modules
 - Production code: 500K+ lines of code
 - Tests: 4,000+ test cases across all modules
 - Tests passing: 100% on CI
 
 **Documentation:**
-- Module documentation: 153 files across 46 modules
+- Module documentation: 150+ files across 50 modules
 - Total documentation: 300+ files including `docs/` guides
 - Coverage: Complete for all production-ready modules
 
@@ -329,18 +329,18 @@ Status: **Production-ready for Phase 4 scope** ✅
 
 ### Key Documents
 
-1. `roadmap.md` - Complete aggregated roadmap (all 46 modules, v1.8.0 current)
+1. `roadmap.md` - Complete aggregated roadmap (all 50 modules, v1.8.0 current)
 2. `CHANGELOG.md` - Root-level changelog
-3. `docs/development/DEVELOPMENT_STATUS.md` - Development phase history
-4. `docs/development/CURRENT_STATUS.md` - This document
+3. `DEVELOPMENT_STATUS.md` - Development phase history
+4. `CURRENT_STATUS.md` - This document
 5. `docs/de/releases/` - Release notes per version (v1.5.0, v1.7.0, v1.8.0)
-6. `src/<module>/CHANGELOG.md` - Per-module version history (46 modules)
+6. `src/<module>/CHANGELOG.md` - Per-module version history (50 modules)
 7. `src/<module>/ROADMAP.md` - Per-module future work
 
 ### Documentation Stats
 
 - Root documentation files: 20+
-- Module documentation: 153 files (46 modules × README + ROADMAP + CHANGELOG)
+- Module documentation: 150+ files (50 modules × README + ROADMAP + CHANGELOG, plus module-specific extras)
 - Total docs/ directory: 300+ files
 - Language coverage: EN, DE, FR, ES, JA
 
@@ -364,6 +364,7 @@ Status: **Production-ready for Phase 4 scope** ✅
 - ✅ **Automatic Failover:** AutoFailoverManager orchestration + focused tests
 - ✅ **Chaos Engineering Framework:** fault injection + network/scheduler chaos tests
 - ✅ **Disaster Recovery Procedures:** DisasterRecoveryManager orchestration + focused tests
+- ✅ **Docker Image Security Hardening:** CVE-Scan via Docker Scout; 39 → 3 verbleibende CVEs (alle ohne upstream-Fix); `THEMIS_ENABLE_ENCRYPTED_STORAGE=OFF` als Standard; Community-Image auf `themisdb/themisdb:latest` + `v1.8.1-rc1` veröffentlicht (April 2026)
 
 ### Planned ⏳
 
@@ -383,14 +384,14 @@ Status: **Production-ready for Phase 4 scope** ✅
 ## Conclusion
 
 **Status:** On track ✅  
-**Progress:** 88% complete  
+**Progress:** 85% complete  
 **Quality:** Production-grade ⭐⭐⭐⭐⭐  
 **Next:** Phase 5 operational tooling & admin UI  
 **Confidence:** High
 
-ThemisDB has successfully implemented production-grade observability, durability, and full RPC/network resilience infrastructure. The system now guarantees zero data loss, provides fast recovery (<3s), supports all major network protocols (gRPC, HTTP/1–3, WebSocket, PostgreSQL Wire, MQTT), and has comprehensive security (mTLS, HSM, CRL/OCSP). Phase 4 delivered fencing, failover, chaos, and disaster-recovery orchestration for resilient multi-node operation. Module additions on 2026-04-12 include: StreamingIngestManager, ColumnarCache, TsStreamCursor, TSStore::putBatch, TemporalCompressor LZ4, IStreamingJoin (HashJoin/IntervalJoin), LockFreeHistogram, LIRS/RCU fixes, RequestCoalescer (Singleflight), IoUringBatchedSender, UUID v7, streaming ZSTD, AiHardwareDispatcher, NCCL/RCCL mergeTopK, maintenance wiring (MVCC_CLEANUP + STORAGE_COMPACTION), and secondary index ACID + performance improvements.
+ThemisDB has successfully implemented production-grade observability, durability, and full RPC/network resilience infrastructure. The system now guarantees zero data loss, provides fast recovery (<3s), supports all major network protocols (gRPC, HTTP/1–3, WebSocket, PostgreSQL Wire, MQTT), and has comprehensive security (mTLS, HSM, CRL/OCSP). Phase 4 delivered fencing, failover, chaos, and disaster-recovery orchestration for resilient multi-node operation. Docker images are published to `themisdb/themisdb` on Docker Hub with a hardened security baseline (0 CRITICAL/HIGH CVEs).
 
 ---
 
-**Last Updated:** April 12, 2026  
+**Last Updated:** April 5, 2026  
 **Next Milestone:** Phase 5 operational tooling (Q2/Q3 2026)

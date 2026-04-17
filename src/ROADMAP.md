@@ -1,11 +1,11 @@
-<!-- Status: current | generated: 2026-04-13 | source: all src/*/FUTURE_ENHANCEMENTS.md -->
+<!-- Status: current | generated: 2026-03-12 | source: all src/*/FUTURE_ENHANCEMENTS.md -->
 <!-- Use this file as the master backlog for GitHub Issue creation. -->
 <!-- Each item row maps directly to one GitHub Issue. -->
 
 # ThemisDB — Consolidated Source Roadmap
 
 > **Purpose:** This document aggregates every open TODO, stub-replacement, and planned feature
-> from all 46 module `FUTURE_ENHANCEMENTS.md` files.  
+> from all 50 module `FUTURE_ENHANCEMENTS.md` files.  
 > It is sorted by **Priority → Target Version → Module** and is the canonical input for
 > creating GitHub Issues with full implementation context.
 
@@ -93,20 +93,18 @@ See: <Detail link>
 | Priority | Count |
 |----------|-------|
 | 🔴 Critical | 4 |
-| 🟠 High | 124 |
-| 🟡 Medium | 105 |
-| 🟢 Low | 43 |
-| **Total** | **276** |
-| ✅ Completed (in table) | 4 |
-| **Open** | **272** |
+| 🟠 High | 89 |
+| 🟡 Medium | 84 |
+| 🟢 Low | 38 |
+| **Total** | **215** |
 
 | Target Version | Open Items |
 |---|---|
-| ≤ v1.4.0 | 48 |
-| v1.5.0 – v1.6.0 | 38 |
-| v1.7.0 – v1.8.0 | 141 |
-| v1.9.0 – v2.0.0 | 33 |
-| v2.1.0+ | 1 |
+| ≤ v1.2.0 | 34 |
+| v1.3.0 – v1.6.0 | 63 |
+| v1.7.0 – v1.8.0 | 86 |
+| v1.9.0 – v2.0.0 | 21 |
+| v2.1.0+ | 11 |
 
 ---
 
@@ -172,7 +170,7 @@ See: <Detail link>
 | 36 | acceleration | Vulkan Compute Shader Pipeline for Cross-Platform GPU | v1.7.0 | `gpu`, `module:acceleration` | #3864 | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#vulkan-compute-shader-pipeline-for-cross-platform-gpu) |
 | 37 | acceleration | Runtime Device Capability Negotiation | v1.7.0 | `gpu`, `module:acceleration` | #3865 | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#runtime-device-capability-negotiation) |
 | 38 | acceleration | Plugin Security: CRL and OCSP Certificate Revocation Checking | v1.8.0 | `security`, `module:acceleration` | #3866 | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#plugin-security-crl-and-ocsp-certificate-revocation-checking) |
-| 39 | acceleration | NCCL/RCCL Distributed `mergeTopK` Implementation | v1.9.0 | `gpu`, `distributed`, `module:acceleration` | #3867 ✅ | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#ncclrccl-distributed-mergetopk-implementation) |
+| 39 | acceleration | NCCL/RCCL Distributed `mergeTopK` Implementation | v1.9.0 | `gpu`, `distributed`, `module:acceleration` | #3867 | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#ncclrccl-distributed-mergetopk-implementation) |
 | 40 | analytics | ExporterFactory Stub Replacement | v1.8.0 | `stub-replacement`, `module:analytics` | #3868 | [→ Detail](analytics/FUTURE_ENHANCEMENTS.md#1--exporterfactory-stub-replacement) |
 | 41 | analytics | Lock Held Across User Callbacks in `CEPEngine::timerLoop()` | v1.8.0 | `thread-safety`, `module:analytics` | #3869 | [→ Detail](analytics/FUTURE_ENHANCEMENTS.md#2--lock-held-across-user-callbacks-in-cepenginetimerloop) |
 | 42 | analytics | `StreamingAnomalyDetector::process()` — Training Under Lock | v1.8.0 | `thread-safety`, `performance`, `module:analytics` | #3870 | [→ Detail](analytics/FUTURE_ENHANCEMENTS.md#3--streaminganomalydetectorprocess--training-under-lock) |
@@ -308,7 +306,7 @@ See: <Detail link>
 | 163 | chimera | Adapter Configuration Validation | v1.2.0 | `correctness`, `module:chimera` | #3994 | [→ Detail](chimera/FUTURE_ENHANCEMENTS.md#adapter-configuration-validation) |
 | 164 | config | `ConfigEncryptedStore` Read-Path Lock Upgrade | v1.8.0 | `thread-safety`, `module:config` | #3995 | [→ Detail](config/FUTURE_ENHANCEMENTS.md#configencryptedstore-read-path-lock-upgrade) |
 | 165 | config | Configurable LRU Cache Size and TTL via Environment Variables | v1.7.0 | `dx`, `module:config` | #3996 | [→ Detail](config/FUTURE_ENHANCEMENTS.md#configurable-lru-cache-size-and-ttl-via-environment-variables) |
-| 166 | config | Multi-Environment Config Overlay (dev/staging/prod) | ~~v1.9.0~~ ✅ done | `dx`, `module:config` | #3997 ✅ | [→ Detail](config/FUTURE_ENHANCEMENTS.md#multi-environment-config-overlay-devstatingprod) |
+| 166 | config | Multi-Environment Config Overlay (dev/staging/prod) | v1.9.0 | `dx`, `module:config` | #3997 | [→ Detail](config/FUTURE_ENHANCEMENTS.md#multi-environment-config-overlay-devstatingprod) |
 | 167 | content | `AsyncIngestionWorker`: YAML Config Loading and User Context | v1.8.0 | `correctness`, `module:content` | #3998 | [→ Detail](content/FUTURE_ENHANCEMENTS.md#asyncingestionworker-yaml-config-loading-and-user-context) |
 | 168 | content | Content Deduplication via Perceptual Hashing | v1.8.0 | `feature`, `module:content` | #3999 | [→ Detail](content/FUTURE_ENHANCEMENTS.md#content-deduplication-via-perceptual-hashing) |
 | 169 | exporters | HuggingFace Hub Client: HTTP 429 Back-Off | v1.8.0 | `reliability`, `module:exporters` | #4000 | [→ Detail](exporters/FUTURE_ENHANCEMENTS.md#huggingface-hub-client-http-rate-limit-handling-429-back-off) |
@@ -370,17 +368,17 @@ See: <Detail link>
 
 | # | Module | Title | Target | Labels | Issue | Detail |
 | --- | --- | --- | --- | --- | --- | --- |
-| 219 | acceleration | CUDA HNSW Kernel: Visited Array Memory Scaling | ~~v1.9.0~~ ✅ done | `gpu`, `memory`, `module:acceleration` | #4050 | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#cuda-hnsw-kernel-visited-array-memory-scaling) |
+| 219 | acceleration | CUDA HNSW Kernel: Visited Array Memory Scaling | v1.9.0 | `gpu`, `memory`, `module:acceleration` | #4050 | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#cuda-hnsw-kernel-visited-array-memory-scaling) |
 | 220 | acceleration | TensorCore Matmul: INT8 Quantized Precision Path | v1.9.0 | `gpu`, `ml`, `module:acceleration` | #4051 | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#tensorcore-matmul-int8-quantized-precision-path) |
-| 221 | acceleration | FAISS GPU Backend: HNSW and ScalarQuantizer Index Types | ~~v1.9.0~~ ✅ done | `gpu`, `module:acceleration` | #4052 | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#faiss-gpu-backend-hnsw-and-scalarquantizer-index-types) |
+| 221 | acceleration | FAISS GPU Backend: HNSW and ScalarQuantizer Index Types | v1.9.0 | `gpu`, `module:acceleration` | #4052 | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#faiss-gpu-backend-hnsw-and-scalarquantizer-index-types) |
 | 222 | acceleration | Multi-GPU Sharding for Large Embedding Datasets | v1.9.0 | `gpu`, `distributed`, `module:acceleration` | #4053 | [→ Detail](acceleration/FUTURE_ENHANCEMENTS.md#multi-gpu-sharding-for-large-embedding-datasets) |
 | 223 | analytics | Forecasting: Batch Prediction, Streaming Update, SIMD Fit | v1.9.0 | `ml`, `module:analytics` | #4054 | [→ Detail](analytics/FUTURE_ENHANCEMENTS.md#16--forecasting-batch-prediction-streaming-update-simd-fit) |
-| 224 | config | Multi-Environment Config Overlay (dev/staging/prod) | ~~v1.9.0~~ ✅ done | `dx`, `module:config` | #3997 ✅ | [→ Detail](config/FUTURE_ENHANCEMENTS.md#multi-environment-config-overlay-devstatingprod) |
+| 224 | config | Multi-Environment Config Overlay (dev/staging/prod) | v1.9.0 | `dx`, `module:config` | #3997 | [→ Detail](config/FUTURE_ENHANCEMENTS.md#multi-environment-config-overlay-devstatingprod) |
 | 225 | llm | Speculative Decoding for Latency Reduction | v1.9.0 | `performance`, `module:llm` | #4055 | [→ Detail](llm/FUTURE_ENHANCEMENTS.md#speculative-decoding-for-latency-reduction) |
 | 226 | network | QUIC Protocol Support | v2.0.0 | `network`, `module:network` | #4056 | [→ Detail](network/FUTURE_ENHANCEMENTS.md#quic-protocol-support) |
 | 227 | network | Kernel Bypass (DPDK/io_uring) | v1.9.0 | `performance`, `network`, `module:network` | #4057 | [→ Detail](network/FUTURE_ENHANCEMENTS.md#kernel-bypass-dpdk--io_uring) |
 | 228 | performance | NUMA-Aware Memory Management | v1.9.0 | `performance`, `memory`, `module:performance` | #4058 | [→ Detail](performance/FUTURE_ENHANCEMENTS.md#numa-aware-memory-management) |
-| 229 | performance | Advanced Cache Optimization | ~~v1.9.0~~ ✅ done | `performance`, `module:performance` | #4059 ✅ | [→ Detail](performance/FUTURE_ENHANCEMENTS.md#advanced-cache-optimization) |
+| 229 | performance | Advanced Cache Optimization | v1.9.0 | `performance`, `module:performance` | #4059 | [→ Detail](performance/FUTURE_ENHANCEMENTS.md#advanced-cache-optimization) |
 | 230 | performance | Workload-Adaptive Optimization | v1.9.0 | `performance`, `ml`, `module:performance` | #4060 | [→ Detail](performance/FUTURE_ENHANCEMENTS.md#workload-adaptive-optimization) |
 | 231 | storage | Zero-Copy Blob Transfers | v1.7.0 | `performance`, `io`, `module:storage` | #4061 | [→ Detail](storage/FUTURE_ENHANCEMENTS.md#zero-copy-blob-transfers) |
 | 232 | transaction | Transaction Savepoints | v1.8.0 | `feature`, `transactions`, `module:transaction` | #4062 | [→ Detail](transaction/FUTURE_ENHANCEMENTS.md#transaction-savepoints) |
@@ -410,7 +408,7 @@ See: <Detail link>
 | 247 | config | SIGHUP Hot-Reload: inotify-Based File Watch | v1.8.0 | `dx`, `module:config` | #4077 | [→ Detail](config/FUTURE_ENHANCEMENTS.md#sighup-hot-reload-inotify-based-file-watch) |
 | 248 | config | ConfigSchemaValidator: Extended JSON Schema Keyword Support | v2.0.0 | `feature`, `module:config` | #4078 | [→ Detail](config/FUTURE_ENHANCEMENTS.md#configschemavalidator-extended-json-schema-keyword-support) |
 | 249 | exporters | `StreamWriter`: Replace zlib with ZSTD as Sole Compression Backend | v1.8.0 | `cleanup`, `performance`, `module:exporters` | #4079 | [→ Detail](exporters/FUTURE_ENHANCEMENTS.md#streamwriter-replace-zlib-with-zstd-as-sole-compression-backend) |
-| 250 | graph | Query Rewriting for Graph Optimization | ~~v1.9.0~~ ✅ done | `performance`, `module:graph` | #4080 ✅ | [→ Detail](graph/FUTURE_ENHANCEMENTS.md#query-rewriting-for-graph-optimization) |
+| 250 | graph | Query Rewriting for Graph Optimization | v1.9.0 | `performance`, `module:graph` | #4080 | [→ Detail](graph/FUTURE_ENHANCEMENTS.md#query-rewriting-for-graph-optimization) |
 | 251 | importers | Importer Plugin API | v1.8.0 | `feature`, `plugin`, `module:importers` | #4081 | [→ Detail](importers/FUTURE_ENHANCEMENTS.md#importer-plugin-api) |
 | 252 | maintenance | Distributed Maintenance Coordination via Raft | v2.0.0 | `distributed`, `module:maintenance` | #4082 | [→ Detail](maintenance/FUTURE_ENHANCEMENTS.md#distributed-maintenance-coordination-via-raft) |
 | 253 | maintenance | Multi-Tenant Schedule Isolation | v2.0.0 | `feature`, `multi-tenant`, `module:maintenance` | #4083 | [→ Detail](maintenance/FUTURE_ENHANCEMENTS.md#multi-tenant-schedule-isolation) |
@@ -526,11 +524,11 @@ Affects: `sharding`, `replication`, `transaction`, `maintenance`, `cache`, `quer
 
 | Count | Priority | Modules |
 |-------|----------|---------|
-| 20 | 🟠 High | auth, base, chimera, geo, security, temporal |
+| 5 | 🟠 High | auth, base, chimera, geo, security, temporal |
 | 10 | 🟡 Medium | auth, base, chimera, maintenance, temporal |
 | 5 | 🟢 Low | auth, base |
 
-→ **~35 open items** (≤ v1.4.0 total: 48, minus v1.1.0 cohort)  
+→ **20 open items**  
 → Primary labels: `security`, `thread-safety`, `wasm`, `transactions`
 
 ---
@@ -540,10 +538,10 @@ Affects: `sharding`, `replication`, `transaction`, `maintenance`, `cache`, `quer
 
 | Count | Priority | Modules |
 |-------|----------|---------|
-| 25 | 🟠 High | aql, core, geo, index, ingestion, observability, query, replication, server, sharding, storage, updates |
-| 13 | 🟡 Medium | aql, analytics, ingestion, replication, storage, updates |
+| 15 | 🟠 High | aql, core, geo, index, ingestion, observability, query, replication, server, sharding, storage, updates |
+| 10 | 🟡 Medium | aql, analytics, ingestion, replication, storage, updates |
 
-→ **38 open items**  
+→ **25 open items**  
 → Primary labels: `feature`, `performance`, `observability`, `distributed`
 
 ---
@@ -553,11 +551,11 @@ Affects: `sharding`, `replication`, `transaction`, `maintenance`, `cache`, `quer
 
 | Count | Priority | Modules |
 |-------|----------|---------|
-| 72 | 🟠 High | acceleration, analytics, api, cache, cdc, config, content, gpu, importers, ingestion, llm, network, observability, query, rag, replication, scheduler, security, server, sharding, storage, themis, timeseries, training, transaction, updates |
-| 55 | 🟡 Medium | (most modules) |
-| 14 | 🟢 Low | various |
+| 50 | 🟠 High | acceleration, analytics, api, cache, cdc, config, content, gpu, importers, ingestion, llm, network, observability, query, rag, replication, scheduler, security, server, sharding, storage, themis, timeseries, training, transaction, updates |
+| 60 | 🟡 Medium | (most modules) |
+| 15 | 🟢 Low | various |
 
-→ **141 open items** — largest milestone  
+→ **~125 open items** — largest milestone  
 → Primary labels: `stub-replacement`, `thread-safety`, `gpu`, `performance`, `security`
 
 ---
@@ -567,11 +565,11 @@ Affects: `sharding`, `replication`, `transaction`, `maintenance`, `cache`, `quer
 
 | Count | Priority | Modules |
 |-------|----------|---------|
-| 10 | 🟠 High | api, sharding, transaction |
-| 14 | 🟡 Medium | acceleration, analytics, config, llm, network, performance, storage, transaction |
-| 9 | 🟢 Low | cdc, chimera, config, graph, maintenance |
+| 8 | 🟠 High | api, sharding, transaction |
+| 10 | 🟡 Medium | acceleration, analytics, config, llm, network, performance, storage, transaction |
+| 6 | 🟢 Low | cdc, chimera, config, graph, maintenance |
 
-→ **33 open items**  
+→ **24 open items**  
 → Primary labels: `distributed`, `gpu`, `performance`, `platform`
 
 ---
@@ -632,6 +630,6 @@ epic:llm-integration       LLM inference, LoRA, training pipeline
 
 ---
 
-*Generated: 2026-04-13 · Based on: `src/*/FUTURE_ENHANCEMENTS.md` (54 modules)*  
+*Generated: 2026-04-04 · Based on: `src/*/FUTURE_ENHANCEMENTS.md` (50 modules)*  
 *Next update: when any module FUTURE_ENHANCEMENTS.md is changed.*  
 *Issues tracker: [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)*

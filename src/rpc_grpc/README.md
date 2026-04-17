@@ -1,11 +1,11 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-03-22 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # ThemisDB gRPC RPC Plugin
 
 **Version:** 0.0.1  
-**Status:** 🟢 Production-Ready  
-**Last Updated:** 2026-04-06  
+**Status:** 🔴 Alpha (v0.0.1)  
+**Last Updated:** 2026-03-22  
 **Module Path:** `src/rpc_grpc/`  
 **Namespace:** `themis::plugins::rpc::grpc_plugin`  
 **Default Port:** 50051

@@ -20,6 +20,8 @@
 
 ThemisDB is an enterprise-grade, multi-model database engine that combines relational, graph, vector, document, geospatial, and time-series storage in a single system — with native AI/LLM integration built in. It is designed for workloads that require strong transactional guarantees, distributed operation, and advanced analytical capabilities alongside modern machine-learning workflows.
 
+ThemisDB has **comprehensive documentation for all 50 modules** with production-ready standards:
+
 **Key capabilities at a glance:**
 
 | Capability | Details |

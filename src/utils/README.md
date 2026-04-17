@@ -24,7 +24,7 @@ Provides shared utility functions and cross-cutting infrastructure components us
 
 ## Current Delivery Status
 
-**Maturity:** 🟢 Production-Ready — Core utilities and Phase 2/3 extensions are implemented; only structured log query API remains tracked as in-progress.
+**Maturity:** 🟢 Production-Ready — Core utility stack (audit, PII detection/pseudonymization, tracing, compression, crypto helpers, pagination, text tooling) is operational.
 
 ## Components
 

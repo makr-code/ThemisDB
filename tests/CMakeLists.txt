@@ -37,9 +37,9 @@ set(TEST_LIBS
 message(STATUS "GTest found - building unified test binary")
 
 include_directories(
-    ${CMAKE_SOURCE_DIR}/include
-    ${CMAKE_SOURCE_DIR}/src
-    ${CMAKE_SOURCE_DIR}/benchmarks
+    ${THEMIS_ROOT_DIR}/include
+    ${THEMIS_ROOT_DIR}/src
+    ${THEMIS_ROOT_DIR}/benchmarks
     ${GTest_INCLUDE_DIRS}
 )
 
@@ -521,14 +521,14 @@ add_executable(themis_tests ${ALL_TEST_SOURCES})
 # Ensure focused tests in the aggregated themis_tests target have their
 # corresponding production implementations linked in modular builds.
 target_sources(themis_tests PRIVATE
-    ${CMAKE_SOURCE_DIR}/src/exporters/join_exporter.cpp
-    ${CMAKE_SOURCE_DIR}/src/performance/adaptive_query_compiler.cpp
-    ${CMAKE_SOURCE_DIR}/src/performance/intelligent_prefetcher.cpp
-    ${CMAKE_SOURCE_DIR}/src/performance/hardware_accelerator.cpp
-    ${CMAKE_SOURCE_DIR}/src/transaction/distributed_transaction_manager.cpp
-    ${CMAKE_SOURCE_DIR}/src/network/udp_server.cpp
-    ${CMAKE_SOURCE_DIR}/src/training/ada_lora_adapter.cpp
-    ${CMAKE_SOURCE_DIR}/src/training/lora_adapter_merger.cpp
+    ${THEMIS_ROOT_DIR}/src/exporters/join_exporter.cpp
+    ${THEMIS_ROOT_DIR}/src/performance/adaptive_query_compiler.cpp
+    ${THEMIS_ROOT_DIR}/src/performance/intelligent_prefetcher.cpp
+    ${THEMIS_ROOT_DIR}/src/performance/hardware_accelerator.cpp
+    ${THEMIS_ROOT_DIR}/src/transaction/distributed_transaction_manager.cpp
+    ${THEMIS_ROOT_DIR}/src/network/udp_server.cpp
+    ${THEMIS_ROOT_DIR}/src/training/ada_lora_adapter.cpp
+    ${THEMIS_ROOT_DIR}/src/training/lora_adapter_merger.cpp
 )
 
 # Enforce feature-gated exclusions on the resolved target source list as a
@@ -938,7 +938,7 @@ endif()
 
 # Ensure VisionConfig implementation is linked for vision API tests.
 target_sources(themis_tests PRIVATE
-    ${CMAKE_SOURCE_DIR}/src/llm/vision_config.cpp
+    ${THEMIS_ROOT_DIR}/src/llm/vision_config.cpp
 )
 
 # Ensure implementations required by unit tests are always linked.
@@ -946,25 +946,25 @@ target_sources(themis_tests PRIVATE
 # These target_sources entries serve as fallback for builds where the relevant feature flags are
 # OFF (e.g., THEMIS_ENABLE_HTTP_SERVER=OFF) so tests still compile and link correctly.
 target_sources(themis_tests PRIVATE
-    ${CMAKE_SOURCE_DIR}/src/exporters/data_augmentation.cpp
-    ${CMAKE_SOURCE_DIR}/src/exporters/export_format_registry.cpp
-    ${CMAKE_SOURCE_DIR}/src/exporters/huggingface_hub_client.cpp
-    ${CMAKE_SOURCE_DIR}/src/performance/phase3/adaptive_batch_tuner.cpp
-    ${CMAKE_SOURCE_DIR}/src/server/import_wizard_builder.cpp
-    ${CMAKE_SOURCE_DIR}/src/llm/llm_security_utils.cpp
-    ${CMAKE_SOURCE_DIR}/src/search/multi_field_search.cpp
-    ${CMAKE_SOURCE_DIR}/src/search/search_highlighter.cpp
-    ${CMAKE_SOURCE_DIR}/src/search/negative_keyword_filter.cpp
-    ${CMAKE_SOURCE_DIR}/src/sharding/cloud_backup.cpp
-    ${CMAKE_SOURCE_DIR}/src/transaction/distributed_saga.cpp
-    ${CMAKE_SOURCE_DIR}/src/server/grpc_web_proxy_handler.cpp
-    ${CMAKE_SOURCE_DIR}/src/rag/evaluation_report_exporter.cpp
-    ${CMAKE_SOURCE_DIR}/src/rag/evaluation_cache.cpp
-    ${CMAKE_SOURCE_DIR}/src/rag/calibration_manager.cpp
-    ${CMAKE_SOURCE_DIR}/src/rag/batch_evaluator.cpp
-    ${CMAKE_SOURCE_DIR}/src/rag/replug_retriever.cpp
-    ${CMAKE_SOURCE_DIR}/src/rag/rlaif_trainer.cpp
-    ${CMAKE_SOURCE_DIR}/src/server/cdn_cache_middleware.cpp
+    ${THEMIS_ROOT_DIR}/src/exporters/data_augmentation.cpp
+    ${THEMIS_ROOT_DIR}/src/exporters/export_format_registry.cpp
+    ${THEMIS_ROOT_DIR}/src/exporters/huggingface_hub_client.cpp
+    ${THEMIS_ROOT_DIR}/src/performance/phase3/adaptive_batch_tuner.cpp
+    ${THEMIS_ROOT_DIR}/src/server/import_wizard_builder.cpp
+    ${THEMIS_ROOT_DIR}/src/llm/llm_security_utils.cpp
+    ${THEMIS_ROOT_DIR}/src/search/multi_field_search.cpp
+    ${THEMIS_ROOT_DIR}/src/search/search_highlighter.cpp
+    ${THEMIS_ROOT_DIR}/src/search/negative_keyword_filter.cpp
+    ${THEMIS_ROOT_DIR}/src/sharding/cloud_backup.cpp
+    ${THEMIS_ROOT_DIR}/src/transaction/distributed_saga.cpp
+    ${THEMIS_ROOT_DIR}/src/server/grpc_web_proxy_handler.cpp
+    ${THEMIS_ROOT_DIR}/src/rag/evaluation_report_exporter.cpp
+    ${THEMIS_ROOT_DIR}/src/rag/evaluation_cache.cpp
+    ${THEMIS_ROOT_DIR}/src/rag/calibration_manager.cpp
+    ${THEMIS_ROOT_DIR}/src/rag/batch_evaluator.cpp
+    ${THEMIS_ROOT_DIR}/src/rag/replug_retriever.cpp
+    ${THEMIS_ROOT_DIR}/src/rag/rlaif_trainer.cpp
+    ${THEMIS_ROOT_DIR}/src/server/cdn_cache_middleware.cpp
 )
 
 # Re-include test_huggingface_exporter.cpp which was excluded as a missing-implementation.
@@ -972,7 +972,7 @@ target_sources(themis_tests PRIVATE
 # cmake/ModularBuild.cmake the test can be compiled and linked normally.
 target_sources(themis_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_huggingface_exporter.cpp
-    ${CMAKE_SOURCE_DIR}/src/exporters/huggingface_exporter.cpp
+    ${THEMIS_ROOT_DIR}/src/exporters/huggingface_exporter.cpp
 )
 
 # Ensure legal training tests link even when the feature is disabled in themis_core
@@ -1036,7 +1036,7 @@ if(THEMIS_BUILD_MODULAR)
             list(REMOVE_ITEM _themis_test_core_sources
                 ../src/server/import_api_handler.cpp
                 ${THEMIS_ROOT_DIR}/src/server/import_api_handler.cpp
-                ${CMAKE_SOURCE_DIR}/src/server/import_api_handler.cpp
+                ${THEMIS_ROOT_DIR}/src/server/import_api_handler.cpp
             )
         endif()
         list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/security/stubs\\.cpp$")
@@ -1374,7 +1374,7 @@ if(WIN32)
                 -DBIN_DIR=${CMAKE_BINARY_DIR}/bin
                 -DVCPKG_BIN_DIR=${CMAKE_BINARY_DIR}/vcpkg_installed/x64-windows/bin
                 -DDST_DIR=$<TARGET_FILE_DIR:${target_name}>
-                -P ${CMAKE_SOURCE_DIR}/cmake/CopyRuntimeDlls.cmake
+                -P ${THEMIS_ROOT_DIR}/cmake/CopyRuntimeDlls.cmake
             COMMENT "Syncing runtime DLLs for ${target_name}"
         )
     endfunction()
@@ -1384,7 +1384,7 @@ if(WIN32)
             -DBIN_DIR=${CMAKE_BINARY_DIR}/bin
             -DVCPKG_BIN_DIR=${CMAKE_BINARY_DIR}/vcpkg_installed/x64-windows/bin
             -DDST_DIR=${CMAKE_BINARY_DIR}/cmake/tests
-            -P ${CMAKE_SOURCE_DIR}/cmake/CopyRuntimeDlls.cmake
+            -P ${THEMIS_ROOT_DIR}/cmake/CopyRuntimeDlls.cmake
         COMMENT "Syncing runtime DLLs to cmake/tests"
     )
 
@@ -1769,7 +1769,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_raft_configuration.cpp")
     )
 
     target_include_directories(test_raft_configuration PRIVATE
-        ${CMAKE_SOURCE_DIR}/../include
+        ${THEMIS_ROOT_DIR}/include
         ${CMAKE_CURRENT_SOURCE_DIR}/../include
     )
 
@@ -2384,8 +2384,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_api_grpc_server.cpp")
 
     add_executable(test_api_grpc_server
         test_api_grpc_server.cpp
-        ${CMAKE_SOURCE_DIR}/src/api/grpc_server.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/api/grpc_server.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_link_libraries(test_api_grpc_server PRIVATE
@@ -2404,7 +2404,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_api_grpc_server.cpp")
     )
 
     target_include_directories(test_api_grpc_server PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     add_test(NAME GrpcApiServerTests COMMAND test_api_grpc_server)
@@ -2426,8 +2426,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_themisdb_grpc_service.cpp")
 
     add_executable(test_themisdb_grpc_service
         test_themisdb_grpc_service.cpp
-        ${CMAKE_SOURCE_DIR}/src/api/themisdb_grpc_service.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/api/themisdb_grpc_service.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_link_libraries(test_themisdb_grpc_service PRIVATE
@@ -2446,7 +2446,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_themisdb_grpc_service.cpp")
     )
 
     target_include_directories(test_themisdb_grpc_service PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     add_test(NAME ThemisDBGrpcServiceTests COMMAND test_themisdb_grpc_service)
@@ -2669,8 +2669,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_replication.cpp")
 
     add_executable(test_cache_replication
         test_cache_replication.cpp
-        ${CMAKE_SOURCE_DIR}/src/cache/cache_replication_coordinator.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/cache/cache_replication_coordinator.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_link_libraries(test_cache_replication PRIVATE
@@ -2706,15 +2706,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_replication_coordinator.cpp")
 
     set(_COORD_SOURCES
         test_cache_replication_coordinator.cpp
-        ${CMAKE_SOURCE_DIR}/src/cache/cache_replication_coordinator.cpp
-        ${CMAKE_SOURCE_DIR}/src/cache/grpc_remote_cache_peer.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/cache/cache_replication_coordinator.cpp
+        ${THEMIS_ROOT_DIR}/src/cache/grpc_remote_cache_peer.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     add_executable(test_cache_replication_coordinator ${_COORD_SOURCES})
 
     target_include_directories(test_cache_replication_coordinator PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_cache_replication_coordinator PRIVATE
@@ -2864,8 +2864,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replication_ha.cpp")
     )
 
     target_include_directories(test_replication_ha_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_replication_ha_focused PRIVATE
@@ -2909,8 +2909,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replication_ha.cpp")
     )
 
     target_include_directories(test_multi_tier_replication_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_multi_tier_replication_focused PRIVATE
@@ -2950,8 +2950,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replication_new_features.cpp")
     )
 
     target_include_directories(test_replication_new_features_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_replication_new_features_focused PRIVATE
@@ -3084,12 +3084,12 @@ endif()
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replication_topology_api_handler.cpp" AND
-   EXISTS "${CMAKE_SOURCE_DIR}/src/server/replication_topology_api_handler.cpp")
+   EXISTS "${THEMIS_ROOT_DIR}/src/server/replication_topology_api_handler.cpp")
     message(STATUS "Adding Replication Topology API Handler tests")
 
     add_executable(test_replication_topology_api_handler
         test_replication_topology_api_handler.cpp
-        ${CMAKE_SOURCE_DIR}/src/server/replication_topology_api_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/server/replication_topology_api_handler.cpp
     )
 
     target_link_libraries(test_replication_topology_api_handler PRIVATE
@@ -3190,7 +3190,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_geo_query.cpp")
     
     add_executable(test_rpc_geo_query
         test_rpc_geo_query.cpp
-        ${CMAKE_SOURCE_DIR}/src/server/rpc/rpc_service_impl.cpp
+        ${THEMIS_ROOT_DIR}/src/server/rpc/rpc_service_impl.cpp
     )
     
     target_link_libraries(test_rpc_geo_query PRIVATE
@@ -3224,7 +3224,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_batch_operations.cpp")
 
     add_executable(test_rpc_batch_operations
         test_rpc_batch_operations.cpp
-        ${CMAKE_SOURCE_DIR}/src/server/rpc/rpc_service_impl.cpp
+        ${THEMIS_ROOT_DIR}/src/server/rpc/rpc_service_impl.cpp
     )
 
     target_link_libraries(test_rpc_batch_operations PRIVATE
@@ -3926,9 +3926,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_inverted_index.cpp")
 
     add_executable(test_inverted_index
         test_inverted_index.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/inverted_index.cpp
-        ${CMAKE_SOURCE_DIR}/src/query/functions/fulltext_functions.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/index/inverted_index.cpp
+        ${THEMIS_ROOT_DIR}/src/query/functions/fulltext_functions.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_link_libraries(test_inverted_index PRIVATE
@@ -4500,8 +4500,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_saga_concurrent_execution.cpp")
 
     add_executable(test_saga_concurrent_execution
         test_saga_concurrent_execution.cpp
-        ${CMAKE_SOURCE_DIR}/src/transaction/saga.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/transaction/saga.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_link_libraries(test_saga_concurrent_execution PRIVATE
@@ -4533,8 +4533,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_saga.cpp")
 
     add_executable(test_distributed_saga
         test_distributed_saga.cpp
-        ${CMAKE_SOURCE_DIR}/src/transaction/distributed_saga.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/transaction/distributed_saga.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_link_libraries(test_distributed_saga PRIVATE
@@ -4566,8 +4566,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_saga_operation.cpp")
 
     add_executable(test_saga_operation
         test_saga_operation.cpp
-        ${CMAKE_SOURCE_DIR}/src/transaction/saga.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/transaction/saga.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_link_libraries(test_saga_operation PRIVATE
@@ -4602,12 +4602,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_saga_orchestrator.cpp")
 
     add_executable(test_saga_orchestrator_focused
         test_saga_orchestrator.cpp
-        ${CMAKE_SOURCE_DIR}/src/transaction/saga_orchestrator.cpp
+        ${THEMIS_ROOT_DIR}/src/transaction/saga_orchestrator.cpp
     )
 
     target_include_directories(test_saga_orchestrator_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_saga_orchestrator_focused PRIVATE
@@ -4642,12 +4642,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_batcher.cpp")
 
     add_executable(test_transaction_batcher_focused
         test_transaction_batcher.cpp
-        ${CMAKE_SOURCE_DIR}/src/transaction/transaction_batcher.cpp
+        ${THEMIS_ROOT_DIR}/src/transaction/transaction_batcher.cpp
     )
 
     target_include_directories(test_transaction_batcher_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_transaction_batcher_focused PRIVATE
@@ -4681,12 +4681,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_auditor.cpp")
 
     add_executable(test_transaction_auditor_focused
         test_transaction_auditor.cpp
-        ${CMAKE_SOURCE_DIR}/src/transaction/transaction_auditor.cpp
+        ${THEMIS_ROOT_DIR}/src/transaction/transaction_auditor.cpp
     )
 
     target_include_directories(test_transaction_auditor_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_transaction_auditor_focused PRIVATE
@@ -4753,8 +4753,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_deadlock_prevention.cpp")
     )
 
     target_include_directories(test_adaptive_deadlock_prevention_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_adaptive_deadlock_prevention_focused PRIVATE
@@ -4788,13 +4788,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_distributed_2pc.cpp")
 
     add_executable(test_transaction_distributed_2pc_focused
         test_transaction_distributed_2pc.cpp
-        ${CMAKE_SOURCE_DIR}/src/transaction/distributed_transaction_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/transaction/distributed_transaction_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_transaction_distributed_2pc_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_transaction_distributed_2pc_focused PRIVATE
@@ -5248,7 +5248,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_transaction_wal.cpp")
 
     add_executable(test_sharding_transaction_wal_focused
         test_sharding_transaction_wal.cpp
-        ${CMAKE_SOURCE_DIR}/src/sharding/transaction_wal.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/transaction_wal.cpp
     )
 
     target_link_libraries(test_sharding_transaction_wal_focused PRIVATE
@@ -5502,7 +5502,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_logger_production.cpp")
     message(STATUS "Adding Logger production tests (Phase 1)")
     add_executable(test_logger_production
         test_logger_production.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
     target_link_libraries(test_logger_production PRIVATE
         ${TEST_LIBS}
@@ -5861,18 +5861,18 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_export
     message(STATUS "Adding ExportApiHandler focused tests (EXP-001)")
     add_executable(test_export_api_handler_focused
         test_export_api_handler.cpp
-        ${CMAKE_SOURCE_DIR}/src/server/export_api_handler.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
-        ${CMAKE_SOURCE_DIR}/src/exporters/jsonl_llm_exporter.cpp
-        ${CMAKE_SOURCE_DIR}/src/exporters/format_template.cpp
-        ${CMAKE_SOURCE_DIR}/src/exporters/exporter_metrics.cpp
-        ${CMAKE_SOURCE_DIR}/src/exporters/pii_detector.cpp
-        ${CMAKE_SOURCE_DIR}/src/exporters/stream_writer.cpp
-        ${CMAKE_SOURCE_DIR}/src/exporters/aql_predicate_filter.cpp
+        ${THEMIS_ROOT_DIR}/src/server/export_api_handler.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/exporters/jsonl_llm_exporter.cpp
+        ${THEMIS_ROOT_DIR}/src/exporters/format_template.cpp
+        ${THEMIS_ROOT_DIR}/src/exporters/exporter_metrics.cpp
+        ${THEMIS_ROOT_DIR}/src/exporters/pii_detector.cpp
+        ${THEMIS_ROOT_DIR}/src/exporters/stream_writer.cpp
+        ${THEMIS_ROOT_DIR}/src/exporters/aql_predicate_filter.cpp
     )
     target_include_directories(test_export_api_handler_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
     set(_export_api_test_libs ${TEST_LIBS} spdlog::spdlog nlohmann_json::nlohmann_json Threads::Threads)
     if(TARGET themis_core)
@@ -6418,7 +6418,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_self_awareness_production.cpp")
     message(STATUS "Adding SelfAwareness production tests (Phase 7)")
     add_executable(test_self_awareness_production
         test_self_awareness_production.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/self_awareness.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/self_awareness.cpp
     )
     target_link_libraries(test_self_awareness_production PRIVATE
         ${TEST_LIBS}
@@ -6476,7 +6476,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_learned_index.cpp")
     )
 
     target_include_directories(test_learned_index PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_learned_index PRIVATE
@@ -6513,11 +6513,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_tiered_index_migration.cpp")
 
     add_executable(test_tiered_index_migration
         index/test_tiered_index_migration.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/tiered_index_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/index/tiered_index_manager.cpp
     )
 
     target_include_directories(test_tiered_index_migration PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_tiered_index_migration PRIVATE
@@ -6550,7 +6550,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_hnsw_recall_integration.cpp")
     )
 
     target_include_directories(test_hnsw_recall_integration PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_hnsw_recall_integration PRIVATE
@@ -6584,12 +6584,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_spatial_correctness_integratio
 
     add_executable(test_spatial_correctness_integration
         index/test_spatial_correctness_integration.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/spatial_index.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/index/spatial_index.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_spatial_correctness_integration PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_spatial_correctness_integration PRIVATE
@@ -6682,12 +6682,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_streaming_window.cpp")
 
     add_executable(test_streaming_window_focused
         analytics/test_streaming_window.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/streaming_window.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/streaming_window.cpp
     )
 
     target_include_directories(test_streaming_window_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_streaming_window_focused PRIVATE
@@ -6720,12 +6720,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_anomaly_detection.cpp")
 
     add_executable(test_anomaly_detection_focused
         analytics/test_anomaly_detection.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/anomaly_detection.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/anomaly_detection.cpp
     )
 
     target_include_directories(test_anomaly_detection_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_anomaly_detection_focused PRIVATE
@@ -6754,12 +6754,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_llm_process_analyzer.cpp")
 
     add_executable(test_llm_process_analyzer_focused
         analytics/test_llm_process_analyzer.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/llm_process_analyzer.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/llm_process_analyzer.cpp
     )
 
     target_include_directories(test_llm_process_analyzer_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_llm_process_analyzer_focused PRIVATE
@@ -6789,13 +6789,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_automl.cpp")
 
     add_executable(test_automl_focused
         analytics/test_automl.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/automl.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/anomaly_detection.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/automl.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/anomaly_detection.cpp
     )
 
     target_include_directories(test_automl_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_automl_focused PRIVATE
@@ -6824,13 +6824,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_distributed_analytics.cpp"
 
     add_executable(test_distributed_analytics_focused
         analytics/test_distributed_analytics.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/distributed_analytics.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/olap.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/distributed_analytics.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/olap.cpp
     )
 
     target_include_directories(test_distributed_analytics_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_distributed_analytics_focused PRIVATE
@@ -6859,9 +6859,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_pattern_matcher.cp
 
     add_executable(test_process_pattern_matcher_focused
         analytics/test_process_pattern_matcher.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/process_pattern_matcher.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/process_mining.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/process_pattern_matcher.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/process_mining.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     set(_process_pattern_matcher_focused_libs)
@@ -6872,8 +6872,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_pattern_matcher.cp
     endforeach()
 
     target_include_directories(test_process_pattern_matcher_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_process_pattern_matcher_focused PRIVATE
@@ -6905,12 +6905,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_forecasting.cpp")
 
     add_executable(test_forecasting_focused
         analytics/test_forecasting.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/forecasting.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/forecasting.cpp
     )
 
     target_include_directories(test_forecasting_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_forecasting_focused PRIVATE
@@ -6939,13 +6939,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_incremental_view.cpp")
 
     add_executable(test_incremental_view_focused
         analytics/test_incremental_view.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/incremental_view.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/olap.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/incremental_view.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/olap.cpp
     )
 
     target_include_directories(test_incremental_view_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_incremental_view_focused PRIVATE
@@ -6974,12 +6974,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_columnar_execution.cpp")
 
     add_executable(test_columnar_execution_focused
         analytics/test_columnar_execution.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/columnar_execution.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/columnar_execution.cpp
     )
 
     target_include_directories(test_columnar_execution_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_columnar_execution_focused PRIVATE
@@ -7043,13 +7043,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_jit_aggregation.cpp")
 
     add_executable(test_jit_aggregation_focused
         analytics/test_jit_aggregation.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/jit_aggregation.cpp
-            ${CMAKE_SOURCE_DIR}/src/analytics/columnar_execution.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/jit_aggregation.cpp
+            ${THEMIS_ROOT_DIR}/src/analytics/columnar_execution.cpp
     )
 
     target_include_directories(test_jit_aggregation_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_jit_aggregation_focused PRIVATE
@@ -7078,13 +7078,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_ml_serving.cpp")
 
     add_executable(test_ml_serving_focused
         analytics/test_ml_serving.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/ml_serving.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/anomaly_detection.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/ml_serving.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/anomaly_detection.cpp
     )
 
     target_include_directories(test_ml_serving_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_ml_serving_focused PRIVATE
@@ -7117,14 +7117,14 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_model_serving.cpp")
 
     add_executable(test_model_serving_focused
         analytics/test_model_serving.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/model_serving.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/automl.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/anomaly_detection.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/model_serving.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/automl.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/anomaly_detection.cpp
     )
 
     target_include_directories(test_model_serving_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_model_serving_focused PRIVATE
@@ -7153,13 +7153,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_arrow_flight.cpp")
 
     add_executable(test_arrow_flight_focused
         analytics/test_arrow_flight.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/arrow_flight.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/arrow_export.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/arrow_flight.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/arrow_export.cpp
     )
 
     target_include_directories(test_arrow_flight_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_arrow_flight_focused PRIVATE
@@ -7190,8 +7190,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_arrow_flight.cpp")
     elseif(TARGET arrow)
         target_link_libraries(test_arrow_flight_focused PRIVATE arrow)
         set(_themis_arrow_core_linked TRUE)
-    elseif(EXISTS "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
-        target_link_libraries(test_arrow_flight_focused PRIVATE "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
+    elseif(EXISTS "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
+        target_link_libraries(test_arrow_flight_focused PRIVATE "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
         set(_themis_arrow_core_linked TRUE)
     endif()
 
@@ -7227,15 +7227,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_arrow_flight.cpp")
     elseif(TARGET arrow_flight_static)
         target_link_libraries(test_arrow_flight_focused PRIVATE arrow_flight_static)
         set(_themis_arrow_flight_linked TRUE)
-    elseif(EXISTS "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/arrow_flight.lib")
-        target_link_libraries(test_arrow_flight_focused PRIVATE "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/arrow_flight.lib")
+    elseif(EXISTS "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/arrow_flight.lib")
+        target_link_libraries(test_arrow_flight_focused PRIVATE "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/arrow_flight.lib")
         set(_themis_arrow_flight_linked TRUE)
     endif()
 
     if(_themis_arrow_flight_linked)
         # Arrow Flight depends on Arrow core symbols; ensure core lib is linked if only flight was found.
-        if(NOT _themis_arrow_core_linked AND EXISTS "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
-            target_link_libraries(test_arrow_flight_focused PRIVATE "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
+        if(NOT _themis_arrow_core_linked AND EXISTS "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
+            target_link_libraries(test_arrow_flight_focused PRIVATE "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
             set(_themis_arrow_core_linked TRUE)
             target_compile_definitions(test_arrow_flight_focused PRIVATE THEMIS_HAS_ARROW=1)
         endif()
@@ -7266,12 +7266,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_cep_engine.cpp")
 
     add_executable(test_cep_engine_focused
         analytics/test_cep_engine.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/cep_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/cep_engine.cpp
     )
 
     target_include_directories(test_cep_engine_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_cep_engine_focused PRIVATE
@@ -7300,14 +7300,14 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_analytics_memory_pool.cpp"
 
     add_executable(test_analytics_memory_pool_focused
         analytics/test_analytics_memory_pool.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/columnar_execution.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/cep_engine.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/olap.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/columnar_execution.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/cep_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/olap.cpp
     )
 
     target_include_directories(test_analytics_memory_pool_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_analytics_memory_pool_focused PRIVATE
@@ -7336,13 +7336,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_arrow_export.cpp")
 
     add_executable(test_arrow_export_focused
         analytics/test_arrow_export.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/arrow_export.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/analytics_export.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/arrow_export.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/analytics_export.cpp
     )
 
     target_include_directories(test_arrow_export_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_arrow_export_focused PRIVATE
@@ -7364,8 +7364,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_arrow_export.cpp")
     elseif(TARGET Arrow::arrow)
         target_link_libraries(test_arrow_export_focused PRIVATE Arrow::arrow)
         set(_themis_arrow_export_linked TRUE)
-    elseif(EXISTS "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
-        target_link_libraries(test_arrow_export_focused PRIVATE "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
+    elseif(EXISTS "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
+        target_link_libraries(test_arrow_export_focused PRIVATE "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
         set(_themis_arrow_export_linked TRUE)
     endif()
 
@@ -7386,8 +7386,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_arrow_export.cpp")
     elseif(TARGET Parquet::parquet)
         target_link_libraries(test_arrow_export_focused PRIVATE Parquet::parquet)
         set(_themis_parquet_export_linked TRUE)
-    elseif(EXISTS "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/parquet.lib")
-        target_link_libraries(test_arrow_export_focused PRIVATE "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/parquet.lib")
+    elseif(EXISTS "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/parquet.lib")
+        target_link_libraries(test_arrow_export_focused PRIVATE "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/parquet.lib")
         set(_themis_parquet_export_linked TRUE)
     endif()
 
@@ -7417,12 +7417,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_olap_lru_cache.cpp")
 
     add_executable(test_olap_lru_cache_focused
         analytics/test_olap_lru_cache.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/olap.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/olap.cpp
     )
 
     target_include_directories(test_olap_lru_cache_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_olap_lru_cache_focused PRIVATE
@@ -7455,8 +7455,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_mining_llm.cpp")
     )
 
     target_include_directories(test_process_mining_pattern_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_process_mining_pattern_focused PRIVATE
@@ -7490,8 +7490,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_discovery_conforma
     )
 
     target_include_directories(test_process_discovery_conformance_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_process_discovery_conformance_focused PRIVATE
@@ -7529,15 +7529,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_query_explain.cpp")
 
     add_executable(test_graph_query_explain_focused
         graph/test_query_explain.cpp
-        ${CMAKE_SOURCE_DIR}/src/graph/graph_query_optimizer.cpp
-        ${CMAKE_SOURCE_DIR}/src/graph/path_constraints.cpp
-        ${CMAKE_SOURCE_DIR}/src/graph/parallel_traversal.cpp
-        ${CMAKE_SOURCE_DIR}/src/graph/distributed_graph.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/parallel_traversal.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/distributed_graph.cpp
     )
 
     target_include_directories(test_graph_query_explain_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_graph_query_explain_focused PRIVATE
@@ -7575,16 +7575,16 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_scheduled_edge_refresh.cpp")
 
     add_executable(test_scheduled_edge_refresh_focused
         graph/test_scheduled_edge_refresh.cpp
-        ${CMAKE_SOURCE_DIR}/src/graph/scheduled_edge_refresh.cpp
-        ${CMAKE_SOURCE_DIR}/src/graph/graph_query_optimizer.cpp
-        ${CMAKE_SOURCE_DIR}/src/graph/path_constraints.cpp
-        ${CMAKE_SOURCE_DIR}/src/graph/parallel_traversal.cpp
-        ${CMAKE_SOURCE_DIR}/src/graph/distributed_graph.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/scheduled_edge_refresh.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/parallel_traversal.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/distributed_graph.cpp
     )
 
     target_include_directories(test_scheduled_edge_refresh_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_scheduled_edge_refresh_focused PRIVATE
@@ -7626,7 +7626,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_importer_plugin_api.cpp")
     )
 
     target_include_directories(test_importer_plugin_api PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_importer_plugin_api PRIVATE
@@ -7664,7 +7664,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_importer_interfaces.cpp")
     )
 
     target_include_directories(test_importer_interfaces PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_importer_interfaces PRIVATE
@@ -7702,7 +7702,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_flatfile_importer.cpp")
     )
 
     target_include_directories(test_flatfile_importer_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_flatfile_importer_focused PRIVATE
@@ -7740,7 +7740,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_validator.cpp")
     )
 
     target_include_directories(test_schema_validator_importer_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_schema_validator_importer_focused PRIVATE
@@ -7777,7 +7777,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_importer_conflict_resolver.cpp")
     )
 
     target_include_directories(test_importer_conflict_resolver_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_importer_conflict_resolver_focused PRIVATE
@@ -7814,7 +7814,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_importer_async_api.cpp")
     )
 
     target_include_directories(test_importer_async_api_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_importer_async_api_focused PRIVATE
@@ -7851,7 +7851,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_mysql_importer.cpp")
     )
 
     target_include_directories(test_mysql_importer_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_mysql_importer_focused PRIVATE
@@ -7890,12 +7890,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_mysql_importer_registry.cpp")
 
     add_executable(test_mysql_importer_registry
         test_mysql_importer_registry.cpp
-        ${CMAKE_SOURCE_DIR}/src/importers/mysql_importer.cpp
+        ${THEMIS_ROOT_DIR}/src/importers/mysql_importer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/mysql_importer_registry_logger_stub.cpp
     )
 
     target_include_directories(test_mysql_importer_registry PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_mysql_importer_registry PRIVATE
@@ -7933,7 +7933,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_mongo_importer.cpp")
     )
 
     target_include_directories(test_mongo_importer_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_mongo_importer_focused PRIVATE
@@ -7970,7 +7970,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sqlite_importer.cpp")
     )
 
     target_include_directories(test_sqlite_importer_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_sqlite_importer_focused PRIVATE
@@ -8016,8 +8016,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_kafka_importer.cpp")
     )
 
     target_include_directories(test_kafka_importer_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_kafka_importer_focused PRIVATE
@@ -8055,7 +8055,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_oracle_importer.cpp")
     )
 
     target_include_directories(test_oracle_importer_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_oracle_importer_focused PRIVATE
@@ -8092,7 +8092,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_s3_importer.cpp")
     )
 
     target_include_directories(test_s3_importer_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_s3_importer_focused PRIVATE
@@ -8131,6 +8131,7 @@ foreach(_pg_test
         test_postgres_importer_datatypes.cpp
         test_postgres_importer_fk.cpp
         test_postgres_importer_integration.cpp
+        test_postgres_import_integration_v2.cpp
         test_postgres_importer_live.cpp
         test_postgres_importer_robustness.cpp
         test_postgres_importer_security_audit.cpp
@@ -8145,13 +8146,13 @@ if(_postgres_importer_test_sources)
 
     add_executable(test_postgres_importer_focused
         ${_postgres_importer_test_sources}
-        ${CMAKE_SOURCE_DIR}/src/importers/postgres_importer.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/error_registry.cpp
+        ${THEMIS_ROOT_DIR}/src/importers/postgres_importer.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/error_registry.cpp
     )
 
     target_include_directories(test_postgres_importer_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_postgres_importer_focused PRIVATE
@@ -8205,7 +8206,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_postgres_importer_v2.cpp")
     )
 
     target_include_directories(test_postgres_importer_v2_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_postgres_importer_v2_focused PRIVATE
@@ -8241,11 +8242,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_import_wizard.cpp")
 
     add_executable(test_import_wizard_focused
         test_import_wizard.cpp
-        ${CMAKE_SOURCE_DIR}/src/server/import_wizard_builder.cpp
+        ${THEMIS_ROOT_DIR}/src/server/import_wizard_builder.cpp
     )
 
     target_include_directories(test_import_wizard_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_import_wizard_focused PRIVATE
@@ -8290,13 +8291,13 @@ if(_mdm_matching_test_sources)
 
     add_executable(test_mdm_entity_matching_focused
         ${_mdm_matching_test_sources}
-        ${CMAKE_SOURCE_DIR}/src/importers/deterministic_matcher.cpp
-        ${CMAKE_SOURCE_DIR}/src/importers/entity_linker.cpp
-        ${CMAKE_SOURCE_DIR}/src/importers/canonical_resolver.cpp
+        ${THEMIS_ROOT_DIR}/src/importers/deterministic_matcher.cpp
+        ${THEMIS_ROOT_DIR}/src/importers/entity_linker.cpp
+        ${THEMIS_ROOT_DIR}/src/importers/canonical_resolver.cpp
     )
 
     target_include_directories(test_mdm_entity_matching_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_mdm_entity_matching_focused PRIVATE
@@ -8339,16 +8340,16 @@ if(_mdm_engine_test_sources)
 
     add_executable(test_mdm_engine_focused
         ${_mdm_engine_test_sources}
-        ${CMAKE_SOURCE_DIR}/src/importers/deterministic_matcher.cpp
-        ${CMAKE_SOURCE_DIR}/src/importers/entity_linker.cpp
-        ${CMAKE_SOURCE_DIR}/src/importers/canonical_resolver.cpp
-        ${CMAKE_SOURCE_DIR}/src/importers/mdm_engine.cpp
-        ${CMAKE_SOURCE_DIR}/src/importers/mdm_audit_trail.cpp
-        ${CMAKE_SOURCE_DIR}/src/importers/mdm_metrics.cpp
+        ${THEMIS_ROOT_DIR}/src/importers/deterministic_matcher.cpp
+        ${THEMIS_ROOT_DIR}/src/importers/entity_linker.cpp
+        ${THEMIS_ROOT_DIR}/src/importers/canonical_resolver.cpp
+        ${THEMIS_ROOT_DIR}/src/importers/mdm_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/importers/mdm_audit_trail.cpp
+        ${THEMIS_ROOT_DIR}/src/importers/mdm_metrics.cpp
     )
 
     target_include_directories(test_mdm_engine_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_mdm_engine_focused PRIVATE
@@ -8382,20 +8383,20 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_postgres_importer_mdm.cpp")
 
     add_executable(test_postgres_importer_mdm_focused
         test_postgres_importer_mdm.cpp
-        ${CMAKE_SOURCE_DIR}/src/importers/deterministic_matcher.cpp
-        ${CMAKE_SOURCE_DIR}/src/importers/entity_linker.cpp
-        ${CMAKE_SOURCE_DIR}/src/importers/canonical_resolver.cpp
-        ${CMAKE_SOURCE_DIR}/src/importers/mdm_engine.cpp
-        ${CMAKE_SOURCE_DIR}/src/importers/mdm_audit_trail.cpp
-        ${CMAKE_SOURCE_DIR}/src/importers/mdm_metrics.cpp
-        ${CMAKE_SOURCE_DIR}/src/importers/postgres_importer_mdm.cpp
-        ${CMAKE_SOURCE_DIR}/src/importers/conflict_resolver.cpp
-        ${CMAKE_SOURCE_DIR}/src/importers/postgres_importer.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/importers/deterministic_matcher.cpp
+        ${THEMIS_ROOT_DIR}/src/importers/entity_linker.cpp
+        ${THEMIS_ROOT_DIR}/src/importers/canonical_resolver.cpp
+        ${THEMIS_ROOT_DIR}/src/importers/mdm_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/importers/mdm_audit_trail.cpp
+        ${THEMIS_ROOT_DIR}/src/importers/mdm_metrics.cpp
+        ${THEMIS_ROOT_DIR}/src/importers/postgres_importer_mdm.cpp
+        ${THEMIS_ROOT_DIR}/src/importers/conflict_resolver.cpp
+        ${THEMIS_ROOT_DIR}/src/importers/postgres_importer.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_postgres_importer_mdm_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_postgres_importer_mdm_focused PRIVATE
@@ -8438,7 +8439,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_capability_negotiation.cpp")
     )
 
     target_include_directories(test_plugin_capability_negotiation PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_plugin_capability_negotiation PRIVATE
@@ -8518,7 +8519,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_manager.cpp")
     )
 
     target_include_directories(test_plugin_manager_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_plugin_manager_focused PRIVATE
@@ -8553,7 +8554,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_lifecycle.cpp")
     )
 
     target_include_directories(test_plugin_lifecycle_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_plugin_lifecycle_focused PRIVATE
@@ -8588,7 +8589,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_generic_plugin_registry.cpp")
     )
 
     target_include_directories(test_generic_plugin_registry_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_generic_plugin_registry_focused PRIVATE
@@ -8621,7 +8622,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_health_monitor.cpp")
     )
 
     target_include_directories(test_plugin_health_monitor_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_plugin_health_monitor_focused PRIVATE
@@ -8654,7 +8655,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_hot_plug.cpp")
     )
 
     target_include_directories(test_plugin_hot_plug_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_plugin_hot_plug_focused PRIVATE
@@ -8688,7 +8689,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_hot_reload_enhanced.cpp")
     )
 
     target_include_directories(test_plugin_hot_reload_enhanced_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_plugin_hot_reload_enhanced_focused PRIVATE
@@ -8722,7 +8723,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_dependency_graph.cpp")
     )
 
     target_include_directories(test_plugin_dependency_graph_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_plugin_dependency_graph_focused PRIVATE
@@ -8755,7 +8756,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_dependency_resolver.cpp")
     )
 
     target_include_directories(test_plugin_dependency_resolver_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_plugin_dependency_resolver_focused PRIVATE
@@ -8788,7 +8789,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_metrics.cpp")
     )
 
     target_include_directories(test_plugin_metrics_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_plugin_metrics_focused PRIVATE
@@ -8821,7 +8822,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_metrics_integration.cpp")
     )
 
     target_include_directories(test_plugin_metrics_integration_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_plugin_metrics_integration_focused PRIVATE
@@ -8854,7 +8855,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_security_audit.cpp")
     )
 
     target_include_directories(test_plugin_security_audit_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_plugin_security_audit_focused PRIVATE
@@ -8888,7 +8889,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_security_implementation.cpp")
     )
 
     target_include_directories(test_plugin_security_impl_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_plugin_security_impl_focused PRIVATE
@@ -8922,7 +8923,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_security_crl_ocsp.cpp")
     )
 
     target_include_directories(test_plugin_security_crl_ocsp_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_plugin_security_crl_ocsp_focused PRIVATE
@@ -8956,7 +8957,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_security_pe_cert_extraction.c
     )
 
     target_include_directories(test_plugin_security_pe_cert_extraction_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_plugin_security_pe_cert_extraction_focused PRIVATE
@@ -8991,7 +8992,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_marketplace_manifest.cpp")
     )
 
     target_include_directories(test_plugin_marketplace_manifest_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_plugin_marketplace_manifest_focused PRIVATE
@@ -9025,7 +9026,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_plugin_manager_comprehensive.cpp")
     )
 
     target_include_directories(test_plugin_manager_comprehensive_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_plugin_manager_comprehensive_focused PRIVATE
@@ -9064,7 +9065,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_timeout_cancellation.cpp" AND TH
     )
 
     target_include_directories(test_llm_timeout_cancellation PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     if(TARGET themis_llm)
@@ -9118,7 +9119,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_per_operation_circuit_breakers.cpp")
     )
 
     target_include_directories(test_per_operation_circuit_breakers PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     if(TARGET themis_llm)
@@ -9172,7 +9173,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_accurate_token_count_estimation.cpp"
     )
 
     target_include_directories(test_accurate_token_count_estimation PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     if(TARGET themis_llm)
@@ -9375,8 +9376,8 @@ if(THEMIS_ENABLE_CONTENT)
         )
 
         target_include_directories(test_content_metrics_focused PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
-            ${CMAKE_SOURCE_DIR}/src
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
         )
 
         target_link_libraries(test_content_metrics_focused PRIVATE
@@ -9413,8 +9414,8 @@ if(THEMIS_ENABLE_CONTENT)
         )
 
         target_include_directories(test_content_security_focused PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
-            ${CMAKE_SOURCE_DIR}/src
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
         )
 
         target_link_libraries(test_content_security_focused PRIVATE
@@ -9453,8 +9454,8 @@ if(THEMIS_ENABLE_CONTENT)
         )
 
         target_include_directories(test_content_language_detector_focused PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
-            ${CMAKE_SOURCE_DIR}/src
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
         )
 
         target_link_libraries(test_content_language_detector_focused PRIVATE
@@ -9490,8 +9491,8 @@ if(THEMIS_ENABLE_CONTENT)
         )
 
         target_include_directories(test_content_audio_processor_focused PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
-            ${CMAKE_SOURCE_DIR}/src
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
         )
 
         target_link_libraries(test_content_audio_processor_focused PRIVATE
@@ -9527,8 +9528,8 @@ if(THEMIS_ENABLE_CONTENT)
         )
 
         target_include_directories(test_content_processor_chain_focused PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
-            ${CMAKE_SOURCE_DIR}/src
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
         )
 
         target_link_libraries(test_content_processor_chain_focused PRIVATE
@@ -9564,8 +9565,8 @@ if(THEMIS_ENABLE_CONTENT)
         )
 
         target_include_directories(test_content_deduplication_focused PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
-            ${CMAKE_SOURCE_DIR}/src
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
         )
 
         target_link_libraries(test_content_deduplication_focused PRIVATE
@@ -9605,8 +9606,8 @@ if(THEMIS_ENABLE_CONTENT)
         )
 
         target_include_directories(test_content_policy_ocr_focused PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
-            ${CMAKE_SOURCE_DIR}/src
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
         )
 
         target_link_libraries(test_content_policy_ocr_focused PRIVATE
@@ -9642,8 +9643,8 @@ if(THEMIS_ENABLE_CONTENT)
         )
 
         target_include_directories(test_ocr_dpi_preprocessing_focused PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
-            ${CMAKE_SOURCE_DIR}/src
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
         )
 
         target_link_libraries(test_ocr_dpi_preprocessing_focused PRIVATE
@@ -9682,8 +9683,8 @@ if(THEMIS_ENABLE_CONTENT)
         )
 
         target_include_directories(test_ocr_default_data_dir_focused PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
-            ${CMAKE_SOURCE_DIR}/src
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
         )
 
         target_link_libraries(test_ocr_default_data_dir_focused PRIVATE
@@ -9722,8 +9723,8 @@ if(THEMIS_ENABLE_CONTENT)
         )
 
         target_include_directories(test_async_ingestion_backpressure_focused PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
-            ${CMAKE_SOURCE_DIR}/src
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
         )
 
         target_link_libraries(test_async_ingestion_backpressure_focused PRIVATE
@@ -9766,8 +9767,8 @@ if(THEMIS_ENABLE_CONTENT)
         )
 
         target_include_directories(test_async_ingestion_yaml_config_focused PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
-            ${CMAKE_SOURCE_DIR}/src
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
         )
 
         target_link_libraries(test_async_ingestion_yaml_config_focused PRIVATE
@@ -9806,12 +9807,12 @@ if(THEMIS_ENABLE_CONTENT)
 
         add_executable(test_legacy_office_extraction_focused
             test_office_processor.cpp
-                ${CMAKE_SOURCE_DIR}/src/content/office_processor.cpp
+                ${THEMIS_ROOT_DIR}/src/content/office_processor.cpp
         )
 
         target_include_directories(test_legacy_office_extraction_focused PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
-            ${CMAKE_SOURCE_DIR}/src
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
         )
 
         target_link_libraries(test_legacy_office_extraction_focused PRIVATE
@@ -9850,12 +9851,12 @@ if(THEMIS_ENABLE_CONTENT)
 
         add_executable(test_libreoffice_security_focused
             test_office_processor.cpp
-                ${CMAKE_SOURCE_DIR}/src/content/office_processor.cpp
+                ${THEMIS_ROOT_DIR}/src/content/office_processor.cpp
         )
 
         target_include_directories(test_libreoffice_security_focused PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
-            ${CMAKE_SOURCE_DIR}/src
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
         )
 
         target_link_libraries(test_libreoffice_security_focused PRIVATE
@@ -10524,8 +10525,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_path_resolver.cpp")
     )
 
     target_include_directories(test_config_path_resolver_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_config_path_resolver_focused PRIVATE
@@ -10570,8 +10571,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_file_watcher.cpp")
     )
 
     target_include_directories(test_config_file_watcher_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_config_file_watcher_focused PRIVATE
@@ -10582,9 +10583,18 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_file_watcher.cpp")
         ${THEMIS_YAML_TARGET}
         OpenSSL::SSL
         OpenSSL::Crypto
+<<<<<<< HEAD
         $<$<TARGET_EXISTS:prometheus-cpp::core>:prometheus-cpp::core>
         $<$<TARGET_EXISTS:prometheus-cpp::pull>:prometheus-cpp::pull>
+=======
+>>>>>>> origin/main
     )
+    if(TARGET prometheus-cpp::core)
+        target_link_libraries(test_config_file_watcher_focused PRIVATE prometheus-cpp::core)
+    endif()
+    if(TARGET prometheus-cpp::pull)
+        target_link_libraries(test_config_file_watcher_focused PRIVATE prometheus-cpp::pull)
+    endif()
 
     target_compile_definitions(test_config_file_watcher_focused PRIVATE
         THEMIS_TEST_BUILD=1
@@ -10612,8 +10622,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_schema_validator.cpp")
     )
 
     target_include_directories(test_config_schema_validator_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_config_schema_validator_focused PRIVATE
@@ -10658,8 +10668,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_migration_scanner.cpp")
     )
 
     target_include_directories(test_config_migration_scanner_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_config_migration_scanner_focused PRIVATE
@@ -10704,8 +10714,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_coverage.cpp")
     )
 
     target_include_directories(test_config_coverage_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_config_coverage_focused PRIVATE
@@ -10750,8 +10760,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_metrics_scrape.cpp")
     )
 
     target_include_directories(test_config_metrics_scrape_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_config_metrics_scrape_focused PRIVATE
@@ -10795,8 +10805,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_config_encrypted_store.cpp")
     )
 
     target_include_directories(test_config_encrypted_store_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_config_encrypted_store_focused PRIVATE
@@ -12121,8 +12131,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_concerns_context.cpp")
     )
 
     target_include_directories(test_concerns_context_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_concerns_context_focused PRIVATE
@@ -12163,8 +12173,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_fuzz_core.cpp")
     )
 
     target_include_directories(test_fuzz_core_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_fuzz_core_focused PRIVATE
@@ -12205,8 +12215,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lockfree_metrics.cpp")
     )
 
     target_include_directories(test_lockfree_metrics_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_lockfree_metrics_focused PRIVATE
@@ -12243,8 +12253,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_zero_copy_logging.cpp")
     )
 
     target_include_directories(test_zero_copy_logging_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_zero_copy_logging_focused PRIVATE
@@ -12279,13 +12289,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_zero_copy_blob_transfers.cpp")
 
     add_executable(test_zero_copy_blob_transfers_focused
         test_zero_copy_blob_transfers.cpp
-        ${CMAKE_SOURCE_DIR}/src/storage/zero_copy_blob_transfer.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/zero_copy_blob_transfer.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_zero_copy_blob_transfers_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_zero_copy_blob_transfers_focused PRIVATE
@@ -12331,8 +12341,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_security_evidence_collector
     )
 
     target_include_directories(test_security_evidence_collector_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_security_evidence_collector_focused PRIVATE
@@ -12364,8 +12374,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_fips_crypto_mode.cpp")
     )
 
     target_include_directories(test_fips_crypto_mode_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_fips_crypto_mode_focused PRIVATE
@@ -12397,8 +12407,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_access_control_manager.cpp"
     )
 
     target_include_directories(test_access_control_manager_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_access_control_manager_focused PRIVATE
@@ -12430,8 +12440,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_row_level_security.cpp")
     )
 
     target_include_directories(test_row_level_security_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_row_level_security_focused PRIVATE
@@ -12460,21 +12470,21 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_arrow_user_registration_plu
 
     add_executable(test_arrow_user_registration_plugin_focused
         security/test_arrow_user_registration_plugin.cpp
-        ${CMAKE_SOURCE_DIR}/src/security/arrow_user_registration_plugin.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/error_registry.cpp
+        ${THEMIS_ROOT_DIR}/src/security/arrow_user_registration_plugin.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/error_registry.cpp
     )
 
     if(DEFINED THEMIS_ENABLE_DEV_STUBS AND THEMIS_ENABLE_DEV_STUBS)
         target_sources(test_arrow_user_registration_plugin_focused PRIVATE
-            ${CMAKE_SOURCE_DIR}/src/stubs.cpp
+            ${THEMIS_ROOT_DIR}/src/stubs.cpp
         )
         message(STATUS "  ArrowUserRegistrationPlugin: DEV stubs enabled (src/stubs.cpp)")
     endif()
 
     target_include_directories(test_arrow_user_registration_plugin_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_arrow_user_registration_plugin_focused PRIVATE
@@ -12498,8 +12508,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_arrow_user_registration_plu
     elseif(TARGET Arrow::arrow)
         target_link_libraries(test_arrow_user_registration_plugin_focused PRIVATE Arrow::arrow)
         set(_themis_arrow_user_registration_linked TRUE)
-    elseif(EXISTS "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
-        target_link_libraries(test_arrow_user_registration_plugin_focused PRIVATE "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
+    elseif(EXISTS "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
+        target_link_libraries(test_arrow_user_registration_plugin_focused PRIVATE "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/arrow.lib")
         set(_themis_arrow_user_registration_linked TRUE)
     endif()
 
@@ -12531,8 +12541,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/attack-vectors/crypto/test_crypt
     )
 
     target_include_directories(test_crypto_attack_vectors PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_crypto_attack_vectors PRIVATE
@@ -12563,8 +12573,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/attack-vectors/injection/test_in
     )
 
     target_include_directories(test_injection_attack_vectors PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_injection_attack_vectors PRIVATE
@@ -12595,8 +12605,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/attack-vectors/authentication/te
     )
 
     target_include_directories(test_authentication_attack_vectors PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_authentication_attack_vectors PRIVATE
@@ -12627,8 +12637,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_security_negative_integrati
     )
 
     target_include_directories(test_security_negative_integration_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_security_negative_integration_focused PRIVATE
@@ -12661,8 +12671,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_input_validation_security.c
     )
 
     target_include_directories(test_input_validation_security_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_input_validation_security_focused PRIVATE
@@ -12701,8 +12711,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_usb_volume_hardening.cpp")
     )
 
     target_include_directories(test_usb_volume_hardening_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_usb_volume_hardening_focused PRIVATE
@@ -12747,8 +12757,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_downsampling.cpp")
     )
 
     target_include_directories(test_downsampling_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_downsampling_focused PRIVATE
@@ -12779,8 +12789,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ts_adaptive_flush.cpp")
     )
 
     target_include_directories(test_ts_adaptive_flush_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_ts_adaptive_flush_focused PRIVATE
@@ -12843,8 +12853,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_prometheus_remote_write.cpp")
     )
 
     target_include_directories(test_prometheus_remote_write_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_prometheus_remote_write_focused PRIVATE
@@ -12882,8 +12892,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tsstore_out_of_order.cpp")
     )
 
     target_include_directories(test_tsstore_out_of_order_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_tsstore_out_of_order_focused PRIVATE
@@ -13265,8 +13275,8 @@ function(add_geo_focused_test target_name test_src test_name labels description)
         )
 
         target_include_directories(${target_name} PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
-            ${CMAKE_SOURCE_DIR}/src
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
         )
 
         target_link_libraries(${target_name} PRIVATE
@@ -13465,8 +13475,8 @@ if(THEMIS_GEO_CUDA)
         )
 
         target_include_directories(test_cuda_geo_kernels_focused PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
-            ${CMAKE_SOURCE_DIR}/src
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
         )
 
         target_link_libraries(test_cuda_geo_kernels_focused PRIVATE
@@ -13508,8 +13518,8 @@ if(THEMIS_GEO_HIP)
         )
 
         target_include_directories(test_hip_geo_kernels_focused PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
-            ${CMAKE_SOURCE_DIR}/src
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
         )
 
         target_link_libraries(test_hip_geo_kernels_focused PRIVATE
@@ -13548,7 +13558,21 @@ endif()
 if(THEMIS_BUILD_CHIMERA)
 
 # Common list of all CHIMERA adapter source files shared by every focused target.
+<<<<<<< HEAD
 set(CHIMERA_ADAPTER_SOURCES ${THEMIS_CHIMERA_SOURCES})
+=======
+set(CHIMERA_ADAPTER_SOURCES
+    ${THEMIS_ROOT_DIR}/src/chimera/adapter_factory.cpp
+    ${THEMIS_ROOT_DIR}/src/chimera/themisdb_adapter.cpp
+    ${THEMIS_ROOT_DIR}/src/chimera/mongodb_adapter.cpp
+    ${THEMIS_ROOT_DIR}/src/chimera/postgresql_adapter.cpp
+    ${THEMIS_ROOT_DIR}/src/chimera/elasticsearch_adapter.cpp
+    ${THEMIS_ROOT_DIR}/src/chimera/pinecone_adapter.cpp
+    ${THEMIS_ROOT_DIR}/src/chimera/qdrant_adapter.cpp
+    ${THEMIS_ROOT_DIR}/src/chimera/weaviate_adapter.cpp
+    ${THEMIS_ROOT_DIR}/src/chimera/neo4j_adapter.cpp
+)
+>>>>>>> origin/main
 
 # Helper function to create a focused chimera test executable.
 function(add_chimera_focused_test target_name test_src test_name labels description)
@@ -13566,10 +13590,15 @@ function(add_chimera_focused_test target_name test_src test_name labels descript
         )
 
         target_include_directories(${target_name} PRIVATE
+<<<<<<< HEAD
             ${CMAKE_SOURCE_DIR}/include
             ${CMAKE_SOURCE_DIR}/tests/chimera
             ${CMAKE_SOURCE_DIR}/external/chimera/include
             ${CMAKE_SOURCE_DIR}/external/chimera/tests/chimera
+=======
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/tests/chimera
+>>>>>>> origin/main
         )
 
         target_link_libraries(${target_name} PRIVATE
@@ -13728,23 +13757,23 @@ endif()
 # ============================================================================
 
 set(EXPORTER_CORE_SOURCES
-    ${CMAKE_SOURCE_DIR}/src/exporters/jsonl_llm_exporter.cpp
-    ${CMAKE_SOURCE_DIR}/src/exporters/format_template.cpp
-    ${CMAKE_SOURCE_DIR}/src/exporters/exporter_metrics.cpp
-    ${CMAKE_SOURCE_DIR}/src/exporters/pii_detector.cpp
-    ${CMAKE_SOURCE_DIR}/src/exporters/stream_writer.cpp
-    ${CMAKE_SOURCE_DIR}/src/exporters/parquet_exporter.cpp
-    ${CMAKE_SOURCE_DIR}/src/exporters/streaming_exporter.cpp
-    ${CMAKE_SOURCE_DIR}/src/exporters/aql_predicate_filter.cpp
-    ${CMAKE_SOURCE_DIR}/src/exporters/arrow_ipc_exporter.cpp
-    ${CMAKE_SOURCE_DIR}/src/exporters/incremental_exporter.cpp
-    ${CMAKE_SOURCE_DIR}/src/exporters/export_encryption.cpp
-    ${CMAKE_SOURCE_DIR}/src/exporters/huggingface_exporter.cpp
-    ${CMAKE_SOURCE_DIR}/src/exporters/data_augmentation.cpp
-    ${CMAKE_SOURCE_DIR}/src/exporters/export_format_registry.cpp
-    ${CMAKE_SOURCE_DIR}/src/exporters/huggingface_hub_client.cpp
-    ${CMAKE_SOURCE_DIR}/src/exporters/join_exporter.cpp
-    ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+    ${THEMIS_ROOT_DIR}/src/exporters/jsonl_llm_exporter.cpp
+    ${THEMIS_ROOT_DIR}/src/exporters/format_template.cpp
+    ${THEMIS_ROOT_DIR}/src/exporters/exporter_metrics.cpp
+    ${THEMIS_ROOT_DIR}/src/exporters/pii_detector.cpp
+    ${THEMIS_ROOT_DIR}/src/exporters/stream_writer.cpp
+    ${THEMIS_ROOT_DIR}/src/exporters/parquet_exporter.cpp
+    ${THEMIS_ROOT_DIR}/src/exporters/streaming_exporter.cpp
+    ${THEMIS_ROOT_DIR}/src/exporters/aql_predicate_filter.cpp
+    ${THEMIS_ROOT_DIR}/src/exporters/arrow_ipc_exporter.cpp
+    ${THEMIS_ROOT_DIR}/src/exporters/incremental_exporter.cpp
+    ${THEMIS_ROOT_DIR}/src/exporters/export_encryption.cpp
+    ${THEMIS_ROOT_DIR}/src/exporters/huggingface_exporter.cpp
+    ${THEMIS_ROOT_DIR}/src/exporters/data_augmentation.cpp
+    ${THEMIS_ROOT_DIR}/src/exporters/export_format_registry.cpp
+    ${THEMIS_ROOT_DIR}/src/exporters/huggingface_hub_client.cpp
+    ${THEMIS_ROOT_DIR}/src/exporters/join_exporter.cpp
+    ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
 )
 
 # Helper function to create an exporters focused test executable.
@@ -13758,8 +13787,8 @@ function(add_exporter_focused_test target_name test_src test_name labels descrip
         )
 
         target_include_directories(${target_name} PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
-            ${CMAKE_SOURCE_DIR}/src
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
         )
 
         # Link themis_core when available to satisfy transitive deps
@@ -14011,7 +14040,7 @@ function(add_llm_focused_test target_name test_src test_name labels description)
     endif()
 
     target_include_directories(${target_name} PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/include
     )
 
@@ -14305,7 +14334,7 @@ if(THEMIS_ENABLE_LLM)
             test_inference_engine_enhanced.cpp
         )
         target_include_directories(test_inference_engine_enhanced_focused PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
+            ${THEMIS_ROOT_DIR}/include
             ${THEMIS_ROOT_DIR}/include
         )
         if(TARGET themis_llm)
@@ -15083,7 +15112,7 @@ macro(add_network_focused_test target src test_name labels desc)
 
         target_include_directories(${target} PRIVATE
             ${THEMIS_ROOT_DIR}/include
-            ${CMAKE_SOURCE_DIR}/include
+            ${THEMIS_ROOT_DIR}/include
         )
 
         target_link_libraries(${target} PRIVATE
@@ -15228,7 +15257,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_geo_topology_router.cpp")
 
     target_include_directories(test_geo_topology_router_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_geo_topology_router_focused PRIVATE
@@ -15264,7 +15293,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_wire_protocol_v2.cpp")
 
     target_include_directories(test_wire_protocol_v2_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_wire_protocol_v2_focused PRIVATE
@@ -15300,7 +15329,7 @@ if(THEMIS_ENABLE_WEBSOCKET)
 
         target_include_directories(test_wire_protocol_websocket_focused PRIVATE
             ${THEMIS_ROOT_DIR}/include
-            ${CMAKE_SOURCE_DIR}/include
+            ${THEMIS_ROOT_DIR}/include
         )
 
         target_link_libraries(test_wire_protocol_websocket_focused PRIVATE
@@ -15336,7 +15365,7 @@ if(THEMIS_ENABLE_WEBSOCKET)
 
         target_include_directories(test_websocket_cdc_focused PRIVATE
             ${THEMIS_ROOT_DIR}/include
-            ${CMAKE_SOURCE_DIR}/include
+            ${THEMIS_ROOT_DIR}/include
         )
 
         target_link_libraries(test_websocket_cdc_focused PRIVATE
@@ -15376,7 +15405,7 @@ if(THEMIS_ENABLE_HTTP3)
 
         target_include_directories(test_quic_transport_focused PRIVATE
             ${THEMIS_ROOT_DIR}/include
-            ${CMAKE_SOURCE_DIR}/include
+            ${THEMIS_ROOT_DIR}/include
         )
 
         target_link_libraries(test_quic_transport_focused PRIVATE
@@ -15451,8 +15480,8 @@ if(THEMIS_ENABLE_HTTP3)
         )
 
         target_include_directories(test_http3_production_readiness_focused PRIVATE
-            ${CMAKE_SOURCE_DIR}/../include
-            ${CMAKE_SOURCE_DIR}/../src
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
         )
 
         target_link_libraries(test_http3_production_readiness_focused PRIVATE
@@ -15492,7 +15521,7 @@ if(THEMIS_ENABLE_GRPC)
 
         target_include_directories(test_grpc_transport_focused PRIVATE
             ${THEMIS_ROOT_DIR}/include
-            ${CMAKE_SOURCE_DIR}/include
+            ${THEMIS_ROOT_DIR}/include
         )
 
         target_link_libraries(test_grpc_transport_focused PRIVATE
@@ -15524,7 +15553,106 @@ if(THEMIS_ENABLE_GRPC)
         message(STATUS "Network focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_transport.cpp")
     endif()
 endif()
-# Prompt Engineering Module ÔÇô Standalone Focused Test Targets
+
+# ---------------------------------------------------------------------------
+# gRPC Plugin Lifecycle Focused Tests (src/rpc_grpc/grpc_plugin.cpp)
+# Tests: GRPCPlugin metadata, GRPCServer init, start/stop insecure,
+#        fail-closed TLS, uptime_seconds tracking
+# ---------------------------------------------------------------------------
+if(THEMIS_ENABLE_GRPC AND TARGET gRPC::grpc++)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_plugin_lifecycle.cpp")
+        message(STATUS "Adding gRPC Plugin focused test: test_grpc_plugin_lifecycle_focused")
+
+        add_executable(test_grpc_plugin_lifecycle_focused
+            test_grpc_plugin_lifecycle.cpp
+            ${THEMIS_ROOT_DIR}/src/rpc_grpc/grpc_plugin.cpp
+        )
+
+        target_include_directories(test_grpc_plugin_lifecycle_focused PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
+        )
+
+        target_link_libraries(test_grpc_plugin_lifecycle_focused PRIVATE
+            ${TEST_LIBS}
+            gRPC::grpc++
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_grpc_plugin_lifecycle_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+            THEMIS_ENABLE_GRPC=1
+        )
+
+        add_test(NAME GRPCPluginLifecycleFocusedTests
+                 COMMAND test_grpc_plugin_lifecycle_focused)
+
+        set_tests_properties(GRPCPluginLifecycleFocusedTests PROPERTIES
+            LABELS "rpc;grpc;plugin;lifecycle;tls;focused;unit"
+            TIMEOUT 60
+        )
+
+        message(STATUS "  GRPCPlugin: name/version/caps, init, start/stop insecure, fail-closed TLS, uptime_seconds")
+    else()
+        message(STATUS "gRPC Plugin focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_plugin_lifecycle.cpp")
+    endif()
+endif()
+
+# ---------------------------------------------------------------------------
+# Ethics AI Pipeline Focused Integration Test
+# Tests end-to-end flow: loader -> discourse -> RAG -> evaluator -> store
+# Built as standalone target so it works even when THEMIS_PLUGIN_ETHICS_AI=OFF.
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_ai_pipeline.cpp")
+    message(STATUS "Adding Ethics AI focused test: test_ethics_ai_pipeline_focused")
+
+    add_executable(test_ethics_ai_pipeline_focused
+        test_ethics_ai_pipeline.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/argument_store.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/rag_context_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/discourse_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_evaluator.cpp
+    )
+
+    target_include_directories(test_ethics_ai_pipeline_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src/ethics_ai
+    )
+
+    target_link_libraries(test_ethics_ai_pipeline_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    if(TARGET yaml-cpp::yaml-cpp)
+        target_link_libraries(test_ethics_ai_pipeline_focused PRIVATE yaml-cpp::yaml-cpp)
+        target_compile_definitions(test_ethics_ai_pipeline_focused PRIVATE HAVE_YAML_CPP)
+    elseif(TARGET yaml-cpp)
+        target_link_libraries(test_ethics_ai_pipeline_focused PRIVATE yaml-cpp)
+        target_compile_definitions(test_ethics_ai_pipeline_focused PRIVATE HAVE_YAML_CPP)
+    endif()
+
+    target_compile_definitions(test_ethics_ai_pipeline_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME EthicsAiPipelineFocusedTests
+             COMMAND test_ethics_ai_pipeline_focused)
+
+    set_tests_properties(EthicsAiPipelineFocusedTests PROPERTIES
+        LABELS "ethics;ai;pipeline;rag;integration;focused"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Ethics AI: full pipeline (loader/store/discourse/rag/evaluator) + edge-case validation")
+else()
+    message(STATUS "Ethics AI focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_ai_pipeline.cpp")
+endif()
+
+# Prompt Engineering Module — Standalone Focused Test Targets
 # Each target is an independent executable so individual components can be
 # validated in isolation without linking the entire themis_tests binary.
 # All targets compile against themis_core only; no live database is required.
@@ -15539,8 +15667,8 @@ macro(add_prompt_focused_test _target _src _test_name _labels _desc)
         add_executable(${_target} ${_src})
 
         target_include_directories(${_target} PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
-            ${CMAKE_SOURCE_DIR}/src
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
         )
 
         target_link_libraries(${_target} PRIVATE
@@ -15630,8 +15758,8 @@ function(add_index_focused_test target_name test_src test_name labels descriptio
         endif()
 
         target_include_directories(${target_name} PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
-            ${CMAKE_SOURCE_DIR}/src
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
         )
 
         target_link_libraries(${target_name} PRIVATE
@@ -18571,12 +18699,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_opencl_erasure_coder_parity.cpp"
 
         add_executable(test_opencl_erasure_coder_parity_focused
             test_opencl_erasure_coder_parity.cpp
-            ${CMAKE_SOURCE_DIR}/src/sharding/gpu_erasure_coder_opencl.cpp
+            ${THEMIS_ROOT_DIR}/src/sharding/gpu_erasure_coder_opencl.cpp
         )
 
         target_include_directories(test_opencl_erasure_coder_parity_focused PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
-            ${CMAKE_SOURCE_DIR}/src
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
             ${OpenCL_INCLUDE_DIRS}
         )
 
@@ -19154,6 +19282,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_module.cpp")
     message(STATUS "Adding Process Module focused tests")
     add_executable(test_process_module_focused
         test_process_module.cpp
+<<<<<<< HEAD
         ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
         ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
         ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
@@ -19168,6 +19297,18 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_module.cpp")
         ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
         ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
         ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+=======
+        ${THEMIS_ROOT_DIR}/src/process/process_model_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/process/bpmn_serializer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/epk_serializer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/llm_process_descriptor.cpp
+        ${THEMIS_ROOT_DIR}/src/process/vcc_vpb_importer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_linker.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_graph_rag.cpp
+        ${THEMIS_ROOT_DIR}/src/index/process_graph.cpp
+        ${THEMIS_ROOT_DIR}/src/index/edge_types.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+>>>>>>> origin/main
     )
     target_include_directories(test_process_module_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
@@ -19240,9 +19381,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_graph.cpp")
     message(STATUS "Adding Process Graph visit-timestamp focused tests")
     add_executable(test_process_graph_visit_timestamp_focused
         test_process_graph.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/index/process_graph.cpp
+        ${THEMIS_ROOT_DIR}/src/index/edge_types.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
     target_include_directories(test_process_graph_visit_timestamp_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
@@ -19276,14 +19417,14 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_conflict_resolver.
 
     add_executable(test_temporal_conflict_resolver_focused
         temporal/test_temporal_conflict_resolver.cpp
-        ${CMAKE_SOURCE_DIR}/src/temporal/temporal_conflict_resolver.cpp
-        ${CMAKE_SOURCE_DIR}/src/replication/replication_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/temporal_conflict_resolver.cpp
+        ${THEMIS_ROOT_DIR}/src/replication/replication_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_temporal_conflict_resolver_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_temporal_conflict_resolver_focused PRIVATE
@@ -19318,13 +19459,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_retention_manager.cpp")
 
     add_executable(test_temporal_retention_manager_focused
         temporal/test_retention_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/temporal/retention_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/temporal/system_versioned_table.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/retention_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/system_versioned_table.cpp
     )
 
     target_include_directories(test_temporal_retention_manager_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_temporal_retention_manager_focused PRIVATE
@@ -19354,12 +19495,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_bi_temporal.cpp")
 
     add_executable(test_bi_temporal_focused
         temporal/test_bi_temporal.cpp
-        ${CMAKE_SOURCE_DIR}/src/temporal/bi_temporal.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/bi_temporal.cpp
     )
 
     target_include_directories(test_bi_temporal_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_bi_temporal_focused PRIVATE
@@ -19529,15 +19670,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_query_engine.cpp")
 
     add_executable(test_temporal_query_engine_focused
         temporal/test_temporal_query_engine.cpp
-        ${CMAKE_SOURCE_DIR}/src/temporal/temporal_query_engine.cpp
-        ${CMAKE_SOURCE_DIR}/src/temporal/system_versioned_table.cpp
-        ${CMAKE_SOURCE_DIR}/src/temporal/bi_temporal.cpp
-        ${CMAKE_SOURCE_DIR}/src/temporal/temporal_index.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/temporal_query_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/system_versioned_table.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/bi_temporal.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/temporal_index.cpp
     )
 
     target_include_directories(test_temporal_query_engine_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_temporal_query_engine_focused PRIVATE
@@ -19576,13 +19717,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/timeseries/test_continuous_agg_materializ
 
     add_executable(test_continuous_agg_materialization_focused
         timeseries/test_continuous_agg_materialization.cpp
-        ${CMAKE_SOURCE_DIR}/src/timeseries/continuous_agg.cpp
-        ${CMAKE_SOURCE_DIR}/src/timeseries/tsstore.cpp
+        ${THEMIS_ROOT_DIR}/src/timeseries/continuous_agg.cpp
+        ${THEMIS_ROOT_DIR}/src/timeseries/tsstore.cpp
     )
 
     target_include_directories(test_continuous_agg_materialization_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_continuous_agg_materialization_focused PRIVATE
@@ -19631,8 +19772,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cache_integration.cpp")
     )
 
     target_include_directories(test_distributed_cache_integration_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_distributed_cache_integration_focused PRIVATE
@@ -19709,8 +19850,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_compaction.cpp")
     )
 
     target_include_directories(test_adaptive_compaction_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_adaptive_compaction_focused PRIVATE
@@ -19815,8 +19956,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_device_manager.cpp")
     )
 
     target_include_directories(test_device_manager_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_device_manager_focused PRIVATE
@@ -19849,8 +19990,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_backend_registry_startup.cpp")
     )
 
     target_include_directories(test_backend_registry_startup_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_backend_registry_startup_focused PRIVATE
@@ -19890,8 +20031,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_backend_registry_thread
     )
 
     target_include_directories(test_backend_registry_thread_safety_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_backend_registry_thread_safety_focused PRIVATE
@@ -20055,8 +20196,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_vllm_resource_stats.cpp")
     )
 
     target_include_directories(test_vllm_resource_stats_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_vllm_resource_stats_focused PRIVATE
@@ -20096,8 +20237,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_raid_redundancy.cpp")
     )
 
     target_include_directories(test_blob_redundancy_event_listener_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_blob_redundancy_event_listener_focused PRIVATE
@@ -20140,12 +20281,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_remote_registry_client.cpp")
     # directly into the focused test executable to guarantee availability.
     add_executable(test_remote_registry_client_focused
         test_remote_registry_client.cpp
-        ${CMAKE_SOURCE_DIR}/src/base/remote_registry_client.cpp
+        ${THEMIS_ROOT_DIR}/src/base/remote_registry_client.cpp
     )
 
     target_include_directories(test_remote_registry_client_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_remote_registry_client_focused PRIVATE
@@ -20189,12 +20330,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_query_compilation.cpp")
 
     add_executable(test_adaptive_query_compilation_focused
         test_adaptive_query_compilation.cpp
-        ${CMAKE_SOURCE_DIR}/src/performance/adaptive_query_compiler.cpp
+        ${THEMIS_ROOT_DIR}/src/performance/adaptive_query_compiler.cpp
     )
 
     target_include_directories(test_adaptive_query_compilation_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_adaptive_query_compilation_focused PRIVATE
@@ -20243,12 +20384,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_performance_hardware_accelerator.cpp
 
     add_executable(test_performance_hardware_accelerator
         test_performance_hardware_accelerator.cpp
-        ${CMAKE_SOURCE_DIR}/src/performance/hardware_accelerator.cpp
+        ${THEMIS_ROOT_DIR}/src/performance/hardware_accelerator.cpp
     )
 
     target_include_directories(test_performance_hardware_accelerator PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_performance_hardware_accelerator PRIVATE
@@ -20295,8 +20436,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_themisctl.cpp")
 
     # The test includes ../tools/themisctl.cpp directly with THEMISCTL_TEST_BUILD
     target_include_directories(test_themisctl_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/tools
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/tools
     )
 
     target_compile_definitions(test_themisctl_focused PRIVATE
@@ -20385,12 +20526,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_intelligent_prefetcher.cpp")
 
     add_executable(test_intelligent_prefetcher_focused
         test_intelligent_prefetcher.cpp
-        ${CMAKE_SOURCE_DIR}/src/performance/intelligent_prefetcher.cpp
+        ${THEMIS_ROOT_DIR}/src/performance/intelligent_prefetcher.cpp
     )
 
     target_include_directories(test_intelligent_prefetcher_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_intelligent_prefetcher_focused PRIVATE
@@ -20545,8 +20686,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_orphan_detector_wired.cpp")
     )
 
     target_include_directories(test_orphan_detector_wired_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_orphan_detector_wired_focused PRIVATE
@@ -20581,8 +20722,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_security_signature_rocksdb_iteration
     )
 
     target_include_directories(test_security_signature_rocksdb_iteration_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_orphan_detector_wired_focused PRIVATE
@@ -20628,8 +20769,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rocksdb_size_calculation.cpp")
     )
 
     target_include_directories(test_rocksdb_size_calculation_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_rocksdb_size_calculation_focused PRIVATE
@@ -20669,8 +20810,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_shard_rpc_integration.cpp")
     )
 
     target_include_directories(test_shard_rpc_integration_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_shard_rpc_integration_focused PRIVATE
@@ -20757,8 +20898,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tsstore_gorilla_buffer.cpp")
     )
 
     target_include_directories(test_tsstore_gorilla_buffer_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_tsstore_gorilla_buffer_focused PRIVATE
@@ -20832,8 +20973,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_versioned_api_routing.cpp")
     )
 
     target_include_directories(test_versioned_api_routing_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_versioned_api_routing_focused PRIVATE
@@ -20868,8 +21009,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cuda_hnsw_large_k.cpp")
     )
 
     target_include_directories(test_cuda_hnsw_large_k_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_cuda_hnsw_large_k_focused PRIVATE
@@ -20901,8 +21042,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_compute_interfaces.cpp")
     )
 
     target_include_directories(test_compute_interfaces_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_compute_interfaces_focused PRIVATE
@@ -20934,18 +21075,18 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/query/test_query_federation_routing.cpp")
 
     add_executable(test_query_federation_routing_focused
         query/test_query_federation_routing.cpp
-        ${CMAKE_SOURCE_DIR}/src/query/query_federation.cpp
-        ${CMAKE_SOURCE_DIR}/src/sharding/sharding_manager_edition.cpp
-        ${CMAKE_SOURCE_DIR}/src/sharding/consistent_hash.cpp
-        ${CMAKE_SOURCE_DIR}/src/sharding/shard_topology.cpp
-        ${CMAKE_SOURCE_DIR}/src/sharding/urn_resolver.cpp
-        ${CMAKE_SOURCE_DIR}/src/sharding/remote_executor.cpp
-        ${CMAKE_SOURCE_DIR}/src/sharding/shard_router.cpp
+        ${THEMIS_ROOT_DIR}/src/query/query_federation.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/sharding_manager_edition.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/consistent_hash.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/shard_topology.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/urn_resolver.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/remote_executor.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/shard_router.cpp
     )
 
     target_include_directories(test_query_federation_routing_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_query_federation_routing_focused PRIVATE
@@ -20982,7 +21123,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ozg_service_registry.cpp")
     )
 
     target_include_directories(test_ozg_service_registry_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_ozg_service_registry_focused PRIVATE
@@ -21015,7 +21156,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_xoev_importer.cpp")
     )
 
     target_include_directories(test_xoev_importer_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_xoev_importer_focused PRIVATE
@@ -21048,7 +21189,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_xdomea_connector.cpp")
     )
 
     target_include_directories(test_xdomea_connector_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_xdomea_connector_focused PRIVATE
@@ -21114,7 +21255,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_eid_authenticator.cpp")
     )
 
     target_include_directories(test_eid_authenticator_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_eid_authenticator_focused PRIVATE
@@ -21144,11 +21285,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_behoerden_genehmigungsverfahren_e2e.
 
     add_executable(test_behoerden_genehmigungsverfahren_e2e_focused
         test_behoerden_genehmigungsverfahren_e2e.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/llm_process_analyzer.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/llm_process_analyzer.cpp
     )
 
     target_include_directories(test_behoerden_genehmigungsverfahren_e2e_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_behoerden_genehmigungsverfahren_e2e_focused PRIVATE
@@ -21180,11 +21321,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_bimschv_genehmigungsverfahren_e2e.cp
 
     add_executable(test_bimschv_genehmigungsverfahren_e2e_focused
         test_bimschv_genehmigungsverfahren_e2e.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/llm_process_analyzer.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/llm_process_analyzer.cpp
     )
 
     target_include_directories(test_bimschv_genehmigungsverfahren_e2e_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_bimschv_genehmigungsverfahren_e2e_focused PRIVATE
@@ -21224,7 +21365,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_egov_data_driven.cpp")
         )
 
         target_include_directories(test_egov_data_driven_focused PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
+            ${THEMIS_ROOT_DIR}/include
         )
 
         # Zur Kompilierzeit: absoluter Pfad zu tests/fixtures/egov
@@ -21264,12 +21405,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_replug_retriever.cpp")
 
     add_executable(test_rag_replug_retriever_focused
         test_rag_replug_retriever.cpp
-        ${CMAKE_SOURCE_DIR}/src/rag/replug_retriever.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/replug_retriever.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_rag_replug_retriever_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_rag_replug_retriever_focused PRIVATE
@@ -21300,12 +21441,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_rlaif_trainer.cpp")
 
     add_executable(test_rag_rlaif_trainer_focused
         test_rag_rlaif_trainer.cpp
-        ${CMAKE_SOURCE_DIR}/src/rag/rlaif_trainer.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/rlaif_trainer.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_rag_rlaif_trainer_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_rag_rlaif_trainer_focused PRIVATE
@@ -21338,12 +21479,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cypher_parser.cpp")
 
     add_executable(test_cypher_parser
         test_cypher_parser.cpp
-        ${CMAKE_SOURCE_DIR}/src/query/cypher_parser.cpp
+        ${THEMIS_ROOT_DIR}/src/query/cypher_parser.cpp
     )
 
     target_include_directories(test_cypher_parser PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_cypher_parser PRIVATE
@@ -21376,12 +21517,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gremlin_parser.cpp")
 
     add_executable(test_gremlin_parser
         test_gremlin_parser.cpp
-        ${CMAKE_SOURCE_DIR}/src/query/gremlin_parser.cpp
+        ${THEMIS_ROOT_DIR}/src/query/gremlin_parser.cpp
     )
 
     target_include_directories(test_gremlin_parser PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_gremlin_parser PRIVATE
@@ -21481,15 +21622,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_timeseries_forecasting.
 
     add_executable(test_cross_module_timeseries_forecasting_focused
         test_cross_module_timeseries_forecasting.cpp
-        ${CMAKE_SOURCE_DIR}/src/timeseries/continuous_agg.cpp
-        ${CMAKE_SOURCE_DIR}/src/timeseries/tsstore.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/forecasting.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/timeseries/continuous_agg.cpp
+        ${THEMIS_ROOT_DIR}/src/timeseries/tsstore.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/forecasting.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_cross_module_timeseries_forecasting_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_cross_module_timeseries_forecasting_focused PRIVATE
@@ -21547,14 +21688,14 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_temporal_bitemporal.cpp
 
     add_executable(test_cross_module_temporal_bitemporal_focused
         test_cross_module_temporal_bitemporal.cpp
-        ${CMAKE_SOURCE_DIR}/src/temporal/temporal_query_engine.cpp
-        ${CMAKE_SOURCE_DIR}/src/temporal/system_versioned_table.cpp
-        ${CMAKE_SOURCE_DIR}/src/temporal/bi_temporal.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/temporal_query_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/system_versioned_table.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/bi_temporal.cpp
     )
 
     target_include_directories(test_cross_module_temporal_bitemporal_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_cross_module_temporal_bitemporal_focused PRIVATE
@@ -21616,8 +21757,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_german_egov.cpp")
     )
 
     target_include_directories(test_cross_module_german_egov_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_cross_module_german_egov_focused PRIVATE
@@ -21670,12 +21811,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_index_matryoshka.cpp")
 
     add_executable(test_cross_module_index_matryoshka_focused
         test_cross_module_index_matryoshka.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/forecasting.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/forecasting.cpp
     )
 
     target_include_directories(test_cross_module_index_matryoshka_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_cross_module_index_matryoshka_focused PRIVATE
@@ -21736,8 +21877,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_security_governance.cpp
     )
 
     target_include_directories(test_cross_module_security_governance_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_cross_module_security_governance_focused PRIVATE
@@ -21796,8 +21937,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_cache_anomaly.cpp")
     )
 
     target_include_directories(test_cross_module_cache_anomaly_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_cross_module_cache_anomaly_focused PRIVATE
@@ -21853,14 +21994,14 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_training_governance.cpp
 
     add_executable(test_cross_module_training_governance_focused
         test_cross_module_training_governance.cpp
-        ${CMAKE_SOURCE_DIR}/src/training/lora_adapter.cpp
-        ${CMAKE_SOURCE_DIR}/src/training/ada_lora_adapter.cpp
-        ${CMAKE_SOURCE_DIR}/src/training/lora_adapter_merger.cpp
+        ${THEMIS_ROOT_DIR}/src/training/lora_adapter.cpp
+        ${THEMIS_ROOT_DIR}/src/training/ada_lora_adapter.cpp
+        ${THEMIS_ROOT_DIR}/src/training/lora_adapter_merger.cpp
     )
 
     target_include_directories(test_cross_module_training_governance_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_cross_module_training_governance_focused PRIVATE
@@ -21919,8 +22060,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_query_sharding.cpp")
     )
 
     target_include_directories(test_cross_module_query_sharding_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_cross_module_query_sharding_focused PRIVATE
@@ -21979,8 +22120,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_graph_lineage.cpp")
     )
 
     target_include_directories(test_cross_module_graph_lineage_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_cross_module_graph_lineage_focused PRIVATE
@@ -22039,8 +22180,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_geo_spatial.cpp")
     )
 
     target_include_directories(test_cross_module_geo_spatial_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_cross_module_geo_spatial_focused PRIVATE
@@ -22099,8 +22240,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_module_acceleration_index.cpp"
     )
 
     target_include_directories(test_cross_module_acceleration_index_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_cross_module_acceleration_index_focused PRIVATE
@@ -22150,20 +22291,20 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_scraper_plugin.cpp")
 
     add_executable(test_scraper_plugin_focused
         test_scraper_plugin.cpp
-        ${CMAKE_SOURCE_DIR}/plugins/scraper/src/scraper_plugin.cpp
-        ${CMAKE_SOURCE_DIR}/plugins/scraper/src/scraper_config.cpp
-        ${CMAKE_SOURCE_DIR}/plugins/scraper/src/gov_source_catalog.cpp
-        ${CMAKE_SOURCE_DIR}/plugins/scraper/src/scraper_search_engine.cpp
-        ${CMAKE_SOURCE_DIR}/plugins/scraper/src/scraper_api_client.cpp
-        ${CMAKE_SOURCE_DIR}/plugins/scraper/src/scraper_js_renderer.cpp
-        ${CMAKE_SOURCE_DIR}/plugins/scraper/src/scraper_llm_evaluator.cpp
-        ${CMAKE_SOURCE_DIR}/plugins/scraper/src/scraper_metadata_writer.cpp
+        ${THEMIS_ROOT_DIR}/plugins/scraper/src/scraper_plugin.cpp
+        ${THEMIS_ROOT_DIR}/plugins/scraper/src/scraper_config.cpp
+        ${THEMIS_ROOT_DIR}/plugins/scraper/src/gov_source_catalog.cpp
+        ${THEMIS_ROOT_DIR}/plugins/scraper/src/scraper_search_engine.cpp
+        ${THEMIS_ROOT_DIR}/plugins/scraper/src/scraper_api_client.cpp
+        ${THEMIS_ROOT_DIR}/plugins/scraper/src/scraper_js_renderer.cpp
+        ${THEMIS_ROOT_DIR}/plugins/scraper/src/scraper_llm_evaluator.cpp
+        ${THEMIS_ROOT_DIR}/plugins/scraper/src/scraper_metadata_writer.cpp
     )
 
     target_include_directories(test_scraper_plugin_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/plugins/scraper/include
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/plugins/scraper/include
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_scraper_plugin_focused PRIVATE

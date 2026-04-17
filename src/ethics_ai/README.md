@@ -1,11 +1,11 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-03-22 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # ThemisDB Ethics AI Module
 
 **Version:** 0.0.1  
-**Status:** 🟡 Beta (v0.0.1 core operational; advanced generation/scoring still in progress)  
-**Last Updated:** 2026-04-06  
+**Status:** 🔴 Alpha (v0.0.1)  
+**Last Updated:** 2026-03-22  
 **Module Path:** `src/ethics_ai/`  
 **Namespace:** `themis::plugins::ethics`
 
@@ -38,7 +38,7 @@ consensus scores.
 | `argument_store.h` / `.cpp` | `ArgumentStore` — ThemisDB BaseEntity storage for arguments/decisions |
 | `philosophy_loader.h` / `.cpp` | `PhilosophyLoader` — loads/validates philosophy profiles from YAML |
 | `ethics_ai_plugin.cpp` | `EthicsAiPlugin` — IThemisPlugin entry point, wires all components |
-| `include/plugins/ethics_ai/ethics_ai_types.h` | Shared types: `EthicalArgument`, `EthicalDecision`, `PhilosophyProfile`, `RAGContext`, `ArgumentType`, `ArgumentStrength` |
+| `ethics_ai_types.h` | Shared types: `EthicalArgument`, `EthicalDecision`, `PhilosophyProfile`, `RAGContext`, `ArgumentType`, `ArgumentStrength` |
 | `ethics_aql_queries.h` | AQL query string constants for all 7 RAG retrieval patterns |
 | `ethics_base_entity_adapter.h` | Adapter mapping ethics domain types to ThemisDB BaseEntity |
 | `ethics_ai_types.cpp` | Type implementations and helpers |
