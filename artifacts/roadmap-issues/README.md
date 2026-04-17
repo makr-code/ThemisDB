@@ -1,0 +1,19 @@
+# roadmap-issues
+
+Pfad: `artifacts/roadmap-issues`
+
+## Zweck
+Dieser Ordner enthält 1 Unterordner und 6 Dateien und bildet einen abgegrenzten Teil der Repository-Struktur.
+
+## Unterordner
+- `bodies/`
+
+## Dateien nach Kategorien
+- **Konfiguration**: `roadmap-issues-apply.json`, `roadmap-issues-preview.json`, `roadmap-issues-summary.json`
+- **Dokumentation**: `roadmap-issues-apply.md`, `roadmap-issues-preview.md`, `roadmap-issues-summary.md`
+
+## Hinweise
+- Änderungen in diesem Ordner sollten mit den übergeordneten Architektur- und Sicherheitsrichtlinien des Projekts abgestimmt werden.
+- Für tieferliegende Teilbereiche existieren ggf. zusätzliche README- und Moduldokumente.
+
+_Automatisch erzeugt/aktualisiert am 2026-04-17._
