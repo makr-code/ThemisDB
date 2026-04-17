@@ -42,7 +42,8 @@ public:
         auto it = store_.find(ref.id);
         if (it == store_.end()) {
             return themis::Err<std::vector<uint8_t>>(
-                themis::errors::ErrorCode::NOT_FOUND, "blob not found: " + ref.id);
+                themis::errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+                "blob not found: " + ref.id);
         }
         return it->second;
     }

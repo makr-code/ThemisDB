@@ -218,7 +218,7 @@ private:
     std::shared_ptr<IEncryptionKeyProvider> keys_;
 
     mutable std::mutex  mutex_;
-    EncryptionStats     stats_;
+    mutable EncryptionStats stats_;
 };
 
 } // namespace storage

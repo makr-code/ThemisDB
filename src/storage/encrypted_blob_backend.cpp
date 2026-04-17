@@ -214,7 +214,7 @@ EncryptedBlobBackend::decrypt(const std::vector<uint8_t>& ciphertext) const
 {
     if (ciphertext.size() < static_cast<std::size_t>(kIvLen + kTagLen)) {
         std::lock_guard<std::mutex> lk(mutex_);
-        const_cast<EncryptedBlobBackend*>(this)->stats_.decrypt_failures++;
+        stats_.decrypt_failures++;
         throw std::runtime_error(
             "EncryptedBlobBackend: ciphertext too short (corrupt or unencrypted blob)");
     }
@@ -267,7 +267,7 @@ EncryptedBlobBackend::decrypt(const std::vector<uint8_t>& ciphertext) const
 
         if (ret <= 0) {
             std::lock_guard<std::mutex> lk(mutex_);
-            const_cast<EncryptedBlobBackend*>(this)->stats_.decrypt_failures++;
+            stats_.decrypt_failures++;
             throw std::runtime_error(
                 "EncryptedBlobBackend: GCM authentication tag verification failed "
                 "(data tampered or wrong key)");
