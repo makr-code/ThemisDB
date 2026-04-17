@@ -985,3 +985,24 @@ Interested in implementing these features? See:
 - RSA-4096 signature verify ≤ 5 ms
 - `DilithiumSigner::sign()` ≤ 2 ms per operation (Dilithium-5)
 - ZK range proof generation ≤ 10 ms; verification ≤ 2 ms
+
+---
+
+## Paper 2 — Layer 7: IntentClassifier (IMPL-B7)
+
+> Research paper: `docs/en/research/LLM_OPTIMIZATION_LAYERS_MATRIX.md` §Layer 7
+> Issue: `docs/issues/optimization_layers/IMPL-B7-intent-classifier.md`
+
+### Scope
+- `IntentClassifier` adds semantic query-intent analysis on top of existing `MLAnomalyDetector` pattern scoring
+- `IntentType`: `NORMAL`, `SQL_INJECTION_ATTEMPT`, `MASS_EXPORT`, `PRIVILEGE_ESCALATION`, `RECONNAISSANCE`, `UNKNOWN`
+- Confidence threshold 0.85 — below this, alert is logged but does not trigger ZeroTrust action
+
+### Integration Notes
+- `ZeroTrustPolicyEnforcer::session_risk_score` updated on high-confidence alerts
+- `AIDecisionAuditor` receives a `DecisionRecord` for each alert (L9 audit trail)
+- GDPR: `evidence_snippet` ≤ 128 chars; no PII in payload
+
+### Performance Targets
+- Classification latency ≤ 5 ms p99 per query
+- False positive rate ≤ 2 % on benign SELECT-only workloads

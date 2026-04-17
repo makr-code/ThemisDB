@@ -224,3 +224,20 @@ Implement end-to-end provenance tracking for every training sample from source d
 - When `lora_plus_lambda > 1.0`: B uses `lr * λ`, A uses `lr` (two separate AdamOptimizer instances)
 - Backward-compatible: default `1.0` preserves original behaviour
 - Reference: Hayou et al. (2024), *LoRA+*, arXiv:2402.12354
+
+---
+
+## Paper 1 — Self-Optimising LoRA Loops (IMPL-A1, IMPL-A3)
+
+> Full research paper: `docs/en/research/THEMISDB_LORA_RESEARCH_PAPER.md`
+> See also: `include/training/FUTURE_ENHANCEMENTS.md` §Paper 1
+
+### DATABASE_OPTIMIZER Domain (IMPL-A1)
+- `DomainType::DATABASE_OPTIMIZER` in `auto_labeler.h` / `auto_labeler.cpp`
+- Confidence function: `tanh(|Δlatency_ms| / 50)` — reject if < 0.85
+- Minimum golden dataset: 1 000 labeled `(query, explain_plan, Δlatency_ms)` pairs
+
+### Federation Bridges (IMPL-A3)
+- `IncrementalLoRATrainer::exportGradient()` → `EncryptedGradient` (AES-256-GCM)
+- `IncrementalLoRATrainer::applyGlobalDelta(const GlobalAdapterDelta&)` → FedAvg weight update
+- Privacy invariant enforced by unit test: raw query text absent from gradient blob

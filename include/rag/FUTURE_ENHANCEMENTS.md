@@ -887,3 +887,33 @@ See `../../CONTRIBUTING.md` for details.
 - `AgentRAGPolicy` tool invocations are sandboxed; file system and outbound network access require explicit capability grant
 - `ResultStream` implementations must handle upstream database failures gracefully and emit `StreamError` rather than throwing
 - Re-ranking models are loaded from a verified model registry path; arbitrary model paths are rejected at API entry
+
+---
+
+## Paper 1+2 — Loop Orchestration, Explainability & Federated RAG (Cross-Module Vision)
+
+> Full papers: `docs/en/research/THEMISDB_LORA_RESEARCH_PAPER.md` · `docs/en/research/LLM_OPTIMIZATION_LAYERS_MATRIX.md`
+> Master plan: `docs/issues/MASTER_IMPLEMENTATION_PLAN.md`
+
+### Loop 1–4 Explicit Orchestration (IMPL-A2)
+- `ContinuousLearningOrchestrator` gains `triggerLoop1…4()` methods with loop-interference cooldown guard
+- `RAGIngestionBridge` indexes optimizer-log documents for Loop 4 dataset enrichment
+- JSON context serialiser for Loop 1–3 outcome signals (≤ 2 000 tokens per context block)
+
+### Federated RLAIF (IMPL-A3)
+- `FEDERATED_ROUND_START` event triggers `ILoRAFederationCoordinator::startRound()`
+- `RLAIFTrainer` preference dataset is federated via `CrossShardFeedbackSync` (Layer D)
+
+### ExplainabilityReasonBuilder (IMPL-B9)
+- Every autonomous decision (loop trigger, retrieval strategy change, pattern escalation) generates a `CausalChain` in natural language
+- `CausalChain` written to `AIDecisionAuditor` for DBA review and GDPR compliance
+- GDPR guard: no PII in reasoning chain; field-level masking enforced
+
+### Federated RAG Merger (DK-4)
+- `FederatedRAGMerger` (in `distributed_knowledge` module) merges `RetrievedDocument` lists from N shards using Reciprocal Rank Fusion
+- `ExplainabilityReasonBuilder` annotates merged result with shard provenance
+
+### Performance Targets
+- `ExplainabilityReasonBuilder::build()` ≤ 20 ms p99 (no LLM call; rule-based chain assembly)
+- Loop 1 feedback round-trip ≤ 10 ms (in-process)
+- Loop 2 adaptation cycle ≤ 60 s end-to-end including HNSW rebalance

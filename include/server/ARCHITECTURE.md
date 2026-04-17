@@ -145,6 +145,7 @@ an API gateway, authentication middleware, rate limiting, smart routing, tenant 
 | `wasm_handler_registry.h` | `WasmHandlerRegistry` | WASM extension handler registry |
 | `serverless_function_api_handler.h` | `ServerlessFunctionApiHandler` | Serverless function invocation |
 | `udf_api_handler.h` | `UdfApiHandler` | User-defined function management |
+| *(planned)* `workload_fingerprint_engine.h` | `WorkloadFingerprintEngine`, `WorkloadFingerprint` | Layer 8: per-tenant workload fingerprinting for cross-shard comparison (IMPL-B8) |
 
 ### gRPC Services
 

@@ -912,3 +912,25 @@ Have ideas for server header improvements? Open an issue or discussion:
 - CORS policy enforced at the API gateway level before handler dispatch
 - SSE connections authenticated at upgrade time; token re-validated on reconnect
 - Middleware chain failures result in 500 responses with no partial or unauthenticated output
+
+---
+
+## Paper 2 — Layer 8: WorkloadFingerprintEngine (IMPL-B8)
+
+> Research paper: `docs/en/research/LLM_OPTIMIZATION_LAYERS_MATRIX.md` §Layer 8
+> Issue: `docs/issues/optimization_layers/IMPL-B8-workload-fingerprint.md`
+
+### Scope
+- Per-tenant workload fingerprinting based on rolling query-window metrics (QPS, read/write ratio, vector fraction)
+- `WorkloadPattern`: `OLTP_WRITE_HEAVY`, `OLTP_READ_HEAVY`, `ANALYTICAL`, `VECTOR_SEARCH`, `MIXED`, `BURST_INGEST`, `UNKNOWN`
+- `fingerprintHash()` — 64-bit deterministic hash for cross-shard Jaccard similarity comparison
+
+### Integration Notes
+- `SmartRouter` uses fingerprint to select optimal shard for new tenant sessions
+- `distributed_knowledge` Layer 11D `CrossShardFeedbackSync` propagates fingerprint changes across shards
+- `AIDecisionAuditor` receives `DecisionRecord` on dominant-pattern change
+- GDPR: fingerprint contains only metrics; no query content
+
+### Performance Targets
+- Fingerprint computation ≤ 1 ms for 1 000-query sliding window
+- Cross-shard Jaccard distance: identical workloads → 0.0; orthogonal workloads → 1.0

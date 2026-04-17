@@ -41,12 +41,14 @@ workflows, and throughput-oriented batching.  All implementation details live in
 | `transaction_auditor.h` | `TransactionAuditor` | Per-transaction audit trail emission |
 | `transaction_batcher.h` | `TransactionBatcher` | Group-commit batching for throughput |
 | `transaction_manager.h` | `TransactionManager`, `Transaction` | Core ACID transaction API |
+| *(planned)* `transaction_semantic_advisor.h` | `TransactionSemanticAdvisor`, `BatchAffinityHint` | Layer 5: conflict-aware batch ordering and retry-reduction hints (IMPL-B5) |
 
 ## Notes
 
 - `transaction_manager.h` is the primary entry point for application code.
 - `isolation_level.h` is a dependency-free enum header safe to include anywhere.
 - Guards on all 11 write paths ensure `read_only_` is enforced at the API surface.
+- `TransactionSemanticAdvisor` (planned, IMPL-B5) consults `DeadlockPredictor` scores and writes `DecisionRecord` to `AIDecisionAuditor` for every non-trivial hint.
 
 ---
 *Implementation in `../../src/transaction/`*
