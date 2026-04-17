@@ -26,6 +26,7 @@
 #include <algorithm>
 #include <regex>
 #include <set>
+#include <stdexcept>
 #include <spdlog/spdlog.h>
 
 // Configuration constants
@@ -72,8 +73,102 @@ QueryFederation::QueryFederation(
                  config_.enable_result_streaming);
 }
 
-nlohmann::json QueryFederation::execute(const std::string& query) {
-    total_queries_++;
+// ─────────────────────────────────────────────────────────────────────────────
+// DK-4: Federated RAG merge (Layer C)
+// ─────────────────────────────────────────────────────────────────────────────
+
+void QueryFederation::setRAGMerger(
+    std::shared_ptr<distributed_knowledge::FederatedRAGMerger> merger)
+{
+    rag_merger_ = std::move(merger);
+}
+
+void QueryFederation::setShardRouter(
+    std::shared_ptr<sharding::AdaptiveShardRouter> router)
+{
+    adaptive_router_ = std::move(router);
+}
+
+distributed_knowledge::MergedRAGContext QueryFederation::mergeRAGResults(
+    const std::vector<distributed_knowledge::ShardRetrievalResult>& shard_results) const
+{
+    if (!rag_merger_) {
+        throw std::logic_error(
+            "QueryFederation::mergeRAGResults: no FederatedRAGMerger injected — "
+            "call setRAGMerger() first");
+    }
+    return rag_merger_->merge(shard_results);
+}
+
+distributed_knowledge::MergedRAGContext QueryFederation::executeFederatedRAGQuery(
+    const std::string& query,
+    distributed_knowledge::AdapterDomainType domain)
+{
+    if (!rag_merger_) {
+        throw std::logic_error(
+            "QueryFederation::executeFederatedRAGQuery: no FederatedRAGMerger "
+            "injected — call setRAGMerger() first");
+    }
+
+    // Fan-out to all shards
+    auto raw_results = shard_router_->scatterGather(query);
+
+    // Convert ShardResult → ShardRetrievalResult
+    std::vector<distributed_knowledge::ShardRetrievalResult> rag_results;
+    rag_results.reserve(raw_results.size());
+
+    for (const auto& sr : raw_results) {
+        distributed_knowledge::ShardRetrievalResult rr;
+        rr.shard_id = sr.shard_id;
+        rr.ok       = sr.success;
+        if (!sr.success) {
+            rr.error_message = sr.error_msg;
+            rag_results.push_back(std::move(rr));
+            continue;
+        }
+
+        // Per-shard accuracy delta from AdaptiveShardRouter (DK-2)
+        if (adaptive_router_) {
+            rr.adapter_accuracy_delta =
+                adaptive_router_->getAdapterAccuracyDelta(sr.shard_id, domain);
+        }
+
+        // Extract documents from shard data
+        // Supports two layouts:
+        //   1. data is a JSON array of document objects
+        //   2. data is a JSON object with a "docs" array key
+        const nlohmann::json* doc_list = nullptr;
+        if (sr.data.is_array()) {
+            doc_list = &sr.data;
+        } else if (sr.data.is_object() && sr.data.contains("docs") &&
+                   sr.data["docs"].is_array()) {
+            doc_list = &sr.data["docs"];
+        }
+
+        if (doc_list) {
+            size_t rank = 1;
+            for (const auto& dj : *doc_list) {
+                distributed_knowledge::RetrievedDocument doc;
+                doc.doc_id  = dj.value("doc_id",
+                              dj.value("_key",
+                              dj.value("id", std::to_string(rank))));
+                doc.content = dj.value("content", dj.dump());
+                doc.shard_id         = sr.shard_id;
+                doc.relevance_score  = dj.value("score", 1.0 / static_cast<double>(rank));
+                doc.rank_in_shard    = rank++;
+                rr.documents.push_back(std::move(doc));
+            }
+        }
+
+        rag_results.push_back(std::move(rr));
+    }
+
+    return rag_merger_->merge(rag_results);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
+nlohmann::json QueryFederation::execute(const std::string& query) {    total_queries_++;
     auto start_time = std::chrono::steady_clock::now();
     
     try {

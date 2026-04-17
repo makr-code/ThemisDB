@@ -168,7 +168,7 @@ DK-1 (Build + Tests)   [no dependency on A or B]
 | **S-7** ✅ | IMPL-B7 + IMPL-B8 | IntentClassifier + WorkloadFingerprintEngine | S-3 |
 | **S-8** ✅ | IMPL-B9 + IMPL-B10 | ExplainabilityReasonBuilder + StorageLayoutAdvisor | S-3 |
 | **S-9** ✅ | DK-3 | FedLoRA wired to `IncrementalLoRATrainer` | S-4, S-5 |
-| **S-10** | DK-4 | Federated RAG merge in `QueryFederation` | S-5 |
+| **S-10** ✅ | DK-4 | Federated RAG merge in `QueryFederation` | S-5 |
 | **S-11** | DK-5 | CrossShardFeedbackSync wired to `FeedbackCollector` + RLAIF | S-5 |
 | **S-12** | DK-6 | End-to-end 7-scenario integration + privacy tests | S-9,10,11 |
 | **S-13** | DK-7 | Admin API + SphincsPlus audit + CrossBorderTransferPolicy | S-12 |
