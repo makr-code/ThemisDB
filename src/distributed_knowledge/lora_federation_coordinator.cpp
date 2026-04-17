@@ -26,6 +26,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <limits>
 #include <random>
 #include <sstream>
 #include <stdexcept>
@@ -98,6 +99,14 @@ void LoRAFederationCoordinator::submitGradient(const EncryptedGradient& gradient
 
 GlobalAdapterDelta LoRAFederationCoordinator::triggerAggregation() {
     std::lock_guard<std::mutex> lk(mutex_);
+
+    // ── DK-6: Privacy budget guard ────────────────────────────────────────────
+    if (config_.max_rounds > 0 && current_round_ > config_.max_rounds) {
+        throw std::runtime_error(
+            "LoRAFederationCoordinator::triggerAggregation: DP budget exhausted "
+            "(max_rounds=" + std::to_string(config_.max_rounds) + " reached)");
+    }
+    // ─────────────────────────────────────────────────────────────────────────
 
     if (pending_gradients_.size() < config_.min_participants) {
         throw std::runtime_error(
@@ -298,6 +307,27 @@ void LoRAFederationCoordinator::emitFederationDecisionRecord(
 
     // submit() is non-blocking — the processor's background thread handles I/O
     dr_processor_->submit(std::move(rec));
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DK-6: Privacy budget observability
+// ─────────────────────────────────────────────────────────────────────────────
+
+double LoRAFederationCoordinator::privacyBudgetRemaining() const {
+    std::lock_guard<std::mutex> lk(mutex_);
+    if (config_.max_rounds == 0) {
+        return std::numeric_limits<double>::max();
+    }
+    const double total_budget = static_cast<double>(config_.max_rounds) * config_.dp_epsilon;
+    return std::max(0.0, total_budget - total_epsilon_spent_);
+}
+
+bool LoRAFederationCoordinator::verifyPrivacyBudget() const {
+    std::lock_guard<std::mutex> lk(mutex_);
+    if (config_.max_rounds == 0) {
+        return true;
+    }
+    return current_round_ <= config_.max_rounds;
 }
 
 } // namespace themis::distributed_knowledge

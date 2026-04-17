@@ -157,9 +157,12 @@ struct FederationConfig {
     bool weight_by_sample_count = true;    ///< Weight gradient by shard sample count
 
     // Differential Privacy
-    double dp_epsilon  = 0.1;   ///< Privacy budget ε (lower = more private)
+    double dp_epsilon  = 0.1;   ///< Privacy budget ε spent *per round* (lower = more private)
     double dp_delta    = 1e-5;  ///< Failure probability δ
     double dp_sensitivity = 1.0; ///< L2 sensitivity of gradient
+
+    // Privacy budget cap (DK-6)
+    size_t max_rounds  = 0;     ///< Maximum federation rounds (0 = unlimited)
 
     // Timeout
     std::chrono::minutes round_timeout{60}; ///< Max wait for all shards per round
@@ -307,6 +310,24 @@ public:
      * @brief Return the current configuration.
      */
     [[nodiscard]] const FederationConfig& config() const { return config_; }
+
+    // ── DK-6: Privacy budget observability ──────────────────────────────────
+
+    /**
+     * @brief Return total DP epsilon remaining in the configured budget.
+     *
+     * Returns `std::numeric_limits<double>::max()` when `max_rounds == 0`
+     * (unlimited budget).  Otherwise: `max_rounds * dp_epsilon - total_epsilon_spent_`.
+     */
+    [[nodiscard]] double privacyBudgetRemaining() const;
+
+    /**
+     * @brief Return true when further federation rounds are permitted.
+     *
+     * False when `max_rounds > 0` and `current_round_ > max_rounds`.
+     * `triggerAggregation()` throws `std::runtime_error` when this returns false.
+     */
+    [[nodiscard]] bool verifyPrivacyBudget() const;
 
 private:
     FederationConfig                         config_;

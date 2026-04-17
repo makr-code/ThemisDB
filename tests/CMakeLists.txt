@@ -22762,3 +22762,49 @@ else()
         message(STATUS "IncrementalLoRATrainer federation tests not found")
     endif()
 endif()
+
+# ============================================================================
+# DK-6: End-to-end distributed_knowledge integration tests
+# Covers: 7 Scenarios (Domain Routing, Federated LoRA, Federated RAG,
+#         Cross-Shard RLAIF, Privacy Invariant, Fault Tolerance, Privacy Budget)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge_integration.cpp")
+    message(STATUS "Adding DK-6 distributed_knowledge integration tests")
+
+    add_executable(test_distributed_knowledge_integration_focused
+        test_distributed_knowledge_integration.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/lora_federation_coordinator.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/federated_rag_merger.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/cross_shard_feedback_sync.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/rag_ingestion_bridge.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/rlaif_trainer.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/rag_judge.cpp
+        ${THEMIS_ROOT_DIR}/src/prompt_engineering/feedback_collector.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/adaptive_shard_router.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/shard_router.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/shard_topology.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/consistent_hash_ring.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/urn_resolver.cpp
+    )
+
+    target_include_directories(test_distributed_knowledge_integration_focused
+        PRIVATE ${THEMIS_ROOT_DIR}/include)
+
+    target_link_libraries(test_distributed_knowledge_integration_focused
+        PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+
+    target_compile_definitions(test_distributed_knowledge_integration_focused
+        PRIVATE THEMIS_TEST_BUILD=1)
+
+    add_test(NAME DistributedKnowledgeIntegrationTests
+        COMMAND test_distributed_knowledge_integration_focused)
+
+    set_tests_properties(DistributedKnowledgeIntegrationTests PROPERTIES
+        LABELS "distributed_knowledge;integration;DK-6;federation;rag;rlaif;privacy"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  DK-6: Scenario1_DomainRouting, Scenario2_FederatedLoRA, Scenario3_FederatedRAG, Scenario4_CrossShardRLAIF, Scenario5_PrivacyInvariant, Scenario6_FaultTolerance, PrivacyBudgetExhaustion")
+else()
+    message(STATUS "DK-6 integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge_integration.cpp")
+endif()
