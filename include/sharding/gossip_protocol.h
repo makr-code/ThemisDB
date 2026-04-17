@@ -265,6 +265,26 @@ public:
     GossipMessage handleMessage(const GossipMessage& message);
     
     /**
+     * Register a custom handler for a specific gossip message type.
+     *
+     * The handler is invoked inside `handleMessage()` before the built-in
+     * type dispatch (heartbeat / peer_list / peer_leave).  This enables
+     * external modules such as the distributed_knowledge layer to extend the
+     * gossip bus without modifying the transport protocol.
+     *
+     * Thread-safety: handler map is protected by the internal peers mutex.
+     * Duplicate registration: the new handler replaces the previous one and
+     * a warning is written to stderr.
+     *
+     * @param message_type  Payload type string, e.g. "adapter_capability"
+     * @param handler       Callable invoked with the full `GossipMessage`
+     */
+    void registerCustomHandler(
+        const std::string& message_type,
+        std::function<void(const GossipMessage&)> handler
+    );
+
+    /**
      * Register callback for peer discovery
      * @param callback Function called when new peer is discovered
      */
@@ -301,6 +321,9 @@ private:
     std::thread gossip_thread_;
     std::thread cleanup_thread_;
     
+    // Custom handlers registered via registerCustomHandler()
+    std::map<std::string, std::function<void(const GossipMessage&)>> custom_handlers_;
+
     // Callbacks
     PeerDiscoveryCallback on_peer_discovered_;
     PeerLostCallback on_peer_lost_;

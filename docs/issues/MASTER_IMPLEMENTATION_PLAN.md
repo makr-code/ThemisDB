@@ -163,7 +163,7 @@ DK-1 (Build + Tests)   [no dependency on A or B]
 | **S-2** ✅ | IMPL-A1 | Golden dataset CLI + `DatabaseDomainAutoLabeler` | — |
 | **S-3** ✅ | IMPL-A2 | Loop 1–4 explicit in `ContinuousLearningOrchestrator` | — |
 | **S-4** ✅ | IMPL-A3 | `exportGradient` + `applyGlobalDelta` + `FEDERATED_ROUND_START` | S-3 |
-| **S-5** | DK-2 | Gossip custom handler + `routeByDomain()` | S-1 |
+| **S-5** ✅ | DK-2 | Gossip custom handler + `routeByDomain()` | S-1 |
 | **S-6** | IMPL-B5 + IMPL-B6 | TransactionSemanticAdvisor + SchemaDeadWeightDetector | S-3 |
 | **S-7** | IMPL-B7 + IMPL-B8 | IntentClassifier + WorkloadFingerprintEngine | S-3 |
 | **S-8** | IMPL-B9 + IMPL-B10 | ExplainabilityReasonBuilder + StorageLayoutAdvisor | S-3 |
