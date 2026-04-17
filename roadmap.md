@@ -55,7 +55,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **onnx_clip** | ✅ Production-ready (v0.2.0) — all v0.2.0 items done: Prometheus metrics, model integrity check (SHA-256), 26 unit tests | [src/onnx_clip/ROADMAP.md](src/onnx_clip/ROADMAP.md) |
 | **performance** | ✅ Production-ready | [src/performance/ROADMAP.md](src/performance/ROADMAP.md) |
 | **plugins** | ✅ Production-ready | [src/plugins/ROADMAP.md](src/plugins/ROADMAP.md) |
-| **process** | ✅ Production-ready — BPMN/EPK/VCC-VPB import, Graph-RAG, ProcessLinker, HNSW + full-text retrieval operational; LLM embedding auto-generation documented as external dependency | [src/process/ROADMAP.md](src/process/ROADMAP.md) |
+| **process** | ✅ Production-ready — BPMN/EPK/VCC-VPB import, Graph-RAG, ProcessLinker, HNSW + full-text retrieval operational; ARIS-XML import (AML v9/v10) + AgenticRAG iterative Q&A (2026-04-17) | [src/process/ROADMAP.md](src/process/ROADMAP.md) |
 | **prompt_engineering** | ✅ Production-ready (v1.x) | [src/prompt_engineering/ROADMAP.md](src/prompt_engineering/ROADMAP.md) |
 | **query** | ✅ Production-ready | [src/query/ROADMAP.md](src/query/ROADMAP.md) |
 | **rag** | ✅ Production-ready | [src/rag/ROADMAP.md](src/rag/ROADMAP.md) |
@@ -427,10 +427,10 @@ Focus: Enterprise-grade monitoring, alerting, and automated operations.
 - [x] StorageCompaction integration with `CompactionManager` (Target: v1.2.0) — `StorageCompactionHandler` in `maintenance_task_handler_impls.h` wired to `CompactionManager::compactAll()` ✅
 
 #### 4.6 Process — Semantic Search & LLM Integration
-- [~] Auto-generate process model embeddings via LLM module on import (Target: Q2 2026)
-- [ ] Full-text inverted index over process model descriptions (Target: Q2 2026)
-- [ ] AgenticRAG integration for iterative process question answering (Target: Q3 2026)
-- [ ] EPK ARIS-XML import (Target: Q3 2026)
+- [x] Auto-generate process model embeddings via LLM module on import (Target: Q2 2026)
+- [x] Full-text inverted index over process model descriptions (Target: Q2 2026)
+- [x] AgenticRAG integration for iterative process question answering (Target: Q3 2026) — `ProcessAgenticRag` in `include/process/process_agentic_rag.h` (2026-04-17)
+- [x] EPK ARIS-XML import (Target: Q3 2026) — `EpkArisXmlImporter` in `include/process/epk_aris_xml_importer.h`, AML v9/v10 (2026-04-17)
 
 #### 4.7 CLI Tooling — Unified Management Interface
 - [x] `themisctl` — unified ThemisDB CLI for server operations (Target: Q1 2026)

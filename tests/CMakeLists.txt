@@ -19157,6 +19157,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_module.cpp")
         ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
         ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
         ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/epk_aris_xml_importer.cpp
         ${CMAKE_SOURCE_DIR}/src/process/llm_process_descriptor.cpp
         ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
         ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
@@ -19188,6 +19189,49 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_module.cpp")
     )
     message(STATUS "  ProcessModule: BPMN/EPK/VCC-VPB import-export, ProcessModelManager CRUD,")
     message(STATUS "                 ProcessLinker attach/detach/required-docs, ProcessGraphRag")
+endif()
+
+# Process ARIS-XML + AgenticRAG focused tests
+# Covers: EpkArisXmlImporter (EAX-01..10) and ProcessAgenticRag façade (PAR-01..06)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_aris_xml.cpp")
+    message(STATUS "Adding Process ARIS-XML + AgenticRAG focused tests")
+    add_executable(test_process_aris_xml_focused
+        test_process_aris_xml.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/epk_aris_xml_importer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_agentic_rag.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/llm_process_descriptor.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_graph_rag.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/process_model_generator.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/ocel_exporter.cpp
+        ${CMAKE_SOURCE_DIR}/src/process/dmn_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
+        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+    )
+    target_include_directories(test_process_aris_xml_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_process_aris_xml_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_process_aris_xml_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    add_test(NAME ProcessArisXmlFocusedTests COMMAND test_process_aris_xml_focused)
+    set_tests_properties(ProcessArisXmlFocusedTests PROPERTIES
+        LABELS "process;epk;aris-xml;agentic-rag;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  ProcessArisXml: EAX-01..10 ARIS-XML import, PAR-01..06 AgenticRAG façade")
 endif()
 
 # Process Graph Visit Timestamp focused tests

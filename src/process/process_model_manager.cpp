@@ -37,6 +37,7 @@
 #include "process/process_model_manager.h"
 #include "process/bpmn_serializer.h"
 #include "process/epk_serializer.h"
+#include "process/epk_aris_xml_importer.h"
 #include "process/llm_process_descriptor.h"
 #include "process/vcc_vpb_importer.h"
 #include "index/inverted_index.h"
@@ -438,6 +439,25 @@ ProcessModelResult ProcessModelManager::importVccVpb(
     }
 
     return save(result.record);
+}
+
+ProcessModelResult ProcessModelManager::importArisXml(
+    std::string_view aml_xml,
+    const ProcessModelRecord& meta)
+{
+    auto result = EpkArisXmlImporter::importAml(aml_xml);
+    if (!result.ok) {
+        return ProcessModelResult::failure("ARIS-XML import failed: " + result.message);
+    }
+
+    ProcessModelRecord record = meta;
+    if (record.id.empty())   record.id   = result.process_id;
+    if (record.name.empty()) record.name = result.process_name;
+    record.notation    = ProcessNotation::EPK;
+    record.raw_payload = std::string(aml_xml);
+    record.normalized  = buildNormalizedGraph_(result.nodes, result.edges, record);
+
+    return save(record);
 }
 
 // ---- CRUD -------------------------------------------------------------------

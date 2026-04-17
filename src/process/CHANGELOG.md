@@ -5,6 +5,48 @@ Format: [Semantic Versioning](https://semver.org/), newest first.
 
 ---
 
+## [2.1.0] – 2026-04-17
+
+### Added
+
+- **`EpkArisXmlImporter`** (`include/process/epk_aris_xml_importer.h`,
+  `src/process/epk_aris_xml_importer.cpp`):
+  EPK import from ARIS Markup Language (AML) XML produced by ARIS Designer 9.x/10.x.
+  - `importAml(aml_xml)` — imports the first EPK model in an AML document.
+  - `importAllAml(aml_xml)` — imports all EPK models.
+  - `typeNumToEpkNodeType(type_num)` — maps ARIS TypeNum to `EPKNodeType`.
+  - `typeNumToLabel(type_num)` — returns German ARIS element label.
+  - Supports: Funktion (1), Ereignis (14), AND/OR/XOR connectors (13/12/11),
+    Organisationseinheit (18), Informationsobjekt (15), Anwendungssystem (40),
+    Prozesswegweiser (16).
+  - Hand-written XML tokenizer (same strategy as BpmnSerializer; no regex, no external
+    XML library). 10 MiB document guard. Numeric character reference decoding (`&#N;`).
+  - 10 tests: EAX-01..EAX-10.
+
+- **`ProcessModelManager::importArisXml()`**
+  (`include/process/process_model_manager.h`,
+  `src/process/process_model_manager.cpp`):
+  High-level convenience method that calls `EpkArisXmlImporter::importAml()`, builds
+  the normalized graph via `buildNormalizedGraph_()`, and calls `save()` (including
+  automatic FTS indexing and embedding generation when those are wired).
+
+- **`ProcessAgenticRag`** (`include/process/process_agentic_rag.h`,
+  `src/process/process_agentic_rag.cpp`):
+  Iterative agentic Q&A façade bridging `ProcessGraphRag` and
+  `rag::agentic::AgenticRAG`.
+  - `iterativeQuery(instance_id, question)` — multi-hop Q&A with gap-driven
+    query reformulation.
+  - `iterativeQueryForNode(instance_id, node_id, question)` — node-scoped entry point.
+  - `ProcessAgenticConfig` — tuning parameters (max_iterations, quality_threshold,
+    faithfulness_threshold, max_total_documents, rag_config).
+  - `ProcessAgenticResult` — final context, LLM prompt, quality_satisfied flag,
+    iteration history.
+  - `encodeContext()` / `mergeDocuments()` — bridge between `ProcessRagContext` and
+    `std::vector<rag::judge::RetrievedDocument>`.
+  - 6 façade tests: PAR-01..PAR-06 (in `tests/test_process_aris_xml.cpp`).
+
+---
+
 ## [2.0.0] – 2026-04-15
 
 ### Added
