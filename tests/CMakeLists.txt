@@ -19340,6 +19340,47 @@ else()
     message(STATUS "BiTemporalTable tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_bi_temporal.cpp")
 endif()
 
+# ============================================================================
+# Temporal Module -- TemporalColdStore Focused Tests
+# Validates InMemoryBackend, FileSystemBackend (real disk I/O in /tmp),
+# RAM-index correctness, crash-recovery rebuild, and concurrent reads.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_cold_store.cpp")
+    message(STATUS "Adding Temporal: TemporalColdStore focused tests (InMemory + FileSystem backends, concurrent reads)")
+
+    add_executable(test_temporal_cold_store_focused
+        temporal/test_temporal_cold_store.cpp
+        ${CMAKE_SOURCE_DIR}/src/temporal/temporal_cold_store.cpp
+    )
+
+    target_include_directories(test_temporal_cold_store_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_temporal_cold_store_focused PRIVATE
+        ${TEST_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_temporal_cold_store_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME TemporalColdStoreFocusedTests COMMAND test_temporal_cold_store_focused)
+
+    set_tests_properties(TemporalColdStoreFocusedTests PROPERTIES
+        LABELS "temporal;cold-store;tiered-storage;filesystem;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  TemporalColdStore: InMemoryBackend, FileSystemBackend, RAM index rebuild, special-char keys, concurrent reads")
+else()
+    message(STATUS "TemporalColdStore tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_cold_store.cpp")
+endif()
+
 
 # ============================================================================
 # Temporal Module -- TemporalQueryEngine Focused Tests (v1.9.0)
