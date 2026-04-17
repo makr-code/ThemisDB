@@ -40,7 +40,7 @@
 
 - [ ] `temporal_cdc.h` — document ring-buffer overflow semantics in header doxygen (Target: v1.6.1)
 - [ ] `retention_manager.h` — add `operator==` / `operator<` to `RetentionRule` (Target: v1.6.1)
-- [ ] `temporal_conflict_resolver.h` — `MergeResolver` strategy for CRDT-style merges (Target: v1.7.0)
+- [x] `temporal_conflict_resolver.h` — `MergeResolver` strategy for CRDT-style merges (Implemented: 2026-04-17)
   - Inputs: two `BiTemporalRecord<T>` with same `ValidTime`
   - Output: merged record; conflict log entry
   - Constraints: merge function must be commutative and idempotent
@@ -61,12 +61,12 @@
 ## Implementation Phases
 
 ### Phase 1 — Design / API Contract (current sprint)
-- [ ] Finalise `MergeResolver` interface signature and callback contract
+- [x] Finalise `MergeResolver` interface signature and callback contract
 - [ ] Draft `SEQUENCED DISTINCT` query plan representation in `TemporalQueryPlan`
 - [ ] Specify WAL segment format for persistent CDC log
 
 ### Phase 2 — Core Implementation
-- [ ] Implement `MergeResolver` in planned temporal conflict-resolver implementation
+- [x] Implement `MergeResolver` in planned temporal conflict-resolver implementation
 - [ ] Implement `SEQUENCED DISTINCT` path in `TemporalQueryEngine`
 - [ ] Implement `LZ4Strategy` in planned temporal compressor implementation
 - [ ] Implement `erase()` with tree rebalancing in `IntervalTreeIndex`
@@ -77,7 +77,7 @@
 - [ ] `erase()`: handle concurrent reader invalidation
 
 ### Phase 4 — Tests
-- [ ] Unit tests: `MergeResolver` commutativity and idempotency
+- [x] Unit tests: `MergeResolver` commutativity and idempotency (MCR-01..07)
 - [ ] Unit tests: `SEQUENCED DISTINCT` correctness against SQL:2011 examples
 - [ ] Fuzz tests: `LZ4Strategy` round-trip via `libFuzzer` harness
 - [ ] Benchmark: `IntervalTreeIndex::erase()` vs. rebuild baseline
