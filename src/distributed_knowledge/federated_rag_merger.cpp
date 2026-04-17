@@ -17,6 +17,7 @@
 #include <algorithm>
 #include <sstream>
 #include <unordered_map>
+#include <unordered_set>
 
 namespace themis::distributed_knowledge {
 

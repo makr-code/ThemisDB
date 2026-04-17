@@ -159,7 +159,7 @@ DK-1 (Build + Tests)   [no dependency on A or B]
 | Session | Issues | Key Deliverable | Dependency |
 |---|---|---|---|
 | **S-0** ✅ | — | Research papers, Layer 11 matrix, module scaffolding | — |
-| **S-1** | DK-1 | `distributed_knowledge` compiles + 25 unit tests green | — |
+| **S-1** ✅ | DK-1 | `distributed_knowledge` compiles + 25 unit tests green | — |
 | **S-2** ✅ | IMPL-A1 | Golden dataset CLI + `DatabaseDomainAutoLabeler` | — |
 | **S-3** ✅ | IMPL-A2 | Loop 1–4 explicit in `ContinuousLearningOrchestrator` | — |
 | **S-4** ✅ | IMPL-A3 | `exportGradient` + `applyGlobalDelta` + `FEDERATED_ROUND_START` | S-3 |
@@ -167,7 +167,7 @@ DK-1 (Build + Tests)   [no dependency on A or B]
 | **S-6** ✅ | IMPL-B5 + IMPL-B6 | TransactionSemanticAdvisor + SchemaDeadWeightDetector | S-3 |
 | **S-7** ✅ | IMPL-B7 + IMPL-B8 | IntentClassifier + WorkloadFingerprintEngine | S-3 |
 | **S-8** ✅ | IMPL-B9 + IMPL-B10 | ExplainabilityReasonBuilder + StorageLayoutAdvisor | S-3 |
-| **S-9** | DK-3 | FedLoRA wired to `IncrementalLoRATrainer` | S-4, S-5 |
+| **S-9** ✅ | DK-3 | FedLoRA wired to `IncrementalLoRATrainer` | S-4, S-5 |
 | **S-10** | DK-4 | Federated RAG merge in `QueryFederation` | S-5 |
 | **S-11** | DK-5 | CrossShardFeedbackSync wired to `FeedbackCollector` + RLAIF | S-5 |
 | **S-12** | DK-6 | End-to-end 7-scenario integration + privacy tests | S-9,10,11 |
