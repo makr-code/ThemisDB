@@ -548,7 +548,7 @@ std::vector<BaseEntity> VectorAutoBuffer::applyCompression(const std::vector<Bas
             const auto reconstructed = pq.decode(codes);
 
             BaseEntity compressed = entity;
-            compressed.setField(vec_field, BaseEntity::Value{reconstructed});
+            compressed.setField(vec_field, Value{reconstructed});
             result.push_back(std::move(compressed));
         }
 

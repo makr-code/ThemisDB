@@ -48,7 +48,7 @@ Nach erfolgreichem Build folgen **Deployment** und **Release** - diese sind bere
 ### 🔖 Release-Strategie  
 - [updates_distribution_strategy.md](../de/releases/updates_distribution_strategy.md) - **Distributions-Strategie** für Releases
 - [updates_release_manifest.md](../de/releases/updates_release_manifest.md) - Release Manifest Struktur
-- [RELEASE_NOTES_v1.4.md](../de/releases/RELEASE_NOTES_v1.4.md) - Release Notes v1.4
+- [RELEASE_NOTES_v1.4.md](../de/RELEASE_NOTES_v1.4.md) - Release Notes v1.4
 
 ### 🏗️ Versions-Management
 - [v1.3.5_RELEASE_BUILD_STRATEGY.md](../de/deployment/v1.3.5_RELEASE_BUILD_STRATEGY.md) - Release Build-Strategie
@@ -209,7 +209,7 @@ CMakePresets.json verwendet `${sourceDir}` (Root), daher keine Änderungen nöti
 | **ARM (Generisch)** | [BUILD_ARM.md](BUILD_ARM.md) | Cross-Compilation, Toolchain |
 | **Raspberry Pi** | [BUILD_RASPBERRY_PI.md](BUILD_RASPBERRY_PI.md) | ARMv8, 64-bit, Systemd |
 | **QNAP NAS** | [BUILD_QNAP.md](BUILD_QNAP.md) | Docker-preferred, x86_64 + ARM |
-| **Troubleshooting** | [TROUBLESHOOTING.md](TROUBLESHOOTING.md) | Häufige Fehler |
+| **Troubleshooting** | [../COMPILER_TROUBLESHOOTING.md](../COMPILER_TROUBLESHOOTING.md) | Häufige Build- und Toolchain-Fehler |
 
 - [cmake/CMakePresets.json](../../cmake/CMakePresets.json) - Alle verfügbaren Presets
 - [cmake/CMakeLists.txt](../../cmake/CMakeLists.txt) - Konfigurationsdetails

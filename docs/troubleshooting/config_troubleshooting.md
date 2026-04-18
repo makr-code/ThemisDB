@@ -248,5 +248,5 @@ config:
 
 - [Config Module ROADMAP](../../src/config/ROADMAP.md)
 - [Config Roadmap](../config_roadmap.md)
-- [Config Implementation Summary](../config_implementation_summary.md)
+- [Config Implementation Summary](../implementation-history/summaries/config_implementation_summary.md)
 - [Config Migration Guide](../config_migration_guide.md)

@@ -13,6 +13,7 @@
 // All tests: no network, no file I/O.
 
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 
 #include "distributed_knowledge/adapter_capability_announcement.h"
 #include "distributed_knowledge/cross_shard_feedback_sync.h"

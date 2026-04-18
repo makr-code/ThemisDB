@@ -474,9 +474,9 @@ TEST(AQLOrMultipleFilters, CartesianProductExpansion) {
 
     AQLParser parser;
     auto parse_result = parser.parse(aql);
-    ASSERT_TRUE(parse_result.success) << parse_result.error;
+    ASSERT_TRUE(parse_result.has_value()) << parse_result.error().message();
 
-    auto tr = AQLTranslator::translate(parse_result.query);
+    auto tr = AQLTranslator::translate(*parse_result);
     ASSERT_TRUE(tr.success) << tr.error_message;
 
     // Must produce a DisjunctiveQuery, not an error
@@ -497,9 +497,9 @@ TEST(AQLOrMultipleFilters, SingleFilterOrStillWorks) {
 
     AQLParser parser;
     auto parse_result = parser.parse(aql);
-    ASSERT_TRUE(parse_result.success) << parse_result.error;
+    ASSERT_TRUE(parse_result.has_value()) << parse_result.error().message();
 
-    auto tr = AQLTranslator::translate(parse_result.query);
+    auto tr = AQLTranslator::translate(*parse_result);
     ASSERT_TRUE(tr.success) << tr.error_message;
     ASSERT_TRUE(tr.disjunctive.has_value());
     EXPECT_EQ(tr.disjunctive->disjuncts.size(), 2u);

@@ -263,8 +263,10 @@ protected:
                     ("test_aris_" + std::to_string(
                          std::chrono::system_clock::now().time_since_epoch().count())))
                        .string();
-        db_ = std::make_unique<::themis::RocksDBWrapper>();
-        ASSERT_TRUE(db_->open(db_path_));
+      ::themis::RocksDBWrapper::Config cfg;
+      cfg.db_path = db_path_;
+      db_ = std::make_unique<::themis::RocksDBWrapper>(cfg);
+      ASSERT_TRUE(db_->open());
         engine_ = std::make_unique<ProcessGraphManager>(*db_);
         mgr_    = std::make_unique<ProcessModelManager>(*db_);
     }

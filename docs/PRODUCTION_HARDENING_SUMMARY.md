@@ -475,14 +475,14 @@ data/
 
 ### Primary Documents
 
-1. **[roadmap.md](roadmap.md)** - Complete 5-phase roadmap (781 lines)
-2. **[PHASE1_COMPLETE.md](PHASE1_COMPLETE.md)** - Phase 1 complete summary
-3. **[PHASE1_IMPLEMENTATION_SUMMARY.md](PHASE1_IMPLEMENTATION_SUMMARY.md)** - Phase 1 details
-4. **[PHASE2.1_COMPLETE.md](PHASE2.1_COMPLETE.md)** - Paxos durability complete
-5. **[PHASE2.2_COMPLETE.md](PHASE2.2_COMPLETE.md)** - Metadata durability complete
-6. **[PHASE2_PROGRESS.md](PHASE2_PROGRESS.md)** - Overall Phase 2 tracking
-7. **[PHASE2.3_PROGRESS.md](PHASE2.3_PROGRESS.md)** - Transaction coordinator status
-8. **[PHASE2.3_INTEGRATION_COMPLETE.md](PHASE2.3_INTEGRATION_COMPLETE.md)** - Integration summary
+1. **[roadmap.md](../roadmap.md)** - Complete 5-phase roadmap (781 lines)
+2. **[PHASE1_COMPLETE.md](implementation-history/phases/PHASE1_COMPLETE.md)** - Phase 1 complete summary
+3. **[PHASE1_IMPLEMENTATION_SUMMARY.md](implementation-history/summaries/PHASE1_IMPLEMENTATION_SUMMARY.md)** - Phase 1 details
+4. **[PHASE2.1_COMPLETE.md](implementation-history/phases/PHASE2.1_COMPLETE.md)** - Paxos durability complete
+5. **[PHASE2.2_COMPLETE.md](implementation-history/phases/PHASE2.2_COMPLETE.md)** - Metadata durability complete
+6. **[PHASE2_PROGRESS.md](implementation-history/phases/PHASE2_PROGRESS.md)** - Overall Phase 2 tracking
+7. **[PHASE2.3_PROGRESS.md](implementation-history/phases/PHASE2.3_PROGRESS.md)** - Transaction coordinator status
+8. **[PHASE2.3_INTEGRATION_COMPLETE.md](implementation-history/phases/PHASE2.3_INTEGRATION_COMPLETE.md)** - Integration summary
 9. **[PRODUCTION_HARDENING_SUMMARY.md](PRODUCTION_HARDENING_SUMMARY.md)** - This document
 
 ### Key Implementation Files

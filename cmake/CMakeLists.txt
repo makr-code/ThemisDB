@@ -1475,6 +1475,8 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/blob_backend_gcs.cpp
     # nvme_manager.cpp is registered via cmake/StorageEnhancements.cmake
     ../src/storage/streaming_ingest_manager.cpp
+    ../src/storage/encrypted_blob_backend.cpp
+    ../src/storage/mvcc_chain_pruner.cpp
 
     ../src/metadata/schema_manager.cpp
     ../src/metadata/statistics_collector.cpp
@@ -1917,6 +1919,8 @@ set(THEMIS_CORE_SOURCES
     ../src/temporal/temporal_compressor.cpp
     ../src/temporal/temporal_cdc.cpp
     ../src/temporal/temporal_migrator.cpp
+    ../src/temporal/temporal_cold_store.cpp
+    ../src/temporal/temporal_tier_manager.cpp
     
     ../src/timeseries/timeseries.cpp
     ../src/timeseries/timeseries_metrics.cpp
@@ -2121,6 +2125,7 @@ set(THEMIS_CORE_SOURCES
     ../src/governance/model_governance.cpp
     ../src/governance/pci_dss_rules.cpp
     ../src/governance/data_masker.cpp
+    ../src/governance/cross_border_transfer.cpp
     # Geo scaffolding (headers + stubs; safe no-ops until used)
     ../src/geo/cpu_backend.cpp
     ../src/geo/gpu_backend_stub.cpp
@@ -2136,6 +2141,7 @@ set(THEMIS_CORE_SOURCES
     ../src/api/geo_index_hooks.cpp
     ../src/api/tracing_middleware.cpp
     ../src/api/otlp_exporter.cpp
+    ../src/api/federation_admin_handler.cpp
     
     # Sharding (horizontal scaling)
     ../src/utils/boost_throw_exception.cpp

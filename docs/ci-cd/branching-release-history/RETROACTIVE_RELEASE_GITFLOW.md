@@ -307,7 +307,7 @@ chmod +x complete-release.sh
 ### 10. Dokumentation und Referenzen
 
 **Verwandte Dokumente:**
-- [Git Flow Implementation](GIT_FLOW_IMPLEMENTATION_SUMMARY.md)
+- [Git Flow Implementation](implementation-history/summaries/GIT_FLOW_IMPLEMENTATION_SUMMARY.md)
 - [Branching Strategy](BRANCHING_STRATEGY.md)
 - [Release CI Workflow](../.github/workflows/release-ci.yml)
 - [Retroactive Building Guide](RETROACTIVE_RELEASE_BUILDING.md)

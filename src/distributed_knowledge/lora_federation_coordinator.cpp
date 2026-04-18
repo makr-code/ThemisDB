@@ -48,10 +48,50 @@ LoRAFederationCoordinator::LoRAFederationCoordinator(FederationConfig config)
 }
 
 LoRAFederationCoordinator::~LoRAFederationCoordinator() = default;
+
 LoRAFederationCoordinator::LoRAFederationCoordinator(
-    LoRAFederationCoordinator&&) noexcept = default;
+    LoRAFederationCoordinator&& other) noexcept
+    : config_(std::move(other.config_))
+    , current_round_(other.current_round_)
+    , pending_gradients_(std::move(other.pending_gradients_))
+    , last_delta_(std::move(other.last_delta_))
+    , delta_callback_(std::move(other.delta_callback_))
+    , dr_processor_(std::move(other.dr_processor_))
+    , erase_count_(other.erase_count_)
+    , cross_border_policy_(std::move(other.cross_border_policy_))
+    , shard_locations_(std::move(other.shard_locations_))
+    , audit_record_callback_(std::move(other.audit_record_callback_))
+    , signing_callback_(std::move(other.signing_callback_))
+    , total_rounds_completed_(other.total_rounds_completed_)
+    , total_gradients_processed_(other.total_gradients_processed_)
+    , total_epsilon_spent_(other.total_epsilon_spent_)
+    // mutex_ is default-constructed; the moved-from object retains its own mutex
+{}
+
 LoRAFederationCoordinator& LoRAFederationCoordinator::operator=(
-    LoRAFederationCoordinator&&) noexcept = default;
+    LoRAFederationCoordinator&& other) noexcept
+{
+    if (this != &other) {
+        std::lock(mutex_, other.mutex_);
+        std::lock_guard<std::mutex> lk1(mutex_,       std::adopt_lock);
+        std::lock_guard<std::mutex> lk2(other.mutex_, std::adopt_lock);
+        config_                    = std::move(other.config_);
+        current_round_             = other.current_round_;
+        pending_gradients_         = std::move(other.pending_gradients_);
+        last_delta_                = std::move(other.last_delta_);
+        delta_callback_            = std::move(other.delta_callback_);
+        dr_processor_              = std::move(other.dr_processor_);
+        erase_count_               = other.erase_count_;
+        cross_border_policy_       = std::move(other.cross_border_policy_);
+        shard_locations_           = std::move(other.shard_locations_);
+        audit_record_callback_     = std::move(other.audit_record_callback_);
+        signing_callback_          = std::move(other.signing_callback_);
+        total_rounds_completed_    = other.total_rounds_completed_;
+        total_gradients_processed_ = other.total_gradients_processed_;
+        total_epsilon_spent_       = other.total_epsilon_spent_;
+    }
+    return *this;
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // submitGradient

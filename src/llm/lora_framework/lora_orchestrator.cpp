@@ -414,7 +414,9 @@ std::string LoRAOrchestrator::loadAdapter(const std::string& adapter_id, bool as
     }
 
     return job.job_id;
-}(const std::string& job_id) const {
+}
+
+std::optional<LoRAOrchestrator::JobInfo> LoRAOrchestrator::getJob(const std::string& job_id) const {
     std::shared_lock<std::shared_mutex> lock(impl_->state_mutex);
     auto it = impl_->jobs.find(job_id);
     if (it != impl_->jobs.end()) {

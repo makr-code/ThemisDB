@@ -302,5 +302,5 @@ index:
 - [Index Roadmap](../index_roadmap.md)
 - [Multi-Vector Search](../multi_vector_search.md)
 - [Approximate Radius Search](../ApproximateRadiusSearch.md)
-- [Vector Compression Implementation](../VECTOR_COMPRESSION_IMPLEMENTATION_SUMMARY.md)
+- [Vector Compression Implementation](../implementation-history/summaries/VECTOR_COMPRESSION_IMPLEMENTATION_SUMMARY.md)
 - [GPU Roadmap](../gpu_roadmap.md)

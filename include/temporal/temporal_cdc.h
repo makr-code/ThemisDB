@@ -301,21 +301,6 @@ public:
     /** Clear the in-process event log.  Active subscriptions are unaffected. */
     void clearLog();
 
-    /**
-     * Return the number of events dropped or overwritten due to ring-buffer
-     * overflow since this CDC instance was constructed.
-     *
-     * - Under OVERWRITE policy: incremented each time the oldest entry is
-     *   evicted to make room for a new event.
-     * - Under DROP policy: incremented each time a new event is discarded
-     *   because the buffer is full.
-     *
-     * This counter is monotonically increasing and never resets automatically.
-     * It gives callers a lightweight way to detect back-pressure without
-     * inspecting individual events.
-     */
-    uint64_t overflowCount() const noexcept;
-
     // ── Public Helpers ────────────────────────────────────────────────────────
 
     /** Convert ChangeType enum to string representation. */
@@ -346,136 +331,6 @@ private:
     mutable std::mutex mutex_;
     std::atomic<uint64_t> next_sub_id_{0};
 };
-
-// ============================================================================
-// CDCPersistentLog
-// ============================================================================
-
-/**
- * @brief Persistent, WAL-backed log for CDC events.
- *
- * `CDCPersistentLog` durably stores `ChangeEvent` instances in append-only
- * WAL segment files under a caller-supplied directory.  Segment files are
- * named `cdc_wal_XXXXXXXX.seg` and are rotated when a configurable byte
- * threshold is reached (default: 64 MiB).
- *
- * ### Record format (binary, little-endian)
- * ```
- * [uint32_t crc32][uint32_t payload_len][payload_len bytes of JSON]
- * ```
- * The CRC-32 covers the raw payload bytes.  On replay, records whose CRC
- * does not match are skipped and counted via `corruptedSegmentCount()`.
- *
- * ### Usage
- * ```cpp
- * CDCPersistentLog log;
- * log.open("/var/lib/themisdb/cdc");
- * log.append(ev);
- * auto events = log.replay("employees", {t0, t1});
- * log.close();
- * ```
- *
- * ### Thread-safety
- * All public methods are thread-safe.
- */
-class CDCPersistentLog {
-public:
-    /// Default maximum segment size before rotation (64 MiB).
-    static constexpr uint64_t kDefaultSegmentMaxBytes = 64ULL * 1024 * 1024;
-
-    struct Config {
-        std::string directory;
-        uint64_t    segment_max_bytes{64ULL * 1024 * 1024}; ///< == kDefaultSegmentMaxBytes
-    };
-
-    /// Construct with default configuration (no directory set; call open() after setting directory).
-    CDCPersistentLog();
-
-    /// Construct with explicit configuration.
-    explicit CDCPersistentLog(Config cfg);
-    ~CDCPersistentLog();
-
-    CDCPersistentLog(const CDCPersistentLog&)            = delete;
-    CDCPersistentLog& operator=(const CDCPersistentLog&) = delete;
-    CDCPersistentLog(CDCPersistentLog&&)                 = default;
-    CDCPersistentLog& operator=(CDCPersistentLog&&)      = default;
-
-    // ── Lifecycle ─────────────────────────────────────────────────────────────
-
-    /**
-     * Open the WAL in the configured directory.
-     * Creates the directory if it does not exist.
-     * Determines the next segment index from existing `.seg` files.
-     *
-     * @throws std::runtime_error if the directory cannot be created or the
-     *         segment file cannot be opened for writing.
-     */
-    void open();
-
-    /** Close the current segment file and release resources. */
-    void close() noexcept;
-
-    /** Return true if the log has been successfully opened. */
-    [[nodiscard]] bool isOpen() const noexcept;
-
-    // ── Write path ────────────────────────────────────────────────────────────
-
-    /**
-     * Append a change event to the WAL.
-     * Rotates the current segment if it would exceed `segment_max_bytes`.
-     *
-     * @throws std::runtime_error on disk-full or I/O error.
-     * @throws std::logic_error   if the log is not open.
-     */
-    void append(const ChangeEvent& event);
-
-    // ── Read path ─────────────────────────────────────────────────────────────
-
-    /**
-     * Replay events from all WAL segments.
-     *
-     * Filters by `table_name` (empty = all tables) and by
-     * `transaction_time ∈ [range.start, range.end)`.  Segments with CRC
-     * errors are counted but the valid records within them are still returned.
-     *
-     * @return Matching events in the order they were written.
-     */
-    [[nodiscard]] std::vector<ChangeEvent> replay(
-        const std::string& table_name,
-        const TimeRange&   range) const;
-
-    // ── Diagnostics ───────────────────────────────────────────────────────────
-
-    /** Number of records that failed CRC validation during replay. */
-    [[nodiscard]] uint32_t corruptedRecordCount() const noexcept;
-
-    /** Number of WAL segment files in the directory. */
-    [[nodiscard]] size_t segmentCount() const;
-
-    /** Total bytes appended since the log was last opened. */
-    [[nodiscard]] uint64_t totalBytesWritten() const noexcept;
-
-private:
-    // ── Helpers ───────────────────────────────────────────────────────────────
-
-    static uint32_t crc32(const uint8_t* data, size_t len) noexcept;
-    void rotateSegment();
-    [[nodiscard]] std::string segmentPath(size_t idx) const;
-
-    // ── State ─────────────────────────────────────────────────────────────────
-
-    Config                   cfg_;
-    bool                     is_open_{false};
-    size_t                   current_segment_{0};
-    uint64_t                 current_segment_bytes_{0};
-    std::unique_ptr<std::ofstream> current_file_;
-    uint64_t                 total_bytes_written_{0};
-    mutable uint32_t         corrupted_count_{0};
-    mutable std::mutex       mutex_;
-};
-
-} // namespace temporal
-} // namespace themisdb
 
 // ============================================================================
 // CDCPersistentLog  (v1.8.0)
@@ -660,4 +515,7 @@ private:
     /** Rotate: close active segment, increment seq, open new segment. */
     void rotate();
 };
+
+} // namespace temporal
+} // namespace themisdb
 

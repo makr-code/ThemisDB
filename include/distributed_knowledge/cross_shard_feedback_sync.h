@@ -190,8 +190,6 @@ public:
 
     CrossShardFeedbackSync(const CrossShardFeedbackSync&)            = delete;
     CrossShardFeedbackSync& operator=(const CrossShardFeedbackSync&) = delete;
-    CrossShardFeedbackSync(CrossShardFeedbackSync&&)                 noexcept;
-    CrossShardFeedbackSync& operator=(CrossShardFeedbackSync&&)      noexcept;
 
     // ── Publishing ───────────────────────────────────────────────────────────
 
