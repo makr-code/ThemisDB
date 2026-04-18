@@ -39,7 +39,10 @@ TOOL_VERSION = "1.0.0"
 CODE_ROOTS = ("src", "include")
 DEFAULT_DOC_ROOTS = ("docs/de", "docs/en")
 PRIMARY_SOURCES_FILE = "PRIMARY_SOURCES.md"
-PRIMARY_PATH_PREFIX = r"(?:src|include|examples|external/chimera/src|external/chimera/include)"
+PRIMARY_PATH_PREFIX = (
+    r"(?:src|include|examples|tools|benchmarks|tests|"
+    r"external/chimera/src|external/chimera/include)"
+)
 PRIMARY_REF_RE = re.compile(rf"`(({PRIMARY_PATH_PREFIX})/[^`]+?\.md)`")
 PRIMARY_LINK_RE = re.compile(rf"\((?:\.\./)+(({PRIMARY_PATH_PREFIX})/[^)#]+?\.md)\)")
 
@@ -226,7 +229,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
         description=(
             "Detect orphaned module documentation directories in docs/<lang>/ that still "
             "contain PRIMARY_SOURCES.md, and report broken references to supported "
-            "source documentation roots such as src/include/examples and "
+            "source documentation roots such as src/include/examples/tools/benchmarks/tests and "
             "external/chimera from those generated indexes."
         ),
     )

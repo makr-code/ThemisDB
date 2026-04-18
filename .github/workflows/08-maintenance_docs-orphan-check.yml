@@ -2,7 +2,8 @@ name: Docs Orphan Check
 
 # Detects orphaned module-doc directories in docs/de and docs/en and reports
 # broken PRIMARY_SOURCES references back to supported source-doc roots
-# such as src/, include/, examples/, and external/chimera/.
+# such as src/, include/, examples/, tools/, benchmarks/, tests/,
+# and external/chimera/.
 #
 # Triggers:
 #   - Push to develop/main that touches supported source-doc roots or docs/de/, docs/en/
@@ -16,6 +17,10 @@ on:
     paths:
       - 'src/**'
       - 'include/**'
+      - 'examples/**'
+      - 'tools/**'
+      - 'benchmarks/**'
+      - 'tests/**'
       - 'docs/de/**'
       - 'docs/en/**'
       - 'tools/module_docs_builder.py'
@@ -25,6 +30,10 @@ on:
     paths:
       - 'src/**'
       - 'include/**'
+      - 'examples/**'
+      - 'tools/**'
+      - 'benchmarks/**'
+      - 'tests/**'
       - 'docs/de/**'
       - 'docs/en/**'
       - 'tools/module_docs_builder.py'
