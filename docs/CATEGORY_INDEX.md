@@ -14,8 +14,8 @@
 | [🏆 Certification](#-certification-program) | 5 docs | Professional certification paths |
 | [📚 Knowledge Base](#-knowledge-base-problem-solving) | 6 docs | Troubleshooting and optimization |
 | [📖 Core Docs](#-core-documentation) | 50+ docs | Architecture, AQL, APIs, features |
-| [🛠️ Operations](#-operations--deployment) | 20+ docs | Deployment, monitoring, maintenance |
-| [🔐 Security](#-security--compliance) | 15+ docs | Authentication, encryption, compliance |
+| [🛠️ Operations](#operations-deployment) | 20+ docs | Deployment, monitoring, maintenance |
+| [🔐 Security](#security-compliance) | 15+ docs | Authentication, encryption, compliance |
 
 ---
 
@@ -301,6 +301,7 @@
 
 ---
 
+<a id="operations-deployment"></a>
 ## 🛠️ Operations & Deployment
 
 **Production deployment and maintenance** documentation.
@@ -315,7 +316,7 @@
 - **[Monitoring Guide](en/operations/MONITORING_SETUP_GUIDE.md)** - Metrics & dashboards
 - **[Prometheus Integration](PROMETHEUS_INTEGRATION_COMPLETE.md)** - Metrics collection
 - **[Grafana Dashboards](../grafana/README.md)** - Visualization
-- **[Alerting Setup](PERFORMANCE_ALERTING_CONFIG.md)** - Alert configuration
+- **[Alerting Setup](performance/PERFORMANCE_ALERTING_CONFIG.md)** - Alert configuration
 
 ### High Availability
 - **[HA Guide](replication-ha-guide.md)** - Clustering & replication
@@ -331,6 +332,7 @@
 
 ---
 
+<a id="security-compliance"></a>
 ## 🔐 Security & Compliance
 
 **Security implementation and compliance** documentation.

@@ -224,8 +224,8 @@ gh workflow run main-ci.yml
 ## Further Reading
 
 - [CI_CD_WORKFLOWS.md](CI_CD_WORKFLOWS.md) - Complete workflow documentation
-- [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) - Git Flow strategy
-- [BRANCH_PROTECTION_SETUP.md](BRANCH_PROTECTION_SETUP.md) - Protection setup
+- [BRANCHING_STRATEGY.md](ci-cd/branching-release-history/BRANCHING_STRATEGY.md) - Git Flow strategy
+- [BRANCH_PROTECTION_SETUP.md](ci-cd/branching-release-history/BRANCH_PROTECTION_SETUP.md) - Protection setup
 - [.github/workflows/README.md](.github/workflows/README.md) - Workflow directory guide
 
 ---

@@ -11,6 +11,10 @@ This directory contains documentation and tools related to the GitHub Actions CI
   - Auslöser, Eingaben, Jobs und Schritte
   - Automatisch generiert aus den Workflow-YAML-Dateien
 
+- **[branching-release-history/](branching-release-history/README.md)** - Historisierte Branching-/Merge-/Release-Dokumentfamilie
+  - Konsolidierte ehemals Root-basierte Strategy/Quick-Ref/Migration-Dokumente
+  - Zentraler Einstieg über `docs/BRANCHING_DOCS_INDEX.md`
+
 - **[workflows-inventory.md](workflows-inventory.md)** - Complete inventory of all GitHub Actions workflows
   - Workflow metadata and configuration
   - Categorization by purpose
@@ -93,7 +97,7 @@ The ThemisDB repository contains additional CI/CD related documentation:
 
 - **[CI_CD_WORKFLOWS.md](../CI_CD_WORKFLOWS.md)** - Git Flow CI/CD pipeline documentation
 - **[COMPLETE_CICD_STRATEGY.md](../COMPLETE_CICD_STRATEGY.md)** - Complete automated CI/CD strategy (German)
-- **[CI_CD_REVIEW_BRANCHING_STRATEGY.md](../CI_CD_REVIEW_BRANCHING_STRATEGY.md)** - Branching strategy review
+- **[CI_CD_REVIEW_BRANCHING_STRATEGY.md](branching-release-history/CI_CD_REVIEW_BRANCHING_STRATEGY.md)** - Branching strategy review
 - **[CI_TEST_REPORTING.md](../CI_TEST_REPORTING.md)** - Test reporting setup
 
 This inventory and consolidation plan complements the existing documentation by providing:

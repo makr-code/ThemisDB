@@ -13,22 +13,22 @@ This document summarizes the implementation of the Git Flow branching strategy f
 | [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) | Complete German strategy guide | ✅ Created |
 | [BRANCHING_STRATEGY_EN.md](BRANCHING_STRATEGY_EN.md) | Complete English strategy guide | ✅ Created |
 | [BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md) | Quick reference card | ✅ Created |
-| [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) | Transition guide for contributors | ✅ Created |
+| [MIGRATION_GUIDE.md](../../MIGRATION_GUIDE.md) | Transition guide for contributors | ✅ Created |
 | [BRANCH_PROTECTION_SETUP.md](BRANCH_PROTECTION_SETUP.md) | GitHub configuration guide | ✅ Created |
 
 ### 2. Updated Files
 
 | File | Changes | Status |
 |------|---------|--------|
-| [CONTRIBUTING.md](CONTRIBUTING.md) | Added branching strategy references and workflow updates | ✅ Updated |
+| [CONTRIBUTING.md](../../../CONTRIBUTING.md) | Added branching strategy references and workflow updates | ✅ Updated |
 | [README.md](README.md) | Added branching strategy links | ✅ Updated |
-| [.github/CODEOWNERS](.github/CODEOWNERS) | Code ownership configuration | ✅ Created |
+| [.github/CODEOWNERS](../../../.github/CODEOWNERS) | Code ownership configuration | ✅ Created |
 
 ### 3. Example Configurations
 
 | File | Purpose | Status |
 |------|---------|--------|
-| [.github/workflows/develop-ci.yml.example](.github/workflows/develop-ci.yml.example) | Example CI workflow for develop branch | ✅ Created |
+| [.github/workflows/develop-ci.yml.example](../workflows/README.md) | Example CI workflow for develop branch | ✅ Created |
 
 ## 🎯 Branch Strategy Summary
 
@@ -216,7 +216,7 @@ ThemisDB/
 5. **Migrate open PRs:**
    - Contact authors of open PRs targeting `main`
    - Assist with rebasing to `develop`
-   - See [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md)
+   - See [MIGRATION_GUIDE.md](../../MIGRATION_GUIDE.md)
 
 6. **Set `develop` as default branch:**
    - GitHub Settings → Branches → Default branch
@@ -282,7 +282,7 @@ MAJOR.MINOR.PATCH
 **First time contributing:**
 
 1. Read [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) or [BRANCHING_STRATEGY_EN.md](BRANCHING_STRATEGY_EN.md)
-2. Review [CONTRIBUTING.md](CONTRIBUTING.md)
+2. Review [CONTRIBUTING.md](../../../CONTRIBUTING.md)
 3. Check [BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md) for commands
 
 **Every new feature:**
@@ -321,8 +321,8 @@ git push origin feature/my-feature
 ### Internal Resources
 
 - [BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md) - Print for your desk!
-- [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) - Step-by-step transition
-- [CONTRIBUTING.md](CONTRIBUTING.md) - Full contribution guide
+- [MIGRATION_GUIDE.md](../../MIGRATION_GUIDE.md) - Step-by-step transition
+- [CONTRIBUTING.md](../../../CONTRIBUTING.md) - Full contribution guide
 
 ## 💬 Support and Questions
 
@@ -333,7 +333,7 @@ git push origin feature/my-feature
 - Create issue with label: `branching-strategy`
 
 **For migration help:**
-- See [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md)
+- See [MIGRATION_GUIDE.md](../../MIGRATION_GUIDE.md)
 - Create issue with label: `branching-migration`
 
 **For urgent production issues:**
@@ -357,9 +357,9 @@ After implementation, we expect:
 | **Complete Strategy (DE)** | [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) |
 | **Complete Strategy (EN)** | [BRANCHING_STRATEGY_EN.md](BRANCHING_STRATEGY_EN.md) |
 | **Quick Reference** | [BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md) |
-| **Migration Guide** | [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) |
+| **Migration Guide** | [MIGRATION_GUIDE.md](../../MIGRATION_GUIDE.md) |
 | **Branch Protection** | [BRANCH_PROTECTION_SETUP.md](BRANCH_PROTECTION_SETUP.md) |
-| **Contributing** | [CONTRIBUTING.md](CONTRIBUTING.md) |
+| **Contributing** | [CONTRIBUTING.md](../../../CONTRIBUTING.md) |
 
 ---
 

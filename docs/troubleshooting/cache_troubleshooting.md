@@ -290,6 +290,6 @@ cache:
 
 - [Cache Module ROADMAP](../../src/cache/ROADMAP.md)
 - [Cache Roadmap](../cache_roadmap.md)
-- [Workload-Specific Caching](../WORKLOAD_SPECIFIC_CACHING.md)
-- [Cache Optimization 1536D Summary](../CACHE_OPTIMIZATION_1536D_SUMMARY.md)
+- [Workload-Specific Caching](../performance/WORKLOAD_SPECIFIC_CACHING.md)
+- [Cache Optimization 1536D Summary](../performance/CACHE_OPTIMIZATION_1536D_SUMMARY.md)
 - [Response Cache Metrics](../RESPONSE_CACHE_METRICS_COMPLETE.md)

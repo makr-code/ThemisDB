@@ -359,8 +359,8 @@ groups:
 ### Documentation
 
 - [Observability Alerting](../de/observability/observability_alerting.md) (German)
-- [Performance Alerting Config](../PERFORMANCE_ALERTING_CONFIG.md)
-- [Performance Regression Detection](../PERFORMANCE_REGRESSION_DETECTION.md)
+- [Performance Alerting Config](../performance/PERFORMANCE_ALERTING_CONFIG.md)
+- [Performance Regression Detection](../performance/PERFORMANCE_REGRESSION_DETECTION.md)
 
 ---
 
@@ -511,9 +511,9 @@ docker run -d --name grafana \
 - **[LLM Grafana Metrics Integration](../LLM_GRAFANA_METRICS_INTEGRATION.md)**
 
 ### Performance & Monitoring
-- **[Performance Alerting Config](../PERFORMANCE_ALERTING_CONFIG.md)**
-- **[Performance Regression Detection](../PERFORMANCE_REGRESSION_DETECTION.md)**
-- **[Performance Regression Quick Reference](../PERFORMANCE_REGRESSION_QUICK_REFERENCE.md)**
+- **[Performance Alerting Config](../performance/PERFORMANCE_ALERTING_CONFIG.md)**
+- **[Performance Regression Detection](../performance/PERFORMANCE_REGRESSION_DETECTION.md)**
+- **[Performance Regression Quick Reference](../performance/PERFORMANCE_REGRESSION_QUICK_REFERENCE.md)**
 
 ### API & Integration
 - **[Operations Runbook](../de/guides/guides_operations_runbook.md)** - Daily operations guide

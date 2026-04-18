@@ -280,7 +280,7 @@ down:
 
 - [Git vs ThemisDB Vergleich](../git_gitops_themis_vergleich.md)
 - [MVCC Architecture](../../de/architecture/architecture_mvcc.md)
-- [Branching Strategy](../../BRANCHING_STRATEGY.md)
+- [Branching Strategy](../../ci-cd/branching-release-history/BRANCHING_STRATEGY.md)
 
 ## Feedback
 

@@ -532,7 +532,7 @@ ThemisDB uses a comprehensive Git Flow CI/CD pipeline with dedicated workflows f
 - Triggers: Push to `main`, tags `v*`
 - Deploys: Creates releases, publishes Docker images, deploys docs
 
-**For complete workflow documentation, see [CI_CD_WORKFLOWS.md](CI_CD_WORKFLOWS.md)**
+**For complete workflow documentation, see [CI_CD_WORKFLOWS.md](../../CI_CD_WORKFLOWS.md)**
 
 ### Branch Protection
 

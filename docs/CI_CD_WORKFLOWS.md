@@ -194,7 +194,7 @@ These workflows support branch protection, but GitHub branch protection rules mu
    - ✅ Require branches up to date
    - ❌ Allow force pushes: Disabled
 
-See [BRANCH_PROTECTION_SETUP.md](BRANCH_PROTECTION_SETUP.md) for detailed instructions.
+See [BRANCH_PROTECTION_SETUP.md](ci-cd/branching-release-history/BRANCH_PROTECTION_SETUP.md) for detailed instructions.
 
 ---
 
@@ -419,9 +419,9 @@ Security issues are reported but don't block merges (continue-on-error: true) to
 
 ## Further Reading
 
-- [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) - Full Git Flow strategy (German)
-- [BRANCHING_STRATEGY_EN.md](BRANCHING_STRATEGY_EN.md) - Git Flow strategy (English)
-- [BRANCH_PROTECTION_SETUP.md](BRANCH_PROTECTION_SETUP.md) - Branch protection configuration
+- [BRANCHING_STRATEGY.md](ci-cd/branching-release-history/BRANCHING_STRATEGY.md) - Full Git Flow strategy (German)
+- [BRANCHING_STRATEGY_EN.md](ci-cd/branching-release-history/BRANCHING_STRATEGY_EN.md) - Git Flow strategy (English)
+- [BRANCH_PROTECTION_SETUP.md](ci-cd/branching-release-history/BRANCH_PROTECTION_SETUP.md) - Branch protection configuration
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
 - [Git Flow Original Article](https://nvie.com/posts/a-successful-git-branching-model/)
 

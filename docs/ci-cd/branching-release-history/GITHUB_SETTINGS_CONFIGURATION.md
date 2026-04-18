@@ -173,7 +173,7 @@ https://github.com/makr-code/ThemisDB/settings
 - [GitHub Docs: About merge methods](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/about-merge-methods-on-github)
 - [GitHub Docs: Configuring commit squashing](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/configuring-commit-squashing-for-pull-requests)
 - [ThemisDB Merge Strategy Migration Guide](MERGE_STRATEGY_MIGRATION.md)
-- [ThemisDB Contributing Guide](../CONTRIBUTING.md)
+- [ThemisDB Contributing Guide](../../../CONTRIBUTING.md)
 
 ## Summary Checklist
 

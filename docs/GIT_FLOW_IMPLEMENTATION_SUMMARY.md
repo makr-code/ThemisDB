@@ -233,7 +233,7 @@ ThemisDB/
 - Require conversation resolution
 - Do not allow force pushes
 
-**See [BRANCH_PROTECTION_SETUP.md](BRANCH_PROTECTION_SETUP.md) for complete setup instructions.**
+**See [BRANCH_PROTECTION_SETUP.md](ci-cd/branching-release-history/BRANCH_PROTECTION_SETUP.md) for complete setup instructions.**
 
 ---
 
@@ -337,7 +337,7 @@ git push origin hotfix/1.3.5-security
 ## Next Steps for Production Use
 
 ### 1. Configure Branch Protection (Required)
-- Follow [BRANCH_PROTECTION_SETUP.md](BRANCH_PROTECTION_SETUP.md)
+- Follow [BRANCH_PROTECTION_SETUP.md](ci-cd/branching-release-history/BRANCH_PROTECTION_SETUP.md)
 - Configure `main` branch protection
 - Configure `develop` branch protection
 - Set required status checks
@@ -388,9 +388,9 @@ git push origin hotfix/1.3.5-security
 ### Documentation
 - [CI_CD_WORKFLOWS.md](CI_CD_WORKFLOWS.md) - Complete workflow documentation
 - [GIT_FLOW_QUICK_REFERENCE.md](GIT_FLOW_QUICK_REFERENCE.md) - Quick reference
-- [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) - Git Flow strategy (German)
-- [BRANCHING_STRATEGY_EN.md](BRANCHING_STRATEGY_EN.md) - Git Flow strategy (English)
-- [BRANCH_PROTECTION_SETUP.md](BRANCH_PROTECTION_SETUP.md) - Protection setup
+- [BRANCHING_STRATEGY.md](ci-cd/branching-release-history/BRANCHING_STRATEGY.md) - Git Flow strategy (German)
+- [BRANCHING_STRATEGY_EN.md](ci-cd/branching-release-history/BRANCHING_STRATEGY_EN.md) - Git Flow strategy (English)
+- [BRANCH_PROTECTION_SETUP.md](ci-cd/branching-release-history/BRANCH_PROTECTION_SETUP.md) - Protection setup
 
 ### External Resources
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)

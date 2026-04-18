@@ -304,6 +304,6 @@ updates:
 
 - [Updates Module ROADMAP](../../src/updates/ROADMAP.md)
 - [Migration Guide](../MIGRATION_GUIDE.md)
-- [Canary Rollout Strategy](../BRANCHING_STRATEGY.md)
+- [Canary Rollout Strategy](../ci-cd/branching-release-history/BRANCHING_STRATEGY.md)
 - [Schema Migration Tester](../TESTING_AND_BENCHMARKING_GUIDE.md)
 - [Signature Verification Guide](../SIGNATURE_VERIFICATION_GUIDE.md)

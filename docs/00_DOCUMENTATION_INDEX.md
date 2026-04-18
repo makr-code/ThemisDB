@@ -100,13 +100,13 @@ ThemisDB nutzt ab sofort eine **Git Flow Branching Strategy**:
 - **`feature/*`**, **`bugfix/*`**, **`release/*`**, **`hotfix/*`** = Supporting Branches
 
 **Dokumentation:**
-- [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) - Vollständiger Guide (Deutsch)
-- [BRANCHING_STRATEGY_EN.md](BRANCHING_STRATEGY_EN.md) - Complete Guide (English)
-- [BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md) - Schnellreferenz (Command Cheat Sheet)
-- [BRANCHING_VISUAL_GUIDE.md](BRANCHING_VISUAL_GUIDE.md) - Visuelle Workflows & Diagramme
+- [BRANCHING_STRATEGY.md](ci-cd/branching-release-history/BRANCHING_STRATEGY.md) - Vollständiger Guide (Deutsch)
+- [BRANCHING_STRATEGY_EN.md](ci-cd/branching-release-history/BRANCHING_STRATEGY_EN.md) - Complete Guide (English)
+- [BRANCHING_QUICK_REF.md](ci-cd/branching-release-history/BRANCHING_QUICK_REF.md) - Schnellreferenz (Command Cheat Sheet)
+- [BRANCHING_VISUAL_GUIDE.md](ci-cd/branching-release-history/BRANCHING_VISUAL_GUIDE.md) - Visuelle Workflows & Diagramme
 - [BRANCHING_DOCS_INDEX.md](BRANCHING_DOCS_INDEX.md) - Dokumentations-Hub (Start hier!)
 - [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) - Migrations-Anleitung für Contributors
-- [BRANCH_PROTECTION_SETUP.md](BRANCH_PROTECTION_SETUP.md) - GitHub Configuration Guide
+- [BRANCH_PROTECTION_SETUP.md](ci-cd/branching-release-history/BRANCH_PROTECTION_SETUP.md) - GitHub Configuration Guide
 
 **Integration:**
 - [.github/COPILOT_INSTRUCTIONS.md](../.github/COPILOT_INSTRUCTIONS.md) - Git Flow Regeln für Copilot

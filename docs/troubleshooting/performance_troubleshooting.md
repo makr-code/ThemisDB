@@ -254,5 +254,5 @@ performance:
 - [Phase 1 Hugepages Implementation](../PHASE1_HUGE_PAGES_IMPLEMENTATION.md)
 - [Phase 1 mimalloc Implementation](../PHASE1_MIMALLOC_IMPLEMENTATION.md)
 - [Performance Roadmap](../PERFORMANCE_ROADMAP.md)
-- [MMAP Performance Impact](../MMAP_PERFORMANCE_IMPACT.md)
+- [MMAP Performance Impact](../performance/MMAP_PERFORMANCE_IMPACT.md)
 - [Build Performance Optimizations](../BUILD_PERFORMANCE_OPTIMIZATIONS.md)

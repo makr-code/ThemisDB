@@ -194,7 +194,7 @@ git log develop --all --grep="PR #123"
 
 ## References
 
-- [CONTRIBUTING.md](../CONTRIBUTING.md) - Contribution guidelines
+- [CONTRIBUTING.md](../../../CONTRIBUTING.md) - Contribution guidelines
 - [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) - Git Flow branching strategy (German)
 - [BRANCHING_STRATEGY_EN.md](BRANCHING_STRATEGY_EN.md) - Git Flow branching strategy (English)
 - [GitHub Docs: About merge methods](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/about-merge-methods-on-github)

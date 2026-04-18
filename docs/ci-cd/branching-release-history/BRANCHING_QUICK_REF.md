@@ -200,9 +200,9 @@ git rebase --abort
 ## Quick Links
 
 - 📖 [Full Strategy](BRANCHING_STRATEGY.md)
-- 🔄 [Migration Guide](MIGRATION_GUIDE.md)
+- 🔄 [Migration Guide](../../MIGRATION_GUIDE.md)
 - 🛡️ [Branch Protection](BRANCH_PROTECTION_SETUP.md)
-- 🤝 [Contributing](CONTRIBUTING.md)
+- 🤝 [Contributing](../../../CONTRIBUTING.md)
 
 ## Help
 
