@@ -35,19 +35,17 @@
       "includePath": [
         "${workspaceFolder}/**",
         "${workspaceFolder}/include",
-        "${workspaceFolder}/src",
-        "${workspaceFolder}/vcpkg_installed/x64-linux/include"
+        "${workspaceFolder}/src"
       ],
       "defines": [
         "_DEBUG",
         "UNICODE",
         "_UNICODE"
       ],
-      "compilerPath": "/usr/bin/g++",
+      "compilerPath": "\\\\wsl$\\Ubuntu\\usr\\bin\\g++",
       "cStandard": "c17",
       "cppStandard": "c++17",
       "intelliSenseMode": "linux-gcc-x64",
-      "compileCommands": "${workspaceFolder}/build-wsl-ninja-release/compile_commands.json",
       "configurationProvider": "ms-vscode.cmake-tools"
     },
     {
@@ -55,24 +53,21 @@
       "includePath": [
         "${workspaceFolder}/**",
         "${workspaceFolder}/include",
-        "${workspaceFolder}/src",
-        "${workspaceFolder}/vcpkg_installed/x64-linux/include"
+        "${workspaceFolder}/src"
       ],
       "defines": [
         "_DEBUG",
         "UNICODE",
         "_UNICODE"
       ],
-      "compilerPath": "/usr/bin/g++",
+      "compilerPath": "\\\\wsl$\\Ubuntu\\usr\\bin\\g++",
       "cStandard": "c17",
       "cppStandard": "c++17",
       "intelliSenseMode": "linux-gcc-x64",
-      "compileCommands": "${workspaceFolder}/build-linux-ninja-release/compile_commands.json",
       "configurationProvider": "ms-vscode.cmake-tools",
       "browse": {
         "path": [
-          "${workspaceFolder}/**",
-          "${workspaceFolder}/vcpkg_installed/x64-linux/include"
+          "${workspaceFolder}/**"
         ],
         "limitSymbolsToIncludedHeaders": true
       }

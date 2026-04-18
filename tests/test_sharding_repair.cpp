@@ -1303,7 +1303,7 @@ TEST_F(ShardRepairEngineTest, RVW04_Handler_Execute_NoShards_Succeeds) {
         });
 
     auto handler = themis::maintenance::makeReplicaValidationHandler(shared_engine);
-    auto result = handler->execute("job_rvw04", themis::MaintenanceTaskType::REPLICA_VALIDATION);
+    auto result = handler->execute("job_rvw04", themis::maintenance::MaintenanceTaskType::REPLICA_VALIDATION);
     ASSERT_TRUE(result.has_value()) << result.error().context();
     EXPECT_FALSE(result->empty());
 }
@@ -1312,7 +1312,7 @@ TEST_F(ShardRepairEngineTest, RVW04_Handler_Execute_NoShards_Succeeds) {
 TEST(ReplicaValidationHandlerTest, RVW05_NullEngine_ReturnsError) {
     auto handler = themis::maintenance::makeReplicaValidationHandler(nullptr);
     ASSERT_NE(handler, nullptr);
-    auto result = handler->execute("job_rvw05", themis::MaintenanceTaskType::REPLICA_VALIDATION);
+    auto result = handler->execute("job_rvw05", themis::maintenance::MaintenanceTaskType::REPLICA_VALIDATION);
     EXPECT_FALSE(result.has_value());
     EXPECT_EQ(result.error().code(), themis::errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED);
 }
@@ -1327,7 +1327,7 @@ TEST(ReplicaValidationHandlerTest, RVW06_CustomCheckFn_ReturnsExpectedResult) {
             return std::string("custom check OK");
         });
 
-    auto result = handler->execute("job_rvw06", themis::MaintenanceTaskType::REPLICA_VALIDATION);
+    auto result = handler->execute("job_rvw06", themis::maintenance::MaintenanceTaskType::REPLICA_VALIDATION);
     ASSERT_TRUE(result.has_value());
     EXPECT_EQ(*result, "custom check OK");
     EXPECT_TRUE(called);

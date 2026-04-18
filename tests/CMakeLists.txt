@@ -23119,14 +23119,14 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge_integration.cp
         ${THEMIS_ROOT_DIR}/src/distributed_knowledge/lora_federation_coordinator.cpp
         ${THEMIS_ROOT_DIR}/src/distributed_knowledge/federated_rag_merger.cpp
         ${THEMIS_ROOT_DIR}/src/distributed_knowledge/cross_shard_feedback_sync.cpp
-        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/rag_ingestion_bridge.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/rag_ingestion_bridge.cpp
         ${THEMIS_ROOT_DIR}/src/rag/rlaif_trainer.cpp
         ${THEMIS_ROOT_DIR}/src/rag/rag_judge.cpp
         ${THEMIS_ROOT_DIR}/src/prompt_engineering/feedback_collector.cpp
         ${THEMIS_ROOT_DIR}/src/sharding/adaptive_shard_router.cpp
         ${THEMIS_ROOT_DIR}/src/sharding/shard_router.cpp
         ${THEMIS_ROOT_DIR}/src/sharding/shard_topology.cpp
-        ${THEMIS_ROOT_DIR}/src/sharding/consistent_hash_ring.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/consistent_hash.cpp
         ${THEMIS_ROOT_DIR}/src/sharding/urn_resolver.cpp
     )
 

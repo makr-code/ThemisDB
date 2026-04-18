@@ -258,12 +258,25 @@ TEST_F(TemporalCDCTest, ClearLog_SubscriptionsIntact) {
 
 #include <filesystem>
 #include <cstdlib>
+#include <chrono>
 
 namespace {
 std::string makeTempDir() {
-    char tmp[] = "/tmp/themisdb_wal_XXXXXX";
-    char* dir = ::mkdtemp(tmp);
-    return dir ? std::string(dir) : "/tmp/themisdb_wal_test";
+    namespace fs = std::filesystem;
+    const fs::path base = fs::temp_directory_path();
+    for (int attempt = 0; attempt < 32; ++attempt) {
+        const auto stamp = std::chrono::steady_clock::now().time_since_epoch().count();
+        const fs::path candidate =
+            base / ("themisdb_wal_" + std::to_string(stamp) + "_" + std::to_string(attempt));
+        std::error_code ec;
+        if (fs::create_directories(candidate, ec)) {
+            return candidate.string();
+        }
+    }
+    const fs::path fallback = base / "themisdb_wal_test";
+    std::error_code ec;
+    fs::create_directories(fallback, ec);
+    return fallback.string();
 }
 } // namespace
 

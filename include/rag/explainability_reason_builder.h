@@ -163,10 +163,6 @@ public:
      */
     size_t enrichAuditor(std::vector<AIDecisionRecord>& records) const;
 
-private:
-    /// Evaluate whether DBA action is required for the given record.
-    static bool requiresDbaAction(const AIDecisionRecord& record);
-
     /// Retrieve the template entry for a given decision_type.
     struct TemplateEntry {
         std::string signal_tmpl;
@@ -174,6 +170,11 @@ private:
         std::string decision_tmpl;
         std::string impact_tmpl;
     };
+
+private:
+    /// Evaluate whether DBA action is required for the given record.
+    static bool requiresDbaAction(const AIDecisionRecord& record);
+
     static const TemplateEntry& getTemplate(const std::string& decision_type);
 };
 

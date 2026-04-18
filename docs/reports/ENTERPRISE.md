@@ -281,7 +281,7 @@ ThemisDB follows the industry-standard "GitLab model" for commercial open-source
 
 For detailed technical information, see:
 - [Distribution Best Practices](docs/enterprise/DISTRIBUTION_BEST_PRACTICES.md)
-- [Implementation Summary](IMPLEMENTATION_SUMMARY.md)
+- [Implementation Summary](implementation-history/summaries/IMPLEMENTATION_SUMMARY.md)
 
 ---
 

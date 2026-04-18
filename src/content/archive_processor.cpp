@@ -562,7 +562,9 @@ ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string& blob,
     }
 
     // ── Step 2: create temp directory ──────────────────────────────────────
-    std::string temp_dir = fs::temp_directory_path() / ("themis_tar_" + generateRandomString(8));
+    std::string temp_dir = (
+        fs::temp_directory_path() / ("themis_tar_" + generateRandomString(8))
+    ).string();
     try {
         fs::create_directories(temp_dir);
     } catch (const std::exception& e) {

@@ -550,8 +550,8 @@ The API is now suitable for:
 ## References
 
 - [ThemisDB API Roadmap](roadmap.md)
-- [P0 Implementation Summary](P0_IMPLEMENTATION_SUMMARY.md)
-- [P1/P2 Implementation Summary](P1_P2_IMPLEMENTATION_SUMMARY.md)
+- [P0 Implementation Summary](implementation-history/summaries/P0_IMPLEMENTATION_SUMMARY.md)
+- [P1/P2 Implementation Summary](implementation-history/summaries/P1_P2_IMPLEMENTATION_SUMMARY.md)
 - [GraphQL Best Practices](https://graphql.org/learn/best-practices/)
 - [OWASP API Security Top 10](https://owasp.org/www-project-api-security/)
 - [Token Bucket Algorithm](https://en.wikipedia.org/wiki/Token_bucket)

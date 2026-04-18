@@ -369,87 +369,6 @@ std::vector<std::string> BiTemporalTable::getAllKeys() const {
 // Cross-node reconciliation
 // ============================================================================
 
-BiTemporalTable::MergeResult BiTemporalTable::merge(
-    const BiTemporalTable& other) {
-
-    MergeResult result;
-
-    // Tables must match (safety guard).
-    if (other.tableName() != table_name_) {
-        return result;
-    }
-
-    // Snapshot remote current rows under the other's lock, then apply
-    // under our own lock to avoid holding two locks simultaneously.
-    struct RemoteRow {
-        std::string      key;
-        VersionedDocument row;
-    };
-    std::vector<RemoteRow> candidates;
-    {
-        std::lock_guard<std::mutex> other_lock(other.mutex_);
-        for (const auto& [key, versions] : other.rows_) {
-            ++result.keys_seen;
-            // Find the current row with the greatest sys_time.start.
-            const VersionedDocument* best = nullptr;
-            for (const auto& v : versions) {
-                if (v.isCurrent()) {
-                    if (!best || v.sys_time.start > best->sys_time.start) {
-                        best = &v;
-                    }
-                }
-            }
-            if (best) {
-                candidates.push_back({key, *best});
-            }
-        }
-    }
-
-    std::lock_guard<std::mutex> lk(mutex_);
-
-    for (const auto& cand : candidates) {
-        const std::string& key = cand.key;
-        const VersionedDocument& remote = cand.row;
-
-        // Find best local current row.
-        Timestamp local_best_start = kMinTimestamp;
-        auto it = rows_.find(key);
-        if (it != rows_.end()) {
-            for (const auto& v : it->second) {
-                if (v.isCurrent() && v.sys_time.start > local_best_start) {
-                    local_best_start = v.sys_time.start;
-                }
-            }
-        }
-
-        if (remote.sys_time.start <= local_best_start) {
-            ++result.rows_skipped;
-            continue; // local is at least as new — keep it
-        }
-
-        // Remote wins: close all local current rows, then insert remote.
-        if (it != rows_.end()) {
-            for (auto& v : it->second) {
-                if (v.isCurrent()) {
-                    v.sys_time.end = remote.sys_time.start;
-                }
-            }
-        }
-
-        VersionedDocument adopted;
-        adopted.key         = key;
-        adopted.data        = remote.data;
-        adopted.sys_time    = {remote.sys_time.start, kMaxTimestamp};
-        adopted.valid_time  = remote.valid_time;
-        adopted.modified_by = remote.modified_by;
-
-        rows_[key].push_back(std::move(adopted));
-        ++result.rows_adopted;
-    }
-
-    return result;
-}
-
 // ============================================================================
 // Metadata
 // ============================================================================
@@ -508,9 +427,6 @@ size_t BiTemporalTable::closeCurrentRows(
     }
     return closed;
 }
-
-} // namespace temporal
-} // namespace themisdb
 
 // ============================================================================
 // BiTemporalTable::merge — cross-node LWW reconciliation (v1.9.0)
@@ -578,3 +494,6 @@ BiTemporalTable::MergeResult BiTemporalTable::merge(const BiTemporalTable& other
 
     return result;
 }
+
+} // namespace temporal
+} // namespace themisdb

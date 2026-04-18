@@ -439,10 +439,8 @@ http::response<http::string_body> EthicsApiHandler::handleGetMetrics(
                             flatten(it.value(), key);
                         }
                     } else if (node.is_number()) {
-                        prom += "# TYPE " + prefix + " gauge
-";
-                        prom += prefix + " " + node.dump() + "
-";
+                        prom += "# TYPE " + prefix + " gauge\n";
+                        prom += prefix + " " + node.dump() + "\n";
                     }
                     // arrays and strings are skipped
                 };
