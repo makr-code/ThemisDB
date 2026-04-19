@@ -108,12 +108,17 @@ InferenceEngineEnhanced::InferenceEngineEnhanced(const Config& config)
     // Initialise n-gram lookup decoder when requested (draft-model-free path).
     if (config_.enable_lookup_decoding) {
         LookupDecoder::Config ld_cfg;
-        ld_cfg.ngram_min       = config_.lookup_ngram_min;
-        ld_cfg.ngram_max       = config_.lookup_ngram_max;
-        ld_cfg.max_draft_tokens = config_.lookup_ngram_max;  // draft budget = max n-gram size
+        ld_cfg.ngram_min = config_.lookup_ngram_min;
+        ld_cfg.ngram_max = config_.lookup_ngram_max;
+        // Use the explicit max_draft_tokens config when set; otherwise default
+        // to ngram_max (the maximum key length equals the default continuation
+        // budget, which is the correct coupling for prompt lookup decoding).
+        ld_cfg.max_draft_tokens = (config_.lookup_max_draft_tokens > 0)
+                                      ? config_.lookup_max_draft_tokens
+                                      : config_.lookup_ngram_max;
         lookup_decoder_ = std::make_unique<LookupDecoder>(ld_cfg);
-        spdlog::info("Lookup decoder initialised: ngram_min={}, ngram_max={}",
-                     ld_cfg.ngram_min, ld_cfg.ngram_max);
+        spdlog::info("Lookup decoder initialised: ngram_min={}, ngram_max={}, max_draft={}",
+                     ld_cfg.ngram_min, ld_cfg.ngram_max, ld_cfg.max_draft_tokens);
     }
 }
 
@@ -1149,12 +1154,20 @@ void InferenceEngineEnhanced::processBatch(
             if (!used_speculative && lookup_decoder_ && !grammar_active) {
                 const auto& prompt = effective_request.prompt;
                 // Build the prompt n-gram index for this request.
+                // Note: estimateTokenSequence() uses a 4-chars-per-token heuristic
+                // (the ILLMPlugin interface does not expose a standalone tokenize()
+                // method).  The draft proposals are informational hints only;
+                // the plugin may accept or ignore them, and standard generation
+                // is always used as the fallback.  Accuracy improves when actual
+                // tokenization is available through plugin-level integration.
                 const auto prompt_tokens = estimateTokenSequence(prompt);
                 lookup_decoder_->buildFromPrompt(prompt_tokens);
 
                 // Propose draft tokens from the prompt context.
-                const auto drafts = lookup_decoder_->proposeDraftTokens(
-                    prompt_tokens, config_.lookup_ngram_max);
+                const auto max_draft = (config_.lookup_max_draft_tokens > 0)
+                                           ? config_.lookup_max_draft_tokens
+                                           : config_.lookup_ngram_max;
+                const auto drafts = lookup_decoder_->proposeDraftTokens(prompt_tokens, max_draft);
 
                 if (!drafts.empty()) {
                     spdlog::debug("Lookup decoder proposed {} draft tokens for request {}",

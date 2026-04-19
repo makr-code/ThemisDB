@@ -33,7 +33,8 @@ namespace llm {
 // SchedulerConfig so operators can tune it per model.
 static constexpr size_t CHARS_PER_TOKEN_ESTIMATE = 4;
 
-static size_t normalizedPrefillChunkSize(size_t configured_size) {
+static size_t ensureMinimumPrefillChunkSize(size_t configured_size) {
+    // Enforce a lower bound of 1 so that chunked prefill never stalls completely.
     return std::max<size_t>(1, configured_size);
 }
 
@@ -42,7 +43,7 @@ ContinuousBatchScheduler::ContinuousBatchScheduler(
     PagedKVCache* kv_cache
 ) : config_(config),
     kv_cache_(kv_cache),
-    effective_prefill_chunk_size_(normalizedPrefillChunkSize(config.prefill_chunk_size)),
+    effective_prefill_chunk_size_(ensureMinimumPrefillChunkSize(config.prefill_chunk_size)),
     waiting_queue_(
         [](const std::shared_ptr<ScheduledRequest>& a,
            const std::shared_ptr<ScheduledRequest>& b) {
@@ -232,6 +233,10 @@ ContinuousBatchScheduler::scheduleNextBatch() {
             // is available before scheduling a decode step.  A fully exhausted
             // KV cache must not enter the decode loop — it would cause a
             // silent decode failure or corrupt the KV state.
+            // Note: if all blocks are held by active decode requests, they will
+            // be freed as those requests complete, so the stall is self-healing.
+            // Requests that stall here for longer than request_timeout_ms will
+            // be cancelled by the engine's timeout monitor (enforced externally).
             if (kv_cache_) {
                 const auto kv_stats = kv_cache_->getStats();
                 if (kv_stats.blocks_free == 0) {
@@ -402,7 +407,7 @@ void ContinuousBatchScheduler::processBatchResults(
         }
     }
 
-    const size_t max_prefill_chunk = normalizedPrefillChunkSize(config_.prefill_chunk_size);
+    const size_t max_prefill_chunk = ensureMinimumPrefillChunkSize(config_.prefill_chunk_size);
     if (saw_decode_error && config_.enable_adaptive_batch_retry) {
         stats_.batch_retry_count++;
         const size_t previous = effective_prefill_chunk_size_;

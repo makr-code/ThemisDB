@@ -529,7 +529,7 @@ TEST_F(ContinuousBatchSchedulerTest, AdaptiveBatchRetryDownshiftOnDecodeError) {
 
     auto stats = sched->getStats();
     EXPECT_EQ(stats.batch_retry_count, 1u);
-    EXPECT_EQ(stats.adaptive_prefill_chunk_size_tokens, 32u);
+    EXPECT_EQ(stats.adaptive_prefill_chunk_size_tokens, cfg.prefill_chunk_size / 2);
 
     auto retry_batch = sched->scheduleNextBatch();
     ASSERT_EQ(retry_batch.size(), 1u);
@@ -539,7 +539,7 @@ TEST_F(ContinuousBatchSchedulerTest, AdaptiveBatchRetryDownshiftOnDecodeError) {
     sched->processBatchResults(retry_batch, ok_responses);
 
     stats = sched->getStats();
-    EXPECT_EQ(stats.adaptive_prefill_chunk_size_tokens, 64u);
+    EXPECT_EQ(stats.adaptive_prefill_chunk_size_tokens, cfg.prefill_chunk_size);
 
     sched->cancelRequest(id);
     sched->stop();

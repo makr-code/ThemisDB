@@ -147,8 +147,10 @@ TEST(LookupDecoderTest, LKD13_StatsHitTracking) {
     LookupDecoder dec{defaultConfig()};
     dec.buildFromPrompt({1, 2, 3, 4, 5});
 
-    dec.proposeDraftTokens({1, 2});  // miss (context too short for bigram probe? No — [1,2] is a key)
-    dec.proposeDraftTokens({99, 1, 2});  // hit
+    // First call: context [1,2] matches bigram key [1,2] → hit.
+    dec.proposeDraftTokens({1, 2});
+    // Second call: context ends in [1,2] with a prefix token → also a hit.
+    dec.proposeDraftTokens({99, 1, 2});
 
     auto s = dec.getStats();
     EXPECT_EQ(s.total_probe_calls, 2u);

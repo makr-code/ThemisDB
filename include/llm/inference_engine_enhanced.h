@@ -117,6 +117,11 @@ public:
         bool enable_lookup_decoding = false;
         size_t lookup_ngram_min = 2;
         size_t lookup_ngram_max = 4;
+        /// Maximum draft tokens proposed per lookup step.
+        /// Defaults to lookup_ngram_max (one continuation token per key token),
+        /// but can be set independently to allow longer continuations than the
+        /// key length (e.g., ngram_max=4, max_draft=8).
+        size_t lookup_max_draft_tokens = 0;  // 0 = use lookup_ngram_max
     };
     
     /**
