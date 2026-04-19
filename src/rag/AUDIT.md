@@ -3,6 +3,8 @@
 
 # Audit Report — RAG Module
 
+> ⚠️ **Auditstand:** Dieser Befund gilt für den Stand bei Erstellung. Erneute Prüfung gegen aktuellen Code empfohlen.
+
 **Last Audit:** 2026-04-19 | **Auditor:** Copilot | **Status:** ✅ Pass
 
 ## Summary
@@ -122,6 +124,7 @@
 ### Resolved
 - Build system registration verified for all 55 source files
 - PII filtering integrated into retrieval path
+<!-- TODO: add source file evidence -->
 - Prompt injection detection and sanitization implemented (`prompt_injection_detector.cpp`)
 - GDPR Article 22 audit logging: source attribution present in `rag_judge.cpp`
 

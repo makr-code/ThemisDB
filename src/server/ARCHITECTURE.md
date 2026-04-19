@@ -1,5 +1,7 @@
 # Server Module — Architecture Guide
 
+> **Status:** 2026-04-19 – Architekturtext gegen realen Sourcecode verifizieren; Abweichungen mit `<!-- TODO -->` markiert.
+
 **Version:** 1.1
 **Last Updated:** 2026-04-06
 **Status:** `current`
@@ -63,7 +65,9 @@ for multi-model data operations, governance, LLM inference, observability, and a
 | `buffer_api_handler.cpp` / `buffer_binary_protocol.cpp` | Binary buffer API |
 | `diff_api_handler.cpp` | Data diff and comparison API |
 | `rpc/` | gRPC service implementations |
+<!-- TODO: verify symbol exists in source -->
 | `middleware/` | Auth, logging, rate limiting, CORS middleware |
+<!-- TODO: verify symbol exists in source -->
 
 ### 3.2 Component Diagram
 

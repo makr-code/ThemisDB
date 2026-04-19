@@ -3,6 +3,8 @@
 
 # Audit Report — Server Module
 
+> ⚠️ **Auditstand:** Dieser Befund gilt für den Stand bei Erstellung. Erneute Prüfung gegen aktuellen Code empfohlen.
+
 **Last Audit:** 2026-04-19 | **Auditor:** Copilot | **Status:** ✅ Pass
 
 ## Summary
@@ -48,6 +50,7 @@
 
 ### Open
 - HTTP/3 QUIC: CPU quota enforcement for WASM handlers planned (v1.6.0)
+<!-- TODO: add source file evidence -->
 
 ## Compliance
 

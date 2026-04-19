@@ -1,5 +1,7 @@
 # Performance Module — Architecture Guide
 
+> **Status:** 2026-04-19 – Architekturtext gegen realen Sourcecode verifizieren; Abweichungen mit `<!-- TODO -->` markiert.
+
 <!-- status: current | validated: 2026-04-06 -->
 <!-- Links: Primary README → src/performance/README.md | Secondary → docs/de/performance/README.md -->
 
@@ -53,8 +55,11 @@ zero overhead when a feature is disabled.
 | `ligra.cpp` | Ligra parallel graph processing framework |
 | `numa_topology.cpp` | NUMA-aware memory allocation and thread pinning |
 | `async_metrics_exporter.cpp` | Async Prometheus metrics export |
+<!-- TODO: verify symbol exists in source -->
 | `prometheus_exporter.cpp` | Prometheus text format serializer |
+<!-- TODO: verify symbol exists in source -->
 | `chimera_exporter.cpp` | Chimera benchmark format exporter |
+<!-- TODO: verify symbol exists in source -->
 
 ### 3.2 Component Diagram
 
@@ -88,7 +93,7 @@ zero overhead when a feature is disabled.
 
 ```cpp
 uint64_t cycles;
-THEMIS_SCOPED_CYCLE_TIMER(cycles);
+THEMIS_SCOPED_CYCLE_TIMER(cycles); <!-- TODO: verify symbol exists in source -->
 // ... timed operation ...
 // on scope exit: cycles = RDTSC_end - RDTSC_start
 // cycle_metrics.record(phase, cycles)
@@ -114,6 +119,7 @@ Thread starts on NUMA node 1:
     ├─ numa_topology.getLocalNode() → node 1
     └─ allocate memory on node 1 (no cross-NUMA latency)
 ```
+<!-- TODO: verify symbol exists in source -->
 
 ---
 

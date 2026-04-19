@@ -1,3 +1,6 @@
+> **Historischer Stand:** 2026-04-19
+> <!-- TODO: verify against current source – API endpoint paths and request/response shapes below may have changed -->
+
 # ThemisDB API-Integration
 
 ## Übersicht

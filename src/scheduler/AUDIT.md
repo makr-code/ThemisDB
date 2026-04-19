@@ -3,6 +3,8 @@
 
 # Audit Report — Scheduler Module
 
+> ⚠️ **Auditstand:** Dieser Befund gilt für den Stand bei Erstellung. Erneute Prüfung gegen aktuellen Code empfohlen.
+
 **Last Audit:** 2026-04-19 | **Auditor:** Copilot | **Status:** ✅ Pass
 
 ## Summary
@@ -33,7 +35,9 @@
 
 ### Resolved
 - Build system registration verified
+<!-- TODO: add source file evidence -->
 - All public APIs have test coverage
+<!-- TODO: add source file evidence -->
 
 ### Open
 - None critical

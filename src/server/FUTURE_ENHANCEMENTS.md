@@ -74,8 +74,10 @@ Add GraphQL endpoint alongside REST API for flexible client queries.
 
 **Features:**
 - Full GraphQL schema generation from data model
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - Query, mutation, subscription support
 - DataLoader for batch loading and caching
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - Apollo Federation for distributed graphs
 - GraphQL Playground for interactive queries
 
@@ -333,9 +335,11 @@ WebAuthn/FIDO2 support for passwordless login.
 
 **Features:**
 - Biometric authentication
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - Hardware security keys (YubiKey, etc.)
 - Phishing-resistant authentication
 - FIDO2 credential management API
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 
 ---
 
@@ -491,6 +495,7 @@ gRPC-Web for browser clients.
 **Benefits:**
 - Use gRPC from web applications
 - Better performance than REST
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - Streaming support in browsers
 - Automatic code generation (TypeScript)
 
@@ -548,6 +553,7 @@ Native OpenTelemetry instrumentation for all API handlers.
 
 **Features:**
 - Automatic trace propagation (W3C Trace Context)
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - Span attributes for all operations
 - Metrics export (OTLP)
 - Trace sampling configuration
@@ -674,7 +680,7 @@ Replace Boost.Beast with cpp-httplib for simpler API.
 - Active development
 - Smaller binary size
 
-**Note:** See [HTTP_SERVER_REFACTORING_ACTION_PLAN.md](../../HTTP_SERVER_REFACTORING_ACTION_PLAN.md)
+**Note:** See [HTTP_SERVER_REFACTORING_ACTION_PLAN.md](../../docs/reports/HTTP_SERVER_REFACTORING_ACTION_PLAN.md)
 
 ---
 

@@ -1,5 +1,7 @@
 # Scheduler Module — Architecture Guide
 
+> **Status:** 2026-04-19 – Architekturtext gegen realen Sourcecode verifizieren; Abweichungen mit `<!-- TODO -->` markiert.
+
 **Version:** 1.1
 **Last Updated:** 2026-04-06
 **Module Path:** `src/scheduler/`
@@ -48,6 +50,7 @@ and an event-trigger system for event-driven task execution.
 | `task_result_store.cpp` | Persists task execution results and history |
 
 *(CronExpression parser lives in `src/utils/cron_parser.cpp`)*
+<!-- TODO: verify symbol exists in source -->
 
 ### 3.2 Component Diagram
 

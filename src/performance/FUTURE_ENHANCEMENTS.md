@@ -10,9 +10,13 @@
 - Lock-free SPSC ring buffer for metrics collection usable from hot paths without blocking
 - Statistical aggregation (P50/P90/P95/P99/mean/stddev) over rolling time windows
 - Auto-tuning of HNSW `ef_construction` and `M` parameters based on observed query workload
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - GPU performance counters via CUDA events and Nsight-compatible export
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - SIMD-accelerated (AVX-512) distance computation and batch processing helpers
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - PMU hardware counter integration for cache-miss, branch-misprediction, and IPC analysis
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - Persistent memory (Optane/PMEM) layout awareness for sub-microsecond NUMA-local access
 
 ## Design Constraints

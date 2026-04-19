@@ -1,5 +1,7 @@
 # Graph Advanced Features
 
+> **Status:** 2026-04-19 – Architekturtext gegen realen Sourcecode verifizieren; Abweichungen mit `<!-- TODO -->` markiert.
+
 This directory contains advanced graph analytics and query features for ThemisDB. These modules extend the basic graph query capabilities with sophisticated algorithms for path analysis.
 
 ## Implementation Status ✅
@@ -12,6 +14,7 @@ This directory contains advanced graph analytics and query features for ThemisDB
 
 **Centrality and Community Detection algorithms are already fully implemented** in the `GraphAnalytics` class:
 - **Location:** `include/index/graph_analytics.h` and `src/index/graph_analytics.cpp`
+<!-- TODO: verify feature exists in include/graph/ -->
 - **Implemented Algorithms:**
   - ✅ Degree Centrality
   - ✅ PageRank
@@ -43,6 +46,7 @@ Advanced path finding with complex constraint specifications. **Now fully implem
 ```cpp
 #include "graph/path_constraints.h"
 #include "index/graph_index.h"
+<!-- TODO: verify feature exists in include/graph/ -->
 
 using namespace themis::graph;
 
@@ -199,6 +203,7 @@ PathConstraints supports 14 constraint types for flexible path finding:
 ## Using Existing Graph Analytics
 
 For centrality and community detection, use the fully-implemented `GraphAnalytics` class:
+<!-- TODO: verify feature exists in include/graph/ -->
 
 **Example: Centrality Analysis**
 ```cpp
@@ -377,11 +382,13 @@ if (!analytics_result.first.ok) {
 
 Common error codes for PathConstraints:
 - `ErrorRegistry::ErrorCode::INVALID_STATE`: GraphIndexManager not set
+<!-- TODO: verify feature exists in include/graph/ -->
 - `ErrorRegistry::ErrorCode::VALIDATION_FAILED`: Contradictory or unsatisfiable constraints
 - `ErrorRegistry::ErrorCode::NOT_FOUND`: No paths found satisfying constraints
 
 Graph-specific codes (v1.7.0+):
 - `errors::ErrorCode::ERR_GRAPH_NO_SUCH_VERTEX` (6400): Vertex not found during traversal
+<!-- TODO: verify feature exists in include/graph/ -->
 - `errors::ErrorCode::ERR_GRAPH_CONSTRAINT_CONFLICT` (6402): Contradictory constraints
 - `errors::ErrorCode::ERR_GRAPH_PATH_NOT_FOUND` (6403): No satisfying path
 - `errors::ErrorCode::ERR_QUERY_TIMEOUT` (6103): SLO budget exceeded
@@ -545,11 +552,11 @@ Part of ThemisDB - Multi-Model Database System
 
 ## Related Documentation
 
-- [Graph Analytics](../include/index/graph_analytics.h) - **Existing centrality and community detection implementations**
+- [Graph Analytics](../../include/index/graph_analytics.h) - **Existing centrality and community detection implementations**
 - [Graph Query Optimizer](./README.md) - Existing graph query optimization
-- [Graph Index](../include/index/graph_index.h) - Core graph storage
-- [Error Handling](../include/utils/expected.h) - Result<T> pattern
-- [GAP Analysis](../../docs/DOCUMENTATION_SOURCE_CODE_GAP_ANALYSIS.md) - Implementation gaps
+- [Graph Index](../../include/index/graph_index.h) - Core graph storage
+- [Error Handling](../../include/utils/expected.h) - Result<T> pattern
+- [GAP Analysis](../../docs/Audit/DOCUMENTATION_SOURCE_CODE_GAP_ANALYSIS.md) - Implementation gaps
 
 ## Future Enhancements
 

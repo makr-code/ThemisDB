@@ -141,6 +141,14 @@ Tests chaos engineering scenarios for distributed systems.
 
 ### Run All New Tests
 ```bash
+cmake --preset linux-ninja-release
+cmake --build --preset linux-ninja-release
+ctest --preset linux-ninja-release -R "Concurrency|NetworkProtocol|MultiShard|AutoFailover|LongRunning|ShardingChaos"
+```
+
+> <!-- TODO: verify against current source – legacy ctest invocation below kept for reference -->
+```bash
+# Legacy (kept for historical reference):
 cd build
 ctest -R "Concurrency|NetworkProtocol|MultiShard|AutoFailover|LongRunning|ShardingChaos"
 ```
@@ -203,13 +211,25 @@ A new workflow `.github/workflows/chaos-tests.yml` runs:
 sudo apt-get install clang-15 libc++-15-dev
 
 # Configure with sanitizers
-cmake -S . -B build \
+cmake --preset linux-ninja-release \
   -DCMAKE_C_COMPILER=clang-15 \
   -DCMAKE_CXX_COMPILER=clang++-15 \
   -DCMAKE_CXX_FLAGS="-fsanitize=thread -g" \
   -DTHEMIS_BUILD_TESTS=ON
 
 # Build and test
+cmake --build --preset linux-ninja-release
+ctest --preset linux-ninja-release --output-on-failure
+```
+
+> <!-- TODO: verify against current source – CMake preset flags may differ from legacy invocation -->
+```bash
+# Legacy (kept for historical reference):
+cmake -S . -B build \
+  -DCMAKE_C_COMPILER=clang-15 \
+  -DCMAKE_CXX_COMPILER=clang++-15 \
+  -DCMAKE_CXX_FLAGS="-fsanitize=thread -g" \
+  -DTHEMIS_BUILD_TESTS=ON
 cmake --build build
 cd build && ctest --output-on-failure
 ```

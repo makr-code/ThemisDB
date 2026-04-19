@@ -344,12 +344,19 @@ TEST_F(MyIntegrationTest, ConcurrentWrites) {
 ### Measuring Coverage
 
 ```bash
+# Build with coverage preset
+cmake --preset linux-ninja-release
+cmake --build --preset linux-ninja-release
+ctest --preset linux-ninja-release -R integration
+
 # Generate integration test coverage report
 ./scripts/integration_test_coverage.sh
 
 # View HTML report
 firefox build/coverage_integration/html/index.html
 ```
+
+> <!-- TODO: verify against current source – coverage script path may differ -->
 
 ## CI/CD Integration
 

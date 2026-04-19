@@ -1,3 +1,6 @@
+> ⚠️ **Historischer Report** – Dieser Report beschreibt den Entwicklungsstand zum Zeitpunkt der Erfassung.
+> Für den aktuellen Implementierungsstand: Quellcode in `tools/Themis.IngestionTool/` prüfen.
+
 # ThemisDB Ingestion Tool - LLM Status Integration & UI Enhancement - Implementation Complete ✅
 
 ## Overview

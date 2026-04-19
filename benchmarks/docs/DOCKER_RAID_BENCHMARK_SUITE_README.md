@@ -421,7 +421,7 @@ enum class RAIDLevel {
 - [Google Benchmark Documentation](https://github.com/google/benchmark)
 - [RocksDB Benchmark Examples](https://github.com/facebook/rocksdb/tools)
 - [ThemisDB Python RAID Suite](../../benchmarks/raid_sharding_test_suite.py)
-- [ThemisDB Sharding Benchmarks](bench_sharding_performance.cpp)
+- [ThemisDB Sharding Benchmarks](../bench_sharding_performance.cpp)
 
 ## Lizenz
 

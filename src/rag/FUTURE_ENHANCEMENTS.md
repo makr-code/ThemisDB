@@ -5,12 +5,17 @@
 
 - Multi-judge evaluation pipeline (faithfulness, relevance, completeness, coherence, bias) with Fast/Balanced/Thorough modes
 - Streaming retrieval with incremental context-window filling for low first-token latency
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - Cross-encoder re-ranking with ONNX model integration for precision improvement
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - Hybrid BM25 + vector retrieval fused via Reciprocal Rank Fusion (RRF) with configurable weights
 - Citation highlighting mapping each answer sentence to its source document chunk
 - Knowledge-graph augmented retrieval with entity linking and graph traversal
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - Agentic RAG with multi-hop iterative retrieval loops and tool-use orchestration
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - Online Bayesian optimization of `top_k` and `similarity_threshold` from evaluation feedback
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 
 ## Design Constraints
 

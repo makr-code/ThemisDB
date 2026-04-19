@@ -1,5 +1,7 @@
 # RAG Module — Architecture Guide
 
+> **Status:** 2026-04-19 – Architekturtext gegen realen Sourcecode verifizieren; Abweichungen mit `<!-- TODO -->` markiert.
+
 **Version:** 1.0
 **Last Updated:** 2026-04-06
 **Module Path:** `src/rag/`
@@ -40,6 +42,7 @@ retrieval and self-evaluation loops for complex multi-hop queries.
 | File | Role |
 |---|---|
 | `rag_pipeline.cpp` (implied) | Main RAG orchestrator: retrieve → augment → generate |
+<!-- TODO: verify symbol exists in source -->
 | `hybrid_retriever.cpp` | Vector + BM25 hybrid retrieval with RRF fusion |
 | `streaming_retriever.cpp` | Token-budget-aware streaming context filling with MMR |
 | `document_splitter.cpp` | Split documents into retrieval-friendly chunks |

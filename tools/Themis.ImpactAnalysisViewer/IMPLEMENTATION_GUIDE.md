@@ -1,3 +1,5 @@
+> **Historischer Stand:** 2026-04-19
+
 # Themis Impact Analysis Viewer - Implementation Guide
 
 ## Project Overview
@@ -331,9 +333,10 @@ All dependencies are managed via NuGet:
 
 ## References
 
-- [GPU Impact Analysis Plugin Docs](../../../docs/enterprise/gpu_impact_analysis_plugin.md)
-- [Multi-Layer Analysis Guide](../../../docs/enterprise/gpu_impact_analysis_multi_layer.md)
-- [Visualization Specification](../../../docs/enterprise/gpu_impact_analysis_visualization.md)
+<!-- TODO: verify against current source – the following enterprise docs are referenced but not yet found in the repo -->
+- GPU Impact Analysis Plugin Docs – `docs/enterprise/gpu_impact_analysis_plugin.md` (not yet available)
+- Multi-Layer Analysis Guide – `docs/enterprise/gpu_impact_analysis_multi_layer.md` (not yet available)
+- Visualization Specification – `docs/enterprise/gpu_impact_analysis_visualization.md` (not yet available)
 - [MSAGL Documentation](https://github.com/microsoft/automatic-graph-layout)
 - [HelixToolkit Documentation](https://github.com/helix-toolkit/helix-toolkit)
 

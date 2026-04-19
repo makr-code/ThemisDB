@@ -1,3 +1,6 @@
+> ⚠️ **Historischer Report** – Dieser Report beschreibt den Entwicklungsstand zum Zeitpunkt der Erfassung.
+> Für den aktuellen Implementierungsstand: Quellcode in `tools/Themis.IngestionTool/` prüfen.
+
 # 🎯 IMPLEMENTATION VERIFICATION - EXECUTIVE SUMMARY
 
 **Date**: January 1, 2026  
