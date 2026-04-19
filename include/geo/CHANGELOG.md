@@ -8,8 +8,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 For implementation-level changes see `../../src/geo/CHANGELOG.md`.
 
 ## [Unreleased]
-- Spherical geometry support (WGS-84 ellipsoid) — Issue #1744
-- GPU-accelerated DBSCAN / k-means headers (`geo_clustering.h` GPU variants) — Target: v2.3.0
+- (nothing pending)
+
+## [2.5.0] — 2026-04-19
+### Added
+- `geo_json_geometry.h` + `src/geo/geo_json_geometry.cpp`: CRS-aware GeoJSON geometry
+  type API — `IGeoJSONGeometry` abstract base, `CrsId` enum (WGS84/EPSG3857/EPSG4978/Custom),
+  `ValidationResult`, `GeoPoint`, `GeoLineString`, `GeoPolygon` (right-hand-rule winding
+  enforced), `GeoMultiPolygon`, `GeoGeometryCollection` — resolves Issue #1744
+- `spatial_join_filter.h` + `src/geo/spatial_join_filter.cpp`: `ISpatialJoinFilter` abstract
+  base + built-in predicates `IntersectsFilter`, `ContainsFilter`, `WithinFilter`,
+  `TouchesFilter`, `DWithinFilter` (Haversine) + logical composables `AndFilter`, `OrFilter`,
+  `NotFilter` + `SpatialJoinFilter::` factory namespace
+- 12 unit tests GJS-01..12 in `tests/geo/test_geo_json_geometry.cpp`
+  (CMake target: `test_geo_json_geometry_focused`)
+- 10 unit tests SJF-01..10 in `tests/geo/test_spatial_join_filter.cpp`
+  (CMake target: `test_spatial_join_filter_focused`)
 
 ## [2.2.0] — 2026-03-21
 ### Added

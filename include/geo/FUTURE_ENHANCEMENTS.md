@@ -11,12 +11,12 @@
 
 ## Design Constraints
 
-- [ ] GeoJSON geometry types are immutable value types; mutation returns a new instance
-- [ ] Spatial JOIN is expressed as a composable `ISpatialJoinFilter` rather than a monolithic query type
+- [x] GeoJSON geometry types are immutable value types; mutation returns a new instance
+- [x] Spatial JOIN is expressed as a composable `ISpatialJoinFilter` rather than a monolithic query type
 - [ ] GPU dispatch is compile-time optional via `THEMIS_ENABLE_GPU`; all interfaces must compile without it
 - [ ] Raster interface is compile-time optional via `THEMIS_ENABLE_RASTER`; absent symbols produce a clear `static_assert`
 - [ ] R-tree cursor is pull-based and single-threaded per cursor instance; parallel traversal uses multiple cursors
-- [ ] Coordinate reference system (CRS) is a required constructor argument for all geometry types; no implicit WGS84
+- [x] Coordinate reference system (CRS) is a required constructor argument for all geometry types; no implicit WGS84
 
 ## Required Interfaces
 
@@ -33,18 +33,18 @@
 
 ### Full GeoJSON Geometry Type API
 
-- [ ] Define `IGeoJSONGeometry` base with `type()`, `bbox()`, `crs()`, and `toGeoJSON()` methods
-- [ ] Concrete types: `GeoPoint`, `GeoLineString`, `GeoPolygon`, `GeoMultiPolygon`, `GeoGeometryCollection`
-- [ ] All types expose `validate()` returning a `ValidationResult` with detailed error codes
-- [ ] `GeoPolygon` enforces right-hand rule winding order on construction; returns error on violation
+- [x] Define `IGeoJSONGeometry` base with `type()`, `bbox()`, `crs()`, and `toGeoJSON()` methods
+- [x] Concrete types: `GeoPoint`, `GeoLineString`, `GeoPolygon`, `GeoMultiPolygon`, `GeoGeometryCollection`
+- [x] All types expose `validate()` returning a `ValidationResult` with detailed error codes
+- [x] `GeoPolygon` enforces right-hand rule winding order on construction; returns error on violation
 - [ ] Geometry equality uses coordinate tolerance configurable via `GeoConfig::coordinateTolerance()`
 
 ### Spatial JOIN Filter Interface
 
-- [ ] Define `ISpatialJoinFilter` with `matches(const IGeoJSONGeometry&, const IGeoJSONGeometry&) -> bool`
-- [ ] Built-in predicates: `Intersects`, `Contains`, `Within`, `Touches`, `DWithin(radius)`
-- [ ] Filters composable via `SpatialJoinFilter::and_()`, `or_()`, `not_()` factory methods
-- [ ] Filter instances are immutable after construction; safe to share across threads
+- [x] Define `ISpatialJoinFilter` with `matches(const IGeoJSONGeometry&, const IGeoJSONGeometry&) -> bool`
+- [x] Built-in predicates: `Intersects`, `Contains`, `Within`, `Touches`, `DWithin(radius)`
+- [x] Filters composable via `SpatialJoinFilter::and_()`, `or_()`, `not_()` factory methods
+- [x] Filter instances are immutable after construction; safe to share across threads
 
 ### R-tree Cursor API
 

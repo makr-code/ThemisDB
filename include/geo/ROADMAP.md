@@ -26,7 +26,12 @@ v2.3.0 — Production-ready. 11 public headers covering spatial indexing, GPU di
 
 ## Planned
 
-- [ ] Spherical geometry (WGS-84 ellipsoid) in `spatial_backend.h` — Issue #1744 (Target: v2.5.0)
+- [x] Spherical geometry (WGS-84 ellipsoid) in `spatial_backend.h` — Issue #1744 (v2.5.0, 2026-04-19)
+  - CRS-aware `GeoPoint`/`GeoLineString`/`GeoPolygon`/`GeoMultiPolygon`/`GeoGeometryCollection` in `geo_json_geometry.h`
+  - `CrsId` enum (WGS84 / EPSG3857 / EPSG4978 / Custom); CRS required at construction — no implicit WGS-84
+  - `ValidationResult` with `validate()` on all geometry types; right-hand-rule winding enforcement on `GeoPolygon`
+  - `ISpatialJoinFilter` + built-in predicates (Intersects/Contains/Within/Touches/DWithin) + And/Or/Not composables in `spatial_join_filter.h`
+  - 12 tests GJS-01..12 (test_geo_json_geometry_focused), 10 tests SJF-01..10 (test_spatial_join_filter_focused)
 
 ## Implementation Phases
 
@@ -38,8 +43,7 @@ v2.3.0 — Production-ready. 11 public headers covering spatial indexing, GPU di
 
 ### Phase 3: Extended Operations (Complete ✅)
 - [x] GPU DBSCAN adjacency kernel, GPU ST_BUFFER, FAISS k-NN bridge
-- [ ] Spherical geometry WGS-84 (deferred to v2.5.0)
-
+- [x] Spherical geometry WGS-84 (v2.5.0, 2026-04-19 — geo_json_geometry.h + spatial_join_filter.h)
 ## Production Readiness Checklist
 
 - [x] 11 public headers compile cleanly
@@ -47,4 +51,4 @@ v2.3.0 — Production-ready. 11 public headers covering spatial indexing, GPU di
 - [x] GPU/CPU backend parity tested
 - [x] GPU DBSCAN/k-means (DBSCAN GPU adjacency + k-Means FAISS GPU path)
 - [x] GPU ST_BUFFER Point kernel; ST_UNION/ST_DIFFERENCE CPU delegation
-- [ ] Spherical geometry WGS-84 support (v2.5.0)
+- [x] Spherical geometry WGS-84 support (v2.5.0, 2026-04-19)
