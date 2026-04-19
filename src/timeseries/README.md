@@ -32,8 +32,7 @@ Provides time series data management and compression for ThemisDB, offering Gori
 - **Continuous aggregation** (`continuous_agg.h/cpp`)
 - **Gorilla compression** (`gorilla.h/cpp`)
 - **Retention management** (`retention.h/cpp`)
-- **Auto-batching buffer** (`ts_auto_buffer.h/cpp`) - NEW!
-- TSStore
+- **Auto-batching buffer** (`ts_auto_buffer.h/cpp`)
 
 ## Features
 

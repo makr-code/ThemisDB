@@ -12,11 +12,12 @@ The Server module provides ThemisDB's complete API surface, network protocol imp
 
 | Interface / File | Role |
 |-----------------|------|
-| `server.cpp` | Main server entry point and lifecycle management |
-| `api_handler.cpp` | HTTP request routing and handler dispatch |
+| `http_server.cpp` | Main HTTP/HTTPS server lifecycle and request dispatch (`HttpServer`) |
+| `api_gateway.cpp` | Request routing, versioning, API key validation |
 | `llm_api_handler.cpp` | LLM inference API handler (INFER, RAG, EMBED) |
-| `rpc/` | RPC handler infrastructure for gRPC services |
-| `middleware/` | Auth, logging, and rate limiting middleware |
+| `rpc/` | gRPC service implementations (`llm_grpc_service.cpp`, `wal_grpc_service.cpp`, etc.) |
+| `auth_middleware.cpp` | Authentication and authorization middleware |
+| `rate_limiter_v2.cpp` | Rate limiting (local + Redis-backed distributed) |
 
 ## Scope
 
