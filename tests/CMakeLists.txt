@@ -16030,6 +16030,14 @@ add_prompt_focused_test(
     "RagContextBudgetManager (RCB-01..08), PromptQualityEvaluator (PQE-01..08), SimplePromptABFramework (ABF-01..06)"
 )
 
+add_prompt_focused_test(
+    test_prompt_engineering_phase6_focused
+    test_prompt_engineering_phase6.cpp
+    PromptEngineeringPhase6FocusedTests
+    "prompt_engineering;structured_output;compressor;adversarial;phase6;unit"
+    "StructuredOutputEnforcer (SOE-01..08), SimplePromptCompressor (PCM-01..08), SimpleAdversarialTester (APT-01..06)"
+)
+
 # ============================================================================
 # Custom Test Targets
 # ============================================================================

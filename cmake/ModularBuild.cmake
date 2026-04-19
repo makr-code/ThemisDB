@@ -963,6 +963,9 @@ set(THEMIS_LLM_SOURCES
     ../src/prompt_engineering/tree_of_thoughts.cpp
     ../src/prompt_engineering/protegi_optimizer.cpp
     ../src/prompt_engineering/dspy_module.cpp
+    ../src/prompt_engineering/structured_output.cpp
+    ../src/prompt_engineering/prompt_compressor.cpp
+    ../src/prompt_engineering/adversarial_prompt_tester.cpp
     ../src/prompt_engineering/prompt_template_validator.cpp
     ../src/prompt_engineering/prompt_template_compiler.cpp
     ../src/distributed_knowledge/cross_shard_feedback_sync.cpp

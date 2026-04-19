@@ -1652,6 +1652,9 @@ set(THEMIS_CORE_SOURCES
     ../src/prompt_engineering/tree_of_thoughts.cpp
     ../src/prompt_engineering/protegi_optimizer.cpp
     ../src/prompt_engineering/dspy_module.cpp
+    ../src/prompt_engineering/structured_output.cpp
+    ../src/prompt_engineering/prompt_compressor.cpp
+    ../src/prompt_engineering/adversarial_prompt_tester.cpp
     
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/transaction_api_handler.cpp>
