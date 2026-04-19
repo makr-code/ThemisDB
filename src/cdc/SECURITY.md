@@ -57,7 +57,6 @@ The CDC module streams database change events to subscribers via SSE, WebSocket,
 
 ## Known Limitations
 
-- Runtime-configurable change log TTL is not yet available; retention requires manual `CDCAdmin::purgeOlderThan()` invocation.
 - Raw change log (before PII redaction) is stored in RocksDB; delayed redaction means raw snapshots may persist until TTL expiry.
 - Kafka producer TLS and SASL authentication configuration is operator-managed.
 

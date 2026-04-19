@@ -7,7 +7,7 @@
 
 ## Scope
 
-The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stack identity and access control subsystem covering: JWT/OIDC bearer-token validation and issuance, Kerberos/GSSAPI enterprise authentication, TOTP and WebAuthn/FIDO2 multi-factor authentication, OAuth 2.0 (authorization-code, device, PKCE, client-credentials), SAML 2.0 SP/IdP-initiated SSO, LDAP/AD directory bind, mTLS service-identity verification, federated identity bridging, session management, token blacklisting, rate limiting, audit logging, and zero-trust continuous verification. The module consists of 29 source files and a matching set of public headers.
+The ThemisDB authentication module (`src/auth/`, `include/auth/`) is a full-stack identity and access control subsystem covering: JWT/OIDC bearer-token validation and issuance, Kerberos/GSSAPI enterprise authentication, TOTP and WebAuthn/FIDO2 multi-factor authentication, OAuth 2.0 (authorization-code, device, PKCE, client-credentials), SAML 2.0 SP/IdP-initiated SSO, LDAP/AD directory bind, mTLS service-identity verification, federated identity bridging, session management, token blacklisting, rate limiting, audit logging, and zero-trust continuous verification. The module consists of 31 source files and a matching set of public headers.
 
 ---
 
