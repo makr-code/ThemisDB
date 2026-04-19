@@ -20,7 +20,7 @@
 - Troubleshooting
 
 ### 🎯 Unified Orchestrator
-→ [`docker_benchmarks_unified.py`](docker_benchmarks_unified.py)
+→ [`docker_benchmarks_unified.py`](../docker_benchmarks_unified.py)
 - Single CLI interface
 - All workloads (relational, vector, graph, geo, document, hybrid)
 - Automatic Docker orchestration
@@ -41,18 +41,18 @@ python3 docker_benchmarks_unified.py --workload all --duration 120
 - CI/CD integration
 
 ### 🔥 Hotspot Microbenchmarks (NEW)
-→ [`bench_hotspots_micro.cpp`](bench_hotspots_micro.cpp)
+→ [`bench_hotspots_micro.cpp`](../bench_hotspots_micro.cpp)
 - Raw RocksDB put throughput (WAL on/off)
 - Hybrid-tuning A/B (enable_high_parallel_tuning)
 - Mixed read/write and SecondaryIndex write stress
 
 ### 🧪 Lock Contention (NEW)
-→ [`bench_lock_contention.cpp`](bench_lock_contention.cpp)
+→ [`bench_lock_contention.cpp`](../bench_lock_contention.cpp)
 - TransactionDB lock contention: overlapping vs disjoint keys
 - Highlights effects of 16 lock stripes under high concurrency
 
 ### 📄 WAL Stress (NEW)
-→ [`bench_wal_stress.cpp`](bench_wal_stress.cpp)
+→ [`bench_wal_stress.cpp`](../bench_wal_stress.cpp)
 - WAL sync vs no-sync across thread counts and batch sizes
 - Observes write stall behavior and fsync overhead
 
@@ -65,7 +65,7 @@ python3 docker_benchmarks_unified.py --workload all --duration 120
 - Advanced configuration
 
 ### 🔍 Gap Analysis
-→ [`gap_analysis/`](gap_analysis/)
+→ [`gap_analysis/`](../results_analysis_reports/gap_analysis/)
 - **`historical_gaps.json`** - Detailed v1.0.0 gaps (36 total)
 <!-- TODO: verify against current version -->
 - **`historical_gaps.md`** - Gap analysis report
@@ -443,9 +443,9 @@ python3 --version   # Should be 3.8+
 | **Quick Setup** | `DOCKER_QUICKSTART.md` |
 | **Architecture** | `DOCKER_BENCHMARKS_UNIFIED_INTEGRATION.md` |
 | **Detailed Docs** | `DOCKER_COMPARATIVE_BENCHMARKS_README.md` |
-| **Gap Analysis** | `gap_analysis/historical_gaps.md` |
-| **Release Plan** | `../V1.0.1_EXECUTION_PLAYBOOK.md` |
-| **Session Summary** | `../RELEASE_AND_BENCHMARKING_SESSION_SUMMARY.md` |
+| **Gap Analysis** | `gap_analysis/historical_gaps.md` <!-- TODO: verify path --> |
+| **Release Plan** | `../V1.0.1_EXECUTION_PLAYBOOK.md` <!-- TODO: verify --> |
+| **Session Summary** | `../RELEASE_AND_BENCHMARKING_SESSION_SUMMARY.md` <!-- TODO: verify --> |
 
 ---
 

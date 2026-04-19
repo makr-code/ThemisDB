@@ -6,7 +6,7 @@
 
 ### Release Timeline Visualizer (Phase 3.1)
 **Status**: Plugin-Struktur erstellt
-**Verzeichnis**: `/tools/release-timeline-wordpress/`
+**Verzeichnis**: `/tools/release-timeline-wordpress/` <!-- TODO: verify -->
 **Nächste Schritte**:
 - Haupt-PHP-Datei mit WordPress-Hooks
 - CSS/JS für Timeline-Visualisierung  
@@ -16,7 +16,7 @@
 
 ### Test Dashboard (Phase 3.2)
 **Status**: Plugin-Struktur erstellt
-**Verzeichnis**: `/tools/test-dashboard-wordpress/`
+**Verzeichnis**: `/tools/test-dashboard-wordpress/` <!-- TODO: verify -->
 **Nächste Schritte**:
 - Haupt-PHP-Datei mit WordPress-Hooks
 - GitHub Actions API Integration

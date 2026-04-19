@@ -13,19 +13,19 @@
   - Common scenarios
 
 ### 📊 Performance Analysis
-- **[BENCHMARK_RESULTS.md](BENCHMARK_RESULTS.md)** - Executive Summary
+- **[BENCHMARK_RESULTS.md](../results_analysis_reports/BENCHMARK_RESULTS.md)** - Executive Summary
   - Overall performance characteristics
   - Key insights & strengths
   - Optimization opportunities
   - Recommendations for production
   
-- **[BENCHMARK_DETAILED_RESULTS.md](BENCHMARK_DETAILED_RESULTS.md)** - Raw Data
+- **[BENCHMARK_DETAILED_RESULTS.md](../results_analysis_reports/BENCHMARK_DETAILED_RESULTS.md)** - Raw Data
   - Complete results table (25 benchmarks)
   - Performance statistics
   - Scaling analysis
   - Real-world workload assessment
 
-- **[BENCHMARK_VISUALIZATION.md](BENCHMARK_VISUALIZATION.md)** - Charts & Graphs
+- **[BENCHMARK_VISUALIZATION.md](../results_analysis_reports/BENCHMARK_VISUALIZATION.md)** - Charts & Graphs
   - Visual performance comparisons
   - Scaling charts
   - Category performance ranking
@@ -40,7 +40,7 @@
   - CI/CD integration examples
 
 ### 💻 Source Code
-- **[benchmarks/bench_comprehensive.cpp](benchmarks/bench_comprehensive.cpp)** - Implementation
+- **[bench_comprehensive.cpp](../bench_comprehensive.cpp)** - Implementation
   - 853 lines of modern C++
   - 25 benchmark functions
   - 9 fixture classes
@@ -55,13 +55,13 @@
 #### 👤 For Developers
 1. Start: [BENCHMARK_QUICK_START.md](BENCHMARK_QUICK_START.md)
 2. Understand: [COMPREHENSIVE_BENCHMARK_GUIDE.md](COMPREHENSIVE_BENCHMARK_GUIDE.md)
-3. Debug: [BENCHMARK_DETAILED_RESULTS.md](BENCHMARK_DETAILED_RESULTS.md)
-4. Code: [benchmarks/bench_comprehensive.cpp](benchmarks/bench_comprehensive.cpp)
+3. Debug: [BENCHMARK_DETAILED_RESULTS.md](../results_analysis_reports/BENCHMARK_DETAILED_RESULTS.md)
+4. Code: [bench_comprehensive.cpp](../bench_comprehensive.cpp)
 
 #### 📈 For Performance Engineers
-1. Overview: [BENCHMARK_RESULTS.md](BENCHMARK_RESULTS.md)
-2. Details: [BENCHMARK_DETAILED_RESULTS.md](BENCHMARK_DETAILED_RESULTS.md)
-3. Visualize: [BENCHMARK_VISUALIZATION.md](BENCHMARK_VISUALIZATION.md)
+1. Overview: [BENCHMARK_RESULTS.md](../results_analysis_reports/BENCHMARK_RESULTS.md)
+2. Details: [BENCHMARK_DETAILED_RESULTS.md](../results_analysis_reports/BENCHMARK_DETAILED_RESULTS.md)
+3. Visualize: [BENCHMARK_VISUALIZATION.md](../results_analysis_reports/BENCHMARK_VISUALIZATION.md)
 4. Optimize: Identify bottlenecks, plan improvements
 
 #### 🚀 For DevOps/SRE
@@ -71,15 +71,15 @@
 4. Alerting: Set regression thresholds
 
 #### 📊 For Product Managers
-1. Summary: [BENCHMARK_RESULTS.md](BENCHMARK_RESULTS.md) - Executive Overview
+1. Summary: [BENCHMARK_RESULTS.md](../results_analysis_reports/BENCHMARK_RESULTS.md) - Executive Overview
 2. Capabilities: What operations are "production ready"?
 3. Limitations: What needs optimization?
 4. Roadmap: Performance improvement priorities
 
 #### 🤖 For LLM/RAG Teams
-1. LLM readiness: [BENCHMARK_VISUALIZATION.md](BENCHMARK_VISUALIZATION.md#llm-readiness-assessment)
+1. LLM readiness: [BENCHMARK_VISUALIZATION.md](../results_analysis_reports/BENCHMARK_VISUALIZATION.md#llm-readiness-assessment)
 2. RAG performance: [COMPREHENSIVE_BENCHMARK_GUIDE.md](COMPREHENSIVE_BENCHMARK_GUIDE.md#3-llm-inferencing-simulations)
-3. Scaling: [BENCHMARK_DETAILED_RESULTS.md](BENCHMARK_DETAILED_RESULTS.md#real-world-workload-performance)
+3. Scaling: [BENCHMARK_DETAILED_RESULTS.md](../results_analysis_reports/BENCHMARK_DETAILED_RESULTS.md#real-world-workload-performance)
 
 ---
 
@@ -286,14 +286,14 @@ A: See [BENCHMARK_QUICK_START.md](BENCHMARK_QUICK_START.md) for interpretation g
 A: Benchmarks are platform-agnostic. Run on Linux WSL or native.
 
 **Q: How do I add new benchmarks?**
-A: Edit `benchmarks/bench_comprehensive.cpp`, follow the pattern, rebuild with CMake.
+A: Edit `bench_comprehensive.cpp`, follow the pattern, rebuild with CMake.
 
 **Q: How often should I run benchmarks?**
 A: After each major change; monthly for trend tracking.
 
 ### Related Documentation
-- [CMakeLists.txt](CMakeLists.txt#L1200) - Build configuration
-- [BUILDGUIDE.md](BUILDGUIDE.md) - Build instructions
+- [CMakeLists.txt](../CMakeLists.txt) - Build configuration
+- [BUILDGUIDE.md](BUILDGUIDE.md) <!-- TODO: verify --> - Build instructions
 - [README.md](README.md) - Project overview
 
 ---

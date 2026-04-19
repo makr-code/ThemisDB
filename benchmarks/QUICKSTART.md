@@ -271,6 +271,7 @@ Advantage: 3.16x faster than Neo4j on TCP ❗❗❗
 
 ## 📁 Dateistruktur
 
+<!-- TODO: verify: run_enterprise_benchmarks.py does not exist on disk; see BENCHMARKS_MASTER_INDEX.md for current entry points -->
 ```
 C:\VCC\themis\benchmarks\
 │
@@ -431,7 +432,7 @@ config = BenchmarkConfig(protocol=Protocol.TCP, connection_pool_size=50)
 **Dokumentation**:
 - `ENTERPRISE_SUITE_README.md` - Vollständige Dokumentation
 - `ENTERPRISE_SUMMARY.md` - Executive Summary
-- `run_enterprise_benchmarks.py --help` - CLI Help
+- `run_enterprise_benchmarks.py --help` - CLI Help <!-- TODO: verify -->
 
 **GitHub**: [github.com/makr-code/themis](https://github.com/makr-code/themis)
 
@@ -478,6 +479,7 @@ config = BenchmarkConfig(protocol=Protocol.TCP, connection_pool_size=50)
 ---
 
 **⚡ Let's compare!**
+<!-- TODO: verify: run_enterprise_benchmarks.py does not exist; use docker_benchmarks_unified.py or complete_benchmark_suite.py instead -->
 ```bash
 cd C:\VCC\themis\benchmarks
 python3 run_enterprise_benchmarks.py

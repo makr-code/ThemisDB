@@ -4,6 +4,7 @@
 
 ## 📦 Generated Files & Line Counts
 
+<!-- TODO: verify: run_enterprise_benchmarks.py does not exist on disk; see BENCHMARKS_MASTER_INDEX.md for current entry points -->
 ```
 C:\VCC\themis\benchmarks\
 │
@@ -109,7 +110,7 @@ C:\VCC\themis\benchmarks\
 
 | Component | Lines | Purpose |
 |-----------|-------|---------|
-| `run_enterprise_benchmarks.py` | 600+ | CLI orchestration |
+| `run_enterprise_benchmarks.py` <!-- TODO: verify --> | 600+ | CLI orchestration |
 | `enterprise_comparison_suite.py` | 800+ | Core framework |
 | `competitor_implementations.py` | 600+ | 50+ database drivers |
 | `multi_protocol_support.py` | 500+ | Protocol abstraction |
@@ -413,6 +414,7 @@ For each database, protocol, and configuration:
 
 ## 🚀 Quick Start Commands
 
+<!-- TODO: verify: run_enterprise_benchmarks.py does not exist on disk; use docker_benchmarks_unified.py or complete_benchmark_suite.py instead -->
 ```bash
 # Change to benchmark directory
 cd C:\VCC\themis\benchmarks

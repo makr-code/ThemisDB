@@ -98,7 +98,7 @@ GET /api/audit/export/csv?action=CREATE
 - ✅ `tools/README.md` - Überblick, Installation, Konfiguration
 - ✅ `tools/MOCK_MODE.md` - Anleitung für Mock-Modus
 - ✅ `tools/STATUS.md` - Entwicklungsstand (dieses Dokument)
-- ✅ `AUDIT_API_IMPLEMENTATION.md` - Detaillierte API-Dokumentation
+- ✅ `AUDIT_API_IMPLEMENTATION.md` - Detaillierte API-Dokumentation <!-- TODO: verify -->
 - ✅ Inline-Code-Kommentare
 
 ---
@@ -124,7 +124,7 @@ GET /api/audit/export/csv?action=CREATE
 - Konfiguration in `config/config.json`
 
 ### 3. Weitere Tools
-Siehe `tool-todo.md`:
+Siehe `tool-todo.md` <!-- TODO: verify -->:
 - SAGA-Verifier
 - PII-Manager
 - Key-Rotation-Dashboard

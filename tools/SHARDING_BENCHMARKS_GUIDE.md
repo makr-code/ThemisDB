@@ -420,10 +420,10 @@ Fix:
 
 ## 📚 WEITERE RESSOURCEN
 
-- [SHARDING_BENCHMARK_PLAN_v1.4.md](../SHARDING_BENCHMARK_PLAN_v1.4.md) – Detaillierte Test-Spezifikation
+- [SHARDING_BENCHMARK_PLAN_v1.4.md](../SHARDING_BENCHMARK_PLAN_v1.4.md) – Detaillierte Test-Spezifikation <!-- TODO: verify -->
 - [shard-router-example.yaml](../config/sharding/shard-router-example.yaml) – Konfigurationsvorlage
-- [.github/workflows/sharding-benchmark.yml](../.github/workflows/sharding-benchmark.yml) – Automated weekly runs
-- [RELEASE_NOTES_v1.4.md](../RELEASE_NOTES_v1.4.md) – Upgrade guides & known issues
+- [.github/workflows/sharding-benchmark.yml](../.github/workflows/sharding-benchmark.yml) – Automated weekly runs <!-- TODO: verify -->
+- [RELEASE_NOTES_v1.4.md](../RELEASE_NOTES_v1.4.md) – Upgrade guides & known issues <!-- TODO: verify -->
 
 ---
 

@@ -151,10 +151,10 @@ benchmark [--benchmark_list_tests={true|false}]
 
 ## Dateien
 
-- **Benchmark-Code**: [bench_docker_raid_comprehensive.cpp](bench_docker_raid_comprehensive.cpp)
+- **Benchmark-Code**: [bench_docker_raid_comprehensive.cpp](../bench_docker_raid_comprehensive.cpp)
 - **Dokumentation**: [DOCKER_RAID_BENCHMARK_SUITE_README.md](DOCKER_RAID_BENCHMARK_SUITE_README.md)
-- **Runner-Script**: [run_docker_raid_benchmark.ps1](../../run_docker_raid_benchmark.ps1)
-- **Analyse-Tool**: [analyze_raid_benchmarks.py](../../analyze_raid_benchmarks.py)
+- **Runner-Script**: [run_docker_raid_benchmark.ps1](../run_docker_raid_benchmark.ps1)
+- **Analyse-Tool**: [analyze_raid_benchmarks.py](../analyze_raid_benchmarks.py)
 - **Implementation Summary**: [DOCKER_RAID_IMPLEMENTATION_SUMMARY.md](DOCKER_RAID_IMPLEMENTATION_SUMMARY.md)
 
 ## Kontakt
