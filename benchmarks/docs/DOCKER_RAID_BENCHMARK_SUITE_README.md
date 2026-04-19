@@ -116,6 +116,9 @@ g++ -std=c++17 -O3 -DNDEBUG \
 
 ### Ausführung
 
+> **Build:** `cmake --preset linux-ninja-perf && cmake --build --preset linux-ninja-perf`
+
+
 #### Standard-Run (1+ Stunde)
 ```bash
 ./bench_docker_raid_comprehensive

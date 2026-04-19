@@ -1,3 +1,6 @@
+> ⚠️ **Historischer Statusreport** – Dieser Bericht beschreibt den Implementierungsstand zum Zeitpunkt der Erstellung.
+> Für den aktuellen Stand: Quellcode und aktuelle [`benchmarks/README.md`](../README.md) prüfen.
+
 # Docker Benchmarks - Unified Suite Integration
 
 **Date:** 2025-12-09  
@@ -324,6 +327,7 @@ v1.0.1 Release
    ```
 
 5. **Release v1.0.1**
+<!-- TODO: verify against current version -->
    - Verify all criteria met
    - Tag release
    - Publish artifacts

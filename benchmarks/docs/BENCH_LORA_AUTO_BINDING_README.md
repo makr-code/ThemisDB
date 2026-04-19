@@ -85,6 +85,9 @@ cmake --build build
 
 ## Running
 
+> **Build:** `cmake --preset linux-ninja-perf && cmake --build --preset linux-ninja-perf`
+
+
 ### Basic Run
 ```bash
 ./build/benchmarks/bench_lora_auto_binding

@@ -1,3 +1,6 @@
+> ⚠️ **Historische Messdaten** – Die in diesem Dokument enthaltenen Zahlen entstammen einem bestimmten Messzeipunkt und sind nicht mehr reproduzierbar ohne die ursprüngliche Testumgebung.
+> Für reproduzierbare Ergebnisse: Benchmark-Kommandos und aktuelle CMake-Presets unter [`benchmarks/README.md`](../../../README.md) verwenden.
+
 # THEMIS BENCHMARK PROTOCOL - SYSTEM CERTIFICATION
 **Report Date**: 04. Dezember 2025  
 **System Administrator**: Automated Hardware Verification  
@@ -91,6 +94,7 @@ Headroom:  139 GB (58.2% safety margin) - ✓ EXCELLENT
 |-----------|---------|--------|
 | **Docker** | 29.0.1 (build eedd969) | ✓ Verified |
 | **Docker Compose** | v2.40.3-desktop.1 | ✓ Verified |
+<!-- TODO: verify against current version -->
 | **Hyper-V** | Enabled | ✓ Verified |
 | **WSL2** | Version 2 | ✓ Verified |
 

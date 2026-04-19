@@ -1,3 +1,6 @@
+> ⚠️ **Historische Messdaten** – Die in diesem Dokument enthaltenen Zahlen entstammen einem bestimmten Messzeipunkt und sind nicht mehr reproduzierbar ohne die ursprüngliche Testumgebung.
+> Für reproduzierbare Ergebnisse: Benchmark-Kommandos und aktuelle CMake-Presets unter [`benchmarks/README.md`](../README.md) verwenden.
+
 # ThemisDB Comprehensive Benchmark Analysis
 ## Docker Comparative Benchmarks - December 10, 2025
 
@@ -8,6 +11,7 @@
 **Benchmark Execution Details:**
 - **Timestamp:** 2025-12-10 16:34:45
 - **Version:** ThemisDB v1.0.1
+<!-- TODO: verify against current version -->
 - **Total Tests:** 155 performance measurements
 - **Duration:** 180 seconds per workload
 - **Workloads:** 6 (Relational, Vector, Graph, Geo-Spatial, Document, Hybrid)
@@ -481,6 +485,7 @@
 **Test Environment:**
 - **OS:** Windows 11 Pro
 - **Docker:** 29.1.2 + Docker Compose v2.40.3
+<!-- TODO: verify against current version -->
 - **Python:** 3.13.6
 - **Hardware:** (not specified in results)
 - **Network:** localhost (minimal latency)
@@ -520,6 +525,7 @@ c:\VCC\themis\benchmarks\comparative\docker_benchmarks_results_20251210_163419\
 
 **Tested Database Versions:**
 - ThemisDB: v1.0.1
+<!-- TODO: verify against current version -->
 - PostgreSQL: Latest (via Docker)
 - MySQL: Latest (via Docker)
 - MariaDB: Latest (via Docker)

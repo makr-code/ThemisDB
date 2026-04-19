@@ -300,6 +300,9 @@ Calculations:
 
 ## Usage & Integration
 
+> **Build:** `cmake --preset linux-ninja-perf && cmake --build --preset linux-ninja-perf`
+
+
 ### Python API
 
 #### 1. Basic Compliance Check

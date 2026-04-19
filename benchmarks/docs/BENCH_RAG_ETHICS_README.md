@@ -64,6 +64,9 @@ cmake --build build --target bench_rag_ethics
 
 ## Running
 
+> **Build:** `cmake --preset linux-ninja-perf && cmake --build --preset linux-ninja-perf`
+
+
 ### Run All Benchmarks
 ```bash
 ./build/benchmarks/bench_rag_ethics

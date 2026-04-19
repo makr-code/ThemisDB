@@ -1,3 +1,6 @@
+> ⚠️ **Historische Messdaten** – Die in diesem Dokument enthaltenen Zahlen entstammen einem bestimmten Messzeipunkt und sind nicht mehr reproduzierbar ohne die ursprüngliche Testumgebung.
+> Für reproduzierbare Ergebnisse: Benchmark-Kommandos und aktuelle CMake-Presets unter [`benchmarks/README.md`](../../README.md) verwenden.
+
 # Polyglot Persistence vs ThemisDB - Architecture Comparison
 
 ## 🏗️ Polyglot Persistence Architecture (3-4 Databases)
