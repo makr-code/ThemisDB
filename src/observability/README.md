@@ -24,6 +24,7 @@ Provides the metrics, distributed tracing, and structured logging infrastructure
 |---|---|
 | `metrics_collector.cpp` | Prometheus metric collection and `/metrics` endpoint |
 | `alertmanager.cpp` | Alertmanager integration — alert routing and notification webhooks |
+| `alerting_engine.cpp` | Rule-based alerting engine with pluggable notification channels (`AlertingEngine`, `INotificationChannel`, `LogNotificationChannel`, `WebhookNotificationChannel`, `SlackNotificationChannel`) |
 | `continuous_profiler.cpp` | Continuous profiling (pprof / async-profiler compatible), adaptive sampling |
 | `ebpf_tracer.cpp` | eBPF-based kernel-level performance tracing (Linux perf counters) |
 | `distributed_flame_graph.cpp` | Distributed flame graph generation across nodes |
@@ -31,7 +32,17 @@ Provides the metrics, distributed tracing, and structured logging infrastructure
 | `storage_profiler.cpp` | RocksDB stats, write/read amplification, compaction metrics, cache hit rates |
 | `performance_analyzer.cpp` | Automated issue detection with optimization recommendations |
 | `tracer.cpp` | Standalone `ObservabilityTracer` — W3C Trace Context propagation, span ring buffer, ContinuousProfiler integration, MetricsCollector gauges |
+| `opentelemetry_tracer.cpp` | `OpenTelemetryTracer` — OTLP gRPC/HTTP export, Jaeger/Zipkin adapters, W3C Baggage, `recordException()`, `recordMetrics()` |
 | `log_aggregator.cpp` | Standalone `LogAggregator` — structured JSON log collection, trace-context correlation, ring buffer, optional file sink |
+| `log_search_engine.cpp` | `LogSearchEngine` — query structured logs by level, time range, field filters, message content |
+| `metric_aggregator.cpp` | `MetricAggregator` — rate calculation, histogram aggregation, cross-shard pre-aggregation, cardinality rollup |
+| `metric_anomaly_detector.cpp` | `MetricAnomalyDetector` — ML-based anomaly detection bridging `analytics::StreamingAnomalyDetector` with MetricsCollector |
+| `ml_anomaly_detector.cpp` | `MLAnomalyDetector` — ARIMA/Holt-Winters forecast-based anomaly detection with model lifecycle management |
+| `metrics_stream_server.cpp` | `MetricsStreamServer` — real-time metric streaming via WebSocket/SSE with `SendFn` callback delivery |
+| `advanced_metrics.cpp` | `AdvancedMetrics` — Summary, ExponentialHistogram, Cardinality, TimeWeightedAverage, Rate metric types |
+| `slo_reporter.cpp` | `SloReporter` — SLO/SLA burn-rate alerting (FAST 14.4×, MEDIUM 6×, SLOW 3× windows) |
+| `root_cause_analyzer.cpp` | `RootCauseAnalyzer` — automated root cause analysis via Pearson correlation and Granger-inspired causal graph inference |
+| `tenant_metrics_namespace.cpp` | `TenantMetricsNamespace` — per-tenant metric namespacing with independent cardinality budgets and `themis_<tenant_id>_` Prometheus prefix |
 
 ## Current Delivery Status
 

@@ -49,8 +49,7 @@ and an event-trigger system for event-driven task execution.
 | `task_anomaly_detector.cpp` | Detects anomalous task execution patterns |
 | `task_result_store.cpp` | Persists task execution results and history |
 
-*(CronExpression parser lives in `src/utils/cron_parser.cpp`)*
-<!-- TODO: verify symbol exists in source -->
+*(CronExpression parser lives in `src/utils/cron_parser.cpp`; `CronExpression` is forward-declared in `include/scheduler/task_scheduler.h:72`)*
 
 ### 3.2 Component Diagram
 
