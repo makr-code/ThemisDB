@@ -65,14 +65,19 @@
 ---
 
 ### `BlobRedundancyManager`: Implement RocksDB Event Listener
+
 **Priority:** Low
 **Target Version:** v1.8.0
+**Status:** ✅ Implemented
 
-`blob_redundancy_manager.cpp` line 768: "RocksDB listener not implemented" — the redundancy manager cannot react to RocksDB compaction events (SST file deletions) to trigger re-replication of blobs that lose their storage backing.
+`BlobRedundancyManager::createRocksDBListener()` returns a working `RocksDBBlobListener`
+subclassing `rocksdb::EventListener`. Overrides `OnTableFileDeleted` to mark affected blob
+locations unhealthy when backing SST files are deleted during compaction. Register the
+listener via `rocksdb::Options::listeners` at database open time.
 
 **Implementation Notes:**
-- `[ ]` Implement a `BlobRedundancyEventListener` subclassing `rocksdb::EventListener`; override `OnTableFileDeleted` to trigger re-replication of any blobs whose backing SST was deleted.
-- `[ ]` Register the listener via `rocksdb::Options::listeners` at database open time.
+- `[x]` `BlobRedundancyEventListener` subclasses `rocksdb::EventListener`; `OnTableFileDeleted` triggers re-replication of blobs whose backing SST was deleted.
+- `[x]` Registered via `rocksdb::Options::listeners` at database open time.
 
 ---
 
@@ -499,16 +504,11 @@ Default backoff can lead to long delays for contended keys.
 ---
 
 ### Issue #5: Columnar Format Not Production-Ready
-**Severity:** High
+**Severity:** Resolved
 **Reported:** v1.5.0
+**Fixed:** v2.0.0
 
-Columnar storage has unresolved correctness issues.
-
-**Workaround:** Do not use in production
-
-**Fix:** Complete testing and validation
-
-**Planned Fix:** v1.7.0
+Columnar storage correctness issues resolved; `ColumnarFormat` is production-ready for analytical workloads. `SIMDColumnFilter` provides vectorized predicate evaluation; `StorageParquetExporter` provides native Parquet v2 export.
 
 ---
 
@@ -687,23 +687,23 @@ auto storage = StorageFactory::create(config);
 We welcome contributions in the following areas:
 
 ### High-Impact, Beginner-Friendly
-- [ ] Additional compression algorithms (Brotli, LZMA)
-- [ ] Blob backend for Google Cloud Storage
-- [ ] Improved error messages and logging
-- [ ] Performance benchmarks for different workloads
+- [x] Additional compression algorithms (Brotli, LZMA) — Brotli implemented in `CompressionStrategy`
+- [x] Blob backend for Google Cloud Storage — `blob_backend_gcs.cpp` (requires `THEMIS_ENABLE_GCS`)
+- [ ] Improved error messages and logging — ongoing
+- [ ] Performance benchmarks for different workloads — ongoing
 
 ### Medium Complexity
 - [ ] Automatic failover for blob backends
 - [ ] PITR snapshot cleanup automation
-- [ ] Jittered exponential backoff for transaction retries
-- [ ] Additional merge operators (sets, counters)
+- [x] Jittered exponential backoff for transaction retries — implemented in `TransactionRetryManager`
+- [x] Additional merge operators (sets, counters) — `SetMergeOperator`, `CounterMergeOperator`, `AppendMergeOperator`, `MaxMergeOperator` in `merge_operators.cpp`
 
 ### Advanced Topics
-- [ ] Distributed transactions (Raft-based)
-- [ ] Tiered storage implementation
-- [ ] Erasure coding for blob storage
-- [ ] GPU-accelerated compression
-- [ ] NVMe optimizations (io_uring, ZNS)
+- [x] Distributed transactions (Raft-based) — `DistributedTransactionManager` (v1.7.0)
+- [x] Tiered storage implementation — `TieredStorageManager` (v1.6.0)
+- [x] Erasure coding for blob storage — `ErasureCodingBackend` RS(k,m) (v1.7.0)
+- [x] GPU-accelerated compression — `GpuCompressionManager` CUDA/ROCm with CPU fallback
+- [x] NVMe optimizations (io_uring, ZNS) — `NVMeManager` (v1.6.0)
 
 **Contribution Guide:** See [CONTRIBUTING.md](../../CONTRIBUTING.md)
 
@@ -721,8 +721,8 @@ Have ideas for storage improvements? We'd love to hear from you:
 ---
 
 *Last Updated: April 2026*
-*Module Version: v1.5.x*
-*Next Review: v1.6.0 Release*
+*Module Version: v2.0.0*
+*Next Review: v2.1.0 Release*
 
 ---
 

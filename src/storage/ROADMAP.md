@@ -54,6 +54,15 @@ v1.8.0 – Production-grade persistent storage layer built on RocksDB with MVCC,
   - `on_evict` callback; hit/miss counters; default ctor delegates to `Config{}`
   - 12 focused tests (CC-01…CC-12) in `tests/test_columnar_cache.cpp`
 
+- [x] `AdaptiveCompactionScheduler` – load-aware compaction scheduling with IO-sample history and impact prediction (`adaptive_compaction.h/.cpp`, `namespace themis`)
+- [x] `MVCCChainPruner` – background MVCC version-chain pruning for old snapshot cleanup (`mvcc_chain_pruner.h/.cpp`)
+- [x] `VectorIndexBackend` – `IVectorIndexBackend` interface + `InMemoryVectorIndex` flat-scan implementation (`vector_index_backend.h/.cpp`, `namespace themis::storage`)
+- [x] `ZeroCopyBlobTransfer` – mmap + sendfile zero-copy blob transfer; `MmapBlobView` RAII view (`zero_copy_blob_transfer.h/.cpp`, `namespace themis::storage`)
+- [x] `EncryptedBlobBackend` – AES-256-GCM encryption wrapper for any `IBlobStorageBackend`; `IEncryptionKeyProvider` interface + `StaticKeyProvider` (`encrypted_blob_backend.h/.cpp`, `namespace themis::storage`)
+- [x] `OnlineSchemaMigration` – zero-downtime DDL via `SchemaMigrator`; supports add/drop columns, rename, type change, add/drop indexes, partition (`online_schema_migration.h/.cpp`, `namespace themis::storage`)
+- [x] `SchemaDeadWeightDetector` – detects unused schema fields and stale indexes; `GdprFieldRegistry` for PII field tracking (`schema_dead_weight_detector.h/.cpp`, `namespace themis::storage`)
+- [x] `StorageLayoutAdvisor` – recommends layout type (row vs columnar vs tiered vs vector) based on `CollectionAccessStats` and `SchemaInfo` (`storage_layout_advisor.h/.cpp`, `namespace themis::storage`)
+
 ## In Progress 🚧
 
 *(No items currently in progress — all v1.x and v1.8.0 roadmap items are complete.)*
@@ -226,8 +235,6 @@ v1.8.0 – Production-grade persistent storage layer built on RocksDB with MVCC,
 
 ## Known Issues & Limitations
 - `NLPMetadataExtractor` depends on an external NLP model; slow startup if model is not pre-warmed
-- `ColumnarFormat` does not yet support native Parquet export (planned v2.0.0)
-- `ColumnarFormat` does not yet support AVX2 SIMD vectorized execution (planned v2.0.0)
 - Tiered storage uses flat filesystem files per key; for large datasets a more efficient store (e.g. RocksDB column-family per tier) is recommended
 
 ## Breaking Changes

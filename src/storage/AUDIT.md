@@ -84,10 +84,12 @@
 - `const_cast` UB removed from audit code (February 2026)
 - `THEMIS_PRODUCTION_MODE` safety flag implemented (February 2026)
 - BackupManager scheduling implemented (March 2026)
+- Erasure coding (`RedundancyMode::PARITY`) in `BlobRedundancyManager` implemented via `ErasureCodingBackend` (RS(k,m)) (v1.7.0)
+- Distributed 2PC transactions across shards implemented via `DistributedTransactionManager` (v1.7.0)
 
 ### Open
-- Erasure coding (`RedundancyMode::ERASURE_CODING`) in `BlobRedundancyManager` not yet implemented (planned v1.7.0)
-- Distributed 2PC transactions across shards planned (v1.7.0)
+- Chaos/fault-injection tests for blob backend failover not yet complete (Target: v2.0.0)
+- `InMemoryVectorIndex` is flat-scan only; persistent HNSW/IVF backend not yet implemented
 
 ## Compliance
 

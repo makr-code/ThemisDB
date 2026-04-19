@@ -45,6 +45,25 @@ The Storage module provides ThemisDB's persistent data layer, built on RocksDB f
 | `tiered_storage.cpp` | Hot/warm/cold tiered storage with automatic data migration |
 | `transaction_retry_manager.cpp` | Exponential backoff retry for failed transactions |
 | `nlp_metadata_extractor.cpp` | Automatic metadata extraction for ingested documents |
+| `adaptive_compaction.cpp` | Machine-learning-based adaptive compaction scheduling |
+| `columnar_cache.cpp` | LRU in-memory columnar segment cache for analytics acceleration |
+| `concurrent_write_controller.cpp` | Bounded FIFO write-concurrency semaphore (`ConcurrentWriteController`) |
+| `distributed_transaction_manager.cpp` | Two-phase commit coordinator for cross-shard atomicity |
+| `encrypted_blob_backend.cpp` | AES-256-GCM encryption wrapper for any blob backend |
+| `erasure_coder_factory.cpp` | Factory for Reed-Solomon erasure codec selection |
+| `erasure_coding_backend.cpp` | Reed-Solomon erasure coding backend (PARITY mode) |
+| `gpu_compression.cpp` | GPU-accelerated compression via CUDA/ROCm (nvCOMP, fallback to CPU) |
+| `mvcc_chain_pruner.cpp` | MVCC version-chain pruning for old snapshot cleanup |
+| `nvme_manager.cpp` | NVMe device management: io_uring, multi-queue, ZNS, Direct I/O |
+| `online_schema_migration.cpp` | Zero-downtime online DDL via `SchemaMigrator` |
+| `schema_dead_weight_detector.cpp` | Detects unused schema fields and stale indexes; GDPR field registry |
+| `simd_filter.cpp` | AVX-512/AVX2/NEON/scalar SIMD-accelerated columnar predicate filtering |
+| `storage_layout_advisor.cpp` | Recommends optimal storage layout based on access patterns |
+| `storage_parquet_exporter.cpp` | Native Apache Parquet v2 export from columnar format |
+| `streaming_ingest_manager.cpp` | Ring-buffer streaming ingest with configurable flush thread |
+| `vector_index_backend.cpp` | Vector index storage backend (`IVectorIndexBackend`, `InMemoryVectorIndex`) |
+| `wom_tree.cpp` | Write-Optimized Merge (WOM/Bε) Tree for write-heavy workloads |
+| `zero_copy_blob_transfer.cpp` | Zero-copy blob transfer via mmap and sendfile |
 
 ## Scope
 
@@ -734,27 +753,39 @@ See [PERFORMANCE_TIPS.md](../../docs/PERFORMANCE_TIPS.md) for detailed tuning gu
 
 ## Status
 
-**Production Ready** (as of v1.5.0)
+**Production Ready** (as of v2.0.0)
 
 ✅ **Stable Features:**
-- RocksDB wrapper with MVCC
+- RocksDB wrapper with MVCC, WAL, BlobDB
 - Multi-model key schema
-- BlobDB and external blob storage
+- BlobDB and external blob storage (S3, Azure, GCS, WebDAV, Filesystem)
 - Backup and PITR
-- Compression strategies
-- Transaction support
+- Compression strategies (Snappy, Zstd, LZ4, Brotli)
+- Transaction support with distributed 2PC
+- Tiered storage (hot/warm/cold)
+- Erasure coding for blob storage (Reed-Solomon RS(k,m))
+- GPU-accelerated compression (CUDA/ROCm with CPU fallback)
+- NVMe optimizations (io_uring, multi-queue, ZNS, Direct I/O)
+- Write-Optimized Merge (WOM) Tree
+- Streaming ingest pipeline (`StreamingIngestManager`)
+- Columnar cache for analytics (`ColumnarCache`)
+- SIMD-accelerated columnar filtering (`SIMDColumnFilter`)
+- Native Parquet export from columnar format
+- Online schema migration (`SchemaMigrator`)
+- Zero-copy blob transfer (`ZeroCopyBlobTransfer`)
+- Encrypted blob backend wrapper (`EncryptedBlobBackend`)
+- Concurrent write controller (`ConcurrentWriteController`)
+- Adaptive compaction scheduling (`AdaptiveCompactionScheduler`)
 
 ⚠️ **Beta Features:**
-- Columnar storage format
-- WebDAV blob backend
+- `WomTree` as drop-in LSM replacement for write-heavy workloads
 - Automatic index maintenance
-- Async I/O optimizations
+- `StorageLayoutAdvisor` layout recommendations
 
 🔬 **Experimental:**
-- Distributed transactions (Raft-based)
-- Erasure coding for blob storage
-- GPU-accelerated compression
-- Tiered storage (hot/warm/cold)
+- Schema dead-weight detector (`SchemaDeadWeightDetector`)
+- MVCC chain pruner (`MVCCChainPruner`)
+- Vector index backend (`IVectorIndexBackend` / `InMemoryVectorIndex`)
 
 ## Related Documentation
 
