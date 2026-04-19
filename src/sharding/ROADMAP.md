@@ -46,7 +46,6 @@
 - [~] Reed-Solomon repair parallelisation across repair workers (v1.6.0, parallel scan bands via ThreadPoolManager, IOPS throttle, GPU flag, SLO progress — in progress)
 - [ ] Raft snapshot compaction to bound log growth (Target: Q4 2026)
 - [ ] Chaos-engineering test suite (shard partition, node failure injection) (Target: Q4 2026)
-
 ## Introduction
 Sharding is a database architecture pattern that involves breaking a database into smaller, more manageable pieces called shards. A comprehensive sharding strategy is essential for scaling applications effectively. This roadmap outlines the implementation phases for preparing the ThemisDB sharding architecture for production.
 
@@ -97,13 +96,20 @@ Sharding is a database architecture pattern that involves breaking a database in
 - [x] Chaos-engineering test suite (shard partition, node failure injection) — `test_sharding_chaos_focused` registered
 - [x] Paxos persistence recovery tests — `test_paxos_persistence_recovery_focused` registered (PSR-01..PSR-10)
 
-### Phase 5: Hardware Migration Support (Status: Beta 🟡)
+### Phase 5: Hardware Migration Support (Status: Complete ✅)
 - [x] `HardwareMigrationManager` — safe endpoint replacement without altering hash-ring positions
 - [x] `NodeIdentity` — logical shard identity persisted to disk, independent of physical hardware
 - [x] Ring-stability validation: assert that virtual-node positions are unchanged after endpoint update
-- [ ] Admin API endpoint `/api/v1/shards/{id}/migrate-hardware` (Target: Q3 2026)
-- [ ] Raft peer-address update integration (Target: Q3 2026)
-- [ ] Drain-period enforcement with in-flight request tracking (Target: Q3 2026)
+- [x] Admin API endpoint `POST /api/v1/shards/{id}/migrate-hardware` (v2.1.0)
+  - `AdminAPI::setMigrationManager()` + `registerMigrateHardwareHandler()` + `handleMigrateHardware()`
+  - Body: `{"new_endpoint": "host:port"}`; returns `{success, shard_id, old_endpoint, new_endpoint}`
+  - Returns 501 when no manager attached; 400 on missing/empty inputs; custom handler overrides built-in path
+- [x] Raft peer-address update integration (v2.1.0)
+  - `ReplicaState::endpoint` field added; `RaftConsensus::updatePeerAddress(node_id, new_endpoint)` thread-safe under `replica_mutex_`; no-op + warning for unknown peers
+- [x] Drain-period enforcement with in-flight request tracking (v2.1.0)
+  - `HardwareMigrationManager::addInFlightRequest()` / `releaseInFlightRequest()` / `inFlightCount()`
+  - `DrainGuard` RAII scope (move-only); `makeRequestGuard(shard_id)` factory
+  - `waitForDrain(shard_id, timeout)` — `condition_variable`-based; `timeout=0` → skip; returns `true` if all requests drained before deadline
 
 ## Conclusion
 Implementing sharding requires careful planning and execution. Following this roadmap will help ensure that the ThemisDB sharding architecture is robust, scalable, and ready for production deployment.
@@ -117,6 +123,9 @@ Implementing sharding requires careful planning and execution. Following this ro
 - [x] Cross-shard query routing (scatter-gather, single-shard, cross-shard join via ShardRouter)
 - [x] Chaos-engineering test suite registered and passing (`test_sharding_chaos_focused`, `test_paxos_persistence_recovery_focused`)
 - [x] LLM-aware domain routing: `AdaptiveShardRouter::updateShardLLMLoad()` + LEAST_LOADED tie-breaking in `routeByDomain()` (v1.19.0, DLR-01..06)
+- [x] Admin API `POST /api/v1/shards/{id}/migrate-hardware` (v2.1.0 — `AdminAPI::setMigrationManager()`, returns 501/400 on invalid inputs)
+- [x] `RaftConsensus::updatePeerAddress()` — thread-safe peer endpoint update (v2.1.0)
+- [x] Drain-period enforcement — `DrainGuard` RAII + `waitForDrain()` condition-variable (v2.1.0)
 - [ ] RPC integration with mTLS for all cross-shard channels (write: gRPC ReplicateData ✅; read: HTTP for now)
 - [ ] End-to-end cross-shard query routing verified under load (≥ 10,000 cross-shard ops/s)
 

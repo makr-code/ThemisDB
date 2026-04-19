@@ -19380,6 +19380,46 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_chaos_stress.cpp")
     message(STATUS "  ChaosStress: configurable tick, CONDVAR/FIXED_TICK, jitter, burst, concurrency")
 endif()
 
+# ── Sharding Phase 5 focused tests (migrate-hardware, Raft peer-addr, drain) ─
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_phase5.cpp")
+    message(STATUS "Adding Sharding Phase 5 focused tests (SHP5-01..12)")
+    add_executable(test_sharding_phase5_focused
+        test_sharding_phase5.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/admin_api.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/hardware_migration_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/raft_consensus.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/consistent_hash.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/shard_topology.cpp
+    )
+    target_include_directories(test_sharding_phase5_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_sharding_phase5_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(test_sharding_phase5_focused PRIVATE THEMIS_TEST_BUILD=1)
+    if(nlohmann_json_FOUND)
+        target_link_libraries(test_sharding_phase5_focused PRIVATE nlohmann_json::nlohmann_json)
+    endif()
+    set_target_properties(test_sharding_phase5_focused PROPERTIES
+        CXX_STANDARD 20
+        CXX_STANDARD_REQUIRED ON
+    )
+    add_test(NAME ShardingPhase5Tests COMMAND test_sharding_phase5_focused)
+    set_tests_properties(ShardingPhase5Tests PROPERTIES
+        LABELS "sharding;phase5;hardware-migration;raft;drain;admin-api;focused;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  SHP5-01..04: Admin API POST /api/v1/shards/{id}/migrate-hardware")
+    message(STATUS "  SHP5-05..08: RaftConsensus::updatePeerAddress()")
+    message(STATUS "  SHP5-09..12: HardwareMigrationManager drain-period enforcement")
+elseif(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_phase5.cpp")
+    message(STATUS "Sharding Phase 5 tests not found")
+endif()
+
 # ── Chaos Network focused tests (Phase 4.3) ───────────────────────────────────
 if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_chaos_network.cpp")
     message(STATUS "Adding Chaos: Network chaos focused tests (Phase 4.3)")

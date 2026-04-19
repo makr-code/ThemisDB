@@ -414,5 +414,17 @@ void RaftConsensus::removeReplicaNode(const std::string& node_id) {
     replica_states_.erase(node_id);
 }
 
+void RaftConsensus::updatePeerAddress(const std::string& node_id,
+                                       const std::string& new_endpoint) {
+    std::lock_guard<std::mutex> lock(replica_mutex_);
+    auto it = replica_states_.find(node_id);
+    if (it == replica_states_.end()) {
+        std::cerr << "[RaftConsensus] updatePeerAddress: unknown peer '"
+                  << node_id << "' — ignored\n";
+        return;
+    }
+    it->second.endpoint = new_endpoint;
+}
+
 }  // namespace sharding
 }  // namespace themisdb
