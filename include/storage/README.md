@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset release && cmake --build build/release`
 
 # ThemisDB Storage Module Headers
 
@@ -397,26 +397,55 @@ include/storage/
 ├── blob_storage_manager.h        # Blob orchestration
 ├── blob_storage_backend.h        # Backend interface
 ├── blob_backend_filesystem.h     # Filesystem backend
+├── blob_backend_gcs.h            # Google Cloud Storage backend
 ├── blob_redundancy_manager.h     # RAID-like redundancy
+├── encrypted_blob_backend.h      # Encryption-at-rest blob backend
+├── erasure_coding_backend.h      # Erasure-coded blob backend
+├── zero_copy_blob_transfer.h     # Zero-copy blob transfer
 │
 ├── backup_manager.h              # Incremental backups
 ├── pitr_manager.h                # Point-in-time recovery
+├── history_manager.h             # Historical version management
 │
 ├── compression_strategy.h        # Compression algorithms
 ├── columnar_format.h             # Columnar storage
+├── columnar_cache.h              # Columnar read cache
 ├── batch_write_optimizer.h       # Write batching
+├── gpu_compression.h             # GPU-accelerated compression
 │
 ├── security_signature.h          # Field signatures
 ├── security_signature_manager.h  # Signature management
 │
 ├── index_maintenance.h           # Index operations
 ├── transaction_retry_manager.h   # Transaction retries
+├── distributed_transaction_manager.h # Distributed 2PC coordinator
 ├── database_connection_manager.h # Connection pooling
 ├── disk_space_monitor.h          # Disk monitoring
 ├── merge_operators.h             # RocksDB merge ops
 ├── base_entity.h                 # Entity abstraction
 ├── compressed_storage.h          # Compression layer
-└── nlp_metadata_extractor.h      # NLP metadata (future)
+├── nlp_metadata_extractor.h      # NLP metadata
+│
+├── mvcc_store.h                  # MVCC storage layer
+├── mvcc_chain_pruner.h           # MVCC version GC
+├── raft_mvcc_bridge.h            # Raft/MVCC integration
+├── hlc.h                         # Hybrid Logical Clock
+├── wal_storage.h                 # Write-ahead log storage
+│
+├── adaptive_compaction.h         # Adaptive LSM compaction policy
+├── compaction_manager.h          # Compaction lifecycle manager
+├── concurrent_write_controller.h # Concurrent write coordination
+├── nvme_manager.h                # NVMe device management
+├── online_schema_migration.h     # Live schema migration
+├── schema_dead_weight_detector.h # Unused schema detection
+├── simd_filter.h                 # SIMD-accelerated row filtering
+├── storage_audit_logger.h        # Storage operation audit log
+├── storage_layout_advisor.h      # Storage layout recommendations
+├── storage_parquet_exporter.h    # Parquet export
+├── streaming_ingest_manager.h    # Streaming data ingestion
+├── tiered_storage.h              # Hot/warm/cold tiering
+├── vector_index_backend.h        # Vector index storage backend
+└── wom_tree.h                    # Write-optimized merge tree
 ```
 
 ### Dependency Graph
