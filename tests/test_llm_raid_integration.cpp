@@ -69,24 +69,24 @@ TEST(LLMRaidIntegration, LRIR01_ThreeShardDomainRouting)
 {
     auto router = makeRouter();
 
-    // Shard-Legal specialised for LEGAL domain (high delta)
-    regCap(router, "shard-legal",   AdapterDomainType::LEGAL,      0.85);
-    regCap(router, "shard-medical", AdapterDomainType::LEGAL,      0.20);
-    regCap(router, "shard-general", AdapterDomainType::LEGAL,      0.10);
+    // Shard-Legal specialised for PROCESS_MINING domain (maps to legal-process routing)
+    regCap(router, "shard-legal",   AdapterDomainType::PROCESS_MINING, 0.85);
+    regCap(router, "shard-medical", AdapterDomainType::PROCESS_MINING, 0.20);
+    regCap(router, "shard-general", AdapterDomainType::PROCESS_MINING, 0.10);
 
-    // Shard-Medical specialised for MEDICAL domain
-    regCap(router, "shard-legal",   AdapterDomainType::MEDICAL,    0.15);
-    regCap(router, "shard-medical", AdapterDomainType::MEDICAL,    0.90);
-    regCap(router, "shard-general", AdapterDomainType::MEDICAL,    0.25);
+    // Shard-Medical specialised for MULTI_TENANT domain (maps to medical multi-tenant routing)
+    regCap(router, "shard-legal",   AdapterDomainType::MULTI_TENANT,   0.15);
+    regCap(router, "shard-medical", AdapterDomainType::MULTI_TENANT,   0.90);
+    regCap(router, "shard-general", AdapterDomainType::MULTI_TENANT,   0.25);
 
     // Shard-General is the best fallback for GENERAL
-    regCap(router, "shard-legal",   AdapterDomainType::GENERAL,    0.30);
-    regCap(router, "shard-medical", AdapterDomainType::GENERAL,    0.30);
-    regCap(router, "shard-general", AdapterDomainType::GENERAL,    0.70);
+    regCap(router, "shard-legal",   AdapterDomainType::GENERAL,        0.30);
+    regCap(router, "shard-medical", AdapterDomainType::GENERAL,        0.30);
+    regCap(router, "shard-general", AdapterDomainType::GENERAL,        0.70);
 
-    EXPECT_EQ(router.routeByDomain(AdapterDomainType::LEGAL),   "shard-legal");
-    EXPECT_EQ(router.routeByDomain(AdapterDomainType::MEDICAL), "shard-medical");
-    EXPECT_EQ(router.routeByDomain(AdapterDomainType::GENERAL), "shard-general");
+    EXPECT_EQ(router.routeByDomain(AdapterDomainType::PROCESS_MINING), "shard-legal");
+    EXPECT_EQ(router.routeByDomain(AdapterDomainType::MULTI_TENANT),   "shard-medical");
+    EXPECT_EQ(router.routeByDomain(AdapterDomainType::GENERAL),        "shard-general");
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -175,8 +175,7 @@ TEST(LLMRaidIntegration, LRIR04_RemoteDraftShardAcceptRateTelemetry)
 
     // Build a SpeculativeDecoder with remote_draft_shard_id set
     SpeculativeDecoder::Config cfg;
-    cfg.draft_model_id        = "draft-small";
-    cfg.gamma                 = 3;   // K = 3 draft tokens per step
+    cfg.k                     = 3;   // K = 3 draft tokens per step
     cfg.remote_draft_shard_id = "shard-draft-001";
 
     SpeculativeDecoder decoder(cfg);
@@ -222,20 +221,20 @@ TEST(LLMRaidIntegration, LRIR05_EmbeddingLocalityConsistentShardSelection)
 {
     using namespace themis::sharding;
 
-    // Build a real ShardingManager with two registered nodes.
+    // Build a real ShardingManager (singleton) with two registered nodes.
     // After registering nodes the consistent-hash ring is populated and
     // GetShardForKey() returns a deterministic (non-empty) result.
-    ShardingManager mgr;
+    auto& mgr = ShardingManager::GetInstance();
 
     ShardNodeInfo n1;
     n1.node_id      = 1;
     n1.node_address = "embed-shard-01:9000";
-    n1.is_active    = true;
+    n1.is_healthy   = true;
 
     ShardNodeInfo n2;
     n2.node_id      = 2;
     n2.node_address = "embed-shard-02:9000";
-    n2.is_active    = true;
+    n2.is_healthy   = true;
 
     mgr.AddShardNode(n1);
     mgr.AddShardNode(n2);

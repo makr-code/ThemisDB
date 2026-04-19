@@ -19,7 +19,7 @@
 #include <vector>
 
 using namespace themis::ingestion;
-using clock = std::chrono::system_clock;
+using Clock = std::chrono::system_clock;
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -70,7 +70,7 @@ TEST(OAuthTokenManager, InitialValidToken_ReturnedWithoutRefresh) {
     OAuthTokenManager mgr(make_config(), mock);
     // Set a far-future expiry — no refresh should happen
     mgr.setTokenForTesting("initial_access_token", "initial_refresh_token",
-                           clock::now() + std::chrono::hours(1));
+                           Clock::now() + std::chrono::hours(1));
 
     const auto token = mgr.getAccessToken();
     EXPECT_EQ(token, "initial_access_token");
@@ -91,7 +91,7 @@ TEST(OAuthTokenManager, NearExpiry_ProactiveRefresh) {
     OAuthTokenManager mgr(make_config(), mock);
     // Set expiry to 30s from now — within 60s threshold
     mgr.setTokenForTesting("old_token", "old_refresh",
-                           clock::now() + std::chrono::seconds(30));
+                           Clock::now() + std::chrono::seconds(30));
 
     const auto token = mgr.getAccessToken();
     EXPECT_EQ(token, "refreshed_access_token");
@@ -112,7 +112,7 @@ TEST(OAuthTokenManager, ConcurrentGetAccessToken_OnlyOneRefresh) {
 
     OAuthTokenManager mgr(make_config(), mock);
     // Expire immediately
-    mgr.setTokenForTesting("old", "old_refresh", clock::now() - std::chrono::seconds(1));
+    mgr.setTokenForTesting("old", "old_refresh", Clock::now() - std::chrono::seconds(1));
 
     // Launch multiple threads
     constexpr int kThreads = 8;
@@ -153,7 +153,7 @@ TEST(OAuthTokenManager, Http429_BackoffAndRetry) {
     };
 
     OAuthTokenManager mgr(make_config(), mock);
-    mgr.setTokenForTesting("old", "old_refresh", clock::now() - std::chrono::seconds(1));
+    mgr.setTokenForTesting("old", "old_refresh", Clock::now() - std::chrono::seconds(1));
 
     std::string token;
     EXPECT_NO_THROW(token = mgr.getAccessToken());
@@ -176,7 +176,7 @@ TEST(OAuthTokenManager, Http503_BackoffAndRetry) {
     };
 
     OAuthTokenManager mgr(make_config(), mock);
-    mgr.setTokenForTesting("old", "old_refresh", clock::now() - std::chrono::seconds(1));
+    mgr.setTokenForTesting("old", "old_refresh", Clock::now() - std::chrono::seconds(1));
 
     std::string token;
     EXPECT_NO_THROW(token = mgr.getAccessToken());
@@ -191,7 +191,7 @@ TEST(OAuthTokenManager, Http401_ThrowsRefreshExpiredError) {
     auto mock = make_mock_post(401, R"({"error":"invalid_grant"})");
 
     OAuthTokenManager mgr(make_config(), mock);
-    mgr.setTokenForTesting("old", "old_refresh", clock::now() - std::chrono::seconds(1));
+    mgr.setTokenForTesting("old", "old_refresh", Clock::now() - std::chrono::seconds(1));
 
     EXPECT_THROW(mgr.getAccessToken(), OAuthRefreshExpiredError);
 }
@@ -221,7 +221,7 @@ TEST(OAuthTokenManager, TokenUpdatedAfterRefresh) {
 
     OAuthTokenManager mgr(make_config("old_token"), mock);
     mgr.setTokenForTesting("old_token", "some_refresh",
-                           clock::now() - std::chrono::seconds(1));
+                           Clock::now() - std::chrono::seconds(1));
 
     const auto token = mgr.getAccessToken();
     EXPECT_EQ(token, "brand_new_token")
@@ -235,8 +235,8 @@ TEST(OAuthTokenManager, BearerHeader_ContainsAccessToken) {
     auto mock = make_mock_post(200, make_token_response("bearer_test_token"));
 
     OAuthTokenManager mgr(make_config(), mock);
-    mgr.setTokenForTesting("bearer_test_token", "refresh",
-                           clock::now() + std::chrono::hours(1));
+    mgr.setTokenForTesting("bearer_test_token", "bearer_refresh",
+                           Clock::now() + std::chrono::hours(1));
 
     const auto header = mgr.getBearerAuthorizationHeader();
     EXPECT_EQ(header, "Bearer bearer_test_token");
