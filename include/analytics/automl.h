@@ -281,6 +281,24 @@ public:
     std::string   serialize()   const;
     static AutoMLModel deserialize(const std::string& data);
 
+    /**
+     * Export the trained model to an ONNX-compatible text representation.
+     *
+     * Serialises the model weights, algorithm type, and feature schema into a
+     * JSON-ONNX text file at @p path.  The output is loadable by
+     * `MLServingClient` when the `THEMIS_HAS_ONNX_RUNTIME` flag is set; on
+     * platforms without ONNX Runtime the file can be used for offline tooling.
+     *
+     * Supported algorithms (all others return Status::UNSUPPORTED_OPERATION):
+     *   LinearRegression, LogisticRegression, DecisionTree, RandomForest,
+     *   GradientBoosting, KNN (all exported as ONNX-JSON text format v0.1).
+     *
+     * @param path  Absolute or relative file-system path for the output file.
+     * @return      Empty string on success; error message on failure.
+     * @throws      std::invalid_argument if the model is not fitted.
+     */
+    std::string exportONNX(const std::string& path) const;
+
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;

@@ -6938,7 +6938,75 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_forecasting.cpp")
     message(STATUS "  Forecasting: LINEAR_REGRESSION, EXP_SMOOTHING, Holt-Winters, ARIMA, ENSEMBLE, serialize")
 endif()
 
-# Incremental View focused tests
+# SARIMA + Prophet forecasting focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_forecasting_sarima_prophet.cpp")
+    message(STATUS "Adding focused SARIMA+Prophet forecasting tests")
+
+    add_executable(test_forecasting_sarima_prophet_focused
+        analytics/test_forecasting_sarima_prophet.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/forecasting.cpp
+    )
+
+    target_include_directories(test_forecasting_sarima_prophet_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_forecasting_sarima_prophet_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_forecasting_sarima_prophet_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SARIMAProphetForecastingTests COMMAND test_forecasting_sarima_prophet_focused)
+
+    set_tests_properties(SARIMAProphetForecastingTests PROPERTIES
+        LABELS "analytics;forecasting;sarima;prophet;focused;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  SARIMA+Prophet: FSP-01..08 + FPR-01..04")
+endif()
+
+# AutoML ONNX export focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_automl_onnx.cpp")
+    message(STATUS "Adding focused AutoML ONNX export tests")
+
+    add_executable(test_automl_onnx_focused
+        analytics/test_automl_onnx.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/automl.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/anomaly_detection.cpp
+    )
+
+    target_include_directories(test_automl_onnx_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_automl_onnx_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_automl_onnx_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME AutoMLONNXExportTests COMMAND test_automl_onnx_focused)
+
+    set_tests_properties(AutoMLONNXExportTests PROPERTIES
+        LABELS "analytics;automl;onnx;export;focused;unit"
+        TIMEOUT 180
+    )
+
+    message(STATUS "  AutoML ONNX: AOE-01..06 (LogReg/LinReg/DT/RF/GB/KNN export)")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_incremental_view.cpp")
     message(STATUS "Adding focused incremental view tests")
 
