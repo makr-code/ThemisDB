@@ -289,7 +289,7 @@ cache:
 ## Related Documentation
 
 - [Cache Module ROADMAP](../../src/cache/ROADMAP.md)
-- [Cache Roadmap](../cache_roadmap.md)
+- [Cache Roadmap](../de/roadmap/cache_roadmap.md)
 - [Workload-Specific Caching](../performance/WORKLOAD_SPECIFIC_CACHING.md)
 - [Cache Optimization 1536D Summary](../performance/CACHE_OPTIMIZATION_1536D_SUMMARY.md)
 - [Response Cache Metrics](../ARCHIVED/implementation-summaries/RESPONSE_CACHE_METRICS_COMPLETE.md)

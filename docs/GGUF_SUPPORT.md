@@ -473,7 +473,7 @@ if (verification.valid && verification.signature_valid) {
 
 ## See Also
 
-- [QUANTIZATION_FORMATS.md](./QUANTIZATION_FORMATS.md) - Quantization format comparison
+- [QUANTIZATION_FORMATS.md](performance/QUANTIZATION_FORMATS.md) - Quantization format comparison
 - [QLORA_GUIDE.md](./QLORA_GUIDE.md) - QLoRA training guide
 - [QLORA_IMPLEMENTATION_SUMMARY.md](../QLORA_IMPLEMENTATION_SUMMARY.md) - Implementation details
 - [LORA_TRAINING_FRAMEWORK_INTEGRATION.md](./de/llm/LORA_TRAINING_FRAMEWORK_INTEGRATION.md) - GGUF-ST format specification (German)

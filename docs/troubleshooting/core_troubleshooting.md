@@ -217,5 +217,5 @@ core:
 
 - [Architecture Overview](../../ARCHITECTURE.md)
 - [Setup Guide](../../SETUP.md)
-- [Security Framework Implementation](../SECURITY_FRAMEWORK_IMPLEMENTATION.md)
+- [Security Framework Implementation](../ARCHIVED/implementation-summaries/SECURITY_FRAMEWORK_IMPLEMENTATION.md)
 - [Production Readiness Review](../PRODUCTION_READINESS_REVIEW.md)

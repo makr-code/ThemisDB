@@ -16,7 +16,7 @@
 ThemisDB hat einen umfassenden Prozess für kontinuierliche Dokumentationsverbesserung und -review etabliert, um sicherzustellen, dass die Dokumentation stets aktuell und korrekt bleibt.
 
 **Core Documentation:**
-- [CONTINUOUS_DOCUMENTATION_PROCESS.md](CONTINUOUS_DOCUMENTATION_PROCESS.md) - Gesamtübersicht und Executive Summary
+- [CONTINUOUS_DOCUMENTATION_PROCESS.md](governance/documentation-history/CONTINUOUS_DOCUMENTATION_PROCESS.md) - Gesamtübersicht und Executive Summary
 - [DOCUMENTATION_REVIEW_GUIDELINES.md](DOCUMENTATION_REVIEW_GUIDELINES.md) - Vollständige Review-Richtlinien
 - [PR_DOCUMENTATION_CHECKLIST.md](PR_DOCUMENTATION_CHECKLIST.md) - PR Dokumentations-Checkliste Template
 - [DOCUMENTATION_MERGE_PROTOCOL.md](DOCUMENTATION_MERGE_PROTOCOL.md) - Merge-Protokoll für Doku-PRs
@@ -293,7 +293,7 @@ Complete documentation of all 35 directories in `src/` - addressing the document
 ThemisDB provides enterprise-grade backup and recovery capabilities with support for multiple backup strategies, integrity verification, and point-in-time recovery (PITR).
 
 **Documentation Hub:**
-- [BACKUP_RESTORE_DOCS_INDEX.md](BACKUP_RESTORE_DOCS_INDEX.md) - **Complete backup/restore documentation index**
+- [BACKUP_RESTORE_DOCS_INDEX.md](ARCHIVED/implementation-summaries/BACKUP_RESTORE_DOCS_INDEX.md) - **Complete backup/restore documentation index**
 
 **Core Documentation:**
 - [backup_recovery_system.md](backup_recovery_system.md) - Complete system overview

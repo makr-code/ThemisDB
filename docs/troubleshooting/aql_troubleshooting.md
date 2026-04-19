@@ -222,6 +222,6 @@ aql:
 
 - [AQL Module ROADMAP](../../src/aql/ROADMAP.md)
 - [AQL Roadmap](../aql_roadmap.md)
-- [AQL Functions Implementation Status](../aql_functions_implementation_status.md)
+- [AQL Functions Implementation Status](../de/roadmap/aql_functions_implementation_status.md)
 - [Query Troubleshooting](./query_troubleshooting.md)
 - [Grammar Implementation Summary](../GRAMMAR_IMPLEMENTATION_SUMMARY.md)

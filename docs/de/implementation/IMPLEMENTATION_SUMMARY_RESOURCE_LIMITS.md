@@ -338,7 +338,7 @@ No data loss or corruption risk - all changes are request-level enforcement.
 
 ## References
 
-- [RESOURCE_LIMITS_GUIDE.md](docs/RESOURCE_LIMITS_GUIDE.md) - Complete user guide
+- [RESOURCE_LIMITS_GUIDE.md](../../api/RESOURCE_LIMITS_GUIDE.md) - Complete user guide
 - [ARCHITECTURE.md](ARCHITECTURE.md) - Updated architecture documentation
 - [config.yaml](config/config.yaml) - Configuration reference
 

@@ -310,7 +310,7 @@ PowerShell-Skripte hatten `Read-Host` für Bestätigungen. CMake-Targets laufen 
    ```
 
 4. ✅ **Lesen Sie die Dokumentation:**
-   - [CMAKE_ONLY_BUILD_SYSTEM.md](CMAKE_ONLY_BUILD_SYSTEM.md)
+   - [CMAKE_ONLY_BUILD_SYSTEM.md](../build-guide/CMAKE_ONLY_BUILD_SYSTEM.md)
    - [QUICKSTART_CMAKE.md](QUICKSTART_CMAKE.md)
 
 5. ✅ **Optional: Alte Skripte archivieren:**
@@ -324,7 +324,7 @@ PowerShell-Skripte hatten `Read-Host` für Bestätigungen. CMake-Targets laufen 
 
 Bei Fragen oder Problemen:
 
-1. Überprüfen Sie [CMAKE_ONLY_BUILD_SYSTEM.md](CMAKE_ONLY_BUILD_SYSTEM.md)
+1. Überprüfen Sie [CMAKE_ONLY_BUILD_SYSTEM.md](../build-guide/CMAKE_ONLY_BUILD_SYSTEM.md)
 2. Prüfen Sie CMake-Version: `cmake --version` (>= 3.23)
 3. Validieren Sie Presets: `cmake --list-presets`
 4. Testen Sie mit `--verbose` und `--trace-source`

@@ -909,7 +909,7 @@ feed.subscribe([](const Change& change) {
 **Documentation:**
 - [Geo README](../../src/geo/README.md)
 - [Geospatial Guide](../../docs/features/geo.md)
-- [GDAL Integration](../../docs/GDAL_INTEGRATION_SUMMARY.md)
+- [GDAL Integration](../ARCHIVED/implementation-summaries/GDAL_INTEGRATION_SUMMARY.md)
 
 **Example Usage:**
 ```cpp

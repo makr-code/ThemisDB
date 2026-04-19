@@ -256,7 +256,7 @@ This comprehensive security work was accomplished through:
 
 **Resources:**
 - [Security Policy](../SECURITY.md)
-- [English Summary](SECURITY_WORK_SUMMARY_v1.3.4_EN.md)
+- [English Summary](ARCHIVED/implementation-summaries/SECURITY_WORK_SUMMARY_v1.3.4_EN.md)
 - [German Summary](de/releases/SECURITY_WORK_SUMMARY_V1.3.4.md)
 - [All Security Documentation](de/releases/)
 
