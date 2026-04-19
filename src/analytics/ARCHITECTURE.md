@@ -48,7 +48,8 @@ manages.
 | `nlp_text_analyzer.cpp` | Sentiment analysis, entity extraction, modality detection |
 | `diff_engine.cpp` | Dataset diffing and change detection |
 | `cep_engine.cpp` | Complex Event Processing (production-ready) |
-| `forecasting.cpp` | Time-series forecasting (ARIMA, Holt-Winters, EXP_SMOOTHING, ENSEMBLE) |
+| `streaming_join.cpp` | `HashJoin` and `IntervalJoin` stream-stream join engines |
+| `forecasting.cpp` | Time-series forecasting (LINEAR_REGRESSION, EXP_SMOOTHING, HOLT_WINTERS, ARIMA, ENSEMBLE); SARIMA/PROPHET defined in enum but not yet implemented |
 | `anomaly_detection.cpp` | Statistical and ML-based anomaly detection |
 | `arrow_export.cpp` | Apache Arrow IPC / Parquet export |
 | `arrow_flight.cpp` | Arrow Flight RPC server/client for remote analytics (in-process + gRPC) |
@@ -187,9 +188,10 @@ Analytics Dispatcher
 ## 11. Known Limitations & Future Work
 
 - CEP engine (`cep_engine.cpp`) is fully implemented with NFA-based pattern matching, EPL parsing, window management, aggregation, alert dispatch, CDC integration, and stateful checkpointing.
-- Windows platform uses stub implementations for most analytics functions.
-- Distributed analytics fan-out is experimental; result merging for CUBE across shards is partial.
-- AutoML (`automl.cpp`) is in early development.
+- Windows platform uses stub implementations for `olap.cpp` and `process_mining.cpp`.
+- Distributed analytics fan-out is production-ready for scatter-gather; result merging for CUBE across shards uses partial-result tolerance (< 20% shard failure).
+- AutoML (`automl.cpp`) is production-ready; ONNX export (`exportONNX()`) is planned for Q4 2026.
+- SARIMA and PROPHET are defined in the `ForecastMethod` enum (`include/analytics/forecasting.h:154-155`) but are not yet implemented in `forecasting.cpp`; planned for Q4 2026.
 
 ---
 

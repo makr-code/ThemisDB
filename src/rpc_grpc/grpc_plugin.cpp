@@ -234,7 +234,7 @@ const char* GRPCPlugin::getName() const {
 }
 
 const char* GRPCPlugin::getVersion() const {
-    return "1.0.0";
+    return "2.0.0";
 }
 
 PluginType GRPCPlugin::getType() const {

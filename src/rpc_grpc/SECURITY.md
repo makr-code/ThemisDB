@@ -71,6 +71,6 @@
 
 | ID | Description | Severity | Status |
 |----|-------------|----------|--------|
-| GRPC-SEC-01 | Certificate hot-reload not supported; key rotation requires restart | Medium | Open (planned Q1 2027) |
+| GRPC-SEC-01 | `reloadTls()` updates credentials for new connections only; existing TLS sessions are not renegotiated | Low | By design |
 | GRPC-SEC-02 | No per-method authorisation at transport layer; relies on service implementation | Medium | By design |
 | GRPC-SEC-03 | Max message size (100 MB) not yet configurable via `RPCServerConfig` | Low | Open |

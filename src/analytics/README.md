@@ -50,13 +50,14 @@ The Analytics module provides comprehensive data analysis capabilities for Themi
 |-----------------|------|
 | `olap.cpp` | OLAP engine: GROUP BY, CUBE, ROLLUP aggregations |
 | `streaming_window.cpp` | Streaming windows: tumbling, sliding, session, hopping with watermarks |
+| `streaming_join.cpp` | Stream-stream joins: `HashJoin` (composite-key, inner/left-outer), `IntervalJoin` (time-window with LRU pruning) |
 | `jit_aggregation.cpp` | JIT-compiled hot-path aggregation dispatch (LLVM-ready) |
 | `process_mining.cpp` | Process discovery and conformance checking |
 | `nlp_text_analyzer.cpp` | NLP text analysis, sentiment, entity extraction |
 | `llm_process_analyzer.cpp` | LLM-powered process analysis integration |
 | `diff_engine.cpp` | Dataset diffing and change detection |
 | `cep_engine.cpp` | Complex Event Processing (production-ready) |
-| `forecasting.cpp` | Time-series forecasting (ARIMA, Holt-Winters, EXP_SMOOTHING, ENSEMBLE) |
+| `forecasting.cpp` | Time-series forecasting (LINEAR_REGRESSION, EXP_SMOOTHING, Holt-Winters, ARIMA, ENSEMBLE); SARIMA/PROPHET defined in enum but not yet implemented |
 | `distributed_analytics.cpp` | Distributed OLAP fan-out across shards |
 | `arrow_flight.cpp` | Arrow Flight RPC server/client for remote analytics |
 | `model_serving.cpp` | Named+versioned model registry and online inference pipeline |
