@@ -40,7 +40,7 @@ cross-shard SAGA/2PC/3PC/Percolator transactions, automatic rebalancing, and the
 |---|---|
 | `shard_manager.cpp` (via `raft_shard_manager.cpp`) | Shard topology and routing orchestrator |
 | `shard_router.cpp` | Hash/range-based shard routing |
-| `adaptive_shard_router.cpp` | Load-adaptive shard routing |
+| `adaptive_shard_router.cpp` | Load-adaptive + domain-based routing; `updateAdapterCapability()` / `routeByDomain()` |
 | `consistent_hash.cpp` | Consistent hashing with virtual nodes |
 | `consensus_factory.cpp` | Runtime consensus selection (Raft/Gossip/Paxos) |
 | `raft_consensus.cpp` / `raft_consensus_adapter.cpp` | Raft consensus implementation |
@@ -212,8 +212,7 @@ ShardRepairEngine background scan:
 
 ## 11. Known Limitations & Future Work
 
-- Paxos state persistence (`paxos_wal.cpp`) is in progress.
-- Full RPC integration between sharding and network modules is in progress.
+- Full RPC integration between sharding and network modules is in progress (write path uses gRPC `ReplicateData`; read path uses HTTP `RemoteExecutor`).
 - Cross-region replication with WAN link optimization is planned.
 - Percolator optimistic concurrency is experimental.
 

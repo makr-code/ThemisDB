@@ -39,14 +39,19 @@ and enriches training samples with knowledge graph context.
 
 | File | Role |
 |---|---|
-| `auto_labeler.cpp` | LegalAutoLabeler: extract structured training samples from documents |
-| `incremental_lora_trainer.cpp` | LoRA adapter training with checkpoint/resume |
+| `auto_labeler.cpp` | `LegalAutoLabeler`: extract structured training samples from documents |
+| `database_domain_auto_labeler.cpp` | `DatabaseDomainAutoLabeler`: labels `(query, plan, Δlatency)` triples for `DATABASE_OPTIMIZER` domain |
+| `incremental_lora_trainer.cpp` | LoRA adapter training with checkpoint/resume; multi-GPU; LoRA+ asymmetric LR |
 | `knowledge_graph_enricher.cpp` | AQL-based context enrichment via graph traversal |
+| `lora_adapter.cpp` | `LoRAAdapter` core weight layer (forward pass, Kaiming init, export/import) |
+| `ada_lora_adapter.cpp` | `AdaLoRAAdapter` — importance-based adaptive rank allocation |
+| `lora_adapter_merger.cpp` | `LoRAAdapterMerger` — linear and TIES merging strategies |
 | `lora_checkpoint_manager.cpp` | Checkpoint management with SHA-256 integrity validation and rotation |
 | `lora_data_selection.cpp` | Training data selection and deduplication |
 | `modality_parser.cpp` | Multi-modality content extraction (text, tables, citations, OCR) |
 | `provenance_tracker.cpp` | Training sample provenance and lineage tracking |
-| `training_pipeline.cpp` | End-to-end training pipeline orchestrator |
+| `adapter_serving.cpp` | `ILLMRouter` interface + `DeployResult`; hot-swap adapter serving integration |
+| `training_pipeline.cpp` | End-to-end training pipeline orchestrator; `ConfidenceCalibrator`; `HyperparamSearch` |
 
 ### 3.2 Component Diagram
 
@@ -196,11 +201,10 @@ incremental_lora_trainer.deployVersion("v1.3", traffic_split=0.1)
 
 ## 11. Known Limitations & Future Work
 
-- Multi-GPU and distributed training coordination is out of scope (GPU module handles
-  single-node multi-GPU).
 - Domain specialization is currently legal text (German); other domains require
   custom `auto_labeler` configurations.
 - Training pipeline UI for human review is planned.
+- Multi-GPU training (`IncrementalTrainingConfig.num_gpus/gpu_ids/sync_steps`) is implemented and wired via `MultiGPULoRATrainer`; requires `THEMIS_ENABLE_LLM && THEMIS_ENABLE_GPU` at build time.
 
 ---
 

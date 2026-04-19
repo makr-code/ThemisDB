@@ -11,10 +11,8 @@
 - **Risk:** An attacker supplies a crafted BPMN XML, EPK text, or VCC-VPB YAML file
   designed to exploit the parser (billion-laughs XML expansion, stack overflow via
   deeply nested structures, oversized payloads).
-- **Mitigation:** `BpmnSerializer` uses a lightweight regex-based parser — no DOM/SAX
-  library is used, eliminating entity-expansion attacks. EPK and VCC-VPB parsers
-  validate required fields and reject malformed inputs with structured errors. Maximum
-  input size is bounded by the calling layer's frame size limit.
+- **Mitigation:** `BpmnSerializer` uses a hand-written state-machine XML tokenizer (`tokenizeXml`) — no DOM/SAX
+  library is used, eliminating entity-expansion attacks. The 10 MiB document guard rejects oversized inputs.
 - **Status:** ✅ Entity-expansion not possible (no XML entity resolver); field validation present
 
 ### 2. Unauthorised Process Model Access
@@ -69,7 +67,7 @@
 
 | Control | Implementation | Status |
 |---------|---------------|--------|
-| XML entity-expansion prevention | Regex parser; no DOM/SAX entity resolver | ✅ |
+| XML entity-expansion prevention | State-machine tokenizer (`tokenizeXml`); no DOM/SAX entity resolver; 10 MiB size guard | ✅ |
 | Input field validation | Required-field checks in all serialisers | ✅ |
 | Access control | Delegated to ThemisDB auth layer | ✅ |
 | Subgraph size bound | `ProcessRagConfig::max_depth` in `extractSubgraph()` | ✅ |

@@ -1,10 +1,11 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release --target <target>`
+> **Test:** `cmake --build --preset linux-ninja-release --target test_process_aris_xml_focused`
 
 # ThemisDB Process Modeling Module
 
-**Version:** 1.0.0
-**Status:** 🟡 Beta — Core functionality implemented, LLM integration and advanced conformance checking planned
-**Last Updated:** 2026-04-06
+**Version:** 2.1.0
+**Status:** 🟡 Beta — Core functionality implemented; ARIS-XML import and AgenticRAG operational as of v2.1.0
+**Last Updated:** 2026-04-17
 **Module Path:** `src/process/`
 
 ---
@@ -21,13 +22,17 @@ queryable via AQL without any special language extensions.
 
 ### Core Capabilities
 
-- **Multi-notation import/export** – BPMN 2.0 XML, EPK text/JSON, VCC-VPB YAML
+- **Multi-notation import/export** – BPMN 2.0 XML, EPK text/JSON, VCC-VPB YAML, **ARIS AML v9/v10 (EPK)**
 - **LLM-optimised descriptors** – structured JSON + system-prompt generation for RAG
+- **AgenticRAG** – iterative multi-hop Q&A over Verwaltungsvorgänge via `ProcessAgenticRag`
 - **Base-entity layer** – processes stored as versioned documents with audit trail
 - **Vector similarity search** – find semantically similar models via embeddings
 - **Execution bridge** – deploy models to `ProcessGraphManager` for live execution
 - **Administrative process library** – German public administration processes pre-modelled
 - **Compliance tagging** – regulatory frameworks (DSGVO, GWB, BauO, ITIL, etc.)
+- **DMN 1.5 decision tables** – FEEL-subset evaluator via `DmnEvaluator`
+- **OCEL 2.0 export** – object-centric event log export for PM4Py/Celonis via `OcelExporter`
+- **LLM-to-BPMN generator** – natural language to `ProcessModelRecord` via `ProcessModelGenerator`
 
 ## Subsystem Scope
 
@@ -50,10 +55,17 @@ queryable via AQL without any special language extensions.
 
 | File | Role |
 |------|------|
-| `process_model_manager.cpp` | High-level process model CRUD + import/export orchestration |
-| `bpmn_serializer.cpp` | BPMN 2.0 XML ↔ ProcessNodeInfo/EdgeInfo conversion |
+| `process_model_manager.cpp` | High-level process model CRUD + import/export orchestration; `importArisXml()` added v2.1.0 |
+| `bpmn_serializer.cpp` | BPMN 2.0 XML ↔ ProcessNodeInfo/EdgeInfo (state-machine tokenizer, no regex) |
 | `epk_serializer.cpp` | EPK text/JSON ↔ ProcessNodeInfo/EdgeInfo conversion |
-| `llm_process_descriptor.cpp` | LLM-optimised JSON descriptor + system prompt generation |
+| `epk_aris_xml_importer.cpp` | EPK import from ARIS AML v9/v10 XML (`importAml`, `importAllAml`) |
+| `process_agentic_rag.cpp` | `ProcessAgenticRag` — iterative multi-hop Q&A over process instances |
+| `process_graph_rag.cpp` | `ProcessGraphRag` — Knowledge Graph build, BFS/PPR subgraph extraction, RAG context assembly |
+| `process_linker.cpp` | `ProcessLinker` — attach/detach documents, process-to-process links, required-document registry |
+| `process_model_generator.cpp` | `ProcessModelGenerator` — LLM-driven BPMN model generation from natural language |
+| `dmn_evaluator.cpp` | `DmnEvaluator` — DMN 1.5 decision table evaluator with FEEL-subset support |
+| `ocel_exporter.cpp` | `OcelExporter` — OCEL 2.0 object-centric event log export |
+| `llm_process_descriptor.cpp` | LLM-optimised JSON descriptor + system-prompt-ready text; conformance-checking prompt builder |
 | `vcc_vpb_importer.cpp` | VCC-VPB YAML → ProcessModelRecord conversion |
 
 ## Current Delivery Status
@@ -74,7 +86,7 @@ documentation, see [`../../include/process/`](../../include/process/).
 **Purpose:** The central orchestrator for all process model operations.
 
 **Key responsibilities:**
-- Import from BPMN XML, EPK text, and VCC-VPB YAML via the respective serializers
+- Import from BPMN XML, EPK text, VCC-VPB YAML, and ARIS AML XML (`importArisXml()`) via the respective serializers/importers
 - Persist records to RocksDB under the `proc:def:<id>` key prefix
 - Keep versioned snapshots under `proc:def:<id>:rev:<n>` for full audit trail
 - Provide list, search, and vector-similarity query operations
@@ -94,11 +106,8 @@ instances backed by the same `RocksDBWrapper` (RocksDB is internally thread-safe
 **Purpose:** BPMN 2.0 XML import and export.
 
 **Implementation notes:**
-- Uses a lightweight regex-based parser (no DOM/SAX XML library required)
-- Covers all BPMN 2.0 flow node types: events, tasks (all subtypes), gateways,
-  sub-processes, call activities, pools, lanes, data objects, annotations
-- BPMNDI (diagram layout) data is intentionally ignored on import and omitted on export
-- Exported XML is standards-compliant (ISO/IEC 19510:2013)
+- Uses a hand-written state-machine XML tokenizer (`tokenizeXml` / `parseAttrs` / `stripNs` / `unescapeXml`); no regex, no DOM/SAX library
+- Handles `bpmn:` namespace prefixes, nested `subProcess`, `conditionExpression` child text, comments/PIs/CDATA; 10 MiB security guard
 
 ### 3. EpkSerializer (`epk_serializer.cpp`)
 

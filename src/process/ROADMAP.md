@@ -70,19 +70,19 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
   - Expected: import graphical `x`/`y` positions from BPMNDI section; store as `node.metadata.layout`
   - Tests: round-trip check on BPMNDI sample files
 
-- [ ] AgenticRAG integration for iterative process question answering (Target: Q3 2026)
-  - Affected: `process_graph_rag.cpp`, `rag/agentic_rag.h`
-  - Expected: multi-turn conversation loop about a Verwaltungsvorgang; agent can call `getMissingDocuments`, `getLinks`, `findSimilarCases` as tools
-  - Tests: conformance checking scenarios with iterative refinement; max 5 LLM turns per question
-  - Perf: total latency ≤ 5 s for 3-turn conversation on local llama.cpp
+- [x] AgenticRAG integration for iterative process question answering (Target: Q3 2026)
+  - Implemented: `ProcessAgenticRag` in `include/process/process_agentic_rag.h` / `src/process/process_agentic_rag.cpp`
+  - `iterativeQuery(instance_id, question)` and `iterativeQueryForNode(instance_id, node_id, question)`
+  - 6 façade tests: PAR-01..PAR-06 (`tests/test_process_aris_xml.cpp`); target: `test_process_aris_xml_focused`
 
 ### Long-term (6–12 months)
 
-- [ ] EPK ARIS-XML import (Target: Q3 2026)
-  - Affected: `epk_serializer.cpp` + new `aris_xml_parser.cpp`
-  - Expected: import `.epk` files exported from ARIS tooling; map ARIS function/event/connector objects to `ProcessNodeInfo`
-  - Tests: import round-trip for 5 representative ARIS EPK files; no data loss on node/edge count
-  - Errors: unsupported ARIS node types → log warning + skip; malformed XML → structured error
+- [x] EPK ARIS-XML import (Target: Q3 2026)
+  - Implemented: `EpkArisXmlImporter` in `include/process/epk_aris_xml_importer.h` / `src/process/epk_aris_xml_importer.cpp`
+  - `importAml(aml_xml)` / `importAllAml(aml_xml)`; `typeNumToEpkNodeType()` / `typeNumToLabel()`
+  - Supports AML v9/v10; TypeNums 1,11,12,13,14,15,16,18,40; hand-written tokenizer; 10 MiB guard
+  - `ProcessModelManager::importArisXml()` wraps importer for high-level use
+  - 10 tests: EAX-01..EAX-10 (`tests/test_process_aris_xml.cpp`); target: `test_process_aris_xml_focused`
 
 - [ ] BPMN-S (BPMN Security Profile) support (Target: Q4 2026)
   - Affected: `bpmn_serializer.cpp`, `ProcessModelRecord`, `ProcessGraphRag::checkCompliance()`
@@ -135,11 +135,11 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
 - [x] Auto-generation of embeddings via LLM module on import (Target: Q2 2026)
 - [x] Full-text inverted index integration (Target: Q2 2026)
 - [x] HNSW-based process model similarity search (Target: Q2 2026)
-- [ ] AgenticRAG integration for iterative Q&A (Target: Q3 2026)
+- [x] AgenticRAG integration for iterative Q&A (Target: Q3 2026) — `ProcessAgenticRag` (`include/process/process_agentic_rag.h`)
 
-### Phase 5: Advanced Features (Status: Planned)
+### Phase 5: Advanced Features (Status: Partially Complete)
 
-- [ ] EPK ARIS-XML import (Target: Q3 2026)
+- [x] EPK ARIS-XML import (Target: Q3 2026) — `EpkArisXmlImporter` (`include/process/epk_aris_xml_importer.h`)
 - [ ] BPMN-S security profile for DSGVO compliance (Target: Q4 2026)
 - [ ] Real-time SLA monitoring via CEP engine (Target: Q4 2026)
 - [ ] Cross-case bottleneck analytics (Target: Q4 2026)

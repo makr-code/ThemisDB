@@ -16,13 +16,18 @@ Key capabilities:
 
 | Capability | Component |
 |---|---|
-| Import / export BPMN 2.0 XML | `BpmnSerializer` |
+| Import / export BPMN 2.0 XML | `BpmnSerializer` (state-machine tokenizer, no regex) |
 | Import / export EPK text & JSON | `EpkSerializer` |
+| Import EPK from ARIS AML v9/v10 XML | `EpkArisXmlImporter` |
 | Import VCC-VPB YAML (single, batch, directory) | `VccVpbImporter` |
-| CRUD + versioning for process models | `ProcessModelManager` |
+| CRUD + versioning for process models | `ProcessModelManager` (incl. `importArisXml()`) |
 | LLM descriptor + system-prompt generation | `LlmProcessDescriptor` |
 | Attach documents/metadata to instances | `ProcessLinker` |
 | Graph-RAG context assembly for LLM | `ProcessGraphRag` |
+| Iterative multi-hop agentic Q&A | `ProcessAgenticRag` |
+| LLM-driven BPMN model generation | `ProcessModelGenerator` |
+| DMN 1.5 decision table evaluation | `DmnEvaluator` |
+| OCEL 2.0 event log export | `OcelExporter` |
 | Execution engine (tokens, state) | `ProcessGraphManager` (from `index/`) |
 
 ---

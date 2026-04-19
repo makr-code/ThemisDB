@@ -9,7 +9,7 @@
 | Metric | Result |
 |--------|--------|
 | Build System Registration | ✅ Verified |
-| Test Coverage | ✅ 32 tests in `test_advanced_training_features.cpp` |
+| Test Coverage | ✅ Multiple test files: `test_advanced_training_features.cpp` (32 tests), `test_ada_lora_adapter.cpp` (36 tests), `test_lora_adapter_merger.cpp` (32 tests), `test_training_pipeline_e2e.cpp`, `test_training_phase2.cpp` (29 tests) |
 | Open TODOs | Low |
 
 ## Source Files Audited
