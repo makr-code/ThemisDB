@@ -1,10 +1,10 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Index Module
 
-**Last Audit:** 2026-03-12  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
 **Status:** ⚠️ Pass with findings
 
 ## Summary
@@ -12,7 +12,7 @@
 | Metric | Result |
 |--------|--------|
 | Build System Registration | ✅ Verified |
-| Source Files | ~40 |
+| Source Files | 41 |
 | Test Coverage | ⚠️ Unit tests present; GPU paths partially covered; integration and benchmark suites open (#1883, #1884) |
 | Open TODOs | 0 explicit TODOs; 6 open tracking issues |
 | Open Stubs | 0 |
@@ -24,22 +24,21 @@ The index module is registered in `CMakeLists.txt` as the `themis_index` static 
 
 ## Source Files Audited
 
-The ~40 source files span the following component groups:
+The 41 source files span the following component groups:
 
 | Component | Key Files | Status |
 |-----------|-----------|--------|
-| HNSW vector index core | `hnsw_index.cpp`, `hnsw_graph.cpp`, `hnsw_search.cpp`, `hnsw_reindex.cpp` | ✅ Reviewed |
-| GPU backends | `gpu_search_vulkan.cpp`, `gpu_search_cuda.cpp`, `gpu_search_hip.cpp`, `gpu_memory.cpp` | ⚠️ HIP VRAM clear validation pending (#1878) |
-| Quantisation | `product_quantization.cpp`, `binary_quantization.cpp`, `residual_quantization.cpp`, `pq_codebook.cpp` | ✅ Reviewed |
-| B-tree / range indexes | `btree_index.cpp`, `range_index.cpp`, `composite_key.cpp` | ✅ Reviewed |
-| Spatial indexes | `rtree_index.cpp`, `zorder_curve.cpp`, `mbr.cpp` | ✅ Reviewed |
-| Graph indexing | `graph_index.cpp`, `adjacency_index.cpp` | ✅ Reviewed |
-| Adaptive advisor | `index_advisor.cpp`, `workload_sampler.cpp`, `workload_replay.cpp` | ✅ Reviewed |
-| Full-text index | `inverted_index.cpp`, `posting_list.cpp`, `bm25_scorer.cpp` | ✅ Reviewed |
-| DiskANN / ScaNN | `diskann_index.cpp`, `scann_index.cpp` | ⚠️ Under security review |
-| Multi-GPU distributed | `distributed_vector_index.cpp`, `gpu_shard_manager.cpp` | ⚠️ Incomplete — issue #1878 |
-| Tiered migration | `tiered_index_manager.cpp`, `tier_policy.cpp` | ✅ Reviewed |
-| Index registry | `index_manager.cpp`, `index_registry.cpp`, `tenant_key_prefix.cpp` | ✅ Reviewed |
+| Vector index core | `vector_index.cpp`, `advanced_vector_index.cpp`, `adaptive_index.cpp`, `ann_index.cpp`, `vector_auto_buffer.cpp` | ✅ Reviewed |
+| GPU backends | `gpu_vector_index.cpp`, `gpu_vector_index_vulkan.cpp`, `gpu_memory_oversubscription.cpp`, `multi_gpu_vector_index.cpp`, `cuda_hnsw_graph_traversal.cpp` | ⚠️ HIP VRAM clear validation pending (#1878) |
+| HNSW optimisation | `hnsw_layer_optimizer.cpp`, `hnsw_parameter_tuner.cpp`, `hnsw_production_defaults.cpp` | ✅ Reviewed |
+| Quantisation | `binary_quantizer.cpp`, `product_quantizer.cpp`, `learned_quantizer.cpp`, `residual_quantizer.cpp` | ✅ Reviewed |
+| Approximate search | `approximate_radius_search.cpp`, `multi_vector_search.cpp` | ✅ Reviewed |
+| Graph indexing | `graph_index.cpp`, `graph_analytics.cpp`, `graph_auto_buffer.cpp`, `property_graph.cpp`, `edge_types.cpp` | ✅ Reviewed |
+| Spatial / secondary indexes | `spatial_index.cpp`, `secondary_index.cpp`, `inverted_index.cpp` | ✅ Reviewed |
+| Index management | `index_manager.cpp`, `index_compression.cpp`, `tiered_index_manager.cpp` | ✅ Reviewed |
+| Embeddings / tensor ops | `rotary_embeddings.cpp`, `rotary_embeddings_gpu_cpu.cpp`, `rotary_embeddings_hip.cpp`, `learnable_rope.cpp`, `lora_rope.cpp`, `matryoshka_truncation.cpp`, `gnn_embeddings.cpp` | ✅ Reviewed |
+| Graph network | `process_graph.cpp`, `temporal_graph.cpp`, `distributed_vector_index.cpp` | ⚠️ Incomplete — issue #1878 |
+| Workload replay | `workload_replay.cpp` | ✅ Reviewed |
 
 ## Test Coverage
 
@@ -74,7 +73,7 @@ The ~40 source files span the following component groups:
 - **Action:** Add ROCm version check at startup; disable HIP VRAM clear optimisation path on unsupported versions.
 
 #### ⚠️ [#1882] Unit test coverage gaps
-- `diskann_index.cpp` and `scann_index.cpp` have limited unit test coverage; edge cases for empty indexes, single-element indexes, and concurrent access are not tested.
+- `ann_index.cpp` (which implements both ScaNN and DiskANN backends via `include/index/ann_index.h`) has limited unit test coverage; edge cases for empty indexes, single-element indexes, and concurrent access are not tested.
 - **Action:** Add parametrised unit tests for boundary conditions.
 
 #### ⚠️ [#1883] Integration test suite not merged

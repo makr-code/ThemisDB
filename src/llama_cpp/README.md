@@ -103,3 +103,12 @@ ctest -R LlamaCppPluginFocusedTests --output-on-failure
 |---|---|
 | `themis_llm_create` | `ILLMPlugin* ()` |
 | `themis_llm_destroy` | `void (ILLMPlugin*)` |
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/llama_cpp/README.md`](../../include/llama_cpp/README.md) for the public API.

@@ -13,3 +13,12 @@ Dieser Ordner enthält 0 Unterordner und 5 Dateien und bildet einen abgegrenzten
 - Für tieferliegende Teilbereiche existieren ggf. zusätzliche README- und Moduldokumente.
 
 _Automatisch erzeugt/aktualisiert am 2026-04-17._
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/projects/README.md`](../../include/projects/README.md) for the public API.

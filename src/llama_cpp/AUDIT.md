@@ -1,9 +1,9 @@
-<!-- Status: current | validated: 2026-04-07 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — llama_cpp Plugin
 
-**Last Audit:** 2026-04-07
+**Last Audit:** 2026-04-19
 **Auditor:** Copilot
 **Status:** ✅ Pass
 
@@ -11,7 +11,7 @@
 
 | Metric | Result |
 |--------|--------|
-| Source files audited | 1 (`llama_cpp_plugin.cpp`) |
+| Source files audited | 2 (`llama_cpp_plugin.cpp`, `llama_cpp_registrar.cpp`) |
 | Test targets | 1 (`LlamaCppPluginFocusedTests`) |
 | Test count | 30 |
 | Open security issues | 0 |
@@ -32,7 +32,8 @@ Dependencies: `nlohmann_json` (required).
 
 | File | Responsibility | Finding |
 |------|---------------|---------|
-| `src/llama_cpp/llama_cpp_plugin.cpp` | Full ILLMPlugin implementation | ✅ All methods implemented; thread-safe via `std::mutex`; error handling for uninit state; LoRA duplicate-id replacement |
+| `llama_cpp_plugin.cpp` | Full ILLMPlugin implementation | ✅ All methods implemented; thread-safe via `std::mutex`; error handling for uninit state; LoRA duplicate-id replacement |
+| `llama_cpp_registrar.cpp` | Plugin factory export (THEMIS_LLM_PLUGIN macro, create/destroy functions) | ✅ Reviewed |
 
 ## Interface Compliance
 

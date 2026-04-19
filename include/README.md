@@ -36,3 +36,11 @@ Include headers using the `#include <themisdb/component/header.hpp>` pattern.
 ## Documentation
 
 For detailed API documentation, see the [API documentation](../docs/api/).
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

@@ -143,3 +143,11 @@ themis::config::ConfigPathResolver::stopHotReload();
 - `src/config/ARCHITECTURE.md` — component architecture and data-flow diagrams
 - `src/config/ROADMAP.md` — feature roadmap and production readiness checklist
 - `src/config/SECURITY.md` — security considerations and audit findings
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

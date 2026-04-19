@@ -123,7 +123,7 @@ Records conflict resolution for auditing and monitoring.
 // Get unresolved conflicts
 auto conflicts = resolver.getUnresolvedConflicts();
 for (const auto& conflict : conflicts) {
-    std::cout << "Conflict on entity: " << conflict.entity_id 
+    std::cout << "Conflict on entity: " << conflict.entity_id
               << " detected at: " << format_time(conflict.detected_at)
               << std::endl;
 }
@@ -310,7 +310,7 @@ target_link_libraries(your_target PRIVATE themisdb_temporal)
 # Headers are automatically included via public interface
 ```
 
-### Include Paths
+## Include Paths
 ```cpp
 #include "temporal/temporal_conflict_resolver.h"
 // Future headers:
@@ -359,28 +359,28 @@ target_link_libraries(your_target PRIVATE themisdb_temporal)
 
 int main() {
     using namespace themisdb::temporal;
-    
+
     // Create resolver
     TemporalConflictResolver resolver(ConflictPolicy::LAST_WRITE_WINS);
-    
+
     // Create conflicting snapshots
     TemporalSnapshot local;
     local.snapshot_id = "local_123";
     local.hlc = {1000, 0, "node1"};
     local.data = {{"value", 100}};
-    
+
     TemporalSnapshot remote;
     remote.snapshot_id = "remote_456";
     remote.hlc = {1001, 0, "node2"};  // Newer
     remote.data = {{"value", 200}};
-    
+
     // Resolve
     auto winner = resolver.resolve(local, remote);
-    
+
     std::cout << "Winner: " << winner.snapshot_id << std::endl;
     std::cout << "Value: " << winner.data["value"] << std::endl;
     // Output: Winner: remote_456, Value: 200
-    
+
     return 0;
 }
 ```
@@ -391,15 +391,15 @@ int main() {
 
 void handleConflicts() {
     using namespace themisdb::temporal;
-    
+
     TemporalConflictResolver resolver(ConflictPolicy::MANUAL);
-    
+
     // Resolve - will queue for manual resolution
     auto result = resolver.resolve(local, remote);
-    
+
     // Later, get queued conflicts
     auto conflicts = resolver.getUnresolvedConflicts();
-    
+
     for (auto& conflict : conflicts) {
         // Manual decision logic
         if (shouldPickLocal(conflict)) {
@@ -422,10 +422,10 @@ void handleConflicts() {
 
 TEST(TemporalTest, LastWriteWins) {
     TemporalConflictResolver resolver(ConflictPolicy::LAST_WRITE_WINS);
-    
+
     TemporalSnapshot older{/* ... */};
     TemporalSnapshot newer{/* ... */};
-    
+
     auto winner = resolver.resolve(older, newer);
     EXPECT_EQ(winner.snapshot_id, newer.snapshot_id);
 }
@@ -476,13 +476,13 @@ Existing conflict-resolution code is fully compatible; new features are opt-in.
 
 ### Common Issues
 
-**Issue:** Conflict resolution always picks same node  
+**Issue:** Conflict resolution always picks same node
 **Solution:** Check HLC clock synchronization across nodes
 
-**Issue:** High memory usage from conflict records  
+**Issue:** High memory usage from conflict records
 **Solution:** Call `resolver.clearResolvedConflicts()` periodically
 
-**Issue:** Checksum mismatches  
+**Issue:** Checksum mismatches
 **Solution:** Ensure consistent JSON serialization order
 
 ---
@@ -496,6 +496,14 @@ Existing conflict-resolution code is fully compatible; new features are opt-in.
 
 ---
 
-*Last Updated: April 2026*  
-*API Version: v1.1.0*  
+*Last Updated: April 2026*
+*API Version: v1.1.0*
 *ABI Version: 1.1*
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

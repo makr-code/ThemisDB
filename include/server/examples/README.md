@@ -27,3 +27,21 @@ Calls to planned IMPL-B8 API are marked with `/* PLANNED */` comments. The perfo
 - Issue spec: `docs/issues/optimization_layers/IMPL-B8-workload-fingerprint.md`
 - Research paper: `docs/en/research/LLM_OPTIMIZATION_LAYERS_MATRIX.md` §Layer 8
 - Module ROADMAP: `include/server/ROADMAP.md` §Phase 7
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```
+
+## Usage
+
+Include the relevant headers from this module:
+
+```cpp
+#include "server/module_header.h"
+```
+
+See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.

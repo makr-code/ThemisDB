@@ -277,7 +277,7 @@ auto upstream = tracker.getUpstreamColumns({"users", "full_name"});
 nlohmann::json prov = tracker.getColumnProvenance({"users", "full_name"});
 ```
 
-**Thread Safety:** All public methods are thread-safe.  
+**Thread Safety:** All public methods are thread-safe.
 **Design:** Append-only — `recordDerivation()` never modifies or deletes existing entries.
 
 ---
@@ -291,5 +291,13 @@ nlohmann::json prov = tracker.getColumnProvenance({"users", "full_name"});
 
 ---
 
-*Last Updated: April 2026*  
+*Last Updated: April 2026*
 *API Version: v1.5.0*
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

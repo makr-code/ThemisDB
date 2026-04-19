@@ -1,10 +1,10 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Cache Module
 
-**Last Audit:** 2026-03-12  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ## Summary
@@ -12,9 +12,9 @@
 | Metric | Result |
 |--------|--------|
 | Build System Registration | ✅ Verified |
-| Source Files | 11 (`.cpp` in `src/cache/`) |
+| Source Files | 12 (`.cpp` in `src/cache/`) |
 | Test Coverage | ✅ > 80% (Issue #1596 confirmed via 43 interface tests + component tests) |
-| Open TODOs | 11 files contain TODOs (primarily prefetcher tuning and Redis TLS config) |
+| Open TODOs | 12 files contain TODOs (primarily prefetcher tuning and Redis TLS config) |
 | Open Stubs | 0 (all 4 implementation phases complete) |
 | Security Issues | None |
 
@@ -36,6 +36,7 @@
 | `cache_replication_coordinator.cpp` | Replication coordination across nodes |
 | `distributed_cache_coordinator.cpp` | In-process distributed cache coordinator |
 | `embedding_cache.cpp` | Embedding-specific cache for vector similarity lookups |
+| `grpc_remote_cache_peer.cpp` | gRPC-based remote cache peer for cross-node invalidation |
 | `predictive_prefetcher.cpp` | Query history-based predictive prefetch |
 | `redis_cache_coordinator.cpp` | Redis-backed invalidation coordinator with HMAC-SHA256 |
 | `semantic_cache.cpp` | SHA-256 fingerprint + cosine similarity cache |

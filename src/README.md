@@ -122,3 +122,12 @@ ThemisDB has **43 Production-grade modules**, **4 Beta modules**, and **3 Alpha 
 | 🔴 Alpha               | Under active development. Functionality may be incomplete. Not recommended for production.|
 
 > See [ROADMAP.md](ROADMAP.md) for the development timeline and graduation milestones for each module.
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/README.md/README.md`](../../include/README.md/README.md) for the public API.

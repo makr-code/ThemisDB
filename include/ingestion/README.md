@@ -28,3 +28,21 @@ Multi-source ingestion pipeline for ThemisDB. Provides connectors, coordinators,
 
 - Implementation: `../../src/ingestion/`
 - ARCHITECTURE.md · AUDIT.md · CHANGELOG.md · ROADMAP.md · SECURITY.md
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```
+
+## Usage
+
+Include the relevant headers from this module:
+
+```cpp
+#include "ingestion/module_header.h"
+```
+
+See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.

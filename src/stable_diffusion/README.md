@@ -115,3 +115,12 @@ Every `GeneratedImage` carries:
 | `generation_timestamp` | Unix epoch milliseconds |
 | `prompt_hash` | FNV-1a 64-bit hex of sanitised prompt |
 | `model_id` | model path or `"stub"` |
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/stable_diffusion/README.md`](../../include/stable_diffusion/README.md) for the public API.

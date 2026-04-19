@@ -1,10 +1,10 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Graph Module
 
-**Last Audit:** 2026-03-12  
-**Auditor:** Copilot  
+**Last Audit:** 2026-03-12
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ## Summary
@@ -12,7 +12,7 @@
 | Metric | Result |
 |--------|--------|
 | Build System Registration | ✅ Verified |
-| Source Files | 6 |
+| Source Files | 8 |
 | Test Coverage | ⚠️ >80% target per ROADMAP; GPU paths not yet covered |
 | Open TODOs | 1 (ANN/GNN integration) |
 | Open Stubs | 0 |
@@ -29,6 +29,8 @@ The graph module is registered in the top-level `CMakeLists.txt` as a static lib
 | `distributed_graph.cpp` | Cross-shard edge traversal and result merging | ✅ Reviewed |
 | `gpu_traversal.cpp` | GPU-accelerated BFS/DFS (Vulkan/CUDA stubs, partially implemented) | ⚠️ Incomplete — issue #1829 |
 | `graph_query_optimizer.cpp` | Cost-based query planning, rule rewriting, cardinality estimation | ✅ Reviewed |
+| `graph_query_rewriter.cpp` | Query rewriting and optimisation for graph traversals | ✅ Reviewed |
+| `graph_watermark.cpp` | Graph watermarking for provenance and data lineage tracking | ✅ Reviewed |
 | `parallel_traversal.cpp` | Parallel BFS/DFS with work-stealing, timeout enforcement | ✅ Reviewed |
 | `path_constraints.cpp` | Path constraint parsing, validation, and filter evaluation | ✅ Reviewed — security fix applied 2026-02-28 |
 | `scheduled_edge_refresh.cpp` | Periodic semantic edge scoring, vector similarity, temporal decay | ✅ Reviewed |

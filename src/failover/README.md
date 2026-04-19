@@ -15,3 +15,12 @@ Status: production-ready failover orchestration and disaster recovery workflows.
 ## Current Scope
 - Orchestration logic implemented with replication and fencing integrations.
 - Recovery step hooks available for test and custom execution paths.
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/failover/README.md`](../../include/failover/README.md) for the public API.

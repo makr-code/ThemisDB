@@ -57,9 +57,9 @@
 
 ### Hardware-Accelerated Query Execution
 <!-- Status: implemented | validated: 2026-04-06 -->
-**Priority:** High  
-**Status:** ✅ Implemented (v1.8.0, Issue #85)  
-**Target Version:** v1.8.0  
+**Priority:** High
+**Status:** ✅ Implemented (v1.8.0, Issue #85)
+**Target Version:** v1.8.0
 **Research Basis:** Multiple papers on GPU database acceleration
 
 Hardware acceleration for compute-intensive database operations using GPUs, FPGAs, and specialized accelerators.
@@ -84,7 +84,7 @@ public:
         SMART_NIC,
         PMEM
     };
-    
+
     struct AcceleratorConfig {
         DeviceType device;
         size_t device_memory_mb = 8192;
@@ -92,15 +92,15 @@ public:
         bool enable_async_copy = true;
         size_t batch_size = 10000;
     };
-    
+
     // Execute query operator on accelerator
     Result<ExecutionResult> execute(
         const QueryOperator& op,
         const AcceleratorConfig& config);
-    
+
     // Check if operator can be accelerated
     bool can_accelerate(const QueryOperator& op) const;
-    
+
     // Estimate speedup factor
     double estimate_speedup(const QueryOperator& op) const;
 };
@@ -138,9 +138,9 @@ if (accel.can_accelerate(join_operator)) {
 
 ### Adaptive Query Compilation
 <!-- Status: implemented | validated: 2026-04-06 -->
-**Priority:** High  
-**Status:** ✅ Implemented (v1.8.0, Issue #86)  
-**Target Version:** v1.8.0  
+**Priority:** High
+**Status:** ✅ Implemented (v1.8.0, Issue #86)
+**Target Version:** v1.8.0
 **Research Basis:** "How to Architect a Query Compiler, Revisited" (SIGMOD'18)
 
 JIT compilation of hot queries to native machine code for order-of-magnitude performance improvements.
@@ -165,31 +165,31 @@ public:
         bool enable_inlining = true;           // Function inlining
         size_t compilation_timeout_ms = 100;   // Max compile time
     };
-    
+
     struct CompiledQuery {
         using ExecuteFn = std::function<Result<QueryResult>(const QueryParams&)>;
-        
+
         ExecuteFn execute;
         uint64_t compilation_time_us;
         uint64_t code_size_bytes;
         std::string llvm_ir;  // For debugging
         std::string assembly;  // For debugging
     };
-    
+
     // Compile query to native code
     Result<CompiledQuery> compile(
         const ParsedQuery& query,
         const Schema& schema,
         CompilationConfig config = {});
-    
+
     // Execute compiled query
     Result<QueryResult> execute(
         const CompiledQuery& compiled,
         const QueryParams& params);
-    
+
     // Check if query is eligible for compilation
     bool is_compilable(const ParsedQuery& query) const;
-    
+
     // Get compilation statistics
     struct CompilationStats {
         size_t queries_compiled;
@@ -197,7 +197,7 @@ public:
         uint64_t total_compilation_time_us;
         uint64_t average_speedup_percent;
     };
-    
+
     CompilationStats get_stats() const;
 };
 
@@ -207,7 +207,7 @@ AdaptiveQueryCompiler compiler;
 // First execution: interpreted
 for (int i = 0; i < 150; i++) {
     auto result = execute_query(query);
-    
+
     // After 100 executions, automatically compiles
     if (i == 100) {
         // Now running compiled version
@@ -221,7 +221,7 @@ if (compiler.is_compilable(query)) {
         .optimization = OptLevel::O3,
         .enable_vectorization = true
     });
-    
+
     // Subsequent executions use compiled version
     auto result = compiler.execute(compiled.value(), params);
 }
@@ -249,8 +249,8 @@ if (compiler.is_compilable(query)) {
 ---
 
 ### Intelligent Prefetching System
-**Priority:** Medium  
-**Target Version:** v1.8.0  
+**Priority:** Medium
+**Target Version:** v1.8.0
 **Research Basis:** "Learning-based Prefetching" (MICRO'19)
 
 Machine learning-based prefetching that learns access patterns and proactively loads data.
@@ -273,25 +273,25 @@ public:
         size_t history_size = 1000;
         bool enable_hardware_prefetch = true;
     };
-    
+
     struct AccessPattern {
         std::vector<uint64_t> addresses;
         uint64_t timestamp;
         uint64_t stride;
         double confidence;
     };
-    
+
     // Record memory access
     void record_access(uint64_t address, uint64_t timestamp);
-    
+
     // Predict next accesses
     std::vector<uint64_t> predict_next_accesses(
         uint64_t current_address,
         size_t lookahead = 8);
-    
+
     // Issue prefetch for predicted addresses
     void prefetch_predicted(const std::vector<uint64_t>& addresses);
-    
+
     // Get prefetch statistics
     struct PrefetchStats {
         size_t total_prefetches;
@@ -300,7 +300,7 @@ public:
         double accuracy;
         double coverage;
     };
-    
+
     PrefetchStats get_stats() const;
 };
 
@@ -314,11 +314,11 @@ IntelligentPrefetcher prefetcher({
 for (auto it = table->begin(); it != table->end(); ++it) {
     uint64_t address = reinterpret_cast<uint64_t>(&(*it));
     prefetcher.record_access(address, now());
-    
+
     // Predict and prefetch
     auto predictions = prefetcher.predict_next_accesses(address, 8);
     prefetcher.prefetch_predicted(predictions);
-    
+
     process(*it);
 }
 ```
@@ -332,8 +332,8 @@ for (auto it = table->begin(); it != table->end(); ++it) {
 ---
 
 ### ~~NUMA-Aware Memory Management~~ ✅ IMPLEMENTED (Issue #228, v1.9.0)
-**Priority:** Medium  
-**Target Version:** v1.9.0  
+**Priority:** Medium
+**Target Version:** v1.9.0
 **Research Basis:** "NUMA-aware Memory Management" (ASPLOS'15)
 **Status:** Production-ready — see `include/performance/numa_memory_manager.h` and `src/performance/numa_memory_manager.cpp`.
 
@@ -355,28 +355,28 @@ public:
         std::vector<size_t> node_memory_mb;
         std::vector<std::vector<size_t>> node_distances;  // Latency matrix
     };
-    
+
     struct AllocationHint {
         int preferred_node = -1;  // -1 = auto-detect
         bool allow_migration = true;
         bool use_huge_pages = false;
     };
-    
+
     // Allocate on specific NUMA node
     void* allocate_on_node(size_t size, int node);
-    
+
     // Allocate on thread's local node
     void* allocate_local(size_t size);
-    
+
     // Migrate data to different node
     void migrate_to_node(void* ptr, size_t size, int target_node);
-    
+
     // Get current node
     int get_current_node() const;
-    
+
     // Get topology
     NUMATopology get_topology() const;
-    
+
     // Statistics
     struct NUMAStats {
         uint64_t local_accesses;
@@ -384,7 +384,7 @@ public:
         double locality_ratio;
         std::vector<uint64_t> per_node_allocations;
     };
-    
+
     NUMAStats get_stats() const;
 };
 
@@ -414,9 +414,9 @@ if (stats.locality_ratio < 0.8) {
 ---
 
 ### Advanced Cache Optimization
-**Priority:** Medium  
-**Target Version:** v1.9.0  
-**Status:** ✅ Implemented (v1.9.0, Issue #229)  
+**Priority:** Medium
+**Target Version:** v1.9.0
+**Status:** ✅ Implemented (v1.9.0, Issue #229)
 **Research Basis:** Multiple cache optimization papers
 
 Multi-level cache optimization with cache partitioning and management.
@@ -452,25 +452,25 @@ public:
         bool enable_compression = false;
         CompressionAlgorithm compression = LZ4;
     };
-    
+
     struct CacheConfig {
         size_t total_size_mb;
         std::vector<CachePartition> partitions;
         bool enable_bloom_filters = true;
         size_t bloom_filter_fp_rate = 0.01;  // 1% false positive
     };
-    
+
     // Create partitioned cache
     void create_partitions(const CacheConfig& config);
-    
+
     // Get/Put with partition
     std::optional<Value> get(const Key& key, const std::string& partition);
     void put(const Key& key, const Value& value, const std::string& partition);
-    
+
     // Cache-oblivious scan
     template<typename Func>
     void cache_oblivious_scan(Iterator begin, Iterator end, Func func);
-    
+
     // Statistics per partition
     struct PartitionStats {
         size_t hits;
@@ -480,7 +480,7 @@ public:
         size_t bytes_used;
         double compression_ratio;
     };
-    
+
     PartitionStats get_partition_stats(const std::string& partition) const;
 };
 
@@ -512,8 +512,8 @@ if (!value) {
 ---
 
 ### Workload-Adaptive Optimization
-**Priority:** Medium  
-**Target Version:** v1.9.0  
+**Priority:** Medium
+**Target Version:** v1.9.0
 **Research Basis:** "Adaptive Execution" (SIGMOD'19)
 
 Automatically adjust optimization strategies based on runtime workload characteristics.
@@ -538,7 +538,7 @@ public:
         TIMESERIES,     // Time-series queries
         UNKNOWN
     };
-    
+
     struct WorkloadProfile {
         WorkloadType type;
         double read_write_ratio;
@@ -547,7 +547,7 @@ public:
         size_t concurrent_queries;
         std::vector<std::string> hot_tables;
     };
-    
+
     struct OptimizationStrategy {
         bool enable_jit_compilation;
         bool enable_parallel_execution;
@@ -556,16 +556,16 @@ public:
         std::string join_algorithm;  // "hash", "sort-merge", "nested-loop"
         std::string index_type;      // "btree", "hash", "brin"
     };
-    
+
     // Classify current workload
     WorkloadProfile classify_workload() const;
-    
+
     // Get optimal strategy for workload
     OptimizationStrategy get_strategy(const WorkloadProfile& profile) const;
-    
+
     // Apply strategy
     void apply_strategy(const OptimizationStrategy& strategy);
-    
+
     // Automatic adaptation (runs in background)
     void enable_auto_adapt(std::chrono::seconds interval = 60s);
     void disable_auto_adapt();
@@ -586,7 +586,7 @@ optimizer.enable_auto_adapt(30s);  // Adapt every 30 seconds
 optimizer.set_callback([](const WorkloadProfile& old_profile,
                           const WorkloadProfile& new_profile,
                           const OptimizationStrategy& strategy) {
-    LOG(INFO) << "Workload changed: " << old_profile.type 
+    LOG(INFO) << "Workload changed: " << old_profile.type
               << " -> " << new_profile.type;
     LOG(INFO) << "Applied strategy: threads=" << strategy.thread_pool_size
               << " cache_mb=" << strategy.cache_size_mb;
@@ -601,8 +601,8 @@ optimizer.set_callback([](const WorkloadProfile& old_profile,
 ---
 
 ### Lock-Free Transaction Manager
-**Priority:** Medium  
-**Target Version:** v2.0.0  
+**Priority:** Medium
+**Target Version:** v2.0.0
 **Research Basis:** "Lock-Free Transactions" (PPoPP'20)
 
 Fully lock-free transaction processing using hardware transactional memory (HTM).
@@ -624,22 +624,22 @@ public:
         std::chrono::microseconds retry_backoff_us = 10us;
         bool use_software_fallback = true;
     };
-    
+
     class Transaction {
     public:
         // Start HTM transaction
         bool begin();
-        
+
         // Commit HTM transaction
         bool commit();
-        
+
         // Abort and retry
         void abort();
-        
+
         // Read/write operations
         Value read(const Key& key);
         void write(const Key& key, const Value& value);
-        
+
         // Transaction status
         enum class Status {
             IN_PROGRESS,
@@ -647,14 +647,14 @@ public:
             ABORTED,
             CONFLICT
         };
-        
+
         Status status() const;
     };
-    
+
     // Create transaction
     std::unique_ptr<Transaction> begin_transaction(
         TransactionConfig config = {});
-    
+
     // Statistics
     struct HTMStats {
         uint64_t total_transactions;
@@ -664,7 +664,7 @@ public:
         double htm_success_rate;
         double avg_retries;
     };
-    
+
     HTMStats get_stats() const;
 };
 
@@ -676,7 +676,7 @@ if (txn->begin()) {
     // Speculative execution
     auto balance = txn->read(account_key);
     txn->write(account_key, balance + 100);
-    
+
     if (txn->commit()) {
         // Success - no locks acquired!
     } else {
@@ -693,8 +693,8 @@ if (txn->begin()) {
 ---
 
 ### Distributed Performance Coordination
-**Priority:** Low  
-**Target Version:** v2.1.0  
+**Priority:** Low
+**Target Version:** v2.1.0
 **Research Basis:** "Distributed Profiling" (OSDI'18)
 
 Coordinated performance optimization across distributed ThemisDB cluster.
@@ -717,16 +717,16 @@ public:
         uint64_t total_qps;
         uint64_t total_tps;
     };
-    
+
     // Collect metrics from all nodes
     ClusterMetrics collect_cluster_metrics();
-    
+
     // Coordinate optimization across cluster
     void optimize_cluster(const OptimizationGoal& goal);
-    
+
     // Rebalance load
     void rebalance_load();
-    
+
     // Distributed profiling
     DistributedProfile profile_query(const Query& query);
 };
@@ -812,8 +812,8 @@ See `CONTRIBUTING.md` for guidelines.
 
 ---
 
-**Version**: 1.0.0  
-**Last Updated**: 2026-04-06  
+**Version**: 1.0.0
+**Last Updated**: 2026-04-06
 **Status**: Living document - updated quarterly
 
 ---

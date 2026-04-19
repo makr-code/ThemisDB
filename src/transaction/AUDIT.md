@@ -1,6 +1,6 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 # Audit Report — Transaction Module
-**Last Audit:** 2026-03-12 | **Status:** ✅ Pass
+**Last Audit:** 2026-04-19 | **Status:** ✅ Pass
 
 ## Summary
 
@@ -11,11 +11,24 @@
 | Open TODOs | Low |
 
 ## Source Files Audited
-- `transaction_manager.cpp` — ACID transaction lifecycle
-- `saga_orchestrator.cpp` — SAGA pattern with compensating actions
-- `deadlock_detector.cpp` — wait-for graph cycle detection
-- `snapshot_manager.cpp` — named snapshots and branching
-- `global_transaction_manager.cpp` — multi-region TrueTime 2PC
+
+| File | Purpose | Status |
+|------|---------|--------|
+| `transaction_manager.cpp` | ACID transaction lifecycle | ✅ Reviewed |
+| `global_transaction_manager.cpp` | Multi-region TrueTime 2PC | ✅ Reviewed |
+| `distributed_transaction_manager.cpp` | Distributed transaction coordination | ✅ Reviewed |
+| `saga_orchestrator.cpp` | SAGA pattern with compensating actions | ✅ Reviewed |
+| `saga.cpp` | Core SAGA step and compensation logic | ✅ Reviewed |
+| `distributed_saga.cpp` | Distributed SAGA across shards | ✅ Reviewed |
+| `deadlock_predictor.cpp` | Wait-for graph cycle detection and prediction | ✅ Reviewed |
+| `lock_manager.cpp` | Row and range lock management | ✅ Reviewed |
+| `snapshot_manager.cpp` | Named snapshots and branching | ✅ Reviewed |
+| `branch_manager.cpp` | Transactional branching and merging | ✅ Reviewed |
+| `merge_engine.cpp` | Branch merge with conflict resolution | ✅ Reviewed |
+| `crash_recovery_manager.cpp` | WAL-based crash recovery | ✅ Reviewed |
+| `transaction_auditor.cpp` | Transaction audit trail recording | ✅ Reviewed |
+| `transaction_batcher.cpp` | Micro-transaction batching for throughput | ✅ Reviewed |
+| `transaction_semantic_advisor.cpp` | Semantic conflict detection advisory | ✅ Reviewed |
 
 ## Findings
 ### Resolved

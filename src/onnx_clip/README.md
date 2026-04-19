@@ -3,10 +3,10 @@
 
 # ThemisDB ONNX CLIP Plugin
 
-**Version:** 0.0.1  
-**Status:** 🟢 Production-Ready  
-**Last Updated:** 2026-04-06  
-**Module Path:** `src/onnx_clip/`  
+**Version:** 0.0.1
+**Status:** 🟢 Production-Ready
+**Last Updated:** 2026-04-06
+**Module Path:** `src/onnx_clip/`
 **Namespace:** `themis::plugins::image`
 
 ---
@@ -113,3 +113,12 @@ THEMIS_IMAGE_PLUGIN(themis::plugins::image::ONNXClipPlugin)
 - `ARCHITECTURE.md` — pImpl design, inference pipeline
 - `ROADMAP.md` — implementation phases and feature backlog
 - `SECURITY.md` — model integrity and input validation
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/onnx_clip/README.md`](../../include/onnx_clip/README.md) for the public API.

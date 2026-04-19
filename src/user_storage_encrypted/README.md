@@ -3,10 +3,10 @@
 
 # ThemisDB User Encrypted Storage Plugin
 
-**Version:** 0.1.0  
-**Status:** 🟢 Production-Ready (v0.1.0; stale mount reconciliation remains as hardening item)  
-**Last Updated:** 2026-03-22  
-**Module Path:** `src/user_storage_encrypted/`  
+**Version:** 0.1.0
+**Status:** 🟢 Production-Ready (v0.1.0; stale mount reconciliation remains as hardening item)
+**Last Updated:** 2026-03-22
+**Module Path:** `src/user_storage_encrypted/`
 **Namespace:** `themis::plugins::user_storage`
 
 ---
@@ -96,3 +96,12 @@ scheduler.shutdown();
 - `ARCHITECTURE.md` — component diagram, key material flow, FUSE subprocess model
 - `SECURITY.md` — key material handling, threat model, known limitations
 - `ROADMAP.md` — implementation phases and hardening backlog
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/user_storage_encrypted/README.md`](../../include/user_storage_encrypted/README.md) for the public API.

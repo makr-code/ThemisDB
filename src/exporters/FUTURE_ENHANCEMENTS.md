@@ -25,7 +25,7 @@ This document covers planned enhancements to the Exporters module beyond what is
 ## Planned Features
 
 ### ~~Parquet Export with Configurable Schema~~ ✅ Implemented (Issue #1710)
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0 — **Delivered**
 
 Parquet export is implemented in `parquet_exporter.cpp` / `parquet_exporter.h`. A fallback
@@ -38,7 +38,7 @@ in `exporter_metrics.cpp`.
 - Register Parquet writer in a formal `ExportFormatRegistry` (additive, non-breaking). ✅ Implemented — `ExportFormatRegistry::registerBuiltins()` registers "parquet".
 
 ### ~~Streaming Export for Large Collections~~ ✅ Implemented
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0 — **Delivered**
 
 Cursor-driven streaming export is implemented in `streaming_exporter.cpp` / `streaming_exporter.h`.
@@ -52,7 +52,7 @@ enforces `max_buffer_bytes` (default 256 MB). Checkpoint-based resumable export 
 ---
 
 ### ~~Incremental / Delta Export~~ ✅ Implemented (Issue #1726)
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0 — **Delivered**
 
 Delta export is implemented in `incremental_exporter.cpp` / `incremental_exporter.h`.
@@ -66,7 +66,7 @@ Atomic watermark update uses `.tmp` + `rename()`. The
 ---
 
 ### ~~Instruction-Tuning Format Templates~~ ✅ Implemented (Issue #1727)
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0 — **Delivered**
 
 Named instruction-tuning format templates (Alpaca, ShareGPT, ChatML, OpenAI fine-tuning JSONL) are implemented in `format_template.cpp` / `format_template.h`.  The `JSONLLLMExporter` activates a template via `JSONLLLMConfig::format_template_type`; field-name overrides go in `template_field_mapping`.  See `tests/exporters/test_format_template.cpp` for 35 test cases.
@@ -78,7 +78,7 @@ Named instruction-tuning format templates (Alpaca, ShareGPT, ChatML, OpenAI fine
 ---
 
 ### ~~Export Encryption and Authorization~~ ✅ Implemented (Issue #1728)
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0 — **Delivered**
 
 AES-256-GCM encryption is implemented in `export_encryption.cpp` / `export_encryption.h`.
@@ -180,7 +180,7 @@ gzip format, pipe through `zstd -d | gzip` or use `pigz`.
 
 
 ### ~~Cross-Collection Join Export~~ ✅ Implemented (Issue: #1722)
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0 — **Delivered**
 
 Export a joined view of two or more collections (e.g., `documents JOIN annotations`) into a single JSONL output file. Implemented as an in-memory hash-join: the right side is loaded into a hash table keyed on `right_key_field`, then every left entity is probed against it.

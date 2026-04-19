@@ -5,7 +5,7 @@
 # ThemisDB — Consolidated Source Roadmap
 
 > **Purpose:** This document aggregates every open TODO, stub-replacement, and planned feature
-> from all 50 module `FUTURE_ENHANCEMENTS.md` files.  
+> from all 50 module `FUTURE_ENHANCEMENTS.md` files.
 > It is sorted by **Priority → Target Version → Module** and is the canonical input for
 > creating GitHub Issues with full implementation context.
 
@@ -514,7 +514,7 @@ Affects: `sharding`, `replication`, `transaction`, `maintenance`, `cache`, `quer
 | 10 | 🟠 High | auth, base, chimera, maintenance, temporal |
 | 3 | 🟡 Medium | auth |
 
-→ **17 open items**  
+→ **17 open items**
 → Primary labels: `security`, `persistence`, `stub-replacement`
 
 ---
@@ -528,7 +528,7 @@ Affects: `sharding`, `replication`, `transaction`, `maintenance`, `cache`, `quer
 | 10 | 🟡 Medium | auth, base, chimera, maintenance, temporal |
 | 5 | 🟢 Low | auth, base |
 
-→ **20 open items**  
+→ **20 open items**
 → Primary labels: `security`, `thread-safety`, `wasm`, `transactions`
 
 ---
@@ -541,7 +541,7 @@ Affects: `sharding`, `replication`, `transaction`, `maintenance`, `cache`, `quer
 | 15 | 🟠 High | aql, core, geo, index, ingestion, observability, query, replication, server, sharding, storage, updates |
 | 10 | 🟡 Medium | aql, analytics, ingestion, replication, storage, updates |
 
-→ **25 open items**  
+→ **25 open items**
 → Primary labels: `feature`, `performance`, `observability`, `distributed`
 
 ---
@@ -555,7 +555,7 @@ Affects: `sharding`, `replication`, `transaction`, `maintenance`, `cache`, `quer
 | 60 | 🟡 Medium | (most modules) |
 | 15 | 🟢 Low | various |
 
-→ **~125 open items** — largest milestone  
+→ **~125 open items** — largest milestone
 → Primary labels: `stub-replacement`, `thread-safety`, `gpu`, `performance`, `security`
 
 ---
@@ -569,7 +569,7 @@ Affects: `sharding`, `replication`, `transaction`, `maintenance`, `cache`, `quer
 | 10 | 🟡 Medium | acceleration, analytics, config, llm, network, performance, storage, transaction |
 | 6 | 🟢 Low | cdc, chimera, config, graph, maintenance |
 
-→ **24 open items**  
+→ **24 open items**
 → Primary labels: `distributed`, `gpu`, `performance`, `platform`
 
 ---
@@ -630,6 +630,6 @@ epic:llm-integration       LLM inference, LoRA, training pipeline
 
 ---
 
-*Generated: 2026-04-04 · Based on: `src/*/FUTURE_ENHANCEMENTS.md` (50 modules)*  
-*Next update: when any module FUTURE_ENHANCEMENTS.md is changed.*  
+*Generated: 2026-04-04 · Based on: `src/*/FUTURE_ENHANCEMENTS.md` (50 modules)*
+*Next update: when any module FUTURE_ENHANCEMENTS.md is changed.*
 *Issues tracker: [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)*

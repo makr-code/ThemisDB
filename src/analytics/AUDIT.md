@@ -1,10 +1,10 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Analytics Module
 
-**Last Audit:** 2026-03-12  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ## Summary
@@ -12,7 +12,7 @@
 | Metric | Result |
 |--------|--------|
 | Build System Registration | ✅ Verified |
-| Source Files | 20 (`.cpp` in `src/analytics/`) |
+| Source Files | 21 (`.cpp` in `src/analytics/`) |
 | Test Coverage | ✅ Production-ready (all Phase 1–5 items complete) |
 | Open TODOs | 20 files contain TODOs (mainly future-phase stubs and LLM backend extension points) |
 | Open Stubs | 0 (all core features production-ready) |
@@ -45,6 +45,10 @@
 | `ml_serving.cpp` | ONNX Runtime + TensorFlow Serving MLServingClient |
 | `model_serving.cpp` | Named+versioned model registry and online inference |
 | `nlp_text_analyzer.cpp` | Tokenization, TF-IDF, NER, sentiment, keyword extraction |
+| `olap.cpp` | OLAP engine for multi-dimensional aggregation |
+| `process_mining.cpp` | Process mining: discovery, conformance, enhancement |
+| `process_pattern_matcher.cpp` | Pattern matching over process event logs |
+| `streaming_join.cpp` | Stream-stream and stream-table join operations |
 | `streaming_window.cpp` | Tumbling, sliding, session, hopping windows with watermarks |
 
 ## Test Coverage

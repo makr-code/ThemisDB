@@ -14,3 +14,21 @@ Dieser Ordner enthält 0 Unterordner und 5 Dateien und bildet einen abgegrenzten
 - Für tieferliegende Teilbereiche existieren ggf. zusätzliche README- und Moduldokumente.
 
 _Automatisch erzeugt/aktualisiert am 2026-04-17._
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```
+
+## Usage
+
+Include the relevant headers from this module:
+
+```cpp
+#include "toolbox/module_header.h"
+```
+
+See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.

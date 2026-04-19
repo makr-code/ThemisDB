@@ -62,3 +62,12 @@ For content documentation, see:
 3. Dublin Core Metadata Initiative. (2012). **DCMI Metadata Terms**. DCMI Recommendation. https://www.dublincore.org/specifications/dublin-core/dcmi-terms/
 
 4. W3C. (2013). **PROV-O: The PROV Ontology**. W3C Recommendation. https://www.w3.org/TR/prov-o/
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/content/README.md`](../../include/content/README.md) for the public API.

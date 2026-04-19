@@ -1213,3 +1213,11 @@ All components use internal `std::mutex` or `std::shared_mutex` for thread safet
 - [GPU Runbooks](../../docs/gpu_runbooks.md) — on-call operational procedures
 - [LLM Module](../../../src/llm/README.md) — GPU model inference
 - [Vector Index](../../../src/index/README.md) — GPU-accelerated ANN indexing
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

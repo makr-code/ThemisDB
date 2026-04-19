@@ -70,8 +70,8 @@ This document covers planned enhancements to the LLM module beyond what is track
 ---
 
 ### Streaming Token Output (SSE / Chunked Response)
-**Priority:** High  
-**Target Version:** v1.7.0  
+**Priority:** High
+**Target Version:** v1.7.0
 #### Scope
 - Deliver OpenAI-style streaming for LLM responses via SSE framing and HTTP chunked responses.
 - Expose token-level callbacks through `InferenceRequest::stream_callback` for both engines while keeping engines output-format agnostic.

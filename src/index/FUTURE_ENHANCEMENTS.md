@@ -61,8 +61,8 @@ Both paths fall through to the CPU implementation, making GPU-accelerated ANN se
 ---
 
 ### Full-Text Search Index
-**Priority:** High  
-**Original Target Version:** v1.7.0  
+**Priority:** High
+**Original Target Version:** v1.7.0
 **Status:** ✅ Implemented (v1.5.0)
 
 Add inverted index for full-text search with stemming, stop words, and relevance ranking.
@@ -115,7 +115,7 @@ for (const auto& result : results) {
 ---
 
 ### Distributed Index Partitioning
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Shard indexes across multiple nodes for horizontal scalability.
@@ -172,8 +172,8 @@ auto results = vim.search("embeddings", query_vector, 10);
 ---
 
 ### GPU Memory Oversubscription
-**Priority:** High  
-**Target Version:** v1.7.0  
+**Priority:** High
+**Target Version:** v1.7.0
 **Status:** ✅ Delivered (v1.7.0)
 
 Support datasets larger than GPU VRAM via paging and streaming.
@@ -208,14 +208,14 @@ auto gpu_index = std::make_unique<GPUVectorIndex>(config);
 - Cold data: CPU speed with PCIe overhead (10K queries/sec)
 - Prefetch hit rate: 80-90% (workload-dependent)
 
-**Tests:** `tests/index/test_gpu_memory_oversubscription.cpp` — 26 focused tests  
+**Tests:** `tests/index/test_gpu_memory_oversubscription.cpp` — 26 focused tests
 **CI:** `.github/workflows/gpu-memory-oversubscription-ci.yml`
 
 ---
 
 ### Index Compression
-**Priority:** Medium  
-**Target Version:** v1.7.0  
+**Priority:** Medium
+**Target Version:** v1.7.0
 **Status:** ✅ Implemented (v1.7.0)
 
 Reduce index storage footprint via compression.
@@ -256,14 +256,14 @@ SecondaryIndexManager sim(db, config);
 - `include/index/secondary_index.h` — `SecondaryIndexManager::Config` with `enable_compression`, `compression_algorithm`, `compression_level`, and per-technique flags
 - `src/index/secondary_index.cpp` — Config-based constructor wires `IndexCompressionCodec` into the manager
 
-**Tests:** `tests/index/test_index_compression.cpp` — 30+ focused tests covering all 5 acceptance criteria  
+**Tests:** `tests/index/test_index_compression.cpp` — 30+ focused tests covering all 5 acceptance criteria
 **CI:** `.github/workflows/index-compression-ci.yml`
 
 ---
 
 ### Matryoshka Representation Learning (MRL) Truncation
-**Priority:** High  
-**Original Target Version:** v1.8.0  
+**Priority:** High
+**Original Target Version:** v1.8.0
 **Status:** ✅ Implemented (v1.8.0)
 
 MRL (Kusupati et al., NeurIPS 2022) trains embeddings so that every prefix of
@@ -293,7 +293,7 @@ retraining, enabling:
 - `include/index/matryoshka_truncation.h` — header-only implementation
 - `src/index/matryoshka_truncation.cpp` — compilation unit (extension point)
 
-**Tests:** `tests/index/test_matryoshka_truncation.cpp` — 25 focused tests (v1.8.0)  
+**Tests:** `tests/index/test_matryoshka_truncation.cpp` — 25 focused tests (v1.8.0)
 **CI:** `.github/workflows/matryoshka-truncation-ci.yml`
 
 **References:**
@@ -303,7 +303,7 @@ retraining, enabling:
 ---
 
 ### Learned Indexes
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Replace B-tree with ML models for improved lookup performance.
@@ -353,7 +353,7 @@ sim.createLearnedIndex("users", "age", {
 ---
 
 ### Approximate Index Maintenance
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.6.0
 
 Trade consistency for write throughput via lazy index updates.
@@ -390,7 +390,7 @@ SecondaryIndexManager sim(db, config);
 ## Performance Optimizations
 
 ### SIMD Optimization for Vector Distance
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Use AVX-512/NEON instructions for faster distance computation.
@@ -433,7 +433,7 @@ float l2_distance_neon(const float* a, const float* b, size_t dim) {
 ---
 
 ### Cache-Oblivious Indexes
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Optimize index layout for CPU cache hierarchy (L1/L2/L3).
@@ -455,7 +455,7 @@ Optimize index layout for CPU cache hierarchy (L1/L2/L3).
 ---
 
 ### GPU Kernel Fusion
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.6.0
 
 Combine multiple GPU operations into single kernel to reduce overhead.
@@ -479,7 +479,7 @@ fused_search_kernel<<<...>>>(query, database, indices, distances, k);
 ---
 
 ### Adaptive HNSW Parameters
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.6.0
 
 Automatically tune HNSW parameters (M, efConstruction, efSearch) based on workload.
@@ -495,15 +495,15 @@ Automatically tune HNSW parameters (M, efConstruction, efSearch) based on worklo
 // Adaptive tuning
 void AdaptiveHNSW::tune() {
     auto metrics = collectMetrics();
-    
+
     if (metrics.avg_latency > target_latency_ms) {
         efSearch = std::max(efSearch - 10, 10);  // Reduce for speed
     }
-    
+
     if (metrics.recall < target_recall) {
         efSearch = std::min(efSearch + 10, 500);  // Increase for recall
     }
-    
+
     if (metrics.recall < 0.90 && metrics.dataset_size > 1e6) {
         // Rebuild with higher M
         rebuild_with_M(M + 4);
@@ -516,7 +516,7 @@ void AdaptiveHNSW::tune() {
 ## Refactoring Opportunities
 
 ### Unified Index Interface
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Extract common interface for all index types to enable polymorphism.
@@ -529,16 +529,16 @@ Extract common interface for all index types to enable polymorphism.
 class IIndex {
 public:
     virtual ~IIndex() = default;
-    
+
     // CRUD operations
     virtual Status insert(const Key& key, const Value& value) = 0;
     virtual Status remove(const Key& key) = 0;
     virtual Status update(const Key& key, const Value& new_value) = 0;
-    
+
     // Query operations
     virtual std::vector<Result> lookup(const Query& query) = 0;
     virtual std::vector<Result> range(const Key& start, const Key& end) = 0;
-    
+
     // Maintenance
     virtual Status rebuild() = 0;
     virtual Status optimize() = 0;
@@ -559,7 +559,7 @@ class RTreeIndex : public IIndex { ... };
 ---
 
 ### Index Metadata Registry
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.6.0
 
 Centralized registry for index metadata (type, stats, config).
@@ -575,13 +575,13 @@ struct IndexMetadata {
     std::vector<std::string> columns;
     IndexType type;  // BTREE, HNSW, RTREE, etc.
     nlohmann::json config;
-    
+
     // Statistics
     size_t num_entries;
     size_t size_bytes;
     Timestamp created_at;
     Timestamp last_updated;
-    
+
     // Performance metrics
     uint64_t query_count;
     double avg_query_latency_ms;
@@ -605,7 +605,7 @@ public:
 ---
 
 ### Zero-Copy Index Serialization
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Eliminate memory copies when persisting/loading indexes.
@@ -624,7 +624,7 @@ Eliminate memory copies when persisting/loading indexes.
 class MmappedIndex {
     void* data_;
     size_t size_;
-    
+
 public:
     MmappedIndex(const std::string& path) {
         int fd = open(path.c_str(), O_RDONLY);
@@ -633,7 +633,7 @@ public:
         size_ = sb.st_size;
         data_ = mmap(nullptr, size_, PROT_READ, MAP_PRIVATE, fd, 0);
     }
-    
+
     // Direct access, no copies
     const VectorIndex* getIndex() const {
         return static_cast<const VectorIndex*>(data_);
@@ -651,7 +651,7 @@ public:
 ## Known Issues
 
 ### Issue: HNSW Vector Deletion Not Supported
-**Severity:** Medium  
+**Severity:** Medium
 **Impact:** Must rebuild index to remove vectors
 
 **Current Workaround:** Mark as deleted, filter results
@@ -680,7 +680,7 @@ for (const auto& r : raw_results) {
 ---
 
 ### Issue: Spatial Index Polygon Intersection Approximation
-**Severity:** Low  
+**Severity:** Low
 **Impact:** False positives in complex polygon queries
 
 **Current Behavior:** Use MBR (bounding box) approximation
@@ -711,7 +711,7 @@ for (const auto& candidate : candidates) {
 ---
 
 ### Issue: Composite Index Column Order Matters
-**Severity:** Medium  
+**Severity:** Medium
 **Impact:** Query must match index column order for efficiency
 
 **Problem:**
@@ -740,7 +740,7 @@ sim.createCompositeIndex("addresses", {"country", "zip"});
 ---
 
 ### Issue: GPU Index Limited by VRAM
-**Severity:** High  
+**Severity:** High
 **Impact:** Cannot index >10M vectors on 8GB GPU
 
 **Current Limits:**
@@ -765,7 +765,7 @@ if (dataset_size * dim * sizeof(float) > gpu_vram_mb) {
 ## Research Areas
 
 ### Quantum-Inspired Optimization
-**Timeframe:** 2-3 years  
+**Timeframe:** 2-3 years
 **Potential:** 10-100x speedup for specific problems
 
 Explore quantum-inspired algorithms for combinatorial optimization in indexing.
@@ -783,7 +783,7 @@ Explore quantum-inspired algorithms for combinatorial optimization in indexing.
 ---
 
 ### Neuromorphic Index Structures
-**Timeframe:** 3-5 years  
+**Timeframe:** 3-5 years
 **Potential:** Ultra-low-power indexing for edge devices
 
 Explore brain-inspired computing for energy-efficient indexing.
@@ -806,7 +806,7 @@ Explore brain-inspired computing for energy-efficient indexing.
 ---
 
 ### Homomorphic Encryption for Encrypted Indexes
-**Timeframe:** 2-3 years  
+**Timeframe:** 2-3 years
 **Potential:** Enable querying without decryption
 
 Allow clients to search encrypted data without server seeing plaintext.
@@ -844,10 +844,10 @@ Allow clients to search encrypted data without server seeing plaintext.
    ```cpp
    // Old (v1.4.x)
    vim.init("embeddings", 1536, VectorIndexManager::Metric::COSINE);
-   
+
    // New (v1.5.x) - same, but supports advanced config
    vim.init("embeddings", 1536, VectorIndexManager::Metric::COSINE);
-   
+
    // Optional: Enable IVF+PQ
    VectorIndexManager::AdvancedIndexConfig adv;
    adv.enabled = true;
@@ -865,7 +865,7 @@ Allow clients to search encrypted data without server seeing plaintext.
 ---
 
 ### Migrating from Single-Node to Distributed
-**Timeframe:** v1.7.0+  
+**Timeframe:** v1.7.0+
 **Effort:** High (requires schema changes)
 
 **Preparation:**
@@ -874,10 +874,10 @@ Allow clients to search encrypted data without server seeing plaintext.
    // Choose sharding strategy
    // Option 1: Hash-based (uniform distribution)
    size_t shard = hash(pk) % num_shards;
-   
+
    // Option 2: Range-based (preserves locality)
    size_t shard = rangeMap(pk, shard_boundaries);
-   
+
    // Option 3: Tenant-based (multi-tenancy)
    size_t shard = tenantIdToShard(tenant_id);
    ```
@@ -905,7 +905,7 @@ Allow clients to search encrypted data without server seeing plaintext.
 ---
 
 ### Migrating to Learned Indexes
-**Timeframe:** v1.8.0+  
+**Timeframe:** v1.8.0+
 **Effort:** Medium (training required)
 
 **Steps:**
@@ -921,7 +921,7 @@ Allow clients to search encrypted data without server seeing plaintext.
    LearnedIndex::Config config;
    config.model_type = ModelType::NEURAL_NETWORK;
    config.hidden_layers = {128, 64, 32};
-   
+
    auto learned_index = LearnedIndex::train(keys, config);
    ```
 
@@ -930,7 +930,7 @@ Allow clients to search encrypted data without server seeing plaintext.
    // Compare: B-tree vs Learned Index
    auto btree_latency = benchmark(btree_index, queries);
    auto learned_latency = benchmark(learned_index, queries);
-   
+
    if (learned_latency < btree_latency) {
        // Migrate to learned index
        sim.replaceIndex("users", "age", learned_index);

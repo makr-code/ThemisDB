@@ -247,17 +247,17 @@ public:
         IKeyProviderPtr key_provider,         // Key management
         IIndexManagerPtr index_manager        // Index coordination
     );
-    
+
     // Storage operations
     Result<void> put(const std::string& key, const std::string& value);
     Result<std::string> get(const std::string& key);
     Result<void> del(const std::string& key);
-    
+
     // Filter-aware operations
     bool apply_filter(const std::string& filter_expr, const void* context);
-    
+
     // Encryption operations
-    std::vector<uint8_t> encrypt_field(const std::string& field_name, 
+    std::vector<uint8_t> encrypt_field(const std::string& field_name,
                                         const std::vector<uint8_t>& plaintext);
 };
 ```
@@ -276,9 +276,9 @@ export THEMIS_PRODUCTION_MODE=1
 auto storage = StorageEngine::createDefault();
 ```
 
-### Backup & Recovery
+## Backup & Recovery
 
-#### Backup Manager
+### Backup Manager
 **Location:** `backup_manager.cpp`, `../include/storage/backup_manager.h`
 
 Incremental backup system with versioning and validation.
@@ -810,3 +810,7 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 4. Reed, D. P. (1978). **Naming and Synchronization in a Decentralized Computer System** (Doctoral dissertation, MIT). https://dspace.mit.edu/handle/1721.1/14965
 
 5. Graefe, G. (2010). **A Survey of B-Tree Locking Techniques**. *ACM Transactions on Database Systems*, 35(3), 16:1–16:26. https://doi.org/10.1145/1806907.1806908
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

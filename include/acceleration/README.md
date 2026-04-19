@@ -1,7 +1,7 @@
 # Acceleration Module — Public Headers
 
-**Version:** 1.0  
-**Last Updated:** 2026-04-06  
+**Version:** 1.0
+**Last Updated:** 2026-04-06
 **Module Path:** `include/acceleration/`
 
 ---
@@ -78,3 +78,11 @@ Builds without any GPU SDK must still compile successfully; only CPU fallback sy
 - [`docs/acceleration/capability_negotiation.md`](../../docs/acceleration/capability_negotiation.md) — Backend capability negotiation deep dive
 - [`docs/acceleration/troubleshooting.md`](../../docs/acceleration/troubleshooting.md) — Operational troubleshooting guide
 - [`docs/de/acceleration/README.md`](../../docs/de/acceleration/README.md) — German secondary documentation
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

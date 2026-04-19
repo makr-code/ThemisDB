@@ -883,7 +883,7 @@ SSEConnectionManager sse_manager;
 auto connection_id = sse_manager.createConnection(request);
 
 // Server pushes events
-sse_manager.sendEvent(connection_id, "data-changed", 
+sse_manager.sendEvent(connection_id, "data-changed",
                       R"({"table":"users","op":"insert"})");
 
 // Client disconnects
@@ -1452,3 +1452,7 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 4. Postel, J. (1980). **Transmission Control Protocol**. RFC 793. IETF. https://doi.org/10.17487/RFC0793
 
 5. Rescorla, E. (2018). **The Transport Layer Security (TLS) Protocol Version 1.3**. RFC 8446. IETF. https://doi.org/10.17487/RFC8446
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

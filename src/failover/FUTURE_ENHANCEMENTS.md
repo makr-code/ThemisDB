@@ -1,6 +1,6 @@
-## failover
+# failover
 
-### Scope
+## Scope
 - Deep multi-region policy orchestration and operator runbook automation.
 
 ### Design Constraints
