@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 
 # Transaction Module — Public Header Audit
 
@@ -6,14 +6,14 @@
 
 | Field | Value |
 |---|---|
-| Date | 2026-03-22 |
+| Date | 2026-04-19 |
 | Auditor | ThemisDB Core Team |
 | Status | ✅ Pass |
-| Headers audited | 15 |
+| Headers audited | 16 |
 
 ## Summary
 
-All 15 public headers compile cleanly under C++17 with `-Wall -Wextra -Wpedantic`.
+All 16 public headers compile cleanly under C++17 with `-Wall -Wextra -Wpedantic`.
 No internal implementation types are leaked through public interfaces.  All classes
 provide documented move semantics or are explicitly non-copyable.
 
@@ -36,6 +36,7 @@ provide documented move semantics or are explicitly non-copyable.
 | `transaction_auditor.h` | `TransactionAuditor` | Stable API |
 | `transaction_batcher.h` | `TransactionBatcher` | Stable API; v1.5+ |
 | `transaction_manager.h` | `TransactionManager`, `Transaction` | Core API; stable |
+| `transaction_semantic_advisor.h` | `TransactionSemanticAdvisor` | ✅ Reviewed |
 
 ## Findings
 

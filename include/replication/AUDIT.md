@@ -1,9 +1,9 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Replication Module
 
-- **Last Audit:** 2026-03-22
+- **Last Audit:** 2026-04-19
 - **Auditor:** Copilot
 - **Status:** ✅ Pass
 
@@ -11,7 +11,7 @@
 
 | Metric | Count |
 |---|---|
-| Header files audited | 12 |
+| Header files audited | 13 |
 | Exported symbol groups | 12 |
 | Open stubs | 0 |
 | Critical findings | 0 |
@@ -32,6 +32,7 @@
 | `replication_manager.h` | `ReplicationManager` | Top-level orchestrator |
 | `replication_slot.h` | `ReplicationSlot` | Slot lifecycle |
 | `schema_cdc.h` | `SchemaCdc` | DDL event streaming |
+| `kafka_change_stream.h` | `KafkaChangeStream` | ✅ Reviewed |
 
 ## Findings
 

@@ -1,9 +1,9 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Plugins Module
 
-- **Last Audit:** 2026-03-22
+- **Last Audit:** 2026-04-19
 - **Auditor:** Copilot
 - **Status:** ✅ Pass
 
@@ -11,8 +11,8 @@
 
 | Metric | Count |
 |---|---|
-| Header files audited | 16 |
-| Exported symbol groups | 16 |
+| Header files audited | 20 |
+| Exported symbol groups | 20 |
 | Open stubs | 0 |
 | Critical findings | 0 |
 
@@ -36,6 +36,10 @@
 | `self_healing_plugin.h` | `SelfHealingPlugin` | Crash recovery + restart policy |
 | `signed_plugin_repository.h` | `SignedPluginRepository` | Ed25519 signature verification |
 | `wasm_host_api.h` | `WasmHostApi` | WASM sandbox host-call surface |
+| `audio_backend_interface.h` | `IAudioBackend` | ✅ Reviewed |
+| `image_generation_interface.h` | `IImageGenerationPlugin` | ✅ Reviewed |
+| `oci_manifest_signing.h` | `OciManifestSigning` | ✅ Reviewed |
+| `wasm_component_model.h` | `WasmComponentModel` | ✅ Reviewed |
 
 ## Findings
 

@@ -1,9 +1,9 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Projects Module
 
-- **Last Audit:** 2026-04-15
+- **Last Audit:** 2026-04-19
 - **Auditor:** Copilot
 - **Status:** ✅ Pass
 
@@ -11,7 +11,7 @@
 
 | Metric | Count |
 |---|---|
-| Header files audited | 6 |
+| Header files audited | 8 |
 | Exported symbol groups | 6 |
 | Open stubs | 0 |
 | Critical findings | 0 |
@@ -26,6 +26,8 @@
 | `project_lifecycle.h` | `ProjectLifecycle`, `ProjectStateTransition` | Atomic state machine + append-only audit trail |
 | `project_template.h` | `ProjectTemplate`, `BuiltinTemplate`, `TemplateOptions` | 7 built-in templates + custom JSON template factory |
 | `collaboration_manager.h` | `CollaborationManager`, `Change`, `Permission`, `User` | RBAC sharing, optimistic locking, event subscriptions |
+| `project_audit_log.h` | `ProjectAuditLog` | ✅ Reviewed |
+| `project_bundle.h` | `ProjectBundle` | ✅ Reviewed |
 
 ## Findings
 

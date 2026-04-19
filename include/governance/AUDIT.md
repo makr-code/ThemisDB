@@ -1,17 +1,17 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Governance Module (Public Headers)
 
-**Last Audit:** 2026-03-22  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ## Summary
 
 | Metric | Result |
 |--------|--------|
-| Public Header Files | 21 |
+| Public Header Files | 25 |
 | Compliance Frameworks | 3 (CCPA, PCI-DSS, SOC 2) |
 | Stubs | 0 |
 | Security Issues | None |
@@ -42,6 +42,10 @@
 | `model_governance.h` | ✅ Current | Model governance |
 | `opa_adapter.h` | ✅ Current | OPA integration |
 | `cross_tenant_policy_inheritance.h` | ✅ Current | Tenant hierarchy, v1.7.0 |
+| `cross_border_transfer.h` | ✅ Current | ✅ Reviewed |
+| `gdpr_subject_rights.h` | ✅ Current | ✅ Reviewed |
+| `hipaa_rules.h` | ✅ Current | ✅ Reviewed |
+| `iso27001_rules.h` | ✅ Current | ✅ Reviewed |
 
 ## Findings
 

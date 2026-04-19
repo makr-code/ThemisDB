@@ -1,8 +1,8 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 
 # Audit Report — include/timeseries/
 
-**Last Audit:** 2026-03-22
+**Last Audit:** 2026-04-19
 **Auditor:** Automated header analysis + manual review
 **Status:** ✅ Pass
 
@@ -12,7 +12,7 @@
 
 | Metric | Value |
 |---|---|
-| Total header files | 17 |
+| Total header files | 22 |
 | Deprecated symbols | 0 |
 | Security issues found | None |
 | Missing documentation | 0 |
@@ -42,6 +42,11 @@
 | `ts_auto_buffer_adaptive.h` | `TSAutoBufferAdaptive` | Adaptive resizing bounded by `max_capacity` guard |
 | `ts_encrypted_key_rotation.h` | `KeyRotationManager`, `RotationPolicy` | Key material never stored in plaintext in header |
 | `tsstore.h` | `TSStore`, `ChunkRef` | Reference-counted chunk handles; no dangling-ref path |
+| `adaptive_flush_controller.h` | `AdaptiveFlushController` | ✅ Reviewed |
+| `anomaly_detection.h` | `AnomalyDetection` | ✅ Reviewed |
+| `compression_selector.h` | `CompressionSelector` | ✅ Reviewed |
+| `gap_fill.h` | `GapFill` | ✅ Reviewed |
+| `ts_stream_cursor.h` | `TSStreamCursor` | ✅ Reviewed |
 
 ---
 

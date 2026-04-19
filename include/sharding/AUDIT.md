@@ -1,14 +1,14 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 
 # include/sharding/ — Audit Report
 
 | Field | Value |
 |-------|-------|
-| **Last Audit Date** | 2026-03-22 |
+| **Last Audit Date** | 2026-04-19 |
 | **Auditor** | ThemisDB Core Team |
 | **Audit Type** | Public Header Surface Review |
 | **Status** | ✅ Pass |
-| **Total Headers** | 86 |
+| **Total Headers** | 88 |
 | **Issues Found** | 0 critical · 0 high · 2 informational |
 
 ---
@@ -121,6 +121,8 @@
 | `wal_manager.h` | `WalManager` | ✅ Clean API |
 | `wal_shipper.h` | `WalShipper` | ✅ Clean API |
 | `write_concern.h` | `WriteConcern` | ✅ Clean API |
+| `epoch_fencing.h` | `EpochFencing` | ✅ Reviewed |
+| `pki_shard_certificate.h` | `PkiShardCertificate` | ✅ Reviewed |
 
 ---
 

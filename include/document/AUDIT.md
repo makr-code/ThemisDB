@@ -1,17 +1,17 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Document Module (Public Headers)
 
-**Last Audit:** 2026-03-22  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ## Summary
 
 | Metric | Result |
 |--------|--------|
-| Public Header Files | 2 |
+| Public Header Files | 8 |
 | Deprecated Headers | 1 (`document_manager_deprecated.h`) |
 | Stubs | 0 |
 | Security Issues | None |
@@ -23,6 +23,12 @@
 |--------|--------|-------|
 | `encrypted_entities.h` | ✅ Current | `SecureDocument` with AES-256-GCM field encryption |
 | `document_manager_deprecated.h` | ⚠️ Deprecated | Retained for ABI compatibility; consumers should migrate to `src/document/` API |
+| `document_diff_merge.h` | `DocumentDiffMerge` | ✅ Reviewed |
+| `document_lifecycle.h` | `DocumentLifecycle` | ✅ Reviewed |
+| `document_manager.h` | `DocumentManager` | ✅ Reviewed |
+| `document_schema_evolution.h` | `DocumentSchemaEvolution` | ✅ Reviewed |
+| `document_store.h` | `DocumentStore` | ✅ Reviewed |
+| `xdomea_connector.h` | `XDOMEAConnector` | ✅ Reviewed |
 
 ## Findings
 

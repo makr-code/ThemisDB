@@ -1,17 +1,17 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Graph Module (Public Headers)
 
-**Last Audit:** 2026-03-22  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ## Summary
 
 | Metric | Result |
 |--------|--------|
-| Public Header Files | 6 |
+| Public Header Files | 10 |
 | GPU-Accelerated Headers | 1 (`gpu_traversal.h`) |
 | Stubs | 0 |
 | Open Issues | GPU BFS/DFS kernels (Issue #1829), ANN/GNN integration (Issue #1830) |
@@ -27,6 +27,10 @@
 | `graph_query_optimizer.h` | ✅ Current | Cost-based optimizer |
 | `parallel_traversal.h` | ✅ Current | Work-stealing parallel traversal |
 | `path_constraints.h` | ✅ Current | Path constraint validation |
+| `explain_plan.h` | ✅ Current | ✅ Reviewed |
+| `graph_embedding.h` | ✅ Current | ✅ Reviewed |
+| `graph_query_rewriter.h` | ✅ Current | ✅ Reviewed |
+| `graph_watermark.h` | ✅ Current | ✅ Reviewed |
 
 ## Findings
 

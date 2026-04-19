@@ -1,17 +1,17 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Geo Module (Public Headers)
 
-**Last Audit:** 2026-03-22  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ## Summary
 
 | Metric | Result |
 |--------|--------|
-| Public Header Files | 10 |
+| Public Header Files | 12 |
 | GPU-Accelerated Headers | 2 (`gpu_kernel_dispatcher.h`, `device_detector.h`) |
 | Stubs | 0 |
 | Security Issues | None |
@@ -31,6 +31,8 @@
 | `raster.h` | ✅ Current | Raster grid + heatmap |
 | `tile_server.h` | ✅ Current | Tile coordinate utilities |
 | `temporal_spatial_query.h` | ✅ Current | Temporal-spatial queries |
+| `geo_faiss_knn.h` | ✅ Current | ✅ Reviewed |
+| `geo_math.h` | ✅ Current | ✅ Reviewed |
 
 ## Findings
 

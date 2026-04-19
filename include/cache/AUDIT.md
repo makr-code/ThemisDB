@@ -1,10 +1,10 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Cache Module Public Headers
 
-**Last Audit:** 2026-03-22  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ---
@@ -13,7 +13,7 @@
 
 | Metric | Result |
 |--------|--------|
-| Public Header Files | 21 `.h` |
+| Public Header Files | 26 `.h` |
 | Abstract Interfaces | 5 (`IEvictionPolicy`, `ICacheAdminOps`, `ICacheWarmup`, `IGDPRPurgeHook`, `ITTLAdapter`) |
 | Open Stubs | 0 |
 | GDPR Header | ✅ (`cache_interfaces.h` — `IGDPRPurgeHook`) |
@@ -47,6 +47,11 @@
 | `request_coalescer.h` | `RequestCoalescer` | Request coalescing |
 | `predictive_prefetcher.h` | `PredictivePrefetcher` | Predictive prefetch |
 | `aligned_vector_allocator.h` | `AlignedVectorAllocator<T>` | SIMD-aligned allocator |
+| `adaptive_ttl_policy.h` | `AdaptiveTTLPolicy` | ✅ Reviewed |
+| `cache_partition.h` | `CachePartition` | ✅ Reviewed |
+| `distributed_eviction.h` | `DistributedEviction` | ✅ Reviewed |
+| `l3_encryption_config.h` | `L3EncryptionConfig` | ✅ Reviewed |
+| `redis_tls_config.h` | `RedisTLSConfig` | ✅ Reviewed |
 
 ---
 

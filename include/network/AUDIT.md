@@ -1,9 +1,9 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Network Module
 
-- **Last Audit:** 2026-03-22
+- **Last Audit:** 2026-04-19
 - **Auditor:** Copilot
 - **Status:** ✅ Pass
 
@@ -11,8 +11,8 @@
 
 | Metric | Count |
 |---|---|
-| Header files audited | 19 |
-| Exported symbol groups | 19 |
+| Header files audited | 24 |
+| Exported symbol groups | 24 |
 | Open stubs | 0 |
 | Critical findings | 0 |
 
@@ -39,6 +39,11 @@
 | `wire_protocol_server.h` | `WireProtocolServer` | epoll/kqueue multi-threaded |
 | `wire_protocol_websocket.h` | `WireProtocolWebSocket` | WebSocket framing |
 | `wire_protocol_zero_copy.h` | `ZeroCopyFrameBuilder`, `MemoryMappedPayload` | sendfile/mmap dispatch |
+| `adaptive_io_scaler.h` | `AdaptiveIOScaler` | ✅ Reviewed |
+| `io_uring_batcher.h` | `IOUringBatcher` | ✅ Reviewed |
+| `kernel_bypass.h` | `KernelBypass` | ✅ Reviewed |
+| `network_audit_log.h` | `NetworkAuditLog` | ✅ Reviewed |
+| `quic_server.h` | `QuicServer` | ✅ Reviewed |
 
 ## Findings
 

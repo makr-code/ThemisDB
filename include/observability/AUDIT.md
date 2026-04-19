@@ -1,9 +1,9 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Observability Module
 
-- **Last Audit:** 2026-03-22
+- **Last Audit:** 2026-04-19
 - **Auditor:** Copilot
 - **Status:** ✅ Pass
 
@@ -11,8 +11,8 @@
 
 | Metric | Count |
 |---|---|
-| Header files audited | 19 |
-| Exported symbol groups | 19 |
+| Header files audited | 22 |
+| Exported symbol groups | 22 |
 | Open stubs | 0 |
 | Critical findings | 0 |
 
@@ -39,6 +39,9 @@
 | `slo_reporter.h` | `SloReporter` | Error-budget burn-rate |
 | `storage_profiler.h` | `StorageProfiler` | LSM stall detection |
 | `tracer.h` | `Tracer` | Internal span shim |
+| `log_search_engine.h` | `LogSearchEngine` | ✅ Reviewed |
+| `otlp_exemplar.h` | `OTLPExemplar` | ✅ Reviewed |
+| `tenant_metrics_namespace.h` | `TenantMetricsNamespace` | ✅ Reviewed |
 
 ## Findings
 

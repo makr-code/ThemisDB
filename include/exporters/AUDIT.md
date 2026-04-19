@@ -3,8 +3,8 @@
 
 # Audit Report — Exporters Module (Public Headers)
 
-**Last Audit:** 2026-03-22  
-**Auditor:** Copilot  
+**Last Audit:** 2026-03-22
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ## Summary

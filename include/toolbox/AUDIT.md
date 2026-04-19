@@ -1,19 +1,36 @@
-# AUDIT
+<!-- Status: current | validated: 2026-04-19 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-## Scope
-- Modul/Ordner: `include/toolbox`
-- Betrachtung von Code-, Konfigurations- und Integrationsrisiken auf Verzeichnisebene.
+# Audit Report — Toolbox Module Public Headers
 
-## Prüffelder
-- Eingabevalidierung und Fehlerpfade
-- Logging/Auditing und Nachvollziehbarkeit
-- Abhängigkeiten und externe Integrationen
-- Testabdeckung für kritische Pfade
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
+**Status:** ✅ Pass
 
-## Aktueller Stand
+---
+
+## Summary
+
+| Metric | Result |
+|--------|--------|
+| Public Header Files | 3 `.h` |
+| Open Stubs | 0 |
+
+---
+
+## Header Files Audited
+
+| File | Exported Symbols | Notes |
+|------|-----------------|-------|
+| `content_toolbox_bridge.h` | `ContentToolboxBridge` | ✅ Reviewed |
+| `ingestion_toolbox.h` | `IngestionToolbox` | ✅ Reviewed |
+| `toolbox_builder.h` | `ToolboxBuilder` | ✅ Reviewed |
+
+---
+
+## Findings
+
+### Open
 - [ ] Initiale Modul-Audit-Checkliste vollständig abgearbeitet
 - [ ] Findings priorisiert und Issues/PRs verknüpft
 - [ ] Re-Audit nach Änderungen durchgeführt
-
-## Nachweis
-- Audit-Ergebnisse werden in PRs, Issues oder `docs/audits/` referenziert.

@@ -1,14 +1,14 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 
 # include/storage/ — Audit Report
 
 | Field | Value |
 |-------|-------|
-| **Last Audit Date** | 2026-03-22 |
+| **Last Audit Date** | 2026-04-19 |
 | **Auditor** | ThemisDB Core Team |
 | **Audit Type** | Public Header Surface Review |
 | **Status** | ✅ Pass |
-| **Total Headers** | 39 |
+| **Total Headers** | 49 |
 | **Issues Found** | 0 critical · 0 high · 2 informational |
 
 ---
@@ -72,6 +72,16 @@
 | `wal_storage.h` | `WalStorage` | ✅ Clean API |
 | `wom_tree.h` | `WomTree` | ✅ Clean API |
 | `zero_copy_blob_transfer.h` | `ZeroCopyBlobTransfer` | ✅ Clean API |
+| `columnar_cache.h` | `ColumnarCache` | ✅ Clean API |
+| `concurrent_write_controller.h` | `ConcurrentWriteController` | ✅ Clean API |
+| `encrypted_blob_backend.h` | `EncryptedBlobBackend` | ✅ Clean API |
+| `mvcc_chain_pruner.h` | `MvccChainPruner` | ✅ Clean API |
+| `schema_dead_weight_detector.h` | `SchemaDeadWeightDetector` | ✅ Clean API |
+| `simd_filter.h` | `SimdFilter` | ✅ Clean API |
+| `storage_layout_advisor.h` | `StorageLayoutAdvisor` | ✅ Clean API |
+| `storage_parquet_exporter.h` | `StorageParquetExporter` | ✅ Clean API |
+| `streaming_ingest_manager.h` | `StreamingIngestManager` | ✅ Clean API |
+| `vector_index_backend.h` | `VectorIndexBackend` | ✅ Clean API |
 
 ---
 

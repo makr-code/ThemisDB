@@ -1,9 +1,9 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — RAG Module
 
-- **Last Audit:** 2026-03-22
+- **Last Audit:** 2026-04-19
 - **Auditor:** Copilot
 - **Status:** ✅ Pass
 
@@ -11,7 +11,7 @@
 
 | Metric | Count |
 |---|---|
-| Header files audited | 48 |
+| Header files audited | 56 |
 | Exported symbol groups | 48 |
 | Open stubs | 0 |
 | Critical findings | 0 |
@@ -68,6 +68,14 @@
 | `response_parser.h` | `ResponseParser` | LLM response parsing |
 | `rubric_evaluator.h` | `RubricEvaluator` | Rubric-based scoring |
 | `streaming_retriever.h` | `StreamingRetriever` | SSE streaming retrieval |
+| `adaptive_retrieval.h` | `AdaptiveRetrieval` | Adaptive retrieval strategy selection |
+| `explainability_reason_builder.h` | `ExplainabilityReasonBuilder` | RAG explainability and reasoning builder |
+| `multi_hop_reasoner.h` | `MultiHopReasoner` | Multi-hop reasoning over knowledge graphs |
+| `multi_step_rag.h` | `MultiStepRag` | Multi-step RAG pipeline |
+| `rag_context_assembler.h` | `RagContextAssembler` | RAG context assembly from retrieved chunks |
+| `rag_ingestion_bridge.h` | `RagIngestionBridge` | Bridge between RAG and ingestion pipeline |
+| `replug_retriever.h` | `ReplugRetriever` | REPLUG-style retrieval-augmented LM |
+| `rlaif_trainer.h` | `RlaifTrainer` | RLAIF (RL from AI Feedback) trainer |
 
 ## Findings
 

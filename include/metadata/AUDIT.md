@@ -1,17 +1,17 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Metadata Module (Public Headers)
 
-**Last Audit:** 2026-03-22  
-**Auditor:** Copilot  
+**Last Audit:** 2026-03-22
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ## Summary
 
 | Metric | Result |
 |--------|--------|
-| Public Header Files | 16 |
+| Public Header Files | 19 |
 | Interface Headers (`I*`) | 3 |
 | Stub Interfaces | 0 |
 | Security Issues | None identified |
@@ -37,6 +37,9 @@
 | `statistics_collector.h` | ✅ | Histogram + NDV |
 | `aql_schema_bridge.h` | ✅ | AQL type mapping |
 | `er_diagram_exporter.h` | ✅ | DOT/Mermaid output |
+| `imetadata_encryption_provider.h` | ✅ | ✅ Reviewed |
+| `metadata_snapshot.h` | ✅ | ✅ Reviewed |
+| `schema_diff.h` | ✅ | ✅ Reviewed |
 
 ## Findings
 No critical findings. `IMetadataSecurityProvider` should document thread-safety guarantees explicitly.

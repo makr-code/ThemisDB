@@ -1,17 +1,17 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Ingestion Module (Public Headers)
 
-**Last Audit:** 2026-03-22  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ## Summary
 
 | Metric | Result |
 |--------|--------|
-| Public Header Files | 15 |
+| Public Header Files | 28 |
 | Source Connector Headers | 9 |
 | Stubs | 0 (Phase 2 LLM pipeline planned) |
 | Security Issues | None |
@@ -35,6 +35,19 @@
 | `semantic_validator.h` | ✅ Current | |
 | `deontic_extractor.h` | ✅ Current | |
 | `agentic_reference_validator.h` | ✅ Current | |
+| `base_entity.h` | ✅ Current | Base entity abstraction for ingestion |
+| `builtin_step_factories.h` | ✅ Current | Built-in pipeline step factories |
+| `entity_assembler.h` | ✅ Current | Entity assembly from ingested data |
+| `extraction_context.h` | ✅ Current | Extraction context and configuration |
+| `file_manifest.h` | ✅ Current | File manifest for batch ingestion |
+| `format_extractor.h` | ✅ Current | Format-specific data extractor |
+| `inference_backend.h` | ✅ Current | ML inference backend for enrichment |
+| `ingestion_quality_judge.h` | ✅ Current | Quality gate for ingestion pipeline |
+| `ingestion_sinks.h` | ✅ Current | Output sinks for ingested data |
+| `ingestion_step.h` | ✅ Current | Base interface for pipeline steps |
+| `legal_domain.h` | ✅ Current | Legal domain entity types and extractors |
+| `oauth_token_manager.h` | ✅ Current | OAuth token management for connectors |
+| `workflow_engine.h` | ✅ Current | Ingestion workflow execution engine |
 
 ## Findings
 

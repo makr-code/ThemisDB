@@ -1,10 +1,10 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Acceleration Module Public Headers
 
-**Last Audit:** 2026-03-22  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ---
@@ -13,7 +13,7 @@
 
 | Metric | Result |
 |--------|--------|
-| Public Header Files | 24 (`.h`) + metrics/ subdirectory |
+| Public Header Files | 28 (`.h`) + metrics/ subdirectory |
 | Backend Coverage | CUDA, HIP, Vulkan, OpenCL, CPU (5 backends) |
 | Open Stubs | 0 (all declared interfaces have implementations in `src/acceleration/`) |
 | Security Headers Present | ✅ (`plugin_security.h`, `shader_integrity.h`) |
@@ -49,6 +49,10 @@
 | `shader_integrity.h` | `ShaderIntegrity` | SPIR-V/PTX hash verification |
 | `error_codes.h` | `AccelErrorCode` | Canonical error taxonomy |
 | `error_context.h` | `AccelErrorContext` | Error context struct |
+| `ai_hardware_dispatcher.h` | `AIHardwareDispatcher` | ✅ Reviewed |
+| `compute_graph.h` | `ComputeGraph` | ✅ Reviewed |
+| `quantized_backend.h` | `QuantizedBackend` | ✅ Reviewed |
+| `vec_knn.h` | `VecKnn` | ✅ Reviewed |
 
 ---
 

@@ -1,8 +1,8 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 
 # Audit Report — include/training/
 
-**Last Audit:** 2026-03-22
+**Last Audit:** 2026-04-19
 **Auditor:** Automated header analysis + manual review
 **Status:** ✅ Pass
 
@@ -12,7 +12,7 @@
 
 | Metric | Value |
 |---|---|
-| Total header files | 10 |
+| Total header files | 14 |
 | Deprecated symbols | 0 |
 | Security issues found | None |
 | Missing documentation | 0 |
@@ -35,6 +35,10 @@
 | `provenance_tracker.h` | `ProvenanceTracker`, `ProvenanceRecord` | Records are append-only; no update/delete in public API |
 | `training_interfaces.h` | `ITrainer`, `IAdapter`, `IDataSource` | Pure-virtual interfaces; no data members; virtual destructor present |
 | `training_pipeline.h` | `TrainingPipeline`, `PipelineConfig` | Pipeline owns component lifetimes via `std::unique_ptr` |
+| `ada_lora_adapter.h` | `AdaLoraAdapter`, `AdaLoraConfig` | AdaLoRA adaptive LoRA with dynamic rank allocation |
+| `adapter_serving.h` | `AdapterServing` | Adapter serving and hot-swap interface |
+| `database_domain_auto_labeler.h` | `DatabaseDomainAutoLabeler` | Database domain auto-labeling for training data |
+| `lora_adapter_merger.h` | `LoraAdapterMerger` | LoRA adapter merging utilities |
 
 ---
 

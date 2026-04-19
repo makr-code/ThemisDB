@@ -1,10 +1,10 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Security Module (Public Headers)
 
-**Last Audit:** 2026-03-22  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ---
@@ -13,7 +13,7 @@
 
 | Metric | Result |
 |--------|--------|
-| Header Files | 41 (in `include/security/`) |
+| Header Files | 44 (in `include/security/`) |
 | Implementation | `../../src/security/` |
 | Exported Symbols Verified | ✅ |
 | Deprecated APIs | 0 |
@@ -66,11 +66,14 @@
 | `vcc_pki_client.h` | `VccPkiClient` | Internal PKI client |
 | `vram_secure_clear.h` | `VramSecureClear` | GPU memory zeroing |
 | `zero_trust_policy_enforcer.h` | `ZeroTrustPolicyEnforcer` | Zero-trust enforcement |
+| `behavioral_anomaly_detector.h` | `BehavioralAnomalyDetector` | ✅ Reviewed |
+| `intent_classifier.h` | `IntentClassifier` | ✅ Reviewed |
+| `usb_volume_hardening.h` | `UsbVolumeHardening` | ✅ Reviewed |
 
 ---
 
 ## Findings
 
-No issues found in public headers. All interfaces are pure virtual or value-type contracts.  
+No issues found in public headers. All interfaces are pure virtual or value-type contracts.
 `mock_key_provider.h` is intentionally included for test harness usage; not compiled into
 production binaries.

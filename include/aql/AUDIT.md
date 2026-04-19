@@ -1,10 +1,10 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — AQL Module Public Headers
 
-**Last Audit:** 2026-03-22  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ---
@@ -13,7 +13,7 @@
 
 | Metric | Result |
 |--------|--------|
-| Public Header Files | 23 `.h` |
+| Public Header Files | 27 `.h` |
 | Open Stubs | 0 |
 | LLM Abstraction Layer | ✅ (`iasync_llm_backend.h`) |
 | Observability Headers | ✅ (`llm_metrics_collector.h`, `llm_timeout_manager.h`) |
@@ -48,6 +48,10 @@
 | `llm_timeout_manager.h` | `ILLMTimeoutManager`, `TimeoutPolicy` | Timeout policies |
 | `llm_token_estimator.h` | `ILLMTokenEstimator` | Token budget estimation |
 | `multimodal_infer_request.h` | `MultimodalInferRequest` | Multimodal inference |
+| `aql_ingestion_bridge.h` | `AQLIngestionBridge` | ✅ Reviewed |
+| `aql_model_router.h` | `AQLModelRouter` | ✅ Reviewed |
+| `aql_query_diff_explainer.h` | `AQLQueryDiffExplainer` | ✅ Reviewed |
+| `aql_rollback_suggester.h` | `AQLRollbackSuggester` | ✅ Reviewed |
 
 ---
 

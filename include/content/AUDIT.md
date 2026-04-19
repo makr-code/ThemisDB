@@ -1,10 +1,10 @@
-<!-- Status: current | validated: 2026-04-03 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Content Module Public Headers
 
-**Last Audit:** 2026-04-03  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ---
@@ -13,7 +13,7 @@
 
 | Metric | Result |
 |--------|--------|
-| Public Header Files | 34 `.h` |
+| Public Header Files | 36 `.h` |
 | Open Stubs | 0 |
 | Format Processors | 13 (PDF, Office, HTML, Markdown, Image, Audio, Video, STT, TTS, OCR, CAD, Geo, Archive) |
 | Safety Headers | ✅ (`content_security.h`, `content_policy.h`, `abuse_detector.h`) |
@@ -61,6 +61,8 @@
 | `content_errors.h` | `ContentErrorCode` | Error taxonomy |
 | `version_manager.h` | `IVersionManager`, `ContentVersion` | Version history |
 | `mock_clip_processor.h` | `MockCLIPProcessor` | Test mock (test-only) |
+| `content_classifier.h` | `ContentClassifier` | ✅ Reviewed |
+| `pii_redactor.h` | `PIIRedactor` | ✅ Reviewed |
 
 ---
 

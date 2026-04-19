@@ -1,9 +1,9 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Query Module
 
-- **Last Audit:** 2026-03-22
+- **Last Audit:** 2026-04-19
 - **Auditor:** Copilot
 - **Status:** ✅ Pass
 
@@ -11,7 +11,7 @@
 
 | Metric | Count |
 |---|---|
-| Header files audited | 35 |
+| Header files audited | 42 |
 | Exported symbol groups | 35 |
 | Open stubs | 0 |
 | Critical findings | 0 |
@@ -55,6 +55,13 @@
 | `vectorized_execution.h` | `VectorizedExecution` | SIMD column-batch |
 | `window_evaluator.h` | `WindowEvaluator` | Window functions |
 | `workload_cache_strategy.h` | `WorkloadCacheStrategy` | Workload-driven cache admission |
+| `approximate_aggregator.h` | `ApproximateAggregator` | Approximate aggregation for large datasets |
+| `cypher_parser.h` | `CypherParser` | Cypher graph query parser |
+| `graphql_dialect.h` | `GraphqlDialect` | GraphQL query dialect support |
+| `gremlin_parser.h` | `GremlinParser` | Gremlin graph traversal parser |
+| `incremental_view.h` | `IncrementalView` | Incremental view maintenance |
+| `query_profiler.h` | `QueryProfiler` | Query execution profiler |
+| `query_rewrite_rule.h` | `QueryRewriteRule` | Query rewrite rule interface |
 
 ## Findings
 

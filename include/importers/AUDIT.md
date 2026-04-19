@@ -1,17 +1,17 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Importers Module (Public Headers)
 
-**Last Audit:** 2026-03-22  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ## Summary
 
 | Metric | Result |
 |--------|--------|
-| Public Header Files | 33 |
+| Public Header Files | 49 |
 | Source Importers | 9 (PostgreSQL, MySQL, Oracle, SQLite, Kafka, MongoDB, S3, flat file, GraphQL) |
 | MDM Headers | 3 (`mdm_engine.h`, `mdm_audit_trail.h`, `mdm_metrics.h`) |
 | Stubs | 2 (Ethereum anchor, FedProx in `blockchain_integrity.h`, `federated_learning.h` — planned) |
@@ -38,6 +38,22 @@
 | `blockchain_integrity.h` | ⚠️ Partial | Ethereum anchor stub — production anchor planned |
 | `federated_learning.h` | ⚠️ Partial | FedProx stub — production algorithm planned |
 | `gui_import_wizard.h` | ✅ Current | GUI wizard interface |
+| `adaptive_import.h` | ✅ Current | Adaptive import strategy with dynamic schema detection |
+| `audit_trail.h` | ✅ Current | Import audit trail and provenance tracking |
+| `canonical_resolver.h` | ✅ Current | Canonical entity resolution for imports |
+| `column_importance.h` | ✅ Current | Column importance scoring for selective import |
+| `conflict_resolver.h` | ✅ Current | Import conflict resolution strategies |
+| `crdt_importer.h` | ✅ Current | CRDT-based conflict-free data import |
+| `data_quality.h` | ✅ Current | Data quality validation during import |
+| `entity_linker.h` | ✅ Current | Entity linking across imported datasets |
+| `entity_matcher.h` | ✅ Current | Entity matching and deduplication |
+| `ozg_service_registry.h` | ✅ Current | OZG service registry integration |
+| `polyglot_mapper.h` | ✅ Current | Polyglot persistence mapper for imports |
+| `relationship_mapper.h` | ✅ Current | Relationship extraction and mapping |
+| `schema_inference.h` | ✅ Current | Automatic schema inference from source data |
+| `schema_validator.h` | ✅ Current | Schema validation for imported data |
+| `temporal_support.h` | ✅ Current | Temporal data support for imports |
+| `xoev_importer.h` | ✅ Current | XÖV standard data format importer |
 | All other headers | ✅ Current | See Architecture table |
 
 ## Findings

@@ -1,10 +1,10 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Auth Module Public Headers
 
-**Last Audit:** 2026-03-22  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ---
@@ -13,7 +13,7 @@
 
 | Metric | Result |
 |--------|--------|
-| Public Header Files | 33 `.h` |
+| Public Header Files | 37 `.h` |
 | Open Stubs | 0 |
 | Secure Memory Header | ✅ (`secure_memory.h`) |
 | Token Blacklist Backends | ✅ Redis + RocksDB |
@@ -60,6 +60,10 @@
 | `password_policy.h` | `IPasswordPolicy` | Password policy |
 | `rate_limiter_backend.h` | `IRateLimiterBackend` | Rate limiter storage |
 | `secure_memory.h` | `SecureMemory`, `SecureBuffer` | Secure credential memory |
+| `auth_event_bus.h` | `AuthEventBus` | ✅ Reviewed |
+| `authorization_policy.h` | `AuthorizationPolicy` | ✅ Reviewed |
+| `eid_authenticator.h` | `EIDAuthenticator` | ✅ Reviewed |
+| `passkey_authenticator.h` | `PasskeyAuthenticator` | ✅ Reviewed |
 
 ---
 

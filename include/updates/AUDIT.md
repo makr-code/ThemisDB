@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 
 # Updates Module — Public Header Audit
 
@@ -6,14 +6,14 @@
 
 | Field | Value |
 |---|---|
-| Date | 2026-03-22 |
+| Date | 2026-04-19 |
 | Auditor | ThemisDB Core Team |
 | Status | ✅ Pass |
-| Headers audited | 19 |
+| Headers audited | 21 |
 
 ## Summary
 
-All 19 public headers compile cleanly under C++17 with `-Wall -Wextra -Wpedantic`.
+All 21 public headers compile cleanly under C++17 with `-Wall -Wextra -Wpedantic`.
 No internal implementation types are leaked.  State-machine transitions are
 enforced at the API surface; callers cannot reach invalid states through the
 public interface.
@@ -41,6 +41,8 @@ public interface.
 | `update_history_logger.h` | `UpdateHistoryLogger` | Stable API; append-only |
 | `update_state_machine.h` | `UpdateStateMachine` | Stable API; FSM enforced |
 | `updates_config.h` | `UpdatesConfig` | Value type; ABI-stable |
+| `build_verifier.h` | `BuildVerifier` | ✅ Reviewed |
+| `hardware_telemetry.h` | `HardwareTelemetry` | ✅ Reviewed |
 
 ## Findings
 

@@ -1,9 +1,9 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Search Module
 
-- **Last Audit:** 2026-03-22
+- **Last Audit:** 2026-04-19
 - **Auditor:** Copilot
 - **Status:** ✅ Pass
 
@@ -11,8 +11,8 @@
 
 | Metric | Count |
 |---|---|
-| Header files audited | 17 |
-| Exported symbol groups | 18 |
+| Header files audited | 20 |
+| Exported symbol groups | 20 |
 | Open stubs | 0 |
 | Critical findings | 0 |
 
@@ -37,6 +37,9 @@
 | `query_expander.h` | `QueryExpander` | Synonym + semantic expansion |
 | `search_analytics.h` | `SearchAnalytics` | CTR, zero-result tracking |
 | `search_highlighter.h` | `SearchHighlighter` | Highlight spans and snippets |
+| `conversational_search.h` | `ConversationalSearch` | ✅ Reviewed |
+| `federated_search.h` | `FederatedSearch` | ✅ Reviewed |
+| `search_result_stream.h` | `SearchResultStream` | ✅ Reviewed |
 
 ## Findings
 

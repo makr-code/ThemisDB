@@ -3,8 +3,8 @@
 
 # Audit Report — Maintenance Module (Public Headers)
 
-**Last Audit:** 2026-04-15  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-15
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ## Summary

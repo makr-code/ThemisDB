@@ -1,10 +1,10 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — API Module Public Headers
 
-**Last Audit:** 2026-03-22  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
 **Status:** ✅ Pass (15 open findings in src/ — see `../../src/api/AUDIT.md`)
 
 ---
@@ -13,7 +13,7 @@
 
 | Metric | Result |
 |--------|--------|
-| Public Header Files | 19 `.h` |
+| Public Header Files | 25 `.h` |
 | Open Stubs | 0 (all interfaces implemented in `src/api/`) |
 | Security Headers | ✅ (`audit_logger.h`, `rate_limiter.h`, `tracing_middleware.h`) |
 | GraphQL Coverage | ✅ (query, subscriptions, WS, cache, metrics, persisted queries) |
@@ -44,6 +44,12 @@
 | `persisted_queries.h` | `IPersistedQueryStore`, `PersistedQueryID` | Persisted queries |
 | `api_version_router.h` | `APIVersionRouter`, `APIVersion` | Version negotiation |
 | `geo_index_hooks.h` | `GeoIndexHooks` | Geo integration hooks |
+| `api_gateway_hook.h` | `APIGatewayHook` | ✅ Reviewed |
+| `aql_utils.h` | `AQLUtils` | ✅ Reviewed |
+| `federation_admin_handler.h` | `FederationAdminHandler` | ✅ Reviewed |
+| `graphql_aql_resolver.h` | `GraphQLAQLResolver` | ✅ Reviewed |
+| `subscription_multiplexer.h` | `SubscriptionMultiplexer` | ✅ Reviewed |
+| `themisdb_grpc_service_factory.h` | `ThemisDBGRPCServiceFactory` | ✅ Reviewed |
 
 ---
 

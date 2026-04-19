@@ -1,10 +1,10 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Core Module Public Headers
 
-**Last Audit:** 2026-03-22  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ---
@@ -13,7 +13,7 @@
 
 | Metric | Result |
 |--------|--------|
-| Core Header Files | 6 `.h` |
+| Core Header Files | 8 `.h` |
 | concerns/ Header Files | 30 `.h` |
 | Open Stubs | 0 |
 | DI Context | ✅ (`concerns_context.h`) |
@@ -34,6 +34,8 @@
 | `security_initialization.h` | `ISecurityInitializer` | Security init |
 | `production_mode.h` | `ProductionMode`, `isProductionBuild()` | Prod gate |
 | `query_engine_builder.h` | `QueryEngineBuilder`, `QueryEngineConfig` | Engine assembly |
+| `config_hot_reloader.h` | `ConfigHotReloader` | ✅ Reviewed |
+| `health_probe.h` | `HealthProbe` | ✅ Reviewed |
 | `concerns/concerns_context.h` | `ConcernsContext` | Central DI context |
 | `concerns/i_logger.h` | `ILogger`, `LogLevel` | Logging |
 | `concerns/i_async_logger.h` | `IAsyncLogger` | Async logging |

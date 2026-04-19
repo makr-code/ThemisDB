@@ -1,10 +1,10 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Server Module (Public Headers)
 
-**Last Audit:** 2026-03-22  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ---
@@ -13,7 +13,7 @@
 
 | Metric | Result |
 |--------|--------|
-| Header Files | 116 (in `include/server/`) |
+| Header Files | 119 (in `include/server/`) |
 | Implementation | `../../src/server/` |
 | Exported Symbols Verified | ✅ |
 | Deprecated APIs | 1 (`rate_limiter.h` superseded by `rate_limiter_v2.h`) |
@@ -156,6 +156,9 @@
 | `tenant_manager.h` | `TenantManager`, `TenantConfig` | Multi-tenant management |
 | `api_security_audit.h` | `ApiSecurityAudit` | Per-request security audit |
 | `update_api_handler.h` | `UpdateApiHandler` | Document update |
+| `mqtt_client_service.h` | `MqttClientService` | ✅ Reviewed |
+| `shard_repair_api_handler.h` | `ShardRepairApiHandler` | ✅ Reviewed |
+| `workload_fingerprint_engine.h` | `WorkloadFingerprintEngine` | ✅ Reviewed |
 
 ## gRPC Service Headers
 

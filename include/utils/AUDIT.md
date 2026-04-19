@@ -1,8 +1,8 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 
 # Utils — Header Audit
 
-**Last Audit:** 2026-03-22
+**Last Audit:** 2026-04-19
 **Status:** ✅ Pass
 **Auditor:** Automated + Manual Review
 
@@ -10,7 +10,7 @@
 
 | Metric | Value |
 |---|---|
-| Total public headers (flat) | ~58 |
+| Total public headers (flat) | ~90 |
 | Subdirectories | 2 (`geo/`, `memory/`) |
 | Security-relevant headers | 10 |
 | Headers with complete declarations | All reviewed headers |
@@ -48,6 +48,38 @@
 | `tracing.h` | `Tracer`, `Span` | OTel-compatible; ensure span context propagation |
 | `uuid.h` | `Uuid` | v4 UUID; verify CSPRNG source |
 | `zstd_codec.h` | `ZstdCodec` | ZSTD interface; verify decompression size limits |
+| `batch_operation_manager.h` | `BatchOperationManager` | Batch operation management and chunking |
+| `capability_auto_generator.h` | `CapabilityAutoGenerator` | Capability auto-generation utilities |
+| `compression_metrics.h` | `CompressionMetrics` | Compression ratio metrics |
+| `consistent_hash.h` | `ConsistentHash` | Consistent hashing for distributed routing |
+| `cron_parser.h` | `CronParser` | Cron expression parser |
+| `cursor.h` | `Cursor` | Cursor abstraction for paginated results |
+| `file_utils.h` | file utility functions | File I/O utility functions |
+| `grpc_channel_pool.h` | `GrpcChannelPool` | gRPC channel pool management |
+| `hash_util.h` | hash utility functions | Hash utility functions |
+| `http_client_pool.h` | `HttpClientPool` | HTTP client connection pool |
+| `json_helpers.h` | JSON helper functions | JSON parsing and serialization helpers |
+| `lossless_vector_compression.h` | `LosslessVectorCompression` | Lossless vector compression codec |
+| `lossless_vector_integration.h` | `LosslessVectorIntegration` | Lossless vector compression integration |
+| `lz4_codec.h` | `Lz4Codec` | LZ4 compression codec |
+| `normalizer.h` | `Normalizer` | Text and data normalization utilities |
+| `pki_client.h` | `PkiClient` | PKI client for certificate management |
+| `pointer_utils.h` | pointer utility functions | Safe pointer utilities |
+| `regex_detection_engine.h` | `RegexDetectionEngine` | Regex-based pattern detection engine |
+| `retention_manager.h` | `RetentionManager` | Data retention policy manager |
+| `saga_logger.h` | `SagaLogger` | SAGA transaction logger |
+| `self_awareness.h` | `SelfAwareness` | System self-monitoring and introspection |
+| `serialization.h` | serialization utilities | Generic serialization/deserialization |
+| `stemmer.h` | `Stemmer` | Text stemming utilities |
+| `stopwords.h` | `Stopwords` | Stopword list management |
+| `string_utils.h` | string utility functions | String manipulation utilities |
+| `thread_pool_manager.h` | `ThreadPoolManager` | Thread pool lifecycle manager |
+| `timestamp_utils.h` | timestamp utility functions | Timestamp conversion and formatting utilities |
+| `type_conversion.h` | type conversion utilities | Type conversion utilities |
+| `unaligned_access.h` | unaligned access helpers | Safe unaligned memory access helpers |
+| `update_checker.h` | `UpdateChecker` | Update availability checker |
+| `utils_adapters.h` | adapter utilities | Utility adapter patterns |
+| `utils_interfaces.h` | utility interfaces | Utility interface abstractions |
 
 ## Findings
 

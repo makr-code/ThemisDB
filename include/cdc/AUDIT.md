@@ -1,10 +1,10 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — CDC Module Public Headers
 
-**Last Audit:** 2026-03-22  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ---
@@ -13,7 +13,7 @@
 
 | Metric | Result |
 |--------|--------|
-| Public Header Files | 24 `.h` |
+| Public Header Files | 27 `.h` |
 | Open Stubs | 0 |
 | Delivery Guarantee Interface | ✅ (`idelivery_guarantee_config.h`) |
 | Backpressure Interface | ✅ (`icdc_backpressure_signal.h`) |
@@ -51,6 +51,9 @@
 | `cdc_admin.h` | `ICDCAdmin`, `CDCAdminConfig` | Admin operations |
 | `cdc_error.h` | `CDCErrorCode` | Error taxonomy |
 | `cdc_metrics.h` | `CDCMetrics` | Metric descriptors |
+| `icdc_batch_commit_coordinator.h` | `ICDCBatchCommitCoordinator` | ✅ Reviewed |
+| `icdc_filter_pipeline.h` | `ICDCFilterPipeline` | ✅ Reviewed |
+| `icdc_replay_controller.h` | `ICDCReplayController` | ✅ Reviewed |
 
 ---
 
