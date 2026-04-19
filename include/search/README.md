@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset release && cmake --build build/release`
 
 # Search Module - Public API
 
@@ -665,6 +665,50 @@ for (const auto& r : results) {
 - `SearchStats::partial_result` is true when at least one shard succeeded and at least one failed.
 - When `skip_failed_shards = false`, any shard failure causes `search()` to return `{}`.
 - Requires the remote shards to expose `POST /search/hybrid` (matches `HttpServer::handleHybridSearch`).
+
+---
+
+## Additional Header Files
+
+The following headers are present in `include/search/` and supplement the components documented above.
+
+### conversational_search.h
+**Purpose:** Multi-turn conversational search that maintains session context across queries and resolves coreferences. <!-- TODO: verify -->
+
+---
+
+### federated_search.h
+**Purpose:** Federated search across heterogeneous external sources (REST APIs, other database instances) with result merging. <!-- TODO: verify -->
+
+---
+
+### llm_query_rewriter.h
+**Purpose:** LLM-powered query rewriter that expands, clarifies, or decomposes natural-language search queries before execution. <!-- TODO: verify -->
+
+---
+
+### llm_reranker.h
+**Purpose:** LLM-based cross-encoder reranker that scores query-document pairs for precision-oriented re-ranking. <!-- TODO: verify -->
+
+---
+
+### negative_keyword_filter.h
+**Purpose:** Filters search results that match a configurable set of negative keywords or blocked phrases. <!-- TODO: verify -->
+
+---
+
+### neural_sparse_retrieval.h
+**Purpose:** Neural sparse retrieval (SPLADE-style) generating sparse lexical-semantic embeddings for inverted-index search. <!-- TODO: verify -->
+
+---
+
+### search_highlighter.h
+**Purpose:** Highlights matching query terms and semantic passages within document content for snippet generation. <!-- TODO: verify -->
+
+---
+
+### search_result_stream.h
+**Purpose:** Streams search results progressively as they are retrieved, supporting server-sent events and WebSocket delivery. <!-- TODO: verify -->
 
 ---
 

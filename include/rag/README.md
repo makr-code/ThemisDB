@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset release && cmake --build build/release`
 
 # ThemisDB RAG (Retrieval-Augmented Generation) Module Headers
 
@@ -1147,10 +1147,52 @@ MIT License - see `../../LICENSE`
 *Module Version: 1.15.0*
 *23 header files, 19 source files*
 
+## Additional Header Files
+
+The following headers are present in `include/rag/` and supplement the components documented above.
+
+| Header | Description |
+|---|---|
+| `ab_testing_framework.h` | A/B testing framework for comparing RAG pipeline variants under live traffic <!-- TODO: verify --> |
+| `adaptive_retrieval.h` | Adaptive retrieval strategy that adjusts query expansion and filtering based on gap detection <!-- TODO: verify --> |
+| `adversarial_tester.h` | Generates adversarial test cases to probe RAG pipeline robustness and failure modes <!-- TODO: verify --> |
+| `agentic_rag.h` | Agentic RAG orchestrator: iterative tool-calling retrieval loop for multi-step reasoning <!-- TODO: verify --> |
+| `bayesian_optimizer.h` | Bayesian hyper-parameter optimisation for RAG pipeline configuration <!-- TODO: verify --> |
+| `citation_highlighter.h` | Highlights source passages in retrieved documents that support a generated claim <!-- TODO: verify --> |
+| `claim_extractor.h` | Extracts atomic verifiable claims from a generated answer |
+| `coherence_evaluator.h` | Evaluates logical structure and readability of generated answers |
+| `completeness_evaluator.h` | Evaluates coverage of all aspects of the user query in the generated answer |
+| `continuous_learning_client.h` | Client for submitting feedback signals to the continuous learning orchestrator <!-- TODO: verify --> |
+| `continuous_learning_orchestrator.h` | Orchestrates online learning from feedback: model updates, retrieval tuning <!-- TODO: verify --> |
+| `distributed_rag_evaluator.h` | Distributed evaluation of RAG pipelines across multiple nodes <!-- TODO: verify --> |
+| `document_splitter.h` | Splits long documents into overlapping or non-overlapping chunks for indexing <!-- TODO: verify --> |
+| `document_summarizer.h` | Summarises retrieved documents to fit within context window budget <!-- TODO: verify --> |
+| `evaluation_report_exporter.h` | Exports evaluation results to CSV, JSON, or HTML reports <!-- TODO: verify --> |
+| `explainability_reason_builder.h` | Builds human-readable explanations for judge scores and retrieval decisions <!-- TODO: verify --> |
+| `faithfulness_evaluator.h` | Fact-checks the generated answer against retrieved source documents |
+| `hallucination_dashboard.h` | Aggregates hallucination metrics and exposes a Prometheus/JSON dashboard endpoint <!-- TODO: verify --> |
+| `http_metrics_client.h` | HTTP client for pushing RAG evaluation metrics to an external metrics server <!-- TODO: verify --> |
+| `hybrid_retriever.h` | Hybrid dense + sparse retriever combining vector search with BM25 <!-- TODO: verify --> |
+| `judge_config.h` | Configuration structures shared across all judge implementations <!-- TODO: verify --> |
+| `knowledge_graph_retriever.h` | Retrieves context by traversing a knowledge graph starting from query entities <!-- TODO: verify --> |
+| `learning_metrics.h` | Metrics for continuous learning: drift detection, accuracy deltas, feedback rates <!-- TODO: verify --> |
+| `llm_judge_client.h` | HTTP/gRPC client for delegating judge evaluation to a remote LLM judge service <!-- TODO: verify --> |
+| `llm_judge_integration.h` | Integration layer connecting `RAGJudge` to `LLMIntegration` inference backend <!-- TODO: verify --> |
+| `multi_hop_reasoner.h` | Multi-hop reasoning engine: decomposes complex queries into retrievable sub-questions <!-- TODO: verify --> |
+| `multi_step_rag.h` | Multi-step RAG pipeline with iterative retrieval and refinement <!-- TODO: verify --> |
+| `multimodal_rag.h` | RAG pipeline extended to image, audio, and video modalities <!-- TODO: verify --> |
+| `nli_faithfulness_verifier.h` | NLI-based faithfulness verification as an alternative to LLM-as-Judge <!-- TODO: verify --> |
+| `onnx_model_loader.h` | Loads ONNX models for lightweight local inference in evaluator components <!-- TODO: verify --> |
+| `prompt_injection_detector.h` | Detects prompt injection attacks in user queries and retrieved documents |
+| `quality_control_factory.h` | Factory for composing quality control pipelines from individual evaluator components <!-- TODO: verify --> |
+| `quality_control_pipeline.h` | Configurable pipeline that chains multiple quality checks (faithfulness, relevance, …) <!-- TODO: verify --> |
+| `rag_context_assembler.h` | Assembles retrieved passages into a structured context block for LLM prompts <!-- TODO: verify --> |
+| `rag_ingestion_bridge.h` | Bridge for feeding newly ingested documents into the live retrieval index <!-- TODO: verify --> |
+| `relevance_evaluator.h` | Evaluates how well the generated answer addresses the user query |
+| `replug_retriever.h` | REPLUG-style retriever that integrates retrieval probability into LLM generation <!-- TODO: verify --> |
+| `reranker.h` | Cross-encoder reranker for re-scoring and re-ordering retrieved documents <!-- TODO: verify --> |
+| `response_parser.h` | Parses structured LLM responses (JSON, scored lists, CoT blocks) for downstream use |
+| `rlaif_trainer.h` | RLAIF (Reinforcement Learning from AI Feedback) trainer for refining retrieval and generation <!-- TODO: verify --> |
+| `streaming_retriever.h` | Streams retrieved document chunks progressively as they become available <!-- TODO: verify --> |
+
 ## Installation
-
-This module is included as part of ThemisDB. Add the module headers to your include path:
-
-```cmake
-target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
-```

@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset release && cmake --build build/release`
 
 # Projects Module - Header Documentation
 
@@ -9,43 +9,38 @@ for project-scoped document ingestion and retrieval.
 
 ## Current Header Surface
 
-The active public API is:
+The active public API headers are:
 
 ```text
-include/projects/DocumentManager/document_manager.h
+include/projects/collaboration_manager.h
+include/projects/project_audit_log.h
+include/projects/project_bundle.h
+include/projects/project_diff.h
+include/projects/project_lifecycle.h
+include/projects/project_template.h
+include/projects/project_versioning.h
 ```
 
-Primary exported types:
-- `DocumentManager`
-- `DocumentMeta`
-- `ChunkMeta`
-- `ChunkingConfig`
-- `UploadResult`
-- `Status`
+### collaboration_manager.h
+Multi-user collaboration primitives for shared project workspaces. <!-- TODO: verify -->
 
-## Functional Scope (Current)
+### project_audit_log.h
+Append-only audit log for project-scoped operations (create, modify, delete, access). <!-- TODO: verify -->
 
-- Upload and process document blobs/text
-- Chunk generation and metadata persistence
-- Optional vector/graph index integration hooks
-- Document/chunk retrieval and cascade delete
+### project_bundle.h
+Bundles a project and all its artefacts into a portable archive for import/export. <!-- TODO: verify -->
 
-## Usage Example
+### project_diff.h
+Computes structural diffs between two project snapshots (schema, data, metadata). <!-- TODO: verify -->
 
-```cpp
-#include <projects/DocumentManager/document_manager.h>
+### project_lifecycle.h
+Manages project state transitions (draft → active → archived → deleted). <!-- TODO: verify -->
 
-using themis::projects::DocumentManager;
-using themis::projects::ChunkingConfig;
-```
+### project_template.h
+Defines reusable project templates with pre-configured schemas, roles, and policies. <!-- TODO: verify -->
 
-## Notes
-
-- Earlier references to `project_manager.h` were placeholders and are removed.
-- Future project/workspace orchestration APIs should be documented when concrete
-  headers are added under `include/projects/`.
-- Name resolution within project scope
-- Cross-project queries with explicit references
+### project_versioning.h
+Version-control layer for project snapshots; supports branching, tagging, and rollback. <!-- TODO: verify -->
 
 ### Observability Module
 - Project-level metrics and monitoring
