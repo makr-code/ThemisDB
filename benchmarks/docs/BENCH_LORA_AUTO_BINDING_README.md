@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-perf && cmake --build --preset linux-ninja-perf`
+
 # LoRA Auto-Binding Benchmarks
 
 ## Overview
@@ -84,6 +86,9 @@ cmake --build build
 ```
 
 ## Running
+
+> **Build:** `cmake --preset linux-ninja-perf && cmake --build --preset linux-ninja-perf`
+
 
 ### Basic Run
 ```bash

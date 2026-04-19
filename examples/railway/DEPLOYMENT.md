@@ -1,4 +1,8 @@
+> **Aktueller Build-Flow:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Railway Monitoring System - Deployment & Quick Start 🚂
+
+> **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.
 
 Vollständiges Produktions-Setup für das Railway Monitoring System mit Docker, ThemisDB, Ollama LLM und WPF Client.
 
@@ -12,6 +16,9 @@ Vollständiges Produktions-Setup für das Railway Monitoring System mit Docker, 
 - [Troubleshooting](#troubleshooting)
 
 ---
+
+> **Note:** Current Docker image: `docker run -d -p 8080:8080 themisdb/themisdb:latest`
+> <!-- TODO: verify against current source -->
 
 ## Systemanforderungen
 

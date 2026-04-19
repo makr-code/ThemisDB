@@ -1,3 +1,5 @@
+> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+
 # Prompt Engineering Module — Architecture Guide
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: src/prompt_engineering/README.md · src/prompt_engineering/ROADMAP.md · src/prompt_engineering/FUTURE_ENHANCEMENTS.md · docs/de/prompt_engineering/README.md -->
@@ -46,10 +48,22 @@ optimization cycles.
 | `feedback_collector.cpp` | User/system feedback: positive/negative, hallucinations, etc. |
 | `prompt_performance_tracker.cpp` | Per-prompt metrics: success rate, latency, satisfaction |
 | `prompt_evaluator.cpp` | Quality scoring: semantic similarity, relevance, exact/partial match |
-| `prompt_injection_detector.cpp` | Injection attack detection and sanitization |
+| `prompt_injection_detector.cpp` | Injection attack detection (`IStructuredOutputEnforcer`-adjacent) and sanitization |
 | `self_improvement_orchestrator.cpp` | Background auto-optimization: detect → optimize → deploy |
 | `prompt_engineering_integration.cpp` | High-level integration façade for all subsystems |
 | `prompt_engineering_metrics.cpp` | Prometheus metrics export |
+| `context_window_manager.cpp` | `ContextWindowBudgetManager`: token-budget enforcement, greedy chunk selection |
+| `prompt_template_compiler.cpp` | `PromptTemplateCompiler`: typed DSL compile → `CompiledPromptTemplate` |
+| `prompt_template_validator.cpp` | `PromptTemplateValidator`: JSON schema validation for serialized templates |
+| `cot_tracer.cpp` | `IChainOfThoughtTracer`, `RecordingCoTTracer`, `CoTTraceCollector` |
+| `prompt_regression_runner.cpp` | `PromptRegressionRunner`: golden-set regression with Welch t-test |
+| `prompt_ab_experiment.cpp` | `PromptABExperimentFramework`: MurmurHash3 variant assignment, auto winner promotion |
+| `prompt_library_io.cpp` | `PromptLibraryIO`: JSON/YAML import/export with FNV-1a checksum |
+| `reflection_tuner.cpp` | `ReflectionTuner`: iterative self-critique (SELF_REFINE/REFLEXION/CONSTITUTIONAL/SOCRATIC) |
+| `llm_reflection_adapter.cpp` | `ILLMProviderReflectionAdapter`: bridges `ILLMProvider` → `IReflectionProvider` |
+| `tree_of_thoughts.cpp` | `TreeOfThoughtsBuilder`: BFS/DFS/BEAM multi-path reasoning |
+| `protegi_optimizer.cpp` | `ProTeGiOptimizer`: textual-gradient automatic prompt optimization |
+| `dspy_module.cpp` | `DspySignature`, `DspyPredict`, `DspyChainOfThought`: DSPy-compatible declaration layer |
 
 ### 3.2 Component Diagram
 
@@ -194,10 +208,11 @@ SelfImprovementOrchestrator (background thread, interval: 1h):
 
 ## 11. Known Limitations & Future Work
 
-- Multi-modal prompts (images, audio) are out of scope.
-- Token counting and context-window management are not provided.
+- Multi-modal prompts (images, audio) are out of scope in the current prompt template DSL.
+- `ContextWindowBudgetManager` uses `CharDivisionCounter` (chars/4 BPE approximation); model-specific tokenizers are not yet integrated.
 - Version branching is implemented; merge/rebase is not yet supported.
 - A/B test scheduling (time-bounded tests) is planned.
+- Per-language prompt template variants (i18n) are not yet implemented.
 
 ---
 

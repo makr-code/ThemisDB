@@ -1,50 +1,66 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 # ROADMAP
 
 ## Current Status
-- [~] Modul `src/toolbox` dokumentiert; Backlog für weitere Härtung und Ausbau wird gepflegt.
+- [x] `IngestionToolbox` — system-wide injectable service with `WorkflowEngine`, `StepRegistry`, `ITextGenerationBackend`; `createDefault()` factory; `extractEntities()` convenience API
+- [x] `ToolboxBuilder` — fluent builder: `withWorkflowProfile`, `withTextBackend`, `withGraphWriter`, `withFormatExtractor`, `withFormatExtractorFactory`, `build()`
+- [x] `ContentToolboxBridge` — unified ingest entry-point: `ingest()` + `enrichExisting()`; `BridgeResult` struct
+
+## Completed ✅
+
+- [x] `IngestionToolbox` core API (`ingestion_toolbox.h/.cpp`) (v0.1.0)
+- [x] `ToolboxBuilder` fluent API (`toolbox_builder.h/.cpp`) (v0.1.0)
+- [x] `ContentToolboxBridge` with `BridgeResult` (`content_toolbox_bridge.h/.cpp`) (v0.1.0)
+- [x] pimpl pattern: all three classes use `Impl`/`class Impl` for ABI stability
 
 ## In Progress
-- [ ] Dokumentations- und Qualitätslücken schließen (Target: 2026-Q2)
+
+- [~] `PrometheusIngestionToolboxMetrics` — concrete metrics backend (Target: Q3 2026)
+- [~] `BridgeResult::vectors` population from `ContentManager` (Target: Q3 2026)
 
 ## Planned Features
-- [ ] Schnittstellen und Verantwortlichkeiten präzisieren (Target: 2026-Q3)
-- [ ] Testabdeckung für kritische Pfade erweitern (Target: 2026-Q3)
-- [ ] Betriebs- und Security-Härtung abschließen (Target: 2026-Q4)
+
+- [ ] `ToolboxBuilder::buildWithBridges()` — returns `BuiltToolbox` with auto-wired AQL/RAG bridges (Target: Q3 2026)
+- [ ] `extractEntitiesStream()` — chunked streaming enrichment API (Target: Q4 2026)
+- [ ] `ToolboxComposite` — MIME-routing composite toolbox for multi-format pipelines (Target: Q4 2026)
 
 ## Implementation Phases
-### Phase 1: Design / API-Vertrag
-- [ ] Öffentliche und interne Interfaces des Moduls konsolidieren (Target: 2026-Q2)
-- [ ] Eingabe-/Ausgabeverträge und Fehlermodelle festlegen (Target: 2026-Q2)
 
-### Phase 2: Core-Implementierung
-- [ ] Kernlogik gemäß Schnittstellenvertrag vervollständigen (Target: 2026-Q3)
-- [ ] Integrationspunkte zu abhängigen Modulen stabilisieren (Target: 2026-Q3)
+### Phase 1: Design / API-Vertrag ✅
+- [x] Define `IngestionToolbox`, `ToolboxBuilder`, `ContentToolboxBridge` public APIs
 
-### Phase 3: Fehlerbehandlung & Edge Cases
-- [ ] Fehlerfälle systematisch abdecken (Target: 2026-Q3)
-- [ ] Edge-Case-Handling und Guardrails ergänzen (Target: 2026-Q3)
+### Phase 2: Core-Implementierung ✅
+- [x] `IngestionToolbox::extractEntities()` via `WorkflowEngine::execute()`
+- [x] `ToolboxBuilder::build()` with profile loading, backend injection
+- [x] `ContentToolboxBridge::ingest()` + `enrichExisting()`
+
+### Phase 3: Fehlerbehandlung & Edge Cases ✅
+- [x] Null-backend guard (reinstates `NullTextGenerationBackend`)
+- [x] `build()` throws `std::logic_error` on double-call
+- [x] `ingest()` propagates `ContentManager` errors via `BridgeResult::error`
 
 ### Phase 4: Tests
-- [ ] Unit-Tests für Kernpfade ausbauen (Target: 2026-Q3)
-- [ ] Integrations- und Regressionstests ergänzen (Target: 2026-Q3)
+- [ ] Unit tests for `IngestionToolbox::extractEntities()` (Target: Q3 2026)
+- [ ] Integration tests for `ContentToolboxBridge::ingest()` (Target: Q3 2026)
 
 ### Phase 5: Performance/Hardening
-- [ ] Performance-Bottlenecks messen und reduzieren (Target: 2026-Q4)
-- [ ] Security- und Reliability-Hardening abschließen (Target: 2026-Q4)
+- [ ] Add `PrometheusIngestionToolboxMetrics` for production observability (Target: Q3 2026)
+- [ ] Populate `BridgeResult::vectors` from `ContentManager::getVectorRecords()` (Target: Q3 2026)
 
 ### Phase 6: Dokumentation & Abnahme
-- [ ] Betriebs- und Entwicklerdokumentation aktualisieren (Target: 2026-Q4)
-- [ ] Modulabnahme anhand Checklisten und Akzeptanzkriterien durchführen (Target: 2026-Q4)
+- [ ] Update include-level docs once `buildWithBridges()` is implemented (Target: Q4 2026)
 
 ## Production Readiness Checklist
-- [ ] Definierte Fehlersemantik und Recovery-Pfade
-- [ ] Ausreichende Testabdeckung inkl. Regression
-- [ ] Security-Review und Dependency-Checks abgeschlossen
-- [ ] Monitoring/Observability-Anforderungen erfüllt
-- [ ] Dokumentation für Betrieb und Entwicklung vollständig
+- [x] `IngestionToolbox`, `ToolboxBuilder`, `ContentToolboxBridge` implemented and headers documented
+- [ ] Unit and integration test coverage confirmed
+- [ ] Prometheus metrics for production observability
+- [ ] `BridgeResult::vectors` fully populated
 
 ## Known Issues & Limitations
-- [!] Detailtiefe der Modul-spezifischen Akzeptanzkriterien variiert und wird sukzessive geschärft.
+- `ToolboxBuilder::withGraphWriter(writer)` stores the writer but the auto-wiring to AQL/RAG bridges is not yet implemented in `build()`.
+- `ContentToolboxBridge::BridgeResult::vectors` is never populated — vector-store writes are a no-op until `ContentManager::getVectorRecords()` is added.
+- No production-observable metrics available for `IngestionToolbox` invocations.
 
 ## Breaking Changes
 - Keine bekannten Breaking Changes dokumentiert.

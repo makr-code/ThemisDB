@@ -1,3 +1,5 @@
+> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
@@ -23,6 +25,7 @@
 
 - `THEMIS_PRODUCTION_MODE` compile-time flag: fail-closed if encryption key provider is null
 - Field-level AES-256-GCM encryption via `SecuritySignature`
+- `EncryptedBlobBackend` (see `include/storage/encrypted_blob_backend.h`): AES-256-GCM transparent encryption wrapper for any `IBlobStorageBackend`; `IEncryptionKeyProvider` interface with `StaticKeyProvider` for testing
 - HMAC-SHA256 for tamper detection on all stored records
 - `StorageAuditLogger` records all write operations with caller identity
 - Blob backends use HTTPS/TLS for all cloud communications
@@ -33,6 +36,7 @@
 - Encryption keys are never stored alongside data; managed by `IKeyProviderPtr`
 - HSM integration available via `IKeyProviderPtr` → `vault_key_provider.cpp`
 - PII fields can be encrypted at different key granularity than non-PII fields
+- `GdprFieldRegistry` (see `include/storage/schema_dead_weight_detector.h`) tracks PII field metadata to support GDPR right-to-erasure workflows
 
 ## Known Limitations
 

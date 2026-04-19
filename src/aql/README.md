@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release --target <target>`
+
 # ThemisDB AQL Module
 
 ## Module Purpose

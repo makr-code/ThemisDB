@@ -1,3 +1,5 @@
+> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+
 <!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
@@ -12,10 +14,10 @@
 | Metric | Result |
 |--------|--------|
 | Source files audited | 4 (`sd_config.cpp`, `sd_prompt_sanitizer.cpp`, `sd_plugin.cpp`, `sd_plugin_registrar.cpp`) |
-| Test targets | 1 (`SDPluginFocusedTests`) |
-| Test count | 45 |
+| Test targets | 2 (`SDPluginFocusedTests`, `SDPluginRegistrarTests`) |
+| Test count | 63 (51 `SDPluginFocusedTests` + 12 `SDPluginRegistrarTests`) |
 | Open security issues | 0 |
-| Open functional issues | 2 (stub PNG encoder, no real model) |
+| Open functional issues | 1 (no model file integrity check) |
 | Build system registration | ✅ `tests/CMakeLists.txt` + `plugins/CMakeLists.txt` |
 | Documentation completeness | ✅ All 7 docs present |
 
@@ -51,10 +53,10 @@ Dependencies: `nlohmann_json` (required), `stable-diffusion.cpp` (optional, `THE
 
 ## Known Gaps
 
-| ID | Description | Severity | Target |
+| ID | Description | Severity | Status |
 |----|-------------|----------|--------|
-| SD-01 | Stub PNG encoder omits IDAT — pixel data not encoded | Medium | v2.2.0 |
-| SD-02 | `SDCppGenerator` not yet implemented — no real inference | Medium | Q3 2026 |
-| SD-03 | `generateImg2Img` stub ignores input image in non-SDCppGenerator path | Low | Q3 2026 |
-| SD-04 | No model file integrity check | Low | v2.2.0 |
+| SD-01 | Stub PNG encoder omits IDAT — pixel data not encoded | Medium | Resolved v2.2.0 |
+| SD-02 | `SDCppGenerator` not yet implemented — no real inference | Medium | Resolved v2.2.0 |
+| SD-03 | `generateImg2Img` stub ignores input image | Low | Resolved v2.2.0 (input-image pass-through) |
+| SD-04 | No model file integrity check (SHA-256 before model load) | Low | Open |
 

@@ -1,3 +1,5 @@
+> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+
 # Replication Module — Architecture Guide
 
 **Version:** 1.0
@@ -36,9 +38,16 @@ point-in-time recovery (PITR), and conflict resolution for concurrent writes.
 
 | File | Role |
 |---|---|
-| `replication_manager.cpp` | Main orchestrator: leader-follower, WAL shipping, failover |
-
-*(Additional files: raft_node.cpp, replication_log.cpp, snapshot_manager.cpp, leader_election.cpp — referenced in header/include)*
+| `replication_manager.cpp` | Main orchestrator: leader-follower, WAL shipping, failover, `BidirectionalReplicationManager`, `GeoReplicationManager` |
+| `raft_v2.cpp` | Full Raft v2 implementation: `MembershipChangeManager`, joint consensus, log replication |
+| `conflict_resolution.cpp` | `ThreeWayMergeResolver` (git-style) and `FieldLevelMergeResolver` (UNION/INTERSECT/LEFT_BIAS/RIGHT_BIAS) |
+| `logical_replication.cpp` | `LogicalReplicationManager` — schema-aware slots, include/exclude filters, DDL streaming, cross-version transforms |
+| `event_stream.cpp` | `ReplicationEventStream` — RAII subscription handles for CDC consumers |
+| `policy.cpp` | `ReplicationPolicy` — per-collection policy assignment and topology validation |
+| `replication_slot.cpp` | `ReplicationSlot` / `ReplicationSlotManager` — pause/resume slot management |
+| `schema_cdc.cpp` | Schema-aware Change Data Capture with Avro/Protobuf schema registry integration |
+| `multi_tier_replication.cpp` | Multi-tier (cascading) replication topology management |
+| `observability.cpp` | `ReplicationObserver` — lag snapshots, topology graph, bottleneck detection, health scores |
 
 ### 3.2 Component Diagram
 
@@ -174,10 +183,8 @@ SnapshotManager::restore(timestamp: "2026-01-15T12:00:00Z")
 
 ## 11. Known Limitations & Future Work
 
-- Multi-master replication is implemented but CRDT-based conflict resolution is experimental.
-- Cross-datacenter replication with WAN optimization is planned.
-- Selective replication (per-collection or per-tenant) is in progress.
-- CDC integration for downstream consumers of replication events is partial.
+- Cross-datacenter replication with WAN optimization is <!-- TODO: verify --> planned.
+- CDC integration for downstream consumers via Kafka bridge is partial.
 
 ---
 

@@ -1,3 +1,5 @@
+> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/storage/README.md -->
 
@@ -71,6 +73,25 @@ field-level encryption, and blob redundancy management.
 | `tiered_storage.cpp` | Hot/warm/cold tiered storage with automatic migration |
 | `transaction_retry_manager.cpp` | Exponential backoff retry for failed transactions |
 | `raft_mvcc_bridge.cpp` | Raft consensus log to MVCC storage integration |
+| `adaptive_compaction.cpp` | Load-aware compaction scheduling via `AdaptiveCompactionScheduler` |
+| `columnar_cache.cpp` | LRU in-memory columnar segment cache (`ColumnarCache`, `namespace themis::storage`) |
+| `concurrent_write_controller.cpp` | Bounded FIFO write-concurrency semaphore (`ConcurrentWriteController`, `namespace themis::storage`) |
+| `distributed_transaction_manager.cpp` | 2PC coordinator: `DistributedTransactionManager`, `IDistributedShardParticipant`, `ManagerSharedState` |
+| `encrypted_blob_backend.cpp` | AES-256-GCM blob backend wrapper (`EncryptedBlobBackend`, `IEncryptionKeyProvider`) |
+| `erasure_coder_factory.cpp` | Factory for Reed-Solomon erasure codec selection |
+| `erasure_coding_backend.cpp` | Reed-Solomon erasure coding backend (`ErasureCodingBackend`, `namespace themisdb::storage`) |
+| `gpu_compression.cpp` | GPU-accelerated compression via nvCOMP/ROCm with CPU fallback (`GpuCompressionManager`) |
+| `mvcc_chain_pruner.cpp` | Background MVCC version-chain pruning (`MVCCChainPruner`) |
+| `nvme_manager.cpp` | NVMe device management: io_uring, multi-queue, ZNS, Direct I/O (`NVMeManager`) |
+| `online_schema_migration.cpp` | Zero-downtime DDL via `SchemaMigrator` (add/drop/rename column, index, partition) |
+| `schema_dead_weight_detector.cpp` | Unused field and stale index detection; `GdprFieldRegistry` for PII tracking |
+| `simd_filter.cpp` | AVX-512/AVX2/NEON/scalar SIMD predicate filter over columnar data (`SIMDColumnFilter`) |
+| `storage_layout_advisor.cpp` | Layout recommendations (row/columnar/tiered/vector) from `CollectionAccessStats` |
+| `storage_parquet_exporter.cpp` | Native Apache Parquet v2 export from columnar format (`StorageParquetExporter`) |
+| `streaming_ingest_manager.cpp` | Ring-buffer streaming ingest with flush thread (`StreamingIngestManager`) |
+| `vector_index_backend.cpp` | `IVectorIndexBackend` interface + `InMemoryVectorIndex` implementation |
+| `wom_tree.cpp` | Write-Optimized Merge (Bε) Tree for write-heavy workloads (`WomTree`) |
+| `zero_copy_blob_transfer.cpp` | Zero-copy blob transfer via mmap and sendfile (`ZeroCopyBlobTransfer`) |
 
 ### 3.2 Key Schema
 
@@ -232,10 +253,11 @@ backup_manager.createBackup(destination="/backup/2026-02-24")
 
 ## 11. Known Limitations & Future Work
 
-- Multi-disk RAID and tiered storage (hot/warm/cold) are planned.
-- Column family per data model (for independent compaction tuning) is planned.
-- RocksDB ZNS (Zoned Namespace NVMe) support is planned.
-- Columnar format is experimental; not yet used for all analytical workloads.
+- Column family per data model (for independent compaction tuning) is not yet implemented.
+- Columnar format is production-ready for analytics but not yet used as the primary store for all workloads.
+- `WomTree` is beta; it is not a drop-in replacement for RocksDB in all access patterns.
+- `MVCCChainPruner` and `SchemaDeadWeightDetector` are experimental (not yet wired into the default storage engine pipeline).
+- `InMemoryVectorIndex` is a flat-scan fallback; an HNSW/IVF persistent backend is planned.
 
 ---
 

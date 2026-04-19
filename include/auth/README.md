@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # Auth Module Headers
 
 Public interfaces and declarations for the ThemisDB authentication module.
@@ -48,6 +50,16 @@ session management, audit logging, and metrics.
 | `totp_replay_cache.h` | `TOTPReplayCache`, `SecureMFAValidator` | One-time code replay prevention |
 | `totp_secret_encryption.h` | `TOTPSecretEncryption`, `TOTPSecretRotationManager` | Encrypted TOTP secret storage |
 | `zero_trust_auth_verifier.h` | `ZeroTrustAuthVerifier` | Continuous per-request identity verification |
+| `eid_authenticator.h` | `EIDAuthenticator` | Electronic ID (eID) authenticator |
+| `passkey_authenticator.h` | `PasskeyAuthenticator` | Passkey (discoverable FIDO2) authenticator |
+| `authorization_policy.h` | `AuthorizationPolicy` | RBAC/ABAC authorization policy evaluator |
+| `auth_event_bus.h` | `AuthEventBus` | Publishes authentication lifecycle events |
+| `auth_worker_thread_pool.h` | `AuthWorkerThreadPool` | Dedicated thread pool for async auth operations |
+| `ldap_connection_pool.h` | `LDAPConnectionPool` | Pooled LDAP connection manager |
+| `rate_limiter_backend.h` | `IRateLimiterBackend` | Pluggable storage backend for rate-limit counters |
+| `redis_token_blacklist.h` | `RedisTokenBlacklist` | Redis-backed revoked-token store |
+| `rocksdb_token_blacklist.h` | `RocksDBTokenBlacklist` | RocksDB-backed revoked-token store |
+| `secure_memory.h` | `SecureMemory` | Guarded memory allocation for sensitive credential data |
 
 ## Header Files
 

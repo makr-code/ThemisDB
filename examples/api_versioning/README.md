@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # API Versioning Examples
 
 This directory contains examples demonstrating API versioning in ThemisDB.

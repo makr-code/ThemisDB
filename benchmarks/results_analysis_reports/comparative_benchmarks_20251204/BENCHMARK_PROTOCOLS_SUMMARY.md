@@ -1,3 +1,6 @@
+> ⚠️ **Historische Messdaten** – Die in diesem Dokument enthaltenen Zahlen entstammen einem bestimmten Messzeipunkt und sind nicht mehr reproduzierbar ohne die ursprüngliche Testumgebung.
+> Für reproduzierbare Ergebnisse: Benchmark-Kommandos und aktuelle CMake-Presets unter [`benchmarks/README.md`](../../README.md) verwenden.
+
 # BENCHMARK PROTOKOLLE - ERSTELLUNG ABGESCHLOSSEN
 
 **Status**: ✅ FERTIG  
@@ -65,6 +68,7 @@ benchmark_protocols/
 **Containerization**:
 - Docker: 29.0.1 (eedd969)
 - Docker Compose: v2.40.3-desktop.1
+<!-- TODO: verify against current version -->
 - Hyper-V: Enabled
 - WSL2: Version 2
 - Status: ✅ AKTUELL

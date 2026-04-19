@@ -1,3 +1,5 @@
+> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+
 <!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
@@ -53,25 +55,25 @@
 
 ## Test Coverage
 
-- CEP engine: pattern matching, EPL parsing, checkpointing, backpressure — covered in `tests/test_cep_engine.cpp`
-- Streaming windows: tumbling/sliding/session/hopping, watermark eviction — `tests/test_streaming_window.cpp`
-- Incremental views: delta-maintenance, Welford STDDEV, COUNT_DISTINCT — `tests/test_incremental_view.cpp`
-- Anomaly detection: all 6 detector types including ensemble — `tests/test_anomaly_detection.cpp`
-- Forecasting: all 5 methods, confidence intervals, serialization round-trip — `tests/test_forecasting.cpp`
-- Model serving: registry, inference, health metrics — `tests/test_model_serving.cpp`
-- AutoML: model selection, hyperparameter search, SHAP — `tests/test_automl.cpp`
+- CEP engine: pattern matching, EPL parsing, checkpointing, backpressure — covered in `tests/analytics/test_cep_engine.cpp`
+- Streaming windows: tumbling/sliding/session/hopping, watermark eviction — `tests/analytics/test_streaming_window.cpp`
+- Incremental views: delta-maintenance, Welford STDDEV, COUNT_DISTINCT — `tests/analytics/test_incremental_view.cpp`
+- Anomaly detection: all 6 detector types including ensemble — `tests/analytics/test_anomaly_detection.cpp`
+- Forecasting: LINEAR_REGRESSION, EXP_SMOOTHING, HOLT_WINTERS, ARIMA, ENSEMBLE; confidence intervals, serialization round-trip — `tests/analytics/test_forecasting.cpp`
+- Model serving: registry, inference, health metrics — `tests/analytics/test_model_serving.cpp`
+- AutoML: model selection, hyperparameter search, SHAP — `tests/analytics/test_automl.cpp`
 
 ## Findings
 
 ### Resolved
-- **Thread-safety of OLAPEngine** — `std::mutex` guards added to all shared aggregation state; verified by concurrent query tests.
-- **CEP unbounded queue growth** — backpressure mechanism added with configurable `max_queue_depth` and drop policy.
-- **Cross-tenant OLAP data leakage** — `tenant_id` scoping enforced at `SourceRegistry` in `distributed_analytics.cpp`.
+- Finding: Thread-safety of OLAPEngine — `std::mutex` guards added to all shared aggregation state | Evidence: `include/analytics/olap.h` `OLAPEngine::Impl` | Status: resolved
+- Finding: CEP unbounded queue growth — backpressure mechanism with configurable `max_queue_depth` and drop policy | Evidence: `include/analytics/cep_engine.h:420` `CEPConfig` | Status: resolved
+- Finding: Cross-tenant OLAP data leakage — `tenant_id` scoping enforced at `SourceRegistry` boundary | Evidence: `src/analytics/distributed_analytics.cpp` | Status: resolved
 
 ### Open
-- **GPU-accelerated OLAP** — CUDA aggregation path (Issue #1469) has an open PR; CPU fallback is always available and production-ready.
-- **Federated analytics mTLS** — cross-cluster authentication not yet hardened; scheduled for Q3 2026.
-- **SARIMA/Prophet models** — planned for Q4 2026; ARIMA fallback is available.
+- Finding: GPU-accelerated OLAP — CUDA aggregation path not yet implemented | Evidence: `include/analytics/olap.h` (no CUDA path) | Status: open (Issue #1469; PR open; CPU fallback production-ready)
+- Finding: Federated analytics mTLS — cross-cluster authentication not yet hardened | Evidence: `src/analytics/distributed_analytics.cpp` | Status: open (Target: Q3 2026)
+- Finding: SARIMA/Prophet models — enum values defined in header but not implemented in `.cpp` switch branches | Evidence: `include/analytics/forecasting.h:154-155`, `src/analytics/forecasting.cpp` (no SARIMA/PROPHET case) | Status: open (Target: Q4 2026; ARIMA fallback available)
 
 ## Compliance
 

@@ -1,10 +1,12 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 <!-- Status: current | validated: 2026-03-22 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # ThemisDB User Encrypted Storage Plugin
 
-**Version:** 0.1.0
-**Status:** 🟢 Production-Ready (v0.1.0; stale mount reconciliation remains as hardening item)
+**Version:** 0.2.0
+**Status:** 🟢 Production-Ready (v0.2.0; stale mount reconciliation implemented)
 **Last Updated:** 2026-03-22
 **Module Path:** `src/user_storage_encrypted/`
 **Namespace:** `themis::plugins::user_storage`
@@ -24,9 +26,9 @@ for ThemisDB user data directories. It combines three components:
    (HOT / WARM / COLD) each with an independent `GocryptfsBackend` instance and
    its own key, enabling tiered data lifecycle policies.
 
-All key material is handled as `std::vector<uint8_t>` and written to temporary files
-with mode `0600` via `mkstemp()` + `fchmod()` before being passed to gocryptfs. Temp
-files are `unlink()`ed immediately after use.
+All key material is delivered to gocryptfs via a stdin pipe (`-passfile /dev/stdin`) using
+`fork/execvp` — key bytes never touch the filesystem. A `KeyDerivationService` interface
+enables Argon2id-based per-container key derivation from a master key.
 
 ---
 

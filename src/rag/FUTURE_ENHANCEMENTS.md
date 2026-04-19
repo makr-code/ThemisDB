@@ -1,3 +1,5 @@
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
@@ -5,12 +7,17 @@
 
 - Multi-judge evaluation pipeline (faithfulness, relevance, completeness, coherence, bias) with Fast/Balanced/Thorough modes
 - Streaming retrieval with incremental context-window filling for low first-token latency
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - Cross-encoder re-ranking with ONNX model integration for precision improvement
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - Hybrid BM25 + vector retrieval fused via Reciprocal Rank Fusion (RRF) with configurable weights
 - Citation highlighting mapping each answer sentence to its source document chunk
 - Knowledge-graph augmented retrieval with entity linking and graph traversal
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - Agentic RAG with multi-hop iterative retrieval loops and tool-use orchestration
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - Online Bayesian optimization of `top_k` and `similarity_threshold` from evaluation feedback
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 
 ## Design Constraints
 
@@ -35,6 +42,10 @@
 | `KnowledgeGraphRetriever::retrieve(entities)` | Hybrid retrieval pipeline | Entity linking + graph traversal; falls back to dense retrieval |
 | `OnlineLearner::getOptimizedParams()` | Retrieval config layer | Returns `{top_k, similarity_threshold}` from Bayesian optimizer |
 | `AgenticRAG::run(query, tools)` | Orchestration layer | Max iterations configurable; returns final answer + retrieval trace |
+| `ContinuousLearningOrchestrator::triggerLoop(LoopPhase)` | Loop 1–4 orchestration | **Implemented** (`include/rag/continuous_learning_orchestrator.h:283`); `LoopPhase` enum: `LOOP_1_HNSW_QUERY`, `LOOP_2_WORKLOAD`, `LOOP_3_SCHEMA_INDEX`, `LOOP_4_RLAIF`; returns `LoopResult` |
+| `ContinuousLearningOrchestrator::setFederationCoordinator(ILoRAFederationCoordinator*)` | Federated LoRA round start | **Implemented** (`include/rag/continuous_learning_orchestrator.h:326`); fires `TriggerEvent::FEDERATED_ROUND_START` after successful Loop-4 with `guardrail_passed == true` |
+| `RAGIngestionBridge::indexDocument(text, collection)` | RAG document indexing | **Implemented** (`include/rag/rag_ingestion_bridge.h:162`); returns `IndexResult`; idempotent via content-hash `doc_id`; writes to `IVectorWriter` and optional `IGraphWriter` |
+| `RAGIngestionBridge::enrichRetrievedDocuments(docs, query)` | Re-ranking, prompt context | **Implemented** (`include/rag/rag_ingestion_bridge.h:182`); attaches NER entities under `"_entities"` metadata key |
 
 This document outlines planned implementation improvements for the RAG module source files.
 

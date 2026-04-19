@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Utilities Module
 
 Utility functions and shared components for ThemisDB.

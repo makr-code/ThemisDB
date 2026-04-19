@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Themis SAGA Verifier
 
 Desktop application for verifying and debugging SAGA transactions in ThemisDB.

@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # ThemisDB Scheduler Module Headers
 
 ## Module Purpose
@@ -627,10 +629,43 @@ See [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md) for planned features incl
 - Task templates and parameterization
 - Task result streaming for long-running AQL tasks
 
+## Additional Header Files
+
+The following headers are present in `include/scheduler/` and supplement the components documented above.
+
+### distributed_task_coordinator.h
+**Location:** `distributed_task_coordinator.h`
+
+Coordinates task execution across a cluster: leader election for scheduler role, task ownership assignment, and cross-node heartbeat. Used internally by `TaskScheduler` when `DistributedTaskCoordinator` is enabled. <!-- TODO: verify -->
+
+### event_trigger.h
+**Location:** `event_trigger.h`
+
+Defines `EventTrigger` — a scheduler trigger that fires tasks in response to CDC events, webhook calls, or internal pub/sub messages. <!-- TODO: verify -->
+
+### external_scheduler_adapter.h
+**Location:** `external_scheduler_adapter.h`
+
+Adapter interface for integrating ThemisDB's scheduler with external systems (Kubernetes CronJob, Apache Airflow, Temporal). <!-- TODO: verify -->
+
+### task_anomaly_detector.h
+**Location:** `task_anomaly_detector.h`
+
+Detects anomalous task execution patterns: duration spikes, failure surges, and resource exhaustion. Integrates with `Alertmanager`. <!-- TODO: verify -->
+
+### task_audit_event.h
+**Location:** `task_audit_event.h`
+
+`TaskAuditEvent` structure: immutable record of a single task lifecycle transition (registered, started, succeeded, failed, cancelled). Used by `TaskAuditManager`.
+
+### task_audit_manager.h
+**Location:** `task_audit_manager.h`
+
+`TaskAuditManager`: persists and queries `TaskAuditEvent` records; supports GDPR redaction and retention policies.
+
+### task_result_store.h
+**Location:** `task_result_store.h`
+
+`TaskResultStore` / `TaskExecutionResult`: persists per-task execution outputs (JSON result, duration, exit status) for later retrieval via `getTaskResults()`.
+
 ## Installation
-
-This module is included as part of ThemisDB. Add the module headers to your include path:
-
-```cmake
-target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
-```

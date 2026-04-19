@@ -1,3 +1,5 @@
+> ⚠️ **Historisches Dokument** – Beschreibt den Stand zum Zeitpunkt der Erstellung.
+
 # Session 3 Summary: GUI Enhancement with Export, Load, and New Debate Features
 
 ## Problem Statement

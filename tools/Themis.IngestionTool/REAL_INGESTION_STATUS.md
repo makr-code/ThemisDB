@@ -1,3 +1,5 @@
+> ⚠️ **Historischer Statusreport** – Stand zum Zeitpunkt der Erstellung. Quellcode prüfen.
+
 # Real Ingestion Implementation - Status Report
 
 ## ✅ Abgeschlossen: Real Ingestion zu ThemisDB

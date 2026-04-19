@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Attack Vector Test Templates
 
 This directory contains reusable test templates for systematic attack vector validation.

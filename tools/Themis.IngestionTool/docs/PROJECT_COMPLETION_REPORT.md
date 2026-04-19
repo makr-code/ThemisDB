@@ -1,3 +1,5 @@
+> ⚠️ **Historischer Abschlussbericht** – Stand zum Zeitpunkt der Projekterstellung.
+
 # Themis Ingestion Tool - Project Completion Report
 
 **Status**: ✅ **100% COMPLETE** (All 5 Phases Finished)

@@ -1,54 +1,45 @@
-# ThemisDB Tests
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
 
-This directory contains the test suite for ThemisDB.
+# ThemisDB Tests (`tests/`)
 
-## Test Categories
+Test-Suite für Unit-, Integrations- und Modulgrenzentests.
 
-### Unit Tests
-Tests for individual components and functions.
+## Struktur
 
-### Integration Tests
-Tests for component interactions and API endpoints.
+Top-Level-Suiten u. a.:
 
-### Geospatial Tests
-**Path:** `geo/`
-Tests for geospatial query processing and indexing.
+- `tests/geo/`, `tests/llm/`, `tests/security/`, `tests/storage/`, `tests/temporal/`, `tests/timeseries/`
+- zusätzliche root-nahe `test_*.cpp` für cross-modulare Regressionen
 
-### Configuration Tests
-**Path:** `config/`
-Configuration file validation and parsing tests.
-
-## Running Tests
-
-To run all tests:
+## Ausführung (aktueller CMake-Flow)
 
 ```bash
-# Linux/macOS
-./build.sh && ctest --test-dir build
-
-# Windows
-.\build.ps1
-cd build
-ctest
+cmake --preset linux-ninja-release
+cmake --build --preset linux-ninja-release
+ctest --preset linux-ninja-release
 ```
 
-To run specific test suites, see the build documentation in the main [README.md](../README.md).
+Gezielt (Beispiel):
 
-## Test Data
+```bash
+ctest --preset linux-ninja-release -R temporal
+```
 
-Test data files are located in the `data/` directory at the project root.
+## Installation
 
-## Writing Tests
+Tests werden als Teil des Standard-Builds erzeugt (`THEMIS_BUILD_TESTS=ON` im Release-Preset).
 
-When adding new tests:
-1. Follow the existing test structure and naming conventions
-2. Use the Catch2 framework for C++ tests
-3. Include both positive and negative test cases
-4. Document test requirements and setup
-5. Ensure tests are deterministic and can run in isolation
+## Usage
 
-## Documentation
+Führen Sie `ctest` vollständig oder gefiltert (`-R`) aus, um betroffene Module gezielt zu prüfen.
 
-For more information on testing and quality assurance, see:
-- [Quality Assurance](../docs/quality_assurance.md)
-- [Code Quality](../docs/code_quality.md)
+## Richtlinien
+
+- Neue Tests als deterministische `test_*.cpp`
+- Keine stillen Flaky-Retries in Testlogik
+- Fixtures unter `tests/fixtures/`, wenn wiederverwendbar
+
+## Bezug
+
+- Build-Quelle der Wahrheit: [`../CMakePresets.json`](../CMakePresets.json)
+- Root-Quickstart: [`../README.md`](../README.md)

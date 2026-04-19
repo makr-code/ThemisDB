@@ -1,3 +1,5 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 <!-- Status: current | generated: 2026-03-12 | source: all src/*/FUTURE_ENHANCEMENTS.md -->
 <!-- Use this file as the master backlog for GitHub Issue creation. -->
 <!-- Each item row maps directly to one GitHub Issue. -->

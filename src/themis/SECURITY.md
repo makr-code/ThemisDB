@@ -1,3 +1,5 @@
+> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+
 <!-- Status: current | validated: 2026-04-06 -->
 # Security — Themis Module
 > Report vulnerabilities via [SECURITY.md](../../../SECURITY.md).

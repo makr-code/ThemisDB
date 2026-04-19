@@ -1,3 +1,5 @@
+> **Hinweis:** Feature-Spezifikation gegen aktuellen Sourcecode verifizieren.
+
 # Keywords-Spalte und Detailansicht - Feature-Dokumentation
 
 ## ✅ Neue Features implementiert

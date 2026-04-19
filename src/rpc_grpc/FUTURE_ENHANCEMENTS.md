@@ -1,3 +1,5 @@
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ROADMAP.md · ARCHITECTURE.md -->
 
@@ -51,11 +53,11 @@ and error codes, and injects trace context (OpenTelemetry) into each RPC.
 
 ---
 
-## 3. Bidirectional Streaming Helper
+## 3. Bidirectional Streaming Helper ✅ Implemented (v0.2.0)
 
 ### Scope
-Provide a typed `BidiStreamAdapter<Req, Resp>` wrapper that simplifies writing
-bidirectional streaming service implementations on top of `GRPCServer`.
+`BidiStreamAdapter<Req, Resp>` is a typed header-only wrapper (`src/rpc_grpc/bidi_stream_adapter.h`)
+that simplifies writing bidirectional streaming service implementations on top of `GRPCServer`.
 
 ### Design Constraints
 - Header-only template class; no additional compilation unit required.
@@ -71,31 +73,35 @@ public:
     void onMessage(std::function<void(Req&&)> handler);
     bool write(Resp response);
     void finish(grpc::Status status);
+    void run();
+    bool isFinished() const;
+    std::size_t queueDepth() const;
+    grpc::Status finishStatus() const;
 };
 ```
 
 ### Test Strategy
-- Unit: adapter delivers N messages to handler; `write()` returns false after `finish()`.
-- Integration: echo service using adapter passes all messages back unmodified.
+- 20 unit tests (BSA-01 … BSA-20) in `tests/test_bidi_stream_adapter.cpp`.
 
 ---
 
-## 4. TLS Certificate Hot-Reload
+## 4. TLS Certificate Hot-Reload ✅ Implemented (v0.2.0)
 
 ### Scope
-Allow TLS certificates to be reloaded without restarting the gRPC server, supporting
-automated certificate rotation (e.g., cert-manager, Let's Encrypt).
+TLS certificates can be reloaded without restarting the gRPC server via
+`GRPCServer::reloadTls(cert_path, key_path, ca_path)`.
 
 ### Design Constraints
 - New certificates applied to new connections only; existing TLS sessions continue
   with their negotiated parameters.
-- Reload triggered by SIGHUP or an explicit `GRPCServer::reloadTls()` call.
+- Reload triggered by explicit `GRPCServer::reloadTls()` call.
 - If new cert files are invalid, the old credentials remain active (fail-safe).
+- SIGHUP-triggered hot-reload is planned for Q1 2027.
 
 ### Test Strategy
-- Integration: rotate to a new self-signed cert; verify new connections use the new cert.
-- Failure test: supply invalid cert path; verify old credentials remain.
+- `tests/test_grpc_plugin.cpp` — `GRPCServerTlsReloadTest` suite (11 tests).
+- Failure test: supply invalid cert path; verify old credentials remain (`false` returned).
 
 ### Security
 - New cert must pass the same `configureCredentials()` validation as initial load.
-- Hot-reload is logged as a security event at INFO level.
+- Uses `buildSslCredentials()` private helper factored out from `configureCredentials()`.

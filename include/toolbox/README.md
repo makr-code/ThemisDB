@@ -1,19 +1,22 @@
-# toolbox
+> **Build:** `cmake --preset release && cmake --build build/release`
 
-Pfad: `include/toolbox`
+# Toolbox Module Headers
 
-## Zweck
-Dieser Ordner enthält 0 Unterordner und 5 Dateien und bildet einen abgegrenzten Teil der Repository-Struktur.
+Public header files for the ThemisDB toolbox module.
 
-## Dateien nach Kategorien
-- **Sourcecode**: `content_toolbox_bridge.h`, `ingestion_toolbox.h`, `toolbox_builder.h`
-- **Dokumentation**: `FUTURE_ENHANCEMENTS.md`, `ROADMAP.md`
+## Purpose
 
-## Hinweise
-- Änderungen in diesem Ordner sollten mit den übergeordneten Architektur- und Sicherheitsrichtlinien des Projekts abgestimmt werden.
-- Für tieferliegende Teilbereiche existieren ggf. zusätzliche README- und Moduldokumente.
+Provides bridging and builder utilities for content ingestion pipelines and toolbox plugin integration.
 
-_Automatisch erzeugt/aktualisiert am 2026-04-17._
+## Headers
+
+- `content_toolbox_bridge.h` — Bridge between content processors and toolbox plugins
+- `ingestion_toolbox.h` — Ingestion pipeline toolbox interface
+- `toolbox_builder.h` — Fluent builder for toolbox pipeline assembly
+
+## Implementation
+
+See `../../src/toolbox/` for the implementation code.
 
 ## Installation
 
@@ -22,13 +25,3 @@ This module is included as part of ThemisDB. Add the module headers to your incl
 ```cmake
 target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
 ```
-
-## Usage
-
-Include the relevant headers from this module:
-
-```cpp
-#include "toolbox/module_header.h"
-```
-
-See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.

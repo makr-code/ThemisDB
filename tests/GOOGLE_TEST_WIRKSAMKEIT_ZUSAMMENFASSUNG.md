@@ -1,3 +1,5 @@
+> **Hinweis:** Inhalt mit aktuellem Modulcode und -stand abgleichen.
+
 # Google Test Wirksamkeitsprüfung - Zusammenfassung
 
 ## Aufgabenstellung (Issue)

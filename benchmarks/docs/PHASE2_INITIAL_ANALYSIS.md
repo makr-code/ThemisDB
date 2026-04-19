@@ -1,3 +1,5 @@
+> ⚠️ **Historische Analyse** – Beschreibt die initiale Phase-2-Analyse.
+
 # Phase 2F Analysis: WriteOptions::disableWAL Implementation Results
 
 ## Summary

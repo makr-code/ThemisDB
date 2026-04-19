@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # distributed_knowledge Module — Implementation Overview
 
 **Version:** v1.0.0

@@ -1,3 +1,5 @@
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
 <!-- Status: current | validated: 2026-04-07 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
@@ -68,18 +70,13 @@ callback after each word/segment token.
 
 ---
 
-### 3. MP3 / OGG Input Support (Target: Q4 2026)
+### 3. MP3 / OGG Input Support ✅ Implemented in v2.1.0
 
-**Problem:** Callers must convert audio to WAV before transcription.
+**Status:** Implemented via `FfmpegAudioChunkReader : IAudioChunkReader` and `CompositeAudioChunkReader`.
+`CompositeAudioChunkReader` dispatches by file extension (WAV → `WavAudioChunkReader`; other formats → `FfmpegAudioChunkReader`).
+`ffmpeg` binary must be on `PATH`; its absence causes graceful degradation to WAV-only mode.
 
-**Solution:** Add `FfmpegAudioChunkReader : IAudioChunkReader` that shells out to `ffmpeg -i`
-and pipes PCM to the in-memory buffer. `WhisperPlugin::initialize()` detects the input
-extension and selects the appropriate reader.
-
-**Constraints:** `ffmpeg` binary must be on `PATH`; its absence causes graceful degradation to
-WAV-only mode. No C++ FFmpeg API linking allowed (subprocess approach only).
-**Errors:** ffmpeg not found → `success=false`, `error_message="ffmpeg not available"`.
-**Tests:** Integration test stubbing the subprocess with a pre-recorded WAV redirect.
+See `include/whisper/audio_chunk_reader.h` and `src/whisper/audio_chunk_reader.cpp`.
 
 ---
 

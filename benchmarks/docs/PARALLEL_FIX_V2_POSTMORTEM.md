@@ -1,3 +1,5 @@
+> ⚠️ **Historisches Postmortem** – Beschreibt den Parallel-Fix-v2-Rückblick zum Zeitpunkt der Erstellung.
+
 # Phase 2 Sharding Strategy - Postmortem
 
 ## Executive Summary

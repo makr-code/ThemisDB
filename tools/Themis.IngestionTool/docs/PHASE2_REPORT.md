@@ -1,3 +1,5 @@
+> ⚠️ **Historischer Phasenbericht** – Beschreibt den Implementierungsstand nach Phase 2.
+
 # Phase 2 Implementation Report
 
 ## Übersicht

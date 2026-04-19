@@ -1,3 +1,5 @@
+> **Hinweis:** API-Signaturen gegen aktuelle Endpunkte/Typen prüfen. Abweichungen mit `<!-- TODO: verify API -->` markieren.
+
 # VSCode Integration Guide
 
 Dieser Guide erklärt, wie Sie die ThemisDB VSCode Extension installieren, konfigurieren und verwenden.

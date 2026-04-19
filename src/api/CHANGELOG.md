@@ -1,3 +1,5 @@
+> ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
+
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
@@ -7,6 +9,11 @@ All notable changes to the API module are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
+### In Progress
+- Versioned API endpoint routing deprecation-header polish — Issue #1497
+- API key management endpoint — Issue #1502
+
+## [2.0.0] — <!-- TODO: verify release date -->
 ### Fixed
 - GraphQL variable substitution bug: `$variable` references in field arguments were stored as plain
   strings (`"$id"`) and never resolved at execution time. Variable references are now represented as
@@ -15,8 +22,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   resolver function is invoked. Operation default values are merged into `ExecutionContext::variables`
   in `Executor::executeOperation()` and overridden by runtime values. Unbound variables resolve to
   `Value::null()`. (`include/api/graphql.h`, `src/api/graphql.cpp`, `tests/test_graphql_variables.cpp`)
-- Versioned API endpoint routing deprecation-header polish — Issue #1497
-- API key management endpoint — Issue #1502
 
 ## [1.9.1] — 2026-04-07
 ### Fixed
@@ -55,15 +60,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `StreamAQL` RPC now streams each JSON array element as a separate `AQLRow` message (cancellation-aware via `ctx->IsCancelled()`)
 - `HealthCheck` details now report `aql`/`vector` status as `"ok"` or `"not wired"` rather than a static string
 - 8 new tests in `test_themisdb_grpc_service.cpp` covering extended constructor, factory build variants, and factory reuse
-
-
-### Added
 - GraphQL WebSocket CDC callback use-after-free protection: `alive_` `std::shared_ptr<std::atomic<bool>>` flag added to `GraphQLWsHandler`; set to `false` (with `memory_order_release`) in `reset()` before subscriptions are cleared; CDC lambda captures `alive` by value and loads with `memory_order_acquire` before dereferencing `self` (`graphql_ws_handler.cpp`, `graphql_ws_handler.h`)
 - GraphQL subscription variable type-validation in `handleSubscribe()` step 2: new `validateVariables(const graphql::Operation&, const nlohmann::json&)` private helper validates required/non-null presence, null-value legality, list-vs-scalar shape, and built-in scalar type matching (String, ID, Int, Float, Boolean) before subscription registration (`graphql_ws_handler.cpp`)
 - Versioned API routing via `RouteVersionRouter` (`include/server/route_version_router.h`): unversioned paths redirect 301 to `/v1/`; all new endpoints under `/v2/`; wired in `src/server/http_server.cpp` (Issue: #1497)
-
-### Fixed
-- `GrpcApiServer::start()` and `stop()` mutex notes documented as open issues (Target: v2.1.0)
 
 ## [1.7.0] — 2026-03-09
 ### Added

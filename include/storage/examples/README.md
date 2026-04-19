@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Storage Module — Examples
 
 Examples for the `storage` module demonstrating Paper 2 Layer 6 (SchemaDeadWeightDetector) and Layer 10 (StorageLayoutAdvisor) implementation patterns.

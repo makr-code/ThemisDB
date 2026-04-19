@@ -1,3 +1,5 @@
+> **Hinweis:** Workflow-Spezifikation gegen aktuellen Sourcecode verifizieren.
+
 # Workflow-Design - DMS/ERP System
 
 ## 📋 Übersicht

@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # include chaos module
 
 Public header surface for chaos engineering fault injection.

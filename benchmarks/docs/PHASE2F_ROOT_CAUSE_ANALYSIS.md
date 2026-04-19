@@ -1,3 +1,5 @@
+> ⚠️ **Historische Root-Cause-Analyse** – Beschreibt Phase-2F-Ursachenforschung.
+
 # Phase 2F Root Cause Analysis: WriteOptions::disableWAL Failure
 
 ## Executive Summary

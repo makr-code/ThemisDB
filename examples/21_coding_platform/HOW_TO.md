@@ -1,3 +1,5 @@
+> **Aktueller Build-Flow:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Coding Platform - Schritt-für-Schritt Anleitung
 
 Diese Anleitung zeigt Ihnen, wie Sie die ThemisDB Coding Platform verwenden, um Code-Snippets zu verwalten, aus dem Internet zu scrapen und mit VSCode zu integrieren.

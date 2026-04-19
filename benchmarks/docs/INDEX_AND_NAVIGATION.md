@@ -1,3 +1,5 @@
+> **Navigation:** Verlinkungen auf aktuelle Dateipfade prüfen.
+
 # 📚 Complete Benchmark Suite - Index & Navigation
 
 **Version:** 2.0  

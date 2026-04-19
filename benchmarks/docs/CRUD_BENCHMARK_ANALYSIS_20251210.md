@@ -1,3 +1,6 @@
+> ⚠️ **Historische Messdaten** – Die in diesem Dokument enthaltenen Zahlen entstammen einem bestimmten Messzeipunkt und sind nicht mehr reproduzierbar ohne die ursprüngliche Testumgebung.
+> Für reproduzierbare Ergebnisse: Benchmark-Kommandos und aktuelle CMake-Presets unter [`benchmarks/README.md`](../README.md) verwenden.
+
 # ThemisDB CRUD Benchmark Report
 ## Comprehensive Performance Analysis - December 10, 2025
 
@@ -259,6 +262,7 @@ ThemisDB has **no workload-specific optimization**. Same throughput regardless o
 
 **Software:**
 - ThemisDB: v1.0.0 (localhost:8765)
+<!-- TODO: verify against current version -->
 - Python: 3.13.6
 - Protocol: HTTP only
 - OS: Windows 11 Pro

@@ -1,3 +1,5 @@
+> **Hinweis:** Inhalt mit aktuellem Modulcode und -stand abgleichen.
+
 # Quick Wins for Ethical AI Implementation
 
 **Last Updated**: January 31, 2026

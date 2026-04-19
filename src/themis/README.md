@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB Core Framework Implementation
 
 ## Module Purpose
@@ -8,10 +10,17 @@ This directory contains the implementation code for ThemisDB's core framework an
 
 | Interface / File | Role |
 |-----------------|------|
-| `themis_db.cpp` | Main ThemisDB orchestration class |
-| `query_router.cpp` | Query dispatch to appropriate engine |
-| `module_coordinator.cpp` | Inter-module coordination and dependency management |
-| `lifecycle_manager.cpp` | Startup and shutdown sequencing |
+| `build_info.cpp` | Build metadata collection and formatting |
+| `edition_manager.cpp` | License tier management and feature gates |
+| `license_info.cpp` | License validation and Ed25519 signature verification |
+| `module_loader.cpp` | Platform-independent secure module loading core |
+| `module_loader_linux.cpp` | Linux-specific GPG/ELF/xattr verification |
+| `module_loader_win32.cpp` | Windows Zone.Identifier and Authenticode verification |
+| `module_hash_verifier.cpp` | SHA-256 manifest integrity verification |
+| `module_signature_verifier.cpp` | Authenticode/GPG signature verification |
+| `module_security.cpp` | `ModuleSecurityVerifier` — trust-level enforcement |
+| `module_dependency_resolver.cpp` | Module dependency graph and topological load-order |
+| `wire_protocol_server.cpp` | Binary wire protocol server (`themis::wire` namespace) |
 
 ## Scope
 
@@ -53,12 +62,13 @@ Current implementation files in `src/themis/`:
 
 Collects compile-time configuration and formats it for runtime access.
 
-**Planned Functions:**
-- `getBuildConfiguration()` - Aggregate build metadata
-- `formatBuildInfo()` - Human-readable build summary
-- `getVersionSummary()` - Compact version string
-- `isModuleCompiledIn()` - Check module availability
-- `getCompiledModules()` - List of compiled modules
+**Implemented Functions:**
+- `getBuildConfiguration()` — aggregate build metadata at runtime
+- `getReproducibilityInfo()` — reproducibility info (git HEAD, branch, dirty flag)
+- `exportBuildManifest()` / `verifyBuildManifest()` — build manifest round-trip
+- `formatBuildInfo()` — human-readable build summary
+- `isModuleCompiledIn()` — check module availability at runtime
+- `getCompiledModules()` — list compiled modules
 
 ---
 
@@ -67,10 +77,12 @@ Collects compile-time configuration and formats it for runtime access.
 
 Validates embedded license data and verifies digital signatures.
 
-**Planned Functions:**
-- `getEmbeddedLicense()` - Extract embedded license
-- `isLicenseValid()` - Validate expiry date
-- `verifyLicenseSignature()` - Cryptographic verification
+**Implemented Functions:**
+- `getEmbeddedLicense()` — extract embedded license
+- `isLicenseValid()` — validate expiry and tier
+- `verifyLicenseSignature()` — Ed25519 cryptographic verification
+- `LicenseClient` — remote license registration/activation
+- `LicenseInfo::remaining_grace_days()` — remaining grace period
 
 **Security Features:**
 - RSA-2048 or Ed25519 signatures
@@ -86,13 +98,13 @@ Validates embedded license data and verifies digital signatures.
 
 Loads shared libraries with mandatory security verification.
 
-**Planned Security Checks:**
-1. SHA-256 hash verification
-2. Digital signature verification (X.509 or GPG)
-3. Whitelist/blacklist checking
-4. Zone.Identifier detection (Windows)
+**Implemented Security Checks:**
+1. SHA-256 hash verification (`ModuleHashVerifier`)
+2. Digital signature verification — Authenticode (Windows) / GPG (Linux)
+3. Whitelist/blacklist checking (`ModuleSecurityVerifier`)
+4. Zone.Identifier detection (Windows, `module_loader_win32.cpp`)
 5. Authenticode verification (Windows)
-6. GPG signature verification (Linux)
+6. GPG signature verification via `posix_spawn` (Linux)
 
 **Platform Support:**
 - Windows: `LoadLibraryEx`, `GetProcAddress`, `FreeLibrary`

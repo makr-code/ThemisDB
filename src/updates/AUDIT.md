@@ -1,3 +1,5 @@
+> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+
 <!-- Status: current | validated: 2026-04-19 -->
 # Audit Report — Updates Module
 **Last Audit:** 2026-04-19 | **Status:** ✅ Pass
@@ -24,8 +26,8 @@
 
 ## Findings
 ### Resolved
-- Build system: all 14 files registered (March 2026)
-- 8 focused test targets added
+- Build system: all 21 files registered (March 2026)
+- 10 focused test targets added
 - HSM-backed SigningService implemented (PR #3438)
 - Blue/green deployment production-ready (PR #3421)
 ### Open

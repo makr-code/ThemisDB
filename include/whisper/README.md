@@ -1,12 +1,15 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # include whisper module
 
 Public headers for Whisper transcription plugin integration.
 
 ## Headers
-- `whisper_plugin.h`
-- `whisper_transcriber.h`
-- `whisper_config.h`
 - `audio_chunk_reader.h`
+- `whisper_config.h`
+- `whisper_plugin.h`
+- `whisper_plugin_registrar.h`
+- `whisper_transcriber.h`
 
 ## Exposed API
 - `WhisperPlugin` implementing `audio::IAudioBackend`

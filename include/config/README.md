@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # Config Module Headers
 <!-- status: current | validated: 2026-04-08 | source: include/config/ -->
 

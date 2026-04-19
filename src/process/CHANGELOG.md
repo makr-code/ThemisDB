@@ -1,3 +1,5 @@
+> ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
+
 # Process Modeling Module – Changelog
 
 All notable changes to this module are documented here.

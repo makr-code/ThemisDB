@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # RoPE Visualization Tools
 
 Visualization utilities for Rotary Position Embeddings (RoPE) in ThemisDB.

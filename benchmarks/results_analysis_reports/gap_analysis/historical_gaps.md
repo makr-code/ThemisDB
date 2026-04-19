@@ -1,3 +1,5 @@
+> ⚠️ **Historische Lückenanalyse** – Gap-Analyse beschreibt den Stand zum Zeitpunkt der Erstellung.
+
 # Historical Performance Gaps Analysis (v1.0.0)
 
 **Date:** 2025-12-09 20:37:02

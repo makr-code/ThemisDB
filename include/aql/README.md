@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # ThemisDB AQL Headers
 
 ## Module Purpose
@@ -37,6 +39,38 @@ This directory contains the header files for AQL (Advanced Query Language) speci
 - Query execution engine (see include/query/)
 - Storage interfaces (see include/storage/)
 - Index management (see include/index/)
+
+## Header Files
+
+| Header | Primary Class / Interface |
+|--------|--------------------------|
+| `llm_aql_handler.h` | `LlmAqlHandler` — routes LLM AQL commands (INFER, RAG, EMBED) to backend |
+| `iasync_llm_backend.h` | `IAsyncLLMBackend` — async LLM backend abstraction |
+| `docs_assistant_functions.h` | `DocsAssistant` — NL-to-AQL translation and query explanation |
+| `aql_agent.h` | `AQLAgent` — autonomous AQL query agent |
+| `aql_autocomplete.h` | `AQLAutocomplete` — token-level AQL autocomplete engine |
+| `aql_confidence_scorer.h` | `AQLConfidenceScorer` — scores NL-to-AQL translation confidence |
+| `aql_conversation_context.h` | `AQLConversationContext` — multi-turn query conversation state |
+| `aql_fewshot_example_library.h` | `AQLFewshotExampleLibrary` — curated few-shot examples for NL translation |
+| `aql_ingestion_bridge.h` | `AQLIngestionBridge` — connects AQL queries to ingestion pipeline |
+| `aql_lora_finetuner.h` | `AQLLoRAFinetuner` — LoRA fine-tuning interface for AQL model adaptation |
+| `aql_migration_assistant.h` | `AQLMigrationAssistant` — assists with AQL query migration between versions |
+| `aql_model_router.h` | `AQLModelRouter` — routes queries to appropriate LLM backend |
+| `aql_optimizer_advisor.h` | `AQLOptimizerAdvisor` — suggests query optimizations |
+| `aql_query_builder.h` | `AQLQueryBuilder` — programmatic AQL query construction |
+| `aql_query_diff_explainer.h` | `AQLQueryDiffExplainer` — explains semantic differences between queries |
+| `aql_query_template_library.h` | `AQLQueryTemplateLibrary` — parameterized query template registry |
+| `aql_query_validator.h` | `AQLQueryValidator` — syntactic and semantic query validation |
+| `aql_rollback_suggester.h` | `AQLRollbackSuggester` — suggests rollback queries for mutations |
+| `aql_schema_provider.h` | `AQLSchemaProvider` — exposes collection schemas for query context |
+| `aql_syntax_highlighter.h` | `AQLSyntaxHighlighter` — token classification for syntax highlighting |
+| `aql_token_stream.h` | `AQLTokenStream` — streaming token iterator for AQL parsing |
+| `classify_bridge.h` | `ClassifyBridge` — bridges classification results into AQL pipelines |
+| `llm_error_codes.h` | `LLMErrorCode` — structured error codes for LLM operations |
+| `llm_metrics_collector.h` | `LLMMetricsCollector` — latency, token and error metrics |
+| `llm_timeout_manager.h` | `LLMTimeoutManager` — per-request and global timeout enforcement |
+| `llm_token_estimator.h` | `LLMTokenEstimator` — estimates token count before inference |
+| `multimodal_infer_request.h` | `MultimodalInferRequest` — request structure for image+text inference |
 
 ## Key Components
 
@@ -450,9 +484,10 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 
 ## See Also
 
-- [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned interface improvements
-- [Query Headers](../query/README.md) - Core AQL interfaces
-- [LLM Headers](../llm/README.md) - LLM backend interfaces
+- [src/aql/README.md](../../src/aql/README.md) - Implementation details
+- [Query Module](../query/README.md) - Core AQL parsing
+- [LLM Module](../llm/README.md) - LLM backend implementations
+- [Index Module](../index/README.md) - Vector indexing
 
 ## Installation
 

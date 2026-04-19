@@ -1,3 +1,5 @@
+> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
@@ -48,11 +50,11 @@ The Core module provides the dependency injection framework, structured logging,
 - Core module does not persist any data; all state is held in memory for the lifetime of the `ConcernsContext` instance.
 - Trace and span IDs included in log lines are correlation identifiers, not personal data.
 - Prometheus metric labels contain only statically defined names; no user-supplied values.
-- Secrets injection interface (`ISecrets`, planned Issue #1417) will accept credentials via environment or vault; secrets will never be included in logs or traces.
+- Secrets injection interface (`ISecrets`) is implemented (Issue #1417); `InMemorySecrets` and `EnvSecretsProvider` accept credentials via environment variables or in-memory injection; secrets are never included in logs or traces.
 
 ## Known Limitations
 
-- Secrets interface (`ISecrets`) is planned but not yet fully implemented (Issue #1417); currently credentials are injected via environment variables at component construction time.
+- Secrets interface (`ISecrets`) is implemented (Issue #1417): `InMemorySecrets` (map-backed, thread-safe) and `EnvSecretsProvider` (environment-variable-backed with configurable prefix) are available; config-driven selection via `Config::secretsAdapter` (`"noop"`, `"inmemory"`, `"env"`).
 - Plugin-based adapter loading (Issue #1706) is not yet implemented; adapter selection requires recompilation.
 - Log message content is caller-controlled; there is no automatic PII scrubbing at the core logger level.
 

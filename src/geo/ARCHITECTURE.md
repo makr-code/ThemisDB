@@ -1,3 +1,5 @@
+> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+
 # Geo Module — Architecture Guide
 
 **Version:** 1.0
@@ -41,7 +43,12 @@ and integrates with the acceleration module for GPU-accelerated spatial joins on
 |---|---|
 | `cpu_backend.cpp` | Primary CPU geospatial backend (contains, intersects, distance, ST_BUFFER, ST_UNION, ST_DIFFERENCE) |
 | `boost_cpu_exact_backend.cpp` | Boost.Geometry exact computation backend |
-| `geo_rtree.cpp` | R-tree spatial index for 2D bounding-box queries |
+| `geo_rtree.cpp` | R-tree spatial index (`GeoRTree`) for 2D bounding-box queries |
+| `rtree_cursor.cpp` | Pull-based cursor API: `IRTreeCursor`, `IGeoIndex`, `GeoRTreeIndex`; `CursorStatus::STALE` on mutation |
+| `geo_json_geometry.cpp` | OOP GeoJSON geometry hierarchy: `IGeoJSONGeometry`, `GeoPoint`, `GeoLineString`, `GeoPolygon`, `GeoMultiPolygon`, `GeoGeometryCollection`; `BBox`, `ValidationResult`, `CrsId` |
+| `spatial_join_filter.cpp` | Composable spatial predicates: `ISpatialJoinFilter`, `IntersectsFilter`, `ContainsFilter`, `WithinFilter`, `TouchesFilter`, `DWithinFilter`; `AndFilter`, `OrFilter`, `NotFilter`; `SpatialJoinFilter` factory namespace |
+| `temporal_spatial_query_builder.cpp` | Fluent builder: `ITemporalSpatialQueryBuilder`, `TemporalSpatialQueryBuilder`, `BuiltTemporalSpatialQuery`; `TimeWindowType` enum |
+| `raster_query_interface.cpp` | Typed raster interface: `IRasterQueryInterface`, `RasterGridQueryImpl`, `NoOpRasterQueryImpl`; `RasterConfig`, `RasterStatus`, `RasterResult` |
 | `gpu_backend_stub.cpp` | GPU dispatch orchestrator with circuit-breaker CPU fallback |
 | `gpu_backend_cuda.cu` | CUDA kernel dispatch for distance and containment (requires `THEMIS_GEO_CUDA=ON`) |
 | `gpu_backend_hip.cpp` | ROCm/HIP kernel dispatch for AMD hardware (requires `THEMIS_ENABLE_HIP=ON`) |
@@ -49,10 +56,11 @@ and integrates with the acceleration module for GPU-accelerated spatial joins on
 | `gpu_kernel_dispatcher_cpu.cpp` | CPU-side GPU kernel dispatcher (fallback path) |
 | `spatial_join.cpp` | Spatial JOIN: all point pairs within a configurable distance threshold |
 | `geo_clustering.cpp` | DBSCAN and k-means clustering for geo point datasets |
-| `raster.cpp` | Raster grid queries: elevation sampling, bbox extraction, Gaussian KDE heatmaps |
-| `temporal_spatial_query.cpp` | Location-at-time-T queries over `SystemVersionedTable` |
-| `tile_server.cpp` | Map tile server integration |
-| `device_detector.cpp` | Runtime GPU device discovery and compute-capability/VRAM reporting |
+| `raster.cpp` | Raster grid queries: elevation sampling, bbox extraction, Gaussian KDE heatmaps (`RasterGrid`, `HeatmapConfig`) |
+| `temporal_spatial_query.cpp` | Location-at-time-T queries over `SystemVersionedTable` (`TemporalSpatialQuery`) |
+| `tile_server.cpp` | Map tile server integration (`TileCoord`, `TileLayerConfig`, `VectorTileResult`) |
+| `device_detector.cpp` | Runtime GPU device discovery and compute-capability/VRAM reporting (`GeoDeviceDetector`, `GeoDeviceCapability`) |
+| `geo_faiss_knn.cpp` | FAISS GPU k-NN bridge via ECEF 3D projection (`GeoFaissKnn`, `GeoKnnResult`) |
 
 ### 3.2 Component Diagram
 
@@ -188,8 +196,9 @@ Note: ST_BUFFER, ST_UNION, and ST_DIFFERENCE currently use the CPU fallback path
 - ST_BUFFER, ST_UNION, and ST_DIFFERENCE use CPU fallback for the GPU path; dedicated CUDA kernels for these set operations are deferred to v2.2.0.
 - DBSCAN and k-means clustering use O(n²) brute-force distance computation; spatial-index acceleration and GPU-accelerated paths are deferred to a future release.
 - 3D geometry operations (Z-coordinate) are partially implemented.
-- Spherical WGS-84 ellipsoid geometry (as opposed to the current planar/Haversine approximation) is planned.
+- Spherical WGS-84 ellipsoid geometry (as opposed to the current planar/Haversine approximation) is planned (Issue: #1744).
 - Routing/navigation algorithms (shortest path via road network) are out of scope.
+- `IGeoJSONGeometry::validate()` returns a `ValidationResult` with individual `ValidationError` entries; full OGC topology validation (e.g., self-intersection detection) is not yet implemented for all geometry types.
 
 ---
 

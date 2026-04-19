@@ -1,3 +1,5 @@
+> **Hinweis:** Inhalt ist konzeptuell/referenziell. Code-Bezüge mit `<!-- TODO: verify against source -->` markiert.
+
 # Wissensquellen für LLM-Kontext
 
 Diese Dokumentation beschreibt die verfügbaren Wissensquellen und deren Integration in das Debate-System.

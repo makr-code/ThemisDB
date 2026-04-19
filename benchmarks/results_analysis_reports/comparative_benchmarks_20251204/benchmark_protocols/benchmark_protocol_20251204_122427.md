@@ -1,3 +1,5 @@
+> ⚠️ **Historisches Benchmark-Protokoll** – Beschreibt eine einzelne Messreihe vom 2025-12-04.
+
 # Benchmark Protocol Report
 **Generated**: 2025-12-04T12:24:11.647437
 

@@ -1,3 +1,5 @@
+> **Aktueller Build-Flow:** `cmake --preset linux-ninja-perf && cmake --build --preset linux-ninja-perf`
+
 # ThemisDB RAID-Sharding Test Suite - Quick Start
 
 **Status:** Ready for Execution  

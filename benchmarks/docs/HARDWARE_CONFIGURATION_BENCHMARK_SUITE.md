@@ -1,3 +1,5 @@
+> ⚠️ **Historische Konfiguration** – Hardware-Parameter beschreiben einen bestimmten Teststand.
+
 # Hardware Configuration Benchmark Suite
 ## Testing ThemisDB Across Diverse Hardware Configurations
 

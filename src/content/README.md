@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Content Module
 
 Content management, ingestion, and processing implementation for ThemisDB.
@@ -10,7 +12,7 @@ Provides multi-format content ingestion and processing for ThemisDB, handling JS
 
 **In scope:** Multi-format content ingestion (JSON, images, documents), MIME type detection, text extraction and processing, image metadata extraction, geospatial data processing, zstd compression.
 
-**Out of scope:** Full-text indexing (handled by search module), vector embedding generation (handled by LLM/RAG modules), legacy Office formats (DOC/XLS/PPT via LibreOffice headless — planned).
+**Out of scope:** Full-text indexing (handled by search module), legacy Office formats (DOC/XLS/PPT via LibreOffice headless — implemented as CON-001 fallback).
 
 ## Relevant Interfaces
 

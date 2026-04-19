@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # ThemisDB Server Module Headers
 
 **Status:** `current` | **Validated:** 2026-03-10 (Commit `a04b89b`) | **Version:** v1.7.0
@@ -505,6 +507,43 @@ Real-time change streaming for data synchronization.
 - **graphql_api_handler.h** - GraphQL schema-driven queries
 - **async_job_api_handler.h** - Async job polling (`/v2/jobs`)
 - **udf_api_handler.h** - User-defined functions
+- **adaptive_rate_limiter.h** - Adaptive concurrency-based rate limiting
+- **api_auth_config.h** - API authentication configuration
+- **api_key_mgmt_handler.h** - API key lifecycle management
+- **api_security_audit.h** - API-layer security audit log
+- **api_version_config.h** - Per-version API configuration
+- **auth_scope_mapper.h** - OAuth2/JWT scope-to-permission mapping
+- **buffer_binary_protocol.h** - Binary framing for buffer operations
+- **cache_admin_api_handler.h** - Cache administrative controls
+- **chunked_response_writer.h** - HTTP chunked transfer-encoding writer
+- **cost_based_rate_limiter.h** - Cost-weighted request rate limiter
+- **distributed_txn_api_handler.h** - Distributed transaction REST API
+- **error_api_handler.h** - Structured error response handler
+- **geo_topology_api_handler.h** - Geo-topology and region routing API
+- **http3_datagram.h** - HTTP/3 QUIC datagram support
+- **http3_production_config.h** - Production-tuned HTTP/3 configuration
+- **import_api_handler.h** - Bulk data import API
+- **import_wizard_builder.h** - Import wizard pipeline builder
+- **maintenance_api_handler.h** - Maintenance mode and operations API
+- **mqtt_client_service.h** - MQTT outbound client service
+- **mvcc_api_handler.h** - MVCC snapshot and version API
+- **opa_adapter.h** - Open Policy Agent (OPA) integration adapter
+- **openapi_route_registry.h** - OpenAPI schema-driven route registration
+- **prompt_engineering_api_handler.h** - Prompt engineering REST API
+- **prompt_engineering_grpc_service.h** - Prompt engineering gRPC service
+- **rate_limiting_middleware.h** - Rate limiting middleware layer
+- **replication_topology_api_handler.h** - Replication topology REST API
+- **request_coalescing.h** - In-flight request deduplication/coalescing
+- **request_validation_middleware.h** - Request payload validation middleware
+- **response_transformer.h** - Response transformation pipeline
+- **route_version_router.h** - API version-based route dispatch
+- **rpc_service_impl.h** - gRPC service implementation base
+- **session_api_handler.h** - Session management API
+- **shard_repair_api_handler.h** - Shard repair trigger and status API
+- **smart_routing.h** - ML-informed smart request routing <!-- TODO: verify -->
+- **task_scheduler_api_handler.h** - Background task scheduler API
+- **wasm_handler_registry.h** - WebAssembly handler plugin registry
+- **workload_fingerprint_engine.h** - Workload fingerprinting for adaptive tuning
 
 ---
 

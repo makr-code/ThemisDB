@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Phase 2 Performance Benchmarks
 
 Comprehensive benchmarks for Phase 2 optimizations based on scientific research.

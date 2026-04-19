@@ -1,3 +1,5 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 # Training Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -105,23 +107,15 @@ v1.6.0 – AdaLoRA (adaptive rank pruning), LoRAAdapterMerger (TIES + linear), a
 > *Paper 1 — §5 Training Data Pipeline / §7.4 Golden Dataset Construction*
 > Issue: [docs/issues/lora_loops/IMPL-A1-dataset-construction.md](../../docs/issues/lora_loops/IMPL-A1-dataset-construction.md)
 
-- [ ] Add `DomainType::DATABASE_OPTIMIZER` to `DomainType` enum in `include/training/auto_labeler.h`
-- [ ] Implement `DatabaseDomainAutoLabeler` class: extends `LegalAutoLabeler` infrastructure, labels `(query, plan, Δlatency)` triples
-- [ ] Add `DATABASE_OPTIMIZER` branch to `LegalAutoLabeler::categorize()` dispatch table
-- [ ] Add domain keywords (EXPLAIN, index scan, seq scan, hash join, latency, p99) to `LoRADataSelectionConfig`
+- [x] Add `DomainType::DATABASE_OPTIMIZER` to `DomainType` enum in `include/training/auto_labeler.h`
+- [x] Implement `DatabaseDomainAutoLabeler` class (`include/training/database_domain_auto_labeler.h`, `src/training/database_domain_auto_labeler.cpp`): labels `(query, plan, Δlatency)` triples
+- [x] Add `DATABASE_OPTIMIZER` branch to `LegalAutoLabeler::categorize()` dispatch table
+- [x] Add domain keywords (EXPLAIN, index scan, seq scan, hash join, latency, p99) to `LoRADataSelectionConfig`
 - [ ] Implement optimizer-log export CLI: emits JSONL with `(query, explain_plan, latency_delta_ms)` fields
-- [ ] Confidence score: `tanh(|Δlatency_ms| / 50)` — labels with |Δlatency| < 5 ms auto-rejected
+- [x] Confidence score: `tanh(|Δlatency_ms| / 50)` — labels with |Δlatency| < 5 ms auto-rejected
 - [ ] Validation against `LoRADataSelectionPipeline` quality filters (duplicate-query dedup, min confidence 0.85)
 - [ ] Collect 1 000 labeled pairs from all 4 loops as minimum viable golden dataset
 - [ ] 8 new unit tests: `DBO-01` … `DBO-08` in `tests/test_training_database_optimizer.cpp`
-  - `DBO-01` categorize() returns `DATABASE_OPTIMIZER` for EXPLAIN output sample
-  - `DBO-02` confidence 0.0 for |Δlatency| = 0 ms
-  - `DBO-03` confidence ≥ 0.85 for |Δlatency| = 50 ms
-  - `DBO-04` domain keyword match triggers correct domain type
-  - `DBO-05` CLI export produces valid JSONL
-  - `DBO-06` duplicate query filtered by LoRADataSelectionPipeline
-  - `DBO-07` medical/legal domains unaffected by DATABASE_OPTIMIZER branch
-  - `DBO-08` 1 000 sample golden dataset passes all quality filters
 
 ### Phase 5: Federation Bridges — IMPL-A3 (Target: Q3 2026)
 

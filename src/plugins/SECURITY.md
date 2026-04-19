@@ -1,3 +1,5 @@
+> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · SECURITY.md (root) -->
 
@@ -31,7 +33,8 @@
 
 - **Risk:** Medium — a malicious plugin could attempt to claim capabilities beyond its declared manifest
 - **Mitigation (implemented):** `PluginCapabilityNegotiator` enforces declared capabilities at load time; undeclared capabilities are denied
-- **Residual risk:** Runtime capability escalation (post-load re-negotiation) is not yet blocked programmatically; mitigated operationally by RBAC in the server layer
+- **Mitigation (implemented):** `PluginManager::checkCapabilityEscalation()` detects any new capability flags added post-load; the plugin is marked `RESTRICTED` and `ERR_PLUGIN_CAPABILITY_ESCALATION` is raised (implemented 2026-04-09; tests in `test_plugin_capability_escalation.cpp`)
+- **Residual risk:** Low — runtime escalation is now blocked; the server layer RBAC provides an additional defence
 
 ### T4 — Malicious Plugin Manifest
 
@@ -50,7 +53,7 @@
 | ID    | Description                                                     | Target Fix   |
 |-------|-----------------------------------------------------------------|--------------|
 | KL-01 | In-process native plugin execution; WASM sandbox not yet live  | Q3 2027      |
-| KL-02 | Runtime capability escalation not blocked programmatically     | Q4 2026      |
+| KL-02 | Runtime capability escalation — **resolved** 2026-04-09 via `checkCapabilityEscalation()` | Shipped |
 | KL-03 | Community repo scanning not implemented                         | Q4 2027      |
 
 ## Reporting a Vulnerability

@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: src/gpu/README.md · src/gpu/ROADMAP.md · src/gpu/ARCHITECTURE.md · src/gpu/FUTURE_ENHANCEMENTS.md · src/gpu/SECURITY.md -->
 
