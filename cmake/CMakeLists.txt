@@ -1647,6 +1647,8 @@ set(THEMIS_CORE_SOURCES
     ../src/prompt_engineering/prompt_regression_runner.cpp
     ../src/prompt_engineering/prompt_ab_experiment.cpp
     ../src/prompt_engineering/prompt_library_io.cpp
+    ../src/prompt_engineering/rag_context_budget_manager.cpp
+    ../src/prompt_engineering/prompt_quality_evaluator.cpp
     ../src/prompt_engineering/tree_of_thoughts.cpp
     ../src/prompt_engineering/protegi_optimizer.cpp
     ../src/prompt_engineering/dspy_module.cpp

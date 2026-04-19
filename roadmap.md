@@ -266,7 +266,7 @@ Key features planned and partially shipped for v1.9.0:
 | `ShardRPCClient::writeEntity()` | sharding | ✅ Shipped | gRPC `ReplicateData` RPC for cross-shard writes |
 | `ProcessLinker` hard-delete + secondary index | process | ✅ Shipped | Hard-delete via `db_.del()`, `obj_idx` prefix scan |
 | `BpmnSerializer` state-machine tokenizer | process | ✅ Shipped | No-regex, CDATA, 11 tests PM-01…PM-11 |
-| Typed DSL for structured prompt authoring | prompt_engineering | 🚧 In progress | Token budget manager, context-window enforcement |
+| Typed DSL for structured prompt authoring | prompt_engineering | ✅ Shipped | `IPromptTemplate`, `IRAGContextBudgetManager`, `IPromptQualityEvaluator`, `IPromptABFramework` (2026-04-19) |
 | `MqttClientService` + `MqttCDCTransport` | server | 🚧 In progress | Boost.Asio async I/O, RPCServiceRegistry |
 | ISO 27001 + HIPAA compliance evaluators | governance | ✅ Shipped (#4484) | |
 | Chimera streaming result sets | chimera | ✅ Shipped (#4478) | Prepared statements, connection pool adapter interfaces |
@@ -344,8 +344,8 @@ cross-backend consistency, error handling, and resource management.
 Focus: Deepen AI capabilities across prompt engineering, training, RAG, and analytics.
 
 #### 2.1 Prompt Engineering
-- [?] Token counting and context-window budget enforcement (Target: Q2 2026)
-- [?] Typed template DSL with compile-time placeholder validation (Target: Q2 2026)
+- [x] Token counting and context-window budget enforcement (Target: Q2 2026) — `ContextWindowBudgetManager` + `IRAGContextBudgetManager` (2026-04-19)
+- [x] Typed template DSL with compile-time placeholder validation (Target: Q2 2026) — `CompiledPromptTemplate` + `IPromptTemplate` + `IPromptQualityEvaluator` + `IPromptABFramework` (2026-04-19)
 - [?] Batch A/B test runner with configurable traffic splits (Target: Q3 2026)
 - [?] RLHF integration for prompt quality improvement (Target: Q4 2026)
 

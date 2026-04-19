@@ -16022,6 +16022,14 @@ add_prompt_focused_test(
     "PromptTemplateCompiler: typed DSL, IPromptTemplate, SlotType, PromptContext, PromptTemplateValidator (PE-MISSING-001, AC-1 through AC-30)"
 )
 
+add_prompt_focused_test(
+    test_prompt_engineering_v190_focused
+    test_prompt_engineering_v190.cpp
+    PromptEngineeringV190FocusedTests
+    "prompt_engineering;rag_budget;quality_evaluator;ab_framework;v1.9.0;unit"
+    "RagContextBudgetManager (RCB-01..08), PromptQualityEvaluator (PQE-01..08), SimplePromptABFramework (ABF-01..06)"
+)
+
 # ============================================================================
 # Custom Test Targets
 # ============================================================================

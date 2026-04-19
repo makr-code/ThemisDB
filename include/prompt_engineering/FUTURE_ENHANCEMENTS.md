@@ -13,12 +13,12 @@
 
 ## Design Constraints
 
-- `[ ]` Prompt templates are **immutable** after construction; mutations return a new template instance
-- `[ ]` `IChainOfThoughtTracer` callbacks must be `noexcept`; tracing must never abort a prompt render
-- `[ ]` `IRAGContextBudgetManager` enforces hard token limits; exceeding the budget raises a typed error, not a truncation silently
-- `[ ]` A/B variant assignment is deterministic per user ID and experiment key; same inputs always yield the same variant
-- `[ ]` Quality evaluator results are ephemeral; the interface must never persist raw user prompt content
-- `[ ]` Meta-prompt generator is read-only with respect to existing templates; it returns new instances only
+- `[x]` Prompt templates are **immutable** after construction; mutations return a new template instance
+- `[x]` `IChainOfThoughtTracer` callbacks must be `noexcept`; tracing must never abort a prompt render
+- `[x]` `IRAGContextBudgetManager` enforces hard token limits; exceeding the budget raises a typed error, not a truncation silently
+- `[x]` A/B variant assignment is deterministic per user ID and experiment key; same inputs always yield the same variant
+- `[x]` Quality evaluator results are ephemeral; the interface must never persist raw user prompt content
+- `[x]` Meta-prompt generator is read-only with respect to existing templates; it returns new instances only
 
 ## Required Interfaces
 
@@ -35,38 +35,38 @@
 
 ### Structured Prompt Template DSL API
 
-- `[ ]` Define `IPromptTemplate` with `render(const TemplateContext&) -> std::string` and `tokenCount(const Tokenizer&) -> size_t`
-- `[ ]` `TemplateContext` is a typed key-value map (`std::unordered_map<std::string, TemplateValue>`) with variant support
-- `[ ]` Template DSL supports slots (`{{variable}}`), conditionals (`{{#if condition}}`), and loop blocks (`{{#each list}}`)
-- `[ ]` `IPromptTemplate::validate() -> ValidationResult` checks for unresolved slots and syntax errors without rendering
+- `[x]` Define `IPromptTemplate` with `render(const TemplateContext&) -> std::string` and `tokenCount(const Tokenizer&) -> size_t`
+- `[x]` `TemplateContext` is a typed key-value map (`std::unordered_map<std::string, TemplateValue>`) with variant support
+- `[x]` Template DSL supports slots (`{{variable}}`), conditionals (`{{#if condition}}`), and loop blocks (`{{#each list}}`)
+- `[x]` `IPromptTemplate::validate() -> ValidationResult` checks for unresolved slots and syntax errors without rendering
 
 ### Chain-of-Thought Step Tracer Interface
 
-- `[ ]` Define `IChainOfThoughtTracer` with `onStepBegin(StepId id, std::string_view stepName) noexcept`
-- `[ ]` Add `onStepEnd(StepId id, std::string_view reasoning, std::chrono::nanoseconds duration) noexcept`
-- `[ ]` Add `onChainComplete(ChainId, size_t totalSteps, std::chrono::nanoseconds totalDuration) noexcept`
-- `[ ]` `IPromptTemplate` gains `attachTracer(IChainOfThoughtTracer&)` returning `TracerHandle` (RAII detach on destruction)
+- `[x]` Define `IChainOfThoughtTracer` with `onStepBegin(StepId id, std::string_view stepName) noexcept`
+- `[x]` Add `onStepEnd(StepId id, std::string_view reasoning, std::chrono::nanoseconds duration) noexcept`
+- `[x]` Add `onChainComplete(ChainId, size_t totalSteps, std::chrono::nanoseconds totalDuration) noexcept`
+- `[x]` `IPromptTemplate` gains `attachTracer(IChainOfThoughtTracer&)` returning `TracerHandle` (RAII detach on destruction)
 
 ### RAG Context Budget Manager
 
-- `[ ]` Define `IRAGContextBudgetManager` with `allocate(size_t tokens) -> BudgetHandle` throwing `BudgetExhaustedError` if hard limit exceeded
-- `[ ]` `BudgetHandle` is RAII; destructor releases the allocated token reservation
-- `[ ]` Add `remaining() -> size_t const noexcept` and `totalBudget() -> size_t const noexcept`
-- `[ ]` Budget manager exposes `snapshot() -> BudgetSnapshot` for diagnostic inspection without mutation
+- `[x]` Define `IRAGContextBudgetManager` with `allocate(size_t tokens) -> BudgetHandle` throwing `BudgetExhaustedError` if hard limit exceeded
+- `[x]` `BudgetHandle` is RAII; destructor releases the allocated token reservation
+- `[x]` Add `remaining() -> size_t const noexcept` and `totalBudget() -> size_t const noexcept`
+- `[x]` Budget manager exposes `snapshot() -> BudgetSnapshot` for diagnostic inspection without mutation
 
 ### Prompt A/B Experimentation Framework
 
-- `[ ]` Define `IPromptABFramework` with `assignVariant(UserId, ExperimentKey) -> Variant` — pure function, no side effects
-- `[ ]` `Variant` carries `variantId`, `templateRef` (`const IPromptTemplate*`), and `trafficWeight`
-- `[ ]` Add `listExperiments() -> std::span<const ExperimentDescriptor>` for introspection
-- `[ ]` Assignment is deterministic: same `(UserId, ExperimentKey)` always returns same `Variant` for the lifetime of the experiment
+- `[x]` Define `IPromptABFramework` with `assignVariant(UserId, ExperimentKey) -> Variant` — pure function, no side effects
+- `[x]` `Variant` carries `variantId`, `templateRef` (`const IPromptTemplate*`), and `trafficWeight`
+- `[x]` Add `listExperiments() -> std::span<const ExperimentDescriptor>` for introspection
+- `[x]` Assignment is deterministic: same `(UserId, ExperimentKey)` always returns same `Variant` for the lifetime of the experiment
 
 ### Automated Quality Regression Interface
 
-- `[ ]` Define `IPromptQualityEvaluator` with `evaluate(const IPromptTemplate&, const QualityConfig&) -> QualityReport`
-- `[ ]` `QualityReport` contains `score` (0.0–1.0), `failedChecks` (`std::vector<QualityCheck>`), `warnings`
-- `[ ]` `QualityConfig` allows specifying injection pattern blocklist, minimum token diversity threshold, and max repetition ratio
-- `[ ]` Interface is stateless; no raw prompt content is retained after `evaluate()` returns
+- `[x]` Define `IPromptQualityEvaluator` with `evaluate(const IPromptTemplate&, const QualityConfig&) -> QualityReport`
+- `[x]` `QualityReport` contains `score` (0.0–1.0), `failedChecks` (`std::vector<QualityCheck>`), `warnings`
+- `[x]` `QualityConfig` allows specifying injection pattern blocklist, minimum token diversity threshold, and max repetition ratio
+- `[x]` Interface is stateless; no raw prompt content is retained after `evaluate()` returns
 
 ## Test Strategy
 
