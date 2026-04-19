@@ -31,6 +31,7 @@
 
 using namespace themis::distributed_knowledge;
 using namespace themis::sharding;
+using namespace themis::aql;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Helpers
@@ -93,8 +94,6 @@ TEST(LLMRaidIntegration, LRIR01_ThreeShardDomainRouting)
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(LLMRaidIntegration, LRIR02_BatchFanOut64ResultOrdering)
 {
-    using LLMAQLHandler = themis::LLMAQLHandler;
-
     LLMAQLHandler::Config cfg;
     cfg.infer_circuit_breaker.failure_threshold = 100; // never trip during test
     LLMAQLHandler handler(cfg);
@@ -134,8 +133,6 @@ TEST(LLMRaidIntegration, LRIR02_BatchFanOut64ResultOrdering)
 // ─────────────────────────────────────────────────────────────────────────────
 TEST(LLMRaidIntegration, LRIR03_CircuitBreakerOpenDuringBatch)
 {
-    using LLMAQLHandler = themis::LLMAQLHandler;
-
     LLMAQLHandler::Config cfg;
     // Threshold = 1 so one explicit failure trip opens it immediately
     cfg.infer_circuit_breaker.failure_threshold = 1;
@@ -146,8 +143,8 @@ TEST(LLMRaidIntegration, LRIR03_CircuitBreakerOpenDuringBatch)
     std::atomic<int> call_count{0};
     handler.setChatExecutor([&](const std::vector<themis::llm::ChatMessage>&) -> std::string {
         ++call_count;
-        throw themis::llm::LLMException(
-            themis::llm::LLMErrorCode::INFERENCE_FAILED, "simulated LLM crash");
+        throw LLMException(
+            LLMErrorCode::INFERENCE_FAILED, "simulated LLM crash");
     });
 
     // First call: trips the circuit breaker

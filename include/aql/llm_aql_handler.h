@@ -42,7 +42,6 @@ class ShardingManager;
 namespace themis { namespace llm {
 class KVPrefixTransferManager;
 } }
-} }
 #include <string>
 #include <cstdint>
 #include <functional>
