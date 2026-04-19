@@ -1,5 +1,7 @@
 # Hello World - Schritt-für-Schritt-Anleitung
 
+> **Historischer Stand:** 2025-12-22 — Inhalte nicht gegen aktuelle Quellen geprüft.
+
 Diese Anleitung führt Sie durch die Verwendung der Hello World Anwendung und erklärt jeden Schritt im Detail.
 
 ## 🎯 Lernziele
@@ -17,12 +19,9 @@ Nach diesem Tutorial können Sie:
 Öffnen Sie ein Terminal und starten Sie ThemisDB mit Docker:
 
 ```bash
-docker run -d \
-  --name themisdb \
-  -p 8080:8080 \
-  -p 18765:18765 \
-  themisdb/themisdb:latest
+docker run -d -p 8080:8080 themisdb/themisdb:latest
 ```
+<!-- TODO: verify against current source -->
 
 **Überprüfen Sie den Status**:
 ```bash
@@ -39,7 +38,9 @@ Erwartete Antwort:
 ```bash
 cd examples/01_hello_world
 pip install -r requirements.txt
+pip install themisdb-client
 ```
+<!-- TODO: verify against current source -->
 
 ### 3. Anwendung starten
 

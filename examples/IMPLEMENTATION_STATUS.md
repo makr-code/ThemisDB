@@ -1,5 +1,8 @@
 # Examples Implementation Status
 
+> **⚠️ Historischer Bericht** — Dieser Statusbericht wurde zu einem bestimmten Zeitpunkt erstellt und spiegelt nicht notwendigerweise den aktuellen Stand wider.
+> Erstellungsdatum aus Dokument: 2026-01-31. Nicht gegen aktuellen Code-Stand geprüft.
+
 ## ✅ Completed
 
 ### Documentation Structure

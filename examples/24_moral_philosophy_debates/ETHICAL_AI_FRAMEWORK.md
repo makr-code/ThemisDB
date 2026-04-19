@@ -1,5 +1,7 @@
 # Comprehensive Ethical AI Framework for ThemisDB
 
+> **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.
+
 ## Overview
 
 A production-ready framework for integrating ethical AI decision-making into ThemisDB, combining multi-model storage, RAG-based retrieval, prompt optimization, and self-improving LoRa training.

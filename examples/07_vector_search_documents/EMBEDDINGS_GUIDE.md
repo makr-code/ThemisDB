@@ -1,5 +1,7 @@
 # Vector Search Documents - Embeddings Guide
 
+> **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.
+
 ## Übersicht
 
 Dieser Guide erklärt, wie man Text-Embeddings generiert, verwaltet und für Semantic Search verwendet.

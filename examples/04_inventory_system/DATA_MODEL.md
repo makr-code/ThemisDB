@@ -1,5 +1,7 @@
 # Inventarsystem - Datenmodell und ER-Diagramm
 
+> **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.
+
 ## Übersicht
 
 Das Inventarsystem verwendet ein Multi-Model-Design mit ThemisDB, das relationale, zeitbasierte und Graph-Datenmodelle kombiniert.

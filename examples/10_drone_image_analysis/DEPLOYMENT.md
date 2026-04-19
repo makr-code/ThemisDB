@@ -1,8 +1,13 @@
 # Deployment - Drohnenbild-Analyse
 
+> **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.
+
 ## 📋 Übersicht
 
 Production Deployment Guide für das Drohnenbild-Analyse-System.
+
+> **Note:** Current Docker image: `docker run -d -p 8080:8080 themisdb/themisdb:latest`
+> <!-- TODO: verify against current source -->
 
 ## 🐳 Docker Setup
 

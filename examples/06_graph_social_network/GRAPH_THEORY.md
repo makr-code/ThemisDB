@@ -1,5 +1,7 @@
 # Graph Soziales Netzwerk - Graph-Theorie und Algorithmen
 
+> **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.
+
 ## Übersicht
 
 Dieses Dokument erklärt die Graph-Theorie-Konzepte und Algorithmen, die im Sozialen Netzwerk-Beispiel verwendet werden.

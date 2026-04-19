@@ -1,10 +1,14 @@
 # IoT-Sensornetzwerk - Bedienungsanleitung
 
+> **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.
+
 ## 🚀 Start
 
 ```bash
+pip install themisdb-client
 python main.py
 ```
+<!-- TODO: verify against current source -->
 
 ## 📋 Hauptfunktionen
 

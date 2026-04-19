@@ -1,5 +1,7 @@
 # Standalone Moral Dialectic Engine - Implementation Summary
 
+> **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.
+
 ## Overview
 
 This document summarizes the successful implementation of a standalone moral philosophy dialectic engine for the ThemisDB project. The implementation fulfills all requirements specified in the problem statement.

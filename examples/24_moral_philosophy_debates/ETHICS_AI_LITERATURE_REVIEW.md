@@ -1,5 +1,7 @@
 # Comprehensive Literature Review: Ethical AI & Moral Reasoning in ThemisDB
 
+> **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.
+
 ## Executive Summary
 
 This document provides a comprehensive review of current research, frameworks, and best practices in ethical AI, specifically focused on integration with ThemisDB's multi-model architecture and LoRa training capabilities. It serves as the scientific foundation for implementing responsible AI systems that can make transparent, traceable, and ethically sound decisions.

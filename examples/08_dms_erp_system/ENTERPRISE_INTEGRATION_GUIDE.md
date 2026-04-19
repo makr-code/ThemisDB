@@ -1,5 +1,7 @@
 # DMS/ERP System - Enterprise Integration Guide
 
+> **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.
+
 ## Overview
 
 This guide demonstrates how to build a production-ready Document Management System (DMS) integrated with ERP functionality using ThemisDB's multi-model capabilities.

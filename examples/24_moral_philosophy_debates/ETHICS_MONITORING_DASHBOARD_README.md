@@ -1,5 +1,7 @@
 # Ethics Monitoring Dashboard
 
+> **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.
+
 ## Overview
 
 The `ethics_monitoring_dashboard.py` module provides comprehensive real-time monitoring and visualization capabilities for the ethical AI system. It tracks ethics evaluation metrics over time, detects anomalies, and provides multiple output formats for dashboards and monitoring systems.

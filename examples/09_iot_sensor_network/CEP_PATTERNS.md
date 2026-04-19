@@ -1,5 +1,7 @@
 # CEP Patterns - Complex Event Processing
 
+> **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.
+
 ## 📋 Übersicht
 
 Complex Event Processing (CEP) ermöglicht die Erkennung von Mustern und Korrelationen in Echtzeit-Datenströmen von IoT-Sensoren.

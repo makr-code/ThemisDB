@@ -1,5 +1,7 @@
 # Ethics Evaluation Metrics
 
+> **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.
+
 Comprehensive metrics framework for evaluating ethical AI decisions across five key dimensions.
 
 ## Overview

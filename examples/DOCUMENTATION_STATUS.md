@@ -1,5 +1,8 @@
 # ThemisDB Examples - Dokumentations-Status
 
+> **⚠️ Historischer Bericht** — Dieser Statusbericht wurde zu einem bestimmten Zeitpunkt erstellt und spiegelt nicht notwendigerweise den aktuellen Stand wider.
+> Erstellungsdatum aus Dokument: 2025-12-22. Nicht gegen aktuellen Code-Stand geprüft.
+
 ## Übersicht
 
 Tracking-Dokument für alle Beispiele und deren Dokumentation im ThemisDB-Repository.

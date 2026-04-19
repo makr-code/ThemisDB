@@ -1,12 +1,16 @@
 # CRM - Anleitung
 
+> **Historischer Stand:** 2025-12-22 — Inhalte nicht gegen aktuelle Quellen geprüft.
+
 ## 🚀 Schnellstart
 
 ```bash
 cd examples/17_crm
 pip install -r requirements.txt
+pip install themisdb-client
 python main.py
 ```
+<!-- TODO: verify against current source -->
 
 ## 📖 Hauptfunktionen
 

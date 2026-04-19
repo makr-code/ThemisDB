@@ -1,5 +1,7 @@
 # Budget Management Guide
 
+> **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.
+
 ## Budgetierung Best Practices
 
 ### 50/30/20 Regel

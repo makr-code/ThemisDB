@@ -1,5 +1,7 @@
 # Inventarsystem - API Verwendung und Code-Beispiele
 
+> **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.
+
 ## Übersicht
 
 Dieses Dokument zeigt praktische Code-Beispiele für die Verwendung der Inventarsystem-API mit ThemisDB.

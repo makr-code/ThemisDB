@@ -1,5 +1,7 @@
 # C++ Ethics Integration Guide: Multi-Model Storage & Audit Trail
 
+> **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.
+
 ## Overview
 
 The C++ ethical AI implementation provides a **thin orchestration layer** (~1,200 lines) that coordinates existing ThemisDB components. It stores ethical decisions across **multiple storage models** (Graph, Vector, Relational) with **comprehensive audit trail logging** for compliance and transparency.

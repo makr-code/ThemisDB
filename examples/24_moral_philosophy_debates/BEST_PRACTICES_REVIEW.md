@@ -1,5 +1,7 @@
 # Best Practices Review - Example 24: Moral Philosophy Debates
 
+> **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.
+
 ## Übersicht
 
 Dieses Dokument prüft, ob alle Best-Practice-Bereiche für ein umfassendes philosophisches Debattensystem abgedeckt sind.

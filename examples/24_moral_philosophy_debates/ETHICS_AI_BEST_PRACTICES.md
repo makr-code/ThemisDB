@@ -1,5 +1,7 @@
 # ThemisDB Ethical AI: Comprehensive Best Practices Guide
 
+> **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.
+
 ## Executive Summary
 
 This document provides comprehensive best practices for implementing, deploying, and maintaining ethical AI systems using ThemisDB. It synthesizes research, industry standards, and practical implementation guidance into actionable recommendations.
