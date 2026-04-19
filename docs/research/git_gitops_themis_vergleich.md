@@ -868,7 +868,7 @@ config:
 ### ThemisDB
 - [MVCC Architecture](../de/architecture/architecture_mvcc.md)
 - [Transaction Management](../de/features/features_transactions.md)
-- [Branching Strategy](../BRANCHING_STRATEGY.md)
+- [Branching Strategy](../ci-cd/branching-release-history/BRANCHING_STRATEGY.md)
 - [Bestehende YAML-Nutzung](bestehende_yaml_nutzung.md) - **NEU: Analyse existierender YAML-Konfigurationen**
 
 ---

@@ -243,6 +243,6 @@ utils:
 
 - [Utils Module ROADMAP](../../src/utils/ROADMAP.md)
 - [Observability Troubleshooting](./observability_troubleshooting.md)
-- [Audit Log Retention](../AUDIT_LOG_RETENTION_IMPLEMENTATION.md)
-- [Compression Configuration](../compression_configuration.md)
-- [Compression and Encoding Strategies](../compression_and_encoding_strategies.md)
+- [Audit Log Retention](../ARCHIVED/implementation-summaries/AUDIT_LOG_RETENTION_IMPLEMENTATION.md)
+- [Compression Configuration](../build-guide/compression_configuration.md)
+- [Compression and Encoding Strategies](../performance/compression_and_encoding_strategies.md)

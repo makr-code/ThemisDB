@@ -306,7 +306,7 @@ rag:
 ## Related Documentation
 
 - [RAG Module ROADMAP](../../src/rag/ROADMAP.md)
-- [RAG Ethics Implementation](../RAG_ETHICS_IMPLEMENTATION.md)
-- [RAG Judge LLM Integration](../RAG_JUDGE_LLM_INTEGRATION.md)
-- [RAG Judge Phase 1 Verification](../RAG_JUDGE_PHASE1_VERIFICATION.md)
+- [RAG Ethics Implementation](../llm_orchestration/RAG_ETHICS_IMPLEMENTATION.md)
+- [RAG Judge LLM Integration](../llm_orchestration/RAG_JUDGE_LLM_INTEGRATION.md)
+- [RAG Judge Phase 1 Verification](../ARCHIVED/implementation-summaries/RAG_JUDGE_PHASE1_VERIFICATION.md)
 - [LLM Roadmap](../llm_roadmap.md)

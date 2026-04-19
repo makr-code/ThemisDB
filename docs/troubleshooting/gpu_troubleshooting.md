@@ -321,6 +321,6 @@ gpu:
 
 - [GPU Module ROADMAP](../../src/gpu/ROADMAP.md)
 - [GPU Roadmap](../gpu_roadmap.md)
-- [GPU Runbooks](../gpu_runbooks.md)
-- [NCCL/RCCL Integration Guide](../NCCL_RCCL_INTEGRATION_GUIDE.md)
-- [GDAL Implementation Complete](../GDAL_IMPLEMENTATION_COMPLETE.md)
+- [GPU Runbooks](../de/features/gpu_runbooks.md)
+- [NCCL/RCCL Integration Guide](../llm_orchestration/NCCL_RCCL_INTEGRATION_GUIDE.md)
+- [GDAL Implementation Complete](../ARCHIVED/implementation-summaries/GDAL_IMPLEMENTATION_COMPLETE.md)

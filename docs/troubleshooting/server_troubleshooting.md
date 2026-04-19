@@ -291,7 +291,7 @@ server:
 ## Related Documentation
 
 - [Server Module ROADMAP](../../src/server/ROADMAP.md)
-- [HTTP Server Refactoring](../HTTP_SERVER_REFACTORING.md)
+- [HTTP Server Refactoring](../ARCHIVED/implementation-summaries/HTTP_SERVER_REFACTORING.md)
 - [API Reference](../api/REST_API_REFERENCE.md)
-- [Tenant Isolation Guide](../TENANT_ISOLATION_GUIDE.md)
-- [Audit Log Retention](../AUDIT_LOG_RETENTION_IMPLEMENTATION.md)
+- [Tenant Isolation Guide](../de/security/TENANT_ISOLATION_GUIDE.md)
+- [Audit Log Retention](../ARCHIVED/implementation-summaries/AUDIT_LOG_RETENTION_IMPLEMENTATION.md)

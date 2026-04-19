@@ -486,7 +486,7 @@ After ingestion:
    ./train_legal_lora --phase training
    ```
 
-See main documentation: [LEGAL_LORA_TRAINING_PIPELINE.md](../LEGAL_LORA_TRAINING_PIPELINE.md)
+See main documentation: [LEGAL_LORA_TRAINING_PIPELINE.md](../llm_orchestration/LEGAL_LORA_TRAINING_PIPELINE.md)
 
 ## Example: Complete Workflow
 
@@ -515,7 +515,7 @@ FOR doc IN legal_documents
 
 ## Resources
 
-- **Main Documentation**: [LEGAL_LORA_TRAINING_PIPELINE.md](../LEGAL_LORA_TRAINING_PIPELINE.md)
+- **Main Documentation**: [LEGAL_LORA_TRAINING_PIPELINE.md](../llm_orchestration/LEGAL_LORA_TRAINING_PIPELINE.md)
 - **Configuration Reference**: `config/ingestion/sources.yaml`
 - **Code Examples**: `examples/legal_lora_training/`
 - **API Reference**: See header files in `include/ingestion/`

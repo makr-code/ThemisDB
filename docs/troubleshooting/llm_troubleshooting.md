@@ -378,8 +378,8 @@ llm:
 
 - [LLM Module ROADMAP](../../src/llm/ROADMAP.md)
 - [LLM Roadmap](../llm_roadmap.md)
-- [GGUF Support](../GGUF_SUPPORT.md)
-- [Paged Optimizer Guide](../PAGED_OPTIMIZER_GUIDE.md)
-- [NCCL/RCCL Integration Guide](../NCCL_RCCL_INTEGRATION_GUIDE.md)
-- [AI Decision Auditing Guide](../ai_decision_auditing_guide.md)
-- [Multi-LoRA Fusion Guide](../MULTI_LORA_FUSION_GUIDE.md)
+- [GGUF Support](../llm_orchestration/GGUF_SUPPORT.md)
+- [Paged Optimizer Guide](../llm_orchestration/PAGED_OPTIMIZER_GUIDE.md)
+- [NCCL/RCCL Integration Guide](../llm_orchestration/NCCL_RCCL_INTEGRATION_GUIDE.md)
+- [AI Decision Auditing Guide](../de/security/ai_decision_auditing_guide.md)
+- [Multi-LoRA Fusion Guide](../llm_orchestration/MULTI_LORA_FUSION_GUIDE.md)

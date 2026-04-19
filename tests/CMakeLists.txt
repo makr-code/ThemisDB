@@ -13453,6 +13453,46 @@ add_geo_focused_test(
 )
 
 add_geo_focused_test(
+    test_rtree_cursor_focused
+    geo/test_rtree_cursor.cpp
+    RTreeCursorFocusedTests
+    "geo;rtree;cursor;pull-based;knn;range;focused;unit"
+    "RTreeCursor: pull-based range cursor, k-NN cursor, STALE detection, estimatedResultCount"
+)
+
+add_geo_focused_test(
+    test_temporal_spatial_query_builder_focused
+    geo/test_temporal_spatial_query_builder.cpp
+    TemporalSpatialQueryBuilderFocusedTests
+    "geo;temporal;spatial;query;builder;fluent;focused;unit"
+    "TemporalSpatialQueryBuilder: POINT_IN_TIME / INTERVAL / SLIDING_WINDOW, build() validation"
+)
+
+add_geo_focused_test(
+    test_raster_query_interface_focused
+    geo/test_raster_query_interface.cpp
+    RasterQueryInterfaceFocusedTests
+    "geo;raster;tile;bbox;interface;focused;unit"
+    "RasterQueryInterface: NoOp stub, factory, queryTile, queryBBox, size guard, INVALID_KEY"
+)
+
+add_geo_focused_test(
+    test_geo_json_geometry_focused
+    geo/test_geo_json_geometry.cpp
+    GeoJsonGeometryFocusedTests
+    "geo;geojson;geometry;wgs84;crs;focused;unit"
+    "GeoJsonGeometry: CRS-aware GeoPoint/LineString/Polygon/MultiPolygon/GeometryCollection, ValidationResult, right-hand-rule winding"
+)
+
+add_geo_focused_test(
+    test_spatial_join_filter_focused
+    geo/test_spatial_join_filter.cpp
+    SpatialJoinFilterFocusedTests
+    "geo;spatial-join;filter;predicates;composable;focused;unit"
+    "SpatialJoinFilter: Intersects/Contains/Within/Touches/DWithin predicates + And/Or/Not composable"
+)
+
+add_geo_focused_test(
     test_gpu_backend_production_focused
     geo/test_gpu_backend_production.cpp
     GpuBackendProductionFocusedTests

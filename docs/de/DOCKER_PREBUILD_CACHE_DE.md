@@ -329,4 +329,4 @@ Das Prebuild-Cache-System für Docker:
 - [vcpkg Binary Caching Dokumentation](https://learn.microsoft.com/en-us/vcpkg/users/binarycaching)
 - [Docker BuildKit Dokumentation](https://docs.docker.com/build/buildkit/)
 - [ThemisDB Build System](../cmake/.copilot-cmake-build-instructions.md)
-- [English Documentation](../DOCKER_PREBUILD_CACHE.md)
+- [English Documentation](../build-guide/DOCKER_PREBUILD_CACHE.md)

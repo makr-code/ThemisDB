@@ -299,4 +299,4 @@ prompt_engineering:
 - [Prompt Engineering Roadmap](../prompt_engineering_roadmap.md)
 - [RAG Troubleshooting](./rag_troubleshooting.md)
 - [LLM Troubleshooting](./llm_troubleshooting.md)
-- [RAG Ethics Implementation](../RAG_ETHICS_IMPLEMENTATION.md)
+- [RAG Ethics Implementation](../llm_orchestration/RAG_ETHICS_IMPLEMENTATION.md)
