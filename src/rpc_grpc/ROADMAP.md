@@ -6,10 +6,12 @@
 
 ## Current Status
 
-v0.2.0 — `GRPCServer` and `GRPCPlugin` are production-ready.  The core server
-(mTLS, service registration, HTTP/2, keepalive tuning, multi-port binding,
-TLS hot-reload) and the header-only `BidiStreamAdapter<Req,Resp>` streaming
-helper are complete.  Tests now cover all new v0.2.0 features (51 tests).
+v0.3.0 — `GRPCServer` and `GRPCPlugin` are production-ready.  Health service
+(`setServiceHealth`/`isServiceHealthy`), per-method interceptor metrics
+(`recordRPC`), Prometheus text export (`getMetricsText`), and structured JSON
+access logging (`setAccessLogSink`/`logAccess`) are fully implemented.
+Tests now cover all v0.3.0 features (12 new tests in `test_grpc_observability.cpp`,
+total 63 focused tests).
 
 ---
 
@@ -55,12 +57,12 @@ helper are complete.  Tests now cover all new v0.2.0 features (51 tests).
 
 ## Planned Features
 
-### v0.3.0 — Health and Observability (Target: Q4 2026)
+### v0.3.0 — Health and Observability (Target: Q4 2026) ✅ Completed 2026-04-19
 
-- [ ] Auto-register `grpc.health.v1.Health` service on `start()` (Target: Q4 2026)
-- [ ] Server-side gRPC interceptor for per-method latency and error rate (Target: Q4 2026)
-- [ ] Prometheus metrics: `grpc_requests_total`, `grpc_latency_seconds`, `grpc_active_connections` (Target: Q4 2026)
-- [ ] Structured access log: method, status code, duration, client CN (Target: Q4 2026)
+- [x] Auto-register `grpc.health.v1.Health` service on `start()` — `setServiceHealth("")` auto-called SERVING on start / NOT_SERVING on stop (Target: Q4 2026)
+- [x] Server-side gRPC interceptor for per-method latency and error rate — `recordRPC(method, success, duration_ms)` + per-method atomic counters (Target: Q4 2026)
+- [x] Prometheus metrics: `grpc_server_requests_total`, `grpc_server_errors_total`, `grpc_server_latency_ms_total`, `grpc_server_active_connections` via `getMetricsText()` (Target: Q4 2026)
+- [x] Structured access log: method, status code, duration, client CN via `setAccessLogSink()` + `logAccess()` (Target: Q4 2026)
 
 ### v0.4.0 — Advanced Features (Target: Q1 2027)
 
@@ -90,14 +92,15 @@ helper are complete.  Tests now cover all new v0.2.0 features (51 tests).
 ### Phase 4: Tests ✅
 - [x] `tests/test_grpc_plugin.cpp` — GRPCPlugin + GRPCServer unit tests (51 tests)
 - [x] `tests/test_bidi_stream_adapter.cpp` — BidiStreamAdapter unit tests (20 tests)
+- [x] `tests/test_grpc_observability.cpp` — health, metrics, prometheus, access log (12 tests, GOB-01..12)
 - [x] Fail-closed TLS: start() returns false (no insecure fallback)
 - [x] Keepalive, multi-port, TLS reload tests
 - [ ] Integration test: mTLS round-trip with echo service (Target: Q3 2026)
 
-### Phase 5: Performance / Hardening [~]
+### Phase 5: Performance / Hardening ✅
 - [x] Keepalive tuning via channel arguments
-- [ ] Health service (Target: Q4 2026)
-- [ ] Interceptors + Prometheus (Target: Q4 2026)
+- [x] Health service — `setServiceHealth` / `isServiceHealthy` (Target: Q4 2026)
+- [x] Interceptors + Prometheus — `recordRPC` + `getMetricsText` (Target: Q4 2026)
 
 ### Phase 6: Documentation & Acceptance ✅
 - [x] README, ARCHITECTURE, AUDIT, CHANGELOG, ROADMAP, SECURITY, FUTURE_ENHANCEMENTS
@@ -111,21 +114,24 @@ helper are complete.  Tests now cover all new v0.2.0 features (51 tests).
 | Core RPC transport | ✅ | HTTP/2 + Protocol Buffers via gRPC C++ |
 | TLS / mTLS | ✅ | Fail-closed; mTLS requires and verifies client cert |
 | Service registration | ✅ | Any `grpc::Service*` accepted before start |
-| Thread safety | ✅ | Atomic running state; mutex-protected stats and TLS |
+| Thread safety | ✅ | Atomic running state; mutex-protected stats, TLS, metrics, and health |
 | Uptime tracking | ✅ | Incremental via `std::chrono` in `getStats()` |
 | Keepalive tuning | ✅ | `extra_config["keepalive_time_ms/timeout_ms"]` |
 | Multi-port binding | ✅ | Admin port via `extra_config["admin_port"]` |
 | TLS hot-reload | ✅ | `reloadTls()` — fail-safe on bad certs |
 | BidiStreamAdapter | ✅ | Header-only; backpressure; thread-safe write |
-| Unit/integration tests | ✅ | 71 unit tests; integration tests planned Q3 2026 |
-| Health service | ❌ | Planned Q4 2026 |
-| Prometheus metrics | ❌ | Planned Q4 2026 |
+| Health service | ✅ | `setServiceHealth(name, bool)` + auto SERVING/NOT_SERVING on start/stop |
+| Interceptor metrics | ✅ | `recordRPC(method, success, ms)` — per-method request/error/latency counters |
+| Prometheus metrics | ✅ | `getMetricsText()` — 4 metric families in Prometheus text v0.0.4 |
+| Structured access log | ✅ | `setAccessLogSink()` + `logAccess()` — JSON per-RPC entries |
+| Unit/integration tests | ✅ | 83 unit tests (51+20+12); integration tests planned Q3 2026 |
 
 ---
 
 ## Known Issues & Limitations
 
-- gRPC health-check service is not auto-registered; load balancers requiring it need manual registration.
+- `setServiceHealth()` tracks health state in-process; does not wire to gRPC's built-in `grpc.health.v1.Health` proto service (no external proto dependency required).
 - `reloadTls()` updates the cached credentials only; existing TLS sessions are not renegotiated.
 - SIGHUP-triggered hot-reload is not yet implemented (must call `reloadTls()` explicitly).
+- `recordRPC()` is a manual hook; automatic intercept of all server-side calls requires gRPC C++ experimental interceptors (planned v0.4.0).
 

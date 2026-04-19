@@ -15703,7 +15703,47 @@ if(THEMIS_ENABLE_GRPC AND TARGET gRPC::grpc++)
 endif()
 
 # ---------------------------------------------------------------------------
-# Ethics AI Pipeline Focused Integration Test
+# gRPC Observability Focused Tests (v0.3.0)
+# Tests: health service, interceptor metrics, Prometheus text, access log
+# ---------------------------------------------------------------------------
+if(THEMIS_ENABLE_GRPC AND TARGET gRPC::grpc++)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_observability.cpp")
+        message(STATUS "Adding gRPC Observability focused test: test_grpc_observability_focused")
+
+        add_executable(test_grpc_observability_focused
+            test_grpc_observability.cpp
+            ${THEMIS_ROOT_DIR}/src/rpc_grpc/grpc_plugin.cpp
+        )
+
+        target_include_directories(test_grpc_observability_focused PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
+        )
+
+        target_link_libraries(test_grpc_observability_focused PRIVATE
+            ${TEST_LIBS}
+            gRPC::grpc++
+            Threads::Threads
+        )
+
+        target_compile_definitions(test_grpc_observability_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+            THEMIS_ENABLE_GRPC=1
+        )
+
+        add_test(NAME GRPCObservabilityTests COMMAND test_grpc_observability_focused)
+
+        set_tests_properties(GRPCObservabilityTests PROPERTIES
+            LABELS "rpc;grpc;health;observability;prometheus;accesslog;focused;unit"
+            TIMEOUT 60
+        )
+
+        message(STATUS "  gRPC Observability: GOB-01..12 (health, metrics, prometheus, access log)")
+    else()
+        message(STATUS "gRPC Observability test not found: ${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_observability.cpp")
+    endif()
+endif()
+
 # Tests end-to-end flow: loader -> discourse -> RAG -> evaluator -> store
 # Built as standalone target so it works even when THEMIS_PLUGIN_ETHICS_AI=OFF.
 # ---------------------------------------------------------------------------
