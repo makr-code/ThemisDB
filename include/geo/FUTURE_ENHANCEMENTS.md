@@ -13,9 +13,9 @@
 
 - [x] GeoJSON geometry types are immutable value types; mutation returns a new instance
 - [x] Spatial JOIN is expressed as a composable `ISpatialJoinFilter` rather than a monolithic query type
-- [ ] GPU dispatch is compile-time optional via `THEMIS_ENABLE_GPU`; all interfaces must compile without it
-- [ ] Raster interface is compile-time optional via `THEMIS_ENABLE_RASTER`; absent symbols produce a clear `static_assert`
-- [ ] R-tree cursor is pull-based and single-threaded per cursor instance; parallel traversal uses multiple cursors
+- [x] GPU dispatch is compile-time optional via `THEMIS_ENABLE_GPU`; all interfaces must compile without it
+- [x] Raster interface is compile-time optional via `THEMIS_ENABLE_RASTER`; absent symbols produce a clear `static_assert`
+- [x] R-tree cursor is pull-based and single-threaded per cursor instance; parallel traversal uses multiple cursors
 - [x] Coordinate reference system (CRS) is a required constructor argument for all geometry types; no implicit WGS84
 
 ## Required Interfaces
@@ -37,7 +37,7 @@
 - [x] Concrete types: `GeoPoint`, `GeoLineString`, `GeoPolygon`, `GeoMultiPolygon`, `GeoGeometryCollection`
 - [x] All types expose `validate()` returning a `ValidationResult` with detailed error codes
 - [x] `GeoPolygon` enforces right-hand rule winding order on construction; returns error on violation
-- [ ] Geometry equality uses coordinate tolerance configurable via `GeoConfig::coordinateTolerance()`
+- [~] Geometry equality uses coordinate tolerance configurable via `GeoConfig::coordinateTolerance()`
 
 ### Spatial JOIN Filter Interface
 
@@ -48,24 +48,24 @@
 
 ### R-tree Cursor API
 
-- [ ] Define `IRTreeCursor` with `next(GeoIndexEntry&) -> CursorStatus`
-- [ ] Cursor opened via `IGeoIndex::openRangeCursor(bbox)` and `IGeoIndex::openKNNCursor(point, k)`
-- [ ] Cursor exposes `estimatedResultCount()` for query planning
-- [ ] Cursor invalidated if the underlying index is mutated; `next()` returns `CursorStatus::STALE`
+- [x] Define `IRTreeCursor` with `next(GeoIndexEntry&) -> CursorStatus`
+- [x] Cursor opened via `IGeoIndex::openRangeCursor(bbox)` and `IGeoIndex::openKNNCursor(point, k)`
+- [x] Cursor exposes `estimatedResultCount()` for query planning
+- [x] Cursor invalidated if the underlying index is mutated; `next()` returns `CursorStatus::STALE`
 
 ### Temporal-Spatial Query Builder
 
-- [ ] Define `ITemporalSpatialQueryBuilder` with fluent `withinBBox()`, `duringInterval()`, `withPredicate()` methods
-- [ ] `build()` returns an immutable `TemporalSpatialQuery` value type
-- [ ] Query supports time-window types: `POINT_IN_TIME`, `INTERVAL`, `SLIDING_WINDOW`
-- [ ] Builder validates that temporal and spatial constraints are both set before `build()` succeeds
+- [x] Define `ITemporalSpatialQueryBuilder` with fluent `withinBBox()`, `duringInterval()`, `withPredicate()` methods
+- [x] `build()` returns an immutable `TemporalSpatialQuery` value type
+- [x] Query supports time-window types: `POINT_IN_TIME`, `INTERVAL`, `SLIDING_WINDOW`
+- [x] Builder validates that temporal and spatial constraints are both set before `build()` succeeds
 
 ### Raster Data Query Interface
 
-- [ ] Define `IRasterQueryInterface` (guarded by `#ifdef THEMIS_ENABLE_RASTER`) with `queryTile(TileKey)` and `queryBBox(BBox, resolution)`
-- [ ] Tile size bounded by `RasterConfig::maxTileSizeBytes()`
-- [ ] Raster queries return `RasterResult` containing band data, resolution metadata, and CRS info
-- [ ] No-op stub provided when `THEMIS_ENABLE_RASTER` is not defined, returning `RasterStatus::NOT_SUPPORTED`
+- [x] Define `IRasterQueryInterface` (guarded by `#ifdef THEMIS_ENABLE_RASTER`) with `queryTile(TileKey)` and `queryBBox(BBox, resolution)`
+- [x] Tile size bounded by `RasterConfig::maxTileSizeBytes()`
+- [x] Raster queries return `RasterResult` containing band data, resolution metadata, and CRS info
+- [x] No-op stub provided when `THEMIS_ENABLE_RASTER` is not defined, returning `RasterStatus::NOT_SUPPORTED`
 
 ## Test Strategy
 

@@ -17,6 +17,10 @@
  * Target: v2.5.0
  */
 
+// Use the canonical Coordinate/MBR/GeometryInfo types from ewkb.h so that
+// this header composes cleanly with other geo headers that also include it.
+#include "utils/geo/ewkb.h"
+
 #include <cmath>
 #include <memory>
 #include <string>
@@ -24,6 +28,14 @@
 
 namespace themis {
 namespace geo {
+
+// ---------------------------------------------------------------------------
+// Coordinate equality helper
+// ---------------------------------------------------------------------------
+// Adds == comparison on the ewkb.h Coordinate without modifying that header.
+inline bool coordinateEqual(const Coordinate& a, const Coordinate& b) noexcept {
+    return a.x == b.x && a.y == b.y;
+}
 
 // ---------------------------------------------------------------------------
 // Coordinate Reference System
@@ -43,20 +55,6 @@ enum class CrsId : int {
     EPSG4978 = 4978,
     /// Caller-defined CRS; identified by a custom SRID set at construction.
     Custom   = 0,
-};
-
-// ---------------------------------------------------------------------------
-// Coordinate
-// ---------------------------------------------------------------------------
-
-/// A 2-D coordinate (x = longitude or easting, y = latitude or northing).
-struct Coordinate {
-    double x{0.0}; ///< Longitude (degrees) or easting (metres).
-    double y{0.0}; ///< Latitude  (degrees) or northing (metres).
-
-    bool operator==(const Coordinate& o) const noexcept {
-        return x == o.x && y == o.y;
-    }
 };
 
 // ---------------------------------------------------------------------------
