@@ -213,7 +213,7 @@ Erwartete Performance (basierend auf Literatur):
 ## Integration mit Python-Tools
 
 ```bash
-# 1. Daten exportieren
+# 1. Daten exportieren <!-- TODO: verify: tools/gnn/export_graph_data.py existiert nicht; ggf. tools/gnn/gnn_example.py verwenden -->
 python tools/gnn/export_graph_data.py --graph social_network --output data/social.parquet
 
 # 2. Modell trainieren
@@ -230,8 +230,8 @@ python tools/gnn/export_to_onnx.py --model models/social.pth --output models/soc
 
 - [GNN Research Document](../../docs/research/GNN_BASED_INDEXING_AND_EMBEDDINGS.md)
 - [GNN Tools README](../../tools/gnn/README.md)
-- [Vector Index Documentation](../../docs/features/VECTOR_SEARCH.md)
-- [Property Graph Documentation](../../docs/features/PROPERTY_GRAPH.md)
+- [Vector Index Documentation](../../docs/features/VECTOR_SEARCH.md) <!-- TODO: verify -->
+- [Property Graph Documentation](../../docs/features/PROPERTY_GRAPH.md) <!-- TODO: verify -->
 
 ## Lizenz
 

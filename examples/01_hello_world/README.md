@@ -188,7 +188,7 @@ Error: Address already in use
 
 - [ThemisDB Dokumentation](../../docs/)
 - [Python Client API](../../clients/python/)
-- [AQL Syntax](../../docs/aql/)
+- [AQL Syntax](../../docs/aql/) <!-- TODO: verify: Pfad existiert nicht; ggf. ../../docs/de/aql/ -->
 - [Nächstes Beispiel: Todo-App](../02_todo_app/)
 
 ## 🤝 Beitragen
