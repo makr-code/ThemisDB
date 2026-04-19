@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset release && cmake --build build/release --target <target>`
 
 # ThemisDB Index Module
 
@@ -10,13 +10,13 @@ The Index module provides high-performance indexing infrastructure for ThemisDB,
 
 | Interface / File | Role |
 |-----------------|------|
-| `hnsw_index.cpp` | HNSW vector similarity index with GPU acceleration support |
-| `rtree_index.cpp` | R-tree spatial index for geospatial queries |
+| `vector_index.cpp` | HNSW vector similarity index with GPU acceleration support |
+| `spatial_index.cpp` | R-tree spatial index for geospatial queries |
 | `adaptive_index.cpp` | Automatic index recommendation based on query patterns |
-| `graph_index_manager.cpp` | Graph adjacency list indexing and traversal support |
+| `graph_index.cpp` | Graph adjacency list indexing and traversal support |
 | `secondary_index.cpp` | B-tree, range, sparse, and composite secondary indexes |
 | `inverted_index.cpp` | Full-text inverted index with BM25 scoring and positional posting lists |
-| `learned_index.cpp` | ML-based learned index structures (RMI, B-tree replacement) |
+| `learned_index.h` | ML-based learned index structures (RMI, B-tree replacement; header-only) |
 | `tiered_index_manager.cpp` | Hot/warm/cold tier index migration with automatic promotion/demotion |
 | `index_compression.cpp` | Index compression: delta, prefix, Bloom filter, dictionary, RLE |
 

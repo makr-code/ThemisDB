@@ -47,12 +47,12 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 ## Implementation Phases
 
 ### Phase 1: Production-Grade Index Infrastructure (Status: Completed ✅)
-- [x] HNSW vector similarity index (L2, Cosine, Dot Product) in `index/hnsw_index.cpp`
+- [x] HNSW vector similarity index (L2, Cosine, Dot Product) in `index/vector_index.cpp`
 - [x] GPU-accelerated vector search via GPUVectorIndex (Vulkan, CUDA, HIP)
 - [x] Product Quantization (PQ), Binary Quantization, and Residual Quantization
-- [x] B-tree, range, sparse, and composite secondary indexes (`index/secondary_index_manager.cpp`)
-- [x] R-tree spatial index with Z-order curves (`index/rtree_index.cpp`)
-- [x] Graph indexing: adjacency lists, BFS/DFS traversal (`index/graph_index_manager.cpp`)
+- [x] B-tree, range, sparse, and composite secondary indexes (`index/secondary_index.cpp`)
+- [x] R-tree spatial index with Z-order curves (`index/spatial_index.cpp`)
+- [x] Graph indexing: adjacency lists, BFS/DFS traversal (`index/graph_index.cpp`)
 - [x] Adaptive index recommendations based on query patterns
 - [x] IVF+PQ and FAISS integration, multi-vector search
 - [x] GNN embeddings, temporal graphs, rotary embeddings
