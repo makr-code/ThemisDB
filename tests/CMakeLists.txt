@@ -19420,6 +19420,45 @@ elseif(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_phase5.cpp")
     message(STATUS "Sharding Phase 5 tests not found")
 endif()
 
+# ── User Storage Encrypted v0.3.0 focused tests (Prometheus metrics, executeCommand removal) ─
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_user_storage_v03.cpp")
+    message(STATUS "Adding UserStorage: v0.3.0 focused tests (USE-01..12)")
+    add_executable(test_user_storage_v03_focused
+        test_user_storage_v03.cpp
+        ${THEMIS_ROOT_DIR}/src/user_storage_encrypted/multi_level_storage.cpp
+        ${THEMIS_ROOT_DIR}/src/user_storage_encrypted/gocryptfs_backend.cpp
+        ${THEMIS_ROOT_DIR}/src/user_storage_encrypted/key_rotation_scheduler.cpp
+        ${THEMIS_ROOT_DIR}/src/user_storage_encrypted/key_derivation_service.cpp
+    )
+    target_include_directories(test_user_storage_v03_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/include/user_storage_encrypted
+        ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/src/user_storage_encrypted
+    )
+    target_link_libraries(test_user_storage_v03_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    if(nlohmann_json_FOUND)
+        target_link_libraries(test_user_storage_v03_focused PRIVATE nlohmann_json::nlohmann_json)
+    endif()
+    target_compile_definitions(test_user_storage_v03_focused PRIVATE THEMIS_TEST_BUILD=1)
+    set_target_properties(test_user_storage_v03_focused PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED ON
+    )
+    add_test(NAME UserStorageV03Tests COMMAND test_user_storage_v03_focused)
+    set_tests_properties(UserStorageV03Tests PROPERTIES
+        LABELS "user_storage;encrypted;metrics;prometheus;v030;focused;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  USE-01..08: getMetricsText() Prometheus output")
+    message(STATUS "  USE-09..10: recordKeyRotation() counter")
+    message(STATUS "  USE-11..12: GocryptfsBackend executeCommandSafe() (deprecated executeCommand removed)")
+endif()
+
 # ── Chaos Network focused tests (Phase 4.3) ───────────────────────────────────
 if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_chaos_network.cpp")
     message(STATUS "Adding Chaos: Network chaos focused tests (Phase 4.3)")

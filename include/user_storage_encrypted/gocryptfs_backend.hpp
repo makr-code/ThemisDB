@@ -181,13 +181,6 @@ private:
 
     // --- Legacy / internal helpers ---
 
-    /** @deprecated Use executeCommandSafe() */
-    Result<std::string> executeCommand(
-        const std::string& command,
-        const std::vector<std::string>& args,
-        const std::string& stdin_data = ""
-    );
-
     /// Execute command safely via fork/execvp (no shell).
     Result<std::string> executeCommandSafe(
         const std::vector<std::string>& args
