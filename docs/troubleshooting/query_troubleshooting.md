@@ -348,7 +348,7 @@ query:
 
 ## Related Documentation
 
-- [Query Engine Implementation Guide](../QUERYENGINE_IMPLEMENTATION_GUIDE.md)
-- [AQL Roadmap](../aql_roadmap.md)
+- [Query Engine Implementation Guide](../architecture/QUERYENGINE_IMPLEMENTATION_GUIDE.md)
+- [AQL Roadmap](../de/roadmap/aql_roadmap.md)
 - [Distributed Transactions](../DISTRIBUTED_TRANSACTIONS.md)
 - [Phase 3 Query Engine DI Architecture](../PHASE3_QUERYENGINE_DI_ARCHITECTURE.md)

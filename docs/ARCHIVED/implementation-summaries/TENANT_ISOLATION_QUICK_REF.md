@@ -447,6 +447,6 @@ done
 
 ## See Also
 
-- [Full Tenant Isolation Guide](TENANT_ISOLATION_GUIDE.md)
+- [Full Tenant Isolation Guide](../../de/security/TENANT_ISOLATION_GUIDE.md)
 - [Authentication Guide](AUTH_GUIDE.md)
 - [API Reference](API_REFERENCE.md)

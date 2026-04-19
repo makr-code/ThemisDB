@@ -110,4 +110,4 @@ themisdb-admin utils build-info
 - [Setup Guide](../../SETUP.md)
 - [Operations Guide](../operational_guide.md)
 - [Performance Tuning](../performance/PERFORMANCE_ROADMAP.md)
-- [Security Executive Summary](../SECURITY_EXECUTIVE_SUMMARY.md)
+- [Security Executive Summary](../de/security/SECURITY_EXECUTIVE_SUMMARY.md)

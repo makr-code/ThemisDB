@@ -235,7 +235,7 @@ RELEASE: March 31, 2026
 ---
 
 ### PROJECT SUMMARY ✅
-[PROJECT_SUMMARY_THEMIS_v1.4.md](PROJECT_SUMMARY_THEMIS_v1.4.md)
+[PROJECT_SUMMARY_THEMIS_v1.4.md](../ARCHIVED/implementation-summaries/PROJECT_SUMMARY_THEMIS_v1.4.md)
 - Diese Datei
 - Komplettes Projektübersicht
 - Alle Deliverables Verzeichnis

@@ -467,7 +467,7 @@ If validation fails in CI:
 
 ### Resources
 
-1. [Documentation Validation Guide](DOCUMENTATION_VALIDATION.md)
+1. [Documentation Validation Guide](../../governance/documentation-history/DOCUMENTATION_VALIDATION.md)
 2. [Dokumentations-Validierung (Deutsch)](de/DOKUMENTATIONS_VALIDIERUNG.md)
 3. GitHub Issues
 4. Documentation Team

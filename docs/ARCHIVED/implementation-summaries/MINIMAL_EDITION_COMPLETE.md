@@ -352,8 +352,8 @@ curl http://localhost:8080/health
 ## 📚 Documentation Index
 
 ### For Users
-- [MINIMAL Edition Guide (EN)](docs/MINIMAL_EDITION.md)
-- [MINIMAL Edition Guide (DE)](docs/de/MINIMAL_EDITION.md)
+- [MINIMAL Edition Guide (EN)](../../de/features/MINIMAL_EDITION.md)
+- [MINIMAL Edition Guide (DE)](../../de/features/MINIMAL_EDITION.md)
 - [Edition Comparison](docs/EDITION_COMPARISON.md)
 - [Build Quick Reference](scripts/BUILD_QUICK_REF.md)
 

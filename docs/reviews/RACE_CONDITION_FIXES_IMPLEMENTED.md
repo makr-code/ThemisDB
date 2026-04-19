@@ -405,7 +405,7 @@ Implemented fixes for **all critical and high-priority race conditions** identif
 ## Contact & References
 
 - **Full Analysis:** [RACE_CONDITION_ANALYSIS.md](./RACE_CONDITION_ANALYSIS.md)
-- **Quick Summary:** [RACE_CONDITION_SUMMARY.md](./RACE_CONDITION_SUMMARY.md)
+- **Quick Summary:** [RACE_CONDITION_SUMMARY.md](RACE_CONDITION_SUMMARY.md)
 - **Implementation Branch:** `copilot/search-for-race-conditions`
 
 **Status:** Phase 1 Complete ✅ | Ready for Testing 🧪

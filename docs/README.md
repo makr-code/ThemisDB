@@ -98,7 +98,7 @@ This root file is language-neutral. Bitte wähle eine Sprachversion:
 - **[Server Module](de/server/README.md)** - HTTP Server, 21 API Handlers (164K LOC)
 - **[HTTP API Referenz](de/apis/HTTP_API_REFERENCE.md)** - **Vollständige HTTP Endpoint-Dokumentation** ⭐
 - **[API Documentation](de/apis/README.md)** - REST API Übersicht
-- **[Wire Protocol](wire-protocol.md)** - Binary protocol for client-server communication with TLS/mTLS
+- **[Wire Protocol](architecture/wire-protocol.md)** - Binary protocol for client-server communication with TLS/mTLS
 - **[LLM Module](de/llm/README.md)** - LLM Interaction Store, Prompt Manager
 
 ### Security & Governance Layer

@@ -52,7 +52,7 @@ Neue Badges wurden zum README hinzugefügt:
 
 Eine umfassende Dokumentation wurde erstellt:
 
-- **[CI_TEST_REPORTING.md](CI_TEST_REPORTING.md)** - Vollständige Dokumentation der Test-Reporting-Infrastruktur
+- **[CI_TEST_REPORTING.md](../../ci-cd/CI_TEST_REPORTING.md)** - Vollständige Dokumentation der Test-Reporting-Infrastruktur
   - Konfiguration für verschiedene Test-Frameworks
   - Verwendung von Artifacts und Reports
   - Troubleshooting-Tipps

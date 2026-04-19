@@ -57,7 +57,7 @@ Over the past several releases (v1.3.0 through v1.3.4), the ThemisDB team has co
 - Memory leak prevention
 - Improved database stability
 
-**Documentation:** [Full Audit Report](/docs/ROCKSDB_WRAPPER_AUDIT_REPORT.md)
+**Documentation:** [Full Audit Report](../../Audit/ROCKSDB_WRAPPER_AUDIT_REPORT.md)
 
 ### 2. Docker Security Enhancements (Priority: High)
 

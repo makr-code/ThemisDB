@@ -216,6 +216,6 @@ exporters:
 ## Related Documentation
 
 - [Exporters Module ROADMAP](../../src/exporters/ROADMAP.md)
-- [Exporters Roadmap](../exporters_roadmap.md)
+- [Exporters Roadmap](../de/roadmap/exporters_roadmap.md)
 - [LLM Roadmap](../llm_roadmap.md)
 - [Ingestion Troubleshooting](./ingestion_troubleshooting.md)

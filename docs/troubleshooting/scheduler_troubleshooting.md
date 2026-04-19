@@ -290,5 +290,5 @@ scheduler:
 - [Scheduler Module ROADMAP](../../src/scheduler/ROADMAP.md)
 - [Task Scheduler Cron CDC](../TASK_SCHEDULER_CRON_CDC.md)
 - [Task Scheduler SIEM Integration](../ARCHIVED/implementation-summaries/TASK_SCHEDULER_SIEM_INTEGRATION.md)
-- [Task Audit Events](../TASK_AUDIT_EVENTS.md)
+- [Task Audit Events](../Audit/TASK_AUDIT_EVENTS.md)
 - [Task Audit Quick Reference](../Audit/TASK_AUDIT_QUICK_REF.md)

@@ -444,10 +444,10 @@ Benchmarks werden in folgenden CI-Pipelines ausgeführt:
 - **PR-Checks**: Sanity-Benchmarks bei jedem Pull Request
 - **Release-Validierung**: Vollständige Benchmark-Suite bei Release
 
-Siehe auch: [BENCHMARK_RUNBOOK.md](BENCHMARK_RUNBOOK.md) für operative Details.
+Siehe auch: [BENCHMARK_RUNBOOK.md](../../performance/BENCHMARK_RUNBOOK.md) für operative Details.
 
 ---
 
 **Letzte Aktualisierung:** Februar 2026  
 **Maintainer:** ThemisDB Core Team  
-**Siehe auch:** [TESTING_AND_BENCHMARKING_GUIDE.md](TESTING_AND_BENCHMARKING_GUIDE.md) | [BENCHMARK_RUNBOOK.md](BENCHMARK_RUNBOOK.md) | [Benchmark & Test Audit](de/reports/BENCHMARK_AND_TEST_AUDIT.md)
+**Siehe auch:** [TESTING_AND_BENCHMARKING_GUIDE.md](TESTING_AND_BENCHMARKING_GUIDE.md) | [BENCHMARK_RUNBOOK.md](../../performance/BENCHMARK_RUNBOOK.md) | [Benchmark & Test Audit](de/reports/BENCHMARK_AND_TEST_AUDIT.md)

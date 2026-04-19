@@ -28,7 +28,7 @@ This document summarizes major security improvements made to ThemisDB across rec
 ## 🔒 1. RocksDB Wrapper - Security Audit & Fixes
 
 **Audit Date:** January 2, 2026  
-**Full Report:** [ROCKSDB_WRAPPER_AUDIT_REPORT.md](/docs/ROCKSDB_WRAPPER_AUDIT_REPORT.md)  
+**Full Report:** [ROCKSDB_WRAPPER_AUDIT_REPORT.md](../../Audit/ROCKSDB_WRAPPER_AUDIT_REPORT.md)  
 **German Summary:** [SECURITY_WORK_SUMMARY_V1.3.4.md](/docs/de/releases/SECURITY_WORK_SUMMARY_V1.3.4.md)
 
 ### Critical Vulnerabilities Fixed (7)

@@ -64,7 +64,7 @@ ThemisDB v1.4.0-alpha represents a major advancement in AI/LLM capabilities with
 
 **Documentation:**
 - [Grammar-Constrained Generation Guide](docs/en/llm/GRAMMAR_CONSTRAINED_GENERATION.md)
-- [Implementation Complete](GRAMMAR_IMPLEMENTATION_COMPLETE.md)
+- [Implementation Complete](../ARCHIVED/implementation-summaries/GRAMMAR_IMPLEMENTATION_COMPLETE.md)
 
 ---
 
@@ -374,7 +374,7 @@ config.batch_timeout_ms = 100;
 - [Complete Changelog](CHANGELOG.md#v140-alpha)
 - [README Updates](README.md#-whats-new)
 - [LLM Documentation Index](docs/en/llm/README.md)
-- [Compendium Update Notes](compendium/V1.4.0_ALPHA_UPDATE_NOTES.md)
+- [Compendium Update Notes](V1.4.0_ALPHA_UPDATE_NOTES.md)
 - [All Implementation Summaries](.)
 
 ---
@@ -396,7 +396,7 @@ config.batch_timeout_ms = 100;
 5. Report any issues or suggestions
 
 ### For Documentation Team
-1. Update compendium chapters (see [V1.4.0_ALPHA_UPDATE_NOTES.md](compendium/V1.4.0_ALPHA_UPDATE_NOTES.md))
+1. Update compendium chapters (see [V1.4.0_ALPHA_UPDATE_NOTES.md](V1.4.0_ALPHA_UPDATE_NOTES.md))
 2. Regenerate PDF documentation
 3. Synchronize Wiki if applicable
 4. Translate documentation to other languages

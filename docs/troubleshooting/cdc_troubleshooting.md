@@ -280,7 +280,7 @@ cdc:
 ## Related Documentation
 
 - [CDC Module ROADMAP](../../src/cdc/ROADMAP.md)
-- [CDC Roadmap](../cdc_roadmap.md)
+- [CDC Roadmap](../de/roadmap/cdc_roadmap.md)
 - [CDC Operations Runbook](../CDC_OPERATIONS_RUNBOOK.md)
 - [CDC Implementation Summary](../ARCHIVED/implementation-summaries/CDC_IMPLEMENTATION_SUMMARY.md)
 - [Changefeed Authentication](../security/changefeed_authentication.md)

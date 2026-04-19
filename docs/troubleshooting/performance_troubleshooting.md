@@ -255,4 +255,4 @@ performance:
 - [Phase 1 mimalloc Implementation](../ARCHIVED/implementation-summaries/PHASE1_MIMALLOC_IMPLEMENTATION.md)
 - [Performance Roadmap](../performance/PERFORMANCE_ROADMAP.md)
 - [MMAP Performance Impact](../performance/MMAP_PERFORMANCE_IMPACT.md)
-- [Build Performance Optimizations](../BUILD_PERFORMANCE_OPTIMIZATIONS.md)
+- [Build Performance Optimizations](../performance/BUILD_PERFORMANCE_OPTIMIZATIONS.md)

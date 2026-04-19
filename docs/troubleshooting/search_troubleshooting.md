@@ -296,4 +296,4 @@ search:
 - [Search Module ROADMAP](../../src/search/ROADMAP.md)
 - [Multi-Vector Search](../de/aql/multi_vector_search.md)
 - [RAG Judge LLM Integration](../llm_orchestration/RAG_JUDGE_LLM_INTEGRATION.md)
-- [NLP Integration Analysis](../NLP_INTEGRATION_ANALYSIS.md)
+- [NLP Integration Analysis](../ARCHIVED/implementation-summaries/NLP_INTEGRATION_ANALYSIS.md)

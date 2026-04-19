@@ -20,7 +20,7 @@ ThemisDB hat einen umfassenden Prozess für kontinuierliche Dokumentationsverbes
 - [DOCUMENTATION_REVIEW_GUIDELINES.md](DOCUMENTATION_REVIEW_GUIDELINES.md) - Vollständige Review-Richtlinien
 - [PR_DOCUMENTATION_CHECKLIST.md](PR_DOCUMENTATION_CHECKLIST.md) - PR Dokumentations-Checkliste Template
 - [DOCUMENTATION_MERGE_PROTOCOL.md](DOCUMENTATION_MERGE_PROTOCOL.md) - Merge-Protokoll für Doku-PRs
-- [DOCUMENTATION_REVIEW_SCHEDULE.md](DOCUMENTATION_REVIEW_SCHEDULE.md) - Review-Kalender und Templates
+- [DOCUMENTATION_REVIEW_SCHEDULE.md](governance/documentation-history/DOCUMENTATION_REVIEW_SCHEDULE.md) - Review-Kalender und Templates
 - [DOCUMENTATION_IMPROVEMENT_QUICKREF.md](governance/documentation-history/DOCUMENTATION_IMPROVEMENT_QUICKREF.md) - Schnellreferenz für tägliche Arbeit
 - [DOCUMENTATION_FEEDBACK_MECHANISMS.md](DOCUMENTATION_FEEDBACK_MECHANISMS.md) - Feedback-Kanäle und Response-Prozess
 
@@ -342,7 +342,7 @@ ThemisDB now has a comprehensive observability documentation hub that consolidat
 - ✅ **Gaps & Future Work:** Identified lack of unified metrics module, recommendations for v1.6+
 
 **Related Files:**
-- [Tracing Configuration Guide](tracing-configuration.md) - Detailed tracing setup
+- [Tracing Configuration Guide](build-guide/tracing-configuration.md) - Detailed tracing setup
 - [LLM Response Cache Metrics](de/llm/NATIVE_LLM_INTEGRATION_CONCEPT.md) - Cache metrics integration
 - [Utils Module README](../src/utils/README.md) - Updated with observability link
 - [German Observability Docs](de/observability/) - Comprehensive German documentation
@@ -594,7 +594,7 @@ RELEASE: March 31, 2026
 ---
 
 ### PROJECT SUMMARY ✅
-[PROJECT_SUMMARY_THEMIS_v1.4.md](PROJECT_SUMMARY_THEMIS_v1.4.md)
+[PROJECT_SUMMARY_THEMIS_v1.4.md](ARCHIVED/implementation-summaries/PROJECT_SUMMARY_THEMIS_v1.4.md)
 - Diese Datei
 - Komplettes Projektübersicht
 - Alle Deliverables Verzeichnis

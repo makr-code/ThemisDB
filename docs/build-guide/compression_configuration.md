@@ -493,6 +493,6 @@ Disable compression or increase min_size:
 
 ## See Also
 
-- [Compression and Encoding Strategies](compression_and_encoding_strategies.md)
+- [Compression and Encoding Strategies](../performance/compression_and_encoding_strategies.md)
 - [Performance Tuning Guide](PERFORMANCE_PROFILING_GUIDE.md)
 - [Storage Configuration](storage_configuration.md)

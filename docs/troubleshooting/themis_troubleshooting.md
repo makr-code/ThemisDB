@@ -226,4 +226,4 @@ themis:
 - [Core Troubleshooting](./core_troubleshooting.md)
 - [Edition Manager](../EDITION_MANAGER.md)
 - [Signature Verification Guide](../de/security/SIGNATURE_VERIFICATION_GUIDE.md)
-- [Wire Protocol](../wire-protocol.md)
+- [Wire Protocol](../architecture/wire-protocol.md)

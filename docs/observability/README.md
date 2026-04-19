@@ -158,7 +158,7 @@ try {
 
 ### Documentation
 
-- **[Tracing Configuration Guide](../tracing-configuration.md)** - Complete setup and integration guide
+- **[Tracing Configuration Guide](../build-guide/tracing-configuration.md)** - Complete setup and integration guide
 - [Tracing Implementation](../de/src/utils/tracing.cpp.md) (German)
 - [OpenTelemetry Documentation](https://opentelemetry.io/docs/)
 
@@ -493,7 +493,7 @@ docker run -d --name grafana \
 ## Related Documentation
 
 ### Core Documentation
-- **[Tracing Configuration Guide](../tracing-configuration.md)** - Complete tracing setup
+- **[Tracing Configuration Guide](../build-guide/tracing-configuration.md)** - Complete tracing setup
 - **[LLM Response Cache Metrics](../LLM_RESPONSE_CACHE_METRICS.md)** - Cache metrics integration
 - **[Utils Module README](../../src/utils/README.md)** - Logging and utility components
 

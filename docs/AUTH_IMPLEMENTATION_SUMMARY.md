@@ -414,7 +414,7 @@ The auth module has been successfully hardened for production deployment. All P0
 
 ## References
 
-- [Auth Roadmap](auth_roadmap.md) - Full production readiness assessment
+- [Auth Roadmap](de/roadmap/auth_roadmap.md) - Full production readiness assessment
 - [Auth Module README](../src/auth/README.md) - Module documentation
 - [Error Registry](../src/utils/error_registry.cpp) - Error code system
 - [Rate Limiter](../src/server/rate_limiter.cpp) - Token bucket implementation

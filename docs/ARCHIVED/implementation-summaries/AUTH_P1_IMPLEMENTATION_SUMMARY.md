@@ -389,7 +389,7 @@ These features work together to provide defense-in-depth security for the authen
 
 ## References
 
-- [Auth Roadmap](auth_roadmap.md) - Full production readiness assessment
+- [Auth Roadmap](../../de/roadmap/auth_roadmap.md) - Full production readiness assessment
 - [P0 Implementation Summary](AUTH_IMPLEMENTATION_SUMMARY.md) - Foundation phase
 - RFC 7517: JSON Web Key (JWK)
 - RFC 7518: JSON Web Algorithms (JWA)

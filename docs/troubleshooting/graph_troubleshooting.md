@@ -293,4 +293,4 @@ graph:
 - [Graph Roadmap](../de/roadmap/graph_roadmap.md)
 - [General Traversal Feature](../ARCHIVED/implementation-summaries/GENERAL_TRAVERSAL_FEATURE.md)
 - [Community Detection AQL](../ARCHIVED/implementation-summaries/COMMUNITY_DETECTION_AQL.md)
-- [AQL Roadmap](../aql_roadmap.md)
+- [AQL Roadmap](../de/roadmap/aql_roadmap.md)

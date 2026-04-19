@@ -221,7 +221,7 @@ aql:
 ## Related Documentation
 
 - [AQL Module ROADMAP](../../src/aql/ROADMAP.md)
-- [AQL Roadmap](../aql_roadmap.md)
+- [AQL Roadmap](../de/roadmap/aql_roadmap.md)
 - [AQL Functions Implementation Status](../de/roadmap/aql_functions_implementation_status.md)
 - [Query Troubleshooting](./query_troubleshooting.md)
-- [Grammar Implementation Summary](../GRAMMAR_IMPLEMENTATION_SUMMARY.md)
+- [Grammar Implementation Summary](../ARCHIVED/implementation-summaries/GRAMMAR_IMPLEMENTATION_SUMMARY.md)

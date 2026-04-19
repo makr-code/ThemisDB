@@ -297,7 +297,7 @@ python3 scripts/validate_config_mapping.py
 
 ## Additional Resources
 
-- [Config Subsystem Roadmap](config_roadmap.md)
+- [Config Subsystem Roadmap](../de/roadmap/config_roadmap.md)
 - [Config Path Resolver API](../include/config/config_path_resolver.h)
 - [Architecture Overview](de/architecture/ARCHITECTURE_OVERVIEW.md)
 - [Security Framework](../SECURITY.md)

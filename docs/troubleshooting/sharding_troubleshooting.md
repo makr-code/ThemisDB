@@ -329,4 +329,4 @@ sharding:
 - [Distributed Transactions](../DISTRIBUTED_TRANSACTIONS.md)
 - [Cross-Shard Testing](../ARCHIVED/implementation-summaries/CROSS_SHARD_TESTING.md)
 - [Raft Consensus Design](../architecture/RAFT_CONSENSUS_DESIGN.md)
-- [Hot Spare Management](../hot_spare_management.md)
+- [Hot Spare Management](../build-guide/hot_spare_management.md)

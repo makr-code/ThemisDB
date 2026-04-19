@@ -526,7 +526,7 @@ auto decrypted = enc.decrypt(encrypted);
 **Documentation:**
 - [Auth README](../../src/auth/README.md)
 - [Authentication Guide](../../docs/security/authentication.md)
-- [Kerberos Implementation](../../KERBEROS_IMPLEMENTATION_SUMMARY.md)
+- [Kerberos Implementation](../ARCHIVED/implementation-summaries/KERBEROS_IMPLEMENTATION_SUMMARY.md)
 
 **Example Usage:**
 ```cpp
