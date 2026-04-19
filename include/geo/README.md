@@ -22,6 +22,13 @@ Public interfaces and declarations for geo functionality. Implementation source 
 | `temporal_spatial_query.h` | `TemporalSpatialQuery` — location-at-time-T and entities-within-distance-at-time-T queries |
 | `tile_server.h` | `TileServer` — map tile server integration (tile request routing, cache) |
 | `device_detector.h` | `DeviceDetector` — runtime GPU device discovery, compute-capability and VRAM reporting |
+| `geo_faiss_knn.h` | `GeoFaissKnn` — FAISS-backed approximate k-nearest-neighbour geo search |
+| `geo_json_geometry.h` | `GeoJsonGeometry` — GeoJSON geometry parsing and serialisation utilities |
+| `geo_math.h` | `GeoMath` — haversine, bearing, and ellipsoidal distance primitives |
+| `raster_query_interface.h` | `IRasterQuery` — abstract raster query interface |
+| `rtree_cursor.h` | `RTreeCursor` — incremental cursor for paginated R-tree result iteration |
+| `spatial_join_filter.h` | `SpatialJoinFilter` — predicate filters for spatial join pipelines |
+| `temporal_spatial_query_builder.h` | `TemporalSpatialQueryBuilder` — fluent builder for `TemporalSpatialQuery` |
 
 ## Documentation
 

@@ -1,35 +1,35 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset release && cmake --build build/release`
 
-# distributed_knowledge
+# distributed_knowledge — Public Headers
 
-Pfad: `include/distributed_knowledge`
+**Module Path:** `include/distributed_knowledge/`
+**Implementation:** `../../src/distributed_knowledge/`
 
-## Zweck
-Dieser Ordner enthält 0 Unterordner und 4 Dateien und bildet einen abgegrenzten Teil der Repository-Struktur.
+## Purpose
 
-## Dateien nach Kategorien
-- **Sourcecode**: `adapter_capability_announcement.h`, `cross_shard_feedback_sync.h`, `federated_rag_merger.h`, `lora_federation_coordinator.h`
+Public interfaces for ThemisDB's distributed knowledge federation — cross-shard model feedback, federated RAG merging, and LoRA adapter coordination.
 
-## Hinweise
-- Änderungen in diesem Ordner sollten mit den übergeordneten Architektur- und Sicherheitsrichtlinien des Projekts abgestimmt werden.
-- Für tieferliegende Teilbereiche existieren ggf. zusätzliche README- und Moduldokumente.
+## Header Files
 
-_Automatisch erzeugt/aktualisiert am 2026-04-17._
+| Header | Primary Class / Interface |
+|--------|--------------------------|
+| `adapter_capability_announcement.h` | `AdapterCapabilityAnnouncement` — broadcasts adapter capabilities across shards |
+| `cross_shard_feedback_sync.h` | `CrossShardFeedbackSync` — synchronises model feedback across shards |
+| `federated_rag_merger.h` | `FederatedRAGMerger` — merges RAG results from multiple federated nodes |
+| `lora_federation_coordinator.h` | `LoRAFederationCoordinator` — coordinates LoRA adapter distribution |
+
+## Build
+
+```cmake
+cmake --preset release && cmake --build build/release --target themis-distributed-knowledge
+```
+
+## See Also
+
+- [`../../src/distributed_knowledge/README.md`](../../src/distributed_knowledge/README.md) — implementation details
 
 ## Installation
-
-This module is included as part of ThemisDB. Add the module headers to your include path:
 
 ```cmake
 target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
 ```
-
-## Usage
-
-Include the relevant headers from this module:
-
-```cpp
-#include "distributed_knowledge/module_header.h"
-```
-
-See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.
