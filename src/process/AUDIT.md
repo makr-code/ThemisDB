@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Process Modeling Module
@@ -18,13 +18,19 @@ supports Graph-RAG context assembly for German administrative proceedings
 |---|------|-------------|-------|--------|
 | 1 | `process_model_manager.cpp` | `ProcessModelManager` — import/export BPMN/EPK/VCC-VPB, CRUD, versioned RocksDB storage, `findSimilar`, `deployToEngine` | 760 | ✅ Complete |
 | 2 | `bpmn_serializer.cpp` | `BpmnSerializer` — BPMN 2.0 XML import (regex-based, lenient) and ISO/IEC 19510 export | 434 | ✅ Complete |
-| 3 | `epk_serializer.cpp` | `EpkSerializer` — EPK text/JSON import and export; all 9 EPK node types | 354 | ✅ Complete |
-| 4 | `llm_process_descriptor.cpp` | `LlmProcessDescriptor` — structured JSON + system-prompt text; conformance-checking prompt builder | 312 | ✅ Complete |
-| 5 | `vcc_vpb_importer.cpp` | `VccVpbImporter` — single, batch-list, and directory YAML import; 17 pre-loaded models | 725 | ✅ Complete |
-| 6 | `process_linker.cpp` | `ProcessLinker` — attach/detach documents, process-to-process links, required-document registry, missing-document detection | 490 | ✅ Complete |
-| 7 | `process_graph_rag.cpp` | `ProcessGraphRag` — `KnowledgeGraph` build, BFS subgraph extraction, RAG context assembly, Verwaltungsvorgang summary, compliance check | 1028 | ✅ Complete |
+| 3 | `dmn_evaluator.cpp` | `DmnEvaluator` — DMN decision table evaluation engine | — | ✅ Complete |
+| 4 | `epk_aris_xml_importer.cpp` | `EpkArisXmlImporter` — ARIS XML format EPK import | — | ✅ Complete |
+| 5 | `epk_serializer.cpp` | `EpkSerializer` — EPK text/JSON import and export; all 9 EPK node types | 354 | ✅ Complete |
+| 6 | `llm_process_descriptor.cpp` | `LlmProcessDescriptor` — structured JSON + system-prompt text; conformance-checking prompt builder | 312 | ✅ Complete |
+| 7 | `ocel_exporter.cpp` | `OcelExporter` — OCEL 2.0 object-centric event log export | — | ✅ Complete |
+| 8 | `process_agentic_rag.cpp` | `ProcessAgenticRag` — agentic RAG with tool-calling over process knowledge base | — | ✅ Complete |
+| 9 | `process_graph_rag.cpp` | `ProcessGraphRag` — `KnowledgeGraph` build, BFS subgraph extraction, RAG context assembly | 1028 | ✅ Complete |
+| 10 | `process_linker.cpp` | `ProcessLinker` — attach/detach documents, process-to-process links, required-document registry | 490 | ✅ Complete |
+| 11 | `process_model_generator.cpp` | `ProcessModelGenerator` — LLM-driven automatic process model generation | — | ✅ Complete |
+| 12 | `vcc_vpb_importer.cpp` | `VccVpbImporter` — single, batch-list, and directory YAML import; 17 pre-loaded models | 725 | ✅ Complete |
 
-**Total: 7 source files — 4,103 lines of implementation**
+**Total: 12 source files**
+
 
 ---
 

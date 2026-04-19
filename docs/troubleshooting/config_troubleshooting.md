@@ -247,6 +247,6 @@ config:
 ## Related Documentation
 
 - [Config Module ROADMAP](../../src/config/ROADMAP.md)
-- [Config Roadmap](../de/roadmap/config_roadmap.md)
-- [Config Implementation Summary](../ARCHIVED/implementation-summaries/config_implementation_summary.md)
-- [Config Migration Guide](../migration/config_migration_guide.md)
+- [Config Roadmap](../config_roadmap.md)
+- [Config Implementation Summary](../implementation-history/summaries/config_implementation_summary.md)
+- [Config Migration Guide](../config_migration_guide.md)

@@ -34,10 +34,6 @@ CrossShardFeedbackSync::CrossShardFeedbackSync(
 }
 
 CrossShardFeedbackSync::~CrossShardFeedbackSync() = default;
-CrossShardFeedbackSync::CrossShardFeedbackSync(
-    CrossShardFeedbackSync&&) noexcept = default;
-CrossShardFeedbackSync& CrossShardFeedbackSync::operator=(
-    CrossShardFeedbackSync&&) noexcept = default;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // publishFeedback

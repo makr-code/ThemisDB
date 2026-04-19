@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Ethics AI Module
@@ -30,9 +30,10 @@ and synthesises scored ethical decisions stored as BaseEntity documents.
 | 13 | `ethics_ai_types.cpp` | Type helper implementations | — | ✅ Complete |
 | 14 | `ethics_aql_queries.h` | AQL query string constants for 7 RAG patterns | — | ✅ Complete |
 | 15 | `ethics_base_entity_adapter.h` | BaseEntity adapter for ethics domain types | — | ✅ Complete |
-| 16 | `CMakeLists.txt` | Build configuration | — | ✅ Complete |
+| 16 | `chain_visualizer.cpp` | Chain-of-thought visualization and ethics reasoning trace display | — | ✅ Complete |
+| 17 | `CMakeLists.txt` | Build configuration | — | ✅ Complete |
 
-**Total: 16 files**
+**Total: 17 files**
 
 ---
 

@@ -383,3 +383,7 @@ Known limitations (by design):
 4. Rubin, O., Herzig, J., & Berant, J. (2022). **Learning To Retrieve Prompts for In-Context Learning**. *Proceedings of NAACL-HLT 2022*, 1523–1535. https://doi.org/10.18653/v1/2022.naacl-main.191
 
 5. Lester, B., Al-Rfou, R., & Constant, N. (2021). **The Power of Scale for Parameter-Efficient Prompt Tuning**. *Proceedings of EMNLP 2021*, 3045–3059. https://doi.org/10.18653/v1/2021.emnlp-main.243
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

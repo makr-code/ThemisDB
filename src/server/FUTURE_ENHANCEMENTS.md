@@ -67,7 +67,7 @@
 ---
 
 
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Add GraphQL endpoint alongside REST API for flexible client queries.
@@ -99,7 +99,7 @@ server.registerHandler("/graphql", gql_server.handler());
 ---
 
 ### WebAssembly API Handlers ✅ Implemented (v2.1.0)
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** ~~v1.8.0~~ v2.1.0 – **DONE**
 
 Execute user-defined API handlers in WebAssembly sandbox.
@@ -135,8 +135,8 @@ server.registerHandler("/api/v1/functions/{id}/wasm/invoke",
 ---
 
 ### HTTP/3 Production Readiness
-**Priority:** High  
-**Target Version:** v1.6.0  
+**Priority:** High
+**Target Version:** v1.6.0
 **Status:** ✅ Implemented (v1.6.0)
 
 Move HTTP/3 from experimental to production-ready.
@@ -160,8 +160,8 @@ Move HTTP/3 from experimental to production-ready.
 ### API Gateway Enhancements
 
 #### Distributed API Gateway ✅ Implemented (v1.7.0)
-**Priority:** High  
-**Target Version:** v1.7.0  
+**Priority:** High
+**Target Version:** v1.7.0
 **Status:** ✅ Implemented — `src/server/distributed_gateway.cpp`, `include/server/distributed_gateway.h`
 
 Deploy API Gateway in distributed mode with Raft consensus.
@@ -187,8 +187,8 @@ Client → Load Balancer → [Gateway Node 1]
 ---
 
 #### Smart Routing ✅ Implemented (v1.8.0)
-**Priority:** Medium  
-**Target Version:** v1.8.0  
+**Priority:** Medium
+**Target Version:** v1.8.0
 **Status:** ✅ Implemented — `src/server/smart_routing.cpp`, `include/server/smart_routing.h`
 
 ML-inspired routing decisions for optimal performance.
@@ -223,8 +223,8 @@ auto backend = router.route("entity:42"); // → "shard-0" (cache predicted)
 ---
 
 #### Request Coalescing ✅ Implemented (v1.7.0)
-**Priority:** Medium  
-**Target Version:** v1.7.0  
+**Priority:** Medium
+**Target Version:** v1.7.0
 **Status:** ✅ Implemented — `src/server/request_coalescing.cpp`, `include/server/request_coalescing.h`
 
 Merges duplicate in-flight GET/HEAD requests to the same resource.
@@ -304,8 +304,8 @@ auto info = provider.handleIntrospect(bearer_token);
 ---
 
 #### SAML 2.0 Support ✅ Implemented (v1.7.0)
-**Priority:** Medium  
-**Target Version:** v1.7.0  
+**Priority:** Medium
+**Target Version:** v1.7.0
 **Status:** ✅ Implemented — `src/server/saml_auth_provider.cpp`, `include/server/saml_auth_provider.h`
 
 SAML 2.0 Service Provider for enterprise SSO. SP-initiated AuthnRequest, Assertion Consumer
@@ -326,7 +326,7 @@ Service (ACS), Single Logout (SLO), and SP metadata generation are all implement
 
 
 #### Passwordless Authentication
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 WebAuthn/FIDO2 support for passwordless login.
@@ -342,8 +342,8 @@ WebAuthn/FIDO2 support for passwordless login.
 ### Rate Limiting Improvements
 
 #### Distributed Rate Limiting ✅ Implemented (v1.6.0)
-**Priority:** High  
-**Target Version:** v1.6.0  
+**Priority:** High
+**Target Version:** v1.6.0
 **Status:** ✅ Implemented — `src/server/rate_limiter_v2.cpp`, `include/server/rate_limiter_v2.h`
 
 Cluster-wide rate limiting with Redis backend. `TokenBucketRateLimiter` supports
@@ -371,8 +371,8 @@ RateLimiterV2 limiter(config);
 ---
 
 #### Adaptive Rate Limiting ✅ Implemented (v1.7.0)
-**Priority:** Medium  
-**Target Version:** v1.7.0  
+**Priority:** Medium
+**Target Version:** v1.7.0
 **Status:** ✅ Implemented — `src/server/adaptive_rate_limiter.cpp`, `include/server/adaptive_rate_limiter.h`
 
 Automatically adjusts per-tenant rate limits based on live backend health using a
@@ -397,8 +397,8 @@ Backend recovered: Gradually increase back to 1000 req/min
 ---
 
 #### Cost-Based Rate Limiting ✅ Implemented (v1.7.0)
-**Priority:** Medium  
-**Target Version:** v1.7.0  
+**Priority:** Medium
+**Target Version:** v1.7.0
 **Status:** ✅ Implemented — `src/server/cost_based_rate_limiter.cpp`, `include/server/cost_based_rate_limiter.h`
 
 Rate-limits by resource cost rather than raw request count.  Each client gets a
@@ -427,7 +427,7 @@ cost unit.  Prevents expensive operations from monopolizing shared resources.
 ### API Versioning & Evolution
 
 #### Automatic API Versioning
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Automatic version negotiation and compatibility checks.
@@ -453,7 +453,7 @@ Response:
 ---
 
 #### API Evolution without Breaking Changes
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Support multiple API versions simultaneously.
@@ -483,7 +483,7 @@ transformer.registerVersion("v2", [](Response res) {
 ### Protocol Enhancements
 
 #### gRPC-Web Support
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 gRPC-Web for browser clients.
@@ -497,7 +497,7 @@ gRPC-Web for browser clients.
 ---
 
 #### Server-Sent Events (SSE) Improvements
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Enhanced SSE with better reconnection and filtering.
@@ -523,7 +523,7 @@ SSEConnectionManager sse_mgr(config);
 ---
 
 #### WebSocket Binary Protocol
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Efficient binary protocol for WebSocket.
@@ -541,7 +541,7 @@ Efficient binary protocol for WebSocket.
 ### Observability & Monitoring
 
 #### OpenTelemetry Native Integration
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Native OpenTelemetry instrumentation for all API handlers.
@@ -556,7 +556,7 @@ Native OpenTelemetry instrumentation for all API handlers.
 ---
 
 #### API Analytics Dashboard
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Real-time API analytics and insights.
@@ -573,7 +573,7 @@ Real-time API analytics and insights.
 ---
 
 #### Request Logging Enhancements
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Structured logging with correlation IDs.
@@ -590,12 +590,12 @@ Structured logging with correlation IDs.
 ### Performance Optimizations
 
 #### Zero-Copy Response Serialization
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Avoid memory copies during response serialization.
 
-**Current:** Storage → Copy to buffer → JSON encode → Copy to socket  
+**Current:** Storage → Copy to buffer → JSON encode → Copy to socket
 **Target:** Storage → JSON encode directly to socket buffer
 
 **Expected Improvement:** 30-50% throughput increase for large responses
@@ -603,7 +603,7 @@ Avoid memory copies during response serialization.
 ---
 
 #### Connection Pooling for gRPC
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Reuse gRPC channels for better performance.
@@ -616,7 +616,7 @@ Reuse gRPC channels for better performance.
 ---
 
 #### HTTP Response Caching
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Cache HTTP responses at API Gateway level.
@@ -645,12 +645,12 @@ response.set(http::field::etag, "\"abc123\"");
 ---
 
 #### Async Request Processing
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Fully async pipeline to avoid blocking worker threads.
 
-**Current:** Some handlers block on I/O (storage, index)  
+**Current:** Some handlers block on I/O (storage, index)
 **Target:** All handlers use async/await pattern
 
 **Benefits:**
@@ -663,7 +663,7 @@ Fully async pipeline to avoid blocking worker threads.
 ## Refactoring Opportunities
 
 ### Migrate to cpp-httplib
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.9.0
 
 Replace Boost.Beast with cpp-httplib for simpler API.
@@ -679,7 +679,7 @@ Replace Boost.Beast with cpp-httplib for simpler API.
 ---
 
 ### Separate Protocol Handlers
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Extract protocol implementations into separate libraries.
@@ -702,12 +702,12 @@ libthemis-grpc/        (gRPC services)
 ---
 
 ### Unified Handler Interface
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Standardize handler interface across all API handlers.
 
-**Current:** Inconsistent signatures and error handling  
+**Current:** Inconsistent signatures and error handling
 **Target:** Unified `IAPIHandler` interface
 
 **Proposal:**
@@ -724,7 +724,7 @@ public:
 ---
 
 ### Policy Engine Plugin System
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Allow custom policy evaluators via plugin API.
@@ -739,7 +739,7 @@ Allow custom policy evaluators via plugin API.
 ## Known Issues
 
 ### Issue #1: WebSocket Memory Leak
-**Severity:** Medium  
+**Severity:** Medium
 **Reported:** v1.5.1
 
 Long-lived WebSocket connections can leak memory over time.
@@ -748,7 +748,7 @@ Long-lived WebSocket connections can leak memory over time.
 - Gradual memory increase with persistent WebSockets
 - Memory not released on connection close
 
-**Workaround:** Periodically restart server or limit WebSocket lifetime  
+**Workaround:** Periodically restart server or limit WebSocket lifetime
 **Fix:** Fix WebSocketSession destructor and buffer cleanup
 
 **Planned Fix:** v1.6.0
@@ -756,7 +756,7 @@ Long-lived WebSocket connections can leak memory over time.
 ---
 
 ### Issue #2: HTTP/2 Stream Exhaustion
-**Severity:** High  
+**Severity:** High
 **Reported:** v1.5.0
 
 HTTP/2 connections can exhaust streams under heavy load.
@@ -765,7 +765,7 @@ HTTP/2 connections can exhaust streams under heavy load.
 - "GOAWAY: stream exhausted" errors
 - Client reconnects frequently
 
-**Workaround:** Lower max concurrent streams or use HTTP/1.1  
+**Workaround:** Lower max concurrent streams or use HTTP/1.1
 **Fix:** Implement stream recycling and better flow control
 
 **Planned Fix:** v1.6.0 (hotfix)
@@ -773,14 +773,14 @@ HTTP/2 connections can exhaust streams under heavy load.
 ---
 
 ### Issue #3: Rate Limiter Race Condition
-**Severity:** Low  
+**Severity:** Low
 **Reported:** v1.5.2
 
 Token bucket can allow bursts slightly over capacity due to race.
 
 **Impact:** Allows ~1-5% more requests than configured limit
 
-**Workaround:** Lower capacity to compensate  
+**Workaround:** Lower capacity to compensate
 **Fix:** Use atomic operations for token updates
 
 **Planned Fix:** v1.6.1
@@ -788,14 +788,14 @@ Token bucket can allow bursts slightly over capacity due to race.
 ---
 
 ### Issue #4: JWT Validation Performance
-**Severity:** Medium  
+**Severity:** Medium
 **Reported:** v1.5.0
 
 JWT validation adds 200-500μs latency per request.
 
 **Cause:** JWKS fetching and signature verification overhead
 
-**Workaround:** Use API tokens for service-to-service communication  
+**Workaround:** Use API tokens for service-to-service communication
 **Fix:** Implement JWT cache with LRU eviction
 
 **Planned Fix:** v1.6.0
@@ -803,14 +803,14 @@ JWT validation adds 200-500μs latency per request.
 ---
 
 ### Issue #5: PostgreSQL Protocol Compatibility
-**Severity:** Medium  
+**Severity:** Medium
 **Reported:** v1.5.1
 
 Some PostgreSQL clients fail with extended query protocol.
 
 **Affected:** pgAdmin, some JDBC drivers
 
-**Workaround:** Use simple query protocol  
+**Workaround:** Use simple query protocol
 **Fix:** Complete extended query protocol implementation
 
 **Planned Fix:** v1.7.0
@@ -818,14 +818,14 @@ Some PostgreSQL clients fail with extended query protocol.
 ---
 
 ### Issue #6: SSE Connection Starvation
-**Severity:** Low  
+**Severity:** Low
 **Reported:** v1.5.0
 
 Too many SSE connections can starve other request types.
 
 **Cause:** SSE holds connections open indefinitely
 
-**Workaround:** Limit SSE connections per client  
+**Workaround:** Limit SSE connections per client
 **Fix:** Separate thread pool for long-lived connections
 
 **Planned Fix:** v1.6.1
@@ -1005,7 +1005,7 @@ target_link_libraries(my_app themis-server)
 
 **New CMake (v1.8.x):**
 ```cmake
-target_link_libraries(my_app 
+target_link_libraries(my_app
     themis-server-core
     themis-http        # Only if using HTTP
     themis-websocket   # Only if using WebSocket
@@ -1063,8 +1063,8 @@ Have ideas for server module improvements? Open an issue or discussion:
 
 ---
 
-*Last Updated: April 2026*  
-*Module Version: v1.7.0*  
+*Last Updated: April 2026*
+*Module Version: v1.7.0*
 *Next Review: v1.8.0 Release*
 
 ---
@@ -1105,45 +1105,45 @@ The planned enhancements described above are grounded in current research. Selec
 
 ### OAuth2 / OIDC (Finding: oauth2_provider.cpp – Target v1.6.0)
 
-[1] D. Hardt, "The OAuth 2.0 Authorization Framework," IETF RFC 6749, Oct. 2012. [Online]. Available: https://www.rfc-editor.org/rfc/rfc6749  
-[2] N. Sakimura et al., "OpenID Connect Core 1.0," OpenID Foundation, Nov. 2014. [Online]. Available: https://openid.net/specs/openid-connect-core-1_0.html  
-[3] D. Fett, B. Campbell, J. Bradley, T. Lodderstedt, M. Jones, and D. Waite, "OAuth 2.0 Security Best Current Practice," IETF BCP 240, Sep. 2024. [Online]. Available: https://www.rfc-editor.org/rfc/rfc9700  
-[4] N. Sakimura et al., "Proof Key for Code Exchange by OAuth Public Clients (PKCE)," IETF RFC 7636, Sep. 2015. [Online]. Available: https://www.rfc-editor.org/rfc/rfc7636  
+[1] D. Hardt, "The OAuth 2.0 Authorization Framework," IETF RFC 6749, Oct. 2012. [Online]. Available: https://www.rfc-editor.org/rfc/rfc6749
+[2] N. Sakimura et al., "OpenID Connect Core 1.0," OpenID Foundation, Nov. 2014. [Online]. Available: https://openid.net/specs/openid-connect-core-1_0.html
+[3] D. Fett, B. Campbell, J. Bradley, T. Lodderstedt, M. Jones, and D. Waite, "OAuth 2.0 Security Best Current Practice," IETF BCP 240, Sep. 2024. [Online]. Available: https://www.rfc-editor.org/rfc/rfc9700
+[4] N. Sakimura et al., "Proof Key for Code Exchange by OAuth Public Clients (PKCE)," IETF RFC 7636, Sep. 2015. [Online]. Available: https://www.rfc-editor.org/rfc/rfc7636
 
 ### Distributed Rate Limiting via Redis (Finding: rate_limiter_v2 – Target v1.6.0)
 
-[5] M. Eisenbud et al., "Maglev: A Fast and Reliable Software Network Load Balancer," in *Proc. 13th USENIX Symposium on Networked Systems Design and Implementation (NSDI)*, 2016, pp. 523–535. [Online]. Available: https://www.usenix.org/conference/nsdi16/technical-sessions/presentation/eisenbud  
-[6] A. Nishtala et al., "Scaling Memcache at Facebook," in *Proc. 10th USENIX NSDI*, 2013, pp. 385–398. [Online]. Available: https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala  
-[7] H. Qian and R. Ripley, "Token Bucket vs. Leaky Bucket: Comparative Analysis for API Rate Limiting in Distributed Systems," *IEEE Access*, vol. 11, pp. 8234–8247, 2023. doi: 10.1109/ACCESS.2023.3241987  
+[5] M. Eisenbud et al., "Maglev: A Fast and Reliable Software Network Load Balancer," in *Proc. 13th USENIX Symposium on Networked Systems Design and Implementation (NSDI)*, 2016, pp. 523–535. [Online]. Available: https://www.usenix.org/conference/nsdi16/technical-sessions/presentation/eisenbud
+[6] A. Nishtala et al., "Scaling Memcache at Facebook," in *Proc. 10th USENIX NSDI*, 2013, pp. 385–398. [Online]. Available: https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala
+[7] H. Qian and R. Ripley, "Token Bucket vs. Leaky Bucket: Comparative Analysis for API Rate Limiting in Distributed Systems," *IEEE Access*, vol. 11, pp. 8234–8247, 2023. doi: 10.1109/ACCESS.2023.3241987
 
 ### Distributed API Gateway with Raft (Finding: distributed_gateway.cpp – Target v1.7.0)
 
-[8] D. Ongaro and J. Ousterhout, "In Search of an Understandable Consensus Algorithm (Extended Version)," in *Proc. 2014 USENIX Annual Technical Conference (ATC)*, 2014, pp. 305–319. [Online]. Available: https://raft.github.io/raft.pdf  
-[9] J. C. Corbett et al., "Spanner: Google's Globally Distributed Database," *ACM Trans. Comput. Syst.*, vol. 31, no. 3, pp. 1–22, Aug. 2013. doi: 10.1145/2491245  
-[10] E. Brewer, "CAP Twelve Years Later: How the 'Rules' Have Changed," *IEEE Computer*, vol. 45, no. 2, pp. 23–29, Feb. 2012. doi: 10.1109/MC.2012.37  
+[8] D. Ongaro and J. Ousterhout, "In Search of an Understandable Consensus Algorithm (Extended Version)," in *Proc. 2014 USENIX Annual Technical Conference (ATC)*, 2014, pp. 305–319. [Online]. Available: https://raft.github.io/raft.pdf
+[9] J. C. Corbett et al., "Spanner: Google's Globally Distributed Database," *ACM Trans. Comput. Syst.*, vol. 31, no. 3, pp. 1–22, Aug. 2013. doi: 10.1145/2491245
+[10] E. Brewer, "CAP Twelve Years Later: How the 'Rules' Have Changed," *IEEE Computer*, vol. 45, no. 2, pp. 23–29, Feb. 2012. doi: 10.1109/MC.2012.37
 
 ### SAML 2.0 Enterprise SSO (Finding: saml_auth_provider.cpp – Target v1.7.0)
 
-[11] P. Madsen et al., "Security Assertion Markup Language (SAML) 2.0 Technical Overview," OASIS Committee Draft, Mar. 2008. [Online]. Available: https://docs.oasis-open.org/security/saml/Post2.0/sstc-saml-tech-overview-2.0.html  
-[12] A. Armando et al., "The AVANTSSAR Platform for the Automated Validation of Trust and Security of Service-Oriented Architectures," in *Proc. 18th International Conference on Tools and Algorithms for the Construction and Analysis of Systems (TACAS)*, Springer, 2012, pp. 267–282. doi: 10.1007/978-3-642-28756-5_19  
-[13] V. Mladenov et al., "On the Security of Modern Single Sign-On Protocols: Second-Order Vulnerabilities in OpenID Connect," in *Proc. 2017 IEEE European Symposium on Security and Privacy (EuroS&P)*, Paris, France, 2017, pp. 395–412. doi: 10.1109/EuroSP.2017.11  
+[11] P. Madsen et al., "Security Assertion Markup Language (SAML) 2.0 Technical Overview," OASIS Committee Draft, Mar. 2008. [Online]. Available: https://docs.oasis-open.org/security/saml/Post2.0/sstc-saml-tech-overview-2.0.html
+[12] A. Armando et al., "The AVANTSSAR Platform for the Automated Validation of Trust and Security of Service-Oriented Architectures," in *Proc. 18th International Conference on Tools and Algorithms for the Construction and Analysis of Systems (TACAS)*, Springer, 2012, pp. 267–282. doi: 10.1007/978-3-642-28756-5_19
+[13] V. Mladenov et al., "On the Security of Modern Single Sign-On Protocols: Second-Order Vulnerabilities in OpenID Connect," in *Proc. 2017 IEEE European Symposium on Security and Privacy (EuroS&P)*, Paris, France, 2017, pp. 395–412. doi: 10.1109/EuroSP.2017.11
 
 ### WebAssembly Sandboxed API Handlers (Finding: wasm_handler_registry.cpp – Target v1.8.0)
 
-[14] A. Haas et al., "Bringing the Web up to Speed with WebAssembly," in *Proc. 38th ACM SIGPLAN Conference on Programming Language Design and Implementation (PLDI)*, 2017, pp. 185–200. doi: 10.1145/3062341.3062363  
-[15] N. Narayan et al., "Swivel: Hardening WebAssembly against Spectre," in *Proc. 30th USENIX Security Symposium*, 2021, pp. 1433–1450. [Online]. Available: https://www.usenix.org/conference/usenixsecurity21/presentation/narayan  
-[16] S. Sartakov et al., "CAP-VMs: Capability-Based Isolation and Sharing in the Cloud," in *Proc. 16th USENIX OSDI*, 2022, pp. 597–612. [Online]. Available: https://www.usenix.org/conference/osdi22/presentation/sartakov  
+[14] A. Haas et al., "Bringing the Web up to Speed with WebAssembly," in *Proc. 38th ACM SIGPLAN Conference on Programming Language Design and Implementation (PLDI)*, 2017, pp. 185–200. doi: 10.1145/3062341.3062363
+[15] N. Narayan et al., "Swivel: Hardening WebAssembly against Spectre," in *Proc. 30th USENIX Security Symposium*, 2021, pp. 1433–1450. [Online]. Available: https://www.usenix.org/conference/usenixsecurity21/presentation/narayan
+[16] S. Sartakov et al., "CAP-VMs: Capability-Based Isolation and Sharing in the Cloud," in *Proc. 16th USENIX OSDI*, 2022, pp. 597–612. [Online]. Available: https://www.usenix.org/conference/osdi22/presentation/sartakov
 
 ### HTTP/3 and QUIC Congestion Control (Ongoing hardening)
 
-[17] J. Iyengar and M. Thomson (Eds.), "QUIC: A UDP-Based Multiplexed and Secure Transport," IETF RFC 9000, May 2021. doi: 10.17487/RFC9000. [Online]. Available: https://www.rfc-editor.org/rfc/rfc9000  
-[18] M. Bishop (Ed.), "HTTP/3," IETF RFC 9114, Jun. 2022. doi: 10.17487/RFC9114. [Online]. Available: https://www.rfc-editor.org/rfc/rfc9114  
-[19] I. Swett et al., "QUIC Loss Detection and Congestion Control," IETF RFC 9002, May 2021. [Online]. Available: https://www.rfc-editor.org/rfc/rfc9002  
+[17] J. Iyengar and M. Thomson (Eds.), "QUIC: A UDP-Based Multiplexed and Secure Transport," IETF RFC 9000, May 2021. doi: 10.17487/RFC9000. [Online]. Available: https://www.rfc-editor.org/rfc/rfc9000
+[18] M. Bishop (Ed.), "HTTP/3," IETF RFC 9114, Jun. 2022. doi: 10.17487/RFC9114. [Online]. Available: https://www.rfc-editor.org/rfc/rfc9114
+[19] I. Swett et al., "QUIC Loss Detection and Congestion Control," IETF RFC 9002, May 2021. [Online]. Available: https://www.rfc-editor.org/rfc/rfc9002
 
 ### gRPC-Web TypeScript Client Generation ✅ Implemented (v1.7.0)
 
-[20] L. Fang et al., "gRPC: A Modern Open Source High Performance RPC Framework," in *Proc. ACM SIGCOMM*, 2023. doi: 10.1145/3603269.3604817  
-[21] P. Beschastnikh et al., "Improving Service Versioning and API Compatibility via Semantic Versioning Analysis," in *Proc. 2023 IEEE International Conference on Software Analysis, Evolution and Reengineering (SANER)*, 2023, pp. 482–491. doi: 10.1109/SANER56733.2023.00054  
+[20] L. Fang et al., "gRPC: A Modern Open Source High Performance RPC Framework," in *Proc. ACM SIGCOMM*, 2023. doi: 10.1145/3603269.3604817
+[21] P. Beschastnikh et al., "Improving Service Versioning and API Compatibility via Semantic Versioning Analysis," in *Proc. 2023 IEEE International Conference on Software Analysis, Evolution and Reengineering (SANER)*, 2023, pp. 482–491. doi: 10.1109/SANER56733.2023.00054
 
 ---
 

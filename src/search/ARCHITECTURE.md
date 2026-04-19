@@ -2,8 +2,8 @@
 
 <!-- Status: current | validated: 2026-04-06 | commit: a14cdb2 -->
 
-**Version:** 1.2  
-**Last Updated:** 2026-04-06  
+**Version:** 1.2
+**Last Updated:** 2026-04-06
 **Module Path:** `src/search/`
 
 ---

@@ -8,7 +8,7 @@ Welcome to the ThemisDB Git Flow Branching Strategy documentation! This index he
 
 Start here to understand the overall strategy:
 
-1. **[BRANCHING_IMPLEMENTATION_SUMMARY.md](ci-cd/branching-release-history/BRANCHING_IMPLEMENTATION_SUMMARY.md)** ⭐ **START HERE**
+1. **[BRANCHING_IMPLEMENTATION_SUMMARY.md](implementation-history/summaries/BRANCHING_IMPLEMENTATION_SUMMARY.md)** ⭐ **START HERE**
    - Overview of the entire branching strategy
    - What has been implemented
    - Quick reference to all documents
@@ -24,13 +24,13 @@ Start here to understand the overall strategy:
 
 Choose based on your language preference:
 
-- **[BRANCHING_STRATEGY.md](ci-cd/branching-release-history/BRANCHING_STRATEGY.md)** 🇩🇪
+- **[BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md)** 🇩🇪
   - Complete strategy in German
   - All workflows and processes
   - Best practices and guidelines
   - **Time**: 30-45 minutes
 
-- **[BRANCHING_STRATEGY_EN.md](ci-cd/branching-release-history/BRANCHING_STRATEGY_EN.md)** 🇬🇧
+- **[BRANCHING_STRATEGY_EN.md](BRANCHING_STRATEGY_EN.md)** 🇬🇧
   - Complete strategy in English
   - All workflows and processes
   - Best practices and guidelines
@@ -40,7 +40,7 @@ Choose based on your language preference:
 
 For daily use and quick lookups:
 
-- **[BRANCHING_QUICK_REF.md](ci-cd/branching-release-history/BRANCHING_QUICK_REF.md)**
+- **[BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md)**
   - One-page cheat sheet
   - Common commands
   - Branch types and naming
@@ -58,20 +58,20 @@ For transitioning to the new strategy:
   - Troubleshooting common issues
   - **Time**: 15-20 minutes
 
-- **[BRANCH_PROTECTION_SETUP.md](ci-cd/branching-release-history/BRANCH_PROTECTION_SETUP.md)**
+- **[BRANCH_PROTECTION_SETUP.md](BRANCH_PROTECTION_SETUP.md)**
   - GitHub branch protection configuration
   - CODEOWNERS setup
   - Automated scripts
   - **Time**: 10-15 minutes
 
-- **[MERGE_STRATEGY_MIGRATION.md](ci-cd/branching-release-history/MERGE_STRATEGY_MIGRATION.md)** 🆕
+- **[MERGE_STRATEGY_MIGRATION.md](MERGE_STRATEGY_MIGRATION.md)** 🆕
   - Migration to squash merge strategy
   - Why we changed from merge commits
   - Benefits and tradeoffs
   - FAQ and best practices
   - **Time**: 10-15 minutes
 
-- **[GITHUB_SETTINGS_CONFIGURATION.md](ci-cd/branching-release-history/GITHUB_SETTINGS_CONFIGURATION.md)** 🆕
+- **[GITHUB_SETTINGS_CONFIGURATION.md](GITHUB_SETTINGS_CONFIGURATION.md)** 🆕
   - Step-by-step GitHub repository settings
   - Configure merge methods
   - Required for repository administrators
@@ -101,7 +101,7 @@ Documentation Structure
 │
 ├── 🎯 Getting Started
 │   ├── BRANCHING_IMPLEMENTATION_SUMMARY.md    ← Overview
-│   └── BRANCHING_VISUAL_GUIDE.md              ← Visual guide
+│   └── ci-cd/branching-release-history/BRANCHING_VISUAL_GUIDE.md ← Visual guide
 │
 ├── 📖 Complete Guides
 │   ├── BRANCHING_STRATEGY.md                  ← German
@@ -115,14 +115,14 @@ Documentation Structure
 │   ├── BRANCH_PROTECTION_SETUP.md             ← GitHub config
 │   ├── MERGE_STRATEGY_MIGRATION.md            ← Squash merge migration 🆕
 │   ├── GITHUB_SETTINGS_CONFIGURATION.md       ← GitHub settings 🆕
-│   └── MERGE_STRATEGY_QUICK_REF.md            ← Merge quick ref 🆕
+│   └── ci-cd/branching-release-history/MERGE_STRATEGY_QUICK_REF.md ← Merge quick ref 🆕
 │
 ├── 🤝 Contributing
-│   └── CONTRIBUTING.md                        ← Contribution guide
+│   └── ../CONTRIBUTING.md                     ← Contribution guide
 │
 └── ⚙️ Configuration
-    ├── .github/CODEOWNERS                     ← Code ownership
-    └── .github/workflows/develop-ci.yml.example ← CI example
+   ├── ../.github/CODEOWNERS                  ← Code ownership
+   └── ../.github/workflows/develop-ci.yml.example ← CI example
 ```
 
 ## 🎭 Choose by Your Role
@@ -130,38 +130,38 @@ Documentation Structure
 ### 👨‍💻 As a Developer
 
 **First time contributing:**
-1. Read: [BRANCHING_IMPLEMENTATION_SUMMARY.md](ci-cd/branching-release-history/BRANCHING_IMPLEMENTATION_SUMMARY.md)
+1. Read: [BRANCHING_IMPLEMENTATION_SUMMARY.md](implementation-history/summaries/BRANCHING_IMPLEMENTATION_SUMMARY.md)
 2. Review: [BRANCHING_VISUAL_GUIDE.md](ci-cd/branching-release-history/BRANCHING_VISUAL_GUIDE.md)
-3. Keep handy: [BRANCHING_QUICK_REF.md](ci-cd/branching-release-history/BRANCHING_QUICK_REF.md)
+3. Keep handy: [BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md)
 
 **Daily work:**
-- Quick reference: [BRANCHING_QUICK_REF.md](ci-cd/branching-release-history/BRANCHING_QUICK_REF.md)
+- Quick reference: [BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md)
 - Contributing guide: [CONTRIBUTING.md](../CONTRIBUTING.md)
 
 ### 👨‍💼 As a Maintainer
 
 **Initial setup:**
-1. Read: [BRANCHING_STRATEGY.md](ci-cd/branching-release-history/BRANCHING_STRATEGY.md) or [BRANCHING_STRATEGY_EN.md](ci-cd/branching-release-history/BRANCHING_STRATEGY_EN.md)
+1. Read: [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) or [BRANCHING_STRATEGY_EN.md](BRANCHING_STRATEGY_EN.md)
 2. Follow: [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) (Maintainer section)
-3. Configure: [BRANCH_PROTECTION_SETUP.md](ci-cd/branching-release-history/BRANCH_PROTECTION_SETUP.md)
+3. Configure: [BRANCH_PROTECTION_SETUP.md](BRANCH_PROTECTION_SETUP.md)
 
 **Daily maintenance:**
-- Review PRs using: [BRANCHING_QUICK_REF.md](ci-cd/branching-release-history/BRANCHING_QUICK_REF.md)
-- Enforce rules from: [BRANCHING_STRATEGY.md](ci-cd/branching-release-history/BRANCHING_STRATEGY.md)
+- Review PRs using: [BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md)
+- Enforce rules from: [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md)
 
 ### 🆕 As a New Contributor
 
 **Getting started:**
-1. Start: [BRANCHING_IMPLEMENTATION_SUMMARY.md](ci-cd/branching-release-history/BRANCHING_IMPLEMENTATION_SUMMARY.md)
+1. Start: [BRANCHING_IMPLEMENTATION_SUMMARY.md](implementation-history/summaries/BRANCHING_IMPLEMENTATION_SUMMARY.md)
 2. Understand: [BRANCHING_VISUAL_GUIDE.md](ci-cd/branching-release-history/BRANCHING_VISUAL_GUIDE.md)
 3. Contribute: [CONTRIBUTING.md](../CONTRIBUTING.md)
-4. Print: [BRANCHING_QUICK_REF.md](ci-cd/branching-release-history/BRANCHING_QUICK_REF.md)
+4. Print: [BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md)
 
 ### 🔄 Migrating Existing PRs
 
 **If you have open PRs:**
 1. Follow: [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) (Contributors section)
-2. Use commands from: [BRANCHING_QUICK_REF.md](ci-cd/branching-release-history/BRANCHING_QUICK_REF.md)
+2. Use commands from: [BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md)
 3. Ask for help in GitHub Discussions if stuck
 
 ## 📊 Document Comparison
@@ -178,44 +178,44 @@ Documentation Structure
 ## 🔍 Find Information By Topic
 
 ### Branch Types
-- Complete info: [BRANCHING_STRATEGY.md](ci-cd/branching-release-history/BRANCHING_STRATEGY.md) → "Branch-Struktur"
-- Quick ref: [BRANCHING_QUICK_REF.md](ci-cd/branching-release-history/BRANCHING_QUICK_REF.md) → "Branch Types"
+- Complete info: [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) → "Branch-Struktur"
+- Quick ref: [BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md) → "Branch Types"
 - Visual: [BRANCHING_VISUAL_GUIDE.md](ci-cd/branching-release-history/BRANCHING_VISUAL_GUIDE.md) → "Branch Structure Overview"
 
 ### Creating Feature Branches
-- Commands: [BRANCHING_QUICK_REF.md](ci-cd/branching-release-history/BRANCHING_QUICK_REF.md) → "Start New Feature"
-- Workflow: [BRANCHING_STRATEGY.md](ci-cd/branching-release-history/BRANCHING_STRATEGY.md) → "feature/* Branches"
+- Commands: [BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md) → "Start New Feature"
+- Workflow: [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) → "feature/* Branches"
 - Visual: [BRANCHING_VISUAL_GUIDE.md](ci-cd/branching-release-history/BRANCHING_VISUAL_GUIDE.md) → "New Feature Development"
 
 ### Release Process
-- Complete: [BRANCHING_STRATEGY.md](ci-cd/branching-release-history/BRANCHING_STRATEGY.md) → "Release Process"
-- Steps: [BRANCHING_QUICK_REF.md](ci-cd/branching-release-history/BRANCHING_QUICK_REF.md) → "Start Release"
+- Complete: [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) → "Release Process"
+- Steps: [BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md) → "Start Release"
 - Visual: [BRANCHING_VISUAL_GUIDE.md](ci-cd/branching-release-history/BRANCHING_VISUAL_GUIDE.md) → "Release Process"
 
 ### Hotfix Process
-- Complete: [BRANCHING_STRATEGY.md](ci-cd/branching-release-history/BRANCHING_STRATEGY.md) → "hotfix/* Branches"
-- Commands: [BRANCHING_QUICK_REF.md](ci-cd/branching-release-history/BRANCHING_QUICK_REF.md) → "Create Hotfix"
+- Complete: [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) → "hotfix/* Branches"
+- Commands: [BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md) → "Create Hotfix"
 - Visual: [BRANCHING_VISUAL_GUIDE.md](ci-cd/branching-release-history/BRANCHING_VISUAL_GUIDE.md) → "Hotfix (Production Bug)"
 
 ### Pull Requests
 - Guidelines: [CONTRIBUTING.md](../CONTRIBUTING.md) → "Pull Request Process"
-- Workflow: [BRANCHING_STRATEGY.md](ci-cd/branching-release-history/BRANCHING_STRATEGY.md) → "Pull Request Workflows"
+- Workflow: [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) → "Pull Request Workflows"
 - Visual: [BRANCHING_VISUAL_GUIDE.md](ci-cd/branching-release-history/BRANCHING_VISUAL_GUIDE.md) → "Pull Request Flow"
 
 ### Merge Strategy
-- Complete guide: [MERGE_STRATEGY_MIGRATION.md](ci-cd/branching-release-history/MERGE_STRATEGY_MIGRATION.md) 🆕
+- Complete guide: [MERGE_STRATEGY_MIGRATION.md](MERGE_STRATEGY_MIGRATION.md) 🆕
 - Quick reference: [MERGE_STRATEGY_QUICK_REF.md](ci-cd/branching-release-history/MERGE_STRATEGY_QUICK_REF.md) 🆕
-- GitHub setup: [GITHUB_SETTINGS_CONFIGURATION.md](ci-cd/branching-release-history/GITHUB_SETTINGS_CONFIGURATION.md) 🆕
+- GitHub setup: [GITHUB_SETTINGS_CONFIGURATION.md](GITHUB_SETTINGS_CONFIGURATION.md) 🆕
 - Guidelines: [CONTRIBUTING.md](../CONTRIBUTING.md) → "Merge Strategy Guidelines"
-- Strategy docs: [BRANCHING_STRATEGY.md](ci-cd/branching-release-history/BRANCHING_STRATEGY.md) → "Merge-Strategie"
+- Strategy docs: [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) → "Merge-Strategie"
 
 ### Branch Protection
-- Setup: [BRANCH_PROTECTION_SETUP.md](ci-cd/branching-release-history/BRANCH_PROTECTION_SETUP.md)
-- Rules: [BRANCHING_STRATEGY.md](ci-cd/branching-release-history/BRANCHING_STRATEGY.md) → "Branch Protection Rules"
+- Setup: [BRANCH_PROTECTION_SETUP.md](BRANCH_PROTECTION_SETUP.md)
+- Rules: [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) → "Branch Protection Rules"
 
 ### Migration
 - Full guide: [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md)
-- Summary: [BRANCHING_IMPLEMENTATION_SUMMARY.md](ci-cd/branching-release-history/BRANCHING_IMPLEMENTATION_SUMMARY.md) → "Next Steps"
+- Summary: [BRANCHING_IMPLEMENTATION_SUMMARY.md](implementation-history/summaries/BRANCHING_IMPLEMENTATION_SUMMARY.md) → "Next Steps"
 
 ## 🎓 Learning Path
 
@@ -275,7 +275,7 @@ Documentation Structure
 ### Configuration Files
 
 - **[.github/CODEOWNERS](../.github/CODEOWNERS)** - Code ownership configuration
-- **[.github/workflows/develop-ci.yml.example](ci-cd/workflows/README.md)** - CI workflow example
+- **[.github/workflows/develop-ci.yml.example](../.github/workflows/develop-ci.yml.example)** - CI workflow example
 
 ### External Resources
 
@@ -370,15 +370,15 @@ Always remember:
 
 | Need | Document | Section |
 |------|----------|---------|
-| 🎯 **Overview** | [Implementation Summary](ci-cd/branching-release-history/BRANCHING_IMPLEMENTATION_SUMMARY.md) | All |
+| 🎯 **Overview** | [Implementation Summary](implementation-history/summaries/BRANCHING_IMPLEMENTATION_SUMMARY.md) | All |
 | 📊 **Visual Flow** | [Visual Guide](ci-cd/branching-release-history/BRANCHING_VISUAL_GUIDE.md) | All |
-| 📖 **Complete Guide** | [Strategy (DE)](ci-cd/branching-release-history/BRANCHING_STRATEGY.md) or [Strategy (EN)](ci-cd/branching-release-history/BRANCHING_STRATEGY_EN.md) | All |
-| ⚡ **Quick Commands** | [Quick Reference](ci-cd/branching-release-history/BRANCHING_QUICK_REF.md) | Common Commands |
+| 📖 **Complete Guide** | [Strategy (DE)](BRANCHING_STRATEGY.md) or [Strategy (EN)](BRANCHING_STRATEGY_EN.md) | All |
+| ⚡ **Quick Commands** | [Quick Reference](BRANCHING_QUICK_REF.md) | Common Commands |
 | 🔄 **Migrating** | [Migration Guide](MIGRATION_GUIDE.md) | For Contributors |
-| 🛡️ **Setup Protection** | [Branch Protection](ci-cd/branching-release-history/BRANCH_PROTECTION_SETUP.md) | Quick Setup |
+| 🛡️ **Setup Protection** | [Branch Protection](BRANCH_PROTECTION_SETUP.md) | Quick Setup |
 | 🤝 **Contributing** | [Contributing Guide](../CONTRIBUTING.md) | Development Workflow |
 | 🔀 **Merge Strategy** | [Merge Quick Ref](ci-cd/branching-release-history/MERGE_STRATEGY_QUICK_REF.md) | All | 🆕
-| ⚙️ **GitHub Settings** | [GitHub Config](ci-cd/branching-release-history/GITHUB_SETTINGS_CONFIGURATION.md) | All | 🆕
+| ⚙️ **GitHub Settings** | [GitHub Config](GITHUB_SETTINGS_CONFIGURATION.md) | All | 🆕
 
 ---
 
@@ -386,10 +386,10 @@ Always remember:
 
 These documents are optimized for printing:
 
-1. **[BRANCHING_QUICK_REF.md](ci-cd/branching-release-history/BRANCHING_QUICK_REF.md)** - One page reference
+1. **[BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md)** - One page reference
 2. **[MERGE_STRATEGY_QUICK_REF.md](ci-cd/branching-release-history/MERGE_STRATEGY_QUICK_REF.md)** - Merge strategy reference 🆕
 3. **[BRANCHING_VISUAL_GUIDE.md](ci-cd/branching-release-history/BRANCHING_VISUAL_GUIDE.md)** - Visual diagrams
-4. **[BRANCHING_IMPLEMENTATION_SUMMARY.md](ci-cd/branching-release-history/BRANCHING_IMPLEMENTATION_SUMMARY.md)** - Overview
+4. **[BRANCHING_IMPLEMENTATION_SUMMARY.md](implementation-history/summaries/BRANCHING_IMPLEMENTATION_SUMMARY.md)** - Overview
 
 **To print:**
 1. Open document in browser

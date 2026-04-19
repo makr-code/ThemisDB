@@ -55,7 +55,7 @@ The Network module implements ThemisDB's high-performance, secure networking lay
 ## Key Components
 
 ### Wire Protocol Server
-**Location:** `wire_protocol_server.cpp` (1224 lines)  
+**Location:** `wire_protocol_server.cpp` (1224 lines)
 **Header:** `../include/network/wire_protocol_server.h`
 
 High-performance binary TCP server for native client communication with ThemisDB.
@@ -275,7 +275,7 @@ double error_rate = (double)stats.total_errors / stats.total_requests;
 ---
 
 ### Wire Protocol Connection Pool
-**Location:** `wire_protocol_connection_pool.cpp` (599 lines)  
+**Location:** `wire_protocol_connection_pool.cpp` (599 lines)
 **Header:** `../include/network/wire_protocol_connection_pool.h`
 
 Client-side connection pooling for efficient reuse of TCP connections.
@@ -314,7 +314,7 @@ pool.warmup("server2.example.com:8766");
 {
     auto conn = pool.acquireConnection("server1.example.com:8766");
     // Use connection via conn.socket() or conn.socketWrapper()
-    
+
     // Connection automatically returned to pool when `conn` goes out of scope
 }
 ```
@@ -356,7 +356,7 @@ class SocketWrapper {
     // Supports both plain and SSL sockets
     std::shared_ptr<tcp::socket> plain_socket_;
     std::shared_ptr<ssl::stream<tcp::socket>> ssl_socket_;
-    
+
 public:
     bool is_open() const;
     void close(boost::system::error_code& ec);
@@ -372,7 +372,7 @@ class ConnectionHandle {
     ~ConnectionHandle() {
         pool_->releaseConnection(target_, socket_);
     }
-    
+
 public:
     tcp::socket& socket();               // Backward compatible
     SocketWrapper& socketWrapper();      // Access SSL/plain wrapper
@@ -399,7 +399,7 @@ struct Stats {
     size_t connections_created;
     size_t connections_reused;
     size_t keepalive_checks_sent;
-    
+
     double getReuseRate() const;  // 0.0 - 1.0
 };
 
@@ -424,7 +424,7 @@ std::cout << "Connection reuse rate: " << (stats.getReuseRate() * 100) << "%\n";
 ---
 
 ### Socket Timeout Manager
-**Location:** `socket_timeout_manager.cpp` (422 lines)  
+**Location:** `socket_timeout_manager.cpp` (422 lines)
 **Header:** `../include/network/socket_timeout_manager.h`
 
 Cross-platform socket timeout management with circuit breaker pattern.
@@ -531,7 +531,7 @@ struct SocketTimeoutStats {
     std::atomic<uint64_t> failed_operations;
     std::atomic<uint64_t> total_bytes_read;
     std::atomic<uint64_t> total_bytes_written;
-    
+
     double getTimeoutRate() const;
 };
 
@@ -557,7 +557,7 @@ if (success) {
 ---
 
 ### Wire Protocol Helpers
-**Location:** `wire_protocol_helpers.cpp` (320 lines)  
+**Location:** `wire_protocol_helpers.cpp` (320 lines)
 **Header:** `../include/network/wire_protocol_helpers.h`
 
 Lightweight protobuf wire format parser/serializer without protobuf library dependency.
@@ -579,7 +579,7 @@ while (!parser.atEnd()) {
         // Error handling
         break;
     }
-    
+
     switch (field_number) {
         case 1: {  // collection field
             std::string collection;
@@ -625,8 +625,8 @@ struct TimeSeriesQueryRequest {
     uint64_t end_time_ns;
     uint32_t aggregation;  // 0=AVG, 1=SUM, 2=MIN, 3=MAX, 4=COUNT
     uint64_t bucket_size_ns;
-    
-    static bool parse(const std::vector<uint8_t>& data, 
+
+    static bool parse(const std::vector<uint8_t>& data,
                       TimeSeriesQueryRequest& request);
 };
 
@@ -635,7 +635,7 @@ struct TimeSeriesQueryResponse {
     std::vector<TimeSeriesBucket> buckets;
     uint64_t query_time_us;
     TimeSeriesStats stats;
-    
+
     std::vector<uint8_t> serialize() const;
 };
 ```
@@ -694,9 +694,9 @@ message StartProcessRequest { ... }
 message StartProcessResponse { ... }
 ```
 
-**Protocol Version:** v1.0.0  
-**Syntax:** proto3  
-**Optimization:** `optimize_for = SPEED`  
+**Protocol Version:** v1.0.0
+**Syntax:** proto3
+**Optimization:** `optimize_for = SPEED`
 **Arenas:** `cc_enable_arenas = true`
 
 ---
@@ -741,7 +741,7 @@ message StartProcessResponse { ... }
 // Direct buffer access without intermediate copies
 void asyncReadPayload(uint32_t payload_size) {
     payload_buffer_.resize(payload_size);
-    async_read(socket_, buffer(payload_buffer_), 
+    async_read(socket_, buffer(payload_buffer_),
                [this](const error_code& ec, size_t bytes) {
         // payload_buffer_ contains data without copy
     });
@@ -1100,3 +1100,7 @@ $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/envoy_xds.cpp>
 4. Nygard, M. T. (2018). **Release It!: Design and Deploy Production-Ready Software (2nd ed.)**. Pragmatic Bookshelf. ISBN: 978-1-680-50239-8
 
 5. Harchol-Balter, M. (2013). **Performance Modeling and Design of Computer Systems: Queueing Theory in Action**. Cambridge University Press. https://doi.org/10.1017/CBO9781139226424
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

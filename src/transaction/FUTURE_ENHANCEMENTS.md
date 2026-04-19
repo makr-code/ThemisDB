@@ -34,7 +34,7 @@ The transaction module provides ACID transaction semantics for all ThemisDB data
 ## Planned Features
 
 ### Serializable Snapshot Isolation (SSI)
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.8.0
 
 Add full serializability with snapshot isolation using predicate locking and conflict detection.
@@ -42,7 +42,7 @@ Add full serializability with snapshot isolation using predicate locking and con
 **Features:**
 - Predicate lock tracking for range queries
 - Read-write conflict detection
-- Write-write conflict detection  
+- Write-write conflict detection
 - Automatic serialization failure detection
 - Transaction retry with exponential backoff
 
@@ -61,13 +61,13 @@ public:
         size_t max_predicate_locks = 10000;
         std::chrono::milliseconds conflict_detection_interval{100};
     };
-    
+
     void setSSIConfig(const SSIConfig& config);
-    
+
     // Predicate lock management
-    void trackPredicateLock(TransactionId txn_id, 
+    void trackPredicateLock(TransactionId txn_id,
                            const PredicateLock& predicate);
-    
+
     // Conflict detection
     std::vector<SerializationConflict> detectConflicts(TransactionId txn_id);
 };
@@ -96,8 +96,8 @@ if (!result.ok && result.message.find("Serialization") != std::string::npos) {
 ---
 
 ### Optimistic Concurrency Control (OCC)
-**Status: ✅ Implemented** (v1.x)  
-**Priority:** Medium  
+**Status: ✅ Implemented** (v1.x)
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Optimistic locking with per-entity version numbers is fully implemented in `TransactionManager::Transaction`.
@@ -172,8 +172,8 @@ while (!committed) {
 ---
 
 ### Distributed Transaction Coordinator (2PC)
-**Status: ✅ Implemented** (v1.9.0, Issue: #123)  
-**Priority:** High  
+**Status: ✅ Implemented** (v1.9.0, Issue: #123)
+**Priority:** High
 **Target Version:** v1.9.0
 
 Implement two-phase commit for multi-shard distributed transactions.
@@ -201,7 +201,7 @@ public:
         std::string endpoint;
         std::set<std::string> affected_keys;
     };
-    
+
     struct DistributedTransaction {
         TransactionId txn_id;
         std::vector<Participant> participants;
@@ -209,13 +209,13 @@ public:
         State state;
         std::chrono::system_clock::time_point timeout;
     };
-    
+
     // Coordinator API
     TransactionId beginDistributed(const std::vector<Participant>& participants);
     Status prepareDistributed(TransactionId txn_id);
     Status commitDistributed(TransactionId txn_id);
     void abortDistributed(TransactionId txn_id);
-    
+
     // Participant API
     Status voteOnPrepare(TransactionId txn_id, bool can_commit);
     Status applyCommit(TransactionId txn_id);
@@ -255,8 +255,8 @@ auto commit_status = dist_txn_mgr.commitDistributed(dtxn_id);
 ---
 
 ### SAGA Orchestration Engine
-**Status: ✅ Implemented** (v1.8.0)  
-**Priority:** Medium  
+**Status: ✅ Implemented** (v1.8.0)
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Advanced SAGA coordination with parallel execution and conditional logic.
@@ -282,16 +282,16 @@ public:
         size_t max_retries = 3;
         std::chrono::milliseconds retry_delay{1000};
     };
-    
+
     struct SAGADefinition {
         std::string name;
         std::vector<Step> steps;
         bool enable_parallel = true;
     };
-    
+
     // Execute SAGA with orchestration
     Status execute(const SAGADefinition& saga);
-    
+
     // Get execution status
     struct ExecutionStatus {
         std::string saga_name;
@@ -300,7 +300,7 @@ public:
         size_t failed_steps;
         size_t pending_steps;
     };
-    
+
     ExecutionStatus getStatus(const std::string& saga_id);
 };
 
@@ -351,8 +351,8 @@ validate_customer ──┘
 ---
 
 ### Transaction Savepoints
-**Status: ✅ Implemented** (v1.x)  
-**Priority:** Medium  
+**Status: ✅ Implemented** (v1.x)
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Named savepoint support with partial rollback is fully implemented in `TransactionManager::Transaction`.
@@ -372,7 +372,7 @@ public:
     Status createSavepoint(std::string_view name);
     Status rollbackToSavepoint(std::string_view name);
     Status releaseSavepoint(std::string_view name);
-    
+
     // Query savepoints
     std::vector<std::string> getSavepoints() const;
     bool hasSavepoint(std::string_view name) const;
@@ -410,7 +410,7 @@ txn.commit();
 ---
 
 ### Adaptive Deadlock Prevention
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.9.0
 
 Machine learning-based deadlock prediction and prevention.
@@ -431,23 +431,23 @@ public:
         std::chrono::microseconds hold_time;
         size_t frequency;
     };
-    
+
     // Learn from transaction history
     void recordTransaction(TransactionId txn_id,
                           const std::vector<std::string>& locks_acquired,
                           std::chrono::microseconds duration);
-    
+
     // Predict deadlock probability
     double predictDeadlockProbability(
         const std::vector<std::string>& proposed_locks,
         const std::set<TransactionId>& active_transactions
     );
-    
+
     // Recommend lock order
     std::vector<std::string> recommendLockOrder(
         const std::vector<std::string>& keys
     );
-    
+
     // Suggest timeout
     std::chrono::milliseconds recommendTimeout(
         const std::vector<std::string>& keys
@@ -478,8 +478,8 @@ if (predictor > 0.8) {
 ---
 
 ### Write Batching and Coalescing
-**Priority:** Medium  
-**Target Version:** v1.8.0  
+**Priority:** Medium
+**Target Version:** v1.8.0
 **Status:** ✅ Implemented
 
 Automatic batching of concurrent small transactions for improved throughput.
@@ -565,8 +565,8 @@ for (auto& f : futures) {
 ---
 
 ### Read-Only Transaction Optimization
-**Status: ✅ Implemented** (v1.8.0)  
-**Priority:** Low  
+**Status: ✅ Implemented** (v1.8.0)
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Lightweight read-only transactions with no locking overhead.
@@ -585,7 +585,7 @@ public:
     // Mark transaction as read-only
     void setReadOnly(bool read_only = true);
     bool isReadOnly() const;
-    
+
     // Automatic detection
     bool hasWrites() const;
 };
@@ -612,8 +612,8 @@ txn.commit();  // Fast path
 ---
 
 ### Distributed SAGA Coordinator
-**Status: ✅ Implemented** (v1.9.0)  
-**Priority:** High  
+**Status: ✅ Implemented** (v1.9.0)
+**Priority:** High
 **Target Version:** v1.9.0
 
 Cross-cluster SAGA coordination with failure recovery.
@@ -689,8 +689,8 @@ public:
 ---
 
 ### Transaction Audit Trail
-**Status: ✅ Implemented** (v1.8.0)  
-**Priority:** Medium  
+**Status: ✅ Implemented** (v1.8.0)
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Comprehensive transaction logging for compliance and debugging.
@@ -718,7 +718,7 @@ public:
         Result result;
         uint64_t duration_us;
     };
-    
+
     struct Operation {
         enum Type { PUT, DELETE, ADD_EDGE, DELETE_EDGE, ADD_VECTOR };
         Type type;
@@ -727,10 +727,10 @@ public:
         std::optional<std::string> old_value;
         std::optional<std::string> new_value;
     };
-    
+
     // Enable auditing
     void enableAuditing(bool enabled);
-    
+
     // Query audit log
     std::vector<AuditRecord> queryAuditLog(
         std::optional<std::string> user_id,
@@ -738,7 +738,7 @@ public:
         std::optional<std::chrono::system_clock::time_point> end_time,
         size_t limit = 1000
     );
-    
+
     // Export audit log
     Status exportToKafka(const std::string& topic);
     Status exportToS3(const std::string& bucket, const std::string& prefix);
@@ -758,7 +758,7 @@ auto failed_txns = txn_auditor.queryAuditLog(
 
 for (const auto& record : failed_txns) {
     if (record.result == TransactionAuditor::AuditRecord::ABORTED) {
-        std::cout << "Transaction " << record.txn_id 
+        std::cout << "Transaction " << record.txn_id
                   << " aborted by " << record.user_id << std::endl;
     }
 }
@@ -773,7 +773,7 @@ for (const auto& record : failed_txns) {
 ---
 
 ### Cross-Branch Transactions
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.9.0
 
 Atomic operations spanning multiple branches for advanced workflows.
@@ -794,14 +794,14 @@ public:
         std::string_view table,
         std::string_view pk
     );
-    
+
     // Write to specific branch
     Status putToBranch(
         const std::string& branch_name,
         std::string_view table,
         const BaseEntity& entity
     );
-    
+
     // Atomic cross-branch operation
     Status atomicMerge(
         const std::string& source_branch,
@@ -831,7 +831,7 @@ cross_txn.commit();  // Atomic across branches
 ## Research & Experimental
 
 ### Hardware Transactional Memory (HTM)
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** Research
 
 Explore Intel TSX / ARM TME for lock-free transactions.
@@ -850,7 +850,7 @@ Explore Intel TSX / ARM TME for lock-free transactions.
 ---
 
 ### Blockchain-Inspired Immutable Transaction Log
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** Research
 
 Cryptographically verifiable transaction history.

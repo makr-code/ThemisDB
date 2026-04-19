@@ -254,3 +254,7 @@ All connectors are implemented and production-ready. Known limitations:
 3. Karp, R. M., Shenker, S., & Papadimitriou, C. H. (2003). **A Simple Algorithm for Finding Frequent Elements in Streams and Bags**. *ACM Transactions on Database Systems*, 28(1), 51–55. https://doi.org/10.1145/762471.762473
 
 4. Dede, E., Govindaraju, M., Gunter, D., Canon, R. S., & Ramakrishnan, L. (2013). **Performance Evaluation of a MongoDB and Hadoop Platform for Scientific Data Analysis**. *Proceedings of the 4th ACM/IEEE Workshop on Many-Task Computing on Clouds, Grids, and Supercomputers (MTAGS)*. https://doi.org/10.1145/2532508.2532521
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

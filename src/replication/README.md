@@ -122,7 +122,7 @@ if (!repl_mgr.waitForReplication(seq, 5000)) {
 // Check replication status
 auto replicas = repl_mgr.getReplicas();
 for (const auto& replica : replicas) {
-    std::cout << "Replica " << replica.node_id 
+    std::cout << "Replica " << replica.node_id
               << " at sequence " << replica.last_applied_sequence
               << " (lag: " << replica.replicationLagMs() << "ms)"
               << std::endl;
@@ -135,28 +135,28 @@ struct ReplicationConfig {
     bool enabled = false;
     ReplicationMode mode = ReplicationMode::ASYNC;
     ConflictResolution conflict_strategy = ConflictResolution::LAST_WRITE_WINS;
-    
+
     // Timing
     uint32_t heartbeat_interval_ms = 1000;
     uint32_t election_timeout_min_ms = 3000;
     uint32_t election_timeout_max_ms = 5000;
     uint32_t replication_timeout_ms = 10000;
-    
+
     // Batching
     uint32_t batch_size = 100;
     uint32_t batch_timeout_ms = 50;
-    
+
     // WAL settings
     std::string wal_directory = "/var/lib/themisdb/wal";
     uint64_t wal_segment_size_bytes = 64 * 1024 * 1024;  // 64MB
     uint32_t wal_retention_segments = 100;
     bool wal_sync_on_commit = true;
-    
+
     // Quorum settings
     uint32_t min_sync_replicas = 1;
     bool allow_stale_reads = false;
     uint32_t max_replication_lag_ms = 10000;
-    
+
     // HA settings
     bool enable_auto_failover = true;
     uint32_t failure_detection_timeout_ms = 5000;
@@ -164,13 +164,13 @@ struct ReplicationConfig {
     uint32_t max_consecutive_failures = 3;
     uint32_t degraded_lag_threshold_ms = 5000;
     ReadPreference default_read_preference = ReadPreference::PRIMARY_PREFERRED;
-    
+
     // TLS/Security
     std::string cert_path;
     std::string key_path;
     std::string ca_path;
     bool require_mtls = true;
-    
+
     // Initial cluster members
     std::vector<std::string> seed_nodes;
 };
@@ -256,7 +256,7 @@ struct WALEntry {
     std::string document_id;
     std::string data;               // JSON payload
     std::string checksum;           // SHA-256 integrity check
-    
+
     std::vector<uint8_t> serialize() const;
     static std::optional<WALEntry> deserialize(const std::vector<uint8_t>& data);
 };
@@ -288,7 +288,7 @@ std::cout << "Written at sequence " << seq << std::endl;
 // Read from specific sequence
 auto entries = wal.readFrom(seq - 100, 100);
 for (const auto& e : entries) {
-    std::cout << e.sequence_number << ": " << e.operation 
+    std::cout << e.sequence_number << ": " << e.operation
               << " on " << e.collection << std::endl;
 }
 
@@ -457,8 +457,8 @@ if (result.success) {
 
 // Register conflict callback
 mm_mgr.registerConflictCallback([](const ConflictRecord& conflict) {
-    std::cout << "Conflict detected on " << conflict.document_id 
-              << " between " << conflict.conflicting_writes.size() 
+    std::cout << "Conflict detected on " << conflict.document_id
+              << " between " << conflict.conflicting_writes.size()
               << " writes" << std::endl;
 });
 
@@ -666,7 +666,7 @@ public:
     ReplicatedStorageEngine(
         std::shared_ptr<ReplicationManager> repl_mgr
     ) : repl_mgr_(repl_mgr) {}
-    
+
     bool put(const std::string& collection,
              const std::string& key,
              const std::string& value) override {
@@ -674,17 +674,17 @@ public:
         if (!StorageEngine::put(collection, key, value)) {
             return false;
         }
-        
+
         // Replicate to followers
         WALEntry entry;
         entry.operation = "INSERT";
         entry.collection = collection;
         entry.document_id = key;
         entry.data = value;
-        
+
         return repl_mgr_->replicate(entry);
     }
-    
+
 private:
     std::shared_ptr<ReplicationManager> repl_mgr_;
 };
@@ -702,7 +702,7 @@ public:
     bool commit() {
         // 1. Prepare phase
         auto wal_entries = transaction_.getWALEntries();
-        
+
         // 2. Replicate to followers
         for (const auto& entry : wal_entries) {
             if (!repl_mgr_->replicate(entry)) {
@@ -711,18 +711,18 @@ public:
                 return false;
             }
         }
-        
+
         // 3. Wait for quorum (semi-sync mode)
         if (!repl_mgr_->waitForReplication(
                 wal_entries.back().sequence_number, 5000)) {
             transaction_.rollback();
             return false;
         }
-        
+
         // 4. Commit locally
         return transaction_.commit();
     }
-    
+
 private:
     Transaction transaction_;
     std::shared_ptr<ReplicationManager> repl_mgr_;
@@ -740,7 +740,7 @@ class ReplicationAwareQueryEngine {
 public:
     Result<std::vector<Document>> executeQuery(const Query& query) {
         ReadPreference pref = repl_mgr_->getReadPreference();
-        
+
         if (pref == ReadPreference::PRIMARY) {
             // Execute on primary only
             return executePrimary(query);
@@ -776,7 +776,7 @@ public:
         event.document_id = entry.document_id;
         event.data = entry.data;
         event.timestamp = entry.timestamp;
-        
+
         // Send to Kafka, Kinesis, etc.
         kafka_producer_.send(event);
     }
@@ -852,8 +852,8 @@ us_repl.setupCascadingReplication(
 // Check cluster health
 auto health = repl_mgr.getClusterHealth();
 for (const auto& [node_id, is_healthy] : health) {
-    std::cout << node_id << ": " 
-              << (is_healthy ? "HEALTHY" : "UNHEALTHY") 
+    std::cout << node_id << ": "
+              << (is_healthy ? "HEALTHY" : "UNHEALTHY")
               << std::endl;
 }
 
@@ -861,7 +861,7 @@ for (const auto& [node_id, is_healthy] : health) {
 for (const auto& replica : repl_mgr.getReplicas()) {
     int64_t lag_ms = replica.replicationLagMs();
     if (lag_ms > 5000) {
-        std::cerr << "WARNING: Replica " << replica.node_id 
+        std::cerr << "WARNING: Replica " << replica.node_id
                   << " is lagging by " << lag_ms << "ms" << std::endl;
     }
 }
@@ -884,10 +884,10 @@ public:
     ) {
         // 1. Find WAL sequence at target time
         uint64_t target_seq = findSequenceAtTime(target_time);
-        
+
         // 2. Read WAL entries from beginning
         auto entries = wal_->readFrom(0, UINT32_MAX);
-        
+
         // 3. Replay entries up to target sequence
         for (const auto& entry : entries) {
             if (entry.sequence_number > target_seq) {
@@ -895,7 +895,7 @@ public:
             }
             storage_->apply(entry);
         }
-        
+
         return true;
     }
 };
@@ -1089,8 +1089,8 @@ endif()
 - [Deployment Guide](../../docs/deployment/replication.md) - Replication setup and best practices
 - [Operations Guide](../../docs/operations/failover.md) - Failover procedures and recovery
 
-*Last Updated: April 2026*  
-*Module Version: v1.5.0*  
+*Last Updated: April 2026*
+*Module Version: v1.5.0*
 *Next Review: v1.6.0 Release*
 
 ## Scientific References
@@ -1104,3 +1104,7 @@ endif()
 4. DeCandia, G., Hastorun, D., Jampani, M., Kakulapati, G., Lakshman, A., Pilchin, A., … Vogels, W. (2007). **Dynamo: Amazon's Highly Available Key-Value Store**. *Proceedings of the 21st ACM SIGOPS Symposium on Operating Systems Principles (SOSP)*, 205–220. https://doi.org/10.1145/1294261.1294281
 
 5. Vogels, W. (2009). **Eventually Consistent**. *Communications of the ACM*, 52(1), 40–44. https://doi.org/10.1145/1435417.1435432
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

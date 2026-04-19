@@ -6,7 +6,7 @@
 
 ## Aufgabe
 
-CI-Workflow zur Erkennung verwaister Modul-Dokumentationsverzeichnisse in `docs/de/` und `docs/en/` sowie kaputter `PRIMARY_SOURCES.md`-Referenzen auf unterstützte Quell-Doku-Pfade wie `src/`, `include/`, `examples/` oder `external/chimera/`.
+CI-Workflow zur Erkennung verwaister Modul-Dokumentationsverzeichnisse in `docs/de/` und `docs/en/` sowie kaputter `PRIMARY_SOURCES.md`-Referenzen auf unterstützte Quell-Doku-Pfade wie `src/`, `include/`, `examples/`, `tools/`, `benchmarks/`, `tests/` oder `external/chimera/`.
 
 ## Auslöser (Triggers)
 
@@ -43,5 +43,5 @@ CI-Workflow zur Erkennung verwaister Modul-Dokumentationsverzeichnisse in `docs/
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/08-maintenance_docs-orphan-check.yml)
+- [Workflow-Datei](../../../../.github/workflows/08-maintenance_docs-orphan-check.yml)
 - [Alle Workflows](../README.md)

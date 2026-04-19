@@ -1,10 +1,10 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Geo Module
 
-**Last Audit:** 2026-03-12  
-**Auditor:** Copilot  
+**Last Audit:** 2026-03-12
+**Auditor:** Copilot
 **Status:** ✅ Pass (Beta)
 
 ## Summary
@@ -12,7 +12,7 @@
 | Metric | Result |
 |--------|--------|
 | Build System Registration | ✅ Verified |
-| Source Files | 14 (`.cpp` + `.cu` in `src/geo/`) |
+| Source Files | 15 (`.cpp` + `.cu` in `src/geo/`) |
 | Test Coverage | ✅ CPU backends well-tested; GPU paths tested with hardware skip |
 | Open TODOs | 13 files contain TODOs (WGS-84 ellipsoid, ST_BUFFER CUDA kernels) |
 | Open Stubs | 2 (WGS-84 ellipsoidal geometry Issue #1744; ST_BUFFER/ST_UNION/ST_DIFFERENCE CUDA kernels deferred to v2.2.0) |
@@ -35,6 +35,7 @@
 | `cpu_backend.cpp` | CPU geospatial backend coordinator |
 | `device_detector.cpp` | GPU device discovery with VRAM/compute-cap checks |
 | `geo_clustering.cpp` | DBSCAN and k-means geo-point clustering |
+| `geo_faiss_knn.cpp` | FAISS-based K-nearest neighbours for geospatial vector embeddings |
 | `geo_rtree.cpp` | R-tree spatial index for CPU backend |
 | `gpu_backend_cuda.cu` | CUDA kernel dispatch for distance and containment |
 | `gpu_backend_hip.cpp` | ROCm/HIP GPU backend |

@@ -57,7 +57,7 @@
  *
  *   auto cs = std::make_shared<TemporalColdStore>(
  *       std::make_unique<FileSystemBackend>("/var/lib/themisdb/cold"));
- *   table.attachColdStore(cs.get(), 500 /* hot_threshold */);
+ *   table.attachColdStore(cs.get(), 500); // hot_threshold
  *   table.flushToCold("my_key");
  *
  * Thread-safety: all public methods are thread-safe.

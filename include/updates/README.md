@@ -36,16 +36,16 @@ public:
         bool create_backup;
         bool dry_run;
     };
-    
+
     // Core operations
     DownloadResult downloadRelease(const std::string& version);
     ReloadResult applyHotReload(const std::string& version, bool verify_only = false);
     bool rollback(const std::string& rollback_id);
-    
+
     // Verification
     VerificationResult verifyRelease(const ReleaseManifest& manifest);
     bool isCompatibleUpgrade(const std::string& current, const std::string& target);
-    
+
     // Management
     std::vector<std::pair<std::string, std::string>> listRollbackPoints() const;
     void cleanRollbackPoints(size_t keep_count = 3);
@@ -114,22 +114,22 @@ public:
         std::shared_ptr<RocksDBWrapper> storage,
         std::shared_ptr<acceleration::PluginSecurityVerifier> verifier
     );
-    
+
     // Manifest operations
     bool storeManifest(const ReleaseManifest& manifest);
     std::optional<ReleaseManifest> getManifest(const std::string& version);
     std::optional<ReleaseManifest> getLatestManifest();
     std::vector<std::string> listVersions() const;
     bool deleteManifest(const std::string& version);
-    
+
     // Verification
     bool verifyManifest(const ReleaseManifest& manifest);
     bool verifyFile(const std::string& path, const std::string& version);
-    
+
     // File registry
     std::optional<ReleaseFile> getFile(const std::string& path, const std::string& version);
     bool storeFile(const ReleaseFile& file, const std::string& version);
-    
+
     // Caching
     void cacheSignatureVerification(const std::string& hash, bool verified, const std::string& cert);
     std::optional<bool> getCachedSignatureVerification(const std::string& hash);
@@ -195,21 +195,21 @@ struct ReleaseFile {
     // Identity
     std::string path;                 // "bin/themis_server"
     std::string type;                 // "executable", "library", "config", "data"
-    
+
     // Integrity
     std::string sha256_hash;
     uint64_t size_bytes;
     std::string file_signature;
-    
+
     // Platform
     std::string platform;             // "windows", "linux", "macos"
     std::string architecture;         // "x64", "arm64"
     std::string permissions;          // "0755" (Unix)
-    
+
     // Download
     std::string download_url;
     json metadata;
-    
+
     // Serialization
     json toJson() const;
     static std::optional<ReleaseFile> fromJson(const json& j);
@@ -222,28 +222,28 @@ struct ReleaseManifest {
     std::string release_notes;
     std::chrono::system_clock::time_point release_date;
     bool is_critical;
-    
+
     // Files
     std::vector<ReleaseFile> files;
-    
+
     // Signatures
     std::string manifest_hash;
     std::string signature;
     std::string signing_certificate;
     std::string timestamp_token;
-    
+
     // Build Info
     std::string build_commit;
     std::string build_date;
     std::string compiler_version;
-    
+
     // Dependencies
     std::vector<std::string> dependencies;
     std::string min_upgrade_from;
-    
+
     // Schema
     int schema_version;
-    
+
     // Serialization
     json toJson() const;
     static std::optional<ReleaseManifest> fromJson(const json& j);
@@ -317,7 +317,7 @@ struct UpdatesConfig {
         std::string github_api_token;
         std::string proxy_url;
     } checker;
-    
+
     struct AutoUpdateConfig {
         bool enabled;
         bool critical_only;
@@ -327,7 +327,7 @@ struct UpdatesConfig {
         std::string schedule_time;
         std::vector<std::string> schedule_days;
     } auto_update;
-    
+
     struct HotReloadConfig {
         bool enabled;
         std::string download_directory;
@@ -340,14 +340,14 @@ struct UpdatesConfig {
         int max_retries;
         int retry_delay_seconds;
     } hot_reload;
-    
+
     struct NotificationConfig {
         bool enabled;
         std::vector<std::string> on_events;
         std::string webhook_url;
         std::string email_to;
     } notifications;
-    
+
     // Load/save
     static UpdatesConfig loadFromYaml(const std::string& yaml_path);
     static UpdatesConfig fromJson(const json& j);
@@ -456,7 +456,7 @@ engine->setProgressCallback([](int pct, const std::string& msg) {
 if (update_checker->checkForUpdate()) {
     auto latest = update_checker->getLatestVersion();
     LOG_INFO("Update available: {}", latest);
-    
+
     // Download
     auto download = engine->downloadRelease(latest);
     if (download.success) {
@@ -487,12 +487,12 @@ void checkScheduledUpdate(
     auto now = std::chrono::system_clock::now();
     auto time = std::chrono::system_clock::to_time_t(now);
     auto tm = std::localtime(&time);
-    
+
     // Check if scheduled time
     if (config.auto_update.scheduled) {
         int schedule_hour = std::stoi(config.auto_update.schedule_time.substr(0, 2));
         int schedule_min = std::stoi(config.auto_update.schedule_time.substr(3, 2));
-        
+
         if (tm->tm_hour == schedule_hour && tm->tm_min == schedule_min) {
             // Check for updates
             auto latest = manifest_db.getLatestManifest();
@@ -500,10 +500,10 @@ void checkScheduledUpdate(
                 // Notify
                 sendNotification(config.notifications.webhook_url,
                                "Applying critical update: " + latest->version);
-                
+
                 // Apply
                 auto result = engine.applyHotReload(latest->version);
-                
+
                 if (result.success) {
                     sendNotification(config.notifications.webhook_url,
                                    "Update successful: " + latest->version);
@@ -634,3 +634,11 @@ if (!manifest) {
 - [Future Enhancements](../../src/updates/FUTURE_ENHANCEMENTS.md)
 - [Storage Module Headers](../storage/README.md)
 - [Security Module Headers](../security/README.md)
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

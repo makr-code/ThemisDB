@@ -721,7 +721,8 @@ public:
         if (descriptor.batch.num_queries > 0) {
             res.results.resize(descriptor.batch.num_queries);
         }
-        return ComputeFuture<SimilarityKernelResult>::make_ready(std::move(res));
+        return ComputeFuture<SimilarityKernelResult>::make_ready(
+            std::move(res), {}, token);
     }
 
     int submit_count_ = 0;

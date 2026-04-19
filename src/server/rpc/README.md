@@ -53,7 +53,7 @@ handler.StreamChunks([](const themis::sharding::SnapshotChunk& chunk) {
 
 // Monitor progress
 SnapshotProgress progress = handler.GetProgress();
-std::cout << "Progress: " << progress.transferred_chunks 
+std::cout << "Progress: " << progress.transferred_chunks
           << "/" << progress.total_chunks << std::endl;
 ```
 
@@ -304,3 +304,7 @@ Unit tests (to be added in v1.3.1):
 
 Copyright (c) 2025 ThemisDB Project
 Licensed under the same terms as ThemisDB.
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

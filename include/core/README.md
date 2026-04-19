@@ -37,7 +37,7 @@ public:
     virtual void warn(std::string_view msg) = 0;
     virtual void error(std::string_view msg) = 0;
     virtual void critical(std::string_view msg) = 0;
-    
+
     // Template methods for formatted logging
     template<typename... Args>
     void info(fmt::format_string<Args...> fmt, Args&&... args);
@@ -357,19 +357,19 @@ auto ctx = ConcernsContext::create(cfg);
 void processQuery(const Query& query, ConcernsContext* ctx) {
     // Logging
     ctx->logger()->info("Processing query: {}", query.text);
-    
+
     // Tracing
     auto span = ctx->tracer()->startSpan("query_execution");
     span->setAttribute("query_type", query.type);
-    
+
     // Metrics
     ctx->metrics()->incrementCounter("queries_total");
-    
+
     auto result = executeQuery(query);
-    
+
     ctx->metrics()->recordHistogram("query_duration_ms", result.duration);
     span->end();
-    
+
     return result;
 }
 ```
@@ -383,9 +383,9 @@ void processQuery(const Query& query, ConcernsContext* ctx) {
 TEST(StorageEngineTest, BasicPutGet) {
     // Create test context with no-op implementations
     auto ctx = ConcernsContext::createNoOp();
-    
+
     StorageEngine storage(evaluator, encryption, keys, nullptr, ctx);
-    
+
     ASSERT_OK(storage.put("key", "value"));
     ASSERT_EQ("value", storage.get("key").value());
 }
@@ -505,3 +505,11 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned interface improvements
 - [Storage Headers](../storage/README.md) - Storage layer interfaces
 - [Server Headers](../server/README.md) - Server protocol interfaces
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

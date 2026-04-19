@@ -94,7 +94,7 @@ std::cout << "User: " << claims.sub << std::endl;
 
 **Features:**
 - MIT Kerberos 5 support
-- Active Directory integration  
+- Active Directory integration
 - Heimdal Kerberos support
 - Cross-platform (Linux/GSSAPI, Windows/SSPI, macOS/Heimdal)
 - Service principal validation with keytab
@@ -554,7 +554,7 @@ struct JWTClaims {
     std::optional<std::chrono::system_clock::time_point> not_before;
     std::optional<std::chrono::system_clock::time_point> issued_at;
     std::vector<std::string> audience;
-    
+
     bool isExpired() const;
 };
 ```
@@ -576,7 +576,7 @@ struct KerberosConfig {
     std::string keytab_file;            // Path to keytab
     std::string krb5_config;            // Optional krb5.conf path
     bool fallback_to_basic = true;      // Allow fallback
-    
+
     struct PrincipalMapping {
         std::string principal_pattern;   // Supports wildcards
         std::string role;
@@ -604,7 +604,7 @@ struct EnrollmentData {
     std::vector<std::string> recovery_codes;
     std::chrono::system_clock::time_point enrolled_at;
     bool enabled = false;
-    
+
     nlohmann::json to_json() const;
     static EnrollmentData from_json(const nlohmann::json& j);
 };
@@ -888,18 +888,18 @@ std::string bearer_token = request.getHeader("Authorization");
 
 try {
     auto claims = jwt_validator.parseAndValidate(bearer_token);
-    
+
     // Check user has required role
-    bool is_admin = std::find(claims.roles.begin(), claims.roles.end(), "admin") 
+    bool is_admin = std::find(claims.roles.begin(), claims.roles.end(), "admin")
                     != claims.roles.end();
-    
+
     if (!is_admin) {
         return response.sendError(403, "Forbidden");
     }
-    
+
     // Process request
     // ...
-    
+
 } catch (const std::exception& e) {
     return response.sendError(401, "Unauthorized");
 }
@@ -1069,7 +1069,7 @@ try {
     auto claims = validator.parseAndValidate(token);
 } catch (const std::runtime_error& e) {
     std::string error = e.what();
-    
+
     if (error.find("expired") != std::string::npos) {
         // Token expired - prompt for refresh
     } else if (error.find("Invalid signature") != std::string::npos) {
@@ -1150,3 +1150,11 @@ See `../../src/auth/` for the implementation code.
 - **Security Module** (`../security/`): Encryption, TLS, key management
 - **Server Module** (`../server/`): HTTP request handling
 - **API Module** (`../api/`): REST API definitions
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

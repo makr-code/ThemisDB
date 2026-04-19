@@ -794,6 +794,11 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
     // Removal Plan: Replace signal stubs with real accessor calls when adapters
     //               are available in the orchestrator's dependency graph.
 
+    const auto next_adapter_revision = impl_->stats.lora_retraining_count + 1;
+    const auto baseline_accuracy = impl_->stats.accuracy_7d_avg > 0.0
+        ? impl_->stats.accuracy_7d_avg
+        : impl_->stats.current_accuracy;
+
     switch (phase) {
         case LoopPhase::LOOP_1_HNSW_QUERY:
             // Signal: BaoOptimizer::getMissRate() > 0.15 or HNSWTuner recall < 0.93
@@ -802,7 +807,7 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
             result.guardrail_passed = (impl_->stats.current_accuracy >= (1.0 - 0.05));
             result.metric_delta     = result.guardrail_passed ? 0.02 : 0.0;
             result.adapter_version  = result.guardrail_passed
-                                          ? "v" + std::to_string(impl_->stats.total_improvements + 1)
+                                          ? "v" + std::to_string(next_adapter_revision)
                                           : "";
             break;
 
@@ -810,7 +815,7 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
             // Signal: WorkloadAdaptiveOptimizer::getProfileDrift() > 0.1
             // Guardrail: no regression in avg_speedup
             result.success          = true;
-            result.guardrail_passed = (impl_->stats.current_accuracy >= impl_->stats.baseline_accuracy);
+            result.guardrail_passed = (impl_->stats.current_accuracy >= baseline_accuracy);
             result.metric_delta     = result.guardrail_passed ? 0.01 : 0.0;
             result.adapter_version  = "";
             break;
@@ -831,7 +836,7 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
             result.guardrail_passed = (impl_->stats.current_accuracy >= 0.75);
             result.metric_delta     = result.guardrail_passed ? 0.03 : 0.0;
             result.adapter_version  = result.guardrail_passed
-                                          ? "rlaif_v" + std::to_string(impl_->stats.total_improvements + 1)
+                                          ? "rlaif_v" + std::to_string(next_adapter_revision)
                                           : "";
             break;
 
@@ -842,7 +847,7 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
     // Update stats when a new adapter version is committed
     if (result.guardrail_passed && !result.adapter_version.empty()) {
         std::lock_guard<std::mutex> lock(impl_->mutex);
-        ++impl_->stats.total_improvements;
+        ++impl_->stats.lora_retraining_count;
     }
 
     // Invoke completion handler (if registered), outside the mutex

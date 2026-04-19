@@ -219,7 +219,7 @@ TEST_F(VectorAutoBufferFixture, PQFallbackWhenTooFewTrainingVectors) {
 
     VectorAutoBuffer buf(vim.get(), cfg);
     for (int i = 0; i < 5; ++i) {
-        buf.addEntity("ns", makePQEntity("e" + std::to_string(i), i * 10));
+        buf.add(makePQEntity("e" + std::to_string(i), i * 10));
     }
     // flush() must succeed without throwing even though PQ training is skipped
     EXPECT_NO_THROW(buf.flush());
@@ -236,7 +236,7 @@ TEST_F(VectorAutoBufferFixture, PQFlushSucceedsWithSufficientBatch) {
 
     VectorAutoBuffer buf(vim.get(), cfg);
     for (int i = 0; i < 8; ++i) {
-        buf.addEntity("ns", makePQEntity("pq_" + std::to_string(i), i * 5));
+        buf.add(makePQEntity("pq_" + std::to_string(i), i * 5));
     }
     size_t flushed = 0;
     EXPECT_NO_THROW(flushed = buf.flush());
@@ -254,7 +254,7 @@ TEST_F(VectorAutoBufferFixture, PQFallbackOnBadDimDivisibility) {
 
     VectorAutoBuffer buf(vim.get(), cfg);
     for (int i = 0; i < 8; ++i) {
-        buf.addEntity("ns", makePQEntity("bad_" + std::to_string(i), i));
+        buf.add(makePQEntity("bad_" + std::to_string(i), i));
     }
     EXPECT_NO_THROW(buf.flush());
 }

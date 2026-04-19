@@ -245,14 +245,14 @@ Pattern ideal = {
 
 // Find similar processes
 auto results = matcher.findSimilar(
-    ideal, 
+    ideal,
     0.7,  // 70% similarity threshold
-    SimilarityMethod::HYBRID, 
+    SimilarityMethod::HYBRID,
     10  // Top 10 results
 );
 
 for (const auto& result : results) {
-    std::cout << "Process: " << result.process_id 
+    std::cout << "Process: " << result.process_id
               << " Similarity: " << result.score << std::endl;
 }
 ```
@@ -459,7 +459,7 @@ std::cout << "Deleted: " << diff.stats.deleted_count << std::endl;
 
 // Iterate changes
 for (const auto& change : diff.modified) {
-    std::cout << "Modified: " << change.key 
+    std::cout << "Modified: " << change.key
               << " from " << change.old_value.value()
               << " to " << change.new_value.value() << std::endl;
 }
@@ -621,7 +621,7 @@ auto reg = automl.trainRegressor(data, {
 **Example AQL:**
 ```sql
 FOR doc IN sales
-  COLLECT region = doc.region 
+  COLLECT region = doc.region
   AGGREGATE total = SUM(doc.amount), avg_price = AVG(doc.price)
   RETURN { region, total, avg_price }
 ```
@@ -692,7 +692,7 @@ auto result = engine.execute(query);  // Automatically uses vectorized execution
 ### Data Export
 1. **Use streaming**: For large datasets, use streaming export
 2. **Compression**: Enable compression for network transfers
-3. **Format selection**: 
+3. **Format selection**:
    - JSON: Human-readable, debugging
    - CSV: Simple integration
    - Parquet: Efficient storage and columnar analytics
@@ -701,7 +701,7 @@ auto result = engine.execute(query);  // Automatically uses vectorized execution
 
 ### Process Mining
 1. **Event log quality**: Ensure complete event logs
-2. **Algorithm selection**: 
+2. **Algorithm selection**:
    - Alpha Miner: Clean, simple processes
    - Heuristic Miner: Noisy, real-world logs
    - Inductive Miner: Need guaranteed soundness
@@ -756,7 +756,7 @@ auto result = engine.execute(query);  // Automatically uses vectorized execution
 | Community detection | 10K vertices, 50K edges | 320ms |
 | Shortest path | 10K vertices, 50K edges | 15ms |
 
-**Hardware:** AMD EPYC 7763, 128GB RAM, NVMe SSD  
+**Hardware:** AMD EPYC 7763, 128GB RAM, NVMe SSD
 **Configuration:** Default settings, no special tuning
 
 ## Thread Safety
@@ -824,7 +824,7 @@ export THEMIS_ANALYTICS_BATCH_SIZE=1024
 export THEMIS_ANALYTICS_CACHE_SIZE=1GB
 ```
 
-### Compile-Time Options
+## Compile-Time Options
 ```cmake
 # Enable Arrow support
 set(THEMIS_ENABLE_ARROW ON)
@@ -902,3 +902,11 @@ Part of ThemisDB. See LICENSE file in the root directory.
 - **OLAP Guide**: [`../../docs/de/analytics/olap_guide.md`](../../docs/de/analytics/olap_guide.md)
 - **Forecasting Guide**: [`../../docs/de/analytics/forecasting_guide.md`](../../docs/de/analytics/forecasting_guide.md)
 - **CEP Guide**: [`../../docs/de/analytics/cep_guide.md`](../../docs/de/analytics/cep_guide.md)
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

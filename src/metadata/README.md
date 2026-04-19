@@ -158,12 +158,12 @@ schema_mgr.setCacheTTL(std::chrono::seconds(60));
 auto tables = schema_mgr.getAllTables();
 
 for (const auto& table : tables) {
-    std::cout << "Table: " << table.name 
+    std::cout << "Table: " << table.name
               << " Type: " << table.type
               << " Rows: " << table.estimated_row_count << std::endl;
-    
+
     for (const auto& prop : table.properties) {
-        std::cout << "  - " << prop.name 
+        std::cout << "  - " << prop.name
                   << " (" << prop.type << ")"
                   << (prop.indexed ? " [indexed]" : "") << std::endl;
     }
@@ -283,7 +283,7 @@ if (schema.has_value()) {
         schema->properties.end(),
         [](const auto& prop) { return prop.name == "email"; }
     );
-    
+
     if (it != schema->properties.end()) {
         std::cout << "Column 'email' exists, type: " << it->type << std::endl;
     }
@@ -338,3 +338,7 @@ if (schema.has_value()) {
 4. Doan, A., Halevy, A., & Ives, Z. (2012). **Principles of Data Integration**. Morgan Kaufmann. ISBN: 978-0-124-16248-4
 
 5. Gray, J., Bosworth, A., Layman, A., & Pirahesh, H. (1997). **Data Cube: A Relational Aggregation Operator Generalizing Group-By, Cross-Tab, and Sub-Totals**. *Data Mining and Knowledge Discovery*, 1, 29–53. https://doi.org/10.1023/A:1009726021843
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

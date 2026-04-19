@@ -69,7 +69,7 @@ type ChangeEvent {
 
 ---
 
-### WebSocket Real-Time Change Streaming Endpoint
+## WebSocket Real-Time Change Streaming Endpoint
 **Priority:** High
 **Target Version:** v1.7.0
 

@@ -40,7 +40,7 @@ This document outlines planned implementation enhancements for the Themis core f
 ## Near-Term Enhancements (v1.7.0)
 
 ### Modular Build System
-**Priority:** Critical  
+**Priority:** Critical
 **Target Version:** v1.7.0
 
 Migrate from monolithic to modular build architecture.
@@ -72,8 +72,8 @@ target_link_libraries(themis-query themis-base)
 
 ---
 
-### Module Loader Implementation
-**Priority:** Critical  
+## Module Loader Implementation
+**Priority:** Critical
 **Target Version:** v1.7.0
 
 Implement secure module loading with signature verification.
@@ -105,7 +105,7 @@ Implement secure module loading with signature verification.
 ---
 
 ### Wire Protocol Performance Optimizations
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Optimize wire protocol for lower latency and higher throughput.
@@ -146,8 +146,8 @@ Target v1.7.0:
 ---
 
 ### Build Reproducibility Implementation
-**Priority:** High  
-**Target Version:** v1.7.0  
+**Priority:** High
+**Target Version:** v1.7.0
 **Status:** ✅ Implemented in v1.7.0
 
 Ensure all builds are reproducible for security auditing.
@@ -198,7 +198,7 @@ add_compile_definitions(
 )
 ```
 
-**Tests:** `tests/test_build_info.cpp` — CTest target `BuildInfoTests` (15 tests).  
+**Tests:** `tests/test_build_info.cpp` — CTest target `BuildInfoTests` (15 tests).
 **CI:** `.github/workflows/build-reproducibility-ci.yml`.
 
 ---
@@ -206,7 +206,7 @@ add_compile_definitions(
 ## Mid-Term Enhancements (v1.8.0)
 
 ### Hot Module Reload
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Support reloading modules without restarting the server.
@@ -223,21 +223,21 @@ public:
         std::chrono::milliseconds reload_time;
         std::string error_message;
     };
-    
+
     ReloadResult reloadModule(
         const std::string& module_name,
         const std::string& new_module_path);
-    
+
     bool supportsHotReload(const std::string& module_name);
-    
+
 private:
     // State migration
     void migrateState(void* old_module, void* new_module);
-    
+
     // Connection handling
     void pauseConnections();
     void resumeConnections();
-    
+
     // Rollback on failure
     void rollback(const std::string& module_name);
 };
@@ -252,7 +252,7 @@ private:
 ---
 
 ### Module Sandboxing
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Isolate modules in sandboxes to prevent malicious code execution.
@@ -269,17 +269,17 @@ public:
         FilesystemAccess filesystem_access;
         std::vector<std::string> allowed_syscalls;
     };
-    
+
     void launchSandboxed(
         const std::string& module_path,
         const SandboxConfig& config);
-    
+
     SandboxStats getStats() const;
-    
+
 private:
     // Linux: namespaces, cgroups, seccomp
     void setupLinuxSandbox(const SandboxConfig& config);
-    
+
     // Windows: job objects, integrity levels
     void setupWindowsSandbox(const SandboxConfig& config);
 };
@@ -292,8 +292,8 @@ private:
 ---
 
 ### Wire Protocol V2 Implementation
-**Priority:** High  
-**Target Version:** v1.8.0  
+**Priority:** High
+**Target Version:** v1.8.0
 **Status:** ✅ Implemented (v1.8.0)
 
 Implement enhanced wire protocol with multiplexing.
@@ -344,7 +344,7 @@ public:
 ---
 
 ### License Server Client
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Implement client for online license validation.
@@ -360,22 +360,22 @@ public:
         std::chrono::system_clock::time_point expiry;
         std::string error_message;
     };
-    
+
     LicenseClient(const std::string& license_server_url);
-    
+
     ActivationResult activate(const std::string& license_key);
-    
+
     bool validate();
-    
+
     void setValidationInterval(std::chrono::hours interval);
-    
+
     using ValidationCallback = std::function<void(const LicenseError&)>;
     void onValidationFailure(ValidationCallback callback);
-    
+
 private:
     // HTTPS communication
     void httpPost(const std::string& endpoint, const nlohmann::json& data);
-    
+
     // Periodic validation
     void scheduleValidation();
 };
@@ -392,7 +392,7 @@ private:
 ## Long-Term Enhancements (v1.9.0+)
 
 ### Trusted Execution Environment (TEE)
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.9.0
 
 Support Intel SGX and AMD SEV for module isolation.
@@ -405,11 +405,11 @@ public:
     LoadResult loadModuleInEnclave(
         const std::string& module_path,
         const TEEConfig& config);
-    
+
     bool verifyEnclave(const std::string& module_name);
-    
+
     AttestationReport getAttestationReport(const std::string& module_name);
-    
+
 private:
     void initializeSGX();
     void initializeSEV();
@@ -425,7 +425,7 @@ private:
 ---
 
 ### Module Capability Negotiation
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.9.0
 
 Dynamic capability negotiation between modules.
@@ -440,12 +440,12 @@ public:
         Version min_version;
         Version max_version;
     };
-    
+
     std::vector<Capability> query(const std::string& module_name);
-    
+
     std::vector<std::string> negotiate(
         const std::vector<std::string>& modules);
-    
+
     bool supports(
         const std::string& module_name,
         const std::string& capability);
@@ -455,7 +455,7 @@ public:
 ---
 
 ### Compression Algorithm Extensions
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.9.0
 
 Additional compression algorithms for wire protocol.
@@ -478,19 +478,19 @@ public:
         SNAPPY,
         DICTIONARY
     };
-    
+
     std::vector<uint8_t> compress(
         const std::vector<uint8_t>& data,
         Algorithm algo,
         int level = -1);
-    
+
     std::vector<uint8_t> decompress(
         const std::vector<uint8_t>& data,
         Algorithm algo);
-    
+
     // Select best algorithm based on data characteristics
     Algorithm selectBest(const std::vector<uint8_t>& data);
-    
+
 private:
     // Dictionary training for repeated data
     void trainDictionary(const std::vector<std::vector<uint8_t>>& samples);
@@ -502,7 +502,7 @@ private:
 ## Testing Enhancements
 
 ### Comprehensive Test Suite
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 **Test Categories:**
@@ -537,7 +537,7 @@ private:
 ---
 
 ### Continuous Integration
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 **CI Pipeline:**
@@ -553,24 +553,24 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         compiler: [gcc, clang, msvc]
-    
+
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Build
         run: |
           cmake -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo
           cmake --build build
-      
+
       - name: Unit Tests
         run: ctest --test-dir build --output-on-failure
-      
+
       - name: Security Tests
         run: ./build/tests/security/themis_security_tests
-      
+
       - name: Performance Tests
         run: ./build/tests/performance/themis_perf_tests
-      
+
       - name: Coverage
         run: |
           lcov --capture --directory build --output-file coverage.info
@@ -583,7 +583,7 @@ jobs:
 ## Performance Optimization Plan
 
 ### Profiling Strategy
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 **Tools:**
@@ -618,7 +618,7 @@ Compression:
 ## Documentation Enhancements
 
 ### API Documentation
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 - Complete Doxygen comments for all public APIs
@@ -627,7 +627,7 @@ Compression:
 - Sequence diagrams for complex flows
 
 ### Developer Guide
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 - Step-by-step implementation guide

@@ -82,6 +82,14 @@ struct TimeRange {
         return end == other.start;
     }
 
+    bool operator==(const TimeRange& other) const noexcept {
+        return start == other.start && end == other.end;
+    }
+
+    bool operator!=(const TimeRange& other) const noexcept {
+        return !(*this == other);
+    }
+
     nlohmann::json toJson() const {
         return {{"start", start}, {"end", end}};
     }

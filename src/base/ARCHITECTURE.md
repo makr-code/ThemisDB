@@ -1,9 +1,9 @@
 # Base Module — Architecture Guide
 
-**Version:** 1.1  
-**Last Updated:** 2026-04-06  
-**Status:** current  
-**Validated:** 2026-03-09 (source-code audit, commit 0091524)  
+**Version:** 1.1
+**Last Updated:** 2026-04-06
+**Status:** current
+**Validated:** 2026-03-09 (source-code audit, commit 0091524)
 **Module Path:** `src/base/`
 
 ---

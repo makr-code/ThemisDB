@@ -27,3 +27,21 @@ Calls to planned IMPL-B6/B10 APIs are marked with `/* PLANNED */` comments.
 - Issue spec: `docs/issues/optimization_layers/IMPL-B10-layout-advisor.md`
 - Research paper: `docs/en/research/LLM_OPTIMIZATION_LAYERS_MATRIX.md` §Layer 6, §Layer 10
 - Module ROADMAP: `include/storage/ROADMAP.md` §Phase 7
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```
+
+## Usage
+
+Include the relevant headers from this module:
+
+```cpp
+#include "storage/module_header.h"
+```
+
+See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.

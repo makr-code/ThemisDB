@@ -1,8 +1,8 @@
 # ThemisDB Process Modeling Module
 
-**Version:** 1.0.0  
-**Status:** 🟡 Beta — Core functionality implemented, LLM integration and advanced conformance checking planned  
-**Last Updated:** 2026-04-06  
+**Version:** 1.0.0
+**Status:** 🟡 Beta — Core functionality implemented, LLM integration and advanced conformance checking planned
+**Last Updated:** 2026-04-06
 **Module Path:** `src/process/`
 
 ---
@@ -266,3 +266,7 @@ The following peer-reviewed sources and standards form the scientific foundation
 4. Bukhsh, Z. A., Saeed, A., & Dijkman, R. M. (2021). **ProcessTransformer: Predictive Business Process Monitoring with Transformer Networks**. arXiv:2104.00721. https://arxiv.org/abs/2104.00721
 
 5. FITKO / Föderale IT-Kooperation. (2024). **Föderales Informationsmanagement (FIM) – Technischer Leitfaden**. https://www.fitko.de/fim
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

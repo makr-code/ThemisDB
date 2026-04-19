@@ -653,5 +653,5 @@ The following references (IEEE & ACM citation format) support the future enhance
 
 ---
 
-*Last Updated: April 2026*  
+*Last Updated: April 2026*
 *Module Version: v1.4.0*

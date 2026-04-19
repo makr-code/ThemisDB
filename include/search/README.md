@@ -781,3 +781,11 @@ HybridSearch search(fulltext_idx, vector_idx, config);
 
 *Last Updated: April 2026*
 *API Version: v2.3.0*
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

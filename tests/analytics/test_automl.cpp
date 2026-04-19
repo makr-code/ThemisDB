@@ -790,7 +790,7 @@ TEST(KNNRegressionTest, PredictOneRegPerformance) {
  * When used as a regression proxy the expected output for x just above 0.5
  * should be close to 1.0, and for x just below 0.5 it should be close to 0.0.
  */
-static std::vector<DataPoint> makeBinaryData(int n) {
+static std::vector<DataPoint> makeBinaryThresholdData(int n) {
     std::vector<DataPoint> pts;
     pts.reserve(static_cast<size_t>(n));
     for (int i = 0; i < n; ++i) {
@@ -807,7 +807,7 @@ static std::vector<DataPoint> makeBinaryData(int n) {
 
 TEST(LRModelRegressorTest, PredictOneRegNotZeroStub) {
     // Train LOGISTIC_REGRESSION on the binary dataset.
-    auto train = makeBinaryData(100);
+    auto train = makeBinaryThresholdData(100);
 
     AutoML automl;
     AutoMLConfig cfg;
@@ -845,7 +845,7 @@ TEST(LRModelRegressorTest, PredictOneRegNotZeroStub) {
 TEST(LRModelRegressorTest, PredictOneRegRangeMonotonic) {
     // The LR regression proxy must return higher values for x near 1.0
     // (positive region) than for x near 0.0 (negative region).
-    auto train = makeBinaryData(100);
+    auto train = makeBinaryThresholdData(100);
 
     AutoML automl;
     AutoMLConfig cfg;

@@ -463,8 +463,8 @@ TEST_F(SnapshotDiffTest, SD2_03_RemovedKey) {
     auto t1 = buildTable("tbl", {{"k1", 1}, {"k2", 2}});
     auto h1 = mgr.createSnapshot({{"tbl", &t1}});
 
-    // Delete k2 by marking it deleted (soft-delete via system versioning)
-    t1.softDelete("k2");
+    // Delete k2 by closing the current version in the system-versioned table.
+    ASSERT_TRUE(t1.deleteRow("k2"));
     auto h2 = mgr.createSnapshot({{"tbl", &t1}});
 
     // k2 is not removed from the table; data stays but version changes.

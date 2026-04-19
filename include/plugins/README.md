@@ -594,3 +594,11 @@ JSON Schema v2 that `plugin_registry.cpp` validates against before accepting a p
 ## Current Delivery Status
 
 **Maturity:** 🟢 Production-Ready — Phases 1–4 complete. All headers are stable from v1.x; new virtual methods to `IThemisPlugin` would require a major version bump.
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

@@ -7,6 +7,12 @@
 - Test evidence: `tests/test_chaos_framework.cpp`, `tests/test_chaos_scheduler.cpp`, `tests/test_chaos_stress.cpp`
 - Benchmark evidence: `benchmarks/bench_chaos_stress.cpp`
 
+## Source Files Audited
+
+| File | Purpose |
+|------|---------|
+| `chaos_framework.cpp` | Core chaos injection scheduler — fault simulation, rate control, delay injection |
+
 ## Findings
 - Implementation is present and non-stub.
 - Core docs (`README`, `ARCHITECTURE`, `ROADMAP`, `FUTURE_ENHANCEMENTS`, `AUDIT`, `SECURITY`) exist in `src/chaos/`.

@@ -199,7 +199,7 @@ if (result.passed_quality_threshold) {
     std::cout << "Answer quality: " << result.overall_score << "\n";
     std::cout << "Faithfulness: " << result.faithfulness_score << "\n";
     std::cout << "Relevance: " << result.relevance_score << "\n";
-    
+
     // Show verified claims
     for (const auto& claim : result.verified_claims) {
         std::cout << "✓ " << claim << "\n";
@@ -279,7 +279,7 @@ Detects when retrieved documents are insufficient to answer a query reliably.
    - Similarity score analysis
    - Document count check
    - Query coverage assessment
-   
+
 2. **During Generation**: Real-time monitoring
    - Token probability tracking
    - Perplexity anomaly detection
@@ -322,7 +322,7 @@ if (pre_check.gap_detected) {
     std::cout << "Gap detected: " << pre_check.explanation << "\n";
     std::cout << "Gap type: " << static_cast<int>(pre_check.gap_type) << "\n";
     std::cout << "Avg similarity: " << pre_check.avg_similarity_score << "\n";
-    
+
     // Apply fallback strategy
     switch (pre_check.recommendation) {
         case FallbackStrategy::EXPAND_SEARCH:
@@ -745,18 +745,18 @@ public:
         // Initialize components
         gap_detector_ = knowledge_gap::KnowledgeGapDetectorFactory::createBalanced();
         judge_ = judge::RAGJudgeFactory::createBalanced();
-        
+
         // Setup evaluation cache
         judge::CacheConfig cache_cfg;
         cache_cfg.max_entries = 1000;
         cache_cfg.ttl = std::chrono::seconds(3600);
         eval_cache_ = std::make_unique<judge::EvaluationCache>(cache_cfg);
-        
+
         // Initialize LLM integration
         auto inference_engine = std::make_shared<llm::InferenceEngineEnhanced>();
         LLMIntegration::setInferenceEngine(inference_engine);
     }
-    
+
     struct RAGResponse {
         std::string answer;
         double confidence;
@@ -764,24 +764,24 @@ public:
         judge::EvaluationResult quality_metrics;
         bool sufficient_quality;
     };
-    
+
     RAGResponse query(const std::string& user_query, size_t top_k = 10) {
         RAGResponse response;
-        
+
         // Step 1: Retrieval
         auto retrieved_docs = retrieveDocuments(user_query, top_k);
-        
+
         // Step 2: Pre-generation gap detection
         auto gap_check = gap_detector_->detectPreGeneration(user_query, retrieved_docs);
-        
+
         if (gap_check.gap_detected) {
             // Apply fallback strategy
             if (gap_check.recommendation == knowledge_gap::FallbackStrategy::EXPAND_SEARCH) {
                 retrieved_docs = retrieveDocuments(user_query, top_k * 2);
                 gap_check = gap_detector_->detectPreGeneration(user_query, retrieved_docs);
             }
-            
-            if (gap_check.gap_detected && 
+
+            if (gap_check.gap_detected &&
                 gap_check.recommendation == knowledge_gap::FallbackStrategy::INSUFFICIENT_DATA_RESPONSE) {
                 response.answer = "I don't have enough reliable information to answer this question.";
                 response.confidence = 0.0;
@@ -789,21 +789,21 @@ public:
                 return response;
             }
         }
-        
+
         // Step 3: Prompt construction and generation
         std::string prompt = buildPrompt(user_query, retrieved_docs);
-        
+
         LLMGenerationOptions gen_opts;
         gen_opts.temperature = 0.7;
         gen_opts.max_tokens = 512;
-        
+
         response.answer = LLMIntegration::generate(prompt, gen_opts);
-        
+
         // Step 4: Post-generation gap check
         auto post_gap_check = gap_detector_->detectPostGeneration(
             user_query, retrieved_docs, response.answer
         );
-        
+
         // Step 5: Quality evaluation (check cache first)
         auto cached_eval = eval_cache_->get(user_query, response.answer);
         if (cached_eval) {
@@ -813,39 +813,39 @@ public:
             eval_input.query = user_query;
             eval_input.documents = convertDocs(retrieved_docs);
             eval_input.generated_answer = response.answer;
-            
+
             response.quality_metrics = judge_->evaluate(eval_input);
             eval_cache_->put(user_query, response.answer, response.quality_metrics);
         }
-        
+
         // Step 6: Decision logic
-        response.confidence = response.quality_metrics.overall_score * 
+        response.confidence = response.quality_metrics.overall_score *
                              (1.0 - gap_check.confidence_score);
-        
-        response.sufficient_quality = 
+
+        response.sufficient_quality =
             response.quality_metrics.passed_quality_threshold &&
             !post_gap_check.gap_detected;
-        
+
         // Step 7: Extract citations
         response.citations = extractCitations(response.answer, retrieved_docs);
-        
+
         return response;
     }
-    
+
 private:
     std::unique_ptr<knowledge_gap::KnowledgeGapDetector> gap_detector_;
     std::unique_ptr<judge::RAGJudge> judge_;
     std::unique_ptr<judge::EvaluationCache> eval_cache_;
-    
+
     std::vector<knowledge_gap::RetrievedDocument> retrieveDocuments(
-        const std::string& query, 
+        const std::string& query,
         size_t top_k
     ) {
         // Use vector index to retrieve documents
         // Implementation depends on your vector index
         return {};  // Placeholder
     }
-    
+
     std::string buildPrompt(
         const std::string& query,
         const std::vector<knowledge_gap::RetrievedDocument>& docs
@@ -860,7 +860,7 @@ private:
         prompt << "Answer (cite sources using [1], [2], etc.):";
         return prompt.str();
     }
-    
+
     std::vector<judge::RetrievedDocument> convertDocs(
         const std::vector<knowledge_gap::RetrievedDocument>& docs
     ) {
@@ -870,7 +870,7 @@ private:
         }
         return result;
     }
-    
+
     std::vector<std::string> extractCitations(
         const std::string& answer,
         const std::vector<knowledge_gap::RetrievedDocument>& docs
@@ -884,9 +884,9 @@ private:
 // Usage
 int main() {
     RAGPipeline rag;
-    
+
     auto response = rag.query("What causes climate change?");
-    
+
     if (response.sufficient_quality) {
         std::cout << "Answer: " << response.answer << "\n\n";
         std::cout << "Confidence: " << response.confidence << "\n";
@@ -894,7 +894,7 @@ int main() {
         std::cout << "  Faithfulness: " << response.quality_metrics.faithfulness_score << "\n";
         std::cout << "  Relevance: " << response.quality_metrics.relevance_score << "\n";
         std::cout << "  Completeness: " << response.quality_metrics.completeness_score << "\n";
-        
+
         std::cout << "\nCitations:\n";
         for (const auto& citation : response.citations) {
             std::cout << "  - " << citation << "\n";
@@ -903,7 +903,7 @@ int main() {
         std::cout << "Response quality insufficient.\n";
         std::cout << "Explanation: " << response.quality_metrics.explanation << "\n";
     }
-    
+
     return 0;
 }
 ```
@@ -1141,6 +1141,14 @@ MIT License - see `../../LICENSE`
 
 ---
 
-*Generated: 2024*  
-*Module Version: 1.15.0*  
+*Generated: 2024*
+*Module Version: 1.15.0*
 *23 header files, 19 source files*
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

@@ -155,3 +155,7 @@ metric writes, and audit-log appends are safe.
 3. Ryoo, S., Rodrigues, C. I., Baghsorkhi, S. S., Stone, S. S., Kirk, D. B., & Hwu, W. M. W. (2008). **Optimization Principles and Application Performance Evaluation of a Multithreaded GPU Using CUDA**. *Proceedings of the 13th ACM SIGPLAN Symposium on Principles and Practice of Parallel Programming (PPoPP)*, 73–82. https://doi.org/10.1145/1345206.1345220
 
 4. Johnson, J., Douze, M., & Jégou, H. (2019). **Billion-Scale Similarity Search with GPUs**. *IEEE Transactions on Big Data*, 7(3), 535–547. https://doi.org/10.1109/TBDATA.2019.2921572
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

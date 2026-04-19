@@ -25,8 +25,8 @@ using namespace themis::storage;
 
 class InMemoryStubBackend final : public IBlobStorageBackend {
 public:
-    Result<BlobRef> put(const std::string& blob_id,
-                        const std::vector<uint8_t>& data) override
+    themis::Result<BlobRef> put(const std::string& blob_id,
+                                const std::vector<uint8_t>& data) override
     {
         store_[blob_id] = data;
         BlobRef ref;
@@ -37,7 +37,7 @@ public:
         return ref;
     }
 
-    Result<std::vector<uint8_t>> get(const BlobRef& ref) override
+    themis::Result<std::vector<uint8_t>> get(const BlobRef& ref) override
     {
         auto it = store_.find(ref.id);
         if (it == store_.end()) {
@@ -48,7 +48,7 @@ public:
         return it->second;
     }
 
-    Result<void> remove(const BlobRef& ref) override
+    themis::Result<void> remove(const BlobRef& ref) override
     {
         store_.erase(ref.id);
         return themis::OkVoid();

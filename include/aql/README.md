@@ -50,10 +50,10 @@ Header interface for LLM-specific AQL command handling.
 class LlmAqlHandler {
 public:
     explicit LlmAqlHandler(std::shared_ptr<ILLMBackend> backend);
-    
+
     // LLM command execution
     Result<json> handleLLMCommand(const LLMCommand& cmd);
-    
+
     // Individual command handlers
     Result<std::string> handleInfer(const InferRequest& req);
     Result<std::string> handleRAG(const RAGRequest& req);
@@ -62,10 +62,10 @@ public:
     Result<void> handleLoraLoad(const LoraLoadRequest& req);
     Result<json> handleStats(const StatsRequest& req);
     Result<void> handleCacheClear();
-    
+
     // Natural language translation
     Result<std::string> translateNLToAQL(const std::string& nl_query);
-    
+
 private:
     std::shared_ptr<ILLMBackend> backend_;
     std::shared_ptr<ModelRegistry> models_;
@@ -134,25 +134,25 @@ AI-powered documentation and query assistance.
 class DocsAssistant {
 public:
     explicit DocsAssistant(std::shared_ptr<ILLMBackend> llm);
-    
+
     // Natural language to AQL translation
     Result<std::string> translateToAQL(const std::string& nl_query);
-    
+
     // Query explanation
     Result<std::string> explainQuery(const std::string& aql_query);
-    
+
     // Function documentation lookup
     Result<std::string> getFunctionDocs(const std::string& function_name);
-    
+
     // Query optimization suggestions
     Result<std::vector<std::string>> suggestOptimizations(const std::string& query);
-    
+
     // Example query generation
     Result<std::vector<std::string>> generateExamples(const std::string& description);
-    
+
     // Schema recommendation
     Result<json> recommendSchema(const std::string& description);
-    
+
 private:
     std::shared_ptr<ILLMBackend> llm_;
     std::shared_ptr<FunctionRegistry> functions_;
@@ -374,8 +374,8 @@ auto specialized_answer = handler.handleInfer(specialized_req);
 target_link_libraries(my_app themis-aql)
 
 # Dependencies
-target_link_libraries(my_app 
-    themis-query 
+target_link_libraries(my_app
+    themis-query
     themis-index
     llama  # Optional: llama.cpp
 )
@@ -453,3 +453,11 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned interface improvements
 - [Query Headers](../query/README.md) - Core AQL interfaces
 - [LLM Headers](../llm/README.md) - LLM backend interfaces
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

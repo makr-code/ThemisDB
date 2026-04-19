@@ -249,8 +249,8 @@ std::cout << ast_json.dump(2) << std::endl;
 auto result = parser.parse(query_string);
 if (!result) {
     auto err = result.error();
-    std::cerr << "Error at line " << err.line 
-              << ", col " << err.column << ": " 
+    std::cerr << "Error at line " << err.line
+              << ", col " << err.column << ": "
               << err.message() << std::endl;
     // Syntax errors include position for IDE integration
 }
@@ -403,7 +403,7 @@ std::string query = "FOR doc IN users FILTER doc.age > 30 RETURN doc";
 nlohmann::json params = {{"min_age", 30}};
 nlohmann::json result = execute_query(query);
 
-cache.put(query, params, result, 
+cache.put(query, params, result,
           std::chrono::seconds(300),  // TTL: 5 minutes
           {"users"});                 // Dependencies
 
@@ -600,14 +600,14 @@ while (iterator->hasNext()) {
         std::cerr << "Error: " << batch_result.error().message() << std::endl;
         break;
     }
-    
+
     auto batch = batch_result.value();
     for (const auto& item : batch.items) {
         process(item);
     }
-    
+
     if (batch.is_last_batch) break;
-    
+
     // Use cursor for next request
     PaginationCursor cursor = batch.cursor;
 }
@@ -706,8 +706,8 @@ SQL-style window functions for analytical queries.
 FOR sale IN sales
   SORT sale.date ASC
   WINDOW w AS (
-    PARTITION BY sale.product_id 
-    ORDER BY sale.date 
+    PARTITION BY sale.product_id
+    ORDER BY sale.date
     ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
   )
   LET moving_avg = AVG(sale.amount) OVER w
@@ -1318,3 +1318,11 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 - [Storage Module](../../src/storage/README.md) - Data persistence layer
 - [Index Module](../../src/index/README.md) - Index management
 - [Server Module](../../src/server/README.md) - Network protocols
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

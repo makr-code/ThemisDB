@@ -11,6 +11,26 @@
 
 ---
 
+## Schnellnavigation (gepflegte Einstiegspfade)
+
+Diese Links bilden den aktuell gepflegten Einstieg in die Dokumentation:
+
+- Root-Einstieg: [../README.md](../README.md)
+- Master-Index: [../00_DOCUMENTATION_INDEX.md](../00_DOCUMENTATION_INDEX.md)
+- Rollenhub: [../DOCUMENTATION_HUB.md](../DOCUMENTATION_HUB.md)
+- Themenindex: [../CATEGORY_INDEX.md](../CATEGORY_INDEX.md)
+- Strukturregeln: [../DOCS_ORGANIZATION_PLAN.md](../DOCS_ORGANIZATION_PLAN.md)
+- Docs PR Policy: [../governance/DOCS_PR_POLICY.md](../governance/DOCS_PR_POLICY.md)
+
+Historische Reports wurden aus dem Root ausgelagert und sind hier gebuendelt:
+
+- Summaries: [../implementation-history/summaries/README.md](../implementation-history/summaries/README.md)
+- Phasen: [../implementation-history/phases/README.md](../implementation-history/phases/README.md)
+- Reviews: [../implementation-history/reviews/README.md](../implementation-history/reviews/README.md)
+- Status-Reports: [../implementation-history/status-reports/README.md](../implementation-history/status-reports/README.md)
+
+---
+
 ## 🚀 NEU in v1.4.0-alpha: Erweiterte LLM-Funktionen ✅
 
 **AI direkt in der Datenbank mit erweiterten Fähigkeiten - ohne externe API-Kosten!**

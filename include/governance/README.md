@@ -1,7 +1,7 @@
 # Governance Module — Public Headers
 
-**Version:** 1.0  
-**Last Updated:** 2026-04-06  
+**Version:** 1.0
+**Last Updated:** 2026-04-06
 **Module Path:** `include/governance/`
 
 ---
@@ -44,3 +44,20 @@ This directory contains the public C++ header files (`.h`) that define the stabl
 - [`src/governance/FUTURE_ENHANCEMENTS.md`](../../src/governance/FUTURE_ENHANCEMENTS.md) — Planned features with performance targets and IEEE references
 - [`docs/de/governance/README.md`](../../docs/de/governance/README.md) — German secondary documentation
 
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```
+
+## Usage
+
+Include the relevant headers from this module:
+
+```cpp
+#include "governance/module_header.h"
+```
+
+See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.

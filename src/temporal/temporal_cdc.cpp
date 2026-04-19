@@ -40,7 +40,9 @@
 #include <fstream>
 #include <stdexcept>
 #include <system_error>
+#ifndef _WIN32
 #include <unistd.h>
+#endif
 
 namespace themisdb {
 namespace temporal {
@@ -224,271 +226,6 @@ void TemporalCDC::clearLog() {
     log_.clear();
 }
 
-uint64_t TemporalCDC::overflowCount() const noexcept {
-    return overflow_count_.load(std::memory_order_relaxed);
-}
-
-// ============================================================================
-// CDCPersistentLog — implementation
-// ============================================================================
-
-// ── CRC-32 (IEEE 802.3 / Ethernet polynomial) ────────────────────────────────
-// Table-driven Sarwate algorithm; no external dependencies.
-
-uint32_t CDCPersistentLog::crc32(const uint8_t* data, size_t len) noexcept {
-    static const auto make_table = []() {
-        std::array<uint32_t, 256> tbl{};
-        for (uint32_t i = 0; i < 256; ++i) {
-            uint32_t c = i;
-            for (int k = 0; k < 8; ++k) {
-                c = (c & 1u) ? (0xEDB88320u ^ (c >> 1)) : (c >> 1);
-            }
-            tbl[i] = c;
-        }
-        return tbl;
-    };
-    static const auto table = make_table();
-
-    uint32_t crc = 0xFFFFFFFFu;
-    for (size_t i = 0; i < len; ++i) {
-        crc = table[(crc ^ data[i]) & 0xFFu] ^ (crc >> 8);
-    }
-    return crc ^ 0xFFFFFFFFu;
-}
-
-// ── Segment path helper ───────────────────────────────────────────────────────
-
-std::string CDCPersistentLog::segmentPath(size_t idx) const {
-    char buf[32];
-    std::snprintf(buf, sizeof(buf), "cdc_wal_%08zu.seg", idx);
-    return (std::filesystem::path(cfg_.directory) / buf).string();
-}
-
-// ── Construction / Destruction ───────────────────────────────────────────────
-
-CDCPersistentLog::CDCPersistentLog() = default;
-
-CDCPersistentLog::CDCPersistentLog(Config cfg)
-    : cfg_(std::move(cfg)) {}
-
-CDCPersistentLog::~CDCPersistentLog() {
-    close();
-}
-
-// ── Lifecycle ─────────────────────────────────────────────────────────────────
-
-void CDCPersistentLog::open() {
-    std::lock_guard<std::mutex> lk(mutex_);
-
-    if (is_open_) {
-        return; // idempotent
-    }
-
-    std::filesystem::create_directories(cfg_.directory);
-
-    // Determine the next segment index from existing .seg files.
-    size_t max_idx = 0;
-    bool   found   = false;
-    for (const auto& entry : std::filesystem::directory_iterator(cfg_.directory)) {
-        const auto& name = entry.path().filename().string();
-        if (name.rfind("cdc_wal_", 0) == 0 && entry.path().extension() == ".seg") {
-            size_t idx = 0;
-            if (std::sscanf(name.c_str(), "cdc_wal_%zu.seg", &idx) == 1) {
-                if (!found || idx > max_idx) {
-                    max_idx = idx;
-                    found   = true;
-                }
-            }
-        }
-    }
-
-    current_segment_ = found ? max_idx + 1 : 0;
-    current_segment_bytes_ = 0;
-
-    auto path = segmentPath(current_segment_);
-    current_file_ = std::make_unique<std::ofstream>(
-        path, std::ios::binary | std::ios::app);
-    if (!current_file_->is_open()) {
-        throw std::runtime_error("CDCPersistentLog: cannot open segment: " + path);
-    }
-
-    is_open_ = true;
-}
-
-void CDCPersistentLog::close() noexcept {
-    std::lock_guard<std::mutex> lk(mutex_);
-    if (current_file_ && current_file_->is_open()) {
-        current_file_->flush();
-        current_file_->close();
-    }
-    current_file_.reset();
-    is_open_ = false;
-}
-
-bool CDCPersistentLog::isOpen() const noexcept {
-    std::lock_guard<std::mutex> lk(mutex_);
-    return is_open_;
-}
-
-// ── Segment rotation ─────────────────────────────────────────────────────────
-
-void CDCPersistentLog::rotateSegment() {
-    // Caller must hold mutex_.
-    if (current_file_ && current_file_->is_open()) {
-        current_file_->flush();
-        current_file_->close();
-    }
-    ++current_segment_;
-    current_segment_bytes_ = 0;
-    auto path = segmentPath(current_segment_);
-    current_file_ = std::make_unique<std::ofstream>(
-        path, std::ios::binary | std::ios::app);
-    if (!current_file_->is_open()) {
-        throw std::runtime_error("CDCPersistentLog: cannot open segment: " + path);
-    }
-}
-
-// ── Write path ────────────────────────────────────────────────────────────────
-
-void CDCPersistentLog::append(const ChangeEvent& event) {
-    std::lock_guard<std::mutex> lk(mutex_);
-
-    if (!is_open_) {
-        throw std::logic_error("CDCPersistentLog::append called on closed log");
-    }
-
-    const std::string payload = event.toJson().dump();
-    const auto* bytes = reinterpret_cast<const uint8_t*>(payload.data());
-    const uint32_t checksum = crc32(bytes, payload.size());
-    const uint32_t plen     = static_cast<uint32_t>(payload.size());
-
-    const uint64_t record_size = sizeof(uint32_t) + sizeof(uint32_t) + plen;
-    if (current_segment_bytes_ > 0 &&
-        current_segment_bytes_ + record_size > cfg_.segment_max_bytes) {
-        rotateSegment();
-    }
-
-    current_file_->write(reinterpret_cast<const char*>(&checksum), sizeof(checksum));
-    current_file_->write(reinterpret_cast<const char*>(&plen),     sizeof(plen));
-    current_file_->write(payload.data(), plen);
-    current_file_->flush();
-
-    if (current_file_->fail()) {
-        throw std::runtime_error("CDCPersistentLog::append: I/O error (disk full?)");
-    }
-
-    current_segment_bytes_ += record_size;
-    total_bytes_written_   += record_size;
-}
-
-// ── Read path ─────────────────────────────────────────────────────────────────
-
-std::vector<ChangeEvent> CDCPersistentLog::replay(
-    const std::string& table_name,
-    const TimeRange&   range) const {
-
-    std::lock_guard<std::mutex> lk(mutex_);
-
-    std::vector<std::filesystem::path> segments;
-    if (std::filesystem::exists(cfg_.directory)) {
-        for (const auto& entry :
-             std::filesystem::directory_iterator(cfg_.directory)) {
-            const auto& name = entry.path().filename().string();
-            if (name.rfind("cdc_wal_", 0) == 0 &&
-                entry.path().extension() == ".seg") {
-                segments.push_back(entry.path());
-            }
-        }
-        std::sort(segments.begin(), segments.end());
-    }
-
-    std::vector<ChangeEvent> result;
-
-    for (const auto& seg_path : segments) {
-        std::ifstream in(seg_path.string(), std::ios::binary);
-        if (!in.is_open()) {
-            continue;
-        }
-
-        while (in.good()) {
-            uint32_t stored_crc = 0;
-            uint32_t plen       = 0;
-
-            if (!in.read(reinterpret_cast<char*>(&stored_crc), sizeof(stored_crc))) {
-                break; // EOF or truncated header
-            }
-            if (!in.read(reinterpret_cast<char*>(&plen), sizeof(plen))) {
-                ++corrupted_count_;
-                break;
-            }
-            if (plen == 0 || plen > 64 * 1024 * 1024u) {
-                ++corrupted_count_;
-                break;
-            }
-
-            std::string payload(plen, '\0');
-            if (!in.read(payload.data(), plen)) {
-                ++corrupted_count_;
-                break;
-            }
-
-            const auto* bytes = reinterpret_cast<const uint8_t*>(payload.data());
-            const uint32_t computed_crc = crc32(bytes, plen);
-            if (computed_crc != stored_crc) {
-                ++corrupted_count_;
-                continue; // skip corrupt record
-            }
-
-            try {
-                auto j  = nlohmann::json::parse(payload);
-                auto ev = ChangeEvent::fromJson(j);
-
-                if (!table_name.empty() && ev.table_name != table_name) {
-                    continue;
-                }
-                if (ev.transaction_time < range.start ||
-                    ev.transaction_time >= range.end) {
-                    continue;
-                }
-                result.push_back(std::move(ev));
-            } catch (...) {
-                ++corrupted_count_;
-            }
-        }
-    }
-
-    return result;
-}
-
-// ── Diagnostics ──────────────────────────────────────────────────────────────
-
-uint32_t CDCPersistentLog::corruptedRecordCount() const noexcept {
-    std::lock_guard<std::mutex> lk(mutex_);
-    return corrupted_count_;
-}
-
-size_t CDCPersistentLog::segmentCount() const {
-    std::lock_guard<std::mutex> lk(mutex_);
-    if (!std::filesystem::exists(cfg_.directory)) {
-        return 0;
-    }
-    size_t count = 0;
-    for (const auto& entry :
-         std::filesystem::directory_iterator(cfg_.directory)) {
-        const auto& name = entry.path().filename().string();
-        if (name.rfind("cdc_wal_", 0) == 0 &&
-            entry.path().extension() == ".seg") {
-            ++count;
-        }
-    }
-    return count;
-}
-
-uint64_t CDCPersistentLog::totalBytesWritten() const noexcept {
-    std::lock_guard<std::mutex> lk(mutex_);
-    return total_bytes_written_;
-}
-
 } // namespace temporal
 } // namespace themisdb
 
@@ -552,6 +289,23 @@ uint32_t computeCRC32(const char* data, std::size_t len) noexcept {
         crc = kCRC32Table[(crc ^ static_cast<uint8_t>(data[i])) & 0xFF] ^ (crc >> 8);
     }
     return crc ^ 0xFFFFFFFFu;
+}
+
+bool validateSegmentHeaderFile(std::FILE* fd) {
+    constexpr uint32_t kCDCMagic = 0x54444357u;
+    constexpr uint16_t kCDCMajorVersion = 0x01u;
+
+    uint32_t magic = 0;
+    uint16_t version = 0;
+    uint64_t seq = 0;
+    uint64_t created = 0;
+
+    if (std::fread(&magic, 4, 1, fd) != 1) return false;
+    if (std::fread(&version, 2, 1, fd) != 1) return false;
+    if (std::fread(&seq, 8, 1, fd) != 1) return false;
+    if (std::fread(&created, 8, 1, fd) != 1) return false;
+
+    return magic == kCDCMagic && (version >> 8) == kCDCMajorVersion;
 }
 
 } // anonymous namespace
@@ -635,10 +389,12 @@ void CDCPersistentLog::open() {
         }
         std::fclose(fd);
 
-        // Re-open for append, truncate at last valid position.
-        // On POSIX, use "r+b" then fseek + ftruncate.
-        int ret = ::truncate(path.c_str(), static_cast<off_t>(last_valid_pos));
-        (void)ret;  // ignore error — best effort truncation recovery
+        // Re-open for append and trim any truncated tail in a portable way.
+        std::error_code resize_ec;
+        std::filesystem::resize_file(
+            path,
+            static_cast<std::uintmax_t>(last_valid_pos),
+            resize_ec);
 
         active_fd_ = std::fopen(path.c_str(), "ab");
         if (!active_fd_) {
@@ -716,7 +472,7 @@ static std::vector<ChangeEvent> replayFile(const std::string& path) {
     std::FILE* fd = std::fopen(path.c_str(), "rb");
     if (!fd) return events;
 
-    if (!CDCPersistentLog::validateSegmentHeader(fd)) {
+    if (!validateSegmentHeaderFile(fd)) {
         std::fclose(fd);
         return events;
     }

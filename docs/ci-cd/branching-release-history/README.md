@@ -1,21 +1,12 @@
-# Branching, Merge & Release History
+# Branching and Release History
 
-Diese Sammlung bündelt die historische Branching-/Merge-/Release-Dokumentfamilie, die zuvor im `docs/`-Root lag.
+Dieses Verzeichnis enthaelt historische oder nachrangige Branching-, Merge- und Retroactive-Release-Dokumente aus dem docs-Root.
 
-## Enthaltene Dokumente
+## Zweck
+- Entlastung des docs-Root von spezialisierten Workflow-Dokumenten.
+- Bessere thematische Buedelung unter CI/CD.
 
-- [BRANCHING_IMPLEMENTATION_SUMMARY.md](BRANCHING_IMPLEMENTATION_SUMMARY.md)
-- [BRANCHING_VISUAL_GUIDE.md](BRANCHING_VISUAL_GUIDE.md)
-- [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md)
-- [BRANCHING_STRATEGY_EN.md](BRANCHING_STRATEGY_EN.md)
-- [BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md)
-- [BRANCH_PROTECTION_SETUP.md](BRANCH_PROTECTION_SETUP.md)
-- [MERGE_STRATEGY_MIGRATION.md](MERGE_STRATEGY_MIGRATION.md)
-- [MERGE_STRATEGY_QUICK_REF.md](MERGE_STRATEGY_QUICK_REF.md)
-- [GITHUB_SETTINGS_CONFIGURATION.md](GITHUB_SETTINGS_CONFIGURATION.md)
-- [CI_CD_REVIEW_BRANCHING_STRATEGY.md](CI_CD_REVIEW_BRANCHING_STRATEGY.md)
-
-## Einstiege
-
-- Top-Level-Navigation: [../../BRANCHING_DOCS_INDEX.md](../../BRANCHING_DOCS_INDEX.md)
-- CI/CD-Hub: [../README.md](../README.md)
+## Inhalt
+- Branching-/Merge-Quick-Refs und Zusammenfassungen
+- Retroactive-Release-Beispiele und GitFlow-Snapshots
+- Spezialdokumente zur Branch-/Merge-Konfiguration ohne Root-Navigationsfunktion

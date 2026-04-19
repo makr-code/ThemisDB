@@ -1,10 +1,10 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — AQL Module
 
-**Last Audit:** 2026-03-12  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ## Summary
@@ -12,7 +12,7 @@
 | Metric | Result |
 |--------|--------|
 | Build System Registration | ✅ Verified |
-| Source Files | 16 (`.cpp` in `src/aql/`) |
+| Source Files | 21 (`.cpp` in `src/aql/`) |
 | Test Coverage | ✅ All 4 phases complete; unit tests for all core components |
 | Open TODOs | 16 files contain TODOs (primarily multi-modal and async backend extension points) |
 | Open Stubs | 0 (`IAsyncLLMBackend` planned for v1.8.0; not yet required) |
@@ -33,14 +33,19 @@
 | `aql_confidence_scorer.cpp` | Confidence scoring for generated AQL queries |
 | `aql_conversation_context.cpp` | Multi-turn conversation context for iterative refinement |
 | `aql_fewshot_example_library.cpp` | Few-shot examples for NL-to-AQL accuracy improvement |
+| `aql_ingestion_bridge.cpp` | Bridge between AQL generation and ingestion pipeline |
 | `aql_lora_finetuner.cpp` | LoRA adapter fine-tuning for ThemisDB-specific AQL |
 | `aql_migration_assistant.cpp` | ArangoDB AQL → ThemisDB AQL migration tool |
+| `aql_model_router.cpp` | LLM model routing for AQL generation tasks |
 | `aql_optimizer_advisor.cpp` | Query optimizer integration for cost-aware suggestions |
 | `aql_query_builder.cpp` | Schema-aware programmatic AQL query construction |
+| `aql_query_diff_explainer.cpp` | Explains diffs between two AQL query versions |
 | `aql_query_template_library.cpp` | Common AQL pattern templates |
 | `aql_query_validator.cpp` | AQL syntax and semantic validation/linting |
+| `aql_rollback_suggester.cpp` | Suggests rollback strategies for failed AQL migrations |
 | `aql_schema_provider.cpp` | Live collection metadata for schema-aware generation |
 | `aql_syntax_highlighter.cpp` | AQL token syntax highlighting and error annotation |
+| `classify_bridge.cpp` | Classification bridge for AQL query intent detection |
 | `docs_assistant_functions.cpp` | AQL function lookup and documentation assistant |
 | `llm_aql_handler.cpp` | Core LLM handler: INFER, RAG, EMBED, MODEL, LORA, NL→AQL |
 | `llm_metrics_collector.cpp` | LLM inference metrics: token usage, latency, error rates |

@@ -2,8 +2,8 @@
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: src/plugins/README.md · src/plugins/ROADMAP.md · src/plugins/FUTURE_ENHANCEMENTS.md · docs/de/plugins/README.md -->
 
-**Version:** 1.0  
-**Last Updated:** 2026-04-06  
+**Version:** 1.0
+**Last Updated:** 2026-04-06
 **Module Path:** `src/plugins/`
 
 ---

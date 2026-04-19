@@ -963,6 +963,7 @@ set(THEMIS_LLM_SOURCES
     ../src/prompt_engineering/dspy_module.cpp
     ../src/prompt_engineering/prompt_template_validator.cpp
     ../src/prompt_engineering/prompt_template_compiler.cpp
+    ../src/distributed_knowledge/cross_shard_feedback_sync.cpp
     ../src/llm/block_table.cpp
     ../src/llm/paged_block_manager.cpp
     ../src/llm/paged_kv_cache.cpp
@@ -1100,6 +1101,8 @@ set(THEMIS_LLM_SOURCES
     ../src/rag/prompt_templates.cpp
     ../src/rag/response_parser.cpp
     ../src/training/lora_data_selection.cpp
+    ../src/training/incremental_lora_trainer.cpp
+    ../src/training/lora_checkpoint_manager.cpp
     ../src/training/adapter_serving.cpp
     ../src/rag/faithfulness_evaluator.cpp
     ../src/rag/relevance_evaluator.cpp

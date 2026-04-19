@@ -16,3 +16,12 @@ Status: production-ready fault injection and deterministic chaos scheduling.
 ## Current Scope
 - In-process fault registry for tests and integration scenarios.
 - No direct OS/network fault manipulation.
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/chaos/README.md`](../../include/chaos/README.md) for the public API.

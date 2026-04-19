@@ -56,7 +56,7 @@
 ---
 
 
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Add WebSocket support for real-time bidirectional communication.
@@ -135,7 +135,7 @@ ThemisDB Message Format (JSON):
 ---
 
 ### UDP Protocol Support
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Add UDP support for low-latency, fire-and-forget operations.
@@ -173,7 +173,7 @@ UDPClient client("server.example.com:8768");
 client.send_metric("cpu.usage", 85.5, timestamp);
 
 // Send with optional ACK
-client.send_metric("important.metric", 123.4, timestamp, 
+client.send_metric("important.metric", 123.4, timestamp,
     /*wait_for_ack=*/true,
     /*timeout_ms=*/1000
 );
@@ -213,8 +213,8 @@ Payload:
 ---
 
 ### QUIC Protocol Support
-**Priority:** Medium  
-**Target Version:** v2.0.0  
+**Priority:** Medium
+**Target Version:** v2.0.0
 **Status:** ✅ Implemented (v2.0.0, 2026-04-13)
 
 QUIC (HTTP/3) support for modern low-latency communication.
@@ -242,8 +242,8 @@ QUIC (HTTP/3) support for modern low-latency communication.
 ---
 
 ### Kernel Bypass (DPDK/io_uring)
-**Priority:** Medium  
-**Target Version:** v1.9.0  
+**Priority:** Medium
+**Target Version:** v1.9.0
 **Status:** ✅ Implemented (v1.9.0, 2026-04-13)
 
 Kernel bypass support for ultra-low latency applications.
@@ -313,7 +313,7 @@ uring_server.start();
 ---
 
 ### Service Mesh Integration
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.10.0
 
 Add support for service mesh integration (Istio, Linkerd, Consul Connect).
@@ -385,8 +385,8 @@ spec:
 
 ---
 
-### HTTP/3 Support
-**Priority:** Low  
+## HTTP/3 Support
+**Priority:** Low
 **Target Version:** v2.0.0
 
 Add HTTP/3 support for HTTP API (complementary to wire protocol).
@@ -419,7 +419,7 @@ http3_server.start();
 ---
 
 ### Multicast Support
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.11.0
 
 Add IP multicast support for efficient one-to-many communication.
@@ -465,7 +465,7 @@ client.subscribe("topic.metrics", [](const auto& data) {
 ---
 
 ### RDMA Support
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v2.1.0
 
 Add RDMA (Remote Direct Memory Access) support for ultra-low latency.
@@ -518,7 +518,7 @@ client.rdma_read(remote_addr, length, local_buffer);
 ---
 
 ### Load Balancing with Raft Coordination
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.8.0
 
 Add Raft-based load balancing for distributed query routing.
@@ -587,8 +587,8 @@ auto conn = lb.get_connection();
 ---
 
 ### Bandwidth Management and QoS
-**Priority:** Medium  
-**Target Version:** v1.8.0  
+**Priority:** Medium
+**Target Version:** v1.8.0
 **Status:** ✅ Implemented (v1.8.0, Issue #190, PR copilot/add-bandwidth-management-qos)
 
 Add bandwidth management and quality of service (QoS) features.
@@ -617,7 +617,7 @@ qos.set_priority(connection_id, Priority::HIGH);
 qos.set_bandwidth_limit(connection_id, 50 * 1024 * 1024);  // 50 Mbps
 
 // Traffic shaping with token bucket
-qos.set_token_bucket(connection_id, 
+qos.set_token_bucket(connection_id,
     /*rate=*/10'000'000,    // 10 MB/s
     /*burst=*/100'000'000   // 100 MB burst
 );
@@ -646,7 +646,7 @@ qos.set_token_bucket(connection_id,
 ---
 
 ### Distributed Tracing
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Add distributed tracing support for request flow visualization.
@@ -673,9 +673,9 @@ void Session::handleGet() {
     auto span = tracer.start_span("wire_protocol.get",
         {{"collection", collection}, {"uuid", uuid}}
     );
-    
+
     auto result = storage_->get(key);
-    
+
     span.set_attribute("result_size", result.size());
     span.end();
 }

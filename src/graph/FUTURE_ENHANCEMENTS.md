@@ -39,7 +39,7 @@
 ## Planned Features
 
 ### Structural Plan Reuse (Query Plan Reuse Across Structurally Similar Queries) ✅ DONE
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Reuse optimization plans across graph queries that share the same query pattern and
@@ -98,7 +98,7 @@ std::cout << "Cache misses: " << m.plan_cache_misses.load() << "\n";
 ---
 
 ### Parallel Graph Execution ✅ DONE
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Enable parallel execution of graph traversals for improved performance on large graphs.
@@ -117,7 +117,7 @@ Enable parallel execution of graph traversals for improved performance on large 
 ---
 
 ### Adaptive Cost Model ✅ DONE
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0 / v1.8.0
 
 Automatically improve cost estimates based on actual execution statistics.
@@ -176,7 +176,7 @@ blended_cost = (1 - confidence) * base_cost + confidence * (ema_cost_ms * 10)
 ---
 
 ### Distributed Graph Queries ✅ DONE
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Enable graph queries across distributed ThemisDB instances.
@@ -222,7 +222,7 @@ auto plan = dist_graph.optimizePlan("A", "D",
 ---
 
 ### GPU-Accelerated Graph Processing ✅ IMPLEMENTED (BFS/DFS)
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.9.0
 
 Offload graph computations to GPU for massive parallelism.
@@ -313,7 +313,7 @@ auto result = optimizer.executeBFS("start", 10, constraints);
 ---
 
 
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Extend PathConstraints with more sophisticated constraint types.
@@ -373,8 +373,8 @@ constraints.addGeoFence(
 ---
 
 ### Query Rewriting for Graph Optimization
-**Status: ✅ DONE (Issue #250, delivered v1.9.0)**  
-**Priority:** Medium  
+**Status: ✅ DONE (Issue #250, delivered v1.9.0)**
+**Priority:** Medium
 **Target Version:** v1.8.0 → delivered v1.9.0
 
 Automatically rewrite graph queries for better performance.
@@ -405,7 +405,7 @@ Automatically rewrite graph queries for better performance.
 ---
 
 ### Approximate Graph Algorithms
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v2.0.0
 
 Trade accuracy for speed with approximate algorithms.
@@ -433,9 +433,9 @@ auto result = optimizer.optimizeShortestPath("A", "B", constraints);
 // May return path within 5% of optimal length
 
 // Access approximation metadata
-std::cout << "Approximation error bound: " 
+std::cout << "Approximation error bound: "
           << result.metadata.error_bound << std::endl;
-std::cout << "Confidence: " 
+std::cout << "Confidence: "
           << result.metadata.confidence << std::endl;
 ```
 
@@ -449,7 +449,7 @@ std::cout << "Confidence: "
 ---
 
 ### Multi-Layer Graph Support
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v2.0.0
 
 Support graphs with multiple edge types and layers.
@@ -492,7 +492,7 @@ auto centrality = mlg.pageRank(
 ---
 
 ### Graph Machine Learning Integration
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v2.0.0
 
 Integrate graph neural networks and embeddings.
@@ -536,7 +536,7 @@ auto label = embedding.classifyNode("user_B", model);
 ---
 
 ### Graph Visualization Integration
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v2.0.0
 
 Built-in graph visualization and exploration.
@@ -577,7 +577,7 @@ viz.exportInteractiveHTML(subgraph, "output.html");
 ## Research Topics
 
 ### Quantum Graph Algorithms
-**Priority:** Research  
+**Priority:** Research
 **Target Version:** TBD
 
 Explore quantum algorithms for graph problems.
@@ -597,7 +597,7 @@ Explore quantum algorithms for graph problems.
 ---
 
 ### Graph Streaming Algorithms
-**Priority:** Research  
+**Priority:** Research
 **Target Version:** TBD
 
 Process graphs as streams of edge insertions/deletions.
@@ -943,9 +943,9 @@ Key properties:
 
 **Status:** ✅ Production Ready — Core engine, safety gates, audit trail, anomaly detection, ChangeFeed integration, ANN-accelerated candidate discovery, and CEP event emission are complete.
 
-**Issue:** #FEATURE/ScheduledGraphEdgeRefresh  
-**Files:** `include/graph/scheduled_edge_refresh.h`, `src/graph/scheduled_edge_refresh.cpp`  
-**Tests:** `tests/graph/test_scheduled_edge_refresh.cpp` (60+ tests)  
+**Issue:** #FEATURE/ScheduledGraphEdgeRefresh
+**Files:** `include/graph/scheduled_edge_refresh.h`, `src/graph/scheduled_edge_refresh.cpp`
+**Tests:** `tests/graph/test_scheduled_edge_refresh.cpp` (60+ tests)
 **Docs:** `docs/scheduled_edge_refresh.md`, `docs/de/scheduled_edge_refresh.md`
 
 ### Background & State of the Art
@@ -1090,7 +1090,7 @@ Track user-requested features:
 
 ---
 
-*Last Updated: April 2026*  
+*Last Updated: April 2026*
 *Next Review: Q3 2026*
 
 ## Test Strategy

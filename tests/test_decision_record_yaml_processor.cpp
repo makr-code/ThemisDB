@@ -366,5 +366,3 @@ TEST_F(DecisionRecordYamlProcessorTest, StatsAccumulateCorrectly) {
     EXPECT_EQ(s.dropped,   0u);
     EXPECT_EQ(s.errors,    0u);
 }
-
-} // namespace

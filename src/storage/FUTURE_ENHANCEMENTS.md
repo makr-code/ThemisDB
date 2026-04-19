@@ -75,8 +75,8 @@
 ---
 
 
-**Priority:** High  
-**Target Version:** v1.7.0  
+**Priority:** High
+**Target Version:** v1.7.0
 **Status:** ✅ Implemented
 
 Raft-based distributed transactions across multiple nodes.
@@ -112,7 +112,7 @@ tx->commit();  // 2PC protocol
 ---
 
 ### Tiered Storage (Hot/Warm/Cold)
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Automatic data migration based on access patterns.
@@ -142,8 +142,8 @@ TieredStorageManager tiered(config);
 ---
 
 ### Erasure Coding for Blob Storage
-**Priority:** Medium  
-**Target Version:** v1.7.0  
+**Priority:** Medium
+**Target Version:** v1.7.0
 **Status:** ✅ Implemented
 
 Space-efficient redundancy using erasure codes (e.g., Reed-Solomon).
@@ -178,7 +178,7 @@ auto result = backend.get("blob-123");  // Reconstructs from available blocks
 ---
 
 ### Online Schema Migration
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Zero-downtime schema changes for relational and document models.
@@ -206,8 +206,8 @@ migrator.migrate();  // Background process, versioned migrations
 ---
 
 ### Write-Optimized Merge (WOM) Tree
-**Priority:** Low  
-**Target Version:** v1.8.0  
+**Priority:** Low
+**Target Version:** v1.8.0
 **Status:** ✅ Implemented (v1.8.0)
 
 Alternative to LSM-tree for write-heavy workloads.
@@ -226,7 +226,7 @@ Alternative to LSM-tree for write-heavy workloads.
 ---
 
 ### Blockchain-Style Immutable Log
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.9.0
 
 Immutable append-only log with cryptographic hashing for audit trails.
@@ -247,8 +247,8 @@ Immutable append-only log with cryptographic hashing for audit trails.
 ## Performance Optimizations
 
 ### GPU-Accelerated Compression
-**Priority:** High  
-**Target Version:** v1.6.0  
+**Priority:** High
+**Target Version:** v1.6.0
 **Status:** ✅ Implemented
 
 Use CUDA/ROCm for parallel compression/decompression.
@@ -270,7 +270,7 @@ operation in environments without CUDA/HIP toolchains.
 ---
 
 ### NVMe Optimizations
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Leverage NVMe-specific features for better performance.
@@ -286,7 +286,7 @@ Leverage NVMe-specific features for better performance.
 ---
 
 ### Adaptive Compaction
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Machine learning-based compaction scheduling.
@@ -302,7 +302,7 @@ Machine learning-based compaction scheduling.
 ---
 
 ### Zero-Copy Blob Transfers
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Eliminate memory copies when transferring blobs between backends.
@@ -317,7 +317,7 @@ Eliminate memory copies when transferring blobs between backends.
 ---
 
 ### Bloom Filter Optimization
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Replace standard Bloom filters with more efficient alternatives.
@@ -334,7 +334,7 @@ Replace standard Bloom filters with more efficient alternatives.
 ## Refactoring Opportunities
 
 ### Separate RocksDB Wrapper into Multiple Classes
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Split monolithic RocksDBWrapper into specialized classes.
@@ -358,7 +358,7 @@ RocksDBWrapper (main interface)
 ---
 
 ### Extract Blob Backend Interface
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Create more granular interfaces for blob backends.
@@ -396,7 +396,7 @@ class IBlobStorageBackend : public IBlobReader, public IBlobWriter, public IBlob
 ---
 
 ### Unified Backup/PITR API
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Merge BackupManager and PITRManager into single cohesive API.
@@ -408,11 +408,11 @@ public:
     // Backup operations
     Result<BackupId> createBackup(BackupType type = INCREMENTAL);
     Result<void> restoreBackup(BackupId id);
-    
+
     // PITR operations
     Result<SnapshotId> createSnapshot();
     Result<void> restoreToTimestamp(Timestamp ts);
-    
+
     // Combined operations
     Result<void> restoreToBackupOrSnapshot(Timestamp ts);  // Auto-select best method
 };
@@ -421,7 +421,7 @@ public:
 ---
 
 ### Key Schema as Plugin
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Allow custom key encoding schemes via plugin API.
@@ -436,7 +436,7 @@ Allow custom key encoding schemes via plugin API.
 ## Known Issues
 
 ### Issue #1: RocksDB Compaction Stalls Under Heavy Write Load
-**Severity:** Medium  
+**Severity:** Medium
 **Reported:** v1.5.0
 
 Write stalls occur when L0 files accumulate faster than compaction.
@@ -455,7 +455,7 @@ config.max_background_jobs = 8;  // Increase compaction threads
 ---
 
 ### Issue #2: Blob Storage Backend Failover Not Automatic
-**Severity:** Medium  
+**Severity:** Medium
 **Reported:** v1.5.0
 
 BlobStorageManager doesn't automatically retry on backend failure.
@@ -469,7 +469,7 @@ BlobStorageManager doesn't automatically retry on backend failure.
 ---
 
 ### Issue #3: PITR Snapshot Cleanup Not Automatic
-**Severity:** Low  
+**Severity:** Low
 **Reported:** v1.5.1
 
 Old PITR snapshots accumulate, consuming disk space.
@@ -483,7 +483,7 @@ Old PITR snapshots accumulate, consuming disk space.
 ---
 
 ### Issue #4: Transaction Retry Manager Exponential Backoff Too Aggressive
-**Severity:** Low  
+**Severity:** Low
 **Reported:** v1.5.2
 
 Default backoff can lead to long delays for contended keys.
@@ -497,7 +497,7 @@ Default backoff can lead to long delays for contended keys.
 ---
 
 ### Issue #5: Columnar Format Not Production-Ready
-**Severity:** High  
+**Severity:** High
 **Reported:** v1.5.0
 
 Columnar storage has unresolved correctness issues.
@@ -718,8 +718,8 @@ Have ideas for storage improvements? We'd love to hear from you:
 
 ---
 
-*Last Updated: April 2026*  
-*Module Version: v1.5.x*  
+*Last Updated: April 2026*
+*Module Version: v1.5.x*
 *Next Review: v1.6.0 Release*
 
 ---
@@ -757,55 +757,55 @@ Have ideas for storage improvements? We'd love to hear from you:
 
 All planned features in this document are grounded in the following peer-reviewed research and industry specifications (IEEE format):
 
-1. P. O'Neil, E. Cheng, D. Gawlick, and E. O'Neil, "The log-structured merge-tree (LSM-tree)," *Acta Informatica*, vol. 33, no. 4, pp. 351–385, 1996, doi: 10.1007/s002360050048.  
+1. P. O'Neil, E. Cheng, D. Gawlick, and E. O'Neil, "The log-structured merge-tree (LSM-tree)," *Acta Informatica*, vol. 33, no. 4, pp. 351–385, 1996, doi: 10.1007/s002360050048.
    — Foundational design of RocksDB (`rocksdb_wrapper.cpp`); informs compaction strategy, write amplification trade-offs, and the `BatchWriteOptimizer`.
 
-2. S. Dong, M. Callaghan, L. Galanis, D. Borthakur, T. Savor, and M. Strum, "Optimizing space amplification in RocksDB," in *Proc. 8th Biennial Conf. Innovative Data Systems Research (CIDR)*, 2017. [Online]. Available: https://www.cidrdb.org/cidr2017/papers/p82-dong-cidr17.pdf [Accessed: 2026-03-10]  
+2. S. Dong, M. Callaghan, L. Galanis, D. Borthakur, T. Savor, and M. Strum, "Optimizing space amplification in RocksDB," in *Proc. 8th Biennial Conf. Innovative Data Systems Research (CIDR)*, 2017. [Online]. Available: https://www.cidrdb.org/cidr2017/papers/p82-dong-cidr17.pdf [Accessed: 2026-03-10]
    — Informs `CompactionManager` tuning, level-based compaction, and the `BlobDB` value separation for write amplification reduction.
 
-3. D. Ongaro and J. Ousterhout, "In search of an understandable consensus algorithm," in *Proc. USENIX Annual Technical Conf. (ATC)*, 2014, pp. 305–319. [Online]. Available: https://raft.github.io/raft.pdf [Accessed: 2026-03-10]  
+3. D. Ongaro and J. Ousterhout, "In search of an understandable consensus algorithm," in *Proc. USENIX Annual Technical Conf. (ATC)*, 2014, pp. 305–319. [Online]. Available: https://raft.github.io/raft.pdf [Accessed: 2026-03-10]
    — Informs `RaftMVCCBridge` design and the planned two-phase-commit (2PC) distributed transactions (`DistributedTransactionManager`, ROADMAP v1.7.0).
 
-4. J. N. Gray and A. Reuter, *Transaction Processing: Concepts and Techniques*. San Mateo, CA: Morgan Kaufmann, 1992.  
+4. J. N. Gray and A. Reuter, *Transaction Processing: Concepts and Techniques*. San Mateo, CA: Morgan Kaufmann, 1992.
    — Informs 2PC coordinator/participant protocol design for cross-shard atomicity and the `TransactionRetryManager` exponential backoff strategy.
 
-5. I. S. Reed and G. Solomon, "Polynomial codes over certain finite fields," *J. SIAM*, vol. 8, no. 2, pp. 300–304, 1960, doi: 10.1137/0108018.  
+5. I. S. Reed and G. Solomon, "Polynomial codes over certain finite fields," *J. SIAM*, vol. 8, no. 2, pp. 300–304, 1960, doi: 10.1137/0108018.
    — Theoretical foundation for the planned Reed-Solomon erasure coding in `BlobRedundancyManager` (ROADMAP v1.7.0, `ErasureCodingConfig`).
 
-6. A. G. Dimakis, P. B. Godfrey, Y. Wu, M. J. Wainwright, and K. Ramchandran, "Network coding for distributed storage systems," *IEEE Trans. Inf. Theory*, vol. 56, no. 9, pp. 4539–4551, Sep. 2010, doi: 10.1109/TIT.2010.2054295.  
+6. A. G. Dimakis, P. B. Godfrey, Y. Wu, M. J. Wainwright, and K. Ramchandran, "Network coding for distributed storage systems," *IEEE Trans. Inf. Theory*, vol. 56, no. 9, pp. 4539–4551, Sep. 2010, doi: 10.1109/TIT.2010.2054295.
    — Informs minimum storage regenerating (MSR) codes for the erasure coding redundancy mode; motivates RS(4,2) default parameter choice.
 
-7. A. Verbitski et al., "Amazon Aurora: Design considerations for high throughput cloud-native relational databases," in *Proc. ACM SIGMOD Int. Conf. Management of Data*, 2017, pp. 1041–1052, doi: 10.1145/3035918.3056101.  
+7. A. Verbitski et al., "Amazon Aurora: Design considerations for high throughput cloud-native relational databases," in *Proc. ACM SIGMOD Int. Conf. Management of Data*, 2017, pp. 1041–1052, doi: 10.1145/3035918.3056101.
    — Informs `TieredStorageManager` design (hot/warm/cold with background migration) and the PITR restore architecture.
 
-8. T. Kraska, A. Beutel, E. H. Chi, J. Dean, and N. Polyzotis, "The case for learned index structures," in *Proc. ACM SIGMOD Int. Conf. Management of Data*, 2018, pp. 489–504, doi: 10.1145/3183713.3196909.  
+8. T. Kraska, A. Beutel, E. H. Chi, J. Dean, and N. Polyzotis, "The case for learned index structures," in *Proc. ACM SIGMOD Int. Conf. Management of Data*, 2018, pp. 489–504, doi: 10.1145/3183713.3196909.
    — Research basis for the `Learned Index Structures` exploration area; motivates replacing B-trees with ML models for RocksDB SSTable position prediction.
 
-9. V. Balmau, D. Didona, R. Guerraoui, W. Zwaenepoel, H. Yuan, A. Arora, K. Rao, and P. Tsuru, "TRIAD: Creating synergies between memory, disk and log in log structured key-value stores," in *Proc. USENIX Annual Technical Conf. (ATC)*, 2017, pp. 363–375.  
+9. V. Balmau, D. Didona, R. Guerraoui, W. Zwaenepoel, H. Yuan, A. Arora, K. Rao, and P. Tsuru, "TRIAD: Creating synergies between memory, disk and log in log structured key-value stores," in *Proc. USENIX Annual Technical Conf. (ATC)*, 2017, pp. 363–375.
    — Informs the `Write-Optimized Merge (WOM) Tree` research area; motivates alternative compaction strategies for update-heavy workloads.
 
-10. A. Kemper and T. Neumann, "HyPer: A hybrid OLTP&OLAP main memory database system based on virtual memory snapshots," in *Proc. IEEE 27th Int. Conf. Data Engineering (ICDE)*, 2011, pp. 195–206, doi: 10.1109/ICDE.2011.5767867.  
+10. A. Kemper and T. Neumann, "HyPer: A hybrid OLTP&OLAP main memory database system based on virtual memory snapshots," in *Proc. IEEE 27th Int. Conf. Data Engineering (ICDE)*, 2011, pp. 195–206, doi: 10.1109/ICDE.2011.5767867.
     — Informs MVCC snapshot isolation design in `MVCCStore` and motivates the planned `Multi-Version B-Trees (MVBT)` research area.
 
-11. P. Boncz, M. Zukowski, and N. Nes, "MonetDB/X100: Hyper-pipelining query execution," in *Proc. 2nd Biennial Conf. Innovative Data Systems Research (CIDR)*, 2005, pp. 225–237.  
+11. P. Boncz, M. Zukowski, and N. Nes, "MonetDB/X100: Hyper-pipelining query execution," in *Proc. 2nd Biennial Conf. Innovative Data Systems Research (CIDR)*, 2005, pp. 225–237.
     — Informs the planned vectorized execution (AVX2 SIMD) in `ColumnarFormat` (ROADMAP v2.0.0, `simd_filter.cpp`).
 
-12. J. Willhalm, N. Popovici, Y. Boshmaf, H. Plattner, A. Zeier, and J. Schaffner, "SIMD-scan: Ultra fast in-memory table scan using on-chip vector processing units," *Proc. VLDB Endow.*, vol. 2, no. 1, pp. 385–394, 2009, doi: 10.14778/1687627.1687671.  
+12. J. Willhalm, N. Popovici, Y. Boshmaf, H. Plattner, A. Zeier, and J. Schaffner, "SIMD-scan: Ultra fast in-memory table scan using on-chip vector processing units," *Proc. VLDB Endow.*, vol. 2, no. 1, pp. 385–394, 2009, doi: 10.14778/1687627.1687671.
     — Provides algorithmic foundations for SIMD-accelerated integer equality and range predicates targeting the `ColumnarFormat` scan throughput goal (≥4× scalar baseline).
 
-13. Apache Software Foundation, "Apache Parquet format specification," Apache Parquet, 2023. [Online]. Available: https://parquet.apache.org/docs/file-format/ [Accessed: 2026-03-10]  
+13. Apache Software Foundation, "Apache Parquet format specification," Apache Parquet, 2023. [Online]. Available: https://parquet.apache.org/docs/file-format/ [Accessed: 2026-03-10]
     — Specification basis for the planned native Parquet export from `ColumnarFormat` (ROADMAP v2.0.0, `parquet_exporter.cpp`).
 
-14. A. Coviello et al. (NIST), "Module-lattice-based key-encapsulation mechanism standard (FIPS 203)," National Institute of Standards and Technology, 2024, doi: 10.6028/NIST.FIPS.203.  
+14. A. Coviello et al. (NIST), "Module-lattice-based key-encapsulation mechanism standard (FIPS 203)," National Institute of Standards and Technology, 2024, doi: 10.6028/NIST.FIPS.203.
     — Defines CRYSTALS-Kyber (ML-KEM) standard referenced in the `Quantum-Resistant Encryption` research area.
 
-15. D. Bernhard, T. Jager, A. Lehmann, and M. Püschel (NIST), "Module-lattice-based digital signature standard (FIPS 204)," National Institute of Standards and Technology, 2024, doi: 10.6028/NIST.FIPS.204.  
+15. D. Bernhard, T. Jager, A. Lehmann, and M. Püschel (NIST), "Module-lattice-based digital signature standard (FIPS 204)," National Institute of Standards and Technology, 2024, doi: 10.6028/NIST.FIPS.204.
     — Defines CRYSTALS-Dilithium (ML-DSA) for post-quantum signatures; relevant to the `Quantum-Resistant Encryption` research area in `security_signature.cpp`.
 
-16. J. Axboe, "Efficient I/O with io_uring," 2019. [Online]. Available: https://kernel.dk/io_uring.pdf [Accessed: 2026-03-10]  
+16. J. Axboe, "Efficient I/O with io_uring," 2019. [Online]. Available: https://kernel.dk/io_uring.pdf [Accessed: 2026-03-10]
     — Basis for the `NVMe Optimizations` (`io_uring` kernel bypass) and Zero-Copy Blob Transfers performance area.
 
-17. P. Mishra, U. Roesler, J. Luo, and R. Zhao, "CXL: Enabling innovations in memory through an open industry-standard interconnect," *IEEE Micro*, vol. 41, no. 3, pp. 8–17, May–Jun. 2021, doi: 10.1109/MM.2021.3059102.  
+17. P. Mishra, U. Roesler, J. Luo, and R. Zhao, "CXL: Enabling innovations in memory through an open industry-standard interconnect," *IEEE Micro*, vol. 41, no. 3, pp. 8–17, May–Jun. 2021, doi: 10.1109/MM.2021.3059102.
     — Reference for the `CXL (Compute Express Link) Integration` research area; motivates disaggregated shared block-cache across nodes.
 
 ## See Also

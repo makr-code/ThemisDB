@@ -43,5 +43,5 @@ CI-Workflow zur Klassifizierung von Markdown- und Textdateien im Repository-Root
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/08-maintenance_root-docs-hygiene.yml)
+- [Workflow-Datei](../../../../.github/workflows/08-maintenance_root-docs-hygiene.yml)
 - [Alle Workflows](../README.md)
