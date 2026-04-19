@@ -3909,3 +3909,83 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_interval_tree_erase.cpp")
 
     message(STATUS "  IntervalTreeIndex: erase vs rebuild, bulk erase, mixed read/erase, large payload")
 endif()
+
+# ============================================================================
+# Distributed Knowledge Federation Benchmarks (DK-8 / Session 9)
+# BM_TriggerAggregation_N64, BM_FederatedRAGMerge_N16x50,
+# BM_FeedbackDedup_Throughput, BM_PublishFeedback_Latency
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_distributed_knowledge.cpp")
+    message(STATUS "Adding Distributed Knowledge Federation benchmarks (DK-8, Session 9)")
+
+    add_executable(bench_distributed_knowledge
+        bench_distributed_knowledge.cpp
+    )
+
+    target_include_directories(bench_distributed_knowledge PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/../include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src
+    )
+
+    target_link_libraries(bench_distributed_knowledge PRIVATE
+        themis_distributed_knowledge
+        ${BENCHMARK_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_distributed_knowledge PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_distributed_knowledge)
+
+    install(TARGETS bench_distributed_knowledge
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  DK-BM-01: triggerAggregation N=64 shards, 100 keys — target ≤ 500 ms")
+    message(STATUS "  DK-BM-02: FederatedRAGMerge N=16 shards × 50 docs — target ≤ 20 ms")
+    message(STATUS "  DK-BM-03: CrossShardFeedbackSync dedup throughput — target ≥ 10k msg/s")
+    message(STATUS "  DK-BM-04: publishFeedback end-to-end latency — target ≤ 1 ms")
+endif()
+
+# ============================================================================
+# Distributed Knowledge Operational Resilience Benchmarks (DK-OR / Session 11)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_distributed_knowledge_or.cpp")
+    message(STATUS "Adding Distributed Knowledge OR benchmarks (DK-OR, Session 11)")
+
+    add_executable(bench_distributed_knowledge_or
+        bench_distributed_knowledge_or.cpp
+    )
+
+    target_include_directories(bench_distributed_knowledge_or PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/../include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src
+    )
+
+    target_link_libraries(bench_distributed_knowledge_or PRIVATE
+        themis_distributed_knowledge
+        ${BENCHMARK_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_distributed_knowledge_or PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_distributed_knowledge_or)
+
+    install(TARGETS bench_distributed_knowledge_or
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  DK-OR-BM-01: triggerAggregation timeout overhead — target ≤ 2 ms vs no-timeout")
+    message(STATUS "  DK-OR-BM-02: publishFeedback backpressure skip — target ≤ 0.5 µs/call")
+endif()

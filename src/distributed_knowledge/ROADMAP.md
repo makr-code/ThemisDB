@@ -288,14 +288,14 @@ and `RLAIFTrainer` (receive).
 **Scope:** Full round A→B→C→D with in-process mock gossip transport.
 
 **Tasks:**
-- [ ] Create `tests/test_distributed_knowledge_integration.cpp` (Target: Session 7)
+- [x] Create `tests/test_distributed_knowledge_integration.cpp` (Target: Session 7)
   - Scenario 1 (Layer A): 3 mock shards, one announces SECURITY_MONITOR domain → router prefers it
   - Scenario 2 (Layer B): 3 mock shards submit gradients → global delta applied to all → accuracy ≥ pre-round
   - Scenario 3 (Layer C): 3 mock shards return docs → RRF merged top-5 beats any single shard top-5
   - Scenario 4 (Layer D): Shard 1 DBA feedback → Shard 2+3 receive and ingest into RLAIF
   - Scenario 5 (Privacy): Global delta contains no verbatim training data (property-based check)
   - Scenario 6 (Fault tolerance): 1 of 3 shards offline → federation proceeds with 2 (min_participants=2)
-- [ ] Privacy budget integration test: 50 rounds → `ε_total == 5.0`, round 51 blocked (Target: Session 7)
+- [x] Privacy budget integration test: 50 rounds → `ε_total == 5.0`, round 51 blocked (Target: Session 7)
 
 **Acceptance Criteria:**
 - 6 integration scenarios all pass
@@ -310,16 +310,16 @@ and `RLAIFTrainer` (receive).
 `SphincsPlus` audit log.
 
 **Tasks:**
-- [ ] Admin endpoint `GET /admin/federation/stats` → `LoRAFederationCoordinator::getStats()` JSON (Target: Session 8)
-- [ ] Admin endpoint `GET /admin/federation/rag-stats` → `FederatedRAGMerger` last-merge stats (Target: Session 8)
-- [ ] Admin endpoint `POST /admin/federation/trigger` → `triggerAggregation()` (operator override) (Target: Session 8)
-- [ ] DP budget monitoring: after each round write `SphincsPlus`-signed audit record:
+- [x] Admin endpoint `GET /admin/federation/stats` → `LoRAFederationCoordinator::getStats()` JSON (Target: Session 8)
+- [x] Admin endpoint `GET /admin/federation/rag-stats` → `FederatedRAGMerger` last-merge stats (Target: Session 8)
+- [x] Admin endpoint `POST /admin/federation/trigger` → `triggerAggregation()` (operator override) (Target: Session 8)
+- [x] DP budget monitoring: after each round write `SphincsPlus`-signed audit record:
   `{round, epsilon_spent, participants, timestamp}` (Target: Session 8)
   - Inputs: `GlobalAdapterDelta::epsilon_spent`, shard count
   - Record stored in `AIDecisionAuditor` with `decision_type="FEDERATED_ROUND"`
-- [ ] `CrossBorderTransferPolicy::checkTransfer()` called before each federation round;
+- [x] `CrossBorderTransferPolicy::checkTransfer()` called before each federation round;
   blocks round if EU adequacy boundary would be crossed (Target: Session 8)
-- [ ] Tests: 4 new admin handler tests + 2 audit log tests (Target: Session 8)
+- [x] Tests: 4 new admin handler tests + 2 audit log tests (Target: Session 8)
 
 **Acceptance Criteria:**
 - `GET /admin/federation/stats` returns valid JSON with `current_round` field
@@ -334,14 +334,14 @@ and `RLAIFTrainer` (receive).
 **Scope:** Validate that federation overhead is within budget.
 
 **Tasks:**
-- [ ] Benchmark `LoRAFederationCoordinator::triggerAggregation()` with N=64 shards, 100 keys each:
+- [x] Benchmark `LoRAFederationCoordinator::triggerAggregation()` with N=64 shards, 100 keys each:
   target ≤ 500 ms total (aggregation + DP noise) (Target: Session 9)
-- [ ] Benchmark `FederatedRAGMerger::merge()` with N=16 shards × 50 docs each:
+- [x] Benchmark `FederatedRAGMerger::merge()` with N=16 shards × 50 docs each:
   target ≤ 20 ms (Target: Session 9)
-- [ ] Benchmark `CrossShardFeedbackSync::handleInboundSummary()` dedup throughput:
+- [x] Benchmark `CrossShardFeedbackSync::handleInboundSummary()` dedup throughput:
   target ≥ 10,000 msg/s with 384-dim embeddings (Target: Session 9)
-- [ ] Load test: 50 federation rounds over 1h; no memory growth > 5 MB (Target: Session 9)
-- [ ] Benchmark file: `benchmarks/bench_distributed_knowledge.cpp` (Target: Session 9)
+- [x] Load test: 50 federation rounds over 1h; no memory growth > 5 MB (Target: Session 9)
+- [x] Benchmark file: `benchmarks/bench_distributed_knowledge.cpp` (Target: Session 9)
 
 **Performance Targets (binding):**
 
@@ -360,11 +360,11 @@ and `RLAIFTrainer` (receive).
 **Scope:** Complete all documentation, finalize roadmap entries.
 
 **Tasks:**
-- [ ] `src/distributed_knowledge/CHANGELOG.md` — v0.1.0 entry (Target: Session 10)
-- [ ] `src/distributed_knowledge/AUDIT.md` — stubless implementation verification (Target: Session 10)
-- [ ] Docs-lint pass: `python3 scripts/docs-lint.py docs/de/research/VERTEILTES_WISSEN_FEDERATION.md docs/en/research/DISTRIBUTED_KNOWLEDGE_FEDERATION.md` (Target: Session 10)
-- [ ] Update global `roadmap.md` module status from `🚧 In Progress` to `✅ Production-ready` (Target: Session 10)
-- [ ] Update `roadmap.md` module table with v0.2.0 production status entry (Target: Session 10)
+- [x] `src/distributed_knowledge/CHANGELOG.md` — v0.1.0 entry (Target: Session 10)
+- [x] `src/distributed_knowledge/AUDIT.md` — stubless implementation verification (Target: Session 10)
+- [x] Docs-lint pass: `python3 scripts/docs-lint.py docs/de/research/VERTEILTES_WISSEN_FEDERATION.md docs/en/research/DISTRIBUTED_KNOWLEDGE_FEDERATION.md` (Target: Session 10)
+- [x] Update global `roadmap.md` module status from `🚧 In Progress` to `✅ Production-ready` (Target: Session 10)
+- [x] Update `roadmap.md` module table with v0.2.0 production status entry (Target: Session 10)
 
 ---
 
@@ -377,34 +377,34 @@ in `ARCHITECTURE.md §5` and `docs/issues/distributed_knowledge/DK-OR-operationa
 **Tasks:**
 
 *Backpressure:*
-- [ ] Add `FederationConfig::round_timeout_ms` field (default: 30 000 ms) — timeout for `triggerAggregation()` (Target: Session 11)
+- [x] Add `FederationConfig::round_timeout_ms` field (default: 30 000 ms) — timeout for `triggerAggregation()` (Target: Session 11)
   - Tests: 2 new cases (`tests/test_distributed_knowledge.cpp`): round timeout → `std::runtime_error`; partial result returned for RAG
-- [ ] Implement non-blocking `publishFeedback()` dispatch: skip if gossip queue full; increment `skipped_publish_count_` counter (Target: Session 11)
+- [x] Implement non-blocking `publishFeedback()` dispatch: skip if gossip queue full; increment `skipped_publish_count_` counter (Target: Session 11)
   - Tests: 1 new case: queue-full → `publishFeedback()` returns without throw; counter incremented
 
 *Timeout / Circuit Breaker:*
-- [ ] Propagate `shard_timeout_ms` into `FederatedRAGMerger::merge()`: each shard result awaited with deadline; `ok=false` on timeout (Target: Session 11)
+- [x] Propagate `shard_timeout_ms` into `FederatedRAGMerger::merge()`: each shard result awaited with deadline; `ok=false` on timeout (Target: Session 11)
   - Errors: if all shards time out → throw `std::runtime_error("all shards timed out")`
   - Tests: 3 new cases: one shard times out → partial merge; all time out → exception; zero timeout → immediate
-- [ ] `LoRAFederationCoordinator`: add `triggerAggregation()` with configurable `timeout_ms` parameter; existing overload calls new one with `round_timeout_ms` (Target: Session 11)
+- [x] `LoRAFederationCoordinator`: add `triggerAggregation()` with configurable `timeout_ms` parameter; existing overload calls new one with `round_timeout_ms` (Target: Session 11)
 
 *Error Signal Paths:*
-- [ ] `exportGradient()` validates all values in `data` map — if any NaN detected, throw `std::runtime_error("NaN in gradient data")` (Target: Session 11)
+- [x] `exportGradient()` validates all values in `data` map — if any NaN detected, throw `std::runtime_error("NaN in gradient data")` (Target: Session 11)
   - Tests: 1 new case in `tests/test_incremental_lora_trainer.cpp`
-- [ ] `LoRAFederationCoordinator` writes `AIDecisionAuditor::recordDecision()` after each round:
+- [x] `LoRAFederationCoordinator` writes `AIDecisionAuditor::recordDecision()` after each round:
   `{decision_type="FEDERATED_ROUND", round_id, epsilon_spent, participants, outcome}` (Target: Session 11)
   - Tests: 1 new case verifying `DecisionRecord` written with correct `decision_type`
 
 *Security Integration:*
-- [ ] `CrossShardFeedbackSync::handleInboundSummary()` calls `ZeroTrustPolicyEnforcer::evaluateRequest()` before processing; rejects with `std::runtime_error` if risk=HIGH (Target: Session 11)
+- [x] `CrossShardFeedbackSync::handleInboundSummary()` calls `ZeroTrustPolicyEnforcer::evaluateRequest()` before processing; rejects with `std::runtime_error` if risk=HIGH (Target: Session 11)
   - Tests: 2 new cases: risk=LOW → processed; risk=HIGH → rejected, counter incremented
-- [ ] All four module components register via `IGdprEraseTarget` with `GdprSubjectRightsManager` (Target: Session 11)
+- [x] All four module components register via `IGdprEraseTarget` with `GdprSubjectRightsManager` (Target: Session 11)
   - Erase behaviour: `LoRAFederationCoordinator` clears `pending_gradients_`; `FederatedRAGMerger` clears cached merge contexts; `CrossShardFeedbackSync` clears dedup cache
   - Tests: 3 new cases (one per component): erase called → state cleared, subsequent operations unaffected
 
 *Hardening Verification:*
-- [ ] `ARCHITECTURE.md §5.5` hardening checklist: all 9 items verified green before v1.0 release (Target: Session 11)
-- [ ] Add `bench_distributed_knowledge_or.cpp` with OR-specific micro-benchmarks:
+- [x] `ARCHITECTURE.md §5.5` hardening checklist: all 9 items verified green before v1.0 release (Target: Session 11)
+- [x] Add `bench_distributed_knowledge_or.cpp` with OR-specific micro-benchmarks:
   - `triggerAggregation()` with timeout: P99 ≤ 500 ms for N=64 shards
   - `publishFeedback()` under queue pressure: throughput ≥ 10 000 msg/s
   - `handleInboundSummary()` with ZeroTrust check: overhead ≤ 1 ms per call
