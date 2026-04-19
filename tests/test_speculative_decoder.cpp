@@ -526,10 +526,15 @@ TEST(SpeculativeDecoderIntegrationTest, SpeculativeStatsInDetailedMetrics) {
     EXPECT_TRUE(metrics.contains("speculative"));
     EXPECT_TRUE(metrics["speculative"].contains("enabled"));
     EXPECT_TRUE(metrics["speculative"].contains("draft_tokens_total"));
+    EXPECT_TRUE(metrics["speculative"].contains("drafted_tokens"));
     EXPECT_TRUE(metrics["speculative"].contains("accepted_tokens"));
     EXPECT_TRUE(metrics["speculative"].contains("rejected_tokens"));
     EXPECT_TRUE(metrics["speculative"].contains("avg_acceptance_rate"));
+    EXPECT_TRUE(metrics["speculative"].contains("accept_rate"));
     EXPECT_TRUE(metrics["speculative"].contains("steps"));
+    EXPECT_TRUE(metrics.contains("feature_flags"));
+    EXPECT_TRUE(metrics["feature_flags"].contains("lookup_decoding"));
+    EXPECT_TRUE(metrics["feature_flags"].contains("adaptive_batch_retry"));
 
     spdlog::info("SpeculativeStatsInDetailedMetrics: {}",
                  metrics["speculative"].dump());

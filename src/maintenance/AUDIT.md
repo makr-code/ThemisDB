@@ -1,3 +1,5 @@
+> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+
 <!-- Status: current | validated: 2026-04-19 | Commit: e963d4e9ba -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 

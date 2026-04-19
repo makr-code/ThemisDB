@@ -1,3 +1,5 @@
+> **Aktueller Build-Flow:** `cmake --preset linux-ninja-perf && cmake --build --preset linux-ninja-perf`
+
 # 🚀 Benchmark Suite - Quick Start Guide
 
 ## What We Built

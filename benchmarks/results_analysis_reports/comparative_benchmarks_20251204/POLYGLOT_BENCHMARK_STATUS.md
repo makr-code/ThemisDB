@@ -1,3 +1,5 @@
+> ⚠️ **Historischer Statusreport** – Benchmark-Stand zum Zeitpunkt der Erstellung.
+
 # ThemisDB Polyglot Persistence Benchmark - Zusammenfassung
 
 ## Benchmark-Status

@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # GNN Tools for ThemisDB
 
 This directory contains **verification and testing tools** for Graph Neural Network (GNN) implementations in ThemisDB.

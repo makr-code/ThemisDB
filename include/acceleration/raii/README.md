@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # RAII Wrappers for GPU Resources
 
 This directory contains header-only RAII (Resource Acquisition Is Initialization) wrappers for GPU backend resources, providing automatic resource cleanup and exception safety.

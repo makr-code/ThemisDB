@@ -1,3 +1,5 @@
+> ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
+
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
@@ -7,7 +9,17 @@
 - Metrics endpoint authentication (`/metrics` behind auth layer)
 - Trace span attribute PII scanning and sanitization
 - Prometheus integration test suite
-- Structured log search API
+
+---
+
+## [1.8.0] — OpenTelemetry Full Integration & Log Search
+### Added
+- `OpenTelemetryTracer` — full OTel integration with W3C Baggage, multi-exporter dispatch (OTLP gRPC/HTTP, Jaeger, Zipkin), `recordException()`, `recordMetrics()` (`opentelemetry_tracer.cpp`)
+- `TenantMetricsNamespace` — per-tenant metric namespacing with independent cardinality budgets and Prometheus `themis_<tenant_id>_` prefix (`tenant_metrics_namespace.cpp`)
+- `LogSearchEngine` — stateless structured log search with field-filter, level, time-range, message-contains predicates, pagination, and sort (`log_search_engine.cpp`)
+- `MetricsStreamServer` — real-time metric streaming via WebSocket / SSE with `SendFn` callback delivery and per-subscription throttling (`metrics_stream_server.cpp`)
+- `AdvancedMetrics` — Summary (sliding-window quantiles), ExponentialHistogram, Cardinality (exact hash-set), TimeWeightedAverage, Rate (`advanced_metrics.cpp`)
+- `RootCauseAnalyzer` — automated root cause identification via `analyzeIssue()`, `findCorrelations()` (Pearson), `buildCausalGraph()` (Granger-inspired lag-1 causal inference) (`root_cause_analyzer.cpp`)
 
 ---
 

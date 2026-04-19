@@ -1,11 +1,14 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # include stable_diffusion module
 
 Public headers for Stable Diffusion plugin integration.
 
 ## Headers
-- `sd_plugin.h`
-- `sd_generator.h`
 - `sd_config.h`
+- `sd_generator.h`
+- `sd_plugin.h`
+- `sd_plugin_registrar.h`
 - `sd_prompt_sanitizer.h`
 
 ## Exposed API
@@ -29,4 +32,4 @@ Include the relevant headers from this module:
 #include "stable_diffusion/module_header.h"
 ```
 
-See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.
+See the [module documentation](../../docs/src/stable_diffusion/) for details.

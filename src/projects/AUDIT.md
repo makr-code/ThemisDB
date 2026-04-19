@@ -1,3 +1,5 @@
+> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+
 <!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
@@ -31,5 +33,5 @@
 ## Findings
 
 ### Open
-- Initial module audit checklist pending full completion.
-- Test coverage not yet confirmed; integration tests planned.
+- Finding: Test coverage not confirmed | Evidence: `tests/` — no dedicated test file found for `src/projects/` | Status: open
+- Finding: Initial module audit checklist pending full completion | Evidence: no performance benchmarks or security review document | Status: open

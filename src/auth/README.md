@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Authentication Module
 
 Comprehensive authentication and authorization implementation for ThemisDB with enterprise SSO and multi-factor authentication support.

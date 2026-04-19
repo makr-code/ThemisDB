@@ -1,3 +1,5 @@
+> **Hinweis:** API-Signaturen gegen aktuelle Endpunkte/Typen prüfen. Abweichungen mit `<!-- TODO: verify API -->` markieren.
+
 # ThemisDB Integration Guide
 
 ## Overview

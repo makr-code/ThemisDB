@@ -1,3 +1,5 @@
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
 # Toolbox Module — Future Enhancements (Implementation)
 
 <!-- Status: current | validated: 2026-04-16 | Primary: src/toolbox/ | Secondary: docs/de/toolbox/ -->
@@ -9,10 +11,15 @@ Implementation-side tasks for `src/toolbox/` aligned with the header-level plan 
 `include/toolbox/FUTURE_ENHANCEMENTS.md`:
 
 - `PrometheusIngestionToolboxMetrics` — concrete metrics backend behind `IngestionToolboxMetrics` interface
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - Graph-sink wiring in `toolbox_builder.cpp` — forward `impl_->graph_writer` to produced bridges
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - Vector-sink population in `content_toolbox_bridge.cpp` — fill `BridgeResult::vectors` from `ContentManager`
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - `extractEntitiesStream()` — chunked streaming enrichment implementation
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - `ToolboxComposite` — MIME-routing composite toolbox
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 
 ## Implementation Notes
 

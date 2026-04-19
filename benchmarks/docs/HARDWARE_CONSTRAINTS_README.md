@@ -1,3 +1,5 @@
+> ⚠️ **Historische Randbedingungen** – Hardware-Constraints beschreiben einen bestimmten Teststand.
+
 # Hardware Constraints & Performance Characteristics
 ## Analyzing ThemisDB Against RocksDB & TBB Baselines
 
@@ -299,6 +301,9 @@ Calculations:
 ---
 
 ## Usage & Integration
+
+> **Build:** `cmake --preset linux-ninja-perf && cmake --build --preset linux-ninja-perf`
+
 
 ### Python API
 

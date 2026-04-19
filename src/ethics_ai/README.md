@@ -1,11 +1,13 @@
-<!-- Status: current | validated: 2026-03-22 -->
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release --target <target>`
+
+<!-- Status: current | validated: 2026-04-15 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # ThemisDB Ethics AI Module
 
-**Version:** 0.0.1
-**Status:** 🔴 Alpha (v0.0.1)
-**Last Updated:** 2026-03-22
+**Version:** 0.2.0
+**Status:** 🟡 Beta (v0.2.0)
+**Last Updated:** 2026-04-15
 **Module Path:** `src/ethics_ai/`
 **Namespace:** `themis::plugins::ethics`
 
@@ -38,13 +40,15 @@ consensus scores.
 | `argument_store.h` / `.cpp` | `ArgumentStore` — ThemisDB BaseEntity storage for arguments/decisions |
 | `philosophy_loader.h` / `.cpp` | `PhilosophyLoader` — loads/validates philosophy profiles from YAML |
 | `ethics_ai_plugin.cpp` | `EthicsAiPlugin` — IThemisPlugin entry point, wires all components |
-| `ethics_ai_types.h` | Shared types: `EthicalArgument`, `EthicalDecision`, `PhilosophyProfile`, `RAGContext`, `ArgumentType`, `ArgumentStrength` |
+| `chain_visualizer.h` / `.cpp` | `ChainVisualizer` — exports argument chains to DOT and Mermaid formats |
+| `ethics_ai_types.h` (`include/plugins/ethics_ai/`) | Shared types: `EthicalArgument`, `EthicalDecision`, `PhilosophyProfile`, `RAGContext`, `ArgumentType`, `ArgumentStrength` |
 | `ethics_aql_queries.h` | AQL query string constants for all 7 RAG retrieval patterns |
 | `ethics_base_entity_adapter.h` | Adapter mapping ethics domain types to ThemisDB BaseEntity |
 | `ethics_ai_types.cpp` | Type implementations and helpers |
 | `argument_store.cpp` | `ArgumentStore` implementation |
 | `philosophy_loader.cpp` | YAML parsing and profile validation |
 | `rag_context_engine.cpp` | AQL execution for 7 retrieval patterns |
+| `chain_visualizer.cpp` | DOT/Mermaid export implementation |
 
 ---
 

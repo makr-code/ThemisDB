@@ -1,3 +1,5 @@
+> **Aktueller Build-Flow:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Hardware Constraints Integration in ThemisDB Benchmarking
 ## How Hardware Limits Affect Database Performance
 

@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: src/plugins/README.md · src/plugins/ROADMAP.md · src/plugins/ARCHITECTURE.md · src/plugins/FUTURE_ENHANCEMENTS.md · include/plugins/FUTURE_ENHANCEMENTS.md -->
 
@@ -581,6 +583,55 @@ JSON Schema v2 that `plugin_registry.cpp` validates against before accepting a p
 
 **Required fields:** `name`, `version`, `type`
 **Optional fields:** `capabilities[]`, `dependencies[]`, `runtime`, `sha256`, `signature`, `min_host_version`
+
+---
+
+### OCI Manifest Signing
+**Location:** `oci_manifest_signing.h`
+
+Ed25519-based signing and verification utilities for OCI manifest payloads used by `OciRegistryClient` and `SignedPluginRepository`. <!-- TODO: verify -->
+
+---
+
+### WASM Component Model
+**Location:** `wasm_component_model.h`
+
+Declarations for the WASM Component Model interface layer, extending `WasmHostAPI` with component-level import/export bindings. <!-- TODO: verify -->
+
+---
+
+### Audio Backend Interface
+**Location:** `audio_backend_interface.h`
+
+Contract for audio-processing plugin backends (transcription, synthesis, analysis). <!-- TODO: verify -->
+
+---
+
+### HuggingFace Ingestion Plugin
+**Location:** `huggingface_ingestion_plugin.h`
+
+Plugin implementation header for ingesting models and datasets from the HuggingFace Hub. <!-- TODO: verify -->
+
+---
+
+### Image Analysis Interface
+**Location:** `image_analysis_interface.h`
+
+Abstract interface for image-analysis plugin backends (object detection, classification, embedding extraction). <!-- TODO: verify -->
+
+---
+
+### Image Analysis Manager
+**Location:** `image_analysis_manager.h`
+
+Lifecycle manager for registered `IImageAnalysis` plugins; dispatches analysis requests to the active backend. <!-- TODO: verify -->
+
+---
+
+### Image Generation Interface
+**Location:** `image_generation_interface.h`
+
+Abstract interface for image-generation plugin backends (diffusion models, GANs). <!-- TODO: verify -->
 
 ---
 

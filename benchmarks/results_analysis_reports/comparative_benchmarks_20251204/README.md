@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Comparative Database Benchmark Suite
 
 This directory contains a comprehensive benchmark framework for comparing ThemisDB against established database systems using standardized tests and datasets.

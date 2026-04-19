@@ -1,3 +1,6 @@
+> ⚠️ **Historischer Testbericht** – Dieser Bericht beschreibt den Teststand zum Zeitpunkt der Erstellung.
+> Für aktuellen Stand: `ctest --preset linux-ninja-release --test-dir build/linux-ninja-release` ausführen.
+
 # Test Statistics
 
 Stand: 2026-03-28

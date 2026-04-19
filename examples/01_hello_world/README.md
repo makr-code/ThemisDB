@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Hello World - Erste Schritte mit ThemisDB
 
 ![Status](https://img.shields.io/badge/status-ready-brightgreen)
@@ -186,7 +188,7 @@ Error: Address already in use
 
 - [ThemisDB Dokumentation](../../docs/)
 - [Python Client API](../../clients/python/)
-- [AQL Syntax](../../docs/aql/)
+- [AQL Syntax](../../docs/aql/) <!-- TODO: verify: Pfad existiert nicht; ggf. ../../docs/de/aql/ -->
 - [Nächstes Beispiel: Todo-App](../02_todo_app/)
 
 ## 🤝 Beitragen

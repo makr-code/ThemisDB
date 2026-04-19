@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Security Module — Examples
 
 Examples for the `security` module demonstrating Paper 2 Layer 7 (IntentClassifier) implementation patterns.

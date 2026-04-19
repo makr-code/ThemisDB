@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB VSCode Extension
 
 VSCode extension for ThemisDB Coding Platform integration.

@@ -1,3 +1,5 @@
+> **Status:** 2026-04-19 – Mit aktuellem Modulcode synchronisieren; falsche Pfade/Kommandos ggf. korrigiert.
+
 # RAG Quality Control Implementation
 
 This directory contains the implementation of the post-generation quality control system for RAG (Retrieval-Augmented Generation).
@@ -92,12 +94,12 @@ auto pipeline = std::make_unique<QualityControlPipeline>(config);
 
 ### Unit Tests
 ```bash
-./tests/test_quality_control_pipeline
+cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release --target test_quality_control_pipeline
 ```
 
 ### Demo Example
 ```bash
-./examples/quality_control_demo
+cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release --target quality_control_demo
 ```
 
 ## Performance

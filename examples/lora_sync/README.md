@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # LoRA Cross-Shard Synchronization Example
 
 This example demonstrates how to use ThemisDB's automatic cross-shard LoRA/adapter synchronization feature.

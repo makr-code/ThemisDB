@@ -1,11 +1,13 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 <!-- Status: current | validated: 2026-03-22 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # ThemisDB gRPC RPC Plugin
 
-**Version:** 0.0.1
-**Status:** 🔴 Alpha (v0.0.1)
-**Last Updated:** 2026-03-22
+**Version:** 0.2.0
+**Status:** 🟢 Production-Ready (v0.2.0)
+**Last Updated:** 2026-04-15
 **Module Path:** `src/rpc_grpc/`
 **Namespace:** `themis::plugins::rpc::grpc_plugin`
 **Default Port:** 50051
@@ -31,8 +33,9 @@ loading fails, the server refuses to start rather than falling back to insecure 
 
 | File | Class / Role |
 |------|-------------|
-| `grpc_plugin.h` | `GRPCServer` + `GRPCPlugin` declarations | 122 lines |
-| `grpc_plugin.cpp` | Full implementation: server lifecycle, mTLS, service registration | 284 lines |
+| `grpc_plugin.h` | `GRPCServer` + `GRPCPlugin` declarations; v0.2.0 keepalive, multi-port, TLS reload extensions |
+| `grpc_plugin.cpp` | Full implementation: server lifecycle, mTLS, keepalive tuning, multi-port binding, TLS hot-reload |
+| `bidi_stream_adapter.h` | Header-only `BidiStreamAdapter<Req,Resp>` bidirectional streaming helper |
 | `CMakeLists.txt` | Build configuration; links gRPC++ and protobuf |
 
 ---

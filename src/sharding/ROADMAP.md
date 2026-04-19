@@ -1,3 +1,5 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 # Sharding Production Readiness Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -134,6 +136,7 @@ Implementing sharding requires careful planning and execution. Following this ro
 - `[?]` Cross-shard RPC (`sharding/rpc/`) read path (`readEntity`) not yet gRPC — reads currently routed via HTTP `RemoteExecutor`. Write path uses `ReplicateData` gRPC since 2026-04-12.
 - `[~]` Raft snapshot compaction not yet wired — WAL growth unbounded for long-running Raft deployments.
 - `[?]` Adaptive rebalancer not yet implemented; rebalancing is currently manual-only.
+- `[?]` Focused chaos tests are in CI, but full cluster-level chaos/failover scenarios are not yet part of the default production-readiness gate.
 
 | # | Description | Status |
 |---|-------------|--------|

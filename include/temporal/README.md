@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # Temporal Module - Public API
 
 Public interface definitions for ThemisDB temporal functionality.
@@ -38,6 +40,81 @@ std::cout << "Total conflicts: " << stats.total_conflicts << std::endl;
 ```
 
 **Thread Safety:** Thread-safe for concurrent conflict resolution
+
+---
+
+### bi_temporal.h
+**Purpose:** Bi-temporal table support (system-time + application-time)
+
+---
+
+### bitemporal_join.h
+**Purpose:** Temporal join operations across bi-temporal tables
+
+---
+
+### interval_tree_index.h
+**Purpose:** Interval tree index for efficient temporal range queries
+
+---
+
+### retention_manager.h
+**Purpose:** Retention policy enforcement and background cleanup scheduling
+
+---
+
+### snapshot_manager.h
+**Purpose:** Multi-table snapshot isolation and consistent read views
+
+---
+
+### system_versioned_table.h
+**Purpose:** System-versioned tables with automatic history tracking
+
+---
+
+### temporal_aggregator.h
+**Purpose:** Windowed temporal aggregations (tumbling, sliding, session)
+
+---
+
+### temporal_cdc.h
+**Purpose:** Change data capture for temporal tables <!-- TODO: verify -->
+
+---
+
+### temporal_cold_store.h
+**Purpose:** Cold-tier offloading of historical temporal data
+
+---
+
+### temporal_compressor.h
+**Purpose:** Compression of historical temporal versions
+
+---
+
+### temporal_index.h
+**Purpose:** General-purpose temporal index over (entity, time-interval) pairs
+
+---
+
+### temporal_migrator.h
+**Purpose:** Schema and data migration for temporal tables
+
+---
+
+### temporal_query_engine.h
+**Purpose:** AS-OF, FROM-TO, and temporal join query execution
+
+---
+
+### temporal_tier_manager.h
+**Purpose:** Hot/warm/cold tiering lifecycle for temporal data
+
+---
+
+### temporal_types.h
+**Purpose:** Core temporal type definitions (HLC, time intervals, version records)
 
 ---
 
@@ -313,10 +390,21 @@ target_link_libraries(your_target PRIVATE themisdb_temporal)
 ## Include Paths
 ```cpp
 #include "temporal/temporal_conflict_resolver.h"
-// Future headers:
-// #include "temporal/system_versioned_table.h"
-// #include "temporal/temporal_query_engine.h"
-// #include "temporal/retention_manager.h"
+#include "temporal/system_versioned_table.h"
+#include "temporal/temporal_query_engine.h"
+#include "temporal/retention_manager.h"
+#include "temporal/bi_temporal.h"
+#include "temporal/bitemporal_join.h"
+#include "temporal/interval_tree_index.h"
+#include "temporal/snapshot_manager.h"
+#include "temporal/temporal_aggregator.h"
+#include "temporal/temporal_cdc.h"
+#include "temporal/temporal_cold_store.h"
+#include "temporal/temporal_compressor.h"
+#include "temporal/temporal_index.h"
+#include "temporal/temporal_migrator.h"
+#include "temporal/temporal_tier_manager.h"
+#include "temporal/temporal_types.h"
 ```
 
 ---

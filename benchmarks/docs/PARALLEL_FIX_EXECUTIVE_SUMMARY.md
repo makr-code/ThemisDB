@@ -1,3 +1,5 @@
+> ⚠️ **Historische Zusammenfassung** – Executive Summary beschreibt den Stand nach dem Parallel-Fix.
+
 # 📊 Parallel Scaling Fix - Executive Summary
 
 **Date**: 18. Dezember 2025  

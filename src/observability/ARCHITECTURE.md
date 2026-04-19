@@ -1,3 +1,5 @@
+> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+
 # Observability Module — Architecture Guide
 
 <!-- Status: current | validated: 2026-04-06 -->
@@ -47,7 +49,22 @@ metrics or emits traces does so through the interfaces provided here or through 
 | `storage_profiler.cpp` | RocksDB performance metrics: compaction, amplification, cache |
 | `performance_analyzer.cpp` | Automated issue detection and recommendations |
 | `alertmanager.cpp` | Alert threshold monitoring and Alertmanager webhook integration |
-| `continuous_profiler.cpp` | Continuous profiling (pprof-compatible CPU/memory profiles) |
+| `alerting_engine.cpp` | Rule-based alerting with pluggable notification channels |
+| `continuous_profiler.cpp` | Continuous profiling (pprof-compatible CPU/memory/mutex/block profiles) |
+| `tracer.cpp` | `ObservabilityTracer` — W3C Trace Context propagation, span ring buffer, MetricsCollector integration |
+| `opentelemetry_tracer.cpp` | `OpenTelemetryTracer` — OTLP gRPC/HTTP, Jaeger, Zipkin exporters, W3C Baggage |
+| `log_aggregator.cpp` | `LogAggregator` — structured JSON log collection, trace-context correlation, ring buffer |
+| `log_search_engine.cpp` | `LogSearchEngine` — query structured logs by field, level, time range, message |
+| `ebpf_tracer.cpp` | eBPF-based kernel tracing (perf counters; guarded by `THEMIS_ENABLE_EBPF`) |
+| `distributed_flame_graph.cpp` | Distributed flame graph across cluster nodes |
+| `metric_aggregator.cpp` | Rate, histogram aggregation, cross-shard pre-aggregation, cardinality rollup |
+| `metric_anomaly_detector.cpp` | ML-based anomaly detection bridging analytics `StreamingAnomalyDetector` |
+| `ml_anomaly_detector.cpp` | ML anomaly detector with ARIMA/Holt-Winters forecast-based detection |
+| `metrics_stream_server.cpp` | Real-time metric streaming via WebSocket/SSE with `SendFn` callback |
+| `advanced_metrics.cpp` | Summary, ExponentialHistogram, Cardinality, TimeWeightedAverage, Rate |
+| `slo_reporter.cpp` | SLO/SLA burn-rate alerting (FAST 14.4×, MEDIUM 6×, SLOW 3× windows) |
+| `root_cause_analyzer.cpp` | Automated root cause analysis via correlation and causal graph inference |
+| `tenant_metrics_namespace.cpp` | Per-tenant metric namespacing with independent cardinality budgets |
 
 ### 3.2 Component Diagram
 
@@ -191,10 +208,10 @@ QueryProfiler::endQuery(query_id)
 
 ## 11. Known Limitations & Future Work
 
-- OpenTelemetry tracing integration is in progress; full span export is partial.
-- Distributed tracing across shards requires trace context propagation, which is
-  implemented in `src/core/concerns/context_propagation.cpp` but not all code paths use it yet.
+- Telemetry aggregation across shards is eventually consistent.
+- OTLP exemplar linking (attaching trace context to individual histogram observations) is a planned interface (`otlp_exemplar.h`, target Q3 2026) and not yet integrated in the export pipeline.
 - Log aggregation to external Loki requires the Grafana agent (not included).
+- Distributed trace data may contain query structure; sampling should be tuned to avoid capturing sensitive query parameters.
 
 ---
 

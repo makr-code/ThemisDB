@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Built-in Grammar Files
 
 This directory contains EBNF (Extended Backus-Naur Form) grammar definitions for grammar-constrained generation.

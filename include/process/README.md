@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # Process Module – API Reference
 
 **Module Path:** `include/process/` · `src/process/`
@@ -254,6 +256,43 @@ FOR task IN _process_tokens
 | `proc:req_doc:<model_id>:<node_id>:<doc_type>` | Required document entry |
 | `proc:inst_emb:<instance_id>` | Instance embedding (float array JSON) |
 
+## Additional Headers
+
+### bpmn_serializer.h
+Serializes process model records to and from BPMN 2.0 XML. <!-- TODO: verify -->
+
+### dmn_evaluator.h
+Evaluates DMN (Decision Model and Notation) decision tables linked to process models. <!-- TODO: verify -->
+
+### epk_aris_xml_importer.h
+Imports EPK process models from ARIS XML export files. <!-- TODO: verify -->
+
+### epk_serializer.h
+Serializes process model records to and from EPK notation. <!-- TODO: verify -->
+
+### llm_process_adapter.h
+Adapter layer for feeding process-model context into LLM prompt pipelines. <!-- TODO: verify -->
+
+### llm_process_descriptor.h
+**Header:** `include/process/llm_process_descriptor.h`
+
+Output structure returned by `ProcessModelManager::generateLlmDescriptor()`; contains a structured JSON representation of a process model for LLM consumption.
+
+### ocel_exporter.h
+Exports process event logs in OCEL (Object-Centric Event Log) format for process mining tools. <!-- TODO: verify -->
+
+### process_agentic_rag.h
+Agentic RAG integration for process instances; orchestrates multi-step retrieval and LLM reasoning over process graphs. <!-- TODO: verify -->
+
+### process_model_generator.h
+Generates process model skeletons from natural-language descriptions or templates. <!-- TODO: verify -->
+
+### vcc_vpb_importer.h
+Imports VCC-VPB YAML process definitions into the `ProcessModelManager`. <!-- TODO: verify -->
+
+### xpdl_importer.h
+Imports XPDL (XML Process Definition Language) process definitions. <!-- TODO: verify -->
+
 ## Installation
 
 This module is included as part of ThemisDB. Add the module headers to your include path:
@@ -261,13 +300,3 @@ This module is included as part of ThemisDB. Add the module headers to your incl
 ```cmake
 target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
 ```
-
-## Usage
-
-Include the relevant headers from this module:
-
-```cpp
-#include "process/module_header.h"
-```
-
-See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.

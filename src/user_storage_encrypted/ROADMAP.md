@@ -1,3 +1,5 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -32,12 +34,14 @@ is now ≥ 90/100; `KeyRotationScheduler` retains Production-Ready (100/100).
 - [x] 20 unit + integration tests (`test_user_storage_features.cpp`)
 - [x] CI workflow (`user-storage-encrypted-ci.yml`)
 - [x] Deprecated `executeCommand()` fully removed (v0.3.0); all call sites use `executeCommandSafe()`
+- [x] `reconcileStaleMounts()` — scans `/proc/mounts` for orphaned FUSE mounts on startup;
+      unmounts via `fusermount -u` / `umount` fallback; non-fatal; called from `initialize()`
 
 ---
 
 ## In Progress [~]
 
-- [~] Stale mount reconciliation on startup (FUTURE_ENHANCEMENTS §4)
+- [~] Integration tests: create → mount → write file → unmount → re-mount → verify file (Target: Q3 2026)
 
 ---
 
@@ -104,14 +108,6 @@ is now ≥ 90/100; `KeyRotationScheduler` retains Production-Ready (100/100).
 - [x] 5 stale mount reconciliation tests (done)
 - [x] 12 v0.3.0 metric + deprecation tests (`test_user_storage_v03_focused`, USE-01..12) (done)
 - [ ] Integration tests (Target: Q3 2026)
-
-### Phase 5: Performance / Hardening ✅
-- [x] Fix `const_cast` in `createPasswordFile()` (done)
-- [x] Stdin key delivery + `explicit_bzero` (done)
-- [x] KDF integration (Argon2id) (done)
-- [x] `reconcileStaleMounts()` in `initialize()` (done)
-- [x] 20 unit + integration tests (`test_user_storage_features.cpp`)
-- [x] CI workflow covering gcc-12, gcc-13, clang-15
 
 ### Phase 5: Performance / Hardening ✅
 - [x] Stdin key delivery eliminates `/tmp` key file window

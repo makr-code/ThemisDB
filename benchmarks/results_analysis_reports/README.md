@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # results_analysis_reports
 
 Pfad: `benchmarks/results_analysis_reports`

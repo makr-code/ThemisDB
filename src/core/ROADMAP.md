@@ -1,3 +1,5 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 # Core Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -45,7 +47,7 @@
 
 ### Phase 1: Dependency Injection & Core Interfaces (Status: Completed ✅)
 - [x] ConcernsContext: central DI hub for cross-cutting concerns (`core/concerns_context.cpp`)
-- [x] ILogger abstract interface with SpdlogLoggerAdapter and NoopLogger (`core/adapters/spdlog_logger.cpp`)
+- [x] ILogger abstract interface with SpdlogLoggerAdapter and NoopLogger (`include/core/concerns/spdlog_logger_adapter.h`, header-only)
 - [x] ITracer abstract interface for distributed tracing
 - [x] IMetrics abstract interface for counters, gauges, and histograms
 - [x] ICache abstract interface for pluggable cache backends
@@ -62,7 +64,6 @@
 ### Phase 3: Advanced Concerns & Runtime Flexibility (Status: In Progress 🚧)
 - [x] Structured log correlation (trace ID + span ID injection into log records)
 - [x] Health check interface in ConcernsContext
-- [x] Structured log correlation (trace ID injection into log records)
 - [x] Async context propagation (W3C TraceContext standard) (Issue: #1705)
 - [I] Plugin-based adapter loading (no recompile needed) (Issue: #1706)
 - [x] Feature flag interface for runtime enable/disable (Issue: #1707)

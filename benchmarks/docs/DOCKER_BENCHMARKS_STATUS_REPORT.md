@@ -1,3 +1,6 @@
+> ⚠️ **Historischer Statusreport** – Dieser Bericht beschreibt den Implementierungsstand zum Zeitpunkt der Erstellung.
+> Für den aktuellen Stand: Quellcode und aktuelle [`benchmarks/README.md`](../README.md) prüfen.
+
 # Docker Comparative Benchmarking - Phase Status Report
 
 **Datum:** 2025-12-09  
@@ -9,6 +12,7 @@
 ## Zusammenfassung
 
 Umfassende Docker-Benchmark-Infrastruktur zur Validierung der Performance-Gaps zwischen ThemisDB v1.0.1 und Konkurrenten wurde erfolgreich etabliert.
+<!-- TODO: verify against current version -->
 
 ### Historische Gaps identifiziert (v1.0.0)
 
@@ -37,18 +41,21 @@ Umfassende Docker-Benchmark-Infrastruktur zur Validierung der Performance-Gaps z
 - PostgreSQL: 1.453ms
 - Gap: **-45.1%** (ThemisDB schlechter) 🔴
 - **Target v1.0.1:** 0.558ms (-30% Latenz-Reduktion)
+<!-- TODO: verify against current version -->
 
 **PostgreSQL 16 HTTP:**
 - ThemisDB: 1.010ms
 - PostgreSQL: 1.806ms
 - Gap: **-44.1%** (ThemisDB schlechter) 🔴
 - **Target v1.0.1:** 0.707ms (-30% Latenz-Reduktion)
+<!-- TODO: verify against current version -->
 
 **PostgreSQL 16 gRPC:**
 - ThemisDB: 0.807ms
 - PostgreSQL: 1.591ms
 - Gap: **-49.3%** (ThemisDB schlechter) 🔴 **CRITICAL**
 - **Target v1.0.1:** 0.565ms (-30% Latenz-Reduktion)
+<!-- TODO: verify against current version -->
 
 ### v1.0.1 Verbesserungen (geplant)
 
@@ -194,6 +201,7 @@ cat benchmarks/gap_analysis/v1.0.1_closure_targets.json
 
 Average Gap: ~20-25% Nachteil
 **Target v1.0.1:** Reduktion auf <10% Nachteil (oder Parity)
+<!-- TODO: verify against current version -->
 
 Lösungsansatz:
 1. Index-Optimierungen (B-Tree Parallelisierung)
@@ -203,11 +211,13 @@ Lösungsansatz:
 ### Erwartete Gesamt-Gap-Closure
 
 **Baseline (v1.0.0):** 36 Gaps
+<!-- TODO: verify against current version -->
 - Critical: 6
 - High: 23
 - Medium: 7
 
 **Target (v1.0.1):** >30 Gaps geschlossen
+<!-- TODO: verify against current version -->
 - Critical: 5-6 geschlossen (83-100%)
 - High: >20 geschlossen (87%)
 - Medium: >6 geschlossen (86%)
@@ -245,6 +255,7 @@ Lösungsansatz:
    ```
 
 2. **Anschließend:** Benchmarks für v1.0.1 durchführen
+<!-- TODO: verify against current version -->
    ```bash
    python3 ../run_docker_comparative_benchmarks.py --workload all --duration 120
    ```

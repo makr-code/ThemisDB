@@ -1,3 +1,5 @@
+> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
@@ -31,7 +33,7 @@ The Auth module is the security foundation of ThemisDB. It provides authenticati
 ### JWT Validation
 - RS256 asymmetric verification with JWKS endpoint caching.
 - `JWTKeyRotationManager` handles automatic key rotation without service restart.
-- Clock skew tolerance is configurable (default ±30s) for distributed environments.
+- Clock skew tolerance is configurable (default ±60s) for distributed environments.
 - Audience, issuer, expiry, and not-before claims all validated.
 
 ### Multi-Factor Authentication

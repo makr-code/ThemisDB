@@ -1,3 +1,5 @@
+> ⚠️ **Historisches Dokument** – Beschreibt den Stand zum Zeitpunkt der Erstellung.
+
 # Real Implementation Verification Summary
 
 ## ✅ All Services Are REAL - No Stubs or Simulations

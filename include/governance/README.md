@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Governance Module — Public Headers
 
 **Version:** 1.0
@@ -35,6 +37,10 @@ This directory contains the public C++ header files (`.h`) that define the stabl
 | `cross_tenant_policy_inheritance.h` | Cross-tenant hierarchical policy composition (most-restrictive-wins, cycle detection); `CrossTenantPolicyInheritance` |
 | `model_governance.h` | AI/ML model training governance, bias auditing, training data lineage; `ModelGovernancePolicy`, `BiasAuditReport` |
 | `opa_adapter.h` | Open Policy Agent integration for Rego-based policy evaluation; `OpaAdapter`, `OpaAdapter::Config` |
+| `cross_border_transfer.h` | Cross-border data transfer compliance rules and controls; `CrossBorderTransferPolicy` |
+| `gdpr_subject_rights.h` | GDPR data subject rights evaluators (access, erasure, portability, rectification); `GdprSubjectRights` |
+| `hipaa_rules.h` | HIPAA safeguards and PHI handling rules; `HipaaRuleSet` |
+| `iso27001_rules.h` | ISO 27001 information security controls and evidence collection; `Iso27001Controls` |
 
 ## See Also
 

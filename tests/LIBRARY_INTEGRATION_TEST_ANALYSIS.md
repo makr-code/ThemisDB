@@ -1,3 +1,6 @@
+> ⚠️ **Historischer Testbericht** – Dieser Bericht beschreibt den Teststand zum Zeitpunkt der Erstellung.
+> Für aktuellen Stand: `ctest --preset linux-ninja-release --test-dir build/linux-ninja-release` ausführen.
+
 # Google Test Effectiveness Analysis - Library Integration Testing
 
 ## Overview

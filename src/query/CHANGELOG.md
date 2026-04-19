@@ -1,3 +1,5 @@
+> ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
+
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
@@ -5,6 +7,12 @@
 
 All notable changes to the Query module are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+
+## [Unreleased]
+
+- Performance benchmarks for vectorized execution and federated query paths
+- Security audit: injection prevention hardening and resource exhaustion edge cases
+- AQL parser thread-safety refactor (per-thread instances or mutex protection)
 
 ## [1.9.0] — 2026-03-24
 
@@ -31,31 +39,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 - `QueryFederation::createExecutionPlan()`: previously accessed `metadata.tables[0]`/`[1]` without bounds check when `metadata.tables.size() < 2`; now guarded.
-
-## [Unreleased]
-
-- Performance benchmarks for vectorized execution and federated query paths
-- Security audit: injection prevention hardening and resource exhaustion edge cases
-- AQL parser thread-safety refactor (per-thread instances or mutex protection)
-
-## [1.9.0] — 2026-03-24
-
-### Added
-- `QueryFederation` shard-key routing via `ShardingManager` (point-lookup and range queries route to ≤ N shards instead of broadcasting)
-  - `QueryFederation(ShardRouter, ShardingManager&)` and `QueryFederation(ShardRouter, ShardingManager&, Config)` constructors
-  - `analyzeQuery()` extracts `._key == "v"` (point-lookup) and `._key >= "a" AND ._key <= "z"` (range) predicates
-  - `determineRelevantShards()` calls `ShardingManager::GetShardForKey` / `GetShardsForKeyRange`; falls back to broadcast when no key predicate is present
-  - `SCATTER_GATHER` path emits `WARN` when broadcasting to > 10 shards
-  - `PARTITION_PRUNING` path now filters scatter-gather results to the target shard set
-- `ShardingManager::GetShardForKey(collection, key)` — consistent-hash point lookup
-- `ShardingManager::GetShardsForKeyRange(collection, min_key, max_key)` — clockwise ring walk returning all shards in range
-- `ConsistentHashRing ring_` member in `ShardingManager`; kept in sync on `AddShardNode` / `RemoveShardNode`
-- 8 focused unit tests in `tests/query/test_query_federation_routing.cpp`
-  - Point-lookup → 1 shard; range → subset; full-scan → all 3; empty-ring; range non-empty; predicate extraction
-
-### Changed
-- `include/sharding/sharding_manager.h` now includes `sharding/consistent_hash.h`
-- `QueryFederation`'s private member `sharding_manager_` (non-owning pointer, nullptr when not injected)
 
 ## [1.5.0] — 2026-03-12
 

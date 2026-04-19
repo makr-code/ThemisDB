@@ -1,3 +1,6 @@
+> ⚠️ **Historischer Statusreport** – Dieser Bericht beschreibt den Implementierungsstand zum Zeitpunkt der Erstellung.
+> Für den aktuellen Stand: Quellcode und aktuelle [`benchmarks/README.md`](../README.md) prüfen.
+
 # Google Benchmark C++ Performance Tests
 
 Dieses Verzeichnis enthält C++ Google Benchmark-basierte Performance-Tests für alle Phase 1 Optimierungen.

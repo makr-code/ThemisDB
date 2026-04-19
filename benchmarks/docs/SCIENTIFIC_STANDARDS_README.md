@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-perf && cmake --build --preset linux-ninja-perf`
+
 # Scientific Benchmark Suite - Qualitätsstandardskompatibilität
 
 **Status: ✅ SCIENTIFIC STANDARDS COMPLIANT (v2.0)**

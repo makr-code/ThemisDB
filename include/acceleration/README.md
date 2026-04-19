@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # Acceleration Module — Public Headers
 
 **Version:** 1.0
@@ -15,10 +17,13 @@ This directory contains the public C++ header files (`.h`) that define the stabl
 | Header | Role |
 |---|---|
 | `compute_backend.h` | Abstract `ComputeBackend` base class and `DeviceCapabilityInfo` struct |
+| `compute_future.h` | `ComputeFuture<T>` — async result handle for GPU kernel submissions |
+| `compute_graph.h` | `ComputeGraph` — DAG-based kernel dependency and execution graph |
 | `device_manager.h` | Device enumeration, capability probing, 60 s TTL cache |
 | `kernel_fallback_dispatcher.h` | `ANNKernelFallbackDispatcher` and `GeoKernelFallbackDispatcher` with retry logic |
 | `kernel_invocation.h` | Frozen ANN and geospatial kernel invocation interfaces (`ANNKernelDispatch`, `GeoKernelDispatch`); `INTERFACE_VERSION = 100` |
 | `batch_validator.h` | Input validation utilities shared across all backends |
+| `cpu_backend.h` | CPU fallback backend (no GPU SDK required) |
 | `cuda_backend.h` | CUDA backend API including `CUDAGraphCache` (guarded by `THEMIS_ENABLE_CUDA`) |
 | `hip_backend.h` | HIP/ROCm backend API (guarded by `THEMIS_ENABLE_HIP`) |
 | `vulkan_backend.h` | Vulkan compute backend API (guarded by `THEMIS_ENABLE_VULKAN`) |
@@ -28,6 +33,9 @@ This directory contains the public C++ header files (`.h`) that define the stabl
 | `multi_gpu_backend.h` | Multi-GPU load balancing and work distribution |
 | `nccl_vector_backend.h` / `rccl_vector_backend.h` | Multi-GPU collective operations (NVIDIA/AMD) |
 | `tensor_core_matmul.h` | Tensor Core FP16/BF16 matrix multiplication |
+| `quantized_backend.h` | INT8/INT4 quantized inference backend |
+| `vec_knn.h` | `VecKNN` — vectorised k-nearest-neighbour search interface |
+| `ai_hardware_dispatcher.h` | `AIHardwareDispatcher` — routes AI workloads to best available accelerator |
 | `geo_acceleration_bridge.h` | Geospatial kernel dispatch bridge |
 | `plugin_loader.h` | Dynamic external backend plugin loading |
 | `plugin_security.h` | Signature verification for loaded plugins |

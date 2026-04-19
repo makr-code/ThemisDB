@@ -1,3 +1,5 @@
+> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+
 <!-- Status: current | validated: 2026-04-07 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
@@ -39,7 +41,8 @@ This document covers the security posture of the Stable Diffusion image generati
 - Prompt hash is still recorded for audit, even on blocked paths.
 
 ### Model Integrity (Planned)
-- v2.1.0 will add SHA-256 digest verification of model files before loading.
+- SHA-256 digest verification of model files before loading is planned for a future version.
+  SD-04 is tracked in AUDIT.md.
 
 ---
 
@@ -53,4 +56,5 @@ This document covers the security posture of the Stable Diffusion image generati
 - [ ] Model file integrity check (Target: v2.1.0)
 - [ ] Maximum dimension enforcement (caller / API layer responsibility)
 - [ ] Rate limiting (caller / API layer responsibility)
-- [ ] Thread-safety audit (Target: v2.1.0)
+- [x] Thread-safety guard: `generate_mutex_` serializes all generate paths (v2.1.0 ✅)
+- [ ] Thread-safety audit for parallel `SDCppGenerator` calls (Target: Q1 2027)

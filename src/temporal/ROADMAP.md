@@ -1,3 +1,5 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 # Temporal Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -47,9 +49,9 @@
 
 ### Long-term (6-12 months)
 - [x] Temporal foreign keys with period-aware referential integrity (`TemporalForeignKey::validate()`)
-- [I] Temporal CDC: version-aware change event streaming with before/after diff (Target: Q1 2027)
-- [x] Temporal migration tooling: convert existing tables to system-versioned with history backfill (`temporal_migrator.h/cpp`)
-- [I] Interval-tree index for efficient overlapping-period detection (Target: Q1 2027)
+- [x] Temporal CDC: version-aware change event streaming (INSERT/UPDATE/DELETE/VERSION_CREATED) with before/after payloads; ring-buffer replay; CDCPersistentLog WAL (`temporal_cdc.cpp`)
+- [x] Migration tooling: convert existing tables to system-versioned (`temporal_migrator.h/cpp`)
+- [x] Interval-tree index for `O(log n + k)` overlap detection (`interval_tree_index.cpp`)
 
 ## Implementation Phases
 
@@ -90,7 +92,7 @@
 - [I] Archive-to-cold-storage retention variant (`s3://` or filesystem archive before purge)
 - [I] Storage-based retention (cap history to N GB per table)
 - [x] Delta and Gorilla compression for historical versions
-- [x] Temporal CDC: `ChangeEvent` stream (INSERT / UPDATE / DELETE / VERSION_CREATED) with Kafka integration
+- [x] Temporal CDC: `ChangeEvent` stream (INSERT / UPDATE / DELETE / VERSION_CREATED) with pub/sub and ring-buffer replay (`temporal_cdc.cpp`); Kafka integration deferred
 - [I] Temporal foreign keys CASCADE/RESTRICT at SQL layer
 - [x] Interval-tree index for `O(log n + k)` overlap detection
 

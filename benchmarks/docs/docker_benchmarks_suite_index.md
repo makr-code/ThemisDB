@@ -1,3 +1,5 @@
+> **Navigation:** Verlinkungen auf aktuelle Docker-Benchmark-Dateipfade prüfen.
+
 # ThemisDB Docker Benchmarks - Unified Suite
 
 **Version:** 1.0.0  

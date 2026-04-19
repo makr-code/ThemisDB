@@ -1,3 +1,5 @@
+> ⚠️ **Historischer Implementierungsplan** – Beschreibt den Phase-2-Plan zum Zeitpunkt der Erstellung.
+
 # Phase 2 Implementation Plan: WriteOptions::disableWAL
 
 ## 🔥 Priority Level: HIGH

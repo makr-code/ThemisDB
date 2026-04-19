@@ -1,3 +1,5 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 <!-- status: current | validated: 2026-04-06 -->
 <!-- Links: Primary README → src/performance/README.md | Secondary → docs/de/performance/README.md -->
@@ -124,12 +126,8 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 - [x] Security audit (timing side-channels via cycle counters) – RDTSC is available in user-space and does not expose privileged state; measurements are local to the calling thread and not transmitted externally; no cross-tenant leakage path identified
 - [x] Documentation complete
 - [x] API stability guaranteed
-- [x] All source files registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake (prometheus_exporter, chimera_exporter, async_metrics_exporter, phase3/adaptive_batch_tuner, phase4/io_uring_zero_copy, workload_adaptive_optimizer)
-- [x] Standalone focused test targets added (test_cycle_metrics, test_numa_topology, test_wire_perf_benchmark, test_adaptive_batch_tuner, test_io_uring_zero_copy, test_workload_adaptive_optimizer)
-- [x] All source files registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake (prometheus_exporter, chimera_exporter, async_metrics_exporter, phase3/adaptive_batch_tuner, phase4/io_uring_zero_copy, advanced_cache_manager)
-- [x] Standalone focused test targets added (test_cycle_metrics, test_numa_topology, test_wire_perf_benchmark, test_adaptive_batch_tuner, test_io_uring_zero_copy, test_advanced_cache_manager)
-- [x] All source files registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake (prometheus_exporter, chimera_exporter, async_metrics_exporter, phase3/adaptive_batch_tuner, phase4/io_uring_zero_copy)
-- [x] Standalone focused test targets added (test_cycle_metrics, test_numa_topology, test_numa_memory_manager, test_wire_perf_benchmark, test_adaptive_batch_tuner, test_io_uring_zero_copy)
+- [x] All source files registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake (prometheus_exporter, chimera_exporter, async_metrics_exporter, phase3/adaptive_batch_tuner, phase4/io_uring_zero_copy, workload_adaptive_optimizer, advanced_cache_manager, numa_memory_manager)
+- [x] Standalone focused test targets added (test_cycle_metrics, test_numa_topology, test_numa_memory_manager, test_wire_perf_benchmark, test_adaptive_batch_tuner, test_io_uring_zero_copy, test_workload_adaptive_optimizer, test_advanced_cache_manager)
 - [x] THEMIS_ENABLE_PMU_COUNTERS and THEMIS_ENABLE_IO_URING options declared in cmake/CMakeLists.txt
 
 ## Known Issues & Limitations

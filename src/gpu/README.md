@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # GPU Module
 
 GPU utility functions and memory management for ThemisDB.

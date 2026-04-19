@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # Observability Module Headers
 
 <!-- Status: current | validated: 2026-04-06 -->
@@ -860,8 +862,34 @@ http_server.addRoute("/query_profiles", [&profiler](const Request& req) -> Respo
 ## See Also
 
 - [../src/observability/README.md](../../../src/observability/README.md) - Implementation documentation
-- [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned features
 - [../../core/concerns/](../../core/concerns/) - Core interfaces (ILogger, ITracer, IMetrics)
+
+## All Headers
+
+| Header | Purpose |
+|--------|---------|
+| `advanced_metrics.h` | Extended metrics types and aggregation helpers |
+| `alerting_engine.h` | Rule-based alerting engine |
+| `alertmanager.h` | Prometheus Alertmanager integration |
+| `continuous_profiler.h` | Always-on CPU profiler with pprof output |
+| `distributed_flame_graph.h` | Distributed flame graph aggregation |
+| `ebpf_tracer.h` | eBPF-based kernel tracing |
+| `log_aggregator.h` | Log aggregation and forwarding |
+| `log_search_engine.h` | Full-text search over log entries |
+| `metric_aggregator.h` | Multi-source metric aggregation |
+| `metric_anomaly_detector.h` | Statistical anomaly detection on metrics |
+| `metrics_collector.h` | Central Prometheus-compatible metrics collection |
+| `metrics_stream_server.h` | Streaming metrics server |
+| `ml_anomaly_detector.h` | ML-based anomaly detection |
+| `opentelemetry_tracer.h` | OpenTelemetry tracing integration |
+| `otlp_exemplar.h` | OTLP exemplar support for metrics |
+| `performance_analyzer.h` | Automated performance issue detection |
+| `query_profiler.h` | Query execution profiling with explain plans |
+| `root_cause_analyzer.h` | Root cause analysis for incidents |
+| `slo_reporter.h` | SLO/SLA compliance reporting |
+| `storage_profiler.h` | RocksDB storage layer profiling |
+| `tenant_metrics_namespace.h` | Per-tenant metrics namespace isolation |
+| `tracer.h` | Core distributed tracing interface |
 
 ## Installation
 

@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Kontaktmanager - Adressbuch mit ThemisDB
 
 ![Status](https://img.shields.io/badge/status-ready-brightgreen)

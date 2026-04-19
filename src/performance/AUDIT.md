@@ -3,6 +3,8 @@
 
 # Audit Report — Performance Module
 
+> ⚠️ **Auditstand:** Dieser Befund gilt für den Stand bei Erstellung. Erneute Prüfung gegen aktuellen Code empfohlen.
+
 ## Module Overview
 
 The Performance module provides comprehensive low-level performance instrumentation, allocation optimization, SIMD acceleration, NUMA-aware scheduling, GPU metrics, HNSW auto-tuning, ML workload prediction, PMU hardware counters, and zero-copy I/O for ThemisDB. All implementation phases are complete.
@@ -93,8 +95,11 @@ The Performance module provides comprehensive low-level performance instrumentat
 | Finding | Severity | Resolution |
 |---------|----------|------------|
 | RDTSC timing side-channel | Reviewed | No exploitable cross-tenant path — closed |
+<!-- TODO: add source file evidence -->
 | PMU counter leakage | Reviewed | Per-thread isolation enforced — closed |
+<!-- TODO: add source file evidence -->
 | Workload predictor poisoning | Reviewed | Per-tenant model isolation — closed |
+<!-- TODO: add source file evidence -->
 
 ---
 

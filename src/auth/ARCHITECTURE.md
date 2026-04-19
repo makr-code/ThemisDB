@@ -1,3 +1,5 @@
+> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+
 # Authentication Module — Architecture Guide
 
 **Version:** 1.0
@@ -218,10 +220,11 @@ mfa_authenticator.cpp: TOTP validation (RFC 6238)
 
 ## 11. Known Limitations & Future Work
 
-- SAML 2.0 (`saml_authenticator.cpp`) is in progress; full IdP federation planned.
-- OAuth 2.0 Device Flow is implemented but not yet fully tested at scale.
-- Zero trust continuous verification is experimental; threshold tuning is manual.
-- Hardware security key (FIDO2/WebAuthn) support is planned.
+- SAML 2.0 (`saml_authenticator.cpp`) is production-ready; SP-initiated and IdP-initiated SSO are both supported.
+- OAuth 2.0 Device Flow is implemented and tested; scale validation is ongoing.
+- Zero trust continuous verification is production-ready; threshold tuning is manual.
+- WebAuthn/FIDO2 hardware token support is production-ready (`webauthn_authenticator.cpp`).
+- FIDO2 Passkey (resident-key/discoverable credential) interface (`passkey_authenticator.h`) is planned for Q3 2026; only the interface header currently exists.
 
 ---
 

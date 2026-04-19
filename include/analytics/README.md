@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # ThemisDB Analytics Module - Header Files
 
 **Version:** 1.7.0

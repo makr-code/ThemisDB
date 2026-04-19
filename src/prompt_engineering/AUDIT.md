@@ -1,3 +1,5 @@
+> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+
 <!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · SECURITY.md -->
 
@@ -66,12 +68,14 @@
 
 ## Open Items
 
-| ID    | Description                                         | Target  | Priority |
-|-------|-----------------------------------------------------|---------|----------|
-| OI-01 | Typed DSL for structured prompt authoring (Phase 2) | TBD     | Medium   |
-| OI-02 | Token counting and context-window budget manager    | Planned | High     |
-| OI-03 | Chain-of-thought execution tracer                   | Planned | Medium   |
-| OI-04 | Prompt regression suite                             | Planned | Medium   |
+All previously open items have been resolved. See ROADMAP.md for planned future features.
+
+| ID    | Description                                         | Status  |
+|-------|-----------------------------------------------------|---------|
+| OI-01 | Typed DSL for structured prompt authoring           | ✅ Implemented (v2.1.0) — `PromptTemplateCompiler`, `CompiledPromptTemplate`, `PromptTemplateValidator` |
+| OI-02 | Token counting and context-window budget manager    | ✅ Implemented — `ContextWindowBudgetManager` in `context_window_manager.cpp` |
+| OI-03 | Chain-of-thought execution tracer                   | ✅ Implemented — `IChainOfThoughtTracer`, `RecordingCoTTracer`, `CoTTraceCollector` in `cot_tracer.cpp` |
+| OI-04 | Prompt regression suite                             | ✅ Implemented — `PromptRegressionRunner` in `prompt_regression_runner.cpp` |
 
 ## Build Audit
 

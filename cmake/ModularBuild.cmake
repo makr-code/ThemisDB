@@ -958,9 +958,14 @@ set(THEMIS_LLM_SOURCES
     ../src/prompt_engineering/prompt_regression_runner.cpp
     ../src/prompt_engineering/prompt_ab_experiment.cpp
     ../src/prompt_engineering/prompt_library_io.cpp
+    ../src/prompt_engineering/rag_context_budget_manager.cpp
+    ../src/prompt_engineering/prompt_quality_evaluator.cpp
     ../src/prompt_engineering/tree_of_thoughts.cpp
     ../src/prompt_engineering/protegi_optimizer.cpp
     ../src/prompt_engineering/dspy_module.cpp
+    ../src/prompt_engineering/structured_output.cpp
+    ../src/prompt_engineering/prompt_compressor.cpp
+    ../src/prompt_engineering/adversarial_prompt_tester.cpp
     ../src/prompt_engineering/prompt_template_validator.cpp
     ../src/prompt_engineering/prompt_template_compiler.cpp
     ../src/distributed_knowledge/cross_shard_feedback_sync.cpp
@@ -982,6 +987,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/prompt_policy.cpp
     ../src/llm/speculative_decoder.cpp
     ../src/llm/kv_prefix_transfer_manager.cpp
+    ../src/llm/lookup_decoder.cpp
     ../src/llm/model_router.cpp
     ../src/llm/adapter_registry.cpp
     ../src/llm/inference_engine_enhanced.cpp

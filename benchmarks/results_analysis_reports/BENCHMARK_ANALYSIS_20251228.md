@@ -1,3 +1,6 @@
+> ⚠️ **Historische Messdaten** – Die in diesem Dokument enthaltenen Zahlen entstammen einem bestimmten Messzeipunkt und sind nicht mehr reproduzierbar ohne die ursprüngliche Testumgebung.
+> Für reproduzierbare Ergebnisse: Benchmark-Kommandos und aktuelle CMake-Presets unter [`benchmarks/README.md`](../README.md) verwenden.
+
 # SecondaryIndexBench – Analyse und Messungsergebnisse
 
 ## Zusammenfassung
@@ -11,6 +14,7 @@ Das `bench_core_performance` umfasst mehrere Varianten zur Messung von Schreibdu
 | **RawWriteOnly** | Reine RocksDB Writes | ~1.09M items/s | ~92 ns | Minimale Overhead, batch commit |
 | **IndexInsert** | Mit SecondaryIndexManager | ~100k items/s | ~1.0 ms | Entity-Serialisierung + Index-Updates |
 | **v1.3.0 Baseline** (Referenz) | Angenommen: Raw Writes | ~1.78M items/s | ~561 ns | Unterschiedliche Hardware/Config |
+<!-- TODO: verify against current version -->
 
 ## Analyse der Abweichungen
 
@@ -19,11 +23,14 @@ Das `bench_core_performance` umfasst mehrere Varianten zur Messung von Schreibdu
 
 **Mögliche Ursachen:**
 - Hardware-Unterschiede (v1.3.0 evtl. auf schnellerem System gemessen)
+<!-- TODO: verify against current version -->
 - RocksDB-Vcpkg-Build vs. Original-Build aus v1.3.0 (unterschiedliche Compiler-Flags)
+<!-- TODO: verify against current version -->
 - Unterschiedliche Memtable/Cache-Sizing oder WAL-Konfiguration
 - CPU-Frequenzskalierung oder Background-Jobs-Druck auf aktueller Messung
 
 **Schlussfolgerung:** Der RawWriteOnly-Durchsatz ist **realistisch und angemessen** für Themis' Umgebung. Die v1.3.0-Basislinie war vermutlich unter idealen Bedingungen (nur pure writes ohne Entity-Logik) gemessen.
+<!-- TODO: verify against current version -->
 
 ### 2. IndexInsert vs. RawWriteOnly
 **Gap: ~11x langsamer (100k vs 1.09M)**

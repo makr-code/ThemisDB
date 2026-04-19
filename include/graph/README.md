@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB Graph Module - Header Reference
 
 ## Overview
@@ -491,6 +493,19 @@ std::cout << optimizer.explainPlan(plan.value()) << std::endl;
 - [Graph Future Enhancements](../../src/graph/FUTURE_ENHANCEMENTS.md) - Planned features
 - [Index Module](../index/README.md) - Graph infrastructure (GraphIndexManager, GraphAnalytics)
 - [Query Module](../query/README.md) - AQL integration
+
+## Additional Public Headers
+
+| Header | Purpose |
+|--------|---------|
+| `distributed_graph.h` | `DistributedGraph` — partitioned graph across cluster nodes <!-- TODO: verify --> |
+| `explain_plan.h` | `ExplainPlan` — human-readable query plan explanation output |
+| `gpu_traversal.h` | `GpuTraversal` — CUDA/HIP-accelerated graph traversal kernels <!-- TODO: verify --> |
+| `graph_embedding.h` | `GraphEmbedding` — node and edge embedding computation |
+| `graph_query_rewriter.h` | `GraphQueryRewriter` — rewrite rules for graph query optimisation |
+| `graph_watermark.h` | `GraphWatermark` — temporal watermark tracking for streaming graph updates |
+| `parallel_traversal.h` | `ParallelTraversal` — multi-threaded BFS/DFS traversal engine |
+| `scheduled_edge_refresh.h` | `ScheduledEdgeRefresh` — periodic refresh of derived/cached edges |
 
 *Last Updated: April 2026*
 *Module Version: v1.5.0*

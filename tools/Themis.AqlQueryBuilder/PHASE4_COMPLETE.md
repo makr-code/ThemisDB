@@ -1,3 +1,5 @@
+> ⚠️ **Historischer Phasenbericht** – Dieser Bericht beschreibt den Implementierungsstand nach Abschluss der jeweiligen Entwicklungsphase.
+
 # Phase 4 Complete: Geo Spatial Query Builder ✅
 
 ## Overview

@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # ThemisDB Network Module Headers
 
 <!-- Status: current | validated: 2026-04-06 -->
@@ -724,6 +726,37 @@ timeout_manager.setAlertCallback([](SocketHealthState state, const std::string& 
     }
 });
 ```
+
+---
+
+## All Headers
+
+| Header | Purpose |
+|--------|---------|
+| `adaptive_circuit_breaker.h` | Adaptive circuit breaker with dynamic thresholds |
+| `adaptive_io_scaler.h` | Adaptive I/O thread scaling under load |
+| `connection_compression.h` | LZ4/Zstd connection-level compression; `ZstdDictionaryCompressor` |
+| `envoy_xds.h` | Envoy xDS control-plane integration |
+| `geo_topology_router.h` | Geo-distributed cluster routing |
+| `grpc_transport.h` | gRPC native transport (port 8771, `THEMIS_ENABLE_GRPC`) |
+| `io_uring_batcher.h` | Linux io_uring async I/O batching |
+| `kernel_bypass.h` | Kernel bypass networking (DPDK/RDMA) <!-- TODO: verify --> |
+| `network_audit_log.h` | Audit log for network events |
+| `qos_manager.h` | Per-tenant bandwidth quotas, token bucket, priority queuing |
+| `quic_server.h` | QUIC/HTTP3 server (port 8770, `THEMIS_ENABLE_HTTP3`) |
+| `quic_transport.h` | QUIC transport layer |
+| `raft_load_balancer.h` | Raft-coordinated load balancer (port 8774) |
+| `service_mesh.h` | Istio/Envoy sidecar integration (`THEMIS_ENABLE_SERVICE_MESH`) |
+| `socket_timeout_manager.h` | Cross-platform socket timeout with circuit breaker |
+| `udp_fast_path.h` | UDP fast-path for read-only queries (port 8769) |
+| `udp_server.h` | UDP ingestion server (port 8768): fire-and-forget metrics/logs/events |
+| `wire_protocol_batch.h` | Batch write processor: `WireProtocolBatcher` + `NagleController` |
+| `wire_protocol_connection_pool.h` | Client-side connection pooling |
+| `wire_protocol_helpers.h` | Protobuf wire format parsing without libprotobuf |
+| `wire_protocol_performance.h` | Performance benchmarking helpers for wire protocol |
+| `wire_protocol_server.h` | High-performance binary TCP server (port 8766) |
+| `wire_protocol_websocket.h` | WebSocket upgrade on port 8766 (`THEMIS_ENABLE_WEBSOCKET`) |
+| `wire_protocol_zero_copy.h` | Zero-copy serialization: `ZeroCopyFrameBuilder` + `MemoryMappedPayload` |
 
 ---
 

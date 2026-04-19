@@ -1,3 +1,5 @@
+> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+
 # Timeseries Module — Architecture Guide
 
 **Version:** 1.0
@@ -190,10 +192,10 @@ retention.sweep("cpu_usage", retention_days=7)
 
 ## 11. Known Limitations & Future Work
 
-- SIMD-accelerated Gorilla decoder is planned.
-- Chunk-level encryption is planned.
-- Columnar format for timeseries (Arrow IPC) is planned for analytical exports.
-- Adaptive chunk sizing (based on data rate) is planned.
+- SIMD-accelerated Gorilla decoder (`GorillaSIMDDecoder`, AVX2/NEON) is implemented in `gorilla_simd.cpp`.
+- Chunk-level encryption is available via `EncryptedChunkStore` (AES-256-GCM, `encrypted_chunk_store.cpp`); row-level value encryption is not yet implemented.
+- Columnar format for timeseries (Arrow IPC / Parquet) is planned for analytical exports.
+- Distributed time-series sharding is not yet implemented.
 
 ---
 

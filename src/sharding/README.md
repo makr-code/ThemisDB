@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Sharding Module
 
 Horizontal scaling and sharding implementation for ThemisDB v1.4+.
@@ -18,6 +20,7 @@ Implements horizontal scaling and distributed sharding for ThemisDB, providing p
 - `consensus_factory.cpp` — runtime consensus algorithm selection (Raft/Gossip/Paxos)
 - `cross_shard_transaction_coordinator.cpp` — cross-shard SAGA/2PC/3PC transactions
 - `shard_repair_engine.cpp` — self-healing shard repair and rebalancing
+- `adaptive_shard_router.cpp` — capability-based and domain-score routing; `updateAdapterCapability()` ingests gossip announcements; `routeByDomain(domain)` routes to the shard with highest `accuracy_delta` for a given `AdapterDomainType`
 
 ## Current Delivery Status
 

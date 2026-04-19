@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # failover module
 
 Status: production-ready failover orchestration and disaster recovery workflows.

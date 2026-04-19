@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # ThemisDB CHIMERA Module — Header Reference
 
 **Version:** 0.0.47

@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # Replication Module Headers
 
 Public interfaces and declarations for the ThemisDB replication module.
@@ -798,20 +800,41 @@ repl_mgr.addListener(listener);
 *API Version: v1.5.0*
 *Next Review: v1.6.0 Release*
 
+## Additional Header Files
+
+The following headers are present in `include/replication/` and supplement the components documented above.
+
+### conflict_resolution.h
+Defines `IConflictResolver` base interface and built-in strategies (`LastWriteWinsResolver`, `FirstWriteWinsResolver`) used by both `ReplicationManager` and `MultiMasterReplicationManager`. <!-- TODO: verify -->
+
+### crdt_types.h
+CRDT (Conflict-free Replicated Data Type) primitives: G-Counter, PN-Counter, OR-Set, LWW-Register. Used by `CRDTMergeResolver`. <!-- TODO: verify -->
+
+### event_stream.h
+Change-event streaming interface for emitting replication events to external consumers (Kafka, WebSocket, CDC). <!-- TODO: verify -->
+
+### kafka_change_stream.h
+Kafka-backed change-data-capture (CDC) stream; publishes WAL entries as Kafka messages for downstream consumers. <!-- TODO: verify -->
+
+### logical_replication.h
+Logical (row-level) replication layer that decodes WAL entries into structured change events independent of physical storage format. <!-- TODO: verify -->
+
+### multi_tier_replication.h
+Multi-tier (hierarchical) replication topology: data flows from primary → regional secondaries → edge replicas. <!-- TODO: verify -->
+
+### observability.h
+Replication-specific observability hooks: OpenTelemetry spans, Prometheus counters, and health-check endpoints. <!-- TODO: verify -->
+
+### policy.h
+Declarative replication policies (retention windows, quorum overrides, geo-routing rules) applied per collection. <!-- TODO: verify -->
+
+### raft_v2.h
+Raft v2 consensus implementation: leader election, log replication, snapshot installation, and membership changes. <!-- TODO: verify -->
+
+### replication_slot.h
+Persistent replication slots that track consumer progress through the WAL (similar to PostgreSQL replication slots). <!-- TODO: verify -->
+
+### schema_cdc.h
+Schema change-data-capture: captures DDL events (collection create/drop, index add/remove) as replication entries. <!-- TODO: verify -->
+
 ## Installation
-
-This module is included as part of ThemisDB. Add the module headers to your include path:
-
-```cmake
-target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
-```
-
-## Usage
-
-Include the relevant headers from this module:
-
-```cpp
-#include "replication/module_header.h"
-```
-
-See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.

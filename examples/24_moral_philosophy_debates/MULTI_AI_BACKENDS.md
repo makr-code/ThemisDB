@@ -1,3 +1,5 @@
+> **Status:** Integrationsannahmen gegen aktuellen Sourcecode verifizieren. Abweichungen mit `<!-- TODO -->` markiert.
+
 # Multi-AI Backend Architecture
 
 ## Überblick
@@ -477,6 +479,7 @@ def select_backend(
     # Balanced default
     return BackendType.LLAMACPP
 ```
+<!-- TODO: verify interface against current source -->
 
 ### 2. Error Handling
 
@@ -499,6 +502,7 @@ def generate_with_retry(
     
     raise RuntimeError("All backends failed after retries")
 ```
+<!-- TODO: verify interface against current source -->
 
 ### 3. Response Validation
 

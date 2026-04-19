@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # ThemisDB Core Framework Headers
 
 ## Module Purpose
@@ -179,6 +181,36 @@ if (hasEmbeddedLicense()) {
 **DLL export/import macros for modular builds**
 
 Cross-platform macros for exporting symbols from shared libraries (DLLs on Windows, .so files on Linux).
+
+---
+
+#### edition_manager.h
+**Runtime edition management and feature-gate evaluation**
+
+Provides APIs to check active edition at runtime and evaluate per-feature access gates.
+
+---
+
+#### module_hash_verifier.h
+**SHA-256 module hash verification**
+
+Verifies module binary hashes against a trusted manifest to detect tampering before load.
+
+---
+
+#### module_signature_verifier.h
+**X.509 digital signature verification for modules**
+
+Validates module code signatures using certificate chains; supports Authenticode (Windows) and GPG (Linux).
+
+---
+
+#### runtime_license_gate.h
+**Runtime license enforcement gate**
+
+Enforces license-derived feature restrictions at runtime; raises policy exceptions for unlicensed feature use.
+
+---
 
 **Platform Support:**
 - Windows: `__declspec(dllexport/dllimport)`

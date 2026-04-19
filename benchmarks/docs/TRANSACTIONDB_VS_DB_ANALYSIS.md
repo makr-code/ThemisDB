@@ -1,3 +1,5 @@
+> ⚠️ **Historische Analyse** – Vergleich beschreibt den Stand zum Zeitpunkt der Analyse.
+
 # TransactionDB vs Regular DB: Performance Analysis
 
 ## Critical Discovery

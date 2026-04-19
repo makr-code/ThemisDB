@@ -1,5 +1,7 @@
 # RAG Module — Architecture Guide
 
+> **Status:** 2026-04-19 – Architekturtext gegen realen Sourcecode verifizieren; Abweichungen mit `<!-- TODO -->` markiert.
+
 **Version:** 1.0
 **Last Updated:** 2026-04-06
 **Module Path:** `src/rag/`
@@ -39,13 +41,12 @@ retrieval and self-evaluation loops for complex multi-hop queries.
 
 | File | Role |
 |---|---|
-| `rag_pipeline.cpp` (implied) | Main RAG orchestrator: retrieve → augment → generate |
-| `hybrid_retriever.cpp` | Vector + BM25 hybrid retrieval with RRF fusion |
-| `streaming_retriever.cpp` | Token-budget-aware streaming context filling with MMR |
-| `document_splitter.cpp` | Split documents into retrieval-friendly chunks |
+| `hybrid_retriever.cpp` | Vector + BM25 hybrid retrieval with RRF fusion (`HybridRetriever`) |
+| `streaming_retriever.cpp` | Token-budget-aware streaming context filling with MMR (`StreamingRetriever`) |
+| `document_splitter.cpp` | Split documents into retrieval-friendly chunks (`DocumentSplitter`) |
 | `document_summarizer.cpp` | Summarize long documents for context window |
 | `agentic_rag.cpp` | Iterative multi-hop agentic RAG |
-| `rag_judge.cpp` | Multi-dimensional evaluation orchestrator |
+| `rag_judge.cpp` | Multi-dimensional evaluation orchestrator (`RAGJudge`) |
 | `faithfulness_evaluator.cpp` | Fact-checking: are claims grounded in sources? |
 | `relevance_evaluator.cpp` | Query-answer alignment score |
 | `completeness_evaluator.cpp` | Query aspect coverage |
@@ -60,17 +61,19 @@ retrieval and self-evaluation loops for complex multi-hop queries.
 | `llm_judge_integration.cpp` | LLM-as-judge orchestration |
 | `llm_meta_analyzer.cpp` | Meta-analysis of judge performance |
 | `knowledge_gap_detector.cpp` | Three-level gap detection (concept, temporal, domain) |
-| `llm_integration.cpp` | LLM bridge for generation |
+| `llm_integration.cpp` | LLM bridge for generation (`LLMIntegration`) |
 | `citation_highlighter.cpp` | Source citation extraction and highlighting |
 | `hallucination_dashboard.cpp` | Hallucination monitoring and alerting |
 | `ab_testing_framework.cpp` | A/B testing for RAG pipeline variants |
 | `bayesian_optimizer.cpp` | Bayesian hyperparameter optimization for RAG config |
-| `continuous_learning_orchestrator.cpp` | Feedback loop for continuous improvement |
+| `continuous_learning_orchestrator.cpp` | Feedback loop for continuous improvement (`ContinuousLearningOrchestrator`; `themis::rag::learning` namespace); `triggerLoop(LoopPhase)`, `setFederationCoordinator()`, `setTrainerForFederation()` |
 | `continuous_learning_client.cpp` | Client for continuous learning service |
+| `rag_ingestion_bridge.cpp` | Connects `IngestionToolbox` to RAG pipeline (`RAGIngestionBridge`; `themis::rag` namespace): `indexDocument()`, `enrichRetrievedDocuments()`, `buildEntityContext()` |
 | `response_parser.cpp` | Parse LLM evaluation responses |
 | `prompt_templates.cpp` | RAG-specific prompt templates |
 | `judge_config.cpp` | Judge configuration validation |
 | `http_metrics_client.cpp` | HTTP metrics export to external monitoring |
+| `prompt_injection_detector.cpp` | Pattern-based prompt injection detection (`PromptInjectionDetector`, `PromptInjectionSanitizer`) |
 
 ### 3.2 Component Diagram
 
@@ -217,8 +220,8 @@ Complex query: "Compare X and Y in the context of Z"
 
 - Agentic RAG multi-hop is experimental; reasoning loop depth is bounded.
 - BM25 requires an inverted index; currently depends on the search module's index.
-- Continuous learning feedback loop is in progress.
-- Multi-modal RAG (images + text) is planned.
+- `ContinuousLearningOrchestrator` loop-interference cooldown guard (shared `OptimizationLock`) and JSON context serialiser for loop outcome signals are planned (Phase 8 remaining items).
+- Multi-modal RAG (images + text) is implemented (`multimodal_rag.cpp`) but requires model support from the llm module.
 
 ---
 

@@ -1,4 +1,8 @@
+> **Hinweis:** Inhalt mit aktuellem Modulcode und -stand abgleichen.
+
 # Ethics AI Framework - Production Deployment Guide
+
+> **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.
 
 Complete production deployment configuration for the ThemisDB Ethics AI Framework with Docker, Kubernetes, and comprehensive monitoring.
 
@@ -23,6 +27,9 @@ This deployment setup provides:
 - **Load balancing** with NGINX
 - **Monitoring** with Prometheus and Grafana
 - **Production-ready security** with non-root users, resource limits, and network policies
+
+> **Note:** Current Docker image: `docker run -d -p 8080:8080 themisdb/themisdb:latest`
+> <!-- TODO: verify against current source -->
 
 ## 🏗️ Components
 
@@ -367,7 +374,7 @@ if previous:
 
 ## 📚 Additional Resources
 
-- [ThemisDB Documentation](../../../docs/)
+- [ThemisDB Documentation](../../docs/)
 - [Ethics AI Example](../)
 - [Kubernetes Best Practices](https://kubernetes.io/docs/concepts/configuration/overview/)
 - [Prometheus Documentation](https://prometheus.io/docs/)

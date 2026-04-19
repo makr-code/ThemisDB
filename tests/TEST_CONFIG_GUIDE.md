@@ -1,3 +1,5 @@
+> **Aktueller Build-Flow:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB Test Configuration Guide
 
 ## Overview
@@ -47,6 +49,7 @@ llm:
 cd build-msvc-ninja-release
 .\cmake\tests\themis_tests.exe --gtest_filter='*LLM*'
 ```
+<!-- Legacy: prefer cmake --preset -->
 
 Tests will automatically load configuration and skip tests if resources unavailable.
 
@@ -252,6 +255,7 @@ $env:THEMIS_HAS_GPU = "0"
 # Run tests
 .\themis_tests.exe
 ```
+<!-- Legacy: prefer cmake --preset -->
 
 ### New Approach (YAML Config)
 

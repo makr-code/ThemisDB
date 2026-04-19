@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build build-linux-ninja-release --target <target>`
+
 <!-- status: current | validated: 2026-04-06 -->
 <!-- Links: Secondary → docs/de/performance/README.md | Root → ../../README.md -->
 
@@ -33,6 +35,13 @@ The Performance module provides ThemisDB's comprehensive optimization infrastruc
 | `phase2_feature_flags.cpp` | Phase 2 runtime feature toggles |
 | `phase3/` | Phase 3 optimizations (DiskANN, Bw-Tree, SplinterDB, Gunrock, Bao) |
 | `phase4/` | Phase 4 optimizations (PMU counters, io_uring, PMEM) |
+| `workload_adaptive_optimizer.cpp` | `WorkloadAdaptiveOptimizer` — OLTP/OLAP/MIXED/GRAPH/VECTOR/TIMESERIES classification and strategy selection |
+| `advanced_cache_manager.cpp` | `AdvancedCacheManager` — multi-partition cache with Bloom filter, adaptive eviction (LRU/LIRS/ARC/2Q) |
+| `numa_memory_manager.cpp` | `NUMAMemoryManager` — topology-aware allocation with per-node affinity and migration |
+| `hardware_accelerator.cpp` | `HardwareAccelerator` — GPU/FPGA/SIMD/SmartNIC/PMem accelerator dispatch |
+| `intelligent_prefetcher.cpp` | `IntelligentPrefetcher` — ML-driven cache prefetcher for query access patterns |
+| `lockfree_histogram.h` | `LockFreeHistogram<T>`, `LatencyHistogram`, `WideHistogram` — atomic-bucket P50/P90/P99 tracking (header-only) |
+| `lirs_cache.h` | `LirsCache<K,V>` — LIRS cache replacement policy (header-only) |
 
 ## Current Delivery Status
 

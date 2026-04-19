@@ -1,3 +1,5 @@
+> ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
+
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
@@ -8,11 +10,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-- Typed DSL for structured prompt authoring (Phase 2)
-- Token counting and context-window budget manager
-- Context-window budget enforcement (caller-side guard)
-- Chain-of-thought execution tracer
-- Prompt regression suite for detecting quality regressions across model updates
+- Per-language prompt template variants (i18n support)
+- Reinforcement learning from human feedback (RLHF) integration
+- Cross-model prompt portability scoring
 
 ## [2.0.0] — 2026-03-23
 
@@ -158,9 +158,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   convergence/guard flags, and `toJson()` for observability.
 - 38 unit tests in `tests/test_reflection_tuner.cpp` (AC-1 through AC-20).
 - CI: `.github/workflows/reflection-tuner-ci.yml` (multi-platform, AC-1–AC-20).
-## [2.0.0] — 2026-03-24
 
-### Added
+### Added (2026-03-24)
 - `TreeOfThoughtsBuilder` – multi-path reasoning with BFS, DFS, and BEAM search strategies; pluggable `IToTThoughtGenerator` and `IToTEvaluator` interfaces; depth-bounded pruning; `ToTConfig`, `ToTNode`, `ToTResult` data types; `TreeOfThoughtsBuilder::buildThoughtPrompt()`, `buildEvaluationPrompt()`, `buildSynthesisPrompt()` static helpers (30 unit tests; CI: `tree-of-thoughts-ci.yml`)
 - `ProTeGiOptimizer` – automatic prompt optimisation via natural-language ("textual") gradients; `IProTeGiLLMProvider` interface for critique and candidate generation; `ProTeGiConfig`, `ProTeGiGradient`, `ProTeGiResult` types; mini-batch error sampling, beam search, early-stop and convergence-stop conditions (18 unit tests; CI: `protegi-optimizer-ci.yml`)
 - `DspySignature` – typed input/output contract declaration with `buildPrompt()` and `parseResponse()`; `DspyField` with `DspyFieldType` (STRING/INT/FLOAT/BOOL/LIST/JSON); `DspyPredict` and `DspyChainOfThought` modules; `IDspyLLMProvider` interface; `EchoDspyLLMProvider` echo stub; `DspyMissingFieldError` exception (30 unit tests; CI: `dspy-module-ci.yml`)

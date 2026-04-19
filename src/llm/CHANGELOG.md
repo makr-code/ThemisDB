@@ -1,3 +1,5 @@
+> ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
+
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
@@ -63,7 +65,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - GGUF model loader with format validation (magic bytes, version, metadata field checks)
 - Initial KV-cache implementation (per-sequence, fixed-size)
-- `lm_sampling.cpp`: temperature, top-p, and top-k sampling strategies
+- `sampling_strategy.cpp`: temperature, top-p, and top-k sampling strategies
 
 ## [1.0.0] — 2024-01-01
 ### Added

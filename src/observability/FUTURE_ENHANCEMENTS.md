@@ -1,3 +1,5 @@
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/observability/ -->
 
@@ -7,13 +9,13 @@
 ## Scope
 
 - Prometheus metrics export (`/metrics`, `themis_*` namespace) via `MetricsCollector` singleton
-- Distributed tracing with span context propagation (OpenTelemetry-compatible; OTLP gRPC/HTTP export planned)
-- Structured logging via Core `ILogger` interface with log-level filtering
+- Distributed tracing with span context propagation (`ObservabilityTracer`, W3C Trace Context); full OTLP gRPC/HTTP export via `OpenTelemetryTracer` with multi-exporter dispatch (OTLP, Jaeger, Zipkin)
+- Structured logging via Core `ILogger` interface with log-level filtering; `LogSearchEngine` for field/level/time-range queries
 - `QueryProfiler`: per-phase and per-operator timing with index usage tracking
 - `StorageProfiler`: RocksDB stats, write/read amplification, compaction metrics, cache hit rates
 - Continuous profiling (pprof / async-profiler compatible) and adaptive sampling for high-frequency spans
 - eBPF-based kernel-level tracing (perf counters; guarded by `THEMIS_ENABLE_EBPF`)
-- Anomaly detection on metrics time-series (ML-based, planned) and SLO/SLA burn-rate alerting
+- ML-based anomaly detection on metric time-series (`MetricAnomalyDetector`, `MLAnomalyDetector`) and SLO/SLA burn-rate alerting (`SloReporter`)
 
 ## Design Constraints
 

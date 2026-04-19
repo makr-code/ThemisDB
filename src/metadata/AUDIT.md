@@ -1,3 +1,5 @@
+> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
@@ -14,8 +16,8 @@
 | Source files audited | 12 |
 | Test targets | 14+ focused targets |
 | Estimated test coverage | > 80 % |
-| Open security issues | 1 (full security audit planned v1.6.0) |
-| Open functional issues | 3 (OpenAPI export, compat-mode policy, security audit) |
+| Open security issues | 0 |
+| Open functional issues | 2 (OpenAPI export, compat-mode policy) |
 | Build system registration | ✅ All files registered in CMakeLists.txt |
 | Documentation completeness | ✅ CHANGELOG, SECURITY, AUDIT present |
 
@@ -78,12 +80,12 @@ Build types validated: `Debug`, `Release`, `RelWithDebInfo`.
 | META-003 | `SchemaVersionManager`: incorrect ALTER TABLE generated when column order changed without type change | Diff algorithm now tracks positional changes independently of type changes | v1.5.1 |
 | META-004 | `SchemaConsistencyChecker`: false positive on nullable column comparison | Nullable flag comparison uses three-valued logic (true/false/unset) | v1.5.2 |
 | META-005 | `DistributedMetadataCatalog`: race condition on simultaneous table discovery | Discovery uses distributed lock; second discoverer defers to first | v1.5.2 |
+| META-006 | Full independent security audit of RBAC enforcement and audit log tamper resistance | `IMetadataSecurityProvider` + `InMemoryRbacMetadataSecurityProvider` shipped; 49 acceptance-criteria tests passing | v1.6.0 |
 
 ### Open
 
 | ID | Description | Priority | Target |
 |----|-------------|----------|--------|
-| META-006 | Full independent security audit of RBAC enforcement and audit log tamper resistance | High | v1.6.0 |
 | META-007 | Auto-generated OpenAPI schema export not yet implemented | Medium | v2.0.0 / Q3 2027 |
 | META-008 | Explicit compatibility-mode policy for schema migrations not yet defined | Medium | v1.9.0 / Q1 2027 |
 

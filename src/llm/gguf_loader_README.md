@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # GGUF Quantization Loading - Real Implementation
 
 ## Overview

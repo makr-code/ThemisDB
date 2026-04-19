@@ -567,5 +567,82 @@ void PromptABExperimentFramework::setWinnerCallback(WinnerCallback cb) {
     winner_callback_ = std::move(cb);
 }
 
+// ============================================================================
+// SimplePromptABFramework (IPromptABFramework)
+// ============================================================================
+
+uint32_t SimplePromptABFramework::fnv1a32(const std::string& user_id,
+                                           const std::string& key) noexcept {
+    // FNV-1a-32 over (user_id + NUL + key)
+    constexpr uint32_t FNV_OFFSET = 2166136261u;
+    constexpr uint32_t FNV_PRIME  = 16777619u;
+    uint32_t hash = FNV_OFFSET;
+    for (unsigned char c : user_id) {
+        hash ^= c;
+        hash *= FNV_PRIME;
+    }
+    hash ^= 0u;
+    hash *= FNV_PRIME;
+    for (unsigned char c : key) {
+        hash ^= c;
+        hash *= FNV_PRIME;
+    }
+    return hash;
+}
+
+void SimplePromptABFramework::registerExperiment(ExperimentDescriptor descriptor) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    for (const auto& e : experiments_) {
+        if (e.key == descriptor.key) {
+            throw std::invalid_argument(
+                "SimplePromptABFramework: experiment key '" +
+                descriptor.key + "' is already registered");
+        }
+    }
+    experiments_.push_back(std::move(descriptor));
+}
+
+bool SimplePromptABFramework::deactivate(const ExperimentKey& key) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    for (auto& e : experiments_) {
+        if (e.key == key && e.active) {
+            e.active = false;
+            return true;
+        }
+    }
+    return false;
+}
+
+ABVariant SimplePromptABFramework::assignVariant(const UserId&        user_id,
+                                                  const ExperimentKey& key) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    for (const auto& exp : experiments_) {
+        if (exp.key != key || !exp.active || exp.variants.empty()) {
+            continue;
+        }
+        if (exp.variants.size() == 1) {
+            return exp.variants[0];
+        }
+        // Use FNV-1a hash modulo 100 for traffic split.
+        const uint32_t bucket = fnv1a32(user_id, key) % 100u;
+        double cumulative = 0.0;
+        for (const auto& v : exp.variants) {
+            cumulative += v.trafficWeight * 100.0;
+            if (static_cast<double>(bucket) < cumulative) {
+                return v;
+            }
+        }
+        // Fallback: last variant.
+        return exp.variants.back();
+    }
+    // No active experiment found — return a default "control" variant.
+    return ABVariant{"control", nullptr, 1.0};
+}
+
+std::vector<ExperimentDescriptor> SimplePromptABFramework::listExperiments() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return experiments_;
+}
+
 } // namespace prompt_engineering
 } // namespace themis

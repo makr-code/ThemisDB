@@ -1,3 +1,5 @@
+> **Status:** 2026-04-19 – Mit aktuellem Modulcode synchronisieren; Pfade/Kommandos ggf. verifizieren.
+
 # ThemisDB Namespace Analyzer
 
 ## Übersicht

@@ -1,3 +1,5 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 # Analytics Module Roadmap
 
 **Version:** 2.0.0
@@ -78,7 +80,8 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
   - Per-tenant data isolation at the `SourceRegistry` boundary
 - [x] SARIMA and Prophet-style forecasting models (Target: Q4 2026)
   - Affected: `src/analytics/forecasting.cpp`, `include/analytics/forecasting.h`
-  - Expected behavior: extends `ForecastMethod` enum; `fit()`/`predict()` API unchanged
+  - Note: `ForecastMethod::SARIMA` and `ForecastMethod::PROPHET` enum values are already defined (`include/analytics/forecasting.h:154-155`) but switch-case handlers are not yet implemented
+  - Expected behavior: `fit()`/`predict()` API unchanged; extends existing switch branches
   - Errors: insufficient data for seasonal period (< 2 × seasonality), NaN in input series → structured error
   - Tests: unit tests for fit/predict/evaluate/serialize round-trip; parity vs Python statsmodels reference
   - Perf: SARIMA fit ≤ 5 s for series of length 10 000
@@ -86,6 +89,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] AutoML ONNX export and deployment pipeline (Target: Q4 2026)
   - Affected: `src/analytics/automl.cpp`, `include/analytics/automl.h`
   - Expected behavior: `AutoMLModel::exportONNX(path)` serializes trained model; loadable by `MLServingClient`
+  - Expected behavior: `AutoML::exportONNX(path)` serializes trained model; loadable by `MLServingClient` <!-- TODO: verify exact method signature when implemented -->
   - Errors: unsupported model type → `UNSUPPORTED_OPERATION`; serialization failure → structured error with cause
   - Tests: unit test export → load → infer round-trip; ONNX opset compatibility for all supported algorithms
   - Perf: export time ≤ 500 ms for any model trained on ≤ 1M samples

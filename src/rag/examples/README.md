@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # RAG Module — Examples
 
 Examples for the `rag` module demonstrating Paper 1 (Loop Orchestration) and Paper 2 Layer 9 (Explainability) implementation patterns.
@@ -12,13 +14,13 @@ Examples for the `rag` module demonstrating Paper 1 (Loop Orchestration) and Pap
 
 Demonstrates:
 
-1. **Loop 1** — `triggerLoop1QueryExecution()`: per-query BaoOptimizer feedback (≤ 10 ms)
-2. **Loop 2** — `triggerLoop2WorkloadAdaptation()`: WorkloadAdaptiveOptimizer + HNSW (60 s interval)
-3. **Loop 4** — `triggerLoop4AdapterImprovement()`: `IncrementalLoRATrainer` weekly cycle
-4. **FEDERATED_ROUND_START** (IMPL-A3) — fires automatically after Loop 4 with 24 h cooldown guard
+1. **Loop 1** — `triggerLoop(LoopPhase::LOOP_1_HNSW_QUERY)`: per-query HNSW optimizer feedback
+2. **Loop 2** — `triggerLoop(LoopPhase::LOOP_2_WORKLOAD)`: WorkloadAdaptiveOptimizer + HNSW (60 s interval)
+3. **Loop 4** — `triggerLoop(LoopPhase::LOOP_4_RLAIF)`: `IncrementalLoRATrainer` weekly cycle
+4. **FEDERATED_ROUND_START** (IMPL-A3) — `TriggerEvent::FEDERATED_ROUND_START` fires automatically after a successful Loop-4 with `guardrail_passed == true`; requires `setFederationCoordinator()` and `setTrainerForFederation()` injected
 5. **ExplainabilityReasonBuilder** (IMPL-B9) — generates `CausalChain` in natural language; writes `DecisionRecord` to `AIDecisionAuditor`
 
-Calls to planned IMPL-A2/A3/B9 APIs are marked with `/* PLANNED */` comments.
+> **Note:** The example uses the actual API `triggerLoop(LoopPhase)` and `registerLoopCompletionHandler()`. Calls to still-planned IMPL-B9 APIs are marked with `/* PLANNED */` comments.
 
 ## Related Documentation
 

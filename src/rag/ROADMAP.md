@@ -1,3 +1,5 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 # RAG Module Roadmap
@@ -44,6 +46,7 @@ v2.0.0 – Production-ready Retrieval-Augmented Generation system. 27 implementa
 - [x] CalibrationManager – temperature scaling, Platt scaling, and isotonic regression to align judge scores with human annotations; ECE/Brier/correlation metrics (`calibration_manager.cpp`)
 - [x] BatchEvaluator – parallel batch processing with configurable worker threads, async evaluation via futures/promises, and aggregated statistics (`batch_evaluator.cpp`)
 - [x] `batchConvertToRetrievedDocuments` – implemented with `EmbeddingFunction` callback; sequential per-query K-NN search; no placeholder / DO NOT USE warning removed (`rag_integration_helpers.h`)
+- [x] `RAGIngestionBridge` — connects `IngestionToolbox` to the RAG pipeline (`include/rag/rag_ingestion_bridge.h`, `src/rag/rag_ingestion_bridge.cpp`; `themis::rag` namespace): `indexDocument()`, `enrichRetrievedDocuments()`, `extractEntitiesForContext()`, `buildEntityContext()`; `IndexResult` return type; thread-safe (v0.1.0)
 
 ## In Progress 🚧
 *(none currently in progress)*
@@ -136,6 +139,22 @@ v2.0.0 – Production-ready Retrieval-Augmented Generation system. 27 implementa
   - `CLO-FED-01`: `FEDERATED_ROUND_START` fires after Loop 4 (no throw when coordinator absent)
   - `CLO-COOL-01`: 60 s cooldown blocks second trigger; different loop unaffected
   - `SerializeContext_EmptyBeforeTrigger`, `SerializeContext_MultipleLoopsPresent`
+- [x] `LoopPhase` enum on `ContinuousLearningOrchestrator`: `LOOP_1_HNSW_QUERY`, `LOOP_2_WORKLOAD`, `LOOP_3_SCHEMA_INDEX`, `LOOP_4_RLAIF`  (`include/rag/continuous_learning_orchestrator.h:249`)
+- [x] `triggerLoop(LoopPhase)` — explicitly trigger a named learning loop; returns `LoopResult` (`include/rag/continuous_learning_orchestrator.h:283`)
+- [x] `registerLoopCompletionHandler(LoopPhase, handler)` — per-phase completion callback (`include/rag/continuous_learning_orchestrator.h:293`)
+- [x] `TriggerEvent::FEDERATED_ROUND_START` — fired automatically after a successful Loop-4 run with `guardrail_passed == true` (`include/rag/continuous_learning_orchestrator.h:309`)
+- [x] `setFederationCoordinator(ILoRAFederationCoordinator*)` DI setter (`include/rag/continuous_learning_orchestrator.h:326`)
+- [x] `setTrainerForFederation(IncrementalLoRATrainer*)` DI setter (`include/rag/continuous_learning_orchestrator.h:342`)
+- [ ] Loop-interference cooldown guard: shared `OptimizationLock` with per-resource cooldown (RQ10)
+- [ ] JSON context serialiser for Loop 1–3 outcome signals → `≤ 2 000 tokens` context block
+- [ ] `RAGIngestionBridge` extension: index optimizer-log documents for RAG retrieval
+- [ ] 12 new unit tests in `tests/test_continuous_learning_orchestrator_loops.cpp`:
+  - `CLO-L1-01` … `CLO-L1-03`: Loop 1 trigger updates BaoOptimizer hint
+  - `CLO-L2-01` … `CLO-L2-03`: Loop 2 trigger updates WorkloadAdaptiveOptimizer
+  - `CLO-L3-01` … `CLO-L3-02`: Loop 3 trigger calls IndexSuggestionEngine
+  - `CLO-L4-01` … `CLO-L4-02`: Loop 4 trigger calls IncrementalLoRATrainer
+  - `CLO-FED-01`: `FEDERATED_ROUND_START` fires after Loop 4 + 24 h guard respected
+  - `CLO-COOL-01`: cooldown guard prevents concurrent loop interference
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (streaming_retriever: 28 test cases; reranker: 30+ test cases; document_splitter: 37 test cases)

@@ -1,4 +1,8 @@
+> ⚠️ **Historische Implementierungszusammenfassung** – Stand zum Zeitpunkt der Erstellung.
+
 # Standalone Moral Dialectic Engine - Implementation Summary
+
+> **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.
 
 ## Overview
 

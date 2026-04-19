@@ -1,50 +1,73 @@
-# ROADMAP
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
+# Projects Module Roadmap
 
 ## Current Status
-- [~] Modul `src/projects` dokumentiert; Backlog für weitere Härtung und Ausbau wird gepflegt.
 
-## In Progress
-- [ ] Dokumentations- und Qualitätslücken schließen (Target: 2026-Q2)
+v1.0.0 — Core project management features implemented: lifecycle state machine, snapshot
+versioning, structural diff/merge, template instantiation, and collaboration session management.
 
-## Planned Features
-- [ ] Schnittstellen und Verantwortlichkeiten präzisieren (Target: 2026-Q3)
-- [ ] Testabdeckung für kritische Pfade erweitern (Target: 2026-Q3)
-- [ ] Betriebs- und Security-Härtung abschließen (Target: 2026-Q4)
+## Completed ✅
+
+- [x] `ProjectLifecycle` — state-machine transitions with guard validation (`project_lifecycle.cpp`)
+- [x] `ProjectVersioning` — snapshot creation, listing, and restoration (`project_versioning.cpp`)
+- [x] `ProjectDiff` / `ProjectMerge` — structural delta computation and three-way merge (`project_diff.cpp`)
+- [x] `ProjectTemplate` — built-in templates (`BLANK`, `ANALYTICS`, `ML_PIPELINE`, `REPORT`) and custom YAML/JSON instantiation (`project_template.cpp`)
+- [x] `CollaborationManager` — concurrent editing sessions with `READ/WRITE/ADMIN/OWNER` permission enforcement (`collaboration_manager.cpp`)
+- [x] `IProjectAuditLog` interface — append-only audit trail for project operations (`include/projects/project_audit_log.h`)
+- [x] `IProjectBundleManager` interface — project bundle import/export (`include/projects/project_bundle.h`)
+
+## In Progress 🚧
+
+*(none currently in progress)*
+
+## Planned Features 📋
+
+### Short-term (2026-Q3)
+- [ ] Unit and integration tests for all lifecycle transition paths (Target: 2026-Q3)
+- [ ] Unit tests for `ProjectDiff` conflict detection and `ProjectMerge` three-way merge (Target: 2026-Q3)
+- [ ] REST API endpoints for project bundle export/import via `IProjectBundleManager` (Target: 2026-Q3)
+
+### Medium-term (2026-Q4)
+- [ ] Operational hardening: metrics and audit hooks for all state-changing operations (Target: 2026-Q4)
+- [ ] Security review: permission enforcement edge cases in `CollaborationManager` (Target: 2026-Q4)
 
 ## Implementation Phases
-### Phase 1: Design / API-Vertrag
-- [ ] Öffentliche und interne Interfaces des Moduls konsolidieren (Target: 2026-Q2)
-- [ ] Eingabe-/Ausgabeverträge und Fehlermodelle festlegen (Target: 2026-Q2)
 
-### Phase 2: Core-Implementierung
-- [ ] Kernlogik gemäß Schnittstellenvertrag vervollständigen (Target: 2026-Q3)
-- [ ] Integrationspunkte zu abhängigen Modulen stabilisieren (Target: 2026-Q3)
+### Phase 1: Core Implementation (Status: Completed ✅)
+- [x] `ProjectLifecycle` state machine with guard validation
+- [x] `ProjectVersioning` snapshot model with `SnapshotMeta`
+- [x] `ProjectDiff` delta types (`ADDED`, `REMOVED`, `MODIFIED`, `MOVED`) and `DeltaSet`
+- [x] `ProjectTemplate` with built-in templates and custom schema support
+- [x] `CollaborationManager` with `Permission`, `User`, `Change` model
 
-### Phase 3: Fehlerbehandlung & Edge Cases
-- [ ] Fehlerfälle systematisch abdecken (Target: 2026-Q3)
-- [ ] Edge-Case-Handling und Guardrails ergänzen (Target: 2026-Q3)
+### Phase 2: Interfaces & Integration (Status: Completed ✅)
+- [x] `IProjectAuditLog` interface with `ProjectAuditAction` enum
+- [x] `IProjectBundleManager` interface with `ProjectBundleManifest`
 
-### Phase 4: Tests
-- [ ] Unit-Tests für Kernpfade ausbauen (Target: 2026-Q3)
-- [ ] Integrations- und Regressionstests ergänzen (Target: 2026-Q3)
+### Phase 3: Tests (Status: Planned)
+- [ ] Unit tests for lifecycle transitions and invalid-transition rejection (Target: 2026-Q3)
+- [ ] Unit tests for versioning round-trips and snapshot restore (Target: 2026-Q3)
+- [ ] Integration tests for concurrent collaboration session scenarios (Target: 2026-Q3)
 
-### Phase 5: Performance/Hardening
-- [ ] Performance-Bottlenecks messen und reduzieren (Target: 2026-Q4)
-- [ ] Security- und Reliability-Hardening abschließen (Target: 2026-Q4)
-
-### Phase 6: Dokumentation & Abnahme
-- [ ] Betriebs- und Entwicklerdokumentation aktualisieren (Target: 2026-Q4)
-- [ ] Modulabnahme anhand Checklisten und Akzeptanzkriterien durchführen (Target: 2026-Q4)
+### Phase 4: Observability & Security Hardening (Status: Planned)
+- [ ] Prometheus metrics for collaboration session counts and diff computation latency (Target: 2026-Q4)
+- [ ] Audit log integration for all state-changing operations (Target: 2026-Q4)
 
 ## Production Readiness Checklist
-- [ ] Definierte Fehlersemantik und Recovery-Pfade
-- [ ] Ausreichende Testabdeckung inkl. Regression
-- [ ] Security-Review und Dependency-Checks abgeschlossen
-- [ ] Monitoring/Observability-Anforderungen erfüllt
-- [ ] Dokumentation für Betrieb und Entwicklung vollständig
+
+- [x] Core implementation complete (5 source files, 7 header interfaces)
+- [ ] Test coverage for critical lifecycle and merge paths
+- [ ] Observability: metrics and audit logging hooked up
+- [ ] Security review complete
 
 ## Known Issues & Limitations
-- [!] Detailtiefe der Modul-spezifischen Akzeptanzkriterien variiert und wird sukzessive geschärft.
+
+- Test coverage for the projects module has not yet been confirmed; integration tests are planned for 2026-Q3.
+- `ProjectMerge` returns conflicts for the caller to resolve; no automatic conflict resolution is applied.
+- Real-time transport for collaboration (WebSocket/SSE) is handled by the server module, not here.
 
 ## Breaking Changes
-- Keine bekannten Breaking Changes dokumentiert.
+
+None.
+

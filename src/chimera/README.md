@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Chimera Module - Source Implementation
 
 ## Module Purpose
@@ -8,15 +10,11 @@ The Chimera module provides the core implementation for the **CHIMERA** (Compreh
 
 | Interface / File | Role |
 |-----------------|------|
-| `adapter_factory.cpp` | Thread-safe singleton adapter registry |
-| `themisdb_adapter.cpp` | ThemisDB reference implementation adapter |
-| `mongodb_adapter.cpp` | MongoDB adapter (document + Atlas Vector Search) |
-| `postgresql_adapter.cpp` | PostgreSQL adapter (relational + pgvector) |
-| `elasticsearch_adapter.cpp` | Elasticsearch adapter (full-text + vector search) |
-| `pinecone_adapter.cpp` | Pinecone adapter (managed vector search) |
-| `qdrant_adapter.cpp` | Qdrant adapter (native vector database) |
-| `weaviate_adapter.cpp` | Weaviate adapter (native vector database) |
-| `neo4j_adapter.cpp` | Neo4j adapter (native graph database) |
+| `src/chimera/themisdb_adapter.cpp` | ThemisDB reference implementation (`ThemisDBAdapter`) |
+| `include/chimera/themisdb_adapter.hpp` | Public header: `ThemisDBAdapter`, `ThemisDBResultStream`, `ThemisDBPreparedStatement` |
+| `include/chimera/database_adapter.hpp` | Base interfaces: `IDatabaseAdapter`, `IStreamingAdapter`, `IPreparedStatementAdapter`, `IResultStream` |
+
+<!-- TODO: verify --> Additional vendor adapters (`adapter_factory.cpp`, `mongodb_adapter.cpp`, `postgresql_adapter.cpp`, etc.) are **not present** in `src/chimera/`. Only the ThemisDB reference adapter is implemented in this module path.
 
 ## Scope
 
@@ -40,6 +38,8 @@ The Chimera module provides the core implementation for the **CHIMERA** (Compreh
 ## Source Files
 
 ### adapter_factory.cpp
+<!-- TODO: verify --> `adapter_factory.cpp` is **not present** in `src/chimera/`. The content below describes the intended design only.
+
 **Location:** `/src/chimera/adapter_factory.cpp`
 
 Core factory implementation for runtime adapter registration and creation.
@@ -449,6 +449,8 @@ public:
 ```
 
 ### mongodb_adapter.cpp
+<!-- TODO: verify --> `mongodb_adapter.cpp` is **not present** in `src/chimera/`.
+
 **Location:** `/src/chimera/mongodb_adapter.cpp`
 
 MongoDB adapter implementing document storage and Atlas Vector Search for the CHIMERA Suite.
@@ -499,6 +501,8 @@ auto hits = adapter->search_vectors("embeddings", query, /*k=*/10);
 ---
 
 ### postgresql_adapter.cpp
+<!-- TODO: verify --> `postgresql_adapter.cpp` is **not present** in `src/chimera/`.
+
 **Location:** `/src/chimera/postgresql_adapter.cpp`
 
 PostgreSQL + pgvector adapter for relational workloads and optional vector similarity search.
@@ -566,32 +570,24 @@ Result<T> → Benchmark Metrics
 ### Class Hierarchy
 
 ```
-IDatabaseAdapter (abstract interface)
-  ├─ IRelationalAdapter
-  ├─ IVectorAdapter
-  ├─ IGraphAdapter
-  ├─ IDocumentAdapter
-  ├─ ITransactionAdapter
-  └─ ISystemInfoAdapter
+chimera::IDatabaseAdapter            (include/chimera/database_adapter.hpp — abstract)
+chimera::IStreamingAdapter           (include/chimera/database_adapter.hpp — abstract)
+chimera::IPreparedStatementAdapter   (include/chimera/database_adapter.hpp — abstract)
+chimera::IPreparedStatement          (include/chimera/database_adapter.hpp — abstract)
+chimera::IResultStream               (include/chimera/database_adapter.hpp — abstract)
 
-ThemisDBAdapter (concrete implementation)
-  └─ implements all 6 interfaces
+chimera::ThemisDBAdapter : IDatabaseAdapter, IAsyncDatabaseAdapter,
+                            IStreamingAdapter, IPreparedStatementAdapter
+  (include/chimera/themisdb_adapter.hpp, src/chimera/themisdb_adapter.cpp)
 
-MongoDBAdapter (concrete implementation)
-  ├─ implements IVectorAdapter (Atlas Vector Search)
-  ├─ implements IDocumentAdapter
-  ├─ implements ITransactionAdapter
-  ├─ implements ISystemInfoAdapter
-  └─ returns NOT_IMPLEMENTED for IRelationalAdapter / IGraphAdapter
+chimera::ThemisDBResultStream : IResultStream
+  (include/chimera/themisdb_adapter.hpp)
 
-PostgreSQLAdapter (concrete implementation)
-  ├─ implements IRelationalAdapter (primary)
-  ├─ implements IVectorAdapter (pgvector)
-  ├─ implements IDocumentAdapter (JSONB)
-  ├─ implements ITransactionAdapter
-  ├─ implements ISystemInfoAdapter
-  └─ returns NOT_IMPLEMENTED for IGraphAdapter
+chimera::ThemisDBPreparedStatement : IPreparedStatement
+  (include/chimera/themisdb_adapter.hpp)
 ```
+
+<!-- TODO: verify --> `MongoDBAdapter`, `PostgreSQLAdapter` and other vendor adapters are not present in `src/chimera/`.
 
 ### Factory Registration Flow
 
@@ -844,36 +840,27 @@ target_link_libraries(themisdb_chimera
 
 ## Status
 
-**Current Status:** Beta — All adapter implementations complete in simulation mode (no live server required)
+**Current Status:** Partial — ThemisDB reference adapter implemented in simulation mode and engine-injection mode; vendor adapters are not present in `src/chimera/`.
 
-✅ **Complete:**
-- Factory pattern implementation with auto-registration (static init)
-- Interface implementation (all methods across all adapters)
-- Error handling infrastructure
-- Capability reporting
-- Thread-safe registry
-- ThemisDB reference adapter (all 5 operation interfaces)
-- MongoDB adapter: document CRUD + Atlas Vector Search (cosine similarity)
-- MongoDB adapter: transaction lifecycle + security (credential masking)
-- PostgreSQL adapter: relational CRUD + pgvector similarity search
-- PostgreSQL adapter: JSONB document store + transaction lifecycle
-- Elasticsearch adapter: full-text search + k-NN vector search
-- Pinecone adapter: managed vector search (upsert, query, delete)
-- Qdrant adapter: native vector database (collections, search, payload filtering)
-- Weaviate adapter: native vector database (objects, semantic search)
-- Neo4j adapter: native graph database (Cypher queries, graph traversal)
+✅ **Implemented (`src/chimera/themisdb_adapter.cpp`):**
+- `ThemisDBAdapter` — connection management, relational/vector/graph/document operations, transactions
+- `ThemisDBResultStream` — `IResultStream` cursor with batch fetch
+- `ThemisDBPreparedStatement` — parameter binding and deferred `execute()`
+- Simulation mode (default constructor): in-process stores (`table_store_`, `vector_store_`, `graph_nodes_`, `doc_store_`)
+- Engine-injection mode: optional dispatch to `QueryEngine`, `VectorIndexManager`, `GraphIndexManager`
+- Streaming via `execute_query_stream` (`IStreamingAdapter`)
+- Prepared statements via `prepare`/`bind`/`execute`/`list_prepared` (`IPreparedStatementAdapter`)
+- Tests: `tests/chimera/test_chimera_streaming.cpp`, `tests/chimera/test_chimera_prepared_statements.cpp`
 
-⚠️ **Simulation Mode (no live server required):**
-- All vendor adapters use in-process `std::unordered_map` storage for tests
-- Production deployments require linking the respective native client library
-  (e.g. `libmongocxx`, `libpqxx`, `cpp-httplib`/`cpr` for HTTP-based adapters)
-  and replacing the simulation blocks with real API calls
+⚠️ **Not implemented in `src/chimera/`:**
+- `adapter_factory.cpp` — no adapter factory registry present in this module
+- MongoDB, PostgreSQL, Elasticsearch, Pinecone, Qdrant, Weaviate, Neo4j vendor adapters
 
 🔮 **Future Work:**
-- Production driver integration for all adapters
-- Connection pooling
-- Retry logic and error recovery
-- Cross-system query federation
+- Production driver integration for ThemisDB engine-backed paths
+- Vendor adapter registry and integration contracts
+- Connection pooling, retry logic, and error recovery
+- Capability-matrix alignment between simulation and production modes
 
 ## Related Documentation
 

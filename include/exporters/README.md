@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset release && cmake --build build/release`
+
 # Exporters Module Headers
 
 This directory contains the public header files for the exporters module.

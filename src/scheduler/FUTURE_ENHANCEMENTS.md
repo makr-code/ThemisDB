@@ -1,3 +1,5 @@
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
 <!-- Status: current | validated: 2026-04-09 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
@@ -5,12 +7,16 @@
 
 - Periodic and one-shot task execution driven by Cron expressions (6-field format, including year)
 - Distributed leader election (gossip-based, with planned Raft-based upgrade for stronger consistency)
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - Task DAG dependency resolution: topological sort, parallel fan-out, cascading-failure propagation
 - Retention management: data expiry policies and compaction scheduling
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - Priority-based task queuing with starvation prevention via aging
 - SLO-based adaptive retry policy ✅ implemented v1.9.0 (`ScheduledTask::SloRetryConfig`)
 - Multi-tenancy: per-tenant quota tracking and task namespace isolation
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - Observability hooks: Prometheus metrics, event streaming, and execution timeline
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 
 ## Design Constraints
 
@@ -37,7 +43,7 @@
 This file tracks planned enhancements for the Scheduler module implementation.
 
 For detailed feature descriptions and API proposals, see:
-[../include/scheduler/FUTURE_ENHANCEMENTS.md](../include/scheduler/FUTURE_ENHANCEMENTS.md)
+[../../include/scheduler/README.md](../../include/scheduler/README.md)
 
 ### `TaskScheduler`: Propagate Authenticated User Context to Audit Events
 **Priority:** High
@@ -206,9 +212,13 @@ Implementation tasks:
 
 Research tasks:
 - [ ] Task execution time prediction (LSTM/Prophet)
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - [ ] Failure prediction model
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - [ ] Auto-tuning resource limits
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 - [ ] Anomaly detection in task behavior
+<!-- TODO: add measurable target, interface spec, and test strategy -->
 
 ### Serverless Task Execution
 **Timeline:** 2025+
@@ -320,8 +330,8 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md) for guidelines.
 
 - [Task Scheduler Implementation](./task_scheduler.cpp)
 - [Hybrid Retention Manager](./hybrid_retention_manager.cpp)
-- [Public API Documentation](../include/scheduler/README.md)
-- [Detailed Feature Descriptions](../include/scheduler/FUTURE_ENHANCEMENTS.md)
+- [Public API Documentation](../../include/scheduler/README.md)
+- [Detailed Feature Descriptions](../../include/scheduler/README.md)
 
 ---
 

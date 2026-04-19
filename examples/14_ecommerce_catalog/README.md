@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # E-Commerce Produktkatalog - Multi-Model Showcase mit ThemisDB
 
 ![Status](https://img.shields.io/badge/status-ready-brightgreen)

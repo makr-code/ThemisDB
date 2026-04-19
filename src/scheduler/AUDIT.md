@@ -3,6 +3,8 @@
 
 # Audit Report — Scheduler Module
 
+> ⚠️ **Auditstand:** Dieser Befund gilt für den Stand bei Erstellung. Erneute Prüfung gegen aktuellen Code empfohlen.
+
 **Last Audit:** 2026-04-19 | **Auditor:** Copilot | **Status:** ✅ Pass
 
 ## Summary
@@ -32,8 +34,8 @@
 ## Findings
 
 ### Resolved
-- Build system registration verified
-- All public APIs have test coverage
+- Finding: Build system registration | Evidence: cmake/CMakeLists.txt, cmake/ModularBuild.cmake | Status: resolved
+- Finding: All public APIs have test coverage | Evidence: tests/test_task_scheduler.cpp, tests/test_task_scheduler_dynamic_scaling.cpp, tests/test_task_scheduler_triggers.cpp, tests/test_distributed_task_coordinator.cpp, tests/test_task_audit.cpp, tests/test_task_result_store.cpp, tests/test_external_scheduler_adapter.cpp, tests/test_task_scheduler_auth_context.cpp | Status: resolved
 
 ### Open
 - None critical

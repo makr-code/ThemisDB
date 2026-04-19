@@ -3,6 +3,8 @@
 
 # Audit Report — Toolbox Module
 
+> ⚠️ **Auditstand:** Dieser Befund gilt für den Stand bei Erstellung. Erneute Prüfung gegen aktuellen Code empfohlen.
+
 **Last Audit:** 2026-04-19
 **Auditor:** Copilot
 **Status:** ✅ Pass
@@ -30,4 +32,6 @@
 
 ### Open
 - Initial module audit checklist pending full completion.
+<!-- TODO: add source file evidence -->
 - Test coverage not yet confirmed; integration tests planned.
+<!-- TODO: add source file evidence -->

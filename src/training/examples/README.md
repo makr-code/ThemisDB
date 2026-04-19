@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Training Module — Examples
 
 Examples for the `training` module demonstrating Paper 1 (Self-Optimising LoRA Loops) implementation patterns.

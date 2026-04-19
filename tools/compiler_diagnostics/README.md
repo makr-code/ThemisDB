@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Compiler Diagnostics Tools
 
 A comprehensive suite of tools for analyzing, tracking, and resolving cross-compiler and linker errors in ThemisDB.

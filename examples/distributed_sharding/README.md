@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Distributed Sharding Example
 
 This example demonstrates ThemisDB v1.4's distributed sharding capabilities, including:

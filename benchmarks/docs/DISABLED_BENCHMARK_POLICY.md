@@ -1,7 +1,11 @@
+> ⚠️ **Historischer Statusreport** – Dieser Bericht beschreibt den Implementierungsstand zum Zeitpunkt der Erstellung.
+> Für den aktuellen Stand: Quellcode und aktuelle [`benchmarks/README.md`](../README.md) prüfen.
+
 # Disabled Benchmark Policy
 
 **Status:** Active  
 **Effective:** v1.9.0  
+<!-- TODO: verify against current version -->
 **Owners:** Benchmarking Governance (@makr-code/benchmarks)
 
 ---

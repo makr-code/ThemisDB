@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-perf && cmake --build --preset linux-ninja-perf`
+
 # Vector Compression Benchmark Suite
 
 Umfassende Test-Suite zum Vergleich verschiedener Komprimierungsansätze für Vektoren, einschließlich:

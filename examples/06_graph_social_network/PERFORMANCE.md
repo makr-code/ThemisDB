@@ -1,3 +1,6 @@
+> ⚠️ **Historische Messdaten** – Die in diesem Dokument enthaltenen Zahlen entstammen einem bestimmten Messzeitpunkt.
+> Für reproduzierbare Ergebnisse: CMake-Presets und aktuellen Teststand verwenden.
+
 # Graph Soziales Netzwerk - Performance-Optimierung
 
 ## Übersicht

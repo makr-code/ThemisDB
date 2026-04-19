@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB Core Module
 
 ## Module Purpose
@@ -111,6 +113,7 @@ Generic caching abstraction supporting multiple eviction strategies.
 **Implementations:**
 - `InMemoryCacheImpl` - Local in-process cache
 - `StrategicCacheImpl` - Cache with pluggable eviction strategies (LRU, LIRS, ARC, etc.)
+- `RedisCache` - Distributed Redis-backed cache with consistent hashing, TTL, and pub/sub invalidation
 - `NoopCache` - Pass-through implementation
 
 **Usage:**
@@ -361,7 +364,6 @@ export THEMIS_ENVIRONMENT=production
 - Thread-safe operations
 
 ⚠️ **Beta Features:**
-- Distributed cache integration (Redis adapter)
 - Advanced cache strategies (LIRS, ARC)
 
 🔬 **Experimental:**

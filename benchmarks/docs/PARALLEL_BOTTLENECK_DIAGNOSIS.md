@@ -1,3 +1,5 @@
+> ⚠️ **Historische Diagnose** – Bottleneck-Analyse beschreibt den Stand zum Zeitpunkt der Erstellung.
+
 # 🔍 Parallel Scaling Bottleneck - Tiefe Diagnose
 
 **Datum**: 18. Dezember 2025  
