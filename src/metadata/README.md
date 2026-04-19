@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset linux-ninja-release && cmake --build build-linux-ninja-release --target <target>`
 
 # Metadata Module
 
@@ -30,6 +30,13 @@ Manages the ThemisDB metadata catalog, providing schema management, collection m
 | `catalog_exporter.cpp` | Apache Atlas and DataHub integration |
 | `distributed_catalog.cpp` | Distributed metadata catalog across shards |
 | `index_recommender.cpp` | Query-pattern-driven index usage and recommendation engine |
+| `imetadata_security_provider.h` | `IMetadataSecurityProvider`, `NoOpMetadataSecurityProvider`, `InMemoryRbacMetadataSecurityProvider` — pluggable RBAC interface |
+| `imetadata_change_listener.h` | `IMetadataChangeListener`, `RecordingMetadataChangeListener`, `MetadataChangeEvent` — observer interface for schema change events |
+| `imetadata_export_policy.h` | `IMetadataExportPolicy`, `AlwaysExportPolicy`, `NeverExportPolicy`, `FilteredExportPolicy` — external catalog export policy |
+| `imetadata_encryption_provider.h` | `IMetadataEncryptionProvider`, `NoOpMetadataEncryptionProvider`, `FieldSetMetadataEncryptionProvider` — field-level encryption policy |
+| `metadata_snapshot.h` | `MetadataSnapshot`, `IMetadataSnapshotStore`, `InMemoryMetadataSnapshotStore` — point-in-time schema snapshots |
+| `schema_diff.h` | `SchemaDiff`, `SchemaDiffEngine`, `ColumnDiff`, `IndexDiff` — structural diff engine for table schemas |
+| `aql_schema_bridge.h` | Free function bridge from `SchemaManager::TableSchema` to AQL `CollectionMetadata` |
 
 ## Current Delivery Status
 

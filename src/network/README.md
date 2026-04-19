@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset linux-ninja-release && cmake --build build-linux-ninja-release --target <target>`
 
 # ThemisDB Network Module - Implementation
 
@@ -28,6 +28,17 @@ The Network module implements ThemisDB's high-performance, secure networking lay
 | `geo_topology_router.cpp` | Network topology-aware routing for geo-distributed clusters |
 | `service_mesh.cpp` | Istio/Envoy sidecar probe server (guarded by `THEMIS_ENABLE_SERVICE_MESH`) |
 | `envoy_xds.cpp` | Envoy xDS v3 REST polling client (guarded by `THEMIS_ENABLE_SERVICE_MESH`) |
+| `adaptive_circuit_breaker.cpp` | `AdaptiveCircuitBreaker` — CLOSED/OPEN/HALF_OPEN state machine with load-adaptive threshold |
+| `connection_compression.cpp` | `ZstdDictionaryCompressor` — dictionary-trained Zstd compression for wire payloads |
+| `wire_protocol_batch.cpp` | `WireProtocolBatcher` (writev coalescing) + `NagleController` (TCP_CORK/TCP_NOPUSH) |
+| `wire_protocol_zero_copy.cpp` | `ZeroCopyFrameBuilder` (writev, no heap alloc) + `MemoryMappedPayload` (mmap/sendfile) |
+| `udp_server.cpp` | `UDPServer` — fire-and-forget ingestion on port 8768 (METRIC, LOG, EVENT, BATCH, PING) |
+| `raft_load_balancer.cpp` | `RaftLoadBalancer` — 5 routing strategies, health-based failover, consistent hashing (port 8774) |
+| `io_uring_batcher.cpp` | `IoUringBatchedSender` — single `io_uring_enter` for N concurrent writev SQEs (guarded by `THEMIS_ENABLE_IO_URING`) |
+| `kernel_bypass.cpp` | `DPDKServer` + `IoUringServer` + `CpuPinner` + `NumaAllocator` + `ZeroCopyDmaBuffer` |
+| `network_audit_log.cpp` | `NetworkAuditLog` — structured audit log for network-level security events |
+| `quic_server.cpp` | `QUICServer` + `QUICClient` — QUIC/HTTP3 server with 0-RTT, BBR/Cubic congestion control (guarded by `THEMIS_ENABLE_HTTP3`) |
+| `adaptive_io_scaler.h` | `AdaptiveIOScaler` — background I/O thread scaler based on active connection ratio (header-only) |
 
 ## Current Delivery Status
 

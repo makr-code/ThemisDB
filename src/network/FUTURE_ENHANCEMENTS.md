@@ -57,6 +57,7 @@
 
 ---
 
+### `WireProtocolServer`: WebSocket Binary Frame Dispatch
 
 **Priority:** High
 **Target Version:** v1.7.0

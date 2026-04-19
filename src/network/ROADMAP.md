@@ -104,7 +104,7 @@ v2.0.0 – Production-grade networking layer. All transport paths (TCP, WebSocke
   - Performance targets: DPDK 1–10 µs / 100 Gbps; io_uring 10–50 µs / 10 Gbps
   - 40 focused tests (KBP-01…KBP-40) in `tests/test_kernel_bypass.cpp`
 
-## In Progress 🚧
+## Completed (additional items) ✅
 - [x] UDP-based fast-path for read-only queries (Target: Q3 2026) (Issue: #1962) (PR: #3098)
   - UDP socket on port 8769 (dedicated, separate from TCP wire protocol port 8766)
   - Read-only opcodes only: GET, QUERY_AQL, VECTOR_SEARCH, PING

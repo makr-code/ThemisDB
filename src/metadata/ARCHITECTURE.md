@@ -49,6 +49,13 @@ audit logging for schema changes.
 | `schema_audit_log.cpp` | Audit log for schema changes (DDL events) |
 | `schema_constraints.cpp` | NOT NULL, UNIQUE, CHECK constraint management |
 | `schema_consistency_checker.cpp` | Validates schema consistency vs. stored data |
+| `imetadata_security_provider.h` | `IMetadataSecurityProvider` RBAC interface; `NoOpMetadataSecurityProvider`; `InMemoryRbacMetadataSecurityProvider` (header-only) |
+| `imetadata_change_listener.h` | `IMetadataChangeListener` observer interface; `RecordingMetadataChangeListener`; `MetadataChangeEvent` (header-only) |
+| `imetadata_export_policy.h` | `IMetadataExportPolicy`; `AlwaysExportPolicy`; `NeverExportPolicy`; `FilteredExportPolicy` (header-only) |
+| `imetadata_encryption_provider.h` | `IMetadataEncryptionProvider`; `NoOpMetadataEncryptionProvider`; `FieldSetMetadataEncryptionProvider` (header-only) |
+| `metadata_snapshot.h` | `MetadataSnapshot`; `IMetadataSnapshotStore`; `InMemoryMetadataSnapshotStore` (header-only) |
+| `schema_diff.h` | `SchemaDiff`; `SchemaDiffEngine`; `ColumnDiff`; `IndexDiff` (header-only) |
+| `aql_schema_bridge.h` | Free function bridge: `SchemaManager::TableSchema` → AQL `CollectionMetadata` (header-only) |
 
 ### 3.2 Component Diagram
 

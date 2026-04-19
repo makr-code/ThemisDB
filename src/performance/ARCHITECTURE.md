@@ -49,17 +49,21 @@ zero overhead when a feature is disabled.
 | `phase3/` | Phase 3 optimizations (LIRS, prefetch, alignment) |
 | `phase4/` | Phase 4 optimizations (WiscKey, DiskANN, Cicada, RabitQ) |
 | `wisckey.cpp` | WiscKey key-value separation for large values |
+| `workload_adaptive_optimizer.cpp` | `WorkloadAdaptiveOptimizer` — OLTP/OLAP/MIXED/GRAPH/VECTOR/TIMESERIES classification, dynamic strategy selection, predictive scaling |
+| `advanced_cache_manager.cpp` | `AdvancedCacheManager` — multi-partition cache with Bloom filter, adaptive eviction (LRU/LIRS/ARC/2Q), value compression |
+| `numa_memory_manager.cpp` | `NUMAMemoryManager` — sysfs topology detection, affinity-based allocation, per-node statistics |
+| `hardware_accelerator.cpp` | `HardwareAccelerator` — GPU/FPGA/SIMD/SmartNIC/PMem accelerator dispatch |
+| `intelligent_prefetcher.cpp` | `IntelligentPrefetcher` — ML-driven cache prefetcher for query access patterns |
+| `lockfree_histogram.h` | `LockFreeHistogram<T>`, `LatencyHistogram` (32-bucket), `WideHistogram` (64-bucket) — header-only atomic P99 tracking |
+| `lirs_cache.h` | `LirsCache<K,V>` — LIRS cache replacement with `shared_mutex` (header-only) |
 | `dostoevsky.cpp` | Dostoevsky LSM-tree compaction policy |
 | `cicada.cpp` | Cicada optimistic concurrency control |
 | `rabitq.cpp` | RaBitQ binary quantization for vector search |
 | `ligra.cpp` | Ligra parallel graph processing framework |
 | `numa_topology.cpp` | NUMA-aware memory allocation and thread pinning |
 | `async_metrics_exporter.cpp` | Async Prometheus metrics export |
-<!-- TODO: verify symbol exists in source -->
 | `prometheus_exporter.cpp` | Prometheus text format serializer |
-<!-- TODO: verify symbol exists in source -->
 | `chimera_exporter.cpp` | Chimera benchmark format exporter |
-<!-- TODO: verify symbol exists in source -->
 
 ### 3.2 Component Diagram
 
@@ -93,7 +97,7 @@ zero overhead when a feature is disabled.
 
 ```cpp
 uint64_t cycles;
-THEMIS_SCOPED_CYCLE_TIMER(cycles); <!-- TODO: verify symbol exists in source -->
+THEMIS_SCOPED_CYCLE_TIMER(cycles);
 // ... timed operation ...
 // on scope exit: cycles = RDTSC_end - RDTSC_start
 // cycle_metrics.record(phase, cycles)
@@ -116,10 +120,9 @@ Large value read:
 ```
 Thread starts on NUMA node 1:
     │
-    ├─ numa_topology.getLocalNode() → node 1
+    ├─ numa_topology.local_node() → node 1
     └─ allocate memory on node 1 (no cross-NUMA latency)
 ```
-<!-- TODO: verify symbol exists in source -->
 
 ---
 

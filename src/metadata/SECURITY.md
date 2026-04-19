@@ -59,7 +59,6 @@ This document covers the security posture of the Metadata module, including `Sch
 
 ## Known Limitations
 
-- **Full security audit planned for v1.6.0.** The current RBAC implementation has not been independently audited; the planned audit will cover privilege escalation paths, audit log tamper resistance, and INFORMATION_SCHEMA completeness.
 - AQL injection protections depend on correct escaping in the AQL module; the metadata module trusts the AQL module's escaping utilities. Any regression in the AQL module could affect this module.
 - External catalog connectors (Apache Atlas, DataHub) are in an early integration state; their authentication and authorisation behaviour should be reviewed before use in production environments handling sensitive schemas.
 - The `DistributedMetadataCatalog` conflict resolution mechanism has not been audited for Byzantine fault scenarios; it assumes non-adversarial catalog nodes.
