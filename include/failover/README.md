@@ -1,12 +1,12 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset release && cmake --build build/release`
 
 # include failover module
 
 Public header surface for failover orchestration and disaster recovery.
 
 ## Headers
-- `include/failover/auto_failover_manager.h`
-- `include/failover/disaster_recovery_manager.h`
+- `auto_failover_manager.h`
+- `disaster_recovery_manager.h`
 
 ## Exposed API
 - `AutoFailoverManager`
@@ -23,10 +23,8 @@ target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
 
 ## Usage
 
-Include the relevant headers from this module:
-
 ```cpp
-#include "failover/module_header.h"
+#include "failover/auto_failover_manager.h"
+#include "failover/disaster_recovery_manager.h"
 ```
 
-See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.

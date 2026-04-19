@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset release && cmake --build build/release`
 
 # ThemisDB Transaction Module - Header Files
 
@@ -112,6 +112,22 @@ if (!result.success) {
     }
 }
 ```
+
+### Additional Headers
+
+| Header | Key Types | Description |
+|---|---|---|
+| `crash_recovery_manager.h` | `CrashRecoveryManager` | WAL-based crash recovery and redo/undo |
+| `deadlock_predictor.h` | `DeadlockPredictor` | Wait-for graph analysis and deadlock detection |
+| `distributed_saga.h` | `DistributedSaga`, `DistributedStep` | Multi-node SAGA coordination |
+| `distributed_transaction_manager.h` | `DistributedTransactionManager` | 2PC/3PC distributed transaction coordinator |
+| `global_transaction_manager.h` | `GlobalTransactionManager` | Cross-shard global transaction ID management |
+| `isolation_level.h` | `IsolationLevel` | Isolation level enum definitions |
+| `lock_manager.h` | `LockManager`, `LockMode` | Row/range lock acquisition and release |
+| `saga_orchestrator.h` | `SagaOrchestrator` | Choreography-based SAGA orchestration |
+| `transaction_auditor.h` | `TransactionAuditor` | Audit trail recording for compliance |
+| `transaction_batcher.h` | `TransactionBatcher` | Micro-batching for throughput optimisation |
+| `transaction_semantic_advisor.h` | `TransactionSemanticAdvisor` | <!-- TODO: verify --> Semantic hints for query planning |
 
 ---
 

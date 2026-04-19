@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset release && cmake --build build/release`
 
 <!-- Status: current | validated: 2026-04-06 -->
 
@@ -12,6 +12,8 @@ Encrypted, tiered user-storage subsystem for ThemisDB. This module provides HOT/
 |---|---|
 | `encryption_backend_interface.hpp` | Abstract encryption backend interface (`IEncryptionBackend`) |
 | `gocryptfs_backend.hpp` | Gocryptfs-backed concrete backend |
+| `irotation_store.hpp` | `IRotationStore` interface for key rotation persistence |
+| `key_derivation_service.hpp` | Key derivation service (HKDF / PBKDF2 wrappers) |
 | `key_rotation_scheduler.hpp` | Automatic key rotation with configurable intervals |
 | `multi_level_storage.hpp` | HOT/WARM/COLD tiered encrypted storage |
 | `security_level.hpp` | `SecurityLevel` enum: STANDARD, HIGH, MAXIMUM |

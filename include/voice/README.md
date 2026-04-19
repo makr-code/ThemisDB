@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset release && cmake --build build/release`
 
 # Voice Module - Header Interfaces
 
@@ -24,6 +24,29 @@ The Voice module headers define the interface contracts for voice/audio interact
 - Database storage implementations
 
 ## Header Files
+
+### Quick Reference
+
+| Header | Key Types | Description |
+|---|---|---|
+| `audio_preprocessing.h` | `AudioPreprocessor`, `PreprocessConfig` | <!-- TODO: verify --> Audio normalisation and pre-filtering |
+| `emotion_analyzer.h` | `EmotionAnalyzer`, `EmotionResult` | <!-- TODO: verify --> Acoustic emotion detection |
+| `voice_accessibility.h` | `VoiceAccessibility` | <!-- TODO: verify --> Accessibility features (speaker adaptation, slow speech) |
+| `voice_assistant.h` | `VoiceAssistant`, `VoiceSession`, `VoiceAssistant::Config` | Core voice assistant interface |
+| `voice_audio_storage.h` | `VoiceAudioStorage` | <!-- TODO: verify --> Persistent audio recording storage |
+| `voice_auth.h` | `VoiceAuth` | <!-- TODO: verify --> Voice-biometric authentication |
+| `voice_batch_processor.h` | `VoiceBatchProcessor` | <!-- TODO: verify --> Batch STT/NLP processing |
+| `voice_browser_streaming.h` | `VoiceBrowserStreaming` | <!-- TODO: verify --> WebSocket / WebRTC streaming to browser clients |
+| `voice_error_handler.h` | `VoiceErrorHandler` | <!-- TODO: verify --> Structured voice pipeline error handling |
+| `voice_intent_detector.h` | `VoiceIntentDetector` | <!-- TODO: verify --> NLU intent extraction from transcriptions |
+| `voice_macro.h` | `VoiceMacro` | <!-- TODO: verify --> Programmable voice macro definitions |
+| `voice_meeting_support.h` | `VoiceMeetingSupport`, `MeetingMetadata` | Meeting recording and protocol generation |
+| `voice_model_cache.h` | `VoiceModelCache` | <!-- TODO: verify --> In-memory cache for STT/TTS model weights |
+| `voice_security.h` | `VoiceSecurity` | <!-- TODO: verify --> Audio stream encryption and access control |
+| `voice_session_manager.h` | `VoiceSessionManager` | <!-- TODO: verify --> Multi-session lifecycle management |
+| `voice_telephony.h` | `VoiceTelephony`, `PhoneCallMetadata` | Phone call recording and metadata |
+| `voice_tts_customizer.h` | `VoiceTTSCustomizer` | <!-- TODO: verify --> Custom voice / prosody for TTS output |
+| `wake_word_detector.h` | `WakeWordDetector` | <!-- TODO: verify --> Low-power wake-word / hotword detection |
 
 ### voice_assistant.h
 **Location:** `/include/voice/voice_assistant.h`

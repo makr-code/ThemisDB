@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset release && cmake --build build/release`
 
 # ThemisDB Updates Module - Header Files
 
@@ -413,6 +413,30 @@ notifications:
   enabled: true
   webhook_url: https://hooks.slack.com/...
 ```
+
+---
+
+## Additional Headers
+
+| Header | Key Types | Description |
+|---|---|---|
+| `blue_green_deployment.h` | `BlueGreenDeployment`, `DeploymentConfig` | Zero-downtime blue/green deployment switching |
+| `build_verifier.h` | `BuildVerifier` | Post-install build integrity verification |
+| `canary_rollout.h` | `CanaryRollout`, `CanaryConfig` | Gradual traffic-shifting canary deployments |
+| `cluster_update_manager.h` | `ClusterUpdateManager` | Coordinated rolling updates across cluster nodes |
+| `coordinated_update_manager.h` | `CoordinatedUpdateManager` | Multi-component coordinated update sequencing |
+| `delta_update_engine.h` | `DeltaUpdateEngine` | Binary-diff / patch-based delta updates |
+| `dependency_resolver.h` | `DependencyResolver` | Update dependency graph resolution |
+| `hardware_telemetry.h` | `HardwareTelemetry` | Hardware capability probing for update compatibility |
+| `in_place_schema_migrator.h` | `InPlaceSchemaMigrator` | Live schema migration without downtime |
+| `notification_webhook.h` | `NotificationWebhook` | Webhook dispatcher for update lifecycle events |
+| `parallel_downloader.h` | `ParallelDownloader` | Concurrent multi-file download with resume support |
+| `preflight_health_check.h` | `PreflightHealthCheck` | Pre-update system readiness checks |
+| `schema_migration.h` | `SchemaMigration`, `MigrationStep` | Schema migration definition and execution |
+| `schema_migration_tester.h` | `SchemaMigrationTester` | <!-- TODO: verify --> Dry-run schema migration test harness |
+| `tenant_update_scheduler.h` | `TenantUpdateScheduler` | Per-tenant update scheduling for multi-tenant deployments |
+| `update_history_logger.h` | `UpdateHistoryLogger` | Persistent log of applied updates and outcomes |
+| `update_state_machine.h` | `UpdateStateMachine`, `UpdateState` | FSM governing the update lifecycle |
 
 ---
 
