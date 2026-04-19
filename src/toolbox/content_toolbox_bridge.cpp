@@ -135,8 +135,8 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::ingest(
     if (impl_->graph_writer_ && !entities.empty()) {
         auto res = impl_->graph_writer_->writeEntities(entities);
         if (!res) {
-            Logger::warn("ContentToolboxBridge: graph_writer failed for '{}': {}",
-                         out.content_id, res.error().message());
+            THEMIS_WARN("ContentToolboxBridge: graph_writer failed for '{}': {}",
+                        out.content_id, res.error().message());
         } else {
             sinks_written = true;
         }
@@ -146,8 +146,8 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::ingest(
     if (impl_->vector_writer_ && !out.vectors.empty()) {
         auto res = impl_->vector_writer_->writeVectors(out.vectors);
         if (!res) {
-            Logger::warn("ContentToolboxBridge: vector_writer failed for '{}': {}",
-                         out.content_id, res.error().message());
+            THEMIS_WARN("ContentToolboxBridge: vector_writer failed for '{}': {}",
+                        out.content_id, res.error().message());
         } else {
             sinks_written = true;
         }
@@ -208,8 +208,8 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::enrichExisting(
     if (impl_->graph_writer_ && !out.entities.empty()) {
         auto res = impl_->graph_writer_->writeEntities(out.entities);
         if (!res) {
-            Logger::warn("ContentToolboxBridge::enrichExisting: graph_writer failed: {}",
-                         res.error().message());
+            THEMIS_WARN("ContentToolboxBridge::enrichExisting: graph_writer failed: {}",
+                        res.error().message());
         } else {
             sinks_written = true;
         }
@@ -218,8 +218,8 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::enrichExisting(
     if (impl_->vector_writer_ && !out.vectors.empty()) {
         auto res = impl_->vector_writer_->writeVectors(out.vectors);
         if (!res) {
-            Logger::warn("ContentToolboxBridge::enrichExisting: vector_writer failed: {}",
-                         res.error().message());
+            THEMIS_WARN("ContentToolboxBridge::enrichExisting: vector_writer failed: {}",
+                        res.error().message());
         } else {
             sinks_written = true;
         }

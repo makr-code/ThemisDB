@@ -28,6 +28,7 @@
 
 #include <rocksdb/write_batch.h>
 #include <rocksdb/options.h>
+#include <rocksdb/utilities/transaction_db.h>
 
 #include <algorithm>
 #include <cassert>

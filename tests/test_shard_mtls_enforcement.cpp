@@ -30,13 +30,25 @@ struct ScopedEnv {
         const char* prev = getenv(n);
         had_previous = (prev != nullptr);
         if (prev) previous = prev;
+#ifdef _WIN32
+        _putenv_s(n, v);
+#else
         ::setenv(n, v, 1);
+#endif
     }
     ~ScopedEnv() {
         if (had_previous) {
+#ifdef _WIN32
+            _putenv_s(name, previous.c_str());
+#else
             ::setenv(name, previous.c_str(), 1);
+#endif
         } else {
+#ifdef _WIN32
+            _putenv_s(name, "");
+#else
             ::unsetenv(name);
+#endif
         }
     }
 };

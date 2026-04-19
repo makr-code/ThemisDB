@@ -68,7 +68,7 @@ public:
         const std::string& path = ctx.manifest.original_path;
         if (path.empty()) {
             return tl::make_unexpected(
-                Error{ErrorCode::ERR_WORKFLOW_STEP_EXECUTION_FAILED,
+                Error{errors::ErrorCode::ERR_WORKFLOW_STEP_EXECUTION_FAILED,
                       "parse_text: manifest.original_path is empty"});
         }
 
@@ -76,7 +76,7 @@ public:
         std::ifstream file(path, std::ios::binary);
         if (!file.is_open()) {
             return tl::make_unexpected(
-                Error{ErrorCode::ERR_WORKFLOW_STEP_EXECUTION_FAILED,
+                Error{errors::ErrorCode::ERR_WORKFLOW_STEP_EXECUTION_FAILED,
                       "parse_text: cannot open '" + path + "'"});
         }
         std::ostringstream ss;

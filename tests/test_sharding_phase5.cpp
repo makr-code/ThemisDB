@@ -19,16 +19,14 @@
 #include <vector>
 
 using namespace themis::sharding;
-using namespace themis::sharding;
+using namespace themisdb::sharding;
 
 // ============================================================================
 // Helpers
 // ============================================================================
 
 static std::shared_ptr<ConsistentHashRing> makeRing() {
-    ConsistentHashRing::Config cfg;
-    cfg.virtual_nodes_per_shard = 3;
-    return std::make_shared<ConsistentHashRing>(cfg);
+    return std::make_shared<ConsistentHashRing>(3);
 }
 
 static std::shared_ptr<ShardTopology> makeTopologyWithShard(

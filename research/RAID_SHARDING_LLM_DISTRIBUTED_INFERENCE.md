@@ -51,6 +51,18 @@ This paper makes the following contributions:
 - A **distributed KV-prefix cache** using llama.cpp state serialisation primitives transferred via mTLS-protected remote executors.
 - A **gap analysis** against the current codebase and a six-phase implementation roadmap with measurable performance targets.
 
+### B. Research Questions and Hypotheses
+
+RQ1: Under realistic mixed database workloads, how much end-to-end latency reduction can cross-shard speculative decoding deliver without violating reliability targets?
+
+RQ2: How effectively does gossip-driven domain routing improve domain-affine response quality relative to consistent-hash fallback routing?
+
+RQ3: What is the practical trade-off between RAID fault-tolerance mode (RAID0/1/5) and serving continuity for converged storage-retrieval-inference shards?
+
+H1: Cross-shard speculative decoding with acceptance rate >= 65 % achieves at least 2x speedup over non-speculative decoding under intra-cluster RTT constraints described in Section VI.
+
+H2: Gossip-propagated adapter capability routing reduces domain-mismatch rate and improves quality-latency operating points compared to topology-only routing.
+
 The remainder of this paper is organised as follows. Section II reviews related work. Section III describes the system architecture. Section IV details each optimisation layer. Section V analyses the RAID fault-tolerance model. Section VI provides a theoretical performance analysis. Section VII presents the implementation roadmap and gap analysis. Section VIII discusses limitations, artifact availability, and positioning relative to dedicated serving systems. Section IX concludes.
 
 ---
@@ -486,6 +498,14 @@ The gossip-based routing protocol introduces a propagation delay of O(log N) gos
 
 3. **RAID5 reconstruction latency**: Reconstructing a failed weight shard via RAID5 XOR requires all $N_D - 1$ healthy shards to be read concurrently. During reconstruction, affected inference requests must be retried, increasing tail latency.
 
+### E. Threats to Validity
+
+Internal validity: Several quantitative claims in this manuscript are theoretical or roadmap-oriented rather than measured end-to-end outcomes. We mitigate this by stating explicit acceptance criteria, exposing file-level implementation gaps, and separating validated baselines from deferred claims.
+
+Construct validity: Metrics such as acceptance rate and p99 latency do not fully capture semantic output quality for all domains. The roadmap therefore requires joint reporting of latency, reliability, and domain-quality signals rather than single-metric optimization.
+
+External validity: Results may depend on hardware heterogeneity, network topology, and workload composition. To support transferability, artifact references and implementation anchors are tied to an open repository state and reproducible benchmark targets.
+
 ### C. Comparison with Dedicated Serving Systems
 
 Unlike vLLM [1] or TensorRT-LLM [25], which assume a dedicated GPU cluster per model, our architecture shares VRAM between the vector index (`FAISS`), the KV cache (`PagedKVCache`), and the model weights. VRAM pressure is managed by `PagedKVCache` preemption, which swaps out lower-priority KV pages when VRAM headroom falls below a configurable threshold. This is analogous to OS page replacement in virtual memory systems [1].
@@ -503,6 +523,30 @@ We have outlined a co-design architecture for distributed LLM inference within a
 Our theoretical analysis suggests that domain-routing can add no more than 5 ms overhead, batch fan-out can achieve at least 2× throughput with N = 4 shards, and cross-shard speculative decoding can yield approximately 2.5× latency reduction at 65 % acceptance rate. The KV-prefix sharing protocol reaches break-even after fewer than one shared request for system prompts of 1{,}024 tokens under the assumptions stated in Section VI.
 
 A six-phase implementation roadmap with concrete acceptance criteria and targeted file-level changes outlines a plausible path from the current state toward production-ready distributed inference. We believe the converged shard model — where each node combines storage, vector indexing, and LLM inference — is a promising alternative to separate serving tiers for database-native LLM workloads, subject to future empirical validation.
+
+---
+
+## Appendix A. Claim-to-Evidence Traceability
+
+| Claim ID | Claim Summary | Evidence Anchors |
+|----------|---------------|------------------|
+| C1 | ThemisDB already contains core building blocks for converged shard inference orchestration. | Section III component mapping, Table I gap analysis, [34] |
+| C2 | Cross-shard speculative decoding can provide multi-x latency improvements under stated acceptance/RTT assumptions. | Section IV-C protocol, Section VI-C model, [8], [9], [15]-[18] |
+| C3 | KV-prefix transfer can reduce TTFT substantially for repeated prefixes when compatibility constraints hold. | Section IV-D protocol, Section VI-D cost model, [1], [34] |
+| C4 | RAID-style redundancy is viable for model-weight durability but not for in-flight KV recovery. | Section V fault model, [10], [23], [24] |
+| C5 | Final production superiority claims are deferred pending roadmap execution and benchmark completion. | Section VII phased plan and acceptance criteria |
+
+## Appendix B. arXiv Submission Readiness Checklist
+
+- [x] Title is specific and technically scoped
+- [x] Abstract states measurable contribution
+- [x] Core claims are bounded by explicit assumptions
+- [x] Method/design sections define reproducible implementation targets
+- [x] Limitations and validity threats are transparent
+- [x] Figures/tables are referenced in text
+- [x] References are complete and consistent
+- [ ] Final benchmark wave results inserted
+- [ ] Commit hash and artifact manifest frozen
 
 ---
 

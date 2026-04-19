@@ -76,18 +76,12 @@ using namespace themis::plugins;
 class EchoTool : public IThemisTool {
 public:
     // IThemisPlugin
-    std::string getName()    const override { return "echo"; }
-    std::string getVersion() const override { return "1.0.0"; }
+    const char* getName()    const override { return "echo"; }
+    const char* getVersion() const override { return "1.0.0"; }
     PluginCapabilities getCapabilities() const override { return {}; }
-    PluginManifest     getManifest()     const override {
-        PluginManifest m;
-        m.name    = "echo";
-        m.version = "1.0.0";
-        m.type    = PluginType::AGENTIC_TOOL;
-        return m;
-    }
-    Result<void> initialize(const std::string& /*config*/) override { return OkVoid(); }
-    Result<void> shutdown()                                override { return OkVoid(); }
+    bool  initialize(const char* /*config_json*/) override { return true; }
+    void  shutdown()                              override {}
+    void* getInstance()                           override { return this; }
 
     // IThemisTool
     json inputSchema()  const override { return {{"type", "object"}}; }
@@ -98,18 +92,13 @@ public:
 /// A non-tool plugin — used to test the ERR_TOOL_PLUGIN_NOT_A_TOOL guard.
 class NotATool : public IThemisPlugin {
 public:
-    std::string getName()    const override { return "not_a_tool"; }
-    std::string getVersion() const override { return "0.0.1"; }
+    const char* getName()    const override { return "not_a_tool"; }
+    const char* getVersion() const override { return "0.0.1"; }
     PluginType  getType()    const override { return PluginType::CUSTOM; }
     PluginCapabilities getCapabilities() const override { return {}; }
-    PluginManifest     getManifest()     const override {
-        PluginManifest m;
-        m.name = "not_a_tool";
-        m.type = PluginType::CUSTOM;
-        return m;
-    }
-    Result<void> initialize(const std::string&) override { return OkVoid(); }
-    Result<void> shutdown()                     override { return OkVoid(); }
+    bool  initialize(const char*) override { return true; }
+    void  shutdown()              override {}
+    void* getInstance()           override { return this; }
 };
 
 // Convenience: build a permissive ModeSpec for dispatch tests.

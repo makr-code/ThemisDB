@@ -186,8 +186,8 @@ std::shared_ptr<IngestionToolbox> ToolboxBuilder::build() {
         auto res = engine->loadProfile(path);
         if (!res) {
             // Non-fatal: log and continue
-            Logger::warn("ToolboxBuilder: failed to load profile '{}': {}",
-                         path, res.error().message());
+            THEMIS_WARN("ToolboxBuilder: failed to load profile '{}': {}",
+                        path, res.error().message());
         }
     }
 

@@ -246,10 +246,18 @@ nlohmann::json DocumentStoreSinkAdapter::serialise(const BaseEntitySet& es) {
     nlohmann::json nodes = nlohmann::json::array();
     for (const auto& e : es.nodes) {
         nlohmann::json ej;
-        ej["id"]         = e.id;
-        ej["type"]       = e.type;
-        ej["label"]      = e.label;
-        ej["source_doc"] = e.source_doc;
+        ej["id"]             = e.id;
+        ej["entity_type"]    = static_cast<int>(e.entity_type);
+        ej["text"]           = e.text;
+        ej["source_file_id"] = e.source_file_id;
+        ej["source_text_ref"] = e.source_text_ref;
+        ej["embeddings"]     = e.embeddings;
+        ej["provenance"] = {
+            {"step_name", e.provenance.step_name},
+            {"plugin_name", e.provenance.plugin_name},
+            {"confidence", e.provenance.confidence},
+            {"extracted_at", e.provenance.extracted_at}
+        };
         nlohmann::json props;
         for (const auto& [k, v] : e.properties) props[k] = v;
         ej["properties"] = std::move(props);
@@ -262,8 +270,11 @@ nlohmann::json DocumentStoreSinkAdapter::serialise(const BaseEntitySet& es) {
         nlohmann::json rj;
         rj["from_id"]       = r.from_id;
         rj["to_id"]         = r.to_id;
-        rj["relation_type"] = r.relation_type;
-        rj["weight"]        = r.weight;
+        rj["relation_type"] = static_cast<int>(r.relation_type);
+        const auto weight_it = r.properties.find("weight");
+        if (weight_it != r.properties.end()) {
+            rj["weight"] = weight_it->second;
+        }
         nlohmann::json rprops;
         for (const auto& [k, v] : r.properties) rprops[k] = v;
         rj["properties"] = std::move(rprops);
@@ -274,11 +285,15 @@ nlohmann::json DocumentStoreSinkAdapter::serialise(const BaseEntitySet& es) {
     nlohmann::json chunks = nlohmann::json::array();
     for (const auto& c : es.chunks) {
         nlohmann::json cj;
-        cj["chunk_id"]    = c.chunk_id;
-        cj["doc_id"]      = c.doc_id;
-        cj["chunk_index"] = c.chunk_index;
-        cj["text"]        = c.text;
-        cj["embedding"]   = c.embedding;
+        cj["chunk_id"]       = c.chunk_id;
+        cj["source_file_id"] = c.source_file_id;
+        cj["text_snippet"]   = c.text_snippet;
+        cj["embedding"]      = c.embedding;
+        cj["metadata"]       = c.metadata;
+        const auto chunk_index_it = c.metadata.find("chunk_index");
+        if (chunk_index_it != c.metadata.end()) {
+            cj["chunk_index"] = chunk_index_it->second;
+        }
         chunks.push_back(std::move(cj));
     }
     j["chunks"] = std::move(chunks);
