@@ -38,7 +38,7 @@ v1.8.2 konsolidiert die seit v1.8.0 ausgelieferten funktionalen Erweiterungen in
 |---|---|
 | [`roadmap.md` — Milestone v1.8.0](../../../roadmap.md) | Basis-Feature-Stand aus v1.8.0 bleibt erhalten |
 | [`docs/de/releases/RELEASE_NOTES_v1.8.1-rc1.md`](./RELEASE_NOTES_v1.8.1-rc1.md) | Vollständige RC1-Welle zwischen v1.8.0 und v1.8.2 referenziert |
-| Modul-Roadmaps (`src/*/ROADMAP.md`) für rag/storage/process/llm/sharding | Post-RC-Erweiterungen durch PRs #4697, #4711, #4713, #4723, #4726 zugeordnet |
+| Modul-Roadmaps ([`src/rag/ROADMAP.md`](../../../src/rag/ROADMAP.md), [`src/storage/ROADMAP.md`](../../../src/storage/ROADMAP.md), [`src/process/ROADMAP.md`](../../../src/process/ROADMAP.md), [`src/llm/ROADMAP.md`](../../../src/llm/ROADMAP.md), [`src/sharding/ROADMAP.md`](../../../src/sharding/ROADMAP.md)) | Post-RC-Erweiterungen durch PRs #4697, #4711, #4713, #4723, #4726 zugeordnet |
 
 ---
 
