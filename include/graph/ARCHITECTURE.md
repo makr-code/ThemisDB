@@ -2,8 +2,8 @@
 <!-- Links: README.md · ROADMAP.md · ../../src/graph/ -->
 
 # Graph Module — Public Header Architecture
-**Version:** 1.4.0  
-**Module Path:** `include/graph/`  
+**Version:** 1.4.0
+**Module Path:** `include/graph/`
 **Implementation:** `../../src/graph/`
 
 ---

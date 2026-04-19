@@ -2,8 +2,8 @@
 <!-- Links: README.md · ROADMAP.md · ../../src/ingestion/ -->
 
 # Ingestion Module — Public Header Architecture
-**Version:** 1.5.1  
-**Module Path:** `include/ingestion/`  
+**Version:** 1.5.1
+**Module Path:** `include/ingestion/`
 **Implementation:** `../../src/ingestion/`
 
 ---

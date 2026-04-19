@@ -2,7 +2,7 @@
 
 # Security — include/themis/
 
-> Security scope, threat model, and mitigations for the public themis core headers.  
+> Security scope, threat model, and mitigations for the public themis core headers.
 > Implementation-level security controls are documented in [`../../src/themis/SECURITY.md`](../../src/themis/SECURITY.md).
 
 ---

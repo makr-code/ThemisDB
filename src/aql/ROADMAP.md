@@ -117,7 +117,7 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [x] Unit tests coverage > 80% (42 unit tests in few-shot library + 3 performance benchmarks + 7 integration tests + 13 injection tests + 1 highlighter path integration test in handler + 14 token-stream tests + 17 agent tests + 28 multimodal tests + 11 async-backend tests)
 - [x] Integration tests (handler ↔ highlighter path covered)
 - [x] Performance benchmarks (few-shot library: findRelevant/buildPromptSection timing tests added; AQLSyntaxHighlighter, AQLConfidenceScorer, and AQLFewShotExampleLibrary benchmarks implemented in `benchmarks/bench_hybrid_aql_sugar.cpp`, Issue: #1523)
-- [x] Security audit (prompt injection prevention via `sanitizePromptInput()` in `translateNLToAQL()`, `translateNLToAQLStreaming()`, and `translateNLToAQLWithExamples()`; AgentTool executor exceptions are caught and returned as JSON error objects)  
+- [x] Security audit (prompt injection prevention via `sanitizePromptInput()` in `translateNLToAQL()`, `translateNLToAQLStreaming()`, and `translateNLToAQLWithExamples()`; AgentTool executor exceptions are caught and returned as JSON error objects)
 - [x] Documentation complete (README.md and ROADMAP.md updated; FUTURE_ENHANCEMENTS.md Implementation Notes added)
 - [x] API stability guaranteed (Issue: #1524)
 

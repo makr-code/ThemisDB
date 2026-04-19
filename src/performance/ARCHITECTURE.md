@@ -3,8 +3,8 @@
 <!-- status: current | validated: 2026-04-06 -->
 <!-- Links: Primary README → src/performance/README.md | Secondary → docs/de/performance/README.md -->
 
-**Version:** 1.1  
-**Last Updated:** 2026-04-06  
+**Version:** 1.1
+**Last Updated:** 2026-04-06
 **Module Path:** `src/performance/`
 
 ---
@@ -100,7 +100,7 @@ THEMIS_SCOPED_CYCLE_TIMER(cycles);
 Large value write (> threshold):
     ├─ Store key + value_ptr in LSM-tree (fast compaction)
     └─ Store value in separate value log (vLog)
-    
+
 Large value read:
     ├─ Lookup key in LSM → get value_ptr
     └─ Direct read of value from vLog (single I/O)

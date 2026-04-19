@@ -3,9 +3,9 @@
 
 # Content Module — Public Header Architecture
 
-**Version:** 1.7.0  
-**Last Updated:** 2026-04-06  
-**Module Path:** `include/content/`  
+**Version:** 1.7.0
+**Last Updated:** 2026-04-06
+**Module Path:** `include/content/`
 **Implementation:** `../../src/content/`
 
 ---

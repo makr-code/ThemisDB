@@ -32,3 +32,21 @@ v0.0.1 — first release 2026-03-22
 
 ## Implementation
 See `../../src/user_storage_encrypted/` for implementation details and `ROADMAP.md` for planned features.
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```
+
+## Usage
+
+Include the relevant headers from this module:
+
+```cpp
+#include "user_storage_encrypted/module_header.h"
+```
+
+See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.

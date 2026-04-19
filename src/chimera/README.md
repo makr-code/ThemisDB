@@ -65,12 +65,12 @@ std::map<std::string, AdapterCreator>& AdapterFactory::get_registry() {
 **Adapter Registration:**
 ```cpp
 bool AdapterFactory::register_adapter(
-    const std::string& system_name, 
+    const std::string& system_name,
     AdapterCreator creator
 ) {
     static std::mutex registry_mutex;
     std::lock_guard<std::mutex> lock(registry_mutex);
-    
+
     auto& registry = get_registry();
     auto result = registry.insert({system_name, creator});
     return result.second; // true if inserted, false if already exists
@@ -156,7 +156,7 @@ Result<RelationalTable> execute_query(
             "Not connected to database"
         );
     }
-    
+
     // Execute AQL query via ThemisDB API
     RelationalTable table;
     // ... populate table from query results
@@ -357,7 +357,7 @@ class ThemisDBAdapter {
 private:
     bool connected_ = false;
     std::string connection_string_;
-    
+
     // Future: Add actual ThemisDB client instance
     // std::unique_ptr<ThemisDBClient> client_;
 };
@@ -404,7 +404,7 @@ try {
 class ThemisDBAdapter : public IDatabaseAdapter {
 private:
     std::unique_ptr<ThemisDBClient> client_;
-    
+
 public:
     Result<bool> connect(
         const std::string& connection_string,
@@ -422,7 +422,7 @@ public:
             );
         }
     }
-    
+
     Result<RelationalTable> execute_query(
         const std::string& query,
         const std::vector<Scalar>& params
@@ -433,7 +433,7 @@ public:
                 "Not connected"
             );
         }
-        
+
         try {
             auto result = client_->executeAQL(query, params);
             RelationalTable table = convert_to_table(result);
@@ -623,7 +623,7 @@ for (const auto& query : benchmark_queries) {
     auto start = std::chrono::high_resolution_clock::now();
     auto result = adapter->execute_query(query.text, query.params);
     auto duration = std::chrono::high_resolution_clock::now() - start;
-    
+
     record_metric(query.name, duration, result.is_ok());
 }
 
@@ -644,7 +644,7 @@ for (const auto& system_name : systems) {
         std::cerr << system_name << " not available" << std::endl;
         continue;
     }
-    
+
     // Run identical benchmark on each system
     run_benchmark(adapter.get(), system_name);
 }
@@ -896,8 +896,8 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md) for guidelines.
 
 ---
 
-*Last Updated: March 2026*  
-*Module Version: v1.1.0 (All Adapters Implemented)*  
+*Last Updated: March 2026*
+*Module Version: v1.1.0 (All Adapters Implemented)*
 *Status: Beta — Simulation Mode; Production Driver Integration Pending*
 
 ## Scientific References
@@ -911,3 +911,7 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md) for guidelines.
 4. Leis, V., Kemper, A., & Neumann, T. (2013). **The Adaptive Radix Tree: ARTful Indexing for Main-Memory Databases**. *Proceedings of the 2013 IEEE International Conference on Data Engineering (ICDE)*, 38–49. https://doi.org/10.1109/ICDE.2013.6544812
 
 5. Raasveldt, M., & Mühleisen, H. (2019). **DuckDB: an Embeddable Analytical Database**. *Proceedings of the 2019 ACM SIGMOD International Conference on Management of Data*, 1981–1984. https://doi.org/10.1145/3299869.3320212
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

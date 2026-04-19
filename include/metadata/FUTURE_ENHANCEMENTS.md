@@ -31,7 +31,7 @@
 ## Planned API Extensions
 
 ### Statistics API
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 ```cpp
@@ -45,13 +45,13 @@ public:
         uint64_t size_bytes;
         std::map<std::string, ColumnStats> columns;
     };
-    
+
     struct ColumnStats {
         size_t distinct_count;
         size_t null_count;
         double selectivity;
     };
-    
+
     Result<TableStats> getStats(const std::string& table_name);
     Result<bool> updateStats(const std::string& table_name);
 };
@@ -62,7 +62,7 @@ public:
 ---
 
 ### Information Schema API
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 ```cpp
@@ -82,8 +82,8 @@ public:
 ---
 
 ### Schema Version API
-**Priority:** Medium  
-**Target Version:** v1.8.0  
+**Priority:** Medium
+**Target Version:** v1.8.0
 **Status:** ✅ Implemented
 
 The `SchemaVersionManager` API is shipped in `include/metadata/schema_version_manager.h`.
@@ -147,8 +147,8 @@ public:
 ---
 
 ### Security & Extensibility Interfaces
-**Priority:** High  
-**Target Version:** v1.6.0  
+**Priority:** High
+**Target Version:** v1.6.0
 **Status:** ✅ Implemented
 
 Three pluggable interface headers shipped in `include/metadata/`:
@@ -219,5 +219,5 @@ The following references underpin the planned API design decisions and design co
 
 ---
 
-*Last Updated: April 2026*  
+*Last Updated: April 2026*
 *Target API Version: v1.6.0*

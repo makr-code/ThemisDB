@@ -1,6 +1,6 @@
-## include/llama_cpp
+# include/llama_cpp
 
-### Scope
+## Scope
 - Improve plugin-host ABI guidance and extension points.
 
 ### Design Constraints

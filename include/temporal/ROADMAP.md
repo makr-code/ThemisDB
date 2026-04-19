@@ -2,7 +2,7 @@
 
 # Roadmap — include/temporal/
 
-> This roadmap covers planned evolution of the **public temporal header API**.  
+> This roadmap covers planned evolution of the **public temporal header API**.
 > Implementation work is tracked in [`../../src/temporal/`](../../src/temporal/).
 
 ---

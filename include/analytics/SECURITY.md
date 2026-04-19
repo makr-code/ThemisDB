@@ -3,7 +3,7 @@
 
 # Security — Analytics Module Public Headers
 
-**Module Path:** `include/analytics/`  
+**Module Path:** `include/analytics/`
 **Implementation Security:** `../../src/analytics/SECURITY.md`
 
 ---

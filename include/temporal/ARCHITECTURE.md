@@ -2,7 +2,7 @@
 
 # Architecture — include/temporal/
 
-> Public-header interface layer for the ThemisDB Temporal subsystem.  
+> Public-header interface layer for the ThemisDB Temporal subsystem.
 > Implementation details live in [`../../src/temporal/`](../../src/temporal/).
 
 ---

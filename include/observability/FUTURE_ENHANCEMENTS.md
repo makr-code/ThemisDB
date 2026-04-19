@@ -49,7 +49,7 @@ Planned extensions to ThemisDB observability API headers.
 ## Enhanced Metrics API
 
 ### OpenTelemetry Metrics API
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Add OpenTelemetry-compatible metrics API alongside Prometheus.
@@ -73,28 +73,28 @@ namespace otel = opentelemetry::metrics;
 class OTelMetricsProvider {
 public:
     static OTelMetricsProvider& getInstance();
-    
+
     // Initialize with configuration
     void initialize(const OTelMetricsConfig& config);
-    
+
     // Get meter for component
     std::shared_ptr<otel::Meter> getMeter(const std::string& component);
-    
+
     // Instrument types
-    std::shared_ptr<otel::Counter<int64_t>> 
+    std::shared_ptr<otel::Counter<int64_t>>
         createCounter(const std::string& name, const std::string& description = "");
-    
+
     std::shared_ptr<otel::UpDownCounter<int64_t>>
         createUpDownCounter(const std::string& name, const std::string& description = "");
-    
+
     std::shared_ptr<otel::Histogram<double>>
         createHistogram(const std::string& name, const std::string& description = "");
-    
+
     std::shared_ptr<otel::ObservableGauge<double>>
-        createObservableGauge(const std::string& name, 
+        createObservableGauge(const std::string& name,
                             std::function<double()> callback,
                             const std::string& description = "");
-    
+
     // Shutdown
     void shutdown();
 };
@@ -129,7 +129,7 @@ latency_histogram->Record(15.5, {{"type", "SELECT"}});
 ---
 
 ### Exemplars Support
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.6.0
 
 Link metrics to traces via exemplars.
@@ -140,7 +140,7 @@ Link metrics to traces via exemplars.
 class MetricsCollector {
 public:
     // ... existing methods ...
-    
+
     /**
      * @brief Record histogram value with exemplar
      * @param name Metric name
@@ -156,7 +156,7 @@ public:
         const std::string& span_id,
         const std::map<std::string, std::string>& labels = {}
     );
-    
+
     /**
      * @brief Get Prometheus metrics with exemplars
      */
@@ -167,7 +167,7 @@ public:
 ---
 
 ### Multi-Dimensional Time Series
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Support for complex metric dimensions and aggregations.
@@ -199,16 +199,16 @@ struct TimeSeriesPoint {
 class TimeSeries {
 public:
     TimeSeries(const std::string& metric_name);
-    
+
     void addPoint(const TimeSeriesPoint& point);
     void addPoints(const std::vector<TimeSeriesPoint>& points);
-    
+
     // Query operations
     std::optional<TimeSeriesPoint> getPointAt(std::chrono::system_clock::time_point time) const;
     std::vector<TimeSeriesPoint> getRange(
         std::chrono::system_clock::time_point start,
         std::chrono::system_clock::time_point end) const;
-    
+
     // Aggregations
     double mean() const;
     double median() const;
@@ -217,18 +217,18 @@ public:
     double min() const;
     double max() const;
     double stddev() const;
-    
+
     // Statistical operations
     TimeSeries movingAverage(std::chrono::seconds window) const;
     TimeSeries exponentialSmoothing(double alpha) const;
     TimeSeries derivative() const;
     TimeSeries rate(std::chrono::seconds interval) const;
-    
+
     // Comparison
     TimeSeries operator+(const TimeSeries& other) const;
     TimeSeries operator-(const TimeSeries& other) const;
     TimeSeries operator*(double scalar) const;
-    
+
     // Export
     json toJSON() const;
     std::string toCSV() const;
@@ -248,12 +248,12 @@ public:
     TimeSeries mean(const std::vector<TimeSeries>& series) const;
     TimeSeries max(const std::vector<TimeSeries>& series) const;
     TimeSeries min(const std::vector<TimeSeries>& series) const;
-    
+
     // Group by labels
     std::map<std::string, TimeSeries> groupBy(
         const std::vector<TimeSeries>& series,
         const std::string& label_key) const;
-    
+
     // Downsample
     TimeSeries downsample(const TimeSeries& series,
                          std::chrono::seconds interval,
@@ -269,7 +269,7 @@ public:
 ## Tracing Enhancements
 
 ### W3C Trace Context
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Full W3C Trace Context support for distributed tracing.
@@ -295,41 +295,41 @@ struct TraceContext {
     std::string parent_id;     // 16 hex chars (64 bits)
     std::string trace_flags;   // 2 hex chars (8 bits)
     std::string version = "00";
-    
+
     // tracestate: vendor-specific key=value pairs
     std::map<std::string, std::string> trace_state;
-    
+
     /**
      * @brief Parse from HTTP headers
      */
     static std::optional<TraceContext> fromHeaders(
         const std::map<std::string, std::string>& headers);
-    
+
     /**
      * @brief Convert to HTTP headers
      */
     std::map<std::string, std::string> toHeaders() const;
-    
+
     /**
      * @brief Create new trace context
      */
     static TraceContext create();
-    
+
     /**
      * @brief Create child span context
      */
     TraceContext createChild() const;
-    
+
     /**
      * @brief Check if trace is sampled
      */
     bool isSampled() const;
-    
+
     /**
      * @brief Set sampled flag
      */
     void setSampled(bool sampled);
-    
+
     /**
      * @brief Validate trace context
      */
@@ -344,7 +344,7 @@ public:
     // Extract context from carrier
     std::optional<TraceContext> extract(
         const std::map<std::string, std::string>& carrier) const;
-    
+
     // Inject context into carrier
     void inject(const TraceContext& context,
                std::map<std::string, std::string>& carrier) const;
@@ -357,7 +357,7 @@ public:
 ---
 
 ### Span Events
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.6.0
 
 Rich span context with events and annotations.
@@ -382,7 +382,7 @@ struct SpanEvent {
     std::string name;
     std::chrono::system_clock::time_point timestamp;
     std::map<std::string, std::string> attributes;
-    
+
     json toJSON() const;
 };
 
@@ -393,7 +393,7 @@ struct SpanLink {
     std::string trace_id;
     std::string span_id;
     std::map<std::string, std::string> attributes;
-    
+
     json toJSON() const;
 };
 
@@ -403,34 +403,34 @@ struct SpanLink {
 class EnhancedSpan : public core::concerns::ITracer::ISpan {
 public:
     // ... existing methods ...
-    
+
     /**
      * @brief Add event to span
      */
     void addEvent(const std::string& name,
                  const std::map<std::string, std::string>& attributes = {});
-    
+
     void addEvent(const SpanEvent& event);
-    
+
     /**
      * @brief Add link to related span
      */
     void addLink(const std::string& trace_id,
                 const std::string& span_id,
                 const std::map<std::string, std::string>& attributes = {});
-    
+
     void addLink(const SpanLink& link);
-    
+
     /**
      * @brief Get all events
      */
     std::vector<SpanEvent> getEvents() const;
-    
+
     /**
      * @brief Get all links
      */
     std::vector<SpanLink> getLinks() const;
-    
+
     /**
      * @brief Export span to JSON
      */
@@ -446,7 +446,7 @@ public:
 ## Advanced Profiling
 
 ### Continuous Profiling
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.6.0
 
 Always-on profiling with minimal overhead.
@@ -482,10 +482,10 @@ struct ProfileSnapshot {
     std::chrono::system_clock::time_point timestamp;
     std::chrono::seconds duration;
     std::vector<uint8_t> data;  // pprof format
-    
+
     // Save to file
     void saveToFile(const std::string& filename) const;
-    
+
     // Load from file
     static ProfileSnapshot loadFromFile(const std::string& filename);
 };
@@ -512,29 +512,29 @@ class ContinuousProfiler {
 public:
     explicit ContinuousProfiler(const ContinuousProfilerConfig& config);
     ~ContinuousProfiler();
-    
+
     // Start profiling
     void start();
-    
+
     // Stop profiling
     void stop();
-    
+
     // Get snapshot
     ProfileSnapshot snapshot(ProfileType type);
-    
+
     // Get all snapshots
     std::vector<ProfileSnapshot> getSnapshots(ProfileType type,
                                              std::chrono::system_clock::time_point start,
                                              std::chrono::system_clock::time_point end);
-    
+
     // Compare profiles
     ProfileDiff compare(const ProfileSnapshot& baseline,
                        const ProfileSnapshot& current);
-    
+
     // Register callback for anomalies
     void registerAnomalyCallback(
         std::function<void(const ProfileSnapshot&, const std::string& anomaly)> callback);
-    
+
     // Enable/disable
     void enable();
     void disable();
@@ -554,7 +554,7 @@ struct ProfileDiff {
     std::vector<std::string> new_hotspots;
     std::vector<std::string> removed_hotspots;
     std::vector<std::string> changed_hotspots;
-    
+
     json toJSON() const;
 };
 
@@ -565,7 +565,7 @@ struct ProfileDiff {
 ---
 
 ### Memory Leak Detection
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Automated memory leak detection and analysis.
@@ -593,7 +593,7 @@ struct LeakCandidate {
     std::vector<std::string> stack_traces;
     std::chrono::system_clock::time_point first_seen;
     std::chrono::system_clock::time_point last_seen;
-    
+
     json toJSON() const;
 };
 
@@ -606,7 +606,7 @@ struct LeakReport {
     std::chrono::system_clock::time_point analysis_time;
     std::string summary;
     std::vector<std::string> recommendations;
-    
+
     json toJSON() const;
     std::string toHumanReadable() const;
 };
@@ -629,26 +629,26 @@ class MemoryLeakDetector {
 public:
     explicit MemoryLeakDetector(const LeakDetectorConfig& config);
     ~MemoryLeakDetector();
-    
+
     // Start monitoring
     void startMonitoring();
-    
+
     // Stop monitoring
     void stopMonitoring();
-    
+
     // Analyze current state
     std::vector<LeakCandidate> detectLeaks();
-    
+
     // Generate detailed report
     LeakReport generateReport();
-    
+
     // Register callback for leak detection
     void registerLeakCallback(
         std::function<void(const LeakCandidate&)> callback);
-    
+
     // Manual heap analysis
     void captureHeapSnapshot();
-    
+
     // Compare heap snapshots
     LeakReport compareSnapshots(const std::string& snapshot1,
                                const std::string& snapshot2);
@@ -667,7 +667,7 @@ private:
 ## Analytics and ML
 
 ### Anomaly Detector
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 ML-based anomaly detection for metrics.
@@ -711,7 +711,7 @@ struct Anomaly {
     std::string severity;     // "low", "medium", "high", "critical"
     std::vector<std::string> contributing_factors;
     std::string explanation;
-    
+
     json toJSON() const;
 };
 
@@ -734,26 +734,26 @@ class AnomalyDetector {
 public:
     explicit AnomalyDetector(const AnomalyDetectorConfig& config);
     ~AnomalyDetector();
-    
+
     // Train on historical data
     void train(const TimeSeries& training_data);
-    
+
     // Detect anomalies
     std::vector<Anomaly> detect(const TimeSeries& data);
-    
+
     // Real-time detection (single point)
     std::optional<Anomaly> detectPoint(double value,
                                       std::chrono::system_clock::time_point timestamp);
-    
+
     // Forecast future values
     TimeSeries forecast(std::chrono::hours horizon);
-    
+
     // Explain anomaly
     std::string explainAnomaly(const Anomaly& anomaly);
-    
+
     // Update model with new data
     void update(const TimeSeries& new_data);
-    
+
     // Save/load model
     void saveModel(const std::string& filename);
     void loadModel(const std::string& filename);
@@ -769,14 +769,14 @@ private:
 class AnomalyAlerter {
 public:
     AnomalyAlerter(AnomalyDetector& detector, Alertmanager& alertmanager);
-    
+
     // Monitor metric and auto-alert
     void monitorMetric(const std::string& metric_name,
                       std::chrono::seconds check_interval = std::chrono::seconds(60));
-    
+
     // Stop monitoring
     void stopMonitoring(const std::string& metric_name);
-    
+
     // Configure alert rules
     void setAlertRule(const std::string& metric_name,
                      const AlertRule& rule);
@@ -801,7 +801,7 @@ struct AlertRule {
 ---
 
 ### Query Recommendation Engine
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 ML-powered query optimization recommendations.
@@ -842,7 +842,7 @@ struct QueryRecommendation {
     std::string confidence;  // "low", "medium", "high"
     std::vector<std::string> affected_queries;
     std::vector<std::string> trade_offs;
-    
+
     json toJSON() const;
 };
 
@@ -855,7 +855,7 @@ struct ImpactAnalysis {
     size_t storage_cost_increase_bytes;
     double cpu_cost_increase_percent;
     std::string risk_level;  // "low", "medium", "high"
-    
+
     json toJSON() const;
 };
 
@@ -866,22 +866,22 @@ class QueryRecommendationEngine {
 public:
     QueryRecommendationEngine();
     ~QueryRecommendationEngine();
-    
+
     // Analyze workload
     void analyzeWorkload(const std::vector<QueryProfile>& profiles);
-    
+
     // Generate recommendations
     std::vector<QueryRecommendation> generateRecommendations();
-    
+
     // Estimate impact
     ImpactAnalysis estimateImpact(const QueryRecommendation& rec);
-    
+
     // Apply recommendation (execute SQL)
     Result<void> applyRecommendation(const QueryRecommendation& rec);
-    
+
     // Revert recommendation
     Result<void> revertRecommendation(const QueryRecommendation& rec);
-    
+
     // Track effectiveness
     void trackEffectiveness(const QueryRecommendation& rec,
                            const std::vector<QueryProfile>& after_profiles);
@@ -900,7 +900,7 @@ private:
 ## New Data Structures
 
 ### Enhanced Histogram
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.6.0
 
 More sophisticated histogram implementation.
@@ -932,13 +932,13 @@ public:
     // Predefined bucket schemes
     static std::vector<double> exponentialBuckets(double start, double factor, size_t count);
     static std::vector<double> linearBuckets(double start, double width, size_t count);
-    
+
     explicit Histogram(const std::vector<double>& buckets);
-    
+
     // Observe value
     void observe(double value);
     void observeMultiple(double value, uint64_t count);
-    
+
     // Query
     uint64_t count() const;
     double sum() const;
@@ -946,16 +946,16 @@ public:
     double percentile(double p) const;
     double min() const;
     double max() const;
-    
+
     // Get buckets
     std::vector<HistogramBucket> getBuckets() const;
-    
+
     // Reset
     void reset();
-    
+
     // Merge
     void merge(const Histogram& other);
-    
+
     // Export
     std::string toPrometheus(const std::string& name,
                             const std::map<std::string, std::string>& labels) const;
@@ -976,10 +976,10 @@ private:
 class ExponentialHistogram {
 public:
     explicit ExponentialHistogram(double scale = 2.0, size_t max_buckets = 160);
-    
+
     void observe(double value);
     double percentile(double p) const;
-    
+
     json toJSON() const;
 
 private:
@@ -999,7 +999,7 @@ private:
 ## Configuration Extensions
 
 ### Dynamic Configuration
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.6.0
 
 Hot-reloadable observability configuration.
@@ -1025,28 +1025,28 @@ struct ObservabilityConfig {
     // Metrics
     bool metrics_enabled = true;
     std::string metrics_endpoint = ":9090/metrics";
-    
+
     // Query profiler
     QueryProfilerConfig query_profiler;
-    
+
     // Storage profiler
     StorageProfilerConfig storage_profiler;
-    
+
     // Performance analyzer
     PerformanceAnalyzerConfig performance_analyzer;
-    
+
     // Alertmanager
     AlertmanagerConfig alertmanager;
-    
+
     // Tracing
     bool tracing_enabled = false;
     std::string tracing_endpoint;
     double tracing_sample_rate = 0.1;
-    
+
     // Convert to/from JSON
     json toJSON() const;
     static ObservabilityConfig fromJSON(const json& j);
-    
+
     // Validate configuration
     std::vector<std::string> validate() const;
 };
@@ -1057,25 +1057,25 @@ struct ObservabilityConfig {
 class ConfigManager {
 public:
     static ConfigManager& getInstance();
-    
+
     // Load configuration
     void loadFromFile(const std::string& filename);
     void loadFromJSON(const json& config);
     void loadFromEnv();
-    
+
     // Get configuration
     ObservabilityConfig getConfig() const;
-    
+
     // Watch for changes
     void watchFile(const std::string& filename,
                   std::chrono::seconds check_interval = std::chrono::seconds(30));
-    
+
     // Register callback for config changes
     void registerCallback(std::function<void(const ObservabilityConfig&)> callback);
-    
+
     // Apply configuration
     void applyConfig(const ObservabilityConfig& config);
-    
+
     // Reload configuration
     void reload();
 

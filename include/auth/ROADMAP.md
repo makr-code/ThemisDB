@@ -3,7 +3,7 @@
 
 # Roadmap — Auth Module Public Headers
 
-**Module Path:** `include/auth/`  
+**Module Path:** `include/auth/`
 **Implementation Roadmap:** `../../src/auth/ROADMAP.md`
 
 ---

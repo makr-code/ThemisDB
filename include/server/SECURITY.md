@@ -5,7 +5,7 @@
 
 ## Scope
 
-This document covers security considerations for the public headers in `include/server/`.  
+This document covers security considerations for the public headers in `include/server/`.
 For implementation-level security analysis see `../../src/server/SECURITY.md`.
 
 ---

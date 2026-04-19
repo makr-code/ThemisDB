@@ -3,9 +3,9 @@
 
 # Security Module — Public Header Architecture
 
-**Version:** 1.0  
-**Last Updated:** 2026-04-06  
-**Header Path:** `include/security/`  
+**Version:** 1.0
+**Last Updated:** 2026-04-06
+**Header Path:** `include/security/`
 **Implementation:** `../../src/security/`
 
 ---

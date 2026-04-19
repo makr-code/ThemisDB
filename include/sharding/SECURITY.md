@@ -2,7 +2,7 @@
 
 # include/sharding/ — Security
 
-> Security scope covers **public header interfaces** of the sharding module.  
+> Security scope covers **public header interfaces** of the sharding module.
 > Runtime security implementation is in [`../../src/sharding/`](../../src/sharding/).
 
 ---

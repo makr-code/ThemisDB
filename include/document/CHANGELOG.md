@@ -3,8 +3,8 @@
 
 # Changelog — Document Module (Public Headers)
 
-All notable changes to the Document module public headers are documented here.  
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).  
+All notable changes to the Document module public headers are documented here.
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 For implementation-level changes see `../../src/document/CHANGELOG.md`.
 
 ## [Unreleased]

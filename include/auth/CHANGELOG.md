@@ -3,7 +3,7 @@
 
 # Changelog — Auth Module Public Headers
 
-All notable changes to public headers in `include/auth/`.  
+All notable changes to public headers in `include/auth/`.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]

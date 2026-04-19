@@ -2,8 +2,8 @@
 <!-- Links: README.md · ROADMAP.md · ../../src/maintenance/ -->
 
 # Maintenance Module — Public Header Architecture
-**Version:** 2.0.0  
-**Module Path:** `include/maintenance/`  
+**Version:** 2.0.0
+**Module Path:** `include/maintenance/`
 **Implementation:** `../../src/maintenance/`
 
 ---

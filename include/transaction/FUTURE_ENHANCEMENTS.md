@@ -48,7 +48,7 @@ public:
         bool enable_predicate_locking = true;
         size_t max_predicate_locks = 10000;
     };
-    
+
     void setSSIConfig(const SSIConfig& config);  // NEW
 };
 ```
@@ -65,10 +65,10 @@ Add version-based operations to Transaction:
 class Transaction {
 public:
     // NEW: Optimistic operations
-    Status optimisticPut(std::string_view table, 
+    Status optimisticPut(std::string_view table,
                         const BaseEntity& entity,
                         uint64_t expected_version);
-    
+
     std::optional<uint64_t> getVersion(std::string_view table,
                                       std::string_view pk);
 };
@@ -77,7 +77,7 @@ public:
 ---
 
 ### Transaction Savepoints
-**Status: ✅ Implemented** (v1.x)  
+**Status: ✅ Implemented** (v1.x)
 **Target Version:** v1.8.0
 
 Named savepoint support is fully implemented in `TransactionManager::Transaction`.  See `createSavepoint`, `rollbackToSavepoint`, `releaseSavepoint`, `getSavepoints`, and `hasSavepoint` in `transaction_manager.h`.
@@ -89,7 +89,7 @@ public:
     Status createSavepoint(std::string_view name);
     Status rollbackToSavepoint(std::string_view name);
     Status releaseSavepoint(std::string_view name);
-    
+
     std::vector<std::string> getSavepoints() const;
     bool hasSavepoint(std::string_view name) const;
 };
@@ -119,7 +119,7 @@ public:
         std::string endpoint;
         std::set<std::string> affected_keys;
     };
-    
+
     struct DistributedTransaction {
         TransactionManager::TransactionId txn_id;
         std::vector<Participant> participants;
@@ -127,18 +127,18 @@ public:
         State state;
         std::chrono::system_clock::time_point timeout;
     };
-    
+
     // Coordinator API
     TransactionManager::TransactionId beginDistributed(
         const std::vector<Participant>& participants
     );
-    
+
     Status prepareDistributed(TransactionManager::TransactionId txn_id);
     Status commitDistributed(TransactionManager::TransactionId txn_id);
     void abortDistributed(TransactionManager::TransactionId txn_id);
-    
+
     // Participant API
-    Status voteOnPrepare(TransactionManager::TransactionId txn_id, 
+    Status voteOnPrepare(TransactionManager::TransactionId txn_id,
                         bool can_commit);
     Status applyCommit(TransactionManager::TransactionId txn_id);
     Status applyAbort(TransactionManager::TransactionId txn_id);
@@ -150,7 +150,7 @@ public:
 ---
 
 ### SAGA Orchestration
-**Status: ✅ Implemented** (v1.8.0)  
+**Status: ✅ Implemented** (v1.8.0)
 **Target Version:** v1.8.0
 
 Implemented in `include/transaction/saga_orchestrator.h` and
@@ -180,15 +180,15 @@ public:
         std::chrono::milliseconds timeout{5000};
         size_t max_retries = 3;
     };
-    
+
     struct SAGADefinition {
         std::string name;
         std::vector<Step> steps;
         bool enable_parallel = true;
     };
-    
+
     Status execute(const SAGADefinition& saga);
-    
+
     struct ExecutionStatus {
         std::string saga_name;
         std::map<std::string, StepState> step_states;
@@ -196,7 +196,7 @@ public:
         size_t failed_steps;
         size_t pending_steps;
     };
-    
+
     ExecutionStatus getStatus(const std::string& saga_id);
 };
 
@@ -227,15 +227,15 @@ public:
         size_t min_batch_size = 10;
         bool enable_adaptive = true;
     };
-    
+
     explicit TransactionBatcher(TransactionManager& txn_mgr);
-    
+
     void setBatchConfig(const BatchConfig& config);
-    
+
     std::future<TransactionManager::Status> submitAsync(
         TransactionManager::Transaction&& txn
     );
-    
+
     void flush();
 };
 
@@ -245,7 +245,7 @@ public:
 ---
 
 ### Transaction Auditing
-**Status: ✅ Implemented** (v1.8.0)  
+**Status: ✅ Implemented** (v1.8.0)
 **Target Version:** v1.8.0
 
 New header: `transaction_auditor.h`
@@ -268,7 +268,7 @@ public:
         std::string session_id;
         std::chrono::system_clock::time_point timestamp;
         IsolationLevel isolation;
-        
+
         struct Operation {
             enum Type { PUT, DELETE, ADD_EDGE, DELETE_EDGE, ADD_VECTOR };
             Type type;
@@ -277,23 +277,23 @@ public:
             std::optional<std::string> old_value;
             std::optional<std::string> new_value;
         };
-        
+
         std::vector<Operation> operations;
-        
+
         enum Result { COMMITTED, ABORTED, DEADLOCK };
         Result result;
         uint64_t duration_us;
     };
-    
+
     void enableAuditing(bool enabled);
-    
+
     std::vector<AuditRecord> queryAuditLog(
         std::optional<std::string> user_id,
         std::optional<std::chrono::system_clock::time_point> start_time,
         std::optional<std::chrono::system_clock::time_point> end_time,
         size_t limit = 1000
     );
-    
+
     Status exportToKafka(const std::string& topic);
     Status exportToS3(const std::string& bucket, const std::string& prefix);
 };
@@ -325,22 +325,22 @@ public:
         std::chrono::microseconds hold_time;
         size_t frequency;
     };
-    
+
     void recordTransaction(
         TransactionManager::TransactionId txn_id,
         const std::vector<std::string>& locks_acquired,
         std::chrono::microseconds duration
     );
-    
+
     double predictDeadlockProbability(
         const std::vector<std::string>& proposed_locks,
         const std::set<TransactionManager::TransactionId>& active_transactions
     );
-    
+
     std::vector<std::string> recommendLockOrder(
         const std::vector<std::string>& keys
     );
-    
+
     std::chrono::milliseconds recommendTimeout(
         const std::vector<std::string>& keys
     );
@@ -387,25 +387,25 @@ class CrossBranchTransaction {
 public:
     explicit CrossBranchTransaction(TransactionManager& txn_mgr,
                                    BranchManager& branch_mgr);
-    
+
     std::optional<BaseEntity> getFromBranch(
         const std::string& branch_name,
         std::string_view table,
         std::string_view pk
     );
-    
+
     TransactionManager::Status putToBranch(
         const std::string& branch_name,
         std::string_view table,
         const BaseEntity& entity
     );
-    
+
     TransactionManager::Status atomicMerge(
         const std::string& source_branch,
         const std::string& target_branch,
         const std::vector<std::string>& keys
     );
-    
+
     TransactionManager::Status commit();
     void rollback();
 };
@@ -432,17 +432,17 @@ public:
         TransactionBuilder& readOnly(bool is_read_only = true);
         TransactionBuilder& timeout(std::chrono::milliseconds timeout);
         TransactionBuilder& withSavepoints(bool enable = true);
-        
+
         // Execute with automatic commit/rollback
         template<typename Fn>
         Status execute(Fn&& fn);
-        
+
         // Traditional begin-commit style
         Transaction begin();
     };
-    
+
     TransactionBuilder transaction();
-    
+
     // Deprecated in v2.0, removed in v3.0
     [[deprecated("Use transaction().begin() instead")]]
     Transaction begin(IsolationLevel isolation = IsolationLevel::ReadCommitted);
@@ -531,16 +531,16 @@ transaction_manager.h (core)
     ├─→ transaction_batcher.h (batching)
     ├─→ transaction_auditor.h (auditing)
     └─→ distributed_transaction_manager.h (2PC)
-    
+
 snapshot_manager.h (versioning)
     ↓
     ├─→ branch_manager.h (branches)
     └─→ merge_engine.h (merging)
-    
+
 saga.h (compensation)
     ↓
     └─→ saga_orchestrator.h (DAG execution)
-    
+
 (NEW) deadlock_predictor.h
 (NEW) cross_branch_transaction.h
 ```
@@ -581,7 +581,7 @@ class TransactionTestFixture : public ::testing::Test {
 protected:
     void SetUp() override;
     void TearDown() override;
-    
+
     std::unique_ptr<TransactionManager> txn_mgr;
     std::unique_ptr<RocksDBWrapper> db;
 };

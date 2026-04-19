@@ -3,7 +3,7 @@
 
 # Changelog — Acceleration Module Public Headers
 
-All notable changes to public headers in `include/acceleration/`.  
+All notable changes to public headers in `include/acceleration/`.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]

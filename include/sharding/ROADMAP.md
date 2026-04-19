@@ -2,7 +2,7 @@
 
 # include/sharding/ — Roadmap
 
-> Public header API evolution roadmap for the ThemisDB Sharding module.  
+> Public header API evolution roadmap for the ThemisDB Sharding module.
 > Implementation roadmap: [`../../src/sharding/`](../../src/sharding/)
 
 ---

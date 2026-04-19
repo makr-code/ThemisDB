@@ -3,7 +3,7 @@
 
 # Roadmap — Cache Module Public Headers
 
-**Module Path:** `include/cache/`  
+**Module Path:** `include/cache/`
 **Implementation Roadmap:** `../../src/cache/ROADMAP.md`
 
 ---

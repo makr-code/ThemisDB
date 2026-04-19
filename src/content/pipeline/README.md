@@ -191,5 +191,9 @@ When extending this module:
 
 ## License
 
-Copyright (c) 2024 ThemisDB  
+Copyright (c) 2024 ThemisDB
 SPDX-License-Identifier: MIT
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

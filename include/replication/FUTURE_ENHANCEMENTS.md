@@ -31,7 +31,7 @@
 ## Planned API Extensions
 
 ### Replication Observability API
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Enhanced API for replication monitoring, diagnostics, and troubleshooting.
@@ -51,11 +51,11 @@ public:
         std::chrono::system_clock::time_point captured_at;
         bool is_critical;  // Exceeds threshold
     };
-    
+
     std::vector<LagSnapshot> getLagSnapshots(
         std::chrono::seconds window = std::chrono::seconds(60)
     ) const;
-    
+
     // Topology visualization
     struct TopologyNode {
         std::string node_id;
@@ -64,9 +64,9 @@ public:
         std::string upstream_source;  // Empty if leader
         bool is_healthy;
     };
-    
+
     std::vector<TopologyNode> getTopology() const;
-    
+
     // Replication bottleneck detection
     struct Bottleneck {
         enum Type { NETWORK, DISK_IO, CPU, MEMORY };
@@ -76,9 +76,9 @@ public:
         std::string description;
         std::vector<std::string> recommendations;
     };
-    
+
     std::vector<Bottleneck> detectBottlenecks() const;
-    
+
     // Replication health score (0-100)
     struct HealthScore {
         int overall_score;
@@ -87,7 +87,7 @@ public:
         int availability_score;
         std::vector<std::string> issues;
     };
-    
+
     HealthScore calculateHealthScore() const;
 };
 
@@ -129,7 +129,7 @@ std::cout << "Health: " << health.overall_score << "/100" << std::endl;
 ---
 
 ### Advanced Conflict Resolution API
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Extensible conflict resolution framework with machine learning support.
@@ -150,7 +150,7 @@ public:
         std::string client_ip;
         std::chrono::system_clock::time_point request_time;
     };
-    
+
     virtual MMWriteEntry resolve(
         const std::string& document_id,
         const std::vector<MMWriteEntry>& conflicting_writes,
@@ -166,21 +166,21 @@ public:
         std::vector<std::string> features;
         double confidence_threshold = 0.85;
     };
-    
+
     explicit MLConflictResolver(const MLConfig& config);
-    
+
     MMWriteEntry resolve(
         const std::string& document_id,
         const std::vector<MMWriteEntry>& conflicting_writes,
         const ResolutionContext& context
     ) override;
-    
+
     // Training interface
     void trainOnHistoricalConflicts(
         const std::vector<ConflictRecord>& conflicts,
         const std::vector<std::string>& ground_truth_winners
     );
-    
+
     double getConfidence() const;
 };
 
@@ -192,13 +192,13 @@ public:
         const std::vector<MMWriteEntry>& conflicting_writes,
         const ResolutionContext& context
     ) override;
-    
+
 private:
     // Find common ancestor
     std::optional<MMWriteEntry> findCommonAncestor(
         const std::vector<MMWriteEntry>& writes
     );
-    
+
     // Perform three-way merge
     std::string mergeThreeWay(
         const std::string& base,
@@ -216,9 +216,9 @@ public:
         LEFT_BIAS,   // Prefer left on conflict
         RIGHT_BIAS   // Prefer right on conflict
     };
-    
+
     explicit FieldLevelMergeResolver(MergeStrategy strategy);
-    
+
     MMWriteEntry resolve(
         const std::string& document_id,
         const std::vector<MMWriteEntry>& conflicting_writes,
@@ -259,7 +259,7 @@ mm_mgr.setConflictResolver("user_profiles", field_merge);
 ---
 
 ### Replication Transaction Coordinator API
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Coordinate distributed transactions across replicated nodes.
@@ -278,25 +278,25 @@ public:
         enum State { PREPARING, PREPARED, COMMITTING, COMMITTED, ABORTING, ABORTED };
         State state;
     };
-    
+
     // Begin distributed transaction
     std::string beginTransaction(
         const std::vector<std::string>& nodes,
         std::chrono::milliseconds timeout = std::chrono::seconds(30)
     );
-    
+
     // Add operation to transaction
     void addOperation(
         const std::string& txn_id,
         const std::string& node,
         const WALEntry& entry
     );
-    
+
     // Two-phase commit
     bool prepareTransaction(const std::string& txn_id);
     bool commitTransaction(const std::string& txn_id);
     void abortTransaction(const std::string& txn_id);
-    
+
     // Query transaction state
     DistributedTransaction getTransaction(const std::string& txn_id) const;
     std::vector<DistributedTransaction> getActiveTransactions() const;
@@ -338,7 +338,7 @@ if (coord.prepareTransaction(txn_id)) {
 ---
 
 ### Replication Policy API
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Flexible replication policies for different data classes.
@@ -352,41 +352,41 @@ class ReplicationPolicy {
 public:
     struct Policy {
         std::string name;
-        
+
         // Replication factor
         uint32_t min_replicas = 2;
         uint32_t desired_replicas = 3;
         uint32_t max_replicas = 5;
-        
+
         // Geographic distribution
         std::vector<std::string> required_datacenters;
         std::vector<std::string> preferred_datacenters;
         uint32_t min_datacenters = 1;
-        
+
         // Consistency
         ReplicationMode mode = ReplicationMode::SEMI_SYNC;
         uint32_t write_quorum = 2;
         uint32_t read_quorum = 1;
-        
+
         // Performance
         uint32_t max_replication_lag_ms = 10000;
         bool enable_compression = false;
         bool enable_encryption = true;
-        
+
         // Retention
         std::chrono::hours wal_retention = std::chrono::hours(168);  // 7 days
         bool enable_pitr = true;
     };
-    
+
     // Define policy
     void definePolicy(const std::string& policy_name, const Policy& policy);
-    
+
     // Assign policy to collection
     void assignPolicy(const std::string& collection, const std::string& policy_name);
-    
+
     // Query policy
     Policy getPolicy(const std::string& collection) const;
-    
+
     // Validate policy (check if achievable with current topology)
     struct ValidationResult {
         bool is_valid;
@@ -439,7 +439,7 @@ if (!validation.is_valid) {
 ---
 
 ### Replication Event Stream API
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Stream replication events for external consumption (CDC, auditing, analytics).
@@ -464,28 +464,28 @@ public:
         LAG_WARNING,
         NETWORK_PARTITION
     };
-    
+
     struct Event {
         EventType type;
         std::chrono::system_clock::time_point timestamp;
         std::string node_id;
         nlohmann::json data;
     };
-    
+
     using EventCallback = std::function<void(const Event&)>;
-    
+
     // Subscribe to events
     uint64_t subscribe(EventType type, EventCallback callback);
     uint64_t subscribeAll(EventCallback callback);
     void unsubscribe(uint64_t subscription_id);
-    
+
     // Query historical events
     std::vector<Event> getEvents(
         std::chrono::system_clock::time_point start,
         std::chrono::system_clock::time_point end,
         std::optional<EventType> filter = std::nullopt
     ) const;
-    
+
     // Export to external systems
     void exportToKafka(const std::string& topic);
     void exportToKinesis(const std::string& stream);
@@ -521,14 +521,14 @@ event_stream.exportToKafka("themisdb.replication.events");
 // Query historical events
 auto start = std::chrono::system_clock::now() - std::chrono::hours(24);
 auto end = std::chrono::system_clock::now();
-auto events = event_stream.getEvents(start, end, 
+auto events = event_stream.getEvents(start, end,
     ReplicationEventStream::FAILOVER_COMPLETED);
 ```
 
 ---
 
 ### Replication Testing API
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 API for testing replication resilience and correctness.
@@ -541,19 +541,19 @@ namespace themisdb::replication {
 class ReplicationTestHarness {
 public:
     // Simulate failures
-    void injectNodeFailure(const std::string& node_id, 
+    void injectNodeFailure(const std::string& node_id,
                           std::chrono::milliseconds duration);
     void injectNetworkPartition(const std::vector<std::string>& partition1,
                                const std::vector<std::string>& partition2,
                                std::chrono::milliseconds duration);
-    void injectLatency(const std::string& node_id, 
+    void injectLatency(const std::string& node_id,
                       std::chrono::milliseconds latency);
     void injectPacketLoss(const std::string& node_id, double loss_rate);
-    
+
     // Chaos testing
     void startChaosMonkey(const ChaosConfig& config);
     void stopChaosMonkey();
-    
+
     // Correctness validation
     struct ValidationResult {
         bool is_consistent;
@@ -561,7 +561,7 @@ public:
         uint64_t checked_documents;
     };
     ValidationResult validateConsistency() const;
-    
+
     // Performance testing
     struct LoadTestResult {
         double throughput_writes_per_sec;
@@ -571,7 +571,7 @@ public:
         uint64_t total_writes;
         uint64_t failed_writes;
     };
-    LoadTestResult runLoadTest(uint32_t duration_sec, 
+    LoadTestResult runLoadTest(uint32_t duration_sec,
                               uint32_t concurrent_writers);
 };
 
@@ -615,7 +615,7 @@ harness.stopChaosMonkey();
 
 // Load testing
 auto load_result = harness.runLoadTest(300, 100);  // 5 min, 100 writers
-std::cout << "Throughput: " << load_result.throughput_writes_per_sec 
+std::cout << "Throughput: " << load_result.throughput_writes_per_sec
           << " writes/sec" << std::endl;
 std::cout << "P99 latency: " << load_result.p99_latency_ms << "ms" << std::endl;
 ```
@@ -772,5 +772,5 @@ auto config = ReplicationConfig::builder()
 - [Replication Implementation](../../src/replication/README.md)
 - [Future Implementation Enhancements](../../src/replication/FUTURE_ENHANCEMENTS.md)
 
-*Last Updated: April 2026*  
+*Last Updated: April 2026*
 *Next Review: v1.6.0 Planning*

@@ -3,7 +3,7 @@
 
 # Roadmap — Core Module Public Headers
 
-**Module Path:** `include/core/`  
+**Module Path:** `include/core/`
 **Implementation Roadmap:** `../../src/core/ROADMAP.md`
 
 ---

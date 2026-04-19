@@ -3,7 +3,7 @@
 
 # Changelog — Core Module Public Headers
 
-All notable changes to public headers in `include/core/`.  
+All notable changes to public headers in `include/core/`.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]

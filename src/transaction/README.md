@@ -169,11 +169,11 @@ Status deleteEdge(std::string_view edgeId);
 **Vector Operations:**
 ```cpp
 // Add vector with entity
-Status addVector(const BaseEntity& entity, 
+Status addVector(const BaseEntity& entity,
                 std::string_view vectorField = "embedding");
 
 // Update existing vector
-Status updateVector(const BaseEntity& entity, 
+Status updateVector(const BaseEntity& entity,
                    std::string_view vectorField = "embedding");
 
 // Remove vector by primary key
@@ -392,21 +392,21 @@ auto result = snapshot_mgr.createSnapshot(
 );
 
 if (result) {
-    std::cout << "Created snapshot at sequence: " 
+    std::cout << "Created snapshot at sequence: "
               << result->sequence_number << std::endl;
 }
 
 // List all snapshots
 auto snapshots = snapshot_mgr.listSnapshots();
 for (const auto& snap : snapshots) {
-    std::cout << snap.tag_name << " @ seq " 
+    std::cout << snap.tag_name << " @ seq "
               << snap.sequence_number << std::endl;
 }
 
 // Get specific snapshot
 auto snap = snapshot_mgr.getSnapshot("pre-deployment-v2.1");
 if (snap) {
-    std::cout << "Created at: " << snap->timestamp_ms 
+    std::cout << "Created at: " << snap->timestamp_ms
               << " by " << snap->created_by << std::endl;
 }
 
@@ -591,7 +591,7 @@ if (result.success) {
 } else {
     std::cout << "Merge failed: " << result.error_message << std::endl;
     std::cout << "Conflicts detected: " << result.conflicts.size() << std::endl;
-    
+
     // Examine conflicts
     for (const auto& conflict : result.conflicts) {
         std::cout << "Conflict on key: " << conflict.key << std::endl;
@@ -755,7 +755,7 @@ txn_mgr.setDeadlockTimeout(std::chrono::seconds(30));
 // Get recent deadlocks
 auto deadlocks = txn_mgr.getDeadlocks(std::chrono::hours(24));
 for (const auto& dl : deadlocks) {
-    std::cout << "Deadlock detected at: " 
+    std::cout << "Deadlock detected at: "
               << dl.detected_at << std::endl;
     std::cout << "Cycle: ";
     for (auto txn_id : dl.cycle) {
@@ -800,17 +800,17 @@ auto stats = txn_mgr.getStatsLockFree();
 // Periodic monitoring
 while (true) {
     auto stats = txn_mgr.getStatsLockFree();
-    
+
     std::cout << "Active: " << stats.active_count << std::endl;
     std::cout << "Committed: " << stats.total_committed << std::endl;
     std::cout << "Aborted: " << stats.total_aborted << std::endl;
     std::cout << "Avg Duration: " << stats.avg_duration_ms << "ms" << std::endl;
-    
+
     // Calculate success rate
     double total = stats.total_committed + stats.total_aborted;
     double success_rate = (stats.total_committed / total) * 100.0;
     std::cout << "Success Rate: " << success_rate << "%" << std::endl;
-    
+
     std::this_thread::sleep_for(std::chrono::seconds(10));
 }
 ```
@@ -1007,9 +1007,9 @@ auto& saga = txn.getSaga();
 try {
     performOperation1();
     saga.addStep("op1", []() { compensateOp1(); });
-    
+
     performOperation2();
-    saga.addStep("op2", []() { 
+    saga.addStep("op2", []() {
         try {
             compensateOp2();
         } catch (const std::exception& e) {
@@ -1017,7 +1017,7 @@ try {
             // Log for manual intervention
         }
     });
-    
+
     txn.commit();
 } catch (const std::exception& e) {
     // SAGA compensates automatically
@@ -1038,12 +1038,12 @@ if (!result.success) {
     if (!result.conflicts.empty()) {
         // Handle conflicts
         THEMIS_WARN("Merge conflicts detected: {}", result.conflicts.size());
-        
+
         for (const auto& conflict : result.conflicts) {
             THEMIS_INFO("Conflict on key: {}", conflict.key);
             // Resolve manually or use different strategy
         }
-        
+
         // Retry with MANUAL resolution
         auto manual_result = merge_engine.merge(
             "feature-branch",
@@ -1076,7 +1076,7 @@ ctest -R transaction_test -V
 ./tests/test_savepoints        # named and anonymous savepoint tests (20 cases)
 ```
 
-### Integration Tests
+## Integration Tests
 ```bash
 # End-to-end transaction tests
 ./tests/transaction_integration_test
@@ -1088,7 +1088,7 @@ ctest -R transaction_test -V
 ./tests/saga_integration_test
 ```
 
-### Performance Benchmarks
+## Performance Benchmarks
 ```bash
 # Transaction throughput benchmark (includes savepoint benchmarks)
 ./benchmarks/bench_transaction_throughput
@@ -1158,32 +1158,32 @@ THEMIS_MAX_SNAPSHOTS=1000
 THEMIS_SNAPSHOT_CLEANUP_DAYS=90
 ```
 
-### Config File (YAML)
+## Config File (YAML)
 ```yaml
 transaction:
   isolation_level: ReadCommitted  # or Snapshot
-  
+
   deadlock_detection:
     enabled: true
     timeout_ms: 30000
     check_interval_ms: 100
-  
+
   limits:
     max_transaction_size: 1000
     max_active_transactions: 10000
     cleanup_interval_secs: 600
     cleanup_max_age_secs: 3600
-  
+
   saga:
     max_steps: 100
     compensation_timeout_ms: 5000
     enable_logging: true
-  
+
   snapshots:
     max_count: 1000
     cleanup_days: 90
     auto_cleanup: true
-  
+
   branches:
     max_branches: 100
     default_branch: "main"
@@ -1259,3 +1259,7 @@ Copyright © 2024 ThemisDB Contributors. Licensed under Apache 2.0.
 4. Garcia-Molina, H., & Salem, K. (1987). **Sagas**. *Proceedings of the 1987 ACM SIGMOD International Conference on Management of Data*, 249–259. https://doi.org/10.1145/38713.38742
 
 5. Herlihy, M., & Wing, J. M. (1990). **Linearizability: A Correctness Condition for Concurrent Objects**. *ACM Transactions on Programming Languages and Systems*, 12(3), 463–492. https://doi.org/10.1145/78969.78972
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

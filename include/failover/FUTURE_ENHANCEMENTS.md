@@ -1,6 +1,6 @@
-## include/failover
+# include/failover
 
-### Scope
+## Scope
 - API extensibility for advanced failover policies and DR automation.
 
 ### Design Constraints

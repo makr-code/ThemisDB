@@ -2,8 +2,8 @@
 
 # Changelog — include/temporal/
 
-All notable changes to the **public temporal headers** are documented here.  
-Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).  
+All notable changes to the **public temporal headers** are documented here.
+Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 For implementation-level changes see [`../../src/temporal/CHANGELOG.md`](../../src/temporal/CHANGELOG.md).
 
 ---

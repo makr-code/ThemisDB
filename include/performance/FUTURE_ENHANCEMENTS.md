@@ -34,7 +34,7 @@
 ## Planned Header Additions
 
 ### Advanced Profiling Headers
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.8.0
 
 New headers for advanced profiling and diagnostics.
@@ -55,20 +55,20 @@ class Profiler {
 public:
     // Start profiling session
     void start_session(const std::string& name);
-    
+
     // End profiling session
     void end_session();
-    
+
     // Profile scope (RAII)
     class ScopedProfile {
     public:
         ScopedProfile(const std::string& name);
         ~ScopedProfile();
     };
-    
+
     // Export flamegraph
     std::string export_flamegraph() const;
-    
+
     // Export perf-compatible format
     void export_perf_format(const std::string& filename) const;
 };
@@ -102,18 +102,18 @@ struct AllocationInfo {
 class MemoryProfiler {
 public:
     // Track allocation
-    void track_allocation(void* ptr, size_t size, 
+    void track_allocation(void* ptr, size_t size,
                          const char* file, int line);
-    
+
     // Track deallocation
     void track_deallocation(void* ptr);
-    
+
     // Get live allocations
     std::vector<AllocationInfo> get_live_allocations() const;
-    
+
     // Detect leaks
     std::vector<AllocationInfo> detect_leaks() const;
-    
+
     // Memory usage statistics
     struct MemoryStats {
         size_t total_allocated;
@@ -123,7 +123,7 @@ public:
         size_t allocation_count;
         size_t deallocation_count;
     };
-    
+
     MemoryStats get_stats() const;
 };
 
@@ -157,23 +157,23 @@ class CacheProfiler {
 public:
     // Start cache profiling
     void start();
-    
+
     // Stop cache profiling
     void stop();
-    
+
     // Get cache statistics
     CacheStats get_stats() const;
-    
+
     // Get optimization suggestions
     std::vector<std::string> suggest_optimizations() const;
-    
+
     // Detect false sharing
     struct FalseSharingInfo {
         void* address;
         std::vector<int> thread_ids;
         uint64_t contention_count;
     };
-    
+
     std::vector<FalseSharingInfo> detect_false_sharing() const;
 };
 
@@ -183,7 +183,7 @@ public:
 ---
 
 ### Hardware-Specific Optimization Headers
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.9.0
 
 Headers for platform-specific optimizations.
@@ -244,21 +244,21 @@ class GPUAllocator {
 public:
     // Allocate GPU memory
     void* allocate(size_t size, MemoryType type = MemoryType::DEVICE);
-    
+
     // Deallocate GPU memory
     void deallocate(void* ptr);
-    
+
     // Copy between host and device
     void copy_to_device(void* device_ptr, const void* host_ptr, size_t size);
     void copy_to_host(void* host_ptr, const void* device_ptr, size_t size);
-    
+
     // Get GPU memory info
     struct GPUMemoryInfo {
         size_t total_memory;
         size_t free_memory;
         size_t used_memory;
     };
-    
+
     GPUMemoryInfo get_memory_info() const;
 };
 
@@ -285,29 +285,29 @@ class NUMAAllocator {
 public:
     // Get NUMA topology
     static NUMATopology get_topology();
-    
+
     // Get current NUMA node
     static int get_current_node();
-    
+
     // Allocate on specific node
     void* allocate_on_node(size_t size, int node);
-    
+
     // Allocate on local node
     void* allocate_local(size_t size);
-    
+
     // Migrate memory to different node
     void migrate_to_node(void* ptr, size_t size, int target_node);
-    
+
     // Bind thread to NUMA node
     static void bind_thread_to_node(int node);
-    
+
     // NUMA statistics
     struct NUMAStats {
         uint64_t local_accesses;
         uint64_t remote_accesses;
         double locality_ratio;
     };
-    
+
     NUMAStats get_stats() const;
 };
 
@@ -317,7 +317,7 @@ public:
 ---
 
 ### Lock-Free Data Structure Headers
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.9.0
 
 Additional lock-free data structures for high-performance concurrency.
@@ -338,18 +338,18 @@ template<typename T>
 class LockFreeQueue {
 public:
     explicit LockFreeQueue(size_t capacity);
-    
+
     // Enqueue (lock-free)
     bool enqueue(const T& item);
     bool enqueue(T&& item);
-    
+
     // Dequeue (lock-free)
     std::optional<T> dequeue();
-    
+
     // Check if empty/full
     bool empty() const;
     bool full() const;
-    
+
     // Get size (approximate)
     size_t size() const;
 };
@@ -373,13 +373,13 @@ public:
     // Push (lock-free)
     void push(const T& item);
     void push(T&& item);
-    
+
     // Pop (lock-free)
     std::optional<T> pop();
-    
+
     // Check if empty
     bool empty() const;
-    
+
     // Get size (approximate)
     size_t size() const;
 };
@@ -401,13 +401,13 @@ template<typename T>
 class WaitFreeSPSCQueue {
 public:
     explicit WaitFreeSPSCQueue(size_t capacity);
-    
+
     // Enqueue (wait-free for single producer)
     bool enqueue(const T& item);
-    
+
     // Dequeue (wait-free for single consumer)
     std::optional<T> dequeue();
-    
+
     // Check status
     bool empty() const;
     bool full() const;
@@ -420,7 +420,7 @@ public:
 ---
 
 ### Advanced Cache Management Headers
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.9.0
 
 Enhanced cache management capabilities.
@@ -449,18 +449,18 @@ template<typename Key, typename Value>
 class AdaptiveCache {
 public:
     AdaptiveCache(size_t capacity, CachePolicy initial_policy = CachePolicy::AUTO);
-    
+
     // Get/Put operations
     std::optional<Value> get(const Key& key);
     void put(const Key& key, const Value& value);
-    
+
     // Policy control
     void set_policy(CachePolicy policy);
     CachePolicy get_policy() const;
-    
+
     // Auto-tuning
     void enable_auto_tuning(bool enabled = true);
-    
+
     // Statistics
     struct CacheStats {
         size_t hits;
@@ -470,7 +470,7 @@ public:
         size_t entries;
         size_t bytes_used;
     };
-    
+
     CacheStats get_stats() const;
 };
 
@@ -491,18 +491,18 @@ class BloomFilter {
 public:
     // Create with expected elements and false positive rate
     BloomFilter(size_t expected_elements, double false_positive_rate);
-    
+
     // Add element
     void add(const void* data, size_t len);
-    
+
     // Check membership (may have false positives)
     bool contains(const void* data, size_t len) const;
-    
+
     // Statistics
     size_t size_bytes() const;
     double estimated_fpp() const;
     size_t element_count() const;
-    
+
     // Clear
     void clear();
 };
@@ -513,7 +513,7 @@ public:
 ---
 
 ### Performance Counter Headers
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v2.0.0
 
 Hardware performance counter access.
@@ -552,13 +552,13 @@ class PerfCounters {
 public:
     // Start counting
     void start(const std::vector<PerfCounterType>& counters);
-    
+
     // Stop counting
     void stop();
-    
+
     // Get counter value
     uint64_t get(PerfCounterType counter) const;
-    
+
     // Get all counters
     struct CounterValues {
         uint64_t cycles;
@@ -567,9 +567,9 @@ public:
         double ipc;  // Instructions per cycle
         double cache_miss_rate;
     };
-    
+
     CounterValues get_all() const;
-    
+
     // Reset counters
     void reset();
 };
@@ -580,7 +580,7 @@ public:
 ---
 
 ### Compression and Encoding Headers
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v2.0.0
 
 Fast compression for in-memory data.
@@ -608,22 +608,22 @@ class FastCompression {
 public:
     // Compress data
     std::vector<uint8_t> compress(
-        const void* data, 
+        const void* data,
         size_t size,
         CompressionAlgorithm algo = CompressionAlgorithm::LZ4);
-    
+
     // Decompress data
     std::vector<uint8_t> decompress(
         const void* compressed_data,
         size_t compressed_size,
         CompressionAlgorithm algo = CompressionAlgorithm::LZ4);
-    
+
     // Get compression ratio
     double get_compression_ratio(
         const void* data,
         size_t size,
         CompressionAlgorithm algo) const;
-    
+
     // Benchmark algorithms
     CompressionAlgorithm select_best_algorithm(
         const void* sample_data,
@@ -638,7 +638,7 @@ public:
 ## Header Organization Improvements
 
 ### Namespace Restructuring
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v2.0.0
 
 Better organize headers into sub-namespaces:
@@ -663,7 +663,7 @@ Combine related small headers into larger, more cohesive headers while maintaini
 ## Documentation Improvements
 
 ### Interactive Examples
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v2.1.0
 
 Add interactive Jupyter notebooks demonstrating:
@@ -685,7 +685,7 @@ Automated API documentation using Doxygen with:
 ## Testing Infrastructure
 
 ### Header-Only Unit Tests
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.9.0
 
 Add header-only test utilities:
@@ -715,7 +715,7 @@ struct ComparisonResult {
 };
 
 template<typename BaselineFunc, typename OptimizedFunc>
-ComparisonResult compare(BaselineFunc&& baseline, 
+ComparisonResult compare(BaselineFunc&& baseline,
                          OptimizedFunc&& optimized,
                          size_t iterations = 1000);
 
@@ -727,7 +727,7 @@ ComparisonResult compare(BaselineFunc&& baseline,
 ## Integration Improvements
 
 ### Better CMake Integration
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.8.0
 
 Improved CMake functions for performance feature configuration:
@@ -746,7 +746,7 @@ themis_configure_performance(my_target
 )
 ```
 
-### Package Manager Support
+## Package Manager Support
 Support for vcpkg, Conan, and other package managers with performance optimizations as optional dependencies.
 
 ---
@@ -754,7 +754,7 @@ Support for vcpkg, Conan, and other package managers with performance optimizati
 ## Platform Support Expansion
 
 ### Additional Platforms
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v2.0.0
 
 Extend platform support:
@@ -812,8 +812,8 @@ Maintain experimental branch for cutting-edge research implementations before pr
 
 ---
 
-**Last Updated**: 2026-04-06  
-**Status**: Living document - updated quarterly  
+**Last Updated**: 2026-04-06
+**Status**: Living document - updated quarterly
 **Maintainers**: ThemisDB Performance Team
 
 ---

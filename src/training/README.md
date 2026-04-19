@@ -1,8 +1,8 @@
 # Training Module
 
-**Status:** 🟢 Production-Ready  
-**Version:** 1.6.0  
-**Last Validated:** 2026-04-06  
+**Status:** 🟢 Production-Ready
+**Version:** 1.6.0
+**Last Validated:** 2026-04-06
 **Module Path:** `src/training/` / `include/training/`
 
 ---
@@ -314,3 +314,7 @@ The module provides production-ready AQL-executor integration for document label
 4. Dettmers, T., Pagnoni, A., Holtzman, A., & Zettlemoyer, L. (2023). **QLoRA: Efficient Finetuning of Quantized LLMs**. *Advances in Neural Information Processing Systems (NeurIPS)*, 36. https://arxiv.org/abs/2305.14314
 
 5. Liao, S., Martelot, E., Coates, A., Darby, T., Gong, B., Zhang, F., & Natsev, A. (2023). **LIMA: Less Is More for Alignment**. *Advances in Neural Information Processing Systems (NeurIPS)*, 36. https://arxiv.org/abs/2305.11206
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

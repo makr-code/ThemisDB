@@ -57,7 +57,7 @@ namespace security {
 
 /**
  * @brief CRYSTALS-Kyber key encapsulation mechanism
- * 
+ *
  * NIST-approved post-quantum algorithm for key exchange.
  * Provides 256-bit security level against quantum attacks.
  */
@@ -68,23 +68,23 @@ public:
         KYBER_768,   // 192-bit quantum security
         KYBER_1024   // 256-bit quantum security (recommended)
     };
-    
+
     explicit KyberKEM(SecurityLevel level = SecurityLevel::KYBER_1024);
-    
+
     // Generate key pair
     struct KeyPair {
         std::vector<uint8_t> public_key;
         std::vector<uint8_t> secret_key;
     };
     KeyPair generateKeyPair();
-    
+
     // Encapsulate (generate shared secret + ciphertext)
     struct EncapsulationResult {
         std::vector<uint8_t> ciphertext;
         std::vector<uint8_t> shared_secret;
     };
     EncapsulationResult encapsulate(const std::vector<uint8_t>& public_key);
-    
+
     // Decapsulate (recover shared secret)
     std::vector<uint8_t> decapsulate(const std::vector<uint8_t>& ciphertext,
                                      const std::vector<uint8_t>& secret_key);
@@ -92,7 +92,7 @@ public:
 
 /**
  * @brief CRYSTALS-Dilithium digital signatures
- * 
+ *
  * NIST-approved post-quantum signature algorithm.
  */
 class DilithiumSigner {
@@ -102,20 +102,20 @@ public:
         DILITHIUM_3,  // 192-bit quantum security
         DILITHIUM_5   // 256-bit quantum security (recommended)
     };
-    
+
     explicit DilithiumSigner(SecurityLevel level = SecurityLevel::DILITHIUM_5);
-    
+
     // Generate signing key pair
     struct KeyPair {
         std::vector<uint8_t> public_key;
         std::vector<uint8_t> secret_key;
     };
     KeyPair generateKeyPair();
-    
+
     // Sign message
     std::vector<uint8_t> sign(const std::vector<uint8_t>& message,
                               const std::vector<uint8_t>& secret_key);
-    
+
     // Verify signature
     bool verify(const std::vector<uint8_t>& message,
                const std::vector<uint8_t>& signature,
@@ -124,20 +124,20 @@ public:
 
 /**
  * @brief Hybrid encryption (classical + post-quantum)
- * 
+ *
  * Combines AES-256-GCM with Kyber-1024 for defense-in-depth.
  */
 class HybridEncryption : public FieldEncryption {
 public:
     explicit HybridEncryption(std::shared_ptr<KeyProvider> key_provider);
-    
+
     // Encrypt with both classical and post-quantum keys
-    EncryptedBlob encrypt(const std::string& key_id, 
+    EncryptedBlob encrypt(const std::string& key_id,
                          const std::string& plaintext) override;
-    
+
     // Decrypt (works if either key is compromised)
     std::string decrypt(const EncryptedBlob& blob) override;
-    
+
 private:
     KyberKEM kyber_;
 };
@@ -163,7 +163,7 @@ namespace security {
 
 /**
  * @brief zkSNARK proof system for verifiable computation
- * 
+ *
  * Prove correctness of computation without revealing inputs.
  */
 class ZKProofSystem {
@@ -174,7 +174,7 @@ public:
         std::vector<uint8_t> verification_key;
     };
     Keys setup(const std::string& circuit);
-    
+
     // Generate proof
     struct Proof {
         std::vector<uint8_t> proof_data;
@@ -182,7 +182,7 @@ public:
     };
     Proof prove(const std::vector<uint8_t>& proving_key,
                const std::vector<uint8_t>& witness);
-    
+
     // Verify proof
     bool verify(const std::vector<uint8_t>& verification_key,
                const Proof& proof);
@@ -199,10 +199,10 @@ public:
         std::vector<uint8_t> proof_data;
     };
     Proof proveInRange(int64_t value, int64_t min, int64_t max);
-    
+
     // Verify range proof
     bool verify(const Proof& proof, int64_t min, int64_t max);
-    
+
     // Example: Age verification (>= 18) without revealing exact age
     Proof proveAgeMinimum(int64_t age, int64_t minimum = 18);
 };
@@ -218,15 +218,15 @@ public:
         int64_t timestamp;
     };
     Challenge generateChallenge(const std::string& username);
-    
+
     // User proves knowledge of password without sending it
     struct Proof {
         std::vector<uint8_t> response;
     };
     Proof provePassword(const std::string& password, const Challenge& challenge);
-    
+
     // Verify proof
-    bool verifyProof(const std::string& username, 
+    bool verifyProof(const std::string& username,
                     const Challenge& challenge,
                     const Proof& proof);
 };
@@ -254,7 +254,7 @@ namespace security {
 
 /**
  * @brief Distributed Key Generation (DKG)
- * 
+ *
  * Generate keys across multiple parties without single point of trust.
  */
 class DistributedKeyGenerator {
@@ -264,7 +264,7 @@ public:
         int total_shares;     // Total shares to generate
         std::vector<std::string> participant_ids;
     };
-    
+
     // Key share for one participant
     struct KeyShare {
         std::string participant_id;
@@ -272,17 +272,17 @@ public:
         std::vector<uint8_t> share_data;
         std::vector<uint8_t> verification_data;
     };
-    
+
     // Generate shares (coordinator runs this)
     std::vector<KeyShare> generateShares(const std::string& key_id,
                                          const DKGConfig& config);
-    
+
     // Reconstruct key from threshold shares
     std::vector<uint8_t> reconstructKey(const std::vector<KeyShare>& shares);
-    
+
     // Verify share is valid
     bool verifyShare(const KeyShare& share);
-    
+
     // Refresh shares (change shares without changing key)
     std::vector<KeyShare> refreshShares(const std::vector<KeyShare>& old_shares);
 };
@@ -296,21 +296,21 @@ public:
         int threshold;      // Minimum signatures required
         int total_parties;  // Total signing parties
     };
-    
+
     // Partial signature from one party
     struct PartialSignature {
         std::string party_id;
         std::vector<uint8_t> partial_sig;
     };
-    
+
     // Sign with one share
     PartialSignature signPartial(const std::vector<uint8_t>& message,
                                  const DistributedKeyGenerator::KeyShare& share);
-    
+
     // Combine partial signatures
     std::vector<uint8_t> combineSignatures(
         const std::vector<PartialSignature>& partials);
-    
+
     // Verify combined signature
     bool verify(const std::vector<uint8_t>& message,
                const std::vector<uint8_t>& signature,
@@ -327,16 +327,16 @@ public:
         uint32_t party_id;
         std::vector<uint8_t> share_data;
     };
-    
+
     // Share value across parties
-    std::vector<Share> share(const std::vector<uint8_t>& input, 
+    std::vector<Share> share(const std::vector<uint8_t>& input,
                             int num_parties);
-    
+
     // Compute function on shares (e.g., sum, average, max)
     enum class ComputeOp { SUM, AVERAGE, MAX, MIN };
     std::vector<Share> compute(const std::vector<std::vector<Share>>& inputs,
                                ComputeOp operation);
-    
+
     // Reconstruct result
     std::vector<uint8_t> reconstruct(const std::vector<Share>& shares);
 };
@@ -369,10 +369,10 @@ class SGXEnclave {
 public:
     // Create enclave
     bool create(const std::string& enclave_path);
-    
+
     // Destroy enclave
     void destroy();
-    
+
     // Execute code in enclave
     struct EnclaveResult {
         std::vector<uint8_t> output;
@@ -380,13 +380,13 @@ public:
     };
     EnclaveResult executeSecure(const std::string& function_name,
                                 const std::vector<uint8_t>& input);
-    
+
     // Seal data to enclave (encrypted with CPU key)
     std::vector<uint8_t> seal(const std::vector<uint8_t>& plaintext);
-    
+
     // Unseal data
     std::vector<uint8_t> unseal(const std::vector<uint8_t>& sealed_data);
-    
+
     // Generate attestation report
     struct AttestationReport {
         std::vector<uint8_t> report_data;
@@ -394,7 +394,7 @@ public:
         std::string enclave_hash;
     };
     AttestationReport generateAttestation();
-    
+
     // Verify attestation
     bool verifyAttestation(const AttestationReport& report);
 };
@@ -406,14 +406,14 @@ class SEVProtection {
 public:
     // Enable SEV for VM
     bool enableSEV(const std::string& vm_id);
-    
+
     // Get attestation token
     struct AttestationToken {
         std::vector<uint8_t> measurement;
         std::vector<uint8_t> signature;
     };
     AttestationToken getAttestation(const std::string& vm_id);
-    
+
     // Verify VM integrity
     bool verifyVM(const AttestationToken& token);
 };
@@ -428,17 +428,17 @@ public:
         std::string operation_name;
         std::vector<uint8_t> input;
     };
-    
+
     struct SecureResult {
         std::vector<uint8_t> output;
         bool success;
     };
     SecureResult executeSecure(const SecureOperation& op);
-    
+
     // Store key in secure storage
     bool storeKeySecure(const std::string& key_id,
                        const std::vector<uint8_t>& key);
-    
+
     // Retrieve key from secure storage
     std::optional<std::vector<uint8_t>> getKeySecure(const std::string& key_id);
 };
@@ -452,10 +452,10 @@ public:
     bool sealKeyToTPM(const std::string& key_id,
                      const std::vector<uint8_t>& key,
                      const std::vector<uint32_t>& pcr_indices);
-    
+
     // Unseal key (only if PCRs match)
     std::optional<std::vector<uint8_t>> unsealKey(const std::string& key_id);
-    
+
     // Generate attestation quote
     struct AttestationQuote {
         std::vector<uint8_t> quote;
@@ -463,7 +463,7 @@ public:
         std::vector<uint32_t> pcr_values;
     };
     AttestationQuote quote(const std::vector<uint8_t>& nonce);
-    
+
     // Verify quote
     bool verifyQuote(const AttestationQuote& quote,
                     const std::vector<uint8_t>& nonce);
@@ -498,7 +498,7 @@ public:
     // User behavior profile
     struct UserBehavior {
         std::string user_id;
-        
+
         // Query patterns
         struct QueryPattern {
             std::string query_type;
@@ -506,7 +506,7 @@ public:
             std::vector<std::string> typical_collections;
         };
         std::vector<QueryPattern> query_patterns;
-        
+
         // Access patterns
         struct AccessPattern {
             std::string resource;
@@ -514,7 +514,7 @@ public:
             std::vector<std::string> typical_locations;
         };
         std::vector<AccessPattern> access_patterns;
-        
+
         // Time profile
         struct TimeProfile {
             std::vector<int> active_hours;
@@ -522,10 +522,10 @@ public:
         };
         TimeProfile time_profile;
     };
-    
+
     // Learn normal behavior from audit logs
     void train(const std::vector<AuditEvent>& events);
-    
+
     // Anomaly score (0.0 = normal, 1.0 = highly anomalous)
     struct AnomalyScore {
         double score;
@@ -533,7 +533,7 @@ public:
         std::vector<std::string> anomaly_factors;
     };
     AnomalyScore scoreEvent(const AuditEvent& event);
-    
+
     // Detect anomalies in real-time
     struct SecurityAlert {
         std::string user_id;
@@ -560,22 +560,22 @@ public:
         DENIAL_OF_SERVICE,
         UNKNOWN
     };
-    
+
     struct ThreatClassification {
         ThreatType type;
         double confidence;
         std::string explanation;
     };
-    
+
     // Train model on labeled data
     void train(const std::vector<LabeledEvent>& training_data);
-    
+
     // Classify new event
     ThreatClassification classify(const AuditEvent& event);
-    
+
     // Adaptive learning (update model with new threats)
     void updateModel(const std::vector<ConfirmedThreat>& new_threats);
-    
+
     // Model metrics
     struct ModelMetrics {
         double accuracy;
@@ -598,13 +598,13 @@ public:
         enum class Severity { LOW, MEDIUM, HIGH, CRITICAL } severity;
         enum class Action { LOG, ALERT, BLOCK } action;
     };
-    
+
     // Load detection rules (Snort/Suricata format)
     void loadRules(const std::vector<Rule>& rules);
-    
+
     // Process event in real-time
     void processEvent(const AuditEvent& event);
-    
+
     // Security incident
     struct SecurityIncident {
         Rule triggered_rule;
@@ -612,11 +612,11 @@ public:
         std::chrono::system_clock::time_point timestamp;
         bool blocked;
     };
-    
+
     // Get incidents
     std::vector<SecurityIncident> getIncidents(
         std::chrono::system_clock::time_point since);
-    
+
     // Auto-response
     void triggerResponse(const SecurityIncident& incident);
 };
@@ -651,20 +651,20 @@ public:
         double epsilon;  // Privacy budget (smaller = more private)
         double delta;    // Probability of privacy breach
     };
-    
+
     // Add calibrated noise to query result
     template<typename T>
     T addNoise(T value, const PrivacyParams& params);
-    
+
     // Check privacy budget
     bool checkBudget(const std::string& dataset, double epsilon);
-    
+
     // Consume privacy budget
     void consumeBudget(const std::string& dataset, double epsilon);
-    
+
     // Reset budget (new analysis period)
     void resetBudget(const std::string& dataset);
-    
+
     // Composition (calculate combined epsilon)
     double computeComposedEpsilon(const std::vector<double>& epsilons);
 };
@@ -679,11 +679,11 @@ public:
         double epsilon;
         std::string method;  // "DP-GAN", "PATE", "PrivBayes"
     };
-    
+
     // Generate synthetic dataset
     Dataset generateSynthetic(const Dataset& original,
                              const PrivacyParams& params);
-    
+
     // Validate quality
     struct QualityMetrics {
         double statistical_similarity;
@@ -705,25 +705,25 @@ public:
         struct Ciphertext {
             std::vector<uint8_t> data;
         };
-        
+
         Ciphertext encrypt(int64_t plaintext);
         int64_t decrypt(const Ciphertext& ciphertext);
-        
+
         // Homomorphic operations
         Ciphertext add(const Ciphertext& a, const Ciphertext& b);
         Ciphertext multiplyConstant(const Ciphertext& ct, int64_t constant);
     };
-    
+
     // Fully homomorphic (Microsoft SEAL)
     class FullyHomomorphic {
     public:
         struct Ciphertext {
             std::vector<uint8_t> data;
         };
-        
+
         Ciphertext encrypt(int64_t plaintext);
         int64_t decrypt(const Ciphertext& ciphertext);
-        
+
         // Arbitrary arithmetic
         Ciphertext add(const Ciphertext& a, const Ciphertext& b);
         Ciphertext multiply(const Ciphertext& a, const Ciphertext& b);
@@ -763,9 +763,9 @@ public:
         std::string secret_access_key;
         std::string role_arn;  // Optional: assume role
     };
-    
+
     explicit AWSKMSProvider(const Config& config);
-    
+
     // Envelope encryption
     struct EnvelopeKey {
         std::vector<uint8_t> plaintext_key;
@@ -773,7 +773,7 @@ public:
         std::string key_arn;
     };
     EnvelopeKey generateDataKey(const std::string& key_arn);
-    
+
     // Encrypt/decrypt with KMS
     std::vector<uint8_t> encrypt(const std::vector<uint8_t>& plaintext,
                                  const std::string& key_arn) override;
@@ -792,9 +792,9 @@ public:
         std::string client_id;
         std::string client_secret;
     };
-    
+
     explicit AzureKeyVaultProvider(const Config& config);
-    
+
     // Wrap/unwrap keys
     std::vector<uint8_t> wrapKey(const std::vector<uint8_t>& key,
                                  const std::string& vault_key_name) override;
@@ -813,9 +813,9 @@ public:
         std::string key_ring;
         std::string credentials_path;
     };
-    
+
     explicit GCPKMSProvider(const Config& config);
-    
+
     // Asymmetric operations
     std::vector<uint8_t> asymmetricEncrypt(
         const std::vector<uint8_t>& plaintext,

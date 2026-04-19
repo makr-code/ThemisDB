@@ -1,6 +1,6 @@
-## include/chaos
+# include/chaos
 
-### Scope
+## Scope
 - Future API additions for distributed chaos orchestration.
 
 ### Design Constraints

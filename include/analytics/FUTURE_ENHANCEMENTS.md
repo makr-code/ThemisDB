@@ -56,7 +56,7 @@ The following public API additions are now available in `include/analytics/`:
 ## Planned Features
 
 ### GPU-Accelerated Analytics
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Hardware-accelerated analytics using NVIDIA GPUs and CUDA for massive performance improvements.
@@ -95,7 +95,7 @@ auto result = engine.execute(query);  // Automatically offloads to GPU
 ---
 
 ### Advanced Graph Analytics
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Extended graph analytics algorithms for deep network analysis.
@@ -147,8 +147,8 @@ auto embeddings = analytics.node2vec({
 ---
 
 ### Real-Time Anomaly Detection
-**Priority:** High  
-**Status:** ✅ Implemented (v1.7.0)  
+**Priority:** High
+**Status:** ✅ Implemented (v1.7.0)
 **Target Version:** v1.7.0
 
 ML-based anomaly detection for streaming data and historical analysis.
@@ -192,7 +192,7 @@ if (score > 0.7) {  // Threshold
 // Batch detection
 auto anomalies = detector.predictBatch(dataset);
 for (const auto& anomaly : anomalies) {
-    std::cout << "Anomaly at index " << anomaly.index 
+    std::cout << "Anomaly at index " << anomaly.index
               << " with score " << anomaly.score << std::endl;
 }
 ```
@@ -205,8 +205,8 @@ for (const auto& anomaly : anomalies) {
 ---
 
 ### Predictive Analytics and Forecasting
-**Status:** ✅ Core implemented (v1.7.0) — extended algorithms planned (v1.9.0)  
-**Priority:** High  
+**Status:** ✅ Core implemented (v1.7.0) — extended algorithms planned (v1.9.0)
+**Priority:** High
 **Target Version (extensions):** v1.9.0
 
 Core time-series forecasting and predictive modeling is **available now** in `analytics/forecasting.h`.
@@ -284,7 +284,7 @@ ForecastModel restored = ForecastModel::deserialize(state);
 ---
 
 ### Advanced Statistical Analysis
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Extended statistical functions and hypothesis testing.
@@ -319,7 +319,7 @@ if (ttest.p_value < 0.05) {
 
 // Correlation analysis
 auto corr = Statistics::correlation(x, y, CorrelationMethod::PEARSON);
-std::cout << "Correlation: " << corr.coefficient 
+std::cout << "Correlation: " << corr.coefficient
           << " (p=" << corr.p_value << ")\n";
 
 // Linear regression
@@ -331,7 +331,7 @@ auto predictions = model.predict(X_test);
 ---
 
 ### Spatial Analytics Enhancements
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Advanced geospatial analytics and operations.
@@ -379,8 +379,8 @@ auto interpolated = spatial.kriging("temperature_sensors", {
 ---
 
 ### AutoML for Analytics
-**Priority:** Medium  
-**Status:** ✅ Implemented in `src/analytics/automl.cpp` (v0.1.0)  
+**Priority:** Medium
+**Status:** ✅ Implemented in `src/analytics/automl.cpp` (v0.1.0)
 **Target Version:** v1.9.0 (originally planned; delivered early)
 
 Automated machine learning for analytics tasks.
@@ -430,7 +430,7 @@ for (const auto& exp : explanations) {
 ---
 
 ### Native Apache Arrow Integration
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Complete Apache Arrow C++ integration for zero-copy analytics.
@@ -469,7 +469,7 @@ auto aggregated = arrow::compute::GroupBy(filtered, {"region"}, {
 ---
 
 ### Federated Analytics
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.9.0
 
 Execute analytics queries across multiple ThemisDB instances or external databases.
@@ -505,8 +505,8 @@ auto result = fed.execute(R"(
 ---
 
 ### Stream Processing Enhancements
-**Priority:** High  
-**Status:** ✅ CEP engine implemented (v1.7.0); configurable intervals added (v1.8.0)  
+**Priority:** High
+**Status:** ✅ CEP engine implemented (v1.7.0); configurable intervals added (v1.8.0)
 **Target Version:** v1.7.0
 
 Enhanced complex event processing capabilities.
@@ -549,8 +549,8 @@ auto result = engine.executeSQL(R"(
 ---
 
 ### Incremental Materialized Views
-**Priority:** High  
-**Status:** ✅ Implemented (v1.7.0)  
+**Priority:** High
+**Status:** ✅ Implemented (v1.7.0)
 **Target Version:** v1.7.0
 
 Automatically maintain OLAP aggregations with incremental updates.
@@ -592,7 +592,7 @@ auto result = engine.execute(olap_query);  // Rewritten to use view
 ## Performance Optimizations
 
 ### Query Compilation (LLVM)
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.8.0
 
 JIT-compile analytics queries to native code.
@@ -608,7 +608,7 @@ JIT-compile analytics queries to native code.
 ---
 
 ### Adaptive Query Execution
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Runtime query plan adjustment based on actual statistics.
@@ -624,7 +624,7 @@ Runtime query plan adjustment based on actual statistics.
 ---
 
 ### Column-Store Optimization
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Native columnar storage for analytics workloads.
@@ -642,7 +642,7 @@ Native columnar storage for analytics workloads.
 ## Integration Enhancements
 
 ### Data Science Integration
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Seamless integration with data science tools.
@@ -657,7 +657,7 @@ Seamless integration with data science tools.
 ---
 
 ### BI Tool Integration
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Native connectors for business intelligence tools.
@@ -674,7 +674,7 @@ Native connectors for business intelligence tools.
 ## Research Areas
 
 ### Quantum Analytics
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** Research
 
 Explore quantum computing for specific analytics tasks.
@@ -687,7 +687,7 @@ Explore quantum computing for specific analytics tasks.
 ---
 
 ### Neuromorphic Analytics
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** Research
 
 Brain-inspired computing for pattern recognition.

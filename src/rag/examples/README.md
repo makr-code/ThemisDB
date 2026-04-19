@@ -27,3 +27,12 @@ Calls to planned IMPL-A2/A3/B9 APIs are marked with `/* PLANNED */` comments.
 - Issue spec: `docs/issues/optimization_layers/IMPL-B9-explainability.md`
 - Research paper: `docs/en/research/THEMISDB_LORA_RESEARCH_PAPER.md`
 - Module ROADMAP: `include/rag/ROADMAP.md` §Phase 9
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/rag/README.md`](../../include/rag/README.md) for the public API.

@@ -3,7 +3,7 @@
 
 # Security — AQL Module Public Headers
 
-**Module Path:** `include/aql/`  
+**Module Path:** `include/aql/`
 **Implementation Security:** `../../src/aql/SECURITY.md`
 
 ---

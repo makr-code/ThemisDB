@@ -31,7 +31,7 @@
 ## Planned Features
 
 ### Distributed Transactions with Raft
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Replace single-node RocksDB transactions with Raft-based distributed consensus.
@@ -60,7 +60,7 @@ tx->commit();  // Atomically commits across shards via Raft
 ---
 
 ### Tiered Storage (Hot/Warm/Cold)
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Automatic data migration between storage tiers based on access patterns.
@@ -88,7 +88,7 @@ tiered.applyPolicies();  // Automatically migrates data between tiers
 ---
 
 ### GPU-Accelerated Compression
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Hardware-accelerated compression/decompression using NVIDIA GPUs.
@@ -111,7 +111,7 @@ Hardware-accelerated compression/decompression using NVIDIA GPUs.
 ---
 
 ### Erasure Coding for Blob Storage
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Replace RAID-1 mirroring with Reed-Solomon erasure coding for space efficiency.
@@ -147,12 +147,12 @@ auto reconstructed = encoder.decode(available_chunks);
 ---
 
 ### Zero-Copy Large Value Access
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Memory-mapped access to BlobDB without copying into memory.
 
-**Current:** Read large value → Copy to buffer → Return to caller  
+**Current:** Read large value → Copy to buffer → Return to caller
 **Target:** Memory-map .blob file → Return pointer to mapped region
 
 **API:**
@@ -169,7 +169,7 @@ size_t size = map.size();
 ---
 
 ### Automatic Index Recommendation
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 ML-based index recommendation based on query patterns.
@@ -198,7 +198,7 @@ for (auto& rec : recommendations) {
 ---
 
 ### Online Schema Evolution
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Add/remove columns without blocking reads/writes.
@@ -214,7 +214,7 @@ Add/remove columns without blocking reads/writes.
 SchemaEvolution evolution(storage);
 
 // Add column without downtime
-evolution.addColumn("users", "phone_number", ColumnType::STRING, 
+evolution.addColumn("users", "phone_number", ColumnType::STRING,
                     /*default_value=*/"", /*nullable=*/true);
 // Reads continue with old schema, writes use new schema
 // Background backfill process adds default values
@@ -228,7 +228,7 @@ evolution.deprecateColumn("users", "legacy_field");
 ---
 
 ### Write-Optimized Columnar Format
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Hybrid row-column storage for analytics workloads.
@@ -258,12 +258,12 @@ GROUP BY user_id;
 ## Performance Optimizations
 
 ### Adaptive Compaction Scheduling
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Machine learning model to predict optimal compaction timing.
 
-**Current:** Fixed compaction triggers based on level sizes  
+**Current:** Fixed compaction triggers based on level sizes
 **Target:** Adaptive triggers based on workload characteristics
 
 **Approach:**
@@ -277,7 +277,7 @@ Machine learning model to predict optimal compaction timing.
 ---
 
 ### NUMA-Aware Memory Allocation
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Optimize memory allocation for multi-socket NUMA systems.
@@ -293,7 +293,7 @@ Optimize memory allocation for multi-socket NUMA systems.
 ---
 
 ### Intel QuickAssist Integration
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.9.0
 
 Hardware-accelerated compression and encryption via Intel QAT.
@@ -307,12 +307,12 @@ Hardware-accelerated compression and encryption via Intel QAT.
 ---
 
 ### Bloom Filter Optimization
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Adaptive Bloom filter sizing based on working set.
 
-**Current:** Fixed false positive rate (1%)  
+**Current:** Fixed false positive rate (1%)
 **Target:** Dynamic FP rate based on cache hit ratio
 
 **Logic:**
@@ -325,7 +325,7 @@ Adaptive Bloom filter sizing based on working set.
 ---
 
 ### Transparent Huge Pages Support
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Leverage 2MB/1GB huge pages for block cache.
@@ -349,7 +349,7 @@ config.memtable_use_huge_pages = true;
 ## Refactoring Opportunities
 
 ### Separate BlobDB into Standalone Library
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Extract blob storage into independent library for reuse.
@@ -375,12 +375,12 @@ libthemis-blob/
 ---
 
 ### Unified Transaction Interface
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Abstract transaction API supporting both local and distributed TX.
 
-**Current:** Separate APIs for RocksDB transactions and distributed TX  
+**Current:** Separate APIs for RocksDB transactions and distributed TX
 **Target:** Unified ITransaction interface
 
 **Benefits:**
@@ -391,7 +391,7 @@ Abstract transaction API supporting both local and distributed TX.
 ---
 
 ### Pluggable Storage Backend
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.9.0
 
 Abstract storage interface to support backends beyond RocksDB.
@@ -417,7 +417,7 @@ public:
 ---
 
 ### Decouple Encryption from Storage
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Move encryption logic from StorageEngine to dedicated layer.
@@ -433,7 +433,7 @@ Move encryption logic from StorageEngine to dedicated layer.
 ## Known Issues
 
 ### Issue #1: Write Amplification on Small Updates
-**Severity:** Medium  
+**Severity:** Medium
 **Reported:** v1.5.0
 
 Point updates to large documents cause full document rewrite.
@@ -445,7 +445,7 @@ Point updates to large documents cause full document rewrite.
 // Amplification: 10MB+ written for 10-byte update
 ```
 
-**Workaround:** Use separate keys for frequently updated fields  
+**Workaround:** Use separate keys for frequently updated fields
 **Fix:** Delta encoding for document updates (v1.7.0)
 
 **Planned Fix:** v1.7.0 - Implement delta compression for document updates
@@ -453,15 +453,15 @@ Point updates to large documents cause full document rewrite.
 ---
 
 ### Issue #2: Backup Verification Performance
-**Severity:** Low  
+**Severity:** Low
 **Reported:** v1.5.1
 
 Backup verification (`verifyBackup()`) is slow for large databases.
 
-**Current:** O(N) checksum validation of all SSTables  
+**Current:** O(N) checksum validation of all SSTables
 **Impact:** Hours for multi-TB databases
 
-**Workaround:** Skip verification or verify in background  
+**Workaround:** Skip verification or verify in background
 **Fix:** Incremental verification with sampling
 
 **Planned Fix:** v1.7.0
@@ -469,7 +469,7 @@ Backup verification (`verifyBackup()`) is slow for large databases.
 ---
 
 ### Issue #3: BlobDB Compaction Stalls
-**Severity:** High  
+**Severity:** High
 **Reported:** v1.5.2
 
 RocksDB compaction can stall waiting for BlobDB garbage collection.
@@ -478,7 +478,7 @@ RocksDB compaction can stall waiting for BlobDB garbage collection.
 - Write stalls during heavy BlobDB usage
 - "Stall due to compaction" messages in logs
 
-**Workaround:** Increase `max_background_jobs` and `blob_gc_force_threshold`  
+**Workaround:** Increase `max_background_jobs` and `blob_gc_force_threshold`
 **Fix:** Decouple BlobDB GC from SSTable compaction
 
 **Planned Fix:** v1.6.1 (hotfix planned)
@@ -486,14 +486,14 @@ RocksDB compaction can stall waiting for BlobDB garbage collection.
 ---
 
 ### Issue #4: Key Schema Migration Complexity
-**Severity:** Medium  
+**Severity:** Medium
 **Reported:** v1.5.0
 
 Migrating between key schema versions requires full database rewrite.
 
 **Example:** Changing from `doc:collection:id` to `doc:v2:collection:id`
 
-**Workaround:** Use key rewriting during compaction  
+**Workaround:** Use key rewriting during compaction
 **Fix:** Lazy migration with transparent key translation
 
 **Planned Fix:** v1.7.0
@@ -501,14 +501,14 @@ Migrating between key schema versions requires full database rewrite.
 ---
 
 ### Issue #5: Async I/O on Windows
-**Severity:** Low  
+**Severity:** Low
 **Reported:** v1.4.2
 
 Async I/O optimizations not available on Windows platform.
 
 **Impact:** 30-50% slower scans on Windows vs Linux
 
-**Workaround:** Use Linux/WSL2 for production  
+**Workaround:** Use Linux/WSL2 for production
 **Fix:** Implement Windows IOCP-based async I/O
 
 **Planned Fix:** v1.8.0
@@ -745,8 +745,8 @@ Have ideas for storage module improvements? Open an issue or discussion:
 
 ---
 
-*Last Updated: April 2026*  
-*Module Version: v1.5.x*  
+*Last Updated: April 2026*
+*Module Version: v1.5.x*
 *Next Review: v1.7.0 Release*
 
 ## Test Strategy

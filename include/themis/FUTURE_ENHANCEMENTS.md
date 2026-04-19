@@ -29,7 +29,7 @@
 ## Planned Features
 
 ### Dynamic Module Hot-Reload
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Support for reloading modules without restarting the server.
@@ -74,7 +74,7 @@ if (loader.supportsHotReload("themis_storage")) {
 ---
 
 ### Module Dependency Graph
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Automatic dependency resolution and load ordering for modules.
@@ -130,7 +130,7 @@ loader.exportDependencyGraph("dependencies.dot");
 ---
 
 ### Edition Upgrade at Runtime
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Support for upgrading editions without recompilation (license-based activation).
@@ -156,7 +156,7 @@ auto license = activator.loadLicense("enterprise_license.lic");
 // Activate features
 if (activator.activate(license)) {
     std::cout << "Upgraded to " << license.edition << std::endl;
-    
+
     // Features now available
     if (edition::IsFeatureEnabled("field_encryption")) {
         // Enterprise features activated
@@ -186,7 +186,7 @@ std::cout << "Licensed to: " << active.organization << std::endl;
 ---
 
 ### Build Reproducibility
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Ensure builds are reproducible for security auditing.
@@ -238,7 +238,7 @@ build_info::exportBuildManifest("build_manifest.json");
 ---
 
 ### Module Sandboxing
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Isolate modules in sandboxes to prevent malicious code execution.
@@ -294,7 +294,7 @@ std::cout << "CPU: " << stats.cpu_percent << "%" << std::endl;
 ---
 
 ### Wire Protocol V2
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Enhanced wire protocol with improved performance and features.
@@ -358,7 +358,7 @@ server.start();
 ---
 
 ### License Server Integration
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Online license validation and management.
@@ -404,7 +404,7 @@ lease.checkin();  // Return license to pool
 ---
 
 ### Module Plugin API
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Standardized plugin API for third-party extensions.
@@ -416,17 +416,17 @@ namespace themis::plugin {
 class IPlugin {
 public:
     virtual ~IPlugin() = default;
-    
+
     // Plugin metadata
     virtual std::string getName() const = 0;
     virtual std::string getVersion() const = 0;
     virtual std::string getAuthor() const = 0;
     virtual std::string getDescription() const = 0;
-    
+
     // Lifecycle
     virtual bool initialize(PluginContext& context) = 0;
     virtual void shutdown() = 0;
-    
+
     // Capabilities
     virtual std::vector<std::string> getProvidedServices() const = 0;
     virtual std::vector<std::string> getRequiredServices() const = 0;
@@ -457,7 +457,7 @@ extern "C" {
     THEMIS_PLUGIN_API themis::plugin::IPlugin* createPlugin() {
         return new MyCustomStoragePlugin();
     }
-    
+
     THEMIS_PLUGIN_API void destroyPlugin(themis::plugin::IPlugin* plugin) {
         delete plugin;
     }
@@ -481,7 +481,7 @@ if (plugin->initialize(context)) {
 ---
 
 ### Build-Time Optimization Selection
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Select optimizations at build time for specific use cases.
@@ -515,8 +515,8 @@ if (config.optimization_profile == "LATENCY") {
 
 ---
 
-### Wire Protocol Compression Algorithms
-**Priority:** Medium  
+## Wire Protocol Compression Algorithms
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Additional compression algorithms for wire protocol.
@@ -564,7 +564,7 @@ Dictionary  | 10x+  | 200 MB/s   | 600 MB/s     | Repeated data
 ---
 
 ### Module Telemetry
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Comprehensive telemetry for module health and performance.
@@ -619,8 +619,8 @@ themis_module_errors_total{module="themis_storage",type="io_error"} 5
 
 ---
 
-### License Key Rotation
-**Priority:** Medium  
+## License Key Rotation
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Support for rotating license keys without downtime.
@@ -649,7 +649,7 @@ manager.removeLicense("OLD-LICENSE-KEY");
 ---
 
 ### Module Capability Negotiation
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Dynamic capability negotiation between modules.
@@ -728,7 +728,7 @@ namespace themis {
 ## Security Enhancements
 
 ### Trusted Execution Environment (TEE)
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.9.0
 
 Support for Intel SGX and AMD SEV for module isolation.
@@ -742,7 +742,7 @@ Support for Intel SGX and AMD SEV for module isolation.
 ---
 
 ### Module Signing with HSM
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Sign modules using Hardware Security Modules.

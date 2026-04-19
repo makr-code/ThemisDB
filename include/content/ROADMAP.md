@@ -3,7 +3,7 @@
 
 # Roadmap — Content Module Public Headers
 
-**Module Path:** `include/content/`  
+**Module Path:** `include/content/`
 **Implementation Roadmap:** `../../src/content/ROADMAP.md`
 
 ---

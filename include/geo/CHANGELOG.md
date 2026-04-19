@@ -3,8 +3,8 @@
 
 # Changelog — Geo Module (Public Headers)
 
-All notable changes to the Geo module public headers are documented here.  
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).  
+All notable changes to the Geo module public headers are documented here.
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 For implementation-level changes see `../../src/geo/CHANGELOG.md`.
 
 ## [Unreleased]

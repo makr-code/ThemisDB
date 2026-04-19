@@ -29,8 +29,8 @@
 ## Planned API Extensions
 
 ### ~~System-Versioned Table API~~ ✅ Implemented (v1.1.0)
-**Priority:** High  
-**Target Version:** v1.1.0  
+**Priority:** High
+**Target Version:** v1.1.0
 **Status:** ✅ **Delivered** — `include/temporal/system_versioned_table.h`
 
 Public API for system-versioned temporal tables.
@@ -68,7 +68,7 @@ const Config& getConfig() const noexcept;
 ---
 
 ### Time-Travel Query API
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.2.0
 
 API for temporal queries with time-travel capabilities.
@@ -82,14 +82,14 @@ namespace temporal {
 class TemporalQueryEngine {
 public:
     explicit TemporalQueryEngine(RocksDBWrapper* storage);
-    
+
     // Query as of specific time
     Result<std::vector<Document>> queryAsOf(
         const std::string& table_name,
         const std::string& query,
         const Timestamp& as_of_time
     );
-    
+
     // Query all versions in range
     Result<std::vector<VersionedDocument>> queryFromTo(
         const std::string& table_name,
@@ -97,14 +97,14 @@ public:
         const Timestamp& from_time,
         const Timestamp& to_time
     );
-    
+
     // Query with temporal predicates
     Result<std::vector<Document>> queryWithTemporal(
         const std::string& table_name,
         const std::string& query,
         const TemporalPredicate& predicate
     );
-    
+
     // Temporal join
     Result<std::vector<Document>> temporalJoin(
         const std::string& left_table,
@@ -166,7 +166,7 @@ auto assignments = engine.temporalJoin(
 ---
 
 ### Retention Policy API
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.3.0
 
 Configurable retention policies for historical data.
@@ -180,29 +180,29 @@ namespace temporal {
 class RetentionManager {
 public:
     explicit RetentionManager(RocksDBWrapper* storage);
-    
+
     // Set retention policy
     Result<bool> setPolicy(
         const std::string& table_name,
         const RetentionPolicy& policy
     );
-    
+
     // Get current policy
     Result<RetentionPolicy> getPolicy(
         const std::string& table_name
     ) const;
-    
+
     // Enforce retention (manual trigger)
     Result<RetentionStats> enforceRetention(
         const std::string& table_name
     );
-    
+
     // Schedule automatic enforcement
     Result<bool> scheduleEnforcement(
         const std::string& table_name,
         std::chrono::seconds interval
     );
-    
+
     // Archive before deletion
     Result<bool> archiveHistory(
         const std::string& table_name,
@@ -220,20 +220,20 @@ enum class RetentionType {
 
 struct RetentionPolicy {
     RetentionType type;
-    
+
     // Time-based retention
     std::chrono::seconds retention_period;
-    
+
     // Storage-based retention
     uint64_t max_storage_bytes;
-    
+
     // Version count-based retention
     size_t max_versions_per_key;
-    
+
     // Archiving options
     bool archive_before_delete = false;
     std::string archive_location;
-    
+
     // Custom predicate
     std::function<bool(const VersionedDocument&)> should_keep;
 };
@@ -274,7 +274,7 @@ std::cout << "Deleted " << stats.versions_deleted << " versions, "
 ---
 
 ### Temporal Index API
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.2.0
 
 Specialized indexes for temporal queries.
@@ -288,27 +288,27 @@ namespace temporal {
 class TemporalIndexManager {
 public:
     explicit TemporalIndexManager(RocksDBWrapper* storage);
-    
+
     // Create temporal index
     Result<std::string> createIndex(
         const std::string& table_name,
         const std::string& index_name,
         const TemporalIndexSpec& spec
     );
-    
+
     // Drop temporal index
     Result<bool> dropIndex(
         const std::string& table_name,
         const std::string& index_name
     );
-    
+
     // Query using temporal index
     Result<std::vector<VersionedDocument>> queryIndex(
         const std::string& index_name,
         const TimeRange& range,
         const std::vector<Filter>& filters = {}
     );
-    
+
     // Get index statistics
     Result<IndexStats> getIndexStats(
         const std::string& index_name
@@ -327,7 +327,7 @@ struct TemporalIndexSpec {
     std::vector<std::string> indexed_columns;
     bool include_current_data = true;
     bool include_history = true;
-    
+
     // Index options
     bool create_covering_index = false;
     std::vector<std::string> included_columns;
@@ -376,7 +376,7 @@ std::cout << "Avg lookup: " << stats.avg_lookup_time.count() << "μs" << std::en
 ---
 
 ### Snapshot Isolation API
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.1.0
 
 Transaction-level snapshot isolation for temporal queries.
@@ -390,24 +390,24 @@ namespace temporal {
 class SnapshotManager {
 public:
     explicit SnapshotManager(RocksDBWrapper* storage);
-    
+
     // Create consistent snapshot
     Result<SnapshotHandle> createSnapshot(
         const std::vector<std::string>& tables = {}
     );
-    
+
     // Query using snapshot
     Result<std::vector<Document>> querySnapshot(
         const SnapshotHandle& snapshot,
         const std::string& table_name,
         const std::string& query
     );
-    
+
     // Release snapshot (free resources)
     Result<bool> releaseSnapshot(
         const SnapshotHandle& snapshot
     );
-    
+
     // Get snapshot metadata
     Result<SnapshotMetadata> getSnapshotMetadata(
         const SnapshotHandle& snapshot
@@ -419,7 +419,7 @@ struct SnapshotHandle {
     Timestamp creation_time;
     uint64_t version_number;
     std::vector<std::string> included_tables;
-    
+
     // Comparison for ordering
     bool operator<(const SnapshotHandle& other) const;
 };
@@ -467,7 +467,7 @@ snapshot_mgr.releaseSnapshot(*snapshot);
 ---
 
 ### Bi-Temporal API
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.2.0
 
 Support for both transaction time and application-defined valid time.
@@ -484,27 +484,27 @@ public:
         const std::string& table_name,
         RocksDBWrapper* storage
     );
-    
+
     // Insert with valid time period
     Result<bool> insertWithValidTime(
         const Document& doc,
         const ValidTimePeriod& valid_time
     );
-    
+
     // Update for specific valid time period
     Result<bool> updateForPeriod(
         const std::string& key,
         const Document& updates,
         const ValidTimePeriod& period
     );
-    
+
     // Query with both time dimensions
     Result<std::vector<Document>> queryBiTemporal(
         const std::string& query,
         const Timestamp& transaction_time,
         const ValidTimePeriod& valid_time
     );
-    
+
     // Detect overlapping valid time periods
     Result<std::vector<Document>> findOverlaps(
         const std::string& key,
@@ -515,7 +515,7 @@ public:
 struct ValidTimePeriod {
     Timestamp valid_from;
     Timestamp valid_to;
-    
+
     bool overlaps(const ValidTimePeriod& other) const;
     bool contains(const Timestamp& t) const;
     bool precedes(const ValidTimePeriod& other) const;
@@ -540,7 +540,7 @@ contracts.insertWithValidTime(
     contract_period
 );
 
-// Query: "What did we know on 2024-06-01 about contracts 
+// Query: "What did we know on 2024-06-01 about contracts
 // valid on 2024-08-15?"
 auto results = contracts.queryBiTemporal(
     "SELECT * WHERE amount > 10000",
@@ -552,7 +552,7 @@ auto results = contracts.queryBiTemporal(
 ---
 
 ### Temporal Aggregation API
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.3.0
 
 Aggregations over temporal data with windowing.
@@ -566,7 +566,7 @@ namespace temporal {
 class TemporalAggregator {
 public:
     explicit TemporalAggregator(RocksDBWrapper* storage);
-    
+
     // Aggregate over time windows
     Result<std::vector<AggregateResult>> aggregateOverWindows(
         const std::string& table_name,
@@ -575,7 +575,7 @@ public:
         const WindowSpec& window_spec,
         const TimeRange& range
     );
-    
+
     // Calculate trends
     Result<TrendAnalysis> analyzeTrend(
         const std::string& table_name,
@@ -583,7 +583,7 @@ public:
         const TimeRange& range,
         TrendMethod method = TrendMethod::LINEAR_REGRESSION
     );
-    
+
     // Moving average
     Result<std::vector<MovingAveragePoint>> movingAverage(
         const std::string& table_name,
@@ -746,7 +746,7 @@ class LegacyMigrator {
 public:
     // Migrate v1.0 snapshots to v1.1 format
     Result<bool> migrateSnapshots();
-    
+
     // Convert manual history to system-versioned
     Result<bool> convertToSystemVersioned(
         const std::string& table_name,
@@ -791,6 +791,6 @@ public:
 
 ---
 
-*Last Updated: April 2026*  
-*Target API Version: v2.0.0*  
+*Last Updated: April 2026*
+*Target API Version: v2.0.0*
 *Current Stable: v1.0.0*

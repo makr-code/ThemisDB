@@ -3,9 +3,9 @@
 
 # AQL Module — Public Header Architecture
 
-**Version:** 1.8.0  
-**Last Updated:** 2026-04-06  
-**Module Path:** `include/aql/`  
+**Version:** 1.8.0
+**Last Updated:** 2026-04-06
+**Module Path:** `include/aql/`
 **Implementation:** `../../src/aql/`
 
 ---

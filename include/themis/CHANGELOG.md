@@ -2,8 +2,8 @@
 
 # Changelog — include/themis/
 
-All notable changes to the **public themis core headers** are documented here.  
-Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).  
+All notable changes to the **public themis core headers** are documented here.
+Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 For implementation-level changes see [`../../src/themis/CHANGELOG.md`](../../src/themis/CHANGELOG.md).
 
 ---

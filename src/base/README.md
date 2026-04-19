@@ -304,14 +304,14 @@ ModuleLoader loader;
 auto result = loader.loadModule("storage_plugin.dll");
 if (result.is_ok()) {
     auto module = result.value();
-    
+
     // Get plugin interface
     auto interface = module->getInterface<IStoragePlugin>();
     if (interface) {
         interface->initialize();
         // Use plugin...
     }
-    
+
     loader.unloadModule(module);
 }
 ```
@@ -372,3 +372,8 @@ std::cout << "Author: " << capabilities.author << std::endl;
 3. Alexandrescu, A. (2001). **Modern C++ Design: Generic Programming and Design Patterns Applied**. Addison-Wesley. ISBN: 978-0-201-70431-0
 
 4. Meyers, S. (2014). **Effective Modern C++: 42 Specific Ways to Improve Your Use of C++11 and C++14**. O'Reilly Media. ISBN: 978-1-491-90399-5
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/base/README.md`](../../include/base/README.md) for the public API.

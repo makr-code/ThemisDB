@@ -5,7 +5,7 @@
 
 ## Current Status
 
-Public headers at v1.5.0. All core security contracts are stable and production-ready.  
+Public headers at v1.5.0. All core security contracts are stable and production-ready.
 Implementation: `../../src/security/` at v1.5.0.
 
 ---

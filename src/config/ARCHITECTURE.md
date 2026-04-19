@@ -1,8 +1,8 @@
 # Config Module — Architecture Guide
 <!-- status: current | validated: 2026-04-06 | source: src/config/ -->
 
-**Version:** 1.0  
-**Last Updated:** 2026-04-06  
+**Version:** 1.0
+**Last Updated:** 2026-04-06
 **Module Path:** `src/config/`
 
 ---

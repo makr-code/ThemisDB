@@ -298,8 +298,8 @@ auto results = dhs.search("machine learning", query_embedding, &stats);
 
 ---
 
-*Last Updated: April 2026*  
-*Current API Version: v2.2.0*  
+*Last Updated: April 2026*
+*Current API Version: v2.2.0*
 *Next Target: v2.3.0*
 
 <!-- validated: 2026-04-06 | commit: a14cdb2 -->

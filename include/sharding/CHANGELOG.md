@@ -2,7 +2,7 @@
 
 # Changelog — include/sharding/
 
-All notable changes to the **public sharding headers** are documented here.  
+All notable changes to the **public sharding headers** are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 > Implementation changelog: [`../../src/sharding/CHANGELOG.md`](../../src/sharding/CHANGELOG.md)

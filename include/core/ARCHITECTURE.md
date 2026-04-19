@@ -3,9 +3,9 @@
 
 # Core Module — Public Header Architecture
 
-**Version:** 1.8.0  
-**Last Updated:** 2026-04-06  
-**Module Path:** `include/core/`  
+**Version:** 1.8.0
+**Last Updated:** 2026-04-06
+**Module Path:** `include/core/`
 **Implementation:** `../../src/core/`
 
 ---

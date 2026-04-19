@@ -2,7 +2,7 @@
 
 # include/storage/ — Roadmap
 
-> Public header API evolution roadmap for the ThemisDB Storage module.  
+> Public header API evolution roadmap for the ThemisDB Storage module.
 > Implementation roadmap: [`../../src/storage/`](../../src/storage/)
 
 ---

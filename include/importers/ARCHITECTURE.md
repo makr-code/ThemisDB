@@ -2,8 +2,8 @@
 <!-- Links: README.md · ROADMAP.md · ../../src/importers/ -->
 
 # Importers Module — Public Header Architecture
-**Version:** 2.1.0  
-**Module Path:** `include/importers/`  
+**Version:** 2.1.0
+**Module Path:** `include/importers/`
 **Implementation:** `../../src/importers/`
 
 ---

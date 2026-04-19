@@ -3,7 +3,7 @@
 
 # Changelog — Maintenance Module (Public Headers)
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).  
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 For implementation-level changes see `../../src/maintenance/CHANGELOG.md`.
 
 ## [Unreleased]

@@ -3,10 +3,10 @@
 
 # ThemisDB Ethics AI Module
 
-**Version:** 0.0.1  
-**Status:** 🔴 Alpha (v0.0.1)  
-**Last Updated:** 2026-03-22  
-**Module Path:** `src/ethics_ai/`  
+**Version:** 0.0.1
+**Status:** 🔴 Alpha (v0.0.1)
+**Last Updated:** 2026-03-22
+**Module Path:** `src/ethics_ai/`
 **Namespace:** `themis::plugins::ethics`
 
 ---
@@ -124,3 +124,12 @@ entity:ethics_profiles:{id}    – PhilosophyProfile as BaseEntity
 - `ROADMAP.md` — implementation phases and production checklist
 - `SECURITY.md` — threat model and security controls
 - `FUTURE_ENHANCEMENTS.md` — planned features
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/ethics_ai/README.md`](../../include/ethics_ai/README.md) for the public API.

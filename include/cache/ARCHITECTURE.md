@@ -3,9 +3,9 @@
 
 # Cache Module — Public Header Architecture
 
-**Version:** 1.9.0  
-**Last Updated:** 2026-04-06  
-**Module Path:** `include/cache/`  
+**Version:** 1.9.0
+**Last Updated:** 2026-04-06
+**Module Path:** `include/cache/`
 **Implementation:** `../../src/cache/`
 
 ---

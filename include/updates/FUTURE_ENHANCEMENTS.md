@@ -33,7 +33,7 @@
 ## Planned Header Additions
 
 ### distributed_update_coordinator.h
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Header for coordinating updates across distributed ThemisDB clusters.
@@ -54,7 +54,7 @@ public:
         std::chrono::seconds health_check_timeout{30};
         bool rollback_on_failure = true;
     };
-    
+
     struct ClusterUpdateProgress {
         size_t total_nodes;
         size_t nodes_updated;
@@ -63,7 +63,7 @@ public:
         std::string status;
         std::vector<std::string> errors;
     };
-    
+
     /**
      * @brief Construct coordinator with Raft manager
      */
@@ -71,26 +71,26 @@ public:
         std::shared_ptr<RaftManager> raft,
         const Config& config = {}
     );
-    
+
     /**
      * @brief Update entire cluster to target version
      * @param version Target version
      * @return Future that resolves when update completes
      */
     std::future<Result<void>> updateCluster(const std::string& version);
-    
+
     /**
      * @brief Set progress callback
      */
     void setProgressCallback(
         std::function<void(const ClusterUpdateProgress&)> callback
     );
-    
+
     /**
      * @brief Cancel ongoing cluster update
      */
     void cancelUpdate();
-    
+
     /**
      * @brief Get current update status
      */
@@ -109,7 +109,7 @@ public:
 ---
 
 ### delta_update_engine.h
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Header for binary delta/patch-based updates to reduce download sizes.
@@ -130,14 +130,14 @@ public:
         VCDIFF,      // RFC 3284 compliant
         ZSTD_DICT    // Dictionary-based
     };
-    
+
     struct DeltaManifest {
         std::string from_version;
         std::string to_version;
         std::vector<FileDelta> deltas;
         uint64_t total_patch_size;
         uint64_t total_full_size;
-        
+
         struct FileDelta {
             std::string path;
             std::string base_hash;
@@ -148,7 +148,7 @@ public:
             Algorithm algorithm;
         };
     };
-    
+
     /**
      * @brief Find delta update between versions
      * @return Delta manifest if available
@@ -157,14 +157,14 @@ public:
         const std::string& from_version,
         const std::string& to_version
     );
-    
+
     /**
      * @brief Apply delta update
      * @param delta Delta manifest
      * @return Result with list of updated files
      */
     Result<std::vector<std::string>> applyDelta(const DeltaManifest& delta);
-    
+
     /**
      * @brief Generate delta between two releases
      * @param base_release Base release
@@ -191,8 +191,8 @@ public:
 ---
 
 ### schema_migration.h ✅ IMPLEMENTED (v1.7.0)
-**Priority:** High  
-**Target Version:** v1.7.0  
+**Priority:** High
+**Target Version:** v1.7.0
 **Status:** ✅ Released — `include/updates/schema_migration.h`, `src/updates/schema_migration.cpp`
 
 Header for automatic schema migration with online DDL support.
@@ -214,19 +214,19 @@ public:
         std::string default_value;
         std::string comment;
     };
-    
+
     struct IndexDef {
         std::string name;
         std::vector<std::string> columns;
         bool unique = false;
         bool build_online = true;
     };
-    
+
     /**
      * @brief Create migration for specific version
      */
     explicit SchemaMigrator(const std::string& version);
-    
+
     /**
      * @brief Add column to table
      */
@@ -234,7 +234,7 @@ public:
         const std::string& table,
         const ColumnDef& column
     );
-    
+
     /**
      * @brief Drop column from table
      */
@@ -243,7 +243,7 @@ public:
         const std::string& column,
         std::chrono::hours grace_period = std::chrono::hours(0)
     );
-    
+
     /**
      * @brief Rename column
      */
@@ -252,7 +252,7 @@ public:
         const std::string& old_name,
         const std::string& new_name
     );
-    
+
     /**
      * @brief Add index
      */
@@ -260,7 +260,7 @@ public:
         const std::string& table,
         const IndexDef& index
     );
-    
+
     /**
      * @brief Drop index
      */
@@ -268,24 +268,24 @@ public:
         const std::string& table,
         const std::string& index_name
     );
-    
+
     /**
      * @brief Add custom migration logic
      */
     SchemaMigrator& addCustomMigration(
         std::function<bool(MigrationContext&)> migration
     );
-    
+
     /**
      * @brief Apply migration
      */
     Result<void> apply(IStorageEngine& storage);
-    
+
     /**
      * @brief Rollback migration
      */
     Result<void> rollback();
-    
+
     /**
      * @brief Get migration SQL (for inspection)
      */
@@ -305,7 +305,7 @@ public:
 ---
 
 ### canary_deployment.h
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Header for gradual rollout with automatic monitoring and rollback.
@@ -323,53 +323,53 @@ public:
     struct Stage {
         int percentage;             // 1%, 5%, 25%, 100%
         std::chrono::seconds duration;
-        
+
         // Thresholds for automatic rollback
         double max_error_rate = 0.05;       // 5%
         std::chrono::milliseconds max_p99_latency{500};
         double max_memory_increase = 0.20;  // 20%
     };
-    
+
     struct Metrics {
         double error_rate;
         std::chrono::milliseconds p99_latency;
         double memory_usage_gb;
         double cpu_usage_percent;
     };
-    
+
     /**
      * @brief Configure canary deployment
      */
     CanaryDeployment& setVersion(const std::string& version);
     CanaryDeployment& setStages(const std::vector<Stage>& stages);
-    
+
     /**
      * @brief Set metrics provider
      */
     CanaryDeployment& setMetricsProvider(
         std::function<Metrics()> provider
     );
-    
+
     /**
      * @brief Start canary deployment
      */
     std::future<Result<void>> deploy();
-    
+
     /**
      * @brief Set stage completion callback
      */
     void onStageComplete(std::function<void(const Stage&)> callback);
-    
+
     /**
      * @brief Set rollback callback
      */
     void onRollback(std::function<void(const std::string& reason)> callback);
-    
+
     /**
      * @brief Force rollback
      */
     void forceRollback();
-    
+
     /**
      * @brief Get current deployment status
      */
@@ -395,7 +395,7 @@ canary.setMetricsProvider([]() {
 ---
 
 ### dependency_resolver.h
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.6.0
 
 Header for automatic resolution of update dependencies.
@@ -416,20 +416,20 @@ public:
         bool optional = false;
         std::vector<std::string> conflicts;
     };
-    
+
     struct UpdateStep {
         std::string package;
         std::string from_version;
         std::string to_version;
         std::vector<std::string> dependencies;
     };
-    
+
     struct Resolution {
         bool success;
         std::string error_message;
         std::vector<UpdateStep> steps;  // Ordered by dependencies
     };
-    
+
     /**
      * @brief Add dependency for a version
      */
@@ -437,7 +437,7 @@ public:
         const std::string& version,
         const Dependency& dependency
     );
-    
+
     /**
      * @brief Resolve dependencies for target version
      * @param target_version Target version to update to
@@ -448,7 +448,7 @@ public:
         const std::string& target_version,
         const std::map<std::string, std::string>& current_versions
     );
-    
+
     /**
      * @brief Detect dependency conflicts
      */
@@ -483,7 +483,7 @@ if (resolution.success) {
 ---
 
 ### update_verifier.h
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.6.0
 
 Header for automated testing before applying updates.
@@ -504,7 +504,7 @@ public:
         PERFORMANCE,    // Regression tests
         SCHEMA          // Schema compatibility tests
     };
-    
+
     struct TestResult {
         std::string test_name;
         TestType type;
@@ -512,13 +512,13 @@ public:
         std::string error_message;
         std::chrono::milliseconds duration;
     };
-    
+
     struct VerificationResult {
         bool success;
         std::vector<TestResult> test_results;
         std::string summary;
     };
-    
+
     /**
      * @brief Add smoke test
      */
@@ -526,7 +526,7 @@ public:
         const std::string& name,
         std::function<bool()> test
     );
-    
+
     /**
      * @brief Add integration test
      */
@@ -534,7 +534,7 @@ public:
         const std::string& name,
         std::function<bool()> test
     );
-    
+
     /**
      * @brief Add performance test
      */
@@ -542,12 +542,12 @@ public:
         const std::string& name,
         std::function<bool()> test
     );
-    
+
     /**
      * @brief Run all verification tests
      */
     VerificationResult verify();
-    
+
     /**
      * @brief Run specific test type
      */
@@ -592,7 +592,7 @@ if (!result.success) {
 ## API Improvements
 
 ### Enhanced DownloadResult
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.6.0
 
 Add more detailed download statistics.
@@ -614,7 +614,7 @@ struct DownloadResult {
     std::string error_message;
     std::string download_path;
     ReleaseManifest manifest;
-    
+
     // New fields
     std::chrono::milliseconds download_duration;
     uint64_t bytes_downloaded;
@@ -627,7 +627,7 @@ struct DownloadResult {
 ---
 
 ### Enhanced ReloadResult
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.6.0
 
 Add more detailed reload information.
@@ -649,7 +649,7 @@ struct ReloadResult {
     std::string error_message;
     std::vector<std::string> files_updated;
     std::string rollback_id;
-    
+
     // New fields
     std::chrono::milliseconds reload_duration;
     std::vector<FileUpdateResult> file_results;
@@ -662,7 +662,7 @@ struct ReloadResult {
 ---
 
 ### Async Update API
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Add asynchronous update operations with futures.
@@ -674,11 +674,11 @@ public:
     // Existing synchronous API
     DownloadResult downloadRelease(const std::string& version);
     ReloadResult applyHotReload(const std::string& version);
-    
+
     // New asynchronous API
     std::future<DownloadResult> downloadReleaseAsync(const std::string& version);
     std::future<ReloadResult> applyHotReloadAsync(const std::string& version);
-    
+
     // Cancel ongoing async operation
     void cancelAsyncOperation();
 };
@@ -700,7 +700,7 @@ auto download_result = download_future.get();
 ## Type Safety Improvements
 
 ### Strongly-Typed Version
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.6.0
 
 Replace string version with strongly-typed Version class.
@@ -719,12 +719,12 @@ public:
      * @brief Parse version from string
      */
     static std::optional<Version> parse(const std::string& version_str);
-    
+
     /**
      * @brief Construct version
      */
     Version(int major, int minor, int patch, std::string prerelease = "");
-    
+
     /**
      * @brief Comparison operators
      */
@@ -733,22 +733,22 @@ public:
     bool operator==(const Version& other) const;
     bool operator<=(const Version& other) const;
     bool operator>=(const Version& other) const;
-    
+
     /**
      * @brief Convert to string
      */
     std::string toString() const;
-    
+
     /**
      * @brief Check if compatible upgrade
      */
     bool isCompatibleUpgradeFrom(const Version& from) const;
-    
+
     int major() const;
     int minor() const;
     int patch() const;
     std::string prerelease() const;
-    
+
 private:
     int major_;
     int minor_;
@@ -768,7 +768,7 @@ private:
 ---
 
 ### Strongly-Typed Platform/Architecture
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.6.0
 
 Replace string platform/architecture with enums.
@@ -804,7 +804,7 @@ struct ReleaseFile {
 ## Documentation Improvements
 
 ### Doxygen Enhancement
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.6.0
 
 Add comprehensive Doxygen documentation for all public APIs.
@@ -813,10 +813,10 @@ Add comprehensive Doxygen documentation for all public APIs.
 ```cpp
 /**
  * @brief Hot-reload engine for zero-downtime updates
- * 
+ *
  * The HotReloadEngine provides capabilities for downloading, verifying,
  * and applying updates to a running ThemisDB instance without downtime.
- * 
+ *
  * @section features Features
  * - Resume-capable downloads from GitHub releases
  * - Atomic file replacement with fsync guarantees
@@ -825,12 +825,12 @@ Add comprehensive Doxygen documentation for all public APIs.
  * - Progress callback system
  * - Dry-run mode for testing
  * - Rollback capability
- * 
+ *
  * @section thread_safety Thread Safety
  * - Not thread-safe for concurrent updates
  * - Uses filesystem locks to prevent parallel updates
  * - Read operations are thread-safe
- * 
+ *
  * @section example Example Usage
  * @code
  * HotReloadEngine engine(manifest_db, update_checker, config);
@@ -839,7 +839,7 @@ Add comprehensive Doxygen documentation for all public APIs.
  *     engine.applyHotReload("1.5.0");
  * }
  * @endcode
- * 
+ *
  * @see ManifestDatabase
  * @see ReleaseManifest
  */
@@ -853,7 +853,7 @@ class HotReloadEngine {
 ## Backwards Compatibility
 
 ### Deprecation Warnings
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Add deprecation warnings for APIs that will be removed.
@@ -870,7 +870,7 @@ ReloadResult applyHotReload(const std::string& version);
  * @migration
  * Old code:
  *   auto result = engine->applyHotReload("1.5.0");
- * 
+ *
  * New code:
  *   auto future = engine->applyHotReloadAsync("1.5.0");
  *   auto result = future.get();
@@ -882,7 +882,7 @@ ReloadResult applyHotReload(const std::string& version);
 ## Build System Integration
 
 ### CMake Targets
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.6.0
 
 Add granular CMake targets for header-only components.
@@ -914,7 +914,7 @@ target_link_libraries(themis-updates
 ## Testing Infrastructure
 
 ### Mock Headers
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.6.0
 
 Add mock implementations for testing.
@@ -942,8 +942,8 @@ public:
 
 ---
 
-*Last Updated: April 2026*  
-*Module Version: v1.5.x*  
+*Last Updated: April 2026*
+*Module Version: v1.5.x*
 *Next Review: v1.6.0 Release*
 
 ## Test Strategy

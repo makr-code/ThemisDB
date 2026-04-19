@@ -32,7 +32,7 @@
 ## Planned Features
 
 ### IContext Interface for Contextual Logging
-**Priority:** High  
+**Priority:** High
 **Status:** ✅ Implemented in v1.6.0 (`include/core/concerns/i_context.h`)
 
 General context propagation for request/call-chain metadata.  Key features:
@@ -63,7 +63,7 @@ logger.logWithContext(ILogger::Level::INFO, "query done",
 
 
 ### Async Interfaces
-**Priority:** High  
+**Priority:** High
 **Status:** ✅ Implemented in v1.6.0 (`include/core/concerns/i_async_logger.h`, `include/core/concerns/i_async_cache.h`)
 
 `IAsyncLogger` and `IAsyncCache` extend their synchronous counterparts with
@@ -96,7 +96,7 @@ inheriting from `IAsyncLogger` and implementing the same sync pure-virtuals
 
 
 ### Context Propagation Across Async Boundaries
-**Priority:** High  
+**Priority:** High
 **Status:** ✅ Implemented in v1.7.0 (`include/core/concerns/context_propagation.h`)
 
 `ContextPropagation` and `ContextScope` enable automatic propagation of the
@@ -136,7 +136,7 @@ writes to its own child context.
 
 
 ### Type-Safe Metrics Labels
-**Priority:** Medium  
+**Priority:** Medium
 **Status:** ✅ Implemented in v1.6.0 (`include/core/concerns/metric_labels.h`)
 
 `MetricLabels` is a fluent builder that converts implicitly to `IMetrics::Labels`
@@ -171,7 +171,7 @@ existing code compiles without modification.
 ---
 
 ### Streaming Trace API
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Add streaming interface for large trace events.
@@ -198,7 +198,7 @@ public:
 ---
 
 ### Cache Eviction Callbacks
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Add callback interface for cache eviction events.
@@ -222,7 +222,7 @@ class ICache {
 ---
 
 ### Health Check Interface
-**Priority:** Medium  
+**Priority:** Medium
 **Status:** ✅ Implemented in v1.6.0
 
 All four concern interfaces (`ILogger`, `ITracer`, `IMetrics`, `ICache`) now
@@ -240,7 +240,7 @@ section of `include/core/concerns/README.md` for API details.
 ## Performance Optimizations
 
 ### constexpr Interface Methods
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Make no-op implementations `constexpr` for compile-time elimination.
@@ -258,7 +258,7 @@ public:
 ---
 
 ### Header-Only Cache Implementations
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Move simple cache implementations to header-only for inlining.
@@ -278,12 +278,12 @@ class InlineInMemoryCache : public ICache {
 ---
 
 ### Small String Optimization in Interfaces
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Use `std::string_view` everywhere instead of `std::string` parameters.
 
-**Current:** Mix of `std::string` and `std::string_view`  
+**Current:** Mix of `std::string` and `std::string_view`
 **Target:** Consistent `std::string_view` usage
 
 **Expected Improvement:** Reduce string allocations by 50%
@@ -291,7 +291,7 @@ Use `std::string_view` everywhere instead of `std::string` parameters.
 ---
 
 ### Virtual Method Devirtualization
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Use CRTP (Curiously Recurring Template Pattern) for hot-path interfaces.
@@ -318,7 +318,7 @@ class MetricsBase {
 ## Refactoring Opportunities
 
 ### Separate Synchronous and Asynchronous Interfaces
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Split interfaces into sync and async variants for clarity.
@@ -346,7 +346,7 @@ IAsyncTracer : public ITracer (adds async methods)
 ---
 
 ### Use std::expected Instead of std::optional
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Replace `std::optional` with `std::expected<T, Error>` for better error handling.
@@ -371,7 +371,7 @@ class ICache {
 ---
 
 ### Modularize Interface Headers
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Split monolithic headers into smaller, more focused headers.
@@ -398,7 +398,7 @@ concerns/context.h (lightweight aggregator)
 ---
 
 ### Add Concepts for Template Constraints
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0 (C++20 required)
 
 Use C++20 concepts to constrain generic code.
@@ -426,8 +426,8 @@ class GenericHandler {
 ## Known Issues
 
 ### Issue #1: Header Inclusion Order Sensitivity
-**Severity:** Medium  
-**Reported:** v1.5.0  
+**Severity:** Medium
+**Reported:** v1.5.0
 **Status:** ✅ Fixed in v1.6.0
 
 All headers already carried `#pragma once`.  The only remaining sensitivity
@@ -440,12 +440,12 @@ in any order.
 ---
 
 ### Issue #2: Virtual Destructor Performance
-**Severity:** Low  
+**Severity:** Low
 **Reported:** v1.5.1
 
 Virtual destructors add overhead in tight loops.
 
-**Workaround:** Use CRTP or static polymorphism for hot paths  
+**Workaround:** Use CRTP or static polymorphism for hot paths
 **Fix:** Document performance implications in header comments
 
 **Planned Fix:** v1.6.1 (documentation only)
@@ -453,12 +453,12 @@ Virtual destructors add overhead in tight loops.
 ---
 
 ### Issue #3: Missing noexcept Specifications
-**Severity:** Low  
+**Severity:** Low
 **Reported:** v1.5.2
 
 Many interface methods don't specify `noexcept`.
 
-**Workaround:** Assume exceptions can be thrown  
+**Workaround:** Assume exceptions can be thrown
 **Fix:** Add `noexcept` specifications where appropriate
 
 **Planned Fix:** v1.6.0
@@ -466,12 +466,12 @@ Many interface methods don't specify `noexcept`.
 ---
 
 ### Issue #4: Inconsistent Namespace Usage
-**Severity:** Low  
+**Severity:** Low
 **Reported:** v1.5.0
 
 Some headers use `themis::` namespace, others use `themis::core::`.
 
-**Workaround:** Check header documentation for correct namespace  
+**Workaround:** Check header documentation for correct namespace
 **Fix:** Standardize on `themis::core::` for all core interfaces
 
 **Planned Fix:** v1.7.0 (breaking change, needs migration period)
@@ -496,7 +496,7 @@ Explore compile-time dependency injection:
 ---
 
 ### Lock-Free Interface Implementations
-**Focus:** Wait-free concurrent data structures  
+**Focus:** Wait-free concurrent data structures
 **Status:** ✅ Implemented for Metrics (v1.6.0)
 
 Lock-free implementations delivered:
@@ -697,6 +697,6 @@ Have ideas for interface improvements? We'd love to hear from you:
 - `ContextPropagation::propagate()` creates child contexts; writes inside async tasks cannot corrupt the parent context
 - Health check interface must not expose internal error details to unauthenticated liveness / readiness probe consumers
 
-*Last Updated: April 2026*  
-*Module Version: v1.5.x*  
+*Last Updated: April 2026*
+*Module Version: v1.5.x*
 *Next Review: v1.6.0 Release*

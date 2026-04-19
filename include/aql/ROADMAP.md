@@ -3,7 +3,7 @@
 
 # Roadmap — AQL Module Public Headers
 
-**Module Path:** `include/aql/`  
+**Module Path:** `include/aql/`
 **Implementation Roadmap:** `../../src/aql/ROADMAP.md`
 
 ---

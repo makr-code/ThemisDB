@@ -2,7 +2,7 @@
 
 # include/storage/ — Architecture
 
-> Public header interfaces for the ThemisDB Storage module.  
+> Public header interfaces for the ThemisDB Storage module.
 > Implementation details live in [`../../src/storage/`](../../src/storage/).
 
 ---
@@ -119,5 +119,5 @@ storage_engine.h (IStorageEngine)
 
 ## Implementation Reference
 
-See [`../../src/storage/`](../../src/storage/) for all `.cpp` implementations.  
+See [`../../src/storage/`](../../src/storage/) for all `.cpp` implementations.
 See [`../../docs/src/storage/`](../../docs/src/storage/) for detailed design documentation.

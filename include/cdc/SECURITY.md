@@ -3,7 +3,7 @@
 
 # Security — CDC Module Public Headers
 
-**Module Path:** `include/cdc/`  
+**Module Path:** `include/cdc/`
 **Implementation Security:** `../../src/cdc/SECURITY.md`
 
 ---

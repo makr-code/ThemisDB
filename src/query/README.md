@@ -377,7 +377,7 @@ std::cout << "Execution time: " << stats.execution_time_ms << "ms" << std::endl;
 - **Fulltext**: `fulltext_functions.h` - Text search, tokenization, ranking
 - **JSON**: `json_path_functions.h` - JSONPath queries, manipulation
 - **Temporal**: `date_functions.h`, `holiday_provider.h` - Date arithmetic, formatting, holiday detection
-- **Domain-Specific**: 
+- **Domain-Specific**:
   - `process_mining_functions.h` - Process discovery, conformance checking
   - `lora_functions.h` - LoRA adapter management
   - `ethics_functions.h` - Bias detection, fairness metrics
@@ -909,8 +909,8 @@ target_link_libraries(themisdb_query
 - [IMPLEMENTATION_SUMMARY_AQL_FUNCTIONS.md](../../IMPLEMENTATION_SUMMARY_AQL_FUNCTIONS.md) - AQL function implementation details
 - [IMPLEMENTATION_SUMMARY_OPTIMIZER.md](../../IMPLEMENTATION_SUMMARY_OPTIMIZER.md) - Query optimizer internals
 
-*Last Updated: April 2026*  
-*Module Version: v1.5.0*  
+*Last Updated: April 2026*
+*Module Version: v1.5.0*
 *Next Review: v1.6.0 Release*
 
 ## Scientific References
@@ -924,3 +924,7 @@ target_link_libraries(themisdb_query
 4. Graefe, G. (1993). **Query Evaluation Techniques for Large Databases**. *ACM Computing Surveys*, 25(2), 73–170. https://doi.org/10.1145/152610.152611
 
 5. Leis, V., Gubichev, A., Mirchev, A., Boncz, P., Kemper, A., & Neumann, T. (2015). **How Good Are Query Optimizers, Really?** *Proceedings of the VLDB Endowment*, 9(3), 204–215. https://doi.org/10.14778/2850583.2850594
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

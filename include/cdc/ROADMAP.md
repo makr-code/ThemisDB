@@ -3,7 +3,7 @@
 
 # Roadmap — CDC Module Public Headers
 
-**Module Path:** `include/cdc/`  
+**Module Path:** `include/cdc/`
 **Implementation Roadmap:** `../../src/cdc/ROADMAP.md`
 
 ---

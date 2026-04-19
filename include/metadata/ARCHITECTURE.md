@@ -3,7 +3,7 @@
 
 # Metadata Module — Architecture Guide (Public Headers)
 
-**Version:** 1.6.0  
+**Version:** 1.6.0
 **Module Path:** `include/metadata/` | Implementation: `../../src/metadata/`
 
 ## Overview

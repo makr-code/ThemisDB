@@ -3,7 +3,7 @@
 
 # Security — API Module Public Headers
 
-**Module Path:** `include/api/`  
+**Module Path:** `include/api/`
 **Implementation Security:** `../../src/api/SECURITY.md`
 
 ---

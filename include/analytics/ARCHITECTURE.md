@@ -3,9 +3,9 @@
 
 # Analytics Module — Public Header Architecture
 
-**Version:** 1.7.0  
-**Last Updated:** 2026-04-06  
-**Module Path:** `include/analytics/`  
+**Version:** 1.7.0
+**Last Updated:** 2026-04-06
+**Module Path:** `include/analytics/`
 **Implementation:** `../../src/analytics/`
 
 ---

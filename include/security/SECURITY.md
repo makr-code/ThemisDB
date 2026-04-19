@@ -5,7 +5,7 @@
 
 ## Scope
 
-This document covers security considerations for the public headers in `include/security/`.  
+This document covers security considerations for the public headers in `include/security/`.
 For implementation-level security analysis see `../../src/security/SECURITY.md`.
 
 ---

@@ -3,7 +3,7 @@
 
 # Changelog — Config Module Public Headers
 
-All notable changes to public headers in `include/config/`.  
+All notable changes to public headers in `include/config/`.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]

@@ -3,7 +3,7 @@
 
 # Security — Acceleration Module Public Headers
 
-**Module Path:** `include/acceleration/`  
+**Module Path:** `include/acceleration/`
 **Implementation Security:** `../../src/acceleration/SECURITY.md`
 
 ---

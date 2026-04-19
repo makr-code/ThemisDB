@@ -32,7 +32,7 @@
 ## Planned Features
 
 ### Streaming Interface ✅ SHIPPED (v1.7.0)
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0 — **Implemented**
 
 Both the SSE explanation streaming and the generic `AQLTokenStream` iterator API are now shipped.
@@ -54,7 +54,7 @@ public:
         Iterator& operator++();          // Next token
         bool operator!=(const Iterator& other) const;
     };
-    
+
     Iterator begin();
     Iterator end();
     void cancel();  // Stop generation
@@ -74,7 +74,7 @@ for (const auto& token : stream.value()) {
 ---
 
 ### Multi-Modal Interface ✅ SHIPPED (v1.8.0)
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.8.0 — **Implemented** (`include/aql/multimodal_infer_request.h`)
 
 **Shipped Structures:**
@@ -103,7 +103,7 @@ struct MultiModalInferRequest : public llm::InferenceRequest {
 ---
 
 ### Agent Framework Interface ✅ SHIPPED (v1.7.0)
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0 — **Implemented** (`include/aql/aql_agent.h`, `src/aql/aql_agent.cpp`)
 
 Interfaces for multi-step reasoning and tool calling are now shipped via `IAgent` / `ReActAgent`.
@@ -152,7 +152,7 @@ public:
 ---
 
 ### Batch Interface
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Efficient batch processing of multiple requests.
@@ -183,7 +183,7 @@ public:
 ---
 
 ### Callback Interface
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Progress callbacks for long-running operations.
@@ -209,7 +209,7 @@ struct InferRequest {
 ---
 
 ### Fine-Tuning Interface
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Define interfaces for in-database model fine-tuning.
@@ -255,7 +255,7 @@ public:
 ## Performance Optimizations
 
 ### Zero-Copy Data Transfer
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Eliminate memory copies in data transfer.
@@ -276,7 +276,7 @@ Result<std::string_view> inferZeroCopy(const InferRequest& req);
 ---
 
 ### Memory-Mapped Model Loading
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Use mmap for faster model loading.
@@ -299,7 +299,7 @@ struct ModelLoadRequest {
 ---
 
 ### Compile-Time Type Safety
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Use C++20 concepts for stronger type checking.
@@ -321,7 +321,7 @@ class LlmAqlHandler {
 ---
 
 ### Async Interface ✅ SHIPPED (v1.8.0)
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.8.0 — **Implemented** (`include/aql/iasync_llm_backend.h`)
 
 **Shipped Interfaces:**
@@ -348,7 +348,7 @@ public:
 ## Refactoring Opportunities
 
 ### Separate Backend Interface from Handler
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Decouple LLM backend from AQL handler.
@@ -375,7 +375,7 @@ class LlmAqlHandler {
 ---
 
 ### Request Builder Pattern
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Fluent API for request construction.
@@ -402,7 +402,7 @@ auto req = InferRequest::builder()
 ---
 
 ### Error Codes Enum
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Standardize error codes for better error handling.
@@ -433,7 +433,7 @@ using LLMResult = Result<T, LLMError>;
 ---
 
 ### Header-Only Utilities
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Move simple utilities to header-only for inlining.
@@ -448,7 +448,7 @@ Move simple utilities to header-only for inlining.
 ## Known Issues
 
 ### Issue #1: Forward Declaration Challenges
-**Severity:** Low  
+**Severity:** Low
 **Reported:** v1.5.0
 
 Complex type dependencies make forward declarations difficult.
@@ -462,7 +462,7 @@ Complex type dependencies make forward declarations difficult.
 ---
 
 ### Issue #2: Template Export Issues
-**Severity:** Medium  
+**Severity:** Medium
 **Reported:** v1.5.1
 
 Template methods in headers can cause linker errors.
@@ -476,7 +476,7 @@ Template methods in headers can cause linker errors.
 ---
 
 ### Issue #3: ABI Stability
-**Severity:** Medium  
+**Severity:** Medium
 **Reported:** v1.5.0
 
 Adding virtual methods breaks ABI compatibility.
@@ -634,6 +634,6 @@ Have ideas for AQL interface improvements?
 - `TokenStream` cancellation must be safe to invoke concurrently from any thread
 - Fine-tuning interface must not allow training data to overwrite system prompt or safety guardrails
 
-*Last Updated: April 2026*  
-*Module Version: v1.5.x*  
+*Last Updated: April 2026*
+*Module Version: v1.5.x*
 *Next Review: v1.6.0 Release*

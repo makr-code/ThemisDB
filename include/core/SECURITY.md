@@ -3,7 +3,7 @@
 
 # Security — Core Module Public Headers
 
-**Module Path:** `include/core/`  
+**Module Path:** `include/core/`
 **Implementation Security:** `../../src/core/SECURITY.md`
 
 ---

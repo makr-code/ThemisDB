@@ -2,7 +2,7 @@
 
 # include/storage/ — Security
 
-> Security scope covers **public header interfaces** of the storage module.  
+> Security scope covers **public header interfaces** of the storage module.
 > Runtime security implementation is in [`../../src/storage/`](../../src/storage/).
 
 ---

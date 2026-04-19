@@ -39,7 +39,7 @@
 ## Planned Features
 
 ### Logical Replication
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 #### Scope
@@ -98,7 +98,7 @@
 ---
 
 ### Bidirectional Replication ✅ **IMPLEMENTED — v1.7.0**
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 > **Status:** Fully implemented in `include/replication/replication_manager.h` +
@@ -123,26 +123,26 @@ public:
         std::string local_node_id;
         std::string remote_node_id;
         std::string remote_endpoint;
-        
+
         // Conflict resolution
         ConflictResolution default_strategy = ConflictResolution::LAST_WRITE_WINS;
         std::map<std::string, ConflictResolution> collection_strategies;
-        
+
         // Origin tracking
         bool track_origin = true;
         bool replicate_foreign_changes = false;  // Prevent loops
-        
+
         // Sync
         uint32_t sync_interval_ms = 1000;
         bool bidirectional_sync = true;
     };
-    
+
     explicit BidirectionalReplicationManager(const BidiConfig& config);
-    
+
     // Start bidirectional replication
     bool start();
     void stop();
-    
+
     // Check synchronization status
     struct SyncStatus {
         uint64_t local_sequence;
@@ -152,13 +152,13 @@ public:
         bool is_synchronized;
     };
     SyncStatus getSyncStatus() const;
-    
+
     // Manual conflict resolution
     void resolveConflict(
         const std::string& document_id,
         const std::string& winner_node
     );
-    
+
 private:
     // Origin tracking
     struct OriginInfo {
@@ -166,7 +166,7 @@ private:
         uint64_t origin_sequence;
         std::chrono::system_clock::time_point origin_timestamp;
     };
-    
+
     OriginInfo getOrigin(const std::string& document_id);
     bool isLocalOrigin(const OriginInfo& origin);
 };
@@ -185,7 +185,7 @@ bidi.start();
 // Monitor synchronization
 auto status = bidi.getSyncStatus();
 if (!status.is_synchronized) {
-    std::cerr << "WARNING: Nodes not synchronized, lag=" 
+    std::cerr << "WARNING: Nodes not synchronized, lag="
               << status.lag_ms << "ms" << std::endl;
 }
 ```
@@ -198,7 +198,7 @@ if (!status.is_synchronized) {
 ---
 
 ### Parallel Replication
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Enable parallel application of replication changes on followers to reduce replication lag and improve throughput.
@@ -220,15 +220,15 @@ public:
         bool use_dependency_tracking = true;
         bool group_transactions = true;
     };
-    
+
     explicit ParallelReplicationWorker(const ParallelConfig& config);
-    
+
     // Submit WAL entry for parallel application
     void submit(const WALEntry& entry);
-    
+
     // Wait for all pending entries to be applied
     void sync();
-    
+
     // Get statistics
     struct Stats {
         uint64_t entries_applied;
@@ -237,7 +237,7 @@ public:
         double parallelism_factor;  // Effective parallelism
     };
     Stats getStats() const;
-    
+
 private:
     // Dependency graph
     struct Dependency {
@@ -245,12 +245,12 @@ private:
         uint64_t sequence_number;
         std::vector<uint64_t> depends_on;
     };
-    
+
     // Worker thread pool
     std::vector<std::thread> workers_;
     std::queue<WALEntry> work_queue_;
     std::map<std::string, std::vector<uint64_t>> dependency_graph_;
-    
+
     void workerLoop(int worker_id);
     bool hasDependencies(const WALEntry& entry);
 };
@@ -285,8 +285,8 @@ std::cout << "Parallelism: " << stats.parallelism_factor << "x" << std::endl;
 ---
 
 ### Compressed Replication ✅ Implemented (v1.6.0)
-**Priority:** Medium  
-**Target Version:** v1.6.0  
+**Priority:** Medium
+**Target Version:** v1.6.0
 **Status:** Production-ready — `CompressedReplicationStream` in `include/replication/replication_manager.h` + `src/replication/replication_manager.cpp`
 
 Compress replication streams to reduce bandwidth usage, especially for cross-region replication.
@@ -308,22 +308,22 @@ public:
         SNAPPY,     // Very fast, low compression
         AUTO        // Automatically select based on data
     };
-    
+
     struct CompressionConfig {
         CompressionAlgorithm algorithm = AUTO;
         int compression_level = 3;  // 1-9
         bool adaptive = true;
         uint32_t min_batch_size = 1024;  // Only compress batches >= 1KB
     };
-    
+
     CompressedReplicationStream(
         const std::string& endpoint,
         const CompressionConfig& config
     );
-    
+
     // Send compressed batch
     bool sendBatch(const std::vector<WALEntry>& entries);
-    
+
     // Get compression statistics
     struct CompressionStats {
         uint64_t bytes_uncompressed;
@@ -343,7 +343,7 @@ CompressedReplicationStream stream("eu-west-1:7000", comp_config);
 stream.sendBatch(wal_entries);
 
 auto stats = stream.getStats();
-std::cout << "Saved " << (stats.bytes_uncompressed - stats.bytes_compressed) 
+std::cout << "Saved " << (stats.bytes_uncompressed - stats.bytes_compressed)
           << " bytes (" << stats.compression_ratio << "x)" << std::endl;
 ```
 
@@ -359,7 +359,7 @@ std::cout << "Saved " << (stats.bytes_uncompressed - stats.bytes_compressed)
 ---
 
 ### Geo-Replication with Consistency Levels ✅ **IMPLEMENTED — v1.7.0**
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 **Status:** ✅ Implemented (`include/replication/replication_manager.h`, `src/replication/replication_manager.cpp`)
@@ -391,7 +391,7 @@ public:
         SESSION,            // Read-your-writes within session
         EVENTUAL            // No guarantee (fastest)
     };
-    
+
     struct GeoConfig {
         std::vector<std::string> regions;
         uint32_t replication_factor = 3;
@@ -399,24 +399,24 @@ public:
         uint32_t global_replicas = 1;
         ConsistencyLevel default_consistency = SESSION;
     };
-    
+
     // Write with specific consistency level
     bool write(
         const std::string& key,
         const std::string& value,
         ConsistencyLevel consistency = SESSION
     );
-    
+
     // Read with specific consistency level
     std::optional<std::string> read(
         const std::string& key,
         ConsistencyLevel consistency = SESSION,
         const std::string& session_token = ""
     );
-    
+
     // Get session token (for SESSION consistency)
     std::string getSessionToken() const;
-    
+
     // Check staleness of local replica
     std::chrono::milliseconds getStaleness(const std::string& region) const;
 };
@@ -448,7 +448,7 @@ auto cached = geo_repl.read("product_catalog", ConsistencyLevel::EVENTUAL);
 ---
 
 ### WAL Archival to Object Storage ✅ IMPLEMENTED — v1.6.0
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.6.0
 
 Archive old WAL segments to cloud object storage (S3, GCS, Azure Blob) for long-term retention and cost optimization.
@@ -468,26 +468,26 @@ public:
         std::string storage_type;  // "s3", "gcs", "azure"
         std::string bucket_name;
         std::string prefix;
-        
+
         // Archival policy
         uint32_t archive_after_segments = 100;
         uint32_t local_retention_segments = 10;
         bool compress_before_upload = true;
         bool encrypt_at_rest = true;
-        
+
         // Lifecycle
         uint32_t transition_to_cold_after_days = 90;
         uint32_t delete_after_days = 365;
     };
-    
+
     explicit WALArchivalManager(const ArchivalConfig& config);
-    
+
     // Archive old segments
     void archiveSegments(const std::vector<std::string>& segment_paths);
-    
+
     // Retrieve archived segment
     std::optional<std::vector<uint8_t>> retrieveSegment(uint64_t segment_id);
-    
+
     // List archived segments
     struct ArchivedSegment {
         uint64_t segment_id;
@@ -534,7 +534,7 @@ if (segment) {
 ---
 
 ### Multi-Tier Replication
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Hierarchical replication with different consistency and durability tiers.
@@ -555,7 +555,7 @@ public:
         TIER_2_STANDARD,    // 2 replicas, semi-sync, <50ms
         TIER_3_ARCHIVAL     // 1 replica, async, no guarantee
     };
-    
+
     struct TierConfig {
         ReplicationTier tier;
         uint32_t replica_count;
@@ -563,13 +563,13 @@ public:
         uint32_t max_latency_ms;
         uint32_t min_availability_percent;
     };
-    
+
     // Assign collection to tier
     void assignTier(const std::string& collection, ReplicationTier tier);
-    
+
     // Automatic tier adjustment based on access patterns
     void enableAutoTiering(bool enabled);
-    
+
     // Get current tier for collection
     ReplicationTier getTier(const std::string& collection) const;
 };
@@ -589,7 +589,7 @@ multi_tier.enableAutoTiering(true);  // Hot data → Tier 1, Cold data → Tier 
 ---
 
 ### Replication Analytics and Insights
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.7.0
 
 Built-in analytics for replication performance, bottleneck detection, and optimization recommendations.
@@ -612,10 +612,10 @@ public:
         std::chrono::system_clock::time_point detected_at;
         std::map<std::string, std::string> metadata;
     };
-    
+
     // Get current insights
     std::vector<Insight> getInsights() const;
-    
+
     // Historical lag analysis
     struct LagHistory {
         std::vector<std::pair<std::chrono::system_clock::time_point, int64_t>> data_points;
@@ -628,7 +628,7 @@ public:
         const std::string& replica_id,
         std::chrono::hours duration
     ) const;
-    
+
     // Bottleneck detection
     struct Bottleneck {
         std::string replica_id;
@@ -661,8 +661,8 @@ std::cout << "P99 lag: " << lag_history.p99_lag_ms << "ms" << std::endl;
 ---
 
 ### Quorum-Based Reads
-**Priority:** Medium  
-**Target Version:** v1.6.0  
+**Priority:** Medium
+**Target Version:** v1.6.0
 **Status:** ✅ Implemented (`include/replication/replication_manager.h`, `src/replication/replication_manager.cpp`)
 
 Enable quorum reads for strong consistency guarantees even when reading from replicas.
@@ -820,7 +820,7 @@ themisdb-repl-doctor analyze-lag --duration 24h
 themisdb-repl-doctor validate-wal --segment 12345
 ```
 
-*Last Updated: April 2026*  
+*Last Updated: April 2026*
 *Next Review: v1.6.0 Planning*
 
 ---

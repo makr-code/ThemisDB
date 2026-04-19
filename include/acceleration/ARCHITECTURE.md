@@ -3,9 +3,9 @@
 
 # Acceleration Module — Public Header Architecture
 
-**Version:** 1.7.0  
-**Last Updated:** 2026-04-06  
-**Module Path:** `include/acceleration/`  
+**Version:** 1.7.0
+**Last Updated:** 2026-04-06
+**Module Path:** `include/acceleration/`
 **Implementation:** `../../src/acceleration/`
 
 ---

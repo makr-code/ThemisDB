@@ -2,8 +2,8 @@
 <!-- Links: README.md · ROADMAP.md · ../../src/index/ -->
 
 # Index Module — Public Header Architecture
-**Version:** 1.7.0  
-**Module Path:** `include/index/`  
+**Version:** 1.7.0
+**Module Path:** `include/index/`
 **Implementation:** `../../src/index/`
 
 ---

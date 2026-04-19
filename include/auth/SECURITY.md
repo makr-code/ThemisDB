@@ -3,7 +3,7 @@
 
 # Security — Auth Module Public Headers
 
-**Module Path:** `include/auth/`  
+**Module Path:** `include/auth/`
 **Implementation Security:** `../../src/auth/SECURITY.md`
 
 ---

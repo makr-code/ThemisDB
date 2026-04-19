@@ -31,7 +31,7 @@
 ## Planned Features
 
 ### 1. Multi-Hop Reasoning with Query Decomposition
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.16.0
 
 Enable complex queries requiring multiple retrieval and reasoning steps.
@@ -51,7 +51,7 @@ Decomposition:
   1. "When was the first iPhone released?" → 2007
   2. "Who won the Nobel Prize in Physics in 2007?" → Albert Fert and Peter Grünberg
 
-Final Answer: "Albert Fert and Peter Grünberg won the Nobel Prize in Physics 
+Final Answer: "Albert Fert and Peter Grünberg won the Nobel Prize in Physics
 in 2007, the year the first iPhone was released."
 ```
 
@@ -117,7 +117,7 @@ Final Answer
 ---
 
 ### 2. Hybrid Search (Vector + Keyword + Filter)
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.16.0
 
 Combine vector similarity, BM25 keyword matching, and structured filters for optimal retrieval.
@@ -206,7 +206,7 @@ config.enable_adaptive_weighting = true;
 ---
 
 ### 3. Re-Ranking with Cross-Encoder Models
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.16.0
 
 Two-stage retrieval: fast first-pass retrieval followed by precise re-ranking.
@@ -272,7 +272,7 @@ auto answer = rag_pipeline.generate(query, reranked);
 ---
 
 ### 4. Contextual Compression and Summarization
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.17.0
 
 Compress retrieved documents to fit more context into LLM's limited context window.
@@ -314,17 +314,17 @@ auto answer = llm->generate(query, compressed);
 // Sentence-level relevance scoring
 for (auto& doc : documents) {
     auto sentences = split_sentences(doc.content);
-    
+
     // Score each sentence's relevance to query
     std::vector<std::pair<double, std::string>> scored_sentences;
     for (const auto& sent : sentences) {
         double score = compute_relevance(query, sent);
         scored_sentences.push_back({score, sent});
     }
-    
+
     // Keep top-k most relevant sentences
     sort(scored_sentences.rbegin(), scored_sentences.rend());
-    doc.content = join(scored_sentences.begin(), 
+    doc.content = join(scored_sentences.begin(),
                        scored_sentences.begin() + top_k_sentences);
 }
 ```
@@ -353,7 +353,7 @@ document.content = llm->generate(prompt);
 ---
 
 ### 5. Active Learning for Evaluation Calibration
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.17.0
 
 Continuously improve judge calibration using human feedback.
@@ -383,7 +383,7 @@ calibration.requestHumanFeedback(
             feedback.human_scores,
             feedback.explanation
         });
-        
+
         // Periodically retrain
         if (calibration.getTrainingSetSize() >= 100) {
             calibration.recalibrateJudge(judge);
@@ -410,7 +410,7 @@ calibration.requestHumanFeedback(
 ---
 
 ### 6. Explainable RAG with Attribution
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.17.0
 
 Provide detailed explanations for how answers were derived from sources.
@@ -440,7 +440,7 @@ for (const auto& claim : explanation.claims) {
     std::cout << "Claim: " << claim.text << "\n";
     std::cout << "Confidence: " << claim.confidence << "\n";
     std::cout << "Sources:\n";
-    
+
     for (const auto& source : claim.sources) {
         std::cout << "  - Document: " << source.doc_id << "\n";
         std::cout << "    Sentence: " << source.sentence << "\n";
@@ -496,14 +496,14 @@ auto baseline_answer = generate(query, all_documents);
 for (size_t i = 0; i < all_documents.size(); i++) {
     auto docs_without_i = all_documents;
     docs_without_i.erase(docs_without_i.begin() + i);
-    
+
     auto cf_answer = generate(query, docs_without_i);
-    
+
     double impact = compute_difference(baseline_answer, cf_answer);
-    
+
     if (impact > threshold) {
         // Document i is critical for answer
-        std::cout << "Document " << i << " is critical (impact: " 
+        std::cout << "Document " << i << " is critical (impact: "
                   << impact << ")\n";
     }
 }
@@ -512,7 +512,7 @@ for (size_t i = 0; i < all_documents.size(); i++) {
 ---
 
 ### 7. RAG for Multi-Modal Data (Text, Images, Tables)
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.18.0
 
 Extend RAG to handle diverse data modalities beyond text.
@@ -590,7 +590,7 @@ auto answer = llm->generate(context);
 ---
 
 ### 8. Real-Time Fact-Checking with External APIs
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.18.0
 
 Integrate external fact-checking APIs for up-to-date verification.
@@ -618,7 +618,7 @@ auto claims = claim_extractor->extract(answer);
 // Verify each claim
 for (auto& claim : claims) {
     auto verification = fact_checker.verify(claim);
-    
+
     if (verification.status == VerificationStatus::FALSE) {
         std::cout << "FALSE claim detected: " << claim << "\n";
         std::cout << "Evidence: " << verification.evidence << "\n";
@@ -640,7 +640,7 @@ auto verification = fact_checker.verify(claim, {
 });
 
 if (verification.is_outdated) {
-    std::cout << "Claim is outdated. Current fact: " 
+    std::cout << "Claim is outdated. Current fact: "
               << verification.current_fact << "\n";
 }
 ```
@@ -648,7 +648,7 @@ if (verification.is_outdated) {
 ---
 
 ### 9. Adversarial Testing and Red-Teaming
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.18.0
 
 Systematically test RAG robustness against adversarial inputs.
@@ -675,7 +675,7 @@ auto adv_queries = tester.generateAdversarialQueries(
 // Test RAG robustness
 for (const auto& adv_query : adv_queries) {
     auto result = rag.query(adv_query);
-    
+
     if (tester.isSuccessfulAttack(original_answer, result.answer)) {
         std::cout << "Vulnerability found!\n";
         std::cout << "Adversarial query: " << adv_query << "\n";
@@ -701,7 +701,7 @@ if (result_poisoned.faithfulness_score < threshold) {
 ---
 
 ### 10. Federated RAG Across Distributed Databases
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.19.0
 
 Query multiple distributed databases in a federated RAG system.
@@ -857,7 +857,7 @@ See `../../CONTRIBUTING.md` for details.
 
 ---
 
-*Last Updated: 2024*  
+*Last Updated: 2024*
 *RAG Module Roadmap v1.0*
 
 ---

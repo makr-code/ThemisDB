@@ -3,7 +3,7 @@
 
 # Roadmap — Analytics Module Public Headers
 
-**Module Path:** `include/analytics/`  
+**Module Path:** `include/analytics/`
 **Implementation Roadmap:** `../../src/analytics/ROADMAP.md`
 
 ---

@@ -3,7 +3,7 @@
 
 # Security — Cache Module Public Headers
 
-**Module Path:** `include/cache/`  
+**Module Path:** `include/cache/`
 **Implementation Security:** `../../src/cache/SECURITY.md`
 
 ---

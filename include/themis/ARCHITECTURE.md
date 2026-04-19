@@ -2,7 +2,7 @@
 
 # Architecture — include/themis/
 
-> Public-header interface layer for the ThemisDB core framework.  
+> Public-header interface layer for the ThemisDB core framework.
 > Implementation details live in [`../../src/themis/`](../../src/themis/).
 
 ---
@@ -92,6 +92,6 @@ module_hash_verifier.h   module_signature_verifier.h
 
 ## Implementation Reference
 
-> All `.cpp` translation units are located in **`../../src/themis/`**.  
+> All `.cpp` translation units are located in **`../../src/themis/`**.
 > Do not include headers from `src/` directly; the public API is fully
 > described here.

@@ -2,7 +2,7 @@
 
 # Roadmap — include/themis/
 
-> This roadmap covers planned evolution of the **public themis core header API**.  
+> This roadmap covers planned evolution of the **public themis core header API**.
 > Implementation work is tracked in [`../../src/themis/`](../../src/themis/).
 
 ---

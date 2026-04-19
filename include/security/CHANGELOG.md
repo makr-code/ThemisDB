@@ -3,7 +3,7 @@
 
 # Changelog — Security Module (Public Headers)
 
-All notable public API changes. Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).  
+All notable public API changes. Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Implementation changelog: `../../src/security/CHANGELOG.md`.
 
 ## [Unreleased]

@@ -95,15 +95,15 @@ std::string decrypted = encryption.decrypt(blob);
 
 class CustomKeyProvider : public KeyProvider {
 public:
-    std::vector<uint8_t> getKey(const std::string& key_id, 
+    std::vector<uint8_t> getKey(const std::string& key_id,
                                 uint32_t version) override {
         // Fetch from custom backend
     }
-    
+
     void createKey(const KeyMetadata& metadata) override {
         // Generate new key
     }
-    
+
     void rotateKey(const std::string& key_id) override {
         // Create new version
     }
@@ -319,7 +319,7 @@ acl.entries = {
 acm.setACL("/data/sensitive", acl);
 
 // Check access
-bool can_read = acm.checkAccess("bob@example.com", "/data/sensitive", 
+bool can_read = acm.checkAccess("bob@example.com", "/data/sensitive",
                                  Permission::READ);
 ```
 
@@ -745,7 +745,7 @@ void handleRequest(const Request& req, Response& res) {
         res.status(403).json({{"error", "Forbidden"}});
         return;
     }
-    
+
     // Process request
     auto data = db.query(req.body["query"]);
     res.json(data);
@@ -765,13 +765,13 @@ auto old_docs = db.find({{"ssn", {"$exists", true}}});
 
 for (auto& doc : old_docs) {
     auto blob = EncryptedBlob::fromBase64(doc["ssn"]);
-    
+
     // Check if old version
     if (blob.key_version < current_version) {
         // Re-encrypt with new key
         auto decrypted = encryption.decrypt(blob);
         auto re_encrypted = encryption.encrypt("user_pii", decrypted);
-        
+
         doc["ssn"] = re_encrypted.toBase64();
         db.update(doc);
     }
@@ -919,7 +919,7 @@ export SOFTHSM2_CONF=/etc/softhsm2.conf
 ./tests/security/hsm_integration_test
 ```
 
-### Code Coverage
+## Code Coverage
 ```bash
 cd build
 cmake -DCMAKE_BUILD_TYPE=Coverage ..
@@ -953,3 +953,11 @@ make coverage
 - [eIDAS Regulation](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32014R0910)
 - [GDPR](https://gdpr-info.eu/)
 - [PCI DSS](https://www.pcisecuritystandards.org/)
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

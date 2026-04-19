@@ -3,9 +3,9 @@
 
 # API Module — Public Header Architecture
 
-**Version:** 1.8.0  
-**Last Updated:** 2026-04-06  
-**Module Path:** `include/api/`  
+**Version:** 1.8.0
+**Last Updated:** 2026-04-06
+**Module Path:** `include/api/`
 **Implementation:** `../../src/api/`
 
 ---

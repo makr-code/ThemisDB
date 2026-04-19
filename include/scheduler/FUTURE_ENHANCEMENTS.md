@@ -33,7 +33,7 @@
 ## Planned Features
 
 ### Distributed Task Coordination with Raft
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Enable task scheduling across a distributed cluster with leader election and failover.
@@ -74,7 +74,7 @@ scheduler.registerTask(task);
 ---
 
 ### Cron Expression Parser
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.6.0
 
 Replace simple interval-based scheduling with full cron expression support.
@@ -115,10 +115,10 @@ class CronParser {
 public:
     // Parse cron expression
     static CronSchedule parse(const std::string& expr);
-    
+
     // Calculate next run time
-    static std::chrono::system_clock::time_point 
-        nextRun(const CronSchedule& schedule, 
+    static std::chrono::system_clock::time_point
+        nextRun(const CronSchedule& schedule,
                 const std::chrono::system_clock::time_point& from);
 };
 
@@ -137,7 +137,7 @@ struct ScheduledTask {
 ---
 
 ### Task Dependencies and DAG Execution
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Support directed acyclic graphs (DAGs) of dependent tasks.
@@ -191,7 +191,7 @@ transform_2 ─┘
 ---
 
 ### Priority-Based Scheduling
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Assign priorities to tasks for resource contention resolution.
@@ -244,7 +244,7 @@ config.priority_slots = {
 ---
 
 ### Dynamic Resource Allocation
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.8.0
 
 Adjust CPU, memory, and I/O limits per task dynamically.
@@ -255,16 +255,16 @@ struct TaskResourceLimits {
     // CPU limits
     double cpu_quota = 1.0;              // 1.0 = 1 CPU core
     std::chrono::milliseconds cpu_period{100};
-    
+
     // Memory limits
     size_t memory_limit_mb = 1024;       // Max 1GB RAM
     size_t memory_soft_limit_mb = 768;   // Warning threshold
-    
+
     // I/O limits
     size_t disk_read_mbps = 100;         // Max 100 MB/s reads
     size_t disk_write_mbps = 50;         // Max 50 MB/s writes
     size_t iops_limit = 1000;            // Max 1K IOPS
-    
+
     // Network limits (if remote)
     size_t network_bandwidth_mbps = 100;
 };
@@ -299,7 +299,7 @@ class ResourceController {
 ---
 
 ### ~~Advanced Retry Policies~~ ✅ Implemented (v0.0.32)
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.6.0 → Delivered in v0.0.32
 
 Sophisticated retry logic beyond simple max_retries counter.
@@ -321,7 +321,7 @@ struct RetryPolicy {
     std::chrono::milliseconds max_delay{60000};
     double backoff_multiplier = 2.0;
     double jitter_factor = 0.1;  // ±10% random jitter
-    
+
     // Conditional retry
     std::function<bool(const std::string& error)> should_retry;
 };
@@ -356,7 +356,7 @@ task.retry_policy.should_retry = [](const std::string& error) {
 ---
 
 ### Task Versioning and Rollback
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.9.0
 
 Version task definitions and support rollback to previous versions.
@@ -374,16 +374,16 @@ struct TaskVersion {
 class TaskVersionManager {
 public:
     // Create new version
-    int createVersion(const std::string& task_id, 
+    int createVersion(const std::string& task_id,
                       const ScheduledTask& new_def,
                       const std::string& description);
-    
+
     // List versions
     std::vector<TaskVersion> listVersions(const std::string& task_id);
-    
+
     // Rollback to previous version
     void rollback(const std::string& task_id, int version);
-    
+
     // Compare versions
     TaskDiff diff(const std::string& task_id, int v1, int v2);
 };
@@ -403,7 +403,7 @@ public:
 ---
 
 ### Task Templates and Parameterization
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Reusable task templates with parameter substitution.
@@ -439,7 +439,7 @@ scheduler.registerTask(task);
 ---
 
 ### Observability Enhancements
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Comprehensive monitoring and debugging capabilities.
@@ -483,7 +483,7 @@ Events:
 ---
 
 ### Task Checkpointing and Resume
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Support for long-running tasks with checkpointing.
@@ -495,16 +495,16 @@ scheduler.registerFunction("process_large_dataset",
     [](const nlohmann::json& params, TaskCheckpointer& checkpointer) -> nlohmann::json {
         auto checkpoint = checkpointer.loadCheckpoint();
         size_t start_index = checkpoint.value("index", 0);
-        
+
         for (size_t i = start_index; i < dataset.size(); i++) {
             processItem(dataset[i]);
-            
+
             // Checkpoint every 1000 items
             if (i % 1000 == 0) {
                 checkpointer.saveCheckpoint({{"index", i}});
             }
         }
-        
+
         return {{"status", "success"}, {"processed", dataset.size()}};
     }
 );
@@ -525,7 +525,7 @@ scheduler.registerFunction("process_large_dataset",
 ---
 
 ### Multi-Tenancy Support
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Isolate tasks by tenant with resource quotas.

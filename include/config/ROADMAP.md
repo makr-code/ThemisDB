@@ -3,12 +3,12 @@
 
 # Roadmap — Config Module Public Headers
 
-All public header API milestones for `include/config/`.  
+All public header API milestones for `include/config/`.
 Implementation details and feature roadmap: `src/config/ROADMAP.md`.
 
 ## Current Status
 
-Public headers are **production-ready** for all implemented API surfaces.  
+Public headers are **production-ready** for all implemented API surfaces.
 All header files in `include/config/` export a stable, documented ABI.
 
 ## Completed ✅

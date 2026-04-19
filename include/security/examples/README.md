@@ -26,3 +26,21 @@ Calls to planned IMPL-B7 API are marked with `/* PLANNED */` comments. The confi
 - Issue spec: `docs/issues/optimization_layers/IMPL-B7-intent-classifier.md`
 - Research paper: `docs/en/research/LLM_OPTIMIZATION_LAYERS_MATRIX.md` §Layer 7
 - Module ROADMAP: `include/security/ROADMAP.md` §Phase 7
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```
+
+## Usage
+
+Include the relevant headers from this module:
+
+```cpp
+#include "security/module_header.h"
+```
+
+See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.

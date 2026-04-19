@@ -2,8 +2,8 @@
 <!-- Links: README.md · ROADMAP.md · ../../src/governance/ -->
 
 # Governance Module — Public Header Architecture
-**Version:** 1.8.0  
-**Module Path:** `include/governance/`  
+**Version:** 1.8.0
+**Module Path:** `include/governance/`
 **Implementation:** `../../src/governance/`
 
 ---

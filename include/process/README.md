@@ -1,7 +1,7 @@
 # Process Module – API Reference
 
-**Module Path:** `include/process/` · `src/process/`  
-**Version:** 1.0.0  
+**Module Path:** `include/process/` · `src/process/`
+**Version:** 1.0.0
 **Namespace:** `themis::process`
 
 ---
@@ -253,3 +253,21 @@ FOR task IN _process_tokens
 | `proc:link:<src_id>:<tgt_id>:<type>` | Process-to-process link |
 | `proc:req_doc:<model_id>:<node_id>:<doc_type>` | Required document entry |
 | `proc:inst_emb:<instance_id>` | Instance embedding (float array JSON) |
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```
+
+## Usage
+
+Include the relevant headers from this module:
+
+```cpp
+#include "process/module_header.h"
+```
+
+See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.

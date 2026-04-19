@@ -34,7 +34,7 @@ This document outlines planned enhancements, optimizations, and research areas f
 
 ### 1. Git Integration for Project Versioning (v1.6.0)
 
-**Priority**: High  
+**Priority**: High
 **Status**: Planned
 
 Integrate Git for project version control:
@@ -44,19 +44,19 @@ class GitProjectBackend : public ProjectBackend {
 public:
     // Initialize Git repository for project
     Result<void> init(const std::string& projectName);
-    
+
     // Commit project changes
     Result<CommitHash> commit(const std::string& message);
-    
+
     // Create branch for experimental work
     Result<void> createBranch(const std::string& branchName);
-    
+
     // Merge branches
     Result<void> merge(const std::string& sourceBranch);
-    
+
     // Push to remote repository
     Result<void> push(const std::string& remote);
-    
+
     // Pull from remote repository
     Result<void> pull(const std::string& remote);
 };
@@ -78,7 +78,7 @@ public:
 
 ### 2. Project Templates (v1.6.0)
 
-**Priority**: Medium  
+**Priority**: Medium
 **Status**: Planned
 
 Pre-configured project templates for common use cases:
@@ -116,7 +116,7 @@ class ProjectManager {
 
 ### 3. Collaborative Features (v1.7.0)
 
-**Priority**: High  
+**Priority**: High
 **Status**: Research
 
 Real-time collaboration on projects:
@@ -130,14 +130,14 @@ public:
         const std::vector<User>& users,
         Permission permission
     );
-    
+
     // Real-time notifications
     void subscribe(ProjectEventCallback callback);
-    
+
     // Concurrent editing with conflict resolution
     Result<void> lockObject(const std::string& objectName);
     Result<void> unlockObject(const std::string& objectName);
-    
+
     // Change tracking
     std::vector<Change> getChanges(
         const std::string& projectName,
@@ -157,7 +157,7 @@ public:
 
 ### 4. Project Environments (v1.6.0)
 
-**Priority**: Medium  
+**Priority**: Medium
 **Status**: Planned
 
 Separate environments within projects:
@@ -177,14 +177,14 @@ class EnvironmentManager {
         Environment env,
         const EnvironmentConfig& config
     );
-    
+
     // Promote between environments
     Result<void> promote(
         const std::string& projectName,
         Environment from,
         Environment to
     );
-    
+
     // Environment-specific configuration
     Result<void> setConfig(
         const std::string& projectName,
@@ -204,7 +204,7 @@ class EnvironmentManager {
 
 ### 5. Cross-Project Queries (v1.7.0)
 
-**Priority**: High  
+**Priority**: High
 **Status**: In Development
 
 Query across multiple projects:
@@ -234,7 +234,7 @@ FOR user IN p1.users
 
 ### 6. Project Quotas and Limits (v1.6.0)
 
-**Priority**: Medium  
+**Priority**: Medium
 **Status**: Planned
 
 Resource limits per project:
@@ -253,9 +253,9 @@ class QuotaManager {
         const std::string& projectName,
         const ProjectQuota& quota
     );
-    
+
     Result<ProjectUsage> getUsage(const std::string& projectName);
-    
+
     bool isQuotaExceeded(
         const std::string& projectName,
         ResourceType resource
@@ -273,7 +273,7 @@ class QuotaManager {
 
 ### 7. Project Analytics Dashboard (v1.7.0)
 
-**Priority**: Low  
+**Priority**: Low
 **Status**: Planned
 
 Dashboard for project insights:
@@ -309,7 +309,7 @@ class AnalyticsDashboard {
 
 ### 8. Project Archival (v1.8.0)
 
-**Priority**: Low  
+**Priority**: Low
 **Status**: Research
 
 Archive inactive projects:
@@ -321,13 +321,13 @@ class ArchivalManager {
         const std::string& projectName,
         const ArchivalPolicy& policy
     );
-    
+
     // Restore archived project
     Result<void> restoreProject(
         const std::string& projectName,
         const RestoreOptions& options
     );
-    
+
     // List archived projects
     std::vector<ArchivedProject> listArchivedProjects();
 };
@@ -343,7 +343,7 @@ class ArchivalManager {
 
 ### 9. Project Migrations (v1.7.0)
 
-**Priority**: Medium  
+**Priority**: Medium
 **Status**: Planned
 
 Schema migration framework:
@@ -356,16 +356,16 @@ class MigrationManager {
         MigrationFunction up,
         MigrationFunction down
     );
-    
+
     // Apply migrations
     Result<void> migrate(const std::string& projectName);
-    
+
     // Rollback migration
     Result<void> rollback(
         const std::string& projectName,
         size_t steps = 1
     );
-    
+
     // Migration status
     std::vector<MigrationStatus> getMigrationStatus(
         const std::string& projectName
@@ -375,7 +375,7 @@ class MigrationManager {
 
 **Example Migration:**
 ```cpp
-migration.add("add_email_verification", 
+migration.add("add_email_verification",
     // Up
     [](Project& proj) {
         proj.execute("ALTER TABLE users ADD COLUMN email_verified BOOLEAN DEFAULT FALSE");
@@ -393,7 +393,7 @@ migration.add("add_email_verification",
 
 ### 10. Project Cloning and Forking (v1.6.0)
 
-**Priority**: Medium  
+**Priority**: Medium
 **Status**: Planned
 
 Clone projects for experimentation:
@@ -406,7 +406,7 @@ class ProjectCloner {
         const std::string& targetProject,
         const CloneOptions& options
     );
-    
+
     // Fork project (shallow copy)
     Result<Project> forkProject(
         const std::string& sourceProject,
@@ -434,20 +434,20 @@ struct CloneOptions {
 
 ### 1. Metadata Caching Strategy
 
-**Current**: Simple in-memory cache  
+**Current**: Simple in-memory cache
 **Target**: Multi-tier cache with invalidation
 
 ```cpp
 class MetadataCache {
     // L1: Thread-local cache
     thread_local static std::unordered_map<std::string, ProjectMetadata> l1Cache;
-    
+
     // L2: Process-wide shared cache
     static std::shared_ptr<LRUCache<std::string, ProjectMetadata>> l2Cache;
-    
+
     // L3: Distributed cache (Redis)
     static std::shared_ptr<RedisClient> l3Cache;
-    
+
     ProjectMetadata get(const std::string& projectName);
     void invalidate(const std::string& projectName);
 };
@@ -462,13 +462,13 @@ class MetadataCache {
 
 ### 2. Lazy Object Loading
 
-**Current**: Eager loading of all objects  
+**Current**: Eager loading of all objects
 **Target**: Load objects on first access
 
 ```cpp
 class LazyProjectObjects {
     std::unordered_map<std::string, std::future<Table>> tables;
-    
+
     Table& getTable(const std::string& name) {
         if (!tables.contains(name)) {
             tables[name] = std::async([this, name]() {
@@ -484,7 +484,7 @@ class LazyProjectObjects {
 
 ### 3. Parallel Project Operations
 
-**Current**: Sequential operations  
+**Current**: Sequential operations
 **Target**: Parallel execution where safe
 
 ```cpp
@@ -494,14 +494,14 @@ Result<void> exportProjectParallel(
     const std::string& outputPath
 ) {
     std::vector<std::future<void>> tasks;
-    
+
     // Export tables in parallel
     for (const auto& table : listTables()) {
         tasks.push_back(std::async([table, outputPath]() {
             exportTable(table, outputPath);
         }));
     }
-    
+
     // Wait for all tasks
     for (auto& task : tasks) {
         task.wait();
@@ -564,18 +564,18 @@ Break into smaller, focused classes:
 ## Known Issues
 
 ### 1. Project Name Conflicts
-**Issue**: No validation for duplicate project names  
-**Workaround**: Manual checking before creation  
+**Issue**: No validation for duplicate project names
+**Workaround**: Manual checking before creation
 **Fix**: Add unique constraint in v1.6.0
 
 ### 2. Large Project Export
-**Issue**: Export fails for projects >10GB  
-**Workaround**: Export tables individually  
+**Issue**: Export fails for projects >10GB
+**Workaround**: Export tables individually
 **Fix**: Streaming export in v1.6.0
 
 ### 3. Cross-Project Query Performance
-**Issue**: Slow for large result sets  
-**Workaround**: Use smaller batch sizes  
+**Issue**: Slow for large result sets
+**Workaround**: Use smaller batch sizes
 **Fix**: Query optimization in v1.7.0
 
 ---
@@ -609,7 +609,7 @@ tables:
       - accuracy: FLOAT
 ```
 
-### 3. AI-Powered Project Insights
+## 3. AI-Powered Project Insights
 
 Use ML to provide insights:
 - Unused table detection
@@ -659,8 +659,8 @@ Track community feature requests:
 
 ---
 
-**Last Updated**: 2026-04-06  
-**Contributors**: ThemisDB Team, Community  
+**Last Updated**: 2026-04-06
+**Contributors**: ThemisDB Team, Community
 **Status**: Living Document
 
 ---

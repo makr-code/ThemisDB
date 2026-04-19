@@ -3,7 +3,7 @@
 
 # Security — Content Module Public Headers
 
-**Module Path:** `include/content/`  
+**Module Path:** `include/content/`
 **Implementation Security:** `../../src/content/SECURITY.md`
 
 ---

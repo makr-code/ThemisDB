@@ -44,7 +44,7 @@ Planned API changes and new header files for ThemisDB authentication.
 ## New Header Files
 
 ### device_flow_authenticator.h
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 OAuth 2.0 Device Authorization Grant (RFC 8628) for CLI and IoT devices.
@@ -61,7 +61,7 @@ namespace auth {
 
 /**
  * @brief OAuth 2.0 Device Flow authenticator for headless devices
- * 
+ *
  * Implements RFC 8628 Device Authorization Grant for devices without
  * browsers or limited input capability.
  */
@@ -75,7 +75,7 @@ public:
         int expires_in;                       // Expiration in seconds
         int interval;                         // Polling interval in seconds
     };
-    
+
     /**
      * @brief Initialize with OAuth 2.0 configuration
      */
@@ -84,10 +84,10 @@ public:
         const std::string& token_endpoint,
         const std::string& client_id
     );
-    
+
     /**
      * @brief Request device code from authorization server
-     * 
+     *
      * @param scopes Optional scopes to request
      * @return Device code response with user code and verification URI
      * @throws std::runtime_error on HTTP or parse error
@@ -95,16 +95,16 @@ public:
     DeviceCodeResponse requestDeviceCode(
         const std::vector<std::string>& scopes = {}
     );
-    
+
     /**
      * @brief Poll for token (after user authorizes)
-     * 
+     *
      * @param device_code Device code from requestDeviceCode()
      * @return JWT claims if authorized, nullopt if still pending
      * @throws std::runtime_error on authorization_denied or expired_token
      */
     std::optional<JWTClaims> pollForToken(const std::string& device_code);
-    
+
 private:
     std::string device_auth_endpoint_;
     std::string token_endpoint_;
@@ -121,13 +121,13 @@ DeviceFlowAuthenticator device_flow(auth_endpoint, token_endpoint, client_id);
 
 // Step 1: Request device code
 auto response = device_flow.requestDeviceCode();
-std::cout << "Visit " << response.verification_uri 
+std::cout << "Visit " << response.verification_uri
           << " and enter code: " << response.user_code << std::endl;
 
 // Step 2: Poll for authorization
 while (true) {
     std::this_thread::sleep_for(std::chrono::seconds(response.interval));
-    
+
     auto claims = device_flow.pollForToken(response.device_code);
     if (claims) {
         std::cout << "Authenticated as " << claims->email << std::endl;
@@ -139,7 +139,7 @@ while (true) {
 ---
 
 ### webauthn_authenticator.h
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 WebAuthn/FIDO2 hardware security key and biometric authentication.
@@ -157,7 +157,7 @@ namespace auth {
 
 /**
  * @brief WebAuthn/FIDO2 authenticator for hardware keys and biometrics
- * 
+ *
  * Implements W3C WebAuthn Level 2 specification for phishing-resistant
  * authentication using hardware security keys, platform authenticators
  * (Touch ID, Face ID, Windows Hello), or passkeys.
@@ -171,7 +171,7 @@ public:
         std::string id;            // Domain (e.g., "example.com")
         std::string name;          // Display name (e.g., "ThemisDB")
     };
-    
+
     /**
      * @brief User information for registration
      */
@@ -180,7 +180,7 @@ public:
         std::string name;          // Username or email
         std::string display_name;  // Full name
     };
-    
+
     /**
      * @brief Credential creation options for registration
      */
@@ -191,20 +191,20 @@ public:
         std::vector<std::string> pub_key_cred_params;  // ["ES256", "RS256"]
         std::optional<int> timeout_ms;
         std::string attestation = "none";  // "none", "direct", "indirect"
-        
+
         // Authenticator selection criteria
         struct AuthenticatorSelection {
             std::optional<std::string> authenticator_attachment;  // "platform", "cross-platform"
             bool require_resident_key = false;
             std::string user_verification = "preferred";  // "required", "preferred", "discouraged"
         } authenticator_selection;
-        
+
         // Exclude existing credentials (prevent duplicate registration)
         std::vector<std::string> exclude_credentials;
-        
+
         nlohmann::json to_json() const;
     };
-    
+
     /**
      * @brief Credential request options for authentication
      */
@@ -213,13 +213,13 @@ public:
         std::string rp_id;
         std::optional<int> timeout_ms;
         std::string user_verification = "preferred";
-        
+
         // Allow specific credentials (empty = discoverable/passkey)
         std::vector<std::string> allow_credentials;
-        
+
         nlohmann::json to_json() const;
     };
-    
+
     /**
      * @brief Attestation result from registration
      */
@@ -230,7 +230,7 @@ public:
         int sign_count;
         std::vector<uint8_t> aaguid;  // Authenticator model
     };
-    
+
     /**
      * @brief Assertion result from authentication
      */
@@ -239,12 +239,12 @@ public:
         int sign_count;
         std::optional<std::string> user_handle;  // For passkeys
     };
-    
+
     explicit WebAuthnAuthenticator(const RelyingParty& rp);
-    
+
     /**
      * @brief Generate credential creation options for registration
-     * 
+     *
      * @param user User information
      * @param resident_key If true, creates discoverable credential (passkey)
      * @return Options to send to client
@@ -253,29 +253,29 @@ public:
         const User& user,
         bool resident_key = false
     );
-    
+
     /**
      * @brief Verify attestation response from client
-     * 
+     *
      * @param credential_response JSON response from navigator.credentials.create()
      * @return Attestation result with credential ID and public key
      * @throws std::runtime_error on verification failure
      */
     AttestationResult completeRegistration(const nlohmann::json& credential_response);
-    
+
     /**
      * @brief Generate credential request options for authentication
-     * 
+     *
      * @param user_id Optional user ID for non-discoverable credentials
      * @return Options to send to client
      */
     CredentialRequestOptions startAuthentication(
         const std::optional<std::string>& user_id = std::nullopt
     );
-    
+
     /**
      * @brief Verify assertion response from client
-     * 
+     *
      * @param credential_response JSON response from navigator.credentials.get()
      * @param stored_public_key Public key from registration
      * @param stored_sign_count Previous signature counter
@@ -287,13 +287,13 @@ public:
         const std::vector<uint8_t>& stored_public_key,
         int stored_sign_count
     );
-    
+
 private:
     RelyingParty rp_;
-    
+
     // Generate cryptographically secure random challenge
     std::string generateChallenge();
-    
+
     // Verify signature using stored public key
     bool verifySignature(
         const std::vector<uint8_t>& signature,
@@ -310,7 +310,7 @@ private:
 ---
 
 ### passkey_authenticator.h
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Simplified passkey API built on WebAuthn with resident keys.
@@ -326,10 +326,10 @@ namespace auth {
 
 /**
  * @brief Simplified passkey authenticator (WebAuthn with resident keys)
- * 
+ *
  * Passkeys are discoverable credentials that sync across user's devices
  * via iCloud Keychain, Google Password Manager, etc.
- * 
+ *
  * Benefits:
  * - True passwordless (no username/password)
  * - Phishing-resistant
@@ -339,10 +339,10 @@ namespace auth {
 class PasskeyAuthenticator {
 public:
     explicit PasskeyAuthenticator(const WebAuthnAuthenticator::RelyingParty& rp);
-    
+
     /**
      * @brief Start passkey registration
-     * 
+     *
      * @param user_id User identifier
      * @param username Username or email
      * @param display_name User's full name
@@ -353,10 +353,10 @@ public:
         const std::string& username,
         const std::string& display_name
     );
-    
+
     /**
      * @brief Complete passkey registration
-     * 
+     *
      * @param credential_response JSON from client
      * @return Credential info to store
      */
@@ -367,19 +367,19 @@ public:
         std::string algorithm;
         int sign_count;
     };
-    
+
     PasskeyCredential completeRegistration(const nlohmann::json& credential_response);
-    
+
     /**
      * @brief Start passwordless authentication (no user_id needed!)
-     * 
+     *
      * @return Options for client (no allowCredentials = discoverable)
      */
     WebAuthnAuthenticator::CredentialRequestOptions startAuthentication();
-    
+
     /**
      * @brief Complete passwordless authentication
-     * 
+     *
      * @param credential_response JSON from client
      * @param lookup_credential Callback to retrieve credential by ID
      * @return User ID of authenticated user
@@ -388,7 +388,7 @@ public:
         const nlohmann::json& credential_response,
         std::function<PasskeyCredential(const std::string&)> lookup_credential
     );
-    
+
 private:
     WebAuthnAuthenticator webauthn_;
 };
@@ -419,7 +419,7 @@ auto user_id = passkey.completeAuthentication(
 ---
 
 ### adaptive_mfa_engine.h
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Risk-based adaptive multi-factor authentication.
@@ -436,7 +436,7 @@ namespace auth {
 
 /**
  * @brief Adaptive MFA engine for risk-based authentication
- * 
+ *
  * Adjusts MFA requirements based on contextual risk signals:
  * - IP reputation and geolocation
  * - Device fingerprint (known vs. unknown)
@@ -452,7 +452,7 @@ public:
         High,
         Critical
     };
-    
+
     struct AuthenticationContext {
         std::string user_id;
         std::string ip_address;
@@ -464,14 +464,14 @@ public:
         bool vpn_detected;
         int failed_attempts_24h;
     };
-    
+
     struct MFARequirement {
         bool mfa_required;
         RiskLevel risk_level;
         std::vector<std::string> acceptable_methods;  // ["totp", "webauthn", "push"]
         int step_up_factor;  // 1 = normal, 2 = require 2 MFA factors
         std::string reason;  // Human-readable explanation
-        
+
         // Recommended action
         enum class Action {
             Allow,              // No MFA required
@@ -481,12 +481,12 @@ public:
             Block
         } action;
     };
-    
+
     /**
      * @brief Evaluate risk and determine MFA requirements
      */
     MFARequirement evaluateRisk(const AuthenticationContext& context);
-    
+
     /**
      * @brief Update user's behavior baseline
      */
@@ -494,7 +494,7 @@ public:
         const std::string& user_id,
         const AuthenticationContext& context
     );
-    
+
     /**
      * @brief Configure risk scoring weights
      */
@@ -506,12 +506,12 @@ public:
         double unusual_time_weight = 0.5;
         double velocity_weight = 1.0;
     };
-    
+
     void setRiskWeights(const RiskWeights& weights);
-    
+
 private:
     RiskWeights weights_;
-    
+
     // Calculate individual risk factors
     double calculateIPReputationScore(const std::string& ip);
     bool detectImpossibleTravel(const std::string& user_id, const std::string& location);
@@ -525,7 +525,7 @@ private:
 ---
 
 ### magic_link_authenticator.h
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Email-based passwordless authentication.
@@ -542,7 +542,7 @@ namespace auth {
 
 /**
  * @brief Magic link authenticator for passwordless email authentication
- * 
+ *
  * Generates time-limited, single-use tokens sent via email for authentication.
  * More user-friendly than passwords but requires secure email delivery.
  */
@@ -554,12 +554,12 @@ public:
         bool require_same_device = false;  // More secure but less convenient
         bool single_use = true;
     };
-    
+
     explicit MagicLinkAuthenticator(const Config& config);
-    
+
     /**
      * @brief Generate magic link for user
-     * 
+     *
      * @param email User's email address
      * @param redirect_url Optional URL to redirect after authentication
      * @return Full magic link URL to send via email
@@ -568,10 +568,10 @@ public:
         const std::string& email,
         const std::string& redirect_url = ""
     );
-    
+
     /**
      * @brief Validate magic link token
-     * 
+     *
      * @param token Token from URL query parameter
      * @return Validation result with email if successful
      */
@@ -581,18 +581,18 @@ public:
         std::optional<std::string> redirect_url;
         std::string error_message;
     };
-    
+
     ValidationResult validateMagicLink(const std::string& token);
-    
+
 private:
     Config config_;
-    
+
     // Sign token with HMAC-SHA256
     std::string signToken(const std::string& email, int64_t expiration);
-    
+
     // Verify token signature and expiration
     bool verifyToken(const std::string& token);
-    
+
     // Mark token as used (if single_use enabled)
     void markTokenUsed(const std::string& token);
 };
@@ -604,7 +604,7 @@ private:
 ---
 
 ### session_manager.h
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Advanced session management with pinning and anomaly detection.
@@ -623,7 +623,7 @@ namespace auth {
 
 /**
  * @brief Advanced session manager with security features
- * 
+ *
  * Features:
  * - Session pinning to device and IP
  * - Concurrent session management
@@ -643,7 +643,7 @@ public:
         std::chrono::system_clock::time_point last_activity;
         bool is_current;
     };
-    
+
     struct SessionLimits {
         int max_concurrent_sessions = 5;
         std::chrono::seconds idle_timeout = std::chrono::hours(24);
@@ -651,9 +651,9 @@ public:
         bool pin_to_ip = true;
         bool pin_to_device = true;
     };
-    
+
     explicit SessionManager(const SessionLimits& limits = SessionLimits{});
-    
+
     /**
      * @brief Create new session
      */
@@ -663,7 +663,7 @@ public:
         const std::string& ip_address,
         const std::string& user_agent
     );
-    
+
     /**
      * @brief Validate existing session
      */
@@ -672,23 +672,23 @@ public:
         std::optional<SessionInfo> session;
         std::string error_message;
     };
-    
+
     ValidationResult validateSession(
         const std::string& session_id,
         const std::string& current_ip,
         const std::string& current_device_fingerprint
     );
-    
+
     /**
      * @brief List all active sessions for user
      */
     std::vector<SessionInfo> listSessions(const std::string& user_id);
-    
+
     /**
      * @brief Terminate specific session
      */
     void terminateSession(const std::string& session_id);
-    
+
     /**
      * @brief Terminate all sessions except current
      */
@@ -696,7 +696,7 @@ public:
         const std::string& user_id,
         const std::string& current_session_id
     );
-    
+
     /**
      * @brief Detect session anomalies
      */
@@ -707,22 +707,22 @@ public:
         DeviceChange,
         SuspiciousActivity
     };
-    
+
     struct Anomaly {
         AnomalyType type;
         int severity;  // 0-100
         std::string description;
         std::chrono::system_clock::time_point detected_at;
     };
-    
+
     std::vector<Anomaly> detectAnomalies(const std::string& session_id);
-    
+
 private:
     SessionLimits limits_;
-    
+
     // Check if IP or device changed (session hijacking)
     bool isPinValid(const SessionInfo& session, const std::string& ip, const std::string& device);
-    
+
     // Enforce session limits (kick oldest if exceeded)
     void enforceSessionLimits(const std::string& user_id);
 };
@@ -746,10 +746,10 @@ Add token introspection and refresh token support.
 class JWTValidator {
 public:
     // ... existing methods ...
-    
+
     /**
      * @brief Introspect token with authorization server (RFC 7662)
-     * 
+     *
      * Validates token in real-time with IdP, useful for:
      * - Checking revocation status
      * - Validating opaque tokens
@@ -765,14 +765,14 @@ public:
         std::optional<std::string> sub;
         nlohmann::json extra;
     };
-    
+
     IntrospectionResponse introspect(
         const std::string& token,
         const std::string& introspection_endpoint,
         const std::string& client_id,
         const std::string& client_secret
     );
-    
+
     /**
      * @brief Refresh access token using refresh token
      */
@@ -782,7 +782,7 @@ public:
         int expires_in;
         std::string token_type;
     };
-    
+
     RefreshResult refreshToken(
         const std::string& refresh_token,
         const std::string& token_endpoint,
@@ -805,10 +805,10 @@ Add support for multiple TOTP devices per user.
 class MFAAuthenticator {
 public:
     // ... existing methods ...
-    
+
     /**
      * @brief Register additional TOTP device for user
-     * 
+     *
      * Allows users to have multiple devices (phone, tablet, hardware token)
      * for MFA redundancy.
      */
@@ -819,12 +819,12 @@ public:
         std::chrono::system_clock::time_point enrolled_at;
         std::chrono::system_clock::time_point last_used;
     };
-    
+
     DeviceEnrollment registerDevice(
         const std::string& user_id,
         const std::string& device_name
     );
-    
+
     /**
      * @brief Validate TOTP against any of user's devices
      */
@@ -832,17 +832,17 @@ public:
         bool valid;
         std::optional<std::string> device_id;  // Which device was used
     };
-    
+
     ValidationResult validateTOTPAnyDevice(
         const std::string& user_id,
         const std::string& code
     );
-    
+
     /**
      * @brief List all enrolled devices for user
      */
     std::vector<DeviceEnrollment> listDevices(const std::string& user_id);
-    
+
     /**
      * @brief Remove device
      */
@@ -902,7 +902,7 @@ struct JWTClaims {
     std::string sub;
     std::string email;
     // ... existing fields ...
-    
+
     // New fields
     std::optional<std::string> phone_number;
     std::optional<bool> phone_number_verified;
@@ -912,7 +912,7 @@ struct JWTClaims {
     std::optional<std::string> family_name;
     std::optional<std::string> locale;
     std::optional<std::string> zoneinfo;
-    
+
     // Extensible custom claims
     nlohmann::json custom_claims;
 };

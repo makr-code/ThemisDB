@@ -2,7 +2,7 @@
 
 # Security — include/temporal/
 
-> Security scope, threat model, and mitigations for the public temporal headers.  
+> Security scope, threat model, and mitigations for the public temporal headers.
 > Implementation-level security controls are documented in [`../../src/temporal/SECURITY.md`](../../src/temporal/SECURITY.md).
 
 ---

@@ -1,6 +1,6 @@
-## include/stable_diffusion
+# include/stable_diffusion
 
-### Scope
+## Scope
 - API evolution for richer safety policy and generation controls.
 
 ### Design Constraints

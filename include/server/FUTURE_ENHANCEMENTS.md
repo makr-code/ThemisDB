@@ -31,7 +31,7 @@
 ## Planned Features
 
 ### Unified API Handler Interface
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Standardize all API handler interfaces with consistent signatures and async support.
@@ -53,17 +53,17 @@ class IAPIHandler {
 public:
     // Async handler returning Future
     virtual Future<Response> handleAsync(Request req, AuthContext auth) = 0;
-    
+
     // Handler metadata
     virtual std::string getPath() const = 0;
     virtual std::vector<http::verb> getSupportedMethods() const = 0;
     virtual std::vector<std::string> getRequiredScopes() const = 0;
     virtual std::optional<RateLimitConfig> getRateLimit() const = 0;
     virtual Priority getPriority() const = 0;
-    
+
     // Request validation
     virtual Result<void> validateRequest(const Request& req) const = 0;
-    
+
     // Response transformation
     virtual Response transformResponse(Response res, const Request& req) const = 0;
 };
@@ -79,7 +79,7 @@ public:
 ---
 
 ### Protocol-Agnostic Request/Response Types
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Abstract away protocol-specific types (Boost.Beast) for easier testing and migration.
@@ -94,7 +94,7 @@ public:
     std::string query_string() const;
     std::unordered_map<std::string, std::string> headers() const;
     std::string_view body() const;
-    
+
     // Protocol-specific access
     template<typename Protocol>
     const Protocol::Request& as() const;
@@ -107,10 +107,10 @@ public:
     void setHeader(std::string_view name, std::string_view value);
     void setBody(std::string body);
     void setBody(std::vector<uint8_t> binary_body);
-    
+
     // Streaming support
     void setStream(std::shared_ptr<IStreamSource> stream);
-    
+
     // Protocol-specific conversion
     template<typename Protocol>
     typename Protocol::Response to() const;
@@ -126,7 +126,7 @@ public:
 ---
 
 ### Async Handler Support
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Native coroutine support for async I/O in handlers.
@@ -136,11 +136,11 @@ Native coroutine support for async I/O in handlers.
 class AsyncAPIHandler : public IAPIHandler {
 public:
     virtual std::coroutine_handle<> handleAsync(
-        Request req, 
+        Request req,
         AuthContext auth,
         std::function<void(Response)> callback
     ) = 0;
-    
+
     // Or using C++20 coroutines:
     virtual task<Response> handle(Request req, AuthContext auth) = 0;
 };
@@ -150,13 +150,13 @@ public:
 ```cpp
 task<Response> EntityAPIHandler::handle(Request req, AuthContext auth) {
     auto trace = co_await tracer->startSpan("entity.create");
-    
+
     auto entity = co_await parseRequest(req);
     auto validated = co_await validateEntity(entity);
     auto stored = co_await storage->put(validated);
-    
+
     trace->end();
-    
+
     co_return Response::ok(stored.toJSON());
 }
 ```
@@ -170,7 +170,7 @@ task<Response> EntityAPIHandler::handle(Request req, AuthContext auth) {
 ---
 
 ### Streaming Response Interface
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Native streaming support for large responses.
@@ -188,7 +188,7 @@ public:
 class QueryResultStream : public IStreamSource {
 public:
     QueryResultStream(std::shared_ptr<QueryCursor> cursor) : cursor_(cursor) {}
-    
+
     Future<std::optional<Chunk>> nextChunk() override {
         if (auto batch = cursor_->fetchBatch(1000)) {
             return Chunk{serialize(*batch)};
@@ -212,7 +212,7 @@ return res;
 ---
 
 ### Middleware Chain Interface
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Composable middleware for request/response processing.
@@ -222,7 +222,7 @@ Composable middleware for request/response processing.
 class IMiddleware {
 public:
     virtual Future<MiddlewareResult> process(
-        Request& req, 
+        Request& req,
         Response& res,
         std::function<Future<void>()> next
     ) = 0;
@@ -265,7 +265,7 @@ auto response = co_await chain.process(request);
 ---
 
 ### WebSocket Interface Improvements
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Enhanced WebSocket interface with better lifecycle management.
@@ -299,7 +299,7 @@ public:
 ---
 
 ### gRPC Interface Abstraction
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Abstract gRPC-specific types for easier testing.
@@ -327,7 +327,7 @@ public:
 ---
 
 ### Enhanced Rate Limiter Interface
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Unified rate limiter interface supporting multiple algorithms and backends.
@@ -342,25 +342,25 @@ public:
         LEAKY_BUCKET,
         FIXED_WINDOW
     };
-    
+
     enum class Backend {
         IN_MEMORY,
         REDIS,
         MEMCACHED
     };
-    
+
     struct CheckResult {
         bool allowed;
         uint64_t retry_after_ms;
         uint64_t remaining;
         uint64_t limit;
     };
-    
+
     virtual Future<CheckResult> checkLimit(
         const std::string& key,
         uint64_t cost = 1
     ) = 0;
-    
+
     virtual Future<void> reset(const std::string& key) = 0;
 };
 
@@ -384,7 +384,7 @@ public:
 ---
 
 ### Policy Engine Interface Extensions
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Enhanced policy engine with more flexible evaluation.
@@ -395,20 +395,20 @@ class IPolicyEngine {
 public:
     // Existing
     virtual Decision evaluate(const EvalContext& ctx) const = 0;
-    
+
     // New: Batch evaluation
     virtual std::vector<Decision> evaluateBatch(
         const std::vector<EvalContext>& contexts
     ) const = 0;
-    
+
     // New: Explain decision
     virtual DecisionExplanation explain(const EvalContext& ctx) const = 0;
-    
+
     // New: Policy testing
     virtual std::vector<PolicyTestResult> testPolicies(
         const std::vector<EvalContext>& test_cases
     ) const = 0;
-    
+
     // New: Dynamic policy loading
     virtual Future<void> reloadPolicies() = 0;
 };
@@ -424,7 +424,7 @@ struct DecisionExplanation {
 ---
 
 ### Connection Pool Interface
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Abstract connection pooling for reuse across protocols.
@@ -437,10 +437,10 @@ public:
     virtual Future<Connection> acquire() = 0;
     virtual void release(Connection conn) = 0;
     virtual void invalidate(Connection conn) = 0;
-    
+
     virtual size_t size() const = 0;
     virtual size_t available() const = 0;
-    
+
     struct Stats {
         size_t total_connections;
         size_t active_connections;
@@ -458,7 +458,7 @@ public:
 ## Performance Optimizations
 
 ### Zero-Copy Header Access
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Avoid string copies when accessing HTTP headers.
@@ -478,7 +478,7 @@ std::string_view auth_header = request.header("Authorization");
 ---
 
 ### Compile-Time Handler Registration
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Use template metaprogramming for zero-cost handler registration.
@@ -504,7 +504,7 @@ using EntityHandler = RegisteredHandler<EntityAPIHandler, entity_path>;
 ---
 
 ### Header-Only Implementations
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Move small classes to header-only for better inlining.
@@ -522,7 +522,7 @@ Move small classes to header-only for better inlining.
 ## Refactoring Opportunities
 
 ### Separate Protocol Headers
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Extract protocol-specific headers into separate directories.
@@ -565,7 +565,7 @@ include/
 ---
 
 ### Handler Traits System
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Use traits to declare handler capabilities at compile-time.
@@ -598,7 +598,7 @@ struct HandlerTraits<QueryAPIHandler> {
 ---
 
 ### Concept-Based Handler Validation
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.9.0
 
 Use C++20 concepts for handler validation.
@@ -624,7 +624,7 @@ void registerHandler(Handler handler) {
 ## Known Issues
 
 ### Issue #1: Forward Declaration Complexity
-**Severity:** Low  
+**Severity:** Low
 **Reported:** v1.5.0
 
 Complex forward declaration chains in headers cause compilation issues.
@@ -633,7 +633,7 @@ Complex forward declaration chains in headers cause compilation issues.
 - Incomplete type errors
 - Circular dependency warnings
 
-**Workaround:** Include full definitions  
+**Workaround:** Include full definitions
 **Fix:** Refactor to reduce interdependencies
 
 **Planned Fix:** v1.7.0 - Header dependency audit and cleanup
@@ -641,14 +641,14 @@ Complex forward declaration chains in headers cause compilation issues.
 ---
 
 ### Issue #2: Boost.Beast Type Leakage
-**Severity:** Medium  
+**Severity:** Medium
 **Reported:** v1.5.0
 
 Boost.Beast types exposed in public interfaces.
 
 **Impact:** Difficult to test, hard to migrate to other libraries
 
-**Workaround:** Wrap in internal types  
+**Workaround:** Wrap in internal types
 **Fix:** Protocol-agnostic Request/Response types
 
 **Planned Fix:** v1.7.0
@@ -656,14 +656,14 @@ Boost.Beast types exposed in public interfaces.
 ---
 
 ### Issue #3: Missing noexcept Specifications
-**Severity:** Low  
+**Severity:** Low
 **Reported:** v1.5.1
 
 Many interfaces lack noexcept specifications.
 
 **Impact:** Suboptimal code generation, unclear exception guarantees
 
-**Workaround:** None  
+**Workaround:** None
 **Fix:** Audit and add noexcept where appropriate
 
 **Planned Fix:** v1.6.1
@@ -671,14 +671,14 @@ Many interfaces lack noexcept specifications.
 ---
 
 ### Issue #4: Virtual Function Overhead
-**Severity:** Low  
+**Severity:** Low
 **Reported:** v1.5.0
 
 Virtual function calls in hot paths add latency.
 
 **Impact:** ~5-10ns per virtual call
 
-**Workaround:** None  
+**Workaround:** None
 **Fix:** Use CRTP or templates for hot paths
 
 **Planned Fix:** v1.8.0
@@ -686,14 +686,14 @@ Virtual function calls in hot paths add latency.
 ---
 
 ### Issue #5: Header Include Bloat
-**Severity:** Medium  
+**Severity:** Medium
 **Reported:** v1.5.2
 
 Including `http_server.h` pulls in 100+ transitive headers.
 
 **Impact:** Slow compilation times
 
-**Workaround:** Forward declare when possible  
+**Workaround:** Forward declare when possible
 **Fix:** Header include cleanup, use pimpl where appropriate
 
 **Planned Fix:** v1.7.0
@@ -734,7 +734,7 @@ constexpr auto entity_api = API{
 
 **Example:**
 ```cpp
-Route<"/api/v1/entities/{id}">::Handler auto handler = 
+Route<"/api/v1/entities/{id}">::Handler auto handler =
     [](int id, AuthContext auth) -> Response {
         // id is guaranteed to be int
     };
@@ -743,7 +743,7 @@ Route<"/api/v1/entities/{id}">::Handler auto handler =
 ---
 
 ### Header-Only Server
-**Priority:** Research  
+**Priority:** Research
 **Focus:** Experimental header-only HTTP server
 
 **Goal:**
@@ -884,8 +884,8 @@ Have ideas for server header improvements? Open an issue or discussion:
 
 ---
 
-*Last Updated: April 2026*  
-*Module Version: v1.7.0*  
+*Last Updated: April 2026*
+*Module Version: v1.7.0*
 *Next Review: v1.7.0 Release*
 
 ## Test Strategy

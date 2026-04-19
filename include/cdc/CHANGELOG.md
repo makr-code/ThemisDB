@@ -3,7 +3,7 @@
 
 # Changelog — CDC Module Public Headers
 
-All notable changes to public headers in `include/cdc/`.  
+All notable changes to public headers in `include/cdc/`.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]

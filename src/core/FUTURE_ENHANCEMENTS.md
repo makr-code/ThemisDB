@@ -40,7 +40,7 @@
 ## Planned Features
 
 ### Dynamic Adapter Reconfiguration
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Enable runtime switching of adapters without restarting the database.
@@ -64,8 +64,8 @@ context->reloadMetricsConfig(new_config);
 ---
 
 ### Distributed Cache Integration
-**Priority:** High  
-**Target Version:** v1.6.0  
+**Priority:** High
+**Target Version:** v1.6.0
 **Status:** ✅ Implemented
 
 Full Redis/Memcached adapter for distributed caching across cluster nodes.
@@ -77,10 +77,10 @@ Full Redis/Memcached adapter for distributed caching across cluster nodes.
 - Pub/sub for cache invalidation messages (background subscriber thread)
 - Graceful degradation when Redis is unavailable (no exceptions, returns nullopt/false)
 
-**Implementation:**  
-`include/core/concerns/redis_cache.h` and `src/core/concerns/redis_cache.cpp`.  
-`RedisCache` implements `ICache` and is injectable via `ConcernsContext::createCustom()`.  
-Selectable via `Config::cacheAdapter = "redis"` + `Config::cacheRedisUrl`.  
+**Implementation:**
+`include/core/concerns/redis_cache.h` and `src/core/concerns/redis_cache.cpp`.
+`RedisCache` implements `ICache` and is injectable via `ConcernsContext::createCustom()`.
+Selectable via `Config::cacheAdapter = "redis"` + `Config::cacheRedisUrl`.
 Tests: `tests/test_distributed_cache_integration.cpp` → `DistributedCacheIntegrationFocusedTests`.
 
 **API:**
@@ -99,7 +99,7 @@ auto context = ConcernsContext::createCustom(
 ---
 
 ### Contextual Logging
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Automatic context propagation through call chains for better log correlation.
@@ -124,7 +124,7 @@ logger->info("Processing query");
 ---
 
 ### Metrics Aggregation Service
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Centralized metrics aggregation across sharded nodes.
@@ -138,7 +138,7 @@ Centralized metrics aggregation across sharded nodes.
 ---
 
 ### Adaptive Cache Strategies
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Machine learning-based cache eviction that adapts to workload patterns.
@@ -152,7 +152,7 @@ Machine learning-based cache eviction that adapts to workload patterns.
 ---
 
 ### Custom Concern Types
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Allow users to register custom cross-cutting concerns.
@@ -172,13 +172,13 @@ context->registerConcern<ICustomConcern>(my_custom_concern);
 ## Performance Optimizations
 
 ### Zero-Copy Logging
-**Priority:** High  
-**Target Version:** v1.6.0  
+**Priority:** High
+**Target Version:** v1.6.0
 **Status:** ✅ Implemented
 
 Reduce memory allocations in logging hot paths.
 
-**Current:** String formatting and copying for every log call  
+**Current:** String formatting and copying for every log call
 **Target:** Pre-allocated buffers and string_view usage
 
 **Expected Improvement:** 30-50% reduction in logging overhead
@@ -202,8 +202,8 @@ See `tests/test_zero_copy_logging.cpp` for 41 focused unit tests.
 ---
 
 ### Lock-Free Metrics
-**Priority:** High  
-**Target Version:** v1.6.0  
+**Priority:** High
+**Target Version:** v1.6.0
 **Status:** ✅ Implemented
 
 Replace mutex-based counters with atomic operations.
@@ -222,12 +222,12 @@ See `include/core/concerns/lockfree_metrics.h` and
 ---
 
 ### Span Pool Reuse
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Reuse span objects instead of allocating on every trace.
 
-**Current:** Allocate new span for every operation  
+**Current:** Allocate new span for every operation
 **Target:** Object pool with 1000 pre-allocated spans
 
 **Expected Improvement:** 60% reduction in tracing overhead
@@ -235,7 +235,7 @@ Reuse span objects instead of allocating on every trace.
 ---
 
 ### Lazy Context Initialization
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Defer adapter creation until first use.
@@ -248,12 +248,12 @@ Defer adapter creation until first use.
 ---
 
 ### Batched Metrics Export
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Batch multiple metric updates before sending to Prometheus.
 
-**Current:** Export every metric update immediately  
+**Current:** Export every metric update immediately
 **Target:** Buffer updates and export every 100ms
 
 **Expected Improvement:** 90% reduction in network overhead
@@ -263,7 +263,7 @@ Batch multiple metric updates before sending to Prometheus.
 ## Refactoring Opportunities
 
 ### Separate Concerns into Individual Libraries
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Split concerns into standalone libraries for better modularity.
@@ -283,7 +283,7 @@ libthemis-caching.so      (ICache + implementations)
 ---
 
 ### Move Cache Strategies to Plugin System
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Allow custom cache eviction strategies via plugin API.
@@ -296,7 +296,7 @@ Allow custom cache eviction strategies via plugin API.
 ---
 
 ### Simplify ConcernsContext API
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.9.0
 
 Reduce boilerplate in context creation.
@@ -322,12 +322,12 @@ auto context = ConcernsContextBuilder()
 ---
 
 ### Standardize Error Handling
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Use `Expected<T, Error>` consistently across all concern interfaces.
 
-**Current:** Mix of exceptions, optionals, and error codes  
+**Current:** Mix of exceptions, optionals, and error codes
 **Target:** Uniform `Result<T>` return type
 
 ---
@@ -335,12 +335,12 @@ Use `Expected<T, Error>` consistently across all concern interfaces.
 ## Known Issues
 
 ### Issue #1: Cache Stampede
-**Severity:** Medium  
+**Severity:** Medium
 **Reported:** v1.5.0
 
 Multiple threads simultaneously query cache miss, causing duplicate work.
 
-**Workaround:** Use lock-based cache warming  
+**Workaround:** Use lock-based cache warming
 **Fix:** Implement request coalescing in cache layer
 
 **Planned Fix:** v1.6.0
@@ -348,12 +348,12 @@ Multiple threads simultaneously query cache miss, causing duplicate work.
 ---
 
 ### Issue #2: Tracer Memory Leak (Edge Case)
-**Severity:** Low  
+**Severity:** Low
 **Reported:** v1.5.1
 
 Long-running spans can accumulate if `end()` is not called.
 
-**Workaround:** Use RAII span guards  
+**Workaround:** Use RAII span guards
 **Fix:** Add automatic span timeout and cleanup
 
 **Planned Fix:** v1.6.1
@@ -361,12 +361,12 @@ Long-running spans can accumulate if `end()` is not called.
 ---
 
 ### Issue #3: Metrics Label Cardinality Explosion
-**Severity:** High  
+**Severity:** High
 **Reported:** v1.5.0
 
 High-cardinality labels (e.g., user IDs) cause unbounded memory growth.
 
-**Workaround:** Limit label values via configuration  
+**Workaround:** Limit label values via configuration
 **Fix:** Add automatic label cardinality limiting and warnings
 
 **Planned Fix:** v1.6.0
@@ -374,12 +374,12 @@ High-cardinality labels (e.g., user IDs) cause unbounded memory growth.
 ---
 
 ### Issue #4: Production Mode Detection False Positives
-**Severity:** Low  
+**Severity:** Low
 **Reported:** v1.5.2
 
 Environment variable detection can incorrectly trigger production mode.
 
-**Workaround:** Explicitly set `THEMIS_PRODUCTION_MODE=0`  
+**Workaround:** Explicitly set `THEMIS_PRODUCTION_MODE=0`
 **Fix:** More robust production detection logic
 
 **Planned Fix:** v1.6.0
@@ -504,10 +504,10 @@ target_link_libraries(my_app themis-core)
 
 **New CMake:**
 ```cmake
-target_link_libraries(my_app 
-    themis-logging 
-    themis-tracing 
-    themis-metrics 
+target_link_libraries(my_app
+    themis-logging
+    themis-tracing
+    themis-metrics
     themis-caching
 )
 ```
@@ -558,8 +558,8 @@ Have ideas for core module improvements? Open an issue or discussion:
 
 ---
 
-*Last Updated: April 2026*  
-*Module Version: v1.5.x*  
+*Last Updated: April 2026*
+*Module Version: v1.5.x*
 *Next Review: v1.6.0 Release*
 
 ---

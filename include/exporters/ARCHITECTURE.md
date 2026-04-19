@@ -2,8 +2,8 @@
 <!-- Links: README.md · ROADMAP.md · ../../src/exporters/ -->
 
 # Exporters Module — Public Header Architecture
-**Version:** 1.8.0  
-**Module Path:** `include/exporters/`  
+**Version:** 1.8.0
+**Module Path:** `include/exporters/`
 **Implementation:** `../../src/exporters/`
 
 ---

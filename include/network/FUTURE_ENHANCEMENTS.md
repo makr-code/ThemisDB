@@ -36,7 +36,7 @@
 ## Planned Interface Extensions
 
 ### WebSocket Server Interface
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Add WebSocket server interface for real-time bidirectional communication.
@@ -51,35 +51,35 @@ public:
         std::string host = "0.0.0.0";
         uint16_t port = 8767;
         size_t num_threads = std::thread::hardware_concurrency();
-        
+
         uint32_t max_connections = 10000;
         uint32_t max_message_size_mb = 16;
         uint32_t ping_interval_sec = 30;
-        
+
         bool enable_tls = false;
         std::string tls_cert_path;
         std::string tls_key_path;
-        
+
         bool enable_compression = true;  // Per-message deflate
         bool require_auth = true;
     };
-    
+
     WebSocketServer(
         const Config& config,
         std::shared_ptr<RocksDBWrapper> storage,
         std::shared_ptr<SecondaryIndexManager> index_mgr
     );
-    
+
     ~WebSocketServer();
-    
+
     void start();
     void stop();
     bool isRunning() const;
-    
+
     // Server-initiated push
     void broadcast(const std::string& topic, const std::string& message);
     void send(const std::string& session_id, const std::string& message);
-    
+
     struct Stats {
         uint64_t total_connections = 0;
         uint64_t active_connections = 0;
@@ -105,19 +105,19 @@ public:
         bool enable_compression = true;
         bool verify_tls = true;
     };
-    
+
     WebSocketClient(const std::string& url, const Config& config = Config{});
     ~WebSocketClient();
-    
+
     void connect();
     void disconnect();
     bool isConnected() const;
-    
+
     void send(const std::string& message);
-    void subscribe(const std::string& topic, 
+    void subscribe(const std::string& topic,
                    std::function<void(const std::string&)> callback);
     void unsubscribe(const std::string& topic);
-    
+
     void setMessageHandler(std::function<void(const std::string&)> handler);
     void setErrorHandler(std::function<void(const std::string&)> handler);
 };
@@ -132,7 +132,7 @@ WebSocketServer ws_server(config, storage, index_mgr);
 ws_server.start();
 
 // Broadcast document change event
-ws_server.broadcast("documents/articles", 
+ws_server.broadcast("documents/articles",
     R"({"event": "update", "uuid": "doc_123"})");
 
 // Client-side
@@ -147,7 +147,7 @@ client.subscribe("documents/articles", [](const std::string& msg) {
 ---
 
 ### UDP Server Interface
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Add UDP server interface for high-throughput, low-latency ingestion.
@@ -162,26 +162,26 @@ public:
         std::string host = "0.0.0.0";
         uint16_t port = 8768;
         size_t num_threads = 4;
-        
+
         size_t max_packet_size = 65507;  // Max UDP packet
         bool enable_batching = true;
         uint32_t batch_interval_ms = 100;
         bool enable_acks = false;  // Fire-and-forget
-        
+
         uint32_t max_packets_per_second = 1000000;
     };
-    
+
     UDPServer(
         const Config& config,
         std::shared_ptr<RocksDBWrapper> storage
     );
-    
+
     ~UDPServer();
-    
+
     void start();
     void stop();
     bool isRunning() const;
-    
+
     struct Stats {
         uint64_t packets_received = 0;
         uint64_t packets_dropped = 0;
@@ -198,10 +198,10 @@ public:
         bool enable_acks = false;
         size_t max_retries = 3;
     };
-    
+
     UDPClient(const std::string& target, const Config& config = Config{});
     ~UDPClient();
-    
+
     void send(const std::vector<uint8_t>& data);
     void send(const std::vector<uint8_t>& data, bool wait_for_ack);
 };
@@ -212,8 +212,8 @@ public:
 ---
 
 ### QUIC Server Interface
-**Priority:** Medium  
-**Target Version:** v2.0.0  
+**Priority:** Medium
+**Target Version:** v2.0.0
 **Status:** ✅ Implemented (v2.0.0, 2026-04-13)
 
 QUIC (HTTP/3) server and client interface for modern low-latency communication.
@@ -232,7 +232,7 @@ QUIC (HTTP/3) server and client interface for modern low-latency communication.
 ---
 
 ### Network Quality of Service (QoS) Interface
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Add QoS management for bandwidth control and traffic prioritization.
@@ -256,19 +256,19 @@ public:
         bool enable_fair_queuing = true;
         bool enable_priority_queuing = true;
     };
-    
+
     explicit QoSManager(const Config& config);
     ~QoSManager();
-    
+
     void setPriority(uint64_t connection_id, Priority priority);
     void setBandwidthLimit(uint64_t connection_id, uint64_t bps);
     void setTokenBucket(uint64_t connection_id, uint64_t rate_bps, uint64_t burst_bytes);
-    
+
     struct Stats {
         uint64_t total_bytes_sent = 0;
         uint64_t total_bytes_shaped = 0;  // Delayed due to QoS
         uint64_t priority_violations = 0;  // Low priority exceeded quota
-        
+
         std::map<Priority, uint64_t> bytes_per_priority;
     };
     Stats getStats() const;
@@ -280,7 +280,7 @@ public:
 ---
 
 ### Distributed Tracing Interface
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Add OpenTelemetry integration for distributed tracing.
@@ -297,10 +297,10 @@ public:
         std::string zipkin_endpoint;
         double sampling_rate = 0.1;  // 10% sampling
     };
-    
+
     explicit TracingContext(const Config& config);
     ~TracingContext();
-    
+
     class Span {
     public:
         void setAttribute(const std::string& key, const std::string& value);
@@ -310,14 +310,14 @@ public:
         void setStatus(bool success, const std::string& description = "");
         void end();
     };
-    
+
     std::unique_ptr<Span> startSpan(const std::string& name);
-    std::unique_ptr<Span> startSpan(const std::string& name, 
+    std::unique_ptr<Span> startSpan(const std::string& name,
                                       const std::map<std::string, std::string>& attributes);
-    
+
     // Extract trace context from incoming request
     void extractContext(const std::map<std::string, std::string>& headers);
-    
+
     // Inject trace context into outgoing request
     void injectContext(std::map<std::string, std::string>& headers);
 };
@@ -332,13 +332,13 @@ TracingContext tracing(tracing_config);
 void handleRequest(const Request& req) {
     // Extract parent trace context
     tracing.extractContext(req.headers);
-    
+
     auto span = tracing.startSpan("wire_protocol.handle_get",
         {{"collection", req.collection}, {"uuid", req.uuid}}
     );
-    
+
     auto result = storage_->get(key);
-    
+
     span->setAttribute("result_size", result.size());
     span->setStatus(true);
     span->end();
@@ -348,7 +348,7 @@ void handleRequest(const Request& req) {
 ---
 
 ### Load Balancer Interface with Raft
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.8.0
 
 Add Raft-based load balancer for distributed query routing.
@@ -372,14 +372,14 @@ public:
         double rebalance_threshold = 0.2;  // 20% load imbalance
         LoadBalancingStrategy strategy = LoadBalancingStrategy::LEAST_CONNECTIONS;
     };
-    
+
     explicit RaftLoadBalancer(const Config& config);
     ~RaftLoadBalancer();
-    
+
     void addBackend(const std::string& address, double weight = 1.0);
     void removeBackend(const std::string& address);
     void updateWeight(const std::string& address, double weight);
-    
+
     struct Backend {
         std::string address;
         double weight = 1.0;
@@ -387,21 +387,21 @@ public:
         uint64_t active_connections = 0;
         std::chrono::steady_clock::time_point last_health_check;
     };
-    
+
     std::vector<Backend> getBackends() const;
-    
+
     // Get connection to least loaded backend
     std::unique_ptr<WireProtocolConnectionPool::ConnectionHandle> getConnection();
-    
+
     // Get connection for specific key (consistent hashing)
     std::unique_ptr<WireProtocolConnectionPool::ConnectionHandle> getConnection(
         const std::string& key
     );
-    
+
     void start();
     void stop();
     bool isLeader() const;
-    
+
     struct Stats {
         uint64_t total_requests = 0;
         uint64_t failed_backends = 0;
@@ -417,7 +417,7 @@ public:
 ---
 
 ### Connection Migration Interface (QUIC)
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v2.0.0
 
 Add connection migration support for mobile clients.
@@ -434,7 +434,7 @@ public:
         PATH_DEGRADATION,    // High packet loss on current path
         LOAD_BALANCING       // Server-initiated migration
     };
-    
+
     struct MigrationEvent {
         MigrationReason reason;
         std::string old_address;
@@ -442,14 +442,14 @@ public:
         std::chrono::steady_clock::time_point timestamp;
         bool successful;
     };
-    
+
     void enableMigration(bool enable);
     bool isMigrationEnabled() const;
-    
+
     void setMigrationCallback(
         std::function<void(const MigrationEvent&)> callback
     );
-    
+
     std::vector<MigrationEvent> getMigrationHistory() const;
 };
 
@@ -459,7 +459,7 @@ public:
 ---
 
 ### Network Metrics Interface
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Add comprehensive network metrics interface for monitoring.
@@ -477,13 +477,13 @@ public:
         double p999_ms = 0.0;
         double max_ms = 0.0;
     };
-    
+
     struct ThroughputStats {
         uint64_t bytes_per_second = 0;
         uint64_t packets_per_second = 0;
         uint64_t requests_per_second = 0;
     };
-    
+
     struct ErrorStats {
         uint64_t connection_errors = 0;
         uint64_t timeout_errors = 0;
@@ -491,14 +491,14 @@ public:
         uint64_t auth_errors = 0;
         double error_rate = 0.0;
     };
-    
+
     LatencyStats getLatencyStats() const;
     ThroughputStats getThroughputStats() const;
     ErrorStats getErrorStats() const;
-    
+
     // Histogram for detailed latency distribution
     std::map<uint64_t, uint64_t> getLatencyHistogram() const;
-    
+
     void reset();
 };
 
@@ -508,7 +508,7 @@ public:
 ---
 
 ### Circuit Breaker Interface Enhancement
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Enhance circuit breaker with adaptive thresholds and half-open state.
@@ -533,15 +533,15 @@ public:
         bool enable_adaptive_threshold = true;
         double adaptive_factor = 0.1;  // Adjust threshold by 10%
     };
-    
+
     explicit AdaptiveCircuitBreaker(const Config& config);
-    
+
     bool shouldAllow();
     void recordSuccess();
     void recordFailure();
-    
+
     CircuitState getState() const;
-    
+
     struct Stats {
         CircuitState state = CircuitState::CLOSED;
         uint64_t total_calls = 0;
@@ -551,7 +551,7 @@ public:
         std::chrono::steady_clock::time_point last_state_change;
     };
     Stats getStats() const;
-    
+
     void setStateChangeCallback(
         std::function<void(CircuitState, CircuitState)> callback
     );
@@ -563,7 +563,7 @@ public:
 ---
 
 ### Connection Pool Strategy Interface
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.9.0
 
 Add pluggable connection pool strategies.
@@ -575,19 +575,19 @@ namespace themis::network {
 class IPoolingStrategy {
 public:
     virtual ~IPoolingStrategy() = default;
-    
+
     virtual size_t getIdealConnectionCount(
         size_t current_count,
         size_t active_count,
         double load
     ) = 0;
-    
+
     virtual bool shouldCreateConnection(
         size_t current_count,
         size_t max_count,
         size_t available_count
     ) = 0;
-    
+
     virtual bool shouldRemoveConnection(
         const Connection& conn,
         std::chrono::seconds idle_time
@@ -602,21 +602,21 @@ public:
         double scale_down_factor = 0.7;
         std::chrono::seconds min_idle_time{300};  // 5 minutes
     };
-    
+
     explicit AdaptivePoolingStrategy(const Config& config);
-    
+
     size_t getIdealConnectionCount(
         size_t current_count,
         size_t active_count,
         double load
     ) override;
-    
+
     bool shouldCreateConnection(
         size_t current_count,
         size_t max_count,
         size_t available_count
     ) override;
-    
+
     bool shouldRemoveConnection(
         const Connection& conn,
         std::chrono::seconds idle_time
@@ -629,7 +629,7 @@ public:
 ---
 
 ### Zero-Copy I/O Interface
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v2.1.0
 
 Add zero-copy I/O interface for ultra-low latency.
@@ -646,28 +646,28 @@ public:
         bool enable_zerocopy_send = true; // Linux MSG_ZEROCOPY
         size_t buffer_size = 1024 * 1024; // 1 MB
     };
-    
+
     explicit ZeroCopySocket(socket_t socket, const Config& config = Config{});
     ~ZeroCopySocket();
-    
+
     // Zero-copy send from file
     ssize_t sendFile(int fd, off_t offset, size_t count);
-    
+
     // Zero-copy send from memory (if supported by kernel)
     ssize_t sendZeroCopy(const void* buffer, size_t size);
-    
+
     // Memory-mapped receive (if supported)
     void* receiveZeroCopy(size_t* size_out);
     void releaseZeroCopyBuffer(void* buffer);
-    
+
     struct Stats {
         uint64_t total_bytes_sent = 0;
         uint64_t zero_copy_bytes = 0;
         uint64_t fallback_bytes = 0;  // Fallback to normal send
-        
+
         double getZeroCopyRate() const {
-            return total_bytes_sent > 0 
-                ? (double)zero_copy_bytes / total_bytes_sent 
+            return total_bytes_sent > 0
+                ? (double)zero_copy_bytes / total_bytes_sent
                 : 0.0;
         }
     };

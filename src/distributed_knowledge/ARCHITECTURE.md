@@ -1,8 +1,8 @@
 # distributed_knowledge Module — Architecture
 
-**Version:** 0.1.0  
-**Last Updated:** 2026-04-17  
-**Module Path:** `src/distributed_knowledge/`  
+**Version:** 0.1.0
+**Last Updated:** 2026-04-17
+**Module Path:** `src/distributed_knowledge/`
 **Header Path:** `include/distributed_knowledge/`
 
 ---

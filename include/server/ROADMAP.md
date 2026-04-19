@@ -5,8 +5,8 @@
 
 ## Current Status
 
-Public headers at v1.5.0. All core server interfaces are stable and production-ready.  
-Implementation: `../../src/server/` at v1.5.0.  
+Public headers at v1.5.0. All core server interfaces are stable and production-ready.
+Implementation: `../../src/server/` at v1.5.0.
 gRPC-Web TypeScript generator: `scripts/gen_grpc_web_ts.py` → `@themisdb/client-grpc-web`
 v1.7.0.
 

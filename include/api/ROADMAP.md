@@ -3,7 +3,7 @@
 
 # Roadmap — API Module Public Headers
 
-**Module Path:** `include/api/`  
+**Module Path:** `include/api/`
 **Implementation Roadmap:** `../../src/api/ROADMAP.md`
 
 ---

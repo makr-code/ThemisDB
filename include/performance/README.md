@@ -142,5 +142,13 @@ cmake -DTHEMIS_ENABLE_CYCLE_METRICS=ON \
 
 ---
 
-**Last Updated**: 2026-04-06  
+**Last Updated**: 2026-04-06
 **Version**: 1.1
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

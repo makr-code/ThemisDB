@@ -2,8 +2,8 @@
 <!-- Links: README.md · ROADMAP.md · ../../src/geo/ -->
 
 # Geo Module — Public Header Architecture
-**Version:** 2.2.0  
-**Module Path:** `include/geo/`  
+**Version:** 2.2.0
+**Module Path:** `include/geo/`
 **Implementation:** `../../src/geo/`
 
 ---

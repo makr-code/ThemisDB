@@ -31,3 +31,21 @@ The `prompt_engineering` module provides systematic prompt lifecycle management 
 - Architecture: [ARCHITECTURE.md](ARCHITECTURE.md)
 - Roadmap: [ROADMAP.md](ROADMAP.md)
 - Implementation: [`../../src/prompt_engineering/`](../../src/prompt_engineering/)
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```
+
+## Usage
+
+Include the relevant headers from this module:
+
+```cpp
+#include "prompt_engineering/module_header.h"
+```
+
+See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.

@@ -2,7 +2,7 @@
 
 # include/sharding/ — Architecture
 
-> Public header interfaces for the ThemisDB Sharding module.  
+> Public header interfaces for the ThemisDB Sharding module.
 > Implementation details live in [`../../src/sharding/`](../../src/sharding/).
 
 ---
@@ -150,5 +150,5 @@ sharding_manager.h
 
 ## Implementation Reference
 
-See [`../../src/sharding/`](../../src/sharding/) for all `.cpp` implementations.  
+See [`../../src/sharding/`](../../src/sharding/) for all `.cpp` implementations.
 See [`../../docs/src/sharding/`](../../docs/src/sharding/) for detailed design documentation.

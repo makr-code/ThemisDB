@@ -2,8 +2,8 @@
 <!-- Links: README.md · ROADMAP.md · ../../src/document/ -->
 
 # Document Module — Public Header Architecture
-**Version:** 1.0  
-**Module Path:** `include/document/`  
+**Version:** 1.0
+**Module Path:** `include/document/`
 **Implementation:** `../../src/document/`
 
 ---

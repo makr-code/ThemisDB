@@ -31,7 +31,7 @@
 ## Planned Features
 
 ### Query Compilation (JIT)
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Just-in-time compilation of frequently executed queries to native code.
@@ -83,7 +83,7 @@ Execute
 ---
 
 ### Adaptive Query Execution (AQE)
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Runtime query plan adjustment based on actual execution statistics.
@@ -121,7 +121,7 @@ auto result = engine.execute(query, config);
 ---
 
 ### Distributed Query Planning with Raft Coordination
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.8.0
 
 Raft-based coordination for distributed query execution across clusters.
@@ -163,7 +163,7 @@ auto result = coordinator.executeFederatedQuery(query);
 ---
 
 ### GPU-Accelerated Query Execution
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Offload compute-intensive query operations to GPU for massive parallelism.
@@ -214,7 +214,7 @@ FOR doc IN measurements
 ---
 
 ### Query Result Prefetching
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Predictive prefetching of query results based on access patterns.
@@ -258,7 +258,7 @@ prefetcher.recordQuery(query);  // Learn from executed queries
 ---
 
 ### Automatic Index Recommendation
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Analyze query workload and recommend optimal indexes.
@@ -324,7 +324,7 @@ Index Recommendations (based on 10,000 queries over 7 days):
 ---
 
 ### Recursive CTE Support
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Full recursive Common Table Expression support for hierarchical queries.
@@ -347,9 +347,9 @@ WITH RECURSIVE employee_hierarchy AS (
       level: 0,
       path: [e.id]
     }
-  
+
   UNION ALL
-  
+
   -- Recursive case
   FOR eh IN employee_hierarchy
     FOR e IN employees
@@ -377,7 +377,7 @@ FOR emp IN employee_hierarchy
 ---
 
 ### Query Materialized Views
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Automatic materialized view creation and maintenance for expensive queries.
@@ -414,7 +414,7 @@ auto cached_result = view_mgr.execute(expensive_query);  // Fast!
 ---
 
 ### Query Plan Visualization
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.7.0
 
 Visual query plan representation for debugging and optimization.
@@ -508,7 +508,7 @@ if (!result) {
 ---
 
 ### Query Sampling
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Execute queries on data samples for approximate results with low latency.
@@ -553,7 +553,7 @@ auto result = engine.executeSampled(query, config);
 ---
 
 ### Multi-Dialect Query Support
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.9.0
 
 Support for multiple query languages beyond AQL.
@@ -601,7 +601,7 @@ Execution Engine
 ## API Extensions
 
 ### Streaming Aggregations
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Incremental aggregation computation for streaming results.
@@ -630,7 +630,7 @@ agg.field = "amount";
 auto stream = data_source.stream();
 while (auto item = stream.next()) {
     aggregator.add(item, window, agg);
-    
+
     // Get current window results
     if (auto result = aggregator.getCurrentWindow()) {
         process(result.value());
@@ -641,7 +641,7 @@ while (auto item = stream.next()) {
 ---
 
 ### Query Profiling API
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Detailed profiling information for query optimization.
@@ -667,7 +667,7 @@ QueryProfile profile = profiler.getProfile();
 std::cout << "Total time: " << profile.total_time_ms << "ms" << std::endl;
 std::cout << "Operators:" << std::endl;
 for (const auto& op : profile.operators) {
-    std::cout << "  " << op.name << ": " 
+    std::cout << "  " << op.name << ": "
               << op.time_ms << "ms, "
               << op.rows_processed << " rows, "
               << op.memory_mb << "MB" << std::endl;
@@ -712,7 +712,7 @@ nlohmann::json json = profile.toJSON();
 ---
 
 ### Query Hints
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Explicit optimizer hints for fine-tuning query execution.
@@ -766,7 +766,7 @@ auto result = engine.execute(query, hints);
 ---
 
 ### Query Explain Plan
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Detailed execution plan explanation without executing query.
@@ -783,7 +783,7 @@ std::cout << "Estimated time: " << explain.estimated_time_ms << "ms" << std::end
 
 // Detailed operator breakdown
 for (const auto& op : explain.operators) {
-    std::cout << op.type << " - Cost: " << op.cost 
+    std::cout << op.type << " - Cost: " << op.cost
               << ", Rows: " << op.estimated_rows << std::endl;
 }
 ```
@@ -982,7 +982,7 @@ config.enable_aqe = true;
 ## Known Limitations & Workarounds
 
 ### Limitation #1: CTE Materialization Strategy
-**Severity:** Medium  
+**Severity:** Medium
 **Versions:** v1.5.x, v1.6.x
 
 CTEs are always materialized, even when referenced only once.
@@ -1004,7 +1004,7 @@ FOR doc IN users FILTER doc.age > 30 RETURN doc
 ---
 
 ### Limitation #2: No Cross-Shard Transactions
-**Severity:** High  
+**Severity:** High
 **Versions:** v1.5.x, v1.6.x, v1.7.x
 
 Federated queries don't support ACID transactions across shards.
@@ -1019,7 +1019,7 @@ Federated queries don't support ACID transactions across shards.
 ---
 
 ### Limitation #3: Limited JIT for Complex Expressions
-**Severity:** Low  
+**Severity:** Low
 **Versions:** v1.7.0
 
 JIT compilation doesn't support all expression types.
@@ -1036,7 +1036,7 @@ JIT compilation doesn't support all expression types.
 ---
 
 ### Limitation #4: Query Cache Invalidation Granularity
-**Severity:** Medium  
+**Severity:** Medium
 **Versions:** v1.5.x, v1.6.x
 
 Cache invalidation is table-level, not row-level.
@@ -1082,7 +1082,7 @@ cache.invalidate({"users"});  // Invalidates all queries, even if user not affec
 ## Research Directions
 
 ### Machine Learning Query Optimization
-**Priority:** Research  
+**Priority:** Research
 **Timeline:** 2025+
 
 End-to-end learned query optimizer using neural networks.
@@ -1101,7 +1101,7 @@ End-to-end learned query optimizer using neural networks.
 ---
 
 ### Quantum-Inspired Query Optimization
-**Priority:** Research  
+**Priority:** Research
 **Timeline:** 2026+
 
 Explore quantum algorithms for join ordering and plan selection.

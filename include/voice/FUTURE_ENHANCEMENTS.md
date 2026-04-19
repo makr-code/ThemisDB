@@ -30,7 +30,7 @@
 ## Planned Header Interface Changes
 
 ### Streaming Interface
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.1.0
 
 New streaming interfaces for real-time audio processing.
@@ -88,7 +88,7 @@ class StreamProcessor {
 public:
     /**
      * @brief Start new streaming session
-     * 
+     *
      * @param session_id Voice session ID
      * @param config Stream configuration
      * @return Stream ID or error
@@ -97,10 +97,10 @@ public:
         const std::string& session_id,
         const StreamConfig& config
     ) = 0;
-    
+
     /**
      * @brief Send audio chunk to stream
-     * 
+     *
      * @param stream_id Stream identifier
      * @param audio_chunk Audio data chunk
      * @return Partial transcription or error
@@ -109,10 +109,10 @@ public:
         const StreamID& stream_id,
         const std::vector<uint8_t>& audio_chunk
     ) = 0;
-    
+
     /**
      * @brief Receive response audio chunk
-     * 
+     *
      * @param stream_id Stream identifier
      * @param timeout Maximum wait time
      * @return Audio chunk or error
@@ -121,17 +121,17 @@ public:
         const StreamID& stream_id,
         std::chrono::milliseconds timeout
     ) = 0;
-    
+
     /**
      * @brief End streaming session
-     * 
+     *
      * @param stream_id Stream identifier
      * @return Final transcript or error
      */
     virtual Result<FinalTranscript> end_stream(
         const StreamID& stream_id
     ) = 0;
-    
+
     virtual ~StreamProcessor() = default;
 };
 
@@ -163,7 +163,7 @@ StreamID stream_id = stream_result.value();
 while (has_more_audio()) {
     auto chunk = get_audio_chunk(100);  // 100ms chunk
     auto result = stream_processor->send_audio_chunk(stream_id, chunk);
-    
+
     if (result.is_ok() && result.value().is_final) {
         std::cout << "Transcript: " << result.value().text << std::endl;
     }
@@ -175,7 +175,7 @@ auto final = stream_processor->end_stream(stream_id);
 ---
 
 ### Voice Authentication Interface
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.1.0
 
 New interfaces for speaker verification and identification.
@@ -262,7 +262,7 @@ class VoiceAuthenticator {
 public:
     /**
      * @brief Enroll new voice profile
-     * 
+     *
      * @param user_id User identifier
      * @param audio_samples Voice samples for enrollment
      * @param config Enrollment configuration
@@ -273,10 +273,10 @@ public:
         const std::vector<std::vector<uint8_t>>& audio_samples,
         const EnrollmentConfig& config = {}
     ) = 0;
-    
+
     /**
      * @brief Verify speaker identity (1:1)
-     * 
+     *
      * @param profile_id Known profile to verify against
      * @param audio_sample Voice sample to verify
      * @return Verification result or error
@@ -285,10 +285,10 @@ public:
         const VoiceProfileID& profile_id,
         const std::vector<uint8_t>& audio_sample
     ) = 0;
-    
+
     /**
      * @brief Identify speaker from group (1:N)
-     * 
+     *
      * @param candidate_profiles List of candidate profiles
      * @param audio_sample Voice sample to identify
      * @return Identification result or error
@@ -297,20 +297,20 @@ public:
         const std::vector<VoiceProfileID>& candidate_profiles,
         const std::vector<uint8_t>& audio_sample
     ) = 0;
-    
+
     /**
      * @brief Detect liveness (anti-spoofing)
-     * 
+     *
      * @param audio_sample Voice sample to check
      * @return Liveness score or error
      */
     virtual Result<LivenessScore> detect_liveness(
         const std::vector<uint8_t>& audio_sample
     ) = 0;
-    
+
     /**
      * @brief Authenticate user with voice
-     * 
+     *
      * @param user_id User claiming identity
      * @param audio_sample Voice sample
      * @return Authentication result or error
@@ -319,17 +319,17 @@ public:
         const std::string& user_id,
         const std::vector<uint8_t>& audio_sample
     ) = 0;
-    
+
     /**
      * @brief Delete voice profile
-     * 
+     *
      * @param profile_id Profile to delete
      * @return Success or error
      */
     virtual Result<bool> delete_profile(
         const VoiceProfileID& profile_id
     ) = 0;
-    
+
     virtual ~VoiceAuthenticator() = default;
 };
 
@@ -354,7 +354,7 @@ auto audio = record_audio(2000);
 auto verification = authenticator->verify_speaker(profile_id, audio);
 
 if (verification.value().verified) {
-    std::cout << "Speaker verified with confidence: " 
+    std::cout << "Speaker verified with confidence: "
               << verification.value().match_score << std::endl;
 }
 ```
@@ -362,7 +362,7 @@ if (verification.value().verified) {
 ---
 
 ### Emotion Analysis Interface
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.2.0
 
 New interfaces for emotion and sentiment detection.
@@ -404,13 +404,13 @@ struct EmotionAnalysis {
     std::map<Emotion, float> emotion_probabilities; // All emotion scores
     Emotion primary_emotion;                         // Most likely emotion
     float emotion_confidence;                        // Confidence in primary
-    
+
     Sentiment sentiment;                             // Overall sentiment
     float sentiment_score;                           // -1.0 to +1.0
-    
+
     float stress_level;                              // 0.0 to 1.0
     float engagement_score;                          // 0.0 to 1.0
-    
+
     VoiceQuality quality;                            // Voice characteristics
 };
 
@@ -444,10 +444,10 @@ struct EmotionStatistics {
     Emotion dominant_emotion;      // Most frequent emotion
     float emotion_stability;       // 0-1, higher = more stable
     int emotion_switches;          // Number of emotion changes
-    
+
     float average_sentiment;       // Mean sentiment score
     float sentiment_trend;         // Positive = improving, negative = declining
-    
+
     float average_stress;          // Mean stress level
     float average_engagement;      // Mean engagement score
 };
@@ -479,7 +479,7 @@ class EmotionDetector {
 public:
     /**
      * @brief Analyze emotions in audio
-     * 
+     *
      * @param audio_data Audio to analyze
      * @param config Analysis configuration
      * @return Emotion analysis or error
@@ -488,10 +488,10 @@ public:
         const std::vector<uint8_t>& audio_data,
         const EmotionConfig& config = {}
     ) = 0;
-    
+
     /**
      * @brief Track emotions over conversation
-     * 
+     *
      * @param segments Audio segments with timestamps
      * @param config Analysis configuration
      * @return Emotion timeline or error
@@ -500,10 +500,10 @@ public:
         const std::vector<AudioSegment>& segments,
         const EmotionConfig& config = {}
     ) = 0;
-    
+
     /**
      * @brief Get real-time emotion stream
-     * 
+     *
      * @param stream_id Active audio stream
      * @param config Analysis configuration
      * @return Emotion updates or error
@@ -512,7 +512,7 @@ public:
         const StreamID& stream_id,
         const EmotionConfig& config = {}
     ) = 0;
-    
+
     virtual ~EmotionDetector() = default;
 };
 
@@ -547,7 +547,7 @@ std::cout << "Stress level: " << analysis.stress_level << std::endl;
 ---
 
 ### Macro System Interface
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.2.0
 
 New interfaces for voice command macros and automation.
@@ -652,7 +652,7 @@ class VoiceMacroManager {
 public:
     /**
      * @brief Create new macro
-     * 
+     *
      * @param trigger_phrase Voice phrase that triggers macro
      * @param steps Steps to execute
      * @param options Execution options
@@ -663,10 +663,10 @@ public:
         const std::vector<MacroStep>& steps,
         const MacroOptions& options = {}
     ) = 0;
-    
+
     /**
      * @brief Execute macro
-     * 
+     *
      * @param macro_id Macro to execute
      * @param parameters Runtime parameters
      * @return Execution result or error
@@ -675,10 +675,10 @@ public:
         const MacroID& macro_id,
         const std::map<std::string, std::string>& parameters = {}
     ) = 0;
-    
+
     /**
      * @brief List available macros
-     * 
+     *
      * @param user_id User identifier
      * @param tags Filter by tags (optional)
      * @return List of macros or error
@@ -687,10 +687,10 @@ public:
         const std::string& user_id,
         const std::vector<std::string>& tags = {}
     ) = 0;
-    
+
     /**
      * @brief Update macro
-     * 
+     *
      * @param macro_id Macro to update
      * @param steps New steps
      * @param options New options
@@ -701,20 +701,20 @@ public:
         const std::vector<MacroStep>& steps,
         const MacroOptions& options
     ) = 0;
-    
+
     /**
      * @brief Delete macro
-     * 
+     *
      * @param macro_id Macro to delete
      * @return Success or error
      */
     virtual Result<bool> delete_macro(
         const MacroID& macro_id
     ) = 0;
-    
+
     /**
      * @brief Export macros
-     * 
+     *
      * @param macro_ids Macros to export
      * @param file_path Export destination
      * @return Success or error
@@ -723,17 +723,17 @@ public:
         const std::vector<MacroID>& macro_ids,
         const std::string& file_path
     ) = 0;
-    
+
     /**
      * @brief Import macros
-     * 
+     *
      * @param file_path Import source
      * @return Imported macro IDs or error
      */
     virtual Result<std::vector<MacroID>> import_macros(
         const std::string& file_path
     ) = 0;
-    
+
     virtual ~VoiceMacroManager() = default;
 };
 
@@ -779,7 +779,7 @@ auto exec_result = macro_mgr->execute_macro(macro_id);
 ---
 
 ### Multi-Language Interface Extensions
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.1.0
 
 Extended language support structures.
@@ -852,41 +852,41 @@ class MultiLanguageProcessor {
 public:
     /**
      * @brief Detect language from audio
-     * 
+     *
      * @param audio_data Audio to analyze
      * @return Language information or error
      */
     virtual Result<LanguageInfo> detect_language(
         const std::vector<uint8_t>& audio_data
     ) = 0;
-    
+
     /**
      * @brief Translate text
-     * 
+     *
      * @param request Translation parameters
      * @return Translation result or error
      */
     virtual Result<TranslationResult> translate_text(
         const TranslationRequest& request
     ) = 0;
-    
+
     /**
      * @brief Get supported languages
-     * 
+     *
      * @return List of supported language codes
      */
     virtual Result<std::vector<std::string>> get_supported_languages() = 0;
-    
+
     /**
      * @brief Check if language is supported
-     * 
+     *
      * @param language_code Language to check
      * @return true if supported
      */
     virtual bool is_language_supported(
         const std::string& language_code
     ) = 0;
-    
+
     virtual ~MultiLanguageProcessor() = default;
 };
 
@@ -910,16 +910,16 @@ struct Result {
     std::optional<T> value;
     ErrorCode error_code = ErrorCode::SUCCESS;
     std::string error_message;
-    
+
     // New fields
     std::string error_category;              // Error category
     std::vector<std::string> error_details;  // Additional details
     std::source_location location;           // Error source location
     std::optional<Result<T>> cause;          // Error chain
-    
+
     bool is_ok() const { return value.has_value(); }
     bool is_err() const { return !is_ok(); }
-    
+
     static Result<T> ok(T val);
     static Result<T> err(
         ErrorCode code,
@@ -927,10 +927,10 @@ struct Result {
         std::string category = "",
         std::vector<std::string> details = {}
     );
-    
+
     // Error chaining
     Result<T> with_cause(const Result<T>& cause);
-    
+
     // Propagation helpers
     T value_or(T default_value);
     T value_or_throw();
@@ -988,7 +988,7 @@ class VoiceEventListener {
 public:
     /**
      * @brief Register event callback
-     * 
+     *
      * @param event Event type to listen for
      * @param callback Function to call on event
      * @return Listener ID for unregistering
@@ -997,16 +997,16 @@ public:
         VoiceEvent event,
         VoiceEventCallback callback
     ) = 0;
-    
+
     /**
      * @brief Unregister callback
-     * 
+     *
      * @param listener_id ID from register_callback
      */
     virtual void unregister_callback(
         const std::string& listener_id
     ) = 0;
-    
+
     virtual ~VoiceEventListener() = default;
 };
 
@@ -1048,17 +1048,17 @@ class AudioBuffer {
 public:
     AudioBuffer(size_t capacity);
     ~AudioBuffer();
-    
+
     AudioBuffer(const AudioBuffer&) = delete;
     AudioBuffer& operator=(const AudioBuffer&) = delete;
-    
+
     AudioBuffer(AudioBuffer&& other) noexcept;
     AudioBuffer& operator=(AudioBuffer&& other) noexcept;
-    
+
     uint8_t* data();
     size_t size() const;
     size_t capacity() const;
-    
+
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
@@ -1071,9 +1071,9 @@ class SessionGuard {
 public:
     SessionGuard(VoiceAssistant& assistant, const std::string& session_id);
     ~SessionGuard();  // Automatically cleans up session
-    
+
     VoiceSession& get_session();
-    
+
 private:
     VoiceAssistant& assistant_;
     std::string session_id_;
@@ -1133,6 +1133,6 @@ Documentation will be provided for migrating to v2.0.0 interfaces.
 
 ---
 
-*Last Updated: April 2026*  
-*Module Version: v1.0.0*  
+*Last Updated: April 2026*
+*Module Version: v1.0.0*
 *Next Review: v1.1.0 Release*

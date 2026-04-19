@@ -722,29 +722,29 @@ public:
     CustomAPIHandler(std::shared_ptr<StorageEngine> storage,
                      std::shared_ptr<ConcernsContext> concerns)
         : storage_(storage), concerns_(concerns) {}
-    
+
     http::response<http::string_body> handle(
         const http::request<http::string_body>& req,
         const AuthMiddleware::AuthContext& auth_ctx) override {
-        
-        concerns_->logger()->info("Processing custom request for user: {}", 
+
+        concerns_->logger()->info("Processing custom request for user: {}",
                                   auth_ctx.user_id);
-        
+
         // Custom logic here
-        
+
         http::response<http::string_body> res{http::status::ok, req.version()};
         res.set(http::field::content_type, "application/json");
         res.body() = R"({"status":"ok"})";
         res.prepare_payload();
         return res;
     }
-    
+
     std::string getPath() const override { return "/api/v1/custom"; }
-    
+
     std::vector<http::verb> getSupportedMethods() const override {
         return {http::verb::get, http::verb::post};
     }
-    
+
     std::vector<std::string> getRequiredScopes() const override {
         return {"custom:access"};
     }
@@ -821,7 +821,7 @@ target_include_directories(my_app PRIVATE
 target_link_libraries(my_app themis-server)
 ```
 
-### Conditional Compilation
+## Conditional Compilation
 
 Some headers use preprocessor flags for optional features:
 
@@ -902,3 +902,11 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 - [Implementation README](../../src/server/README.md) - Server implementation guide
 - [Core Headers](../core/README.md) - Core module interfaces
 - [Storage Headers](../storage/README.md) - Storage module interfaces
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```
