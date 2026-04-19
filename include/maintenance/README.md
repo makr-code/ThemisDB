@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset release && cmake --build build/release`
 
 <!-- Status: current | validated: 2026-04-15 | Commit: e963d4e9ba -->
 

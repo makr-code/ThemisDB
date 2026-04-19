@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset release && cmake --build build/release`
 
 # include llama_cpp module
 
@@ -6,6 +6,7 @@ Public header for llama.cpp plugin integration.
 
 ## Header
 - `include/llama_cpp/llama_cpp_plugin.h`
+- `include/llama_cpp/llama_cpp_registrar.h`
 
 ## Exposed API
 - `LlamaCppPlugin` implementing `llm::ILLMPlugin`

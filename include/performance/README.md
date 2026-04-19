@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset release && cmake --build build/release`
 
 # Performance Optimization Headers
 
@@ -26,11 +26,14 @@ All optimizations are based on peer-reviewed academic research (45+ papers) with
 - `cycle_metrics_config.h` - Zero-cost macros
 - `expected_cycles.h` - Expected values for validation
 - `lockfree_metrics_buffer.h` - Wait-free SPSC buffer
+- `lockfree_histogram.h` - Lock-free histogram for latency distribution
 - `runtime_config.h` - Runtime configuration API
 
 ### Memory Management
 - `allocator.h` - Unified allocator interface (mimalloc/system)
 - `huge_pages.h` - 2MB/1GB huge page support
+- `numa_memory_manager.h` - NUMA-aware memory allocation
+- `numa_topology.h` - NUMA topology detection and queries
 - `alignment_helpers.h` - Cache-line/page alignment
 - `alignment_examples.h` - Alignment usage examples
 
@@ -45,6 +48,17 @@ All optimizations are based on peer-reviewed academic research (45+ papers) with
 ### Phase-Specific Optimizations
 - `wisckey.h`, `cicada.h`, `ligra.h`, `rabitq.h`, `dostoevsky.h` - Phase 2
 - `phase3/diskann.h`, `phase3/bwtree.h`, `phase3/splinterdb.h`, `phase3/gunrock.h`, `phase3/bao.h` - Phase 3
+- `phase3/adaptive_batch_tuner.h` - Phase 3 adaptive batch tuning
+- `phase3/memory_pressure.h` - Phase 3 memory pressure management
+- `phase3/per_query_cost_model.h` - Phase 3 per-query cost model
+
+### Workload-Aware Optimization
+- `adaptive_query_compiler.h` - Adaptive query compilation
+- `advanced_cache_manager.h` - Advanced multi-tier cache management
+- `hardware_accelerator.h` - Hardware accelerator abstraction (SIMD/GPU)
+- `intelligent_prefetcher.h` - ML-driven data prefetching
+- `workload_adaptive_optimizer.h` - Workload-adaptive optimizer
+- `workload_predictor.h` - Workload pattern prediction
 
 ---
 
