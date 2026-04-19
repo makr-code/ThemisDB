@@ -1,7 +1,7 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 # Audit Report — Security Module
 
-**Last Audit:** 2026-03-12 | **Status:** ✅ Pass
+**Last Audit:** 2026-04-19 | **Status:** ✅ Pass
 
 ## Summary
 
@@ -14,12 +14,20 @@
 
 ## Source Files Audited
 
-- `post_quantum_crypto.cpp` — Kyber/Dilithium PQC algorithms
-- `secret_manager.cpp` — Secret storage and rotation
-- `security_evidence_collector.cpp` — Compliance evidence gathering
-- `query_masking_policy.cpp` — PII field masking
-- `pki_client.cpp` — Certificate lifecycle management
-- `hsm_signing_service.cpp` — HSM-backed signing
+| Component | Files | Status |
+|-----------|-------|--------|
+| Access control | `access_control.cpp`, `access_control_manager.cpp`, `rbac.cpp`, `row_level_security.cpp`, `zero_trust_policy_enforcer.cpp` | ✅ Reviewed |
+| Cryptography | `post_quantum_crypto.cpp`, `field_encryption.cpp`, `encrypted_field.cpp`, `fips_crypto_mode.cpp`, `cms_signing.cpp` | ✅ Reviewed |
+| HSM & key providers | `hsm_provider.cpp`, `hsm_provider_pkcs11.cpp`, `hsm_key_provider_adapter.cpp`, `hsm_signing.cpp`, `keyprovider_signing.cpp`, `key_cache.cpp`, `mock_key_provider.cpp` | ✅ Reviewed |
+| PKI & certificates | `vcc_pki_client.cpp`, `pki_key_provider.cpp`, `timestamp_authority.cpp`, `timestamp_authority_openssl.cpp`, `tsa_api.cpp` | ✅ Reviewed |
+| Vault integration | `vault_key_provider.cpp`, `vault_signing_provider.cpp` | ✅ Reviewed |
+| Signing & manifests | `manifest_signer.cpp`, `binary_manifest.cpp` | ✅ Reviewed |
+| Secrets & evidence | `secret_manager.cpp`, `security_evidence_collector.cpp`, `confidential_computing.cpp` | ✅ Reviewed |
+| PII & query masking | `pii_redaction_policy.cpp`, `query_masking_policy.cpp` | ✅ Reviewed |
+| Threat detection | `aql_injection_detector.cpp`, `behavioral_anomaly_detector.cpp`, `intent_classifier.cpp`, `malware_scanner.cpp` | ✅ Reviewed |
+| VRAM security | `vram_secure_clear.cpp` | ✅ Reviewed |
+| USB / hardware | `usb_admin_authenticator.cpp`, `usb_volume_hardening.cpp` | ✅ Reviewed |
+| User registration plugins | `user_registration_plugin.cpp`, `embedded_user_registration_plugin.cpp`, `arrow_user_registration_plugin.cpp`, `webdav_user_registration_plugin.cpp` | ✅ Reviewed |
 
 ## Findings
 

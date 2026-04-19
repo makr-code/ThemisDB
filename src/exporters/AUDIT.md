@@ -1,10 +1,10 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Exporters Module
 
-**Last Audit:** 2026-03-12  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ## Summary
@@ -12,7 +12,7 @@
 | Metric | Result |
 |--------|--------|
 | Build System Registration | ✅ Verified |
-| Source Files | 15 (`.cpp` in `src/exporters/`) |
+| Source Files | 16 (`.cpp` in `src/exporters/`) |
 | Test Coverage | ✅ Production-ready; all 5 phases complete |
 | Open TODOs | 15 files contain TODOs (cross-collection join, ONNX export pipeline) |
 | Open Stubs | 0 (all planned features implemented) |
@@ -39,6 +39,7 @@
 | `huggingface_exporter.cpp` | Hugging Face Datasets-compatible export |
 | `huggingface_hub_client.cpp` | Hub direct upload with authorization and audit |
 | `incremental_exporter.cpp` | Delta export with watermark and checkpoint |
+| `join_exporter.cpp` | Cross-collection join export |
 | `jsonl_llm_exporter.cpp` | JSONL export for LLM training data |
 | `parquet_exporter.cpp` | Parquet columnar export |
 | `pii_detector.cpp` | PII detection and redaction in export records |
@@ -59,7 +60,7 @@
 ### Resolved
 - **Authorization gap** — `enforceExportPolicy()` was not present in early exporter versions; added to all 6 exporters in Phase 5 (EXP-001).
 - **Hub upload without authorization** — `HuggingFaceHubClient` now requires PolicyEngine and audit log in `HubUploadConfig` (EXP-002).
-- **Missing incremental CLI flag** — `--incremental` shorthand added to `export_cli.cpp` (EXP-004).
+- **Missing incremental CLI flag** — `--incremental` shorthand added to the CLI export path (EXP-004; `export_cli.cpp` was folded into `streaming_exporter.cpp` and `incremental_exporter.cpp`).
 - **Format registry not extensible** — `ExportFormatRegistry` singleton now supports user-defined templates via `loadTemplatesFromConfig()` (EXP-005).
 
 ### Open

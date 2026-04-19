@@ -1,23 +1,39 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 # Audit Report — Voice Module
-**Last Audit:** 2026-03-12 | **Status:** ✅ Pass
+**Last Audit:** 2026-04-19 | **Status:** ✅ Pass
 
 ## Summary
 
 | Metric | Result |
 |--------|--------|
 | Build System Registration | ✅ Verified |
+| Source Files | 19 (`.cpp` in `src/voice/`) |
 | Test Coverage | ✅ Present |
 | Open TODOs | Low |
 
 ## Source Files Audited
-- `voice_assistant.cpp` — orchestrator with session management
-- `audio_preprocessing.cpp` — preprocessing and audio normalization
-- `voice_assistant_llm.cpp` — LLM-backed intent/response generation
-- `voice_meeting_support.cpp` — real-time meeting transcription and protocol generation
-- `emotion_analyzer.cpp` — speaker/emotion signal analysis support
-- `voice_authenticator.cpp` — speaker verification and authentication flow
-- `voice_telephony.cpp` — SIP/WebRTC connectivity
+
+| File | Purpose |
+|------|---------|
+| `audio_preprocessing.cpp` | Audio preprocessing and normalization |
+| `emotion_analyzer.cpp` | Speaker emotion signal analysis |
+| `voice_accessibility.cpp` | Accessibility features (captions, hearing-aid adaptation) |
+| `voice_assistant.cpp` | Orchestrator with session management |
+| `voice_assistant_llm.cpp` | LLM-backed intent and response generation |
+| `voice_audio_storage.cpp` | Audio recording persistence and retrieval |
+| `voice_authenticator.cpp` | Speaker verification and authentication flow |
+| `voice_batch_processor.cpp` | Batch transcription and audio processing |
+| `voice_browser_streaming.cpp` | Browser-based WebRTC audio streaming handler |
+| `voice_error_handler.cpp` | Error handling and graceful degradation for voice pipelines |
+| `voice_intent_detector.cpp` | Intent classification from transcribed text |
+| `voice_macro_manager.cpp` | Voice macro and shortcut management |
+| `voice_meeting_support.cpp` | Real-time meeting transcription and protocol generation |
+| `voice_model_cache.cpp` | Caching layer for loaded ASR/TTS models |
+| `voice_security.cpp` | Voice session security, replay-attack prevention |
+| `voice_session_manager.cpp` | Session lifecycle, context persistence |
+| `voice_telephony.cpp` | SIP/WebRTC connectivity |
+| `voice_tts_customizer.cpp` | TTS voice profile and prosody customization |
+| `wake_word_detector.cpp` | Always-on wake word detection |
 - `voice_browser_streaming.cpp` — real-time browser streaming
 
 ## Findings

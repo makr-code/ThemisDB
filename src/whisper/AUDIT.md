@@ -1,9 +1,9 @@
-<!-- Status: current | validated: 2026-04-16 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Whisper Plugin
 
-**Last Audit:** 2026-04-16
+**Last Audit:** 2026-04-19
 **Auditor:** Copilot
 **Status:** ✅ Pass (v2.1.0)
 
@@ -11,7 +11,7 @@
 
 | Metric | Result |
 |--------|--------|
-| Source files audited | 4 (`whisper_config.cpp`, `audio_chunk_reader.cpp`, `whisper_transcriber.cpp`, `whisper_plugin.cpp`) |
+| Source files audited | 5 (`whisper_config.cpp`, `audio_chunk_reader.cpp`, `whisper_transcriber.cpp`, `whisper_plugin.cpp`, `whisper_plugin_registrar.cpp`) |
 | Test targets | 1 (`WhisperPluginFocusedTests`) |
 | Test count | 44 (groups A–N) |
 | Open security issues | 0 |
@@ -38,6 +38,7 @@ Dependencies: `nlohmann_json` (required), `whisper.cpp` (optional, `THEMIS_ENABL
 | `src/whisper/audio_chunk_reader.cpp` | RIFF/WAV parsing + FFmpeg adapter + composite routing | ✅ WAV validates magic/format/data chunks; FFmpeg path shell-escaped (NUL guard, single-quote wrapping), 500 MB output cap |
 | `src/whisper/whisper_transcriber.cpp` | Strategy impls | ✅ Stub and InMemory transcribers have no model dependency |
 | `src/whisper/whisper_plugin.cpp` | Plugin lifecycle + provenance + thread-safety | ✅ Provenance stamps applied unconditionally; exception caught; `transcriber_mutex_` serializes all transcriber calls; counters are `std::atomic` |
+| `src/whisper/whisper_plugin_registrar.cpp` | Plugin registration and factory export | ✅ `THEMIS_AUDIO_PLUGIN()` macro wired; create/destroy functions exported |
 
 ## Interface Compliance
 

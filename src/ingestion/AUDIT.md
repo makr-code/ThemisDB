@@ -1,9 +1,9 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Ingestion Module
 
-**Last Audit:** 2026-03-12
+**Last Audit:** 2026-04-19
 **Auditor:** Copilot
 **Status:** ✅ Pass
 
@@ -11,7 +11,7 @@
 
 | Metric | Result |
 |--------|--------|
-| Source files audited | 14 |
+| Source files audited | 21 |
 | Test targets | 19 focused targets |
 | Estimated test coverage | > 80 % |
 | Open security issues | 0 |
@@ -41,15 +41,22 @@ Build types validated: `Debug`, `Release`, `RelWithDebInfo`.
 | `cdc_connector.cpp` | PostgreSQL logical replication (pgoutput) | Slot lifecycle management reviewed |
 | `database_connector.cpp` | JDBC/ODBC cursor-based pagination | Driver provenance is user responsibility |
 | `deontic_extractor.cpp` | LLM-driven extraction of deontic statements from legal text | Integrated with `SemanticValidator` |
+| `entity_assembler.cpp` | Assembles entities from extracted fields and relations | Integrates with semantic validator |
 | `filesystem_ingester.cpp` | Recursive file-system scan with HTML/XML parsing | Path traversal mitigation confirmed |
 | `huggingface_connector.cpp` | HuggingFace datasets API v2 (streaming + batch) | Token masking verified |
 | `ingestion_coordinator.cpp` | Distributed work-stealing coordinator | Checkpoint synchronisation reviewed |
 | `ingestion_manager.cpp` | Top-level lifecycle manager; admin API surface | Auth enforcement on admin endpoints verified |
+| `ingestion_quality_judge.cpp` | LLM-based ingestion quality scoring and filtering | Configurable quality threshold |
+| `ingestion_sinks.cpp` | Pluggable output sinks (RocksDB, S3, Kafka) | Sink routing reviewed |
 | `kafka_connector.cpp` | Kafka consumer (librdkafka 2.x, SASL/mTLS) | Consumer group offset management reviewed |
+| `legal_domain.cpp` | Legal domain entity and deontic rule extraction | Integrates with deontic extractor |
 | `llm_adapter.cpp` | Adapter between ingestion pipeline and LLM module | Prompt-injection filter integration confirmed |
+| `oauth_token_manager.cpp` | OAuth 2.0 token lifecycle and refresh management | Token masking enforced |
 | `object_storage_connector.cpp` | Unified S3/GCS/Azure Blob connector | Multipart upload cleanup on cancellation fixed (v1.5.0) |
+| `s3_connector.cpp` | Dedicated AWS S3 connector with multipart support | Credential rotation supported |
 | `semantic_validator.cpp` | Regex-based pre-LLM content validation | Covers known injection patterns; see Known Limitations |
 | `web_crawler_connector.cpp` | Web crawling with robots.txt compliance | Private IP blocklist and scheme restriction confirmed |
+| `workflow_engine.cpp` | Orchestrates multi-stage ingestion workflows | DAG-based pipeline execution |
 
 ## Test Coverage
 

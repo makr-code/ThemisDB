@@ -1,9 +1,9 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — LLM Module
 
-**Last Audit:** 2026-03-12
+**Last Audit:** 2026-04-19
 **Auditor:** Copilot
 **Status:** ✅ Pass
 
@@ -11,7 +11,7 @@
 
 | Metric | Result |
 |--------|--------|
-| Source files audited | ~151 (all registered in CMake) |
+| Source files audited | 84 (all registered in CMake) |
 | Test targets | 28 focused targets |
 | Estimated test coverage | > 80 % |
 | Open security issues | 0 |
@@ -21,7 +21,7 @@
 
 ## Build System
 
-All ~151 source files are registered in the module's `CMakeLists.txt`. The module links against:
+All 84 source files are registered in the module's `CMakeLists.txt`. The module links against:
 
 - `llama.cpp` (inference backend)
 - `CUDA runtime` (GPU kernels, optional)
@@ -35,7 +35,7 @@ Build types validated: `Debug`, `Release`, `RelWithDebInfo`. CUDA builds require
 
 ## Source Files Audited (Representative Selection)
 
-The full source tree contains ~151 files. The following representative files were reviewed in depth during this audit:
+The full source tree contains 84 files. The following representative files were reviewed in depth during this audit:
 
 | File | Responsibility | Notes |
 |------|---------------|-------|
@@ -49,7 +49,6 @@ The full source tree contains ~151 files. The following representative files wer
 | `async_inference_engine.cpp` | Atomic model replacement without server restart (swapPlugin) | VRAM clear confirmed on swap |
 | `adapter_registry.cpp` | Runtime LoRA adapter loading and activation (hotLoad) | Delegates to `lora_security_validator.cpp` |
 | `lora_security_validator.cpp` | SHA-256 integrity verification for LoRA adapter files | Reject-if-no-manifest enforced |
-| `vram_secure_clear.cpp` | Explicit VRAM zeroing on model unload | Called on all unload paths including error paths |
 | `active_vram_allocator.cpp` | GPU VRAM allocation with OOM recovery and LRU eviction | CPU spilling to process-private mmap |
 | `kv_cache_buffer.cpp` | Per-sequence KV-cache with LRU eviction | Prewarming via embedding similarity |
 | `speculative_decoder.cpp` | Draft-model candidate generation and verifier acceptance | Known: synthetic logit arrays (see Open findings) |

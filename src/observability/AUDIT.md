@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Observability Module
@@ -13,22 +13,29 @@ The Observability module provides enterprise-grade monitoring, tracing, profilin
 
 | # | File | Description | Status |
 |---|------|-------------|--------|
-| 1 | `alerting_engine.cpp` | AlertingEngine with predefined CPU/memory/latency/error-rate/disk rules | ✅ Complete |
-| 2 | `alertmanager.cpp` | Alertmanager integration — alert routing to external receivers | ✅ Complete |
-| 3 | `continuous_profiler.cpp` | Continuous profiling pipeline with adaptive sampling | ✅ Complete |
-| 4 | `distributed_flame_graph.cpp` | Distributed flame graph collection and rendering | ✅ Complete |
-| 5 | `ebpf_tracer.cpp` | eBPF-based kernel tracing for low-overhead system profiling | ✅ Complete |
-| 6 | `log_aggregator.cpp` | Structured JSON logging with correlation ID propagation | ✅ Complete |
-| 7 | `metric_aggregator.cpp` | Metric aggregation: rate, histogram, cardinality operators | ✅ Complete |
-| 8 | `metric_anomaly_detector.cpp` | ML-based anomaly detection on metric time series | ✅ Complete |
-| 9 | `metrics_collector.cpp` | MetricsCollector — Prometheus text-format `/metrics` endpoint | ✅ Complete |
-| 10 | `performance_analyzer.cpp` | Automated performance recommendations from profiler data | ✅ Complete |
-| 11 | `query_profiler.cpp` | Per-phase and per-operator query timing | ✅ Complete |
-| 12 | `slo_reporter.cpp` | SLO/SLA compliance reporting with burn-rate alert generation | ✅ Complete |
-| 13 | `storage_profiler.cpp` | RocksDB statistics collection and exposure | ✅ Complete |
-| 14 | `tracer.cpp` | Distributed tracing — OpenTelemetry-compatible, W3C Trace Context | ✅ Complete |
+| 1 | `advanced_metrics.cpp` | Advanced metric computation: percentiles, histograms, moving averages | ✅ Complete |
+| 2 | `alerting_engine.cpp` | AlertingEngine with predefined CPU/memory/latency/error-rate/disk rules | ✅ Complete |
+| 3 | `alertmanager.cpp` | Alertmanager integration — alert routing to external receivers | ✅ Complete |
+| 4 | `continuous_profiler.cpp` | Continuous profiling pipeline with adaptive sampling | ✅ Complete |
+| 5 | `distributed_flame_graph.cpp` | Distributed flame graph collection and rendering | ✅ Complete |
+| 6 | `ebpf_tracer.cpp` | eBPF-based kernel tracing for low-overhead system profiling | ✅ Complete |
+| 7 | `log_aggregator.cpp` | Structured JSON logging with correlation ID propagation | ✅ Complete |
+| 8 | `log_search_engine.cpp` | Full-text search over structured log entries by correlation/span ID | ✅ Complete |
+| 9 | `metric_aggregator.cpp` | Metric aggregation: rate, histogram, cardinality operators | ✅ Complete |
+| 10 | `metric_anomaly_detector.cpp` | ML-based anomaly detection on metric time series | ✅ Complete |
+| 11 | `metrics_collector.cpp` | MetricsCollector — Prometheus text-format `/metrics` endpoint | ✅ Complete |
+| 12 | `metrics_stream_server.cpp` | Streaming metrics server for real-time metric push consumers | ✅ Complete |
+| 13 | `ml_anomaly_detector.cpp` | Advanced ML anomaly detector with model lifecycle management | ✅ Complete |
+| 14 | `opentelemetry_tracer.cpp` | Native OpenTelemetry SDK integration for OTLP export | ✅ Complete |
+| 15 | `performance_analyzer.cpp` | Automated performance recommendations from profiler data | ✅ Complete |
+| 16 | `query_profiler.cpp` | Per-phase and per-operator query timing | ✅ Complete |
+| 17 | `root_cause_analyzer.cpp` | Automated root cause analysis from correlated metrics and traces | ✅ Complete |
+| 18 | `slo_reporter.cpp` | SLO/SLA compliance reporting with burn-rate alert generation | ✅ Complete |
+| 19 | `storage_profiler.cpp` | RocksDB statistics collection and exposure | ✅ Complete |
+| 20 | `tenant_metrics_namespace.cpp` | Per-tenant metrics namespace isolation and routing | ✅ Complete |
+| 21 | `tracer.cpp` | Distributed tracing — OpenTelemetry-compatible, W3C Trace Context | ✅ Complete |
 
-**Total: 14 source files**
+**Total: 21 source files**
 
 ---
 
@@ -77,3 +84,4 @@ The Observability module provides enterprise-grade monitoring, tracing, profilin
 | Date | Auditor | Verdict |
 |------|---------|---------|
 | 2026-03-12 | Internal module audit | Passed with conditions — OBS-OPEN-01 and OBS-OPEN-02 must be resolved before security certification |
+| 2026-04-19 | Source file inventory update | Updated — 7 new source files added; total updated to 21 |
