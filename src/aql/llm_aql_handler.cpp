@@ -33,6 +33,7 @@
 #include "aql/llm_metrics_collector.h"
 #include "aql/llm_token_estimator.h"
 #include "sharding/circuit_breaker.h"
+#include "sharding/sharding_manager.h"
 #include "llm/llm_plugin_manager.h"
 #include "llm/embedded_llm.h"
 #include "llm/llama_wrapper.h"
@@ -62,6 +63,37 @@ std::string toLower(const std::string& s) {
     std::transform(s.begin(), s.end(), std::back_inserter(out),
                    [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
     return out;
+}
+
+std::optional<std::string> parseDomainHint(
+    const std::unordered_map<std::string, std::string>& options
+) {
+    const auto it = options.find("domain_hint");
+    if (it == options.end() || it->second.empty()) {
+        return std::nullopt;
+    }
+
+    const std::string hint = toLower(it->second);
+    if (hint == "general" ||
+        hint == "security" || hint == "security_monitor" ||
+        hint == "schema" || hint == "schema_advisor" ||
+        hint == "transaction" ||
+        hint == "multi_tenant" || hint == "multitenant" ||
+        hint == "explainability" ||
+        hint == "vector_search" || hint == "vector" ||
+        hint == "process_mining" ||
+        hint == "geospatial") {
+        return hint;
+    }
+    return std::nullopt;
+}
+
+std::string batchDomainKey(const LLMAQLHandler::BatchInferRequest& req) {
+    const auto it = req.options.find("domain_hint");
+    if (it == req.options.end() || it->second.empty()) {
+        return "__default__";
+    }
+    return toLower(it->second);
 }
 
 /**
@@ -218,6 +250,7 @@ public:
     explicit Impl(const LLMAQLHandler::Config& cfg)
         : timeout_manager_()
         , retry_policy_()
+        , sharding_manager_(&sharding::ShardingManager::GetInstance())
     {
         circuit_breakers_.emplace(std::piecewise_construct,
             std::forward_as_tuple("infer"),
@@ -275,6 +308,8 @@ public:
 
     // Optional AQLIngestionBridge for entity-context enrichment
     std::shared_ptr<AQLIngestionBridge> ingestion_bridge_;
+    LLMAQLHandler::DomainRouteResolver domain_route_resolver_;
+    sharding::ShardingManager* sharding_manager_;
 };
 
 LLMAQLHandler::LLMAQLHandler() 
@@ -303,6 +338,14 @@ ValidationLimitsConfig LLMAQLHandler::getValidationLimits() const {
 
 void LLMAQLHandler::setTimeoutConfig(const LLMTimeoutManager::TimeoutConfig& config) {
     impl_->timeout_manager_.setConfig(config);
+}
+
+void LLMAQLHandler::setDomainRouteResolver(DomainRouteResolver resolver) {
+    impl_->domain_route_resolver_ = std::move(resolver);
+}
+
+void LLMAQLHandler::setShardingManager(sharding::ShardingManager* sharding_manager) {
+    impl_->sharding_manager_ = sharding_manager;
 }
 
 void LLMAQLHandler::setChatExecutor(
@@ -366,6 +409,32 @@ std::string LLMAQLHandler::executeInfer(
                 // Set LoRA adapter if specified
                 if (!lora_id.empty()) {
                     request.lora_adapter_id = lora_id;
+                }
+
+                constexpr double kMinRoutingAccuracyDelta = 0.4;
+                std::string routed_shard_id;
+                std::string routing_decision = "LOCAL";
+                if (const auto domain = parseDomainHint(options); domain.has_value()) {
+                    if (impl_->domain_route_resolver_) {
+                        if (const auto route = impl_->domain_route_resolver_(*domain); route.has_value()) {
+                            const auto& [candidate, accuracy_delta] = *route;
+                            if (accuracy_delta > kMinRoutingAccuracyDelta) {
+                                routed_shard_id = candidate;
+                                routing_decision = "ADAPTER_DOMAIN";
+                            } else {
+                                routing_decision = "LOCAL_FALLBACK_LOW_ACCURACY";
+                            }
+                        } else {
+                            routing_decision = "LOCAL_FALLBACK_NO_MATCH";
+                        }
+                    } else {
+                        routing_decision = "LOCAL_FALLBACK_NO_RESOLVER";
+                    }
+                    request.metadata["domain_hint"] = *domain;
+                    request.metadata["routing_decision"] = routing_decision;
+                    if (!routed_shard_id.empty()) {
+                        request.metadata["target_shard_id"] = routed_shard_id;
+                    }
                 }
                 
                 // Parse options for generation parameters
@@ -832,7 +901,12 @@ std::vector<float> LLMAQLHandler::executeEmbed(
                 "Circuit breaker is open - LLM embed service temporarily unavailable");
         }
 
-        auto& plugin_mgr = impl_->getPluginManager();
+        if (impl_->sharding_manager_ != nullptr) {
+            const auto target_shard = impl_->sharding_manager_->GetShardForKey("llm_embeddings", text);
+            if (!target_shard.empty()) {
+                spdlog::debug("LLM EMBED locality routing selected shard={}", target_shard);
+            }
+        }
         
         // If model_id is specified, use plugin manager for model-specific embedding
         if (!model_id.empty()) {
@@ -1030,30 +1104,41 @@ std::vector<std::string> LLMAQLHandler::executeBatchInfer(
     const std::vector<BatchInferRequest>& requests
 ) {
     try {
-        auto& plugin_mgr = impl_->getPluginManager();
-        std::vector<std::string> results;
-        results.reserve(requests.size());
-        
-        // Requests are executed sequentially: each is submitted to the
-        // underlying plugin manager one at a time.  This is the correct
-        // production behaviour because the LLM plugin interface is
-        // single-request; true parallel batching is delegated to the
-        // provider backend (e.g. llama.cpp batch API) if supported.
-        for (const auto& req : requests) {
-            llm::InferenceRequest inf_req;
-            inf_req.prompt = req.prompt;
-            inf_req.model_id = req.model_id.empty() ? "default" : req.model_id;
-            inf_req.lora_adapter_id = req.lora_id;
-            
-            // Parse options
-            if (req.options.count("max_tokens")) {
-                inf_req.max_tokens = std::stoi(req.options.at("max_tokens"));
-            }
-            
-            auto response = plugin_mgr.generate(inf_req);
-            results.push_back(response.text);
+        std::vector<std::string> results(requests.size());
+        if (requests.empty()) {
+            return results;
         }
-        
+
+        std::unordered_map<std::string, std::vector<size_t>> indices_by_domain;
+        for (size_t i = 0; i < requests.size(); ++i) {
+            indices_by_domain[batchDomainKey(requests[i])].push_back(i);
+        }
+
+        std::vector<std::future<std::vector<std::pair<size_t, std::string>>>> futures;
+        futures.reserve(indices_by_domain.size());
+
+        for (const auto& [domain_key, indices] : indices_by_domain) {
+            (void)domain_key;
+            futures.push_back(std::async(std::launch::async, [this, &requests, indices]() {
+                std::vector<std::pair<size_t, std::string>> shard_results;
+                shard_results.reserve(indices.size());
+                for (const auto idx : indices) {
+                    const auto& req = requests[idx];
+                    shard_results.emplace_back(
+                        idx,
+                        executeInfer(req.prompt, req.model_id, req.lora_id, req.options)
+                    );
+                }
+                return shard_results;
+            }));
+        }
+
+        for (auto& future : futures) {
+            for (auto& [index, text] : future.get()) {
+                results[index] = std::move(text);
+            }
+        }
+
         return results;
     } catch (const std::exception& e) {
         throw std::runtime_error(

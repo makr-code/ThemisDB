@@ -36,6 +36,9 @@
 // Forward-declare to avoid pulling in toolbox/ingestion headers transitively.
 // Consumers that use setIngestionBridge() must include aql_ingestion_bridge.h.
 namespace themis { namespace aql { class AQLIngestionBridge; } }
+namespace themis { namespace sharding {
+class ShardingManager;
+} }
 #include <string>
 #include <cstdint>
 #include <functional>
@@ -131,6 +134,10 @@ private:
  */
 class LLMAQLHandler {
 public:
+    using DomainRouteResolver = std::function<
+        std::optional<std::pair<std::string, double>>(const std::string& domain_hint)
+    >;
+
     /**
      * @brief Per-operation-type circuit breaker configuration.
      *
@@ -625,6 +632,8 @@ public:
      * @param config  New timeout configuration.
      */
     void setTimeoutConfig(const LLMTimeoutManager::TimeoutConfig& config);
+    void setDomainRouteResolver(DomainRouteResolver resolver);
+    void setShardingManager(sharding::ShardingManager* sharding_manager);
 
     // =========================================================================
     // Test / dependency injection
