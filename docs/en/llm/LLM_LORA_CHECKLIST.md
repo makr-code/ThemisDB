@@ -433,7 +433,7 @@
 ## 🔗 Quick Links
 
 - **[Full Status Document](LLM_LORA_IMPLEMENTATION_STATUS.md)** - Detailed status and plans
-- **[Quick Start Guide](QUICK_START_PHASE_1.md)** - Implementation guide
+- **[Quick Start Guide](../../archive/2026-04/QUICK_START_PHASE_1.md)** - Implementation guide
 - **[Documentation Index](LLM_LORA_README.md)** - All documentation
 - **[Analysis Documents](../docs/analysis/)** - Technical analysis
 - **[Issue Templates](../.github/ISSUE_TEMPLATE/)** - GitHub issue templates

@@ -1,4 +1,4 @@
-[docs](./index.md) > [WIKI_ARCHIVE_STRATEGY](./WIKI_ARCHIVE_STRATEGY.md)
+[docs](./index.md) > [WIKI_ARCHIVE_STRATEGY](WIKI_ARCHIVE_STRATEGY.md)
 **Datum:** 2026-03-12
 **Status:** stable
 **Primary (Quelle der Wahrheit):**

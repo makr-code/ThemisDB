@@ -317,7 +317,7 @@ network:
 ## Related Documentation
 
 - [Network Module ROADMAP](../../src/network/ROADMAP.md)
-- [Network Roadmap](../network_roadmap.md)
+- [Network Roadmap](../de/roadmap/network_roadmap.md)
 - [Wire Protocol](../wire-protocol.md)
 - [WAL & gRPC mTLS Configuration](../WAL_GRPC_MTLS_CONFIGURATION.md)
 - [Network Timeout Handling](../NETWORK_TIMEOUT_HANDLING.md)

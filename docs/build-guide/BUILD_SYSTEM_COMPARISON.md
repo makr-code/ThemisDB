@@ -65,7 +65,7 @@ cmake --build build --target docker-build-community-release
 
 ## Migration
 
-Siehe [MIGRATION_POWERSHELL_TO_CMAKE.md](MIGRATION_POWERSHELL_TO_CMAKE.md) für detaillierte Anleitung.
+Siehe [MIGRATION_POWERSHELL_TO_CMAKE.md](../migration/MIGRATION_POWERSHELL_TO_CMAKE.md) für detaillierte Anleitung.
 
 **Schnell-Migration:**
 ```bash
@@ -87,4 +87,4 @@ Beide Methoden nutzen dieselbe Package-Store-Strategie:
 
 **CMake-Only:** [CMAKE_ONLY_BUILD_SYSTEM.md](CMAKE_ONLY_BUILD_SYSTEM.md)  
 **PowerShell:** [VCPKG_MULTI_PLATFORM_PACKAGES.md](VCPKG_MULTI_PLATFORM_PACKAGES.md)  
-**Migration:** [MIGRATION_POWERSHELL_TO_CMAKE.md](MIGRATION_POWERSHELL_TO_CMAKE.md)
+**Migration:** [MIGRATION_POWERSHELL_TO_CMAKE.md](../migration/MIGRATION_POWERSHELL_TO_CMAKE.md)

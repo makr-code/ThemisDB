@@ -290,7 +290,7 @@ graph:
 ## Related Documentation
 
 - [Graph Module ROADMAP](../../src/graph/ROADMAP.md)
-- [Graph Roadmap](../graph_roadmap.md)
+- [Graph Roadmap](../de/roadmap/graph_roadmap.md)
 - [General Traversal Feature](../GENERAL_TRAVERSAL_FEATURE.md)
 - [Community Detection AQL](../COMMUNITY_DETECTION_AQL.md)
 - [AQL Roadmap](../aql_roadmap.md)

@@ -306,7 +306,7 @@ observability:
 ## Related Documentation
 
 - [Observability Module ROADMAP](../../src/observability/ROADMAP.md)
-- [Observability Roadmap](../observability_roadmap.md)
+- [Observability Roadmap](../de/roadmap/observability_roadmap.md)
 - [Grafana Metrics Complete](../GRAFANA_METRICS_COMPLETE.md)
 - [Prometheus Integration Complete](../PROMETHEUS_INTEGRATION_COMPLETE.md)
 - [Performance Alerting Config](../performance/PERFORMANCE_ALERTING_CONFIG.md)

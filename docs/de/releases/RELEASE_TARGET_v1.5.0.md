@@ -418,7 +418,7 @@ The following roles must sign off before v1.5.0 can be tagged and shipped:
 | Security Module Roadmap | [`src/security/ROADMAP.md`](../../../src/security/ROADMAP.md) |
 | Acceleration Module Roadmap | [`src/acceleration/ROADMAP.md`](../../../src/acceleration/ROADMAP.md) |
 | Future GPU Support | [`docs/FUTURE_GPU_SUPPORT.md`](../../FUTURE_GPU_SUPPORT.md) |
-| Version Comparison v1.3.4 → v1.5.0 | [`docs/de/releases/VERSION_COMPARISON_v1.3.4_vs_v1.5.0.md`](../../../docs/de/releases/VERSION_COMPARISON_v1.3.4_vs_v1.5.0.md) |
+| Version Comparison v1.3.4 → v1.5.0 | [`docs/de/releases/VERSION_COMPARISON_v1.3.4_vs_v1.5.0.md`](../../reports/VERSION_COMPARISON_v1.3.4_vs_v1.5.0.md) |
 
 ---
 
