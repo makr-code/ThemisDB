@@ -1,7 +1,7 @@
 # API Module — Public Headers
 
-**Module Path:** `include/api/`  
-**Implementation:** `../../src/api/`  
+**Module Path:** `include/api/`
+**Implementation:** `../../src/api/`
 **Status:** ✅ Production Ready
 
 This directory contains the public C++ header files (`.h`) for the `api` module.
@@ -37,3 +37,21 @@ All headers are `#pragma once` guarded and contain no implementation code.
 - Roadmap: [`../../src/api/ROADMAP.md`](../../src/api/ROADMAP.md)
 - Future enhancements: [`../../src/api/FUTURE_ENHANCEMENTS.md`](../../src/api/FUTURE_ENHANCEMENTS.md)
 - Planned header interfaces: [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```
+
+## Usage
+
+Include the relevant headers from this module:
+
+```cpp
+#include "api/module_header.h"
+```
+
+See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.

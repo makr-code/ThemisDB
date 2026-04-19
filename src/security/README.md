@@ -670,7 +670,7 @@ auto timestamp = tsa.getTimestamp(result.signature);
 if (timestamp.success) {
     // Attach timestamp to signature (long-term validation)
     result.timestamp_token = timestamp.tst_info;
-    
+
     std::cout << "Timestamp: " << timestamp.timestamp_utc << std::endl;
     std::cout << "TSA: " << timestamp.tsa_name << std::endl;
 }
@@ -802,10 +802,10 @@ if (response.success) {
 // Crypto-erasure for GDPR right to deletion
 void deleteUserData(const std::string& user_id) {
     std::string key_id = "user_" + user_id;
-    
+
     // Delete user-specific encryption key
     key_provider->deleteKey(key_id);
-    
+
     // Encrypted data is now cryptographically erased
     // (cannot be decrypted without key)
 }
@@ -894,7 +894,7 @@ ctest -R security
 ./tests/security/key_rotation_test
 ```
 
-### Integration Tests
+## Integration Tests
 
 ```bash
 # Test with real Vault instance
@@ -907,7 +907,7 @@ export SOFTHSM2_CONF=/etc/softhsm2.conf
 ./tests/security/hsm_integration_test
 ```
 
-### Security Auditing
+## Security Auditing
 
 ```bash
 # Run static analysis
@@ -946,13 +946,13 @@ void handleDataQuery(const Request& req, Response& res) {
         res.status(403).json({{"error", "Forbidden"}});
         return;
     }
-    
+
     // Execute query
     auto results = db.query(req.body["query"]);
-    
+
     // Decrypt sensitive fields
     decryptFields(results, req.user);
-    
+
     res.json(results);
 }
 ```
@@ -967,13 +967,13 @@ bool loadLoRAAdapter(const std::string& path) {
     if (!scan_result.is_clean) {
         throw SecurityException("Malware detected: " + scan_result.threat_name);
     }
-    
+
     // Manifest verification
     auto manifest = BinaryManifest::load(path + ".manifest");
     if (!manifest_signer.verify(manifest)) {
         throw SecurityException("Invalid manifest signature");
     }
-    
+
     // Load adapter
     return lora_manager.loadAdapter(path);
 }
@@ -1050,3 +1050,7 @@ bool loadLoRAAdapter(const std::string& path) {
 4. Saltzer, J. H., & Schroeder, M. D. (1975). **The Protection of Information in Computer Systems**. *Proceedings of the IEEE*, 63(9), 1278–1308. https://doi.org/10.1109/PROC.1975.9939
 
 5. Barker, E., & Roginsky, A. (2019). **Transitioning the Use of Cryptographic Algorithms and Key Lengths**. NIST Special Publication 800-131A Rev. 2. https://doi.org/10.6028/NIST.SP.800-131Ar2
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

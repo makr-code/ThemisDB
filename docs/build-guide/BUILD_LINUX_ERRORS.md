@@ -490,4 +490,4 @@ If you encounter an error not covered here:
 
 2. Check the [Platform Compatibility Matrix](../PLATFORM_COMPATIBILITY_MATRIX.md)
 
-3. See [COMPILER_TROUBLESHOOTING.md](../COMPILER_TROUBLESHOOTING.md)
+3. See [COMPILER_TROUBLESHOOTING.md](COMPILER_TROUBLESHOOTING.md)

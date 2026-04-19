@@ -33,8 +33,8 @@ The temporal module adds SQL:2011 bi-temporal table support to ThemisDB. It cove
 ## Planned Features
 
 ### ~~Full System-Versioned Table Support~~ ✅ Implemented (v1.1.0)
-**Priority:** High  
-**Target Version:** v1.1.0  
+**Priority:** High
+**Target Version:** v1.1.0
 **Status:** ✅ **Delivered** — see `include/temporal/system_versioned_table.h` and `src/temporal/system_versioned_table.cpp`
 
 Complete implementation of SQL:2011 temporal table standard.
@@ -95,8 +95,8 @@ WITH SYSTEM VERSIONING;
 ---
 
 ### ~~Application-Versioned Tables (Bi-Temporal)~~ ✅ Implemented (v1.2.0)
-**Priority:** High  
-**Target Version:** v1.2.0  
+**Priority:** High
+**Target Version:** v1.2.0
 **Status:** ✅ **Delivered** — see `include/temporal/bi_temporal.h` and `src/temporal/bi_temporal.cpp`
 
 Support for user-defined valid time periods alongside system transaction time.
@@ -149,7 +149,7 @@ WITH SYSTEM VERSIONING;
 ---
 
 ### Time-Travel Query Engine
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.2.0
 
 Full SQL:2011 temporal query support with optimization.
@@ -173,21 +173,21 @@ public:
         CONTAINED_IN,
         OVERLAPS
     };
-    
+
     struct TemporalQuery {
         TemporalClause clause;
         std::chrono::system_clock::time_point start_time;
         std::chrono::system_clock::time_point end_time;
         bool include_deleted = false;
     };
-    
+
     // Execute temporal query
     Result<std::vector<Document>> executeTemporalQuery(
         const std::string& table_name,
         const std::string& base_query,
         const TemporalQuery& temporal_spec
     );
-    
+
     // Temporal join
     Result<std::vector<Document>> temporalJoin(
         const std::string& left_table,
@@ -228,7 +228,7 @@ JOIN departments FOR SYSTEM_TIME AS OF TIMESTAMP '2024-06-01' d
 ---
 
 ### Temporal Indexes
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.2.0
 
 Specialized indexes for efficient temporal queries.
@@ -250,7 +250,7 @@ public:
         SNAPSHOT,          // Point-in-time queries
         INTERVAL_TREE      // Overlapping period detection
     };
-    
+
     struct TemporalIndexSpec {
         TemporalIndexType type;
         std::vector<std::string> columns;
@@ -258,14 +258,14 @@ public:
         bool include_current = true;
         bool include_history = true;
     };
-    
+
     // Create temporal index
     Result<std::string> createTemporalIndex(
         const std::string& table_name,
         const std::string& index_name,
         const TemporalIndexSpec& spec
     );
-    
+
     // Query using temporal index
     Result<std::vector<VersionedDocument>> queryWithTemporalIndex(
         const std::string& index_name,
@@ -288,7 +288,7 @@ public:
 ---
 
 ### Automated Retention Policies
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.3.0
 
 Automated lifecycle management for historical data.
@@ -310,7 +310,7 @@ public:
         COUNT_BASED,       // Keep latest N versions
         CUSTOM             // User-defined policy
     };
-    
+
     struct RetentionPolicy {
         RetentionType type;
         std::chrono::seconds retention_period;
@@ -320,18 +320,18 @@ public:
         std::string archive_location;
         std::function<bool(const Document&)> custom_predicate;
     };
-    
+
     // Set retention policy for table
     Result<bool> setRetentionPolicy(
         const std::string& table_name,
         const RetentionPolicy& policy
     );
-    
+
     // Execute retention policy
     Result<RetentionStats> enforceRetention(
         const std::string& table_name
     );
-    
+
     // Archive historical data
     Result<bool> archiveHistory(
         const std::string& table_name,
@@ -376,7 +376,7 @@ SET RETENTION_POLICY = (
 ---
 
 ### Temporal Aggregations
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.3.0
 
 Advanced aggregation operations over temporal data.
@@ -397,7 +397,7 @@ public:
         SLIDING,       // Overlapping windows
         SESSION        // Gap-based windows
     };
-    
+
     struct AggregationSpec {
         WindowType window_type;
         std::chrono::seconds window_size;
@@ -405,7 +405,7 @@ public:
         std::string aggregation_function;  // SUM, AVG, COUNT, etc.
         std::vector<std::string> group_by_columns;
     };
-    
+
     // Aggregate over time windows
     Result<std::vector<AggregateResult>> aggregateOverTime(
         const std::string& table_name,
@@ -413,7 +413,7 @@ public:
         const AggregationSpec& spec,
         const TimeRange& range
     );
-    
+
     // Calculate trends
     Result<TrendAnalysis> analyzeTrend(
         const std::string& table_name,
@@ -434,7 +434,7 @@ struct AggregateResult {
 **Query Examples:**
 ```sql
 -- Monthly sales aggregation
-SELECT 
+SELECT
     YEAR(sys_start) as year,
     MONTH(sys_start) as month,
     SUM(amount) as total_sales
@@ -443,7 +443,7 @@ FOR SYSTEM_TIME FROM '2024-01-01' TO '2024-12-31'
 GROUP BY YEAR(sys_start), MONTH(sys_start);
 
 -- Moving average over time
-SELECT 
+SELECT
     sys_start,
     AVG(price) OVER (
         ORDER BY sys_start
@@ -456,7 +456,7 @@ FOR SYSTEM_TIME FROM '2024-01-01' TO '2024-12-31';
 ---
 
 ### Temporal Foreign Keys
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.4.0
 
 Referential integrity for temporal relationships.
@@ -481,12 +481,12 @@ public:
         std::string on_delete_action;  // CASCADE, RESTRICT, SET NULL
         std::string on_update_action;
     };
-    
+
     // Add temporal foreign key
     Result<bool> addTemporalForeignKey(
         const TemporalForeignKey& fk_spec
     );
-    
+
     // Validate temporal referential integrity
     Result<std::vector<IntegrityViolation>> validateIntegrity(
         const std::string& table_name
@@ -505,8 +505,8 @@ REFERENCES employees (employee_id, PERIOD FOR valid_time);
 ---
 
 ### ~~Interval-Tree Index~~ ✅ Implemented (v1.6.0)
-**Priority:** High  
-**Target Version:** v1.4.0  
+**Priority:** High
+**Target Version:** v1.4.0
 **Status:** Delivered in `src/temporal/interval_tree_index.cpp` + `include/temporal/interval_tree_index.h`
 
 Augmented BST-based interval tree providing O(log n) insert/remove and O(log n + k) overlap detection for valid-time period predicates and period-aware foreign-key enforcement.
@@ -522,8 +522,8 @@ Augmented BST-based interval tree providing O(log n) insert/remove and O(log n +
 ---
 
 ### ~~Temporal Change Data Capture (CDC)~~ ✅ Implemented (v1.6.0)
-**Priority:** Medium  
-**Target Version:** v1.4.0  
+**Priority:** Medium
+**Target Version:** v1.4.0
 **Status:** Delivered in `src/temporal/temporal_cdc.cpp` + `include/temporal/temporal_cdc.h`
 
 Stream temporal change events for real-time processing.
@@ -556,8 +556,8 @@ void clearLog();
 ---
 
 ### ~~Temporal Conflict Detection and Resolution~~ ✅ Implemented (v1.1.0)
-**Priority:** High  
-**Target Version:** v1.1.0  
+**Priority:** High
+**Target Version:** v1.1.0
 **Status:** Delivered in `src/temporal/temporal_conflict_resolver.cpp` + `include/temporal/temporal_conflict_resolver.h`
 
 Enhanced conflict detection for distributed temporal databases.
@@ -579,7 +579,7 @@ public:
         REFERENTIAL_INTEGRITY,
         UNIQUENESS_VIOLATION
     };
-    
+
     struct Conflict {
         ConflictType type;
         std::string entity_id;
@@ -587,20 +587,20 @@ public:
         TemporalSnapshot remote_version;
         std::vector<std::string> affected_columns;
     };
-    
+
     // Detect conflicts
     Result<std::vector<Conflict>> detectConflicts(
         const std::string& table_name,
         const TemporalSnapshot& local,
         const TemporalSnapshot& remote
     );
-    
+
     // Auto-resolve conflicts
     Result<TemporalSnapshot> autoResolveConflict(
         const Conflict& conflict,
         ConflictPolicy policy
     );
-    
+
     // Queue for manual resolution
     Result<bool> queueForManualResolution(
         const Conflict& conflict
@@ -611,7 +611,7 @@ public:
 ---
 
 ### Snapshot Isolation
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.1.0
 
 Transactional isolation for temporal queries.
@@ -631,13 +631,13 @@ public:
     Result<SnapshotHandle> createSnapshot(
         const std::vector<std::string>& tables
     );
-    
+
     // Query using snapshot
     Result<std::vector<Document>> querySnapshot(
         const SnapshotHandle& snapshot,
         const std::string& query
     );
-    
+
     // Release snapshot
     Result<bool> releaseSnapshot(
         const SnapshotHandle& snapshot
@@ -655,8 +655,8 @@ struct SnapshotHandle {
 ---
 
 ### ~~Temporal Data Compression~~ ✅ Implemented (v1.6.0)
-**Priority:** Medium  
-**Target Version:** v1.3.0  
+**Priority:** Medium
+**Target Version:** v1.3.0
 **Status:** Delivered in `src/temporal/temporal_compressor.cpp` + `include/temporal/temporal_compressor.h`
 
 Efficient compression for historical data.
@@ -678,14 +678,14 @@ public:
         GORILLA,        // Time-series optimized
         DICTIONARY      // Dictionary encoding
     };
-    
+
     struct CompressionConfig {
         CompressionAlgorithm algorithm;
         int compression_level = 3;
         bool compress_immediately = false;
         std::chrono::seconds delay_before_compression{24 * 3600}; // 1 day
     };
-    
+
     // Compress historical versions
     CompressionStats compressHistory(
         const SystemVersionedTable& table,
@@ -756,13 +756,13 @@ public:
     Result<MigrationPlan> analyzeMigration(
         const std::string& table_name
     );
-    
+
     // Execute migration
     Result<bool> migrateToTemporal(
         const std::string& table_name,
         const MigrationPlan& plan
     );
-    
+
     // Verify migration
     Result<MigrationReport> verifyMigration(
         const std::string& table_name
@@ -775,7 +775,7 @@ public:
 ## Known Limitations & Workarounds
 
 ### Limitation #1: No Automatic History Table
-**Severity:** High  
+**Severity:** High
 **Versions:** v1.0.x
 
 History table must be manually created and managed.
@@ -790,7 +790,7 @@ History table must be manually created and managed.
 ---
 
 ### Limitation #2: Limited Query Support
-**Severity:** High  
+**Severity:** High
 **Versions:** v1.0.x, v1.1.x
 
 No SQL syntax for time-travel queries.
@@ -805,7 +805,7 @@ No SQL syntax for time-travel queries.
 ---
 
 ### Limitation #3: No Automatic Retention
-**Severity:** Medium  
+**Severity:** Medium
 **Versions:** v1.0.x, v1.1.x, v1.2.x
 
 Manual cleanup of old historical data required.
@@ -885,6 +885,6 @@ For detailed guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.md).
 
 ---
 
-*Last Updated: April 2026*  
-*Module Version: v1.6.0*  
+*Last Updated: April 2026*
+*Module Version: v1.6.0*
 *Next Review: v1.7.0 Release*

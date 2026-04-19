@@ -306,8 +306,8 @@ observability:
 ## Related Documentation
 
 - [Observability Module ROADMAP](../../src/observability/ROADMAP.md)
-- [Observability Roadmap](../observability_roadmap.md)
-- [Grafana Metrics Complete](../GRAFANA_METRICS_COMPLETE.md)
+- [Observability Roadmap](../de/roadmap/observability_roadmap.md)
+- [Grafana Metrics Complete](../ARCHIVED/implementation-summaries/GRAFANA_METRICS_COMPLETE.md)
 - [Prometheus Integration Complete](../PROMETHEUS_INTEGRATION_COMPLETE.md)
-- [Performance Alerting Config](../PERFORMANCE_ALERTING_CONFIG.md)
-- [Performance Regression Detection](../PERFORMANCE_REGRESSION_DETECTION.md)
+- [Performance Alerting Config](../performance/PERFORMANCE_ALERTING_CONFIG.md)
+- [Performance Regression Detection](../performance/PERFORMANCE_REGRESSION_DETECTION.md)

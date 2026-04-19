@@ -190,7 +190,7 @@ Index defragmentation, rebuild, and maintenance operations.
 Systematic security and correctness analysis of the RocksDB wrapper implementation.
 
 **Documentation:**
-- [RocksDB Wrapper Audit Report](../ROCKSDB_WRAPPER_AUDIT_REPORT.md) - Comprehensive audit findings
+- [RocksDB Wrapper Audit Report](../Audit/ROCKSDB_WRAPPER_AUDIT_REPORT.md) - Comprehensive audit findings
 
 **Report Contents:**
 - Critical security issues identified

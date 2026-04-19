@@ -2143,6 +2143,11 @@ set(THEMIS_CORE_SOURCES
     ../src/geo/tile_server.cpp
     ../src/geo/device_detector.cpp
     ../src/geo/gpu_backend_production.cpp
+    ../src/geo/geo_json_geometry.cpp
+    ../src/geo/spatial_join_filter.cpp
+    ../src/geo/rtree_cursor.cpp
+    ../src/geo/temporal_spatial_query_builder.cpp
+    ../src/geo/raster_query_interface.cpp
     ../src/api/geo_index_hooks.cpp
     ../src/api/tracing_middleware.cpp
     ../src/api/otlp_exporter.cpp

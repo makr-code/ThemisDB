@@ -3,8 +3,8 @@
 
 # ONNX CLIP Plugin — Architecture Guide
 
-**Version:** 0.0.1  
-**Last Updated:** 2026-04-06  
+**Version:** 0.0.1
+**Last Updated:** 2026-04-06
 **Module Path:** `src/onnx_clip/`
 
 ---

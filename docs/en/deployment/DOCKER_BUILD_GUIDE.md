@@ -179,7 +179,7 @@ docker stop themis-test && docker rm themis-test
 
 ## 📚 Weitere Dokumentation
 
-- [SETUP_COMPLETE.md](../SETUP_COMPLETE.md) - Vollständiges Setup
+- [SETUP_COMPLETE.md](../../ARCHIVED/implementation-summaries/SETUP_COMPLETE.md) - Vollständiges Setup
 - [docker/compose/README.md](docker/compose/README.md) - Docker Compose Setup
 - [docker/compose/QUICK_START.md](docker/compose/QUICK_START.md) - Schnellanleitung
 

@@ -77,7 +77,7 @@ ThemisDB's replication system is split across two main module directories:
 **Design Rationale**: The split allows `replication/` to focus on business logic and orchestration while `sharding/` handles the complex distributed systems infrastructure needed for both replication and horizontal scaling.
 
 > **See Also**: 
-> - [REPLICATION_IMPLEMENTATION_STATUS.md](./REPLICATION_IMPLEMENTATION_STATUS.md) - Detailed status of WAL components
+> - [REPLICATION_IMPLEMENTATION_STATUS.md](reports/REPLICATION_IMPLEMENTATION_STATUS.md) - Detailed status of WAL components
 > - [replication_raid_plan.md](./replication_raid_plan.md) - RAID 1/10 implementation roadmap
 
 ### High-Level Components
@@ -887,7 +887,7 @@ See [API.md](./API.md) for complete API documentation.
 ## See Also
 
 ### Replication Documentation
-- **[REPLICATION_IMPLEMENTATION_STATUS.md](./REPLICATION_IMPLEMENTATION_STATUS.md)** - Detailed implementation status (~85% complete) with component breakdown
+- **[REPLICATION_IMPLEMENTATION_STATUS.md](reports/REPLICATION_IMPLEMENTATION_STATUS.md)** - Detailed implementation status (~85% complete) with component breakdown
 - **[replication_raid_plan.md](./replication_raid_plan.md)** - RAID 1/10 readiness plan and implementation roadmap
 - **[docs/replication/](./replication/)** - Additional replication documentation and examples
 

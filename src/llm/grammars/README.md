@@ -10,7 +10,7 @@ This directory contains EBNF (Extended Backus-Naur Form) grammar definitions for
   - Enforces valid JSON with no trailing commas
   - Quoted keys required
   - No relaxations
-  
+
 - **`json_relaxed.gbnf`** - Relaxed JSON format
   - Allows trailing commas
   - Supports unquoted keys (identifiers)
@@ -61,7 +61,7 @@ llm_plugins:
         default_grammar: "json"
 ```
 
-### Using Custom Grammars
+## Using Custom Grammars
 
 ```cpp
 // Custom EBNF grammar
@@ -136,3 +136,7 @@ Grammar compilation is cached automatically, so repeated uses of the same gramma
 - [GRAMMAR_CONSTRAINED_GENERATION.md](../../../docs/en/llm/GRAMMAR_CONSTRAINED_GENERATION.md) - Full implementation guide
 - [llama.cpp grammars](https://github.com/ggerganov/llama.cpp/tree/master/grammars) - Official examples
 - [EBNF Specification](https://www.w3.org/TR/REC-xml/#sec-notation) - W3C standard
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

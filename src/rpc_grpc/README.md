@@ -3,11 +3,11 @@
 
 # ThemisDB gRPC RPC Plugin
 
-**Version:** 0.0.1  
-**Status:** 🔴 Alpha (v0.0.1)  
-**Last Updated:** 2026-03-22  
-**Module Path:** `src/rpc_grpc/`  
-**Namespace:** `themis::plugins::rpc::grpc_plugin`  
+**Version:** 0.0.1
+**Status:** 🔴 Alpha (v0.0.1)
+**Last Updated:** 2026-03-22
+**Module Path:** `src/rpc_grpc/`
+**Namespace:** `themis::plugins::rpc::grpc_plugin`
 **Default Port:** 50051
 
 ---
@@ -105,3 +105,12 @@ extern "C" {
 - `ARCHITECTURE.md` — component diagram, TLS configuration flow
 - `SECURITY.md` — fail-closed TLS design, threat model
 - `ROADMAP.md` — implementation phases and feature backlog
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/rpc_grpc/README.md`](../../include/rpc_grpc/README.md) for the public API.

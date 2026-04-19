@@ -262,7 +262,7 @@ The following components are deprecated but not removed:
 ## Resources
 
 ### Documentation
-- [Migration Guide](docs/STUB_REPLACEMENT_MIGRATION_GUIDE.md)
+- [Migration Guide](STUB_REPLACEMENT_MIGRATION_GUIDE.md)
 - [Production Deployment](examples/PRODUCTION_DEPLOYMENT_GUIDE.md)
 - [Enterprise Integration](examples/08_dms_erp_system/ENTERPRISE_INTEGRATION_GUIDE.md)
 - [Archive Index](docs/archive/2026-02/ARCHIVE_INDEX.md)

@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — User Encrypted Storage Plugin
@@ -18,11 +18,12 @@ orchestration (HOT/WARM/COLD).
 | 1 | `gocryptfs_backend.cpp` | `GocryptfsBackend` — FUSE lifecycle, safe `execvp` subprocess | 348 | 🟡 Release-Candidate (76/100) | ⚠️ Needs Hardening |
 | 2 | `key_rotation_scheduler.cpp` | `KeyRotationScheduler` — per-level rotation with background thread | 181 | 🟢 Production-Ready (100/100) | ✅ Complete |
 | 3 | `multi_level_storage.cpp` | `MultiLevelEncryptedStorage` — HOT/WARM/COLD tier orchestration | — | 🟢 Production-Ready | ✅ Complete |
-| 4 | `gocryptfs_backend.hpp` | `GocryptfsBackend` header | — | — | ✅ Complete |
-| 5 | `key_rotation_scheduler.hpp` | `KeyRotationScheduler` header | — | — | ✅ Complete |
-| 6 | `CMakeLists.txt` | Build configuration | — | — | ✅ Complete |
+| 4 | `key_derivation_service.cpp` | HKDF/PBKDF2 key derivation service for per-user encryption key management | — | 🟡 Release-Candidate | ⚠️ Needs Hardening |
+| 5 | `gocryptfs_backend.hpp` | `GocryptfsBackend` header | — | — | ✅ Complete |
+| 6 | `key_rotation_scheduler.hpp` | `KeyRotationScheduler` header | — | — | ✅ Complete |
+| 7 | `CMakeLists.txt` | Build configuration | — | — | ✅ Complete |
 
-**Total: 6 files**
+**Total: 7 files**
 
 ---
 

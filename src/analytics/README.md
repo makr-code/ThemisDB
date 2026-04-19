@@ -71,7 +71,7 @@ This directory (`src/analytics/`) contains **implementation files only**. For AP
 
 ### 1. OLAP Engine (`olap.cpp`)
 
-**Lines of Code:** ~1800 lines  
+**Lines of Code:** ~1800 lines
 **Dependencies:** nlohmann/json, optional Apache Arrow
 
 Multi-dimensional analytical query processing with aggregations and window functions.
@@ -130,7 +130,7 @@ for (const auto& row : result.rows) {
 
 ### 2. Arrow Export (`arrow_export.cpp`)
 
-**Lines of Code:** ~200 lines  
+**Lines of Code:** ~200 lines
 **Dependencies:** nlohmann/json, optional Apache Arrow C++
 
 **Status:** ✅ Production-ready columnar data structure
@@ -172,7 +172,7 @@ Data export interfaces with optional Apache Arrow integration.
 
 ### 3. Analytics Export (`analytics_export.cpp`)
 
-**Lines of Code:** ~750 lines  
+**Lines of Code:** ~750 lines
 **Dependencies:** nlohmann/json, optional Apache Arrow C++, spdlog
 
 **Status:** ✅ Production-ready with Arrow support
@@ -235,7 +235,7 @@ if (result.status == ExportStatus::NOT_SUPPORTED) {
 
 ### 4. Process Mining (`process_mining.cpp`)
 
-**Lines of Code:** ~1700 lines  
+**Lines of Code:** ~1700 lines
 **Dependencies:** GraphIndex, VectorIndex, OLAP, nlohmann/json
 
 Process discovery, conformance checking, and performance analysis.
@@ -276,7 +276,7 @@ Process discovery, conformance checking, and performance analysis.
 
 ### 5. Process Pattern Matcher (`process_pattern_matcher.cpp`)
 
-**Lines of Code:** ~850 lines  
+**Lines of Code:** ~850 lines
 **Dependencies:** ProcessMining, VectorIndex, GraphIndex
 
 Find similar processes using multiple similarity methods.
@@ -307,7 +307,7 @@ Find similar processes using multiple similarity methods.
 
 ### 6. Text Analytics (`nlp_text_analyzer.cpp`)
 
-**Lines of Code:** ~1600 lines  
+**Lines of Code:** ~1600 lines
 **Dependencies:** Standard C++17
 
 Lightweight NLP-based text analysis.
@@ -347,7 +347,7 @@ Lightweight NLP-based text analysis.
 
 ### 7. LLM Process Analyzer (`llm_process_analyzer.cpp`)
 
-**Lines of Code:** ~520 lines  
+**Lines of Code:** ~520 lines
 **Dependencies:** HTTP client (for API calls), nlohmann/json
 
 LLM integration for advanced process analysis.
@@ -393,7 +393,7 @@ config.enable_caching = true;
 
 ### 8. Diff Engine (`diff_engine.cpp`)
 
-**Lines of Code:** ~575 lines  
+**Lines of Code:** ~575 lines
 **Dependencies:** Changefeed, SnapshotManager, nlohmann/json
 
 Git-like diff functionality for versioned data.
@@ -564,7 +564,7 @@ cmake -B build -S . -DTHEMIS_ENABLE_TF_SERVING=ON   # enable TF Serving backend
 # ONNX Runtime is enabled automatically when onnxruntime is found via vcpkg
 ```
 
-### 15. Model Serving and Online Inference Pipeline (`model_serving.cpp`)
+## 15. Model Serving and Online Inference Pipeline (`model_serving.cpp`)
 
 **Lines of Code:** ~390 lines
 **Dependencies:** `automl.h`, `<shared_mutex>`
@@ -915,23 +915,23 @@ The Analytics module uses SIMD instructions for performance:
 double vectorizedSum(const double* data, size_t count) {
     __m256d sum = _mm256_setzero_pd();
     size_t i = 0;
-    
+
     // Process 4 doubles at a time
     for (; i + 3 < count; i += 4) {
         __m256d vals = _mm256_loadu_pd(&data[i]);
         sum = _mm256_add_pd(sum, vals);
     }
-    
+
     // Horizontal sum
     double result[4];
     _mm256_storeu_pd(result, sum);
     double total = result[0] + result[1] + result[2] + result[3];
-    
+
     // Process remaining elements
     for (; i < count; i++) {
         total += data[i];
     }
-    
+
     return total;
 }
 ```
@@ -979,14 +979,14 @@ constexpr size_t BATCH_SIZE = 1024;
 
 for (size_t start = 0; start < total_rows; start += BATCH_SIZE) {
     size_t count = std::min(BATCH_SIZE, total_rows - start);
-    
+
     // Load batch
     auto batch = loadBatch(start, count);
-    
+
     // Apply vectorized operations
     auto filtered = vectorizedFilter(batch, predicate);
     auto aggregated = vectorizedAggregate(filtered);
-    
+
     // Merge results
     mergeResults(aggregated);
 }
@@ -1004,7 +1004,7 @@ for (size_t start = 0; start < total_rows; start += BATCH_SIZE) {
      COLLECT region = doc.region
      AGGREGATE total = SUM(doc.amount)
      RETURN { region, total }
-   
+
    -- Bad: Filter after aggregation
    FOR doc IN sales
      COLLECT region = doc.region
@@ -1017,7 +1017,7 @@ for (size_t start = 0; start < total_rows; start += BATCH_SIZE) {
    ```sql
    -- Fast: 2 dimensions
    COLLECT region, product
-   
+
    -- Slower: 5 dimensions
    COLLECT region, product, category, subcategory, brand
    ```
@@ -1064,7 +1064,7 @@ for (size_t start = 0; start < total_rows; start += BATCH_SIZE) {
    ```cpp
    // Good: Batch insert
    db.insertBatch("sales", rows);
-   
+
    // Bad: Individual inserts
    for (const auto& row : rows) {
        db.insert("sales", row);
@@ -1129,7 +1129,7 @@ for (size_t start = 0; start < total_rows; start += BATCH_SIZE) {
        .max_case_length = 50,
        .activity_filter = {"Login", "Logout"}
    });
-   
+
    auto model = mining.discoverProcess(filtered_log);
    ```
 
@@ -1148,10 +1148,10 @@ for (size_t start = 0; start < total_rows; start += BATCH_SIZE) {
    ```cpp
    // Too small: May miss patterns
    window.size = std::chrono::seconds(10);
-   
+
    // Too large: High latency
    window.size = std::chrono::hours(1);
-   
+
    // Just right: Depends on use case
    window.size = std::chrono::minutes(5);
    ```
@@ -1160,7 +1160,7 @@ for (size_t start = 0; start < total_rows; start += BATCH_SIZE) {
    ```cpp
    // Simple: Fast matching
    SEQUENCE(A, B)
-   
+
    // Complex: Slower matching
    SEQUENCE(A, B OR C, D, E) WITHIN 1 HOUR
    ```
@@ -1339,7 +1339,7 @@ ctest -R analytics --verbose
 ./build/tests/analytics/test_nlp_text_analyzer
 ```
 
-### Run Performance Benchmarks
+## Run Performance Benchmarks
 
 ```bash
 # OLAP benchmarks
@@ -1488,7 +1488,7 @@ export CUDA_VISIBLE_DEVICES=0
 export THEMIS_GPU_MEMORY_LIMIT=8589934592  # 8GB
 ```
 
-### Runtime Configuration
+## Runtime Configuration
 
 ```cpp
 // OLAP engine configuration
@@ -1724,16 +1724,16 @@ When contributing to the Analytics module:
 
 1. Gray, J., Bosworth, A., Layman, A., & Pirahesh, H. (1997). **Data Cube: A Relational Aggregation Operator Generalizing Group-By, Cross-Tab, and Sub-Totals**. *Data Mining and Knowledge Discovery*, 1, 29–53. https://doi.org/10.1023/A:1009726021843
 
-2. Apache Arrow Community. (2025). **Apache Arrow: A cross-language development platform for in-memory data** (Project Documentation). https://arrow.apache.org/  
+2. Apache Arrow Community. (2025). **Apache Arrow: A cross-language development platform for in-memory data** (Project Documentation). https://arrow.apache.org/
    (Autoritative technische Referenz für das im Modul genutzte spaltenorientierte In-Memory-Format / RecordBatches.)
 
-3. Vohra, D. (2016). **Apache Parquet**. Apress. https://doi.org/10.1007/978-1-4842-1592-5  
+3. Vohra, D. (2016). **Apache Parquet**. Apress. https://doi.org/10.1007/978-1-4842-1592-5
    (Zitierbare Referenz zu Parquet als Columnar Storage Format; passt zur Export/Arrow-Integration.)
 
-4. van der Aalst, W. M. P. (2016). **Process Mining: Data Science in Action (2nd ed.)**. Springer. https://doi.org/10.1007/978-3-662-49851-4  
+4. van der Aalst, W. M. P. (2016). **Process Mining: Data Science in Action (2nd ed.)**. Springer. https://doi.org/10.1007/978-3-662-49851-4
    (Wissenschaftliche Grundlage für Process Discovery & Conformance Checking.)
 
-5. Breunig, M. M., Kriegel, H.-P., Ng, R. T., & Sander, J. (2000). **LOF: Identifying Density-Based Local Outliers**. *Proceedings of the 2000 ACM SIGMOD International Conference on Management of Data*, 93–104. https://doi.org/10.1145/342009.335388  
+5. Breunig, M. M., Kriegel, H.-P., Ng, R. T., & Sander, J. (2000). **LOF: Identifying Density-Based Local Outliers**. *Proceedings of the 2000 ACM SIGMOD International Conference on Management of Data*, 93–104. https://doi.org/10.1145/342009.335388
    (Basis für LOF-Anomalieerkennung, wie sie im Modul verwendet wird.)
 
 ## License
@@ -1758,3 +1758,6 @@ Part of ThemisDB. See LICENSE file in the root directory.
 - **Index Module**: [`../index/README.md`](../index/README.md)
 - **Observability**: [`../observability/README.md`](../observability/README.md)
 
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

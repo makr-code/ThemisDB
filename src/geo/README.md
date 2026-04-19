@@ -85,3 +85,12 @@ For geospatial documentation, see:
 7. Vincenty, T. (1975). **Direct and Inverse Solutions of Geodesics on the Ellipsoid with Application of Nested Equations**. *Survey Review*, 23(176), 88–93. https://doi.org/10.1179/sre.1975.23.176.88
 
 8. Greiner, G., & Hormann, K. (1998). **Efficient Clipping of Arbitrary Polygons**. *ACM Transactions on Graphics*, 17(2), 71–83. https://doi.org/10.1145/274363.274364
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/geo/README.md`](../../include/geo/README.md) for the public API.

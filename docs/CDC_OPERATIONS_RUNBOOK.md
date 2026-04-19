@@ -888,7 +888,7 @@ LOG("P95: {}μs, Throughput: {} eps",
 
 ### Related Documentation
 
-- [CDC Architecture](../docs/cdc_roadmap.md)
+- [CDC Architecture](de/roadmap/cdc_roadmap.md)
 - [API Reference](../docs/CDC_API_REFERENCE.md)
 - [Configuration Guide](../docs/CDC_CONFIG_GUIDE.md)
 

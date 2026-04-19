@@ -376,3 +376,12 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.m
 3. Kleppmann, M. (2017). **Designing Data-Intensive Applications**. O'Reilly Media. ISBN: 978-1-449-37332-0
 
 4. Stonebraker, M., & Hellerstein, J. M. (Eds.). (1994). **Readings in Database Systems (3rd ed.)**. Morgan Kaufmann. ISBN: 978-1-558-60252-9
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/themis/README.md`](../../include/themis/README.md) for the public API.

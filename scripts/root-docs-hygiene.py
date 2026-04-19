@@ -52,6 +52,7 @@ KEEP_ALLOWLIST = {
     "CODE_OF_CONDUCT.md",
     "CONTRIBUTING.md",
     "CTEST.md",
+    "FUTURE_ENHANCEMENTS.MD",
     "GOVERNANCE.md",
     "INDEX.md",
     "MAINTAINERS.md",

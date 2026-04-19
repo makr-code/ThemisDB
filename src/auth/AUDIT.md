@@ -1,10 +1,10 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Auth Module
 
-**Last Audit:** 2026-03-12  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ## Summary
@@ -12,7 +12,7 @@
 | Metric | Result |
 |--------|--------|
 | Build System Registration | ✅ Verified |
-| Source Files | 27 (`.cpp` in `src/auth/`) |
+| Source Files | 31 (`.cpp` in `src/auth/`) |
 | Test Coverage | ✅ > 80% (Issue #1550); 30 focused standalone test executables |
 | Open TODOs | 27 files contain TODOs (primarily OPA ABAC extension points and federation metadata) |
 | Open Stubs | 0 (all authentication protocols production-ready) |
@@ -43,14 +43,24 @@
 | `jwt_validator.cpp` | JWT RS256 validation with OIDC claims |
 | `kerberos_security.cpp` | Kerberos keytab management |
 | `ldap_authenticator.cpp` | LDAP/AD direct bind authentication |
+| `ldap_connection_pool.cpp` | LDAP connection pool management |
 | `mfa_authenticator.cpp` | TOTP MFA with recovery codes |
 | `mtls_authenticator.cpp` | mTLS client certificate authentication |
 | `oauth_device_flow.cpp` | OAuth 2.0 device authorization flow |
+| `oauth_pkce_flow.cpp` | OAuth 2.0 PKCE authorization flow |
 | `oidc_provider.cpp` | OIDC discovery and federated identity |
 | `password_policy.cpp` | Configurable password policy enforcement |
+| `principal_validator.cpp` | Principal identity and permission validation |
+| `rate_limiter_backend.cpp` | Backend rate limiting storage (Redis/in-memory) |
+| `redis_token_blacklist.cpp` | Redis-backed JWT token blacklist |
+| `rocksdb_token_blacklist.cpp` | RocksDB-backed JWT token blacklist |
 | `saml_authenticator.cpp` | SAML 2.0 SP/IdP-initiated SSO |
+| `session_manager.cpp` | Session lifecycle and revocation management |
+| `token_blacklist.cpp` | Token blacklist interface and routing |
+| `totp_replay_cache.cpp` | TOTP one-time password replay prevention cache |
+| `totp_secret_encryption.cpp` | TOTP secret encryption and storage |
 | `webauthn_authenticator.cpp` | WebAuthn/FIDO2 hardware token authentication |
-| + 7 additional files | Session management, PKCE, ABAC engine, anomaly detection |
+| `zero_trust_auth_verifier.cpp` | Zero-trust continuous authentication verifier |
 
 ## Test Coverage
 

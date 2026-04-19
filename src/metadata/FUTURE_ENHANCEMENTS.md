@@ -55,7 +55,7 @@
 ---
 
 ### Statistics Collector
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.6.0
 
 Comprehensive table and index statistics for query optimization.
@@ -77,14 +77,14 @@ public:
         std::map<std::string, ColumnStats> column_stats;
         std::chrono::system_clock::time_point last_updated;
     };
-    
+
     struct ColumnStats {
         size_t distinct_count;
         size_t null_count;
         double selectivity;
         std::optional<Histogram> distribution;
     };
-    
+
     Result<TableStats> collectStats(const std::string& table_name);
     Result<bool> updateStats(const std::string& table_name);
     Result<TableStats> getStats(const std::string& table_name);
@@ -99,7 +99,7 @@ public:
 ---
 
 ### Information Schema Views
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 SQL-standard INFORMATION_SCHEMA views for metadata access.
@@ -125,8 +125,8 @@ WHERE table_name = 'users';
 ---
 
 ### Schema Versioning
-**Priority:** Medium  
-**Target Version:** v1.8.0  
+**Priority:** Medium
+**Target Version:** v1.8.0
 **Status:** ✅ Implemented
 
 Track and manage schema changes over time.
@@ -152,7 +152,7 @@ Track and manage schema changes over time.
 ---
 
 ### Schema Constraints
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.8.0
 
 Enforce schema constraints and validation.
@@ -167,8 +167,8 @@ Enforce schema constraints and validation.
 ---
 
 ### Automatic Indexing Recommendations
-**Priority:** Low  
-**Target Version:** v1.9.0  
+**Priority:** Low
+**Target Version:** v1.9.0
 **Status:** ✅ Implemented
 
 Analyze query patterns and recommend indexes.
@@ -262,6 +262,6 @@ The following references underpin the planned enhancements and design decisions 
 
 ---
 
-*Last Updated: April 2026*  
-*Module Version: v1.6.0*  
+*Last Updated: April 2026*
+*Module Version: v1.6.0*
 *Next Review: v1.9.0 Release*

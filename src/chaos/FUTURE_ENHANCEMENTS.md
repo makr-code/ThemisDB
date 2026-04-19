@@ -1,6 +1,6 @@
-## chaos
+# chaos
 
-### Scope
+## Scope
 - Distributed chaos event broadcast and replay for multi-node testbeds.
 
 ### Design Constraints

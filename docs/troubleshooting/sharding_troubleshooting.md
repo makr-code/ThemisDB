@@ -325,8 +325,8 @@ sharding:
 ## Related Documentation
 
 - [Sharding Module ROADMAP](../../src/sharding/ROADMAP.md)
-- [Adaptive Shard Routing](../ADAPTIVE_SHARD_ROUTING.md)
+- [Adaptive Shard Routing](../ARCHIVED/implementation-summaries/ADAPTIVE_SHARD_ROUTING.md)
 - [Distributed Transactions](../DISTRIBUTED_TRANSACTIONS.md)
-- [Cross-Shard Testing](../CROSS_SHARD_TESTING.md)
-- [Raft Consensus Design](../RAFT_CONSENSUS_DESIGN.md)
-- [Hot Spare Management](../hot_spare_management.md)
+- [Cross-Shard Testing](../ARCHIVED/implementation-summaries/CROSS_SHARD_TESTING.md)
+- [Raft Consensus Design](../architecture/RAFT_CONSENSUS_DESIGN.md)
+- [Hot Spare Management](../build-guide/hot_spare_management.md)

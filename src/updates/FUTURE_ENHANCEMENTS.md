@@ -49,7 +49,7 @@
 ---
 
 
-**Priority:** High  
+**Priority:** High
 **Target Version:** v1.7.0
 
 Coordinate updates across all nodes in a ThemisDB cluster with Raft consensus.
@@ -115,8 +115,8 @@ if (result.wait()) {
 
 ## Distributed Cluster Updates ✅ IMPLEMENTED (v1.7.0)
 <!-- anchor: distributed-cluster-updates -->
-**Priority:** High  
-**Target Version:** v1.7.0  
+**Priority:** High
+**Target Version:** v1.7.0
 **Status:** ✅ Released — `include/updates/cluster_update_manager.h`, `src/updates/cluster_update_manager.cpp`
 
 Coordinate updates across all nodes in a ThemisDB cluster with Raft consensus.
@@ -200,8 +200,8 @@ if (result.success) {
 ---
 
 ### Binary Delta Patches ✅ IMPLEMENTED (v1.6.0)
-**Priority:** High  
-**Target Version:** v1.6.0  
+**Priority:** High
+**Target Version:** v1.6.0
 **Status:** ✅ Released — `include/updates/delta_update_engine.h`, `src/updates/delta_update_engine.cpp`
 
 Reduce download size by applying binary diffs instead of full file replacement.
@@ -229,7 +229,7 @@ struct DeltaManifest {
     std::string from_version;           // "1.4.0"
     std::string to_version;             // "1.5.0"
     std::vector<FileDelta> deltas;
-    
+
     struct FileDelta {
         std::string path;
         std::string base_hash;          // SHA-256 of base file
@@ -250,10 +250,10 @@ DeltaUpdateEngine delta_engine;
 auto delta = delta_engine.findDelta("1.4.0", "1.5.0");
 if (delta) {
     LOG_INFO("Delta update available: {} -> {}", delta->from_version, delta->to_version);
-    LOG_INFO("Download size: {} MB (vs {} MB full)", 
+    LOG_INFO("Download size: {} MB (vs {} MB full)",
              delta->total_patch_size / 1024 / 1024,
              delta->total_full_size / 1024 / 1024);
-    
+
     // Apply delta update
     auto result = delta_engine.applyDelta(*delta);
     if (!result.success) {
@@ -274,8 +274,8 @@ if (delta) {
 - [15] D. Korn and K.-P. Vo, "VCDIFF: An Open Encoding for Merging, Differencing, and Compression," IETF RFC 3284, June 2002.
 
 ### Automatic Schema Migration Framework ✅ IMPLEMENTED (v1.7.0)
-**Priority:** High  
-**Target Version:** v1.7.0  
+**Priority:** High
+**Target Version:** v1.7.0
 **Status:** ✅ Released — `include/updates/schema_migration.h`, `src/updates/schema_migration.cpp`
 
 Automated schema migration with online DDL (zero-downtime schema changes).
@@ -357,8 +357,8 @@ if (!migration_result.success) {
 ---
 
 ### Canary Deployments ✅ IMPLEMENTED (v1.7.0)
-**Priority:** Medium  
-**Target Version:** v1.7.0  
+**Priority:** Medium
+**Target Version:** v1.7.0
 **Status:** ✅ Released — `include/updates/canary_rollout.h`, `src/updates/canary_rollout.cpp`
 
 Gradual rollout of updates with automatic rollback on errors.
@@ -411,8 +411,8 @@ canary.onRollback([](const std::string& reason) {
 ---
 
 ### Dependency Resolution Engine ✅ IMPLEMENTED (v1.6.0)
-**Priority:** Medium  
-**Target Version:** v1.6.0  
+**Priority:** Medium
+**Target Version:** v1.6.0
 **Status:** ✅ Released — `include/updates/dependency_resolver.h`, `src/updates/dependency_resolver.cpp`
 
 Automatic resolution of update dependencies with topological sorting.
@@ -457,7 +457,7 @@ if (resolution.success) {
     for (const auto& step : resolution.steps) {
         LOG_INFO("  {} {} -> {}", step.package, step.from_version, step.to_version);
     }
-    
+
     // Execute update plan
     for (const auto& step : resolution.steps) {
         engine->applyHotReload(step.to_version);
@@ -486,7 +486,7 @@ if (!conflicts.empty()) {
 ---
 
 ### Update Verification Test Suite
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.6.0
 
 Automated testing before applying updates to production.
@@ -543,8 +543,8 @@ if (update_result.success) {
 ---
 
 ### Multi-Tenant Update Scheduling ✅ Implemented (v1.8.0, Issue #262)
-**Priority:** Low  
-**Target Version:** v1.8.0  
+**Priority:** Low
+**Target Version:** v1.8.0
 **Status:** Implemented
 
 Per-tenant update schedules and maintenance windows.
@@ -600,8 +600,8 @@ if (scheduler.canUpdateNow("tenant-123")) {
 ## Performance Optimizations
 
 ### Parallel File Downloads ✅ Implemented (v1.6.0, Issue #128)
-**Priority:** High  
-**Target Version:** v1.6.0  
+**Priority:** High
+**Target Version:** v1.6.0
 **Status:** Implemented
 
 Download multiple files concurrently to reduce update time.
@@ -643,7 +643,7 @@ auto results = downloader.downloadAll(tasks);
 ---
 
 ### Incremental Manifest Updates
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Only download changed parts of manifests to reduce overhead.
@@ -667,7 +667,7 @@ Only download changed parts of manifests to reduce overhead.
 ---
 
 ### Background Verification
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.6.0
 
 Verify downloaded files in background while downloading remaining files.
@@ -683,7 +683,7 @@ Verify downloaded files in background while downloading remaining files.
 ---
 
 ### Smart Rollback Points
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Optimize rollback storage with deduplication and compression.
@@ -701,7 +701,7 @@ Optimize rollback storage with deduplication and compression.
 ## Refactoring Opportunities
 
 ### Separate Download and Apply Logic
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Split HotReloadEngine into separate download and apply components.
@@ -721,7 +721,7 @@ class ApplyEngine {
 class HotReloadOrchestrator {
     DownloadEngine downloader_;
     ApplyEngine applier_;
-    
+
     Result<void> updateToVersion(const std::string& version) {
         auto downloaded = downloader_.download(version);
         auto verified = downloader_.verify(*downloaded);
@@ -739,7 +739,7 @@ class HotReloadOrchestrator {
 ---
 
 ### Plugin-Based Migration System
-**Priority:** Medium  
+**Priority:** Medium
 **Target Version:** v1.7.0
 
 Allow custom migration strategies via plugin API.
@@ -749,10 +749,10 @@ Allow custom migration strategies via plugin API.
 class IMigrationPlugin {
 public:
     virtual ~IMigrationPlugin() = default;
-    
+
     virtual std::string name() const = 0;
     virtual std::string version() const = 0;
-    
+
     virtual bool canHandle(const Migration& migration) = 0;
     virtual Result<void> apply(const Migration& migration) = 0;
     virtual Result<void> rollback(const Migration& migration) = 0;
@@ -767,7 +767,7 @@ public:
 ---
 
 ### Unified Update Configuration
-**Priority:** Low  
+**Priority:** Low
 **Target Version:** v1.8.0
 
 Merge UpdatesConfig with HotReloadEngine::Config for consistency.
@@ -789,7 +789,7 @@ struct UnifiedUpdateConfig {
 ## Known Issues
 
 ### Issue #1: No Verification of Available Disk Space
-**Severity:** Medium  
+**Severity:** Medium
 **Reported:** v1.5.0
 
 HotReloadEngine doesn't check available disk space before downloading.
@@ -803,7 +803,7 @@ HotReloadEngine doesn't check available disk space before downloading.
 ---
 
 ### Issue #2: Rollback Points Not Cleaned Automatically
-**Severity:** Low  
+**Severity:** Low
 **Reported:** v1.5.0
 
 Old rollback points accumulate, consuming disk space.
@@ -817,7 +817,7 @@ Old rollback points accumulate, consuming disk space.
 ---
 
 ### Issue #3: No Progress Resumption After Process Restart
-**Severity:** Medium  
+**Severity:** Medium
 **Reported:** v1.5.1
 
 If process crashes during update, must restart from beginning.
@@ -831,7 +831,7 @@ If process crashes during update, must restart from beginning.
 ---
 
 ### Issue #4: Signature Verification Blocks Main Thread
-**Severity:** Low  
+**Severity:** Low
 **Reported:** v1.5.0
 
 Large file signature verification can block for seconds.
@@ -845,7 +845,7 @@ Large file signature verification can block for seconds.
 ---
 
 ### Issue #5: No Rate Limiting for GitHub API
-**Severity:** Low  
+**Severity:** Low
 **Reported:** v1.5.2
 
 Frequent update checks can hit GitHub API rate limits.
@@ -1048,8 +1048,8 @@ Have ideas for update improvements? We'd love to hear from you:
 
 ---
 
-*Last Updated: April 2026*  
-*Module Version: v1.8.0*  
+*Last Updated: April 2026*
+*Module Version: v1.8.0*
 *Next Review: v2.0.0 Release*
 
 ---

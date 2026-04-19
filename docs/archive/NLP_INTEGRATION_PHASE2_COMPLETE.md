@@ -22,7 +22,7 @@ This phase focused on ingestion, keywords, and metadata extraction using NLP cap
 
 ## See Also
 
-- [NLP Integration Final Summary](../../NLP_INTEGRATION_FINAL_SUMMARY.md) (if exists)
+- [NLP Integration Final Summary](../llm_orchestration/NLP_INTEGRATION_FINAL_SUMMARY.md) (if exists)
 - [Query Optimizer Documentation](../en/architecture/)
 
 ---

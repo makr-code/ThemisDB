@@ -378,8 +378,8 @@ themis_lora_sync_replication_lag_seconds
 
 - [RAID LoRA Implementation Report](/docs/RAID_LORA_IMPLEMENTATION_REPORT.md)
 - [LoRA Storage Testing Guide](/docs/LORA_STORAGE_TESTING_GUIDE.md)
-- [Cross-Shard Testing Guide](/docs/CROSS_SHARD_TESTING.md)
-- [Sharding Architecture](/docs/SHARD_RPC_IMPLEMENTATION_COMPLETE.md)
+- [Cross-Shard Testing Guide](../../ARCHIVED/implementation-summaries/CROSS_SHARD_TESTING.md)
+- [Sharding Architecture](../../ARCHIVED/implementation-summaries/SHARD_RPC_IMPLEMENTATION_COMPLETE.md)
 
 ## License
 

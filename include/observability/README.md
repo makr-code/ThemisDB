@@ -142,10 +142,10 @@ QueryProfiler profiler(config);
 // Profile a query
 {
     ScopedQueryProfile profile(profiler, "q-123", "SELECT * FROM metrics WHERE ...");
-    
+
     // Execute query (profiler tracks timing)
     executeQuery();
-    
+
     // Add context
     profile.add_hint("Consider adding index on timestamp");
     profile.add_warning("Full table scan detected");
@@ -218,11 +218,11 @@ StorageProfiler profiler(config);
 // Profile storage operation
 {
     ScopedStorageOp op(profiler, StorageOpType::GET, "default");
-    
+
     // Perform operation
     std::string value;
     rocksdb::Status status = db->Get(rocksdb::ReadOptions(), key, &value);
-    
+
     // Record details
     op.record_bytes_read(value.size());
     op.set_cache_hit(true);
@@ -250,23 +250,23 @@ struct RocksDBStats {
     size_t compaction_bytes_read;
     size_t compaction_bytes_written;
     std::chrono::microseconds total_compaction_time;
-    
+
     // Write stats
     size_t num_writes;
     size_t bytes_written;
     size_t wal_bytes;
-    
+
     // Read stats
     size_t num_reads;
     size_t bytes_read;
     size_t block_cache_hits;
     size_t block_cache_misses;
-    
+
     // Performance metrics
     double write_amplification;
     double read_amplification;
     double space_amplification;
-    
+
     json toJSON() const;
 };
 ```
@@ -319,7 +319,7 @@ PerformanceAnalysis analysis = analyzer.analyze(query_profiler, storage_profiler
 for (const auto& issue : analysis.issues) {
     std::cout << "[" << to_string(issue.severity) << "] " << issue.title << std::endl;
     std::cout << "  " << issue.description << std::endl;
-    
+
     for (const auto& rec : issue.recommendations) {
         std::cout << "  → " << rec << std::endl;
     }
@@ -340,7 +340,7 @@ struct PerformanceAnalyzerConfig {
     double write_amplification_threshold = 10.0;
     double read_amplification_threshold = 5.0;
     size_t max_full_scan_threshold = 1000;   // rows
-    
+
     bool analyze_queries = true;
     bool analyze_storage = true;
     bool analyze_cache = true;
@@ -501,23 +501,23 @@ struct QueryProfile {
     std::string query_text;
     std::chrono::system_clock::time_point start_time;
     std::chrono::microseconds total_duration;
-    
+
     std::unordered_map<QueryPhase, std::chrono::microseconds> phase_timings;
     std::vector<OperatorStats> operator_stats;
-    
+
     size_t peak_memory_bytes;
     size_t total_disk_io_bytes;
     size_t total_network_bytes;
-    
+
     bool used_index;
     bool used_cache;
     std::vector<std::string> indexes_used;
     std::vector<std::string> warnings;
     std::vector<std::string> optimization_hints;
-    
+
     size_t result_rows;
     size_t result_bytes;
-    
+
     json toJSON() const;
     std::string toSummary() const;
 };
@@ -535,7 +535,7 @@ struct OperatorStats {
     size_t cache_hits;
     size_t cache_misses;
     std::string details;
-    
+
     json toJSON() const;
 };
 ```
@@ -544,24 +544,24 @@ struct OperatorStats {
 ```cpp
 struct RocksDBStats {
     std::chrono::system_clock::time_point timestamp;
-    
+
     // Compaction, write, read stats
     size_t num_compactions;
     size_t num_writes;
     size_t num_reads;
     size_t bytes_written;
     size_t bytes_read;
-    
+
     // Cache stats
     size_t block_cache_hits;
     size_t block_cache_misses;
     size_t bloom_filter_hits;
-    
+
     // Amplification metrics
     double write_amplification;
     double read_amplification;
     double space_amplification;
-    
+
     json toJSON() const;
 };
 ```
@@ -575,7 +575,7 @@ struct PerformanceIssue {
     std::string description;
     std::vector<std::string> recommendations;
     json metrics;
-    
+
     json toJSON() const;
 };
 ```
@@ -684,8 +684,8 @@ std::vector<Alert> getActiveAlerts();
 void logSlowQuery(ILogger& logger, const QueryProfile& profile) {
     if (profile.total_duration.count() > 1000000) {  // 1 second
         logger.warn("Slow query: " + profile.query_text);
-        MetricsCollector::getInstance().recordQuery("slow_query", 
-            profile.total_duration.count() / 1000.0, 
+        MetricsCollector::getInstance().recordQuery("slow_query",
+            profile.total_duration.count() / 1000.0,
             profile.result_rows);
     }
 }
@@ -696,11 +696,11 @@ void logSlowQuery(ILogger& logger, const QueryProfile& profile) {
 #include "core/concerns/i_tracer.h"
 #include "observability/query_profiler.h"
 
-void executeTracedQuery(ITracer& tracer, QueryProfiler& profiler, 
+void executeTracedQuery(ITracer& tracer, QueryProfiler& profiler,
                        const std::string& query_text) {
     auto span = tracer.startSpan("query_execution");
     profiler.start_query("q-123", query_text);
-    
+
     try {
         // Execute query
         span->setStatus(true);
@@ -708,7 +708,7 @@ void executeTracedQuery(ITracer& tracer, QueryProfiler& profiler,
         span->recordError(e.what());
         span->setStatus(false);
     }
-    
+
     profiler.end_query("q-123");
 }
 ```
@@ -723,7 +723,7 @@ public:
     void incrementCounter(const std::string& name, int64_t value, const Labels& labels) override {
         MetricsCollector::getInstance().incrementCounter(name, labels);
     }
-    
+
     std::string exportMetrics() const override {
         return MetricsCollector::getInstance().getPrometheusMetrics();
     }
@@ -818,7 +818,7 @@ http_server.addRoute("/query_profiles", [&profiler](const Request& req) -> Respo
        LatencyTracker tracker("operation");
        doWork();
    }
-   
+
    // Avoid (manual)
    auto start = std::chrono::steady_clock::now();
    doWork();
@@ -832,7 +832,7 @@ http_server.addRoute("/query_profiles", [&profiler](const Request& req) -> Respo
    for (int i = 0; i < 1000000; i++) {
        metrics.incrementCounter("loop_iterations");  // BAD: 1M metric calls
    }
-   
+
    // Prefer batching
    int count = 0;
    for (int i = 0; i < 1000000; i++) {
@@ -852,7 +852,7 @@ http_server.addRoute("/query_profiles", [&profiler](const Request& req) -> Respo
    ```cpp
    // BAD: High cardinality
    metrics.record("query_latency", latency, {{"user_id", user_id}});  // Millions of users
-   
+
    // GOOD: Low cardinality
    metrics.record("query_latency", latency, {{"user_tier", "premium"}});  // Few tiers
    ```
@@ -862,3 +862,11 @@ http_server.addRoute("/query_profiles", [&profiler](const Request& req) -> Respo
 - [../src/observability/README.md](../../../src/observability/README.md) - Implementation documentation
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned features
 - [../../core/concerns/](../../core/concerns/) - Core interfaces (ILogger, ITracer, IMetrics)
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

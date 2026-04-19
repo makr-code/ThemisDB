@@ -185,3 +185,7 @@ See usage examples in the architecture documentation above.
 3. Corbett, J. C., Dean, J., Epstein, M., Fikes, A., Frost, C., Furman, J., … Woodford, D. (2013). **Spanner: Google's Globally Distributed Database**. *ACM Transactions on Computer Systems*, 31(3), 8:1–8:22. https://doi.org/10.1145/2491245
 
 4. Curino, C., Jones, E., Zhang, Y., & Madden, S. (2010). **Schism: A Workload-Driven Approach to Database Replication and Partitioning**. *Proceedings of the VLDB Endowment*, 3(1–2), 48–57. https://doi.org/10.14778/1920841.1920853
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

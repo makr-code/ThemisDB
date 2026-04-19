@@ -28,3 +28,21 @@ Public interfaces and declarations for geo functionality. Implementation source 
 - `../../src/geo/ROADMAP.md` — module roadmap and implementation phases
 - `../../src/geo/FUTURE_ENHANCEMENTS.md` — planned enhancements with scientific references
 - `../../docs/de/geo/` — German-language developer documentation
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```
+
+## Usage
+
+Include the relevant headers from this module:
+
+```cpp
+#include "geo/module_header.h"
+```
+
+See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.

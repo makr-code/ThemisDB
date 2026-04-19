@@ -49,20 +49,20 @@ public:
         IKeyProviderPtr key_provider,         // Key management
         IIndexManagerPtr index_manager        // Index coordination
     );
-    
+
     // Factory for backward compatibility (uses defaults)
     static std::shared_ptr<StorageEngine> createDefault();
-    
+
     // Basic operations
     Result<void> put(const std::string& key, const std::string& value);
     Result<std::string> get(const std::string& key);
     Result<void> del(const std::string& key);
-    
+
     // Filter-aware operations
     bool apply_filter(const std::string& filter_expr, const void* context);
-    
+
     // Encryption operations
-    std::vector<uint8_t> encrypt_field(const std::string& field_name, 
+    std::vector<uint8_t> encrypt_field(const std::string& field_name,
                                         const std::vector<uint8_t>& plaintext);
     std::vector<uint8_t> decrypt_field(const std::string& field_name,
                                         const std::vector<uint8_t>& ciphertext);
@@ -95,25 +95,25 @@ struct Config {
     std::string db_path = "./data/rocksdb";
     std::string wal_dir;                    // Separate WAL directory
     std::vector<DbPath> db_paths;           // Multi-device SSTable distribution
-    
+
     bool read_only = false;                 // Read-only mode (v1.4.0+)
     size_t memtable_size_mb = 512;          // Write-amp optimization
     size_t block_cache_size_mb = 1024;      // Block cache size
     int block_cache_shard_bits = -1;        // Auto-sharding (-1 = auto)
-    
+
     bool enable_wal = true;
     bool enable_blobdb = true;
     bool enable_statistics = true;
     size_t blob_size_threshold = 4096;      // >4KB → BlobDB
-    
+
     int max_background_jobs = 4;
     int max_background_compactions = -1;    // Auto
     int max_background_flushes = -1;        // Auto
-    
+
     // Async I/O optimization (v1.3.0+)
     bool enable_async_io = false;
     size_t async_io_readahead_size_mb = 0;
-    
+
     // CPU prefetch hints (v1.4.1+)
     bool enable_cpu_prefetch = false;
     int cpu_prefetch_distance = 64;
@@ -128,26 +128,26 @@ public:
     RocksDBWrapper(const Config& config);
     Result<void> open();
     void close();
-    
+
     // Basic operations
     Result<void> put(const std::string& key, const std::string& value);
     Result<std::string> get(const std::string& key);
     Result<void> del(const std::string& key);
-    
+
     // Batch operations
     Result<void> writeBatch(WriteBatch& batch);
-    
+
     // Transactions
     std::unique_ptr<Transaction> beginTransaction();
-    
+
     // Iterators (range queries)
     std::unique_ptr<Iterator> createIterator();
     std::unique_ptr<Iterator> createIterator(const ReadOptions& opts);
-    
+
     // Snapshots (MVCC)
     const Snapshot* getSnapshot();
     void releaseSnapshot(const Snapshot* snapshot);
-    
+
     // Statistics
     std::string getStatistics() const;
     void resetStatistics();
@@ -201,26 +201,26 @@ Graph Index:      gidx:from_id:edge_type:to_id
 class KeySchema {
 public:
     // Encoding
-    static std::string encodeRelationalKey(const std::string& table, 
+    static std::string encodeRelationalKey(const std::string& table,
                                            const std::string& pk);
-    static std::string encodeDocumentKey(const std::string& collection, 
+    static std::string encodeDocumentKey(const std::string& collection,
                                          const std::string& pk);
     static std::string encodeGraphNodeKey(const std::string& node_id);
     static std::string encodeGraphEdgeKey(const std::string& edge_id);
-    static std::string encodeVectorKey(const std::string& object_name, 
+    static std::string encodeVectorKey(const std::string& object_name,
                                        const std::string& pk);
-    static std::string encodeTimeseriesKey(const std::string& series, 
-                                           uint64_t timestamp, 
+    static std::string encodeTimeseriesKey(const std::string& series,
+                                           uint64_t timestamp,
                                            const std::string& pk);
-    
+
     // Decoding
     static std::tuple<DataModel, std::string, std::string> decodeKey(
         const std::string& key);
-    
+
     // Prefix generation for range scans
     static std::string collectionPrefix(const std::string& name);
     static std::string tablePrefix(const std::string& name);
-    
+
     // Validation
     static bool isValidKey(const std::string& key);
     static DataModel extractModel(const std::string& key);
@@ -263,7 +263,7 @@ struct BlobRef {
     std::string sha256_hash;                 // Integrity verification
     std::string compression;                 // Compression algorithm
     std::map<std::string, std::string> metadata;  // Custom metadata
-    
+
     std::string serialize() const;
     static BlobRef deserialize(const std::string& data);
 };
@@ -274,17 +274,17 @@ struct BlobRef {
 class BlobStorageManager {
 public:
     BlobStorageManager(const BlobStorageConfig& config);
-    
+
     // Backend registration
-    void registerBackend(BlobStorageType type, 
+    void registerBackend(BlobStorageType type,
                         std::shared_ptr<IBlobStorageBackend> backend);
-    
+
     // Blob operations (automatic backend selection)
-    BlobRef put(const std::string& blob_id, 
+    BlobRef put(const std::string& blob_id,
                 const std::vector<uint8_t>& data);
     Result<std::vector<uint8_t>> get(const BlobRef& ref);
     Result<void> del(const BlobRef& ref);
-    
+
     // Statistics
     std::map<BlobStorageType, size_t> getBackendStats() const;
 };
@@ -309,18 +309,18 @@ Incremental backup system with versioning and validation.
 class BackupManager {
 public:
     BackupManager(std::shared_ptr<RocksDBWrapper> db);
-    
+
     // Backup operations
     Result<uint32_t> createBackup(bool full = false);
-    Result<void> restoreFromBackup(uint32_t backup_id, 
+    Result<void> restoreFromBackup(uint32_t backup_id,
                                    const std::string& restore_path);
     Result<void> verifyBackup(uint32_t backup_id);
-    
+
     // Management
     std::vector<BackupInfo> listBackups() const;
     Result<void> deleteBackup(uint32_t backup_id);
     Result<void> cleanupOldBackups(size_t keep_count);
-    
+
     // Statistics
     BackupStatistics getStatistics() const;
 };
@@ -336,17 +336,17 @@ Point-in-time recovery with snapshot management.
 class PITRManager {
 public:
     PITRManager(std::shared_ptr<RocksDBWrapper> db);
-    
+
     // Snapshot management
     Result<std::string> createSnapshot();
     std::vector<SnapshotInfo> listSnapshots() const;
     Result<void> deleteSnapshot(const std::string& snapshot_id);
-    
+
     // Recovery
     Result<void> restoreToTimestamp(
         std::chrono::system_clock::time_point timestamp);
     Result<void> restoreToSnapshot(const std::string& snapshot_id);
-    
+
     // Configuration
     void setRetentionPolicy(std::chrono::hours retention);
     void enableAutoSnapshot(std::chrono::minutes interval);
@@ -371,11 +371,11 @@ Digital signatures for data integrity verification.
 class SecuritySignatureManager {
 public:
     SecuritySignatureManager(std::shared_ptr<IKeyProvider> key_provider);
-    
+
     // Signature operations
     std::string sign(const std::string& data);
     bool verify(const std::string& data, const std::string& signature);
-    
+
     // Key management
     void rotateKey();
     std::string getCurrentKeyId() const;
@@ -613,3 +613,11 @@ For detailed guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.md).
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned storage header improvements
 - [Storage Implementation README](../../src/storage/README.md) - Implementation guide
 - [Server Headers](../server/README.md) - Server interface documentation
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

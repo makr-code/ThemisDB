@@ -351,4 +351,4 @@ api:
 - [API Reference](../api/API_REFERENCE.md)
 - [API Versioning](../api/API_VERSIONING.md)
 - [Authentication & Rate Limiting](../api/AUTHENTICATION_AND_RATE_LIMITING.md)
-- [Wire Protocol](../wire-protocol.md)
+- [Wire Protocol](../architecture/wire-protocol.md)

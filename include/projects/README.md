@@ -165,6 +165,14 @@ Project operations are **thread-safe** with the following guarantees:
 
 ---
 
-**Last Updated**: 2026-04-06  
-**Status**: Draft - Awaiting actual header file discovery  
+**Last Updated**: 2026-04-06
+**Status**: Draft - Awaiting actual header file discovery
 **Maintainer**: ThemisDB Team
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

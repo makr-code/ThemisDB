@@ -298,7 +298,7 @@ governance:
 ## Related Documentation
 
 - [Governance Module ROADMAP](../../src/governance/ROADMAP.md)
-- [Tenant Isolation Guide](../TENANT_ISOLATION_GUIDE.md)
-- [Security Executive Summary](../SECURITY_EXECUTIVE_SUMMARY.md)
+- [Tenant Isolation Guide](../de/security/TENANT_ISOLATION_GUIDE.md)
+- [Security Executive Summary](../de/security/SECURITY_EXECUTIVE_SUMMARY.md)
 - [Information Security Policy](../security/INFORMATION_SECURITY_POLICY.md)
-- [Audit Log Retention](../AUDIT_LOG_RETENTION_IMPLEMENTATION.md)
+- [Audit Log Retention](../ARCHIVED/implementation-summaries/AUDIT_LOG_RETENTION_IMPLEMENTATION.md)

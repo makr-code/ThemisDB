@@ -258,6 +258,6 @@ metadata:
 
 - [Metadata Module ROADMAP](../../src/metadata/ROADMAP.md)
 - [Metadata Roadmap](../metadata_roadmap.md)
-- [Automatic Full-Text Index](../AUTOMATIC_FULLTEXT_INDEX.md)
+- [Automatic Full-Text Index](../de/aql/AUTOMATIC_FULLTEXT_INDEX.md)
 - [Schema Validation Complete](../SCHEMA_VALIDATION_COMPLETE.md)
 - [Information Schema Roadmap](../INFORMATION_SCHEMA_ROADMAP.md)

@@ -206,7 +206,7 @@ Vollständige Enterprise-Grade Sharding Benchmarks für Themis v1.4, direkt verg
 
 ---
 
-#### ✅ **[PROJECT_SUMMARY_THEMIS_v1.4.md](PROJECT_SUMMARY_THEMIS_v1.4.md)** - UPDATED
+#### ✅ **[PROJECT_SUMMARY_THEMIS_v1.4.md](../ARCHIVED/implementation-summaries/PROJECT_SUMMARY_THEMIS_v1.4.md)** - UPDATED
 - **Neue Sektion:** "SHARDING & HYPERSCALER BENCHMARKS (NEU)" in DELIVERABLES
 - **Position:** Top Level (nach Intro)
 - **Inhalt:**

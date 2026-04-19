@@ -526,7 +526,7 @@ auto decrypted = enc.decrypt(encrypted);
 **Documentation:**
 - [Auth README](../../src/auth/README.md)
 - [Authentication Guide](../../docs/security/authentication.md)
-- [Kerberos Implementation](../../KERBEROS_IMPLEMENTATION_SUMMARY.md)
+- [Kerberos Implementation](../ARCHIVED/implementation-summaries/KERBEROS_IMPLEMENTATION_SUMMARY.md)
 
 **Example Usage:**
 ```cpp
@@ -909,7 +909,7 @@ feed.subscribe([](const Change& change) {
 **Documentation:**
 - [Geo README](../../src/geo/README.md)
 - [Geospatial Guide](../../docs/features/geo.md)
-- [GDAL Integration](../../docs/GDAL_INTEGRATION_SUMMARY.md)
+- [GDAL Integration](../ARCHIVED/implementation-summaries/GDAL_INTEGRATION_SUMMARY.md)
 
 **Example Usage:**
 ```cpp

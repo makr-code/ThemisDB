@@ -19,12 +19,12 @@ RAII wrappers ensure that GPU resources are properly released even when exceptio
   - Automatic `cudaStreamDestroy` on destruction
   - Support for priority streams
   - Stream synchronization
-  
+
 - **CudaDeviceMemory**: Device memory allocation
   - Automatic `cudaFree` on destruction
   - Convenience methods for host↔device transfers
   - Size tracking
-  
+
 - **ScopedCudaDevice**: Device context switching
   - Restores previous device on destruction
   - RAII for `cudaSetDevice`
@@ -34,19 +34,19 @@ RAII wrappers ensure that GPU resources are properly released even when exceptio
 - **OpenCLContext**: OpenCL context management
   - Automatic `clReleaseContext` on destruction
   - Reference counting support
-  
+
 - **OpenCLQueue**: Command queue management
   - Automatic `clReleaseCommandQueue` on destruction
   - Queue finishing and synchronization
-  
+
 - **OpenCLProgram**: Program management
   - Automatic `clReleaseProgram` on destruction
   - Convenience methods for source compilation
-  
+
 - **OpenCLKernel**: Kernel management
   - Automatic `clReleaseKernel` on destruction
   - Named kernel creation
-  
+
 - **OpenCLBuffer**: Buffer memory management
   - Automatic `clReleaseMemObject` on destruction
   - Size tracking
@@ -61,10 +61,10 @@ RAII wrappers ensure that GPU resources are properly released even when exceptio
 void myFunction() {
     // Create stream (automatically destroyed at end of scope)
     CudaStream stream(true);
-    
+
     // Use stream
     launchKernel<<<gridDim, blockDim, 0, stream.get()>>>(...);
-    
+
     // Stream automatically destroyed here
 }
 ```
@@ -77,13 +77,13 @@ void myFunction() {
 void processData(const float* hostData, size_t size) {
     // Allocate device memory
     CudaDeviceMemory deviceMem(size);
-    
+
     // Copy to device
     deviceMem.copyFrom(hostData, size);
-    
+
     // Process...
     launchKernel<<<...>>>(deviceMem.get(), ...);
-    
+
     // Memory automatically freed here
 }
 ```
@@ -97,13 +97,13 @@ void setupOpenCL(cl_device_id device) {
     // Create context
     OpenCLContext context;
     context.create(nullptr, 1, &device);
-    
+
     // Create queue
     OpenCLQueue queue;
     queue.create(context.get(), device);
-    
+
     // Use resources...
-    
+
     // Everything automatically cleaned up here
 }
 ```
@@ -116,13 +116,13 @@ void setupOpenCL(cl_device_id device) {
 void riskyOperation() {
     CudaStream stream(true);
     CudaDeviceMemory mem(1024 * 1024);
-    
+
     // If exception thrown here, stream and memory
     // are still properly cleaned up
     if (someCondition) {
         throw std::runtime_error("Operation failed");
     }
-    
+
     // Normal cleanup if no exception
 }
 ```
@@ -197,7 +197,7 @@ void shutdown() {
 class MyBackend {
 private:
     CudaStream stream_;  // RAII wrapper
-    
+
 public:
     // Legacy interface still works
     cudaStream_t getStream() const {
@@ -252,3 +252,11 @@ When adding new wrappers:
 3. Document usage in this README
 4. Ensure exception safety
 5. Verify zero overhead with benchmarks
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

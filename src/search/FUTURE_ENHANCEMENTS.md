@@ -348,7 +348,7 @@ The following high-priority features were delivered in v1.5.0:
 - Tests: `tests/test_search_future_interfaces.cpp` (17 tests — SearchResultStream*)
 
 ### Query Expansion and Rewriting
-**Priority:** High  
+**Priority:** High
 **Status:** ✅ Delivered in v1.5.0 — see `include/search/query_expander.h`
 
 Automatically expand and rewrite queries for better results.
@@ -371,16 +371,16 @@ public:
         double synonym_weight = 0.8;
         size_t max_expansions = 5;
     };
-    
+
     Result<ExpandedQuery> expand(
         const std::string& query,
         const ExpansionConfig& config
     );
-    
+
     Result<std::string> correctSpelling(
         const std::string& query
     );
-    
+
     Result<std::vector<std::string>> suggestAlternatives(
         const std::string& query
     );
@@ -390,7 +390,7 @@ public:
 ---
 
 ### Advanced Fuzzy Matching
-**Priority:** Medium  
+**Priority:** Medium
 **Status:** ✅ Delivered in v1.5.0 — see `include/search/fuzzy_matcher.h`
 
 Enhanced fuzzy search with phonetic algorithms.
@@ -409,7 +409,7 @@ Enhanced fuzzy search with phonetic algorithms.
 ---
 
 ### Multi-Modal Search
-**Priority:** Medium  
+**Priority:** Medium
 **Status:** ✅ Delivered in v1.5.0 — see `include/search/multi_modal_search.h`
 
 Search across text, images, and other modalities.
@@ -423,7 +423,7 @@ Search across text, images, and other modalities.
 ---
 
 ### Learning to Rank (LTR)
-**Priority:** Medium  
+**Priority:** Medium
 **Status:** ✅ Delivered in v1.5.0 — see `include/search/learning_to_rank.h`
 
 Machine learning-based result ranking.
@@ -437,7 +437,7 @@ Machine learning-based result ranking.
 ---
 
 ### Search Analytics
-**Priority:** High  
+**Priority:** High
 **Status:** ✅ Delivered in v1.5.0 — see `include/search/search_analytics.h`
 
 Track and analyze search performance.
@@ -452,7 +452,7 @@ Track and analyze search performance.
 ---
 
 ### Faceted Search
-**Priority:** High  
+**Priority:** High
 **Status:** ✅ Delivered in v1.5.0 — see `include/search/faceted_search.h`
 
 Multi-dimensional filtering and navigation.
@@ -467,7 +467,7 @@ Multi-dimensional filtering and navigation.
 ---
 
 ### Autocomplete and Suggestions
-**Priority:** Medium  
+**Priority:** Medium
 **Status:** ✅ Delivered in v1.5.0 — see `include/search/autocomplete.h`
 
 Real-time query suggestions.
@@ -581,6 +581,6 @@ Real-time query suggestions.
 
 ---
 
-*Last Updated: April 2026*  
-*Module Version: v1.7.0*  
+*Last Updated: April 2026*
+*Module Version: v1.7.0*
 *Next Review: v1.8.0 Release*

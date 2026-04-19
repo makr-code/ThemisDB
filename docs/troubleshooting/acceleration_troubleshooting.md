@@ -180,4 +180,4 @@ acceleration:
 - [Acceleration Module ROADMAP](../../src/acceleration/ROADMAP.md)
 - [GPU Roadmap](../gpu_roadmap.md)
 - [GPU Troubleshooting](./gpu_troubleshooting.md)
-- [NCCL/RCCL Integration Guide](../NCCL_RCCL_INTEGRATION_GUIDE.md)
+- [NCCL/RCCL Integration Guide](../llm_orchestration/NCCL_RCCL_INTEGRATION_GUIDE.md)

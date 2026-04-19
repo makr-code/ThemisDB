@@ -91,9 +91,9 @@ using namespace themis::performance;
 void process_query() {
     uint64_t cycles;
     THEMIS_SCOPED_CYCLE_TIMER(cycles);
-    
+
     // Query execution...
-    
+
     // cycles contains elapsed CPU cycles on scope exit
 }
 
@@ -101,9 +101,9 @@ void process_query() {
 void batch_operation() {
     uint64_t start, end;
     THEMIS_MEASURE_CYCLES_START(start);
-    
+
     // Critical section...
-    
+
     THEMIS_MEASURE_CYCLES_END(end);
     uint64_t elapsed = end - start;
 }
@@ -144,7 +144,7 @@ cmake -B build -DTHEMIS_BENCHMARK_MODE=ON
 
 ---
 
-### Feature Flag System
+## Feature Flag System
 **Location:** `../include/performance/feature_flags.h`, `phase2_feature_flags.cpp`, `phase3/feature_flags.cpp`
 
 Runtime-configurable optimization toggles with compile-time guards for zero-cost abstractions.
@@ -315,13 +315,13 @@ using namespace themis::rcu;
 void update_index(const std::string& key, const std::string& new_value) {
     // 1. Copy current data structure
     auto new_index = copy_index(current_index);
-    
+
     // 2. Modify the copy
     new_index->insert(key, new_value);
-    
+
     // 3. Atomically update pointer
     auto old_index = current_index.exchange(new_index);
-    
+
     // 4. Defer reclamation
     GracePeriodManager::instance().call_rcu([old_index]() {
         delete old_index;  // Safe after grace period
@@ -438,7 +438,7 @@ for (size_t i = 0; i < keys.size(); ++i) {
     if (i + 1 < keys.size()) {
         prefetch(&keys[i + 1], PrefetchHint::T0);  // Prefetch to L1
     }
-    
+
     auto result = index->lookup(keys[i]);
     process(result);
 }
@@ -453,7 +453,7 @@ while (it != index->end()) {
         prefetch(&(*next), PrefetchHint::T1);  // Prefetch to L2
         ++next;
     }
-    
+
     process(*it);
     ++it;
 }
@@ -706,7 +706,7 @@ cmake -B build -DCMAKE_BUILD_TYPE=Release \
   -DTHEMIS_BENCHMARK_MODE=ON
 ```
 
-### All CMake Options
+## All CMake Options
 ```cmake
 # Phase 1: Quick Wins
 THEMIS_ENABLE_MIMALLOC         # mimalloc allocator (default: OFF)
@@ -777,7 +777,7 @@ cmake -B build -DCMAKE_BUILD_TYPE=Release \
 ```
 **Expected Gain**: +200-3000% (CPU: +200-300%, GPU: +1000-3000%)
 
-#### Vector Search (Large Scale)
+## Vector Search (Large Scale)
 ```bash
 cmake -B build -DCMAKE_BUILD_TYPE=Release \
   -DTHEMIS_ENABLE_RABITQ=ON \
@@ -786,7 +786,7 @@ cmake -B build -DCMAKE_BUILD_TYPE=Release \
 ```
 **Expected Gain**: +300-500% throughput, 16x memory reduction
 
-#### Mixed Workload
+### Mixed Workload
 ```bash
 cmake -B build -DCMAKE_BUILD_TYPE=Release \
   -DTHEMIS_ENABLE_MIMALLOC=ON \
@@ -844,7 +844,7 @@ vtune -report hotspots -r <result-dir>
 ./build/tests/themis_tests --gtest_filter=FeatureFlags*
 ```
 
-### Benchmarks
+## Benchmarks
 ```bash
 # Run benchmark suite
 ./build/benchmarks/themis_benchmarks
@@ -856,7 +856,7 @@ vtune -report hotspots -r <result-dir>
 ./scripts/benchmark_comparison.sh baseline optimized
 ```
 
-### Integration Tests
+## Integration Tests
 ```bash
 # Test all optimizations
 ./build/tests/integration/test_performance_features
@@ -897,7 +897,7 @@ groups:
         for: 5m
         annotations:
           summary: "High cycle count detected"
-      
+
       - alert: LowCPUEfficiency
         expr: themis_cpu_efficiency_ratio < 0.80
         for: 5m
@@ -1016,9 +1016,9 @@ A: Enable cycle metrics, compare before/after profiles, use Linux perf or VTune 
 
 ---
 
-**Version**: 1.0.0  
-**Last Updated**: 2026-04-06  
-**Maintainers**: ThemisDB Performance Team  
+**Version**: 1.0.0
+**Last Updated**: 2026-04-06
+**Maintainers**: ThemisDB Performance Team
 **Related Modules**: query, storage, index, server
 
 ## Scientific References
@@ -1032,3 +1032,7 @@ A: Enable cycle metrics, compare before/after profiles, use Linux perf or VTune 
 4. Graefe, G. (2011). **Modern B-Tree Techniques**. *Foundations and Trends in Databases*, 3(4), 203–402. https://doi.org/10.1561/1900000028
 
 5. Dong, S., Callaghan, M., Galanis, L., Borthakur, D., Savor, T., & Strum, M. (2017). **Optimizing Space Amplification in RocksDB**. *Proceedings of the 8th Biennial Conference on Innovative Data Systems Research (CIDR)*. https://www.cidrdb.org/cidr2017/papers/p82-dong-cidr17.pdf
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

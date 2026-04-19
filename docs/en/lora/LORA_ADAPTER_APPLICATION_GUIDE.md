@@ -542,7 +542,7 @@ if (engine.getActiveAdapters().size() >= MAX_ADAPTERS) {
 ## Related Documentation
 
 - [LoRa Storage Backend](LORA_STORAGE_BACKEND_COMPLETION.md)
-- [LoRa Training Guide](lora_production_training.md)
+- [LoRa Training Guide](../../llm_orchestration/lora_production_training.md)
 - [LLM Plugin Interface](../include/llm/llm_plugin_interface.h)
 - [REMAINING_GAPS_SUMMARY.md](../implementation-history/REMAINING_GAPS_SUMMARY.md) §3 (Historical)
 

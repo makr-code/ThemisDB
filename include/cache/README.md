@@ -14,3 +14,21 @@ See `../../src/cache/` for the implementation code.
 
 See `../../src/cache/README.md` for detailed module documentation.
 For secondary (German-language) docs see `../../docs/de/src/cache/`.
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```
+
+## Usage
+
+Include the relevant headers from this module:
+
+```cpp
+#include "cache/module_header.h"
+```
+
+See [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`ROADMAP.md`](ROADMAP.md) for details.

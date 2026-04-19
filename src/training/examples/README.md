@@ -26,3 +26,12 @@ Calls to planned IMPL-A1/A3 APIs are marked with `/* PLANNED */` comments and se
 - Issue spec: `docs/issues/lora_loops/IMPL-A3-federation-hooks.md`
 - Research paper: `docs/en/research/THEMISDB_LORA_RESEARCH_PAPER.md`
 - Module ROADMAP: `include/training/ROADMAP.md` §Phase 7
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/training/README.md`](../../include/training/README.md) for the public API.

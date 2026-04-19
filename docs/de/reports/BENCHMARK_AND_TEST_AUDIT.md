@@ -19,7 +19,7 @@
 - **Python Skripte & Tools:** 9+ Skripte in `tools/`, `scripts/`, `benchmarks/chimera/`
 - **Source-Komponenten:** 39 Module
 
-Vollständige Inventur aller Dateien: [TEST_AND_BENCHMARK_INVENTORY.md](../../TEST_AND_BENCHMARK_INVENTORY.md)
+Vollständige Inventur aller Dateien: [TEST_AND_BENCHMARK_INVENTORY.md](../../ARCHIVED/implementation-summaries/TEST_AND_BENCHMARK_INVENTORY.md)
 
 ---
 
@@ -498,7 +498,7 @@ Um den Fortschritt zu messen, sollten folgende Metriken erfasst werden:
 - **Gesamt Test-Fälle & Benchmarks:** ~11.609
 - **Gesamtabdeckungsrate:** ~85% (Line Coverage, geschätzt)
 
-Vollständige Inventur: [TEST_AND_BENCHMARK_INVENTORY.md](../../TEST_AND_BENCHMARK_INVENTORY.md)
+Vollständige Inventur: [TEST_AND_BENCHMARK_INVENTORY.md](../../ARCHIVED/implementation-summaries/TEST_AND_BENCHMARK_INVENTORY.md)
 
 ### Identifizierte Lücken (Original-Audit 2025)
 - **Fehlende Benchmarks:** ~25 (hochprioritär: 11) → **Implementiert** ✅

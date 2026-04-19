@@ -229,7 +229,7 @@ Stage 1: Gorilla Compression (0-7 days)
 Stage 2: Adaptive Retention (7-365 days)
   - Variance-based downsampling
   - High CV (>20%): 1-minute resolution
-  - Medium CV (5-20%): 15-minute resolution  
+  - Medium CV (5-20%): 15-minute resolution
   - Low CV (<5%): 1-hour resolution
   - Preserves anomalies via 3-sigma detection
   - Every 12 hours
@@ -249,7 +249,7 @@ struct HybridRetentionConfig {
         std::chrono::hours check_interval{24};
         std::string metric_pattern = "*";
     } stage1;
-    
+
     struct Stage2Config {
         bool enabled = true;
         std::chrono::hours min_age{24 * 7};
@@ -263,14 +263,14 @@ struct HybridRetentionConfig {
         bool detect_anomalies = true;
         double anomaly_sigma_threshold = 3.0;
     } stage2;
-    
+
     struct Stage3Config {
         bool enabled = true;
         std::chrono::hours min_age{24 * 365};
         std::chrono::hours check_interval{24};
         std::string target_resolution = "1d";
     } stage3;
-    
+
     bool auto_cleanup = true;
     bool verify_aggregates = true;
     std::string source_table = "timeseries";
@@ -289,22 +289,22 @@ public:
         TaskScheduler* scheduler,
         const HybridRetentionConfig& config = {}
     );
-    
+
     // Lifecycle
     void start();
     void stop();
     bool isRunning() const;
-    
+
     // Configuration
     void updateConfig(const HybridRetentionConfig& config);
     HybridRetentionConfig getConfig() const;
-    
+
     // Manual execution
     void executeStage1();  // Run Gorilla compression now
     void executeStage2();  // Run adaptive retention now
     void executeStage3();  // Run time-based retention now
     void executeAll();     // Run all stages now
-    
+
     // Statistics
     HybridRetentionStats getStats() const;
     void resetStats();
@@ -321,7 +321,7 @@ struct HybridRetentionStats {
         double avg_compression_ratio = 0.0;
         std::chrono::system_clock::time_point last_run;
     } stage1;
-    
+
     struct {
         size_t aggregations_total = 0;
         size_t aggregations_failed = 0;
@@ -329,14 +329,14 @@ struct HybridRetentionStats {
         double avg_storage_reduction = 0.0;
         std::chrono::system_clock::time_point last_run;
     } stage2;
-    
+
     struct {
         size_t aggregations_total = 0;
         size_t aggregations_failed = 0;
         double avg_storage_reduction = 0.0;
         std::chrono::system_clock::time_point last_run;
     } stage3;
-    
+
     size_t total_storage_bytes_saved = 0;
     double overall_storage_reduction_percent = 0.0;
 };
@@ -444,7 +444,7 @@ for (const auto& evt : history) {
 ScheduledTask compression_task;
 compression_task.name = "Compress Old Data";
 compression_task.type = ScheduledTask::TaskType::AQL_QUERY;
-compression_task.aql_query = 
+compression_task.aql_query =
     "FOR d IN timeseries "
     "FILTER d.timestamp < DATE_SUB(NOW(), 1, 'day') "
     "UPDATE d WITH { compressed: true } IN timeseries";
@@ -489,10 +489,10 @@ retention.start();
 
 // Monitor savings
 auto stats = retention.getStats();
-std::cout << "Storage saved: " 
-          << stats.total_storage_bytes_saved / (1024*1024*1024) 
-          << " GB (" 
-          << stats.overall_storage_reduction_percent 
+std::cout << "Storage saved: "
+          << stats.total_storage_bytes_saved / (1024*1024*1024)
+          << " GB ("
+          << stats.overall_storage_reduction_percent
           << "%)" << std::endl;
 ```
 
@@ -549,8 +549,8 @@ std::cout << "Failed: " << stats.failed_executions << std::endl;
 auto task = scheduler.getTask("my_task_id");
 if (task) {
     std::cout << "Executions: " << task->total_executions << std::endl;
-    std::cout << "Success rate: " 
-              << (100.0 * task->successful_executions / task->total_executions) 
+    std::cout << "Success rate: "
+              << (100.0 * task->successful_executions / task->total_executions)
               << "%" << std::endl;
     std::cout << "Avg duration: " << task->avg_execution_time_ms << "ms" << std::endl;
     std::cout << "Last error: " << task->last_error << std::endl;
@@ -626,3 +626,11 @@ See [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md) for planned features incl
 - Multi-tenancy support with per-tenant resource quotas
 - Task templates and parameterization
 - Task result streaming for long-running AQL tasks
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

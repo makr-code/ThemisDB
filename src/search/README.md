@@ -364,3 +364,12 @@ results.erase(std::remove_if(results.begin(), results.end(),
 4. Manning, C. D., Raghavan, P., & Schütze, H. (2008). **Introduction to Information Retrieval**. Cambridge University Press. https://doi.org/10.1017/CBO9780511809071
 
 5. Luan, Y., Eisenstein, J., Toutanova, K., & Collins, M. (2021). **Sparse, Dense, and Attentional Representations for Text Retrieval**. *Transactions of the Association for Computational Linguistics*, 9, 329–345. https://doi.org/10.1162/tacl_a_00369
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/search/README.md`](../../include/search/README.md) for the public API.

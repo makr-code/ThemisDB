@@ -136,7 +136,7 @@ A: Ask repo admin to configure GitHub settings (see GITHUB_SETTINGS_CONFIGURATIO
 
 - 📖 [Full Merge Strategy Migration Guide](MERGE_STRATEGY_MIGRATION.md)
 - ⚙️ [GitHub Settings Configuration](GITHUB_SETTINGS_CONFIGURATION.md)
-- 📋 [Contributing Guidelines](../CONTRIBUTING.md)
+- 📋 [Contributing Guidelines](../../../CONTRIBUTING.md)
 - 🌿 [Branching Strategy](BRANCHING_STRATEGY_EN.md)
 
 ## Remember

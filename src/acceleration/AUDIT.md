@@ -1,10 +1,10 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Acceleration Module
 
-**Last Audit:** 2026-03-12  
-**Auditor:** Copilot  
+**Last Audit:** 2026-04-19
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ## Summary
@@ -12,7 +12,7 @@
 | Metric | Result |
 |--------|--------|
 | Build System Registration | ✅ Verified |
-| Source Files | 24 (`.cpp` + `.cu` + `.h` in `src/acceleration/`) |
+| Source Files | 26 (`.cpp` in `src/acceleration/`) |
 | Test Coverage | ✅ > 80% (confirmed by maintainer, Issue #1398) |
 | Open TODOs | 23 files contain TODOs (primarily hardware-conditional stubs) |
 | Open Stubs | 1 (`CUDAGraphBackend` GPU graph traversal — CPU fallback active) |
@@ -29,6 +29,7 @@
 
 | File | Purpose |
 |------|---------|
+| `ai_hardware_dispatcher.cpp` | AI workload dispatch across heterogeneous hardware |
 | `backend_registry.cpp` | Runtime backend selection and capability negotiation |
 | `compute_backend.cpp` | Base compute backend interface |
 | `cpu_backend.cpp` | Single-threaded CPU fallback backend |
@@ -44,8 +45,18 @@
 | `hip/` (2 files) | ROCm/HIP kernels (ANN and geo) |
 | `hip_backend.cpp` | HIP backend coordinator |
 | `multi_gpu_backend.cpp` | Multi-GPU sharding and fan-out search |
+| `nccl_vector_backend.cpp` | NCCL-based multi-GPU vector operations |
+| `oneapi_backend.cpp` | Intel oneAPI compute backend |
 | `opencl_backend.cpp` | OpenCL fallback backend |
+| `plugin_loader.cpp` | Dynamic backend plugin loading |
+| `plugin_security.cpp` | Plugin signature verification and sandboxing |
+| `rccl_vector_backend.cpp` | RCCL-based multi-GPU vector operations |
+| `shader_integrity.cpp` | GPU shader binary integrity verification |
 | `tensor_core_matmul.cpp` | Tensor Core FP16/BF16 matrix operations |
+| `vec_knn.cpp` | Vectorised k-nearest-neighbour primitives |
+| `vllm_resource_manager.cpp` | vLLM-compatible resource lifecycle management |
+| `vulkan_backend_full.cpp` | Full Vulkan compute backend |
+| `zluda_backend.cpp` | ZLUDA compatibility shim backend |
 
 ## Test Coverage
 

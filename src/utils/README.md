@@ -81,3 +81,12 @@ For detailed utilities documentation, see:
 3. Chazelle, B. (2001). **The Soft Heap: An Approximate Priority Queue with Optimal Error Rate**. *Journal of the ACM*, 47(6), 1012–1027. https://doi.org/10.1145/355541.355542
 
 4. Agner Fog. (2023). **Instruction Tables: Lists of Instruction Latencies, Throughputs and Micro-operation Breakdowns for Intel, AMD and VIA CPUs**. Technical University of Denmark. https://www.agner.org/optimize/instruction_tables.pdf
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+
+## Usage
+
+The implementation files in this module are compiled into the ThemisDB library.
+See [`../../include/utils/README.md`](../../include/utils/README.md) for the public API.

@@ -516,13 +516,13 @@ Result<OptimizationPlan> plan = optimizer.optimizeShortestPath("A", "B");
 if (!plan) {
     // Handle error
     std::cerr << "Optimization failed: " << plan.error().message << std::endl;
-    
+
     // Error codes:
     // - ErrorCode::INVALID_STATE: GraphIndexManager not set
     // - ErrorCode::VALIDATION_FAILED: Constraints contradictory
     // - ErrorCode::NOT_FOUND: No paths found
     // - ErrorCode::INTERNAL_ERROR: Algorithm failure
-    
+
     return;
 }
 
@@ -540,73 +540,73 @@ class GraphQueryOptimizer {
 public:
     // Construction
     explicit GraphQueryOptimizer(GraphIndexManager& graph_manager);
-    
+
     // Statistics
     Result<GraphStatistics> collectStatistics(
         std::optional<std::string_view> graph_id = std::nullopt
     );
     const GraphStatistics& getStatistics() const;
     double estimateEdgeTypeSelectivity(std::string_view edge_type) const;
-    
+
     // Query Optimization
     Result<OptimizationPlan> optimizeShortestPath(
         std::string_view start, std::string_view target,
         const QueryConstraints& constraints = {}
     );
-    
+
     Result<OptimizationPlan> optimizeKHopNeighborhood(
         std::string_view start, int k,
         const QueryConstraints& constraints = {}
     );
-    
+
     Result<OptimizationPlan> optimizePatternMatch(
         const std::vector<std::string>& pattern_vertices,
         const std::vector<std::pair<std::string, std::string>>& pattern_edges,
         const QueryConstraints& constraints = {}
     );
-    
+
     Result<OptimizationPlan> optimizeReachability(
         std::string_view start, std::string_view target,
         const QueryConstraints& constraints = {}
     );
-    
+
     Result<OptimizationPlan> optimizeConstrainedPath(
         std::string_view start, std::string_view end,
         const PathConstraints& constraints
     );
-    
+
     // Execution
     Result<std::vector<std::string>> executeBFS(
         std::string_view start, int max_depth,
         const QueryConstraints& constraints,
         ExecutionStats* stats = nullptr
     );
-    
+
     Result<std::vector<std::string>> executeDFS(
         std::string_view start, int max_depth,
         const QueryConstraints& constraints,
         ExecutionStats* stats = nullptr
     );
-    
+
     Result<PathResult> executeDijkstra(
         std::string_view start, std::string_view target,
         const QueryConstraints& constraints,
         ExecutionStats* stats = nullptr
     );
-    
+
     Result<PathResult> executeAStar(
         std::string_view start, std::string_view target,
         std::function<double(const std::string&)> heuristic,
         const QueryConstraints& constraints,
         ExecutionStats* stats = nullptr
     );
-    
+
     Result<PathResult> executeBidirectional(
         std::string_view start, std::string_view target,
         const QueryConstraints& constraints,
         ExecutionStats* stats = nullptr
     );
-    
+
     // Plan Management
     std::string explainPlan(const OptimizationPlan& plan) const;
     void setPlanCachingEnabled(bool enabled);
@@ -624,41 +624,41 @@ public:
     PathConstraints() = default;
     explicit PathConstraints(GraphIndexManager* graph_mgr);
     void setGraphManager(GraphIndexManager* graph_mgr);
-    
+
     // Length Constraints
     void addMinLength(int min_length);
     void addMaxLength(int max_length);
-    
+
     // Node Constraints
     void addForbiddenNode(std::string_view node_id);
     void addRequiredNode(std::string_view node_id);
-    
+
     // Edge Constraints
     void addForbiddenEdge(std::string_view edge_id);
     void addRequiredEdge(std::string_view edge_id);
-    
+
     // Uniqueness Constraints
     void requireAcyclic();
     void requireUniqueNodes();
     void requireUniqueEdges();
-    
+
     // Custom Validation
     void addCustomPredicate(
         std::function<bool(const std::vector<std::string>&)> predicate
     );
-    
+
     // Path Operations
     Result<bool> validatePath(
         const std::vector<std::string>& nodes,
         const std::vector<std::string>& edges
     ) const;
-    
+
     Result<std::vector<PathResult>> findConstrainedPaths(
         std::string_view start_node,
         std::string_view end_node,
         int max_results = 10
     ) const;
-    
+
     // Inspection
     const std::vector<Constraint>& getConstraints() const;
     std::string describeConstraints() const;
@@ -907,7 +907,7 @@ target_include_directories(themisdb_graph
    - A* requires user-provided heuristic function
    - Bidirectional search assumes symmetric graph
    - No parallel execution within single query yet (planned v1.7.0)
-   
+
 2. **Constraint Limitations**:
    - NODE_PROPERTY and EDGE_PROPERTY constraints partially supported
    - Custom predicates evaluated after path completion (not during traversal)
@@ -978,8 +978,8 @@ target_include_directories(themisdb_graph
 - [Graph Advanced Features](ADVANCED_FEATURES_README.md) - PathConstraints detailed documentation
 - [ARCHITECTURE.md](../../ARCHITECTURE.md) - Overall ThemisDB architecture
 
-*Last Updated: April 2026*  
-*Module Version: v1.8.0*  
+*Last Updated: April 2026*
+*Module Version: v1.8.0*
 *Next Review: v1.9.0 Release*
 
 ## Scientific References
@@ -993,3 +993,7 @@ target_include_directories(themisdb_graph
 4. Dijkstra, E. W. (1959). **A Note on Two Problems in Connexion with Graphs**. *Numerische Mathematik*, 1, 269–271. https://doi.org/10.1007/BF01386390
 
 5. Nguyen, D., Lenharth, A., & Pingali, K. (2013). **A Lightweight Infrastructure for Graph Analytics**. *Proceedings of the 24th ACM Symposium on Operating Systems Principles (SOSP)*, 456–471. https://doi.org/10.1145/2517349.2522739
+
+## Installation
+
+This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.

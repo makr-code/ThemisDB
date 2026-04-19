@@ -261,7 +261,7 @@ auto result = merge_engine.merge(
 if (!result.success && !result.conflicts.empty()) {
     // Manual resolution required
     std::vector<MergeEngine::ConflictResolution> resolutions;
-    
+
     for (const auto& conflict : result.conflicts) {
         // Decide resolution strategy per conflict
         resolutions.push_back({
@@ -270,7 +270,7 @@ if (!result.success && !result.conflicts.empty()) {
             "Resolution reason"
         });
     }
-    
+
     // Apply with resolutions
     auto resolved = merge_engine.mergeWithResolutions(
         "source-branch",
@@ -432,3 +432,11 @@ For detailed implementation documentation, see:
 ## License
 
 Copyright © 2024 ThemisDB Contributors. Licensed under Apache 2.0.
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```

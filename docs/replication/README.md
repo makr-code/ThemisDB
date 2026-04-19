@@ -15,7 +15,7 @@ Welcome to the ThemisDB replication documentation. This directory serves as the 
 
 ### Implementation Documentation
 
-- **[REPLICATION_IMPLEMENTATION_STATUS.md](../REPLICATION_IMPLEMENTATION_STATUS.md)** (German)
+- **[REPLICATION_IMPLEMENTATION_STATUS.md](../reports/REPLICATION_IMPLEMENTATION_STATUS.md)** (German)
   - Detailed implementation status (~85% complete)
   - Component breakdown and file locations
   - Write-path flow diagrams
@@ -91,7 +91,7 @@ ThemisDB's replication system is organized across two main modules:
 
 1. **Start here**: Read [replication-ha-guide.md](../replication-ha-guide.md) for a comprehensive overview
 2. **Configuration**: Check the configuration examples in the HA guide
-3. **Implementation details**: See [REPLICATION_IMPLEMENTATION_STATUS.md](../REPLICATION_IMPLEMENTATION_STATUS.md) for component-level details
+3. **Implementation details**: See [REPLICATION_IMPLEMENTATION_STATUS.md](../reports/REPLICATION_IMPLEMENTATION_STATUS.md) for component-level details
 4. **Deployment planning**: Review [replication_raid_plan.md](../replication_raid_plan.md) for RAID configuration
 
 ## 📊 Implementation Status

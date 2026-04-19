@@ -12,7 +12,7 @@
 
 ## Overview
 
-ThemisDB is a high-performance multi-model database with native AI/LLM integration. This top-level roadmap aggregates the status and planned work across all 50 source modules. The project follows a phased approach: stabilise core infrastructure first, then harden distributed and AI layers, and finally deliver operational excellence at hyperscale.
+ThemisDB is a high-performance multi-model database with native AI/LLM integration. This top-level roadmap aggregates the status and planned work across all 46 source modules. The project follows a phased approach: stabilise core infrastructure first, then harden distributed and AI layers, and finally deliver operational excellence at hyperscale.
 
 **Overall Timeline:** Q1 2026 – Q4 2027  
 **Current Release:** v1.8.1-rc2
@@ -75,7 +75,6 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **training** | ✅ Production-ready (v1.x) | [src/training/ROADMAP.md](src/training/ROADMAP.md) |
 | **transaction** | ✅ Production-ready | [src/transaction/ROADMAP.md](src/transaction/ROADMAP.md) |
 | **updates** | ✅ Production-ready | [src/updates/ROADMAP.md](src/updates/ROADMAP.md) |
-| **user_storage_encrypted** | ✅ Production-ready (v0.1.0) — stdin key delivery, Argon2id KDF, key rotation persistence implemented and tested | [src/user_storage_encrypted/ROADMAP.md](src/user_storage_encrypted/ROADMAP.md) |
 | **utils** | ✅ Production-ready | [src/utils/ROADMAP.md](src/utils/ROADMAP.md) |
 | **user_storage_encrypted** | ✅ Production-ready (v0.1.0) — Argon2id KDF, gocryptfs backend, AES-256-GCM encrypted user storage; stdin key delivery | [src/user_storage_encrypted/ROADMAP.md](src/user_storage_encrypted/ROADMAP.md) |
 | **voice** | ✅ Production-ready | [src/voice/ROADMAP.md](src/voice/ROADMAP.md) |
@@ -298,8 +297,8 @@ cross-backend consistency, error handling, and resource management.
 - [I] Runtime device detection and capability negotiation (Issue: #1374) (Target: Q2 2026)
 
 #### 1.2 API — OpenAPI & gRPC Surface
-- [x] OpenAPI 3.x spec completeness for all endpoints (Issue: #1491) (Target: Q2 2026)
-- [x] Versioned endpoint routing `/v1/`, `/v2/` with deprecation headers (Issue: #1506) (Target: Q3 2026)
+- [I] OpenAPI 3.x spec completeness for all endpoints (Issue: #1491) (Target: Q2 2026)
+- [I] Versioned endpoint routing `/v1/`, `/v2/` with deprecation headers (Issue: #1506) (Target: Q3 2026)
 - [x] SDK generation from OpenAPI spec (Python, JavaScript, Go) (Issue: #1507) (Target: Q3 2026)
 
 #### 1.3 CDC — WebSocket & Streaming Transport
@@ -312,9 +311,9 @@ cross-backend consistency, error handling, and resource management.
 - [x] Weaviate adapter (Target: Q4 2026)
 
 #### 1.5 Content — Binary Format Support
-- [x] PDF text extraction (Target: Q2 2026)
-- [x] OCR integration for image-embedded text (Target: Q3 2026)
-- [x] Audio transcription pipeline (Target: Q3 2026)
+- [I] PDF text extraction (Target: Q2 2026)
+- [I] OCR integration for image-embedded text (Target: Q3 2026)
+- [I] Audio transcription pipeline (Target: Q3 2026)
 
 #### 1.6 Core — Production DI Hardening
 - [I] Full OpenTelemetry adapter coverage (Target: Q2 2026)
@@ -328,7 +327,7 @@ cross-backend consistency, error handling, and resource management.
 #### 1.8 Ingestion — Distributed & Cloud Sources
 - [x] Kafka consumer source connector (Issue: #1892) (Target: Q3 2026)
 - [I] S3/GCS/Azure Blob object-storage source (Issue: #1893) (Target: Q3 2026)
-- [x] OAuth 2.0 token refresh within connectors (Issue: #2408) (Target: Q3 2026)
+- [!] OAuth 2.0 token refresh within connectors (Issue: #2408) (Target: Q3 2026)
 
 #### 1.9 Sharding — Observability & Repair
 - [x] Advanced metrics and distributed tracing (`sharding/operational_metrics.cpp`, `observability/distributed_flame_graph.cpp`, `observability/ebpf_tracer.cpp`)
@@ -443,7 +442,7 @@ Focus: Hyperscale distributed operations, multi-region support, and advanced con
 Focus: Enterprise-grade monitoring, alerting, and automated operations.
 
 #### 4.1 Observability — Extended Tracing
-- [I] End-to-end distributed trace correlation across all 50 modules (Target: Q4 2026)
+- [I] End-to-end distributed trace correlation across all 46 modules (Target: Q4 2026)
 - [I] Anomaly-driven alerting with root cause analysis hints (Target: Q4 2026)
 - [I] Continuous profiling integration (eBPF / perf) (Target: Q4 2026)
 
@@ -581,7 +580,7 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 
 #### 6.2 Documentation
 - [I] Interactive API reference (Swagger UI / Redoc) (Target: Q2 2027)
-- [I] Module-level architecture decision records (ADRs) for all 50 modules (Target: Q3 2027)
+- [I] Module-level architecture decision records (ADRs) for all 46 modules (Target: Q3 2027)
 - [I] End-to-end tutorial series (20+ guides) (Target: Q3 2027)
 
 #### 6.3 Plugin Ecosystem
@@ -599,7 +598,7 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 
 ## Production Readiness Checklist
 
-### Per-Module Requirements (applied to all 50 modules)
+### Per-Module Requirements (applied to all 46 modules)
 - [x] Module has `README.md`, `ARCHITECTURE.md`, `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`
 - [x] Current Status section with maturity indicator (Alpha / Beta / Production-ready)
 - [x] Unit test coverage target defined
@@ -610,7 +609,7 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 - [x] Prometheus metrics exported where applicable
 
 ### System-Wide Requirements
-- [x] All 50 modules integrated into the CMake build system
+- [x] All 46 modules integrated into the CMake build system
 - [x] Edition matrix (MINIMAL / COMMUNITY / ENTERPRISE / HYPERSCALER) enforced at build time
 - [x] Docker image builds for all supported editions
 - [x] CI pipeline covers core module matrix
@@ -651,19 +650,6 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 | v1.7.0 | themis | Module initialisation code migrated from `src/utils/` and `src/base/` to `src/themis/` |
 | v2.0.0 | acceleration | GPU kernel API will stabilise; pre-v2 interfaces should be treated as unstable |
 | v2.0.0 | api | `/v1/` versioned endpoints become the stable surface; unversioned endpoints deprecated |
-
----
-
-## Sync Delta (2026-04-04)
-
-This section captures documentation-only synchronisation updates from source and local readiness evidence.
-
-- API: OpenAPI 3.x completeness moved from open to done in top-level and module roadmap.
-- Content: PDF extraction, OCR, and audio-transcription roadmap items moved to done; optional runtime dependencies remain documented as limitation.
-- Sharding: top-level status refined with latest focused test/API-check evidence; known benchmark JSON parsing fragility documented.
-- Process: kept in Beta; wording aligned with process-readiness evidence and remaining embedding/index hardening scope.
-- GPU: top-level module status corrected to Beta to match module roadmap hardening state.
-- Source overview matrix (`src/README.md`): corrected aggregate counts to 43 Production / 4 Beta / 3 Alpha.
 
 ---
 

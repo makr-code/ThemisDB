@@ -86,7 +86,7 @@ vim.addVector("embeddings", "doc123", embedding);
 // Search for similar vectors
 auto results = vim.search("embeddings", query_vector, /*k=*/10);
 for (const auto& result : results) {
-    std::cout << "ID: " << result.pk 
+    std::cout << "ID: " << result.pk
               << " Distance: " << result.distance << std::endl;
 }
 ```
@@ -467,7 +467,7 @@ adaptive.recordQuery(
 // Get index recommendations
 auto recommendations = adaptive.getRecommendations(/*min_benefit=*/100.0);
 for (const auto& rec : recommendations) {
-    std::cout << "Create index on " << rec.collection 
+    std::cout << "Create index on " << rec.collection
               << "." << rec.field
               << " (estimated benefit: " << rec.benefit_score << "ms/query)"
               << std::endl;
@@ -658,9 +658,9 @@ auto results = vim.searchWithFilter(
 void handleVectorSearch(const Request& req, Response& resp) {
     auto query_vector = req.getVector("vector");
     auto k = req.getInt("k", 10);
-    
+
     auto results = vim.search("embeddings", query_vector, k);
-    
+
     resp.setJson({
         {"results", results},
         {"count", results.size()}
@@ -687,17 +687,17 @@ sim.createIndex("documents", "year");
 for (const auto& doc : documents) {
     // Generate embedding
     auto embedding = model.encode(doc.text);
-    
+
     // Store in vector index
     vim.addVector("documents", doc.id, embedding);
-    
+
     // Store metadata
     BaseEntity entity;
     entity.set("id", doc.id);
     entity.set("category", doc.category);
     entity.set("year", doc.year);
     entity.set("text", doc.text);
-    
+
     auto batch = db.createWriteBatch();
     sim.updateIndex("documents", entity, batch);
     batch.commit();
@@ -975,3 +975,11 @@ find_package(CUDAToolkit QUIET)
 - [FAISS Documentation](https://github.com/facebookresearch/faiss/wiki)
 - [Product Quantization Paper](https://hal.inria.fr/inria-00514462) - Jégou et al. (2011)
 - [R-tree Paper](http://www-db.deis.unibo.it/courses/SI-LS/papers/Gut84.pdf) - Guttman (1984)
+
+## Installation
+
+This module is included as part of ThemisDB. Add the module headers to your include path:
+
+```cmake
+target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+```
