@@ -1,3 +1,5 @@
+> **Aktueller Build-Flow:** `cmake --preset linux-ninja-perf && cmake --build --preset linux-ninja-perf`
+
 # 🚀 CHIMERA Suite - Quick Start Guide
 
 **Version:** 2.0 (CHIMERA Suite - Scientific + Industry Standards)  

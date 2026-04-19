@@ -1,3 +1,5 @@
+> **Status:** 2026-04-19 – Mit aktuellem Modulcode synchronisieren; falsche Pfade/Kommandos ggf. korrigiert.
+
 # RAG Quality Control Implementation
 
 This directory contains the implementation of the post-generation quality control system for RAG (Retrieval-Augmented Generation).

@@ -1,3 +1,5 @@
+> **Aktueller Build-Flow:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Production Deployment Guide - IoT & Drone Examples
 
 This guide provides step-by-step instructions for deploying the IoT Sensor Network and Drone Image Analysis examples in a production environment.
@@ -50,6 +52,7 @@ cmake -B build \
   -DTHEMIS_ENABLE_CUDA=ON \
   -DTHEMIS_ENABLE_VISION=ON \
   -DTHEMIS_BUILD_TESTS=OFF
+<!-- Legacy: prefer cmake --preset -->
 
 cmake --build build --parallel $(nproc)
 sudo cmake --install build

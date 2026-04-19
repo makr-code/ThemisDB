@@ -1,3 +1,5 @@
+> **Status:** 2026-04-19 – Mit aktuellem Modulcode synchronisieren; Pfade/Kommandos ggf. verifizieren.
+
 # THEMIS v1.4 Sharding Benchmarks Guide
 
 **Zielgruppe:** DevOps, Performance Engineers, Enterprise Customers  

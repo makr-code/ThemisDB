@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-perf && cmake --build --preset linux-ninja-perf`
+
 # Standard Benchmarks - Industrie-anerkannte DB-Tests
 
 **Status: ✅ FULLY IMPLEMENTED**

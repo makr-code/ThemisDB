@@ -1,3 +1,5 @@
+> **Status:** 2026-04-19 – Mit aktuellem Modulcode synchronisieren; falsche Pfade/Kommandos ggf. korrigiert.
+
 # ThemisHelpLoRA - Documentation Q&A Assistant
 
 ## Overview

@@ -1,3 +1,5 @@
+> **Status:** 2026-04-19 – Mit aktuellem Modulcode synchronisieren; falsche Pfade/Kommandos ggf. korrigiert.
+
 # LoRA Adapter Implementation for ThemisDB
 
 ## Overview
@@ -212,8 +214,8 @@ Potential improvements for future versions:
 ## References
 
 - [llama.cpp LoRA Documentation](https://github.com/ggerganov/llama.cpp)
-- [ThemisDB LoRA Integration Guide](../../docs/LLM_LORA_LLAMACPP_INTEGRATION.md)
-- [LoRA Adapter Application Guide](../../docs/LORA_ADAPTER_APPLICATION_GUIDE.md)
+- [ThemisDB LoRA Integration Guide](../../docs/en/llm/LLM_LORA_LLAMACPP_INTEGRATION.md)
+- [LoRA Adapter Application Guide](../../docs/en/lora/LORA_ADAPTER_APPLICATION_GUIDE.md)
 
 ## Changelog
 

@@ -605,6 +605,8 @@ public class AiQueryPanel : UserControl
 - Full navigation support
 - Context menus for all components
 
+<!-- TODO: convert vague bullets to checkboxes with measurable targets -->
+
 ---
 
 ### Phase 5.2: Grid & Rulers (2-3 weeks)
@@ -629,6 +631,8 @@ public class AiQueryPanel : UserControl
 - Smart snapping
 - Alignment guides
 
+<!-- TODO: convert vague bullets to checkboxes with measurable targets -->
+
 ---
 
 ### Phase 5.3: Cards & Wiring (3-4 weeks)
@@ -647,6 +651,8 @@ public class AiQueryPanel : UserControl
 - Complete card system
 - Visual flow editor
 - Connection wiring
+
+<!-- TODO: convert vague bullets to checkboxes with measurable targets -->
 
 ---
 
@@ -676,6 +682,8 @@ public class AiQueryPanel : UserControl
 - Ollama integration
 - AI-powered query building
 - Smart suggestions
+
+<!-- TODO: convert vague bullets to checkboxes with measurable targets -->
 
 ---
 
@@ -780,6 +788,8 @@ public class AiQueryPanel : UserControl
 2. **Prioritize features** based on user needs
 3. **Start with Phase 5.1** for quick wins
 4. **Iterate based on feedback**
+
+<!-- TODO: convert vague bullets to checkboxes with measurable targets -->
 
 **Estimated Total: 8-12 weeks for all phases**
 

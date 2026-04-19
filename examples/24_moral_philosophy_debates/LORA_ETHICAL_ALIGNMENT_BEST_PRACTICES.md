@@ -1,3 +1,5 @@
+> **Hinweis:** Inhalt ist konzeptuell/referenziell. Code-Bezüge mit `<!-- TODO: verify against source -->` markiert.
+
 # LoRa Ethical Alignment: Best Practices for ThemisDB
 
 ## Executive Summary
