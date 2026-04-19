@@ -22,7 +22,10 @@
 
 #pragma once
 
-// Try to include tl/expected.hpp if available, otherwise use std::optional fallback
+// Try to include tl/expected.hpp if available.
+// If unavailable, provide a minimal local fallback that supports the subset
+// used by this codebase (construction from value/unexpected, bool checks,
+// value()/error(), operator*()).
 #if __has_include(<tl/expected.hpp>)
   #include <tl/expected.hpp>
   #define HAS_TL_EXPECTED 1

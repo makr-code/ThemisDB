@@ -36,7 +36,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [x] GraphQL variable substitution: `$variable` in field arguments now resolved at execution time via `Executor::resolveValue()`; `Value::VariableRef` type added; operation default values merged in `executeOperation()` — v2.0.0
 
 ## In Progress 🚧
-- [I] OpenAPI 3.x specification completeness (Target: Q2 2026) (Issue: #1491)
+- [I] API key management endpoint (Issue: #1502)
 
 ## Planned Features 📋
 
@@ -73,7 +73,7 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 - [x] Wire gRPC core RPCs (`ExecuteAQL`, `StreamAQL`) via `ThemisDBGrpcServiceFactory`; advanced search RPCs remain feature-gated where optional engines are unavailable — v1.9.0
 - [x] Fix `GrpcApiServer::start()` holding `mutex_` across `BuildAndStart()` blocking socket bind — v1.9.0
 - [x] Fix `GrpcApiServer::stop()` indefinite block — 30-second `Shutdown()` deadline added — v1.9.0
-- [I] Complete OpenAPI 3.x specification for all existing endpoints (Issue: #1491)
+- [x] Complete OpenAPI 3.x specification for all existing endpoints (Issue: #1491)
 
 ### Phase 5: GraphQL Variable Substitution (Status: Completed ✅)
 - [x] Add `Value::Type::VariableRef` enum value, `Value::variableRef()` factory, `isVariableRef()` / `asVariableRef()` accessors — `include/api/graphql.h` — v2.0.0
