@@ -19543,6 +19543,88 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge.cpp")
     message(STATUS "  DK-D-01..08: CrossShardFeedbackSync (publish, inbound, dedup, stats)")
 endif()
 
+# ─────────────────────────────────────────────────────────────────────────────
+# Distributed Knowledge Session 2 — GossipProtocol custom handler tests
+# Tests: GP-CUSTOM-01..03 (3 tests)
+# ─────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gossip_custom_handler.cpp")
+    message(STATUS "Adding Distributed Knowledge Session 2: GossipProtocol custom handler tests (3 tests)")
+
+    add_executable(test_gossip_custom_handler_focused
+        test_gossip_custom_handler.cpp
+    )
+
+    target_include_directories(test_gossip_custom_handler_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_gossip_custom_handler_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_gossip_custom_handler_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    set_target_properties(test_gossip_custom_handler_focused PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME GossipCustomHandlerTests
+        COMMAND test_gossip_custom_handler_focused)
+    set_tests_properties(GossipCustomHandlerTests PROPERTIES
+        LABELS "distributed_knowledge;gossip;custom_handler;session2;focused;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  GP-CUSTOM-01..03: registerCustomHandler dispatch, unknown type, duplicate overwrite")
+endif()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Distributed Knowledge Session 3 — AdaptiveShardRouter domain routing tests
+# Tests: ASR-DOM-01..04 (4 new domain routing cases, plus existing suite)
+# ─────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_shard_router.cpp")
+    message(STATUS "Adding Distributed Knowledge Session 3: AdaptiveShardRouter domain routing tests")
+
+    add_executable(test_adaptive_shard_router_focused
+        test_adaptive_shard_router.cpp
+    )
+
+    target_include_directories(test_adaptive_shard_router_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_adaptive_shard_router_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_adaptive_shard_router_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    set_target_properties(test_adaptive_shard_router_focused PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME AdaptiveShardRouterDomainTests
+        COMMAND test_adaptive_shard_router_focused)
+    set_tests_properties(AdaptiveShardRouterDomainTests PROPERTIES
+        LABELS "distributed_knowledge;sharding;adaptive_router;domain_routing;session3;focused;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  ASR-DOM-01..04: updateAdapterCapability+routeByDomain (best delta, fallback, overwrite, unknown)")
+endif()
+
 # ── Chaos Network focused tests (Phase 4.3) ───────────────────────────────────
 if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_chaos_network.cpp")
     message(STATUS "Adding Chaos: Network chaos focused tests (Phase 4.3)")

@@ -167,13 +167,13 @@ reality-check status above as the authoritative implementation state.
 without breaking existing heartbeat / peer_list handling.
 
 **Tasks:**
-- [ ] Add `GossipProtocol::registerCustomHandler(message_type, handler_fn)` API (Target: Session 2)
+- [x] Add `GossipProtocol::registerCustomHandler(message_type, handler_fn)` API (Target: Session 2)
   - Inputs: string message_type, `std::function<void(const GossipMessage&)>` handler
   - Outputs: none
   - Errors: duplicate type overwrites previous handler (with log warning)
   - Tests: `tests/test_gossip_protocol.cpp` — 3 new cases for custom dispatch
-- [ ] `handleMessage()` dispatches to registered handler before existing type checks (Target: Session 2)
-- [ ] `GossipAdapterPublisher` uses `gossip.broadcastMessage(announcement_msg)` via registered function (Target: Session 2)
+- [x] `handleMessage()` dispatches to registered handler before existing type checks (Target: Session 2)
+- [x] `GossipAdapterPublisher` uses `gossip.broadcastMessage(announcement_msg)` via registered function (Target: Session 2)
 
 **Acceptance Criteria:**
 - 3 new gossip tests pass
@@ -184,14 +184,14 @@ without breaking existing heartbeat / peer_list handling.
 to update per-shard domain capability scores used in routing decisions.
 
 **Tasks:**
-- [ ] Add `AdaptiveShardRouter::updateAdapterCapability(shard_id, announcement)` (Target: Session 3)
+- [x] Add `AdaptiveShardRouter::updateAdapterCapability(shard_id, announcement)` (Target: Session 3)
   - Updates internal score map: `domain_type → {shard_id, accuracy_delta, p99_delta}`
   - Thread-safe (existing `std::mutex` pattern)
-- [ ] Add `AdaptiveShardRouter::routeByDomain(domain_type)` → shard_id (Target: Session 3)
+- [x] Add `AdaptiveShardRouter::routeByDomain(domain_type)` → shard_id (Target: Session 3)
   - Returns shard with highest `accuracy_delta` for given domain
   - Falls back to default routing if no domain-specific scores available
-- [ ] Wire `GossipAdapterPublisher::setAnnouncementCallback()` to call `updateAdapterCapability()` (Target: Session 3)
-- [ ] Tests: 4 new cases in `tests/test_adaptive_shard_router.cpp`
+- [x] Wire `GossipAdapterPublisher::setAnnouncementCallback()` to call `updateAdapterCapability()` (Target: Session 3)
+- [x] Tests: 4 new cases in `tests/test_adaptive_shard_router.cpp`
 
 **Acceptance Criteria:**
 - Domain-specific queries route to the shard with highest adapter accuracy_delta
@@ -207,21 +207,21 @@ to update per-shard domain capability scores used in routing decisions.
 No algorithmic changes — only new integration hooks.
 
 **Tasks:**
-- [ ] Add `IncrementalLoRATrainer::exportGradient(round)` → `EncryptedGradient` (Target: Session 4)
+- [x] Add `IncrementalLoRATrainer::exportGradient(round)` → `EncryptedGradient` (Target: Session 4)
   - Inputs: federation round number
   - Outputs: `EncryptedGradient{shard_id, round, sample_count, data}`
   - `data`: JSON map of LoRA adapter weight deltas since last `applyGlobalDelta()` call
   - Errors: throws if no training has occurred since last export
   - Tests: 3 new cases in `tests/test_incremental_lora_trainer.cpp`
-- [ ] Add `IncrementalLoRATrainer::applyGlobalDelta(const GlobalAdapterDelta&)` (Target: Session 4)
+- [x] Add `IncrementalLoRATrainer::applyGlobalDelta(const GlobalAdapterDelta&)` (Target: Session 4)
   - Applies the aggregated delta to local adapter weights
   - Records delta version for audit log
   - Tests: 2 new cases
-- [ ] Add `ContinuousLearningOrchestrator::TriggerEvent::FEDERATED_ROUND_START` enum value (Target: Session 4)
+- [x] Add `ContinuousLearningOrchestrator::TriggerEvent::FEDERATED_ROUND_START` enum value (Target: Session 4)
   - Triggers `IncrementalLoRATrainer::exportGradient()` → `coordinator.submitGradient()`
   - Triggered by `LoRAFederationCoordinator` timer or manual call
   - Tests: 2 new cases in `tests/test_continuous_learning_orchestrator.cpp`
-- [ ] `LoRAFederationCoordinator` calls `applyGlobalDelta()` on all registered shards via callback (Target: Session 4)
+- [x] `LoRAFederationCoordinator` calls `applyGlobalDelta()` on all registered shards via callback (Target: Session 4)
 
 **Acceptance Criteria:**
 - `exportGradient()` produces non-empty `data` after at least one training pass
@@ -237,13 +237,13 @@ No algorithmic changes — only new integration hooks.
 enrichment results through `FederatedRAGMerger`.
 
 **Tasks:**
-- [ ] Add `QueryFederation::setRAGMerger(shared_ptr<FederatedRAGMerger>)` DI setter (Target: Session 5)
-- [ ] Extend `QueryFederation::merge()`: if RAGMerger is set and result type is `RAG_CONTEXT`,
+- [x] Add `QueryFederation::setRAGMerger(shared_ptr<FederatedRAGMerger>)` DI setter (Target: Session 5)
+- [x] Extend `QueryFederation::merge()`: if RAGMerger is set and result type is `RAG_CONTEXT`,
   convert per-shard results to `ShardRetrievalResult` and call `merger.merge()` (Target: Session 5)
   - Errors: if any shard times out → set `ok=false`, continue merge with responding shards
-- [ ] `ShardRetrievalResult::adapter_accuracy_delta` populated from Gossip capability scores (Target: Session 5)
+- [x] `ShardRetrievalResult::adapter_accuracy_delta` populated from Gossip capability scores (Target: Session 5)
   - `AdaptiveShardRouter::getAdapterAccuracyDelta(shard_id, domain_type)` new accessor
-- [ ] Tests: 5 new cases in `tests/test_query_federation.cpp`
+- [x] Tests: 5 new cases in `tests/test_query_federation.cpp`
   - Fan-out to 3 shards → merged top-10 via RRF
   - One shard times out → graceful merge with 2 shards
   - Specialised shard results rank higher
@@ -262,18 +262,18 @@ enrichment results through `FederatedRAGMerger`.
 and `RLAIFTrainer` (receive).
 
 **Tasks:**
-- [ ] Add `FeedbackCollector::setCrossShardSync(shared_ptr<CrossShardFeedbackSync>)` DI setter (Target: Session 6)
-- [ ] After `FeedbackCollector::recordFeedback(entry)`: if sync is set, generate `reason_embedding`
+- [x] Add `FeedbackCollector::setCrossShardSync(shared_ptr<CrossShardFeedbackSync>)` DI setter (Target: Session 6)
+- [x] After `FeedbackCollector::recordFeedback(entry)`: if sync is set, generate `reason_embedding`
   via `EmbeddingModel` (injected) and call `sync.publishFeedback()` (Target: Session 6)
   - Embedding dim: 384 (configurable via `FeedbackSyncConfig::max_embedding_dim`)
   - Errors: embedding model unavailable → log warning, skip cross-shard publish (do not fail local recording)
-- [ ] Add `RLAIFTrainer::addCrossShardSummary(const FeedbackSummary&)` (Target: Session 6)
+- [x] Add `RLAIFTrainer::addCrossShardSummary(const FeedbackSummary&)` (Target: Session 6)
   - Constructs synthetic `PreferencePair` from embedding via nearest-neighbour lookup
   - Inputs: `FeedbackSummary` with `reason_embedding`
   - Errors: embedding lookup fails → skip, increment `skipped_summaries_` counter
   - Tests: 3 new cases in `tests/test_rlaif_trainer.cpp`
-- [ ] `CrossShardFeedbackSync::setFeedbackCallback()` wired to `RLAIFTrainer::addCrossShardSummary()` (Target: Session 6)
-- [ ] `ZeroTrustPolicyEnforcer::evaluateRequest()` called on inbound gossip before `handleInboundSummary()` (Target: Session 6)
+- [x] `CrossShardFeedbackSync::setFeedbackCallback()` wired to `RLAIFTrainer::addCrossShardSummary()` (Target: Session 6)
+- [x] `ZeroTrustPolicyEnforcer::evaluateRequest()` called on inbound gossip before `handleInboundSummary()` (Target: Session 6)
 
 **Acceptance Criteria:**
 - DBA feedback on Shard A reaches `RLAIFTrainer` on all other shards
