@@ -124,5 +124,5 @@ Jede Schicht darf Core verwenden. Core darf keine andere Schicht verwenden (kein
 - [Primary: src/core/README.md](../../../../src/core/README.md)
 - [Primary: src/core/ARCHITECTURE.md](../../../../src/core/ARCHITECTURE.md)
 - [Primary: src/core/ROADMAP.md](../../../../src/core/ROADMAP.md)
-- [Inhaltsmodell](../../CONTENT_MODEL.md)
+- [Inhaltsmodell](../../architecture/CONTENT_MODEL.md)
 - [Compendium: Kapitel 2 — Architektur-Überblick](../../../../compendium/docs/chapter_02_architecture.md)

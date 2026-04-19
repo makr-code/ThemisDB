@@ -128,7 +128,7 @@ Dashboard: "Themis RAID Benchmark"
 |-------|-------|-------|
 | [SETUP_COMPLETE.md](ARCHIVED/implementation-summaries/SETUP_COMPLETE.md) | 🏠 **START HIER** | 11 KB |
 | [docker/compose/QUICK_START.md](docker/compose/QUICK_START.md) | Schnelle 3-Schritt Anleitung | 4.6 KB |
-| [PROMETHEUS_METRICS_BUILD.md](PROMETHEUS_METRICS_BUILD.md) | Docker Build Details | 6.4 KB |
+| [PROMETHEUS_METRICS_BUILD.md](ARCHIVED/implementation-summaries/PROMETHEUS_METRICS_BUILD.md) | Docker Build Details | 6.4 KB |
 | [PROMETHEUS_INTEGRATION_COMPLETE.md](PROMETHEUS_INTEGRATION_COMPLETE.md) | Technische Übersicht | 11 KB |
 | [docker/compose/README.md](docker/compose/README.md) | Docker Compose Setup | 12.5 KB |
 | [docker/compose/CONFIGURATION_CHECKLIST.md](docker/compose/CONFIGURATION_CHECKLIST.md) | Verifikations-Checkliste | 10.4 KB |
@@ -288,7 +288,7 @@ themis_migration_records_total{...} 0
 ## 🚨 Falls Fehler auftreten
 
 **Docker Build schlägt fehl:**
-→ Siehe [PROMETHEUS_METRICS_BUILD.md](PROMETHEUS_METRICS_BUILD.md) Troubleshooting
+→ Siehe [PROMETHEUS_METRICS_BUILD.md](ARCHIVED/implementation-summaries/PROMETHEUS_METRICS_BUILD.md) Troubleshooting
 
 **Prometheus Targets "down":**
 → Siehe [docker/compose/CONFIGURATION_CHECKLIST.md](docker/compose/CONFIGURATION_CHECKLIST.md#problem-prometheus-zeigt-down)

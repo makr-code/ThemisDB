@@ -968,7 +968,7 @@ Die **MCP-Integration ist "minimal"** - Tools wie `get_schema` und Resources wie
 - [MCP Protocol Support](../apis/MCP_PROTOCOL_SUPPORT.md)
 - [LLM Integration README](../llm/README.md)
 - [HTTP API Reference](../apis/HTTP_API_REFERENCE.md)
-- [PostgreSQL Wire Protocol](../../POSTGRESQL_WIRE_PROTOCOL.md)
+- [PostgreSQL Wire Protocol](../architecture/POSTGRESQL_WIRE_PROTOCOL.md)
 
 ### Zu erstellende Docs
 - [ ] Schema Discovery API Specification

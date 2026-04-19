@@ -314,7 +314,7 @@ Added explicit mappings for previously unmapped types:
       `themisdb_import_duration_seconds`,
       `themisdb_import_errors_total{code}`,
       `themisdb_import_tables_total`.
-      See the [runbook](importers_runbook.md) for PrometheusMetrics wiring example.
+      See the [runbook](../features/importers_runbook.md) for PrometheusMetrics wiring example.
 - [x] Prometheus REST endpoint via `ImportApiHandler` (`httplib`, same pattern as
       `branch_api_handler.cpp`).  Routes:
       - `POST /api/v1/import/postgresql` – start async import, returns job handle JSON
@@ -539,7 +539,7 @@ over upsert, merge, and skip workflows via `ImportOptions.conflict_strategy`.
 - [Importer Interface](../include/importers/importer_interface.h)
 - [Import API Handler](../include/server/import_api_handler.h)
 - [Exporters Roadmap](exporters_roadmap.md)
-- [Importers Runbook](importers_runbook.md)
+- [Importers Runbook](../features/importers_runbook.md)
 - [Error Handling Guide](error_handling/README.md)
 - [Import CLI](../tools/import_cli.cpp)
 - [ADR-003: SQL Parser Library](architecture/ADR-003-pg-dump-sql-parser.md)

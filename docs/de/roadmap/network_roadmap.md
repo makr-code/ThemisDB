@@ -229,7 +229,7 @@ The Network module will be considered **production ready** when:
 - [Wire Protocol Connection Pool](../include/network/wire_protocol_connection_pool.h)
 - [Wire Protocol Server](../include/network/wire_protocol_server.h)
 - [QoS Manager](../include/network/qos_manager.h)
-- [Network Timeout Handling](NETWORK_TIMEOUT_HANDLING.md)
+- [Network Timeout Handling](../../ARCHIVED/implementation-summaries/NETWORK_TIMEOUT_HANDLING.md)
 
 ---
 

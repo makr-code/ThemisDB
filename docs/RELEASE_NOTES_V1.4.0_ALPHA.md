@@ -216,7 +216,7 @@ config.batch_timeout_ms = 100;
 - `tests/test_hot_spare.cpp`
 
 **Documentation:**
-- [Hot Spare Complete](HOT_SPARE_COMPLETE.md)
+- [Hot Spare Complete](ARCHIVED/implementation-summaries/HOT_SPARE_COMPLETE.md)
 
 ---
 

@@ -319,6 +319,6 @@ network:
 - [Network Module ROADMAP](../../src/network/ROADMAP.md)
 - [Network Roadmap](../de/roadmap/network_roadmap.md)
 - [Wire Protocol](../wire-protocol.md)
-- [WAL & gRPC mTLS Configuration](../WAL_GRPC_MTLS_CONFIGURATION.md)
-- [Network Timeout Handling](../NETWORK_TIMEOUT_HANDLING.md)
+- [WAL & gRPC mTLS Configuration](../architecture/WAL_GRPC_MTLS_CONFIGURATION.md)
+- [Network Timeout Handling](../ARCHIVED/implementation-summaries/NETWORK_TIMEOUT_HANDLING.md)
 - [mTLS Shard Communication](../de/security/MTLS_SHARD_COMMUNICATION.md)

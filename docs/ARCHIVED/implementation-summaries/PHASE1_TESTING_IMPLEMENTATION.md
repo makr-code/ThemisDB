@@ -380,4 +380,4 @@ Once Issue #1 (Fix Compilation Infrastructure) is resolved:
 - [Flash Attention Implementation](../docs/en/llm/FLASH_ATTENTION_IMPLEMENTATION.md)
 - [KV-Cache Reuse Implementation](../docs/en/llm/KV_CACHE_REUSE_IMPLEMENTATION.md)
 - [Embeddings Extraction Implementation](../docs/en/llm/EMBEDDINGS_EXTRACTION_IMPLEMENTATION.md)
-- [P1 Implementation Summary](../P1_IMPLEMENTATION_SUMMARY.md)
+- [P1 Implementation Summary](P1_IMPLEMENTATION_SUMMARY.md)

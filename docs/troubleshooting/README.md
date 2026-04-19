@@ -109,5 +109,5 @@ themisdb-admin utils build-info
 - [Architecture Overview](../../ARCHITECTURE.md)
 - [Setup Guide](../../SETUP.md)
 - [Operations Guide](../operational_guide.md)
-- [Performance Tuning](../PERFORMANCE_ROADMAP.md)
+- [Performance Tuning](../performance/PERFORMANCE_ROADMAP.md)
 - [Security Executive Summary](../SECURITY_EXECUTIVE_SUMMARY.md)

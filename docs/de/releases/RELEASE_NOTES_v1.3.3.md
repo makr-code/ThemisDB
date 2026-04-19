@@ -104,7 +104,7 @@ ThemisDB v1.3.3 introduces comprehensive network protocol enhancements including
 - [WebSocket CDC Streaming](../apis/WEBSOCKET_CDC_STREAMING.md)
 - [MQTT Broker Configuration](../apis/MQTT_BROKER_GUIDE.md)
 - [HTTP/3 Implementation Status](../apis/HTTP3_IMPLEMENTATION.md)
-- [PostgreSQL Wire Protocol](../apis/POSTGRESQL_WIRE_PROTOCOL.md)
+- [PostgreSQL Wire Protocol](../../architecture/POSTGRESQL_WIRE_PROTOCOL.md)
 - [MCP Server Documentation](../apis/MCP_PROTOCOL_SUPPORT.md)
 - [Protocol Build Switches](../apis/PROTOCOL_BUILD_SWITCHES.md)
 

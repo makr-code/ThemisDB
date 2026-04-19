@@ -360,4 +360,4 @@ storage:
 - [PITR Implementation](../PITR_IMPLEMENTATION_COMPLETE.md)
 - [RocksDB Wrapper Audit](../ROCKSDB_WRAPPER_AUDIT_REPORT.md)
 - [Cloud Blob Backends](../storage/CLOUD_BLOB_BACKENDS.md)
-- [WAL & gRPC mTLS Configuration](../WAL_GRPC_MTLS_CONFIGURATION.md)
+- [WAL & gRPC mTLS Configuration](../architecture/WAL_GRPC_MTLS_CONFIGURATION.md)

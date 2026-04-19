@@ -296,4 +296,4 @@ Planned features for future releases:
 ## Related Documentation
 
 - [Content Processing Pipeline](architecture/architecture_content_pipeline.md)
-- [STUB Audit](STUB_AUDIT_SYSTEMATISCH.md#41-video-processor)
+- [STUB Audit](../../Audit/STUB_AUDIT_SYSTEMATISCH.md#41-video-processor)

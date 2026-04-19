@@ -463,6 +463,6 @@ opts.continue_on_error    = false;  // hard abort on first conflict
 
 ## See Also
 
-- [Importers Roadmap](importers_roadmap.md)
+- [Importers Roadmap](../roadmap/importers_roadmap.md)
 - [Importer Interface](../include/importers/importer_interface.h)
 - [PostgreSQL Importer Source](../src/importers/postgres_importer.cpp)

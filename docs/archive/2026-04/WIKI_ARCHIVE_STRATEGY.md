@@ -187,8 +187,8 @@ Ein Cron-basierter Workflow, der Docs mit Status `stale` (>180 Tage hinter Prima
 
 ## Links
 
-- [Inhaltsmodell](./CONTENT_MODEL.md)
-- [Sprachstruktur](./LANGUAGE_STRUCTURE.md)
+- [Inhaltsmodell](../../architecture/CONTENT_MODEL.md)
+- [Sprachstruktur](../../ARCHIVED/implementation-summaries/LANGUAGE_STRUCTURE.md)
 - [Drift-Erkennung](../scripts/drift-detector.py)
 - [Wiki-Publish-Tool](../tools/publish_wiki.py)
 - [docs/ARCHIVED/](./ARCHIVED/)

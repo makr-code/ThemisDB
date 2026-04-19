@@ -314,4 +314,4 @@ timeseries:
 - [Timeseries Roadmap](../timeseries/index.md)
 - [Compression and Encoding Strategies](../compression_and_encoding_strategies.md)
 - [Compression Configuration](../compression_configuration.md)
-- [Dynamic Batch Size Adaptation](../DYNAMIC_BATCH_SIZE_ADAPTATION.md)
+- [Dynamic Batch Size Adaptation](../llm_orchestration/DYNAMIC_BATCH_SIZE_ADAPTATION.md)

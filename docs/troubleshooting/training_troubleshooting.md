@@ -262,4 +262,4 @@ training:
 - [LLM Troubleshooting](./llm_troubleshooting.md)
 - [Multi-LoRA Fusion Guide](../MULTI_LORA_FUSION_GUIDE.md)
 - [LoRA Merge Strategies](../LORA_MERGE_STRATEGIES.md)
-- [Paged Optimizer Guide](../PAGED_OPTIMIZER_GUIDE.md)
+- [Paged Optimizer Guide](../llm_orchestration/PAGED_OPTIMIZER_GUIDE.md)

@@ -12,7 +12,7 @@ ThemisDB verfügt über eine umfassende Test- und Benchmark-Abdeckung:
 | **Go Client Benchmarks** | **2** | **25** | Benchmarks – in `clients/go/` |
 | **Python Tools/Scripts** | **9+** | – | Tools, Analyse-Skripte |
 
-Vollständige Inventur: [TEST_AND_BENCHMARK_INVENTORY.md](TEST_AND_BENCHMARK_INVENTORY.md)
+Vollständige Inventur: [TEST_AND_BENCHMARK_INVENTORY.md](ARCHIVED/implementation-summaries/TEST_AND_BENCHMARK_INVENTORY.md)
 
 ---
 

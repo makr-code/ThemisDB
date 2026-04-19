@@ -411,7 +411,7 @@ Documentation is available in multiple languages:
 Found an error or want to improve the docs?
 
 - **[Contributing Guide](../CONTRIBUTING.md)** - How to contribute
-- **[Documentation Guidelines](DOCUMENTATION_DESIGN_TEMPLATE.md)** - Style guide
+- **[Documentation Guidelines](governance/documentation-history/DOCUMENTATION_DESIGN_TEMPLATE.md)** - Style guide
 - **[GitHub Issues](https://github.com/makr-code/ThemisDB/issues)** - Report issues
 - **[GitHub Discussions](https://github.com/makr-code/ThemisDB/discussions)** - Ask questions
 

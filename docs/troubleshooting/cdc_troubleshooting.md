@@ -282,6 +282,6 @@ cdc:
 - [CDC Module ROADMAP](../../src/cdc/ROADMAP.md)
 - [CDC Roadmap](../cdc_roadmap.md)
 - [CDC Operations Runbook](../CDC_OPERATIONS_RUNBOOK.md)
-- [CDC Implementation Summary](../CDC_IMPLEMENTATION_SUMMARY.md)
+- [CDC Implementation Summary](../ARCHIVED/implementation-summaries/CDC_IMPLEMENTATION_SUMMARY.md)
 - [Changefeed Authentication](../security/changefeed_authentication.md)
 - [Task Scheduler CDC](../TASK_SCHEDULER_CRON_CDC.md)

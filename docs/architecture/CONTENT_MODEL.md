@@ -1,4 +1,4 @@
-[docs](./index.md) > [CONTENT_MODEL](./CONTENT_MODEL.md)
+[docs](./index.md) > [CONTENT_MODEL](CONTENT_MODEL.md)
 **Datum:** 2026-03-11
 **Status:** stable
 **Primary (Quelle der Wahrheit):**
@@ -367,7 +367,7 @@ Eine Vorlage ist in `docs/_standards/DOC_TEMPLATE.md` zu finden.
 
 ## Links
 
-- [Sprachstruktur](./LANGUAGE_STRUCTURE.md)
+- [Sprachstruktur](../ARCHIVED/implementation-summaries/LANGUAGE_STRUCTURE.md)
 - [Wiki- und Archiv-Strategie (Phase 5)](archive/2026-04/WIKI_ARCHIVE_STRATEGY.md)
 - [DOC_TEMPLATE](`./_standards/DOC_TEMPLATE.md`)
 - [doc_header.schema.yml](./_standards/doc_header.schema.yml)

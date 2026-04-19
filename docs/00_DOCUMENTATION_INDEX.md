@@ -21,7 +21,7 @@ ThemisDB hat einen umfassenden Prozess für kontinuierliche Dokumentationsverbes
 - [PR_DOCUMENTATION_CHECKLIST.md](PR_DOCUMENTATION_CHECKLIST.md) - PR Dokumentations-Checkliste Template
 - [DOCUMENTATION_MERGE_PROTOCOL.md](DOCUMENTATION_MERGE_PROTOCOL.md) - Merge-Protokoll für Doku-PRs
 - [DOCUMENTATION_REVIEW_SCHEDULE.md](DOCUMENTATION_REVIEW_SCHEDULE.md) - Review-Kalender und Templates
-- [DOCUMENTATION_IMPROVEMENT_QUICKREF.md](DOCUMENTATION_IMPROVEMENT_QUICKREF.md) - Schnellreferenz für tägliche Arbeit
+- [DOCUMENTATION_IMPROVEMENT_QUICKREF.md](governance/documentation-history/DOCUMENTATION_IMPROVEMENT_QUICKREF.md) - Schnellreferenz für tägliche Arbeit
 - [DOCUMENTATION_FEEDBACK_MECHANISMS.md](DOCUMENTATION_FEEDBACK_MECHANISMS.md) - Feedback-Kanäle und Response-Prozess
 
 **Integration:**

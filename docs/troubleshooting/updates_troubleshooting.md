@@ -306,4 +306,4 @@ updates:
 - [Migration Guide](../MIGRATION_GUIDE.md)
 - [Canary Rollout Strategy](../ci-cd/branching-release-history/BRANCHING_STRATEGY.md)
 - [Schema Migration Tester](../TESTING_AND_BENCHMARKING_GUIDE.md)
-- [Signature Verification Guide](../SIGNATURE_VERIFICATION_GUIDE.md)
+- [Signature Verification Guide](../de/security/SIGNATURE_VERIFICATION_GUIDE.md)
