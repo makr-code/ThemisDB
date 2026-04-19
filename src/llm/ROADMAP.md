@@ -45,12 +45,16 @@ Key additions since v1.15.0:
 - [x] ActiveVRAMAllocator: GPU VRAM allocation, OOM recovery (LRU eviction, defragmentation, CPU spilling), VRAM waste tracking (LLM-MISSING-001, 2026-03-11)
 
 ## In Progress 🚧
-*(none currently in progress)*
+- [~] Inference optimizations: adaptive batching, n-gram lookup decoding, KV-budget guards, RAID-sharding hints (Issue: #LLM-INFER-OPT)
 
 ## Planned Features 📋
 
 ### Remaining
 - [I] Federated inference across distributed nodes (Issue: #1928)
+- [ ] Real draft-model logits for speculative decoding (Target: v1.18.0)
+- [ ] Persistent disk-backed KV-cache (Target: v1.18.0)
+- [ ] Hard cancellation for in-flight requests (Target: v1.18.0)
+- [ ] `DecisionRecordYamlProcessor` integration: `LoraRouter`, `AdapterLoadBalancer`, `LoraOrchestrator` (Target: v1.9.0)
 
 ### Completed (formerly planned)
 - [x] Function / tool calling support (JSON schema binding) (Issue: #1922)

@@ -129,6 +129,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_mcp_orchestrator_bridge\\.cpp$"
         ".*test_byzantine_detector\\.cpp$"
         ".*test_continuous_batch_scheduler\\.cpp$"
+        ".*test_lookup_decoder\\.cpp$"
         ".*test_data_loader\\.cpp$"
         ".*test_directx_backend\\.cpp$"
         ".*test_docs_assistant_aql\\.cpp$"
@@ -14406,6 +14407,42 @@ if(THEMIS_ENABLE_LLM)
         )
         message(STATUS "InferenceEngineEnhanced focused tests: KV-cache prewarming, embedding-based lookup, hot-swap, load-balancing")
     endif()
+
+    # Standalone focused test target for LookupDecoder (n-gram lookup decoding).
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lookup_decoder.cpp")
+        add_executable(test_lookup_decoder_focused
+            test_lookup_decoder.cpp
+        )
+        target_include_directories(test_lookup_decoder_focused PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+        )
+        if(TARGET themis_llm)
+            target_link_libraries(test_lookup_decoder_focused PRIVATE
+                ${TEST_LIBS}
+                themis_llm
+                spdlog::spdlog
+                Threads::Threads
+            )
+        else()
+            target_link_libraries(test_lookup_decoder_focused PRIVATE
+                ${TEST_LIBS}
+                themis_core
+                spdlog::spdlog
+                Threads::Threads
+            )
+        endif()
+        target_compile_definitions(test_lookup_decoder_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        add_test(NAME LookupDecoderFocusedTests
+            COMMAND test_lookup_decoder_focused)
+        set_tests_properties(LookupDecoderFocusedTests PROPERTIES
+            LABELS "llm;lookup;ngram;speculation;unit"
+            TIMEOUT 60
+        )
+        message(STATUS "LookupDecoder focused tests: n-gram index, draft proposal, dynamic update, eviction, thread safety")
+    endif()
+
     # NOTE: tests/llm/bench_model_loading_from_themisdb.cpp uses Google Benchmark
     # (benchmark::benchmark_main / BENCHMARK() macro), NOT GTest.
     # It is registered as a proper benchmark target in benchmarks/CMakeLists.txt.
@@ -16023,6 +16060,22 @@ add_prompt_focused_test(
     PromptTemplateCompilerFocusedTests
     "prompt_engineering;dsl;typed_slots;compiler;validator;unit"
     "PromptTemplateCompiler: typed DSL, IPromptTemplate, SlotType, PromptContext, PromptTemplateValidator (PE-MISSING-001, AC-1 through AC-30)"
+)
+
+add_prompt_focused_test(
+    test_prompt_engineering_v190_focused
+    test_prompt_engineering_v190.cpp
+    PromptEngineeringV190FocusedTests
+    "prompt_engineering;rag_budget;quality_evaluator;ab_framework;v1.9.0;unit"
+    "RagContextBudgetManager (RCB-01..08), PromptQualityEvaluator (PQE-01..08), SimplePromptABFramework (ABF-01..06)"
+)
+
+add_prompt_focused_test(
+    test_prompt_engineering_phase6_focused
+    test_prompt_engineering_phase6.cpp
+    PromptEngineeringPhase6FocusedTests
+    "prompt_engineering;structured_output;compressor;adversarial;phase6;unit"
+    "StructuredOutputEnforcer (SOE-01..08), SimplePromptCompressor (PCM-01..08), SimpleAdversarialTester (APT-01..06)"
 )
 
 # ============================================================================

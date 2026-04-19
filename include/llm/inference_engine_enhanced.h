@@ -25,6 +25,7 @@
 
 #include "llm/inference_handle.h"
 #include "llm/continuous_batch_scheduler.h"
+#include "llm/lookup_decoder.h"
 #include "llm/paged_kv_cache.h"
 #include "llm/llm_prefix_cache.h"
 #include "llm/llm_plugin_interface.h"
@@ -82,6 +83,7 @@ public:
         size_t max_batch_size = 256;
         size_t batch_timeout_ms = 100;  // Wait up to 100ms to form batch
         size_t max_tokens_per_batch = 8192;
+        bool enable_adaptive_batch_retry = false;
         
         // Request queuing
         size_t max_queue_size = 1000;
@@ -110,6 +112,16 @@ public:
         /// The draft model is typically a small, quantised variant of the
         /// target model (e.g., INT4-quantised 0.5 B parameters).
         std::string speculative_draft_model_id;
+
+        // Prompt lookup decoding (n-gram based speculation-light path)
+        bool enable_lookup_decoding = false;
+        size_t lookup_ngram_min = 2;
+        size_t lookup_ngram_max = 4;
+        /// Maximum draft tokens proposed per lookup step.
+        /// Defaults to lookup_ngram_max (one continuation token per key token),
+        /// but can be set independently to allow longer continuations than the
+        /// key length (e.g., ngram_max=4, max_draft=8).
+        size_t lookup_max_draft_tokens = 0;  // 0 = use lookup_ngram_max
     };
     
     /**
@@ -194,6 +206,13 @@ public:
         std::chrono::milliseconds timeout{30000};
         bool allow_caching = true;
         std::string preferred_model_id;  // Optional model preference
+        // RAID-sharding orchestration hints (optional, see src/llm/FUTURE_ENHANCEMENTS.md):
+        // - shard_routing_key: deterministic placement hint for shard routers.
+        // - target_instance_ids: explicit shard/instance fan-out subset.
+        // - allow_cross_instance_batching: opt-in guard for distributed co-batching.
+        std::string shard_routing_key;        // Set alone for deterministic shard placement.
+        std::vector<std::string> target_instance_ids; // Optional explicit fan-out subset; empty = router decides.
+        bool allow_cross_instance_batching = false;   // Explicit opt-in for coordinator-side co-batching.
         
         // For result tracking
         std::string request_id;
@@ -428,6 +447,10 @@ private:
     // Speculative decoding — one decoder per engine instance.
     // nullptr when enable_speculative_decoding == false.
     std::unique_ptr<SpeculativeDecoder> speculative_decoder_;
+
+    // Lookup decoder (n-gram based, draft-model-free).
+    // nullptr when enable_lookup_decoding == false.
+    std::unique_ptr<LookupDecoder> lookup_decoder_;
 
     // Optional adapter registry for DRAFT model auto-discovery.
     // When set and speculative_draft_model_id is empty, the engine queries

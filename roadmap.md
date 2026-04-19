@@ -266,7 +266,7 @@ Key features planned and partially shipped for v1.9.0:
 | `ShardRPCClient::writeEntity()` | sharding | ✅ Shipped | gRPC `ReplicateData` RPC for cross-shard writes |
 | `ProcessLinker` hard-delete + secondary index | process | ✅ Shipped | Hard-delete via `db_.del()`, `obj_idx` prefix scan |
 | `BpmnSerializer` state-machine tokenizer | process | ✅ Shipped | No-regex, CDATA, 11 tests PM-01…PM-11 |
-| Typed DSL for structured prompt authoring | prompt_engineering | 🚧 In progress | Token budget manager, context-window enforcement |
+| Typed DSL for structured prompt authoring | prompt_engineering | ✅ Shipped | `IPromptTemplate`, `IRAGContextBudgetManager`, `IPromptQualityEvaluator`, `IPromptABFramework` (2026-04-19) |
 | `MqttClientService` + `MqttCDCTransport` | server | 🚧 In progress | Boost.Asio async I/O, RPCServiceRegistry |
 | ISO 27001 + HIPAA compliance evaluators | governance | ✅ Shipped (#4484) | |
 | Chimera streaming result sets | chimera | ✅ Shipped (#4478) | Prepared statements, connection pool adapter interfaces |
@@ -344,8 +344,8 @@ cross-backend consistency, error handling, and resource management.
 Focus: Deepen AI capabilities across prompt engineering, training, RAG, and analytics.
 
 #### 2.1 Prompt Engineering
-- [?] Token counting and context-window budget enforcement (Target: Q2 2026)
-- [?] Typed template DSL with compile-time placeholder validation (Target: Q2 2026)
+- [x] Token counting and context-window budget enforcement (Target: Q2 2026) — `ContextWindowBudgetManager` + `IRAGContextBudgetManager` (2026-04-19)
+- [x] Typed template DSL with compile-time placeholder validation (Target: Q2 2026) — `CompiledPromptTemplate` + `IPromptTemplate` + `IPromptQualityEvaluator` + `IPromptABFramework` (2026-04-19)
 - [?] Batch A/B test runner with configurable traffic splits (Target: Q3 2026)
 - [?] RLHF integration for prompt quality improvement (Target: Q4 2026)
 
@@ -636,7 +636,7 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 | 9 | themis | Core module code still in `src/utils/` and `src/base/`; migration to `src/themis/` planned for v1.7.0 | 📋 Planned |
 | 10 | config | Legacy config migration tooling not yet implemented | 📋 Planned |
 | 11 | training | Multi-GPU distributed training coordination not implemented | 📋 Planned |
-| 12 | prompt_engineering | Token counting / context-window budget enforcement not implemented | 📋 Planned |
+| 12 | prompt_engineering | Token counting / context-window budget enforcement not implemented | ✅ Done v1.7.0 |
 | 13 | process | Embedding-based similarity search requires pre-computed embeddings; auto-generation not yet implemented | 🚧 In progress |
 | 14 | process | BPMN parser uses regex (not DOM/SAX); deeply nested sub-process pools may not parse correctly | ⚠️ Known limitation |
 | 15 | maintenance | Explicit per-task DAG dependency graph not yet implemented; tasks execute in list order | ✅ Resolved v1.2.0 |
