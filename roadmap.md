@@ -636,7 +636,7 @@ Focus: Developer experience, official SDKs, and community ecosystem.
 | 9 | themis | Core module code still in `src/utils/` and `src/base/`; migration to `src/themis/` planned for v1.7.0 | 📋 Planned |
 | 10 | config | Legacy config migration tooling not yet implemented | 📋 Planned |
 | 11 | training | Multi-GPU distributed training coordination not implemented | 📋 Planned |
-| 12 | prompt_engineering | Token counting / context-window budget enforcement not implemented | 📋 Planned |
+| 12 | prompt_engineering | Token counting / context-window budget enforcement not implemented | ✅ Done v1.7.0 |
 | 13 | process | Embedding-based similarity search requires pre-computed embeddings; auto-generation not yet implemented | 🚧 In progress |
 | 14 | process | BPMN parser uses regex (not DOM/SAX); deeply nested sub-process pools may not parse correctly | ⚠️ Known limitation |
 | 15 | maintenance | Explicit per-task DAG dependency graph not yet implemented; tasks execute in list order | ✅ Resolved v1.2.0 |
