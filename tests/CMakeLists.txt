@@ -129,6 +129,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_mcp_orchestrator_bridge\\.cpp$"
         ".*test_byzantine_detector\\.cpp$"
         ".*test_continuous_batch_scheduler\\.cpp$"
+        ".*test_lookup_decoder\\.cpp$"
         ".*test_data_loader\\.cpp$"
         ".*test_directx_backend\\.cpp$"
         ".*test_docs_assistant_aql\\.cpp$"
@@ -14366,6 +14367,42 @@ if(THEMIS_ENABLE_LLM)
         )
         message(STATUS "InferenceEngineEnhanced focused tests: KV-cache prewarming, embedding-based lookup, hot-swap, load-balancing")
     endif()
+
+    # Standalone focused test target for LookupDecoder (n-gram lookup decoding).
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lookup_decoder.cpp")
+        add_executable(test_lookup_decoder_focused
+            test_lookup_decoder.cpp
+        )
+        target_include_directories(test_lookup_decoder_focused PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+        )
+        if(TARGET themis_llm)
+            target_link_libraries(test_lookup_decoder_focused PRIVATE
+                ${TEST_LIBS}
+                themis_llm
+                spdlog::spdlog
+                Threads::Threads
+            )
+        else()
+            target_link_libraries(test_lookup_decoder_focused PRIVATE
+                ${TEST_LIBS}
+                themis_core
+                spdlog::spdlog
+                Threads::Threads
+            )
+        endif()
+        target_compile_definitions(test_lookup_decoder_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+        )
+        add_test(NAME LookupDecoderFocusedTests
+            COMMAND test_lookup_decoder_focused)
+        set_tests_properties(LookupDecoderFocusedTests PROPERTIES
+            LABELS "llm;lookup;ngram;speculation;unit"
+            TIMEOUT 60
+        )
+        message(STATUS "LookupDecoder focused tests: n-gram index, draft proposal, dynamic update, eviction, thread safety")
+    endif()
+
     # NOTE: tests/llm/bench_model_loading_from_themisdb.cpp uses Google Benchmark
     # (benchmark::benchmark_main / BENCHMARK() macro), NOT GTest.
     # It is registered as a proper benchmark target in benchmarks/CMakeLists.txt.

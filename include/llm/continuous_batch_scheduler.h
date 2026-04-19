@@ -217,6 +217,9 @@ public:
         size_t adaptive_prefill_chunk_size_tokens = 0;
         // Current combined depth of waiting + active requests
         size_t current_queue_depth = 0;
+        /// Times a decode step was skipped due to KV cache budget exhaustion
+        /// (n_ctx / blocks_free == 0 guard, Phase 3).
+        size_t kv_budget_exhausted_count = 0;
     };
     
     Stats getStats() const;

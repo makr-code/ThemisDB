@@ -25,6 +25,7 @@
 
 #include "llm/inference_handle.h"
 #include "llm/continuous_batch_scheduler.h"
+#include "llm/lookup_decoder.h"
 #include "llm/paged_kv_cache.h"
 #include "llm/llm_prefix_cache.h"
 #include "llm/llm_plugin_interface.h"
@@ -441,6 +442,10 @@ private:
     // Speculative decoding — one decoder per engine instance.
     // nullptr when enable_speculative_decoding == false.
     std::unique_ptr<SpeculativeDecoder> speculative_decoder_;
+
+    // Lookup decoder (n-gram based, draft-model-free).
+    // nullptr when enable_lookup_decoding == false.
+    std::unique_ptr<LookupDecoder> lookup_decoder_;
 
     // Optional adapter registry for DRAFT model auto-discovery.
     // When set and speculative_draft_model_id is empty, the engine queries

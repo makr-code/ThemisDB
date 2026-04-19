@@ -7,7 +7,7 @@
 
 ## Current Status
 
-v1.16.0 — Production-ready. ~75 public headers. Full inference, LoRA, KV-cache, constitutional AI, and OpenAI-compat interfaces available.
+v1.18.0 — Production-ready. ~75 public headers. Full inference, LoRA, KV-cache, constitutional AI, and OpenAI-compat interfaces available. v1.18.0 adds: adaptive continuous-batch retry telemetry, n-gram prompt lookup decoder, KV-budget decode guard, RAID-sharding orchestration hints.
 
 ## Completed ✅
 
@@ -23,6 +23,10 @@ v1.16.0 — Production-ready. ~75 public headers. Full inference, LoRA, KV-cache
 - [x] Per-tenant token quota manager
 - [x] Vision model headers
 - [x] `DecisionRecordYamlProcessor` — async YAML traceability for LLM/LoRA decisions (v1.17.0)
+- [x] Adaptive batch retry downshift + recovery telemetry (`batch_retry_count`, `adaptive_prefill_chunk_size_tokens`) (v1.18.0)
+- [x] `LookupDecoder` — n-gram prompt lookup decoding, draft-model-free speculation light path (v1.18.0)
+- [x] KV-budget decode guard — `kv_budget_exhausted_count` in scheduler, skips decode when `blocks_free == 0` (v1.18.0)
+- [x] RAID-sharding orchestration hints in `EnhancedInferenceRequest` (`shard_routing_key`, `target_instance_ids`, `allow_cross_instance_batching`) (v1.18.0)
 
 ## Planned
 

@@ -228,6 +228,19 @@ ContinuousBatchScheduler::scheduleNextBatch() {
     // First, continue active decode requests
     for (auto& req : active_requests_) {
         if (req->state == RequestState::DECODE) {
+            // Phase 3 n_ctx / KV-budget guard: ensure at least one free block
+            // is available before scheduling a decode step.  A fully exhausted
+            // KV cache must not enter the decode loop — it would cause a
+            // silent decode failure or corrupt the KV state.
+            if (kv_cache_) {
+                const auto kv_stats = kv_cache_->getStats();
+                if (kv_stats.blocks_free == 0) {
+                    spdlog::warn("KV cache exhausted; skipping decode for request {}",
+                                 req->request_id);
+                    stats_.kv_budget_exhausted_count++;
+                    continue;
+                }
+            }
             if (canAddToBatch(req.get(), total_tokens, reserved_blocks_in_batch)) {
                 batch.push_back(req.get());
                 total_tokens++;  // Each decode request adds 1 token
