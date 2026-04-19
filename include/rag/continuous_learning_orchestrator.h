@@ -238,6 +238,19 @@ class ContinuousLearningOrchestrator {
     // ---- Loop orchestration (IMPL-A2) ----------------------------------------
 
     /**
+     * @brief Typed outcome from a single query execution, used by Loop 1.
+     *
+     * Carries the raw signal that `triggerLoop1QueryExecution()` passes to the
+     * BaoOptimizer hint-update path.
+     */
+    struct QueryExecutionOutcome {
+        std::string query_id;          ///< Stable query fingerprint / request-id
+        double      latency_ms{0.0};   ///< Observed end-to-end latency in ms
+        std::string explain_plan_json; ///< JSON-serialised EXPLAIN / BaoOptimizer plan
+        bool        used_index{true};  ///< Whether an index was selected for execution
+    };
+
+    /**
      * @brief Named learning loops as defined in THEMISDB_LORA_RESEARCH_PAPER.md §5.
      *
      * - LOOP_1_HNSW_QUERY   : Daily, fully autonomous — HNSW/BaoOptimizer retraining.
@@ -281,6 +294,71 @@ class ContinuousLearningOrchestrator {
      * @return LoopResult describing the outcome.
      */
     LoopResult triggerLoop(LoopPhase phase);
+
+    // ── Named typed trigger methods (IMPL-A2 Phase 2) ──────────────────────
+
+    /**
+     * @brief Trigger Loop 1 — per-query BaoOptimizer feedback (target: ≤ 10 ms).
+     *
+     * Stores @p outcome for the JSON context serialiser, then delegates to
+     * `triggerLoop(LOOP_1_HNSW_QUERY)`.  Returns a cooldown-blocked result if
+     * called within the configured cooldown window.
+     *
+     * @param outcome  Typed query execution result from the query executor.
+     * @return LoopResult; `success == false` and `adapter_version == "cooldown"` when
+     *         the call is rejected due to the per-resource cooldown guard.
+     */
+    LoopResult triggerLoop1QueryExecution(const QueryExecutionOutcome& outcome);
+
+    /**
+     * @brief Trigger Loop 2 — WorkloadAdaptiveOptimizer + HNSW (60 s interval).
+     *
+     * Delegates to `triggerLoop(LOOP_2_WORKLOAD)` after the cooldown guard passes.
+     */
+    LoopResult triggerLoop2WorkloadAdaptation();
+
+    /**
+     * @brief Trigger Loop 3 — IndexSuggestionEngine advisory cycle.
+     *
+     * Advisory-only; always passes the guardrail.  Delegates to
+     * `triggerLoop(LOOP_3_SCHEMA_INDEX)` after the cooldown guard passes.
+     */
+    LoopResult triggerLoop3IndexLifecycle();
+
+    /**
+     * @brief Trigger Loop 4 — IncrementalLoRATrainer weekly improvement cycle.
+     *
+     * Delegates to `triggerLoop(LOOP_4_RLAIF)`.  On success + guardrail pass,
+     * `FEDERATED_ROUND_START` is fired automatically.
+     */
+    LoopResult triggerLoop4AdapterImprovement();
+
+    // ── Cooldown guard (RQ10) ───────────────────────────────────────────────
+
+    /**
+     * @brief Set the per-loop cooldown window.
+     *
+     * Any `triggerLoopN*()` call issued within @p cooldown of the previous
+     * invocation for the same loop is rejected (returns cooldown-blocked result).
+     * Default: 10 s.
+     *
+     * @param cooldown  Minimum interval between successive triggers of the same loop.
+     */
+    void setOptimizationCooldown(std::chrono::seconds cooldown);
+
+    // ── JSON context serialiser ─────────────────────────────────────────────
+
+    /**
+     * @brief Serialise the latest Loop 1–3 outcome signals to a JSON context block.
+     *
+     * Returns a compact JSON string of at most 2 000 tokens (approx. 8 000 chars)
+     * suitable for injection into an LLM prompt or decision-record context.
+     * Fields include: loop_id, phase, latency_ms (Loop 1), metric_delta, adapter_version,
+     * timestamp_iso.
+     *
+     * @return JSON string; empty object `{}` when no loops have been triggered yet.
+     */
+    [[nodiscard]] std::string serializeLoopContext() const;
 
     /**
      * @brief Register a completion handler for a specific loop phase.
@@ -361,6 +439,10 @@ class ContinuousLearningOrchestrator {
 
     // IMPL-A3: Federation event handler
     void handleFederatedRoundStart();
+
+    // IMPL-A2: Cooldown helper — returns true if the named loop is still within
+    // its cooldown window.  Updates last-trigger timestamp when allowed.
+    bool checkAndUpdateCooldown(LoopPhase phase);
 };
 
 } // namespace themis::rag::learning

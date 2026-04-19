@@ -243,5 +243,30 @@ RAGIngestionBridge::graphWriter() const {
     return graph_writer_;
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// RAGIngestionBridge::indexOptimizerLog  (IMPL-A2 Phase 2)
+// ─────────────────────────────────────────────────────────────────────────────
+
+IndexResult RAGIngestionBridge::indexOptimizerLog(
+    const std::string& query_id,
+    const std::string& plan_json,
+    double             latency_ms,
+    const std::string& collection)
+{
+    // Build a structured text document from the optimizer-log entry.
+    // The plan_json is capped at 2 048 chars to stay within the chunk budget.
+    const std::string plan_snippet =
+        plan_json.size() > 2048 ? plan_json.substr(0, 2048) + "..." : plan_json;
+
+    std::ostringstream doc;
+    doc << "optimizer_log\n"
+        << "query_id: " << query_id << "\n"
+        << "latency_ms: " << latency_ms << "\n"
+        << "plan: " << plan_snippet << "\n";
+
+    const std::string filename = "optimizer-log-" + query_id + ".txt";
+    return indexDocument(doc.str(), collection, "text/plain", filename);
+}
+
 } // namespace rag
 } // namespace themis

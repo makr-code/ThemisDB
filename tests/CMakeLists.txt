@@ -23389,3 +23389,53 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_raid_routing.cpp")
 else()
     message(STATUS "LLM+RAID routing tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_llm_raid_routing.cpp")
 endif()
+
+# ============================================================================
+# IMPL-A2 Phase 2: ContinuousLearningOrchestrator named loop triggers
+# Covers: CLO-L1-01..03, CLO-L2-01..03, CLO-L3-01..02, CLO-L4-01..02,
+#         CLO-FED-01, CLO-COOL-01  (test_clo_loops.cpp)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_clo_loops.cpp")
+    message(STATUS "Adding CLO named loop trigger tests (IMPL-A2 Phase 2)")
+
+    add_executable(test_clo_loops_focused
+        test_clo_loops.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/continuous_learning_orchestrator.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/bayesian_optimizer.cpp
+        ${THEMIS_ROOT_DIR}/src/training/lora_data_selection.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/lora_federation_coordinator.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/adapter_capability_announcement.cpp
+        ${THEMIS_ROOT_DIR}/src/training/incremental_lora_trainer.cpp
+        ${THEMIS_ROOT_DIR}/src/training/lora_checkpoint_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/training/adapter_serving.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+
+    target_include_directories(test_clo_loops_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_clo_loops_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_clo_loops_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_ENABLE_LLM=1
+    )
+
+    add_test(NAME CLOLoopsTriggerTests COMMAND test_clo_loops_focused)
+
+    set_tests_properties(CLOLoopsTriggerTests PROPERTIES
+        LABELS "rag;clo;loop;impl-a2;unit;CLO-L1;CLO-L2;CLO-L3;CLO-L4;CLO-FED;CLO-COOL"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  CLO: CLO-L1-01..03, CLO-L2-01..03, CLO-L3-01..02, CLO-L4-01..02, CLO-FED-01, CLO-COOL-01")
+else()
+    message(STATUS "CLO loop tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_clo_loops.cpp")
+endif()
