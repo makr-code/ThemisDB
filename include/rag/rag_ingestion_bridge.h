@@ -167,6 +167,29 @@ public:
     );
 
     /**
+     * @brief Index an optimizer-log entry from a query execution for RAG retrieval.
+     *
+     * Formats the optimizer-log entry as a structured text document and passes it
+     * through `indexDocument()` so that the RAG pipeline can retrieve past
+     * optimizer decisions during Loop 1–3 context assembly.
+     *
+     * The formatted document contains: `query_id`, `latency_ms`, and the
+     * `explain_plan_json` snippet (first 2 048 chars to stay within chunk budget).
+     *
+     * @param query_id      Stable query fingerprint / request-id.
+     * @param plan_json     JSON-serialised EXPLAIN / BaoOptimizer plan.
+     * @param latency_ms    Observed end-to-end query latency in milliseconds.
+     * @param collection    Target collection (default: `"optimizer-logs"`).
+     * @return `IndexResult` from the underlying `indexDocument()` call.
+     */
+    IndexResult indexOptimizerLog(
+        const std::string& query_id,
+        const std::string& plan_json,
+        double             latency_ms,
+        const std::string& collection = "optimizer-logs"
+    );
+
+    /**
      * @brief Enrich a list of retrieved documents with NER entity context.
      *
      * For each document in @p docs, runs `extractEntitiesForContext()` on

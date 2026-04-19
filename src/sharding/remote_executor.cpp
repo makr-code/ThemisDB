@@ -90,6 +90,41 @@ RemoteExecutor::Result RemoteExecutor::executeQuery(const ShardInfo& shard_info,
     return post(shard_info, "/api/v1/query", body);
 }
 
+RemoteExecutor::Result RemoteExecutor::postBinary(const ShardInfo& shard_info,
+                                                   const std::string& path,
+                                                   const uint8_t* data,
+                                                   std::size_t size) {
+    // Base64-encode the binary payload so it can be embedded in a JSON body
+    // and sent via the existing MTLSClient::post() interface.
+    //
+    // Trade-off: encoding adds ~33 % overhead; a future optimisation could
+    // add a raw-octet-stream path in MTLSClient, but that requires protocol
+    // changes outside the current scope.
+    static constexpr char kBase64Chars[] =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
+    std::string encoded;
+    encoded.reserve(((size + 2u) / 3u) * 4u);
+
+    for (std::size_t i = 0; i < size; i += 3) {
+        const auto b0 = data[i];
+        const auto b1 = (i + 1 < size) ? data[i + 1] : std::uint8_t{0};
+        const auto b2 = (i + 2 < size) ? data[i + 2] : std::uint8_t{0};
+
+        encoded += kBase64Chars[(b0 >> 2) & 0x3F];
+        encoded += kBase64Chars[((b0 & 0x03) << 4) | ((b1 >> 4) & 0x0F)];
+        encoded += (i + 1 < size) ? kBase64Chars[((b1 & 0x0F) << 2) | ((b2 >> 6) & 0x03)] : '=';
+        encoded += (i + 2 < size) ? kBase64Chars[b2 & 0x3F] : '=';
+    }
+
+    nlohmann::json body = {
+        {"kv_state_b64", std::move(encoded)},
+        {"size",         static_cast<std::uint64_t>(size)}
+    };
+
+    return post(shard_info, path, body);
+}
+
 bool RemoteExecutor::isReady() const {
     return mtls_client_ && mtls_client_->isReady();
 }

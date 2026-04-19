@@ -191,12 +191,30 @@ public:
     );
 
     /**
+     * Update per-shard LLM queue load snapshot used for LEAST_LOADED tie-breaking
+     * in routeByDomain().
+     *
+     * Called after each `ContinuousBatchScheduler::getLLMStats()` poll or
+     * whenever a ShardStats gossip message is received.  Thread-safe.
+     *
+     * @param shard_id         Shard identifier
+     * @param pending_requests Current waiting-request count on that shard
+     * @param avg_queue_ms     Current average queue wait time on that shard
+     */
+    void updateShardLLMLoad(
+        const std::string& shard_id,
+        uint64_t pending_requests,
+        double avg_queue_ms
+    );
+
+    /**
      * Route a query to the shard with the highest `accuracy_delta` for the
      * given adapter domain.
      *
-     * Fallback: if no shard has registered a score for `domain`, the method
-     * returns an empty string and callers should use the default `route()`
-     * behaviour.
+     * When two shards share the same best accuracy_delta the one with the
+     * lower `pending_llm_requests` (LEAST_LOADED) wins.  Fallback: if no
+     * shard has registered a score for `domain`, the method returns an empty
+     * string and callers should use the default `route()` behaviour.
      *
      * @param domain  Domain type to look up
      * @return shard_id of the best-scoring shard, or "" if no score exists
@@ -246,6 +264,15 @@ private:
     std::map<std::string,
              std::map<themis::distributed_knowledge::AdapterDomainType, double>>
         shard_domain_scores_;
+
+    // LLM load map: shard_id → { pending_requests, avg_queue_ms }
+    // Updated via updateShardLLMLoad(); used as LEAST_LOADED tie-breaker in routeByDomain().
+    struct ShardLLMLoad {
+        uint64_t pending_requests = 0;
+        double   avg_queue_ms    = 0.0;
+    };
+    std::map<std::string, ShardLLMLoad> shard_llm_load_;
+
     mutable std::mutex domain_scores_mutex_;
     
     // Statistics

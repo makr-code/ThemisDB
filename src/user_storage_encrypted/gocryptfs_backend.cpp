@@ -66,7 +66,7 @@ Result<void> GocryptfsBackend::initialize(const std::string& config_json) {
 
 Result<void> GocryptfsBackend::checkAvailability() {
     // Check if gocryptfs is available in PATH
-    auto result = executeCommand("which", {"gocryptfs"});
+    auto result = executeCommandSafe({"which", "gocryptfs"});
     if (result.isError()) {
         return Result<void>::error(
             "gocryptfs not found in PATH. Please install: apt-get install gocryptfs"
@@ -87,8 +87,8 @@ Result<void> GocryptfsBackend::checkAvailability() {
 }
 
 std::string GocryptfsBackend::getBackendVersion() const {
-    auto result = const_cast<GocryptfsBackend*>(this)->executeCommand(
-        "gocryptfs", {"-version"}
+    auto result = const_cast<GocryptfsBackend*>(this)->executeCommandSafe(
+        {"gocryptfs", "-version"}
     );
     if (result.isSuccess()) {
         return result.value();
@@ -206,7 +206,7 @@ bool GocryptfsBackend::isMounted(const std::string& mount_point) {
     return false;
 #else
     // For macOS/BSD, check mount output
-    auto result = executeCommand("mount", {});
+    auto result = executeCommandSafe({"mount"});
     if (result.isSuccess()) {
         return result.value().find(mount_point) != std::string::npos;
     }
@@ -526,18 +526,6 @@ Result<std::string> GocryptfsBackend::deliverKeyViaStdin(
 // ---------------------------------------------------------------------------
 // Remaining helpers
 // ---------------------------------------------------------------------------
-
-Result<std::string> GocryptfsBackend::executeCommand(
-    const std::string& command,
-    const std::vector<std::string>& args,
-    const std::string& stdin_data
-) {
-    // Deprecated: Use executeCommandSafe instead
-    // This version is kept for backward compatibility with simple commands
-    std::vector<std::string> full_args = {command};
-    full_args.insert(full_args.end(), args.begin(), args.end());
-    return executeCommandSafe(full_args);
-}
 
 Result<std::string> GocryptfsBackend::executeCommandSafe(
     const std::vector<std::string>& args

@@ -73,6 +73,17 @@ void AdaptiveShardRouter::updateAdapterCapability(
     shard_domain_scores_[shard_id][announcement.domain_type] = announcement.accuracy_delta;
 }
 
+void AdaptiveShardRouter::updateShardLLMLoad(
+    const std::string& shard_id,
+    uint64_t pending_requests,
+    double avg_queue_ms
+) {
+    std::lock_guard<std::mutex> lock(domain_scores_mutex_);
+    auto& load = shard_llm_load_[shard_id];
+    load.pending_requests = pending_requests;
+    load.avg_queue_ms     = avg_queue_ms;
+}
+
 std::string AdaptiveShardRouter::routeByDomain(
     themis::distributed_knowledge::AdapterDomainType domain
 ) const {
@@ -80,16 +91,29 @@ std::string AdaptiveShardRouter::routeByDomain(
 
     std::string best_shard;
     double best_delta = std::numeric_limits<double>::lowest();
+    uint64_t best_pending = std::numeric_limits<uint64_t>::max();
     bool found = false;
 
     for (const auto& [shard_id, domain_map] : shard_domain_scores_) {
         auto it = domain_map.find(domain);
-        if (it != domain_map.end()) {
-            if (!found || it->second > best_delta) {
-                best_delta = it->second;
-                best_shard = shard_id;
-                found = true;
-            }
+        if (it == domain_map.end()) {
+            continue;
+        }
+        const double delta = it->second;
+        // Retrieve LLM queue depth for tie-breaking (0 when unknown = treat as idle).
+        uint64_t pending = 0;
+        auto load_it = shard_llm_load_.find(shard_id);
+        if (load_it != shard_llm_load_.end()) {
+            pending = load_it->second.pending_requests;
+        }
+
+        const bool better_score   = delta > best_delta;
+        const bool tied_less_load = (delta == best_delta) && (pending < best_pending);
+        if (!found || better_score || tied_less_load) {
+            best_delta   = delta;
+            best_pending = pending;
+            best_shard   = shard_id;
+            found        = true;
         }
     }
 

@@ -2,9 +2,9 @@
 
 # Analytics Module Roadmap
 
-**Version:** 1.9.0
+**Version:** 2.0.0
 **Status:** 🟢 Production-Ready
-**Last Updated:** 2026-04-06
+**Last Updated:** 2026-04-19
 **Module Path:** `src/analytics/`
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -78,7 +78,7 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
   - Tests: unit tests for scatter/gather logic + integration tests with mock shards
   - Perf: fan-out latency ≤ 200 ms for 16 shards on LAN
   - Per-tenant data isolation at the `SourceRegistry` boundary
-- [ ] SARIMA and Prophet-style forecasting models (Target: Q4 2026)
+- [x] SARIMA and Prophet-style forecasting models (Target: Q4 2026)
   - Affected: `src/analytics/forecasting.cpp`, `include/analytics/forecasting.h`
   - Note: `ForecastMethod::SARIMA` and `ForecastMethod::PROPHET` enum values are already defined (`include/analytics/forecasting.h:154-155`) but switch-case handlers are not yet implemented
   - Expected behavior: `fit()`/`predict()` API unchanged; extends existing switch branches
@@ -86,8 +86,9 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
   - Tests: unit tests for fit/predict/evaluate/serialize round-trip; parity vs Python statsmodels reference
   - Perf: SARIMA fit ≤ 5 s for series of length 10 000
   - Confidence intervals and decomposition retained
-- [ ] AutoML ONNX export and deployment pipeline (Target: Q4 2026)
+- [x] AutoML ONNX export and deployment pipeline (Target: Q4 2026)
   - Affected: `src/analytics/automl.cpp`, `include/analytics/automl.h`
+  - Expected behavior: `AutoMLModel::exportONNX(path)` serializes trained model; loadable by `MLServingClient`
   - Expected behavior: `AutoML::exportONNX(path)` serializes trained model; loadable by `MLServingClient` <!-- TODO: verify exact method signature when implemented -->
   - Errors: unsupported model type → `UNSUPPORTED_OPERATION`; serialization failure → structured error with cause
   - Tests: unit test export → load → infer round-trip; ONNX opset compatibility for all supported algorithms

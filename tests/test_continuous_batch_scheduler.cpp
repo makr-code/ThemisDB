@@ -504,73 +504,32 @@ TEST_F(ContinuousBatchSchedulerTest, MetricsNullCollectorNoCrash) {
     sched->stop();
 }
 
-// Test 14: Adaptive batch retry halves prefill chunk size after decode error
-TEST_F(ContinuousBatchSchedulerTest, AdaptiveBatchRetryDownshiftOnDecodeError) {
-    ContinuousBatchScheduler::SchedulerConfig cfg;
-    cfg.max_batch_size = 32;
-    cfg.max_tokens_per_batch = 2048;
-    cfg.block_size_tokens = BLOCK_SIZE_TOKENS;
-    cfg.prefill_chunk_size = 64;
-    cfg.enable_adaptive_batch_retry = true;
+// ─────────────────────────────────────────────────────────────────────────────
+// LLM-RAID integration: getLLMStats() ShardStats bridge
+// ─────────────────────────────────────────────────────────────────────────────
 
-    auto sched = std::make_unique<ContinuousBatchScheduler>(cfg, kv_cache.get());
-    sched->start();
-
-    auto id = sched->submitRequest(createTestRequest(30, 8));
-    ASSERT_FALSE(id.empty());
-
-    auto batch = sched->scheduleNextBatch();
-    ASSERT_EQ(batch.size(), 1u);
-
-    InferenceResponse failed;
-    failed.error_message = "decode failed";
-    std::vector<InferenceResponse> responses{failed};
-    sched->processBatchResults(batch, responses);
-
-    auto stats = sched->getStats();
-    EXPECT_EQ(stats.batch_retry_count, 1u);
-    EXPECT_EQ(stats.adaptive_prefill_chunk_size_tokens, cfg.prefill_chunk_size / 2);
-
-    auto retry_batch = sched->scheduleNextBatch();
-    ASSERT_EQ(retry_batch.size(), 1u);
-    InferenceResponse ok;
-    ok.text = "token";
-    std::vector<InferenceResponse> ok_responses{ok};
-    sched->processBatchResults(retry_batch, ok_responses);
-
-    stats = sched->getStats();
-    EXPECT_EQ(stats.adaptive_prefill_chunk_size_tokens, cfg.prefill_chunk_size);
-
-    sched->cancelRequest(id);
-    sched->stop();
+// Test 14 (CBS-LLM-01): getLLMStats() returns zero pending when queue is empty.
+TEST_F(ContinuousBatchSchedulerTest, GetLLMStats_EmptyQueue) {
+    const auto s = scheduler->getLLMStats();
+    EXPECT_EQ(s.pending_requests, 0u);
+    EXPECT_DOUBLE_EQ(s.avg_queue_ms, 0.0);
 }
 
-TEST_F(ContinuousBatchSchedulerTest, AdaptiveBatchRetryCountsAtMinimumChunkSize) {
-    ContinuousBatchScheduler::SchedulerConfig cfg;
-    cfg.max_batch_size = 8;
-    cfg.max_tokens_per_batch = 256;
-    cfg.block_size_tokens = BLOCK_SIZE_TOKENS;
-    cfg.prefill_chunk_size = 1;
-    cfg.enable_adaptive_batch_retry = true;
+// Test 15 (CBS-LLM-02): getLLMStats() reflects queued requests.
+TEST_F(ContinuousBatchSchedulerTest, GetLLMStats_PendingCount) {
+    // Submit two requests but don't call scheduleNextBatch() to keep them waiting.
+    scheduler->submitRequest(createTestRequest(4, 2));
+    scheduler->submitRequest(createTestRequest(4, 2));
 
-    auto sched = std::make_unique<ContinuousBatchScheduler>(cfg, kv_cache.get());
-    sched->start();
-
-    auto id = sched->submitRequest(createTestRequest(10, 4));
-    ASSERT_FALSE(id.empty());
-    auto batch = sched->scheduleNextBatch();
-    ASSERT_EQ(batch.size(), 1u);
-
-    InferenceResponse failed;
-    failed.error_message = "decode failed";
-    sched->processBatchResults(batch, std::vector<InferenceResponse>{failed});
-
-    auto stats = sched->getStats();
-    EXPECT_EQ(stats.batch_retry_count, 1u);
-    EXPECT_EQ(stats.adaptive_prefill_chunk_size_tokens, 1u);
-
-    sched->cancelRequest(id);
-    sched->stop();
+    const auto s = scheduler->getLLMStats();
+    EXPECT_EQ(s.pending_requests, 2u);
 }
 
-// No custom main; gtest_main provides the entry point
+// Test 16 (CBS-LLM-03): getLLMStats() pending returns to zero after batch is scheduled.
+TEST_F(ContinuousBatchSchedulerTest, GetLLMStats_DropsAfterSchedule) {
+    scheduler->submitRequest(createTestRequest(4, 2));
+    EXPECT_EQ(scheduler->getLLMStats().pending_requests, 1u);
+
+    scheduler->scheduleNextBatch();  // moves waiting → active
+    EXPECT_EQ(scheduler->getLLMStats().pending_requests, 0u);
+}

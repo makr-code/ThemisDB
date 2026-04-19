@@ -25,6 +25,7 @@
 
 #include "plugins/ethics_ai/ethics_ai_types.h"
 #include <map>
+#include <mutex>
 #include <string>
 #include <memory>
 #include <variant>
@@ -85,6 +86,19 @@ public:
     
 
     /**
+     * @brief Hot-reload profiles from a directory without stopping the server.
+     *
+     * Atomically re-scans @p directory: loads all YAML profiles, then swaps
+     * the internal profile map under the loader's write lock.  Profiles that
+     * could not be parsed are skipped; the old map is left intact if the
+     * directory is empty or does not exist.
+     *
+     * @param directory Path to directory containing YAML files.
+     * @return Number of profiles now loaded, or Status::Error on failure.
+     */
+    std::variant<size_t, Status> reloadProfiles(const std::string& directory);
+
+    /**
      * @brief Register a profile directly (used for testing / plugin registration)
      * @param profile The profile to register
      */
@@ -106,6 +120,7 @@ public:
     std::map<std::string, PhilosophyProfile> getAllProfiles() const;
     
 private:
+    mutable std::mutex mutex_;
     std::map<std::string, PhilosophyProfile> profiles_;
     
     // Helper to parse YAML content

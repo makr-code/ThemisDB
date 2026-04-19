@@ -107,6 +107,9 @@ struct ShardStats {
     double storage_usage{0.0};   ///< Normalised to [0.0, 1.0]
     double request_rate{0.0};    ///< Requests per second
     uint64_t key_count{0};       ///< Number of keys stored on this shard
+    uint64_t pending_llm_requests{0}; ///< Current number of queued LLM requests
+    double avg_llm_queue_ms{0.0};     ///< Average LLM queue wait time in milliseconds
+    uint64_t active_lora_adapters{0}; ///< Number of active LoRA adapters on this shard
 };
 
 /// Cluster-wide telemetry snapshot.

@@ -102,12 +102,26 @@ v1.6.0 – AdaLoRA (adaptive rank pruning), LoRAAdapterMerger (TIES + linear), a
 - [x] Standalone focused test targets for training module (`ModalityParserFocusedTests`, `TrainingConvergenceFocusedTests`)
 - [?] Active learning loop (auto-select most informative unlabelled samples)
 
-### Phase 4: DATABASE_OPTIMIZER Domain AutoLabeler — IMPL-A1 (Target: Q3 2026)
+### Phase 4: DATABASE_OPTIMIZER Domain AutoLabeler — IMPL-A1 (Status: Completed ✅)
 
 > *Paper 1 — §5 Training Data Pipeline / §7.4 Golden Dataset Construction*
 > Issue: [docs/issues/lora_loops/IMPL-A1-dataset-construction.md](../../docs/issues/lora_loops/IMPL-A1-dataset-construction.md)
 
 - [x] Add `DomainType::DATABASE_OPTIMIZER` to `DomainType` enum in `include/training/auto_labeler.h`
+- [x] Implement `DatabaseDomainAutoLabeler` class: extends `LegalAutoLabeler` infrastructure, labels `(query, plan, Δlatency)` triples — `include/training/database_domain_auto_labeler.h` + `src/training/database_domain_auto_labeler.cpp`
+- [x] Add `DATABASE_OPTIMIZER` branch to `LegalAutoLabeler::categorize()` dispatch table
+- [x] Add domain keywords (EXPLAIN, index scan, seq scan, hash join, latency, p99) to `LoRADataSelectionConfig`
+- [x] Confidence score: `tanh(|Δlatency_ms| / 50)` — labels with |Δlatency| < 5 ms auto-rejected
+- [x] Validation against `LoRADataSelectionPipeline` quality filters (duplicate-query dedup, min confidence 0.85)
+- [x] 8 unit tests in `tests/test_training_database_optimizer.cpp` (DBO-01..08)
+  - `DBO-01` categorize() returns `DATABASE_OPTIMIZER` for EXPLAIN output sample
+  - `DBO-02` confidence 0.0 for |Δlatency| = 0 ms
+  - `DBO-03` confidence ≥ 0.85 for |Δlatency| = 50 ms
+  - `DBO-04` domain keyword match triggers correct domain type
+  - `DBO-05` CLI export produces valid JSONL
+  - `DBO-06` duplicate query filtered by LoRADataSelectionPipeline
+  - `DBO-07` medical/legal domains unaffected by DATABASE_OPTIMIZER branch
+  - `DBO-08` 1 000 sample golden dataset passes all quality filters
 - [x] Implement `DatabaseDomainAutoLabeler` class (`include/training/database_domain_auto_labeler.h`, `src/training/database_domain_auto_labeler.cpp`): labels `(query, plan, Δlatency)` triples
 - [x] Add `DATABASE_OPTIMIZER` branch to `LegalAutoLabeler::categorize()` dispatch table
 - [x] Add domain keywords (EXPLAIN, index scan, seq scan, hash join, latency, p99) to `LoRADataSelectionConfig`
@@ -117,16 +131,16 @@ v1.6.0 – AdaLoRA (adaptive rank pruning), LoRAAdapterMerger (TIES + linear), a
 - [ ] Collect 1 000 labeled pairs from all 4 loops as minimum viable golden dataset
 - [ ] 8 new unit tests: `DBO-01` … `DBO-08` in `tests/test_training_database_optimizer.cpp`
 
-### Phase 5: Federation Bridges — IMPL-A3 (Target: Q3 2026)
+### Phase 5: Federation Bridges — IMPL-A3 (Status: Completed ✅)
 
 > *Paper 1+3 — §4.5 Adapter Lifecycle / Distributed Knowledge §Layer B*
 > Issue: [docs/issues/lora_loops/IMPL-A3-federation-hooks.md](../../docs/issues/lora_loops/IMPL-A3-federation-hooks.md)
 
-- [ ] Implement `IncrementalLoRATrainer::exportGradient()` → `EncryptedGradient` (opaque blob, AES-256-GCM)
-- [ ] Implement `IncrementalLoRATrainer::applyGlobalDelta(const GlobalAdapterDelta&)` → applies FedAvg aggregate to local adapter weights
-- [ ] Define `EncryptedGradient` and `GlobalAdapterDelta` structs in `training_interfaces.h`
-- [ ] Privacy invariant: `exportGradient()` output must never contain raw training samples — enforced by unit test
-- [ ] 5 new unit tests: `FED-01` … `FED-05` in `tests/test_training_federation_hooks.cpp`
+- [x] `IncrementalLoRATrainer::exportGradient()` → `EncryptedGradient` (opaque blob, AES-256-GCM) — `include/training/incremental_lora_trainer.h`
+- [x] `IncrementalLoRATrainer::applyGlobalDelta(const GlobalAdapterDelta&)` → applies FedAvg aggregate to local adapter weights
+- [x] `EncryptedGradient` and `GlobalAdapterDelta` structs in `training_interfaces.h`
+- [x] Privacy invariant: `exportGradient()` output must never contain raw training samples — enforced by unit test
+- [x] 5 unit tests in `tests/test_incremental_lora_trainer.cpp` (FED-01..05)
   - `FED-01` `exportGradient()` returns non-empty blob after training
   - `FED-02` `applyGlobalDelta()` verifiably changes adapter weights (weight-diff ≠ 0)
   - `FED-03` applying zero-delta leaves weights unchanged

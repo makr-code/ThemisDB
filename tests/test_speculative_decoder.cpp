@@ -719,3 +719,41 @@ TEST(SpeculativeDecoderIntegrationTest, AutoDraftModelViaAdapterRegistry) {
 
     engine.shutdown();
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LLM-RAID integration: SpeculativeDecoder::Config::remote_draft_shard_id
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Test 14 (SD-RDSI-01): remote_draft_shard_id defaults to empty string.
+TEST(SpeculativeDecoderConfig, RemoteDraftShardIdDefaultsEmpty) {
+    SpeculativeDecoder::Config cfg;
+    EXPECT_TRUE(cfg.remote_draft_shard_id.empty());
+}
+
+// Test 15 (SD-RDSI-02): remote_draft_shard_id can be set and read back.
+TEST(SpeculativeDecoderConfig, RemoteDraftShardIdRoundTrip) {
+    SpeculativeDecoder::Config cfg;
+    cfg.remote_draft_shard_id = "shard-a:model:mistral-7b-q4";
+    EXPECT_EQ(cfg.remote_draft_shard_id, "shard-a:model:mistral-7b-q4");
+}
+
+// Test 16 (SD-RDSI-03): SpeculativeDecoder can be constructed with
+//   a remote-draft config; it must not affect local verify() logic.
+TEST(SpeculativeDecoderConfig, RemoteDraftShardIdDoesNotAffectLocalVerify) {
+    SpeculativeDecoder::Config cfg;
+    cfg.k = 2;
+    cfg.remote_draft_shard_id = "shard-b:model:phi-2";
+    SpeculativeDecoder decoder(cfg);
+
+    constexpr size_t V = 4;
+    // Perfect draft: draft logits and target logits both peak at the same token.
+    auto draft_row  = makePeakedLogits(V, 0);
+    auto target_row = makePeakedLogits(V, 0);
+
+    std::vector<std::vector<float>> draft_logits  = { draft_row, draft_row };
+    std::vector<std::vector<float>> target_logits = { target_row, target_row, target_row };
+
+    auto result = decoder.verify({0, 0}, draft_logits, target_logits);
+    // With a perfect draft all K tokens should be accepted.
+    EXPECT_EQ(result.num_accepted, cfg.k);
+}

@@ -502,6 +502,26 @@ ContinuousBatchScheduler::Stats ContinuousBatchScheduler::getStats() const {
     return stats_;
 }
 
+ContinuousBatchScheduler::LLMStats ContinuousBatchScheduler::getLLMStats() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    LLMStats out;
+    out.pending_requests = waiting_queue_.size();
+
+    // Compute average queue wait from all currently-waiting requests.
+    // We use the delta between now and submitted_at as a proxy for queue latency.
+    // This is intentionally a read-only snapshot and never modifies state.
+    if (!waiting_queue_.size()) {
+        out.avg_queue_ms = 0.0;
+        return out;
+    }
+
+    // The priority_queue does not support iteration, so we use the pre-computed
+    // current_queue_depth from stats_ and avg_time_to_first_token_ms as the
+    // best approximation we have without draining the queue.
+    out.avg_queue_ms = stats_.avg_time_to_first_token_ms;
+    return out;
+}
+
 bool ContinuousBatchScheduler::canAddToBatch(
     const ScheduledRequest* request,
     size_t current_batch_tokens,

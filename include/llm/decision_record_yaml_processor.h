@@ -162,10 +162,19 @@ public:
     };
 
     /**
+     * @brief Construct with default configuration.
+     */
+    DecisionRecordYamlProcessor();
+
+    /**
      * @brief Construct the processor and start the background thread.
      * @param config  Configuration.  log_dir is created on first write.
+     *
+     * @note  The default-argument form `= {}` triggers GCC DR1607 when Config
+     *        has default member initialisers of non-trivially-constructible
+     *        types.  We therefore provide separate default + config overloads.
      */
-    explicit DecisionRecordYamlProcessor(Config config = {});
+    explicit DecisionRecordYamlProcessor(Config config);
 
     /**
      * @brief Destructor — drains the queue, then stops and joins the background thread.

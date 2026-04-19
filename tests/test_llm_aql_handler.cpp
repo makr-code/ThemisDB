@@ -31,6 +31,9 @@
 #include "aql/aql_query_validator.h"
 #include "aql/llm_error_codes.h"
 #include "llm/embedded_llm.h"
+#include "llm/llm_plugin_manager.h"
+#include <chrono>
+#include <thread>
 
 using namespace themis::aql;
 using namespace themis::llm;
@@ -46,6 +49,50 @@ protected:
     }
     
     std::unique_ptr<LLMAQLHandler> handler;
+};
+
+class CapturingLLMPlugin : public ILLMPlugin {
+public:
+    bool loadModel(const std::string& /*model_path*/, const json& /*config*/) override { return true; }
+    void unloadModel() override {}
+    std::optional<ModelInfo> getModelInfo() const override {
+        ModelInfo info;
+        info.name = "capturing-plugin";
+        info.model_id = "capturing-plugin";
+        info.is_loaded = true;
+        return info;
+    }
+    bool isModelLoaded() const override { return true; }
+    bool loadLoRA(const std::string& /*lora_id*/, const std::string& /*lora_path*/, float /*scale*/) override { return true; }
+    bool unloadLoRA(const std::string& /*lora_id*/) override { return true; }
+    std::vector<LoRAInfo> listLoRAs() const override { return {}; }
+
+    InferenceResponse generate(const InferenceRequest& request) override {
+        last_request = request;
+        const auto hint = request.metadata.value("domain_hint", std::string{});
+        if (hint == "transaction" || hint == "geospatial") {
+            std::this_thread::sleep_for(std::chrono::milliseconds(120));
+        }
+
+        InferenceResponse response;
+        response.success = true;
+        response.model_id = request.model_id;
+        response.text = "ok:" + request.prompt;
+        return response;
+    }
+
+    InferenceResponse generateRAG(const RAGContext& /*rag_context*/, const InferenceRequest& request) override {
+        return generate(request);
+    }
+
+    std::vector<float> embed(const std::string& /*text*/) override { return {0.0f, 1.0f}; }
+    LLMCapabilities getCapabilities() const override { return {}; }
+    json getMemoryStats() const override { return json::object(); }
+    json getPerformanceStats() const override { return json::object(); }
+    std::vector<uint8_t> exportLoRA(const std::string& /*lora_id*/) override { return {}; }
+    bool importLoRA(const std::string& /*lora_id*/, const std::vector<uint8_t>& /*data*/) override { return true; }
+
+    InferenceRequest last_request;
 };
 
 // ============================================================================
@@ -401,6 +448,88 @@ TEST_F(LLMAQLHandlerTest, ExecuteBatchInferBasic) {
         // Expected to fail without loaded models
         EXPECT_TRUE(std::string(e.what()).find("Batch LLM INFER failed") != std::string::npos);
     }
+}
+
+TEST_F(LLMAQLHandlerTest, ExecuteInferUsesDomainHintRoutingWhenAccuracyHigh) {
+    auto plugin = std::make_unique<CapturingLLMPlugin>();
+    auto* plugin_ptr = plugin.get();
+    auto& plugin_mgr = LLMPluginManager::instance();
+    plugin_mgr.registerPlugin("capturing-domain", std::move(plugin));
+    plugin_mgr.setDefaultPlugin("capturing-domain");
+    struct Cleanup {
+        ~Cleanup() { LLMPluginManager::instance().unregisterPlugin("capturing-domain"); }
+    } cleanup;
+
+    handler->setDomainRouteResolver([](const std::string& domain_hint)
+        -> std::optional<std::pair<std::string, double>> {
+        if (domain_hint == "transaction") {
+            return std::make_pair(std::string("shard-tx"), 0.72);
+        }
+        return std::nullopt;
+    });
+    std::unordered_map<std::string, std::string> options;
+    options["domain_hint"] = "transaction";
+
+    const auto result = handler->executeInfer("route-test", "", "", options);
+    EXPECT_EQ(result, "ok:route-test");
+    EXPECT_EQ(plugin_ptr->last_request.metadata.value("routing_decision", std::string{}), "ADAPTER_DOMAIN");
+    EXPECT_EQ(plugin_ptr->last_request.metadata.value("target_shard_id", std::string{}), "shard-tx");
+
+}
+
+TEST_F(LLMAQLHandlerTest, ExecuteInferFallsBackLocalWhenDomainAccuracyLow) {
+    auto plugin = std::make_unique<CapturingLLMPlugin>();
+    auto* plugin_ptr = plugin.get();
+    auto& plugin_mgr = LLMPluginManager::instance();
+    plugin_mgr.registerPlugin("capturing-fallback", std::move(plugin));
+    plugin_mgr.setDefaultPlugin("capturing-fallback");
+    struct Cleanup {
+        ~Cleanup() { LLMPluginManager::instance().unregisterPlugin("capturing-fallback"); }
+    } cleanup;
+
+    handler->setDomainRouteResolver([](const std::string& domain_hint)
+        -> std::optional<std::pair<std::string, double>> {
+        if (domain_hint == "transaction") {
+            return std::make_pair(std::string("shard-tx"), 0.15);
+        }
+        return std::nullopt;
+    });
+    std::unordered_map<std::string, std::string> options;
+    options["domain_hint"] = "transaction";
+
+    const auto result = handler->executeInfer("fallback-test", "", "", options);
+    EXPECT_EQ(result, "ok:fallback-test");
+    EXPECT_EQ(plugin_ptr->last_request.metadata.value("routing_decision", std::string{}),
+              "LOCAL_FALLBACK_LOW_ACCURACY");
+    EXPECT_FALSE(plugin_ptr->last_request.metadata.contains("target_shard_id"));
+
+}
+
+TEST_F(LLMAQLHandlerTest, ExecuteBatchInferDomainFanOutPreservesOrder) {
+    auto plugin = std::make_unique<CapturingLLMPlugin>();
+    auto& plugin_mgr = LLMPluginManager::instance();
+    plugin_mgr.registerPlugin("capturing-batch", std::move(plugin));
+    plugin_mgr.setDefaultPlugin("capturing-batch");
+    struct Cleanup {
+        ~Cleanup() { LLMPluginManager::instance().unregisterPlugin("capturing-batch"); }
+    } cleanup;
+
+    std::vector<LLMAQLHandler::BatchInferRequest> requests(2);
+    requests[0].prompt = "first";
+    requests[0].options["domain_hint"] = "transaction";
+    requests[1].prompt = "second";
+    requests[1].options["domain_hint"] = "geospatial";
+
+    const auto start = std::chrono::steady_clock::now();
+    const auto results = handler->executeBatchInfer(requests);
+    const auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - start).count();
+
+    ASSERT_EQ(results.size(), 2u);
+    EXPECT_EQ(results[0], "ok:first");
+    EXPECT_EQ(results[1], "ok:second");
+    EXPECT_LT(elapsed_ms, 220);
+
 }
 
 // ============================================================================
@@ -1267,4 +1396,3 @@ TEST_F(LLMAQLHandlerTest, MockLLM_RetryOnError_FeedbackInjectedInPrompt) {
     EXPECT_NE(received_system_prompts[1].find("validation error"), std::string::npos)
         << "Retry prompt must include error feedback from failed validation";
 }
-

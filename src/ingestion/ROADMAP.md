@@ -190,9 +190,9 @@ v1.5.x – Production-grade data intake layer. All connectors (FileSystem, Huggi
 - [x] `builtin.legal_metadata` — regex norm/date/Aktenzeichen extractor — `src/ingestion/steps/legal_metadata_step.cpp` (2026-04-15)
 - [x] `builtin.deontic_extractor` — wraps `DeonticExtractor` + `SemanticValidator` — `src/ingestion/steps/deontic_step.cpp` (2026-04-15)
 - [x] `builtin.base_entity_assembler` — dedup + canonical-ID finalisation — `src/ingestion/steps/base_entity_assembler_step.cpp` (2026-04-15)
-- [ ] `builtin.decompress` — ZIP/tar/gzip unpack, recursive re-ingestion (Target: Q3 2026)
-- [ ] `builtin.legal_reference_extractor` — wraps `AgenticReferenceValidator` as a Step (Target: Q3 2026)
-- [ ] `builtin.chunk_embed` — text chunk → vector (ONNX-CLIP / multilingual-E5) (Target: Q3 2026)
+- [x] `builtin.decompress` — ZIP/tar/gzip unpack, recursive re-ingestion (Target: Q3 2026)
+- [x] `builtin.legal_reference_extractor` — wraps `AgenticReferenceValidator` as a Step (Target: Q3 2026)
+- [x] `builtin.chunk_embed` — text chunk → vector (ONNX-CLIP / multilingual-E5) (Target: Q3 2026)
 
 ### Phase 3: YAML Workflow Profiles (Target: v2.0.0)
 - [x] `config/ingestion/workflows/legal-document-de.json` — Pilot: German legal documents (2026-04-15)

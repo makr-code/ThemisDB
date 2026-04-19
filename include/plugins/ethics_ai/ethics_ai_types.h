@@ -151,6 +151,24 @@ struct RAGContext {
 };
 
 /**
+ * @brief Debate Round
+ *
+ * Represents one round of counter-arguments in a multi-round debate.
+ * Each philosophy school responds to arguments generated in previous rounds.
+ */
+struct DebateRound {
+    std::string debate_id;                        ///< Parent debate identifier
+    int round_number;                             ///< Round index (1-based)
+    std::vector<EthicalArgument> arguments;       ///< Arguments produced in this round
+    std::chrono::system_clock::time_point created_at;
+
+    DebateRound()
+        : round_number(0)
+        , created_at(std::chrono::system_clock::now())
+    {}
+};
+
+/**
  * @brief Debate Initialization Data
  * 
  * Contains initial setup for an ethical debate.

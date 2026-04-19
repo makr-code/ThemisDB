@@ -28,9 +28,11 @@
 #include "security_level.hpp"
 #include "../../include/plugins/plugin_interface.h"
 #include "../../include/security/key_provider.h"
+#include <atomic>
 #include <memory>
 #include <map>
 #include <mutex>
+#include <string>
 
 namespace themis {
 namespace plugins {
@@ -73,6 +75,24 @@ struct LevelConfig {
         , rotation_interval_days(90)
         , auto_rotate(false)
     {}
+};
+
+/**
+ * @brief Prometheus-ready operational metrics for MultiLevelEncryptedStorage.
+ *
+ * All counters and gauges are std::atomic for lock-free reads from getMetricsText().
+ */
+struct StorageMetrics {
+    std::atomic<int64_t> mounts_active{0};         ///< Currently mounted containers
+    std::atomic<int64_t> mount_ops_total{0};        ///< Total mount operations
+    std::atomic<int64_t> unmount_ops_total{0};      ///< Total unmount operations
+    std::atomic<int64_t> key_rotations_total{0};    ///< Key rotation callbacks fired
+    std::atomic<int64_t> container_size_bytes{0};   ///< Sum of container sizes on disk (bytes)
+
+    // non-copyable (atomics are not copyable)
+    StorageMetrics() = default;
+    StorageMetrics(const StorageMetrics&) = delete;
+    StorageMetrics& operator=(const StorageMetrics&) = delete;
 };
 
 /**
@@ -148,6 +168,29 @@ public:
     // Health Check
     Result<HealthStatus> checkHealth();
     Result<HealthStatus> checkLevelHealth(SecurityLevel level);
+
+    // ── Prometheus Metrics (v0.3.0) ──────────────────────────────────────────
+
+    /**
+     * @brief Emit Prometheus text format (v0.0.4) for encrypted-storage metrics.
+     *
+     * Exposed metric families:
+     *  - `user_storage_mounts_active`          Gauge   Currently mounted containers
+     *  - `user_storage_mount_operations_total`  Counter Total mount + unmount ops (label: operation)
+     *  - `user_storage_key_rotations_total`     Counter Key rotation callbacks fired (label: level)
+     *  - `user_storage_container_size_bytes`    Gauge   Sum of encrypted container sizes on disk
+     *
+     * Thread-safe (reads std::atomic values).
+     */
+    std::string getMetricsText() const;
+
+    /**
+     * @brief Manually record a key rotation event for @p level.
+     *
+     * Called automatically by `rotateKey()`; exposed for testing and for
+     * callers that manage rotation outside this class.
+     */
+    void recordKeyRotation(SecurityLevel level);
     
 private:
     struct Impl;

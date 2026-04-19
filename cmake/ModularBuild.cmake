@@ -986,6 +986,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/async_inference_engine.cpp
     ../src/llm/prompt_policy.cpp
     ../src/llm/speculative_decoder.cpp
+    ../src/llm/kv_prefix_transfer_manager.cpp
     ../src/llm/lookup_decoder.cpp
     ../src/llm/model_router.cpp
     ../src/llm/adapter_registry.cpp

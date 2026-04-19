@@ -39,6 +39,7 @@
 #include <vector>
 #include <string>
 #include <thread>
+#include <future>
 
 namespace fs = std::filesystem;
 using themis::llm::InferenceRequest;
@@ -413,5 +414,138 @@ BENCHMARK_F(RAIDLoRAPipelineFixture, BM_CompletePipeline_EndToEnd)
 }
 
 } // namespace
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Phase 6 — Distributed Inference Cases
+// ─────────────────────────────────────────────────────────────────────────
+// These benchmarks measure the overhead introduced by domain routing
+// decisions and batch fan-out across multiple shards.  They run entirely
+// in-process (no real network) to give stable, reproducible numbers.
+// ═══════════════════════════════════════════════════════════════════════════
+
+namespace {
+
+// ─────────────────────────────────────────────────────────────────────────
+// BM_DomainRouting_OverheadPerRequest
+//
+// Measures the latency of a single domain-routing decision made by
+// AdaptiveShardRouter::routeByDomain().  This is the overhead paid per
+// request to select the most capable shard for a given domain.
+//
+// Target (Phase 6 doc): routing decision ≤ 5 µs p99.
+// ─────────────────────────────────────────────────────────────────────────
+
+} // anonymous namespace
+
+#include "sharding/adaptive_shard_router.h"
+#include "sharding/consistent_hash.h"
+#include "sharding/shard_topology.h"
+#include "sharding/urn_resolver.h"
+#include "distributed_knowledge/adapter_capability_announcement.h"
+
+using namespace themis::sharding;
+using namespace themis::distributed_knowledge;
+
+namespace {
+
+static AdaptiveShardRouter makeThreeShardRouter()
+{
+    auto topology = std::make_shared<ShardTopology>();
+    auto ring     = std::make_shared<ConsistentHashRing>();
+    auto resolver = std::make_shared<URNResolver>(topology, ring);
+    ShardRouter::Config cfg;
+    AdaptiveShardRouter r(resolver, nullptr, topology, cfg);
+
+    for (const auto& [shard, delta] :
+         std::initializer_list<std::pair<const char*, double>>{
+             {"shard-legal",   0.85},
+             {"shard-medical", 0.20},
+             {"shard-general", 0.10}}) {
+        AdapterCapabilityAnnouncement cap;
+        cap.domain_type    = AdapterDomainType::LEGAL;
+        cap.accuracy_delta = delta;
+        cap.adapter_version = "v1";
+        r.updateAdapterCapability(shard, cap);
+    }
+    return r;
+}
+
+} // anonymous namespace
+
+static void BM_DomainRouting_OverheadPerRequest(benchmark::State& state)
+{
+    auto router = makeThreeShardRouter();
+
+    for (auto _ : state) {
+        const auto shard = router.routeByDomain(AdapterDomainType::LEGAL);
+        benchmark::DoNotOptimize(shard);
+    }
+
+    state.SetItemsProcessed(state.iterations());
+    state.SetLabel("target: ≤5 µs p99");
+}
+
+BENCHMARK(BM_DomainRouting_OverheadPerRequest)
+    ->Iterations(100'000)
+    ->Unit(benchmark::kMicrosecond);
+
+// ─────────────────────────────────────────────────────────────────────────
+// BM_BatchFanOut_LatencyScaling
+//
+// Measures how batch-fanout latency grows as batch size N increases from 1
+// to 64 when requests are spread across a simulated shard-group.  Uses
+// std::async fan-out (the same mechanism as executeBatchInfer) with an
+// in-process mock that just hashes the prompt string.
+//
+// Args: batch_size (1, 8, 16, 32, 64)
+// Expected: near-linear throughput, super-linear wall time (up to thread pool saturation).
+// Target (Phase 6 doc): p99 latency for batch-64 ≤ 4× single-request latency.
+// ─────────────────────────────────────────────────────────────────────────
+
+static void BM_BatchFanOut_LatencyScaling(benchmark::State& state)
+{
+    const int batch_size = static_cast<int>(state.range(0));
+
+    // Simulate a "domain shard" that processes one request synchronously.
+    auto mock_infer = [](const std::string& prompt) -> std::string {
+        // Busy-work proportional to prompt length (simulates token generation).
+        volatile std::size_t h = 0;
+        for (char c : prompt) { h = h * 31u + static_cast<unsigned char>(c); }
+        return "result-" + std::to_string(h);
+    };
+
+    std::vector<std::string> prompts;
+    prompts.reserve(static_cast<std::size_t>(batch_size));
+    for (int i = 0; i < batch_size; ++i) {
+        prompts.push_back("System prompt for request " + std::to_string(i));
+    }
+
+    for (auto _ : state) {
+        // Fan out: one async task per request (mirrors executeBatchInfer fan-out).
+        std::vector<std::future<std::string>> futures;
+        futures.reserve(prompts.size());
+        for (const auto& p : prompts) {
+            futures.push_back(std::async(std::launch::async, mock_infer, p));
+        }
+        std::vector<std::string> results;
+        results.reserve(prompts.size());
+        for (auto& f : futures) {
+            results.push_back(f.get());
+        }
+        benchmark::DoNotOptimize(results);
+    }
+
+    state.SetItemsProcessed(state.iterations() * batch_size);
+    state.counters["batch_size"] = static_cast<double>(batch_size);
+    state.SetLabel("target: batch-64 ≤ 4× single latency");
+}
+
+BENCHMARK(BM_BatchFanOut_LatencyScaling)
+    ->Arg(1)
+    ->Arg(8)
+    ->Arg(16)
+    ->Arg(32)
+    ->Arg(64)
+    ->Unit(benchmark::kMillisecond);
 
 BENCHMARK_MAIN();

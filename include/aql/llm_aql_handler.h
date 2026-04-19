@@ -36,6 +36,12 @@
 // Forward-declare to avoid pulling in toolbox/ingestion headers transitively.
 // Consumers that use setIngestionBridge() must include aql_ingestion_bridge.h.
 namespace themis { namespace aql { class AQLIngestionBridge; } }
+namespace themis { namespace sharding {
+class ShardingManager;
+} }
+namespace themis { namespace llm {
+class KVPrefixTransferManager;
+} }
 #include <string>
 #include <cstdint>
 #include <functional>
@@ -131,6 +137,10 @@ private:
  */
 class LLMAQLHandler {
 public:
+    using DomainRouteResolver = std::function<
+        std::optional<std::pair<std::string, double>>(const std::string& domain_hint)
+    >;
+
     /**
      * @brief Per-operation-type circuit breaker configuration.
      *
@@ -625,6 +635,22 @@ public:
      * @param config  New timeout configuration.
      */
     void setTimeoutConfig(const LLMTimeoutManager::TimeoutConfig& config);
+    void setDomainRouteResolver(DomainRouteResolver resolver);
+    void setShardingManager(sharding::ShardingManager* sharding_manager);
+
+    /**
+     * @brief Inject a KVPrefixTransferManager for Phase 5 cross-shard KV
+     *        prefix transfer.
+     *
+     * When set and a domain-routing decision selects a remote shard for an
+     * @c executeInfer() call, the handler will ask the manager to transfer the
+     * computed KV prefix (system-prompt) to that shard before returning the
+     * inference result.  The transfer is best-effort; a failure never fails
+     * the inference request.
+     *
+     * @param mgr  Owning pointer to the manager.  Pass @c nullptr to disable.
+     */
+    void setKVPrefixTransferManager(std::unique_ptr<llm::KVPrefixTransferManager> mgr);
 
     // =========================================================================
     // Test / dependency injection

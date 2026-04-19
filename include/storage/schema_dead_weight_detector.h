@@ -146,7 +146,17 @@ public:
 
     // ─── Lifecycle ─────────────────────────────────────────────────────────
 
-    explicit SchemaDeadWeightDetector(Config config = {});
+    /// Construct with default configuration.
+    SchemaDeadWeightDetector();
+
+    /**
+     * @brief Construct with explicit configuration.
+     *
+     * @note  Two overloads instead of `= {}` default arg to work around
+     *        GCC DR1607 (nested struct with non-trivially-constructible
+     *        default member initialisers used in an enclosing-class declaration).
+     */
+    explicit SchemaDeadWeightDetector(Config config);
     ~SchemaDeadWeightDetector() = default;
 
     SchemaDeadWeightDetector(const SchemaDeadWeightDetector&) = delete;

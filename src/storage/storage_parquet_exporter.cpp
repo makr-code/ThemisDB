@@ -497,7 +497,7 @@ Result<std::vector<uint8_t>> StorageParquetExporter::exportToBuffer(
     if (!result) return result;
 
     auto t1 = std::chrono::steady_clock::now();
-    stats_.bytes_written = result->size();
+    stats_.bytes_written = (*result).size();
     stats_.elapsed_us    =
         std::chrono::duration<double, std::micro>(t1 - t0).count();
 

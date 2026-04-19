@@ -114,11 +114,31 @@ v2.0.0 – Production-ready Retrieval-Augmented Generation system. 27 implementa
 - [x] `MultiHopReasoner` — multi-hop reasoning with query decomposition (`include/rag/multi_hop_reasoner.h`, `src/rag/multi_hop_reasoner.cpp`) (Target: Q2 2026) — heuristic + LLM-based decomposition; per-hop retrieval + inference with context injection; answer composition; factory helpers (single-hop, balanced, deep-reasoning); 15 unit tests
 - [x] `AdaptiveRetrieval` — adaptive retrieval depth based on query complexity (`include/rag/adaptive_retrieval.h`, `src/rag/adaptive_retrieval.cpp`) (Target: Q2 2026) — QueryComplexity tiers (SIMPLE/MODERATE/COMPLEX/VERY_COMPLEX); connective/question-word heuristic; IComplexityScorer plugin; top_k + similarity_threshold scaling; factory helpers (lightweight, balanced, high-recall); 15 unit tests
 
-### Phase 8: Loop 1–4 Explicit Orchestration & Federated RLAIF — IMPL-A2 + IMPL-A3 (Target: Q3 2026)
+### Phase 8: Loop 1–4 Explicit Orchestration & Federated RLAIF — IMPL-A2 + IMPL-A3 (Status: Completed ✅)
 
 > *Paper 1 — §4.4 The Four Self-Optimising Loops / §5.4 ContinuousLearningOrchestrator*
 > Issues: [IMPL-A2](../../docs/issues/lora_loops/IMPL-A2-loop-orchestration.md) · [IMPL-A3](../../docs/issues/lora_loops/IMPL-A3-federation-hooks.md)
 
+- [x] Expose explicit named loop-trigger methods on `ContinuousLearningOrchestrator` (Implemented: 2026-04-19):
+  - `triggerLoop1QueryExecution(const QueryExecutionOutcome&)` (Loop 1 — ≤ 10 ms BaoOptimizer feedback)
+  - `triggerLoop2WorkloadAdaptation()` (Loop 2 — 60 s interval, `WorkloadAdaptiveOptimizer` + HNSW)
+  - `triggerLoop3IndexLifecycle()` (Loop 3 — hours/days, `IndexSuggestionEngine`)
+  - `triggerLoop4AdapterImprovement()` (Loop 4 — weekly, `IncrementalLoRATrainer`)
+- [x] Add `FEDERATED_ROUND_START` event type to `ContinuousLearningOrchestrator` (IMPL-A3)
+  - Fired after Loop 4 completes; 24 h minimum interval guard
+  - Invokes `ILoRAFederationCoordinator::startRound()` when coordinator is injected
+- [x] Add `setFederationCoordinator(ILoRAFederationCoordinator*)` DI setter
+- [x] Loop-interference cooldown guard: `setOptimizationCooldown(seconds)` + per-loop timestamp map (RQ10)
+- [x] JSON context serialiser `serializeLoopContext()` → JSON ≤ 8 000 chars / ≈ 2 000 tokens
+- [x] `RAGIngestionBridge::indexOptimizerLog()` extension: index optimizer-log documents for RAG retrieval
+- [x] 14 unit tests in `tests/test_clo_loops.cpp` (`test_clo_loops_focused` CMake target):
+  - `CLO-L1-01` … `CLO-L1-03`: Loop 1 trigger, outcome in context JSON, completion handler
+  - `CLO-L2-01` … `CLO-L2-03`: Loop 2 trigger, context JSON, completion handler
+  - `CLO-L3-01` … `CLO-L3-02`: Loop 3 advisory guardrail pass, context JSON
+  - `CLO-L4-01` … `CLO-L4-02`: Loop 4 trigger, context JSON
+  - `CLO-FED-01`: `FEDERATED_ROUND_START` fires after Loop 4 (no throw when coordinator absent)
+  - `CLO-COOL-01`: 60 s cooldown blocks second trigger; different loop unaffected
+  - `SerializeContext_EmptyBeforeTrigger`, `SerializeContext_MultipleLoopsPresent`
 - [x] `LoopPhase` enum on `ContinuousLearningOrchestrator`: `LOOP_1_HNSW_QUERY`, `LOOP_2_WORKLOAD`, `LOOP_3_SCHEMA_INDEX`, `LOOP_4_RLAIF`  (`include/rag/continuous_learning_orchestrator.h:249`)
 - [x] `triggerLoop(LoopPhase)` — explicitly trigger a named learning loop; returns `LoopResult` (`include/rag/continuous_learning_orchestrator.h:283`)
 - [x] `registerLoopCompletionHandler(LoopPhase, handler)` — per-phase completion callback (`include/rag/continuous_learning_orchestrator.h:293`)

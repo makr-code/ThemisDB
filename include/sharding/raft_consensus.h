@@ -62,6 +62,7 @@ enum class ReplicaHealth {
  */
 struct ReplicaState {
     std::string node_id;
+    std::string endpoint;           ///< Network endpoint ("host:port" or URL); updated by updatePeerAddress()
     ReplicaHealth health;
     uint64_t next_index;        // Next log index to send
     uint64_t match_index;       // Highest log index replicated
@@ -215,6 +216,23 @@ public:
      * @param node_id The removed peer's node identifier
      */
     void removeReplicaNode(const std::string& node_id);
+
+    /**
+     * @brief Update the network endpoint (address) of a known peer.
+     *
+     * Called during hardware migration (Phase 5) to reflect a shard's new
+     * physical host:port after the operator runs
+     * `POST /api/v1/shards/{id}/migrate-hardware`.
+     *
+     * Thread-safe.  Logs a warning (via spdlog) if node_id is not present in
+     * replica_states_; the call is a no-op in that case.
+     *
+     * @param node_id      The peer whose endpoint is changing (must match an
+     *                     existing replica state entry).
+     * @param new_endpoint New "host:port" or URL string.
+     */
+    void updatePeerAddress(const std::string& node_id,
+                           const std::string& new_endpoint);
 
 private:
     Config config_;

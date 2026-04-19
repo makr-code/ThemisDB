@@ -99,6 +99,16 @@ struct ContinuousLearningOrchestrator::Impl {
     LoopPhase active_loop{LoopPhase::IDLE};
     std::unordered_map<int, std::function<void(LoopPhase, const LoopResult&)>> loop_handlers;
 
+    // ---- IMPL-A2 Phase 2: named typed trigger state ----
+    /// Latest QueryExecutionOutcome from triggerLoop1QueryExecution().
+    QueryExecutionOutcome last_loop1_outcome;
+    /// Per-loop last-trigger timestamps for the cooldown guard.
+    std::unordered_map<int, std::chrono::system_clock::time_point> loop_last_trigger;
+    /// Cooldown window — calls within this duration of the previous trigger are rejected.
+    std::chrono::seconds loop_cooldown_secs{10};
+    /// Latest LoopResult per phase (kept for context serialisation).
+    std::unordered_map<int, LoopResult> last_loop_results;
+
     // ---- IMPL-A3: Federation bridges ----
     std::shared_ptr<themis::distributed_knowledge::ILoRAFederationCoordinator>
         federation_coordinator_;
@@ -854,6 +864,8 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
     {
         std::lock_guard<std::mutex> lock(impl_->mutex);
         impl_->active_loop = LoopPhase::IDLE;
+        // Store last result for context serialiser
+        impl_->last_loop_results[static_cast<int>(phase)] = result;
         auto it = impl_->loop_handlers.find(static_cast<int>(phase));
         if (it != impl_->loop_handlers.end() && it->second) {
             it->second(phase, result);
@@ -868,6 +880,178 @@ ContinuousLearningOrchestrator::triggerLoop(LoopPhase phase) {
     }
 
     return result;
+}
+
+// ============================================================================
+// IMPL-A2 Phase 2: Named typed trigger methods + cooldown guard + context JSON
+// ============================================================================
+
+bool ContinuousLearningOrchestrator::checkAndUpdateCooldown(LoopPhase phase) {
+    const auto key = static_cast<int>(phase);
+    const auto now = std::chrono::system_clock::now();
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    auto it = impl_->loop_last_trigger.find(key);
+    if (it != impl_->loop_last_trigger.end()) {
+        const auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - it->second);
+        if (elapsed < impl_->loop_cooldown_secs) {
+            return false; // still within cooldown window
+        }
+    }
+    impl_->loop_last_trigger[key] = now;
+    return true;
+}
+
+void ContinuousLearningOrchestrator::setOptimizationCooldown(std::chrono::seconds cooldown) {
+    std::lock_guard<std::mutex> lock(impl_->mutex);
+    impl_->loop_cooldown_secs = cooldown;
+}
+
+ContinuousLearningOrchestrator::LoopResult
+ContinuousLearningOrchestrator::triggerLoop1QueryExecution(
+    const QueryExecutionOutcome& outcome) {
+    if (!checkAndUpdateCooldown(LoopPhase::LOOP_1_HNSW_QUERY)) {
+        LoopResult blocked;
+        blocked.phase           = LoopPhase::LOOP_1_HNSW_QUERY;
+        blocked.success         = false;
+        blocked.adapter_version = "cooldown";
+        return blocked;
+    }
+    {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        impl_->last_loop1_outcome = outcome;
+    }
+    return triggerLoop(LoopPhase::LOOP_1_HNSW_QUERY);
+}
+
+ContinuousLearningOrchestrator::LoopResult
+ContinuousLearningOrchestrator::triggerLoop2WorkloadAdaptation() {
+    if (!checkAndUpdateCooldown(LoopPhase::LOOP_2_WORKLOAD)) {
+        LoopResult blocked;
+        blocked.phase           = LoopPhase::LOOP_2_WORKLOAD;
+        blocked.success         = false;
+        blocked.adapter_version = "cooldown";
+        return blocked;
+    }
+    return triggerLoop(LoopPhase::LOOP_2_WORKLOAD);
+}
+
+ContinuousLearningOrchestrator::LoopResult
+ContinuousLearningOrchestrator::triggerLoop3IndexLifecycle() {
+    if (!checkAndUpdateCooldown(LoopPhase::LOOP_3_SCHEMA_INDEX)) {
+        LoopResult blocked;
+        blocked.phase           = LoopPhase::LOOP_3_SCHEMA_INDEX;
+        blocked.success         = false;
+        blocked.adapter_version = "cooldown";
+        return blocked;
+    }
+    return triggerLoop(LoopPhase::LOOP_3_SCHEMA_INDEX);
+}
+
+ContinuousLearningOrchestrator::LoopResult
+ContinuousLearningOrchestrator::triggerLoop4AdapterImprovement() {
+    if (!checkAndUpdateCooldown(LoopPhase::LOOP_4_RLAIF)) {
+        LoopResult blocked;
+        blocked.phase           = LoopPhase::LOOP_4_RLAIF;
+        blocked.success         = false;
+        blocked.adapter_version = "cooldown";
+        return blocked;
+    }
+    return triggerLoop(LoopPhase::LOOP_4_RLAIF);
+}
+
+std::string ContinuousLearningOrchestrator::serializeLoopContext() const {
+    // Gather snapshot under the lock
+    struct Snapshot {
+        QueryExecutionOutcome  loop1_outcome;
+        std::unordered_map<int, LoopResult> results;
+        std::unordered_map<int, std::chrono::system_clock::time_point> timestamps;
+    } snap;
+
+    {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        snap.loop1_outcome = impl_->last_loop1_outcome;
+        snap.results       = impl_->last_loop_results;
+        snap.timestamps    = impl_->loop_last_trigger;
+    }
+
+    if (snap.results.empty()) {
+        return "{}";
+    }
+
+    // Build compact JSON manually (no external JSON dependency in this path).
+    // Format: { "loops": [ { "loop_id": 1, ... }, ... ] }
+    auto iso_time = [](std::chrono::system_clock::time_point tp) -> std::string {
+        if (tp == std::chrono::system_clock::time_point{}) return "";
+        const auto t = std::chrono::system_clock::to_time_t(tp);
+        std::ostringstream oss;
+        struct tm buf{};
+#if defined(_WIN32)
+        gmtime_s(&buf, &t);
+#else
+        gmtime_r(&t, &buf);
+#endif
+        oss << std::put_time(&buf, "%Y-%m-%dT%H:%M:%SZ");
+        return oss.str();
+    };
+
+    auto escape_json = [](const std::string& s) -> std::string {
+        std::string out;
+        out.reserve(s.size());
+        for (const char c : s) {
+            if      (c == '"')  out += "\\\"";
+            else if (c == '\\') out += "\\\\";
+            else if (c == '\n') out += "\\n";
+            else                out += c;
+        }
+        return out;
+    };
+
+    static const std::unordered_map<int, std::string> kPhaseNames{
+        {static_cast<int>(LoopPhase::LOOP_1_HNSW_QUERY),   "LOOP_1_HNSW_QUERY"},
+        {static_cast<int>(LoopPhase::LOOP_2_WORKLOAD),      "LOOP_2_WORKLOAD"},
+        {static_cast<int>(LoopPhase::LOOP_3_SCHEMA_INDEX),  "LOOP_3_SCHEMA_INDEX"},
+        {static_cast<int>(LoopPhase::LOOP_4_RLAIF),         "LOOP_4_RLAIF"},
+    };
+
+    std::ostringstream json;
+    json << "{\"loops\":[";
+    bool first = true;
+    for (const auto& [key, res] : snap.results) {
+        if (!first) json << ",";
+        first = false;
+        const std::string phase_name =
+            kPhaseNames.count(key) ? kPhaseNames.at(key) : "UNKNOWN";
+        json << "{"
+             << "\"loop_id\":"      << key                              << ","
+             << "\"phase\":\""      << phase_name                       << "\","
+             << "\"success\":"      << (res.success ? "true" : "false") << ","
+             << "\"guardrail\":"    << (res.guardrail_passed ? "true" : "false") << ","
+             << "\"metric_delta\":" << res.metric_delta                 << ","
+             << "\"adapter\":\"" << escape_json(res.adapter_version)    << "\"";
+        // Loop 1 extra fields
+        if (key == static_cast<int>(LoopPhase::LOOP_1_HNSW_QUERY)
+                && !snap.loop1_outcome.query_id.empty()) {
+            json << ",\"query_id\":\""    << escape_json(snap.loop1_outcome.query_id) << "\""
+                 << ",\"latency_ms\":"    << snap.loop1_outcome.latency_ms
+                 << ",\"used_index\":"    << (snap.loop1_outcome.used_index ? "true" : "false");
+        }
+        // Timestamp
+        auto ts_it = snap.timestamps.find(key);
+        if (ts_it != snap.timestamps.end()) {
+            json << ",\"timestamp\":\"" << iso_time(ts_it->second) << "\"";
+        }
+        json << "}";
+    }
+    json << "]}";
+
+    // Hard-cap at ~8 000 chars (≈ 2 000 tokens) to respect the context budget
+    std::string out = json.str();
+    if (out.size() > 8000) {
+        out.resize(8000);
+        // ensure valid closing brackets
+        out += "...]}";
+    }
+    return out;
 }
 
 // ============================================================================

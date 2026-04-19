@@ -34,6 +34,9 @@ namespace llm {
 // Construction / Destruction
 // ─────────────────────────────────────────────────────────────────────────────
 
+DecisionRecordYamlProcessor::DecisionRecordYamlProcessor()
+    : DecisionRecordYamlProcessor(Config{}) {}
+
 DecisionRecordYamlProcessor::DecisionRecordYamlProcessor(Config config)
     : config_(std::move(config))
 {

@@ -1149,7 +1149,7 @@ Result<void> ColumnSegment::encode() {
         return {};
     }
 
-    Result<std::vector<uint8_t>> encode_result;
+    Result<std::vector<uint8_t>> encode_result = Ok(std::vector<uint8_t>{});
 
     switch (metadata_.codec) {
         case CompressionCodec::RLE: {

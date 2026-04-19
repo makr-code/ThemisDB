@@ -28,9 +28,13 @@
 #include <grpcpp/grpcpp.h>
 #include <atomic>
 #include <chrono>
+#include <cstdint>
+#include <functional>
+#include <map>
 #include <memory>
 #include <mutex>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 /**
@@ -106,6 +110,81 @@ public:
      */
     std::string getAdminAddress() const;
 
+    // -----------------------------------------------------------------------
+    // v0.3.0 — Health & Observability
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Set the health state for a named gRPC service.
+     *
+     * The string `""` denotes the overall server health (default service).
+     * Called automatically: `SERVING` on `start()`, `NOT_SERVING` on `stop()`.
+     *
+     * @param service_name  Service name as registered, or `""` for global.
+     * @param serving       `true` = SERVING, `false` = NOT_SERVING.
+     */
+    void setServiceHealth(const std::string& service_name, bool serving);
+
+    /**
+     * @brief Return the current health state for a named service.
+     *
+     * Returns `true` (SERVING) if the service is healthy or not yet tracked.
+     * Returns `false` (NOT_SERVING) when explicitly set via `setServiceHealth`.
+     */
+    bool isServiceHealthy(const std::string& service_name) const;
+
+    /**
+     * @brief Record a completed RPC call (interceptor hook).
+     *
+     * Thread-safe.  Increments per-method counters used by `getMetricsText()`.
+     *
+     * @param method       Full RPC method name, e.g. `"/helloworld.Greeter/SayHello"`.
+     * @param success      `true` = OK status; `false` = any non-OK status.
+     * @param duration_ms  Wall-clock duration of the call.
+     */
+    void recordRPC(const std::string& method, bool success, uint64_t duration_ms);
+
+    /**
+     * @brief Export all collected metrics in Prometheus text format (v0.0.4).
+     *
+     * Emitted metric families:
+     *   - `grpc_server_requests_total{method}` counter
+     *   - `grpc_server_errors_total{method}` counter
+     *   - `grpc_server_latency_ms_total{method}` counter (use for avg: latency_ms/requests)
+     *   - `grpc_server_active_connections` gauge (from `stats_.active_connections`)
+     *
+     * Returns an empty string if no metrics have been recorded yet.
+     */
+    std::string getMetricsText() const;
+
+    /**
+     * @brief Register a sink for structured JSON access log entries.
+     *
+     * Each entry is a single JSON object with fields:
+     *   `timestamp_ms`, `method`, `status_code`, `duration_ms`, `client_cn`.
+     *
+     * Call `logAccess()` to emit one entry.  This is called automatically
+     * within `recordRPC()` when a sink is registered.
+     *
+     * @param sink  Callable that receives one JSON log line per RPC.
+     *              Pass an empty function to disable logging.
+     */
+    void setAccessLogSink(std::function<void(const std::string&)> sink);
+
+    /**
+     * @brief Emit one structured JSON access-log entry.
+     *
+     * Uses the registered sink (no-op if none is set).
+     *
+     * @param method       Full RPC method name.
+     * @param status_code  gRPC status code integer (0 = OK).
+     * @param duration_ms  Call duration in milliseconds.
+     * @param client_cn    Client certificate CN (empty string if not applicable).
+     */
+    void logAccess(const std::string& method, int status_code,
+                   uint64_t duration_ms,
+                   const std::string& client_cn = "");
+
 private:
     RPCServerConfig config_;
     std::unique_ptr<grpc::Server> server_;
@@ -125,6 +204,34 @@ private:
     // Idle completion queue – created when no services are registered so that
     // BuildAndStart() can succeed (drained on stop)
     std::unique_ptr<grpc::ServerCompletionQueue> idle_cq_;
+
+    // -----------------------------------------------------------------------
+    // v0.3.0 — health state, interceptor metrics, access log
+    // -----------------------------------------------------------------------
+
+    /// Per-method request/error/latency accumulators.
+    struct MethodMetrics {
+        std::atomic<uint64_t> requests{0};
+        std::atomic<uint64_t> errors{0};
+        std::atomic<uint64_t> latency_ms{0};
+
+        MethodMetrics() = default;
+        // Atomics are not copyable; provide explicit move-only ctors needed
+        // by std::unordered_map emplace.
+        MethodMetrics(const MethodMetrics&) = delete;
+        MethodMetrics& operator=(const MethodMetrics&) = delete;
+    };
+
+    mutable std::mutex metrics_mutex_;
+    /// Key = method name (e.g. "/pkg.Svc/Method").
+    std::unordered_map<std::string, std::unique_ptr<MethodMetrics>> method_metrics_;
+
+    mutable std::mutex health_mutex_;
+    /// Key = service name ("" = global).  Value = true → SERVING.
+    std::map<std::string, bool> health_states_;
+
+    mutable std::mutex log_sink_mutex_;
+    std::function<void(const std::string&)> access_log_sink_;
 
     /**
      * @brief Load file contents (for certificates)
@@ -147,6 +254,9 @@ private:
         const std::string& key_pem,
         const std::string& ca_pem,
         bool require_client_cert);
+
+    /// Return or create the MethodMetrics for @p method (must hold metrics_mutex_).
+    MethodMetrics& methodMetricsLocked(const std::string& method);
 };
 
 /**

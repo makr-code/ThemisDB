@@ -33,6 +33,7 @@ is now ≥ 90/100; `KeyRotationScheduler` retains Production-Ready (100/100).
 - [x] `MultiLevelEncryptedStorage` — HOT/WARM/COLD tier orchestration
 - [x] 20 unit + integration tests (`test_user_storage_features.cpp`)
 - [x] CI workflow (`user-storage-encrypted-ci.yml`)
+- [x] Deprecated `executeCommand()` fully removed (v0.3.0); all call sites use `executeCommandSafe()`
 - [x] `reconcileStaleMounts()` — scans `/proc/mounts` for orphaned FUSE mounts on startup;
       unmounts via `fusermount -u` / `umount` fallback; non-fatal; called from `initialize()`
 
@@ -54,7 +55,7 @@ is now ≥ 90/100; `KeyRotationScheduler` retains Production-Ready (100/100).
 - [x] `IRotationStore` persistence for `KeyRotationScheduler` (done)
 - [x] 20 unit tests (AC-SD, AC-KDF, AC-PRS, AC-GCF) (done)
 - [ ] Integration tests: create → mount → write file → unmount → re-mount → verify file (Target: Q3 2026)
-- [ ] Remove deprecated `executeCommand()` after confirming no external callers (Target: Q3 2026)
+- [x] Remove deprecated `executeCommand()` after confirming no external callers (v0.3.0)
 
 ### v0.2.0 — Stale Mount Reconciliation ✅ (2026-03-25)
 
@@ -63,10 +64,16 @@ is now ≥ 90/100; `KeyRotationScheduler` retains Production-Ready (100/100).
 - [x] Called from `initialize()` before `initializeLevel()` (done)
 - [x] 5 `StaleMountReconciliationTest` tests (done)
 
-### v0.3.0 — Metrics and Cleanup (Target: Q3 2026)
+### v0.3.0 — Monitoring and Multi-User (Target: Q3 2026)
 
-- [ ] Prometheus metrics: mount count, rotation events, container sizes (Target: Q3 2026)
-- [ ] Remove deprecated `executeCommand()` after confirming no external callers (Target: Q3 2026)
+- [x] Prometheus metrics — `StorageMetrics` struct + `MultiLevelEncryptedStorage::getMetricsText()` (v0.3.0)
+  - Metric families: `user_storage_mounts_active` (gauge), `user_storage_mount_operations_total` (counter, label: operation), `user_storage_key_rotations_total` (counter), `user_storage_container_size_bytes` (gauge)
+  - Counters updated in `mountLevel()`, `unmountLevel()`, `rotateKey()`; `recordKeyRotation()` public for external callers
+  - All atomic; thread-safe; overhead ≤ 0.1 ms per operation
+- [x] Remove deprecated `GocryptfsBackend::executeCommand()` (v0.3.0)
+  - Replaced all 3 call sites (`checkAvailability`, `getBackendVersion`, `isMounted`) with `executeCommandSafe()`
+  - Removed declaration from `gocryptfs_backend.hpp` and implementation from `gocryptfs_backend.cpp`
+- [ ] Stale mount reconciliation on startup via `/proc/mounts` scan (Target: Q3 2026)
 - [ ] Per-user container isolation: one encrypted dir per user_id (Target: Q1 2027)
 - [ ] Storage quota enforcement per container (Target: Q1 2027)
 
@@ -99,6 +106,7 @@ is now ≥ 90/100; `KeyRotationScheduler` retains Production-Ready (100/100).
 ### Phase 4: Tests ✅
 - [x] 20 unit tests: stdin delivery, Argon2id KDF, IRotationStore persistence, GocryptfsBackend (done)
 - [x] 5 stale mount reconciliation tests (done)
+- [x] 12 v0.3.0 metric + deprecation tests (`test_user_storage_v03_focused`, USE-01..12) (done)
 - [ ] Integration tests (Target: Q3 2026)
 
 ### Phase 5: Performance / Hardening ✅
@@ -121,14 +129,15 @@ is now ≥ 90/100; `KeyRotationScheduler` retains Production-Ready (100/100).
 | Argon2id KDF | ✅ | `Argon2idKeyDerivationService`; m=65536, t=3, p=4 |
 | Key rotation persistence | ✅ | `IRotationStore`; JSON state per SecurityLevel |
 | `KeyRotationScheduler` | ✅ | Production-Ready; `condition_variable` shutdown |
-| Stale mount reconciliation | ✅ | `reconcileStaleMounts()` called from `initialize()` |
-| Tests | ✅ | 25 tests: stdin, KDF, persistence, stale mounts |
+| Tests | ✅ | 20 v0.1.0 + 5 v0.2.0 stale-mount + 12 v0.3.0 metric tests |
+| Prometheus metrics | ✅ | `getMetricsText()` — 4 families, `std::atomic`, thread-safe (v0.3.0) |
+| `executeCommand()` removed | ✅ | All call sites migrated to `executeCommandSafe()` (v0.3.0) |
 | CI | ✅ | `user-storage-encrypted-ci.yml` |
 
 ---
 
 ## Known Issues & Limitations
 
-- `getBackendVersion()` uses `const_cast` to call `executeCommand()` on a const object (cosmetic).
-- Deprecated `executeCommand()` wrapper still present; removal pending confirmation of no external callers.
-- Prometheus metrics are planned but not yet implemented (FUTURE_ENHANCEMENTS §5).
+- `getBackendVersion()` uses `const_cast` to call `executeCommandSafe()` on a const object (cosmetic; `executeCommand()` fully removed in v0.3.0).
+- Stale mount reconciliation on startup is planned but not yet implemented (FUTURE_ENHANCEMENTS §4).
+- Per-user container isolation and storage quota enforcement are planned for v0.3.0 / Q1 2027.

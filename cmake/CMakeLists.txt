@@ -1878,6 +1878,10 @@ set(THEMIS_CORE_SOURCES
     ../src/ingestion/steps/ner_step.cpp
     ../src/ingestion/steps/llm_extract_step.cpp
     ../src/ingestion/steps/format_parse_step.cpp
+    # Ingestion v1.4.0 builtin steps
+    ../src/ingestion/steps/decompress_step.cpp
+    ../src/ingestion/steps/legal_reference_step.cpp
+    ../src/ingestion/steps/chunk_embed_step.cpp
 
     # Toolbox module — system-wide access point for ingestion infrastructure
     ../src/toolbox/ingestion_toolbox.cpp
@@ -3911,6 +3915,7 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/streaming_handler.cpp          # SSE / chunked-response streaming handler (Phase 2)
         ../src/llm/openai_compat_adapter.cpp      # OpenAI-compatible /v1/chat/completions adapter (Phase 3)
         ../src/llm/speculative_decoder.cpp        # Speculative decoding for latency reduction (Phase 3)
+        ../src/llm/kv_prefix_transfer_manager.cpp  # Phase 5 KV-Prefix Cross-Shard Transfer
         ../src/llm/lookup_decoder.cpp             # N-gram prompt lookup decoding (draft-model-free speculation)
         
         # AI Decision Auditing and Explainability (EU AI Act, GDPR Compliance)
@@ -6530,6 +6535,13 @@ if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
     if(THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED AND EXISTS "${THEMIS_ROOT_DIR}/src/user_storage_encrypted/CMakeLists.txt")
         add_subdirectory(${THEMIS_ROOT_DIR}/src/user_storage_encrypted
                          ${CMAKE_CURRENT_BINARY_DIR}/src/user_storage_encrypted)
+    endif()
+
+    # Distributed Knowledge Federation module (Session 1, 2026-04-19)
+    # -------------------------------------------------------------------------
+    if(EXISTS "${THEMIS_ROOT_DIR}/src/distributed_knowledge/CMakeLists.txt")
+        add_subdirectory(${THEMIS_ROOT_DIR}/src/distributed_knowledge
+                         ${CMAKE_CURRENT_BINARY_DIR}/src/distributed_knowledge)
     endif()
 
     # Non-compiled plugin manifests / legacy orchestration: plugins/

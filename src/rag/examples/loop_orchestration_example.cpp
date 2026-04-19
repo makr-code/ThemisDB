@@ -14,9 +14,8 @@
 //   4. How FEDERATED_ROUND_START fires after Loop 4.
 //   5. ExplainabilityReasonBuilder producing a CausalChain for a loop decision.
 //
-// NOTE: IMPL-A2, IMPL-A3, and IMPL-B9 APIs are not yet implemented.
-// Calls to those APIs are wrapped in /* PLANNED */ comments and will compile
-// once the respective issues are closed.
+// NOTE: IMPL-A2 named trigger APIs are implemented (2026-04-19).
+//       IMPL-B9 (ExplainabilityReasonBuilder) APIs are marked /* PLANNED */.
 
 #include <iostream>
 #include <string>

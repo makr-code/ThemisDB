@@ -3909,3 +3909,131 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_interval_tree_erase.cpp")
 
     message(STATUS "  IntervalTreeIndex: erase vs rebuild, bulk erase, mixed read/erase, large payload")
 endif()
+
+# ============================================================================
+# Distributed Knowledge Federation Benchmarks (DK-8 / Session 9)
+# BM_TriggerAggregation_N64, BM_FederatedRAGMerge_N16x50,
+# BM_FeedbackDedup_Throughput, BM_PublishFeedback_Latency
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_distributed_knowledge.cpp")
+    message(STATUS "Adding Distributed Knowledge Federation benchmarks (DK-8, Session 9)")
+
+    add_executable(bench_distributed_knowledge
+        bench_distributed_knowledge.cpp
+    )
+
+    target_include_directories(bench_distributed_knowledge PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/../include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src
+    )
+
+    target_link_libraries(bench_distributed_knowledge PRIVATE
+        themis_distributed_knowledge
+        ${BENCHMARK_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_distributed_knowledge PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_distributed_knowledge)
+
+    install(TARGETS bench_distributed_knowledge
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  DK-BM-01: triggerAggregation N=64 shards, 100 keys — target ≤ 500 ms")
+    message(STATUS "  DK-BM-02: FederatedRAGMerge N=16 shards × 50 docs — target ≤ 20 ms")
+    message(STATUS "  DK-BM-03: CrossShardFeedbackSync dedup throughput — target ≥ 10k msg/s")
+    message(STATUS "  DK-BM-04: publishFeedback end-to-end latency — target ≤ 1 ms")
+endif()
+
+# ============================================================================
+# Distributed Knowledge Operational Resilience Benchmarks (DK-OR / Session 11)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_distributed_knowledge_or.cpp")
+    message(STATUS "Adding Distributed Knowledge OR benchmarks (DK-OR, Session 11)")
+
+    add_executable(bench_distributed_knowledge_or
+        bench_distributed_knowledge_or.cpp
+    )
+
+    target_include_directories(bench_distributed_knowledge_or PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/../include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src
+    )
+
+    target_link_libraries(bench_distributed_knowledge_or PRIVATE
+        themis_distributed_knowledge
+        ${BENCHMARK_LIBS}
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_distributed_knowledge_or PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_distributed_knowledge_or)
+
+    install(TARGETS bench_distributed_knowledge_or
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  DK-OR-BM-01: triggerAggregation timeout overhead — target ≤ 2 ms vs no-timeout")
+    message(STATUS "  DK-OR-BM-02: publishFeedback backpressure skip — target ≤ 0.5 µs/call")
+endif()
+
+
+# ============================================================================
+# LLM+RAID Pipeline Benchmarks (Phase 3 + Phase 6 Distributed Inference Cases)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llm_raid_pipeline.cpp")
+    message(STATUS "Adding LLM+RAID pipeline benchmarks (Phase 3 LoRA/RAID + Phase 6 Distributed Inference)")
+
+    add_executable(bench_llm_raid_pipeline
+        bench_llm_raid_pipeline.cpp
+    )
+
+    target_include_directories(bench_llm_raid_pipeline PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/../include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src
+    )
+
+    target_link_libraries(bench_llm_raid_pipeline PRIVATE
+        themis_core
+        themis_llm
+        ${BENCHMARK_LIBS}
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_llm_raid_pipeline PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+        THEMIS_ENABLE_LLM=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_llm_raid_pipeline)
+
+    install(TARGETS bench_llm_raid_pipeline
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  BM_ModelLoadSingleShard, BM_LoRA_LoadSingleAdapter, BM_LoRA_LoadMultipleAdapters")
+    message(STATUS "  BM_LoRA_SwitchingLatency, BM_Inference_WithoutLoRA, BM_Inference_WithSingleLoRA")
+    message(STATUS "  BM_MultiShard_ConcurrentInference, BM_DataDistribution_RAIDStriping")
+    message(STATUS "  BM_CompletePipeline_EndToEnd")
+    message(STATUS "  BM_DomainRouting_OverheadPerRequest (Phase 6 distributed inference)")
+    message(STATUS "  BM_BatchFanOut_LatencyScaling (Phase 6 distributed inference)")
+endif()

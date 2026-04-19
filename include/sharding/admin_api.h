@@ -33,6 +33,7 @@ namespace themis {
 namespace sharding {
 
 class ShardRepairEngine;  // forward declaration
+class HardwareMigrationManager;  // forward declaration
 
 /**
  * Admin API for cluster management operations.
@@ -107,7 +108,33 @@ public:
         static constexpr const char* REPAIR_SCAN = "/admin/repair/scan";
         /// GET  /admin/repair/{job_id} – query repair job status
         static constexpr const char* REPAIR_STATUS = "/admin/repair/";  // + {job_id}
+
+        // Hardware migration endpoint (Phase 5)
+        /// POST /api/v1/shards/{id}/migrate-hardware
+        ///   Body: {"new_endpoint": "host:port"}
+        ///   Response: {"success": bool, "shard_id": "...", "old_endpoint": "...", "new_endpoint": "..."}
+        static constexpr const char* MIGRATE_HARDWARE_PREFIX = "/api/v1/shards/";  // + {id}/migrate-hardware
+        static constexpr const char* MIGRATE_HARDWARE_SUFFIX = "/migrate-hardware";
     };
+
+    /**
+     * @brief Attach a HardwareMigrationManager so that
+     *        `POST /api/v1/shards/{id}/migrate-hardware` is handled natively.
+     *
+     * Without a manager set, the endpoint returns 501 Not Implemented.
+     * The manager must outlive this AdminAPI instance (or be kept alive via
+     * the shared_ptr).
+     */
+    void setMigrationManager(std::shared_ptr<HardwareMigrationManager> mgr);
+
+    /**
+     * @brief Register a custom handler for migrate-hardware requests.
+     *
+     * Used for testing / custom integration.  Overrides the built-in
+     * `HardwareMigrationManager` path when set.  The body will contain at
+     * minimum `{"shard_id": "...", "new_endpoint": "..."}`.
+     */
+    void registerMigrateHardwareHandler(RequestHandler handler);
 
 private:
     Config config_;
@@ -116,13 +143,17 @@ private:
     RequestHandler health_handler_;
     RequestHandler stats_handler_;
     RequestHandler repair_handler_;
+    RequestHandler migrate_hardware_handler_;
     std::shared_ptr<ShardRepairEngine> repair_engine_;
+    std::shared_ptr<HardwareMigrationManager> migration_manager_;
 
     bool authorizeRequest(const std::string& operator_cert);
     void auditLog(const std::string& method, const std::string& path, const std::string& operator_cert);
     nlohmann::json createErrorResponse(int code, const std::string& message);
     /// Build the repair health section for GET /admin/health.
     nlohmann::json buildRepairHealthJson() const;
+    nlohmann::json handleMigrateHardware(const std::string& shard_id,
+                                          const nlohmann::json& body);
 };
 
 } // namespace sharding

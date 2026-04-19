@@ -55,7 +55,8 @@ struct MultiLevelEncryptedStorage::Impl {
     std::map<std::string, std::shared_ptr<KeyProvider>> key_providers;
     std::mutex mutex;
     bool initialized;
-    
+    StorageMetrics metrics;
+
     Impl() : initialized(false) {}
 };
 
@@ -388,11 +389,16 @@ Result<void> MultiLevelEncryptedStorage::mountLevel(const LevelConfig& config) {
     }
     
     // Mount container
-    return backend_it->second->mountContainer(
+    auto mount_result = backend_it->second->mountContainer(
         config.encrypted_dir,
         config.mount_point,
         key
     );
+    if (mount_result.isSuccess()) {
+        ++impl_->metrics.mounts_active;
+        ++impl_->metrics.mount_ops_total;
+    }
+    return mount_result;
 }
 
 Result<void> MultiLevelEncryptedStorage::unmountLevel(const LevelConfig& config) {
@@ -405,7 +411,14 @@ Result<void> MultiLevelEncryptedStorage::unmountLevel(const LevelConfig& config)
         return Result<void>();
     }
     
-    return backend_it->second->unmountContainer(config.mount_point);
+    auto unmount_result = backend_it->second->unmountContainer(config.mount_point);
+    if (unmount_result.isSuccess()) {
+        if (impl_->metrics.mounts_active > 0) {
+            --impl_->metrics.mounts_active;
+        }
+        ++impl_->metrics.unmount_ops_total;
+    }
+    return unmount_result;
 }
 
 Result<std::shared_ptr<KeyProvider>> MultiLevelEncryptedStorage::getKeyProvider(
@@ -617,6 +630,9 @@ Result<void> MultiLevelEncryptedStorage::rotateKey(SecurityLevel level) {
                      backup_encrypted_dir, ec.message());
     }
 
+    // Record metric — rotation succeeded
+    ++impl_->metrics.key_rotations_total;
+
     return Result<void>();
 }
 
@@ -631,6 +647,45 @@ std::string MultiLevelEncryptedStorage::getBasePath(SecurityLevel level) {
     } else {
         return it->second.base_path;
     }
+}
+
+// ── Prometheus metrics ────────────────────────────────────────────────────
+
+std::string MultiLevelEncryptedStorage::getMetricsText() const {
+    std::string out;
+    out.reserve(512);
+
+    // user_storage_mounts_active
+    out += "# HELP user_storage_mounts_active Currently mounted encrypted containers\n";
+    out += "# TYPE user_storage_mounts_active gauge\n";
+    out += "user_storage_mounts_active " +
+           std::to_string(impl_->metrics.mounts_active.load()) + "\n";
+
+    // user_storage_mount_operations_total (split by operation label)
+    out += "# HELP user_storage_mount_operations_total Total mount/unmount operations\n";
+    out += "# TYPE user_storage_mount_operations_total counter\n";
+    out += "user_storage_mount_operations_total{operation=\"mount\"} " +
+           std::to_string(impl_->metrics.mount_ops_total.load()) + "\n";
+    out += "user_storage_mount_operations_total{operation=\"unmount\"} " +
+           std::to_string(impl_->metrics.unmount_ops_total.load()) + "\n";
+
+    // user_storage_key_rotations_total
+    out += "# HELP user_storage_key_rotations_total Key rotation callbacks fired\n";
+    out += "# TYPE user_storage_key_rotations_total counter\n";
+    out += "user_storage_key_rotations_total " +
+           std::to_string(impl_->metrics.key_rotations_total.load()) + "\n";
+
+    // user_storage_container_size_bytes
+    out += "# HELP user_storage_container_size_bytes Sum of encrypted container sizes on disk\n";
+    out += "# TYPE user_storage_container_size_bytes gauge\n";
+    out += "user_storage_container_size_bytes " +
+           std::to_string(impl_->metrics.container_size_bytes.load()) + "\n";
+
+    return out;
+}
+
+void MultiLevelEncryptedStorage::recordKeyRotation(SecurityLevel /*level*/) {
+    ++impl_->metrics.key_rotations_total;
 }
 
 std::string MultiLevelEncryptedStorage::getUserPath(SecurityLevel level, const std::string& user_id) {
