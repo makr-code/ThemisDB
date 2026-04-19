@@ -62,7 +62,7 @@ protected:
         MultiLoRAManager::Config config;
         config.max_lora_slots = 10;
         config.max_lora_vram_mb = 1024;
-        config.lora_ttl = std::chrono::seconds(3600);
+        config.lora_ttl = std::chrono::seconds(0);  // Disable TTL-based eviction for tests
         config.enable_adapter_fusion = true;
         config.multi_gpu.enabled = false;  // Single GPU for tests
         config.quantization.enabled = false;  // Test without quantization first
