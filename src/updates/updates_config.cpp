@@ -172,8 +172,6 @@ UpdatesConfig UpdatesConfig::loadFromYaml(const std::string& yaml_path) {
                 tel["include_os"].as<bool>(true);
             result.telemetry.include_arch =
                 tel["include_arch"].as<bool>(true);
-            result.telemetry.include_performance =
-                tel["include_performance"].as<bool>(false);
             result.telemetry.http_timeout_seconds =
                 tel["http_timeout_seconds"].as<int>(10);
             result.telemetry.max_retries =
@@ -289,8 +287,6 @@ UpdatesConfig UpdatesConfig::fromJson(const json& j) {
                 tel.value("include_os", true);
             result.telemetry.include_arch =
                 tel.value("include_arch", true);
-            result.telemetry.include_performance =
-                tel.value("include_performance", false);
             result.telemetry.http_timeout_seconds =
                 tel.value("http_timeout_seconds", 10);
             result.telemetry.max_retries =
@@ -374,7 +370,6 @@ json UpdatesConfig::toJson() const {
     j["telemetry"]["include_ram_mb"]         = telemetry.include_ram_mb;
     j["telemetry"]["include_os"]             = telemetry.include_os;
     j["telemetry"]["include_arch"]           = telemetry.include_arch;
-    j["telemetry"]["include_performance"]    = telemetry.include_performance;
     j["telemetry"]["http_timeout_seconds"]   = telemetry.http_timeout_seconds;
     j["telemetry"]["max_retries"]            = telemetry.max_retries;
 
@@ -472,7 +467,6 @@ void UpdatesConfig::saveToYaml(const std::string& yaml_path) const {
         out << YAML::Key << "include_ram_mb"        << YAML::Value << telemetry.include_ram_mb;
         out << YAML::Key << "include_os"            << YAML::Value << telemetry.include_os;
         out << YAML::Key << "include_arch"          << YAML::Value << telemetry.include_arch;
-        out << YAML::Key << "include_performance"   << YAML::Value << telemetry.include_performance;
         out << YAML::Key << "http_timeout_seconds"  << YAML::Value << telemetry.http_timeout_seconds;
         out << YAML::Key << "max_retries"           << YAML::Value << telemetry.max_retries;
         out << YAML::EndMap;

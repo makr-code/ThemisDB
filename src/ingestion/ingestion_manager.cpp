@@ -1312,7 +1312,7 @@ public:
         lineage_store_.clear();
     }
 
-private:
+public:
     /// Consume a token from the per-source bucket (creates bucket if needed).
     /// Returns false and records a QUOTA_EXCEEDED error if the byte limit is breached.
     bool checkRateLimit(const std::string& source_id,

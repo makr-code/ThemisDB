@@ -503,10 +503,8 @@ TEST_F(SecurityEvidenceCollectorTest, NetworkControls_RateLimiterSnapshotIsValid
 // Test G4 — ChangeManagement: key rotation log captured
 TEST_F(SecurityEvidenceCollectorTest, ChangeManagement_KeyRotationLogCaptured) {
     // Rotate a key so there's a rotation to capture
-    key_provider_->createKey("change_mgmt_key",
-                             security::KeyAlgorithm::AES_256_GCM,
-                             security::KeyPurpose::DATA_ENCRYPTION);
-    key_provider_->rotateKey("change_mgmt_key");
+    provider_->createKey("change_mgmt_key", 1);
+    provider_->rotateKey("change_mgmt_key");
 
     auto now  = std::chrono::system_clock::now();
     auto from = now - std::chrono::hours(24);

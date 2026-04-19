@@ -28,7 +28,7 @@ static ExtractionContext makeCtx(const std::string& path = "",
                                   const std::string& mime = "") {
     ExtractionContext ctx;
     ctx.manifest.original_path = path;
-    ctx.manifest.mime_type     = mime;
+    ctx.manifest.detected_mime = mime;
     ctx.manifest.file_id       = "sha256:deadbeef";
     return ctx;
 }

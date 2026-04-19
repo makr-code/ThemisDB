@@ -511,7 +511,6 @@ TEST(HardwareTelemetry, UpdatesConfigDefaultTelemetry) {
     EXPECT_EQ(cfg.telemetry.send_interval_seconds, 86400);
     EXPECT_EQ(cfg.telemetry.endpoint_url,
               std::string("https://api.themisdb.org/telemetry.php"));
-    EXPECT_FALSE(cfg.telemetry.include_performance);
 }
 
 // HT-31 – loadFromYaml clamps small interval
@@ -521,7 +520,6 @@ TEST(HardwareTelemetry, LoadFromYamlClampsInterval) {
     j["telemetry"]["enabled"]               = true;
     j["telemetry"]["endpoint_url"]          = "https://example.com/t.php";
     j["telemetry"]["send_interval_seconds"] = 60;  // should be clamped
-    j["telemetry"]["include_performance"]   = false;
 
     auto cfg = UpdatesConfig::fromJson(j);
     EXPECT_EQ(cfg.telemetry.send_interval_seconds, 86400);
@@ -542,16 +540,16 @@ TEST(HardwareTelemetry, ToJsonRoundTrips) {
     EXPECT_EQ(j["telemetry"]["include_cpu_model"].get<bool>(), false);
 }
 
-// HT-33 – include_performance round-trips through fromJson/toJson
-TEST(HardwareTelemetry, IncludePerformanceRoundTrip) {
+// HT-33 – include_arch round-trips through fromJson/toJson
+TEST(HardwareTelemetry, IncludeArchRoundTrip) {
     json j;
     j["telemetry"]["enabled"]             = true;
-    j["telemetry"]["include_performance"] = true;
+    j["telemetry"]["include_arch"]        = true;
     j["telemetry"]["send_interval_seconds"] = 86400;
 
     auto cfg = UpdatesConfig::fromJson(j);
-    EXPECT_TRUE(cfg.telemetry.include_performance);
+    EXPECT_TRUE(cfg.telemetry.include_arch);
 
     auto j2 = cfg.toJson();
-    EXPECT_TRUE(j2["telemetry"]["include_performance"].get<bool>());
+    EXPECT_TRUE(j2["telemetry"]["include_arch"].get<bool>());
 }

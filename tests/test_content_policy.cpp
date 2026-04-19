@@ -180,14 +180,8 @@ TEST_F(ContentPolicyTest, GetCategoryMaxSize_NonExistingCategory) {
 class MimeDetectorTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Create a mock security signature manager (in-memory)
-        auto security_mgr = std::make_shared<storage::SecuritySignatureManager>(
-            nullptr  // No RocksDB instance - tests will use internal policy
-        );
-        
-        // Create MimeDetector with explicit config path
-        // Tests run from build-ninja-llm-gpu/cmake/tests/, so use relative path
-        detector_ = std::make_shared<MimeDetector>("../../../config/mime_types.yaml", security_mgr);
+        // Let MimeDetector resolve the best available config path itself.
+        detector_ = std::make_shared<MimeDetector>("", nullptr);
     }
 
     std::shared_ptr<MimeDetector> detector_;
@@ -357,8 +351,8 @@ TEST(ContentPolicyOcrTest, OcrCanBeDisabledAgain) {
 class MimeDetectorOcrTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        auto security_mgr = std::make_shared<storage::SecuritySignatureManager>(nullptr);
-        detector_ = std::make_shared<MimeDetector>("../../../config/mime_types.yaml", security_mgr);
+        // Let MimeDetector resolve the best available config path itself.
+        detector_ = std::make_shared<MimeDetector>("", nullptr);
     }
 
     std::shared_ptr<MimeDetector> detector_;
@@ -417,6 +411,7 @@ TEST_F(MimeDetectorOcrTest, ValidateUpload_OcrRecommended_TrueForPngWhenEnabled)
     detector_->enableOcr(true);
     auto result = detector_->validateUpload("photo.png", 1 * 1024 * 1024);
     EXPECT_TRUE(result.allowed);
+    EXPECT_EQ(result.mime_type, "image/png");
     EXPECT_TRUE(result.ocr_recommended);
 }
 

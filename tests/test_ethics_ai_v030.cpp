@@ -8,10 +8,10 @@
  */
 
 #include <gtest/gtest.h>
-#include "discourse_engine.h"
-#include "philosophy_loader.h"
-#include "argument_store.h"
-#include "ethics_evaluator.h"
+#include "plugins/ethics_ai/discourse_engine.h"
+#include "plugins/ethics_ai/philosophy_loader.h"
+#include "plugins/ethics_ai/argument_store.h"
+#include "plugins/ethics_ai/ethics_evaluator.h"
 #include "plugins/ethics_ai/ethics_ai_types.h"
 
 #include <filesystem>

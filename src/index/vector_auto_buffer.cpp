@@ -605,7 +605,7 @@ std::vector<BaseEntity> VectorAutoBuffer::applyCompression(const std::vector<Bas
 
         // Build a copy of the entity with the quantised vector
         BaseEntity compressed = entity;
-        compressed.setField(vec_field, BaseEntity::Value{quantised});
+        compressed.setField(vec_field, Value{quantised});
 
         THEMIS_DEBUG("VectorAutoBuffer: quantised {} dim={} abs_max={:.6f} type={}",
                      vec_field, dim, abs_max, use_int8 ? "Int8" : "Int16");

@@ -484,15 +484,15 @@ TEST(InMemoryDocWriter, DW01_WriteDocument_ReturnsNonEmptyId) {
 TEST(InMemoryDocWriter, DW02_DocumentCount_Increments) {
     InMemoryDocWriter dw;
     auto es = makeEntitySet("sha256:abc");
-    dw.writeDocument(es);
-    dw.writeDocument(es);
+    dw.writeDocument(es, "ingested");
+    dw.writeDocument(es, "ingested");
     EXPECT_EQ(dw.documentCount(), 2u);
 }
 
 TEST(InMemoryDocWriter, DW03_StoredDocument_ContainsSourceFileId) {
     InMemoryDocWriter dw;
     auto es = makeEntitySet("sha256:myfile");
-    auto r = dw.writeDocument(es);
+    auto r = dw.writeDocument(es, "ingested");
     ASSERT_TRUE(r.has_value());
     const std::string doc = dw.getDocument(*r);
     EXPECT_NE(doc.find("sha256:myfile"), std::string::npos);

@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "ingestion/filesystem_ingester.h"
+#include "ingestion/file_format.h"
 #include <string>
 #include <unordered_map>
 #include <chrono>

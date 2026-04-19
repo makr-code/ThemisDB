@@ -65,7 +65,7 @@ static std::vector<DataPoint> makeRegData(int n) {
         DataPoint dp;
         dp.set("x1", static_cast<double>(i));
         dp.set("x2", static_cast<double>(i % 3));
-        dp.target = static_cast<double>(i) * 2.0 + 1.0;
+        dp.set("target", static_cast<double>(i) * 2.0 + 1.0);
         data.push_back(dp);
     }
     return data;

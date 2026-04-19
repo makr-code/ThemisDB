@@ -23,6 +23,7 @@
 #pragma once
 
 #include "ingestion_manager.h"
+#include "ingestion/file_format.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -111,31 +112,6 @@ struct BinaryConverter {
     bool detect_by_magic = true;               ///< Detect type by magic bytes in addition to file extension
 
     BinaryConverter() = default;
-};
-
-/**
- * @brief Supported file formats
- */
-enum class FileFormat {
-    AUTO,       ///< Auto-detect format
-    PDF,        ///< Portable Document Format
-    DOCX,       ///< Microsoft Word
-    TXT,        ///< Plain text
-    HTML,       ///< HTML document
-    XML,        ///< XML document
-    JSON,       ///< JSON document
-    MD,         ///< Markdown
-    EPUB,       ///< EPUB e-book
-    XLSX,       ///< Microsoft Excel (Open XML)
-    CSV,        ///< Comma-separated values
-    ZIP,        ///< ZIP archive (may contain nested documents)
-    SHP,        ///< ESRI Shapefile (geo vector data)
-    GEOJSON,    ///< GeoJSON geo vector data
-    DXF,        ///< Drawing Exchange Format (CAD)
-    PNG,        ///< Portable Network Graphics image
-    JPG,        ///< JPEG image
-    DB,         ///< Generic database / SQLite file
-    UNKNOWN     ///< Unknown or undetected format
 };
 
 /**

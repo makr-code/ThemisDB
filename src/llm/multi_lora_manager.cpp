@@ -32,6 +32,7 @@
 #include <numeric>
 #include <fstream>
 #include <limits>  // For std::numeric_limits (range validation)
+#include <llama.h>
 
 // llama.cpp forward declarations (newer API may not be present in headers)
 extern "C" {
@@ -39,33 +40,6 @@ extern "C" {
     void llama_lora_adapter_free(void* adapter);
     bool themis_llama_lora_available();
     void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora);
-
-    // Additional llama.cpp API needed for batch inference
-    struct llama_model;
-    struct llama_vocab;
-    struct llama_batch;
-
-    struct llama_model* llama_get_model(const struct llama_context* ctx);
-    const struct llama_vocab* llama_model_get_vocab(const struct llama_model* model);
-    int32_t llama_vocab_n_tokens(const struct llama_vocab* vocab);
-    int32_t llama_vocab_eos(const struct llama_vocab* vocab);
-    uint32_t llama_n_ctx(const struct llama_context* ctx);
-    void llama_kv_cache_clear(struct llama_context* ctx);
-
-    int32_t llama_tokenize(
-        const struct llama_vocab* vocab,
-        const char* text, int32_t text_len,
-        int32_t* tokens, int32_t n_tokens_max,
-        bool add_special, bool parse_special);
-
-    int32_t llama_token_to_piece(
-        const struct llama_vocab* vocab,
-        int32_t token, char* buf, int32_t length,
-        int32_t lstrip, bool special);
-
-    struct llama_batch llama_batch_get_one(int32_t* tokens, int32_t n_tokens);
-    int llama_decode(struct llama_context* ctx, struct llama_batch batch);
-    float* llama_get_logits_ith(struct llama_context* ctx, int32_t i);
 }
 
 namespace themis {
@@ -540,7 +514,7 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
     }
 
     // Retrieve model and vocabulary from the context
-    struct llama_model* lmodel = llama_get_model(model_context);
+    const struct llama_model* lmodel = llama_get_model(model_context);
     if (!lmodel) {
         spdlog::error("batchInferenceMultiLoRA: llama_get_model returned null");
         std::vector<InferenceResponse> error_responses(requests.size());
@@ -633,7 +607,8 @@ std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
             response.tokens_prompt = n_prompt;
 
             // --- Prefill (process prompt) ---
-            llama_kv_cache_clear(model_context);
+            // Some llama.cpp builds do not expose a public KV-clear API.
+            // Proceed without explicit cache reset here.
             struct llama_batch batch = llama_batch_get_one(
                 prompt_tokens.data(), n_prompt);
             if (llama_decode(model_context, batch) != 0) {

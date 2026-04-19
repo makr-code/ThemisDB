@@ -24,6 +24,7 @@ endif()
 if(THEMIS_BUILD_MODULAR)
     option(THEMIS_MODULE_TRANSACTION "Include transaction module (required)" ON)
     option(THEMIS_MODULE_LLM "Include LLM inference module (optional)" ON)
+    option(THEMIS_MODULE_LLM_SPLIT "Split LLM module into core and extension libraries" ON)
     option(THEMIS_MODULE_GEO "Include geospatial module (optional)" ON)
     option(THEMIS_MODULE_GRAPH "Include graph analytics module (optional)" ON)
     option(THEMIS_MODULE_CONTENT "Include content processors module (optional)" ON)
@@ -1214,6 +1215,23 @@ if(THEMIS_ENABLE_VULKAN)
     )
 endif()
 
+# Optional split for very large LLM builds (notably MSVC toolchains).
+if(THEMIS_BUILD_MODULAR AND THEMIS_MODULE_LLM AND THEMIS_MODULE_LLM_SPLIT)
+    list(LENGTH THEMIS_LLM_SOURCES _themis_llm_source_count)
+    if(_themis_llm_source_count GREATER 1)
+        math(EXPR _themis_llm_split_index "${_themis_llm_source_count} / 2")
+        math(EXPR _themis_llm_ext_count "${_themis_llm_source_count} - ${_themis_llm_split_index}")
+        list(SUBLIST THEMIS_LLM_SOURCES 0 ${_themis_llm_split_index} THEMIS_LLM_CORE_SOURCES)
+        list(SUBLIST THEMIS_LLM_SOURCES ${_themis_llm_split_index} ${_themis_llm_ext_count} THEMIS_LLM_EXT_SOURCES)
+    else()
+        set(THEMIS_LLM_CORE_SOURCES ${THEMIS_LLM_SOURCES})
+        set(THEMIS_LLM_EXT_SOURCES)
+    endif()
+else()
+    set(THEMIS_LLM_CORE_SOURCES ${THEMIS_LLM_SOURCES})
+    set(THEMIS_LLM_EXT_SOURCES)
+endif()
+
 set(THEMIS_CONTENT_SOURCES
     # Content processing (conditional)
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_type.cpp>
@@ -1800,6 +1818,9 @@ function(themis_build_modular)
     endif()
     if(THEMIS_MODULE_LLM)
         list(APPEND _themis_query_deps themis_llm)
+        if(THEMIS_MODULE_LLM_SPLIT)
+            list(APPEND _themis_query_deps themis_llm_ext)
+        endif()
     endif()
     if(THEMIS_MODULE_GEO)
         list(APPEND _themis_query_deps themis_geo)
@@ -1826,6 +1847,9 @@ function(themis_build_modular)
     endif()
     if(THEMIS_MODULE_LLM)
         list(APPEND _themis_network_deps themis_llm)
+        if(THEMIS_MODULE_LLM_SPLIT)
+            list(APPEND _themis_network_deps themis_llm_ext)
+        endif()
     endif()
     if(THEMIS_MODULE_TIMESERIES)
         list(APPEND _themis_network_deps themis_timeseries)
@@ -1890,34 +1914,73 @@ function(themis_build_modular)
     
     if(THEMIS_MODULE_LLM)
         themis_add_module(llm
-            SOURCES ${THEMIS_LLM_SOURCES}
+            STATIC_MODULE
+            DISABLE_AUTO_EXPORT
+            SOURCES ${THEMIS_LLM_CORE_SOURCES}
             DEPENDENCIES 
                 themis_base 
                 themis_storage
                 themis_security
                 themis_sharding
         )
+        if(THEMIS_MODULE_LLM_SPLIT AND THEMIS_LLM_EXT_SOURCES)
+            themis_add_module(llm_ext
+                STATIC_MODULE
+                DISABLE_AUTO_EXPORT
+                SOURCES ${THEMIS_LLM_EXT_SOURCES}
+                DEPENDENCIES
+                    themis_base
+                    themis_storage
+                    themis_security
+                    themis_sharding
+                    themis_llm
+            )
+        endif()
         if(THEMIS_MODULE_GRAPH)
             target_link_libraries(themis_llm PUBLIC themis_graph)
+            if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
+                target_link_libraries(themis_llm_ext PUBLIC themis_graph)
+            endif()
         endif()
         target_include_directories(themis_llm PRIVATE
             ${CMAKE_SOURCE_DIR}/llama.cpp/include
             ${CMAKE_SOURCE_DIR}/llama.cpp/ggml/include
         )
+        if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
+            target_include_directories(themis_llm_ext PRIVATE
+                ${CMAKE_SOURCE_DIR}/llama.cpp/include
+                ${CMAKE_SOURCE_DIR}/llama.cpp/ggml/include
+            )
+        endif()
         if(THEMIS_ENABLE_MIMALLOC AND TARGET mimalloc)
             target_link_libraries(themis_llm PUBLIC mimalloc)
+            if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
+                target_link_libraries(themis_llm_ext PUBLIC mimalloc)
+            endif()
         endif()
         if(THEMIS_ENABLE_JEMALLOC)
             if(TARGET jemalloc::jemalloc)
                 target_link_libraries(themis_llm PUBLIC jemalloc::jemalloc)
+                if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
+                    target_link_libraries(themis_llm_ext PUBLIC jemalloc::jemalloc)
+                endif()
             elseif(jemalloc_LIBRARIES)
                 target_link_libraries(themis_llm PUBLIC ${jemalloc_LIBRARIES})
+                if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
+                    target_link_libraries(themis_llm_ext PUBLIC ${jemalloc_LIBRARIES})
+                endif()
             endif()
         endif()
         if(TARGET llama)
             target_link_libraries(themis_llm PUBLIC llama)
+            if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
+                target_link_libraries(themis_llm_ext PUBLIC llama)
+            endif()
         elseif(llama_LIBRARIES)
             target_link_libraries(themis_llm PUBLIC ${llama_LIBRARIES})
+            if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
+                target_link_libraries(themis_llm_ext PUBLIC ${llama_LIBRARIES})
+            endif()
         endif()
     endif()
     
@@ -1987,6 +2050,9 @@ function(themis_build_modular)
         endif()
         if(THEMIS_MODULE_LLM)
             list(APPEND _themis_content_deps themis_llm)
+            if(THEMIS_MODULE_LLM_SPLIT)
+                list(APPEND _themis_content_deps themis_llm_ext)
+            endif()
         endif()
         if(TARGET libzip::zip)
             list(APPEND _themis_content_deps libzip::zip)
@@ -2016,6 +2082,9 @@ function(themis_build_modular)
     )
     if(THEMIS_MODULE_LLM)
         list(APPEND _themis_ingestion_deps themis_llm)
+        if(THEMIS_MODULE_LLM_SPLIT)
+            list(APPEND _themis_ingestion_deps themis_llm_ext)
+        endif()
     endif()
     themis_add_module(ingestion
         SOURCES ${THEMIS_INGESTION_SOURCES}
@@ -2057,6 +2126,9 @@ function(themis_build_modular)
     
     if(THEMIS_MODULE_LLM)
         list(APPEND THEMIS_ALL_MODULES themis_llm)
+        if(THEMIS_MODULE_LLM_SPLIT)
+            list(APPEND THEMIS_ALL_MODULES themis_llm_ext)
+        endif()
     endif()
     
     if(THEMIS_MODULE_GEO)

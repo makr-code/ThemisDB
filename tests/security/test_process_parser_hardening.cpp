@@ -141,10 +141,10 @@ TEST(ProcessParserHardening, BpmnScriptTask_NotExecuted) {
             // The node must be represented as a data node, not executed
             bool found_task = false;
             for (const auto& node : result.nodes) {
-                if (node.id == "st1") {
+                if (node.node_id == "st1") {
                     found_task = true;
                     // Must be a TASK type (script sub-type), not something else
-                    bool is_bpmn_task = std::holds_alternative<BPMNNodeType>(node.node_type);
+                    bool is_bpmn_task = std::holds_alternative<themis::BPMNNodeType>(node.node_type);
                     EXPECT_TRUE(is_bpmn_task);
                 }
             }

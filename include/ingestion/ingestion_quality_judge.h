@@ -148,6 +148,7 @@
 
 #include "ingestion/extraction_context.h"
 #include "ingestion/inference_backend.h"
+#include "ingestion/ingestion_step.h"
 #include "ingestion/workflow_engine.h"
 
 #include <chrono>
@@ -370,7 +371,7 @@ public:
      * @param ctx  Completed extraction context from the workflow engine.
      * @return     Quality report with per-dimension scores and recommendations.
      */
-    IngestionQualityReport evaluate(const ExtractionContext& ctx) const;
+    IngestionQualityReport evaluate(const ::themis::ingestion::ExtractionContext& ctx) const;
 
     /**
      * @brief Evaluate with an explicit source text.
@@ -382,7 +383,7 @@ public:
      * @param source_text Reference text for groundedness/completeness checks.
      * @return            Quality report.
      */
-    IngestionQualityReport evaluate(const ExtractionContext& ctx,
+    IngestionQualityReport evaluate(const ::themis::ingestion::ExtractionContext& ctx,
                                     const std::string&       source_text) const;
 
     // ---- Configuration ----------------------------------------------------
@@ -398,13 +399,13 @@ public:
 private:
     // ---- Prompt builders --------------------------------------------------
 
-    std::string buildCompletenessPrompt(const ExtractionContext& ctx,
+    std::string buildCompletenessPrompt(const ::themis::ingestion::ExtractionContext& ctx,
                                         const std::string&       source) const;
-    std::string buildGroundednessPrompt(const ExtractionContext& ctx,
+    std::string buildGroundednessPrompt(const ::themis::ingestion::ExtractionContext& ctx,
                                         const std::string&       source) const;
-    std::string buildEntityCoveragePrompt(const ExtractionContext& ctx,
+    std::string buildEntityCoveragePrompt(const ::themis::ingestion::ExtractionContext& ctx,
                                           const std::string&       source) const;
-    std::string buildRelationCoherencePrompt(const ExtractionContext& ctx) const;
+    std::string buildRelationCoherencePrompt(const ::themis::ingestion::ExtractionContext& ctx) const;
 
     // ---- Response parsers -------------------------------------------------
 
@@ -486,7 +487,7 @@ public:
         /// History of quality reports (one per attempt, oldest first).
         std::vector<IngestionQualityReport> history;
         /// The extraction context from the best-quality pass.
-        ExtractionContext best_context;
+        ::themis::ingestion::ExtractionContext best_context;
     };
 
     // ---- Construction -----------------------------------------------------
@@ -497,7 +498,7 @@ public:
      * @param engine  Configured workflow engine (not null).
      * @param judge   Quality judge to use for evaluation (not null).
      */
-    ReIngestionController(std::shared_ptr<WorkflowEngine>        engine,
+    ReIngestionController(std::shared_ptr<::themis::ingestion::WorkflowEngine> engine,
                           std::shared_ptr<IngestionQualityJudge> judge);
 
     ~ReIngestionController();
@@ -514,7 +515,7 @@ public:
      * @param manifest  File manifest describing the document to ingest.
      * @return RunResult with final quality report and extraction context.
      */
-    RunResult process(const FileManifest& manifest);
+    RunResult process(const ::themis::ingestion::FileManifest& manifest);
 
     // ---- Configuration ----------------------------------------------------
 
@@ -538,7 +539,7 @@ private:
     // ---- Helpers ----------------------------------------------------------
 
     /// Build a StepConfig override that focuses on the failing steps.
-    std::vector<StepConfig> buildTargetedStepConfig(
+    std::vector<::themis::ingestion::StepConfig> buildTargetedStepConfig(
         const IngestionQualityReport& report) const;
 
     /// Returns true when attempt @p b is a measurable improvement over @p a.
@@ -554,7 +555,7 @@ private:
 
     // ---- State ------------------------------------------------------------
 
-    std::shared_ptr<WorkflowEngine>        engine_;
+    std::shared_ptr<::themis::ingestion::WorkflowEngine> engine_;
     std::shared_ptr<IngestionQualityJudge> judge_;
     std::string                            reingestion_profile_;
     std::vector<std::shared_ptr<IIngestionQualityObserver>> observers_;

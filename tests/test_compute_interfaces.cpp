@@ -721,8 +721,10 @@ public:
         if (descriptor.batch.num_queries > 0) {
             res.results.resize(descriptor.batch.num_queries);
         }
-        return ComputeFuture<SimilarityKernelResult>::make_ready(
-            std::move(res), {}, token);
+        std::promise<SimilarityKernelResult> promise;
+        promise.set_value(std::move(res));
+        return ComputeFuture<SimilarityKernelResult>(
+            promise.get_future().share(), std::move(token), {});
     }
 
     int submit_count_ = 0;

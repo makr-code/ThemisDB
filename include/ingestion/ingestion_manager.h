@@ -1309,12 +1309,12 @@ public:
      * @param engine  Shared pointer to a configured `WorkflowEngine`.
      *                Pass `nullptr` to revert to legacy mode.
      */
-    void setWorkflowEngine(std::shared_ptr<WorkflowEngine> engine);
+    void setWorkflowEngine(std::shared_ptr<::themis::ingestion::WorkflowEngine> engine);
 
     /**
      * @brief Return the currently configured workflow engine, or nullptr.
      */
-    std::shared_ptr<WorkflowEngine> getWorkflowEngine() const;
+    std::shared_ptr<::themis::ingestion::WorkflowEngine> getWorkflowEngine() const;
 
     // ---- LLM-as-judge re-ingestion quality control (v2.1) -----------------
 
