@@ -9,11 +9,20 @@ This directory contains research papers, draft manuscripts, architectural analys
 
 ### Research Drafts & Work-in-Progress
 - [RAID_SHARDING_LLM_DISTRIBUTED_INFERENCE.md](RAID_SHARDING_LLM_DISTRIBUTED_INFERENCE.md) — RAID sharding strategy and LLM distributed inference integration
+- [ACID_CONSTRAINED_RAG_DRAFT.md](ACID_CONSTRAINED_RAG_DRAFT.md) — ACID transaction semantics + RAG integration with measured benchmarks
+- [SERIALIZABLE_RAG_UNDER_CONTENTION_DRAFT.md](SERIALIZABLE_RAG_UNDER_CONTENTION_DRAFT.md) — Isolation-aware RAG quality/latency trade-offs under contention
+- [QUERY_ENGINE_AQL_GRAPHQL_UNIFICATION_DRAFT.md](QUERY_ENGINE_AQL_GRAPHQL_UNIFICATION_DRAFT.md) — Unified query engine for AQL and GraphQL
+- [GOSSIP_AWARE_LORA_ROUTING_DRAFT.md](GOSSIP_AWARE_LORA_ROUTING_DRAFT.md) — Federated LoRA routing via epidemic gossip protocols
+- [GOSSIP_DRIVEN_LORA_DOMAIN_ROUTING_DRAFT.md](GOSSIP_DRIVEN_LORA_DOMAIN_ROUTING_DRAFT.md) — Domain-aware LoRA routing with capability gossip and failover
+- [LLM_PROCESSING_OPTIMIZATION_PATTERNS.md](LLM_PROCESSING_OPTIMIZATION_PATTERNS.md) — Inference optimization patterns from llama.cpp (batching, speculative decoding, KV-cache)
+- [CONTINUOUS_BATCHING_DATABASE_NATIVE_LLM_DRAFT.md](CONTINUOUS_BATCHING_DATABASE_NATIVE_LLM_DRAFT.md) — Scheduler/KV cache trade-offs for DB-native LLM serving
+- [COST_AWARE_HYBRID_RETRIEVAL_PLANNING_AQL_DRAFT.md](COST_AWARE_HYBRID_RETRIEVAL_PLANNING_AQL_DRAFT.md) — Cost-based plan selection for lexical+vector+graph retrieval
 
 ### Planned Research Topics
-- ACID-Constrained RAG with Measured Benchmarks
-- Query Engine Unification (AQL + GraphQL)
-- Gossip-Aware LoRA Routing
+- (See drafts above for current work-in-progress topics)
+
+### Research Tooling & Method Notes
+- [ARXIV_QUERY_STRATEGY_TOP4_2026-04-19.md](ARXIV_QUERY_STRATEGY_TOP4_2026-04-19.md) — Pre-search strategy and query protocol for four prioritized paper drafts
 
 ## Guidelines for Contributors
 
