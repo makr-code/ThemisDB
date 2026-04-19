@@ -65,7 +65,7 @@ The Observability module provides enterprise-grade monitoring, tracing, profilin
 | OBS-OPEN-01 | Security audit: metrics endpoint authentication (OBS-SEC-01) | High | Q3 2026 |
 | OBS-OPEN-02 | Security audit: trace span PII scanning and sanitization (OBS-SEC-02) | Medium | Q3 2026 |
 | OBS-OPEN-03 | Prometheus integration test suite (end-to-end scrape validation) | Medium | Q4 2026 |
-| OBS-OPEN-04 | Structured log search API (query logs by correlation ID / span ID) | Low | Q4 2026 |
+| OBS-OPEN-05 | OTLP exemplar linking — `IExemplarReservoir` interface (`otlp_exemplar.h`) not yet integrated in export pipeline | Low | Q3 2026 |
 
 ---
 
@@ -86,4 +86,4 @@ The Observability module provides enterprise-grade monitoring, tracing, profilin
 | Date | Auditor | Verdict |
 |------|---------|---------|
 | 2026-03-12 | Internal module audit | Passed with conditions — OBS-OPEN-01 and OBS-OPEN-02 must be resolved before security certification |
-| 2026-04-19 | Source file inventory update | Updated — 7 new source files added; total updated to 21 |
+| 2026-04-19 | Source file inventory update | Updated — 7 new source files added; total updated to 21; OBS-OPEN-04 resolved (log_search_engine.cpp implemented) |

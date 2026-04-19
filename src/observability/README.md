@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset release && cmake --build build/release --target <target>`
 
 # Observability Module
 
@@ -35,7 +35,7 @@ Provides the metrics, distributed tracing, and structured logging infrastructure
 
 ## Current Delivery Status
 
-**Maturity:** 🟢 Production-Ready — Enterprise-grade observability stack operational. Prometheus metrics, query/storage profiling, continuous profiling, eBPF tracing, distributed flame graph, performance analysis, Alertmanager integration, standalone tracer and log aggregator are all fully implemented. OTLP direct export (`otlp_exporter.cpp`) is pending.
+**Maturity:** 🟢 Production-Ready — Enterprise-grade observability stack operational. Prometheus metrics, query/storage profiling, continuous profiling, eBPF tracing, distributed flame graph, performance analysis, Alertmanager integration, standalone tracer and log aggregator, OpenTelemetry full integration (`OpenTelemetryTracer` with OTLP gRPC/HTTP export), structured log search, per-tenant metric namespacing, real-time metric streaming, advanced custom metric types, root cause analyzer, and SLO reporter are all fully implemented. The OTLP exemplar interface (`otlp_exemplar.h`) is a planned interface header targeting Q3 2026.
 
 **Validated:** 2026-03-11 (Reality-Check against Sourcecode; see [docs/de/observability/missing-implementations.md](../../docs/de/observability/missing-implementations.md))
 

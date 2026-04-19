@@ -1,4 +1,4 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset release && cmake --build build/release --target <target>`
 
 # Search Module
 
@@ -20,11 +20,25 @@ Implements full-text and hybrid search for ThemisDB, providing inverted index ma
 ## Relevant Interfaces
 
 - `hybrid_search.cpp` — RRF-based fusion of BM25 and vector search (main entry point)
+- `distributed_hybrid_search.cpp` — distributed hybrid search across shards with mTLS
 - `query_expander.cpp` — synonym expansion, spelling correction, query relaxation
 - `fuzzy_matcher.cpp` — Levenshtein, Soundex, Metaphone, N-gram similarity
 - `llm_query_rewriter.cpp` — LLM-based query rewriting for improved recall
 - `llm_reranker.cpp` — LLM-based re-ranking of top-N results
 - `learning_to_rank.cpp` — online pairwise gradient-descent ranking model
+- `faceted_search.cpp` — value-count facets, range buckets, drill-down filtering
+- `search_analytics.cpp` — thread-safe query log; avg/p95/p99 latency metrics
+- `autocomplete.cpp` — prefix-index and popular-query suggestions
+- `multi_modal_search.cpp` — TEXT/IMAGE/AUDIO/CUSTOM modalities with weighted RRF
+- `multi_field_search.cpp` — per-field BM25 boosting (title > body > tags)
+- `neural_sparse_retrieval.cpp` — SPLADE / BERT-based neural sparse retrieval
+- `cross_lingual_search.cpp` — cross-lingual search via multilingual embeddings
+- `personalized_ranker.cpp` — per-user interaction history with time-decayed scoring
+- `search_highlighter.cpp` — matched-term highlighting and snippet generation
+- `negative_keyword_filter.cpp` — NOT-operator negative keyword filtering
+- `conversational_search.cpp` — multi-turn context-aware query reformulation
+- `federated_search.cpp` — tenant-isolated parallel search with per-tenant weighting
+- `search_result_stream.cpp` — cursor-based streaming pagination for large result sets
 
 ## Current Delivery Status
 
@@ -32,14 +46,29 @@ Implements full-text and hybrid search for ThemisDB, providing inverted index ma
 
 ## Components
 
-- **Hybrid Search**: Combines BM25 (lexical) and vector (semantic) search with Reciprocal Rank Fusion (RRF)
+- **Hybrid Search**: Combines BM25 (lexical) and vector (semantic) search with Reciprocal Rank Fusion (RRF) (`HybridSearch`)
+- **Distributed Hybrid Search**: Cross-shard hybrid search with mTLS-secured inter-node communication (`DistributedHybridSearch`)
 - **Full-Text Search**: BM25 ranking algorithm for keyword matching
-- **Fuzzy Matching**: Phonetic search and edit distance matching
+- **Fuzzy Matching**: Phonetic search and edit distance matching (`FuzzyMatcher`)
 - **Search Indexing**: Tokenization, stemming, and inverted index management
-- **Query Parsing**: Natural language query parsing and expansion
+- **Query Parsing**: Natural language query parsing and expansion (`QueryExpander`)
 - **Result Ranking**: Configurable scoring and ranking algorithms
 - **LLM Query Rewriting**: LLM-based alternative query generation for improved recall (`LlmQueryRewriter`)
 - **LLM Re-ranking**: Configurable re-ranking with LLM feedback loop (`LlmReranker`)
+- **Faceted Search**: Per-field value-count facets, numeric range buckets, drill-down filtering (`FacetedSearch`)
+- **Search Analytics**: Thread-safe query logging; avg/p95/p99 latency, zero-result detection (`SearchAnalytics`)
+- **Autocomplete**: Prefix-index and popular-query suggestions (`AutocompleteEngine`)
+- **Learning to Rank**: Linear re-ranker with online pairwise gradient-descent training (`LearningToRank`)
+- **Multi-Modal Search**: TEXT/IMAGE/AUDIO/CUSTOM modalities with weighted RRF fusion (`MultiModalSearch`)
+- **Multi-Field Boosting**: Per-field BM25 scoring with title > body > tags priority (`MultiFieldBoostedSearch`)
+- **Neural Sparse Retrieval**: SPLADE / BERT-based sparse retrieval with vocabulary expansion (`NeuralSparseRetrieval`)
+- **Cross-Lingual Search**: Multilingual embedding models with language detection (`CrossLingualSearch`)
+- **Personalized Ranking**: Per-user interaction history with time-decayed scoring (`PersonalizedRanker`)
+- **Search Highlighter**: Matched-term `<mark>` highlighting and snippet generation (`SearchHighlighter`)
+- **Negative Keyword Filter**: NOT-operator support with posting-list candidate removal (`NegativeKeywordFilter`)
+- **Conversational Search**: Multi-turn context-aware query reformulation (`ConversationalSearch`)
+- **Federated Search**: Tenant-isolated parallel search with per-tenant weighting (`FederatedSearch`)
+- **Result Stream**: Cursor-based streaming pagination for large result sets (`SearchResultStream`)
 
 ## Features
 

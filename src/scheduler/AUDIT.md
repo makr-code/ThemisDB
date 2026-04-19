@@ -34,10 +34,8 @@
 ## Findings
 
 ### Resolved
-- Build system registration verified
-<!-- TODO: add source file evidence -->
-- All public APIs have test coverage
-<!-- TODO: add source file evidence -->
+- Finding: Build system registration | Evidence: cmake/CMakeLists.txt, cmake/ModularBuild.cmake | Status: resolved
+- Finding: All public APIs have test coverage | Evidence: tests/test_task_scheduler.cpp, tests/test_task_scheduler_dynamic_scaling.cpp, tests/test_task_scheduler_triggers.cpp, tests/test_distributed_task_coordinator.cpp, tests/test_task_audit.cpp, tests/test_task_result_store.cpp, tests/test_external_scheduler_adapter.cpp, tests/test_task_scheduler_auth_context.cpp | Status: resolved
 
 ### Open
 - None critical
