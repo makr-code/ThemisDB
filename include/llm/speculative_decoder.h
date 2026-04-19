@@ -75,6 +75,20 @@ public:
 
         /// RNG seed for reproducibility in tests.  0 = use random seed.
         uint64_t rng_seed = 0;
+
+        /**
+         * @brief Remote draft shard identifier for cross-shard speculative decoding.
+         *
+         * When non-empty this field holds the shard address used to contact a
+         * lightweight draft model running on a remote ThemisDB shard (e.g.
+         * "shard-a:model:mistral-7b-q4").  The InferenceEngineEnhanced is
+         * expected to use RemoteExecutor to forward draft-token requests to
+         * that shard.  Falls back to the local draft model when the field is
+         * empty or the remote shard is unavailable.
+         *
+         * Format: "<shard_id>:model:<model_id>"   (colon-separated)
+         */
+        std::string remote_draft_shard_id;
     };
 
     // ── Result of one verify() call ──────────────────────────────────

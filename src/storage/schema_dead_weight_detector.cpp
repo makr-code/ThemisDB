@@ -19,6 +19,9 @@ namespace storage {
 // Lifecycle
 // ---------------------------------------------------------------------------
 
+SchemaDeadWeightDetector::SchemaDeadWeightDetector()
+    : SchemaDeadWeightDetector(Config{}) {}
+
 SchemaDeadWeightDetector::SchemaDeadWeightDetector(Config config)
     : config_(std::move(config)) {}
 

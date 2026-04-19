@@ -504,4 +504,32 @@ TEST_F(ContinuousBatchSchedulerTest, MetricsNullCollectorNoCrash) {
     sched->stop();
 }
 
-// No custom main; gtest_main provides the entry point
+// ─────────────────────────────────────────────────────────────────────────────
+// LLM-RAID integration: getLLMStats() ShardStats bridge
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Test 14 (CBS-LLM-01): getLLMStats() returns zero pending when queue is empty.
+TEST_F(ContinuousBatchSchedulerTest, GetLLMStats_EmptyQueue) {
+    const auto s = scheduler->getLLMStats();
+    EXPECT_EQ(s.pending_requests, 0u);
+    EXPECT_DOUBLE_EQ(s.avg_queue_ms, 0.0);
+}
+
+// Test 15 (CBS-LLM-02): getLLMStats() reflects queued requests.
+TEST_F(ContinuousBatchSchedulerTest, GetLLMStats_PendingCount) {
+    // Submit two requests but don't call scheduleNextBatch() to keep them waiting.
+    scheduler->submitRequest(createTestRequest(4, 2));
+    scheduler->submitRequest(createTestRequest(4, 2));
+
+    const auto s = scheduler->getLLMStats();
+    EXPECT_EQ(s.pending_requests, 2u);
+}
+
+// Test 16 (CBS-LLM-03): getLLMStats() pending returns to zero after batch is scheduled.
+TEST_F(ContinuousBatchSchedulerTest, GetLLMStats_DropsAfterSchedule) {
+    scheduler->submitRequest(createTestRequest(4, 2));
+    EXPECT_EQ(scheduler->getLLMStats().pending_requests, 1u);
+
+    scheduler->scheduleNextBatch();  // moves waiting → active
+    EXPECT_EQ(scheduler->getLLMStats().pending_requests, 0u);
+}

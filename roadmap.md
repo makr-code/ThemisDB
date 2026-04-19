@@ -48,7 +48,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 | **index** | ✅ Production-ready — exportIndexStats to metadata module (Issue #1866) complete; multi-tenancy isolation, online rebuild, GPU oversubscription all operational | [src/index/ROADMAP.md](src/index/ROADMAP.md) |
 | **ingestion** | ✅ Production-ready | [src/ingestion/ROADMAP.md](src/ingestion/ROADMAP.md) |
 | **llama_cpp** | ✅ Production-ready (v2.2.0) — `LlamaWrapper` real inference (generate/embed/exportLoRA/importLoRA), streaming, batch inference, PluginManager hot-plug registrar | [src/llama_cpp/ROADMAP.md](src/llama_cpp/ROADMAP.md) |
-| **llm** | ✅ Production-ready (v1.16.0) | [src/llm/ROADMAP.md](src/llm/ROADMAP.md) |
+| **llm** | ✅ Production-ready (v1.19.0) — LLM+RAID bridge: `getLLMStats()` ShardStats, `updateShardLLMLoad()` + LEAST_LOADED routing, `remote_draft_shard_id` | [src/llm/ROADMAP.md](src/llm/ROADMAP.md) |
 | **maintenance** | ✅ Production-ready (v1.1.0) — Orchestration, schedule persistence, window enforcement, health aggregation complete | [src/maintenance/ROADMAP.md](src/maintenance/ROADMAP.md) |
 | **metadata** | ✅ Production-ready | [src/metadata/ROADMAP.md](src/metadata/ROADMAP.md) |
 | **network** | ✅ Production-ready | [src/network/ROADMAP.md](src/network/ROADMAP.md) |

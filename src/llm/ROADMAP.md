@@ -5,8 +5,13 @@
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../docs/de/llm/README.md -->
 
 ## Current Status
-v1.17.0 – Full-featured production LLM module. All short-term and long-term planned features have been implemented. Key additions since v1.16.0:
-- InlineTrainingEngine: on-the-fly LoRA fine-tuning with AdamW/Adam/SGD/Adagrad/RMSProp optimizers, Cosine/Linear/Polynomial LR schedulers, gradient accumulation, checkpointing, and progress callbacks
+v1.19.0 – Full-featured production LLM module. v1.18.0 added LookupDecoder (n-gram lookup, LKD-01..18),
+KV-budget guard in ContinuousBatchScheduler, and RAID sharding hints in EnhancedInferenceRequest.
+v1.19.0 adds LLM+RAID integration bridge:
+
+- `ContinuousBatchScheduler::getLLMStats()` – returns `ShardStats{pending_requests, avg_queue_ms}` for real-time shard telemetry
+- `AdaptiveShardRouter::updateShardLLMLoad()` + LEAST_LOADED tie-breaking in `routeByDomain()`
+- `SpeculativeDecoder::Config::remote_draft_shard_id` – cross-shard speculative decoding shard hint
 
 Key additions since v1.15.0:
 - Function/tool calling (JSON schema binding) (Issue: #1922)

@@ -116,6 +116,7 @@ Implementing sharding requires careful planning and execution. Following this ro
 - [x] Persistent Paxos acceptor state survives process restart (WAL fsynced before PROMISE/ACCEPTED response)
 - [x] Cross-shard query routing (scatter-gather, single-shard, cross-shard join via ShardRouter)
 - [x] Chaos-engineering test suite registered and passing (`test_sharding_chaos_focused`, `test_paxos_persistence_recovery_focused`)
+- [x] LLM-aware domain routing: `AdaptiveShardRouter::updateShardLLMLoad()` + LEAST_LOADED tie-breaking in `routeByDomain()` (v1.19.0, DLR-01..06)
 - [ ] RPC integration with mTLS for all cross-shard channels (write: gRPC ReplicateData ✅; read: HTTP for now)
 - [ ] End-to-end cross-shard query routing verified under load (≥ 10,000 cross-shard ops/s)
 
