@@ -67,18 +67,34 @@ auto jobs = orchestrator.listJobs(50);
 MaintenanceHealthReport health = orchestrator.getHealthReport();
 ```
 
-### `MaintenanceRegistry`
+### Default Schedule Bundles
 
-Provides pre-built schedule bundles for common maintenance patterns:
+`src/maintenance/maintenance_registry.cpp` provides standalone free functions in
+`namespace themis::maintenance` that return pre-built `MaintenanceScheduleEntry` values:
 
 ```cpp
-#include "maintenance/maintenance_registry.h"
+#include "maintenance/database_maintenance_orchestrator.h"
+#include "maintenance/maintenance_schedule.h"
 
-// Get default schedule bundles
-auto daily_schedules   = MaintenanceRegistry::getDailySchedules();
-auto weekly_schedules  = MaintenanceRegistry::getWeeklySchedules();
-auto monthly_schedules = MaintenanceRegistry::getMonthlySchedules();
+// Get default schedule entries
+auto daily   = themis::maintenance::defaultDailySchedule();
+auto weekly  = themis::maintenance::defaultWeeklySchedule();
+auto monthly = themis::maintenance::defaultMonthlySchedule();
+auto quarterly = themis::maintenance::defaultQuarterlySchedule();
+
+// Register all defaults (disabled by default) and the IndexMaintenance health probe:
+themis::maintenance::registerDefaultMaintenanceSetup(orchestrator, index_mgr);
 ```
+
+| Function | Frequency | Tasks |
+|----------|-----------|-------|
+| `defaultDailySchedule()` | `DAILY` | `METRICS_COLLECTION`, `FRAGMENTATION_MONITORING`, `QUOTA_CHECK` |
+| `defaultWeeklySchedule()` | `WEEKLY` | `CONSISTENCY_CHECK`, `REPLICA_VALIDATION`, `PERFORMANCE_ANALYSIS`, `MVCC_CLEANUP` |
+| `defaultMonthlySchedule()` | `MONTHLY` | `FULL_CHECKDB`, `BACKUP_VERIFICATION`, `CAPACITY_TREND_ANALYSIS`, `INDEX_FRAGMENTATION_REPORT` |
+| `defaultQuarterlySchedule()` | `QUARTERLY` | `DISASTER_RECOVERY_DRILL`, `BASELINE_UPDATE` |
+
+> **Note:** There is no `MaintenanceRegistry` class and no `maintenance_registry.h` header.
+> The free functions above are defined in `src/maintenance/maintenance_registry.cpp`.
 
 ## Scope
 
@@ -104,19 +120,31 @@ auto monthly_schedules = MaintenanceRegistry::getMonthlySchedules();
 
 ## Task Types (19)
 
+Defined in `include/maintenance/maintenance_task.h` (`enum class MaintenanceTaskType`):
+
 ```
-INDEX_REBUILD         INDEX_OPTIMIZE        INDEX_CONSISTENCY_CHECK
-STORAGE_COMPACTION    WAL_ARCHIVING         BACKUP_VERIFICATION
-METRICS_COLLECTION    LOG_ROTATION          CACHE_WARM
-DEAD_LETTER_DRAIN     REPLICA_VALIDATION    MVCC_CLEANUP
-SCHEMA_VALIDATION     RETENTION_ENFORCEMENT STATISTICS_UPDATE
-SECURITY_SCAN         AUDIT_LOG_FLUSH       BLOOM_FILTER_REBUILD
-CUSTOM
+-- Daily --
+METRICS_COLLECTION        FRAGMENTATION_MONITORING   QUOTA_CHECK
+
+-- Weekly --
+CONSISTENCY_CHECK         REPLICA_VALIDATION         PERFORMANCE_ANALYSIS
+MVCC_CLEANUP
+
+-- Monthly --
+FULL_CHECKDB              BACKUP_VERIFICATION        CAPACITY_TREND_ANALYSIS
+INDEX_FRAGMENTATION_REPORT
+
+-- Quarterly --
+DISASTER_RECOVERY_DRILL   BASELINE_UPDATE
+
+-- On-demand --
+INDEX_REBUILD             INDEX_REORGANIZE           STATISTICS_UPDATE
+STORAGE_COMPACTION        ORPHAN_CLEANUP             VECTOR_REINDEX
 ```
 
 ## REST API
 
-13 endpoints under `/api/v1/maintenance/`:
+15 endpoints under `/api/v1/maintenance/`:
 
 - `POST /schedules` — create schedule
 - `GET /schedules` — list all (accepts `?tenant_id=` filter)
@@ -144,7 +172,7 @@ Modules can register health probes to contribute to the aggregated health report
 orchestrator.registerHealthProbe("my_module", []() -> ModuleHealthSignal {
     ModuleHealthSignal signal;
     signal.module_name = "my_module";
-    signal.status = ModuleHealthStatus::HEALTHY;
+    signal.status = ModuleHealthStatus::OK;
     signal.message = "All systems nominal";
     return signal;
 });

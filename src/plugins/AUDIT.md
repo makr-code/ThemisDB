@@ -48,7 +48,7 @@ Key test areas: plugin load/unload lifecycle, hot-reload with rollback, Ed25519 
 | Ed25519 signature enforcement    | ✅ Complete  | Mandatory at load time; no bypass path  |
 | JSON Schema v2 manifest validation | ✅ Complete | Schema errors abort load                |
 | Capability isolation at load     | ✅ Complete  | `PluginCapabilityNegotiator` enforced   |
-| Runtime escalation blocking      | ⚠️ Open     | Not yet blocked programmatically        |
+| Runtime escalation blocking      | ✅ Complete  | `PluginManager::checkCapabilityEscalation()` implemented 2026-04-09 |
 | WASM sandbox isolation           | ❌ Not implemented | Planned Q3 2027 (Wasmtime)         |
 | Supply chain / OCI signing       | ✅ Complete  | Key rotation supported                  |
 | Health monitoring + auto-restart | ✅ Complete  | `plugin_health_monitor.cpp`             |
@@ -58,7 +58,7 @@ Key test areas: plugin load/unload lifecycle, hot-reload with rollback, Ed25519 
 | ID     | Description                                              | Target     | Priority |
 |--------|----------------------------------------------------------|------------|----------|
 | OI-01  | WASM sandbox via Wasmtime for in-process isolation       | Q3 2027    | High     |
-| OI-02  | Runtime capability escalation blocking                   | Q4 2026    | High     |
+| OI-02  | Runtime capability escalation blocking — **Implemented** 2026-04-09 via `PluginManager::checkCapabilityEscalation()`; tests in `test_plugin_capability_escalation.cpp` | ~~Q4 2026~~ Shipped | ~~High~~ Resolved |
 | OI-03  | Per-plugin resource quotas (CPU/memory/I/O)              | Q2 2027    | Medium   |
 | OI-04  | SDK bindings for plugin authors (C, Python, Rust)        | Q3 2027    | Medium   |
 | OI-05  | Community plugin repository scanning and trust scoring   | Q4 2027    | Medium   |
