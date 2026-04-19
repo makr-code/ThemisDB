@@ -19499,6 +19499,50 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ingestion_builtin_steps_v14.cpp")
     message(STATUS "  ING-09..12: builtin.chunk_embed — name/version, skip unavailable, error unavailable, produces VectorRecords")
 endif()
 
+# ─────────────────────────────────────────────────────────────────────────────
+# Distributed Knowledge Federation — Session 1 unit tests (2026-04-19)
+# Tests: DK-A-01..06, DK-B-01..13, DK-C-01..10, DK-D-01..08 (37 tests)
+# ─────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge.cpp")
+    message(STATUS "Adding Distributed Knowledge Federation unit tests (DK-A..D, 37 tests)")
+
+    add_executable(test_distributed_knowledge_focused
+        test_distributed_knowledge.cpp
+    )
+
+    target_include_directories(test_distributed_knowledge_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_distributed_knowledge_focused PRIVATE
+        ${TEST_LIBS}
+        themis_distributed_knowledge
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_distributed_knowledge_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    set_target_properties(test_distributed_knowledge_focused PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME DistributedKnowledgeTests
+        COMMAND test_distributed_knowledge_focused)
+    set_tests_properties(DistributedKnowledgeTests PROPERTIES
+        LABELS "distributed_knowledge;federation;gossip;lora;rag;feedback;session1;focused;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  DK-A-01..06: AdapterCapabilityAnnouncement / GossipAdapterPublisher")
+    message(STATUS "  DK-B-01..13: LoRAFederationCoordinator (FedAvg, median, DP noise, round mgmt)")
+    message(STATUS "  DK-C-01..10: FederatedRAGMerger (RRF, score-weighted, round-robin, dedup)")
+    message(STATUS "  DK-D-01..08: CrossShardFeedbackSync (publish, inbound, dedup, stats)")
+endif()
+
 # ── Chaos Network focused tests (Phase 4.3) ───────────────────────────────────
 if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_chaos_network.cpp")
     message(STATUS "Adding Chaos: Network chaos focused tests (Phase 4.3)")

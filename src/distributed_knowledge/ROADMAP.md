@@ -99,11 +99,11 @@ reality-check status above as the authoritative implementation state.
 **Input:** 4 headers + 4 .cpp files (Session 0 output)
 
 **Tasks:**
-- [ ] Add `src/distributed_knowledge/CMakeLists.txt` with library target `themis_distributed_knowledge` (Target: Session 1)
+- [x] Add `src/distributed_knowledge/CMakeLists.txt` with library target `themis_distributed_knowledge` (Target: Session 1)
   - Sources: `adapter_capability_announcement.cpp`, `lora_federation_coordinator.cpp`, `federated_rag_merger.cpp`, `cross_shard_feedback_sync.cpp`
   - Dependencies: `nlohmann_json`, `themis_core`
-- [ ] Register in root `CMakeLists.txt` via `add_subdirectory(src/distributed_knowledge)` (Target: Session 1)
-- [ ] Create `tests/test_distributed_knowledge.cpp` — 25+ unit tests (Target: Session 1)
+- [x] Register in root `CMakeLists.txt` via `add_subdirectory(src/distributed_knowledge)` (Target: Session 1)
+- [x] Create `tests/test_distributed_knowledge.cpp` — 25+ unit tests (Target: Session 1)
 
 **Test cases required (grouped):**
 

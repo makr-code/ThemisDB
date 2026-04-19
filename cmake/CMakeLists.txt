@@ -6530,6 +6530,13 @@ if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
                          ${CMAKE_CURRENT_BINARY_DIR}/src/user_storage_encrypted)
     endif()
 
+    # Distributed Knowledge Federation module (Session 1, 2026-04-19)
+    # -------------------------------------------------------------------------
+    if(EXISTS "${THEMIS_ROOT_DIR}/src/distributed_knowledge/CMakeLists.txt")
+        add_subdirectory(${THEMIS_ROOT_DIR}/src/distributed_knowledge
+                         ${CMAKE_CURRENT_BINARY_DIR}/src/distributed_knowledge)
+    endif()
+
     # Non-compiled plugin manifests / legacy orchestration: plugins/
     if(EXISTS "${THEMIS_ROOT_DIR}/plugins/CMakeLists.txt")
         add_subdirectory(${THEMIS_ROOT_DIR}/plugins
