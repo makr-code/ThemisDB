@@ -18659,6 +18659,65 @@ else()
 endif()
 
 # ============================================================================
+# Ethics AI v0.3.0 Tests — hot-reload, multi-round debates, Prometheus metrics
+# ============================================================================
+
+if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_ai_v030.cpp")
+    message(STATUS "Adding Ethics AI v0.3.0 focused tests (EAM-01..12)")
+
+    add_executable(test_ethics_ai_v030_focused
+        test_ethics_ai_v030.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/argument_store.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/discourse_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/rag_context_engine.cpp
+    )
+
+    target_include_directories(test_ethics_ai_v030_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+    )
+
+    target_link_libraries(test_ethics_ai_v030_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ethics_ai_v030_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    if(yaml-cpp_FOUND)
+        target_link_libraries(test_ethics_ai_v030_focused PRIVATE yaml-cpp)
+        target_compile_definitions(test_ethics_ai_v030_focused PRIVATE HAVE_YAML_CPP=1)
+    endif()
+
+    set_target_properties(test_ethics_ai_v030_focused PROPERTIES
+        CXX_STANDARD 20
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME EthicsAIv030Tests COMMAND test_ethics_ai_v030_focused)
+
+    set_tests_properties(EthicsAIv030Tests PROPERTIES
+        LABELS "ethics;hot-reload;multi-round;prometheus;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  EAM-01..04: PhilosophyLoader::reloadProfiles()")
+    message(STATUS "  EAM-05..08: EthicalDiscourseEngine::continueDebate() + getDebateTranscript()")
+    message(STATUS "  EAM-09..12: EthicsEvaluator Prometheus metrics")
+elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
+    message(STATUS "Ethics AI v0.3.0 tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)")
+else()
+    message(STATUS "Ethics AI v0.3.0 tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_ai_v030.cpp")
+endif()
+
+# ============================================================================
 # ONNX CLIP Plugin Tests (src/onnx_clip)
 # ============================================================================
 

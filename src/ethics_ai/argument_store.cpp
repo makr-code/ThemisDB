@@ -386,6 +386,39 @@ std::variant<ArgumentChain, Status> ArgumentStore::getChain(const std::string& c
     return it->second;
 }
 
+// ============================================================================
+// v0.2.0 — Debate Transcript Storage
+// ============================================================================
+
+Status ArgumentStore::storeDebateRound(const DebateRound& round) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto& rounds = debate_rounds_[round.debate_id];
+    // Replace if a round with the same number already exists.
+    for (auto& existing : rounds) {
+        if (existing.round_number == round.round_number) {
+            existing = round;
+            return Status::OK();
+        }
+    }
+    rounds.push_back(round);
+    // Keep rounds sorted by round_number.
+    std::sort(rounds.begin(), rounds.end(),
+              [](const DebateRound& a, const DebateRound& b) {
+                  return a.round_number < b.round_number;
+              });
+    return Status::OK();
+}
+
+std::variant<std::vector<DebateRound>, Status>
+ArgumentStore::getDebateTranscript(const std::string& debate_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto it = debate_rounds_.find(debate_id);
+    if (it == debate_rounds_.end()) {
+        return std::vector<DebateRound>{}; // no rounds yet — not an error
+    }
+    return it->second;
+}
+
 } // namespace ethics
 } // namespace plugins
 } // namespace themis

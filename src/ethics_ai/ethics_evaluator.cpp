@@ -26,6 +26,7 @@
 #include <map>
 #include <numeric>
 #include <set>
+#include <sstream>
 #include <variant>
 
 namespace themis {
@@ -263,6 +264,63 @@ double EthicsEvaluator::computeConsensus(
         if (tally >= 0) ++agreeing;
     }
     return static_cast<double>(agreeing) / static_cast<double>(school_votes.size());
+}
+
+// ============================================================================
+// Prometheus Metrics
+// ============================================================================
+
+void EthicsEvaluator::recordDecision(double confidence, bool rag_hit,
+                                       uint64_t latency_ms)
+{
+    ++decisions_total_;
+    latency_ms_total_ += latency_ms;
+    if (rag_hit) ++rag_hits_total_;
+    // Store confidence * 1e6 as integer to avoid floating-point atomics
+    confidence_sum_micro_ +=
+        static_cast<uint64_t>(confidence * 1'000'000.0);
+}
+
+void EthicsEvaluator::setArgumentStoreSize(uint64_t count) {
+    argument_store_size_.store(count);
+}
+
+std::string EthicsEvaluator::getMetricsText() const {
+    uint64_t decisions = decisions_total_.load();
+    if (decisions == 0) return "";
+
+    uint64_t latency   = latency_ms_total_.load();
+    uint64_t rag_hits  = rag_hits_total_.load();
+    uint64_t conf_sum  = confidence_sum_micro_.load();
+    uint64_t store_sz  = argument_store_size_.load();
+
+    double conf_avg = (decisions > 0)
+        ? static_cast<double>(conf_sum) / (static_cast<double>(decisions) * 1'000'000.0)
+        : 0.0;
+
+    std::ostringstream out;
+
+    out << "# HELP ethics_decisions_total Total ethical decisions synthesised.\n";
+    out << "# TYPE ethics_decisions_total counter\n";
+    out << "ethics_decisions_total " << decisions << "\n";
+
+    out << "# HELP ethics_decision_latency_ms_total Cumulative makeDecision() latency in milliseconds.\n";
+    out << "# TYPE ethics_decision_latency_ms_total counter\n";
+    out << "ethics_decision_latency_ms_total " << latency << "\n";
+
+    out << "# HELP ethics_rag_context_hits_total RAG queries that returned at least one result.\n";
+    out << "# TYPE ethics_rag_context_hits_total counter\n";
+    out << "ethics_rag_context_hits_total " << rag_hits << "\n";
+
+    out << "# HELP ethics_argument_confidence_avg Rolling average argument confidence score.\n";
+    out << "# TYPE ethics_argument_confidence_avg gauge\n";
+    out << "ethics_argument_confidence_avg " << conf_avg << "\n";
+
+    out << "# HELP ethics_argument_store_size Total arguments currently in the store.\n";
+    out << "# TYPE ethics_argument_store_size gauge\n";
+    out << "ethics_argument_store_size " << store_sz << "\n";
+
+    return out.str();
 }
 
 } // namespace ethics

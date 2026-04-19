@@ -141,6 +141,27 @@ public:
     std::variant<ArgumentChain, Status> getChain(const std::string& chain_id);
 
     /**
+     * @brief Store a single debate round (all arguments produced in one round).
+     * @param round The round to store
+     * @return Status indicating success/failure
+     */
+    Status storeDebateRound(const DebateRound& round);
+
+    /**
+     * @brief Retrieve the full debate transcript (all rounds) for a given debate.
+     *
+     * Returns all `DebateRound` objects that were stored for @p debate_id,
+     * ordered by `round_number` ascending.  If no rounds are stored for the
+     * debate, returns an empty vector (not an error).
+     *
+     * @param debate_id  Debate identifier (from `DebateInitialization::debate_id`).
+     * @return Ordered list of rounds, or `Status::Error` on storage failure.
+     */
+    std::variant<std::vector<DebateRound>, Status> getDebateTranscript(
+        const std::string& debate_id
+    );
+
+    /**
      * @brief Shutdown the store
      */
     void shutdown();
@@ -159,6 +180,8 @@ private:
     std::map<std::string, EthicalDecision> decisions_;
     std::map<std::string, PhilosophyProfile> profiles_;
     std::map<std::string, ArgumentChain> chains_; ///< In-memory chain cache
+    /// Key = debate_id; value = rounds ordered by round_number
+    std::map<std::string, std::vector<DebateRound>> debate_rounds_;
 };
 
 } // namespace ethics

@@ -239,10 +239,12 @@ std::variant<PhilosophyProfile, Status> PhilosophyLoader::getProfile(
 }
 
 bool PhilosophyLoader::hasProfile(const std::string& school_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
     return profiles_.find(school_id) != profiles_.end();
 }
 
 std::vector<std::string> PhilosophyLoader::getSchoolIds() const {
+    std::lock_guard<std::mutex> lock(mutex_);
     std::vector<std::string> ids;
     ids.reserve(profiles_.size());
     
@@ -254,15 +256,32 @@ std::vector<std::string> PhilosophyLoader::getSchoolIds() const {
 }
 
 void PhilosophyLoader::clear() {
+    std::lock_guard<std::mutex> lock(mutex_);
     profiles_.clear();
 }
 
 void PhilosophyLoader::addProfile(const PhilosophyProfile& profile) {
+    std::lock_guard<std::mutex> lock(mutex_);
     profiles_[profile.school_id] = profile;
 }
 
 std::map<std::string, PhilosophyProfile> PhilosophyLoader::getAllProfiles() const {
+    std::lock_guard<std::mutex> lock(mutex_);
     return profiles_;
+}
+
+std::variant<size_t, Status> PhilosophyLoader::reloadProfiles(const std::string& directory) {
+    // Build a fresh map using a temporary loader (avoids holding lock during I/O).
+    PhilosophyLoader tmp;
+    auto result = tmp.loadFromDirectory(directory);
+    if (std::holds_alternative<Status>(result)) {
+        return result; // propagate error
+    }
+
+    // Atomic swap under the lock.
+    std::lock_guard<std::mutex> lock(mutex_);
+    profiles_ = tmp.profiles_;
+    return profiles_.size();
 }
 
 } // namespace ethics

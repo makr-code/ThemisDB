@@ -6,7 +6,7 @@
 
 ## Current Status
 
-v0.2.0 — `PhilosophyLoader` handles rich YAML (complex thesis objects, point-keyed strengths/weaknesses, nested `decision_framework`). `EthicsEvaluator::Config` configurable weights normalised in ctor. `ChainVisualizer` ships `exportDot`/`exportMermaid`/`chainToDot`/`chainToMermaid`. 8 tests CV-01…CV-08 in `tests/test_ethics_ai_chain_visualizer.cpp`. LLM argument generation and real embeddings remain planned for v0.1.0/v0.3.0.
+v0.3.0 — `PhilosophyLoader::reloadProfiles()` atomic hot-reload with mutex. `EthicalDiscourseEngine::continueDebate(debate_id, round)` multi-round debates (max 3 rounds; REBUTTAL/SYNTHESIS argument types; cross-round counter-argument links). `ArgumentStore::storeDebateRound()` + `getDebateTranscript()`. `DebateRound` struct in `ethics_ai_types.h`. `EthicsEvaluator::recordDecision()` + `getMetricsText()` Prometheus text v0.0.4 (5 metric families, `std::atomic` backed). 12 tests EAM-01..12 in `tests/test_ethics_ai_v030.cpp`. LLM argument generation and real embeddings remain planned for v0.1.0/v0.4.0.
 
 ---
 
@@ -66,11 +66,18 @@ v0.2.0 — `PhilosophyLoader` handles rich YAML (complex thesis objects, point-k
 
 ### v0.2.0 — Advanced RAG and Evaluation (Target: Q4 2026)
 
-- [ ] Philosophy profile hot-reload without server restart (Target: Q4 2026)
-- [ ] Multi-round debates: `continueDebate()` with counter-argument generation (Target: Q4 2026)
+- [x] Philosophy profile hot-reload without server restart (Target: Q4 2026)
+  - `PhilosophyLoader::reloadProfiles(directory)`: atomically re-scans directory using a temp loader, then swaps `profiles_` under `mutex_`; thread-safe; returns new profile count or Status::Error
+- [x] Multi-round debates: `continueDebate()` with counter-argument generation (Target: Q4 2026)
+  - `EthicalDiscourseEngine::continueDebate(debate_id, round_number)` → `DebateRound` (round capped at 3; REBUTTAL/SYNTHESIS argument types in rounds 2/3; counter-argument IDs linked)
+  - `ArgumentStore::storeDebateRound(round)` + `getDebateTranscript(debate_id)` returning rounds ordered by round_number
+  - `DebateRound` struct added to `ethics_ai_types.h`
 - [x] Configurable aggregation weights for EthicsEvaluator dimensions (Target: Q4 2026)
   - `EthicsEvaluator::Config` struct; weights normalised in constructor; default ctor preserves legacy behaviour
-- [ ] Prometheus metrics: decisions/sec, avg confidence, RAG hit rate (Target: Q4 2026)
+- [x] Prometheus metrics: decisions/sec, avg confidence, RAG hit rate (Target: Q4 2026)
+  - `EthicsEvaluator::recordDecision(confidence, rag_hit, latency_ms)` + `setArgumentStoreSize(count)` + `getMetricsText()` emitting Prometheus text v0.0.4
+  - Metrics: `ethics_decisions_total`, `ethics_decision_latency_ms_total`, `ethics_rag_context_hits_total`, `ethics_argument_confidence_avg`, `ethics_argument_store_size`
+  - Backed by `std::atomic` counters (lock-free, thread-safe)
 - [x] Performance benchmark: full decision pipeline ≤ 200 ms (excl. LLM) at p99 (Target: Q4 2026)
   - Implemented: `tests/test_ethics_ai_benchmark.cpp` (PB-01..PB-06); CI threshold 500 ms
 
@@ -168,7 +175,10 @@ v0.2.0 — `PhilosophyLoader` handles rich YAML (complex thesis objects, point-k
 | Embedding search | ⚠️ | BOC-TF 768-dim fallback; real ONNX model planned Q3 2026 |
 | Unit test coverage | ✅ | 5 focused unit suites + 1 integration suite + 1 benchmark suite + 1 visualizer suite |
 | Performance benchmarks | ✅ | PB-01..PB-06 in `tests/test_ethics_ai_benchmark.cpp` |
-| Prometheus metrics | ❌ | Planned Q4 2026 |
+| Multi-round debates | ✅ | `continueDebate()` max 3 rounds; REBUTTAL/SYNTHESIS types; cross-round links |
+| Debate transcript | ✅ | `storeDebateRound()` + `getDebateTranscript()` ordered by round_number |
+| Profile hot-reload | ✅ | `reloadProfiles()` atomic mutex-protected swap |
+| Prometheus metrics | ✅ | `recordDecision()` + `getMetricsText()` — 5 families, std::atomic backed |
 
 ---
 

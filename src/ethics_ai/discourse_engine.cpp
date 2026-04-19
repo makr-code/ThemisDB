@@ -63,6 +63,12 @@ std::variant<DebateInitialization, Status> EthicalDiscourseEngine::initializeDeb
     debate.philosophy_schools = philosophy_schools;
     debate.category = category;
     debate.created_at = now;
+
+    // Register the debate so continueDebate() can find it later.
+    {
+        std::lock_guard<std::mutex> lock(debates_mutex_);
+        active_debates_[debate.debate_id] = debate;
+    }
     
     return debate;
 }
@@ -221,6 +227,84 @@ std::string EthicalDiscourseEngine::synthesizeDecision(
        << " is to proceed with careful consideration of all ethical dimensions.";
     
     return ss.str();
+}
+
+// ============================================================================
+// v0.2.0 — Multi-Round Debates
+// ============================================================================
+
+std::variant<DebateRound, Status> EthicalDiscourseEngine::continueDebate(
+    const std::string& debate_id,
+    int round_number)
+{
+    // Cap rounds at 3 to bound computation cost.
+    const int capped_round = (round_number > 3) ? 3 : (round_number < 1 ? 1 : round_number);
+
+    // Look up the active debate.
+    DebateInitialization init;
+    {
+        std::lock_guard<std::mutex> lock(debates_mutex_);
+        auto it = active_debates_.find(debate_id);
+        if (it == active_debates_.end()) {
+            return Status::Error("Debate not found: " + debate_id);
+        }
+        init = it->second;
+    }
+
+    if (init.philosophy_schools.empty()) {
+        return Status::Error("No philosophy schools in debate: " + debate_id);
+    }
+
+    // Collect previous-round argument IDs for cross-referencing.
+    std::vector<std::string> prev_arg_ids;
+    {
+        std::lock_guard<std::mutex> lock(debates_mutex_);
+        auto it = debate_arguments_.find(debate_id);
+        if (it != debate_arguments_.end()) {
+            for (const auto& arg : it->second)
+                prev_arg_ids.push_back(arg.id);
+        }
+    }
+
+    DebateRound round;
+    round.debate_id   = debate_id;
+    round.round_number = capped_round;
+
+    for (const auto& school : init.philosophy_schools) {
+        auto profile_result = philosophy_loader_->getProfile(school);
+        if (!std::holds_alternative<PhilosophyProfile>(profile_result)) continue;
+        const auto& profile = std::get<PhilosophyProfile>(profile_result);
+
+        // Round 1 → PRO, Round 2 → CONTRA, Round 3 → SYNTHESIS
+        ArgumentType arg_type = ArgumentType::PRO;
+        if (capped_round == 2) arg_type = ArgumentType::REBUTTAL;
+        else if (capped_round == 3) arg_type = ArgumentType::SYNTHESIS;
+
+        EthicalArgument arg = generateArgument(profile, init.dilemma_description, arg_type);
+        // Link counter-arguments to previous round.
+        arg.counterarguments = prev_arg_ids;
+
+        // Store in ArgumentStore.
+        if (store_) {
+            store_->storeArgument(arg, /*store_vector=*/false);
+        }
+        round.arguments.push_back(arg);
+    }
+
+    // Accumulate all arguments for next-round context.
+    {
+        std::lock_guard<std::mutex> lock(debates_mutex_);
+        auto& all = debate_arguments_[debate_id];
+        for (const auto& a : round.arguments)
+            all.push_back(a);
+    }
+
+    // Persist the round.
+    if (store_) {
+        store_->storeDebateRound(round);
+    }
+
+    return round;
 }
 
 } // namespace ethics
