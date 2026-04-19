@@ -27,7 +27,6 @@ v2.1.0 — Thread-safe. MP3/OGG input via FFmpeg adapter. Benchmarks wired.
 - [x] CMake registration (plugin + tests)
 - [x] `WhisperConfig.language_confidence_threshold` — filters low-confidence `detectLanguage()` results
 - [x] Thread-safety: `transcribe_mutex_` now also guards `detectLanguage()` + threshold filter
-- [x] 44 unit tests (groups A–N)
 - [x] **`WhisperPluginAdapter` + `WhisperPluginRegistrar`** — `IThemisPlugin` adapter wrapping `WhisperPlugin`; `createPlugin`, `createAdapter`, `defaultReloadCallback`, `enableHotPlug`, `disableHotPlug`; 12 unit tests (`WhisperPluginRegistrarTests`, groups A–D) (2026-04-16)
 
 ## In Progress

@@ -4,19 +4,26 @@
 
 ## Scope
 - Modul/Ordner: `src/chimera`
-- Sicherheitsrelevante Funktionen, Konfigurationen und Datenflüsse in diesem Verzeichnis.
+- Sicherheitsrelevante Funktionen in `src/chimera/themisdb_adapter.cpp` und `include/chimera/themisdb_adapter.hpp`.
 
-## Bedrohungsmodell (Kurz)
-- Unvalidierte Eingaben
-- Unzureichende Autorisierung/Authentisierung
-- Leakage sensibler Daten in Logs/Artefakten
-- Fehlkonfiguration bei Deployment/Runtime
+## Threat Model
 
-## Mindestanforderungen
-- Eingaben strikt validieren und Fehler explizit behandeln
-- Geheimnisse niemals im Klartext ablegen
-- Security-relevante Änderungen mit Tests absichern
-- Abhängigkeiten regelmäßig auf Schwachstellen prüfen
+| Threat | Mitigation |
+|--------|-----------|
+| Connection string credential leakage | Credential masking (`user:pass@` → `***:***@`) in stored/logged connection strings |
+| Unvalidated connection state | All operation methods check `connected_` flag and return `CONNECTION_ERROR` if not connected (`src/chimera/themisdb_adapter.cpp`) |
+| Engine-backed path NOT_IMPLEMENTED silent failure | Engine dispatch paths return structured `ErrorCode::NOT_IMPLEMENTED`; callers must check `Result<T>` |
+| Unvalidated query parameters | Parameters passed through to `execute_query`; input validation is the caller's responsibility at the API layer |
+
+## Security Controls
+- Connection-string parsing with credential masking in `ThemisDBAdapter::connect()`
+- `Result<T>` error propagation: no silent failures on connection or operation errors
+- Engine injection constructor (`ThemisDBAdapter(QueryEngine*, VectorIndexManager*, GraphIndexManager*)`) limits injection surface to trusted callers
+
+## Known Limitations
+- No rate limiting or connection pooling in `ThemisDBAdapter`; must be enforced at the API layer
+- `Capability::CONNECTION_POOLING` is reported available but not implemented
+- No SSL/TLS configuration in the adapter connection interface
 
 ## Incident & Meldung
 - Sicherheitsfunde gemäß Root-`SECURITY.md` melden und behandeln.

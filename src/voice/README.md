@@ -12,14 +12,18 @@ Implements a voice query interface for ThemisDB, enabling speech-to-text transcr
 
 **In scope:** Speech-to-text integration (Whisper), voice-to-AQL query generation, audio preprocessing, voice session management.
 
-**Out of scope:** TTS (text-to-speech) output, audio recording hardware interface, language model training.
+**Out of scope:** Audio recording hardware interface, language model training.
 
 ## Relevant Interfaces
 
-- `voice_processor.cpp` — audio preprocessing and transcription orchestration
-- `speech_to_text.cpp` — Whisper integration
-- `voice_query_generator.cpp` — NL-to-AQL from voice
-- `voice_session.cpp` — session management
+- `voice_assistant.cpp` / `include/voice/voice_assistant.h` — main orchestrator (`VoiceAssistant`)
+- `audio_preprocessing.cpp` / `include/voice/audio_preprocessing.h` — `AudioPreprocessingPipeline`, `NoiseSuppressor`
+- `voice_intent_detector.cpp` / `include/voice/voice_intent_detector.h` — `VoiceIntentDetector`
+- `voice_session_manager.cpp` / `include/voice/voice_session_manager.h` — `VoiceSessionManager`
+- `voice_assistant_llm.cpp` — LLM-backed intent and response generation
+- `voice_authenticator.cpp` / `include/voice/voice_auth.h` — `VoiceBiometricAuthenticator`
+- `voice_browser_streaming.cpp` / `include/voice/voice_browser_streaming.h` — `VoiceStreamingSession`, `VoiceStreamingManager`
+- `voice_telephony.cpp` / `include/voice/voice_telephony.h` — `SipCallSession`, `WebRtcCallSession`, `IvrEngine`, `TelephonyBridge`
 
 ## Current Delivery Status
 

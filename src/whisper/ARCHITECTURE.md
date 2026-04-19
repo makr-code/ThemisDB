@@ -18,7 +18,9 @@ ThemisDB's plugin system as an `IAudioBackend`. It converts raw WAV audio into t
 transcriptions enriched with mandatory provenance metadata. The plugin is structured around
 three orthogonal concerns:
 
-1. **Audio ingestion** — `WavAudioChunkReader` parses RIFF/WAV containers without external libraries.
+1. **Audio ingestion** — `WavAudioChunkReader` parses RIFF/WAV containers without external libraries;
+   `FfmpegAudioChunkReader` handles MP3/OGG/FLAC/M4A via an `ffmpeg` subprocess;
+   `CompositeAudioChunkReader` chains multiple readers by file extension.
 2. **Inference** — `IWhisperTranscriber` (strategy) decouples model execution from plugin lifecycle.
 3. **Provenance** — `WhisperPlugin` applies stamps (`ingestion_source_type`, `plugin_version`,
    `generation_timestamp`) unconditionally before returning `TranscriptionResult`.
@@ -58,9 +60,19 @@ three orthogonal concerns:
                 │  │  └─────────────┘  │   │
                 │  └───────────────────┘   │
                 │  ┌───────────────────┐   │
-                │  │ WavAudioChunkRdr  │   │  ← RIFF/WAV parser
+                │  │CompositeChunkRdr  │   │  ← dispatches by extension
+                │  │  ┌─────────────┐  │   │
+                │  │  │WavChunkRdr  │  │   │  (RIFF/WAV, no deps)
+                │  │  ├─────────────┤  │   │
+                │  │  │FfmpegChkRdr │  │   │  (MP3/OGG/FLAC, ffmpeg)
+                │  │  └─────────────┘  │   │
                 │  └───────────────────┘   │
                 └──────────────────────────┘
+                           │ registered via
+         ┌─────────────────▼──────────────────┐
+         │ WhisperPluginAdapter : IThemisPlugin │  ← PluginManager integration
+         │ WhisperPluginRegistrar              │  ← hot-plug lifecycle
+         └─────────────────────────────────────┘
 ```
 
 ---
@@ -122,6 +134,10 @@ on `whisper_cpp >= 1.5.0`.
 | Type | Files | Count |
 |---|---|---|
 | Unit (stub mode) | `src/whisper/tests/test_whisper_plugin.cpp` | 44 |
+| Unit (registrar) | `src/whisper/tests/test_whisper_plugin_registrar.cpp` | 12 |
 
-All 44 tests run without a whisper.cpp model file. `InMemoryWhisperTranscriber` is injected
+All 44 plugin tests run without a whisper.cpp model file. `InMemoryWhisperTranscriber` is injected
 via the DI constructor for multiple groups (including E–N).
+
+The 12 registrar tests cover `WhisperPluginAdapter` and `WhisperPluginRegistrar` lifecycle
+(groups A–D: create, adapter capabilities, hot-plug enable/disable, default reload callback).

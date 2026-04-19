@@ -35,7 +35,7 @@ This document covers the security posture of the Whisper audio transcription plu
 - File size is checked against the declared data-chunk length before allocation.
 
 ### Model Integrity (Planned)
-- v2.1.0 will add SHA-256 digest verification of the model file against a trusted manifest,
+- SHA-256 digest verification of the model file against a trusted manifest is planned for Q3 2026,
   consistent with the LoRA adapter integrity policy in the LLM module.
 
 ### Provenance
@@ -49,7 +49,7 @@ This document covers the security posture of the Whisper audio transcription plu
 - [x] Magic-byte / format validation in WAV parser
 - [x] No transcript text in log output
 - [x] Exception isolation: transcriber exceptions caught, not propagated to caller
-- [ ] Model file integrity check (Target: v2.1.0)
+- [ ] Model file integrity check (Target: Q3 2026)
 - [ ] Maximum audio file size enforcement (caller responsibility; to be documented in API layer)
 - [ ] Rate limiting (caller / API layer responsibility)
-- [ ] Thread-safety audit (Target: v2.1.0)
+- [x] Thread-safety audit

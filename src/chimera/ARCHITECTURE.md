@@ -37,7 +37,7 @@ Dieses Dokument beschreibt den Realstand des Moduls `chimera` in `src/chimera/` 
 - Es existiert **nur** der ThemisDB-Referenzadapter im Modulpfad `src/chimera/`.
 - Adapter-Factory- und weitere Vendor-Adapter-Dateien sind im Modulpfad aktuell nicht vorhanden.
 - Mehrere Engine-Dispatch-Pfade liefern `ErrorCode::NOT_IMPLEMENTED`, wenn `THEMISDB_ENGINE_AVAILABLE` nicht definiert ist.
-- Include-Doku für `include/chimera/` ist aktuell nicht vorhanden.
+- Include-Dokumentation (`include/chimera/README.md`) ist vorhanden.
 
 ## Testabdeckung (direkt chimera-bezogen)
 

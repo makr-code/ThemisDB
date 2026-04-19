@@ -21,6 +21,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Thread-safety for `transcribe()`/`detectLanguage()` through `transcriber_mutex_`
 - `WhisperConfig.language_confidence_threshold` to suppress low-confidence language detection
 - Extended test coverage to groups A–N (`WhisperPluginFocusedTests`, 44 tests)
+- `WhisperPluginAdapter : IThemisPlugin` — wraps `WhisperPlugin`; implements `initialize`, `shutdown`, `getType`, `getCapabilities`, `getInstance`
+- `WhisperPluginRegistrar` — `createPlugin`, `createAdapter`, `defaultReloadCallback`, `enableHotPlug`, `disableHotPlug`
+- 12 unit tests (`WhisperPluginRegistrarTests`, groups A–D) in `src/whisper/tests/test_whisper_plugin_registrar.cpp`
 
 ## [2.0.0] — 2026-04-07
 
