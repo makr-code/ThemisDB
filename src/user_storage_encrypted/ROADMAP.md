@@ -33,13 +33,14 @@ is now ≥ 90/100; `KeyRotationScheduler` retains Production-Ready (100/100).
 - [x] `MultiLevelEncryptedStorage` — HOT/WARM/COLD tier orchestration
 - [x] 20 unit + integration tests (`test_user_storage_features.cpp`)
 - [x] CI workflow (`user-storage-encrypted-ci.yml`)
-- [x] Deprecated `executeCommand()` retains backward compatibility via delegate to `executeCommandSafe()`
+- [x] `reconcileStaleMounts()` — scans `/proc/mounts` for orphaned FUSE mounts on startup;
+      unmounts via `fusermount -u` / `umount` fallback; non-fatal; called from `initialize()`
 
 ---
 
 ## In Progress [~]
 
-- [~] Stale mount reconciliation on startup (FUTURE_ENHANCEMENTS §4)
+- [~] Integration tests: create → mount → write file → unmount → re-mount → verify file (Target: Q3 2026)
 
 ---
 
@@ -62,11 +63,10 @@ is now ≥ 90/100; `KeyRotationScheduler` retains Production-Ready (100/100).
 - [x] Called from `initialize()` before `initializeLevel()` (done)
 - [x] 5 `StaleMountReconciliationTest` tests (done)
 
-### v0.3.0 — Multi-User and Quota (Target: Q1 2027)
-### v0.2.0 — Monitoring and Multi-User (Target: Q3 2026)
+### v0.3.0 — Metrics and Cleanup (Target: Q3 2026)
 
 - [ ] Prometheus metrics: mount count, rotation events, container sizes (Target: Q3 2026)
-- [ ] Stale mount reconciliation on startup via `/proc/mounts` scan (Target: Q3 2026)
+- [ ] Remove deprecated `executeCommand()` after confirming no external callers (Target: Q3 2026)
 - [ ] Per-user container isolation: one encrypted dir per user_id (Target: Q1 2027)
 - [ ] Storage quota enforcement per container (Target: Q1 2027)
 
@@ -102,14 +102,6 @@ is now ≥ 90/100; `KeyRotationScheduler` retains Production-Ready (100/100).
 - [ ] Integration tests (Target: Q3 2026)
 
 ### Phase 5: Performance / Hardening ✅
-- [x] Fix `const_cast` in `createPasswordFile()` (done)
-- [x] Stdin key delivery + `explicit_bzero` (done)
-- [x] KDF integration (Argon2id) (done)
-- [x] `reconcileStaleMounts()` in `initialize()` (done)
-- [x] 20 unit + integration tests (`test_user_storage_features.cpp`)
-- [x] CI workflow covering gcc-12, gcc-13, clang-15
-
-### Phase 5: Performance / Hardening ✅
 - [x] Stdin key delivery eliminates `/tmp` key file window
 - [x] Argon2id KDF: latency ≤ 200 ms on reference hardware (40 ms measured in CI)
 - [x] `condition_variable` in scheduler enables immediate shutdown
@@ -129,7 +121,8 @@ is now ≥ 90/100; `KeyRotationScheduler` retains Production-Ready (100/100).
 | Argon2id KDF | ✅ | `Argon2idKeyDerivationService`; m=65536, t=3, p=4 |
 | Key rotation persistence | ✅ | `IRotationStore`; JSON state per SecurityLevel |
 | `KeyRotationScheduler` | ✅ | Production-Ready; `condition_variable` shutdown |
-| Tests | ✅ | 20 tests: stdin, KDF, persistence |
+| Stale mount reconciliation | ✅ | `reconcileStaleMounts()` called from `initialize()` |
+| Tests | ✅ | 25 tests: stdin, KDF, persistence, stale mounts |
 | CI | ✅ | `user-storage-encrypted-ci.yml` |
 
 ---
@@ -137,5 +130,5 @@ is now ≥ 90/100; `KeyRotationScheduler` retains Production-Ready (100/100).
 ## Known Issues & Limitations
 
 - `getBackendVersion()` uses `const_cast` to call `executeCommand()` on a const object (cosmetic).
-- Stale mount reconciliation on startup is planned but not yet implemented (FUTURE_ENHANCEMENTS §4).
+- Deprecated `executeCommand()` wrapper still present; removal pending confirmation of no external callers.
 - Prometheus metrics are planned but not yet implemented (FUTURE_ENHANCEMENTS §5).

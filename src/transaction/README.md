@@ -10,10 +10,12 @@ The Transaction module provides ThemisDB's ACID-compliant transaction management
 
 | Interface / File | Role |
 |-----------------|------|
-| `transaction_manager.cpp` | SAGA coordinator and ACID transaction lifecycle |
-| `saga_log.cpp` | SAGA execution log for distributed transaction tracking |
-| `compensation_registry.cpp` | Compensating action registry for SAGA rollback |
-| `two_phase_commit.cpp` | Two-Phase Commit (2PC) protocol implementation |
+| `transaction_manager.cpp` | ACID transaction lifecycle: begin, commit, rollback |
+| `saga.cpp` | SAGA pattern: step execution + compensating actions |
+| `saga_orchestrator.cpp` | SAGA orchestration and multi-step coordination |
+| `distributed_saga.cpp` | Distributed SAGA across multiple nodes |
+| `distributed_transaction_manager.cpp` | Two-Phase Commit (2PC) protocol implementation |
+| `global_transaction_manager.cpp` | Multi-region ACID guarantees with TrueTime 2PC |
 
 ## Current Delivery Status
 
