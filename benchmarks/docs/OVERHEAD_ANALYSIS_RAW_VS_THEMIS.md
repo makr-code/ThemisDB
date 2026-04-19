@@ -1,3 +1,5 @@
+> ⚠️ **Historische Analyse** – Messdaten und Vergleiche beschreiben einen bestimmten Messpunkt.
+
 # Raw RocksDB vs. Themis Overhead Analyse
 **Datum:** 20. Dezember 2025  
 **Ziel:** Messung des SecondaryIndexManager- und TransactionWrapper-Overheads durch Vergleich mit Raw RocksDB TransactionDB (pipelined_write disabled)

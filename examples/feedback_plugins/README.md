@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Feedback Validation Plugin Examples
 
 This directory contains example implementations of feedback validation plugins for ThemisDB's LoRA continuous learning system.

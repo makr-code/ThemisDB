@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Transaction Module — Examples
 
 Examples for the `transaction` module demonstrating Paper 2 Layer 5 (TransactionSemanticAdvisor) implementation patterns.

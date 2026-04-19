@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Error Handling Migration Guide
 
 This directory contains example code demonstrating the migration from legacy error handling patterns to the new production-ready `tl::expected`-based error handling system.

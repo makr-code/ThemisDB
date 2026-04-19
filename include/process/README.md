@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Process Module – API Reference
 
 **Module Path:** `include/process/` · `src/process/`

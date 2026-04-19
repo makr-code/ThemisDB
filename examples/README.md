@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB Examples (`examples/`)
 
 Beispielsammlung für API-, Datenmodell- und Integrations-Workflows.

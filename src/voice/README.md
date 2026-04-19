@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Voice Module
 
 Voice/audio interface capabilities for natural language interaction with ThemisDB.

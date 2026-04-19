@@ -1,3 +1,5 @@
+> ⚠️ **Historische Ergebnisse** – Phase-2H-Messdaten beschreiben einen abgeschlossenen Entwicklungsstand.
+
 # Phase 2H: Background Thread Optimization - Final Results
 
 ## Summary

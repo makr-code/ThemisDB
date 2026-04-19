@@ -1,3 +1,5 @@
+> **Navigation:** Dieser Index verweist auf die Modulstruktur. Links bei Umstrukturierung aktualisieren.
+
 # Benchmarks Index (`benchmarks/`)
 
 Kondensierter Navigationsindex auf Basis des aktuellen Repository-Inhalts.

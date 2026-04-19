@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # RAG Module — Examples
 
 Examples for the `rag` module demonstrating Paper 1 (Loop Orchestration) and Paper 2 Layer 9 (Explainability) implementation patterns.

@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB Base Module — Public Headers
 
 This directory contains the public C++ header files for the `base` module: plugin-loading

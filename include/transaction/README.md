@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB Transaction Module - Header Files
 
 This directory contains the public header files for the ThemisDB Transaction module.

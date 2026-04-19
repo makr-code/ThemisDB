@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # CI/CD Tools
 
 This directory contains tools and scripts for analyzing and managing GitHub Actions workflows.

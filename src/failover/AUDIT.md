@@ -1,3 +1,5 @@
+> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+
 # failover audit
 
 ## Snapshot

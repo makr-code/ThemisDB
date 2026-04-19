@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Exporters Module Headers
 
 This directory contains the public header files for the exporters module.

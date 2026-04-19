@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # CHIMERA Benchmark Framework
 
 **CHIMERA** = Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment  

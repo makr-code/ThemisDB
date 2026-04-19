@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Geospatial Module
 
 Geospatial query processing and indexing implementation for ThemisDB.

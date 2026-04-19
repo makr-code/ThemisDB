@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Server Module — Examples
 
 Examples for the `server` module demonstrating Paper 2 Layer 8 (WorkloadFingerprintEngine) implementation patterns.

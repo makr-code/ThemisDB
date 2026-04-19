@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Cross-Cutting Concerns Abstraction Layer
 
 This directory contains the central abstraction layer for cross-cutting concerns in ThemisDB. It provides unified interfaces for logging, tracing, metrics collection, and caching, enabling dependency injection, testability, and flexibility in implementation choices.

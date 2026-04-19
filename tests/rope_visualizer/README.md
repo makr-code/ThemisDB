@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # rope_visualizer
 
 Pfad: `tests/rope_visualizer`

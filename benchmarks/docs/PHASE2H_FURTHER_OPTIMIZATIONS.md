@@ -1,3 +1,5 @@
+> ⚠️ **Historischer Plan** – Optimierungsideen beschreiben den Stand nach Phase 2H.
+
 # Phase 2H: Weitere RocksDB-Optimierungen basierend auf offizieller Dokumentation
 
 ## Problem

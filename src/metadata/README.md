@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Metadata Module
 
 Database metadata and schema introspection for ThemisDB.

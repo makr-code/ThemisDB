@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB Updates Module - Header Files
 
 This directory contains the public header files for ThemisDB's Updates module, which provides comprehensive update and migration capabilities including hot-reload, version management, and schema evolution.

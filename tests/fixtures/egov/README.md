@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # E-Government Test-Fixtures
 
 Generische Fixtures für datengetriebene E-Gov-Tests (ohne CI-Abhängigkeit).

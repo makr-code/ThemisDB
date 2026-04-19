@@ -1,3 +1,5 @@
+> **Hinweis:** Datenmodell-Beschreibung gegen aktuelle Schema-Definitionen im Sourcecode verifizieren.
+
 # Inventarsystem - Datenmodell und ER-Diagramm
 
 > **Historischer Stand:** 2026-01-31 — Inhalte nicht gegen aktuelle Quellen geprüft.

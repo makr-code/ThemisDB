@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # include chaos module
 
 Public header surface for chaos engineering fault injection.

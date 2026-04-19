@@ -1,3 +1,5 @@
+> ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
+
 # chaos changelog
 
 ## 2026-04-16

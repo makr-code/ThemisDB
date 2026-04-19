@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # GNN Embeddings Example
 
 Dieses Beispiel demonstriert die Verwendung von Graph Neural Network (GNN) Embeddings in ThemisDB.

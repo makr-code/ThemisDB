@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # include failover module
 
 Public header surface for failover orchestration and disaster recovery.

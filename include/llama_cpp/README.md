@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # include llama_cpp module
 
 Public header for llama.cpp plugin integration.

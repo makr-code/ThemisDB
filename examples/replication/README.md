@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB Replication Module — Example
 
 This example (`example_replication.cpp`) demonstrates the primary building

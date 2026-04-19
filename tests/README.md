@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB Tests (`tests/`)
 
 Test-Suite für Unit-, Integrations- und Modulgrenzentests.

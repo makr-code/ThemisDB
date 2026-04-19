@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # include stable_diffusion module
 
 Public headers for Stable Diffusion plugin integration.

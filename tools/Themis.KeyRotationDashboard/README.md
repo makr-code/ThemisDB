@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Themis Key Rotation Dashboard
 
 Desktop application for managing encryption key rotation in ThemisDB.

@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB Public Headers (`include/`)
 
 Dieses Verzeichnis enthält die öffentlichen C++-Schnittstellen von ThemisDB.

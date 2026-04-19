@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Time Series Module
 
 Time series data management and compression implementation for ThemisDB.

@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Sharding Module
 
 Horizontal scaling and sharding implementation for ThemisDB v1.4+.

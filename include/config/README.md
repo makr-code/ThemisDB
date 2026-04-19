@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Config Module Headers
 <!-- status: current | validated: 2026-04-08 | source: include/config/ -->
 

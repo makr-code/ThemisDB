@@ -1,3 +1,5 @@
+> **Hinweis:** Konfigurationsoptionen gegen aktuelle config-Dateien und Source verifizieren.
+
 # Konfigurations-Dokumentation
 
 ## Übersicht

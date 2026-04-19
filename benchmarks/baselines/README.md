@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Benchmark Baselines
 
 This directory stores baseline benchmark results for performance regression detection.

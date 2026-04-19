@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB Benchmarks (`benchmarks/`)
 
 Benchmark-Sammlung für Performance-, Skalierungs- und Integrationsmessungen.

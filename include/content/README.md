@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Content Module Headers
 
 This directory contains header files (.h, .hpp) for the content module.

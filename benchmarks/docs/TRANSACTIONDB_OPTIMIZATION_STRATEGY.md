@@ -1,3 +1,5 @@
+> ⚠️ **Historische Strategie** – Dokument beschreibt den Optimierungsansatz zum Zeitpunkt der Erstellung.
+
 # TransactionDB Optimization Strategy
 
 ## Executive Summary

@@ -1,3 +1,5 @@
+> **Aktueller Build-Flow:** `cmake --preset linux-ninja-perf && cmake --build --preset linux-ninja-perf`
+
 # 🚀 Advanced Benchmarks Suite - OOP & Best-Practices Edition
 
 ## Executive Summary

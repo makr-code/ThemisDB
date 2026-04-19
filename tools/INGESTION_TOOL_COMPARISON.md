@@ -1,3 +1,5 @@
+> ⚠️ **Historischer Vergleich** – Beschreibt den Stand zum Zeitpunkt der Erstellung.
+
 > **Historischer Stand:** 2026-04-19
 
 # ThemisDB Ingestion Tool - Vergleich Python vs. C# .NET

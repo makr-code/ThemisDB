@@ -1,3 +1,5 @@
+> **Aktueller Build-Flow:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 > **Historischer Stand:** 2026-04-19
 
 # Themis Impact Analysis Viewer - Implementation Guide

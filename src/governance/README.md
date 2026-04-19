@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Governance Module
 
 Policy engine and compliance governance implementation for ThemisDB.

@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Security Examples
 
 This directory contains example code demonstrating ThemisDB's security features.

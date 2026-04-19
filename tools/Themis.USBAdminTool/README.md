@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Themis USB Admin Tool
 
 Windows desktop application (WPF / .NET 8) for managing the secure ThemisDB admin USB stick lifecycle.

@@ -1,3 +1,5 @@
+> **Hinweis:** Datei-Inventar regelmäßig gegen aktuellen Repo-Stand abgleichen.
+
 # 📋 ENTERPRISE BENCHMARK SUITE - COMPLETE FILE INVENTORY
 
 ## 📦 Generated Files & Line Counts

@@ -1,3 +1,5 @@
+> **Hinweis:** Verlinkungen auf aktuelle Dateipfade prüfen.
+
 # 📑 Parallel Scaling Optimization - Complete Documentation Index
 
 **Project**: Themis Database Performance Optimization  

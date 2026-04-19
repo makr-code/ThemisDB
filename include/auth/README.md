@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Auth Module Headers
 
 Public interfaces and declarations for the ThemisDB authentication module.

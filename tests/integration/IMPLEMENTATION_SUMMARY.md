@@ -1,3 +1,5 @@
+> ⚠️ **Historische Implementierungszusammenfassung** – Stand zum Zeitpunkt der Erstellung.
+
 # Integration Test Infrastructure - Implementation Summary
 
 ## Overview

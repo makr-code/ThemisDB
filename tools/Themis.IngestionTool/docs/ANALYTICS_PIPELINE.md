@@ -1,3 +1,5 @@
+> **Hinweis:** Pipeline-Beschreibung gegen aktuellen Sourcecode verifizieren.
+
 > **Historischer Stand:** 2026-04-19
 > <!-- TODO: verify against current source – method signatures and endpoint URLs below may have changed -->
 

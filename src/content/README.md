@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Content Module
 
 Content management, ingestion, and processing implementation for ThemisDB.

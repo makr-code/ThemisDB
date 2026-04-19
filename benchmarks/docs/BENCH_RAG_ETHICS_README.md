@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-perf && cmake --build --preset linux-ninja-perf`
+
 # RAG Ethics Benchmarks
 
 Performance benchmarks for the RAG Ethics Integration features.

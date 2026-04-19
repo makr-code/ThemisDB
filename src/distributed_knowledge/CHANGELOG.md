@@ -1,3 +1,5 @@
+> ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
+
 # distributed_knowledge Module — Changelog
 
 ## [Unreleased]

@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Integration Tests
 
 This directory contains integration tests for ThemisDB. Integration tests verify that multiple components work together correctly end-to-end.

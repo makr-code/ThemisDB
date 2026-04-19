@@ -1,3 +1,5 @@
+> **Aktueller Build-Flow:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Hello World - Schritt-für-Schritt-Anleitung
 
 > **Historischer Stand:** 2025-12-22 — Inhalte nicht gegen aktuelle Quellen geprüft.

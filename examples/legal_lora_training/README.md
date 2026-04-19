@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Legal LoRA Training Pipeline - Examples
 
 This directory contains examples demonstrating the Legal LoRA Training Pipeline for ThemisDB.

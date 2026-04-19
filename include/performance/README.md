@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Performance Optimization Headers
 
 <!-- status: current | validated: 2026-04-06 -->

@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Coding Platform - ThemisDB als intelligente Code-Verwaltung mit VSCode Integration
 
 ![Status](https://img.shields.io/badge/status-ready-brightgreen)

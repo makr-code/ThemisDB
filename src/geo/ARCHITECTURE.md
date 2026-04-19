@@ -1,3 +1,5 @@
+> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+
 # Geo Module — Architecture Guide
 
 **Version:** 1.0

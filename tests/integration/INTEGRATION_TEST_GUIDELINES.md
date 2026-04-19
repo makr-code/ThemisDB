@@ -1,3 +1,5 @@
+> **Aktueller Test-Flow:** `cmake --preset linux-ninja-release && ctest --preset linux-ninja-release`
+
 # Integration Test Guidelines
 
 ## Purpose

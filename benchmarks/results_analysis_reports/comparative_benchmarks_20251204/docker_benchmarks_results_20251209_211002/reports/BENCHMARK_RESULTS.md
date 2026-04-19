@@ -1,3 +1,5 @@
+> ⚠️ **Historische Messdaten** – Zahlen entstammen einem bestimmten Messzeitpunkt und sind ohne die ursprüngliche Testumgebung nicht reproduzierbar.
+
 # ThemisDB v1.0.1 - Docker Benchmark Results
 
 **Generated:** 2025-12-09 21:10:29
