@@ -447,4 +447,4 @@ The remaining stub implementations serve as contracts for future development of 
 - [Graph Advanced Features README](../../src/graph/ADVANCED_FEATURES_README.md)
 - [Vector Advanced Features README](../../src/index/VECTOR_ADVANCED_FEATURES_README.md)
 - [Main Roadmap](../de/roadmap/ROADMAP.md)
-- [GAP Analysis](../DOCUMENTATION_SOURCE_CODE_GAP_ANALYSIS.md)
+- [GAP Analysis](../../Audit/DOCUMENTATION_SOURCE_CODE_GAP_ANALYSIS.md)

@@ -290,7 +290,7 @@ replication:
 
 ## Related Documentation
 
-- [Replication Implementation Status](../REPLICATION_IMPLEMENTATION_STATUS.md)
+- [Replication Implementation Status](../reports/REPLICATION_IMPLEMENTATION_STATUS.md)
 - [HA Replication Guide](../replication/replication-ha-guide.md)
 - [Raft Consensus Design](../architecture/RAFT_CONSENSUS_DESIGN.md)
 - [Hot Spare Management](../build-guide/hot_spare_management.md)

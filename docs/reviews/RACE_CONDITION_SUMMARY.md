@@ -2,7 +2,7 @@
 
 **Date:** 2026-01-05  
 **Status:** ✅ Complete  
-**Full Report:** [RACE_CONDITION_ANALYSIS.md](./RACE_CONDITION_ANALYSIS.md)
+**Full Report:** [RACE_CONDITION_ANALYSIS.md](RACE_CONDITION_ANALYSIS.md)
 
 ---
 
@@ -153,7 +153,7 @@ Systematic analysis of ThemisDB identified **19 potential race conditions** acro
 
 ## Resources
 
-- **Full Analysis:** [RACE_CONDITION_ANALYSIS.md](./RACE_CONDITION_ANALYSIS.md) (33KB detailed report)
+- **Full Analysis:** [RACE_CONDITION_ANALYSIS.md](RACE_CONDITION_ANALYSIS.md) (33KB detailed report)
 - **Thread Sanitizer Guide:** https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual
 - **C++ Concurrency Patterns:** https://en.cppreference.com/w/cpp/thread
 

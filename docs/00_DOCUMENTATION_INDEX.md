@@ -189,7 +189,7 @@ ThemisDB implements enterprise-grade replication with automatic failover, write 
   - Performance tuning guidelines
 
 **Implementation Details:**
-- **[REPLICATION_IMPLEMENTATION_STATUS.md](REPLICATION_IMPLEMENTATION_STATUS.md)** - Detailed implementation status (German, ~85% complete)
+- **[REPLICATION_IMPLEMENTATION_STATUS.md](reports/REPLICATION_IMPLEMENTATION_STATUS.md)** - Detailed implementation status (German, ~85% complete)
   - WAL-based infrastructure (Manager, Shipper, Applier)
   - Component breakdown and file locations
   - Integration test results (8/8 passing)

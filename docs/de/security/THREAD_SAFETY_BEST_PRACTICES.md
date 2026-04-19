@@ -500,7 +500,7 @@ void transfer(Account& from, Account& to) {
 
 ## References
 
-- [RACE_CONDITION_ANALYSIS.md](./RACE_CONDITION_ANALYSIS.md) - Detailed analysis of race conditions
+- [RACE_CONDITION_ANALYSIS.md](../../reviews/RACE_CONDITION_ANALYSIS.md) - Detailed analysis of race conditions
 - [RACE_CONDITION_TESTING_GUIDE.md](../../reviews/RACE_CONDITION_TESTING_GUIDE.md) - Testing procedures
 - [C++ Concurrency in Action](https://www.manning.com/books/c-plus-plus-concurrency-in-action-second-edition) - Recommended reading
 - [Thread Sanitizer Documentation](https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual)

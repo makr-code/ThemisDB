@@ -293,7 +293,7 @@ scrape_configs:
 
 - [LLM Response Cache Metrics](../LLM_RESPONSE_CACHE_METRICS.md) - Detailed cache metrics guide
 - [Prometheus Integration Complete](../PROMETHEUS_INTEGRATION_COMPLETE.md)
-- [Grafana Metrics Complete](../GRAFANA_METRICS_COMPLETE.md)
+- [Grafana Metrics Complete](../ARCHIVED/implementation-summaries/GRAFANA_METRICS_COMPLETE.md)
 - [German Observability Docs](../de/observability/) - Comprehensive observability documentation
 
 ---
@@ -507,7 +507,7 @@ docker run -d --name grafana \
 
 ### Integration Guides
 - **[Prometheus Integration](../PROMETHEUS_INTEGRATION_COMPLETE.md)**
-- **[Grafana Metrics Integration](../GRAFANA_METRICS_COMPLETE.md)**
+- **[Grafana Metrics Integration](../ARCHIVED/implementation-summaries/GRAFANA_METRICS_COMPLETE.md)**
 - **[LLM Grafana Metrics Integration](../LLM_GRAFANA_METRICS_INTEGRATION.md)**
 
 ### Performance & Monitoring

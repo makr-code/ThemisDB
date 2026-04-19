@@ -2,7 +2,7 @@
 
 > **Related Documentation:**
 > - **[replication-ha-guide.md](./replication-ha-guide.md)** - Complete HA/replication guide with deployment topologies
-> - **[REPLICATION_IMPLEMENTATION_STATUS.md](./REPLICATION_IMPLEMENTATION_STATUS.md)** - Detailed component status (~85% complete)
+> - **[REPLICATION_IMPLEMENTATION_STATUS.md](../../reports/REPLICATION_IMPLEMENTATION_STATUS.md)** - Detailed component status (~85% complete)
 
 ## Module Organization
 
@@ -51,4 +51,4 @@ This plan covers the WAL-based replication infrastructure implemented in the **`
 ## See Also
 
 - **[replication-ha-guide.md](./replication-ha-guide.md)** - Complete HA/replication guide with deployment topologies and operational procedures
-- **[REPLICATION_IMPLEMENTATION_STATUS.md](./REPLICATION_IMPLEMENTATION_STATUS.md)** - Detailed implementation status with component breakdown
+- **[REPLICATION_IMPLEMENTATION_STATUS.md](../../reports/REPLICATION_IMPLEMENTATION_STATUS.md)** - Detailed implementation status with component breakdown

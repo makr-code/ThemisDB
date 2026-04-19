@@ -125,7 +125,7 @@ Document all source code changes between main (v1.3.4) and develop branches for 
 |---|---------|--------|------|
 | 7 | Hot Spare Management | ✅ | [Complete](HOT_SPARE_COMPLETE.md) |
 | 8 | Enhanced Prometheus Metrics | ✅ | Tests included |
-| 9 | WAL Replication via gRPC | ✅ | [Status](REPLICATION_IMPLEMENTATION_STATUS.md) |
+| 9 | WAL Replication via gRPC | ✅ | [Status](../../reports/REPLICATION_IMPLEMENTATION_STATUS.md) |
 | 10 | Multi-GPU LoRA | ✅ | [Summary](MULTI_GPU_IMPLEMENTATION_SUMMARY.md) |
 | 11 | PostgreSQL Protocol | ✅ | Tests included |
 

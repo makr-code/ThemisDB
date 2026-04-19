@@ -393,7 +393,7 @@ auth:
 ## Related Documentation
 
 - [Auth Module ROADMAP](../../src/auth/ROADMAP.md)
-- [Auth Implementation Summary](../AUTH_IMPLEMENTATION_SUMMARY.md)
+- [Auth Implementation Summary](../ARCHIVED/implementation-summaries/AUTH_IMPLEMENTATION_SUMMARY.md)
 - [Kerberos Implementation Summary](../ARCHIVED/implementation-summaries/KERBEROS_IMPLEMENTATION_SUMMARY.md)
 - [API Authentication & Authorization](../security/api_authentication_authorization.md)
 - [Security Executive Summary](../de/security/SECURITY_EXECUTIVE_SUMMARY.md)
