@@ -1,10 +1,10 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — API Module
 
-**Last Audit:** 2026-03-12  
-**Auditor:** Copilot  
+**Last Audit:** 2026-03-12
+**Auditor:** Copilot
 **Status:** ✅ Pass
 
 ## Summary
@@ -12,7 +12,7 @@
 | Metric | Result |
 |--------|--------|
 | Build System Registration | ✅ Verified |
-| Source Files | 9 (`.cpp` in `src/api/`) |
+| Source Files | 10 (`.cpp` in `src/api/`) |
 | Test Coverage | ⚠️ PR open (Issue #1509, #1510) — integration tests in progress |
 | Open TODOs | 7 files contain TODOs (primarily OpenAPI spec completion and versioning) |
 | Open Stubs | 0 (all core API surfaces functional) |
@@ -28,6 +28,7 @@
 
 | File | Purpose |
 |------|---------|
+| `federation_admin_handler.cpp` | Federation admin endpoint handler |
 | `geo_index_hooks.cpp` | Geospatial query routing hooks for HTTP endpoints |
 | `graphql.cpp` | GraphQL schema definition and multi-model query resolver |
 | `graphql_ws_handler.cpp` | GraphQL over WebSocket (`graphql-transport-ws` protocol) with subscription management |

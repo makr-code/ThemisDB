@@ -1,9 +1,9 @@
-<!-- Status: current | validated: 2026-04-10 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Stable Diffusion Plugin
 
-**Last Audit:** 2026-04-10
+**Last Audit:** 2026-04-19
 **Auditor:** Copilot
 **Status:** ✅ Pass
 
@@ -32,10 +32,10 @@ Dependencies: `nlohmann_json` (required), `stable-diffusion.cpp` (optional, `THE
 
 | File | Responsibility | Finding |
 |------|---------------|---------|
-| `src/stable_diffusion/sd_config.cpp` | Config deserialization | ✅ Clamps width/height/steps to ≥ 1; graceful on missing JSON keys |
-| `src/stable_diffusion/sd_prompt_sanitizer.cpp` | Keyword blocklist | ✅ Case-insensitive; file loader skips comment lines; multi-occurrence removal |
-| `src/stable_diffusion/sd_plugin.cpp` | Plugin lifecycle + policy | ✅ `isAllowed()` called before every `generate()`; `negative_prompt` also screened; mutex serialises all generate paths; exception caught; provenance unconditional |
-| `src/stable_diffusion/sd_plugin_registrar.cpp` | Plugin registration with plugin manager | ✅ Reviewed |
+| `sd_config.cpp` | Config deserialization | ✅ Clamps width/height/steps to ≥ 1; graceful on missing JSON keys |
+| `sd_prompt_sanitizer.cpp` | Keyword blocklist | ✅ Case-insensitive; file loader skips comment lines; multi-occurrence removal |
+| `sd_plugin.cpp` | Plugin lifecycle + policy | ✅ `isAllowed()` called before every `generate()`; `negative_prompt` also screened; mutex serialises all generate paths; exception caught; provenance unconditional |
+| `sd_plugin_registrar.cpp` | Plugin registration with plugin manager | ✅ Reviewed |
 
 ## Interface Compliance
 

@@ -34,11 +34,11 @@ Dependencies: `nlohmann_json` (required), `whisper.cpp` (optional, `THEMIS_ENABL
 
 | File | Responsibility | Finding |
 |------|---------------|---------|
-| `src/whisper/whisper_config.cpp` | Config deserialization | ✅ `fromJson` clamps all numeric fields; graceful on missing keys |
-| `src/whisper/audio_chunk_reader.cpp` | RIFF/WAV parsing + FFmpeg adapter + composite routing | ✅ WAV validates magic/format/data chunks; FFmpeg path shell-escaped (NUL guard, single-quote wrapping), 500 MB output cap |
-| `src/whisper/whisper_transcriber.cpp` | Strategy impls | ✅ Stub and InMemory transcribers have no model dependency |
-| `src/whisper/whisper_plugin.cpp` | Plugin lifecycle + provenance + thread-safety | ✅ Provenance stamps applied unconditionally; exception caught; `transcriber_mutex_` serializes all transcriber calls; counters are `std::atomic` |
-| `src/whisper/whisper_plugin_registrar.cpp` | Plugin registration and factory export | ✅ `THEMIS_AUDIO_PLUGIN()` macro wired; create/destroy functions exported |
+| `whisper_config.cpp` | Config deserialization | ✅ `fromJson` clamps all numeric fields; graceful on missing keys |
+| `audio_chunk_reader.cpp` | RIFF/WAV parsing + FFmpeg adapter + composite routing | ✅ WAV validates magic/format/data chunks; FFmpeg path shell-escaped (NUL guard, single-quote wrapping), 500 MB output cap |
+| `whisper_transcriber.cpp` | Strategy impls | ✅ Stub and InMemory transcribers have no model dependency |
+| `whisper_plugin.cpp` | Plugin lifecycle + provenance + thread-safety | ✅ Provenance stamps applied unconditionally; exception caught; `transcriber_mutex_` serializes all transcriber calls; counters are `std::atomic` |
+| `whisper_plugin_registrar.cpp` | Plugin registration and factory export | ✅ `THEMIS_AUDIO_PLUGIN()` macro wired; create/destroy functions exported |
 
 ## Interface Compliance
 

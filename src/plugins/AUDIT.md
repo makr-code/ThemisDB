@@ -1,4 +1,4 @@
-<!-- Status: current | validated: 2026-04-06 -->
+<!-- Status: current | validated: 2026-04-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · SECURITY.md -->
 
 # Audit Record — Plugins Module
@@ -27,8 +27,9 @@
 | `plugin_system_edition.cpp`   | Edition management (community/enterprise)            | ✅ Covered    |
 | `rpc_service_registry.cpp`    | RPC service registration for plugin-exposed services | ✅ Covered    |
 | `signed_plugin_repository.cpp`| Ed25519 signing and signature verification           | ✅ Covered    |
+| `wasm_plugin_loader.cpp`      | WASM component model plugin loader (experimental)    | ⚠️ Pending    |
 
-**Total: 10 source files**
+**Total: 11 source files**
 
 ## Test Inventory
 
@@ -65,7 +66,7 @@ Key test areas: plugin load/unload lifecycle, hot-reload with rollback, Ed25519 
 
 | Check                      | Result   |
 |----------------------------|----------|
-| Compilation (all 10 files) | ✅ Pass  |
+| Compilation (all 11 files) | ✅ Pass  |
 | Static analysis            | ✅ Pass  |
 | All 13 test targets        | ✅ Pass  |
 | Audit completed            | 2026-03-12 |
