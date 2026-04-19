@@ -4,9 +4,6 @@
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/acceleration/README.md -->
 
-<!-- Status: current | validated: 2026-04-06 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/acceleration/README.md -->
-
 ## Overview
 
 The Acceleration module provides hardware-accelerated compute backends for ThemisDB. Its goal is to speed up compute-heavy primitives used by higher-level subsystems (e.g., vector similarity search / ANN, graph analytics, and geospatial operators) while preserving **correctness**, **determinism**, and a **CPU fallback** when no suitable accelerator is available.
