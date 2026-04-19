@@ -94,12 +94,12 @@ auto pipeline = std::make_unique<QualityControlPipeline>(config);
 
 ### Unit Tests
 ```bash
-./tests/test_quality_control_pipeline
+cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release --target test_quality_control_pipeline
 ```
 
 ### Demo Example
 ```bash
-./examples/quality_control_demo
+cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release --target quality_control_demo
 ```
 
 ## Performance

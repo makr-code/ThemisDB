@@ -30,8 +30,10 @@ The Geo module provides geospatial query operations (contains, intersects, dista
 ### Geometry Input Validation
 - All geometry inputs are validated for NaN/Inf coordinates before any backend dispatch.
 - GeoJSON RFC 7946 parser rejects geometries with out-of-range coordinates (latitude > 90°, longitude > 180°).
+- `IGeoJSONGeometry::validate()` returns a typed `ValidationResult` with per-error `ValidationError` entries; out-of-range coordinates and invalid ring winding order are reported without silent clamping (`include/geo/geo_json_geometry.h`).
 - Self-intersecting polygon detection is available on Boost.Geometry backend; GPU backend relies on pre-validation.
 - Polygon vertex counts are capped before CUDA kernel launch to prevent buffer overflow.
+- `DWithinFilter` (in `include/geo/spatial_join_filter.h`) computes distances with the Haversine formula; NaN/Inf coordinates are rejected before the predicate is evaluated.
 
 ### GPU/CPU Backend Safety
 - Circuit-breaker pattern: GPU backend automatically falls back to CPU when no GPU device is present or when GPU errors occur.

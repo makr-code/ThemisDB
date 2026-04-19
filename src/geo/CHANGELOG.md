@@ -13,6 +13,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - GPU-accelerated DBSCAN / k-means clustering — Target: v2.3.0
 - CUDA kernels for ST_BUFFER, ST_UNION, ST_DIFFERENCE on GPU — Target: v2.2.0
 
+## [2.5.0] — 2026-04-15
+### Added
+- **Pull-based R-tree cursor API** (`include/geo/rtree_cursor.h`, `src/geo/rtree_cursor.cpp`):
+  - `CursorStatus` enum (`OK`, `END`, `STALE`); `GeoIndexEntry` value type
+  - `IRTreeCursor` abstract interface: `next(GeoIndexEntry&)`, `estimatedResultCount()`
+  - `IGeoIndex` abstract interface: `openRangeCursor(MBR)`, `openKNNCursor(Coordinate, k)`, `insert()`, `bulkLoad()`, `clear()`, `size()`
+  - `GeoRTreeIndex` concrete implementation wrapping `GeoRTree`; version counter invalidates open cursors on mutation
+- **Fluent temporal-spatial query builder** (`include/geo/temporal_spatial_query_builder.h`, `src/geo/temporal_spatial_query_builder.cpp`):
+  - `TimeWindowType` enum: `POINT_IN_TIME`, `INTERVAL`, `SLIDING_WINDOW`
+  - `BuiltTemporalSpatialQuery` immutable value type; `execute(SystemVersionedTable)` method
+  - `ITemporalSpatialQueryBuilder` abstract interface; `TemporalSpatialQueryBuilder` concrete implementation with `reset()` support
+  - `build()` throws `std::logic_error` if temporal or spatial constraints are absent
+- **Typed raster query interface** (`include/geo/raster_query_interface.h`, `src/geo/raster_query_interface.cpp`):
+  - `RasterConfig` with configurable `maxTileSizeBytes()` (default 64 MiB)
+  - `RasterStatus`: `OK`, `NOT_SUPPORTED`, `TILE_TOO_LARGE`, `INVALID_KEY`, `BACKEND_ERROR`, `INVALID_BBOX`
+  - `IRasterQueryInterface` abstract interface; `RasterGridQueryImpl` (full, behind `THEMIS_ENABLE_RASTER`); `NoOpRasterQueryImpl` (always available, returns `NOT_SUPPORTED`)
+- **GeoJSON geometry class hierarchy** (`include/geo/geo_json_geometry.h`, `src/geo/geo_json_geometry.cpp`):
+  - `CrsId` enum; `BBox` struct; `ValidationError` and `ValidationResult`
+  - `IGeoJSONGeometry` abstract base; concrete: `GeoPoint`, `GeoLineString`, `GeoPolygon` (right-hand-rule enforcement), `GeoMultiPolygon`, `GeoGeometryCollection`
+- **Composable spatial join filters** (`include/geo/spatial_join_filter.h`, `src/geo/spatial_join_filter.cpp`):
+  - `ISpatialJoinFilter` abstract interface; `IntersectsFilter`, `ContainsFilter`, `WithinFilter`, `TouchesFilter`, `DWithinFilter` (Haversine distance)
+  - Logical combinators: `AndFilter`, `OrFilter`, `NotFilter`
+  - `SpatialJoinFilter` factory namespace
+
 ## [2.3.0] — 2026-04-04
 ### Added
 - **Full GeoJSON RFC 7946 parsing**: `EWKBParser::parseGeoJSON()` now handles all seven RFC 7946

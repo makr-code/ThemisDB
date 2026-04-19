@@ -33,6 +33,12 @@
 - [x] Temporal-spatial queries (location at time T) (Issue: #1746)
 - [x] Clustering algorithms: DBSCAN, k-means for geo points (Issue: #1747)
 - [x] Tile server integration for map visualization (Issue: #1748)
+- [x] Configurable precision mode (exact vs. approximate) (Issue: #1742)
+- [x] Pull-based R-tree cursor API: `IRTreeCursor`, `IGeoIndex`, `GeoRTreeIndex` (`include/geo/rtree_cursor.h`, `src/geo/rtree_cursor.cpp`) — `openRangeCursor(MBR)`, `openKNNCursor(Coordinate, k)`, `estimatedResultCount()`; `CursorStatus::STALE` on index mutation (Target: v2.5.0)
+- [x] Fluent temporal-spatial query builder: `ITemporalSpatialQueryBuilder`, `TemporalSpatialQueryBuilder`, `BuiltTemporalSpatialQuery`, `TimeWindowType` (`POINT_IN_TIME`, `INTERVAL`, `SLIDING_WINDOW`) (`include/geo/temporal_spatial_query_builder.h`, `src/geo/temporal_spatial_query_builder.cpp`) (Target: v2.5.0)
+- [x] Typed raster query interface: `IRasterQueryInterface`, `RasterGridQueryImpl`, `NoOpRasterQueryImpl`, `RasterConfig`, `RasterStatus`, `RasterResult` (`include/geo/raster_query_interface.h`, `src/geo/raster_query_interface.cpp`); guarded by `THEMIS_ENABLE_RASTER` (Target: v2.5.0)
+- [x] GeoJSON geometry class hierarchy: `IGeoJSONGeometry`, `GeoPoint`, `GeoLineString`, `GeoPolygon`, `GeoMultiPolygon`, `GeoGeometryCollection`; `BBox`, `ValidationResult`, `CrsId` (`include/geo/geo_json_geometry.h`, `src/geo/geo_json_geometry.cpp`) (Target: v2.5.0)
+- [x] Composable spatial join filters: `ISpatialJoinFilter`, `IntersectsFilter`, `ContainsFilter`, `WithinFilter`, `TouchesFilter`, `DWithinFilter`, `AndFilter`, `OrFilter`, `NotFilter`; `SpatialJoinFilter` factory namespace (`include/geo/spatial_join_filter.h`, `src/geo/spatial_join_filter.cpp`) (Target: v2.5.0)
 
 ## In Progress 🚧
 <!-- No items currently in progress -->
@@ -90,6 +96,37 @@
 - [x] API stability guaranteed for spatial query API
 - [x] Security audit (no code execution from geometry inputs)
 - [x] English documentation in `docs/en/geo/` (Issue: #1749, v2.2.0)
+
+### Phase 7: v2.5.0 — Cursor API, Builders, Typed Interfaces (Status: Completed ✅)
+- [x] Pull-based R-tree cursor API (`include/geo/rtree_cursor.h`, `src/geo/rtree_cursor.cpp`):
+  - `CursorStatus` enum (`OK`, `END`, `STALE`)
+  - `GeoIndexEntry` value type (key, geom, distance_m)
+  - `IRTreeCursor` abstract interface: `next(GeoIndexEntry&)`, `estimatedResultCount()`
+  - `IGeoIndex` abstract interface: `openRangeCursor(MBR)`, `openKNNCursor(Coordinate, k)`, `insert()`, `bulkLoad()`, `clear()`, `size()`
+  - `GeoRTreeIndex` concrete implementation wrapping `GeoRTree`; version counter for stale-cursor detection
+- [x] Fluent temporal-spatial query builder (`include/geo/temporal_spatial_query_builder.h`, `src/geo/temporal_spatial_query_builder.cpp`):
+  - `TimeWindowType` enum: `POINT_IN_TIME`, `INTERVAL`, `SLIDING_WINDOW`
+  - `BuiltTemporalSpatialQuery` immutable value type with `execute(SystemVersionedTable)` method
+  - `ITemporalSpatialQueryBuilder` abstract fluent interface: `withinBBox()`, `withPredicate()`, `duringInterval()`, `atTime()`, `slidingWindow()`, `withGeoField()`, `build()`
+  - `TemporalSpatialQueryBuilder` concrete implementation; `reset()` for reuse; throws `std::logic_error` when constraints are missing
+- [x] Typed raster query interface (`include/geo/raster_query_interface.h`, `src/geo/raster_query_interface.cpp`):
+  - `RasterConfig` with `maxTileSizeBytes()` (default 64 MiB)
+  - `RasterStatus` enum: `OK`, `NOT_SUPPORTED`, `TILE_TOO_LARGE`, `INVALID_KEY`, `BACKEND_ERROR`, `INVALID_BBOX`
+  - `RasterResult` value type with `grid`, `crs_wkt`, `error_message`
+  - `IRasterQueryInterface` abstract interface
+  - `NoOpRasterQueryImpl` returns `NOT_SUPPORTED` when `THEMIS_ENABLE_RASTER` is not defined
+  - `RasterGridQueryImpl` full implementation guarded by `THEMIS_ENABLE_RASTER`
+- [x] GeoJSON geometry OOP class hierarchy (`include/geo/geo_json_geometry.h`, `src/geo/geo_json_geometry.cpp`):
+  - `CrsId` enum: `WGS84`, `WEB_MERCATOR`, `CUSTOM`
+  - `BBox` struct; `ValidationError` struct; `ValidationResult` class
+  - `IGeoJSONGeometry` abstract base: `type()`, `bbox()`, `validate()`, `toGeoJSON()`
+  - `GeoPoint`, `GeoLineString`, `GeoPolygon` (right-hand-rule), `GeoMultiPolygon`, `GeoGeometryCollection`
+- [x] Composable spatial join filters (`include/geo/spatial_join_filter.h`, `src/geo/spatial_join_filter.cpp`):
+  - `ISpatialJoinFilter` abstract interface: `matches(GeometryInfo, GeometryInfo)`
+  - `IntersectsFilter`, `ContainsFilter`, `WithinFilter`, `TouchesFilter`, `DWithinFilter` (Haversine)
+  - `AndFilter`, `OrFilter`, `NotFilter` logical combinators
+  - `SpatialJoinFilter` factory namespace: `intersects()`, `contains()`, `within()`, `touches()`, `dwithin()`, `and_()`, `or_()`, `not_()`
+- [x] Tests: `tests/geo/test_raster_query_interface.cpp`, `tests/geo/test_temporal_spatial_query_builder.cpp`, `tests/geo/test_spatial_join_filter.cpp`
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% — 20 focused test targets in `tests/geo/` (Issue: #1754)

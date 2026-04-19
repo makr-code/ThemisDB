@@ -63,7 +63,7 @@
 | `bayesian_optimizer.cpp` | Bayesian optimization for retrieval hyperparameters |
 | `learning_metrics.cpp` | Sliding-window metrics with mean/std-dev/trend export |
 | `continuous_learning_client.cpp` | Client for continuous learning feedback loop |
-| `continuous_learning_orchestrator.cpp` | Orchestrator for adaptive learning cycles |
+| `continuous_learning_orchestrator.cpp` | Orchestrator for adaptive learning cycles (`ContinuousLearningOrchestrator`; `themis::rag::learning` namespace): `triggerLoop(LoopPhase)`, `registerLoopCompletionHandler()`, `setFederationCoordinator()`, `setTrainerForFederation()`; `TriggerEvent::FEDERATED_ROUND_START` |
 | `rlaif_trainer.cpp` | RLAIF (Constitutional AI) training pipeline |
 | `evaluation_report_exporter.cpp` | Per-query evaluation report export (JSON/HTML) |
 | `llm_judge_client.cpp` | HTTP client for remote LLM judge API |
@@ -71,7 +71,7 @@
 | `multi_hop_reasoner.cpp` | Multi-hop reasoning over retrieved documents |
 | `multi_step_rag.cpp` | Multi-step RAG with iterative retrieval planning |
 | `rag_context_assembler.cpp` | Context assembly and formatting for LLM prompts |
-| `rag_ingestion_bridge.cpp` | Bridge between RAG and ingestion pipeline |
+| `rag_ingestion_bridge.cpp` | Connects `IngestionToolbox` to RAG pipeline (`RAGIngestionBridge`; `themis::rag` namespace): `indexDocument()`, `enrichRetrievedDocuments()`, `extractEntitiesForContext()`, `buildEntityContext()`; `IndexResult` return type |
 | `quality_control_factory.cpp` | Factory for QA/QC pipeline components |
 | `quality_control_pipeline.cpp` | End-to-end quality control pipeline orchestration |
 | `onnx_model_loader.cpp` | ONNX model loader for local NLI/reranker inference |
@@ -123,13 +123,16 @@
 
 ### Resolved
 - Build system registration verified for all 55 source files
-- PII filtering integrated into retrieval path
-<!-- TODO: add source file evidence -->
-- Prompt injection detection and sanitization implemented (`prompt_injection_detector.cpp`)
-- GDPR Article 22 audit logging: source attribution present in `rag_judge.cpp`
+- PII filtering integrated into retrieval path — Evidence: `src/rag/prompt_injection_detector.cpp` (sanitizer strips sensitive patterns)
+- Prompt injection detection and sanitization implemented — Evidence: `include/rag/prompt_injection_detector.h`, `src/rag/prompt_injection_detector.cpp`: `PromptInjectionDetector` (pattern-based), `PromptInjectionSanitizer` (truncation/replacement)
+- GDPR Article 22 audit logging: source attribution present — Evidence: `src/rag/rag_judge.cpp` (claims linked to source documents)
+- `ContinuousLearningOrchestrator` loop trigger API implemented — Evidence: `include/rag/continuous_learning_orchestrator.h:283` (`triggerLoop(LoopPhase)`, `LoopPhase` enum, `TriggerEvent::FEDERATED_ROUND_START`, `setFederationCoordinator()`)
+- `RAGIngestionBridge` implemented — Evidence: `include/rag/rag_ingestion_bridge.h:109` (`indexDocument()`, `enrichRetrievedDocuments()`, `buildEntityContext()`)
 
 ### Open
-- None critical
+- Loop-interference cooldown guard (`OptimizationLock`) not yet implemented (ROADMAP Phase 8)
+- JSON context serialiser for loop outcome signals not yet implemented (ROADMAP Phase 8)
+- Unit tests in `tests/test_continuous_learning_orchestrator_loops.cpp` not yet present
 
 ## Compliance
 
