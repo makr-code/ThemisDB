@@ -1048,6 +1048,8 @@ void InferenceEngineEnhanced::processBatch(
                 effective_request.metadata["raid_sharding"]["target_instance_ids"] =
                     req.target_instance_ids;
             }
+            // Keep this boolean always present so downstream coordinators can
+            // distinguish "explicitly disabled" from "field omitted".
             effective_request.metadata["raid_sharding"]["allow_cross_instance_batching"] =
                 req.allow_cross_instance_batching;
             auto cancel_token = tracked->cancel_token;

@@ -531,6 +531,44 @@ TEST_F(ContinuousBatchSchedulerTest, AdaptiveBatchRetryDownshiftOnDecodeError) {
     EXPECT_EQ(stats.batch_retry_count, 1u);
     EXPECT_EQ(stats.adaptive_prefill_chunk_size_tokens, 32u);
 
+    auto retry_batch = sched->scheduleNextBatch();
+    ASSERT_EQ(retry_batch.size(), 1u);
+    InferenceResponse ok;
+    ok.text = "token";
+    std::vector<InferenceResponse> ok_responses{ok};
+    sched->processBatchResults(retry_batch, ok_responses);
+
+    stats = sched->getStats();
+    EXPECT_EQ(stats.adaptive_prefill_chunk_size_tokens, 64u);
+
+    sched->cancelRequest(id);
+    sched->stop();
+}
+
+TEST_F(ContinuousBatchSchedulerTest, AdaptiveBatchRetryCountsAtMinimumChunkSize) {
+    ContinuousBatchScheduler::SchedulerConfig cfg;
+    cfg.max_batch_size = 8;
+    cfg.max_tokens_per_batch = 256;
+    cfg.block_size_tokens = BLOCK_SIZE_TOKENS;
+    cfg.prefill_chunk_size = 1;
+    cfg.enable_adaptive_batch_retry = true;
+
+    auto sched = std::make_unique<ContinuousBatchScheduler>(cfg, kv_cache.get());
+    sched->start();
+
+    auto id = sched->submitRequest(createTestRequest(10, 4));
+    ASSERT_FALSE(id.empty());
+    auto batch = sched->scheduleNextBatch();
+    ASSERT_EQ(batch.size(), 1u);
+
+    InferenceResponse failed;
+    failed.error_message = "decode failed";
+    sched->processBatchResults(batch, std::vector<InferenceResponse>{failed});
+
+    auto stats = sched->getStats();
+    EXPECT_EQ(stats.batch_retry_count, 1u);
+    EXPECT_EQ(stats.adaptive_prefill_chunk_size_tokens, 1u);
+
     sched->cancelRequest(id);
     sched->stop();
 }

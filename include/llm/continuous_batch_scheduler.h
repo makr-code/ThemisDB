@@ -257,6 +257,8 @@ private:
     // Statistics
     Stats stats_;
     std::chrono::system_clock::time_point last_schedule_time_;
+    // Adaptive prefill chunk state; accessed only while holding mutex_ in
+    // scheduleNextBatch() and processBatchResults().
     size_t effective_prefill_chunk_size_ = 0;
     
     // Internal helpers

@@ -204,9 +204,9 @@ public:
         // - shard_routing_key: deterministic placement hint for shard routers.
         // - target_instance_ids: explicit shard/instance fan-out subset.
         // - allow_cross_instance_batching: opt-in guard for distributed co-batching.
-        std::string shard_routing_key;
-        std::vector<std::string> target_instance_ids;
-        bool allow_cross_instance_batching = false;
+        std::string shard_routing_key;        // Set alone for deterministic shard placement.
+        std::vector<std::string> target_instance_ids; // Optional explicit fan-out subset; empty = router decides.
+        bool allow_cross_instance_batching = false;   // Explicit opt-in for coordinator-side co-batching.
         
         // For result tracking
         std::string request_id;

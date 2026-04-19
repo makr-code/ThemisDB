@@ -30,7 +30,7 @@ This document covers planned enhancements to the LLM module beyond what is track
 ### RAID-Sharding Interlock for Cross-Instance (Batch-)Inference
 **Priority:** High  
 **Target Version:** v1.18.0  
-**Status:** 🚧 In progress (API contract + metadata wiring)
+**Status:** [~] In progress (API contract + metadata wiring)
 
 #### Scope
 - Coordinate inference and continuous batch inference across multiple ThemisDB shard instances.
