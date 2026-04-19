@@ -26,7 +26,6 @@
 #include "ingestion/inference_backend.h"
 #include "ingestion/format_extractor.h"
 #include <memory>
-
 namespace themis {
 namespace ingestion {
 namespace builtin {
@@ -121,6 +120,59 @@ std::shared_ptr<IIngestionStep> createParseArchiveStep(
  */
 std::shared_ptr<IIngestionStep> createParseAudioStep(
     std::shared_ptr<IFormatExtractor> extractor = nullptr);
+
+// ─────────────────────────────────────────────────────────────────────────────
+// New built-in steps (v1.4.0)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Create a `builtin.decompress` step.
+ *
+ * Unpacks ZIP / tar / gzip archives without a FormatExtractor dependency.
+ * Uses fork/execvp to invoke `unzip` or `tar` from the system PATH.
+ * Populates `ExtractionContext::extracted_file_paths` with the paths of
+ * the files written to a temporary directory.
+ *
+ * Config keys (all optional):
+ *  - `output_dir`   string   Base directory for extraction (default: /tmp/themis_decompress_XXXXXX)
+ *  - `max_depth`    number   Maximum recursive unpack depth (default: 1, i.e. no recursion)
+ */
+std::shared_ptr<IIngestionStep> createDecompressStep();
+
+/**
+ * @brief Create a `builtin.legal_reference_extractor` step.
+ *
+ * Wraps `AgenticReferenceValidator` as a workflow step.
+ * Operates on `ctx.raw_text`; results are stored in:
+ *  - `ctx.extra["legal_refs.extracted_count"]`   — total references found
+ *  - `ctx.extra["legal_refs.dangling_count"]`    — unresolved references
+ *  - `ctx.extra["legal_refs.warnings_json"]`     — JSON array of warning strings
+ * Dangling references also produce `ctx.warnings` entries for operator visibility.
+ *
+ * Config keys (all optional):
+ *  - `known_laws`  array of strings   Pre-populated law IDs (e.g. ["BImSchG","StGB"])
+ */
+std::shared_ptr<IIngestionStep> createLegalReferenceExtractorStep();
+
+/**
+ * @brief Create a `builtin.chunk_embed` step.
+ *
+ * For every `TextChunk` in `ctx.chunks`, computes a dense embedding via @p
+ * backend and appends a `VectorRecord` to `ctx.embeddings`.
+ *
+ * If @p backend is `nullptr`, a `NullEmbeddingBackend` (768-d, zero vectors)
+ * is used automatically; `isAvailable()` will be false so no real inference
+ * occurs but the step succeeds without error — useful for tests.
+ *
+ * Config keys (all optional):
+ *  - `skip_when_unavailable` bool  default true — if true and backend is
+ *    unavailable, the step is a no-op instead of an error.
+ *  - `dims`  number  Hint for NullEmbeddingBackend dimensionality (default 768).
+ *
+ * @param backend  Injectable IEmbeddingBackend; nullptr → NullEmbeddingBackend.
+ */
+std::shared_ptr<IIngestionStep> createChunkEmbedStep(
+    std::shared_ptr<IEmbeddingBackend> backend = nullptr);
 
 } // namespace builtin
 } // namespace ingestion

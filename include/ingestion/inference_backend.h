@@ -23,6 +23,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 namespace themis {
 namespace ingestion {
@@ -139,6 +140,86 @@ public:
 
     bool        isAvailable() const override { return false; }
     std::string description() const override { return "NullTextGenerationBackend (no-op)"; }
+};
+
+// ============================================================================
+// IEmbeddingBackend — pure abstraction for dense text embedding (v1.4.0)
+// ============================================================================
+
+/**
+ * @brief Produces a dense embedding vector from a text snippet.
+ *
+ * Implementations include:
+ *  - ONNX-CLIP sentence encoder (when THEMIS_ENABLE_ONNX_CLIP is ON)
+ *  - multilingual-E5 via llama.cpp embeddings API
+ *  - NullEmbeddingBackend (zero-vector stub, isAvailable() == false)
+ *
+ * Thread safety: implementations MUST be thread-safe.
+ */
+class IEmbeddingBackend {
+public:
+    virtual ~IEmbeddingBackend() = default;
+
+    /**
+     * @brief Compute a dense embedding for @p text.
+     *
+     * @param text  Input text snippet (UTF-8).
+     * @return      Dense embedding vector of `dimensions()` floats.
+     *              Returns an empty vector on error; callers should
+     *              check `isAvailable()` before calling.
+     */
+    virtual std::vector<float> embed(const std::string& text) = 0;
+
+    /**
+     * @brief Number of dimensions in the embedding vector.
+     */
+    virtual int dimensions() const = 0;
+
+    /**
+     * @brief Return true when the backend is ready for inference.
+     */
+    virtual bool isAvailable() const = 0;
+
+    /**
+     * @brief Human-readable backend description for logging.
+     *
+     * Example: "multilingual-E5-base ONNX (768-d)"
+     */
+    virtual std::string description() const = 0;
+};
+
+// ============================================================================
+// NullEmbeddingBackend — zero-vector stub for testing / disabled configs
+// ============================================================================
+
+// STUB/SIMULATION NOTE:
+// Purpose: Safe default when no real embedding model is configured; keeps
+//   ChunkEmbedStep compilable without a live ONNX/llama model.
+// Activation: Default in ChunkEmbedStep when no IEmbeddingBackend is injected.
+// Production Delta: Returns zero-filled vector; isAvailable() returns false.
+// Removal Plan: Not removed — remains the no-config default.
+//   Inject a real backend (ONNX-CLIP, multilingual-E5) for production use.
+
+/**
+ * @brief Returns zero-filled embedding vectors of configurable dimensionality.
+ */
+class NullEmbeddingBackend : public IEmbeddingBackend {
+public:
+    /// Construct with embedding dimensionality (default: 768).
+    explicit NullEmbeddingBackend(int dims = 768) : dims_(dims) {}
+
+    std::vector<float> embed(const std::string& /*text*/) override {
+        return std::vector<float>(static_cast<std::size_t>(dims_), 0.0f);
+    }
+
+    int  dimensions()  const override { return dims_; }
+    bool isAvailable() const override { return false; }
+    std::string description() const override {
+        return "NullEmbeddingBackend (zero-vector, dims=" + std::to_string(dims_) + ")";
+    }
+
+private:
+    int dims_;
 };
 
 } // namespace ingestion

@@ -19459,6 +19459,46 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_user_storage_v03.cpp")
     message(STATUS "  USE-11..12: GocryptfsBackend executeCommandSafe() (deprecated executeCommand removed)")
 endif()
 
+# ── Ingestion v1.4.0 builtin steps: decompress, legal_reference_extractor, chunk_embed ──
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ingestion_builtin_steps_v14.cpp")
+    message(STATUS "Adding Ingestion v1.4.0 builtin step tests (ING-01..12)")
+
+    add_executable(test_ingestion_builtin_steps_v14_focused
+        test_ingestion_builtin_steps_v14.cpp
+    )
+
+    target_include_directories(test_ingestion_builtin_steps_v14_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_ingestion_builtin_steps_v14_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ingestion_builtin_steps_v14_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    set_target_properties(test_ingestion_builtin_steps_v14_focused PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME IngestionBuiltinStepsV14Tests
+        COMMAND test_ingestion_builtin_steps_v14_focused)
+    set_tests_properties(IngestionBuiltinStepsV14Tests PROPERTIES
+        LABELS "ingestion;builtin;decompress;legal_reference;chunk_embed;v140;focused;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  ING-01..04: builtin.decompress — name/version, MIME types, empty path, unknown MIME")
+    message(STATUS "  ING-05..08: builtin.legal_reference_extractor — name/version, empty text, extraction, dangling refs")
+    message(STATUS "  ING-09..12: builtin.chunk_embed — name/version, skip unavailable, error unavailable, produces VectorRecords")
+endif()
+
 # ── Chaos Network focused tests (Phase 4.3) ───────────────────────────────────
 if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_chaos_network.cpp")
     message(STATUS "Adding Chaos: Network chaos focused tests (Phase 4.3)")
