@@ -200,9 +200,13 @@ public:
         std::chrono::milliseconds timeout{30000};
         bool allow_caching = true;
         std::string preferred_model_id;  // Optional model preference
-        std::string shard_routing_key;   // Optional key for external RAID shard router
-        std::vector<std::string> target_instance_ids; // Optional explicit shard/instance targets
-        bool allow_cross_instance_batching = false;   // Hint for distributed batch coordinators
+        // RAID-sharding orchestration hints (optional, see src/llm/FUTURE_ENHANCEMENTS.md):
+        // - shard_routing_key: deterministic placement hint for shard routers.
+        // - target_instance_ids: explicit shard/instance fan-out subset.
+        // - allow_cross_instance_batching: opt-in guard for distributed co-batching.
+        std::string shard_routing_key;
+        std::vector<std::string> target_instance_ids;
+        bool allow_cross_instance_batching = false;
         
         // For result tracking
         std::string request_id;

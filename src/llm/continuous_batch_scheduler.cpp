@@ -33,12 +33,16 @@ namespace llm {
 // SchedulerConfig so operators can tune it per model.
 static constexpr size_t CHARS_PER_TOKEN_ESTIMATE = 4;
 
+static size_t normalisedPrefillChunkSize(size_t configured_size) {
+    return std::max<size_t>(1, configured_size);
+}
+
 ContinuousBatchScheduler::ContinuousBatchScheduler(
     const SchedulerConfig& config,
     PagedKVCache* kv_cache
 ) : config_(config),
     kv_cache_(kv_cache),
-    effective_prefill_chunk_size_(std::max<size_t>(1, config.prefill_chunk_size)),
+    effective_prefill_chunk_size_(normalisedPrefillChunkSize(config.prefill_chunk_size)),
     waiting_queue_(
         [](const std::shared_ptr<ScheduledRequest>& a,
            const std::shared_ptr<ScheduledRequest>& b) {
@@ -308,6 +312,7 @@ void ContinuousBatchScheduler::processBatchResults(
         if (decode_failed) {
             saw_decode_error = true;
             if (config_.enable_adaptive_batch_retry) {
+                freeKVCacheBlocks(req);
                 req->state = RequestState::WAITING;
                 req->tokens_generated = 0;
                 to_retry.push_back(req);
@@ -387,14 +392,15 @@ void ContinuousBatchScheduler::processBatchResults(
     if (saw_decode_error && config_.enable_adaptive_batch_retry) {
         const size_t previous = effective_prefill_chunk_size_;
         effective_prefill_chunk_size_ = std::max<size_t>(1, effective_prefill_chunk_size_ / 2);
+        // Count retries only when the downshift actually changed the chunk size.
         if (effective_prefill_chunk_size_ < previous) {
             stats_.batch_retry_count++;
             spdlog::warn("Adaptive batch retry downshift: prefill chunk {} -> {}",
                          previous, effective_prefill_chunk_size_);
         }
     } else if (!saw_decode_error && config_.enable_adaptive_batch_retry &&
-               effective_prefill_chunk_size_ < std::max<size_t>(1, config_.prefill_chunk_size)) {
-        effective_prefill_chunk_size_ = std::min(config_.prefill_chunk_size,
+               effective_prefill_chunk_size_ < normalisedPrefillChunkSize(config_.prefill_chunk_size)) {
+        effective_prefill_chunk_size_ = std::min(normalisedPrefillChunkSize(config_.prefill_chunk_size),
                                                  effective_prefill_chunk_size_ * 2);
     }
     stats_.adaptive_prefill_chunk_size_tokens = effective_prefill_chunk_size_;
