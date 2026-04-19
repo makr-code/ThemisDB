@@ -116,3 +116,31 @@ Key additions since v1.15.0:
 ## Breaking Changes
 - `InferenceHandle` header path changed in v1.15.0 (from `async_inference_engine.h` include to `inference_handle.h`).
 - No further breaking changes planned for v1.x series.
+
+### Phase 4: LLM+RAID Integration Tests (Status: Completed ✅)
+
+- [x] Integration-Test: 3-Shard-Cluster (legal/medical/general) domain routing verification (LRIR-01)
+- [x] Integration-Test: Batch-64 fan-out, 4 domains, result order preserved (LRIR-02)
+- [x] Integration-Test: Circuit breaker OPEN during batch → throws (LRIR-03)
+- [x] Integration-Test: Remote-Draft-Shard SpeculativeDecoder accept-rate telemetry (LRIR-04)
+- [x] Integration-Test: Embedding locality — ShardingManager::GetShardForKey deterministic routing (LRIR-05)
+- [x] Registered `test_llm_raid_integration_focused` (LRIR-01..05) in tests/CMakeLists.txt
+
+### Phase 5: KV-Prefix Cross-Shard Transfer (Status: Completed ✅)
+
+- [x] `RemoteExecutor::postBinary()` — binary payload transfer via base64-encoded JSON body
+- [x] `IKVStateSerializer` + `NullKVStateSerializer` abstraction over llama_state_seq_save/load_file
+- [x] `KVPrefixTransferManager` — orchestrates best-effort KV prefix transfer to target shard
+- [x] `LLMAQLHandler::setKVPrefixTransferManager()` — dependency injection point
+- [x] Auto-transfer in `executeInfer()` when domain routing selects remote shard + system_prompt ≥ 256 tokens
+- [x] Registered `kv_prefix_transfer_manager.cpp` in cmake/CMakeLists.txt and cmake/ModularBuild.cmake
+- [x] Thread-safe atomics for attempt/success counters
+- Note: `NullKVStateSerializer` active by default (no TTFT savings until `KVStateSerializerLlama` links against llama.cpp — Target: Q2 2027)
+
+### Phase 6: Documentation & Benchmarks (Status: Completed ✅)
+
+- [x] `bench_llm_raid_pipeline.cpp` registered in benchmarks/CMakeLists.txt
+- [x] `BM_DomainRouting_OverheadPerRequest` — routing decision latency benchmark (target ≤ 5 µs p99)
+- [x] `BM_BatchFanOut_LatencyScaling` — batch sizes 1/8/16/32/64 fan-out benchmark
+- [x] `docs/de/llm/CROSS_SHARD_INFERENCE_RUNBOOK.md` — operational runbook for cross-shard debugging
+- [x] `docs/de/llm/AI_ECOSYSTEM_SHARDING_ARCHITECTURE.md` — Phase 5 KV-Prefix + Phase 6 benchmark data added

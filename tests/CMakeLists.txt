@@ -23803,7 +23803,54 @@ else()
 endif()
 
 # ============================================================================
-# IMPL-A2 Phase 2: ContinuousLearningOrchestrator named loop triggers
+# LLM+RAID Phase 4 Integration Tests
+# Covers: LRIR-01..05 (3-shard domain routing, batch-64 fan-out, circuit breaker,
+#          speculative decoder accept-rate, embedding locality)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_raid_integration.cpp")
+    message(STATUS "Adding LLM+RAID Phase 4 integration tests (LRIR-01..05)")
+
+    add_executable(test_llm_raid_integration_focused
+        test_llm_raid_integration.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/adaptive_shard_router.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/shard_router.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/consistent_hash.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/shard_topology.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/urn_resolver.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/sharding_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/circuit_breaker.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/mtls_connection_pool.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/signed_request.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/operational_metrics.cpp
+        ${THEMIS_ROOT_DIR}/src/llm/speculative_decoder.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/tracing.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+
+    target_include_directories(test_llm_raid_integration_focused
+        PRIVATE ${THEMIS_ROOT_DIR}/include ${THEMIS_ROOT_DIR}/src)
+
+    target_link_libraries(test_llm_raid_integration_focused
+        PRIVATE ${TEST_LIBS} spdlog::spdlog OpenSSL::SSL OpenSSL::Crypto
+                $<$<TARGET_EXISTS:TBB::tbb>:TBB::tbb> nlohmann_json::nlohmann_json
+                Threads::Threads)
+
+    target_compile_definitions(test_llm_raid_integration_focused
+        PRIVATE THEMIS_TEST_BUILD=1 THEMIS_ENABLE_LLM=1)
+
+    add_test(NAME LLMRaidIntegrationTests COMMAND test_llm_raid_integration_focused)
+
+    set_tests_properties(LLMRaidIntegrationTests PROPERTIES
+        LABELS "llm;raid;sharding;integration;phase4;LRIR"
+        TIMEOUT 90
+    )
+
+    message(STATUS "  LLM+RAID Phase 4: LRIR-01..05 (3-shard routing, batch fan-out, circuit breaker, speculation, embed locality)")
+else()
+    message(STATUS "LLM+RAID Phase 4 integration tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_llm_raid_integration.cpp")
+endif()
+
+
 # Covers: CLO-L1-01..03, CLO-L2-01..03, CLO-L3-01..02, CLO-L4-01..02,
 #         CLO-FED-01, CLO-COOL-01  (test_clo_loops.cpp)
 # ============================================================================

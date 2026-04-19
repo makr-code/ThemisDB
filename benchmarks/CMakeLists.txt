@@ -3989,3 +3989,51 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_distributed_knowledge_or.cpp")
     message(STATUS "  DK-OR-BM-01: triggerAggregation timeout overhead — target ≤ 2 ms vs no-timeout")
     message(STATUS "  DK-OR-BM-02: publishFeedback backpressure skip — target ≤ 0.5 µs/call")
 endif()
+
+
+# ============================================================================
+# LLM+RAID Pipeline Benchmarks (Phase 3 + Phase 6 Distributed Inference Cases)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llm_raid_pipeline.cpp")
+    message(STATUS "Adding LLM+RAID pipeline benchmarks (Phase 3 LoRA/RAID + Phase 6 Distributed Inference)")
+
+    add_executable(bench_llm_raid_pipeline
+        bench_llm_raid_pipeline.cpp
+    )
+
+    target_include_directories(bench_llm_raid_pipeline PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/../include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src
+    )
+
+    target_link_libraries(bench_llm_raid_pipeline PRIVATE
+        themis_core
+        themis_llm
+        ${BENCHMARK_LIBS}
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_llm_raid_pipeline PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+        THEMIS_ENABLE_LLM=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_llm_raid_pipeline)
+
+    install(TARGETS bench_llm_raid_pipeline
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  BM_ModelLoadSingleShard, BM_LoRA_LoadSingleAdapter, BM_LoRA_LoadMultipleAdapters")
+    message(STATUS "  BM_LoRA_SwitchingLatency, BM_Inference_WithoutLoRA, BM_Inference_WithSingleLoRA")
+    message(STATUS "  BM_MultiShard_ConcurrentInference, BM_DataDistribution_RAIDStriping")
+    message(STATUS "  BM_CompletePipeline_EndToEnd")
+    message(STATUS "  BM_DomainRouting_OverheadPerRequest (Phase 6 distributed inference)")
+    message(STATUS "  BM_BatchFanOut_LatencyScaling (Phase 6 distributed inference)")
+endif()

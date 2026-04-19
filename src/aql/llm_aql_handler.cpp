@@ -34,6 +34,7 @@
 #include "aql/llm_token_estimator.h"
 #include "sharding/circuit_breaker.h"
 #include "sharding/sharding_manager.h"
+#include "llm/kv_prefix_transfer_manager.h"
 #include "llm/llm_plugin_manager.h"
 #include "llm/embedded_llm.h"
 #include "llm/llama_wrapper.h"
@@ -310,6 +311,9 @@ public:
     std::shared_ptr<AQLIngestionBridge> ingestion_bridge_;
     LLMAQLHandler::DomainRouteResolver domain_route_resolver_;
     sharding::ShardingManager* sharding_manager_;
+
+    // Optional Phase 5 KV-prefix transfer manager
+    std::unique_ptr<llm::KVPrefixTransferManager> kv_prefix_transfer_mgr_;
 };
 
 LLMAQLHandler::LLMAQLHandler() 
@@ -346,6 +350,12 @@ void LLMAQLHandler::setDomainRouteResolver(DomainRouteResolver resolver) {
 
 void LLMAQLHandler::setShardingManager(sharding::ShardingManager* sharding_manager) {
     impl_->sharding_manager_ = sharding_manager;
+}
+
+void LLMAQLHandler::setKVPrefixTransferManager(
+    std::unique_ptr<llm::KVPrefixTransferManager> mgr)
+{
+    impl_->kv_prefix_transfer_mgr_ = std::move(mgr);
 }
 
 void LLMAQLHandler::setChatExecutor(
@@ -436,7 +446,24 @@ std::string LLMAQLHandler::executeInfer(
                         request.metadata["target_shard_id"] = routed_shard_id;
                     }
                 }
-                
+
+                // Phase 5 — KV-prefix transfer: if a remote shard was selected and
+                // the caller supplied a system_prompt, pre-transfer the KV state so
+                // the target shard can warm its cache before executing the request.
+                if (!routed_shard_id.empty() &&
+                    impl_->kv_prefix_transfer_mgr_ &&
+                    request.system_prompt && !request.system_prompt->empty())
+                {
+                    // Build a minimal ShardInfo from the routed shard ID.
+                    // The full ShardInfo (endpoint, TLS) would typically come from a
+                    // topology registry; here we use the shard_id as a placeholder.
+                    themis::sharding::ShardInfo target_info;
+                    target_info.shard_id          = routed_shard_id;
+                    target_info.primary_endpoint  = routed_shard_id; // real endpoint resolved at postBinary time
+                    impl_->kv_prefix_transfer_mgr_->transferIfBeneficial(
+                        target_info, *request.system_prompt, request.model_id);
+                }
+
                 // Parse options for generation parameters
                 if (options.count("max_tokens")) {
                     request.max_tokens = std::stoi(options.at("max_tokens"));
