@@ -504,4 +504,35 @@ TEST_F(ContinuousBatchSchedulerTest, MetricsNullCollectorNoCrash) {
     sched->stop();
 }
 
+// Test 14: Adaptive batch retry halves prefill chunk size after decode error
+TEST_F(ContinuousBatchSchedulerTest, AdaptiveBatchRetryDownshiftOnDecodeError) {
+    ContinuousBatchScheduler::SchedulerConfig cfg;
+    cfg.max_batch_size = 32;
+    cfg.max_tokens_per_batch = 2048;
+    cfg.block_size_tokens = BLOCK_SIZE_TOKENS;
+    cfg.prefill_chunk_size = 64;
+    cfg.enable_adaptive_batch_retry = true;
+
+    auto sched = std::make_unique<ContinuousBatchScheduler>(cfg, kv_cache.get());
+    sched->start();
+
+    auto id = sched->submitRequest(createTestRequest(30, 8));
+    ASSERT_FALSE(id.empty());
+
+    auto batch = sched->scheduleNextBatch();
+    ASSERT_EQ(batch.size(), 1u);
+
+    InferenceResponse failed;
+    failed.error_message = "decode failed";
+    std::vector<InferenceResponse> responses{failed};
+    sched->processBatchResults(batch, responses);
+
+    auto stats = sched->getStats();
+    EXPECT_EQ(stats.batch_retry_count, 1u);
+    EXPECT_EQ(stats.adaptive_prefill_chunk_size_tokens, 32u);
+
+    sched->cancelRequest(id);
+    sched->stop();
+}
+
 // No custom main; gtest_main provides the entry point

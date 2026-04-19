@@ -82,6 +82,7 @@ public:
         size_t max_batch_size = 256;
         size_t batch_timeout_ms = 100;  // Wait up to 100ms to form batch
         size_t max_tokens_per_batch = 8192;
+        bool enable_adaptive_batch_retry = false;
         
         // Request queuing
         size_t max_queue_size = 1000;
@@ -110,6 +111,11 @@ public:
         /// The draft model is typically a small, quantised variant of the
         /// target model (e.g., INT4-quantised 0.5 B parameters).
         std::string speculative_draft_model_id;
+
+        // Prompt lookup decoding (n-gram based speculation-light path)
+        bool enable_lookup_decoding = false;
+        size_t lookup_ngram_min = 2;
+        size_t lookup_ngram_max = 4;
     };
     
     /**
@@ -194,6 +200,9 @@ public:
         std::chrono::milliseconds timeout{30000};
         bool allow_caching = true;
         std::string preferred_model_id;  // Optional model preference
+        std::string shard_routing_key;   // Optional key for external RAID shard router
+        std::vector<std::string> target_instance_ids; // Optional explicit shard/instance targets
+        bool allow_cross_instance_batching = false;   // Hint for distributed batch coordinators
         
         // For result tracking
         std::string request_id;

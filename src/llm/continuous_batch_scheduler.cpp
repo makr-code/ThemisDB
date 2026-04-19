@@ -38,6 +38,7 @@ ContinuousBatchScheduler::ContinuousBatchScheduler(
     PagedKVCache* kv_cache
 ) : config_(config),
     kv_cache_(kv_cache),
+    effective_prefill_chunk_size_(std::max<size_t>(1, config.prefill_chunk_size)),
     waiting_queue_(
         [](const std::shared_ptr<ScheduledRequest>& a,
            const std::shared_ptr<ScheduledRequest>& b) {
@@ -54,6 +55,7 @@ ContinuousBatchScheduler::ContinuousBatchScheduler(
     spdlog::info("  Max concurrent: {}", config_.max_concurrent_requests);
     spdlog::info("  Preemption: {}", config_.enable_preemption ? "enabled" : "disabled");
     spdlog::info("  Priority scheduling: {}", config_.enable_priority_scheduling ? "enabled" : "disabled");
+    stats_.adaptive_prefill_chunk_size_tokens = effective_prefill_chunk_size_;
 }
 
 ContinuousBatchScheduler::~ContinuousBatchScheduler() {
@@ -241,8 +243,8 @@ ContinuousBatchScheduler::scheduleNextBatch() {
         allocateKVCacheBlocks(req.get());
         
         // Check if we can add to batch
-        size_t prefill_tokens = config_.enable_chunked_prefill 
-            ? std::min(req->total_prompt_tokens, config_.prefill_chunk_size)
+        size_t prefill_tokens = config_.enable_chunked_prefill
+            ? std::min(req->total_prompt_tokens, effective_prefill_chunk_size_)
             : req->total_prompt_tokens;
         
         if (canAddToBatch(req.get(), total_tokens + prefill_tokens, reserved_blocks_in_batch)) {
@@ -296,10 +298,36 @@ void ContinuousBatchScheduler::processBatchResults(
         return;
     }
     
+    bool saw_decode_error = false;
+    std::vector<ScheduledRequest*> to_retry;
+
     for (size_t i = 0; i < batch.size(); ++i) {
         auto* req = batch[i];
         const auto& resp = responses[i];
-        
+        const bool decode_failed = !resp.error_message.empty();
+        if (decode_failed) {
+            saw_decode_error = true;
+            if (config_.enable_adaptive_batch_retry) {
+                req->state = RequestState::WAITING;
+                req->tokens_generated = 0;
+                to_retry.push_back(req);
+                continue;
+            }
+
+            req->state = RequestState::FAILED;
+            freeKVCacheBlocks(req);
+            active_requests_.erase(
+                std::remove_if(active_requests_.begin(), active_requests_.end(),
+                              [req](const auto& r) { return r && r.get() == req; }),
+                active_requests_.end()
+            );
+            if (req->callback) {
+                req->callback(resp);
+            }
+            stats_.failed_requests++;
+            continue;
+        }
+
         req->tokens_generated++;
         req->last_token_at = std::chrono::system_clock::now();
         
@@ -343,6 +371,33 @@ void ContinuousBatchScheduler::processBatchResults(
             }
         }
     }
+
+    for (auto* req : to_retry) {
+        active_requests_.erase(
+            std::remove_if(active_requests_.begin(), active_requests_.end(),
+                          [req](const auto& r) { return r && r.get() == req; }),
+            active_requests_.end()
+        );
+        auto it = all_requests_.find(req->request_id);
+        if (it != all_requests_.end()) {
+            waiting_queue_.push(it->second);
+        }
+    }
+
+    if (saw_decode_error && config_.enable_adaptive_batch_retry) {
+        const size_t previous = effective_prefill_chunk_size_;
+        effective_prefill_chunk_size_ = std::max<size_t>(1, effective_prefill_chunk_size_ / 2);
+        if (effective_prefill_chunk_size_ < previous) {
+            stats_.batch_retry_count++;
+            spdlog::warn("Adaptive batch retry downshift: prefill chunk {} -> {}",
+                         previous, effective_prefill_chunk_size_);
+        }
+    } else if (!saw_decode_error && config_.enable_adaptive_batch_retry &&
+               effective_prefill_chunk_size_ < std::max<size_t>(1, config_.prefill_chunk_size)) {
+        effective_prefill_chunk_size_ = std::min(config_.prefill_chunk_size,
+                                                 effective_prefill_chunk_size_ * 2);
+    }
+    stats_.adaptive_prefill_chunk_size_tokens = effective_prefill_chunk_size_;
     
     updateStats();
 }
@@ -425,7 +480,7 @@ bool ContinuousBatchScheduler::canAddToBatch(
     
     // Check token budget
     size_t tokens_needed = (request->state == RequestState::PREFILL)
-        ? std::min(request->total_prompt_tokens, config_.prefill_chunk_size)
+        ? std::min(request->total_prompt_tokens, effective_prefill_chunk_size_)
         : 1;  // Decode needs 1 token
     
     if (current_batch_tokens + tokens_needed > config_.max_tokens_per_batch) {

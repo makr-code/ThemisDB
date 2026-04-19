@@ -76,6 +76,7 @@ public:
         bool enable_preemption = true;
         bool enable_chunked_prefill = true;    // Chunk large prefills
         size_t prefill_chunk_size = 512;       // Tokens per prefill chunk
+        bool enable_adaptive_batch_retry = false; // Retry decode failures with downshift
         
         // Priority scheduling
         bool enable_priority_scheduling = true;
@@ -212,6 +213,8 @@ public:
         
         size_t current_batch_size = 0;
         size_t max_batch_size_seen = 0;
+        size_t batch_retry_count = 0;
+        size_t adaptive_prefill_chunk_size_tokens = 0;
         // Current combined depth of waiting + active requests
         size_t current_queue_depth = 0;
     };
@@ -254,6 +257,7 @@ private:
     // Statistics
     Stats stats_;
     std::chrono::system_clock::time_point last_schedule_time_;
+    size_t effective_prefill_chunk_size_ = 0;
     
     // Internal helpers
     bool canAddToBatch(const ScheduledRequest* request,

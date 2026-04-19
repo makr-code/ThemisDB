@@ -77,6 +77,7 @@ InferenceEngineEnhanced::InferenceEngineEnhanced(const Config& config)
         sched_config.max_batch_size = config_.max_batch_size;
         sched_config.max_tokens_per_batch = config_.max_tokens_per_batch;
         sched_config.enable_priority_scheduling = config_.enable_priority_scheduling;
+        sched_config.enable_adaptive_batch_retry = config_.enable_adaptive_batch_retry;
         
         batch_scheduler_ = std::make_unique<ContinuousBatchScheduler>(
             sched_config, kv_cache_.get());
@@ -655,6 +656,7 @@ json InferenceEngineEnhanced::getDetailedMetrics() const {
     metrics["cache"]["hit_rate"] = stats.cache_hit_rate;
     metrics["cache"]["hits"] = stats.cache_hits;
     metrics["cache"]["misses"] = stats.cache_misses;
+    metrics["cache"]["cache_miss"] = stats.cache_misses;
     metrics["cache"]["tokens_saved"] = stats.tokens_saved_by_cache;
     
     // Batch metrics
@@ -662,6 +664,9 @@ json InferenceEngineEnhanced::getDetailedMetrics() const {
     metrics["batch"]["avg_size"] = stats.avg_batch_size;
     metrics["batch"]["max_size"] = stats.max_batch_size_seen;
     metrics["batch"]["throughput_improvement"] = stats.throughput_improvement;
+    metrics["batch"]["batch_retry_count"] = batch_scheduler_
+        ? batch_scheduler_->getStats().batch_retry_count
+        : 0;
     
     // Queue metrics
     metrics["queue"]["total_requests"] = stats.total_requests;
@@ -684,10 +689,14 @@ json InferenceEngineEnhanced::getDetailedMetrics() const {
     // Speculative decoding
     metrics["speculative"]["enabled"] = config_.enable_speculative_decoding;
     metrics["speculative"]["draft_tokens_total"] = stats.speculative_draft_tokens_total;
+    metrics["speculative"]["drafted_tokens"] = stats.speculative_draft_tokens_total;
     metrics["speculative"]["accepted_tokens"]    = stats.speculative_accepted_tokens;
     metrics["speculative"]["rejected_tokens"]    = stats.speculative_rejected_tokens;
     metrics["speculative"]["avg_acceptance_rate"] = stats.speculative_avg_acceptance_rate;
+    metrics["speculative"]["accept_rate"] = stats.speculative_avg_acceptance_rate;
     metrics["speculative"]["steps"]              = stats.speculative_steps;
+    metrics["feature_flags"]["lookup_decoding"] = config_.enable_lookup_decoding;
+    metrics["feature_flags"]["adaptive_batch_retry"] = config_.enable_adaptive_batch_retry;
     
     return metrics;
 }
@@ -1032,6 +1041,15 @@ void InferenceEngineEnhanced::processBatch(
             // Build an effective request that wraps the stream_callback so
             // cancellation is propagated at every token boundary.
             InferenceRequest effective_request = req.base_request;
+            if (!req.shard_routing_key.empty()) {
+                effective_request.metadata["raid_sharding"]["routing_key"] = req.shard_routing_key;
+            }
+            if (!req.target_instance_ids.empty()) {
+                effective_request.metadata["raid_sharding"]["target_instance_ids"] =
+                    req.target_instance_ids;
+            }
+            effective_request.metadata["raid_sharding"]["allow_cross_instance_batching"] =
+                req.allow_cross_instance_batching;
             auto cancel_token = tracked->cancel_token;
             auto deadline = tracked->deadline;
             if (effective_request.stream_callback) {

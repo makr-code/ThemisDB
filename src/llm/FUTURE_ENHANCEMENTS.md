@@ -27,6 +27,48 @@ This document covers planned enhancements to the LLM module beyond what is track
 
 ## Planned Features
 
+### RAID-Sharding Interlock for Cross-Instance (Batch-)Inference
+**Priority:** High  
+**Target Version:** v1.18.0  
+**Status:** 🚧 In progress (API contract + metadata wiring)
+
+#### Scope
+- Coordinate inference and continuous batch inference across multiple ThemisDB shard instances.
+- Preserve shard routing context (`routing_key`, `target_instance_ids`) end-to-end from API layer to model plugin call.
+- Add explicit request hints for cross-instance batch orchestration without changing single-node default behavior.
+
+#### Design Constraints
+- Keep `InferenceEngineEnhanced` backward compatible for local/single-instance inference.
+- Treat shard hints as optional metadata (no hard dependency on RAID coordinator availability).
+- Never bypass existing policy checks or per-request cancellation semantics.
+
+#### Required Interfaces
+| Interface | Consumer | Notes |
+|---|---|---|
+| `EnhancedInferenceRequest::shard_routing_key` | RAID shard router / coordinator | Stable hint for deterministic shard placement |
+| `EnhancedInferenceRequest::target_instance_ids` | Federated inference coordinator | Explicit shard subset for fan-out/fan-in |
+| `EnhancedInferenceRequest::allow_cross_instance_batching` | Distributed batch scheduler | Opt-in guard for multi-instance co-batching |
+| `InferenceRequest::metadata["raid_sharding"]` | Plugins / transport layer | Canonical handoff envelope for downstream orchestration |
+
+#### Implementation Notes
+- [x] Added shard-routing and cross-instance batching hints to `EnhancedInferenceRequest`.
+- [x] Forwarded RAID hint envelope into `InferenceRequest::metadata["raid_sharding"]` before plugin generation call.
+- [ ] Add coordinator-side fan-out/fan-in execution path using these hints (Issue: #1928).
+- [ ] Add per-shard partial-failure handling + adaptive retry gates for distributed batches.
+
+#### Test Strategy
+- [x] Unit test validating RAID hint forwarding (`tests/test_inference_engine_enhanced.cpp`: `RaidShardingHintsAreForwardedToRequestMetadata`).
+- [ ] Integration test with 1/4/8 shard instances validating deterministic routing and aggregated responses.
+- [ ] Failure-injection tests for partial shard outages during cross-instance batch execution.
+
+#### Performance Targets
+- Cross-instance batch scheduling overhead ≤ 5 ms p95 per coordinator cycle.
+- Throughput improvement ≥ 20% at 8 concurrent requests compared with non-batched distributed baseline.
+
+#### Security / Reliability
+- Routing hints are metadata-only and do not override access-control or tenant isolation checks.
+- Partial shard failures must degrade to bounded retries and explicit error signaling (no silent data loss).
+
 ### `LoraSecurityValidator`: Certificate Store Integration
 **Priority:** High
 **Target Version:** v1.8.0
