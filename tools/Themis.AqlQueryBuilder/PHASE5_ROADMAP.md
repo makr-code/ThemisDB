@@ -1,3 +1,5 @@
+> **Hinweis:** Inhalt mit aktuellem Modulcode und -stand abgleichen.
+
 # Phase 5: Advanced UI/UX Features - Roadmap
 
 ## Overview

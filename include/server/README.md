@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB Server Module Headers
 
 **Status:** `current` | **Validated:** 2026-03-10 (Commit `a04b89b`) | **Version:** v1.7.0

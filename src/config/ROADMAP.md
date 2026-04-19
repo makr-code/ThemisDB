@@ -1,3 +1,5 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 # Config Module Roadmap
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 <!-- validated: 2026-04-06 | status: current | source: src/config/ -->

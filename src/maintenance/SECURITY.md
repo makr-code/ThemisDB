@@ -1,3 +1,5 @@
+> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+
 <!-- Status: current | validated: 2026-04-15 | Commit: e963d4e9ba -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 

@@ -1,3 +1,5 @@
+> **Hinweis:** Docker-Kommandos gegen aktuellen Stand der Compose-Dateien und Images prüfen.
+
 # ThemisDB Docker RAID Comprehensive Benchmark Suite
 
 **Status:** ✅ Production-Ready  

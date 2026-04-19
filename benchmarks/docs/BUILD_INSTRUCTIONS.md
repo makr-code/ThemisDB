@@ -1,3 +1,5 @@
+> **Aktueller Build-Flow:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Docker RAID Benchmark - Build Instructions
 
 ## Status

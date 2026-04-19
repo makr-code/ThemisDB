@@ -1,3 +1,5 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 <!-- status: current | validated: 2026-04-06 -->
 <!-- Links: Primary README → src/performance/README.md | Secondary → docs/de/performance/README.md -->

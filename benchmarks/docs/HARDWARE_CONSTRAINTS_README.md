@@ -1,3 +1,5 @@
+> ⚠️ **Historische Randbedingungen** – Hardware-Constraints beschreiben einen bestimmten Teststand.
+
 # Hardware Constraints & Performance Characteristics
 ## Analyzing ThemisDB Against RocksDB & TBB Baselines
 

@@ -1,3 +1,5 @@
+> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+
 # Search Module — Architecture Guide
 
 <!-- Status: current | validated: 2026-04-06 | commit: a14cdb2 -->

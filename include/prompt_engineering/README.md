@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 

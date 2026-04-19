@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB Analytics Module - Implementation
 
 **Version:** 1.9.0

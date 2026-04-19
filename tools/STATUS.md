@@ -1,3 +1,5 @@
+> **Hinweis:** Inhalt mit aktuellem Modulcode und -stand abgleichen.
+
 # ThemisDB Admin Tools - Entwicklungsstand
 
 **Datum:** 2024

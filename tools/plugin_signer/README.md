@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB Plugin Signer
 
 Tool zum Signieren von Hardware-Beschleunigungsplugins mit digitalen Signaturen.

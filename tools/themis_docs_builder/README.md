@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB Third-Party Documentation Database Builder
 
 ## Overview

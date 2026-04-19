@@ -1,3 +1,5 @@
+> ⚠️ **Historisches Dokument** – Beschreibt den Stand zum Zeitpunkt der Erstellung.
+
 # ThemisDB Examples - Abschluss-Bericht
 
 > **⚠️ Historischer Bericht** — Dieser Statusbericht wurde zu einem bestimmten Zeitpunkt erstellt und spiegelt nicht notwendigerweise den aktuellen Stand wider.

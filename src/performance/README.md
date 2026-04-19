@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 <!-- status: current | validated: 2026-04-06 -->
 <!-- Links: Secondary → docs/de/performance/README.md | Root → ../../README.md -->
 

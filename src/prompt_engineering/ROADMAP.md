@@ -1,3 +1,5 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 # Prompt Engineering Module Roadmap
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: src/prompt_engineering/README.md · src/prompt_engineering/ARCHITECTURE.md · src/prompt_engineering/FUTURE_ENHANCEMENTS.md · docs/de/prompt_engineering/README.md -->

@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB Process Modeling Module
 
 **Version:** 1.0.0

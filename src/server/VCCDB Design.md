@@ -1,3 +1,5 @@
+> **Hinweis:** Inhalt mit aktuellem Modulcode und -stand abgleichen.
+
 
 Architektonischer Entwurf eines hochperformanten Multi-Modell-Datenbanksystems: Eine Kernel-Level-Analyse von kanonischem Speicher, Projektionsschichten und Speicherhierarchien in C++ und Rust
 

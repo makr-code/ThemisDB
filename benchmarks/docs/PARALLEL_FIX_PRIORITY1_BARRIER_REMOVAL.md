@@ -1,3 +1,5 @@
+> ⚠️ **Historischer Plan** – Beschreibt den Barrier-Removal-Ansatz zum Zeitpunkt der Erstellung.
+
 # 🚀 Priority 1: Barrier Removal - Implementation Guide
 
 **Ziel**: Entfernen Sie die Join-Barrier in ParallelExecutor  

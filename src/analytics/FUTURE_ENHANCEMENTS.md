@@ -1,3 +1,5 @@
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
 <!-- Status: current | validated: 2026-06-09 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · include/analytics/FUTURE_ENHANCEMENTS.md -->
 

@@ -1,3 +1,5 @@
+> **Hinweis:** Inhalt mit aktuellem Modulcode und -stand abgleichen.
+
 # Phase 3 Plugins - Implementation Note
 
 ## Status: Strukturen erstellt, Kern-Implementierung ausstehend

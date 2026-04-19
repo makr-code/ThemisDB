@@ -1,3 +1,5 @@
+> **Hinweis:** API-Signaturen gegen aktuelle Endpunkte/Typen prüfen. Abweichungen mit `<!-- TODO: verify API -->` markieren.
+
 # Integration and Chaos Testing Documentation
 
 This document describes the comprehensive integration and chaos testing suite added to ThemisDB to achieve 95% test coverage.

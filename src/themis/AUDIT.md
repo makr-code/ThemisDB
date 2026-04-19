@@ -1,3 +1,5 @@
+> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+
 <!-- Status: current | validated: 2026-04-06 -->
 # Audit Report — Themis Module
 **Last Audit:** 2026-03-12 | **Status:** ✅ Pass

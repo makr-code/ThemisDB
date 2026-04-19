@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # API Module — Public Headers
 
 **Module Path:** `include/api/`

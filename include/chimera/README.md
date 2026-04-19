@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # ThemisDB CHIMERA Module — Header Reference
 
 **Version:** 0.0.47

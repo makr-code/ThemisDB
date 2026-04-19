@@ -1,3 +1,5 @@
+> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
+
 <!-- Status: current | validated: 2026-04-19 -->
 # Audit Report — Utils Module
 **Last Audit:** 2026-04-19 | **Status:** ✅ Pass

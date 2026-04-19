@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # LLM Module
 
 <!-- Status: current | validated: 2026-04-09 | Primary: src/llm/ | Secondary: docs/de/llm/ -->

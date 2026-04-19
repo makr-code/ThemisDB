@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Security Module Headers
 
 Public API headers for ThemisDB security features.

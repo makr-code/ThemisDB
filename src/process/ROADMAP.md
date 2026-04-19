@@ -1,3 +1,5 @@
+> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+
 # Process Modeling Module Roadmap
 
 **Version:** 1.0.0

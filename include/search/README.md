@@ -1,3 +1,5 @@
+> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+
 # Search Module - Public API
 
 <!-- Status: current | validated: 2026-04-06 | commit: a14cdb2 -->

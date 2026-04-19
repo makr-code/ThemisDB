@@ -1,3 +1,5 @@
+> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+
 # Toolbox Module — Future Enhancements (Implementation)
 
 <!-- Status: current | validated: 2026-04-16 | Primary: src/toolbox/ | Secondary: docs/de/toolbox/ -->

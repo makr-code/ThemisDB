@@ -1,3 +1,5 @@
+> **Hinweis:** API-Signaturen gegen aktuelle Endpunkte/Typen prüfen. Abweichungen mit `<!-- TODO: verify API -->` markieren.
+
 # Web Scraping & Ingestion Guide
 
 Dieser Guide erklärt detailliert, wie Sie Code-Beispiele aus verschiedenen Internet-Quellen scrapen, parsen und in ThemisDB importieren.

@@ -1,3 +1,5 @@
+> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+
 # Prompt Engineering Module — Architecture Guide
 <!-- Status: current | validated: 2026-04-06 -->
 <!-- Links: src/prompt_engineering/README.md · src/prompt_engineering/ROADMAP.md · src/prompt_engineering/FUTURE_ENHANCEMENTS.md · docs/de/prompt_engineering/README.md -->
