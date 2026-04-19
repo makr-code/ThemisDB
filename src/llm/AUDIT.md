@@ -128,29 +128,26 @@ Build types validated: `Debug`, `Release`, `RelWithDebInfo`. CUDA builds require
 
 | Test Target | Scope |
 |-------------|-------|
-| `test_async_inference_engine` | Request lifecycle, timeout, cancellation (best-effort) |
-| `test_inference_engine_enhanced` | Multi-model routing, KV-cache hit/miss, batching |
+| `test_inference_engine_enhanced` | Multi-model routing, KV-cache hit/miss, batching; atomic model swap under concurrent requests, VRAM clear verification; `AsyncInferenceEngine` streaming via `SubmitStreaming_*` test cases |
 | `test_model_router` | Regex rules, tag rules, fallback routing |
 | `test_openai_compat_adapter` | Request/response schema, error codes, streaming |
 | `test_streaming_handler` | SSE frame format, early client disconnect, empty response |
 | `test_grammar_integration` | Valid grammar, malformed grammar, depth-limit rejection |
 | `test_json_schema_binding` | Schema binding, schema violation rejection, nested schemas |
-| `test_inference_engine_enhanced` | Atomic swap under concurrent requests, VRAM clear verification |
 | `test_lora_hot_loading` | Valid adapter load, missing manifest rejection, mid-inference swap |
-| `test_lora_security_validator` | SHA-256 pass, tampered file rejection, missing digest rejection |
+| `test_lora_security` | SHA-256 pass, tampered file rejection, missing digest rejection |
 | `test_vram_secure_clear` | Zero pattern verification post-clear on CPU-side shadow |
-| `test_active_vram_allocator` | Allocation, LRU eviction, OOM recovery, CPU spill |
+| `test_active_vram_allocator` | Allocation, LRU eviction, OOM recovery, CPU spill; quota interaction with VRAM allocator and worker pool |
 | `test_kv_cache_buffer` | Hit rate, LRU eviction, prewarming similarity threshold |
 | `test_speculative_decoder` | Acceptance rate under synthetic logits, fallback to autoregressive |
 | `test_gguf_loader` | Valid GGUF, bad magic, bad version, oversized tensor |
 | `test_model_quantization_pipeline` | GGUF/AWQ/GPTQ round-trip, digest recording |
-| `test_llm_security_utils` | Known injection patterns detected, clean input passed through |
+| `test_llm_security_audit` | Known injection patterns detected, clean input passed through |
 | `test_llm_response_cache` | Cache hit within TTL, TTL expiry, invalidation on hot-swap |
 | `test_constitutional_reasoning` | Policy-compliant output passed, policy-violating output filtered |
 | `test_ethical_guidelines_manager` | Rule load from config, rule evaluation, update at runtime |
 | `test_llm_vision_encoder` | Image token interleaving, unsupported format rejection |
 | `test_token_quota_manager` | Quota enforcement under burst, quota reset, quota update |
-| `test_active_vram_allocator` | Quota interaction with VRAM allocator and worker pool |
 | `test_shared_worker_pool` | Work-stealing under uneven load, dynamic resize |
 | `test_llm_plugin` | Model registration, lookup, deregistration, digest verification |
 | `test_sampling_strategy` | Temperature, top-p, top-k distribution properties |
@@ -181,7 +178,7 @@ Build types validated: `Debug`, `Release`, `RelWithDebInfo`. CUDA builds require
 | Requirement | Status |
 |-------------|--------|
 | API keys never logged | ✅ Deny-list enforced in log formatters |
-| VRAM isolation between models | ✅ `vram_secure_clear.cpp` + `ActiveVRAMAllocator` per-model regions |
+| VRAM isolation between models | ✅ `src/security/vram_secure_clear.cpp` + `ActiveVRAMAllocator` per-model regions |
 | LoRA adapter integrity verification | ✅ SHA-256 + trusted manifest enforced in `lora_security_validator.cpp` |
 | GGUF format validation before loading | ✅ Magic bytes, version, and metadata validated |
 | Prompt injection detection | ✅ `llm_security_utils.cpp` applied at inference boundary |

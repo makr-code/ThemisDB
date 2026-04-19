@@ -173,6 +173,57 @@ For LLM documentation, see:
 
 4. Devlin, J., Chang, M.-W., Lee, K., & Toutanova, K. (2019). **BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding**. *Proceedings of NAACL-HLT 2019*, 4171–4186. https://doi.org/10.18653/v1/N19-1423
 
+## Public API — Key Classes (`include/llm/`)
+
+| Class / Interface | Header | Description |
+|---|---|---|
+| `AsyncInferenceEngine` | `include/llm/async_inference_engine.h` | Lightweight async wrapper for single-model inference; priority queue + worker thread pool |
+| `InferenceEngineEnhanced` | `include/llm/inference_engine_enhanced.h` | Enterprise multi-model engine: paged KV-cache, continuous batching, load balancing |
+| `InferenceHandle` | `include/llm/inference_handle.h` | Async request handle: `get()`, `ready()`, `cancel()` |
+| `ModelRouter` | `include/llm/model_router.h` | Regex- and metadata-tag-based request routing to backend models |
+| `GGUFLoader` | `include/llm/gguf_loader.h` | GGUF model file validation and loading with memory-mapped tensor access |
+| `EmbeddedLLM` | `include/llm/embedded_llm.h` | In-process embedded LLM server |
+| `EmbeddedLLMManager` | `include/llm/embedded_llm_manager.h` | Lifecycle manager for embedded LLM instances |
+| `AdapterRegistry` | `include/llm/adapter_registry.h` | Runtime LoRA adapter registration and hot-loading (`hotLoad`) |
+| `AdapterLoadBalancer` | `include/llm/adapter_load_balancer.h` | Load balancing across LoRA adapter instances |
+| `AdapterDeploymentManager` | `include/llm/adapter_deployment_manager.h` | LoRA adapter deployment lifecycle |
+| `AdapterCompatibilityValidator` | `include/llm/adapter_compatibility.h` | Validates adapter/model compatibility before loading |
+| `AIDecisionAuditor` | `include/llm/ai_decision_auditor.h` | Records and audits AI decisions for compliance |
+| `AIOrchestrator` | `include/llm/ai_orchestrator.h` | Multi-model orchestration and ReAct tool-call dispatch |
+| `ConstitutionalReasoningEngine` | `include/llm/constitutional_reasoning_engine.h` | Constitutional AI post-generation safety filter |
+| `EthicalGuidelinesManager` | `include/llm/ethical_guidelines_manager.h` | Policy rule evaluation over generated output |
+| `EthicsAwareConfidenceDetector` | `include/llm/ethics_aware_confidence_detector.h` | Confidence scoring with ethics integration |
+| `ActiveVRAMAllocator` | `include/llm/active_vram_allocator.h` | GPU VRAM allocation with OOM recovery, LRU eviction, CPU spilling |
+| `AdaptiveVRAMAllocator` | `include/llm/adaptive_vram_allocator.h` | Dynamic VRAM rebalancing across requests |
+| `GPUMemoryManager` | `include/llm/gpu_memory_manager.h` | GPU memory lifecycle for LLM inference |
+| `ContinuousBatchScheduler` | `include/llm/continuous_batch_scheduler.h` | Continuous batching scheduler for throughput |
+| `GGUFConverter` | `include/llm/lora_framework/gguf_converter.h` | Direct Q4_K_M→NF4 and Q8_0→INT8 quantization conversion |
+| `AQLTrainParser` | `include/llm/aql_train_parser.h` | AQL `TRAIN` statement parser |
+| `DocsAssistant` | `include/llm/docs_assistant.h` | LLM-powered documentation assistant |
+| `ByzantineDetector` | `include/llm/byzantine_detector.h` | Byzantine fault detection for distributed inference |
+| `DistributedTrainingCoordinator` | `include/llm/distributed_training_coordinator.h` | Distributed fine-tuning coordination |
+
+> For the full list of 172 public headers, see `include/llm/`.
+
 ## Installation
 
-This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
+This module is built as part of ThemisDB.
+
+**Build (Linux):**
+```bash
+cmake --preset linux-ninja-release
+cmake --build --preset linux-ninja-release --target themisdb
+```
+
+**Build specific LLM targets:**
+```bash
+cmake --build --preset linux-ninja-release --target test_inference_engine_enhanced
+cmake --build --preset linux-ninja-release --target test_model_router
+```
+
+**Run LLM tests:**
+```bash
+ctest --preset linux-ninja-release -R "test_inference_engine_enhanced|test_model_router|test_openai_compat_adapter|test_gguf_loader|test_grammar_integration|test_lora_security|test_active_vram_allocator|test_llm_integration"
+```
+
+See the root `CMakeLists.txt` and `CMakePresets.json` for full build configuration.

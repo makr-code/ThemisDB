@@ -232,6 +232,7 @@ New request with prompt "System: You are a helpful assistant. User: ..."
 - LoRA security validator (`lora_security_validator.cpp`) checks adapters before loading.
 - Token quota manager prevents abuse by limiting per-tenant token consumption.
 - Vision inputs are sanitized to prevent adversarial inputs.
+- `vram_secure_clear.cpp` (in `src/security/`) performs explicit VRAM zeroing on model unload to prevent cross-model data leakage; called unconditionally on model swap including error paths.
 
 ---
 

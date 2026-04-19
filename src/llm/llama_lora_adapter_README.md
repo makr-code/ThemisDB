@@ -198,12 +198,12 @@ ERROR: Critical failures with recovery instructions
 
 ## Future Enhancements
 
-Potential improvements for future versions:
+The following items listed below have been implemented since v1.3.1:
 
-1. **Adapter Verification**: Cryptographic verification of adapter files
-2. **Hot-Reloading**: Dynamic adapter updates without context recreation
-3. **Multi-Adapter Composition**: Simultaneous application of multiple adapters
-4. **Quantization**: Support for quantized adapter formats
+1. **Adapter Verification**: Cryptographic verification of adapter files — ✅ Implemented in `lora_security_validator.cpp` (SHA-256 + trusted manifest, see `src/llm/lora_security_validator.cpp`)
+2. **Hot-Reloading**: Dynamic adapter updates without context recreation — ✅ Implemented via `AdapterRegistry::hotLoad()` (see `src/llm/adapter_registry.cpp` and `include/llm/adapter_registry.h`)
+3. **Multi-Adapter Composition**: Simultaneous application of multiple adapters — ✅ Implemented in `multi_lora_manager.cpp` (vLLM-style multi-LoRA support)
+4. **Quantization**: Support for quantized adapter formats — <!-- TODO: verify --> partial; quantized base models are supported via `model_quantization_pipeline.cpp`; quantized adapter weights format support is not yet fully implemented
 
 ## Related Components
 
