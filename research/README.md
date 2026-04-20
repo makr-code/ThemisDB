@@ -4,6 +4,9 @@ This directory contains research papers, draft manuscripts, architectural analys
 
 ## Contents
 
+### Submission-Ready Draft Set (Core, 2026-04-20)
+- [THEMIS_RAID_SHARDING_EVALUATION_AND_RISK.md](THEMIS_RAID_SHARDING_EVALUATION_AND_RISK.md) — Systematic evaluation and risk analysis of the ThemisDB RAID-sharding system: 20-item risk taxonomy (5 dimensions), 9 Related Work subsections, full topology reference (7 RAID modes, 3 EC algorithms, consistent-hash ring, quorum model, geo-distribution), CAP/PACELC positioning table, quorum availability model, 6 fault-injection workloads, 40 references (v0.3)
+
 ### Submission-Ready Draft Set (Core, 2026-04-19)
 - [DB_NATIVE_RAG_EVALUATION_PAPER_DRAFT.md](DB_NATIVE_RAG_EVALUATION_PAPER_DRAFT.md) — Includes RQ/Hypotheses, reporting-table plan, Threats to Validity, and claim-to-evidence appendix
 - [HYBRID_ANN_RETRIEVAL_SYSTEMS_PAPER_DRAFT.md](HYBRID_ANN_RETRIEVAL_SYSTEMS_PAPER_DRAFT.md) — Includes RQ/Hypotheses, planner evaluation matrix, Threats to Validity, and claim-to-evidence appendix
@@ -28,7 +31,8 @@ This directory contains research papers, draft manuscripts, architectural analys
 - [QUERY_ENGINE_AQL_GRAPHQL_UNIFICATION_DRAFT.md](QUERY_ENGINE_AQL_GRAPHQL_UNIFICATION_DRAFT.md) — Unified query engine for AQL and GraphQL (submission-structured: RQ/Hypotheses, methodology, validity, traceability, readiness checklist)
 - [GOSSIP_AWARE_LORA_ROUTING_DRAFT.md](GOSSIP_AWARE_LORA_ROUTING_DRAFT.md) — Federated LoRA routing via epidemic gossip protocols (submission-structured: RQ/Hypotheses, validity, traceability, readiness checklist)
 - [GOSSIP_DRIVEN_LORA_DOMAIN_ROUTING_DRAFT.md](GOSSIP_DRIVEN_LORA_DOMAIN_ROUTING_DRAFT.md) — Domain-aware LoRA routing with capability gossip and failover (submission-structured: RQ/Hypotheses, validity, traceability, readiness checklist)
-- [THEMIS_IT_IS_OKAY_TO_FAIL](THEMIS_IT_IS_OKAY_TO_FAIL) — Retrospektive zu Fehlentwicklungen, Fehlannahmen und Fehlentscheidungen in ThemisDB mit Korrekturprogramm und Vollständigkeitsregister
+- [THEMIS_RAID_SHARDING_EVALUATION_AND_RISK.md](THEMIS_RAID_SHARDING_EVALUATION_AND_RISK.md) — Systematic evaluation and risk analysis of the Themis RAID-sharding system (20-item risk taxonomy, full topology reference [7 RAID modes, 3 EC algorithms, consistent-hash ring, quorum model, geo-distribution], CAP/PACELC positioning, 6 fault-injection workloads, 40 references — v0.3)
+- [THEMIS_IT_IS_OKAY_TO_FAIL](THEMIS_IT_IS_OKAY_TO_FAIL) — Retrospektive zu Fehlentwicklungen, Fehlannahmen und Fehlentscheidungen in ThemisDB mit Korrekturprogramm und Vollständigkeitsregister. v0.7: ~98 Befunde (Kategorien A–J), Abschnitt XI mit wissenschaftlichem Kontext (24 externe Primärquellen: Lu et al. 2008, Cook 1998, Lamport 2001, Dong/RocksDB 2021 u.a.) und Literaturverzeichnis.
 - [LLM_PROCESSING_OPTIMIZATION_PATTERNS.md](LLM_PROCESSING_OPTIMIZATION_PATTERNS.md) — Inference optimization patterns from llama.cpp (batching, speculative decoding, KV-cache)
 - [CONTINUOUS_BATCHING_DATABASE_NATIVE_LLM_DRAFT.md](CONTINUOUS_BATCHING_DATABASE_NATIVE_LLM_DRAFT.md) — Scheduler/KV cache trade-offs for DB-native LLM serving
 - [COST_AWARE_HYBRID_RETRIEVAL_PLANNING_AQL_DRAFT.md](COST_AWARE_HYBRID_RETRIEVAL_PLANNING_AQL_DRAFT.md) — Cost-based plan selection for lexical+vector+graph retrieval
@@ -70,4 +74,4 @@ Papers should include version and status information:
 
 ---
 
-*Last Updated: 2026-04-19*
+*Last Updated: 2026-04-20 (THEMIS_IT_IS_OKAY_TO_FAIL v0.7: Section XI + Bibliography added)*
