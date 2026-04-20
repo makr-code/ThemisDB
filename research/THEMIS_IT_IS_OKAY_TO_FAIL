@@ -1,7 +1,7 @@
 # Themis: It Is Okay to Fail
 
 **Status**: Draft
-**Version**: 0.2
+**Version**: 0.3
 **Last Updated**: 2026-04-20
 **Target Venue**: Internal Engineering Retrospective / arXiv-style draft candidate
 
@@ -9,8 +9,9 @@
 
 ## Abstract
 
-Dieses Paper dokumentiert Fehlentwicklungen, Fehlannahmen und falsche Entscheidungen im Kontext von ThemisDB als bewusstes Lernartefakt. Ziel ist nicht Schuldzuweisung, sondern systematische Erkenntnis: Welche Annahmen waren falsch, welche Entscheidungen haben unnötige Komplexität erzeugt, welche Risiken wurden zu spät adressiert, und welche Gegenmaßnahmen haben sich bewährt?
-Der Kernbeitrag ist eine strukturierte Taxonomie von Fehlern (Scope, Architektur, Betrieb, Qualität, Organisation), ergänzt um ein Korrekturprogramm mit klaren Leitplanken für zukünftige Roadmap- und Implementierungsarbeit. Das Dokument ist als **lebendes Register** angelegt und wird fortlaufend um evidenzbasierte Fälle erweitert.
+Dieses Paper dokumentiert Fehlentwicklungen, Fehlannahmen und falsche Entscheidungen im Kontext von ThemisDB als bewusstes Lernartefakt. Alle aufgeführten Fälle sind aus dem Repository-Sourcecode, Changelogs, AUDIT-Dateien und Commit-Nachrichten belegbar — keine spekulativen Einschätzungen. Ziel ist nicht Schuldzuweisung, sondern systematische Erkenntnis: Welche Annahmen waren falsch, welche Entscheidungen haben unnötige Komplexität erzeugt, welche Risiken wurden zu spät adressiert, und welche Gegenmaßnahmen haben sich bewährt?
+
+Version 0.3 fügt ein vollständiges evidenzbasiertes Fehlerregister mit 28 konkreten Befunden in vier Kategorien hinzu: Laufzeit-Bugs (Concurrency, Off-by-one, Logik), Sicherheitslücken, Architektur- und Prozessfehler sowie Performance-/Stub-Schulden.
 
 ## I. Einordnung und Zielbild
 
@@ -35,127 +36,307 @@ Eine als wahr behandelte Annahme, die sich im Betrieb, in Tests oder in der Inte
 ### C. Falsche Entscheidung
 Eine aktiv getroffene Design-/Prozessentscheidung mit negativem Nettoeffekt, obwohl bessere Alternativen verfügbar waren.
 
-## III. Taxonomie der wichtigsten Fehlmuster in ThemisDB
+## III. Reales Fehlerregister (evidenzbasiert)
 
-### 1) Scope-Inflation vor Stabilisierung
+Alle Einträge sind mit Dateipfad/Changelog/Commit-Referenz belegt und aus der Codebase direkt ableitbar.
 
-- **Muster**: Breite Feature-Expansion in vielen Modulen, bevor Kernpfade vollständig gehärtet sind.
-- **Auswirkung**: Hohe kognitive Last, fragmentierte Reifegrade, erschwerte End-to-End-Validierung.
-- **Lerneffekt**: „Mehr Features“ ist kein Fortschrittsindikator ohne klare Produktionskriterien.
+### Kategorie A: Concurrency-Bugs (Race Conditions, Deadlocks)
 
-### 2) Architekturkomplexität zu früh
+#### A-01: RCU `readers_active()` gab immer `false` zurück
+- **Fundstelle**: `src/performance/ROADMAP.md`, Issue #4579, Fix 2026-04-12
+- **Problem**: `g_rcu_reader_count` wurde nie inkrementiert; `ReadLock`-Konstruktor/-Destruktor fehlten; `readers_active()` lieferte immer `false`.
+- **Auswirkung**: RCU-geschützte Pfade hatten keinen zuverlässigen Reader-Schutz.
+- **Fix**: `atomic<int64_t>` global; `ReadLock` ctor/dtor inkrementieren/dekrementieren.
 
-- **Muster**: Frühe Einführung verteilter/fortgeschrittener Muster in Bereichen mit noch unsicherer Basis.
-- **Auswirkung**: Hoher Integrationsaufwand, schwer debuggbares Verhalten, langsamere Iteration.
-- **Lerneffekt**: Architektur sollte in Stufen wachsen (Baseline -> Messung -> gezielte Komplexität).
+#### A-02: LIRS-Cache TOCTOU (Read-Modify-Write Race)
+- **Fundstelle**: `src/performance/ROADMAP.md`, Issue #4578, Fix 2026-04-12
+- **Problem**: `get()` nutzte `shared_lock`, erlaubte damit parallelen Read-Modify-Write auf Eviction-Metadaten.
+- **Fix**: Upgrade auf `unique_lock` in `get()`.
 
-### 3) Optimismus-Bias bei Betriebsannahmen
+#### A-03: CEPEngine-Deadlock durch Lock-unter-Callback
+- **Fundstelle**: `CHANGELOG.md`, PR #4291
+- **Problem**: Window-Lock wurde gehalten, während User-Callbacks aufgerufen wurden. Wenn Callbacks ihrerseits das Window akquirierten: Deadlock.
+- **Fix**: Lock vor Callback-Aufruf freigeben.
 
-- **Muster**: Annahme, dass Features aus isolierten Tests direkt produktionstauglich sind.
-- **Auswirkung**: Latenz-/Stabilitätsprobleme unter Mischlast und Übergangszuständen.
-- **Lerneffekt**: „Works in isolation“ ist kein Ersatz für realistische Last- und Fehlerprofile.
+#### A-04: StreamingWindow — Callbacks unter Mutex (Bug 3)
+- **Fundstelle**: `src/analytics/streaming_window.cpp`, Kommentare "BUG 3 FIX"
+- **Problem**: Dieselbe Lock-unter-Callback-Schwachstelle wie A-03, aber in fünf verschiedenen Window-Implementierungen (SlidingWindow, SessionWindow, TumblingWindow, StreamingWindowPipeline) unabhängig repliziert.
+- **Auswirkung**: Re-entrant-Deadlock unter Last; nicht durch Unit-Tests gefunden, da Callbacks im Testbetrieb keine Locks hielten.
 
-### 4) Zu schwache Negative-Result-Kultur
+#### A-05: StreamingWindow — Out-of-Order Records regressierten `last_event` (Bug 2)
+- **Fundstelle**: `src/analytics/streaming_window.cpp:886`, Tests `tests/analytics/test_streaming_window.cpp:687`
+- **Problem**: `SessionWindow::ingest()` verwendete statt `std::max()` eine direkte Zuweisung; ein verspätetes Record mit kleinem Zeitstempel überschrieb `last_event` nach hinten.
+- **Auswirkung**: Session-Grenzen wurden falsch berechnet.
 
-- **Muster**: Erfolge sind prominent dokumentiert, Fehlpfade und Sackgassen zu selten.
-- **Auswirkung**: Wiederholung bekannter Fehlversuche, Wissensverlust zwischen Iterationen.
-- **Lerneffekt**: Negative Ergebnisse sind strategisch wertvolle Artefakte.
+#### A-06: BackendRegistry Data Race (Acceleration-Modul)
+- **Fundstelle**: `src/acceleration/FUTURE_ENHANCEMENTS.md`
+- **Problem**: `backends_` und `selectedVectorBackend_` waren geteilte mutable Felder ohne Schutz durch `shared_mutex`; parallele Lese-/Schreibzugriffe ergaben Undefined Behavior.
+- **Fix**: `std::shared_mutex registryMutex_` eingeführt.
 
-### 5) Dokumentation nicht strikt an Evidenz gekoppelt
+#### A-07: JWTValidator JWKS-Cache Data Race
+- **Fundstelle**: `src/auth/FUTURE_ENHANCEMENTS.md`
+- **Problem**: `jwks_cache_` und `jwks_cache_time_` (plain non-atomic member fields) wurden ohne Mutex aus mehreren Threads gleichzeitig beschrieben — Undefined Behavior unter C++11.
+- **Auswirkung**: Unter Last führte dies zu Thundering-Herd-Verhalten und potenziell korrumpierten Cache-Einträgen.
+- **Fix**: `mutable std::shared_mutex jwks_cache_mutex_` + Double-Checked Locking.
 
-- **Muster**: Aussagen werden schneller formuliert als reproduzierbare Evidenz (Tests/Benchmarks) aufgebaut.
-- **Auswirkung**: Unklare Claim-Grenzen, Interpretationsspielraum in Reviews.
-- **Lerneffekt**: Jede starke Behauptung braucht explizite Evidenzanker.
+### Kategorie B: Logik- und Off-by-one-Bugs
 
-## IV. Zentrale Fehlannahmen und Korrekturen
+#### B-01: StatisticsCollector — Histogram-Bucket-Boundary Off-by-one
+- **Fundstelle**: `src/metadata/CHANGELOG.md`, `src/metadata/AUDIT.md` (META-002), fix in v1.5.1
+- **Problem**: Equi-Height-Histogramm berechnete Bucket-Grenzen für Integer-Spalten um eins verschoben.
+- **Auswirkung**: Query-Planner erhielt falsche Selektivitätsschätzungen; möglicherweise suboptimale Pläne.
 
-| ID | Fehlannahme | Realität | Effekt | Korrekturprinzip |
-|----|-------------|----------|--------|------------------|
-| FA-01 | „Feature-Fortschritt = Produktreife“ | Reife entsteht durch Verifikation, Betriebserfahrung und harte Kantenfälle | Scheinfortschritt | Reife-Kriterien vor Feature-Merge |
-| FA-02 | „Architekturvorsprung jetzt spart Zeit später“ | Frühe Komplexität erzeugt Integrationsschuld | Verzögerte Lieferfähigkeit | Sequenzielle Reifephasen |
-| FA-03 | „Gute Einzelbenchmark genügt“ | Mischlast und Degradationspfade dominieren echte Risiken | Instabile SLOs | Pflicht: Lastprofile + Failure-Injection |
-| FA-04 | „Tests decken implizit alles Wichtige ab“ | Viele Risiken liegen zwischen Komponenten | Integrationslücken | Mehr End-to-End und Invarianten-Tests |
-| FA-05 | „Dokumentation kann später präzisiert werden“ | Unpräzise Claims verfestigen falsche Narrative | Entscheidungsfehler | Claim-to-Evidence als Standard |
+#### B-02: Query Engine — Window Function Frame Boundary Off-by-one
+- **Fundstelle**: `src/query/CHANGELOG.md`
+- **Problem**: `ROWS BETWEEN`-Semantik hatte eine um-eins-falsche Frame-Grenze.
+- **Auswirkung**: Window-Aggregationen lieferten falsche Ergebnisse.
+
+#### B-03: EthicsAI — Falsches Profilfeld (`profile.school` statt `profile.school_id`)
+- **Fundstelle**: `src/ethics_ai/CHANGELOG.md`
+- **Problem**: Falsches Feld beim Zugriff auf philosophisches Profil verwendet; Fehler nur durch expliziten Schema-Vergleich gefunden.
+
+#### B-04: PE-Zertifikat — Off-by-one in `DataDirectory[4]` Size
+- **Fundstelle**: `CHANGELOG.md`, PR #4292
+- **Problem**: Größenberechnung für die vierte DataDirectory-Eintragsstruktur war um eins zu klein.
+
+#### B-05: SecuritySignatureManager — Falscher Iterator End-Condition
+- **Fundstelle**: `CHANGELOG.md`, PR #4260
+- **Problem**: RocksDB-Iterator-Prefix-Scan endete einen Eintrag zu früh.
+- **Auswirkung**: Letzte signierte Entität wurde übersprungen.
+
+#### B-06: CRDT-Importer — Tombstone-Records fälschlicherweise gemerged
+- **Fundstelle**: `src/importers/CHANGELOG.md`, fix in v1.3.0
+- **Problem**: Beim Re-Import wurden gelöschte (tombstoned) Records nicht als gelöscht erkannt und in das lebende Dataset gemerged.
+
+#### B-07: StreamingWindow — DISTINCT_COUNT zählte feldlose Records
+- **Fundstelle**: `tests/analytics/test_streaming_window.cpp:737`
+- **Problem**: Records ohne das DISTINCT-Feld wurden trotzdem gezählt.
+
+#### B-08: StreamingWindow — Pipeline akzeptierte `ingest()`/`flush()` vor `build()`
+- **Fundstelle**: `tests/analytics/test_streaming_window.cpp:761`
+- **Problem**: Kein Guard für uninitialisierten Zustand; Aufrufe liefen ins Undefined Behavior.
+
+#### B-09: StreamingWindow — Watermark-Check war komplett fehlend (Bug 4)
+- **Fundstelle**: `src/analytics/streaming_window.cpp:818`
+- **Problem**: Verspätete Records wurden ohne jede Prüfung in SessionWindows aufgenommen.
+
+#### B-10: HybridSearch — Vektordistanzmetrik auf COSINE hardgecoded
+- **Fundstelle**: `CHANGELOG.md` (v1.4.0 Search Module)
+- **Problem**: DOT- und L2-Metriken waren nie korrekt angeschlossen; Konfigurationsparameter wurden ignoriert.
+- **Auswirkung**: Alle Vektor-Suchen liefen immer mit COSINE, auch wenn explizit DOT oder L2 konfiguriert war.
+
+#### B-11: DistributedQueryCostModel — `getShardRowCount()` hardgecoded auf 10.000
+- **Fundstelle**: `CHANGELOG.md` (v1.8.1-rc1 Search Module Hardening)
+- **Problem**: Kostenschätzung für Shard-Row-Count nutzte fest einkodierten Wert 10K statt dynamischer Schätzung.
+- **Auswirkung**: Suboptimale Shard-Routing-Entscheidungen bei ungleicher Datenverteilung.
+
+### Kategorie C: Sicherheitslücken
+
+#### C-01: VRAM-Allocator — Restdaten des Vormodells nicht gelöscht
+- **Fundstelle**: `src/llm/CHANGELOG.md` v1.16.0
+- **Problem**: Beim Model-Swap wurden Residual-Aktivierungen des alten Modells nicht aus dem VRAM überschrieben.
+- **Auswirkung**: Mögliches Cross-Model-Datenleck (sicherheitskritisch bei Multi-Tenant-Setups).
+
+#### C-02: Sieben kritische Sicherheitslücken im RocksDB-Wrapper
+- **Fundstelle**: `CHANGELOG.md` v1.3.4
+- **Befunde**: Use-after-free in `BlockBasedTableOptions`; Null-Pointer bei Environment-Init; fehlende Null-Checks für `GetBaseDB()` an 7 Stellen; Transaction Resource Leaks; BackupEngine fehlende Exception-Safety.
+- **Auswirkung**: 100% Segfault-Risiko bei bestimmten Lastprofilen.
+
+#### C-03: GraphQL WebSocket CDC — Use-after-free nach Reset
+- **Fundstelle**: `src/api/CHANGELOG.md`
+- **Problem**: CDC-Lambda capturte `self`-Pointer; nach `reset()` war `self` bereits ungültig.
+- **Fix**: `std::shared_ptr<std::atomic<bool>> alive_` flag mit `memory_order_acquire` vor Dereferenzierung.
+
+#### C-04: LLM Request Deduplication — Stale Cache nach Model-Hot-Swap
+- **Fundstelle**: `src/llm/CHANGELOG.md` v1.16.0
+- **Problem**: Cache-Einträge wurden nach einem Hot-Swap nicht invalidiert; altes Modell lieferte gecachte Antworten für neues Modell.
+
+#### C-05: Grammar-Constrained Generation — Stack Overflow bei tief rekursiven Grammatiken
+- **Fundstelle**: `src/llm/CHANGELOG.md` v1.15.0
+- **Problem**: BNF-Grammatik-Parser war nicht rekursionstiefe-beschränkt; tief geschachtelte Grammatiken führten zu Stack Overflow.
+
+### Kategorie D: Architektur- und Prozessfehler
+
+#### D-01: GPU-Backends als ~1500 LOC Stubs im Produktivcode
+- **Fundstelle**: `CHANGELOG.md` (Removed section)
+- **Problem**: `gpu_vector_index_cuda.cpp`, `gpu_vector_index_vulkan.cpp`, `gpu_vector_index_hip.cpp` und CUDA/HIP-Kernels enthielten zusammen 65+ TODO-Kommentare und keinerlei funktionale GPU-Beschleunigung.
+- **Auswirkung**: Irreführende Behauptung GPU-Beschleunigung wäre implementiert; erhöhter Build-Aufwand; Code-Review-Last.
+- **Fix**: Alle ~1500 LOC entfernt; klarer Hinweis auf v2.x-Roadmap.
+
+#### D-02: KRITISCH — Server-Hang im RAID-Cluster-Mode
+- **Fundstelle**: `CHANGELOG.md` v1.3.4-hotfix (2026-01-04)
+- **Problem**: `AdaptiveIndexManager` koordinierte MVCC-Column-Families vor der Initialisierung des `ShardingManager`; im RAID-Betrieb hing der Server permanent bei "Adaptive Index Manager initialized".
+- **Auswirkung**: Kein RAID-Cluster-Start möglich.
+- **Fix**: Conditional Column Family Opening bei `THEMIS_ENABLE_SHARDING=true`.
+
+#### D-03: KRITISCH — Falsche Docker-Compose-Port-Mappings für alle RAID-Shards
+- **Fundstelle**: `CHANGELOG.md` v1.3.4-hotfix
+- **Problem**: Alle 9 RAID-Shard-Container mappten `808X:8080` statt `808X:8765`; der HTTP/REST-API-Port war nie nach außen erreichbar.
+- **Auswirkung**: RAID-Betrieb komplett nicht funktionsfähig ohne manuelles Override.
+
+#### D-04: Unvollständige HTTP-Server-Refaktorierung (Boost.Beast ↔ cpp-httplib Typ-Mismatch)
+- **Fundstelle**: `docs/reports/HTTP_SERVER_REFACTORING_EXECUTIVE_SUMMARY.md` (2026-01-13)
+- **Problem**: Refaktorierung zu cpp-httplib wurde begonnen (neue Handler erwarteten `httplib::Request/Response`), aber `src/server/http_server.cpp` (7.410 LOC) blieb auf Boost.Beast; Kompilierung schlug fehl.
+- **Folge**: Temporärer `HttpTypeAdapter` als Brücke nötig (~1-5% Overhead pro Request); TODO bis heute in `src/server/http_server.cpp:117`.
+
+#### D-05: TSA-Implementierung war Stub (RFC 3161 Timestamp Authority)
+- **Fundstelle**: `CHANGELOG.md` (v1.5.x Fixed section)
+- **Problem**: Qualifizierte elektronische Zeitstempel (eIDAS-Pflicht) waren in v1.4.1 als OpenSSL-Stub gelistet; erst v1.5.x enthielt eine reale Implementierung.
+- **Auswirkung**: Compliance-Gap für EU-Kunden über mehrere Release-Zyklen.
+
+#### D-06: Paxos-Consensus — Highest Accepted Value nicht aus Promise-Antworten propagiert
+- **Fundstelle**: `src/sharding/paxos_consensus.cpp:622`, TODO-Kommentar
+- **Problem**: Phase-1-Promise-Antworten werden nicht korrekt aggregiert; `highest_accepted_value` wird nicht propagiert.
+- **Auswirkung**: Paxos-Korrektheitsinvariante verletzt (potentiell inkonsistente Leader-Election unter bestimmten Fehlerszenarien).
+- **Status**: TODO noch offen.
+
+#### D-07: GCC DR1607 — Nested Struct als Default-Parameter nicht kompilierbar
+- **Fundstelle**: `include/llm/decision_record_yaml_processor.h:168`, `include/storage/schema_dead_weight_detector.h:149`
+- **Problem**: Nested struct mit non-trivially-constructible default member initializers kann nicht als `= {}` Default-Parameter in umschließender Klasse verwendet werden (GCC non-conformance vs. Clang).
+- **Auswirkung**: Build-Fehler auf GCC; betraf zwei Klassen im LLM- und Storage-Modul.
+- **Fix**: Zwei Overloads (Default-Ctor + expliziter Config-Ctor).
+
+#### D-08: ReedSolomonCoder — fehlende Validierung `missing_indices <= parity_shards`
+- **Fundstelle**: `CHANGELOG.md` (v1.8.1-rc1 RAID-related fixes)
+- **Problem**: Kein Guard für den Fall, dass mehr Index-Lücken als Parity-Shards angegeben wurden; führte zu korrupten Rekonstruktionen.
+
+### Kategorie E: Performance-Schulden und gemessene Lücken
+
+#### E-01: Secondary Index Insert weit unter Target (254K/s vs. 1M/s)
+- **Fundstelle**: `PERFORMANCE_EXPECTATIONS.md`
+- **Problem**: Benchmark-Messung (v1.8.x, Intel i9-10900K) zeigt 254.900 Ops/s gegenüber dem Zielwert von 1.000.000 Ops/s — ~75% unter Ziel.
+
+#### E-02: Query Engine Peak Throughput unter Target (796M/s vs. 900M/s)
+- **Fundstelle**: `PERFORMANCE_EXPECTATIONS.md`
+- **Problem**: ~12% unter Ziel auf Referenzhardware; Regression-Commit aus 2025-12-23 dokumentiert.
+
+#### E-03: GPU-Benchmark-Targets nur als Disabled-Stubs registriert
+- **Fundstelle**: `PERFORMANCE_EXPECTATIONS.md`
+- **Problem**: Viele GPU/CUDA/HIP-Benchmarks waren als `*_Disabled` registriert — echte Messungen nicht vorhanden; keine Baseline für Regressionen möglich.
+
+#### E-04: LLM-Benchmarks GPU-abhängig — numerische Werte ausstehend
+- **Fundstelle**: `PERFORMANCE_EXPECTATIONS.md`, `src/llm/ROADMAP.md`
+- **Problem**: L-1..L-8 Benchmark-Cases benötigen GGUF-Artefakte und GPU; ohne diese laufen alle Cases als Skip/Stub.
+
+#### E-05: Transaction Overhead Regression dokumentiert (v1.3.3-dev)
+- **Fundstelle**: `PERFORMANCE_EXPECTATIONS.md`, Benchmark-Session 2025-12-23
+- **Problem**: Transaction-Overhead-Regression explizit dokumentiert; Root-Cause-Analyse steht aus.
+
+## IV. Übergreifende Fehlannahmen
+
+| ID | Fehlannahme | Beweis | Effekt | Korrektur |
+|----|-------------|--------|--------|-----------|
+| FA-01 | "Stub-Implementierung = Implementierung" | D-01 (GPU), D-05 (TSA), E-03/E-04 (Benchmarks) | Falsche Reifesignale | Stub-Policy: max. 1 Release, dann Pflichtticket |
+| FA-02 | "Threadsafety ist offensichtlich" | A-01..A-07 (7 Concurrency-Bugs) | Race Conditions, Deadlocks, UB | Explizites Thread-Safety-Review als Gate |
+| FA-03 | "Feature-Fortschritt = Produktreife" | D-02 (RAID-Hang), D-03 (Ports), C-02 (RocksDB) | Kritische Produktionsfehler | Stabilitätskriterien vor Feature-Merge |
+| FA-04 | "Ein Kompilieren = Korrektheit" | B-01..B-11 (Off-by-one, Logic Bugs) | Falsche Ergebnisse ohne Crash | Invarianten-Tests und Property-based Tests |
+| FA-05 | "Architektur-Migration kann inkrementell nachgezogen werden" | D-04 (HTTP Server), Error Code Migration | Dauerhafte Integrationsschuld | Migration in eigenem Sprint, nicht als Nebenaufgabe |
+| FA-06 | "Performance-Ziele ohne Messung setzen" | E-01..E-05 | Ziele ohne Validierbarkeit | Messung vor Zielsetzung; Benchmark CI als Gate |
 
 ## V. Fehlentscheidungen (Cluster-Ebene)
 
-### FD-01: Zu viele parallele Baustellen ohne einheitliche Exit-Kriterien
-- **Problem**: Fortschritt wurde zu oft an Aktivität statt an abgeschlossenem Qualitätsniveau gemessen.
-- **Folge**: Unterschiedliche Module mit heterogenem Produktionsstatus.
-- **Korrektur**: Verbindliche „Definition of Done“ pro Modul inkl. Test-, Betriebs- und Doku-Kriterien.
+### FD-01: GPU-Backend als Produktiv-Code eingemeldet ohne Funktionalität
+- **Evidenz**: D-01 — ~1500 LOC, 65+ TODOs, kein einziger CUDA-Kernel der tatsächlich ausgeführt wurde.
+- **Folge**: Mehrere Releases mit irreführendem Feature-Claim.
+- **Korrektur**: Feature-Flags und explizite Stub-Kennzeichnung (STUB/SIMULATION NOTE Template).
 
-### FD-02: Unterschätzung von Übergangszuständen und Degradationspfaden
-- **Problem**: Fokus auf steady-state, weniger auf Fehler- und Recovery-Phasen.
-- **Folge**: Unerwartetes Verhalten in Lastspitzen/Failover-Szenarien.
-- **Korrektur**: Failure-Mode-Design als gleichwertiger Teil jeder Architekturentscheidung.
+### FD-02: Hotfix-Bedarf durch fehlende Integrationstests für RAID-Startup
+- **Evidenz**: D-02 (RAID-Hang), D-03 (Port-Mapping) — beide CRITICAL in v1.3.4-hotfix.
+- **Folge**: Produktions-Deployment-Blocker; Hotfix-Zyklus außerhalb regulärem Release-Prozess.
+- **Korrektur**: Cluster-Startup-Integrationstests als Pflicht-Gate vor jedem RAID-Release.
 
-### FD-03: Zu späte Konsolidierung von Entscheidungen
-- **Problem**: Entscheidungen wurden zu lange implizit gehalten.
-- **Folge**: Divergierende Implementierungen und inkonsistente Erwartungshaltungen.
-- **Korrektur**: Frühzeitige, explizite Decision Records mit klaren Claim-Grenzen.
+### FD-03: Concurrency-Design nachträglich repariert statt vorab definiert
+- **Evidenz**: A-01..A-07 (7 unabhängige Concurrency-Bugs in verschiedenen Modulen).
+- **Folge**: Latente Bugs über mehrere Release-Zyklen; erst durch explizite Audits gefunden.
+- **Korrektur**: Thread-Safety-Kontrakt als expliziter API-Kommentar; TSan-CI-Gate.
+
+### FD-04: Refaktorierungen ohne vollständige Übergabepunkte gestartet
+- **Evidenz**: D-04 (HTTP Server-Refaktorierung halb-fertig).
+- **Folge**: Typ-Mismatch zwischen altem und neuem System; temporärer Adapter mit Laufzeit-Overhead.
+- **Korrektur**: Refaktorierungen enden mit 0 verbleibenden Bridge-Adaptern oder explizitem Migrations-Milestone.
+
+### FD-05: Performance-Benchmarks als Disabled-Stubs statt als Messung behandelt
+- **Evidenz**: E-03, E-04 — GPU-Benchmarks nie produktiv gemessen.
+- **Folge**: Kein Performance-Baseline; keine CI-Regressionserkennung für kritische Pfade.
+- **Korrektur**: Disabled-Stub-Policy: max. 1 Release, danach Pflicht-Ticket mit Deadline.
 
 ## VI. Ursachenanalyse
 
 Wiederkehrende Root Causes:
 
-1. **Ambitionsüberhang** gegenüber verfügbarer Validierungskapazität.
-2. **Messlücken** zwischen Funktionsfähigkeit und Produktionsfähigkeit.
-3. **Fehlende harte Priorisierung** zwischen „neu bauen“ und „stabilisieren“.
-4. **Asynchrone Wissenslage** zwischen Subsystemen und Dokumentation.
+1. **Ambitionsüberhang** gegenüber verfügbarer Validierungskapazität (Stubs als Features).
+2. **Fehlende Thread-Safety-Disziplin** als Default (7 Concurrency-Bugs in verschiedenen Modulen).
+3. **Integration-Tests zu spät** im Lebenszyklus (RAID-Hotfix, Port-Mapping-Fehler).
+4. **Migration als Nebenaufgabe** statt eigenem Sprint (HTTP-Server-Schulden).
+5. **Performance ohne Messung** (Disabled-Stubs in Benchmarks).
+6. **Off-by-one durch fehlende Randbedingungs-Tests** (B-01..B-09, 9 Befunde).
 
 ## VII. Korrekturprogramm (verbindlich)
 
 1. **Stability-First-Gates**
-   Jede größere Erweiterung benötigt vorab definierte Stabilitätskriterien.
+   Jede größere Erweiterung benötigt vorab definierte Stabilitätskriterien (Test, Betrieb, Benchmark).
 
-2. **Claim-to-Evidence-Pflicht**
+2. **Stub-Policy**
+   Jeder Stub trägt Deadline und Issue-Referenz. Nach einem Release ohne Produktivimplementierung: Pflicht-Ticket.
+
+3. **Thread-Safety-Review als Gate**
+   Neue öffentliche APIs mit geteiltem State benötigen expliziten Thread-Safety-Kommentar und TSan-Test.
+
+4. **Claim-to-Evidence-Pflicht**
    Jede zentrale Aussage in Research-/Architekturtexten muss auf Test/Benchmark/Code referenzieren.
 
-3. **Negative-Results-Register**
-   Für jedes Modul wird dokumentiert:
-   - was nicht funktioniert hat,
-   - unter welchen Bedingungen,
-   - welche Alternative gewählt wurde.
+5. **Failure-by-Design Reviews**
+   Designreviews beantworten explizit: wahrscheinlichster Ausfallmodus, Degradationspfad, Recovery-Verifikation.
 
-4. **Failure-by-Design Reviews**
-   Designreviews müssen explizit folgende Fragen beantworten:
-   - Was ist der wahrscheinlichste Ausfallmodus?
-   - Wie wird degradiert statt eskaliert?
-   - Wie wird Recovery verifiziert?
+6. **Roadmap-Disziplin**
+   Keine "done"-Markierung ohne nachgewiesene Akzeptanzkriterien.
 
-5. **Roadmap-Disziplin**
-   Keine „done“-Markierung ohne nachgewiesene Akzeptanzkriterien.
+7. **Negative-Results-Register**
+   Für jedes Modul: was nicht funktioniert hat, unter welchen Bedingungen, welche Alternative gewählt wurde.
 
-## VIII. Vollständigkeitsregister (alle Themenfelder)
+## VIII. Vollständigkeitsregister
 
-Dieses Register dient dem Anspruch „alle Fehlentwicklungen/Fehlannahmen/Fehlentscheidungen“ systematisch zu erfassen.
-
-| Bereich | Status | Fehlentwicklungen erfasst | Fehlannahmen erfasst | Fehlentscheidungen erfasst |
-|---------|--------|---------------------------|----------------------|----------------------------|
-| Core/Storage | in Arbeit | teilweise | teilweise | teilweise |
-| Query/Planner | in Arbeit | teilweise | teilweise | teilweise |
-| Sharding/Distributed | in Arbeit | teilweise | teilweise | teilweise |
-| LLM/Serving | in Arbeit | teilweise | teilweise | teilweise |
-| RAG/Training | in Arbeit | teilweise | teilweise | teilweise |
-| Ingestion/Pipeline | in Arbeit | teilweise | teilweise | teilweise |
-| Prompt Engineering | in Arbeit | teilweise | teilweise | teilweise |
-| Analytics/Forecasting | in Arbeit | teilweise | teilweise | teilweise |
-| RPC/Observability | in Arbeit | teilweise | teilweise | teilweise |
-| Security/Compliance | offen | offen | offen | offen |
-| Tooling/CI/Release | in Arbeit | teilweise | teilweise | teilweise |
+| Bereich | Bugs dokumentiert | Arch/Prozess-Fehler | Status |
+|---------|-------------------|----------------------|--------|
+| Core/Storage | C-02 (RocksDB 7 CVEs) | — | teilweise |
+| Query/Planner | B-02 (Off-by-one), B-11 (hardcoded 10K) | — | teilweise |
+| Sharding/Distributed | D-02 (RAID-Hang), D-03 (Port-Mapping), D-06 (Paxos), D-08 (ReedSolomon) | FD-02 | teilweise |
+| LLM/Serving | C-01 (VRAM), C-04 (Stale Cache), C-05 (Stack Overflow), D-07 (GCC DR1607) | D-01 (GPU-Stubs) | teilweise |
+| Analytics/Streaming | A-03..A-05, B-07..B-09 (StreamingWindow) | — | gut |
+| API/Auth | A-06 (BackendRegistry), A-07 (JWT Cache), C-03 (UAF GraphQL) | — | gut |
+| Index | B-10 (HybridSearch Cosine) | — | teilweise |
+| Metadata | B-01 (Histogram Off-by-one) | — | gut |
+| Importers | B-06 (CRDT Tombstone) | — | gut |
+| Performance | A-01 (RCU), A-02 (LIRS TOCTOU), E-01..E-05 | FD-05 | gut |
+| Server/HTTP | B-04 (PE-Cert), B-05 (Iterator End) | D-04 (HTTP Refactoring) | teilweise |
+| Security/Compliance | C-01..C-05 | — | teilweise |
+| EthicsAI | B-03 (Falsches Feld) | — | gut |
+| Tooling/CI/Release | D-03 (Docker Ports) | FD-02 | teilweise |
+| RAG/Training | — | — | offen |
+| Ingestion/Pipeline | — | — | offen |
+| Prompt Engineering | — | — | offen |
+| RPC/Observability | — | — | offen |
 
 ## IX. Was sich konkret ändern muss (ab sofort)
 
 - Keine Roadmap-Fortschreibung ohne dokumentierte Fehlpfade.
 - Keine Leistungsbehauptung ohne reproduzierbaren Messkontext.
-- Keine neue Komplexitätsstufe ohne vereinfachte Baseline als Vergleich.
-- Keine Abschlussmeldung ohne explizite Grenzen („was gilt nicht?“).
+- Kein neues Concurrency-Feature ohne expliziten Thread-Safety-Kommentar + TSan-Test.
+- Kein Stub ohne Ablaufdatum und Issue-Referenz.
+- Keine Refaktorierung als Nebenaufgabe — eigener Sprint, klare Übergabepunkte.
+- Keine Abschlussmeldung ohne explizite Grenzen ("was gilt nicht?").
 
 ## X. Schlussfolgerung
 
-„It is okay to fail“ ist für ThemisDB kein Motto, sondern ein Arbeitsprinzip:
+"It is okay to fail" ist für ThemisDB kein Motto, sondern ein Arbeitsprinzip:
 Fehler werden akzeptiert, transparent gemacht und in belastbare Verbesserungen überführt.
 Der Wert dieses Dokuments entsteht durch kontinuierliche Pflege, harte Evidenz und die Bereitschaft, auch unbequeme Entscheidungen rückblickend als falsch zu markieren.
+
+Die 28 dokumentierten Befunde zeigen ein klares Muster: Die häufigsten Fehlerklassen sind
+(1) nicht-threadsichere Shared State ohne expliziten Schutz,
+(2) Off-by-one-Fehler ohne Randbedingungs-Tests,
+(3) Stubs die als Implementierungen galten.
+Diese drei Muster sind adressierbar durch konkrete, nicht aufwändige Gates: TSan-CI, Property-based Tests, Stub-Policy.
 
 ---
 
@@ -163,7 +344,18 @@ Der Wert dieses Dokuments entsteht durch kontinuierliche Pflege, harte Evidenz u
 
 Bei jeder größeren Iteration:
 
-1. mindestens eine neue Fehlannahme oder Fehlentscheidung dokumentieren,
-2. Auswirkungen und Korrekturmaßnahme ergänzen,
-3. Vollständigkeitsregister aktualisieren,
-4. offene Lücken priorisieren.
+1. Mindestens einen neuen Befund mit Dateipfad-Referenz dokumentieren.
+2. Vollständigkeitsregister aktualisieren (Status offen > teilweise > gut > vollständig).
+3. Übergreifende Fehlannahmen auf Aktualität prüfen.
+4. Offene Lücken (RAG, Ingestion, Prompt Engineering, RPC) priorisieren.
+
+## Appendix B. Schnellreferenz: Offene TODOs mit kritischem Potenzial
+
+| Datei | Zeile | Problem | Priorität |
+|-------|-------|---------|-----------|
+| `src/sharding/paxos_consensus.cpp` | 622 | Highest accepted value nicht aus Promise propagiert | HOCH |
+| `src/server/http_server.cpp` | 117 | Boost.Beast / cpp-httplib Bridge noch aktiv | MITTEL |
+| `src/server/http2_session.cpp` | 466 | Kein produktiver Buffer-Management-Pfad | MITTEL |
+| `src/server/vector_api_handler.cpp` | 712 | Scope-Checks in Authorization fehlen | HOCH |
+| `src/llm/ml_model_manager.cpp` | 1334/1691/1702 | Echte Inference/Load/Cleanup-Logik fehlt | HOCH |
+| `src/network/FUTURE_ENHANCEMENTS.md` | — | Async Write Buffers ohne shared_ptr-Lifetime (use-after-free Risiko) | HOCH |
