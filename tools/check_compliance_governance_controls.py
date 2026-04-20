@@ -27,7 +27,8 @@ def _row_tokens(line: str) -> list[str]:
 
 
 def _is_missing(value: str) -> bool:
-    return value.strip() == "" or value.strip().lower() in {"tbd", "-", "n/a"}
+    normalized = value.strip()
+    return normalized == "" or normalized.lower() in {"tbd", "-", "n/a"}
 
 
 def run(repo_root: Path) -> int:
