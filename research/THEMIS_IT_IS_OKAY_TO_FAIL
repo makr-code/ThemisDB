@@ -1,7 +1,7 @@
 # Themis: It Is Okay to Fail
 
 **Status**: Draft
-**Version**: 0.3
+**Version**: 0.4
 **Last Updated**: 2026-04-20
 **Target Venue**: Internal Engineering Retrospective / arXiv-style draft candidate
 
@@ -11,7 +11,9 @@
 
 Dieses Paper dokumentiert Fehlentwicklungen, Fehlannahmen und falsche Entscheidungen im Kontext von ThemisDB als bewusstes Lernartefakt. Alle aufgeführten Fälle sind aus dem Repository-Sourcecode, Changelogs, AUDIT-Dateien und Commit-Nachrichten belegbar — keine spekulativen Einschätzungen. Ziel ist nicht Schuldzuweisung, sondern systematische Erkenntnis: Welche Annahmen waren falsch, welche Entscheidungen haben unnötige Komplexität erzeugt, welche Risiken wurden zu spät adressiert, und welche Gegenmaßnahmen haben sich bewährt?
 
-Version 0.3 fügt ein vollständiges evidenzbasiertes Fehlerregister mit 28 konkreten Befunden in vier Kategorien hinzu: Laufzeit-Bugs (Concurrency, Off-by-one, Logik), Sicherheitslücken, Architektur- und Prozessfehler sowie Performance-/Stub-Schulden.
+Version 0.3 fügte ein evidenzbasiertes Fehlerregister mit 28 Befunden in fünf Kategorien hinzu.
+
+Version 0.4 erweitert das Register auf **67 dokumentierte Befunde** über alle Module hinweg. Neu: Kategorie F (33 weitere Laufzeit- und Logikfehler aus Graph, Index, API, Query, Metadata, Scheduler, Cache, Ingestion, Importer, Prompt Engineering, Plugins, Storage, Acceleration) und Kategorie G (6 weitere Sicherheits- und Datenleck-Befunde inkl. GraphQL-Variablen-Substitution, Audit-Log-Hardcoding, Cross-Tenant-Cache-Leak, PKI-Stub, RAG-Stub und HSM-Stub-Warnung).
 
 ## I. Einordnung und Zielbild
 
@@ -226,12 +228,13 @@ Alle Einträge sind mit Dateipfad/Changelog/Commit-Referenz belegt und aus der C
 
 | ID | Fehlannahme | Beweis | Effekt | Korrektur |
 |----|-------------|--------|--------|-----------|
-| FA-01 | "Stub-Implementierung = Implementierung" | D-01 (GPU), D-05 (TSA), E-03/E-04 (Benchmarks) | Falsche Reifesignale | Stub-Policy: max. 1 Release, dann Pflichtticket |
-| FA-02 | "Threadsafety ist offensichtlich" | A-01..A-07 (7 Concurrency-Bugs) | Race Conditions, Deadlocks, UB | Explizites Thread-Safety-Review als Gate |
-| FA-03 | "Feature-Fortschritt = Produktreife" | D-02 (RAID-Hang), D-03 (Ports), C-02 (RocksDB) | Kritische Produktionsfehler | Stabilitätskriterien vor Feature-Merge |
-| FA-04 | "Ein Kompilieren = Korrektheit" | B-01..B-11 (Off-by-one, Logic Bugs) | Falsche Ergebnisse ohne Crash | Invarianten-Tests und Property-based Tests |
+| FA-01 | "Stub-Implementierung = Implementierung" | D-01 (GPU), D-05 (TSA), E-03/E-04 (Benchmarks), G-02..G-06 (RAG/PKI/PE/HSM Stubs) | Falsche Reifesignale | Stub-Policy: max. 1 Release, dann Pflichtticket |
+| FA-02 | "Threadsafety ist offensichtlich" | A-01..A-07 (7 Bugs), F-04 (gRPC), F-13 (Graph), F-18 (Metadata), F-19 (PE), F-28 (Plugins) | Race Conditions, Deadlocks, UB | Explizites Thread-Safety-Review als Gate |
+| FA-03 | "Feature-Fortschritt = Produktreife" | D-02 (RAID-Hang), D-03 (Ports), C-02 (RocksDB), F-22 (Cache Leak) | Kritische Produktionsfehler | Stabilitätskriterien vor Feature-Merge |
+| FA-04 | "Ein Kompilieren = Korrektheit" | B-01..B-11, F-01 (GraphQL vars), F-02 (BatchWrite success), F-16 (bounds check) | Falsche Ergebnisse ohne Crash | Invarianten-Tests und Property-based Tests |
 | FA-05 | "Architektur-Migration kann inkrementell nachgezogen werden" | D-04 (HTTP Server), Error Code Migration | Dauerhafte Integrationsschuld | Migration in eigenem Sprint, nicht als Nebenaufgabe |
 | FA-06 | "Performance-Ziele ohne Messung setzen" | E-01..E-05 | Ziele ohne Validierbarkeit | Messung vor Zielsetzung; Benchmark CI als Gate |
+| FA-07 | "Security-relevante Defaultwerte sind sicher" | G-01 (VRAM), G-04 (PKI-Stub always-true), G-06 (HSM-Stub ohne Warnung), F-22 (Cache-Tenant-Leak) | Stille Sicherheitsverletzungen | Security-Defaults-Review als Pflicht-Gate |
 
 ## V. Fehlentscheidungen (Cluster-Ebene)
 
@@ -255,21 +258,22 @@ Alle Einträge sind mit Dateipfad/Changelog/Commit-Referenz belegt und aus der C
 - **Folge**: Typ-Mismatch zwischen altem und neuem System; temporärer Adapter mit Laufzeit-Overhead.
 - **Korrektur**: Refaktorierungen enden mit 0 verbleibenden Bridge-Adaptern oder explizitem Migrations-Milestone.
 
-### FD-05: Performance-Benchmarks als Disabled-Stubs statt als Messung behandelt
-- **Evidenz**: E-03, E-04 — GPU-Benchmarks nie produktiv gemessen.
-- **Folge**: Kein Performance-Baseline; keine CI-Regressionserkennung für kritische Pfade.
-- **Korrektur**: Disabled-Stub-Policy: max. 1 Release, danach Pflicht-Ticket mit Deadline.
+### FD-06: Sicherheitskritische Stubs ohne Warnung in Produktion gelangt
+- **Evidenz**: G-02 (ProvenanceTracker-Stub), G-03 (RAG-LLM-Stub), G-04 (PKI-Stub immer true), G-06 (HSM-Stub ohne Warnung).
+- **Folge**: Sicherheitsfunktionen schienen aktiv (PKI-Verifikation, Provenance-Tracking, RAG-Evaluation), waren aber effektiv keine-Ops.
+- **Korrektur**: Sicherheitskritische Stubs sind verboten ohne Runtime-Warning + Startup-Error + CI-Gate.
 
 ## VI. Ursachenanalyse
 
 Wiederkehrende Root Causes:
 
 1. **Ambitionsüberhang** gegenüber verfügbarer Validierungskapazität (Stubs als Features).
-2. **Fehlende Thread-Safety-Disziplin** als Default (7 Concurrency-Bugs in verschiedenen Modulen).
+2. **Fehlende Thread-Safety-Disziplin** als Default (12+ Concurrency-Bugs in verschiedenen Modulen).
 3. **Integration-Tests zu spät** im Lebenszyklus (RAID-Hotfix, Port-Mapping-Fehler).
 4. **Migration als Nebenaufgabe** statt eigenem Sprint (HTTP-Server-Schulden).
 5. **Performance ohne Messung** (Disabled-Stubs in Benchmarks).
-6. **Off-by-one durch fehlende Randbedingungs-Tests** (B-01..B-09, 9 Befunde).
+6. **Off-by-one durch fehlende Randbedingungs-Tests** (15+ Off-by-one/Bounds-Befunde).
+7. **Sicherheitskritische Stubs ohne Runtime-Gate** (G-02..G-06: PKI, RAG, HSM, ProvenanceTracker).
 
 ## VII. Korrekturprogramm (verbindlich)
 
@@ -298,23 +302,28 @@ Wiederkehrende Root Causes:
 
 | Bereich | Bugs dokumentiert | Arch/Prozess-Fehler | Status |
 |---------|-------------------|----------------------|--------|
-| Core/Storage | C-02 (RocksDB 7 CVEs) | — | teilweise |
-| Query/Planner | B-02 (Off-by-one), B-11 (hardcoded 10K) | — | teilweise |
-| Sharding/Distributed | D-02 (RAID-Hang), D-03 (Port-Mapping), D-06 (Paxos), D-08 (ReedSolomon) | FD-02 | teilweise |
-| LLM/Serving | C-01 (VRAM), C-04 (Stale Cache), C-05 (Stack Overflow), D-07 (GCC DR1607) | D-01 (GPU-Stubs) | teilweise |
+| Core/Storage | C-02 (RocksDB 7 CVEs), F-30 (const_cast UB), F-31 (Non-finite Jitter) | — | gut |
+| Query/Planner | B-02, B-11, F-16 (Bounds Check), F-17 (ALTER TABLE), F-18 (Race Condition) | — | gut |
+| Sharding/Distributed | D-02 (RAID-Hang), D-03 (Port-Mapping), D-06 (Paxos), D-08 (ReedSolomon) | FD-02 | gut |
+| LLM/Serving | C-01, C-04, C-05, D-07 (GCC DR1607) | D-01 (GPU-Stubs) | gut |
 | Analytics/Streaming | A-03..A-05, B-07..B-09 (StreamingWindow) | — | gut |
-| API/Auth | A-06 (BackendRegistry), A-07 (JWT Cache), C-03 (UAF GraphQL) | — | gut |
-| Index | B-10 (HybridSearch Cosine) | — | teilweise |
-| Metadata | B-01 (Histogram Off-by-one) | — | gut |
-| Importers | B-06 (CRDT Tombstone) | — | gut |
+| API/Auth | A-06, A-07, C-03, F-01 (GraphQL vars), F-02 (BatchWrite), F-03 (AQL Injection), F-04 (gRPC Mutex) | — | gut |
+| Index | B-10, F-05..F-11 (L2 Overflow, HNSW, PQ, R-tree, CUDA Race, Vulkan Leak, VRAM) | — | vollständig |
+| Metadata | B-01, F-17 (ALTER TABLE), F-18 (Race Condition) | — | gut |
+| Importers | B-06, F-27 (MySQL Deadlock) | — | gut |
 | Performance | A-01 (RCU), A-02 (LIRS TOCTOU), E-01..E-05 | FD-05 | gut |
-| Server/HTTP | B-04 (PE-Cert), B-05 (Iterator End) | D-04 (HTTP Refactoring) | teilweise |
-| Security/Compliance | C-01..C-05 | — | teilweise |
-| EthicsAI | B-03 (Falsches Feld) | — | gut |
-| Tooling/CI/Release | D-03 (Docker Ports) | FD-02 | teilweise |
-| RAG/Training | — | — | offen |
-| Ingestion/Pipeline | — | — | offen |
-| Prompt Engineering | — | — | offen |
+| Server/HTTP | B-04, B-05 | D-04 (HTTP Refactoring) | gut |
+| Security/Compliance | C-01..C-05, G-01..G-06 | FD-06 | gut |
+| EthicsAI | B-03 | — | gut |
+| Tooling/CI/Release | D-03 (Docker Ports) | FD-02 | gut |
+| Graph | F-12..F-15 (Shortest Path, Race, Overflow, VF2) | — | gut |
+| RAG/Training | G-03 (RAG-LLM-Stub) | — | teilweise |
+| Ingestion/Pipeline | F-23..F-26 (CDC Slot Leak, Redirect Loop, Multipart, API-Key Log) | — | gut |
+| Prompt Engineering | F-19 (Thread Safety), F-20 (Persistence), F-21 (hardcoded actor... wait — Scheduler), G-05 (PE Stub) | — | gut |
+| Scheduler | F-21 (Hardcoded "system" Actor) | — | gut |
+| Cache | F-22 (Cross-Tenant Leak) | — | gut |
+| Plugins | F-28 (Hot-Plug Race), F-29 (Stale Capabilities) | — | gut |
+| Acceleration | F-32 (Capabilities), F-33 (RTLD_LAZY) | — | gut |
 | RPC/Observability | — | — | offen |
 
 ## IX. Was sich konkret ändern muss (ab sofort)
@@ -332,10 +341,10 @@ Wiederkehrende Root Causes:
 Fehler werden akzeptiert, transparent gemacht und in belastbare Verbesserungen überführt.
 Der Wert dieses Dokuments entsteht durch kontinuierliche Pflege, harte Evidenz und die Bereitschaft, auch unbequeme Entscheidungen rückblickend als falsch zu markieren.
 
-Die 28 dokumentierten Befunde zeigen ein klares Muster: Die häufigsten Fehlerklassen sind
-(1) nicht-threadsichere Shared State ohne expliziten Schutz,
-(2) Off-by-one-Fehler ohne Randbedingungs-Tests,
-(3) Stubs die als Implementierungen galten.
+Die **67 dokumentierten Befunde** (v0.4) zeigen ein klares Muster: Die häufigsten Fehlerklassen sind
+(1) nicht-threadsichere Shared State ohne expliziten Schutz (12+ Fälle),
+(2) Off-by-one- und Bounds-Fehler ohne Randbedingungs-Tests (15+ Fälle),
+(3) Stubs die als Implementierungen galten — inkl. sicherheitskritischer Stubs ohne Warnung (10+ Fälle).
 Diese drei Muster sind adressierbar durch konkrete, nicht aufwändige Gates: TSan-CI, Property-based Tests, Stub-Policy.
 
 ---
@@ -347,7 +356,7 @@ Bei jeder größeren Iteration:
 1. Mindestens einen neuen Befund mit Dateipfad-Referenz dokumentieren.
 2. Vollständigkeitsregister aktualisieren (Status offen > teilweise > gut > vollständig).
 3. Übergreifende Fehlannahmen auf Aktualität prüfen.
-4. Offene Lücken (RAG, Ingestion, Prompt Engineering, RPC) priorisieren.
+4. Offene Lücken (RPC/Observability) priorisieren.
 
 ## Appendix B. Schnellreferenz: Offene TODOs mit kritischem Potenzial
 
@@ -359,3 +368,183 @@ Bei jeder größeren Iteration:
 | `src/server/vector_api_handler.cpp` | 712 | Scope-Checks in Authorization fehlen | HOCH |
 | `src/llm/ml_model_manager.cpp` | 1334/1691/1702 | Echte Inference/Load/Cleanup-Logik fehlt | HOCH |
 | `src/network/FUTURE_ENHANCEMENTS.md` | — | Async Write Buffers ohne shared_ptr-Lifetime (use-after-free Risiko) | HOCH |
+
+### Kategorie F: Weitere Laufzeit- und Logikfehler (Module-Übergreifend)
+
+#### F-01: GraphQL — Variable References nie aufgelöst (`$variable` blieb immer literal String)
+- **Fundstelle**: `src/api/CHANGELOG.md` v2.0.0, `tests/test_graphql_variables.cpp`
+- **Problem**: `$variable`-Referenzen in Feldargumenten wurden als Klartext-Strings `"$id"` gespeichert und nie zur Laufzeit aufgelöst. Betraf alle GraphQL-Queries mit Variablen-Substitution.
+- **Auswirkung**: Alle variablengesteuerten GraphQL-Queries lieferten falsches Ergebnis ohne Fehlermeldung — stiller Korrektheits-Bug über multiple Releases.
+- **Fix**: Neuer `Value::Type::VariableRef`-Typ; `Executor::resolveValue()` löst vor Resolver-Aufruf auf.
+
+#### F-02: API — `BatchWrite::success` immer `true` bei Partial-Failures
+- **Fundstelle**: `src/api/CHANGELOG.md` v1.9.1
+- **Problem**: Wenn einzelne Upserts/Deletes in einem Batch fehlschlugen, gab `BatchWriteResponse::success` trotzdem `true` zurück.
+- **Auswirkung**: Aufrufer konnten Teil-Fehlschläge nicht erkennen; Dateninkonsistenz bei fehlertoleranten Clients.
+
+#### F-03: AQL Identifier Injection über `collection`-Parameter
+- **Fundstelle**: `src/api/CHANGELOG.md` v1.9.1
+- **Problem**: `HybridSearch` und `FullTextSearch` escapten nur einfache Anführungszeichen, schützten aber nicht vor Injection durch den Identifier selbst (z.B. `"col RETURN SLEEP(10) //"`).
+- **Auswirkung**: Sicherheitslücke: beliebige AQL-Injection möglich.
+
+#### F-04: gRPC Server — `start()` hielt `mutex_` über blockierenden Socket-Bind
+- **Fundstelle**: `src/api/CHANGELOG.md` v1.9.0
+- **Problem**: `GrpcApiServer::start()` hielt `mutex_` über den blockierenden `BuildAndStart()`-Aufruf. Gleichzeitige `stop()`/Accessor-Aufrufe deadlockten.
+- **Fix**: Lock vor Netzwerk-Operation freigeben, danach re-acquiren.
+
+#### F-05: Graph — L2-Distanz Overflow für hochwertige float32-Vektoren
+- **Fundstelle**: `src/index/CHANGELOG.md` v1.1.0
+- **Problem**: L2-Distanzberechnung ohne Overflow-Schutz; bei hochmagnitudigen float32-Vektoren Overflow zu `+inf`/NaN.
+- **Auswirkung**: Vektor-Suche lieferte falsche Rangfolge.
+
+#### F-06: HNSW — Graph-Konnektivität nach parallelen Inserts gebrochen
+- **Fundstelle**: `src/index/CHANGELOG.md` v1.5.0
+- **Problem**: Hochparallele Concurrent-Inserts hinterließen HNSW-Layer-Graphen mit fehlenden Kanten.
+- **Auswirkung**: ANN-Suche lieferte unvollständige Ergebnisse; erst durch gezielten Lasttest gefunden.
+
+#### F-07: PQ-Encoding — falsche Sub-Vektor-Zuweisung bei hoher Dimensionalität
+- **Fundstelle**: `src/index/CHANGELOG.md` v1.4.0
+- **Problem**: Product-Quantization-Codebook generierte bei hoher Eingabedimensionalität falsche Cluster-Zuweisungen.
+
+#### F-08: HNSW `ef_search` — lieferte weniger Ergebnisse als angefragt
+- **Fundstelle**: `src/index/CHANGELOG.md` v1.2.0
+- **Problem**: Bei kleinen Indizes lieferte `ef_search` weniger als die angeforderten `k` Ergebnisse ohne Fehlerindikation.
+
+#### F-09: R-tree — falsche MBR-Splits durch Z-Order-Kurve bei hoher Dimensionalität
+- **Fundstelle**: `src/index/CHANGELOG.md` v1.6.0
+- **Problem**: Z-Order (Morton) Curve berechnete bei hohen räumlichen Dimensionen fehlerhafte Minimum-Bounding-Rectangle-Splits.
+
+#### F-10: CUDA Stream Synchronisation Race bei parallelen Multi-Index Queries
+- **Fundstelle**: `src/index/CHANGELOG.md` v1.3.0
+- **Problem**: Parallele Queries auf mehrere Indizes synchronisierten CUDA-Streams nicht korrekt.
+- **Auswirkung**: Nicht-deterministisches Verhalten; potentiell falsche Ergebnisse unter Last.
+
+#### F-11: Vulkan Descriptor Set Leak beim Index-Rebuild
+- **Fundstelle**: `src/index/CHANGELOG.md` v1.3.0
+- **Problem**: Nach jedem Index-Rebuild wurden Vulkan Descriptor Sets nicht freigegeben.
+- **Auswirkung**: Speicher-Leak; Vulkan-API-Ressourcen-Erschöpfung über Zeit.
+
+#### F-12: Graph — falsche Shortest-Path-Ergebnisse bei negativen Kanten-Gewichten in BFS
+- **Fundstelle**: `src/graph/CHANGELOG.md` v1.1.0
+- **Problem**: BFS-Modus im Graph-Traversal-Engine lieferte falsche kürzeste Wege wenn negative Kantengewichte vorhanden; BFS ist grundsätzlich nicht für negative Gewichte definiert, aber kein Fehler wurde ausgelöst.
+
+#### F-13: Graph — Race Condition bei parallelen Traversierungen über gemeinsame Frontier
+- **Fundstelle**: `src/graph/CHANGELOG.md` v1.3.0
+- **Problem**: Parallele Traversierungen mit geteilten Frontier-Knoten hatten unsynchronisierten Lese-/Schreibzugriff.
+
+#### F-14: Graph — Edge Weight Overflow bei großen Graphen mit hochkardinalen Knoten
+- **Fundstelle**: `src/graph/CHANGELOG.md` v1.3.0
+- **Problem**: Kantengewichte akkumulierten Integer Overflow bei Traversierungen über hochkardinalitäts-Knoten.
+
+#### F-15: VF2 Graph Matching — Doppelte Kandidaten-Mappings auf symmetrischen Graphen
+- **Fundstelle**: `src/graph/CHANGELOG.md` v1.2.0
+- **Problem**: VF2-Algorithmus generierte doppelte isomorphe Mappings auf Graphen mit Symmetrie-Eigenschaften.
+
+#### F-16: Query Federation — Array-Zugriff ohne Bounds-Check (`tables[0]`, `tables[1]`)
+- **Fundstelle**: `src/query/CHANGELOG.md` v1.6.0
+- **Problem**: `QueryFederation::createExecutionPlan()` griff direkt auf `metadata.tables[0]` und `[1]` zu ohne zu prüfen ob `tables.size() >= 2`.
+- **Auswirkung**: Undefined Behavior / Absturz bei Federation-Queries über weniger als zwei Tabellen.
+
+#### F-17: Metadata — SchemaVersionManager generierte falsches `ALTER TABLE` bei Spalten-Reihenfolge-Änderung
+- **Fundstelle**: `src/metadata/CHANGELOG.md` v1.5.1
+- **Problem**: Diff-Script-Generator erkannte Spalten-Reihenfolge-Änderungen ohne Typ-Änderung nicht korrekt; generiertes SQL war semantisch falsch.
+
+#### F-18: Metadata — `DistributedMetadataCatalog` Race Condition bei gleichzeitiger Table-Discovery
+- **Fundstelle**: `src/metadata/CHANGELOG.md` v1.6.0
+- **Problem**: Zwei Koordinatoren, die gleichzeitig dieselbe neue Tabelle entdeckten, erzeugten inkonsistente Catalog-Einträge.
+
+#### F-19: Prompt Engineering — Template-Map ohne Thread-Safety bei Concurrent Read/Write
+- **Fundstelle**: `src/prompt_engineering/CHANGELOG.md` v1.3.0
+- **Problem**: Concurrent Read/Write auf Template-Map ohne Synchronisation; erst durch expliziten Test gefunden.
+- **Fix**: TBB `concurrent_hash_map`.
+
+#### F-20: Prompt Engineering — `PromptManager` CRUD nicht persistiert nach Prozess-Neustart
+- **Fundstelle**: `src/prompt_engineering/CHANGELOG.md` v1.2.0 (Fixed)
+- **Problem**: CRUD-Operationen auf Prompt-Templates galten nur im Prozess-Speicher; nach Neustart waren alle Änderungen weg.
+
+#### F-21: Scheduler — Audit-Logs hardgecoded `"system"` als Actor
+- **Fundstelle**: `src/scheduler/CHANGELOG.md`
+- **Problem**: Alle Audit-Log-Einträge (registerTask, updateTask, enableTask, disableTask, executeTaskNow) nutzten den Literal-String `"system"` als Actor statt des echten Aufrufer-Users.
+- **Auswirkung**: Audit-Trail nicht rekonstruierbar — wer welche Task-Änderung auslöste, war nicht nachvollziehbar.
+
+#### F-22: Cache — Cross-Tenant-Datenleck bei Tenant-ID-Mismatch
+- **Fundstelle**: `src/cache/CHANGELOG.md`
+- **Problem**: Cache-Reads lieferten bei Tenant-ID-Mismatch tatsächlich fremde Daten statt `nullopt`.
+- **Auswirkung**: Sicherheitskritisches Datenleck zwischen Tenants.
+
+#### F-23: Ingestion — CDC Connector leckte Replication Slot bei Reconnect
+- **Fundstelle**: `src/ingestion/CHANGELOG.md` v1.5.0, `src/ingestion/AUDIT.md` ING-001
+- **Problem**: PostgreSQL Logical Replication Slot wurde bei Verbindungsunterbrechung nicht geschlossen; nach Reconnect entstanden permanente Slot-Leaks.
+- **Auswirkung**: WAL-Akkumulation auf PostgreSQL-Seite; Disk-Full-Risiko.
+
+#### F-24: Ingestion — WebCrawler Infinite Redirect Loop bei selbst-referenzierendem `Location`-Header
+- **Fundstelle**: `src/ingestion/CHANGELOG.md` v1.5.0, `src/ingestion/AUDIT.md` ING-002
+- **Problem**: Kein Redirect-Loop-Schutz; bei einem `Location`-Header der auf sich selbst zeigte: unendliche Schleife.
+
+#### F-25: Ingestion — ObjectStorage Multipart Upload bei Pipeline-Abbruch unvollständig gelassen
+- **Fundstelle**: `src/ingestion/CHANGELOG.md` v1.5.0, `src/ingestion/AUDIT.md` ING-003
+- **Problem**: Kein Abort-Handler für Multipart-Uploads; abgebrochene Pipelines hinterließen unvollständige Uploads in S3/GCS/Azure.
+- **Auswirkung**: Kostenlücken (Speicherkosten für incomplete parts) und potentielle Datenverschmutzung.
+
+#### F-26: Ingestion — API-Keys erschienen im Debug-Log (Credential Leak)
+- **Fundstelle**: `src/ingestion/AUDIT.md` ING-004, fix in v1.2.0
+- **Problem**: Connector-Konfiguration inkl. API-Keys wurde ungefiltert in Debug-Log-Zeilen ausgegeben.
+- **Auswirkung**: Credentials in Log-Aggregatoren sichtbar.
+
+#### F-27: Importers — MySQL Importer Deadlock bei Bulk-Insert
+- **Fundstelle**: `src/importers/CHANGELOG.md` v1.4.0
+- **Problem**: High-Concurrency Bulk-Inserts über den MySQL-Importer erzeugten Deadlocks auf Server-Seite; kein Retry/Backoff implementiert.
+
+#### F-28: Plugins — Race Condition im Hot-Plug Monitor bei gleichzeitigem Load/Unload
+- **Fundstelle**: `src/plugins/CHANGELOG.md` v1.3.0
+- **Problem**: Gleichzeitige Load/Unload-Sequenzen im Hot-Plug Monitor hatten ungeschützten Zugriff auf Plugin-Registry.
+
+#### F-29: Plugins — Stale Capability Entries nach Plugin-Unload
+- **Fundstelle**: `src/plugins/CHANGELOG.md` v1.3.0
+- **Problem**: Nach Plugin-Unload blieben Capability-Einträge in der Registry stehen; Folgeanfragen an nicht mehr existierende Capabilities konnten abstürzen.
+
+#### F-30: Storage — `const_cast` Undefined Behavior in Audit-Code
+- **Fundstelle**: `src/storage/CHANGELOG.md`
+- **Problem**: Audit-Logik nutzte `const_cast` um `const`-qualifizierte Storage-Objekte zu modifizieren — Undefined Behavior unter C++11.
+
+#### F-31: Storage — Nicht-Finite Verzögerungswerte im `TransactionRetryManager`
+- **Fundstelle**: `src/storage/CHANGELOG.md`
+- **Problem**: Jitter-Werte wurden ohne Validierung auf NaN/Infinity akzeptiert; resultierende `sleep`-Aufrufe mit nicht-finiten Werten führten zu undefiniertem Verhalten.
+
+#### F-32: Acceleration — `HIPVectorBackend`/`ZLUDAVectorBackend` lieferten unvollständige Capabilities
+- **Fundstelle**: `src/acceleration/CHANGELOG.md`
+- **Problem**: `getCapabilities()` gab Objekte ohne `supportedPrecisions` und `supportedMetrics` zurück; Aufrufer, die diese Felder erwarteten, liefen in Assertion-Failures.
+
+#### F-33: Acceleration — `RTLD_LAZY` in `loadLibrary` erlaubte verdeckte Symbol-Fehler
+- **Fundstelle**: `src/acceleration/CHANGELOG.md`
+- **Problem**: `RTLD_LAZY` bedeutet, dass fehlende Symbole erst beim ersten Aufruf der Funktion entdeckt werden, nicht beim Laden. Fehlerhafte Backend-Libraries wurden scheinbar erfolgreich geladen.
+- **Fix**: `RTLD_NOW` für fail-fast Symbol-Binding.
+
+### Kategorie G: Sicherheit und Datenlecks (Weitere Befunde)
+
+#### G-01: Index — VRAM Nicht-Überschreiben bei Index-Eviction (Cross-Tenant-Datenleck)
+- **Fundstelle**: `src/index/CHANGELOG.md` v1.4.0
+- **Problem**: VRAM wurde nach Index-Eviction nicht gecleart; nachfolgende Index-Loads eines anderen Tenants konnten residuale Daten des vorherigen sehen.
+
+#### G-02: ProvenanceTracker — AQL-Queries als Template-Stubs (keine echte Engine-Verbindung)
+- **Fundstelle**: `CHANGELOG.md`, PR #4268
+- **Problem**: `ProvenanceTracker` nutzte AQL-Template-Strings statt einer echten `AQLEngine`-Verbindung; Provenance-Queries lieferten Dummy-Ergebnisse.
+- **Auswirkung**: Provenance-/Audit-Trail-Funktionalität war faktisch nicht funktionsfähig.
+
+#### G-03: RAG LLM-Integration — `LLMIntegration`/`LLMJudgeIntegration` waren Stubs
+- **Fundstelle**: `CHANGELOG.md`, PR #4277
+- **Problem**: RAG-Modul verwendete Stub-Implementierungen für LLM-Aufruf und LLM-Judge; alle RAG-Evaluierungen basierten auf gefakten Ergebnissen.
+
+#### G-04: PKIClient — Stub-Verifikation statt realer Zertifikatsprüfung
+- **Fundstelle**: `CHANGELOG.md`, PR #4263
+- **Problem**: `PKIClient` nutzte eine Fallback-Stub-Verifikation die immer `true` zurückgab; reale X.509-Kettenverifikation fehlte bis v1.8.0.
+- **Auswirkung**: PKI-Signaturen wurden nie wirklich geprüft.
+
+#### G-05: `SelfImprovementOrchestrator` — mit Stub-`PromptEvaluator` verbunden
+- **Fundstelle**: `src/prompt_engineering/CHANGELOG.md`
+- **Problem**: Der Self-Improvement-Orchestrator verwendete einen Stub als Evaluator; Verbesserungsvorschläge basierten auf gefakten Bewertungen.
+
+#### G-06: HSM-Provider — Stub-Modus ohne Startup-Warnung (akkzidenteller Prod-Einsatz möglich)
+- **Fundstelle**: `CHANGELOG.md` (v1.7.x HSM Stub Warning)
+- **Problem**: Bis v1.7.x startete der Server mit aktivem Stub-HSM-Provider ohne Warnung; produktive Deployments konnten versehentlich den nicht-sicheren Stub nutzen.
+
