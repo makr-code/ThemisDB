@@ -56,3 +56,16 @@ jobs:
           else
             echo "No requirements.txt found; skip."
           fi
+
+  compliance-governance-gate:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate compliance governance controls
+        run: python3 tools/check_compliance_governance_controls.py --repo-root .

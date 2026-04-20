@@ -13,6 +13,7 @@
             "test-integration",
             "static-analysis",
             "security-scan",
+            "compliance-governance-gate",
             "validate-ai-guardrails",
             "validate-roadmap",
             "build-and-test"
@@ -50,6 +51,7 @@
             "test-unit",
             "static-analysis",
             "security-scan",
+            "compliance-governance-gate",
             "validate-ai-guardrails",
             "validate-roadmap"
           ]
@@ -86,6 +88,7 @@
             "test-performance",
             "static-analysis",
             "security-scan",
+            "compliance-governance-gate",
             "validate-ai-guardrails",
             "validate-roadmap",
             "build-and-test"
@@ -155,6 +158,7 @@
     "test-performance": "Performance/benchmark tests",
     "static-analysis": "Static analysis (clang-tidy, cppcheck)",
     "security-scan": "CodeQL security scanning",
+    "compliance-governance-gate": "Compliance governance controls validation",
     "validate-ai-guardrails": "AI-Guardrails validation workflow",
     "validate-roadmap": "Roadmap structure validation"
   },
