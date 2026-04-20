@@ -23632,16 +23632,17 @@ else()
 endif()
 
 # ============================================================================
-# Toolbox Phase 5: Prometheus metrics + BridgeResult::vectors — focused target
-# Covers: ITM-01..ITM-06 (metrics counters + Prometheus text), VEC-01..VEC-03
+# Toolbox Phase 5: Prometheus metrics + BridgeResult::vectors + ToolboxRegistry
+# Covers: ITM-01..ITM-06, VEC-01..VEC-03, REG-01..REG-08
 # ============================================================================
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_toolbox_phase5.cpp")
-    message(STATUS "Adding Toolbox Phase 5 tests (ITM-01..06, VEC-01..03)")
+    message(STATUS "Adding Toolbox Phase 5 tests (ITM-01..06, VEC-01..03, REG-01..08)")
 
     add_executable(test_toolbox_phase5_focused
         test_toolbox_phase5.cpp
         ${THEMIS_ROOT_DIR}/src/toolbox/ingestion_toolbox.cpp
         ${THEMIS_ROOT_DIR}/src/toolbox/content_toolbox_bridge.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/toolbox_registry.cpp
         ${THEMIS_ROOT_DIR}/src/ingestion/ingestion_sinks.cpp
     )
 
@@ -23663,11 +23664,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_toolbox_phase5.cpp")
     add_test(NAME ToolboxPhase5Tests COMMAND test_toolbox_phase5_focused)
 
     set_tests_properties(ToolboxPhase5Tests PROPERTIES
-        LABELS "toolbox;metrics;prometheus;vectors;phase5;unit"
+        LABELS "toolbox;metrics;prometheus;vectors;registry;phase5;unit"
         TIMEOUT 60
     )
 
-    message(STATUS "  Toolbox Phase 5: ITM-01..06 (metrics), VEC-01..03 (BridgeResult::vectors)")
+    message(STATUS "  Toolbox Phase 5: ITM-01..06 (metrics), VEC-01..03 (vectors), REG-01..08 (registry)")
 else()
     message(STATUS "Toolbox Phase 5 tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_toolbox_phase5.cpp")
 endif()

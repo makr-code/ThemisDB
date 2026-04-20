@@ -3,7 +3,7 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_toolbox_phase5.cpp                            ║
-  Version:         0.1.0                                              ║
+  Version:         0.2.0                                              ║
   Last Modified:   2026-04-20                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
@@ -13,10 +13,12 @@
 
 /*
  * ThemisDB — Toolbox Phase 5: Prometheus Metrics + BridgeResult::vectors
+ *                             + ToolboxRegistry (global persistence)
  *
  * Phase 5 items from src/toolbox/ROADMAP.md:
  *   "Add PrometheusIngestionToolboxMetrics for production observability"
  *   "Populate BridgeResult::vectors from ContentManager::getVectorRecords()"
+ *   "ToolboxRegistry — process-global registry + free functions"
  *
  * Tests:
  *   ITM-01  getMetricsText() returns empty string when no calls recorded
@@ -28,11 +30,20 @@
  *   VEC-01  extractEntitySet() returns BaseEntitySet with nodes + chunks
  *   VEC-02  BridgeResult::vectors populated from extractEntitySet().chunks
  *   VEC-03  BridgeResult::vectors written to IVectorWriter sink when non-empty
+ *   REG-01  ToolboxRegistry::instance() throws before initialize()
+ *   REG-02  ToolboxRegistry::initialize() + instance() round-trip
+ *   REG-03  ToolboxRegistry::isInitialized() reflects state correctly
+ *   REG-04  Free function globalToolbox() delegates to registry
+ *   REG-05  Free function extractEntities() delegates to registered instance
+ *   REG-06  Free function getMetricsText() delegates to registered instance
+ *   REG-07  initialize() with null throws std::invalid_argument
+ *   REG-08  reset() clears the registry; subsequent instance() throws again
  */
 
 #include <gtest/gtest.h>
 
 #include "toolbox/ingestion_toolbox.h"
+#include "toolbox/toolbox_registry.h"
 #include "ingestion/base_entity.h"
 #include "ingestion/ingestion_sinks.h"
 #include "ingestion/inference_backend.h"
@@ -243,4 +254,85 @@ TEST(IngestionToolboxVectors, VEC03_VectorWriterCalledWhenBridgeResultHasVectors
 
     EXPECT_EQ(vec_writer->vectorCount(), 1u);
     EXPECT_NE(vec_writer->findByChunkId("vec-chunk-1"), nullptr);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REG-01 .. REG-08 — ToolboxRegistry + free functions
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Fixture that resets the registry before and after each test for isolation.
+class ToolboxRegistryTest : public ::testing::Test {
+protected:
+    void SetUp()    override { themis::toolbox::ToolboxRegistry::reset(); }
+    void TearDown() override { themis::toolbox::ToolboxRegistry::reset(); }
+};
+
+TEST_F(ToolboxRegistryTest, REG01_InstanceThrowsBeforeInitialize) {
+    EXPECT_FALSE(themis::toolbox::ToolboxRegistry::isInitialized());
+    EXPECT_THROW(themis::toolbox::ToolboxRegistry::instance(), std::logic_error);
+}
+
+TEST_F(ToolboxRegistryTest, REG02_InitializeAndInstanceRoundTrip) {
+    auto toolbox = std::make_shared<IngestionToolbox>();
+    themis::toolbox::ToolboxRegistry::initialize(toolbox);
+
+    EXPECT_TRUE(themis::toolbox::ToolboxRegistry::isInitialized());
+    auto got = themis::toolbox::ToolboxRegistry::instance();
+    EXPECT_EQ(got.get(), toolbox.get())
+        << "instance() should return the same pointer as initialize()";
+}
+
+TEST_F(ToolboxRegistryTest, REG03_IsInitializedReflectsState) {
+    EXPECT_FALSE(themis::toolbox::ToolboxRegistry::isInitialized());
+    themis::toolbox::ToolboxRegistry::initialize(
+        std::make_shared<IngestionToolbox>());
+    EXPECT_TRUE(themis::toolbox::ToolboxRegistry::isInitialized());
+}
+
+TEST_F(ToolboxRegistryTest, REG04_GlobalToolboxFreeFunction) {
+    auto toolbox = std::make_shared<IngestionToolbox>();
+    themis::toolbox::initializeToolbox(toolbox);
+
+    auto got = themis::toolbox::globalToolbox();
+    EXPECT_EQ(got.get(), toolbox.get());
+}
+
+TEST_F(ToolboxRegistryTest, REG05_ExtractEntitiesFreeFunctionDelegatesToRegistry) {
+    themis::toolbox::initializeToolbox(
+        std::make_shared<IngestionToolbox>());
+
+    // Empty text → early-out, no crash
+    auto empty_result = themis::toolbox::extractEntities("");
+    EXPECT_TRUE(empty_result.empty());
+
+    // Non-empty text → should not throw; result may be empty (no steps)
+    EXPECT_NO_THROW(
+        themis::toolbox::extractEntities("text for REG-05", "text/plain", "t.txt"));
+}
+
+TEST_F(ToolboxRegistryTest, REG06_GetMetricsTextFreeFunctionDelegatesToRegistry) {
+    auto toolbox = std::make_shared<IngestionToolbox>();
+    toolbox->recordExtraction(2, 10, /*success=*/true);
+    themis::toolbox::initializeToolbox(toolbox);
+
+    const std::string metrics = themis::toolbox::getMetricsText();
+    EXPECT_FALSE(metrics.empty()) << "Expected non-empty Prometheus text";
+    EXPECT_NE(metrics.find("toolbox_extract_calls_total 1"), std::string::npos)
+        << "Expected 1 call in metrics; text:\n" << metrics;
+}
+
+TEST_F(ToolboxRegistryTest, REG07_InitializeWithNullThrows) {
+    EXPECT_THROW(
+        themis::toolbox::ToolboxRegistry::initialize(nullptr),
+        std::invalid_argument);
+}
+
+TEST_F(ToolboxRegistryTest, REG08_ResetClearsRegistry) {
+    themis::toolbox::ToolboxRegistry::initialize(
+        std::make_shared<IngestionToolbox>());
+    EXPECT_TRUE(themis::toolbox::ToolboxRegistry::isInitialized());
+
+    themis::toolbox::ToolboxRegistry::reset();
+    EXPECT_FALSE(themis::toolbox::ToolboxRegistry::isInitialized());
+    EXPECT_THROW(themis::toolbox::ToolboxRegistry::instance(), std::logic_error);
 }

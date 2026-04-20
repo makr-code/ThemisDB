@@ -121,13 +121,17 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::ingest(
         return out;
     }
 
-    // ── Step 3: Toolbox enrichment (NER, deontic, entity assembly)
-    ingestion::BaseEntitySet entity_set;
+    // Toolbox enrichment — capture pointer under lock, call outside
+    // IngestionToolbox is internally thread-safe; holding the lock during
+    // the potentially expensive extraction would serialize all concurrent
+    // ingest calls unnecessarily.
+    std::shared_ptr<IngestionToolbox> toolbox_ptr;
     {
         std::lock_guard<std::mutex> lk(impl_->mutex_);
-        entity_set = impl_->toolbox_->extractEntitySet(
-            extracted_text, mime_type, filename);
+        toolbox_ptr = impl_->toolbox_;
     }
+    ingestion::BaseEntitySet entity_set =
+        toolbox_ptr->extractEntitySet(extracted_text, mime_type, filename);
     out.entities = entity_set.nodes;
     out.vectors  = entity_set.chunks;
 
@@ -198,13 +202,14 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::enrichExisting(
         return out;
     }
 
-    // Toolbox enrichment
-    ingestion::BaseEntitySet entity_set;
+    // Toolbox enrichment — capture pointer under lock, call outside
+    std::shared_ptr<IngestionToolbox> toolbox_ptr2;
     {
         std::lock_guard<std::mutex> lk(impl_->mutex_);
-        entity_set = impl_->toolbox_->extractEntitySet(
-            extracted_text, mime_type, filename_hint);
+        toolbox_ptr2 = impl_->toolbox_;
     }
+    ingestion::BaseEntitySet entity_set =
+        toolbox_ptr2->extractEntitySet(extracted_text, mime_type, filename_hint);
     out.entities = entity_set.nodes;
     out.vectors  = entity_set.chunks;
 

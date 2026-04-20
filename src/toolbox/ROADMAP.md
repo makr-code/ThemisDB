@@ -3,21 +3,24 @@
 # ROADMAP
 
 ## Current Status
-- [x] `IngestionToolbox` — system-wide injectable service with `WorkflowEngine`, `StepRegistry`, `ITextGenerationBackend`; `createDefault()` factory; `extractEntities()` convenience API
+- [x] `IngestionToolbox` — system-wide injectable service with `WorkflowEngine`, `StepRegistry`, `ITextGenerationBackend`; `createDefault()` factory; `extractEntities()` + `extractEntitySet()` + `getMetricsText()` convenience API
 - [x] `ToolboxBuilder` — fluent builder: `withWorkflowProfile`, `withTextBackend`, `withGraphWriter`, `withFormatExtractor`, `withFormatExtractorFactory`, `build()`
-- [x] `ContentToolboxBridge` — unified ingest entry-point: `ingest()` + `enrichExisting()`; `BridgeResult` struct
+- [x] `ContentToolboxBridge` — unified ingest entry-point: `ingest()` + `enrichExisting()`; `BridgeResult` struct; `vectors` populated from `BaseEntitySet::chunks`
+- [x] `ToolboxRegistry` — process-global registry + free functions (`initializeToolbox`, `globalToolbox`, `extractEntities`, `extractEntitySet`, `getMetricsText`) — persists in `themis::toolbox` namespace, accessible to all modules
 
 ## Completed ✅
 
 - [x] `IngestionToolbox` core API (`ingestion_toolbox.h/.cpp`) (v0.1.0)
 - [x] `ToolboxBuilder` fluent API (`toolbox_builder.h/.cpp`) (v0.1.0)
 - [x] `ContentToolboxBridge` with `BridgeResult` (`content_toolbox_bridge.h/.cpp`) (v0.1.0)
-- [x] pimpl pattern: all three classes use `Impl`/`class Impl` for ABI stability
+- [x] pimpl pattern: all classes use `Impl`/`class Impl` for ABI stability
+- [x] `ToolboxRegistry` + free functions — global persistence in `themis::toolbox` namespace (v0.2.0)
 
 ## In Progress
 
 - [x] `PrometheusIngestionToolboxMetrics` — concrete metrics backend (Target: Q3 2026)
 - [x] `BridgeResult::vectors` population from `ContentManager` (Target: Q3 2026)
+- [x] `ToolboxRegistry` — process-global registry + free functions for all ThemisDB modules (Target: Q2 2026)
 
 ## Planned Features
 
@@ -29,11 +32,13 @@
 
 ### Phase 1: Design / API-Vertrag ✅
 - [x] Define `IngestionToolbox`, `ToolboxBuilder`, `ContentToolboxBridge` public APIs
+- [x] Design `ToolboxRegistry` — controlled global with `initialize()`/`instance()`/`reset()` + free functions
 
 ### Phase 2: Core-Implementierung ✅
 - [x] `IngestionToolbox::extractEntities()` via `WorkflowEngine::execute()`
 - [x] `ToolboxBuilder::build()` with profile loading, backend injection
 - [x] `ContentToolboxBridge::ingest()` + `enrichExisting()`
+- [x] `ToolboxRegistry::initialize()`/`instance()`/`isInitialized()`/`reset()` + free functions (`toolbox_registry.cpp`)
 
 ### Phase 3: Fehlerbehandlung & Edge Cases ✅
 - [x] Null-backend guard (reinstates `NullTextGenerationBackend`)
@@ -55,8 +60,9 @@
 
 ## Production Readiness Checklist
 - [x] `IngestionToolbox`, `ToolboxBuilder`, `ContentToolboxBridge` implemented and headers documented
+- [x] `ToolboxRegistry` + free functions — global persistence in `themis::toolbox`; dual access (global + injected) documented
 - [x] Unit and integration test coverage confirmed — `test_toolbox_ingestion.cpp` (IT-01..LH-03) + `test_content_toolbox_bridge.cpp` (FE-01..FM-08) + `test_toolbox_phase5.cpp` (ITM-01..06, VEC-01..03)
-- [x] Prometheus metrics for production observability — `getMetricsText()` on `IngestionToolbox`
+- [x] Prometheus metrics for production observability — `getMetricsText()` on `IngestionToolbox` + via free function
 - [x] `BridgeResult::vectors` fully populated — via `extractEntitySet()` returning `BaseEntitySet::chunks`
 
 ## Known Issues & Limitations
