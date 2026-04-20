@@ -77,7 +77,7 @@ public:
                               "aktenzeichen", "az");
         } catch (const std::regex_error& e) {
             return tl::make_unexpected(
-                Error{ErrorCode::ERR_WORKFLOW_STEP_EXECUTION_FAILED,
+            Error{errors::ErrorCode::ERR_WORKFLOW_STEP_EXECUTION_FAILED,
                       std::string("legal_metadata: regex error: ") + e.what()});
         }
         return {};

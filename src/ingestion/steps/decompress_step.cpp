@@ -39,12 +39,16 @@
 #include "utils/error_registry.h"
 #include <nlohmann/json.hpp>
 #include <filesystem>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
 #include <cstring>
 #include <cerrno>
 #include <cstdlib>
+#include <chrono>
+
+#if !defined(_WIN32)
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#endif
 
 using json = nlohmann::json;
 namespace fs = std::filesystem;
@@ -58,6 +62,10 @@ namespace builtin {
 // ─────────────────────────────────────────────────────────────────────────────
 
 static bool runProcess(const std::vector<const char*>& argv_vec) {
+#if defined(_WIN32)
+    (void)argv_vec;
+    return false;
+#else
     std::vector<const char*> argv = argv_vec;
     argv.push_back(nullptr);
 
@@ -78,6 +86,7 @@ static bool runProcess(const std::vector<const char*>& argv_vec) {
         }
     }
     return WIFEXITED(status) && WEXITSTATUS(status) == 0;
+#endif
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -129,7 +138,7 @@ public:
         }
 
         // ── Determine archive type ─────────────────────────────────────────
-        const std::string& mime = ctx.manifest.mime_type;
+        const std::string& mime = ctx.manifest.detected_mime;
         const std::string  ext  = fs::path(source).extension().string();
 
         enum class ArchiveKind { ZIP, TGZ, TAR, TBZ2, TXZ, UNKNOWN };
@@ -163,13 +172,16 @@ public:
             std::error_code ec;
             fs::create_directories(output_dir, ec);
         } else {
-            char tmpl[] = "/tmp/themis_decompress_XXXXXX";
-            const char* created = ::mkdtemp(tmpl);
-            if (!created) {
+            const auto base = fs::temp_directory_path();
+            const auto unique = "themis_decompress_"
+                + std::to_string(std::chrono::steady_clock::now().time_since_epoch().count());
+            output_dir = (base / unique).string();
+            std::error_code ec;
+            fs::create_directories(output_dir, ec);
+            if (ec) {
                 return ErrVoid(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
-                    "decompress: mkdtemp failed: " + std::string(strerror(errno)));
+                    "decompress: create_directories failed: " + ec.message());
             }
-            output_dir = created;
         }
 
         // ── Store depth hint in extra ──────────────────────────────────────
@@ -215,6 +227,10 @@ public:
             std::to_string(ctx.extracted_file_paths.size());
 
         return {};
+    }
+};
+
+std::shared_ptr<IIngestionStep> createDecompressStep() {
     return std::make_shared<DecompressStep>();
 }
 

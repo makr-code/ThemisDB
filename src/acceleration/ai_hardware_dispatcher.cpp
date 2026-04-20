@@ -31,6 +31,7 @@
 #include <cerrno>
 #include <chrono>
 #include <cstring>
+#include <filesystem>
 #include <sys/stat.h>
 
 // ── Platform-gated includes ───────────────────────────────────────────────────
@@ -703,7 +704,12 @@ AiInferenceResult AiHardwareDispatcher::dispatchOnnxRuntime(AiInferenceRequest& 
 
         // Create session
         OrtSession* session = nullptr;
+    #if defined(_WIN32)
+        const std::wstring model_path_w = std::filesystem::path(req.model_path).wstring();
+        status = ort->CreateSession(env, model_path_w.c_str(), opts, &session);
+    #else
         status = ort->CreateSession(env, req.model_path.c_str(), opts, &session);
+    #endif
         if (status) {
             std::string msg = ort->GetErrorMessage(status);
             ort->ReleaseStatus(status);

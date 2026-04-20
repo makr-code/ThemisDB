@@ -1055,7 +1055,7 @@ bool IntegrationTestSuite::testLazyLoaderWithGPUMemory() {
         return false;
     }
 
-    LazyModelLoader::LoaderConfig loader_cfg;
+    LazyModelLoader::Config loader_cfg;
     LazyModelLoader loader(loader_cfg);
 
     // Loading a non-existent path must return nullptr (not crash).
@@ -1080,7 +1080,7 @@ bool IntegrationTestSuite::testSchedulerWithPagedAttention() {
     cfg.enable_priority_scheduling = true;
     cfg.block_size_tokens        = 16;
 
-    ContinuousBatchScheduler scheduler(cfg);
+    ContinuousBatchScheduler scheduler(cfg, nullptr);
     scheduler.start();
 
     if (!scheduler.isRunning()) {
@@ -1126,13 +1126,13 @@ bool IntegrationTestSuite::testSchedulerWithPagedAttention() {
 bool IntegrationTestSuite::testKernelFusionWithInference() {
     spdlog::info("Integration Test: KernelFusion + Inference");
 
-    KernelFusionManager::Config kf_cfg;
+    kernels::KernelFusionManager::Config kf_cfg;
     kf_cfg.enable_fusion         = true;
     kf_cfg.enable_ln_linear_fusion = true;
     kf_cfg.enable_qkv_fusion     = true;
     kf_cfg.enable_ffn_fusion     = true;
 
-    KernelFusionManager kf_mgr(kf_cfg);
+    kernels::KernelFusionManager kf_mgr(kf_cfg);
 
     // shouldFuse* must return consistent results for common LLM dimensions.
     const int batch = 1, seq = 512, hidden = 4096;
@@ -1166,14 +1166,14 @@ bool IntegrationTestSuite::testFullPipelineE2E() {
     mem_cfg.max_vram_bytes = 4ULL * 1024 * 1024 * 1024;
     GPUMemoryManager mgr(mem_cfg);
 
-    LazyModelLoader::LoaderConfig loader_cfg;
+    LazyModelLoader::Config loader_cfg;
     LazyModelLoader loader(loader_cfg);
 
     ContinuousBatchScheduler::SchedulerConfig sched_cfg;
     sched_cfg.max_batch_size          = 4;
     sched_cfg.max_concurrent_requests = 8;
     sched_cfg.max_tokens_per_batch    = 256;
-    ContinuousBatchScheduler scheduler(sched_cfg);
+    ContinuousBatchScheduler scheduler(sched_cfg, nullptr);
     scheduler.start();
 
     // End-to-end: submit a request and verify it is tracked.
@@ -1235,8 +1235,8 @@ bool IntegrationTestSuite::testMultiModelServing() {
 bool IntegrationTestSuite::testModelSwitching() {
     spdlog::info("Integration Test: Model Switching");
 
-    LazyModelLoader::LoaderConfig cfg;
-    cfg.max_loaded_models = 2;
+    LazyModelLoader::Config cfg;
+    cfg.max_models = 2;
     LazyModelLoader loader(cfg);
 
     // Attempt to load two different non-existent paths; both should return null.
@@ -1323,7 +1323,7 @@ bool IntegrationTestSuite::testGPUOutOfMemory() {
 bool IntegrationTestSuite::testModelLoadFailure() {
     spdlog::info("Integration Test: Model Load Failure");
 
-    LazyModelLoader::LoaderConfig cfg;
+    LazyModelLoader::Config cfg;
     LazyModelLoader loader(cfg);
 
     // Loading a clearly invalid path must return nullptr (not throw, not crash).
@@ -1350,7 +1350,7 @@ bool IntegrationTestSuite::testRequestCancellation() {
     cfg.max_batch_size          = 4;
     cfg.max_concurrent_requests = 16;
     cfg.max_tokens_per_batch    = 512;
-    ContinuousBatchScheduler scheduler(cfg);
+    ContinuousBatchScheduler scheduler(cfg, nullptr);
     scheduler.start();
 
     // Submit two requests and immediately cancel them.
@@ -1394,7 +1394,7 @@ bool IntegrationTestSuite::testPreemption() {
     cfg.max_tokens_per_batch      = 128;
     cfg.enable_preemption         = true;
     cfg.enable_priority_scheduling = true;
-    ContinuousBatchScheduler scheduler(cfg);
+    ContinuousBatchScheduler scheduler(cfg, nullptr);
     scheduler.start();
 
     // Submit low-priority requests.
@@ -1430,7 +1430,7 @@ bool IntegrationTestSuite::testHighConcurrency() {
     cfg.max_concurrent_requests = 64;
     cfg.max_tokens_per_batch    = 1024;
     cfg.max_queue_depth         = 128;
-    ContinuousBatchScheduler scheduler(cfg);
+    ContinuousBatchScheduler scheduler(cfg, nullptr);
     scheduler.start();
 
     // Submit 32 concurrent requests from separate threads.
@@ -1483,7 +1483,7 @@ bool IntegrationTestSuite::testLongRunningRequests() {
     cfg.max_batch_size          = 2;
     cfg.max_concurrent_requests = 4;
     cfg.max_tokens_per_batch    = 4096;
-    ContinuousBatchScheduler scheduler(cfg);
+    ContinuousBatchScheduler scheduler(cfg, nullptr);
     scheduler.start();
 
     // Submit a "long" request (large max_tokens).
@@ -1521,7 +1521,7 @@ bool IntegrationTestSuite::testBurstTraffic() {
     cfg.max_concurrent_requests = 32;
     cfg.max_tokens_per_batch    = 2048;
     cfg.max_queue_depth         = 64;   // enforce backpressure
-    ContinuousBatchScheduler scheduler(cfg);
+    ContinuousBatchScheduler scheduler(cfg, nullptr);
     scheduler.start();
 
     // Burst: submit requests synchronously until the queue is full.

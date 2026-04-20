@@ -19,17 +19,18 @@ namespace {
 /// Convert a slippy-map tile (zoom/x/y) to WGS-84 lon/lat bounds.
 /// Reference: https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
 MBR tileToWGS84(const TileCoord& tile) {
+    constexpr double kPi = 3.14159265358979323846;
     const double n = static_cast<double>(1u << tile.zoom);
     const double lon_min = static_cast<double>(tile.x) / n * 360.0 - 180.0;
     const double lon_max = static_cast<double>(tile.x + 1) / n * 360.0 - 180.0;
     const double lat_min_rad = std::atan(std::sinh(
-        M_PI * (1.0 - 2.0 * static_cast<double>(tile.y + 1) / n)));
+        kPi * (1.0 - 2.0 * static_cast<double>(tile.y + 1) / n)));
     const double lat_max_rad = std::atan(std::sinh(
-        M_PI * (1.0 - 2.0 * static_cast<double>(tile.y) / n)));
+        kPi * (1.0 - 2.0 * static_cast<double>(tile.y) / n)));
     return MBR{lon_min,
-               lat_min_rad * 180.0 / M_PI,
+               lat_min_rad * 180.0 / kPi,
                lon_max,
-               lat_max_rad * 180.0 / M_PI};
+               lat_max_rad * 180.0 / kPi};
 }
 
 bool isValidBBox(const MBR& bbox) noexcept {

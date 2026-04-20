@@ -42,17 +42,19 @@ BuiltTemporalSpatialQuery::execute(
     for (const auto& [key, geom] : snapshot) {
         bool spatial_match = false;
 
-        if (spatial_.type == SpatialConstraint::SpatialType::BBOX) {
+        if (spatial_.type == SpatialType::BBOX) {
             // MBR containment: centroid inside bbox
-            const double cx = (geom.mbr.minx + geom.mbr.maxx) * 0.5;
-            const double cy = (geom.mbr.miny + geom.mbr.maxy) * 0.5;
+            const auto geom_mbr = geom.computeMBR();
+            const double cx = (geom_mbr.minx + geom_mbr.maxx) * 0.5;
+            const double cy = (geom_mbr.miny + geom_mbr.maxy) * 0.5;
             spatial_match = (cx >= spatial_.bbox.minx && cx <= spatial_.bbox.maxx &&
                              cy >= spatial_.bbox.miny && cy <= spatial_.bbox.maxy);
         } else if (spatial_.predicate) {
             // Predicate-based check — we need an IGeoJSONGeometry; use a
             // synthetic GeoPoint at the MBR centroid as a lightweight proxy.
-            const double cx = (geom.mbr.minx + geom.mbr.maxx) * 0.5;
-            const double cy = (geom.mbr.miny + geom.mbr.maxy) * 0.5;
+            const auto geom_mbr = geom.computeMBR();
+            const double cx = (geom_mbr.minx + geom_mbr.maxx) * 0.5;
+            const double cy = (geom_mbr.miny + geom_mbr.maxy) * 0.5;
             const GeoPoint point({cx, cy}, CrsId::WGS84);
             // Reference point — centroid of the spatial constraint bbox
             const double rx = (spatial_.bbox.minx + spatial_.bbox.maxx) * 0.5;
@@ -75,7 +77,7 @@ BuiltTemporalSpatialQuery::execute(
 TemporalSpatialQueryBuilder& TemporalSpatialQueryBuilder::withinBBox(
         const MBR& bbox) {
     BuiltTemporalSpatialQuery::SpatialConstraint sc;
-    sc.type = BuiltTemporalSpatialQuery::SpatialConstraint::SpatialType::BBOX;
+    sc.type = BuiltTemporalSpatialQuery::SpatialType::BBOX;
     sc.bbox = bbox;
     spatial_ = sc;
     return *this;
@@ -84,7 +86,7 @@ TemporalSpatialQueryBuilder& TemporalSpatialQueryBuilder::withinBBox(
 TemporalSpatialQueryBuilder& TemporalSpatialQueryBuilder::withPredicate(
         std::shared_ptr<ISpatialJoinFilter> predicate) {
     BuiltTemporalSpatialQuery::SpatialConstraint sc;
-    sc.type      = BuiltTemporalSpatialQuery::SpatialConstraint::SpatialType::PREDICATE;
+    sc.type      = BuiltTemporalSpatialQuery::SpatialType::PREDICATE;
     sc.predicate = std::move(predicate);
     spatial_ = sc;
     return *this;

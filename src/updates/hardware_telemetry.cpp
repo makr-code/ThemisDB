@@ -580,8 +580,9 @@ void HardwareTelemetryReporter::runLoop() {
         } else {
             // Sleep at most 500 ms at a time.
             auto remaining = next_tick - now;
-            auto sleep_time = std::min(remaining,
-                                       std::chrono::milliseconds(500));
+            const auto max_chunk = std::chrono::duration_cast<std::chrono::steady_clock::duration>(
+                std::chrono::milliseconds(500));
+            auto sleep_time = std::min(remaining, max_chunk);
             std::this_thread::sleep_for(sleep_time);
         }
     }

@@ -71,6 +71,20 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_scraper_plugin\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_ingestion_legal_domain\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_ingestion_quality_judge\\.cpp$")
 
+# Focused-only tests currently requiring dedicated link composition.
+# Keep them out of the monolithic themis_tests aggregate.
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_voice_security_features\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_streaming_join\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_auto_failover_manager\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_failover_chaos_scenarios\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_behavioral_anomaly_detector\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_chaos_framework\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_chaos_stress\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_columnar_cache\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_concurrent_write_controller\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_disaster_recovery_manager\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_ethics_ai_.*\\.cpp$")
+
 # Skip feature-dependent tests when the corresponding modules are disabled
 set(TEST_EXCLUDE_PATTERNS "")
 
@@ -541,6 +555,12 @@ target_sources(themis_tests PRIVATE
     ${THEMIS_ROOT_DIR}/src/network/udp_server.cpp
     ${THEMIS_ROOT_DIR}/src/training/ada_lora_adapter.cpp
     ${THEMIS_ROOT_DIR}/src/training/lora_adapter_merger.cpp
+    ${THEMIS_ROOT_DIR}/src/governance/gdpr_subject_rights.cpp
+    ${THEMIS_ROOT_DIR}/src/governance/hipaa_rules.cpp
+    ${THEMIS_ROOT_DIR}/src/governance/iso27001_rules.cpp
+    ${THEMIS_ROOT_DIR}/src/graph/graph_watermark.cpp
+    ${THEMIS_ROOT_DIR}/src/network/kernel_bypass.cpp
+    ${THEMIS_ROOT_DIR}/src/rpc_grpc/grpc_plugin.cpp
 )
 
 # Enforce feature-gated exclusions on the resolved target source list as a
@@ -1304,6 +1324,8 @@ elseif(TARGET pugixml::static)
 endif()
 
 if(WIN32)
+    target_link_libraries(themis_tests PRIVATE dxgi)
+
     set(_themis_vcpkg_tbb_lib "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/tbb12.lib")
     if(EXISTS "${_themis_vcpkg_tbb_lib}")
         target_link_libraries(themis_tests PRIVATE "${_themis_vcpkg_tbb_lib}")

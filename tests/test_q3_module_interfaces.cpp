@@ -50,14 +50,14 @@ TEST(Q3ModuleInterfaces, QMI02_GraphEmbeddingConfigDefaults) {
     EXPECT_FALSE(cfg.use_edge_features);
 }
 
-// QMI-03: GPUTraversalConfig defaults (new interface struct)
+// QMI-03: GPUGraphTraversal::Config defaults
 TEST(Q3ModuleInterfaces, QMI03_GPUTraversalConfigDefaults) {
-    themis::graph::GPUTraversalConfig cfg;
-    EXPECT_EQ(cfg.max_frontier_size, 1024u * 1024u);
-    EXPECT_EQ(cfg.max_depth, 100);
-    EXPECT_TRUE(cfg.use_shared_memory);
-    EXPECT_EQ(cfg.warps_per_block, 8);
-    EXPECT_TRUE(cfg.direction_optimized);
+    themis::graph::GPUGraphTraversal::Config cfg;
+    EXPECT_EQ(cfg.gpu_device, 0);
+    EXPECT_EQ(cfg.min_vertices_for_gpu, 10'000u);
+    EXPECT_EQ(cfg.max_depth, 10);
+    EXPECT_EQ(cfg.max_results, 0u);
+    EXPECT_TRUE(cfg.forbidden_vertices.empty());
 }
 
 // QMI-04: MetricExemplar construction

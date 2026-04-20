@@ -28,20 +28,75 @@
 #include <sstream>
 #include <algorithm>
 #include <filesystem>
-#include <fnmatch.h>  // POSIX glob matching; Windows has PathMatchSpec
 #include <shared_mutex>
-#include <dlfcn.h>    // dlopen/dlsym (POSIX); Windows: LoadLibrary
+
+#if defined(_WIN32)
+#  include <windows.h>
+#else
+#  include <fnmatch.h>
+#  include <dlfcn.h>
+#endif
 
 using json = nlohmann::json;
 
 namespace themis {
 namespace ingestion {
 
+using namespace themis::errors;
+
 // ─────────────────────────────────────────────────────────────────────────────
 // FilePattern::matches
 // ─────────────────────────────────────────────────────────────────────────────
 
 namespace {
+
+#if defined(_WIN32)
+using DynamicLibHandle = HMODULE;
+
+DynamicLibHandle openDynamicLibrary(const std::string& path) {
+    return ::LoadLibraryA(path.c_str());
+}
+
+void* resolveDynamicSymbol(DynamicLibHandle handle, const char* symbol) {
+    if (!handle) {
+        return nullptr;
+    }
+    return reinterpret_cast<void*>(::GetProcAddress(handle, symbol));
+}
+
+void closeDynamicLibrary(DynamicLibHandle handle) {
+    if (handle) {
+        ::FreeLibrary(handle);
+    }
+}
+
+std::string getDynamicLibraryError() {
+    const DWORD code = ::GetLastError();
+    return "LoadLibrary/GetProcAddress failed with Win32 error " + std::to_string(code);
+}
+#else
+using DynamicLibHandle = void*;
+
+DynamicLibHandle openDynamicLibrary(const std::string& path) {
+    return ::dlopen(path.c_str(), RTLD_LAZY | RTLD_LOCAL);
+}
+
+void* resolveDynamicSymbol(DynamicLibHandle handle, const char* symbol) {
+    return ::dlsym(handle, symbol);
+}
+
+void closeDynamicLibrary(DynamicLibHandle handle) {
+    if (handle) {
+        ::dlclose(handle);
+    }
+}
+
+std::string getDynamicLibraryError() {
+    const char* err = ::dlerror();
+    return err ? std::string(err) : std::string("unknown dlerror");
+}
+#endif
+
 bool mimeMatches(const std::string& pattern, const std::string& mime) {
     if (pattern.empty()) return true;
     if (pattern == mime) return true;
@@ -95,7 +150,7 @@ class StepRegistry::Impl {
 public:
     struct Entry {
         std::shared_ptr<IIngestionStep> step;
-        void*  dl_handle{nullptr}; ///< Non-null for dynamically loaded plugins
+        DynamicLibHandle dl_handle{nullptr}; ///< Non-null for dynamically loaded plugins
     };
 
     mutable std::shared_mutex mutex_;
@@ -111,9 +166,9 @@ StepRegistry::~StepRegistry() {
             // Destroy the step before closing the library
             using DestroyFn = void(*)(IIngestionStep*);
             auto* destroy = reinterpret_cast<DestroyFn>(
-                ::dlsym(entry.dl_handle, "themis_destroy_step"));
+                resolveDynamicSymbol(entry.dl_handle, "themis_destroy_step"));
             if (destroy && entry.step) destroy(entry.step.get());
-            ::dlclose(entry.dl_handle);
+            closeDynamicLibrary(entry.dl_handle);
         }
     }
 }
@@ -138,18 +193,18 @@ Result<void> StepRegistry::registerStep(
 Result<void> StepRegistry::loadStepPlugin(
         const std::string& plugin_name,
         const std::string& library_path) {
-    void* handle = ::dlopen(library_path.c_str(), RTLD_LAZY | RTLD_LOCAL);
+    DynamicLibHandle handle = openDynamicLibrary(library_path);
     if (!handle) {
         return tl::make_unexpected(
             Error{ErrorCode::ERR_WORKFLOW_PLUGIN_LOAD_FAILED,
-                  std::string("dlopen failed for '") + library_path
-                  + "': " + ::dlerror()});
+                  std::string("Library load failed for '") + library_path
+                  + "': " + getDynamicLibraryError()});
     }
     using CreateFn = IIngestionStep*(*)();
     auto* create = reinterpret_cast<CreateFn>(
-        ::dlsym(handle, "themis_create_step"));
+        resolveDynamicSymbol(handle, "themis_create_step"));
     if (!create) {
-        ::dlclose(handle);
+        closeDynamicLibrary(handle);
         return tl::make_unexpected(
             Error{ErrorCode::ERR_WORKFLOW_STEP_NOT_A_STEP,
                   "Library '" + library_path
@@ -157,7 +212,7 @@ Result<void> StepRegistry::loadStepPlugin(
     }
     IIngestionStep* raw = create();
     if (!raw) {
-        ::dlclose(handle);
+        closeDynamicLibrary(handle);
         return tl::make_unexpected(
             Error{ErrorCode::ERR_WORKFLOW_STEP_NOT_A_STEP,
                   "themis_create_step() returned nullptr in '" + library_path + "'"});
@@ -165,14 +220,14 @@ Result<void> StepRegistry::loadStepPlugin(
     // Wrap in shared_ptr with custom deleter that calls themis_destroy_step
     using DestroyFn = void(*)(IIngestionStep*);
     auto* destroy = reinterpret_cast<DestroyFn>(
-        ::dlsym(handle, "themis_destroy_step"));
+        resolveDynamicSymbol(handle, "themis_destroy_step"));
     std::shared_ptr<IIngestionStep> step(
         raw,
         [destroy](IIngestionStep* p) { if (destroy) destroy(p); });
 
     std::unique_lock<std::shared_mutex> lock(impl_->mutex_);
     if (impl_->steps_.count(plugin_name)) {
-        ::dlclose(handle);
+        closeDynamicLibrary(handle);
         return tl::make_unexpected(
             Error{ErrorCode::ERR_WORKFLOW_STEP_ALREADY_REGISTERED,
                   "Step '" + plugin_name + "' is already registered"});
@@ -210,7 +265,7 @@ Result<void> StepRegistry::unloadStep(const std::string& plugin_name) {
                   "Step '" + plugin_name + "' is not registered"});
     }
     if (it->second.dl_handle) {
-        ::dlclose(it->second.dl_handle);
+        closeDynamicLibrary(it->second.dl_handle);
     }
     impl_->steps_.erase(it);
     return {};
@@ -336,19 +391,19 @@ public:
                 if (step_cfg.skipOnFailure()) {
                     ctx.warnings.push_back("Step '" + step_cfg.name
                                            + "' failed (skipped): "
-                                           + result.error().message);
+                                           + result.error().message());
                     continue;
                 }
                 if (step_cfg.quarantineOnFailure()) {
                     return tl::make_unexpected(
                         Error{ErrorCode::ERR_WORKFLOW_QUARANTINED,
                               "File quarantined after step '" + step_cfg.name
-                              + "': " + result.error().message});
+                              + "': " + result.error().message()});
                 }
                 return tl::make_unexpected(
                     Error{ErrorCode::ERR_WORKFLOW_STEP_EXECUTION_FAILED,
                           "Step '" + step_cfg.name + "' failed: "
-                          + result.error().message});
+                          + result.error().message()});
             }
         }
 

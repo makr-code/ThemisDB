@@ -75,7 +75,9 @@
 #include <vector>
 
 using namespace themis;
+
 using namespace themis::ingestion;
+using namespace themis::errors;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Stub step implementations used by tests
@@ -177,7 +179,7 @@ TEST(StepRegistry, SR02_RegisterAddsStep) {
     StepRegistry reg;
     auto step = std::make_shared<AppendTextStep>("hello");
     auto res = reg.registerStep("test.hello", step);
-    ASSERT_TRUE(res.has_value()) << res.error().message;
+    ASSERT_TRUE(res.has_value()) << res.error().message();
     EXPECT_TRUE(reg.hasStep("test.hello"));
     EXPECT_NE(reg.getStep("test.hello"), nullptr);
 }
@@ -196,7 +198,7 @@ TEST(StepRegistry, SR04_DuplicateRegistrationIsError) {
     reg.registerStep("test.dup", step);
     auto res = reg.registerStep("test.dup", step);
     ASSERT_FALSE(res.has_value());
-    EXPECT_EQ(res.error().code, ErrorCode::ERR_WORKFLOW_STEP_ALREADY_REGISTERED);
+    EXPECT_EQ(res.error().code(), ErrorCode::ERR_WORKFLOW_STEP_ALREADY_REGISTERED);
 }
 
 TEST(StepRegistry, SR05_UnloadRemovesStep) {
@@ -204,7 +206,7 @@ TEST(StepRegistry, SR05_UnloadRemovesStep) {
     reg.registerStep("test.rm", std::make_shared<AppendTextStep>("rm"));
     ASSERT_TRUE(reg.hasStep("test.rm"));
     auto res = reg.unloadStep("test.rm");
-    ASSERT_TRUE(res.has_value()) << res.error().message;
+    ASSERT_TRUE(res.has_value()) << res.error().message();
     EXPECT_FALSE(reg.hasStep("test.rm"));
 }
 
@@ -216,7 +218,7 @@ TEST(WorkflowEngine, WE01_NonexistentProfileReturnsError) {
     WorkflowEngine engine;
     auto res = engine.loadProfile("/nonexistent/path/profile.json");
     ASSERT_FALSE(res.has_value());
-    EXPECT_EQ(res.error().code, ErrorCode::ERR_WORKFLOW_PROFILE_NOT_FOUND);
+    EXPECT_EQ(res.error().code(), ErrorCode::ERR_WORKFLOW_PROFILE_NOT_FOUND);
 }
 
 TEST(WorkflowEngine, WE02_InvalidJsonReturnsError) {
@@ -224,7 +226,7 @@ TEST(WorkflowEngine, WE02_InvalidJsonReturnsError) {
     WorkflowEngine engine;
     auto res = engine.loadProfile(path);
     ASSERT_FALSE(res.has_value());
-    EXPECT_EQ(res.error().code, ErrorCode::ERR_WORKFLOW_PROFILE_INVALID);
+    EXPECT_EQ(res.error().code(), ErrorCode::ERR_WORKFLOW_PROFILE_INVALID);
 }
 
 TEST(WorkflowEngine, WE03_MissingNameReturnsError) {
@@ -233,7 +235,7 @@ TEST(WorkflowEngine, WE03_MissingNameReturnsError) {
     WorkflowEngine engine;
     auto res = engine.loadProfile(path);
     ASSERT_FALSE(res.has_value());
-    EXPECT_EQ(res.error().code, ErrorCode::ERR_WORKFLOW_PROFILE_INVALID);
+    EXPECT_EQ(res.error().code(), ErrorCode::ERR_WORKFLOW_PROFILE_INVALID);
 }
 
 TEST(WorkflowEngine, WE04_MissingStepsReturnsError) {
@@ -242,7 +244,7 @@ TEST(WorkflowEngine, WE04_MissingStepsReturnsError) {
     WorkflowEngine engine;
     auto res = engine.loadProfile(path);
     ASSERT_FALSE(res.has_value());
-    EXPECT_EQ(res.error().code, ErrorCode::ERR_WORKFLOW_PROFILE_INVALID);
+    EXPECT_EQ(res.error().code(), ErrorCode::ERR_WORKFLOW_PROFILE_INVALID);
 }
 
 TEST(WorkflowEngine, WE05_ValidProfileLoadsSuccessfully) {
@@ -250,7 +252,7 @@ TEST(WorkflowEngine, WE05_ValidProfileLoadsSuccessfully) {
         R"({"name":"test-profile","steps":[]})", "valid.json");
     WorkflowEngine engine;
     auto res = engine.loadProfile(path);
-    ASSERT_TRUE(res.has_value()) << res.error().message;
+    ASSERT_TRUE(res.has_value()) << res.error().message();
     const auto profiles = engine.listProfiles();
     EXPECT_EQ(profiles.size(), 1u);
     EXPECT_EQ(profiles[0], "test-profile");
@@ -318,7 +320,7 @@ TEST(WorkflowEngine, WE11_ExecuteNoMatchingProfileReturnsError) {
     auto ctx = makeCtx("application/pdf");
     auto res = engine.execute(ctx);
     ASSERT_FALSE(res.has_value());
-    EXPECT_EQ(res.error().code, ErrorCode::ERR_WORKFLOW_NO_MATCHING_PROFILE);
+    EXPECT_EQ(res.error().code(), ErrorCode::ERR_WORKFLOW_NO_MATCHING_PROFILE);
 }
 
 TEST(WorkflowEngine, WE12_ExecuteRunsStepsInOrder) {
@@ -340,7 +342,7 @@ TEST(WorkflowEngine, WE12_ExecuteRunsStepsInOrder) {
 
     auto ctx = makeCtx("text/plain");
     auto res = engine.execute(ctx);
-    ASSERT_TRUE(res.has_value()) << res.error().message;
+    ASSERT_TRUE(res.has_value()) << res.error().message();
     EXPECT_EQ(ctx.raw_text, "AB");
 }
 
@@ -358,7 +360,7 @@ TEST(WorkflowEngine, WE13_StepSkippedWhenCanHandleReturnsFalse) {
 
     auto ctx = makeCtx("text/plain");  // not PDF
     auto res = engine.execute(ctx);
-    ASSERT_TRUE(res.has_value()) << res.error().message;
+    ASSERT_TRUE(res.has_value()) << res.error().message();
     // Step must NOT have run (MIME mismatch)
     EXPECT_EQ(ctx.raw_text, "");
 }
@@ -382,7 +384,7 @@ TEST(WorkflowEngine, WE14_StepSkippedOnFailureWhenOnFailureSkip) {
 
     auto ctx = makeCtx();
     auto res = engine.execute(ctx);
-    ASSERT_TRUE(res.has_value()) << res.error().message;
+    ASSERT_TRUE(res.has_value()) << res.error().message();
     EXPECT_EQ(ctx.raw_text, "OK");
     EXPECT_FALSE(ctx.warnings.empty());
 }
@@ -401,6 +403,6 @@ TEST(WorkflowEngine, WE15_ExecuteWithProfileByName) {
 
     auto ctx = makeCtx("text/plain");
     auto res = engine.executeWithProfile("custom", ctx);
-    ASSERT_TRUE(res.has_value()) << res.error().message;
+    ASSERT_TRUE(res.has_value()) << res.error().message();
     EXPECT_EQ(ctx.raw_text, "custom");
 }

@@ -4,33 +4,61 @@ This directory contains research papers, draft manuscripts, architectural analys
 
 ## Contents
 
+### Submission-Ready Draft Set (Core, 2026-04-19)
+- [DB_NATIVE_RAG_EVALUATION_PAPER_DRAFT.md](DB_NATIVE_RAG_EVALUATION_PAPER_DRAFT.md) — Includes RQ/Hypotheses, reporting-table plan, Threats to Validity, and claim-to-evidence appendix
+- [HYBRID_ANN_RETRIEVAL_SYSTEMS_PAPER_DRAFT.md](HYBRID_ANN_RETRIEVAL_SYSTEMS_PAPER_DRAFT.md) — Includes RQ/Hypotheses, planner evaluation matrix, Threats to Validity, and claim-to-evidence appendix
+- [LORA_QLORA_DATABASE_NATIVE_OPERATIONS_PAPER_DRAFT.md](LORA_QLORA_DATABASE_NATIVE_OPERATIONS_PAPER_DRAFT.md) — Includes RQ/Hypotheses, lifecycle evaluation matrix, Threats to Validity, and claim-to-evidence appendix
+- [DB_NATIVE_LLM_SERVING_OPTIMIZATION_PAPER_DRAFT.md](DB_NATIVE_LLM_SERVING_OPTIMIZATION_PAPER_DRAFT.md) — Includes RQ/Hypotheses, serving policy evaluation matrix, Threats to Validity, and claim-to-evidence appendix
+- [DISTRIBUTED_ACID_MULTIMODEL_AI_DATABASE_PAPER_DRAFT.md](DISTRIBUTED_ACID_MULTIMODEL_AI_DATABASE_PAPER_DRAFT.md) — Includes RQ/Hypotheses, distributed fault-evaluation matrix, Threats to Validity, and claim-to-evidence appendix
+- [RAID_SHARDING_LLM_DISTRIBUTED_INFERENCE.md](RAID_SHARDING_LLM_DISTRIBUTED_INFERENCE.md) — Includes RQ/Hypotheses, formal validity threats, claim-to-evidence appendix, and submission readiness checklist
+- [QUERY_ENGINE_AQL_GRAPHQL_UNIFICATION_DRAFT.md](QUERY_ENGINE_AQL_GRAPHQL_UNIFICATION_DRAFT.md) — Includes codebase finding that AQL/GraphQL are already inherently embedded, plus consolidation design (shared IR/cost model), validity, traceability, and readiness checklist
+
 ### Published & Finalized Papers
 - (To be added)
 
 ### Research Drafts & Work-in-Progress
+- [DB_NATIVE_RAG_EVALUATION_PAPER_DRAFT.md](DB_NATIVE_RAG_EVALUATION_PAPER_DRAFT.md) — ACID-constrained, database-native RAG with integrated quality evaluation
+- [HYBRID_ANN_RETRIEVAL_SYSTEMS_PAPER_DRAFT.md](HYBRID_ANN_RETRIEVAL_SYSTEMS_PAPER_DRAFT.md) — Cost-aware hybrid ANN retrieval with HNSW/FAISS and planner integration
+- [LORA_QLORA_DATABASE_NATIVE_OPERATIONS_PAPER_DRAFT.md](LORA_QLORA_DATABASE_NATIVE_OPERATIONS_PAPER_DRAFT.md) — Operational lifecycle and SLO-focused study for LoRA/QLoRA in DB runtime
+- [DB_NATIVE_LLM_SERVING_OPTIMIZATION_PAPER_DRAFT.md](DB_NATIVE_LLM_SERVING_OPTIMIZATION_PAPER_DRAFT.md) — Paged KV-cache, continuous batching, and speculative decoding in DB-native serving
+- [DISTRIBUTED_ACID_MULTIMODEL_AI_DATABASE_PAPER_DRAFT.md](DISTRIBUTED_ACID_MULTIMODEL_AI_DATABASE_PAPER_DRAFT.md) — Distributed ACID multi-model AI database architecture and trade-off evaluation plan
 - [RAID_SHARDING_LLM_DISTRIBUTED_INFERENCE.md](RAID_SHARDING_LLM_DISTRIBUTED_INFERENCE.md) — RAID sharding strategy and LLM distributed inference integration
 - [ACID_CONSTRAINED_RAG_DRAFT.md](ACID_CONSTRAINED_RAG_DRAFT.md) — ACID transaction semantics + RAG integration with measured benchmarks
 - [SERIALIZABLE_RAG_UNDER_CONTENTION_DRAFT.md](SERIALIZABLE_RAG_UNDER_CONTENTION_DRAFT.md) — Isolation-aware RAG quality/latency trade-offs under contention
-- [QUERY_ENGINE_AQL_GRAPHQL_UNIFICATION_DRAFT.md](QUERY_ENGINE_AQL_GRAPHQL_UNIFICATION_DRAFT.md) — Unified query engine for AQL and GraphQL
-- [GOSSIP_AWARE_LORA_ROUTING_DRAFT.md](GOSSIP_AWARE_LORA_ROUTING_DRAFT.md) — Federated LoRA routing via epidemic gossip protocols
-- [GOSSIP_DRIVEN_LORA_DOMAIN_ROUTING_DRAFT.md](GOSSIP_DRIVEN_LORA_DOMAIN_ROUTING_DRAFT.md) — Domain-aware LoRA routing with capability gossip and failover
+- [QUERY_ENGINE_AQL_GRAPHQL_UNIFICATION_DRAFT.md](QUERY_ENGINE_AQL_GRAPHQL_UNIFICATION_DRAFT.md) — Unified query engine for AQL and GraphQL (submission-structured: RQ/Hypotheses, methodology, validity, traceability, readiness checklist)
+- [GOSSIP_AWARE_LORA_ROUTING_DRAFT.md](GOSSIP_AWARE_LORA_ROUTING_DRAFT.md) — Federated LoRA routing via epidemic gossip protocols (submission-structured: RQ/Hypotheses, validity, traceability, readiness checklist)
+- [GOSSIP_DRIVEN_LORA_DOMAIN_ROUTING_DRAFT.md](GOSSIP_DRIVEN_LORA_DOMAIN_ROUTING_DRAFT.md) — Domain-aware LoRA routing with capability gossip and failover (submission-structured: RQ/Hypotheses, validity, traceability, readiness checklist)
 - [LLM_PROCESSING_OPTIMIZATION_PATTERNS.md](LLM_PROCESSING_OPTIMIZATION_PATTERNS.md) — Inference optimization patterns from llama.cpp (batching, speculative decoding, KV-cache)
 - [CONTINUOUS_BATCHING_DATABASE_NATIVE_LLM_DRAFT.md](CONTINUOUS_BATCHING_DATABASE_NATIVE_LLM_DRAFT.md) — Scheduler/KV cache trade-offs for DB-native LLM serving
 - [COST_AWARE_HYBRID_RETRIEVAL_PLANNING_AQL_DRAFT.md](COST_AWARE_HYBRID_RETRIEVAL_PLANNING_AQL_DRAFT.md) — Cost-based plan selection for lexical+vector+graph retrieval
+- [LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS_DRAFT.md](LLM_INTEGRATION_SCIENTIFIC_FOUNDATIONS_DRAFT.md) — ArXiv-structured migration of LLM integration foundations from docs/research
+- [GPU_VECTOR_INDEXING_RESEARCH_DRAFT.md](GPU_VECTOR_INDEXING_RESEARCH_DRAFT.md) — ArXiv-structured migration of GPU vector indexing research from docs/research
+- [PRODUCT_QUANTIZATION_RESEARCH_DRAFT.md](PRODUCT_QUANTIZATION_RESEARCH_DRAFT.md) — ArXiv-structured migration of PQ research from docs/research
 
 ### Planned Research Topics
 - (See drafts above for current work-in-progress topics)
 
 ### Research Tooling & Method Notes
 - [ARXIV_QUERY_STRATEGY_TOP4_2026-04-19.md](ARXIV_QUERY_STRATEGY_TOP4_2026-04-19.md) — Pre-search strategy and query protocol for four prioritized paper drafts
+- [ARXIV_PAPER_TEMPLATE.md](ARXIV_PAPER_TEMPLATE.md) — Canonical paper template (derived from RAID paper structure) for future arXiv-ready drafts
 
 ## Guidelines for Contributors
 
 1. **Naming Convention**: Use descriptive, topic-focused filenames (e.g., `TOPIC_ARCHITECTURE_ANALYSIS.md`).
 2. **Structure**: Begin with abstract, include implementation evidence from repo, add measured benchmarks where applicable.
+	- Use [ARXIV_PAPER_TEMPLATE.md](ARXIV_PAPER_TEMPLATE.md) as the default structure for all new papers.
 3. **Evidence Anchors**: Reference actual code files, test cases, and benchmark harnesses with line numbers.
 4. **Versioning**: Track paper version/status in frontmatter or first section.
 5. **Commit Early**: Papers must be committed to git to persist across sessions. Do not rely on working-tree-only edits.
+
+### Recommended Structure for Submission Candidates
+
+For manuscripts targeting submission readiness, include these sections explicitly:
+- Research Questions and Hypotheses (3 RQs + 2 testable hypotheses)
+- Reporting Tables and Figure Plan in Results
+- Threats to Validity (internal, construct, external)
+- Claim-to-Evidence Traceability appendix
+- Submission Readiness Checklist with open/closed items
 
 ## Status Tracking
 
