@@ -408,6 +408,8 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
     if (total_quality > std::numeric_limits<double>::epsilon()) {
         out.cost_to_quality_efficiency = total_cost / total_quality;
     } else if (total_cost > 0.0) {
+        // "Cost with zero quality" is treated as worst-case efficiency to force
+        // release-gate failure and avoid silently passing broken evaluations.
         out.cost_to_quality_efficiency = std::numeric_limits<double>::infinity();
         THEMIS_WARN("BatchEvaluator: total quality is ~0 while cost is {:.6f}; "
                     "cost_to_quality_efficiency set to +inf", total_cost);
