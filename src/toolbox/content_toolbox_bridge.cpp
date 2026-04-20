@@ -121,19 +121,24 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::ingest(
         return out;
     }
 
-    // ── Step 3: Toolbox enrichment (NER, deontic, entity assembly)
-    std::vector<ingestion::BaseEntity> entities;
+    // Toolbox enrichment — capture pointer under lock, call outside
+    // IngestionToolbox is internally thread-safe; holding the lock during
+    // the potentially expensive extraction would serialize all concurrent
+    // ingest calls unnecessarily.
+    std::shared_ptr<IngestionToolbox> toolbox_ptr;
     {
         std::lock_guard<std::mutex> lk(impl_->mutex_);
-        entities = impl_->toolbox_->extractEntities(
-            extracted_text, mime_type, filename);
+        toolbox_ptr = impl_->toolbox_;
     }
-    out.entities = entities;
+    ingestion::BaseEntitySet entity_set =
+        toolbox_ptr->extractEntitySet(extracted_text, mime_type, filename);
+    out.entities = entity_set.nodes;
+    out.vectors  = entity_set.chunks;
 
     // ── Step 4: Write entities to graph store sink
     bool sinks_written = false;
-    if (impl_->graph_writer_ && !entities.empty()) {
-        auto res = impl_->graph_writer_->writeEntities(entities);
+    if (impl_->graph_writer_ && !entity_set.nodes.empty()) {
+        auto res = impl_->graph_writer_->writeEntities(entity_set.nodes);
         if (!res) {
             THEMIS_WARN("ContentToolboxBridge: graph_writer failed for '{}': {}",
                         out.content_id, res.error().message());
@@ -197,16 +202,20 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::enrichExisting(
         return out;
     }
 
-    // Toolbox enrichment
+    // Toolbox enrichment — capture pointer under lock, call outside
+    std::shared_ptr<IngestionToolbox> toolbox_ptr2;
     {
         std::lock_guard<std::mutex> lk(impl_->mutex_);
-        out.entities = impl_->toolbox_->extractEntities(
-            extracted_text, mime_type, filename_hint);
+        toolbox_ptr2 = impl_->toolbox_;
     }
+    ingestion::BaseEntitySet entity_set =
+        toolbox_ptr2->extractEntitySet(extracted_text, mime_type, filename_hint);
+    out.entities = entity_set.nodes;
+    out.vectors  = entity_set.chunks;
 
     bool sinks_written = false;
-    if (impl_->graph_writer_ && !out.entities.empty()) {
-        auto res = impl_->graph_writer_->writeEntities(out.entities);
+    if (impl_->graph_writer_ && !entity_set.nodes.empty()) {
+        auto res = impl_->graph_writer_->writeEntities(entity_set.nodes);
         if (!res) {
             THEMIS_WARN("ContentToolboxBridge::enrichExisting: graph_writer failed: {}",
                         res.error().message());

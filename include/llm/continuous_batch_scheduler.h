@@ -167,6 +167,31 @@ public:
         std::lock_guard<std::mutex> lock(mutex_);
         quota_manager_ = quota;
     }
+
+    /**
+     * @brief Callback type for shard load telemetry.
+     *
+     * Fired on every queue-depth change (submitRequest and processBatchResults)
+     * so that the AdaptiveShardRouter can keep its LLM-load table up-to-date
+     * for LEAST_LOADED routing decisions.
+     *
+     * @param pending     Current number of requests in the waiting queue.
+     * @param avg_queue_ms  Estimated average queue wait time in milliseconds.
+     */
+    using ShardLoadCallback = std::function<void(size_t pending, double avg_queue_ms)>;
+
+    /**
+     * @brief Inject a shard-load callback.
+     *
+     * When set, the callback is invoked (while holding the internal mutex) at
+     * the end of submitRequest() and processBatchResults() whenever the queue
+     * depth changes.  Pass an empty std::function to detach.
+     * Ownership of any captured state is the caller's responsibility.
+     */
+    void setShardLoadCallback(ShardLoadCallback cb) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        shard_load_cb_ = std::move(cb);
+    }
     
     // Request submission
     std::string submitRequest(
@@ -252,6 +277,8 @@ private:
     monitoring::LLMMetricsCollector* metrics_collector_ = nullptr;
     // Optional quota manager — not owned, may be nullptr
     TokenQuotaManager* quota_manager_ = nullptr;
+    // Optional shard-load callback — fired on queue depth changes
+    ShardLoadCallback shard_load_cb_;
     
     // Request queues by priority
     std::priority_queue<

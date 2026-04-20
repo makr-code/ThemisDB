@@ -155,6 +155,25 @@ public:
 
     [[nodiscard]] double sensitivityMs() const { return sensitivity_ms_; }
 
+    // ── JSONL export ──────────────────────────────────────────────────────────
+
+    /**
+     * @brief Serialize a batch of labeled samples to a JSONL string.
+     *
+     * Each sample is emitted as one compact JSON object on its own line:
+     * @code
+     * {"query":"SELECT …","explain_plan":"…","latency_delta_ms":-42.5}
+     * @endcode
+     *
+     * The output is suitable for appending to a `.jsonl` log file or piping
+     * to a downstream ingestion tool.
+     *
+     * @param samples  Samples to serialize (may be empty).
+     * @return JSONL string; empty string when @p samples is empty.
+     */
+    [[nodiscard]] static std::string exportToJsonl(
+        const std::vector<LabeledDbSample>& samples);
+
 private:
     double sensitivity_ms_;
 

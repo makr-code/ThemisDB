@@ -1886,6 +1886,7 @@ set(THEMIS_CORE_SOURCES
     # Toolbox module — system-wide access point for ingestion infrastructure
     ../src/toolbox/ingestion_toolbox.cpp
     ../src/toolbox/toolbox_builder.cpp
+    ../src/toolbox/toolbox_registry.cpp
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/toolbox/content_toolbox_bridge.cpp>
 
     # LLM core components are added conditionally below

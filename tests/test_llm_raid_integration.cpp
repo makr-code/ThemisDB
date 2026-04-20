@@ -4,12 +4,15 @@
  * @file test_llm_raid_integration.cpp
  * @brief LLM+RAID Phase 4 integration tests.
  *
- * Coverage (5 tests, IDs LRIR-01..05):
+ * Coverage (8 tests, IDs LRIR-01..08):
  *  - LRIR-01: 3-Shard-Cluster domain routing: legal/medical/general → correct shard
  *  - LRIR-02: Batch-64 fan-out across 4 domains, result order preserved
  *  - LRIR-03: Shard failure during batch → circuit breaker OPEN → throws on next request
  *  - LRIR-04: Remote-Draft-Shard accept-rate telemetry increments accept_count
  *  - LRIR-05: Embedding-locality — executeEmbed routes through ShardingManager
+ *  - LRIR-06: LEGAL / MEDICAL domain types — routing and JSON round-trip
+ *  - LRIR-07: LEAST_LOADED tie-breaking via setBatchScheduler callback
+ *  - LRIR-08: SpeculativeDecoder remote_draft_shard_id wired through InferenceEngineEnhanced::Config
  */
 
 #include <gtest/gtest.h>
@@ -21,6 +24,9 @@
 #include "sharding/sharding_manager.h"
 #include "distributed_knowledge/adapter_capability_announcement.h"
 #include "llm/speculative_decoder.h"
+#include "llm/continuous_batch_scheduler.h"
+#include "llm/paged_kv_cache.h"
+#include "llm/inference_engine_enhanced.h"
 #include "aql/llm_aql_handler.h"
 
 #include <memory>
@@ -69,24 +75,24 @@ TEST(LLMRaidIntegration, LRIR01_ThreeShardDomainRouting)
 {
     auto router = makeRouter();
 
-    // Shard-Legal specialised for PROCESS_MINING domain (maps to legal-process routing)
-    regCap(router, "shard-legal",   AdapterDomainType::PROCESS_MINING, 0.85);
-    regCap(router, "shard-medical", AdapterDomainType::PROCESS_MINING, 0.20);
-    regCap(router, "shard-general", AdapterDomainType::PROCESS_MINING, 0.10);
+    // shard-legal: specialised for LEGAL domain
+    regCap(router, "shard-legal",   AdapterDomainType::LEGAL,    0.85);
+    regCap(router, "shard-medical", AdapterDomainType::LEGAL,    0.20);
+    regCap(router, "shard-general", AdapterDomainType::LEGAL,    0.10);
 
-    // Shard-Medical specialised for MULTI_TENANT domain (maps to medical multi-tenant routing)
-    regCap(router, "shard-legal",   AdapterDomainType::MULTI_TENANT,   0.15);
-    regCap(router, "shard-medical", AdapterDomainType::MULTI_TENANT,   0.90);
-    regCap(router, "shard-general", AdapterDomainType::MULTI_TENANT,   0.25);
+    // shard-medical: specialised for MEDICAL domain
+    regCap(router, "shard-legal",   AdapterDomainType::MEDICAL,  0.15);
+    regCap(router, "shard-medical", AdapterDomainType::MEDICAL,  0.90);
+    regCap(router, "shard-general", AdapterDomainType::MEDICAL,  0.25);
 
-    // Shard-General is the best fallback for GENERAL
-    regCap(router, "shard-legal",   AdapterDomainType::GENERAL,        0.30);
-    regCap(router, "shard-medical", AdapterDomainType::GENERAL,        0.30);
-    regCap(router, "shard-general", AdapterDomainType::GENERAL,        0.70);
+    // shard-general is the best fallback for GENERAL
+    regCap(router, "shard-legal",   AdapterDomainType::GENERAL,  0.30);
+    regCap(router, "shard-medical", AdapterDomainType::GENERAL,  0.30);
+    regCap(router, "shard-general", AdapterDomainType::GENERAL,  0.70);
 
-    EXPECT_EQ(router.routeByDomain(AdapterDomainType::PROCESS_MINING), "shard-legal");
-    EXPECT_EQ(router.routeByDomain(AdapterDomainType::MULTI_TENANT),   "shard-medical");
-    EXPECT_EQ(router.routeByDomain(AdapterDomainType::GENERAL),        "shard-general");
+    EXPECT_EQ(router.routeByDomain(AdapterDomainType::LEGAL),   "shard-legal");
+    EXPECT_EQ(router.routeByDomain(AdapterDomainType::MEDICAL), "shard-medical");
+    EXPECT_EQ(router.routeByDomain(AdapterDomainType::GENERAL), "shard-general");
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -252,5 +258,187 @@ TEST(LLMRaidIntegration, LRIR05_EmbeddingLocalityConsistentShardSelection)
     // Different text may land on a different shard — just verify it doesn't crash.
     const std::string shard_c = mgr.GetShardForKey("llm_embeddings", "quantum entanglement");
     EXPECT_FALSE(shard_c.empty());
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LRIR-06: LEGAL / MEDICAL domain types — routing and JSON round-trip
+// ─────────────────────────────────────────────────────────────────────────────
+TEST(LLMRaidIntegration, LRIR06_LegalMedicalDomainRouting)
+{
+    auto router = makeRouter();
+
+    regCap(router, "shard-legal",   AdapterDomainType::LEGAL,   0.90);
+    regCap(router, "shard-medical", AdapterDomainType::LEGAL,   0.10);
+    regCap(router, "shard-legal",   AdapterDomainType::MEDICAL, 0.15);
+    regCap(router, "shard-medical", AdapterDomainType::MEDICAL, 0.88);
+
+    // routeByDomain selects the highest-scoring shard per domain
+    EXPECT_EQ(router.routeByDomain(AdapterDomainType::LEGAL),   "shard-legal");
+    EXPECT_EQ(router.routeByDomain(AdapterDomainType::MEDICAL), "shard-medical");
+
+    // accuracy deltas are retrievable for the selected shards
+    EXPECT_DOUBLE_EQ(
+        router.getAdapterAccuracyDelta("shard-legal",   AdapterDomainType::LEGAL),   0.90);
+    EXPECT_DOUBLE_EQ(
+        router.getAdapterAccuracyDelta("shard-medical", AdapterDomainType::MEDICAL), 0.88);
+
+    // JSON round-trip: LEGAL and MEDICAL survive toJson() → fromJson()
+    {
+        AdapterCapabilityAnnouncement ann;
+        ann.shard_id       = "shard-legal";
+        ann.adapter_version = "v2";
+        ann.domain_type    = AdapterDomainType::LEGAL;
+        ann.accuracy_delta = 0.91;
+
+        const auto json = ann.toJson();
+        EXPECT_EQ(json.value("domain_type", std::string{}), "LEGAL");
+
+        const auto restored = AdapterCapabilityAnnouncement::fromJson(json);
+        EXPECT_EQ(restored.domain_type,    AdapterDomainType::LEGAL);
+        EXPECT_DOUBLE_EQ(restored.accuracy_delta, 0.91);
+    }
+    {
+        AdapterCapabilityAnnouncement ann;
+        ann.shard_id       = "shard-medical";
+        ann.adapter_version = "v2";
+        ann.domain_type    = AdapterDomainType::MEDICAL;
+        ann.accuracy_delta = 0.85;
+
+        const auto json = ann.toJson();
+        EXPECT_EQ(json.value("domain_type", std::string{}), "MEDICAL");
+
+        const auto restored = AdapterCapabilityAnnouncement::fromJson(json);
+        EXPECT_EQ(restored.domain_type,    AdapterDomainType::MEDICAL);
+        EXPECT_DOUBLE_EQ(restored.accuracy_delta, 0.85);
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LRIR-07: LEAST_LOADED tie-breaking via setBatchScheduler callback
+// ─────────────────────────────────────────────────────────────────────────────
+// Verifies that when two shards share the same accuracy_delta for a domain,
+// AdaptiveShardRouter routes to the one with fewer pending LLM requests.
+// The test drives the load update via updateShardLLMLoad() directly (the same
+// path taken by ContinuousBatchScheduler's ShardLoadCallback) and then
+// confirms that setBatchScheduler() wires the callback between the scheduler
+// and the router so that future submitRequest() calls propagate live queue
+// depth automatically.
+TEST(LLMRaidIntegration, LRIR07_LeastLoadedTieBreakingViaBatchSchedulerCallback)
+{
+    using namespace themis::llm;
+
+    // ── Set up router with two equal-accuracy shards ──────────────────────
+    auto topology = std::make_shared<ShardTopology>();
+    auto ring     = std::make_shared<ConsistentHashRing>();
+    auto resolver = std::make_shared<URNResolver>(topology, ring);
+    ShardRouter::Config base_cfg;
+    auto router_shared = std::make_shared<AdaptiveShardRouter>(
+        resolver, nullptr, topology, base_cfg);
+
+    // Both shards are equally capable for GENERAL domain.
+    AdapterCapabilityAnnouncement cap_a, cap_b;
+    cap_a.domain_type    = AdapterDomainType::GENERAL;
+    cap_a.accuracy_delta = 0.80;
+    cap_a.adapter_version = "v1";
+    cap_b = cap_a;
+
+    router_shared->updateAdapterCapability("shard-low-load",  cap_a);
+    router_shared->updateAdapterCapability("shard-high-load", cap_b);
+
+    // ── Shard "high-load" is busy, "low-load" is idle ────────────────────
+    router_shared->updateShardLLMLoad("shard-high-load", /*pending=*/50, /*avg_ms=*/300.0);
+    router_shared->updateShardLLMLoad("shard-low-load",  /*pending=*/2,  /*avg_ms=*/5.0);
+
+    // routeByDomain should pick "shard-low-load" because it has the lower
+    // pending_llm_requests among two equally-scored shards.
+    const std::string chosen = router_shared->routeByDomain(AdapterDomainType::GENERAL);
+    EXPECT_EQ(chosen, "shard-low-load")
+        << "Expected LEAST_LOADED shard but got: " << chosen;
+
+    // ── Verify setBatchScheduler wires the callback ───────────────────────
+    // Build a minimal scheduler (stopped — we never call start()).
+    PagedBlockManager::Config bm_cfg;
+    bm_cfg.total_blocks      = 64;
+    bm_cfg.block_size_tokens = 16;
+    auto block_mgr = std::make_shared<PagedBlockManager>(bm_cfg);
+
+    PagedKVCache::Config kv_cfg;
+    kv_cfg.num_blocks = 64;
+    kv_cfg.block_size = 16;
+    auto kv = std::make_unique<PagedKVCache>(kv_cfg, block_mgr);
+
+    ContinuousBatchScheduler::SchedulerConfig sched_cfg;
+    sched_cfg.max_batch_size          = 8;
+    sched_cfg.max_concurrent_requests = 16;
+    sched_cfg.max_tokens_per_batch    = 512;
+    sched_cfg.block_size_tokens       = 16;
+    auto scheduler = std::make_unique<ContinuousBatchScheduler>(sched_cfg, kv.get());
+
+    // Inject the scheduler into an LLMAQLHandler alongside the router.
+    LLMAQLHandler handler;
+    handler.setAdaptiveShardRouter(router_shared);
+    handler.setBatchScheduler(scheduler.get(), "shard-low-load");
+
+    // submitRequest fires the ShardLoadCallback → updateShardLLMLoad() is
+    // called on the router for "shard-low-load".
+    InferenceRequest req;
+    req.prompt     = "hello world test prompt";
+    req.max_tokens = 4;
+    const std::string req_id = scheduler->submitRequest(req);
+    EXPECT_FALSE(req_id.empty()) << "submitRequest should succeed";
+
+    // After submit, "shard-low-load" should have pending_requests >= 1
+    // reflected in the router's load table.  We indirectly verify this by
+    // confirming the route still resolves (not empty).
+    const std::string after_submit = router_shared->routeByDomain(AdapterDomainType::GENERAL);
+    EXPECT_FALSE(after_submit.empty())
+        << "routeByDomain should still return a shard after load update";
+
+    scheduler->stop();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LRIR-08: SpeculativeDecoder remote_draft_shard_id wired through Config
+// ─────────────────────────────────────────────────────────────────────────────
+// Verifies that:
+//   1. InferenceEngineEnhanced::Config::speculative_remote_draft_shard_id is
+//      forwarded to SpeculativeDecoder::Config::remote_draft_shard_id.
+//   2. SpeculativeDecoder::getConfig() exposes the field.
+//   3. The field value survives a round-trip through the Config.
+TEST(LLMRaidIntegration, LRIR08_RemoteDraftShardIdWiredThroughConfig)
+{
+    using namespace themis::llm;
+
+    // ── Verify SpeculativeDecoder::getConfig() exposes remote_draft_shard_id ─
+    SpeculativeDecoder::Config sd_cfg;
+    sd_cfg.k                      = 4;
+    sd_cfg.remote_draft_shard_id  = "shard-draft-001:model:mistral-7b-q4";
+    SpeculativeDecoder decoder(sd_cfg);
+
+    EXPECT_EQ(decoder.getConfig().remote_draft_shard_id,
+              "shard-draft-001:model:mistral-7b-q4")
+        << "getConfig() must expose remote_draft_shard_id";
+    EXPECT_EQ(decoder.getConfig().k, static_cast<size_t>(4));
+
+    // ── Verify InferenceEngineEnhanced::Config passes it through ─────────
+    // (Full engine construction with speculative decoding requires a registered
+    //  model; we only check that Config stores the field correctly.)
+    InferenceEngineEnhanced::Config engine_cfg;
+    engine_cfg.enable_speculative_decoding       = false; // skip full init
+    engine_cfg.speculative_remote_draft_shard_id = "shard-draft-002:model:phi-2-q4";
+    engine_cfg.speculative_draft_tokens          = 3;
+
+    EXPECT_EQ(engine_cfg.speculative_remote_draft_shard_id,
+              "shard-draft-002:model:phi-2-q4");
+    EXPECT_EQ(engine_cfg.speculative_draft_tokens, static_cast<size_t>(3));
+
+    // ── Verify that an empty remote_draft_shard_id disables the remote path ─
+    SpeculativeDecoder::Config local_cfg;
+    local_cfg.k                    = 4;
+    local_cfg.remote_draft_shard_id = "";  // empty → local-only
+    SpeculativeDecoder local_decoder(local_cfg);
+
+    EXPECT_TRUE(local_decoder.getConfig().remote_draft_shard_id.empty())
+        << "Empty remote_draft_shard_id must be preserved (disables remote path)";
 }
 

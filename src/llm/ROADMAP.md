@@ -61,7 +61,7 @@ Key additions since v1.15.0:
 - [ ] Real draft-model logits for speculative decoding (Target: v1.18.0)
 - [ ] Persistent disk-backed KV-cache (Target: v1.18.0)
 - [ ] Hard cancellation for in-flight requests (Target: v1.18.0)
-- [ ] `DecisionRecordYamlProcessor` integration: `LoraRouter`, `AdapterLoadBalancer`, `LoraOrchestrator` (Target: v1.9.0)
+- [x] `DecisionRecordYamlProcessor` integration: `LoraRouter`, `AdapterLoadBalancer`, `LoraOrchestrator` (Target: v1.9.0) — `setDecisionRecordProcessor()` + `dr_processor_->submit()` in `lora_router.cpp`, `adapter_load_balancer.cpp`, `lora_orchestrator.cpp`; tested in `test_lora_router.cpp` + `test_decision_record_integration.cpp`
 
 ### Completed (formerly planned)
 - [x] Function / tool calling support (JSON schema binding) (Issue: #1922)
@@ -130,7 +130,36 @@ Key additions since v1.15.0:
 - [x] Integration-Test: Circuit breaker OPEN during batch → throws (LRIR-03)
 - [x] Integration-Test: Remote-Draft-Shard SpeculativeDecoder accept-rate telemetry (LRIR-04)
 - [x] Integration-Test: Embedding locality — ShardingManager::GetShardForKey deterministic routing (LRIR-05)
-- [x] Registered `test_llm_raid_integration_focused` (LRIR-01..05) in tests/CMakeLists.txt
+- [x] Integration-Test: LEGAL/MEDICAL domain hint end-to-end routing via AdaptiveShardRouter (LRIR-06)
+- [x] Registered `test_llm_raid_integration_focused` (LRIR-01..06) in tests/CMakeLists.txt
+
+### Phase 4b: Direct AdaptiveShardRouter Integration (Status: Completed ✅)
+
+- [x] `LLMAQLHandler::setAdaptiveShardRouter()` — inject `AdaptiveShardRouter` directly (no custom resolver needed)
+- [x] `parseDomainHintToAdapterDomainType()` — maps AQL `domain_hint` strings to `AdapterDomainType`
+- [x] Resolver-over-router precedence: `domain_route_resolver_` takes priority when both are set
+- [x] `AdapterDomainType::LEGAL` — legal document analysis / contract intelligence
+- [x] `AdapterDomainType::MEDICAL` — medical / healthcare NLP and clinical decision support
+- [x] `adapterDomainTypeToString()` + `fromJson()` updated for LEGAL / MEDICAL
+- [x] Unit tests: `ExecuteInferUsesAdaptiveShardRouterWhenResolverNotSet` + `ExecuteInferPrefersResolverOverAdaptiveShardRouter`
+- [x] LRIR-01 updated to use proper LEGAL/MEDICAL domain types (no PROCESS_MINING/MULTI_TENANT workarounds)
+
+### Phase 4c: Live LLM-Queue Telemetry + Remote Draft Dispatch (Status: Completed ✅)
+
+**Phase 2 gap (LLM-Queue-Metriken in ShardStats):**
+- [x] `ContinuousBatchScheduler::ShardLoadCallback` — `std::function<void(size_t pending, double avg_ms)>`
+- [x] `ContinuousBatchScheduler::setShardLoadCallback()` — injection point for router update callbacks
+- [x] Callback fired in `submitRequest()` and `processBatchResults()` on every queue-depth change
+- [x] `LLMAQLHandler::setBatchScheduler(scheduler, local_shard_id)` — wires scheduler→router load callback
+- [x] `LLMAQLHandler::Impl::wireShardLoadCallback()` — private helper, re-wires on either router or scheduler change
+- [x] LRIR-07: LEAST_LOADED tie-breaking verified end-to-end via `setBatchScheduler` + `routeByDomain`
+
+**Phase 4 gap (SpeculativeDecoder Remote Draft Dispatch):**
+- [x] `SpeculativeDecoder::getConfig() const` — read-only config accessor (needed by engine for remote path check)
+- [x] `InferenceEngineEnhanced::Config::speculative_remote_draft_shard_id` — wired into `SpeculativeDecoder::Config` in constructor
+- [x] `InferenceEngineEnhanced::setRemoteExecutor(RemoteExecutor*, ShardInfo)` — injection point for remote draft
+- [x] `trySpeculativeGeneration()`: remote draft path via `RemoteExecutor::post("/api/v1/llm/speculative/draft")` with fallback to local draft model
+- [x] LRIR-08: `remote_draft_shard_id` round-trip through `SpeculativeDecoder::Config` + `InferenceEngineEnhanced::Config`
 
 ### Phase 5: KV-Prefix Cross-Shard Transfer (Status: Completed ✅)
 

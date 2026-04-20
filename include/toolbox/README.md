@@ -13,6 +13,7 @@ Provides bridging and builder utilities for content ingestion pipelines and tool
 - `content_toolbox_bridge.h` — Bridge between content processors and toolbox plugins
 - `ingestion_toolbox.h` — Ingestion pipeline toolbox interface
 - `toolbox_builder.h` — Fluent builder for toolbox pipeline assembly
+- `toolbox_registry.h` — Process-global registry + free functions (`initializeToolbox`, `globalToolbox`, `extractEntities`, `extractEntitySet`, `getMetricsText`)
 
 ## Implementation
 
