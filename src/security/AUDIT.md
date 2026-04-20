@@ -130,7 +130,7 @@
 ### Finding Details (Pflichtschema)
 
 #### SEC-AUTH-01
-1. **Titel:** Token-Verifikation laesst pass-through ohne Verifier zu
+1. **Titel:** Token-Verifikation lässt pass-through ohne Verifier zu
 2. **Kategorie:** Auth
 3. **Severity + Exploitability:** S1, hoch
 4. **Komponenten/Dateien:** `src/security/zero_trust_policy_enforcer.cpp:186-199`
@@ -178,7 +178,7 @@
 10. **Restrisiko bei Nichtbehebung:** eingeschränkte Verifizierbarkeit von Hardening-Fixes
 
 #### SEC-BLD-02
-1. **Titel:** `check_disabled_stubs.py` laeuft nicht (SyntaxError)
+1. **Titel:** `check_disabled_stubs.py` läuft nicht (SyntaxError)
 2. **Kategorie:** Supply Chain
 3. **Severity + Exploitability:** S3, niedrig
 4. **Komponenten/Dateien:** `tools/check_disabled_stubs.py`
@@ -194,7 +194,7 @@
 ## 6) Severity & SLA
 
 - **S0:** Hotfix sofort
-- **S1:** Fix im naechsten Release-Zyklus
+- **S1:** Fix im nächsten Release-Zyklus
 - **S2:** terminierter Fix-Plan
 - **S3:** backlogisiert mit Frist
 
@@ -204,7 +204,7 @@ Aktueller Stand: **0x S0, 2x S1, 2x S2, 1x S3**
 
 ## 7) Messbare Akzeptanzkriterien
 
-- [x] Mindestens 1 vollstaendiger Security-Audit-Durchlauf mit Artefakten abgeschlossen
+- [x] Mindestens 1 vollständiger Security-Audit-Durchlauf mit Artefakten abgeschlossen
 - [x] 100% der Findings mit Severity, Exploitability, Repro und Fix-Plan dokumentiert
 - [x] Fuer alle S0/S1 sind konkrete Remediation-Tasks mit Zielzyklus definiert
 - [x] Secret-Scan-Lauf reproduzierbar dokumentiert
