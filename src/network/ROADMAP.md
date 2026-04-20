@@ -322,3 +322,13 @@ v2.0.0 – Production-grade networking layer. All transport paths (TCP, WebSocke
   deployments are unaffected as 128 matches the previous implicit OS default.
 - `WireProtocolServer` ctor gained optional 9th parameter `std::shared_ptr<QueryEngine>` (default
   `nullptr`); existing callers do not need to change (2026-04-20).
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `AdaptiveCircuitBreaker` – Circuit-Breaker mit adaptiver Schwellwert-Anpassung; nur im CB-Test geprüft
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+

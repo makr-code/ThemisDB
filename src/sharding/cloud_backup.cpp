@@ -93,7 +93,7 @@ public:
     
     bool upload(const std::string& local_path, 
                const std::string& remote_path,
-               const std::map<std::string, std::string>& metadata) override {
+               [[maybe_unused]] const std::map<std::string, std::string>& metadata) override {
         
         if (!fs::exists(local_path)) {
             THEMIS_ERROR("Local file does not exist: {}", local_path);
@@ -239,7 +239,7 @@ public:
     
     bool upload(const std::string& local_path, 
                const std::string& remote_path,
-               const std::map<std::string, std::string>& metadata) override {
+               [[maybe_unused]] const std::map<std::string, std::string>& metadata) override {
         
         if (!fs::exists(local_path)) {
             THEMIS_ERROR("Local file does not exist: {}", local_path);
@@ -345,7 +345,7 @@ public:
     
     bool upload(const std::string& local_path, 
                const std::string& remote_path,
-               const std::map<std::string, std::string>& metadata) override {
+               [[maybe_unused]] const std::map<std::string, std::string>& metadata) override {
         
         if (!fs::exists(local_path)) {
             THEMIS_ERROR("Local file does not exist: {}", local_path);

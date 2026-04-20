@@ -103,3 +103,13 @@ _(No new planned features at this time — see `FUTURE_ENHANCEMENTS.md` for long
 
 - OPA integration introduces a new policy language alongside the existing native rule format (additive, non-breaking)
 - Policy simulation API is a new endpoint (non-breaking)
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `CcpaRuleSet` – CCPA-Compliance-Regeln; geprüft in ccpa_rules-Tests und Compliance-Bench
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+

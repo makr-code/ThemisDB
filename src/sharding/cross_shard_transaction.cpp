@@ -1643,7 +1643,6 @@ void CrossShardTransactionCoordinator::executeCompensations(
     if (!executed_steps.empty()) {
         for (size_t j = executed_steps.size(); j > 0; --j) {
             const size_t idx = j - 1;
-            const auto& step = executed_steps[idx];
             const auto& compensation = compensations[idx];
             
             if (!compensation.contains("shard_id") || !compensation.contains("operation")) {

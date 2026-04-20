@@ -337,7 +337,7 @@ std::vector<uint8_t> MFAAuthenticator::base32Decode(const std::string& input) co
             throw std::invalid_argument("Invalid base32 character");
         }
         
-        int value = pos - BASE32_ALPHABET;
+        int value = static_cast<int>(pos - BASE32_ALPHABET);
         buffer = (buffer << 5) | value;
         bits_left += 5;
         
@@ -382,8 +382,8 @@ std::vector<uint8_t> MFAAuthenticator::hmacSHA1(
     unsigned int hash_len = 0;
     
     HMAC(EVP_sha1(), 
-         key.data(), key.size(),
-         message.data(), message.size(),
+         key.data(), static_cast<int>(key.size()),
+         message.data(), static_cast<int>(message.size()),
          hash, &hash_len);
     
     return std::vector<uint8_t>(hash, hash + hash_len);

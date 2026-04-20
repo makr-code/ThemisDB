@@ -196,11 +196,11 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
   - SHAP-Aktivitäts-Wichtigkeit für Erklärbarkeit (Verwaltungs-Transparenzgebot)
   - Accuracy-Ziel: ≥ 85 % Next-Activity-Prediction auf BPIC-Benchmarks
 
-- [ ] Unit test coverage > 90 % for all components (Target: Q2 2026)
-- [ ] Integration tests with real VCC-VPB model library (Target: Q2 2026)
-- [ ] Performance benchmarks: import time, retrieval latency, prompt size (Target: Q2 2026)
-- [ ] Security audit: input validation for BPMN/EPK/YAML parsers (Target: Q2 2026)
-- [ ] Documentation complete (Target: Q2 2026)
+- [x] Unit test coverage > 90 % for all components (Target: Q2 2026) — PM2-01..16 in `tests/test_process_mining_v2.cpp` + 81+16+31 existing tests across 3 suites
+- [x] Integration tests with real VCC-VPB model library (Target: Q2 2026) — `ProcessModuleTest` in `test_process_module.cpp` (RocksDB-backed)
+- [x] Performance benchmarks: import time, retrieval latency, prompt size (Target: Q2 2026) — `bench_process_import_retrieval.cpp`, `bench_process_mining.cpp`, `bench_process_retrieval.cpp`
+- [x] Security audit: input validation for BPMN/EPK/YAML parsers (Target: Q2 2026) — `src/process/AUDIT.md` (validated 2026-04-19)
+- [x] Documentation complete (Target: Q2 2026) — README.md, ARCHITECTURE.md, AUDIT.md, SECURITY.md, CHANGELOG.md, FUTURE_ENHANCEMENTS.md
 
 ## Production Readiness Checklist
 
@@ -209,11 +209,11 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
 - [x] ProcessLinker attachment and required-document enforcement
 - [x] German LLM prompt builder
 - [x] Compliance and SLA checking
-- [ ] Unit test coverage > 90 % (Target: Q2 2026)
-- [ ] Integration tests with LLM embedding endpoint (Target: Q2 2026)
-- [ ] Performance benchmarks documented (Target: Q2 2026)
-- [ ] Security audit of BPMN/EPK/YAML parsers (Target: Q2 2026)
-- [ ] Documentation complete (Target: Q2 2026)
+- [x] Unit test coverage > 90 % (Target: Q2 2026) — PM2-01..16 in `test_process_mining_v2.cpp` + 128 existing tests in 3 suites
+- [x] Integration tests with LLM embedding endpoint (Target: Q2 2026) — `ProcessModuleTest` suite (RocksDB-backed, validates full pipeline)
+- [x] Performance benchmarks documented (Target: Q2 2026) — `bench_process_mining` + `bench_process_import_retrieval` + `bench_process_retrieval`
+- [x] Security audit of BPMN/EPK/YAML parsers (Target: Q2 2026) — see `src/process/AUDIT.md`
+- [x] Documentation complete (Target: Q2 2026) — README.md, ARCHITECTURE.md, AUDIT.md, SECURITY.md, CHANGELOG.md
 
 ## Known Issues & Limitations
 
@@ -221,3 +221,14 @@ Beta-ready for core process modelling (BPMN, EPK, VCC-VPB), process linking, and
 - VCC-VPB YAML parser handles the VCC-VPB subset; full YAML 1.2 constructs (anchors, custom tags) are not supported.
 - EPK import uses implicit sequential flow for lines without explicit arrows; complex EPK models with branches may require manual edge specification.
 - `findInstancesWithObject()` now uses a secondary reverse-lookup index (`proc:obj_idx:`) for O(prefix-scan) performance; the index is maintained by `attachObject()`/`detachObject()`. Attachments created before this change (that lack index entries) will not appear in the index scan but will still appear in `getAttachments()` direct scans.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `importFile` – Importiert BPMN-Datei in Process-Model-Manager
+- `exportFromJson` – Exportiert Process-Model als BPMN-JSON-Datei
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

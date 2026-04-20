@@ -50,6 +50,7 @@ Key additions since v1.15.0:
 - [x] LoRA adapter hot-loading at inference time (Issue: #1929)
 - [x] Model quantization pipeline integration (GGUF, AWQ, GPTQ) (Issue: #2412)
 - [x] ActiveVRAMAllocator: GPU VRAM allocation, OOM recovery (LRU eviction, defragmentation, CPU spilling), VRAM waste tracking (LLM-MISSING-001, 2026-03-11)
+- [x] ActiveVRAMAllocator production wiring: `registerExternal()` / `free()` added; LLMPluginManager carries a shared `vram_allocator_` that registers model VRAM on `loadModel()` and deregisters on `unloadModel()`; `getVRAMStats()` + `getHealthStatus()` enriched with VRAM pressure fields; `/api/v1/llm/vram` GET endpoint exposes full stats; OOM callback logs pressure warnings; AVA_EXT_01..03 tests added (2026-04-20)
 
 ## In Progress 🚧
 - [~] Inference optimizations: adaptive batching, n-gram lookup decoding, KV-budget guards, RAID-sharding hints (Issue: #LLM-INFER-OPT)
@@ -131,7 +132,36 @@ Key additions since v1.15.0:
 - [x] Integration-Test: Circuit breaker OPEN during batch → throws (LRIR-03)
 - [x] Integration-Test: Remote-Draft-Shard SpeculativeDecoder accept-rate telemetry (LRIR-04)
 - [x] Integration-Test: Embedding locality — ShardingManager::GetShardForKey deterministic routing (LRIR-05)
-- [x] Registered `test_llm_raid_integration_focused` (LRIR-01..05) in tests/CMakeLists.txt
+- [x] Integration-Test: LEGAL/MEDICAL domain hint end-to-end routing via AdaptiveShardRouter (LRIR-06)
+- [x] Registered `test_llm_raid_integration_focused` (LRIR-01..06) in tests/CMakeLists.txt
+
+### Phase 4b: Direct AdaptiveShardRouter Integration (Status: Completed ✅)
+
+- [x] `LLMAQLHandler::setAdaptiveShardRouter()` — inject `AdaptiveShardRouter` directly (no custom resolver needed)
+- [x] `parseDomainHintToAdapterDomainType()` — maps AQL `domain_hint` strings to `AdapterDomainType`
+- [x] Resolver-over-router precedence: `domain_route_resolver_` takes priority when both are set
+- [x] `AdapterDomainType::LEGAL` — legal document analysis / contract intelligence
+- [x] `AdapterDomainType::MEDICAL` — medical / healthcare NLP and clinical decision support
+- [x] `adapterDomainTypeToString()` + `fromJson()` updated for LEGAL / MEDICAL
+- [x] Unit tests: `ExecuteInferUsesAdaptiveShardRouterWhenResolverNotSet` + `ExecuteInferPrefersResolverOverAdaptiveShardRouter`
+- [x] LRIR-01 updated to use proper LEGAL/MEDICAL domain types (no PROCESS_MINING/MULTI_TENANT workarounds)
+
+### Phase 4c: Live LLM-Queue Telemetry + Remote Draft Dispatch (Status: Completed ✅)
+
+**Phase 2 gap (LLM-Queue-Metriken in ShardStats):**
+- [x] `ContinuousBatchScheduler::ShardLoadCallback` — `std::function<void(size_t pending, double avg_ms)>`
+- [x] `ContinuousBatchScheduler::setShardLoadCallback()` — injection point for router update callbacks
+- [x] Callback fired in `submitRequest()` and `processBatchResults()` on every queue-depth change
+- [x] `LLMAQLHandler::setBatchScheduler(scheduler, local_shard_id)` — wires scheduler→router load callback
+- [x] `LLMAQLHandler::Impl::wireShardLoadCallback()` — private helper, re-wires on either router or scheduler change
+- [x] LRIR-07: LEAST_LOADED tie-breaking verified end-to-end via `setBatchScheduler` + `routeByDomain`
+
+**Phase 4 gap (SpeculativeDecoder Remote Draft Dispatch):**
+- [x] `SpeculativeDecoder::getConfig() const` — read-only config accessor (needed by engine for remote path check)
+- [x] `InferenceEngineEnhanced::Config::speculative_remote_draft_shard_id` — wired into `SpeculativeDecoder::Config` in constructor
+- [x] `InferenceEngineEnhanced::setRemoteExecutor(RemoteExecutor*, ShardInfo)` — injection point for remote draft
+- [x] `trySpeculativeGeneration()`: remote draft path via `RemoteExecutor::post("/api/v1/llm/speculative/draft")` with fallback to local draft model
+- [x] LRIR-08: `remote_draft_shard_id` round-trip through `SpeculativeDecoder::Config` + `InferenceEngineEnhanced::Config`
 
 ### Phase 5: KV-Prefix Cross-Shard Transfer (Status: Completed ✅)
 
@@ -151,3 +181,21 @@ Key additions since v1.15.0:
 - [x] `BM_BatchFanOut_LatencyScaling` — batch sizes 1/8/16/32/64 fan-out benchmark
 - [x] `docs/de/llm/CROSS_SHARD_INFERENCE_RUNBOOK.md` — operational runbook for cross-shard debugging
 - [x] `docs/de/llm/AI_ECOSYSTEM_SHARDING_ARCHITECTURE.md` — Phase 5 KV-Prefix + Phase 6 benchmark data added
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `ActiveVRAMAllocator` – Verwaltet aktive VRAM-Allokationen pro Inference-Session; vollständig
+  implementiert (LRU-Eviction, Defragmentierung, CPU-Spilling, Nutzungsstatistiken, Bridge-API).
+  36 Unit-Tests + Benchmark vorhanden.
+
+> **Verwendungskette:** `ActiveVRAMAllocator` wird als Backend von `AdaptiveVRAMAllocator::Impl`
+> genutzt (`active_allocator_`-Member). `AdaptiveVRAMAllocator` selbst hat aber ebenfalls keinen
+> bestätigten Produktions-Aufrufer — die Kette endet vor der Integration in den Inference-Server.
+>
+> **Aktion:** `AdaptiveVRAMAllocator` in `LLMPluginManager` oder dem Inference-Server-Kontext
+> verdrahten, sobald die VRAM-Budget-Planung Teil des Modell-Ladevorgangs wird (Target: Q3 2026).
+

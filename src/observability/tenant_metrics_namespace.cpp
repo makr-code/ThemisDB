@@ -99,7 +99,7 @@ std::string TenantMetricsNamespace::makeKey(
 bool TenantMetricsNamespace::checkCardinality(
     TenantStore& store,
     const std::string& metric_name,
-    const std::string& key) const
+    [[maybe_unused]] const std::string& key) const
 {
     if (config_.cardinality_limit_per_tenant == 0) {
         return true; // unlimited

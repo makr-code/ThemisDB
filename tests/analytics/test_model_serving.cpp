@@ -272,7 +272,7 @@ TEST(ModelServingEngine, PredictRegressionReturnsNumericString) {
     dp.set("x2", 0.3);
 
     auto val_str = engine.predict("reg", "v1", dp);
-    EXPECT_NO_THROW(std::stod(val_str));
+    EXPECT_NO_THROW((void)std::stod(val_str));
 }
 
 TEST(ModelServingEngine, PredictMissingModelThrows) {

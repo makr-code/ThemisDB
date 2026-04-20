@@ -366,7 +366,7 @@ OptimizerCostModel::NetworkCost OptimizerCostModel::estimateNetworkTransfer(
 // =============================
 
 double OptimizerCostModel::estimateSelectivity(
-    const std::string& predicate,
+    [[maybe_unused]] const std::string& predicate,
     const ColumnStatistics& columnStats) const {
     
     // Simple heuristic-based selectivity estimation

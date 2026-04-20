@@ -313,7 +313,7 @@ std::string HuggingFaceIngestionPlugin::httpGet(const std::string& url) {
                 THEMIS_WARN("Rate limited on HF API (attempt {}/{}), waiting...", 
                     attempt + 1, config_.max_retries);
                 std::this_thread::sleep_for(
-                    std::chrono::milliseconds(config_.retry_delay_ms * (1 << attempt))
+                    std::chrono::milliseconds(config_.retry_delay_ms * (1ULL << attempt))
                 );
                 continue;
             } else {
@@ -327,7 +327,7 @@ std::string HuggingFaceIngestionPlugin::httpGet(const std::string& url) {
             
             if (attempt < config_.max_retries - 1) {
                 std::this_thread::sleep_for(
-                    std::chrono::milliseconds(config_.retry_delay_ms * (1 << attempt))
+                    std::chrono::milliseconds(config_.retry_delay_ms * (1ULL << attempt))
                 );
             }
         }

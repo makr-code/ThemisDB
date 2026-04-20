@@ -24,6 +24,10 @@
 
 #pragma once
 
+#ifdef ERROR
+#undef ERROR
+#endif
+
 #include <string>
 #include <vector>
 #include <memory>

@@ -474,7 +474,7 @@ TEST_F(OpenTelemetryTracerTest, RecordMetricsAttachesNonZeroFields) {
 
     auto span = tracer.startSpan("db.query");
 
-    MetricSnapshot snap;
+    SpanMetrics snap;
     snap.cpu_usage_percent  = 72.5;
     snap.memory_usage_bytes = 1024.0 * 1024.0 * 256.0;
     snap.active_connections = 50;
@@ -499,7 +499,7 @@ TEST_F(OpenTelemetryTracerTest, RecordMetricsDoesNotAttachZeroFields) {
     OpenTelemetryTracer tracer(cfg);
 
     auto span = tracer.startSpan("db.query");
-    MetricSnapshot snap; // all zeros / defaults
+    SpanMetrics snap; // all zeros / defaults
     tracer.recordMetrics(*span, snap);
     span->end();
 
@@ -519,7 +519,7 @@ TEST_F(OpenTelemetryTracerTest, RecordMetricsAttachesCustomEntries) {
     OpenTelemetryTracer tracer(cfg);
 
     auto span = tracer.startSpan("db.query");
-    MetricSnapshot snap;
+    SpanMetrics snap;
     snap.custom["shard.latency_ms"] = 12.5;
     snap.custom["index.hit_count"]  = 300.0;
     tracer.recordMetrics(*span, snap);

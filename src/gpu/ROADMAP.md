@@ -123,3 +123,16 @@
 ## Breaking Changes
 - Multi-node coordination will introduce cluster configuration block (new optional config)
 - MIG support will change device discovery output format for partitioned GPUs
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `MakeCPUFallback` – Erzeugt CPU-Fallback-Device wenn keine GPU verfügbar
+- `EnumerateCUDA` – Zählt verfügbare CUDA-Devices auf
+- `EnumerateROCm` – Zählt verfügbare ROCm/HIP-Devices auf
+- `resolveDevices` – Löst Device-Liste für P2P-Transfer auf (src+dst Devices bestimmen)
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

@@ -358,7 +358,7 @@ TEST(StructLogConcernsContextTest, InvokesLoggerLogWithContext) {
     class TraceCapture : public ILogger {
     public:
         struct Call { Level level; std::string msg; TraceContext ctx; Fields fields; };
-        void log(Level l, const std::string& m) override {}
+        void log([[maybe_unused]] Level l, [[maybe_unused]] const std::string& m) override {}
         void trace(const std::string&) override {}
         void debug(const std::string&) override {}
         void info(const std::string&) override {}

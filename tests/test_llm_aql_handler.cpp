@@ -30,8 +30,13 @@
 #include "aql/aql_fewshot_example_library.h"
 #include "aql/aql_query_validator.h"
 #include "aql/llm_error_codes.h"
+#include "distributed_knowledge/adapter_capability_announcement.h"
 #include "llm/embedded_llm.h"
 #include "llm/llm_plugin_manager.h"
+#include "sharding/adaptive_shard_router.h"
+#include "sharding/consistent_hash.h"
+#include "sharding/shard_topology.h"
+#include "sharding/urn_resolver.h"
 #include <chrono>
 #include <thread>
 
@@ -505,6 +510,81 @@ TEST_F(LLMAQLHandlerTest, ExecuteInferFallsBackLocalWhenDomainAccuracyLow) {
 
 }
 
+TEST_F(LLMAQLHandlerTest, ExecuteInferUsesAdaptiveShardRouterWhenResolverNotSet) {
+    auto plugin = std::make_unique<CapturingLLMPlugin>();
+    auto* plugin_ptr = plugin.get();
+    auto& plugin_mgr = LLMPluginManager::instance();
+    plugin_mgr.registerPlugin("capturing-router", std::move(plugin));
+    plugin_mgr.setDefaultPlugin("capturing-router");
+    struct Cleanup {
+        ~Cleanup() { LLMPluginManager::instance().unregisterPlugin("capturing-router"); }
+    } cleanup;
+
+    auto topology = std::make_shared<themis::sharding::ShardTopology>();
+    auto ring = std::make_shared<themis::sharding::ConsistentHashRing>();
+    auto resolver = std::make_shared<themis::sharding::URNResolver>(topology, ring);
+    themis::sharding::ShardRouter::Config router_cfg;
+    auto router = std::make_shared<themis::sharding::AdaptiveShardRouter>(
+        resolver, nullptr, topology, router_cfg);
+
+    themis::distributed_knowledge::AdapterCapabilityAnnouncement cap;
+    cap.domain_type = themis::distributed_knowledge::AdapterDomainType::TRANSACTION;
+    cap.accuracy_delta = 0.88;
+    cap.adapter_version = "v1";
+    router->updateAdapterCapability("shard-router", cap);
+
+    handler->setAdaptiveShardRouter(router);
+
+    std::unordered_map<std::string, std::string> options;
+    options["domain_hint"] = "transaction";
+
+    const auto result = handler->executeInfer("router-test", "", "", options);
+    EXPECT_EQ(result, "ok:router-test");
+    EXPECT_EQ(plugin_ptr->last_request.metadata.value("routing_decision", std::string{}), "ADAPTER_DOMAIN");
+    EXPECT_EQ(plugin_ptr->last_request.metadata.value("target_shard_id", std::string{}), "shard-router");
+}
+
+TEST_F(LLMAQLHandlerTest, ExecuteInferPrefersResolverOverAdaptiveShardRouter) {
+    auto plugin = std::make_unique<CapturingLLMPlugin>();
+    auto* plugin_ptr = plugin.get();
+    auto& plugin_mgr = LLMPluginManager::instance();
+    plugin_mgr.registerPlugin("capturing-router-precedence", std::move(plugin));
+    plugin_mgr.setDefaultPlugin("capturing-router-precedence");
+    struct Cleanup {
+        ~Cleanup() { LLMPluginManager::instance().unregisterPlugin("capturing-router-precedence"); }
+    } cleanup;
+
+    auto topology = std::make_shared<themis::sharding::ShardTopology>();
+    auto ring = std::make_shared<themis::sharding::ConsistentHashRing>();
+    auto resolver = std::make_shared<themis::sharding::URNResolver>(topology, ring);
+    themis::sharding::ShardRouter::Config router_cfg;
+    auto router = std::make_shared<themis::sharding::AdaptiveShardRouter>(
+        resolver, nullptr, topology, router_cfg);
+
+    themis::distributed_knowledge::AdapterCapabilityAnnouncement cap;
+    cap.domain_type = themis::distributed_knowledge::AdapterDomainType::TRANSACTION;
+    cap.accuracy_delta = 0.88;
+    cap.adapter_version = "v1";
+    router->updateAdapterCapability("shard-router", cap);
+
+    handler->setAdaptiveShardRouter(router);
+    handler->setDomainRouteResolver([](const std::string& domain_hint)
+        -> std::optional<std::pair<std::string, double>> {
+        if (domain_hint == "transaction") {
+            return std::make_pair(std::string("shard-resolver"), 0.93);
+        }
+        return std::nullopt;
+    });
+
+    std::unordered_map<std::string, std::string> options;
+    options["domain_hint"] = "transaction";
+
+    const auto result = handler->executeInfer("resolver-precedence-test", "", "", options);
+    EXPECT_EQ(result, "ok:resolver-precedence-test");
+    EXPECT_EQ(plugin_ptr->last_request.metadata.value("routing_decision", std::string{}), "ADAPTER_DOMAIN");
+    EXPECT_EQ(plugin_ptr->last_request.metadata.value("target_shard_id", std::string{}), "shard-resolver");
+}
+
 TEST_F(LLMAQLHandlerTest, ExecuteBatchInferDomainFanOutPreservesOrder) {
     auto plugin = std::make_unique<CapturingLLMPlugin>();
     auto& plugin_mgr = LLMPluginManager::instance();
@@ -530,6 +610,60 @@ TEST_F(LLMAQLHandlerTest, ExecuteBatchInferDomainFanOutPreservesOrder) {
     EXPECT_EQ(results[1], "ok:second");
     EXPECT_LT(elapsed_ms, 220);
 
+}
+
+TEST_F(LLMAQLHandlerTest, ExecuteInferLegalMedicalAliasesRouteViaAdaptiveShardRouter) {
+    auto plugin = std::make_unique<CapturingLLMPlugin>();
+    auto* plugin_ptr = plugin.get();
+    auto& plugin_mgr = LLMPluginManager::instance();
+    plugin_mgr.registerPlugin("capturing-legal-medical", std::move(plugin));
+    plugin_mgr.setDefaultPlugin("capturing-legal-medical");
+    struct Cleanup {
+        ~Cleanup() { LLMPluginManager::instance().unregisterPlugin("capturing-legal-medical"); }
+    } cleanup;
+
+    auto topology = std::make_shared<themis::sharding::ShardTopology>();
+    auto ring = std::make_shared<themis::sharding::ConsistentHashRing>();
+    auto resolver = std::make_shared<themis::sharding::URNResolver>(topology, ring);
+    themis::sharding::ShardRouter::Config router_cfg;
+    auto router = std::make_shared<themis::sharding::AdaptiveShardRouter>(
+        resolver, nullptr, topology, router_cfg);
+
+    themis::distributed_knowledge::AdapterCapabilityAnnouncement legal_cap;
+    legal_cap.domain_type    = themis::distributed_knowledge::AdapterDomainType::LEGAL;
+    legal_cap.accuracy_delta = 0.91;
+    legal_cap.adapter_version = "v1";
+    router->updateAdapterCapability("shard-legal", legal_cap);
+
+    themis::distributed_knowledge::AdapterCapabilityAnnouncement medical_cap;
+    medical_cap.domain_type    = themis::distributed_knowledge::AdapterDomainType::MEDICAL;
+    medical_cap.accuracy_delta = 0.87;
+    medical_cap.adapter_version = "v1";
+    router->updateAdapterCapability("shard-medical", medical_cap);
+
+    handler->setAdaptiveShardRouter(router);
+
+    struct Case { const char* hint; const char* prompt; const char* expected_shard; };
+    const Case cases[] = {
+        {"legal",          "contract draft",   "shard-legal"},
+        {"legal_analysis", "clause extraction","shard-legal"},
+        {"medical",        "diagnosis summary","shard-medical"},
+        {"healthcare",     "patient notes",    "shard-medical"},
+    };
+
+    for (const auto& c : cases) {
+        std::unordered_map<std::string, std::string> opts;
+        opts["domain_hint"] = c.hint;
+        const auto result = handler->executeInfer(c.prompt, "", "", opts);
+        EXPECT_EQ(result, std::string("ok:") + c.prompt)
+            << "domain_hint=" << c.hint;
+        EXPECT_EQ(plugin_ptr->last_request.metadata.value("routing_decision", std::string{}),
+                  "ADAPTER_DOMAIN")
+            << "domain_hint=" << c.hint;
+        EXPECT_EQ(plugin_ptr->last_request.metadata.value("target_shard_id", std::string{}),
+                  c.expected_shard)
+            << "domain_hint=" << c.hint;
+    }
 }
 
 // ============================================================================

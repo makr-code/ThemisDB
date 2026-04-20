@@ -60,6 +60,8 @@ enum class AdapterDomainType {
     VECTOR_SEARCH,      ///< ANN / vector-index specialisation
     PROCESS_MINING,     ///< Process mining / conformance checking
     GEOSPATIAL,         ///< Geospatial query optimisation
+    LEGAL,              ///< Legal document analysis / contract intelligence
+    MEDICAL,            ///< Medical / healthcare NLP and clinical decision support
     CUSTOM              ///< Shard-defined domain (see custom_domain_label)
 };
 
@@ -75,6 +77,8 @@ inline std::string adapterDomainTypeToString(AdapterDomainType t) {
         case AdapterDomainType::VECTOR_SEARCH:    return "VECTOR_SEARCH";
         case AdapterDomainType::PROCESS_MINING:   return "PROCESS_MINING";
         case AdapterDomainType::GEOSPATIAL:       return "GEOSPATIAL";
+        case AdapterDomainType::LEGAL:            return "LEGAL";
+        case AdapterDomainType::MEDICAL:          return "MEDICAL";
         case AdapterDomainType::CUSTOM:           return "CUSTOM";
     }
     return "UNKNOWN";
@@ -160,6 +164,8 @@ struct AdapterCapabilityAnnouncement {
         else if (dt == "VECTOR_SEARCH")    a.domain_type = AdapterDomainType::VECTOR_SEARCH;
         else if (dt == "PROCESS_MINING")   a.domain_type = AdapterDomainType::PROCESS_MINING;
         else if (dt == "GEOSPATIAL")       a.domain_type = AdapterDomainType::GEOSPATIAL;
+        else if (dt == "LEGAL")            a.domain_type = AdapterDomainType::LEGAL;
+        else if (dt == "MEDICAL")          a.domain_type = AdapterDomainType::MEDICAL;
         else if (dt == "CUSTOM")           a.domain_type = AdapterDomainType::CUSTOM;
         else                               a.domain_type = AdapterDomainType::GENERAL;
 

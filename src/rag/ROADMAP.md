@@ -145,10 +145,10 @@ v2.0.0 – Production-ready Retrieval-Augmented Generation system. 27 implementa
 - [x] `TriggerEvent::FEDERATED_ROUND_START` — fired automatically after a successful Loop-4 run with `guardrail_passed == true` (`include/rag/continuous_learning_orchestrator.h:309`)
 - [x] `setFederationCoordinator(ILoRAFederationCoordinator*)` DI setter (`include/rag/continuous_learning_orchestrator.h:326`)
 - [x] `setTrainerForFederation(IncrementalLoRATrainer*)` DI setter (`include/rag/continuous_learning_orchestrator.h:342`)
-- [ ] Loop-interference cooldown guard: shared `OptimizationLock` with per-resource cooldown (RQ10)
-- [ ] JSON context serialiser for Loop 1–3 outcome signals → `≤ 2 000 tokens` context block
-- [ ] `RAGIngestionBridge` extension: index optimizer-log documents for RAG retrieval
-- [ ] 12 new unit tests in `tests/test_continuous_learning_orchestrator_loops.cpp`:
+- [x] Loop-interference cooldown guard: shared `OptimizationLock` with per-resource cooldown (RQ10)
+- [x] JSON context serialiser for Loop 1–3 outcome signals → `≤ 2 000 tokens` context block
+- [x] `RAGIngestionBridge` extension: index optimizer-log documents for RAG retrieval
+- [x] 12 new unit tests in `tests/test_continuous_learning_orchestrator_loops.cpp`:
   - `CLO-L1-01` … `CLO-L1-03`: Loop 1 trigger updates BaoOptimizer hint
   - `CLO-L2-01` … `CLO-L2-03`: Loop 2 trigger updates WorkloadAdaptiveOptimizer
   - `CLO-L3-01` … `CLO-L3-02`: Loop 3 trigger calls IndexSuggestionEngine
@@ -187,3 +187,13 @@ v2.0.0 – Production-ready Retrieval-Augmented Generation system. 27 implementa
 ## Breaking Changes
 - Evaluator scoring API (0–1 float range) is stable from v1.x.
 - JudgeConfig fields may gain new optional parameters; backward-compatible.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `ABTestingFramework` – A/B-Testing für RAG-Pipelines (Retrieval-/Ranking-Strategien)
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+

@@ -46,7 +46,7 @@ AdaptivePoolingStrategy::AdaptivePoolingStrategy()
 
 size_t AdaptivePoolingStrategy::getIdealConnectionCount(
     size_t current_count,
-    size_t active_count,
+    [[maybe_unused]] size_t active_count,
     double load)
 {
     if (current_count == 0) return 1;
@@ -353,7 +353,7 @@ std::shared_ptr<SocketWrapper> WireProtocolConnectionPool::createConnection(cons
         
         return wrapper;
         
-    } catch (const std::exception& e) {
+    } catch ([[maybe_unused]] const std::exception& e) {
         // Only count failures once (already counted above before throw)
         throw;
     }
@@ -427,7 +427,7 @@ WireProtocolConnectionPool::acquireConnection(const std::string& target) {
                 
                 return ConnectionHandle(socket, this, target);
                 
-            } catch (const std::exception& e) {
+            } catch ([[maybe_unused]] const std::exception& e) {
                 lock.lock();
                 // Add backoff before retry to avoid tight loop under outage
                 std::this_thread::sleep_for(std::chrono::milliseconds(100));

@@ -31,16 +31,6 @@ namespace themis {
 namespace updates {
 
 /**
- * @brief Result of a download operation
- */
-struct DownloadResult {
-    bool success = false;
-    std::string error_message;
-    std::string download_path;
-    ReleaseManifest manifest;
-};
-
-/**
  * @brief Result of a hot-reload operation
  */
 struct ReloadResult {
@@ -71,6 +61,16 @@ struct VerificationResult {
  */
 class HotReloadEngine {
 public:
+    /**
+     * @brief Result of a download operation
+     */
+    struct DownloadResult {
+        bool success = false;
+        std::string error_message;
+        std::string download_path;
+        ReleaseManifest manifest;
+    };
+
     /**
      * @brief Configuration for hot-reload engine
      */

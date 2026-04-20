@@ -20003,6 +20003,35 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_graph.cpp")
     message(STATUS "  ProcessGraph: visit_timestamps, getVisitTimestamp, multi-hop ordering")
 endif()
 
+# Process Mining v2 focused tests (PM2-01 … PM2-16)
+# Covers: ProcessMining pair<Status,T> API — DFG, discovery, variants, conformance,
+#         performance enhancement, bottleneck detection, BPMN/PNML export
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_mining_v2.cpp")
+    message(STATUS "Adding Process Mining v2 focused tests (PM2-01..16)")
+    add_executable(test_process_mining_v2_focused
+        test_process_mining_v2.cpp
+    )
+    target_include_directories(test_process_mining_v2_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_process_mining_v2_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_process_mining_v2_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    add_test(NAME ProcessMiningV2FocusedTests COMMAND test_process_mining_v2_focused)
+    set_tests_properties(ProcessMiningV2FocusedTests PROPERTIES
+        LABELS "process;mining;dfg;discovery;conformance;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  ProcessMiningV2: PM2-01..16 DFG/discovery/variants/conformance/export")
+endif()
+
 # ============================================================================
 # Temporal Module Focused Tests
 # ============================================================================
@@ -23356,6 +23385,52 @@ elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
 endif()
 
 # ============================================================================
+# Ethics AI – ArgumentStore + RocksDB Integration Tests (ASRDB-01..10)
+# ============================================================================
+
+if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_ai_argument_store_rocksdb.cpp")
+    message(STATUS "Adding Ethics AI ArgumentStore RocksDB integration tests")
+
+    add_executable(test_ethics_ai_argument_store_rocksdb_focused
+        test_ethics_ai_argument_store_rocksdb.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/argument_store.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/discourse_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/rag_context_engine.cpp
+    )
+
+    target_include_directories(test_ethics_ai_argument_store_rocksdb_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+    )
+
+    target_link_libraries(test_ethics_ai_argument_store_rocksdb_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ethics_ai_argument_store_rocksdb_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ArgumentStoreRocksDBTests
+             COMMAND test_ethics_ai_argument_store_rocksdb_focused)
+
+    set_tests_properties(ArgumentStoreRocksDBTests PROPERTIES
+        LABELS "ethics;argument-store;rocksdb;integration"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ArgumentStore+RocksDB: ASRDB-01..10 (round-trip, chain, decision, debate, reopen, corrupt, concurrent)")
+elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
+    message(STATUS "ArgumentStore RocksDB integration tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)")
+endif()
+
+# ============================================================================
 # Ethics AI – RAGContextEngine Tests
 # ============================================================================
 
@@ -23662,6 +23737,92 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_content_toolbox_bridge.cpp")
     message(STATUS "  ContentToolboxBridge: FE-01..FE-03, TB-01..TB-12, CTB-01..CTB-05, FM-01..FM-08")
 else()
     message(STATUS "ContentToolboxBridge tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_content_toolbox_bridge.cpp")
+endif()
+
+# ============================================================================
+# Toolbox Phase 5: Prometheus metrics + BridgeResult::vectors + ToolboxRegistry
+# Covers: ITM-01..ITM-06, VEC-01..VEC-03, REG-01..REG-08
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_toolbox_phase5.cpp")
+    message(STATUS "Adding Toolbox Phase 5 tests (ITM-01..06, VEC-01..03, REG-01..08)")
+
+    add_executable(test_toolbox_phase5_focused
+        test_toolbox_phase5.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/ingestion_toolbox.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/content_toolbox_bridge.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/toolbox_registry.cpp
+        ${THEMIS_ROOT_DIR}/src/ingestion/ingestion_sinks.cpp
+    )
+
+    target_include_directories(test_toolbox_phase5_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_toolbox_phase5_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_toolbox_phase5_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ToolboxPhase5Tests COMMAND test_toolbox_phase5_focused)
+
+    set_tests_properties(ToolboxPhase5Tests PROPERTIES
+        LABELS "toolbox;metrics;prometheus;vectors;registry;phase5;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Toolbox Phase 5: ITM-01..06 (metrics), VEC-01..03 (vectors), REG-01..08 (registry)")
+else()
+    message(STATUS "Toolbox Phase 5 tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_toolbox_phase5.cpp")
+endif()
+
+# ============================================================================
+# IMPL-A1: DatabaseDomainAutoLabeler — focused test target
+# Covers: DBO-01..DBO-08 (labeling, confidence, JSONL export, dedup, golden dataset)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_training_database_optimizer.cpp")
+    message(STATUS "Adding DatabaseDomainAutoLabeler tests (IMPL-A1)")
+
+    add_executable(test_training_database_optimizer_focused
+        test_training_database_optimizer.cpp
+        ${THEMIS_ROOT_DIR}/src/training/database_domain_auto_labeler.cpp
+        ${THEMIS_ROOT_DIR}/src/training/lora_data_selection.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+
+    target_include_directories(test_training_database_optimizer_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_training_database_optimizer_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_training_database_optimizer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DatabaseOptimizerLabelerTests
+        COMMAND test_training_database_optimizer_focused)
+
+    set_tests_properties(DatabaseOptimizerLabelerTests PROPERTIES
+        LABELS "training;database_optimizer;IMPL-A1;DBO;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  DatabaseOptimizer IMPL-A1: DBO-01..DBO-08 (label, confidence, JSONL export, dedup, golden dataset)")
+else()
+    message(STATUS "DatabaseDomainAutoLabeler tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_training_database_optimizer.cpp")
 endif()
 
 # ============================================================================
@@ -24060,6 +24221,56 @@ else()
 endif()
 
 # ============================================================================
+# Toolbox Primitives: TextChunker, TextNormalizer, ContentFingerprinter,
+#                     TextQualityScorer, LanguageDetector,
+#                     ToolboxComposite, extractEntitiesStream
+# Covers: TXC-01..06, TXN-01..04, CFP-01..08, TQS-01..08, LDT-01..06,
+#         CMP-01..06, TCS-01..04
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_toolbox_primitives.cpp")
+    message(STATUS "Adding Toolbox Primitives tests (TXC/TXN/CFP/TQS/LDT/CMP/TCS)")
+
+    add_executable(test_toolbox_primitives_focused
+        test_toolbox_primitives.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/text_chunker.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/text_normalizer.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/content_fingerprinter.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/text_quality_scorer.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/language_detector.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/toolbox_composite.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/toolbox_streaming.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/ingestion_toolbox.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/toolbox_registry.cpp
+        ${THEMIS_ROOT_DIR}/src/ingestion/ingestion_sinks.cpp
+    )
+
+    target_include_directories(test_toolbox_primitives_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_toolbox_primitives_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_toolbox_primitives_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ToolboxPrimitivesTests COMMAND test_toolbox_primitives_focused)
+
+    set_tests_properties(ToolboxPrimitivesTests PROPERTIES
+        LABELS "toolbox;text;chunker;normalizer;fingerprinter;quality;language;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Toolbox Primitives: TXC/TXN/CFP/TQS/LDT/CMP/TCS test groups")
+else()
+    message(STATUS "Toolbox Primitives tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_toolbox_primitives.cpp")
+endif()
+
 # SerializationStrategyAdvisor focused tests
 # Covers: SA-01..12 (adviseSerializationStrategy decision tree, Plan field,
 #          chooseOrderForAndQuery integration, PerQueryCostModel feedback,

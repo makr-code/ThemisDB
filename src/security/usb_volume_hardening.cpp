@@ -47,7 +47,7 @@ namespace security {
 namespace {
 
 /// Trim leading/trailing ASCII whitespace (space, tab, CR, LF) from a string.
-static std::string trimWhitespace(std::string s) {
+[[maybe_unused]] static std::string trimWhitespace(std::string s) {
     auto notSpace = [](unsigned char c){ return !std::isspace(c); };
     s.erase(s.begin(), std::find_if(s.begin(), s.end(), notSpace));
     s.erase(std::find_if(s.rbegin(), s.rend(), notSpace).base(), s.end());

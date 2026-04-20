@@ -740,6 +740,10 @@ public:
         return GlobalAdapterDelta{};
     }
 
+    GlobalAdapterDelta triggerAggregation(size_t /*timeout_ms*/) override {
+        return GlobalAdapterDelta{};
+    }
+
     void setGlobalDeltaCallback(
         std::function<void(const GlobalAdapterDelta&)>) override {}
 

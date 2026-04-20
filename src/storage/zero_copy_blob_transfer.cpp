@@ -127,7 +127,7 @@ static void ensureAwsSdkInitialized() {
 // MmapBlobView
 // ─────────────────────────────────────────────────────────────────────────────
 
-MmapBlobView::MmapBlobView(const std::string& file_path, bool sequential_hint) {
+MmapBlobView::MmapBlobView(const std::string& file_path, [[maybe_unused]] bool sequential_hint) {
 #if defined(__linux__) || defined(__APPLE__)
     fd_ = ::open(file_path.c_str(), O_RDONLY);
     if (fd_ < 0) {
@@ -410,10 +410,10 @@ MmapBlobView ZeroCopyBlobTransfer::openMmap(const std::string& file_path) const 
 // ─────────────────────────────────────────────────────────────────────────────
 
 Result<ZeroCopyTransferStats> ZeroCopyBlobTransfer::s3MultipartUpload(
-    const std::string& bucket,
-    const std::string& s3_key,
-    const std::string& source_path,
-    const std::string& blob_id)
+    [[maybe_unused]] const std::string& bucket,
+    [[maybe_unused]] const std::string& s3_key,
+    [[maybe_unused]] const std::string& source_path,
+    [[maybe_unused]] const std::string& blob_id)
 {
 #if THEMIS_ZERO_COPY_S3_AVAILABLE
     auto t0 = std::chrono::steady_clock::now();

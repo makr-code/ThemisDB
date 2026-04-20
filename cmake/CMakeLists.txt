@@ -1886,6 +1886,7 @@ set(THEMIS_CORE_SOURCES
     # Toolbox module — system-wide access point for ingestion infrastructure
     ../src/toolbox/ingestion_toolbox.cpp
     ../src/toolbox/toolbox_builder.cpp
+    ../src/toolbox/toolbox_registry.cpp
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/toolbox/content_toolbox_bridge.cpp>
 
     # LLM core components are added conditionally below
@@ -2065,8 +2066,13 @@ set(THEMIS_CORE_SOURCES
     ../src/security/embedded_user_registration_plugin.cpp
     ../src/security/hsm_provider.cpp
     ../src/security/hsm_key_provider_adapter.cpp
-    ../src/security/timestamp_authority.cpp
-    ../src/security/timestamp_authority_openssl.cpp
+    # STUB/OPENSSL3: timestamp_authority temporarily disabled
+    # Purpose: OpenSSL 3.0 API incompatibility (BIGNUM→ASN1_INTEGER cast, const-correctness)
+    # Activation: monolithic build (THEMIS_BUILD_MODULAR=OFF)
+    # Production Delta: Timestamp Authority (TSA) requests unavailable in monolith tests
+    # Removal Plan: Refactor to OpenSSL 3.0 EVP_*_CTX const API, run tests
+    # ../src/security/timestamp_authority.cpp
+    # ../src/security/timestamp_authority_openssl.cpp
     ../src/security/tsa_api.cpp
     ../src/security/vram_secure_clear.cpp
     ../src/security/vcc_pki_client.cpp
@@ -2276,7 +2282,6 @@ set(THEMIS_CORE_SOURCES
     ../src/plugins/plugin_registry.cpp
     ../src/plugins/plugin_metrics.cpp
     ../src/plugins/plugin_health_monitor.cpp
-    ../src/plugins/plugin_system_edition.cpp
     ../src/plugins/signed_plugin_repository.cpp
     ../src/plugins/huggingface_ingestion_plugin.cpp
     ../src/plugins/oci_registry_client.cpp
@@ -2927,10 +2932,19 @@ add_library(themis_core ${_THEMIS_CORE_LIBTYPE} ${THEMIS_CORE_SOURCES})
 # On non-MSVC (e.g. Linux/GCC), unity builds can trigger ODR/redefinition
 # collisions across large translation units.
 if(MSVC)
-    set_target_properties(themis_core PROPERTIES
-        UNITY_BUILD ON
-        UNITY_BUILD_BATCH_SIZE 20
-    )
+    # Unity Build reduces object count, avoiding LNK1248 (>4GB lib) and LNK1189 (>65535 objs).
+    # Use smaller batch size in monolithic mode to limit ODR-collision window.
+    if(THEMIS_BUILD_MODULAR)
+        set_target_properties(themis_core PROPERTIES
+            UNITY_BUILD ON
+            UNITY_BUILD_BATCH_SIZE 20
+        )
+    else()
+        set_target_properties(themis_core PROPERTIES
+            UNITY_BUILD ON
+            UNITY_BUILD_BATCH_SIZE 8
+        )
+    endif()
 else()
     set_target_properties(themis_core PROPERTIES
         UNITY_BUILD OFF
@@ -2945,6 +2959,12 @@ target_include_directories(themis_core
         ${THEMIS_ROOT_DIR}/src
         ${CMAKE_BINARY_DIR}/proto_generated
 )
+
+# Define compile definitions for static builds (THEMIS_BASE_EXPORTS)
+# to ensure THEMIS_BASE_API macros resolve to dllexport/empty, not dllimport
+if(NOT THEMIS_CORE_SHARED)
+    target_compile_definitions(themis_core PRIVATE THEMIS_BASE_EXPORTS)
+endif()
 
 # Per-file compile options for heavy AQL parser translation units (MSVC-only)
 if(MSVC)
@@ -2962,6 +2982,28 @@ if(MSVC)
         ../src/plugins/plugin_registry.cpp
         ../src/sharding/hot_spare_manager.cpp
         ../src/sharding/signed_request.cpp
+        ../src/governance/policy_validation.cpp
+        ../src/governance/policy_validator.cpp
+        ../src/governance/compliance_reporting.cpp
+        ../src/governance/compliance_reporter.cpp
+        ../src/governance/review_scheduler.cpp
+        ../src/governance/policy_review.cpp
+        ../src/security/pii_redaction_policy.cpp
+        ../src/stubs.cpp
+        ../src/analytics/columnar_execution.cpp
+        ../src/analytics/streaming_window.cpp
+        ../src/analytics/cep_engine.cpp
+        ../src/analytics/incremental_view.cpp
+        ../src/observability/continuous_profiler.cpp
+        ../src/observability/distributed_flame_graph.cpp
+        ../src/importers/mysql_importer.cpp
+        ../src/importers/sqlite_importer.cpp
+        ../src/importers/flatfile_importer.cpp
+        ../src/importers/schema_validator.cpp
+        ../src/importers/postgres_importer.cpp
+        ../src/importers/mongo_importer.cpp
+        ../src/process/process_graph_rag.cpp
+        ../src/process/process_model_manager.cpp
         PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
     )
 endif()

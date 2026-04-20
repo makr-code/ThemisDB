@@ -140,32 +140,32 @@ std::shared_ptr<IngestionToolbox> ToolboxBuilder::build() {
 
         if (primary == "application/pdf") {
             step = ingestion::builtin::createParsePdfStep(ext);
-            reg.registerStep("builtin.parse_pdf", step);
+            (void)reg.registerStep("builtin.parse_pdf", step);
         } else if (primary.find("vnd.openxmlformats") != std::string::npos ||
                    primary == "application/msword" ||
                    primary == "application/vnd.ms-excel" ||
                    primary == "application/vnd.ms-powerpoint" ||
                    primary.find("opendocument") != std::string::npos) {
             step = ingestion::builtin::createParseOfficeStep(ext);
-            reg.registerStep("builtin.parse_office", step);
+            (void)reg.registerStep("builtin.parse_office", step);
         } else if (primary.rfind("image/", 0) == 0) {
             step = ingestion::builtin::createParseImageStep(ext);
-            reg.registerStep("builtin.parse_image", step);
+            (void)reg.registerStep("builtin.parse_image", step);
         } else if (primary == "application/zip" ||
                    primary == "application/x-tar" ||
                    primary == "application/gzip" ||
                    primary == "application/x-7z-compressed") {
             step = ingestion::builtin::createParseArchiveStep(ext);
-            reg.registerStep("builtin.parse_archive", step);
+            (void)reg.registerStep("builtin.parse_archive", step);
         } else if (primary.rfind("audio/", 0) == 0) {
             step = ingestion::builtin::createParseAudioStep(ext);
-            reg.registerStep("builtin.parse_audio", step);
+            (void)reg.registerStep("builtin.parse_audio", step);
         } else {
             // Generic text extractor → registers under builtin.parse_format_<name>
             const std::string step_name =
                 std::string("builtin.parse_format.") + ext->name();
             step = ingestion::builtin::createParsePdfStep(ext); // reuse base
-            reg.registerStep(step_name, step);
+            (void)reg.registerStep(step_name, step);
         }
     };
 

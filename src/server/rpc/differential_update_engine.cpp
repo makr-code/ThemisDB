@@ -228,12 +228,12 @@ private:
         for (size_t i = 0; i < boundaries.size() - 1; i++) {
             uint64_t start = boundaries[i];
             uint64_t end = boundaries[i + 1];
-            uint32_t size = end - start;
+            uint32_t size = static_cast<uint32_t>(end - start);
             
             ChunkInfo info;
             info.offset = start;
             info.size = size;
-            info.index = i;
+            info.index = static_cast<uint32_t>(i);
             info.hash = CalculateHash(data.substr(start, size));
             
             manifest.push_back(info);
@@ -251,7 +251,7 @@ private:
         uint32_t index = 0;
         
         for (uint64_t offset = 0; offset < data.size(); offset += chunk_size) {
-            uint32_t size = std::min(chunk_size, data.size() - offset);
+            uint32_t size = static_cast<uint32_t>(std::min(chunk_size, static_cast<uint64_t>(data.size() - offset)));
             
             ChunkInfo info;
             info.offset = offset;
@@ -270,7 +270,7 @@ private:
         
         ChunkInfo info;
         info.offset = 0;
-        info.size = data.size();
+        info.size = static_cast<uint32_t>(data.size());
         info.index = 0;
         info.hash = CalculateHash(data);
         

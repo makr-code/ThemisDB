@@ -11,9 +11,10 @@
 ## Module Purpose
 
 The Toolbox module provides a system-wide integration layer that exposes the ingestion
-infrastructure (NER, entity extraction, workflow engine) to other ThemisDB modules such
-as AQL query enrichment and the RAG subsystem. It bridges the `ingestion/` pipeline
-with the `content/` storage layer.
+infrastructure (NER, entity extraction, workflow engine) to **all ThemisDB modules**.
+It bridges the `ingestion/` pipeline with the `content/` storage layer, and persists
+a process-global instance through `ToolboxRegistry` for modules that do not hold
+their own injected reference.
 
 ---
 
@@ -21,9 +22,10 @@ with the `content/` storage layer.
 
 | Class | Header | Role |
 |-------|--------|------|
-| `IngestionToolbox` | `include/toolbox/ingestion_toolbox.h` | System-wide injectable service exposing `WorkflowEngine`, `StepRegistry`, and `ITextGenerationBackend` |
+| `IngestionToolbox` | `include/toolbox/ingestion_toolbox.h` | System-wide injectable service exposing `WorkflowEngine`, `StepRegistry`, `ITextGenerationBackend`, metrics |
 | `ToolboxBuilder` | `include/toolbox/toolbox_builder.h` | Fluent builder for constructing `IngestionToolbox` instances with custom profiles, sinks, and backends |
 | `ContentToolboxBridge` | `include/toolbox/content_toolbox_bridge.h` | Unified ingest entry-point combining `ContentManager` (security, storage) with `IngestionToolbox` enrichment |
+| `ToolboxRegistry` | `include/toolbox/toolbox_registry.h` | Process-global registry + free functions (`initializeToolbox`, `globalToolbox`, `extractEntities`, `extractEntitySet`, `getMetricsText`) |
 
 ---
 
@@ -34,18 +36,38 @@ with the `content/` storage layer.
 | `ingestion_toolbox.cpp` | `IngestionToolbox` |
 | `toolbox_builder.cpp` | `ToolboxBuilder` |
 | `content_toolbox_bridge.cpp` | `ContentToolboxBridge` |
+| `toolbox_registry.cpp` | `ToolboxRegistry` + free functions |
 
 ---
 
-## Quick-Start Example
+## Usage Patterns
+
+### 1. Global (production, server bootstrap)
+
+```cpp
+#include "toolbox/toolbox_registry.h"
+#include "toolbox/toolbox_builder.h"
+
+// Bootstrap — once at startup
+themis::toolbox::initializeToolbox(
+    themis::toolbox::ToolboxBuilder()
+        .withWorkflowProfile("/etc/themis/profiles/legal.yaml")
+        .withTextBackend(llm_backend)
+        .build());
+
+// Any module — no explicit toolbox reference needed
+auto entities = themis::toolbox::extractEntities(text, "text/plain", "doc.txt");
+auto metrics  = themis::toolbox::getMetricsText();
+```
+
+### 2. Injected (tests, isolated subsystems)
 
 ```cpp
 #include "toolbox/toolbox_builder.h"
 #include "toolbox/content_toolbox_bridge.h"
 
-// Build a configured IngestionToolbox
+// Build a configured IngestionToolbox explicitly
 auto toolbox = themis::toolbox::ToolboxBuilder()
-    .withWorkflowProfile("/etc/themis/profiles/legal.yaml")
     .withTextBackend(llm_backend)
     .withGraphWriter(graph_sink)
     .build();
@@ -56,8 +78,12 @@ auto bridge = std::make_shared<themis::toolbox::ContentToolboxBridge>(
 
 auto result = bridge->ingest(raw_bytes, "document.pdf");
 // result.content_id — stored in ContentManager
-// result.entities  — NER entities from IngestionToolbox
+// result.entities   — NER entities from IngestionToolbox
+// result.vectors    — embedding chunks from BaseEntitySet
 ```
+
+Both patterns coexist.  The global pattern is preferred for production modules;
+the injected pattern is preferred for unit tests.
 
 ---
 
@@ -68,6 +94,9 @@ toolbox/ → ingestion/   (permitted)
 toolbox/ → content/     (permitted via ContentToolboxBridge)
 ingestion/ → toolbox/   (FORBIDDEN)
 content/   → toolbox/   (FORBIDDEN)
+aql/       → toolbox/   (permitted)
+rag/       → toolbox/   (permitted)
+analytics/ → toolbox/   (permitted)
 ```
 
 ---
@@ -82,7 +111,3 @@ content/   → toolbox/   (FORBIDDEN)
 
 This module is built as part of ThemisDB. See the root `CMakeLists.txt` for build configuration.
 
-## Usage
-
-The implementation files in this module are compiled into the ThemisDB library.
-See [`../../include/toolbox/README.md`](../../include/toolbox/README.md) for the public API.

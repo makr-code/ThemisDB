@@ -147,3 +147,14 @@
   (longitude outside [-180, 180], latitude outside [-90, 90]) throw `std::runtime_error`.
   Compile with `-DTHEMIS_GEO_COMPAT_LAX=1` to skip coordinate range validation during a
   one-release migration window.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `GeoFaissKnn` – KNN-Suche auf FAISS-Geo-Index; noch nicht extern verdrahtet
+- `knnSearch` – Führt den eigentlichen kNN-Search-Call auf dem Geo-FAISS-Index durch
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

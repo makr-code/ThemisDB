@@ -580,7 +580,7 @@ bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry&
 
         PaxosPrepareCallback cb;
         {
-            std::lock_guard<std::mutex> lock(callbacks_mutex_);
+            std::lock_guard<std::mutex> cb_lock(callbacks_mutex_);
             cb = rpc_prepare_cb_;
         }
 

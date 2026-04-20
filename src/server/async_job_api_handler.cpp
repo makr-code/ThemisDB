@@ -223,7 +223,7 @@ AsyncJobApiHandler::~AsyncJobApiHandler() {
     for (auto& f : to_join) {
         if (f.valid()) {
             // Wait up to 2 s; if the job is stuck the thread is detached.
-            auto status = f.wait_for(std::chrono::seconds(2));
+            f.wait_for(std::chrono::seconds(2));
         }
     }
 }

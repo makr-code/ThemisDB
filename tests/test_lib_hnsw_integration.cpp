@@ -368,7 +368,7 @@ TEST_F(HNSWLibIntegrationTest, MultiThreadedBuilding) {
         new hnswlib::HierarchicalNSW<float>(&space, max_elements, 16, 200);
     
     // Enable multi-threading
-    int num_threads = 4;
+    [[maybe_unused]] int num_threads = 4;
     
     // Add vectors (hnswlib handles thread safety internally)
     int num_vectors = 200;

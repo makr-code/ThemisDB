@@ -132,8 +132,8 @@ void PagedAdamWOptimizer::updateParameterCPU(Tensor* param, PagedOptimizerState&
     }
     
     // Bias correction factors
-    float bias_correction1 = 1.0f - std::pow(beta1_, step_count_ + 1);
-    float bias_correction2 = 1.0f - std::pow(beta2_, step_count_ + 1);
+    float bias_correction1 = 1.0f - static_cast<float>(std::pow(beta1_, step_count_ + 1));
+    float bias_correction2 = 1.0f - static_cast<float>(std::pow(beta2_, step_count_ + 1));
     
     // AdamW update rule
     for (size_t i = 0; i < size; ++i) {

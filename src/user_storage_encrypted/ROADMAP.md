@@ -73,7 +73,8 @@ is now ≥ 90/100; `KeyRotationScheduler` retains Production-Ready (100/100).
 - [x] Remove deprecated `GocryptfsBackend::executeCommand()` (v0.3.0)
   - Replaced all 3 call sites (`checkAvailability`, `getBackendVersion`, `isMounted`) with `executeCommandSafe()`
   - Removed declaration from `gocryptfs_backend.hpp` and implementation from `gocryptfs_backend.cpp`
-- [ ] Stale mount reconciliation on startup via `/proc/mounts` scan (Target: Q3 2026)
+- [x] Stale mount reconciliation on startup via `/proc/mounts` scan (Target: Q3 2026)
+  → Implemented in v0.2.0: `reconcileStaleMounts()` scans for orphaned FUSE mounts; see v0.2.0 section above
 - [ ] Per-user container isolation: one encrypted dir per user_id (Target: Q1 2027)
 - [ ] Storage quota enforcement per container (Target: Q1 2027)
 
@@ -141,3 +142,16 @@ is now ≥ 90/100; `KeyRotationScheduler` retains Production-Ready (100/100).
 - `getBackendVersion()` uses `const_cast` to call `executeCommandSafe()` on a const object (cosmetic; `executeCommand()` fully removed in v0.3.0).
 - Stale mount reconciliation on startup is planned but not yet implemented (FUTURE_ENHANCEMENTS §4).
 - Per-user container isolation and storage quota enforcement are planned for v0.3.0 / Q1 2027.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### ✅ Aktiv (implementiert + externer Aufrufer bestätigt)
+
+- `createContainer` – Erstellt verschlüsselten Gocryptfs-Container; Plugin-Tests + impl vorhanden
+- `mountContainer` – Mounted einen Gocryptfs-Container; Tests + Bench vorhanden
+- `unmountContainer` – Unmountet einen Container; Bench vorhanden
+- `isMounted` – Prüft ob Container gemountet; genutzt in usb_volume_hardening.cpp
+- `GocryptfsBackend` – Backend-Implementierung für Gocryptfs-verschlüsselten Storage
+

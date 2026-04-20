@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            toolbox_builder.h                                  ║
-  Version:         0.1.0                                              ║
-  Last Modified:   2026-04-16                                         ║
+  Version:         0.2.0                                              ║
+  Last Modified:   2026-04-20                                         ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -26,6 +26,15 @@
 #include <memory>
 #include <string>
 #include <vector>
+
+// Forward declarations — full types provided by the bridge headers only inside
+// toolbox_builder.cpp.  This avoids a cyclic include:
+//   toolbox_builder.h -> aql/aql_ingestion_bridge.h -> toolbox/ingestion_toolbox.h
+//   toolbox_builder.h -> rag/rag_ingestion_bridge.h -> toolbox/ingestion_toolbox.h
+namespace themis {
+namespace aql   { class AQLIngestionBridge; }
+namespace rag   { class RAGIngestionBridge; }
+} // namespace themis
 
 namespace themis {
 namespace toolbox {
@@ -72,6 +81,40 @@ namespace toolbox {
  */
 class ToolboxBuilder {
 public:
+    // ─────────────────────────────────────────────────────────────────────────
+    // BuiltToolbox — result of buildWithBridges()
+    // ─────────────────────────────────────────────────────────────────────────
+
+    /**
+     * @brief Aggregates the toolbox and its auto-wired bridge instances.
+     *
+     * Fields are set according to the sinks provided to the builder:
+     *
+     * | Field         | Condition                                               |
+     * |---------------|---------------------------------------------------------|
+     * | `toolbox`     | Always non-null.                                        |
+     * | `aql_bridge`  | Non-null when a graph-writer was registered.            |
+     * | `rag_bridge`  | Non-null when a vector-writer or graph-writer was set.  |
+     *
+     * ## Destructor
+     * Declared out-of-line in `toolbox_builder.cpp` where the full
+     * `AQLIngestionBridge` / `RAGIngestionBridge` types are visible.
+     */
+    struct BuiltToolbox {
+        std::shared_ptr<IngestionToolbox>             toolbox;
+        std::shared_ptr<aql::AQLIngestionBridge>      aql_bridge;
+        std::shared_ptr<rag::RAGIngestionBridge>      rag_bridge;
+
+        BuiltToolbox();
+        ~BuiltToolbox();
+        BuiltToolbox(BuiltToolbox&&) noexcept;
+        BuiltToolbox& operator=(BuiltToolbox&&) noexcept;
+        BuiltToolbox(const BuiltToolbox&) = default;
+        BuiltToolbox& operator=(const BuiltToolbox&) = default;
+    };
+
+    // ─────────────────────────────────────────────────────────────────────────
+
     ToolboxBuilder();
     ~ToolboxBuilder();
 
@@ -109,6 +152,19 @@ public:
      */
     ToolboxBuilder& withGraphWriter(
         std::shared_ptr<ingestion::IGraphWriter> writer);
+
+    /**
+     * @brief Attach a vector-writer sink.
+     *
+     * When set and `buildWithBridges()` is used, the resulting
+     * `RAGIngestionBridge` will write embedding chunks to this sink.
+     *
+     * @param writer  Vector-store sink.  May be null to clear a previously
+     *                set writer.
+     * @return `*this` for chaining.
+     */
+    ToolboxBuilder& withVectorWriter(
+        std::shared_ptr<ingestion::IVectorWriter> writer);
 
     /**
      * @brief Inject a text-generation backend.
@@ -197,6 +253,23 @@ public:
      */
     [[nodiscard]] std::shared_ptr<IngestionToolbox> build();
 
+    /**
+     * @brief Construct the toolbox and auto-wire `AQLIngestionBridge` and
+     *        `RAGIngestionBridge` from the registered sinks.
+     *
+     * Performs the same steps as `build()`, then creates:
+     *
+     * - `AQLIngestionBridge(toolbox, graph_writer)` when a graph-writer has
+     *   been set via `withGraphWriter()`.
+     * - `RAGIngestionBridge(toolbox, vector_writer, graph_writer)` when a
+     *   vector-writer or graph-writer has been set.
+     *
+     * @return `BuiltToolbox` with all applicable fields populated.
+     * @throws std::logic_error if `build()` or `buildWithBridges()` has
+     *         already been called on this builder instance.
+     */
+    [[nodiscard]] BuiltToolbox buildWithBridges();
+
     // ── Accessors (for inspection / testing) ─────────────────────────────────
 
     /**
@@ -204,6 +277,12 @@ public:
      * May return null if no writer was configured.
      */
     std::shared_ptr<ingestion::IGraphWriter> graphWriter() const;
+
+    /**
+     * @brief Return the vector-writer that was set via `withVectorWriter()`.
+     * May return null if no writer was configured.
+     */
+    std::shared_ptr<ingestion::IVectorWriter> vectorWriter() const;
 
     /**
      * @brief Return the number of profile paths registered.

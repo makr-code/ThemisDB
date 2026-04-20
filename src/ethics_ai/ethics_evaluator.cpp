@@ -183,7 +183,7 @@ double EthicsEvaluator::evaluateAlignment(
 
 double EthicsEvaluator::evaluateTransparency(
     const EthicalDecision& decision,
-    const std::vector<EthicalArgument>& arguments) {
+    [[maybe_unused]] const std::vector<EthicalArgument>& arguments) {
     
     double score = 0.5; // Base score
     

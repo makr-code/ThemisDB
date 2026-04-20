@@ -211,7 +211,7 @@ public:
     ExportResult exportToFile(
         const ArrowRecordBatch& batch,
         const std::string& output_path,
-        const ExportOptions& options) override {
+        [[maybe_unused]] const ExportOptions& options) override {
 
         auto start = std::chrono::high_resolution_clock::now();
 
@@ -439,7 +439,7 @@ public:
     ExportResult exportToFile(
         const ArrowRecordBatch& batch,
         const std::string& output_path,
-        const ExportOptions& options) override {
+        [[maybe_unused]] const ExportOptions& options) override {
 
         auto start = std::chrono::high_resolution_clock::now();
         ExportResult result;
@@ -671,7 +671,7 @@ public:
     ExportResult exportToFile(
         const ArrowRecordBatch& batch,
         const std::string& output_path,
-        const ExportOptions& options) override {
+        [[maybe_unused]] const ExportOptions& options) override {
 
         auto start = std::chrono::high_resolution_clock::now();
         ExportResult result;
@@ -796,7 +796,7 @@ public:
     ExportResult exportToFile(
         const ArrowRecordBatch& batch,
         const std::string& output_path,
-        const ExportOptions& options) override {
+        [[maybe_unused]] const ExportOptions& options) override {
 
         auto start = std::chrono::high_resolution_clock::now();
         ExportResult result;

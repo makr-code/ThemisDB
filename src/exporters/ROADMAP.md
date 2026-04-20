@@ -102,3 +102,18 @@
 
 ## Breaking Changes
 - ~~Export format registry will be introduced to add new formats without changing the API signature (additive, non-breaking)~~ — implemented as `ExportFormatRegistry` (EXP-005)
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### ✅ Aktiv (implementiert + externer Aufrufer bestätigt)
+
+- `AqlPredicateFilter` – AQL-Filterausdruck für Exporte; genutzt in export_api_handler.cpp
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `exportWithArrow` – Exportiert Resultset als Apache Arrow IPC-Stream; noch kein externer Aufrufer
+- `exportFallback` – Fallback-Export als JSON wenn Arrow/Parquet nicht verfügbar
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

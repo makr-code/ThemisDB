@@ -323,7 +323,7 @@ http::response<http::string_body> SpatialApiHandler::handleMetrics(
             auto gpu_json_str = geo::getGpuSpatialBackendStatsJson();
             auto gpu_stats = json::parse(gpu_json_str);
             response["gpu_backend"] = gpu_stats;
-        } catch (const std::exception& e) {
+        } catch (...) {
             response["gpu_backend"] = nullptr;
         }
         

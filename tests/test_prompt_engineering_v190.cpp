@@ -51,10 +51,13 @@ using namespace themis::prompt_engineering;
 class FixedTextTemplate final : public IPromptTemplate {
 public:
     explicit FixedTextTemplate(std::string text) : text_(std::move(text)) {}
+    const std::string& source() const noexcept override { return text_; }
+    const std::vector<SlotDefinition>& slots() const noexcept override { return slots_; }
     std::string render(const PromptContext& /*ctx*/) const override { return text_; }
     std::vector<std::string> validate(const PromptContext& /*ctx*/) const noexcept override { return {}; }
 private:
     std::string text_;
+    std::vector<SlotDefinition> slots_;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

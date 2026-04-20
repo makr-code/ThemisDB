@@ -124,3 +124,14 @@ v1.5.0 – All four implementation phases complete and production-ready:
 ## Breaking Changes
 - `TaskScheduler` public API is stable from v1.x.
 - `HybridRetentionManager` stage thresholds are configurable; defaults may change in v1.5.0.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `activateScheduler` – Aktiviert verteilten Task-Coordinator (startet Heartbeat + Worker-Loop)
+- `deactivateScheduler` – Deaktiviert den Coordinator graceful (drainiert pending Tasks)
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

@@ -95,3 +95,14 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
 ## Breaking Changes
 - TSStore public API is stable from v1.x.
 - Gorilla compressed wire format is versioned: v1 chunks are prefixed with a 3-byte header (`kGorillaMagic0`, `kGorillaMagic1`, `kGorillaCurrentVersion`). Legacy chunks (no header) are still decoded transparently. v2 format (with dictionary encoding) planned for v2.0.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `watermarkThreshold` – Konfiguriert Watermark-Threshold für Late-Arrival-Handling
+- `watermarkReached` – Prüft ob Watermark überschritten (triggert Flush/Window-Close)
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

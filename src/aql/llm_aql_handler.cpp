@@ -32,10 +32,13 @@
 #include "aql/llm_timeout_manager.h"
 #include "aql/llm_metrics_collector.h"
 #include "aql/llm_token_estimator.h"
+#include "distributed_knowledge/adapter_capability_announcement.h"
+#include "sharding/adaptive_shard_router.h"
 #include "sharding/circuit_breaker.h"
 #include "sharding/sharding_manager.h"
 #include "llm/kv_prefix_transfer_manager.h"
 #include "llm/llm_plugin_manager.h"
+#include "llm/continuous_batch_scheduler.h"
 #include "llm/embedded_llm.h"
 #include "llm/llama_wrapper.h"
 #include "index/vector_index.h"
@@ -67,6 +70,46 @@ std::string toLower(const std::string& s) {
     return out;
 }
 
+std::optional<themis::distributed_knowledge::AdapterDomainType> parseDomainHintToAdapterDomainType(
+    const std::string& domain_hint
+) {
+    using themis::distributed_knowledge::AdapterDomainType;
+    if (domain_hint == "general") {
+        return AdapterDomainType::GENERAL;
+    }
+    if (domain_hint == "security" || domain_hint == "security_monitor") {
+        return AdapterDomainType::SECURITY_MONITOR;
+    }
+    if (domain_hint == "schema" || domain_hint == "schema_advisor") {
+        return AdapterDomainType::SCHEMA_ADVISOR;
+    }
+    if (domain_hint == "transaction") {
+        return AdapterDomainType::TRANSACTION;
+    }
+    if (domain_hint == "multi_tenant" || domain_hint == "multitenant") {
+        return AdapterDomainType::MULTI_TENANT;
+    }
+    if (domain_hint == "explainability") {
+        return AdapterDomainType::EXPLAINABILITY;
+    }
+    if (domain_hint == "vector_search" || domain_hint == "vector") {
+        return AdapterDomainType::VECTOR_SEARCH;
+    }
+    if (domain_hint == "process_mining") {
+        return AdapterDomainType::PROCESS_MINING;
+    }
+    if (domain_hint == "geospatial") {
+        return AdapterDomainType::GEOSPATIAL;
+    }
+    if (domain_hint == "legal" || domain_hint == "legal_analysis") {
+        return AdapterDomainType::LEGAL;
+    }
+    if (domain_hint == "medical" || domain_hint == "healthcare") {
+        return AdapterDomainType::MEDICAL;
+    }
+    return std::nullopt;
+}
+
 std::optional<std::string> parseDomainHint(
     const std::unordered_map<std::string, std::string>& options
 ) {
@@ -74,17 +117,10 @@ std::optional<std::string> parseDomainHint(
     if (it == options.end() || it->second.empty()) {
         return std::nullopt;
     }
-
     const std::string hint = toLower(it->second);
-    if (hint == "general" ||
-        hint == "security" || hint == "security_monitor" ||
-        hint == "schema" || hint == "schema_advisor" ||
-        hint == "transaction" ||
-        hint == "multi_tenant" || hint == "multitenant" ||
-        hint == "explainability" ||
-        hint == "vector_search" || hint == "vector" ||
-        hint == "process_mining" ||
-        hint == "geospatial") {
+    // Validate by delegating to the canonical type-mapping function.
+    // A hint is accepted if and only if it maps to a known AdapterDomainType.
+    if (parseDomainHintToAdapterDomainType(hint).has_value()) {
         return hint;
     }
     return std::nullopt;
@@ -311,13 +347,37 @@ public:
     // Optional AQLIngestionBridge for entity-context enrichment
     std::shared_ptr<AQLIngestionBridge> ingestion_bridge_;
     LLMAQLHandler::DomainRouteResolver domain_route_resolver_;
+    std::shared_ptr<sharding::AdaptiveShardRouter> adaptive_shard_router_;
     sharding::ShardingManager* sharding_manager_;
+
+    // Optional live LLM-queue telemetry bridge — not owned, may be nullptr.
+    llm::ContinuousBatchScheduler* batch_scheduler_ = nullptr;
+    std::string local_shard_id_;
 
     // Optional Phase 5 KV-prefix transfer manager
     std::unique_ptr<llm::KVPrefixTransferManager> kv_prefix_transfer_mgr_;
 
     // Optional storage layer for RAG document content hydration (B5)
     std::shared_ptr<RocksDBWrapper> storage_;
+    // Wire the shard-load callback between batch_scheduler_ and
+    // adaptive_shard_router_ whenever either is changed.  Both must be
+    // non-null and local_shard_id_ must be non-empty for wiring to happen.
+    void wireShardLoadCallback() {
+        if (!batch_scheduler_ || !adaptive_shard_router_ || local_shard_id_.empty()) {
+            if (batch_scheduler_) {
+                // Detach any previously wired callback.
+                batch_scheduler_->setShardLoadCallback({});
+            }
+            return;
+        }
+        auto router = adaptive_shard_router_;
+        std::string shard_id = local_shard_id_;
+        batch_scheduler_->setShardLoadCallback(
+            [router, shard_id](size_t pending, double avg_ms) {
+                router->updateShardLLMLoad(shard_id, pending, avg_ms);
+            }
+        );
+    }
 };
 
 LLMAQLHandler::LLMAQLHandler() 
@@ -352,8 +412,23 @@ void LLMAQLHandler::setDomainRouteResolver(DomainRouteResolver resolver) {
     impl_->domain_route_resolver_ = std::move(resolver);
 }
 
+void LLMAQLHandler::setAdaptiveShardRouter(
+    std::shared_ptr<sharding::AdaptiveShardRouter> router)
+{
+    impl_->adaptive_shard_router_ = std::move(router);
+    impl_->wireShardLoadCallback();
+}
+
 void LLMAQLHandler::setShardingManager(sharding::ShardingManager* sharding_manager) {
     impl_->sharding_manager_ = sharding_manager;
+}
+
+void LLMAQLHandler::setBatchScheduler(llm::ContinuousBatchScheduler* sched,
+                                       std::string local_shard_id)
+{
+    impl_->batch_scheduler_  = sched;
+    impl_->local_shard_id_   = std::move(local_shard_id);
+    impl_->wireShardLoadCallback();
 }
 
 void LLMAQLHandler::setKVPrefixTransferManager(
@@ -444,6 +519,25 @@ std::string LLMAQLHandler::executeInfer(
                             }
                         } else {
                             routing_decision = "LOCAL_FALLBACK_NO_MATCH";
+                        }
+                    } else if (impl_->adaptive_shard_router_) {
+                        if (const auto domain_type = parseDomainHintToAdapterDomainType(*domain); domain_type.has_value()) {
+                            const auto candidate = impl_->adaptive_shard_router_->routeByDomain(*domain_type);
+                            if (!candidate.empty()) {
+                                const auto accuracy_delta =
+                                    impl_->adaptive_shard_router_->getAdapterAccuracyDelta(
+                                        candidate, *domain_type);
+                                if (accuracy_delta > kMinRoutingAccuracyDelta) {
+                                    routed_shard_id = candidate;
+                                    routing_decision = "ADAPTER_DOMAIN";
+                                } else {
+                                    routing_decision = "LOCAL_FALLBACK_LOW_ACCURACY";
+                                }
+                            } else {
+                                routing_decision = "LOCAL_FALLBACK_NO_MATCH";
+                            }
+                        } else {
+                            routing_decision = "LOCAL_FALLBACK_INVALID_DOMAIN";
                         }
                     } else {
                         routing_decision = "LOCAL_FALLBACK_NO_RESOLVER";

@@ -37,7 +37,7 @@ namespace api {
 // Forward declarations
 // ---------------------------------------------------------------------------
 
-struct WebSocketSession;
+class WebSocketSession;
 
 // ---------------------------------------------------------------------------
 // WebSocketCloseCode — strongly-typed close codes aligned with RFC 6455

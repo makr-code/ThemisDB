@@ -85,24 +85,23 @@ static BaseEntitySet makeEntitySet(const std::string& file_id = "abc123") {
     es.quality_score  = 0.9;
 
     BaseEntity e;
-    e.id    = "law:testg:§1";
-    e.type  = "law_paragraph";
-    e.label = "§ 1 Anwendungsbereich";
+    e.id          = "law:testg:§1";
+    e.entity_type = EntityType::LEGAL_PROVISION;
+    e.text        = "§ 1 Anwendungsbereich";
     e.properties["norm"] = "TestG";
     es.nodes.push_back(std::move(e));
 
     EntityRelation r;
     r.from_id       = "law:testg:§1";
     r.to_id         = "law:testg:§2";
-    r.relation_type = "PART_OF";
-    r.weight        = 1.0f;
+    r.relation_type = RelationType::PART_OF;
     es.edges.push_back(std::move(r));
 
     VectorRecord vr;
-    vr.chunk_id    = "chunk-1";
-    vr.doc_id      = file_id;
-    vr.chunk_index = 0;
-    vr.text        = "Dieser § regelt den Anwendungsbereich.";
+    vr.chunk_id       = "chunk-1";
+    vr.source_file_id = file_id;
+    vr.metadata["chunk_index"] = "0";
+    vr.text_snippet   = "Dieser § regelt den Anwendungsbereich.";
     es.chunks.push_back(std::move(vr));
 
     return es;
@@ -320,7 +319,7 @@ TEST(LegalDomainTests, LD11_BescheidToEntityHasCanonicalId) {
     auto be = extractor.extract(BESCHEID_TEXT);
     auto entity = extractor.toEntity(be, "bescheid-doc-1.pdf");
     EXPECT_EQ(entity.id, "bescheid:2024-UMW-042");
-    EXPECT_EQ(entity.type, "bescheid");
+    EXPECT_EQ(entity.entity_type, EntityType::LEGAL_DECISION);
     EXPECT_EQ(entity.properties.at("aktenzeichen"), "2024-UMW-042");
 }
 
@@ -330,15 +329,15 @@ TEST(LegalDomainTests, LD11_BescheidToEntityHasCanonicalId) {
 
 static ExtractionContext makeCtx(
     const std::string& path,
-    const std::vector<std::pair<std::string, std::string>>& entities_id_type)
+    const std::vector<std::pair<std::string, EntityType>>& entities_id_type)
 {
     ExtractionContext ctx;
     ctx.manifest.original_path = path;
     for (const auto& [id, type] : entities_id_type) {
         BaseEntity e;
-        e.id   = id;
-        e.type = type;
-        e.label = id;
+        e.id          = id;
+        e.entity_type = type;
+        e.text        = id;
         ctx.entities.push_back(e);
     }
     return ctx;
@@ -347,23 +346,23 @@ static ExtractionContext makeCtx(
 TEST(LegalDomainTests, LD12_LinkDocumentsCreatesCitesEdge) {
     CrossDocumentLinker linker;
     auto ctx1 = makeCtx("/docs/a.txt",
-                        {{"law:testg:§1", "norm_reference"}});
+                        {{"law:testg:§1", EntityType::LEGAL_NORM_REFERENCE}});
     auto ctx2 = makeCtx("/docs/b.txt",
-                        {{"law:testg:§1", "law_paragraph"},
-                         {"law:testg:§2", "law_paragraph"}});
+                        {{"law:testg:§1", EntityType::LEGAL_PROVISION},
+                         {"law:testg:§2", EntityType::LEGAL_PROVISION}});
 
     auto edges = linker.linkDocuments(ctx1, ctx2);
     ASSERT_GE(edges.size(), 1u);
-    EXPECT_EQ(edges[0].relation_type, "CITES");
+    EXPECT_EQ(edges[0].relation_type, RelationType::CITES);
     EXPECT_EQ(edges[0].from_id, "law:testg:§1");
     EXPECT_EQ(edges[0].to_id,   "law:testg:§1");
 }
 
 TEST(LegalDomainTests, LD13_LinkDocumentBatchAggregates) {
     CrossDocumentLinker linker;
-    auto src  = makeCtx("/s.txt", {{"law:a:§1", "norm_reference"}});
-    auto tgt1 = makeCtx("/t1.txt", {{"law:a:§1", "law_paragraph"}});
-    auto tgt2 = makeCtx("/t2.txt", {{"law:b:§3", "law_paragraph"}});
+    auto src  = makeCtx("/s.txt", {{"law:a:§1", EntityType::LEGAL_NORM_REFERENCE}});
+    auto tgt1 = makeCtx("/t1.txt", {{"law:a:§1", EntityType::LEGAL_PROVISION}});
+    auto tgt2 = makeCtx("/t2.txt", {{"law:b:§3", EntityType::LEGAL_PROVISION}});
 
     auto edges = linker.linkDocumentBatch(src, {tgt1, tgt2});
     // Should find at least the tgt1 CITES match
@@ -383,25 +382,24 @@ static BaseEntitySet makeExportSet() {
     es.source_file_id = "export-test";
 
     BaseEntity e1;
-    e1.id    = "law:testg:§1";
-    e1.type  = "law_paragraph";
-    e1.label = "§ 1 Anwendungsbereich";
-    e1.source_doc = "TestG";
+    e1.id            = "law:testg:§1";
+    e1.entity_type   = EntityType::LEGAL_PROVISION;
+    e1.text          = "§ 1 Anwendungsbereich";
+    e1.source_file_id = "TestG";
     e1.properties["norm"] = "TestG";
     es.nodes.push_back(e1);
 
     BaseEntity e2;
-    e2.id    = "law:testg:§2";
-    e2.type  = "law_paragraph";
-    e2.label = "§ 2 Begriffe";
-    e2.source_doc = "TestG";
+    e2.id            = "law:testg:§2";
+    e2.entity_type   = EntityType::LEGAL_PROVISION;
+    e2.text          = "§ 2 Begriffe";
+    e2.source_file_id = "TestG";
     es.nodes.push_back(e2);
 
     EntityRelation r;
     r.from_id       = "law:testg:§1";
     r.to_id         = "law:testg:§2";
-    r.relation_type = "CITES";
-    r.weight        = 1.0f;
+    r.relation_type = RelationType::CITES;
     es.edges.push_back(r);
 
     return es;

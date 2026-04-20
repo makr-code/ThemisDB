@@ -173,12 +173,12 @@ private:
  * Extracts EXIF metadata, generates image embeddings (e.g., CLIP).
  */
 #ifndef THEMIS_CONTENT_PLUGIN_IMAGE_PROCESSOR_DEFINED
-class ImageProcessor : public IContentProcessor {
+class LegacyImageProcessor : public IContentProcessor {
 public:
     ExtractionResult extract(const std::string& blob, const ContentType& content_type) override;
     std::vector<json> chunk(const ExtractionResult& extraction_result, int chunk_size, int overlap) override;
     std::vector<float> generateEmbedding(const std::string& chunk_data) override;
-    std::string getName() const override { return "ImageProcessor"; }
+    std::string getName() const override { return "LegacyImageProcessor"; }
     std::vector<ContentCategory> getSupportedCategories() const override {
         return {ContentCategory::IMAGE};
     }

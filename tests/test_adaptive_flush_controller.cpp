@@ -245,8 +245,8 @@ TEST_F(AFCFixture, AddEmptyEntityFails) {
 
 TEST_F(AFCFixture, AddUpdatesBufferStats) {
     AdaptiveFlushController afc(tsstore.get(), quietConfig());
-    afc.add(makePoint("cpu", "s1", 1.0, 1700000000000LL));
-    afc.add(makePoint("cpu", "s1", 2.0, 1700000000001LL));
+    (void)afc.add(makePoint("cpu", "s1", 1.0, 1700000000000LL));
+    (void)afc.add(makePoint("cpu", "s1", 2.0, 1700000000001LL));
 
     auto s = afc.getStats();
     EXPECT_EQ(s.points_buffered, 2u);
@@ -300,8 +300,8 @@ TEST_F(AFCFixture, ManualFlushWritesPointsToStore) {
     AdaptiveFlushController afc(tsstore.get(), quietConfig());
 
     for (int i = 0; i < 5; ++i) {
-        afc.add(makePoint("mem", "h1", static_cast<double>(i),
-                          1700000000000LL + i));
+        (void)afc.add(makePoint("mem", "h1", static_cast<double>(i),
+                                1700000000000LL + i));
     }
     size_t flushed = afc.flush();
     EXPECT_EQ(flushed, 5u);
@@ -320,10 +320,10 @@ TEST_F(AFCFixture, ManualFlushOnEmptyBufferReturnsZero) {
 TEST_F(AFCFixture, MultipleManualFlushesAccumulate) {
     AdaptiveFlushController afc(tsstore.get(), quietConfig());
 
-    afc.add(makePoint("disk", "s1", 1.0, 1700000000000LL));
-    afc.flush();
-    afc.add(makePoint("disk", "s1", 2.0, 1700000000001LL));
-    afc.flush();
+    (void)afc.add(makePoint("disk", "s1", 1.0, 1700000000000LL));
+    (void)afc.flush();
+    (void)afc.add(makePoint("disk", "s1", 2.0, 1700000000001LL));
+    (void)afc.flush();
 
     auto s = afc.getStats();
     EXPECT_EQ(s.flush_count, 2u);
@@ -347,8 +347,8 @@ TEST_F(AFCFixture, WatermarkAtExactly80Percent) {
 
     // Add 8 points (= 80 %) — should trigger watermark
     for (int i = 0; i < 8; ++i) {
-        afc.add(makePoint("wm", "s1", static_cast<double>(i),
-                          1700000000000LL + i));
+        (void)afc.add(makePoint("wm", "s1", static_cast<double>(i),
+                                1700000000000LL + i));
     }
 
     // Give the background thread time to flush
@@ -373,8 +373,8 @@ TEST_F(AFCFixture, TimeoutTriggerFlushesPoints) {
     AdaptiveFlushController afc(tsstore.get(), cfg);
     afc.start();
 
-    afc.add(makePoint("net", "h1", 1.0, 1700000000000LL));
-    afc.add(makePoint("net", "h1", 2.0, 1700000000001LL));
+    (void)afc.add(makePoint("net", "h1", 1.0, 1700000000000LL));
+    (void)afc.add(makePoint("net", "h1", 2.0, 1700000000001LL));
 
     // Wait longer than the flush interval
     std::this_thread::sleep_for(std::chrono::milliseconds{300});
@@ -402,8 +402,8 @@ TEST_F(AFCFixture, BackpressuredWhenWatermarkReached) {
     // Add 8 points (= watermark)
     for (int i = 0; i < 8; ++i) {
         // Use async=false to avoid background thread draining during add
-        afc.add(makePoint("bp", "s1", static_cast<double>(i),
-                          1700000000000LL + i));
+        (void)afc.add(makePoint("bp", "s1", static_cast<double>(i),
+                                1700000000000LL + i));
     }
     EXPECT_TRUE(afc.isBackpressured());
 }
@@ -416,12 +416,12 @@ TEST_F(AFCFixture, BackpressureClearedAfterFlush) {
     AdaptiveFlushController afc(tsstore.get(), cfg);
 
     for (int i = 0; i < 8; ++i) {
-        afc.add(makePoint("bp", "s1", static_cast<double>(i),
-                          1700000000000LL + i));
+        (void)afc.add(makePoint("bp", "s1", static_cast<double>(i),
+                                1700000000000LL + i));
     }
     ASSERT_TRUE(afc.isBackpressured());
 
-    afc.flush(); // drain buffer
+    (void)afc.flush(); // drain buffer
     EXPECT_FALSE(afc.isBackpressured());
 }
 
@@ -447,8 +447,8 @@ TEST_F(AFCFixture, BufferUtilisationRatio) {
     AdaptiveFlushController afc(tsstore.get(), cfg);
 
     for (int i = 0; i < 100; ++i) {
-        afc.add(makePoint("util", "s1", static_cast<double>(i),
-                          1700000000000LL + i));
+        (void)afc.add(makePoint("util", "s1", static_cast<double>(i),
+                                1700000000000LL + i));
     }
     auto s = afc.getStats();
     EXPECT_NEAR(s.buffer_utilization, 0.10, 0.01);
@@ -458,10 +458,10 @@ TEST_F(AFCFixture, StatsFlushCountAndPointsFlushedAfterFlush) {
     AdaptiveFlushController afc(tsstore.get(), quietConfig());
 
     for (int i = 0; i < 7; ++i) {
-        afc.add(makePoint("q", "e1", static_cast<double>(i),
-                          1700000000000LL + i));
+        (void)afc.add(makePoint("q", "e1", static_cast<double>(i),
+                                1700000000000LL + i));
     }
-    afc.flush();
+    (void)afc.flush();
 
     auto s = afc.getStats();
     EXPECT_EQ(s.points_buffered, 7u);
@@ -482,8 +482,8 @@ TEST_F(AFCFixture, StopFlushesRemainingPoints) {
     afc.start();
 
     for (int i = 0; i < 20; ++i) {
-        afc.add(makePoint("stop", "s1", static_cast<double>(i),
-                          1700000000000LL + i));
+        (void)afc.add(makePoint("stop", "s1", static_cast<double>(i),
+                                1700000000000LL + i));
     }
     afc.stop();
 
@@ -507,8 +507,8 @@ TEST_F(AFCFixture, StopDuringBackpressureNoDeadlock) {
     afc.start();
 
     // Fill to watermark
-    afc.add(makePoint("p", "e1", 1.0, 1700000000000LL));
-    afc.add(makePoint("p", "e1", 2.0, 1700000000001LL));
+    (void)afc.add(makePoint("p", "e1", 1.0, 1700000000000LL));
+    (void)afc.add(makePoint("p", "e1", 2.0, 1700000000001LL));
 
     // Stop from another thread while a producer might be blocked
     std::thread stopper([&] {
@@ -540,7 +540,7 @@ TEST_F(AFCFixture, OverdueFlushEventAlerted) {
     AdaptiveFlushController afc(tsstore.get(), cfg);
     afc.start();
 
-    afc.add(makePoint("od", "s1", 1.0, 1700000000000LL));
+    (void)afc.add(makePoint("od", "s1", 1.0, 1700000000000LL));
 
     // Wait longer than the overdue threshold (2 × 30 ms = 60 ms)
     std::this_thread::sleep_for(std::chrono::milliseconds{250});
@@ -579,16 +579,16 @@ TEST_F(AFCFixture, MetricsBackpressureCounterUpdated) {
     afc.start();
 
     // Fill to watermark
-    afc.add(makePoint("bp_m", "s1", 1.0, 1700000000000LL));
-    afc.add(makePoint("bp_m", "s1", 2.0, 1700000000001LL));
+    (void)afc.add(makePoint("bp_m", "s1", 1.0, 1700000000000LL));
+    (void)afc.add(makePoint("bp_m", "s1", 2.0, 1700000000001LL));
 
     // This add should trigger backpressure
     std::thread flusher([&] {
         std::this_thread::sleep_for(std::chrono::milliseconds{20});
-        afc.flush();
+        (void)afc.flush();
     });
 
-    afc.add(makePoint("bp_m", "s1", 3.0, 1700000000002LL));
+    (void)afc.add(makePoint("bp_m", "s1", 3.0, 1700000000002LL));
     flusher.join();
     afc.stop();
 
@@ -609,7 +609,7 @@ TEST_F(AFCFixture, MetricsOverdueFlushCounterUpdated) {
     AdaptiveFlushController afc(tsstore.get(), cfg);
     afc.start();
 
-    afc.add(makePoint("od_m", "s1", 1.0, 1700000000000LL));
+    (void)afc.add(makePoint("od_m", "s1", 1.0, 1700000000000LL));
 
     std::this_thread::sleep_for(std::chrono::milliseconds{200});
     afc.stop();

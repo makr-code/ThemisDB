@@ -846,9 +846,9 @@ static uint8_t lrc_gf_inv(uint8_t a) {
     return 0;
 }
 
-static void lrc_gf_matrix_mul(const std::vector<std::vector<uint8_t>>& m,
-                               const std::vector<uint8_t>& v,
-                               std::vector<uint8_t>& result) {
+[[maybe_unused]] static void lrc_gf_matrix_mul(const std::vector<std::vector<uint8_t>>& m,
+                                                const std::vector<uint8_t>& v,
+                                                std::vector<uint8_t>& result) {
     const std::size_t rows = m.size(), cols = v.size();
     result.assign(rows, 0);
     for (std::size_t r = 0; r < rows; ++r)

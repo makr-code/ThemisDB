@@ -159,8 +159,6 @@ void ReplicaInfo::updateHealthStatus(uint32_t heartbeat_timeout_ms, uint32_t deg
         now - last_heartbeat
     ).count();
     
-    HealthStatus old_status = health_status;
-    
     // Check if replica has timed out
     if (elapsed_ms > heartbeat_timeout_ms) {
         consecutive_failures++;
@@ -1157,10 +1155,7 @@ bool ReplicationManager::promoteReplica(const std::string& replica_id) {
         return false;
     }
     
-    // Step 3: Store old role for notification
-    ReplicationRole old_role = it->role;
-    
-    // Step 4: Promote replica to primary role
+    // Step 3: Promote replica to primary role
     it->role = ReplicationRole::LEADER;
     
     // Update current term
@@ -1272,7 +1267,7 @@ void ReplicationManager::heartbeatLoop() {
             uint64_t current_term = election_->getCurrentTerm();
             {
                 std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
-                for (const auto& replica : replicas_) {
+                for ([[maybe_unused]] const auto& replica : replicas_) {
                     // Record outbound heartbeat so the election module can
                     // reset its own liveness timer if it happens to be watching.
                     // endpoint used by real network layer
@@ -2832,8 +2827,8 @@ bool MultiMasterReplicationManager::writeSync(
 // -------------------------
 
 MultiMasterReplicationManager::ReadResult MultiMasterReplicationManager::read(
-    const std::string& collection,
-    const std::string& document_id,
+    [[maybe_unused]] const std::string& collection,
+    [[maybe_unused]] const std::string& document_id,
     uint32_t /*read_quorum*/)
 {
     // In a full implementation this would query read_quorum peers and merge

@@ -159,7 +159,7 @@ analytics::DiffEngine::DiffOptions DiffApiHandler::parseOptions(const httplib::R
         try {
             size_t limit = std::stoull(req.get_param_value("limit"));
             options.limit = limit;
-        } catch (const std::exception& e) {
+        } catch (...) {
             throw std::invalid_argument("Invalid limit parameter");
         }
     }
@@ -169,7 +169,7 @@ analytics::DiffEngine::DiffOptions DiffApiHandler::parseOptions(const httplib::R
         try {
             size_t offset = std::stoull(req.get_param_value("offset"));
             options.offset = offset;
-        } catch (const std::exception& e) {
+        } catch (...) {
             throw std::invalid_argument("Invalid offset parameter");
         }
     }

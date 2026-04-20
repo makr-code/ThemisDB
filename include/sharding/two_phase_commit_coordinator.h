@@ -43,9 +43,17 @@
 
 #pragma once
 
+// Prevent Windows macro pollution for enum members named ERROR.
+#ifdef ERROR
+#undef ERROR
+#endif
+
 #include "sharding/shard_rpc_server.h"
 #include "sharding/shard_rpc_client.h"
 #include "sharding/wal_manager.h"
+#ifdef ERROR
+#undef ERROR
+#endif
 #include <string>
 #include <map>
 #include <vector>

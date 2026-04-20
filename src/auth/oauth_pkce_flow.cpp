@@ -39,7 +39,7 @@ namespace auth {
 namespace {
 
 // libcurl write callback – appends received data to a std::string.
-size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
+size_t oauthPkceWriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
     const auto total = size * nmemb;
     static_cast<std::string*>(userdata)->append(ptr, total);
     return total;
@@ -311,7 +311,7 @@ std::string OAuthPKCEFlow::httpPost(const std::string& url, const std::string& b
     curl_easy_setopt(curl, CURLOPT_POST, 1L);
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body.c_str());
     curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, static_cast<long>(body.size()));
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, oauthPkceWriteCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_body);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT, static_cast<long>(config_.http_timeout_seconds));
     // Always verify TLS certificates

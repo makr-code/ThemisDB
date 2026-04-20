@@ -169,7 +169,7 @@ void DistributedTaskCoordinator::deactivateScheduler() {
         for (const auto& [id, task] : task_registry_) {
             try {
                 scheduler_->unregisterTask(id);
-            } catch (const std::exception& ex) {
+            } catch ([[maybe_unused]] const std::exception& ex) {
                 // Ignore: task may not have been registered if there was an
                 // error during activation.
             }

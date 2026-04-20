@@ -1,5 +1,8 @@
 # Config Architecture Migration Guide
 
+**Version:** 1.1.0  
+**Last Updated:** 2026-04-20
+
 This guide helps you migrate from the legacy flat config structure to the new hierarchical organization.
 
 ## 🎯 Overview
@@ -8,6 +11,9 @@ The config reorganization introduces a hierarchical directory structure that:
 - **Improves discoverability** by grouping related configs
 - **Maintains backward compatibility** through automatic path resolution
 - **Enables future scalability** with clear categorization
+
+Canonical runtime paths are now the directory-based targets (for example `config/core/config.yaml`, `config/security/pii_patterns.yaml`, `config/performance/...`).
+Legacy files in the `config/` root are retained as compatibility inputs and should no longer be edited directly.
 
 ## 📋 Quick Migration Checklist
 
@@ -177,7 +183,7 @@ features:
     policies_path: "config/retention_policies.yaml"
 ```
 
-**After (config/core/config.yaml):**
+**After (canonical path in `config/core/config.yaml`):**
 ```yaml
 features:
   retention:
@@ -354,6 +360,22 @@ included_configs:
 - Remove ConfigPathResolver fallback (optional)
 - Clean up old config files
 
+## ✅ Current Cleanup Status (April 2026)
+
+- Canonical hierarchy is present and usable.
+- Root-level legacy files still exist for compatibility and migration safety.
+- Existing and new code should prefer canonical paths in subdirectories.
+- Root-level edits should be avoided unless explicitly required for legacy support.
+- Removed root legacy duplicates on 2026-04-20:
+  - `config/phase2_optimizations.json` -> `config/deprecated/phase2_optimizations.json`
+  - `config/phase3_optimizations.json` -> `config/deprecated/phase3_optimizations.json`
+  - `config/policies.json.backup` -> `config/deprecated/policies.json.backup`
+  - `config/content_processors.yaml` -> `config/content/processors.yaml`
+  - `config/fem_edge_type_defaults.yaml` -> `config/content/fem_edge_type_defaults.yaml`
+  - `config/capability_auto_generation.yaml` -> `config/features/capability_auto_generation.yaml`
+  - `config/replication.example.yaml` -> `config/distributed/replication/basic.example.yaml`
+  - `config/sharding-with-metrics.yaml` -> `config/distributed/sharding/with-metrics.yaml`
+
 ## 🎓 Best Practices
 
 ### DO ✅
@@ -389,5 +411,5 @@ If you encounter issues during migration:
 
 ---
 
-**Last Updated**: 2026-02-12  
-**Version**: 1.0.0
+**Last Updated**: 2026-04-20  
+**Version**: 1.1.0

@@ -190,7 +190,7 @@ Saga::Metrics Saga::getMetrics() const {
 void SagaOperation::putEntityWithCompensation(
     RocksDBWrapper& db,
     const std::string& key,
-    const std::vector<uint8_t>& value,
+    [[maybe_unused]] const std::vector<uint8_t>& value,
     Saga& saga
 ) {
     // Check if key exists (for idempotency)

@@ -57,8 +57,8 @@ public:
         }
         
         total_bytes_ = fs::file_size(config_.source_path);
-        total_chunks_ = (total_bytes_ + (config_.chunk_size_mb * 1024 * 1024) - 1) / 
-                       (config_.chunk_size_mb * 1024 * 1024);
+        total_chunks_ = static_cast<uint32_t>((total_bytes_ + (config_.chunk_size_mb * 1024 * 1024) - 1) / 
+                       (config_.chunk_size_mb * 1024 * 1024));
         
         return BlobStatus::OK;
     }
@@ -206,7 +206,7 @@ public:
             
             double bytes_per_ms = static_cast<double>(transferred_bytes_) / elapsed;
             progress.estimated_remaining_ms = 
-                (total_bytes_ - transferred_bytes_) / bytes_per_ms;
+                static_cast<uint64_t>((total_bytes_ - transferred_bytes_) / bytes_per_ms);
         }
         
         return progress;
@@ -314,7 +314,7 @@ private:
             for (size_t i = 0; i < len; ++i) {
                 crc ^= static_cast<uint32_t>(buf[i]);
                 for (int j = 0; j < 8; ++j) {
-                    uint32_t mask = -(crc & 1u);
+                    const uint32_t mask = (crc & 1u) ? 0xFFFFFFFFu : 0u;
                     crc = (crc >> 1) ^ (0xEDB88320u & mask);
                 }
             }

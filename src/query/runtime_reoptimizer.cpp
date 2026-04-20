@@ -129,7 +129,7 @@ RuntimeReoptimizer::beginExecutionGuard(const std::string& query_hash,
     return ExecutionGuard(*this, beginExecution(query_hash, estimated_rows));
 }
 
-bool RuntimeReoptimizer::shouldReoptimize(const std::string& query_hash,
+bool RuntimeReoptimizer::shouldReoptimize([[maybe_unused]] const std::string& query_hash,
                                            size_t rows_so_far,
                                            size_t estimated_total,
                                            double progress,

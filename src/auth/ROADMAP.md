@@ -98,3 +98,14 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 ## Breaking Changes
 - ABAC engine (`PolicyEngine`) API is additive to existing RBAC and backward-compatible.
 - mTLS (`MtlsAuthenticator`) requires TLS layer configuration changes; see auth/mtls_authenticator.h for details.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### ✅ Aktiv (implementiert + externer Aufrufer bestätigt)
+
+- `ApiKeyAuthenticator` – Authentifiziert HTTP-Requests via API-Key; genutzt in auth_middleware.cpp
+- `constantTimeEqual` – Zeitkonstanter Byte-Vergleich gegen Timing-Side-Channel bei API-Key-Checks;
+  genutzt in `api_key_authenticator.cpp`.
+

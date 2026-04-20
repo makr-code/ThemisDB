@@ -392,7 +392,7 @@ std::string PromptEvaluator::normalizeString(const std::string& s) {
                 result += ' ';
             }
         } else {
-            result += std::tolower(c);
+              result += static_cast<char>(std::tolower(c));
         }
     }
     

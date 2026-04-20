@@ -50,7 +50,7 @@ namespace observability {
 namespace {
 
 /** Collect a raw call stack, up to @p max_depth frames. */
-std::vector<std::string> captureStack(int max_depth = 64) {
+std::vector<std::string> captureStack([[maybe_unused]] int max_depth = 64) {
     std::vector<std::string> frames;
 #if THEMIS_HAS_BACKTRACE
     std::vector<void*> buffer(static_cast<size_t>(max_depth));

@@ -457,3 +457,13 @@ None anticipated through Session 9. All changes are additive:
 - New module `distributed_knowledge` with no existing dependents
 - New hooks on `IncrementalLoRATrainer` and `ContinuousLearningOrchestrator` are opt-in (DI injection)
 - `QueryFederation::setRAGMerger()` is a new optional setter; existing code paths unaffected
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `GossipAdapterPublisher` – Publiziert Adapter-Capabilities via Gossip-Protokoll; nur im DK-Test geprüft
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+

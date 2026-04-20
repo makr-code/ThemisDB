@@ -33,16 +33,9 @@
 namespace themis {
 namespace performance {
 
-// Forward declarations from exporters
-class PrometheusExporter {
-public:
-    static std::string exportMetrics(const std::vector<MetricsEntry>& metrics_list);
-};
-
-class CHIMERAExporter {
-public:
-    static std::string exportMetrics(const std::vector<MetricsEntry>& metrics_list);
-};
+// Exporter entry points implemented in prometheus_exporter.cpp / chimera_exporter.cpp.
+std::string exportPrometheusMetrics(const std::vector<MetricsEntry>& metrics_list);
+std::string exportChimeraMetrics(const std::vector<MetricsEntry>& metrics_list);
 
 /**
  * @brief Metrics collector with async export
@@ -153,7 +146,7 @@ public:
      */
     std::string getPrometheusMetrics() {
         std::lock_guard<std::mutex> lock(aggregated_metrics_mutex_);
-        return PrometheusExporter::exportMetrics(aggregated_metrics_);
+        return exportPrometheusMetrics(aggregated_metrics_);
     }
 
     /**
@@ -162,7 +155,7 @@ public:
      */
     std::string getCHIMERAMetrics() {
         std::lock_guard<std::mutex> lock(aggregated_metrics_mutex_);
-        return CHIMERAExporter::exportMetrics(aggregated_metrics_);
+        return exportChimeraMetrics(aggregated_metrics_);
     }
 
     /**

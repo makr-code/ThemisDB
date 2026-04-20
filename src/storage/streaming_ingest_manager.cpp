@@ -226,7 +226,7 @@ void StreamingIngestManager::flushLoop() {
 
         // Ignore individual batch errors from the background thread — they
         // are logged but should not crash the flush loop.
-        flushOnce(lock);
+        (void)flushOnce(lock);
     }
 }
 

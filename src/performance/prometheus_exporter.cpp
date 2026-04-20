@@ -120,5 +120,9 @@ public:
     }
 };
 
+  std::string exportPrometheusMetrics(const std::vector<MetricsEntry>& metrics_list) {
+    return PrometheusExporter::exportMetrics(metrics_list);
+  }
+
 } // namespace performance
 } // namespace themis

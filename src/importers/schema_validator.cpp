@@ -57,7 +57,7 @@ static bool valueIsDouble(const std::string& s) {
     if (s.empty()) return false;
     try {
         size_t pos = 0;
-        std::stod(s, &pos);
+        (void)std::stod(s, &pos);
         return pos == s.size();
     } catch (...) {
         return false;

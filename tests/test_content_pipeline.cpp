@@ -298,7 +298,7 @@ TEST(ContentPipelineTest, BulkUploadInterface_ProgressCallback) {
     size_t callback_bytes = 0;
     
     uploader.set_progress_callback(
-        [&](const std::string& id, size_t uploaded, size_t total) {
+        [&](const std::string& id, size_t uploaded, [[maybe_unused]] size_t total) {
             callback_called = true;
             callback_id = id;
             callback_bytes = uploaded;
@@ -413,7 +413,7 @@ TEST(ContentPipelineTest, ZstdCompression_StreamingDecompress) {
         
         auto decompressed = compressor.decompress_streaming(
             compressed,
-            [&](size_t processed, size_t total) {
+            [&]([[maybe_unused]] size_t processed, [[maybe_unused]] size_t total) {
                 callback_called = true;
             }
         );

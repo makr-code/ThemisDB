@@ -473,7 +473,7 @@ void WireProtocolServer::Session::start() {
     try {
         // Now that socket is accepted, we can get the remote endpoint
         client_ip_ = socket_.remote_endpoint().address().to_string();
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
         client_ip_ = "unknown";
     }
 
@@ -943,7 +943,7 @@ void WireProtocolServer::Session::handleClose() {
     close();
 }
 
-void WireProtocolServer::Session::handleError(const std::string& context, const boost::system::error_code& ec) {
+void WireProtocolServer::Session::handleError([[maybe_unused]] const std::string& context, const boost::system::error_code& ec) {
     if (ec != net::error::operation_aborted) {
         // Log error
     }

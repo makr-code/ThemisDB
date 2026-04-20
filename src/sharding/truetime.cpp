@@ -229,13 +229,21 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
     // Implement SNTP (Simple Network Time Protocol) client - RFC 4330
     // This is a simplified version suitable for time synchronization
     
+#ifdef _WIN32
+    using SocketHandle = SOCKET;
+    static constexpr SocketHandle kInvalidSocket = INVALID_SOCKET;
+#else
+    using SocketHandle = int;
+    static constexpr SocketHandle kInvalidSocket = -1;
+#endif
+
     // RAII wrapper for socket to ensure cleanup
     class SocketGuard {
-        int fd_;
+        SocketHandle fd_;
     public:
-        explicit SocketGuard(int fd) : fd_(fd) {}
-        ~SocketGuard() { 
-            if (fd_ >= 0) {
+        explicit SocketGuard(SocketHandle fd) : fd_(fd) {}
+        ~SocketGuard() {
+            if (fd_ != kInvalidSocket) {
 #ifdef _WIN32
                 closesocket(fd_);
 #else
@@ -243,7 +251,7 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
 #endif
             }
         }
-        int get() const { return fd_; }
+        SocketHandle get() const { return fd_; }
         // Prevent copying
         SocketGuard(const SocketGuard&) = delete;
         SocketGuard& operator=(const SocketGuard&) = delete;
@@ -270,8 +278,8 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
         };
         
         // Create socket with RAII cleanup
-        int sockfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-        if (sockfd < 0) {
+        SocketHandle sockfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+        if (sockfd == kInvalidSocket) {
             return false;
         }
         SocketGuard socketGuard(sockfd);
@@ -404,7 +412,7 @@ uint64_t TrueTime::calculateUncertainty() const {
     uint64_t base_uncertainty = uncertainty_ns_.load(std::memory_order_relaxed);
     
     // Calculate time since last sync
-    auto now_ns = getSystemTime().count();
+    uint64_t now_ns = static_cast<uint64_t>(getSystemTime().count());
     uint64_t last_sync = last_sync_ns_.load(std::memory_order_relaxed);
     uint64_t time_since_sync_ns = now_ns > last_sync ? now_ns - last_sync : 0;
     
@@ -415,7 +423,7 @@ uint64_t TrueTime::calculateUncertainty() const {
     uint64_t total_uncertainty = base_uncertainty + drift_uncertainty;
     
     // Cap at max drift
-    return std::min(total_uncertainty, config_.max_drift_us * 1000);
+    return std::min(total_uncertainty, static_cast<uint64_t>(config_.max_drift_us) * 1000ULL);
 }
 
 void TrueTime::syncThreadFunc() {

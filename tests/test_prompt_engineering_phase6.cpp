@@ -37,6 +37,7 @@
 #include "prompt_engineering/adversarial_prompt_tester.h"
 
 #include <gtest/gtest.h>
+#include <algorithm>
 #include <string>
 
 using namespace themis::prompt_engineering;

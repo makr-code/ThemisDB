@@ -113,3 +113,21 @@
 ## Breaking Changes
 - Consumer group API will be a new interface (additive, non-breaking to existing subscriptions)
 - Kafka producer interface will require separate configuration block
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### ✅ Aktiv (implementiert + externer Aufrufer bestätigt)
+
+- `CDCAdmin` – Admin-Schnittstelle für CDC-Konfiguration (Tenant, Retention); genutzt in changefeed_api_handler
+
+### 🟡 UNGENUTZT — ⚠️ STUB (kein Test, kein externer Aufrufer, unvollständige Implementierung)
+
+- `purgeTenant` – GDPR-Tenant-Purge: löscht alle CDC-Events eines Tenants.
+  **Implementierungsstatus:** Wirft `internalError("Tenant purge requires tenant buffer manager
+  implementation in current build")` — TenantBufferManager ist im modularen Build nicht verlinkt.
+  Ein `// STUB/SIMULATION NOTE:` Kommentar wurde in `src/cdc/cdc_admin.cpp` ergänzt.
+  > **Aktion:** TenantBufferManager in modularem Build verdrahten und `throw` durch echte
+  > Purge-Logik ersetzen. Bis dahin: keine GDPR-Tenant-Löschung möglich.
+

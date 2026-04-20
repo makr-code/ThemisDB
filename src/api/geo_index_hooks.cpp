@@ -69,7 +69,7 @@ static bool validateGeoJSONBasic(const json& geojson) {
 }
 
 // Helper function to validate and sanitize coordinate pair
-static bool validateCoordinatePair(const json& coord, double& lon, double& lat) {
+[[maybe_unused]] static bool validateCoordinatePair(const json& coord, double& lon, double& lat) {
     try {
         if (!coord.is_array() || coord.size() < 2) {
             return false;
@@ -118,7 +118,7 @@ void GeoIndexHooks::onEntityPut(
             try {
                 std::string blob_str(reinterpret_cast<const char*>(blob.data()), blob.size());
                 j = nlohmann::json::parse(blob_str);
-            } catch (const std::exception& e) {
+            } catch (...) {
                 throw;
             }
         } else {

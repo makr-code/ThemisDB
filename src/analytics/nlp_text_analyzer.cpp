@@ -1148,7 +1148,7 @@ std::string NlpTextAnalyzer::toLowerCase(std::string_view text) const {
     std::string result;
     result.reserve(text.size());
     for (char c : text) {
-        result += std::tolower(static_cast<unsigned char>(c));
+        result += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
     }
     return result;
 }
@@ -1203,7 +1203,7 @@ size_t NlpTextAnalyzer::countSyllables(std::string_view word) const {
     bool previous_was_vowel = false;
     
     for (char c : word) {
-        char lower = std::tolower(static_cast<unsigned char>(c));
+        char lower = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
         bool is_vowel = (lower == 'a' || lower == 'e' || lower == 'i' || 
                         lower == 'o' || lower == 'u' || lower == 'y');
         
@@ -1360,7 +1360,7 @@ size_t NlpTextAnalyzer::loadStopWordsFromDirectory(const std::string& directory)
 
 // ========== Legal Modality Extraction ==========
 
-std::string NlpTextAnalyzer::getDefaultLegalConfigPath(const std::string& language_code) const {
+std::string NlpTextAnalyzer::getDefaultLegalConfigPath([[maybe_unused]] const std::string& language_code) const {
     return "config/nlp/legal/german_modal_verbs.yaml";
 }
 

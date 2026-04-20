@@ -119,7 +119,7 @@ struct ShardMetrics {
  * `AggregatedMetric` entry for each rule/group combination that matched the
  * supplied shard data.
  */
-struct MetricSnapshot {
+struct ShardAggregationSnapshot {
     /// Aggregated metric values, one per matching rule × group combination.
     std::vector<AggregatedMetric> metrics;
     /// Wall-clock time at which the snapshot was produced.
@@ -259,15 +259,15 @@ public:
      *
      * Converts each `ShardMetrics` into histogram snapshots (tagging them
      * with the source `shard_id`), then applies all registered rules to
-     * produce a unified `MetricSnapshot`.  This call does **not** mutate the
+     * produce a unified `ShardAggregationSnapshot`.  This call does **not** mutate the
      * internal snapshot buffer; the supplied shard data is processed
      * transiently and the result is returned directly.
      *
      * @param shard_metrics One `ShardMetrics` per shard.
-     * @return `MetricSnapshot` containing one `AggregatedMetric` per
+     * @return `ShardAggregationSnapshot` containing one `AggregatedMetric` per
      *         applicable rule × group combination.
      */
-    MetricSnapshot aggregateShardMetrics(
+    ShardAggregationSnapshot aggregateShardMetrics(
         const std::vector<ShardMetrics>& shard_metrics) const;
 
     /**

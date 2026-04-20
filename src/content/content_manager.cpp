@@ -82,7 +82,7 @@ bool executeWithRetry(Fn&& fn, int max_retries, int retry_delay_ms,
 } // anonymous namespace
 // ---------------------------------------------------------------------------
 
-static std::string toHex(const std::string& in) {
+[[maybe_unused]] static std::string toHex(const std::string& in) {
     static const char* hex = "0123456789abcdef";
     std::string out;
     out.reserve(in.size() * 2);
@@ -224,7 +224,7 @@ static std::vector<std::string> buildChunkWhitelist(
 
     std::vector<std::string> whitelist;
     // Scan all content metas
-    storage.scanPrefix("content:", [&](std::string_view key, std::string_view val){
+    storage.scanPrefix("content:", [&]([[maybe_unused]] std::string_view key, std::string_view val){
         // Ignore non-meta keys like content:chunks lists by checking JSON
         try {
             std::string s(val);
@@ -281,9 +281,9 @@ static std::vector<std::string> buildChunkWhitelist(
                         }
                     } else if (cond.is_object() && (cond.contains("min") || cond.contains("max"))) {
                         // RANGE semantics (numeric). Convert vptr to number if possible.
-                        double val = 0.0; bool ok = false;
-                        if (vptr->is_number()) { val = vptr->get<double>(); ok = true; }
-                        else if (vptr->is_string()) { try { val = std::stod(vptr->get<std::string>()); ok = true; } catch (...) { ok = false; } }
+                        double numeric_val = 0.0; bool ok = false;
+                        if (vptr->is_number()) { numeric_val = vptr->get<double>(); ok = true; }
+                        else if (vptr->is_string()) { try { numeric_val = std::stod(vptr->get<std::string>()); ok = true; } catch (...) { ok = false; } }
                         if (ok) {
                             double vmin = -std::numeric_limits<double>::infinity();
                             double vmax =  std::numeric_limits<double>::infinity();
@@ -295,7 +295,7 @@ static std::vector<std::string> buildChunkWhitelist(
                                 if (cond["max"].is_number()) vmax = cond["max"].get<double>();
                                 else if (cond["max"].is_string()) { try { vmax = std::stod(cond["max"].get<std::string>()); } catch (...) {} }
                             }
-                            match = (val >= vmin && val <= vmax);
+                            match = (numeric_val >= vmin && numeric_val <= vmax);
                         } else {
                             match = false;
                         }
@@ -532,7 +532,7 @@ std::optional<std::string> ContentManager::checkDuplicateByHash(const std::strin
     return std::nullopt;
 }
 
-static ContentCategory detectCategory(const std::string& mime, const std::string& blob) {
+[[maybe_unused]] static ContentCategory detectCategory(const std::string& mime, const std::string& blob) {
     auto& reg = ContentTypeRegistry::instance();
     ContentType ct;
     if (!mime.empty()) {

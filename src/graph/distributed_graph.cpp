@@ -327,10 +327,10 @@ Result<std::vector<std::string>> DistributedGraphManager::kHopNeighbors(
 // ─────────────────────────────────────────────────────────────────────────────
 
 Result<GraphQueryOptimizer::OptimizationPlan> DistributedGraphManager::optimizePlan(
-    std::string_view start_vertex,
-    std::string_view target_vertex,
+    [[maybe_unused]] std::string_view start_vertex,
+    [[maybe_unused]] std::string_view target_vertex,
     GraphQueryOptimizer::QueryPattern pattern,
-    const GraphQueryOptimizer::QueryConstraints& constraints) {
+    [[maybe_unused]] const GraphQueryOptimizer::QueryConstraints& constraints) {
 
     auto shards = healthyShards();
     if (shards.empty()) {

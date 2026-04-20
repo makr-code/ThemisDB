@@ -151,7 +151,7 @@ public:
             initialized_ = true;
             return true;
             
-        } catch (const std::exception& e) {
+        } catch ([[maybe_unused]] const std::exception& e) {
             return false;
         }
     }

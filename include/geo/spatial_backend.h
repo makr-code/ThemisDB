@@ -71,7 +71,7 @@ public:
     // (default 36; minimum 3).
     // Supported types: Point → circular polygon, Polygon → outward expansion.
     // GPU path deferred: implementations without CUDA delegate to the CPU path.
-    virtual GeometryInfo stBuffer([[maybe_unused]] const GeometryInfo& geom, double distance_m,
+    virtual GeometryInfo stBuffer([[maybe_unused]] const GeometryInfo& geom, [[maybe_unused]] double distance_m,
                                   [[maybe_unused]] int arc_points = 36) {
         return GeometryInfo{};
     }
@@ -81,8 +81,8 @@ public:
     // lat1/lon1 and lat2/lon2 are in decimal degrees (WGS-84).
     // Returns 0.0 for coincident points and a negative value if the formula
     // fails to converge (nearly-antipodal degenerate case).
-    virtual double geodesicDistance([[maybe_unused]] double lat1, double lon1,
-                                    [[maybe_unused]] double lat2, double lon2) const {
+    virtual double geodesicDistance([[maybe_unused]] double lat1, [[maybe_unused]] double lon1,
+                    [[maybe_unused]] double lat2, [[maybe_unused]] double lon2) const {
         return 0.0;
     }
 

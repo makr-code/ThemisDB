@@ -119,3 +119,13 @@
 ## Breaking Changes
 - The `TemporalConflictResolver` and `SystemVersionedTable` C++ APIs are stable at v1.0 and will not change without a major version bump.
 - Future SQL-layer additions (`PERIOD FOR`, `FOR SYSTEM_TIME`) will be additive and backward-compatible with existing API-level usage.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `BiTemporalTable` – Bi-temporale Tabelle (valid-time + transaction-time); Tests + Bench vorhanden
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+

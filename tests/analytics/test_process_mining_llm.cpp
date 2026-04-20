@@ -67,7 +67,7 @@ protected:
     
     // Helper to simulate LLM analysis
     nlohmann::json simulateLLMAnalysis(
-        const nlohmann::json& input,
+        [[maybe_unused]] const nlohmann::json& input,
         const std::string& task_type
     ) {
         // In real implementation, this would call the LLM

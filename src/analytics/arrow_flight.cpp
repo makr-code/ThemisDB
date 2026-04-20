@@ -735,7 +735,10 @@ private:
             return;
         }
         flight_thread_ = std::thread([this]() {
-            flight_service_->Serve();
+            auto serve_status = flight_service_->Serve();
+            if (!serve_status.ok()) {
+                spdlog::warn("[ArrowFlight] serve exited with status: {}", serve_status.ToString());
+            }
         });
         spdlog::info("[ArrowFlight] native gRPC transport started at '{}'",
                      endpoint_);

@@ -44,7 +44,7 @@ public:
      */
     static std::string encodeHTML(std::string_view input) {
         std::string output;
-        output.reserve(input.size() * 1.2);  // Reserve extra space for encoding
+        output.reserve(input.size() + input.size() / 5);  // Reserve ~20% extra space for encoding
         
         for (char c : input) {
             switch (c) {
@@ -71,7 +71,7 @@ public:
      */
     static std::string encodeJavaScript(std::string_view input) {
         std::string output;
-        output.reserve(input.size() * 1.2);
+        output.reserve(input.size() + input.size() / 5);
         
         for (unsigned char c : input) {
             switch (c) {
@@ -111,7 +111,7 @@ public:
      */
     static std::string encodeURL(std::string_view input) {
         std::string output;
-        output.reserve(input.size() * 1.2);
+        output.reserve(input.size() + input.size() / 5);
         
         const char* hex = "0123456789ABCDEF";
         
@@ -138,7 +138,7 @@ public:
      */
     static std::string encodeJSON(std::string_view input) {
         std::string output;
-        output.reserve(input.size() * 1.2);
+        output.reserve(input.size() + input.size() / 5);
         
         for (unsigned char c : input) {
             switch (c) {

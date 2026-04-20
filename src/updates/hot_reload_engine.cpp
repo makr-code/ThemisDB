@@ -69,8 +69,8 @@ HotReloadEngine::HotReloadEngine(
 
 HotReloadEngine::~HotReloadEngine() = default;
 
-DownloadResult HotReloadEngine::downloadRelease(const std::string& version) {
-    DownloadResult result;
+HotReloadEngine::DownloadResult HotReloadEngine::downloadRelease(const std::string& version) {
+    HotReloadEngine::DownloadResult result;
     result.success = false;
     
     reportProgress(0, "Fetching manifest for version " + version);

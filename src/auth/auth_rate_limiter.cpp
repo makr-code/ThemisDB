@@ -431,7 +431,7 @@ void AuthRateLimiter::recordFailedAuth(
 
 void AuthRateLimiter::recordSuccessfulAuth(
     const std::string& user_id,
-    const std::string& ip_address)
+    [[maybe_unused]] const std::string& ip_address)
 {
     std::unique_lock<std::shared_mutex> lock(stats_mutex_);
     stats_.successful_auths++;

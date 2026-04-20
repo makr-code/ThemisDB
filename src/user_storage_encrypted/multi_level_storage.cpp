@@ -36,9 +36,11 @@
 #include <set>
 #include <cstdio>
 #include <sys/stat.h>
+#if defined(__linux__) || defined(__APPLE__)
 #include <sys/wait.h>
 #include <dirent.h>
 #include <unistd.h>
+#endif
 #include <filesystem>
 #include <spdlog/spdlog.h>
 #include <errno.h>

@@ -143,5 +143,9 @@ public:
     }
 };
 
+std::string exportChimeraMetrics(const std::vector<MetricsEntry>& metrics_list) {
+    return CHIMERAExporter::exportMetrics(metrics_list);
+}
+
 } // namespace performance
 } // namespace themis

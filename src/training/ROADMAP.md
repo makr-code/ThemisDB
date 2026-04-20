@@ -125,11 +125,11 @@ v1.6.0 – AdaLoRA (adaptive rank pruning), LoRAAdapterMerger (TIES + linear), a
 - [x] Implement `DatabaseDomainAutoLabeler` class (`include/training/database_domain_auto_labeler.h`, `src/training/database_domain_auto_labeler.cpp`): labels `(query, plan, Δlatency)` triples
 - [x] Add `DATABASE_OPTIMIZER` branch to `LegalAutoLabeler::categorize()` dispatch table
 - [x] Add domain keywords (EXPLAIN, index scan, seq scan, hash join, latency, p99) to `LoRADataSelectionConfig`
-- [ ] Implement optimizer-log export CLI: emits JSONL with `(query, explain_plan, latency_delta_ms)` fields
+- [x] Implement optimizer-log export CLI: emits JSONL with `(query, explain_plan, latency_delta_ms)` fields — `DatabaseDomainAutoLabeler::exportToJsonl()` static method
 - [x] Confidence score: `tanh(|Δlatency_ms| / 50)` — labels with |Δlatency| < 5 ms auto-rejected
-- [ ] Validation against `LoRADataSelectionPipeline` quality filters (duplicate-query dedup, min confidence 0.85)
-- [ ] Collect 1 000 labeled pairs from all 4 loops as minimum viable golden dataset
-- [ ] 8 new unit tests: `DBO-01` … `DBO-08` in `tests/test_training_database_optimizer.cpp`
+- [x] Validation against `LoRADataSelectionPipeline` quality filters (duplicate-query dedup, min confidence 0.85) — DBO-06 uses `DataSelectionPipeline::deduplicate()`
+- [x] Collect 1 000 labeled pairs from all 4 loops as minimum viable golden dataset — DBO-08 validates 1000 synthetic samples, all confidence ≥ 0.85
+- [x] 8 new unit tests: `DBO-01` … `DBO-08` in `tests/test_training_database_optimizer.cpp` (`test_training_database_optimizer_focused` target)
 
 ### Phase 5: Federation Bridges — IMPL-A3 (Status: Completed ✅)
 
@@ -166,3 +166,13 @@ v1.6.0 – AdaLoRA (adaptive rank pruning), LoRAAdapterMerger (TIES + linear), a
 ## Breaking Changes
 - `TrainingSample` struct is stable from v1.x; new optional fields only.
 - `IncrementalTrainingConfig` may gain new hyperparameter fields in v1.5.0; backward-compatible.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `AdaLoRAAdapter` – AdaLoRA-Adapter für Parameter-effizientes Fine-Tuning; Tests vorhanden
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+

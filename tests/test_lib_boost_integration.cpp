@@ -242,6 +242,7 @@ TEST_F(BoostLibIntegrationTest, BeastHttpParser) {
     
     auto consumed = parser.put(buffer.data(), ec);
     EXPECT_FALSE(ec);
+    EXPECT_GT(consumed, 0u);
     EXPECT_TRUE(parser.is_done());
     
     auto& req = parser.get();

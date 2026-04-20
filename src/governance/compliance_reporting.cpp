@@ -112,7 +112,7 @@ PolicyCoverageAnalyzer::CoverageResult PolicyCoverageAnalyzer::analyzeCoverage(
     const std::vector<std::string>& actions
 ) const {
     CoverageResult result;
-    result.total_resources_checked = resources.size();
+    result.total_resources_checked = static_cast<int>(resources.size());
     
     THEMIS_DEBUG("Analyzing coverage for {} resources across {} actions", 
                  resources.size(), actions.size());
@@ -180,7 +180,7 @@ std::vector<PolicyCoverageAnalyzer::OverlapResult> PolicyCoverageAnalyzer::detec
             overlap.resource_pattern = pattern.substr(0, colon_pos);
             overlap.action_pattern = pattern.substr(colon_pos + 1);
             overlap.overlapping_rule_ids = rule_ids;
-            overlap.overlap_count = rule_ids.size();
+            overlap.overlap_count = static_cast<int>(rule_ids.size());
             
             overlaps.push_back(overlap);
         }
@@ -387,7 +387,7 @@ ComplianceGapDetector::ComplianceStatus ComplianceGapDetector::getComplianceStat
         }
     }
     
-    status.total_requirements = filtered_reqs.size();
+    status.total_requirements = static_cast<int>(filtered_reqs.size());
     
     for (const auto& req : filtered_reqs) {
         if (checkRequirement(req, policy_mgr)) {
@@ -864,7 +864,7 @@ ComplianceReporter::PolicySummaryReport ComplianceReporter::generatePolicySummar
     PolicySummaryReport report;
     auto all_rules = policy_mgr.listRules();
     
-    report.total_rules = all_rules.size();
+    report.total_rules = static_cast<int>(all_rules.size());
     report.generated_at = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     
     for (const auto& rule : all_rules) {
@@ -1095,7 +1095,7 @@ ComplianceReporter::ChangeHistoryReport ComplianceReporter::generateChangeHistor
         }
     }
     
-    report.total_changes = report.changes.size();
+    report.total_changes = static_cast<int>(report.changes.size());
     
     THEMIS_INFO("Generated change history report: {} changes", report.total_changes);
     

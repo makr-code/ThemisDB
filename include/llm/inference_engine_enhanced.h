@@ -45,6 +45,15 @@
 
 using json = nlohmann::json;
 
+// Forward declarations for cross-shard speculative decoding
+namespace themis { namespace sharding {
+class RemoteExecutor;
+struct ShardInfo;
+} }
+
+// ShardInfo is stored by value in InferenceEngineEnhanced — include the full type.
+#include "sharding/shard_topology.h"
+
 /**
  * @file inference_engine_enhanced.h
  * @brief Enhanced LLM Inference Engine with P1 Features
@@ -112,6 +121,19 @@ public:
         /// The draft model is typically a small, quantised variant of the
         /// target model (e.g., INT4-quantised 0.5 B parameters).
         std::string speculative_draft_model_id;
+
+        /**
+         * @brief Remote shard identifier for cross-shard speculative decoding.
+         *
+         * When non-empty, trySpeculativeGeneration() will attempt to fetch
+         * draft tokens from this remote shard via RemoteExecutor::post() before
+         * falling back to the locally registered draft model.
+         *
+         * Format passed through to SpeculativeDecoder::Config::remote_draft_shard_id.
+         * Activate by also calling setRemoteExecutor() with a valid executor and
+         * the ShardInfo for the target shard.
+         */
+        std::string speculative_remote_draft_shard_id;
 
         // Prompt lookup decoding (n-gram based speculation-light path)
         bool enable_lookup_decoding = false;
@@ -430,6 +452,21 @@ public:
     void start();
     void shutdown();
     bool isRunning() const;
+
+    /**
+     * @brief Inject a RemoteExecutor for cross-shard speculative decoding.
+     *
+     * When set and @c Config::speculative_remote_draft_shard_id is non-empty,
+     * trySpeculativeGeneration() will POST draft-token requests to the remote
+     * shard before falling back to the locally registered draft model.
+     *
+     * @param exec          Pointer to the executor.  Pass @c nullptr to detach.
+     *                      Ownership is NOT transferred.
+     * @param draft_shard   ShardInfo describing the remote draft shard's
+     *                      endpoint, shard_id, and health status.
+     */
+    void setRemoteExecutor(sharding::RemoteExecutor* exec,
+                           const sharding::ShardInfo& draft_shard);
     
 private:
     Config config_;
@@ -447,6 +484,12 @@ private:
     // Speculative decoding — one decoder per engine instance.
     // nullptr when enable_speculative_decoding == false.
     std::unique_ptr<SpeculativeDecoder> speculative_decoder_;
+
+    // Optional RemoteExecutor for cross-shard speculative draft dispatch.
+    // nullptr when setRemoteExecutor() has not been called.  Not owned.
+    sharding::RemoteExecutor* remote_executor_ = nullptr;
+    // ShardInfo for the remote draft shard (valid only when remote_executor_ != nullptr).
+    sharding::ShardInfo remote_draft_shard_info_;
 
     // Lookup decoder (n-gram based, draft-model-free).
     // nullptr when enable_lookup_decoding == false.

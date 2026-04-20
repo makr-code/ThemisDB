@@ -141,7 +141,7 @@ protected:
     /**
      * Helper to check if a cloud provider SDK is available
      */
-    bool isCloudProviderAvailable(const std::string& provider) {
+    bool isCloudProviderAvailable([[maybe_unused]] const std::string& provider) {
 #ifdef THEMIS_HAS_AWS_SDK
         if (provider == "aws" || provider == "s3") return true;
 #endif
