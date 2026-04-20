@@ -1,9 +1,9 @@
 # Unused Functions Report
 
-_Generated: 2026-04-20 10:51:55Z (heuristische statische Analyse + ROADMAP/FUTURE_ENHANCEMENTS Signale)_
+_Erstellt: 2026-04-20 10:51:55Z · Letzte Quellcode-Verifikation: 2026-04-20 11:04:49Z_
 
-Dieses Dokument benennt alle **nicht extern genutzten Funktionen/Symbole** pro Modul in `src/`  
-und liefert eine **Prognose**, ob eine zukünftige Nutzung vorgesehen ist.
+Dieses Dokument benennt alle **Symbole ohne nachgewiesene externe Aufrufer** pro Modul in `src/`.  
+Jedes Symbol wurde durch direkten Quellcode-Grep (`src/` + `include/`) verifiziert.
 
 Ausgangsbasis: [`MODULE_FUNCTION_USAGE_MAP.md`](./MODULE_FUNCTION_USAGE_MAP.md)
 
@@ -11,23 +11,47 @@ Ausgangsbasis: [`MODULE_FUNCTION_USAGE_MAP.md`](./MODULE_FUNCTION_USAGE_MAP.md)
 
 | Symbol | Bedeutung |
 |--------|-----------|
-| 🟡 `PLANNED` | Zukünftige Nutzung vorgesehen – ROADMAP/FUTURE_ENHANCEMENTS enthält konkretes Signal |
-| 🔵 `UNDER_REVIEW` | Ungeklärt – Symbol ist bekannt, aber kein klares Milestonesignal |
+| 🟢 `IMPLEMENTIERT` | Symbol **existiert im Quellcode**, kein externer Aufrufer in `src/`+`include/` gefunden |
+| ⚠️ `VERALTET` | Symbol **existiert und wird bereits extern genutzt** – Eintrag in MODULE_FUNCTION_USAGE_MAP war veraltet |
+| 🔵 `UNDER_REVIEW` | Ungeklärt – Symbol ist bekannt, aber kein klares Milestonesignal und kein bestätigter Aufrufer |
 | ⚪ `INTERNAL_ONLY` | Internes Hilfssymbol – kein externer Aufruf erwartet (private Helper) |
 | 🔴 `CANDIDATE_FOR_REMOVAL` | Entfernung empfohlen – kein Planungssignal, keine Nutzung nachgewiesen |
 
+> **Wichtig:** Das Label `🟡 PLANNED` aus der vorherigen Version dieses Dokuments war irreführend,
+> da es suggerierte, die Symbole seien noch nicht implementiert. Alle 96 Symbole existieren
+> im Quellcode (verifiziert am 2026-04-20). Die `PLANNED`-Einträge wurden entsprechend korrigiert.
+
 ## Statistik
 
-- **Gesamt:** 112 ungenutzte Symbole in 47 Modulen
-- **⚪ INTERNAL_ONLY:** 12
-- **🔴 CANDIDATE_FOR_REMOVAL:** 0
-- **🔵 UNDER_REVIEW:** 4
-- **🟡 PLANNED:** 96
+- **Gesamt geprüfte Symbole:** 112 in 47 Modulen
+- **🟢 IMPLEMENTIERT** (vorhanden, kein externer Aufrufer): 88
+- **⚠️ VERALTET** (vorhanden, externe Nutzung nachgewiesen – Dokumentationsfehler): 8
+- **⚪ INTERNAL_ONLY** (interne Hilfsfunktionen): 12
+- **🔵 UNDER_REVIEW** (ungeklärt): 4
+- **🔴 CANDIDATE_FOR_REMOVAL**: 0
 
-## Soforthandlungsbedarf
+## Handlungsbedarf
 
-Symbole mit `🔴 CANDIDATE_FOR_REMOVAL` sollten kurzfristig in den jeweiligen  
-Modul-`ROADMAP.md`/`FUTURE_ENHANCEMENTS.md` als explizite Entscheidung (keep/remove) festgehalten werden.
+### ⚠️ Sofortbedarf: Veraltete Einträge in `MODULE_FUNCTION_USAGE_MAP.md` korrigieren
+
+Die folgenden Symbole wurden im Nutzungsmap als "kein externer Aufrufer" markiert,
+sind aber nachweislich extern eingesetzt. Der Map-Eintrag wird korrigiert:
+
+| Modul | Symbol | Bestätigte externe Call-Site(s) |
+|-------|--------|----------------------------------|
+| `auth` | `ApiKeyAuthenticator` | `src/server/auth_middleware.cpp:103,108` |
+| `cache` | `AdaptiveQueryCache` | `src/server/cache_admin_api_handler.cpp:85, src/server/http_server.cpp:355` |
+| `cdc` | `CDCAdmin` | `src/server/changefeed_api_handler.cpp:709,743` |
+| `exporters` | `AqlPredicateFilter` | `src/server/export_api_handler.cpp:122` |
+| `maintenance` | `DatabaseMaintenanceOrchestrator` | `src/server/http_server.cpp:1182` |
+| `toolbox` | `IngestionToolbox` | `src/rag/rag_ingestion_bridge.cpp:32, src/aql/aql_ingestion_bridge.cpp:27` |
+| `transaction` | `BranchManager` | `src/server/branch_api_handler.cpp:31, src/server/http_server.cpp:470` |
+| `utils` | `AuditLogger` | `src/server/policy_engine.cpp:38,203, src/server/http_server.cpp:741` |
+
+### 🟢 Langfristig: Implementierte aber ungenutzte Symbole (kein Handlungsdruck)
+
+Diese Symbole sind implementiert, werden aber (noch) nicht extern konsumiert.
+Handlungsbedarf besteht nur wenn sie dauerhaft ungenutzt bleiben (dann `CANDIDATE_FOR_REMOVAL`).
 
 ---
 
@@ -35,347 +59,347 @@ Modul-`ROADMAP.md`/`FUTURE_ENHANCEMENTS.md` als explizite Entscheidung (keep/rem
 
 ### `acceleration`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `logCapabilities` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `logCapabilities` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `api`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `hookId` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `registerHook` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `unregisterHook` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `getHooks` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `getHooks` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `hookId` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `registerHook` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `unregisterHook` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `aql`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `ReActAgent` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `ReActAgent` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `auth`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `ApiKeyAuthenticator` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `constantTimeEqual` | 🟡 PLANNED | Security-API; Nutzung durch Security-Consumer bei Feature-Aktivierung |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `ApiKeyAuthenticator` | ⚠️ VERALTET | Symbol ist implementiert und wird extern genutzt – Quellenachweise: src/server/auth_middleware.cpp:103,108 |
+| `constantTimeEqual` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `base`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `statusFromString` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `configToJson` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `configFromJson` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `configFromJson` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `configToJson` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `statusFromString` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `cache`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `AdaptiveQueryCache` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `AdaptiveQueryCache` | ⚠️ VERALTET | Symbol ist implementiert und wird extern genutzt – Quellenachweise: src/server/cache_admin_api_handler.cpp:85, src/server/http_server.cpp:355 |
 
 ### `cdc`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `CDCAdmin` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
-| `purgeTenant` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `CDCAdmin` | ⚠️ VERALTET | Symbol ist implementiert und wird extern genutzt – Quellenachweise: src/server/changefeed_api_handler.cpp:709,743 |
+| `purgeTenant` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `chaos`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `FaultInjector` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `FaultInjector` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `content`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `detectorType` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `PhotoDNAAbuseDetector` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
-| `TextAbuseDetector` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
-| `createPdfExtractorAdapter` | 🟡 PLANNED | Plugin-Registrar-Muster; Modul hat aktive Roadmap mit Erweiterungsplan |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `PhotoDNAAbuseDetector` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `TextAbuseDetector` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `createPdfExtractorAdapter` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `detectorType` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `distributed_knowledge`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `GossipAdapterPublisher` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `GossipAdapterPublisher` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `ethics_ai`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `EthicsAIPlugin` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
-| `strengthToScore` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `EthicsAIPlugin` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `strengthToScore` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `exporters`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `AqlPredicateFilter` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `exportWithArrow` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `exportFallback` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `AqlPredicateFilter` | ⚠️ VERALTET | Symbol ist implementiert und wird extern genutzt – Quellenachweise: src/server/export_api_handler.cpp:122 |
+| `exportFallback` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `exportWithArrow` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `geo`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `GeoFaissKnn` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
-| `knnSearch` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `GeoFaissKnn` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `knnSearch` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `governance`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `CcpaRuleSet` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `CcpaRuleSet` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `gpu`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `MakeCPUFallback` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `EnumerateCUDA` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `EnumerateROCm` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `resolveDevices` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `EnumerateCUDA` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `EnumerateROCm` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `MakeCPUFallback` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `resolveDevices` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `graph`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `LocalShardGraphExecutor` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `LocalShardGraphExecutor` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 | `qualify` | 🔵 UNDER_REVIEW | Modul hat aktive Roadmap; Verknüpfung zum Symbol nicht explizit |
 
 ### `importers`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `computeEventHash` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `computeEventHash` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `index`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `QueryPatternTracker` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `QueryPatternTracker` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `ingestion`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `AgenticReferenceValidator` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `AgenticReferenceValidator` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `llama_cpp`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `LlamaCppPlugin` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `LlamaCppPlugin` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `llm`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `ActiveVRAMAllocator` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `ActiveVRAMAllocator` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `maintenance`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `DatabaseMaintenanceOrchestrator` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `DatabaseMaintenanceOrchestrator` | ⚠️ VERALTET | Symbol ist implementiert und wird extern genutzt – Quellenachweise: src/server/http_server.cpp:1182 |
 
 ### `metadata`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `CatalogExporter` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `buildAtlasPayload` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `sendToAtlas` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `buildDataHubProposals` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `sendToDataHub` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `CatalogExporter` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `buildAtlasPayload` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `buildDataHubProposals` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `sendToAtlas` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `sendToDataHub` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `network`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `AdaptiveCircuitBreaker` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `AdaptiveCircuitBreaker` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `onnx_clip`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `sha256HexOfFile` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `computeEmbedding` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 | `fnv1a64_str` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
 | `mixMetadata` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
 | `nextFloat01` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
-| `computeEmbedding` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
+| `sha256HexOfFile` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
 
 ### `performance`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `AdaptiveQueryCompiler` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `AdaptiveQueryCompiler` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `plugins`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `AIPluginGenerator` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `generatePlugin` | 🟡 PLANNED | Plugin-Registrar-Muster; Modul hat aktive Roadmap mit Erweiterungsplan |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `AIPluginGenerator` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `generatePlugin` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `process`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `importFile` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `exportFromJson` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
 | `escapeXml_` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
+| `exportFromJson` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `importFile` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 | `nodeTypeToXmlTag_` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
 | `xmlTagToNodeType_` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
 
 ### `projects`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `DocumentManager` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `uploadDocument` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `getDocumentBlob` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `getDocumentChunks` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `DocumentManager` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `getDocumentBlob` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `getDocumentChunks` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `uploadDocument` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `prompt_engineering`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `attackCategoryName` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
 | `SimpleAdversarialTester` | 🔵 UNDER_REVIEW | Modul hat aktive Roadmap; Verknüpfung zum Symbol nicht explizit |
+| `attackCategoryName` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `query`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `executeHashJoin` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `executeMergeJoin` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `executeNestedLoopJoin` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `executeIndexNestedLoopJoin` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `executeGraceHashJoin` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `executeBroadcastJoin` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `executeBroadcastJoin` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `executeGraceHashJoin` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `executeHashJoin` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `executeIndexNestedLoopJoin` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `executeMergeJoin` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `executeNestedLoopJoin` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `rag`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `ABTestingFramework` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `ABTestingFramework` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `replication`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `selectBase` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `mergeJson` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `mergeFields` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `mergeFields` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `mergeJson` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `selectBase` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `scheduler`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `activateScheduler` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `deactivateScheduler` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `activateScheduler` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `deactivateScheduler` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `security`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `AccessControl` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
-| `verifyMFA` | 🟡 PLANNED | Security-API; Nutzung durch Security-Consumer bei Feature-Aktivierung |
-| `disableMFA` | 🟡 PLANNED | Security-API; Nutzung durch Security-Consumer bei Feature-Aktivierung |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `AccessControl` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `disableMFA` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `verifyMFA` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `server`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `AdaptiveRateLimiter` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `pruneAndAdapt` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
-| `computeP99` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
-| `computeErrorRate` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `AdaptiveRateLimiter` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 | `AdminApiHandler` | 🔵 UNDER_REVIEW | Admin-API; Nutzung ops-workflow-abhängig (nicht immer im Build aktiv) |
+| `computeErrorRate` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
+| `computeP99` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
+| `pruneAndAdapt` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
 
 ### `stable_diffusion`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `SDPlugin` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 | `free_sd_ctx` | 🔵 UNDER_REVIEW | Modul hat aktive Roadmap; Verknüpfung zum Symbol nicht explizit |
-| `samplerFromString` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `SDPlugin` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
+| `samplerFromString` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `storage`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `AdaptiveCompactionScheduler` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `AdaptiveCompactionScheduler` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `temporal`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `BiTemporalTable` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `BiTemporalTable` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `timeseries`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `watermarkThreshold` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `watermarkReached` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `watermarkReached` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `watermarkThreshold` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `toolbox`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `enrichExisting` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
-| `contentManager` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
-| `IngestionToolbox` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `IngestionToolbox` | ⚠️ VERALTET | Symbol ist implementiert und wird extern genutzt – Quellenachweise: src/rag/rag_ingestion_bridge.cpp:32, src/aql/aql_ingestion_bridge.cpp:27 |
+| `contentManager` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `enrichExisting` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `training`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `AdaLoRAAdapter` | 🟡 PLANNED | Plugin-Registrar-Muster; Modul hat aktive Roadmap mit Erweiterungsplan |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `AdaLoRAAdapter` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `transaction`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `BranchManager` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `BranchManager` | ⚠️ VERALTET | Symbol ist implementiert und wird extern genutzt – Quellenachweise: src/server/branch_api_handler.cpp:31, src/server/http_server.cpp:470 |
 
 ### `user_storage_encrypted`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `createContainer` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `mountContainer` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
-| `unmountContainer` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
-| `isMounted` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
-| `GocryptfsBackend` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `GocryptfsBackend` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `createContainer` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `isMounted` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `mountContainer` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `unmountContainer` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 
 ### `utils`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `AuditLogger` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `AuditLogger` | ⚠️ VERALTET | Symbol ist implementiert und wird extern genutzt – Quellenachweise: src/server/policy_engine.cpp:38,203, src/server/http_server.cpp:741 |
 
 ### `voice`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `NoiseSuppressor` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `NoiseSuppressor` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `applyRNNoiseSuppression` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `processRNNoiseFrames` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 | `resampleLinear` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
-| `processRNNoiseFrames` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `applyRNNoiseSuppression` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
 
 ### `whisper`
 
-| Symbol | Prognose | Begründung |
-|--------|----------|------------|
-| `canRead` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
-| `parseWav` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
+| Symbol | Status | Begründung |
+|--------|--------|------------|
+| `WhisperPlugin` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `addReader` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `canRead` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| `parseWav` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
 | `shellEscape` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
-| `addReader` | 🟡 PLANNED | Konzept in ROADMAP/FUTURE_ENHANCEMENTS erwähnt; Planungssignale vorhanden |
-| `WhisperPlugin` | 🟡 PLANNED | Direkterwähnung im Modul-ROADMAP/FUTURE_ENHANCEMENTS mit Planungssignal |
