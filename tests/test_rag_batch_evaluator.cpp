@@ -45,9 +45,11 @@
 #include <gtest/gtest.h>
 
 #include <atomic>
+#include <algorithm>
 #include <chrono>
 #include <memory>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 using namespace themis::rag::judge;
@@ -76,6 +78,15 @@ static EvaluationInput makeInput(const std::string& query = "What is the capital
     doc.content          = "Paris is the capital of France.";
     doc.similarity_score = 0.95;
     in.documents.push_back(doc);
+    return in;
+}
+
+static EvaluationInput makeInputWithMetadata(
+    const std::string& query,
+    const std::string& answer,
+    const std::unordered_map<std::string, std::string>& metadata) {
+    auto in = makeInput(query, answer);
+    in.metadata = metadata;
     return in;
 }
 
@@ -319,4 +330,69 @@ TEST(BatchEvaluatorTest, StopAndResume) {
 
     auto result = eval.evaluateBatch(std::vector<EvaluationInput>{makeInput()});
     EXPECT_EQ(result.results.size(), 1u);
+}
+
+TEST(BatchEvaluatorTest, ReliabilityScorecardTracksInjectionAndTraceability) {
+    auto judge = makeJudge();
+    BatchEvaluatorConfig cfg;
+    cfg.num_workers = 1;
+    cfg.max_prompt_injection_success_rate = 0.1;
+    BatchEvaluator eval(judge, cfg);
+
+    std::vector<EvaluationInput> inputs;
+    inputs.push_back(makeInputWithMetadata(
+        "What is the capital of France?",
+        "Paris",
+        {
+            {"scenario", "prompt_injection"},
+            {"attack_succeeded", "true"},
+            {"model_version", "judge-v1"},
+            {"guardrail_decision", "allow"},
+            {"context_id", "ctx-1"},
+            {"request_cost", "0.5"},
+            {"latency_ms", "120"}
+        }));
+    inputs.push_back(makeInputWithMetadata(
+        "What is the capital of Germany?",
+        "Berlin",
+        {
+            {"scenario", "prompt_injection"},
+            {"attack_succeeded", "false"},
+            {"request_cost", "0.5"},
+            {"latency_ms", "80"}
+        }));
+
+    const auto result = eval.evaluateBatch(inputs);
+    EXPECT_EQ(result.prompt_injection_cases, 2u);
+    EXPECT_EQ(result.prompt_injection_successes, 1u);
+    EXPECT_DOUBLE_EQ(result.prompt_injection_success_rate, 0.5);
+    EXPECT_EQ(result.traceable_decisions, 1u);
+    EXPECT_EQ(result.untraceable_decisions, 1u);
+    EXPECT_FALSE(result.release_gates_passed);
+    EXPECT_NE(std::find(result.failed_release_gates.begin(),
+                        result.failed_release_gates.end(),
+                        "prompt_injection_success_rate"),
+              result.failed_release_gates.end());
+}
+
+TEST(BatchEvaluatorTest, ReliabilityScorecardRangesAreBounded) {
+    auto judge = makeJudge();
+    BatchEvaluatorConfig cfg;
+    cfg.num_workers = 1;
+    BatchEvaluator eval(judge, cfg);
+
+    const auto result = eval.evaluateBatch(std::vector<EvaluationInput>{
+        makeInputWithMetadata("What is AI?", "Artificial intelligence", {{"request_cost", "0.4"}}),
+        makeInputWithMetadata("What is ML?", "Machine learning", {{"request_cost", "0.6"}})
+    });
+
+    EXPECT_EQ(result.results.size(), 2u);
+    EXPECT_GE(result.hallucination_rate, 0.0);
+    EXPECT_LE(result.hallucination_rate, 1.0);
+    EXPECT_GE(result.groundedness_rate, 0.0);
+    EXPECT_LE(result.groundedness_rate, 1.0);
+    EXPECT_GE(result.bias_fairness_drift_rate, 0.0);
+    EXPECT_LE(result.bias_fairness_drift_rate, 1.0);
+    EXPECT_GE(result.p95_latency_ms, 0.0);
+    EXPECT_GE(result.cost_to_quality_efficiency, 0.0);
 }

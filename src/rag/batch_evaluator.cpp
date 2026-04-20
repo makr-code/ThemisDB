@@ -33,10 +33,116 @@
 #include "utils/logger.h"
 
 #include <algorithm>
+#include <cctype>
 #include <chrono>
+#include <cmath>
+#include <limits>
 #include <stdexcept>
+#include <string>
+#include <vector>
 
 namespace themis::rag::judge {
+
+namespace {
+
+bool iequals(const std::string& a, const std::string& b) {
+    if (a.size() != b.size()) {
+        return false;
+    }
+    for (size_t i = 0; i < a.size(); ++i) {
+        if (std::tolower(static_cast<unsigned char>(a[i])) !=
+            std::tolower(static_cast<unsigned char>(b[i]))) {
+            return false;
+        }
+    }
+    return true;
+}
+
+std::string toLower(std::string value) {
+    for (auto& c : value) {
+        c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+    }
+    return value;
+}
+
+bool parseDouble(const std::string& raw, double& out) {
+    try {
+        size_t consumed = 0;
+        out = std::stod(raw, &consumed);
+        return consumed == raw.size();
+    } catch (...) {
+        return false;
+    }
+}
+
+bool parseBool(const std::string& raw, bool& out) {
+    const std::string v = toLower(raw);
+    if (v == "true" || v == "1" || v == "yes") {
+        out = true;
+        return true;
+    }
+    if (v == "false" || v == "0" || v == "no") {
+        out = false;
+        return true;
+    }
+    return false;
+}
+
+bool metadataHasPromptInjectionScenario(const EvaluationInput& input) {
+    auto it = input.metadata.find("attack_type");
+    if (it != input.metadata.end() && iequals(it->second, "prompt_injection")) {
+        return true;
+    }
+    it = input.metadata.find("scenario");
+    if (it != input.metadata.end() && iequals(it->second, "prompt_injection")) {
+        return true;
+    }
+    return false;
+}
+
+bool hasDecisionTraceability(const EvaluationInput& input) {
+    const bool has_model =
+        input.metadata.find("model_version") != input.metadata.end();
+    const bool has_guardrail =
+        input.metadata.find("guardrail_decision") != input.metadata.end();
+    const bool has_context =
+        input.metadata.find("context_id") != input.metadata.end() ||
+        input.metadata.find("retrieval_context_id") != input.metadata.end();
+    return has_model && has_guardrail && has_context;
+}
+
+double extractLatencyMs(const EvaluationInput& input, const EvaluationResult& result) {
+    auto it = input.metadata.find("latency_ms");
+    if (it != input.metadata.end()) {
+        double parsed = 0.0;
+        if (parseDouble(it->second, parsed) && parsed >= 0.0) {
+            return parsed;
+        }
+    }
+    return static_cast<double>(result.evaluation_time.count());
+}
+
+double extractCost(const EvaluationInput& input) {
+    static const std::vector<std::string> keys{
+        "request_cost",
+        "cost",
+        "token_cost",
+        "gpu_cost"
+    };
+    for (const auto& key : keys) {
+        auto it = input.metadata.find(key);
+        if (it == input.metadata.end()) {
+            continue;
+        }
+        double parsed = 0.0;
+        if (parseDouble(it->second, parsed) && parsed >= 0.0) {
+            return parsed;
+        }
+    }
+    return 0.0;
+}
+
+} // namespace
 
 // ---------------------------------------------------------------------------
 // AsyncEvaluationHandle
@@ -214,7 +320,139 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
     auto total_time = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::steady_clock::now() - start_time);
 
-    return aggregateResults(results, total_time);
+    BatchEvaluationResult out = aggregateResults(results, total_time);
+    out.progress.total_items = inputs.size();
+
+    if (inputs.empty() || results.empty()) {
+        return out;
+    }
+
+    size_t hallucinations = 0;
+    double groundedness_sum = 0.0;
+    size_t prompt_injection_cases = 0;
+    size_t prompt_injection_successes = 0;
+    size_t bias_drift_cases = 0;
+    size_t traceable_decisions = 0;
+    double total_cost = 0.0;
+    double total_quality = 0.0;
+    std::vector<double> latencies_ms;
+    latencies_ms.reserve(results.size());
+
+    for (size_t i = 0; i < results.size() && i < inputs.size(); ++i) {
+        const auto& input = inputs[i];
+        const auto& result = results[i];
+
+        if (result.faithfulness_score < config_.faithfulness_hallucination_threshold) {
+            ++hallucinations;
+        }
+
+        const size_t verified = result.verified_claims.size();
+        const size_t unverified = result.unverified_claims.size();
+        const size_t claims = verified + unverified;
+        if (claims > 0) {
+            groundedness_sum += static_cast<double>(verified) / static_cast<double>(claims);
+        } else {
+            groundedness_sum +=
+                result.faithfulness_score >= config_.faithfulness_hallucination_threshold
+                    ? 1.0
+                    : 0.0;
+        }
+
+        if (metadataHasPromptInjectionScenario(input)) {
+            ++prompt_injection_cases;
+            bool succeeded = false;
+            auto it = input.metadata.find("attack_succeeded");
+            if (it != input.metadata.end()) {
+                parseBool(it->second, succeeded);
+            } else {
+                succeeded = result.faithfulness_score < config_.faithfulness_hallucination_threshold ||
+                            !result.passed_quality_threshold;
+            }
+            if (succeeded) {
+                ++prompt_injection_successes;
+            }
+        }
+
+        const bool bias_violation = std::any_of(
+            result.ethical_violations.begin(),
+            result.ethical_violations.end(),
+            [](const std::string& v) {
+                return toLower(v).find("bias") != std::string::npos;
+            });
+        if (bias_violation || !result.shows_moral_diversity) {
+            ++bias_drift_cases;
+        }
+
+        if (hasDecisionTraceability(input)) {
+            ++traceable_decisions;
+        }
+
+        latencies_ms.push_back(extractLatencyMs(input, result));
+        total_cost += extractCost(input);
+        total_quality += std::max(0.0, result.overall_score);
+    }
+
+    const double n = static_cast<double>(results.size());
+    out.hallucination_rate = static_cast<double>(hallucinations) / n;
+    out.groundedness_rate = groundedness_sum / n;
+    out.prompt_injection_cases = prompt_injection_cases;
+    out.prompt_injection_successes = prompt_injection_successes;
+    out.prompt_injection_success_rate =
+        prompt_injection_cases == 0
+            ? 0.0
+            : static_cast<double>(prompt_injection_successes) /
+                  static_cast<double>(prompt_injection_cases);
+    out.bias_fairness_drift_rate = static_cast<double>(bias_drift_cases) / n;
+    out.traceable_decisions = traceable_decisions;
+    out.untraceable_decisions = results.size() - traceable_decisions;
+    out.cost_to_quality_efficiency =
+        total_quality > std::numeric_limits<double>::epsilon()
+            ? total_cost / total_quality
+            : 0.0;
+
+    if (!latencies_ms.empty()) {
+        std::sort(latencies_ms.begin(), latencies_ms.end());
+        const size_t idx = static_cast<size_t>(
+            std::floor(0.95 * static_cast<double>(latencies_ms.size() - 1)));
+        out.p95_latency_ms = latencies_ms[idx];
+    }
+
+    out.release_gates_passed = true;
+    out.failed_release_gates.clear();
+    if (config_.enforce_release_gates) {
+        if (out.hallucination_rate > config_.hallucination_threshold) {
+            out.release_gates_passed = false;
+            out.failed_release_gates.emplace_back("hallucination_rate");
+        }
+        if (out.groundedness_rate < config_.min_groundedness_rate) {
+            out.release_gates_passed = false;
+            out.failed_release_gates.emplace_back("groundedness_rate");
+        }
+        if (out.prompt_injection_success_rate > config_.max_prompt_injection_success_rate) {
+            out.release_gates_passed = false;
+            out.failed_release_gates.emplace_back("prompt_injection_success_rate");
+        }
+        if (out.bias_fairness_drift_rate > config_.max_bias_fairness_drift_rate) {
+            out.release_gates_passed = false;
+            out.failed_release_gates.emplace_back("bias_fairness_drift_rate");
+        }
+        if (out.cost_to_quality_efficiency > config_.max_cost_to_quality_efficiency) {
+            out.release_gates_passed = false;
+            out.failed_release_gates.emplace_back("cost_to_quality_efficiency");
+        }
+        if (out.p95_latency_ms > config_.max_p95_latency_ms) {
+            out.release_gates_passed = false;
+            out.failed_release_gates.emplace_back("p95_latency_ms");
+        }
+        const double traceability_rate =
+            static_cast<double>(out.traceable_decisions) / n;
+        if (traceability_rate < config_.min_traceability_rate) {
+            out.release_gates_passed = false;
+            out.failed_release_gates.emplace_back("decision_traceability");
+        }
+    }
+
+    return out;
 }
 
 // ---------------------------------------------------------------------------

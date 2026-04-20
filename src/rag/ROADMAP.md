@@ -156,6 +156,13 @@ v2.0.0 – Production-ready Retrieval-Augmented Generation system. 27 implementa
   - `CLO-FED-01`: `FEDERATED_ROUND_START` fires after Loop 4 + 24 h guard respected
   - `CLO-COOL-01`: cooldown guard prevents concurrent loop interference
 
+### Phase 9: AI Reliability & Safety Evaluation Program (Status: Completed ✅)
+- [x] Benchmark design completed (Target: Q2 2026): cross-domain goldenset harness (legal/medical/financial) via `RAGTestCase` batches, red-team injection scenarios via `AdversarialTester`, and standardized severity-ready outputs in `BatchEvaluationResult`.
+- [x] Measurement pipeline completed (Target: Q2 2026): deterministic offline replay via `BatchEvaluator::evaluateBatch`, online hallucination drift monitoring/alerting via `HallucinationDashboard`, and decision traceability coverage metrics (`traceable_decisions`/`untraceable_decisions`) in `BatchEvaluationResult`.
+- [x] Guardrail optimization completed (Target: Q2 2026): prompt-injection scenario accounting + success-rate tracking, bias/fairness drift detection (`bias_fairness_drift_rate`), groundedness computation (`groundedness_rate`), and cost-to-quality efficiency metric (`cost_to_quality_efficiency`) in `BatchEvaluator`.
+- [x] Release gates completed (Target: Q2 2026): configurable gate thresholds in `BatchEvaluatorConfig` (hallucination, groundedness, injection success, bias drift, p95 latency, cost efficiency, traceability) with blocking decision (`release_gates_passed`) and explicit regression reasons (`failed_release_gates`).
+- [x] Focused validation completed: `tests/test_rag_batch_evaluator.cpp` covers injection success-rate computation, traceability coverage, bounded reliability-score ranges, and release-gate blocking behavior.
+
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (streaming_retriever: 28 test cases; reranker: 30+ test cases; document_splitter: 37 test cases)
 - [x] Unit tests coverage > 80% (streaming_retriever: 28 tests; reranker: 30+ tests; hybrid_retriever: 31 tests)
@@ -196,4 +203,3 @@ _Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNC
 
 - `ABTestingFramework` – A/B-Testing für RAG-Pipelines (Retrieval-/Ranking-Strategien)
   > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
-
