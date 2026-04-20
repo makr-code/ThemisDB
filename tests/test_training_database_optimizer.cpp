@@ -51,16 +51,6 @@ using themis::training::LoRADataSelectionConfig;
 
 namespace {
 
-/// Convert a LabeledDbSample to a DataSample for pipeline integration tests.
-DataSample toDataSample(const LabeledDbSample& s, const std::string& id) {
-    DataSample ds;
-    ds.id       = id;
-    ds.text     = s.query_text;
-    ds.language = "en";
-    ds.domain   = "database_optimizer";
-    return ds;
-}
-
 /// Build a JSONL-friendly string of `lines` from the export output.
 /// Returns the number of lines (ignoring trailing newline).
 std::size_t countJsonlLines(const std::string& jsonl) {
