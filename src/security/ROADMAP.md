@@ -231,22 +231,18 @@ _Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNC
 
 - `AccessControl` – ABAC-Zugriffssteuerung; genutzt in compliance_reporter.cpp + Tests + Bench
 
-### 🟡 UNGENUTZT — ⚠️ STUB (kein Test, kein externer Aufrufer, unvollständige Implementierung)
+### ✅ Aktiv — Security-Fixes 2026-04-20
 
 - `verifyMFA` – Prüft MFA-Token für privilegierte Operationen.
-  **Implementierungsstatus:** Stub — akzeptiert **jeden nicht-leeren String** als gültiges MFA-Token.
-  Kommentar im Code: "For now, always return true if token is provided. Real implementation would
-  call mfa_authenticator_->validateTOTP()". Ein `// STUB/SIMULATION NOTE:` Kommentar wurde in
-  `src/security/access_control.cpp` ergänzt.
-  > **Sicherheitsrisiko:** MFA-Schutz ist wirkungslos — jeder Token-Wert wird akzeptiert.
-  > Muss durch echten TOTP/FIDO2-Validator ersetzt werden, bevor MFA-geschützte Endpunkte
-  > extern erreichbar sind.
+  **Implementierungsstatus (ab 2026-04-20):** Vollständig implementiert. Schlägt den User in
+  `AccessControl::mfa_enrollments_` nach (map: `user_id → MFAAuthenticator::EnrollmentData`),
+  ruft `mfa_authenticator_->validateTOTP(secret_base32, token)` auf und fällt bei Misserfolg auf
+  `validateRecoveryCode()` zurück (markiert den Code als verbraucht). Fehlendes oder deaktiviertes
+  Enrollment → `false`, kein Silent-Pass-through mehr.
+  `enrollMFA()` persistiert das Enrollment (`enabled = true`) in `mfa_enrollments_`.
 
 - `disableMFA` – Deaktiviert MFA für einen User (Admin-Only-Pfad).
-  **Implementierungsstatus:** Stub — schreibt nur ein Audit-Log-Event, persistiert aber keine
-  Zustandsänderung. MFA bleibt für den User aktiv, da keine Credentials aus dem Store gelöscht
-  werden. Ein `// STUB/SIMULATION NOTE:` Kommentar wurde in `src/security/access_control.cpp`
-  ergänzt.
-  > **Aktion:** Storage-seitige MFA-Credential-Löschung implementieren und mit User-Auth-Store
-  > koppeln, bevor dieser Endpunkt extern exponiert wird.
+  **Implementierungsstatus (ab 2026-04-20):** Vollständig implementiert. Ruft
+  `mfa_enrollments_.erase(user_id)` auf — nach diesem Aufruf schlägt `verifyMFA()` für den User
+  garantiert fehl. Audit-Log-Event wird weiterhin geschrieben.
 

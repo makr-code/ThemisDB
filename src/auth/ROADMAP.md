@@ -106,9 +106,6 @@ _Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNC
 ### ✅ Aktiv (implementiert + externer Aufrufer bestätigt)
 
 - `ApiKeyAuthenticator` – Authentifiziert HTTP-Requests via API-Key; genutzt in auth_middleware.cpp
-
-### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
-
-- `constantTimeEqual` – Zeitkonstanter Byte-Vergleich gegen Timing-Side-Channel bei API-Key-Checks
-  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+- `constantTimeEqual` – Zeitkonstanter Byte-Vergleich gegen Timing-Side-Channel bei API-Key-Checks;
+  genutzt in `api_key_authenticator.cpp`.
 
