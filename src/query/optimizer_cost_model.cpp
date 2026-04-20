@@ -23,6 +23,7 @@
 #include <algorithm>
 #include <cmath>
 #include <chrono>
+#include <thread>
 
 namespace themis {
 
@@ -439,7 +440,130 @@ void OptimizerCostModel::updateConstant(const std::string& name, double value) {
         constants_.networkBandwidth = value;
     } else if (name == "networkLatency") {
         constants_.networkLatency = value;
+    } else if (name == "gpu_row_threshold_low") {
+        constants_.gpu_row_threshold_low = static_cast<size_t>(value);
+    } else if (name == "gpu_row_threshold_high") {
+        constants_.gpu_row_threshold_high = static_cast<size_t>(value);
+    } else if (name == "vram_safety_factor") {
+        constants_.vram_safety_factor = value;
+    } else if (name == "cpu_batch_thread_low") {
+        constants_.cpu_batch_thread_low = static_cast<size_t>(value);
+    } else if (name == "cpu_batch_thread_high") {
+        constants_.cpu_batch_thread_high = static_cast<size_t>(value);
+    } else if (name == "msgpack_row_threshold") {
+        constants_.msgpack_row_threshold = static_cast<size_t>(value);
     }
+}
+
+// =============================
+// Serialization Strategy Advisor
+// =============================
+
+OptimizerCostModel::SerializationAdvice
+OptimizerCostModel::adviseSerializationStrategy(
+        size_t       estimated_row_count,
+        size_t       avg_row_bytes,
+        bool         gpu_available,
+        size_t       vram_free_bytes,
+        WorkloadType workload) const {
+
+    using Format        = SerializationAdvice::Format;
+    using ExecutionPath = SerializationAdvice::ExecutionPath;
+
+    SerializationAdvice advice;
+
+    // Effective CPU thread count for batch paths
+    const size_t hw_threads = std::thread::hardware_concurrency();
+    const size_t threads_high = (constants_.cpu_batch_thread_high > 0)
+                                    ? constants_.cpu_batch_thread_high
+                                    : hw_threads;
+
+    // --- Override rules for specific workload classes ---
+
+    if (workload == WorkloadType::CDC_STREAM) {
+        // Change-data-capture: schema-versioned binary to keep per-event overhead low
+        advice.wire_format              = Format::BINARY_CUSTOM;
+        advice.exec_path                = ExecutionPath::CPU_THREADED_BATCH;
+        advice.recommended_batch_size   = 256;
+        advice.recommended_thread_count = constants_.cpu_batch_thread_low;
+        advice.use_vram_pinned_memory   = false;
+        advice.rationale                = "CDC_STREAM → BINARY_CUSTOM/CPU_THREADED_BATCH";
+        return advice;
+    }
+
+    if (workload == WorkloadType::CACHE_REPL) {
+        // Internal cache replication uses Protobuf for compact, schema-safe encoding
+        advice.wire_format              = Format::PROTOBUF;
+        advice.exec_path                = ExecutionPath::CPU_THREADED_BATCH;
+        advice.recommended_batch_size   = 512;
+        advice.recommended_thread_count = constants_.cpu_batch_thread_low;
+        advice.use_vram_pinned_memory   = false;
+        advice.rationale                = "CACHE_REPL → PROTOBUF/CPU_THREADED_BATCH";
+        return advice;
+    }
+
+    if (workload == WorkloadType::DOCUMENT_CRUD ||
+        estimated_row_count < constants_.msgpack_row_threshold) {
+        // Small payload or simple CRUD: JSON + single-threaded path is cheapest
+        advice.wire_format              = Format::JSON_TEXT;
+        advice.exec_path                = ExecutionPath::CPU_SINGLE;
+        advice.recommended_batch_size   = estimated_row_count > 0 ? estimated_row_count : 1;
+        advice.recommended_thread_count = 1;
+        advice.use_vram_pinned_memory   = false;
+        advice.rationale                = "row_count<" +
+            std::to_string(constants_.msgpack_row_threshold) + " or DOCUMENT_CRUD → JSON_TEXT/CPU_SINGLE";
+        return advice;
+    }
+
+    // Below the GPU threshold: binary format + multi-threaded CPU
+    if (estimated_row_count < constants_.gpu_row_threshold_low) {
+        advice.wire_format              = Format::MSGPACK_CBOR;
+        advice.exec_path                = ExecutionPath::CPU_THREADED_BATCH;
+        advice.recommended_batch_size   = 1024;
+        advice.recommended_thread_count = constants_.cpu_batch_thread_low;
+        advice.use_vram_pinned_memory   = false;
+        advice.rationale                = std::to_string(constants_.msgpack_row_threshold) +
+            "≤row_count<" + std::to_string(constants_.gpu_row_threshold_low) +
+            " → MSGPACK_CBOR/CPU_THREADED_BATCH(" +
+            std::to_string(constants_.cpu_batch_thread_low) + " threads)";
+        return advice;
+    }
+
+    // At or above the GPU threshold — decide CPU vs GPU
+    const size_t payload_bytes = estimated_row_count * (avg_row_bytes > 0 ? avg_row_bytes : 256);
+    const size_t required_vram =
+        static_cast<size_t>(static_cast<double>(payload_bytes) * constants_.vram_safety_factor);
+
+    const bool vram_fits = gpu_available && (vram_free_bytes >= required_vram);
+
+    if (vram_fits) {
+        advice.wire_format              = Format::ARROW_IPC;
+        advice.exec_path                = ExecutionPath::GPU_VRAM;
+        advice.recommended_batch_size   = 8192;
+        advice.recommended_thread_count = 1;   // GPU handles internal parallelism
+        advice.use_vram_pinned_memory   = true;
+        advice.rationale                = "row_count=" + std::to_string(estimated_row_count) +
+            "≥" + std::to_string(constants_.gpu_row_threshold_low) +
+            " GPU+VRAM_OK → ARROW_IPC/GPU_VRAM";
+    } else {
+        advice.wire_format              = Format::ARROW_IPC;
+        advice.exec_path                = ExecutionPath::CPU_THREADED_BATCH;
+        advice.recommended_batch_size   = 4096;
+        advice.recommended_thread_count = threads_high;
+        advice.use_vram_pinned_memory   = false;
+        if (!gpu_available) {
+            advice.rationale = "row_count=" + std::to_string(estimated_row_count) +
+                "≥" + std::to_string(constants_.gpu_row_threshold_low) +
+                " no_gpu → ARROW_IPC/CPU_THREADED_BATCH(" + std::to_string(threads_high) + ")";
+        } else {
+            advice.rationale = "row_count=" + std::to_string(estimated_row_count) +
+                "≥" + std::to_string(constants_.gpu_row_threshold_low) +
+                " VRAM_insufficient(need=" + std::to_string(required_vram) +
+                ",free=" + std::to_string(vram_free_bytes) +
+                ") → ARROW_IPC/CPU_THREADED_BATCH(" + std::to_string(threads_high) + ")";
+        }
+    }
+    return advice;
 }
 
 // =============================
@@ -453,8 +577,17 @@ int64_t StatisticsManager::getCurrentTimestamp() const {
 }
 
 void StatisticsManager::collectTableStatistics(const std::string& tableName) {
-    // Placeholder implementation
-    // In a real system, this would query the storage engine
+    // STUB/SIMULATION NOTE:
+    // Purpose: Creates an empty placeholder entry so that getTableStatistics()
+    //   always returns a well-initialised struct for a known table, even before
+    //   real stats are injected.
+    // Activation: Called at table-registration time and by refreshAllStatistics().
+    // Production Delta: A production implementation would query the storage
+    //   engine for live row count, page count, and average row size.  The
+    //   actual stats must be injected via updateTableStatistics() (e.g. from
+    //   StatisticsCollector after a table scan) until that path is wired up.
+    // Removal Plan: Replace body with a storage-engine call once StorageEngine
+    //   is injectable into StatisticsManager (planned for v2.x).
     OptimizerCostModel::TableStatistics stats;
     stats.tableName = tableName;
     stats.rowCount = 0;
@@ -470,7 +603,14 @@ void StatisticsManager::collectColumnStatistics(
     const std::string& tableName,
     const std::string& columnName) {
     
-    // Placeholder implementation
+    // STUB/SIMULATION NOTE:
+    // Purpose: Creates a zero-initialised column stats entry so downstream
+    //   callers always get a valid struct (distinctValues=0 → worst-case
+    //   selectivity assumption).
+    // Activation: Called at schema-registration time or on first access.
+    // Production Delta: Should scan existing index or sample storage to derive
+    //   distinctValues, nullFraction, min/max, and histogram.
+    // Removal Plan: Replace with storage-engine scan once injectable (v2.x).
     OptimizerCostModel::ColumnStatistics stats;
     stats.columnName = columnName;
     stats.distinctValues = 0;
@@ -480,7 +620,14 @@ void StatisticsManager::collectColumnStatistics(
 }
 
 void StatisticsManager::collectIndexStatistics(const std::string& indexName) {
-    // Placeholder implementation
+    // STUB/SIMULATION NOTE:
+    // Purpose: Registers a default btree-shaped index entry so that
+    //   estimateIndexScan() always has a valid struct to work with.
+    // Activation: Called when a new index is registered with the optimizer.
+    // Production Delta: Should query the index subsystem for actual entry
+    //   count, tree depth, and selectivity histogram.
+    // Removal Plan: Replace with real index-metadata query once the index
+    //   subsystem exposes a stats API (v2.x).
     OptimizerCostModel::IndexStatistics stats;
     stats.indexName = indexName;
     stats.indexType = "btree";

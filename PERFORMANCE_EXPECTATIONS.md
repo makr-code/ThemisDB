@@ -812,6 +812,30 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 
 ---
 
+##### 2.5 Serialization Strategy Advisor — Performance Expectations (v2.1.0)
+
+> Implementierung: `include/query/optimizer_cost_model.h` · `src/query/optimizer_cost_model.cpp`  
+> ROADMAP: `src/query/ROADMAP.md` Phase 7  
+> Tests: `tests/test_serialization_advisor.cpp` (SA-01..12)
+
+`SerializationStrategyAdvisor` ersetzt den bisherigen One-size-fits-all-JSON-Pfad durch einen workload-sensitiven Entscheidungsbaum.  Alle Speedup-Werte beziehen sich auf eine Baseline: **JSON_TEXT / CPU_SINGLE**, 100 B mittlere Zeilengröße, ≥ 4 CPU-Kerne.  GPU-Werte setzen RTX-class Hardware (≥ 8 GB VRAM, PCIe 4.0 x16) voraus.  Decision-Overhead ist in allen Fällen **≤ 1 µs/Aufruf** (kein I/O, reine Arithmetik).
+
+| Ziel-ID | Pfad / Strategie | Bedingung | Erwarteter Throughput-Gewinn | Payload-Reduktion | Benchmark | Status |
+|---------|------------------|-----------|-----------------------------:|-------------------|-----------|--------|
+| SA-P1 | MSGPACK_CBOR / CPU_THREADED_BATCH (4 T) | 1 k–50 k Zeilen, kein CDC | 1.3–2.5× | 20–50 % | `bench_serialization_advisor` (geplant) | 📋 Zielwert formuliert |
+| SA-P2 | BINARY_CUSTOM / CPU_THREADED_BATCH (4 T) | CDC_STREAM (beliebige Zeilenzahl) | 1.5–3× | 30–60 % | — | 📋 Zielwert formuliert |
+| SA-P3 | ARROW_IPC / CPU_THREADED_BATCH (hw_concurrency) | ≥ 50 k Zeilen, kein GPU oder VRAM zu klein | 2–4× | 40–65 % | — | 📋 Zielwert formuliert |
+| SA-P4 | ARROW_IPC / GPU_VRAM | ≥ 50 k Zeilen, GPU + VRAM ≥ 1.5× Payload | 3–10× | 40–65 % | — | 📋 Zielwert formuliert |
+| SA-P5 | PROTOBUF / CPU_THREADED_BATCH | CACHE_REPL Workload | 30–70 % kleinere Payloads | — | — | 📋 Zielwert formuliert |
+| SA-P6 | Decision-Overhead (alle Pfade) | Beliebig | ≤ 1 µs/Aufruf | — | SA-01..12 (Unit-Tests) | ✅ durch Unit-Tests abgedeckt |
+
+**Hinweis Kalibrierung:** Die Schwellenwerte (`msgpack_row_threshold = 1 000`, `gpu_row_threshold_low = 50 000`, `vram_safety_factor = 1.5`) sind über `calibrateCosts()` / `updateConstant()` anpassbar.  `getCalibrationFactors()` im `PerQueryCostModel` passt `gpu_row_threshold_low` (+25 %) an, wenn GPU-Serialisierungs-Overhead in ≥ 5 Samples über 50 % liegt, und `msgpack_row_threshold` (−20 %) wenn CPU_SINGLE-Overhead vernachlässigbar ist.
+
+**Offene Punkte:**  
+- Dedizierter Benchmark `bench_serialization_advisor` noch nicht registriert (Target: v2.2.0).  Bis dahin decken SA-01..12 die funktionale Korrektheit ab; der Throughput-Nachweis für SA-P1..P5 steht noch aus.
+
+---
+
 
 #### 3. Index-Modul
 

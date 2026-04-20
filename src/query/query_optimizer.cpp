@@ -34,6 +34,7 @@
 #include "performance/phase3/per_query_cost_model.h"
 #include "metadata/statistics_collector.h"
 #include "observability/metrics_collector.h"
+#include "themis/gpu/memory_manager.h"
 
 #include <algorithm>
 #include <numeric>
@@ -49,6 +50,51 @@ static themis::analytics::NlpTextAnalyzer& getOptimizerNlp() {
     static themis::analytics::NlpTextAnalyzer instance;
     return instance;
 }
+
+// ---------------------------------------------------------------------------
+// GPU probe helpers (non-throwing; returns {available, free_bytes})
+// ---------------------------------------------------------------------------
+namespace {
+struct GpuInfo {
+    bool   available    = false;
+    size_t free_bytes   = 0;
+};
+
+inline GpuInfo probeGpu() noexcept {
+    const uint64_t vram_total = themis::gpu::GPUMemoryManager::GetMaxGPUVRAMBytes();
+    if (vram_total == 0) {
+        return {};
+    }
+    const uint64_t vram_used =
+        themis::gpu::GPUMemoryManager::GetInstance().GetGPUMemoryUsed();
+    const size_t free_bytes =
+        (vram_total > vram_used) ? static_cast<size_t>(vram_total - vram_used) : 0;
+    return {true, free_bytes};
+}
+
+/// Infer WorkloadType from the query structure (conservative defaults).
+///
+/// NOTE: Only DOCUMENT_CRUD and ANALYTICS_OLAP can be inferred from the
+/// ConjunctiveQuery structure.  CDC_STREAM, CACHE_REPL, and VECTOR_SEARCH
+/// require caller-supplied context that is not captured in the query AST.
+/// Callers that need those workload types must call adviseSerializationStrategy()
+/// directly on their own OptimizerCostModel instance with the correct WorkloadType,
+/// rather than going through chooseOrderForAndQuery().
+inline WorkloadType inferWorkloadType(const ConjunctiveQuery& q) {
+    if (q.spatialPredicate.has_value()) {
+        return WorkloadType::ANALYTICS_OLAP;
+    }
+    if (!q.rangePredicates.empty() && q.predicates.empty()) {
+        // Pure range scan: likely analytics
+        return WorkloadType::ANALYTICS_OLAP;
+    }
+    if (q.fulltextPredicate.has_value() || q.phrasePredicate.has_value() ||
+        q.fuzzyPredicate.has_value()) {
+        return WorkloadType::ANALYTICS_OLAP;
+    }
+    return WorkloadType::DOCUMENT_CRUD;
+}
+} // anonymous namespace
 
 QueryOptimizer::QueryOptimizer(SecondaryIndexManager& secIdx,
                                StatisticsCollector* stats_collector,
@@ -119,6 +165,23 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 		metrics_collector_->observeHistogram("query.optimizer.cost_estimate", cost_estimate);
 	}
 
+	// ---- Serialization strategy advice ----
+	{
+		const size_t estimated_rows = table_stats_ptr
+		    ? table_stats_ptr->row_count
+		    : (plan.details.empty() ? 0
+		           : plan.details[idx[0]].estimatedCount);
+		const size_t avg_bytes = table_stats_ptr
+		    ? static_cast<size_t>(table_stats_ptr->avgRowSize > 0.0
+		                              ? table_stats_ptr->avgRowSize
+		                              : 256.0)
+		    : 256u;
+		const auto   gpu       = probeGpu();
+		const auto   workload  = inferWorkloadType(q);
+		plan.serialization_advice = advisor_cost_model_.adviseSerializationStrategy(
+		    estimated_rows, avg_bytes, gpu.available, gpu.free_bytes, workload);
+	}
+
 	return plan;
 }
 
@@ -129,6 +192,7 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQueryWithNLP(
     size_t maxProbePerPred) const {
     
     // 1. Get base plan using traditional cost-based optimization
+    // (serialization_advice already populated by chooseOrderForAndQuery)
     Plan plan = chooseOrderForAndQuery(q, maxProbePerPred);
     
     // 2. Add NLP analysis if query text provided
@@ -142,12 +206,39 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQueryWithNLP(
         
         // Get index suggestions
         plan.nlp_suggested_indexes = nlp.suggestIndexes(original_query_text);
-        
-        // Note: In future phases, we can use these hints to:
-        // - Apply aggregation push-down if hints["aggregation"] is present
-        // - Prefer specific index types from nlp_suggested_indexes
-        // - Adjust cost estimates based on nlp_complexity
-        // - Enable parallel execution for complex queries
+
+        // Re-run serialization advisor with NLP-refined workload type.
+        // If the NLP analysis signals an analytics/aggregation workload, upgrade
+        // the advice so the execution path correctly reflects OLAP patterns.
+        WorkloadType nlp_workload = inferWorkloadType(q);
+        {
+            const auto& hints = plan.nlp_hints;
+            const bool is_analytics =
+                hints.count("aggregation") || hints.count("analytics") ||
+                hints.count("olap") || plan.nlp_complexity > 0.6;
+            if (is_analytics) {
+                nlp_workload = WorkloadType::ANALYTICS_OLAP;
+            }
+        }
+
+        // Determine estimated row count from statistics or plan details.
+        StatsResult<TableStats> sr;
+        const TableStats* tsp = nullptr;
+        if (stats_collector_) {
+            sr = stats_collector_->getStats(q.table);
+            if (sr.ok) { tsp = &sr.value; }
+        }
+        const size_t estimated_rows = tsp
+            ? tsp->row_count
+            : (plan.details.empty() ? 0 : plan.details[0].estimatedCount);
+        const size_t avg_bytes = tsp
+            ? static_cast<size_t>(tsp->avgRowSize > 0.0 ? tsp->avgRowSize : 256.0)
+            : 256u;
+
+        const auto gpu = probeGpu();
+        OptimizerCostModel advisor;
+        plan.serialization_advice = advisor.adviseSerializationStrategy(
+            estimated_rows, avg_bytes, gpu.available, gpu.free_bytes, nlp_workload);
     }
     
     return plan;
@@ -187,6 +278,18 @@ void QueryOptimizer::attachPerQueryCostModel(
 std::shared_ptr<performance::phase3::PerQueryCostModel>
 QueryOptimizer::perQueryCostModel() const {
     return per_query_cost_model_;
+}
+
+// ---------------- Serialization Advisor tuning ----------------
+
+void QueryOptimizer::setAdvisorCostConstants(
+    const OptimizerCostModel::CostConstants& c) {
+    advisor_cost_model_.setConstants(c);
+}
+
+const OptimizerCostModel::CostConstants&
+QueryOptimizer::advisorCostConstants() const {
+    return advisor_cost_model_.getConstants();
 }
 
 Result<std::vector<std::string>>

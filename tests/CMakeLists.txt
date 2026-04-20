@@ -23979,3 +23979,52 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_clo_loops.cpp")
 else()
     message(STATUS "CLO loop tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_clo_loops.cpp")
 endif()
+
+# ============================================================================
+# SerializationStrategyAdvisor focused tests
+# Covers: SA-01..12 (adviseSerializationStrategy decision tree, Plan field,
+#          chooseOrderForAndQuery integration, PerQueryCostModel feedback,
+#          AdaptivePlanSelector Strategy enum extensions)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_serialization_advisor.cpp")
+    message(STATUS "Adding SerializationStrategyAdvisor focused tests (SA-01..12)")
+
+    add_executable(test_serialization_advisor_focused
+        test_serialization_advisor.cpp
+        ${THEMIS_ROOT_DIR}/src/query/optimizer_cost_model.cpp
+        ${THEMIS_ROOT_DIR}/src/query/adaptive_optimizer.cpp
+        ${THEMIS_ROOT_DIR}/src/performance/phase3/per_query_cost_model.cpp
+        ${THEMIS_ROOT_DIR}/src/performance/cycle_metrics.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+
+    target_include_directories(test_serialization_advisor_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_serialization_advisor_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_serialization_advisor_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME SerializationAdvisorFocusedTests
+        COMMAND test_serialization_advisor_focused)
+
+    set_tests_properties(SerializationAdvisorFocusedTests PROPERTIES
+        LABELS "query;optimizer;serialization;advisor;focused;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  SerializationAdvisor: SA-01..12 (decision tree, Plan field, calibration, Strategy enum)")
+else()
+    message(STATUS "SerializationAdvisor tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_serialization_advisor.cpp")
+endif()
