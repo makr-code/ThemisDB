@@ -385,7 +385,11 @@ Result<nlohmann::json> AccessControl::enrollMFA(const std::string& user_id) {
         {"qr_code_uri", uri},
         {"recovery_codes", enrollment.recovery_codes}
     };
-    
+
+    // Persist enrollment so verifyMFA() can look up the secret.
+    enrollment.enabled = true;
+    mfa_enrollments_[user_id] = std::move(enrollment);
+
     logSecurityEvent(
         utils::SecurityEventType::MFA_ENROLLED,
         user_id,
@@ -397,49 +401,50 @@ Result<nlohmann::json> AccessControl::enrollMFA(const std::string& user_id) {
     return themis::Ok(std::move(result));
 }
 
-// STUB/SIMULATION NOTE:
-// Purpose:          Allows MFA-protected code paths to compile and exercise the
-//                   authorization flow without a TOTP/FIDO2 authenticator dependency.
-// Activation:       Always active (no build-flag gate). Returns true for any
-//                   non-empty token string.
-// Production Delta: Does NOT validate the token cryptographically. Any non-empty
-//                   string is accepted, bypassing real MFA enforcement. A production
-//                   implementation must call mfa_authenticator_->validateTOTP() (or
-//                   equivalent FIDO2 assertion) and look up the per-user MFA secret
-//                   from encrypted storage.
-// Removal Plan:     Implement MFA authenticator injection into AccessControl and
-//                   replace this body once the MFA authenticator interface is stable
-//                   (see src/security/ROADMAP.md).
-bool AccessControl::verifyMFA([[maybe_unused]] const std::string& user_id, const std::string& token) {
-    // This is a simplified implementation
-    // In production, retrieve stored MFA secret from database
+bool AccessControl::verifyMFA(const std::string& user_id, const std::string& token) {
+    if (token.empty()) {
+        return false;
+    }
 
-    // For now, always return true if token is provided
-    // Real implementation would call mfa_authenticator_->validateTOTP()
-    return !token.empty();
+    auto it = mfa_enrollments_.find(user_id);
+    if (it == mfa_enrollments_.end() || !it->second.enabled) {
+        THEMIS_WARN("verifyMFA: no active MFA enrollment found for user '{}'", user_id);
+        return false;
+    }
+
+    const auto& enrollment = it->second;
+
+    // Primary path: TOTP code validation.
+    if (mfa_authenticator_->validateTOTP(enrollment.secret_base32, token,
+                                          std::nullopt, user_id)) {
+        return true;
+    }
+
+    // Fallback path: single-use recovery code.
+    auto& mutable_enrollment = it->second;
+    if (mfa_authenticator_->validateRecoveryCode(mutable_enrollment, token)) {
+        THEMIS_INFO("verifyMFA: recovery code used for user '{}'", user_id);
+        return true;
+    }
+
+    return false;
 }
 
-// STUB/SIMULATION NOTE:
-// Purpose:          Provides the disableMFA() API surface and audit-log side-effect
-//                   so callers compile; actual credential removal is not yet wired.
-// Activation:       Always active. Logs the event but does NOT persist any state change.
-// Production Delta: Does NOT remove the MFA secret from storage. After this call, MFA
-//                   remains active for the user because verifyMFA() still accepts tokens.
-//                   A real implementation must delete the TOTP/FIDO2 credential record
-//                   and invalidate any active MFA sessions.
-// Removal Plan:     Implement storage-level MFA credential deletion and couple it to
-//                   the user-auth store before exposing this endpoint externally
-//                   (see src/security/ROADMAP.md).
 Result<void> AccessControl::disableMFA(const std::string& user_id) {
     std::lock_guard<std::mutex> lock(mutex_);
-    
+
+    const auto erased = mfa_enrollments_.erase(user_id);
+    if (erased == 0) {
+        THEMIS_WARN("disableMFA: no active MFA enrollment found for user '{}'", user_id);
+    }
+
     logSecurityEvent(
         utils::SecurityEventType::MFA_DISABLED,
         user_id,
         "mfa",
         {{"action", "MFA disabled"}}
     );
-    
+
     THEMIS_INFO("MFA disabled for user: {}", user_id);
     return themis::OkVoid();
 }

@@ -26,6 +26,7 @@
 #include <chrono>
 #include <mutex>
 #include <functional>
+#include <openssl/evp.h>
 
 namespace themis {
 namespace importers {
@@ -52,26 +53,11 @@ std::string AuditedImporter::eventTypeToString(EventType t) {
 // ImmutableAuditLog – private hash helper
 // ---------------------------------------------------------------------------
 
-// STUB/SIMULATION NOTE:
-// Purpose:          Provides a deterministic, portable hash so the audit-log chain
-//                   compiles and runs in all build configurations including those
-//                   without OpenSSL.
-// Activation:       Active when THEMIS_AUDIT_CRYPTO_HASH is not defined (default
-//                   dev/CI builds). Production builds must define that flag and link
-//                   OpenSSL to activate the SHA-256 path.
-// Production Delta: std::hash is NOT cryptographic and is NOT collision-resistant.
-//                   An adversary can forge audit-log entries. SHA-256 (OpenSSL EVP)
-//                   must replace std::hash before this code is used in a regulated
-//                   or security-sensitive environment.
-// Removal Plan:     Introduce #ifdef THEMIS_AUDIT_CRYPTO_HASH guard and implement
-//                   the OpenSSL EVP_Digest path. Remove std::hash fallback once all
-//                   production build targets enable the flag (see src/importers/ROADMAP.md).
 std::string AuditedImporter::ImmutableAuditLog::computeEventHash(
     const AuditEvent& event,
     const std::string& prev_hash) const
 {
-    // Deterministic serialisation → std::hash (portable; NOT cryptographic)
-    // Production builds replace this with OpenSSL SHA-256.
+    // Deterministic serialisation
     std::ostringstream ss;
     ss << prev_hash
        << eventTypeToString(event.type)
@@ -80,11 +66,23 @@ std::string AuditedImporter::ImmutableAuditLog::computeEventHash(
        << event.importer_instance_id
        << event.correlation_id
        << event.details.dump();
+    const std::string payload = ss.str();
 
-    std::size_t h = std::hash<std::string>{}(ss.str());
-    // Return as hex string
+    // SHA-256 via OpenSSL EVP (collision-resistant, suitable for audit chains)
+    unsigned char digest[EVP_MAX_MD_SIZE];
+    unsigned int digest_len = 0;
+    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+    EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr);
+    EVP_DigestUpdate(ctx, payload.data(), payload.size());
+    EVP_DigestFinal_ex(ctx, digest, &digest_len);
+    EVP_MD_CTX_free(ctx);
+
+    // Return first 32 hex chars (128-bit prefix) – same width as the old 16-char placeholder
     std::ostringstream hex;
-    hex << std::hex << std::setw(16) << std::setfill('0') << h;
+    for (unsigned int i = 0; i < digest_len; ++i) {
+        hex << std::hex << std::setw(2) << std::setfill('0')
+            << static_cast<unsigned int>(digest[i]);
+    }
     return hex.str();
 }
 

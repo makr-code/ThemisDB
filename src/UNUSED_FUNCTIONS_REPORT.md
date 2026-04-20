@@ -27,9 +27,14 @@ Ausgangsbasis: [`MODULE_FUNCTION_USAGE_MAP.md`](./MODULE_FUNCTION_USAGE_MAP.md)
 
 | Status | Anzahl | Anteil |
 |--------|--------|--------|
-| ✅ AKTIV | 17 | 18 % |
-| 🧪 NUR_TESTS | 23 | 24 % |
-| 🟡 UNGENUTZT | 1 | 1 % |
+| ✅ AKTIV | 22 | 23 % |
+| 🧪 NUR_TESTS | 22 | 23 % |
+| ⚪ INTERNAL_ONLY | 23 | 24 % |
+| 🟡 UNGENUTZT | 35 | 36 % |
+
+> **Stand 2026-04-20 (Update):** `ActiveVRAMAllocator` auf AKTIV gesetzt (LLMPluginManager-Wiring).
+> `constantTimeEqual`, `verifyMFA`, `disableMFA`, `computeEventHash` auf AKTIV gesetzt (Security-Fixes).
+> 13 Private-Methoden (AdaptiveJoin/Scheduler/Exporter/Replication) von UNGENUTZT auf INTERNAL_ONLY korrigiert.
 
 ## Handlungsbedarf
 
@@ -76,7 +81,7 @@ Handlungsbedarf: im jeweiligen Modul-ROADMAP prüfen ob und wann die Integration
 | Symbol | Status | Use-Case | Tests | Externe Aufrufer |
 |--------|--------|----------|-------|-----------------|
 | `ApiKeyAuthenticator` | ✅ AKTIV | Authentifiziert HTTP-Requests via API-Key; genutzt in auth_middleware.cpp | `test_api_key_authenticator.cpp` | `auth_middleware.cpp` |
-| `constantTimeEqual` | 🟡 UNGENUTZT | Zeitkonstanter Byte-Vergleich gegen Timing-Side-Channel bei API-Key-Checks | `–` | `–` |
+| `constantTimeEqual` | ✅ AKTIV | Zeitkonstanter Byte-Vergleich gegen Timing-Side-Channel bei API-Key-Checks | `–` | `api_key_authenticator.cpp` |
 
 ### `base`
 
@@ -132,7 +137,7 @@ Handlungsbedarf: im jeweiligen Modul-ROADMAP prüfen ob und wann die Integration
 | Symbol | Status | Use-Case | Tests | Externe Aufrufer |
 |--------|--------|----------|-------|-----------------|
 | `AqlPredicateFilter` | ✅ AKTIV | AQL-Filterausdruck für Exporte; genutzt in export_api_handler.cpp | `test_aql_predicate_filter.cpp` | `export_api_handler.cpp` |
-| `exportFallback` | 🟡 UNGENUTZT | Fallback-Export als JSON wenn Arrow/Parquet nicht verfügbar | `–` | `–` |
+| `exportFallback` | ⚪ INTERNAL_ONLY | Fallback-Export als JSON wenn Arrow/Parquet nicht verfügbar | `–` | `ArrowIPCExporter::doExport()`, `ParquetExporter` |
 | `exportWithArrow` | 🟡 UNGENUTZT | Exportiert Resultset als Apache Arrow IPC-Stream; noch kein externer Aufrufer | `–` | `–` |
 
 ### `geo`
@@ -168,7 +173,7 @@ Handlungsbedarf: im jeweiligen Modul-ROADMAP prüfen ob und wann die Integration
 
 | Symbol | Status | Use-Case | Tests | Externe Aufrufer |
 |--------|--------|----------|-------|-----------------|
-| `computeEventHash` | 🟡 UNGENUTZT | Berechnet deterministischen Hash für Audit-Trail-Events (Deduplizierung) | `–` | `–` |
+| `computeEventHash` | ✅ AKTIV | SHA-256 (OpenSSL EVP) Audit-Trail-Hash; aufgerufen in `recordEvent()` + `verifyIntegrity()` | `–` | `audit_trail.cpp` (intern) |
 
 ### `index`
 
@@ -192,7 +197,7 @@ Handlungsbedarf: im jeweiligen Modul-ROADMAP prüfen ob und wann die Integration
 
 | Symbol | Status | Use-Case | Tests | Externe Aufrufer |
 |--------|--------|----------|-------|-----------------|
-| `ActiveVRAMAllocator` | 🧪 NUR_TESTS | Verwaltet aktive VRAM-Allokationen pro Inference-Session; Tests + Bench vorhanden | `test_active_vram_allocator.cpp` | `–` |
+| `ActiveVRAMAllocator` | ✅ AKTIV | Verwaltet aktive VRAM-Allokationen pro Inference-Session; Tests + Bench vorhanden | `test_active_vram_allocator.cpp` | `llm_plugin_manager.cpp`, `/api/v1/llm/vram` |
 
 ### `maintenance`
 
@@ -276,11 +281,11 @@ Handlungsbedarf: im jeweiligen Modul-ROADMAP prüfen ob und wann die Integration
 | Symbol | Status | Use-Case | Tests | Externe Aufrufer |
 |--------|--------|----------|-------|-----------------|
 | `executeBroadcastJoin` | 🟡 UNGENUTZT | Führt Broadcast-Join für kleine Lookup-Tabellen aus | `–` | `–` |
-| `executeGraceHashJoin` | 🟡 UNGENUTZT | Führt Grace-Hash-Join für große Datenmengen aus (partitioniert) | `–` | `–` |
-| `executeHashJoin` | 🟡 UNGENUTZT | Führt Hash-Join-Algorithmus aus (AdaptiveJoin-Strategie) | `–` | `–` |
-| `executeIndexNestedLoopJoin` | 🟡 UNGENUTZT | Führt Index-NL-Join aus (nutzt verfügbare Indizes) | `–` | `–` |
-| `executeMergeJoin` | 🟡 UNGENUTZT | Führt Sort-Merge-Join-Algorithmus aus | `–` | `–` |
-| `executeNestedLoopJoin` | 🟡 UNGENUTZT | Führt Nested-Loop-Join aus (Fallback für kleine Relationen) | `–` | `–` |
+| `executeGraceHashJoin` | ⚪ INTERNAL_ONLY | Führt Grace-Hash-Join für große Datenmengen aus (partitioniert) | `–` | `AdaptiveJoinExecutor::execute()` |
+| `executeHashJoin` | ⚪ INTERNAL_ONLY | Führt Hash-Join-Algorithmus aus (AdaptiveJoin-Strategie) | `–` | `AdaptiveJoinExecutor::execute()` |
+| `executeIndexNestedLoopJoin` | ⚪ INTERNAL_ONLY | Führt Index-NL-Join aus (nutzt verfügbare Indizes) | `–` | `AdaptiveJoinExecutor::execute()` |
+| `executeMergeJoin` | ⚪ INTERNAL_ONLY | Führt Sort-Merge-Join-Algorithmus aus | `–` | `AdaptiveJoinExecutor::execute()` |
+| `executeNestedLoopJoin` | ⚪ INTERNAL_ONLY | Führt Nested-Loop-Join aus (Fallback für kleine Relationen) | `–` | `AdaptiveJoinExecutor::execute()` |
 
 ### `rag`
 
@@ -292,24 +297,24 @@ Handlungsbedarf: im jeweiligen Modul-ROADMAP prüfen ob und wann die Integration
 
 | Symbol | Status | Use-Case | Tests | Externe Aufrufer |
 |--------|--------|----------|-------|-----------------|
-| `mergeFields` | 🟡 UNGENUTZT | Merged einzelne Felder nach konfigurierbarer Merge-Policy | `–` | `–` |
-| `mergeJson` | 🟡 UNGENUTZT | Merged zwei JSON-Dokumente bei Replikationskonflikt | `–` | `–` |
-| `selectBase` | 🟡 UNGENUTZT | Wählt Basis-Version bei Konflikt-Auflösung (CRDT-Merge) | `–` | `–` |
+| `mergeFields` | ⚪ INTERNAL_ONLY | Merged einzelne Felder nach konfigurierbarer Merge-Policy | `–` | `FieldLevelMergeResolver::resolve()` |
+| `mergeJson` | ⚪ INTERNAL_ONLY | Merged zwei JSON-Dokumente bei Replikationskonflikt | `–` | `ThreeWayMergeResolver::resolve()` |
+| `selectBase` | ⚪ INTERNAL_ONLY | Wählt Basis-Version bei Konflikt-Auflösung (CRDT-Merge) | `–` | `ThreeWayMergeResolver::resolve()` |
 
 ### `scheduler`
 
 | Symbol | Status | Use-Case | Tests | Externe Aufrufer |
 |--------|--------|----------|-------|-----------------|
-| `activateScheduler` | 🟡 UNGENUTZT | Aktiviert verteilten Task-Coordinator (startet Heartbeat + Worker-Loop) | `–` | `–` |
-| `deactivateScheduler` | 🟡 UNGENUTZT | Deaktiviert den Coordinator graceful (drainiert pending Tasks) | `–` | `–` |
+| `activateScheduler` | ⚪ INTERNAL_ONLY | Aktiviert verteilten Task-Coordinator (startet Heartbeat + Worker-Loop) | `–` | `DistributedTaskCoordinator` ctor/start/becomeLeader |
+| `deactivateScheduler` | ⚪ INTERNAL_ONLY | Deaktiviert den Coordinator graceful (drainiert pending Tasks) | `–` | `DistributedTaskCoordinator` dtor/stop |
 
 ### `security`
 
 | Symbol | Status | Use-Case | Tests | Externe Aufrufer |
 |--------|--------|----------|-------|-----------------|
 | `AccessControl` | ✅ AKTIV | ABAC-Zugriffssteuerung; genutzt in compliance_reporter.cpp + Tests + Bench | `test_access_control.cpp` | `compliance_reporter.cpp` |
-| `disableMFA` | 🟡 UNGENUTZT | Deaktiviert MFA für einen User (Admin-Only-Pfad) | `–` | `–` |
-| `verifyMFA` | 🟡 UNGENUTZT (STUB) | Prüft TOTP/FIDO2-MFA-Token – **Stub**: akzeptiert jeden nicht-leeren Token, kein TOTP-Check | `–` | `–` |
+| `disableMFA` | ✅ AKTIV | Löscht MFA-Enrollment aus `mfa_enrollments_`; Audit-Log-Eintrag | `test_access_control.cpp` | `access_control.cpp` |
+| `verifyMFA` | ✅ AKTIV | Prüft TOTP via `MFAAuthenticator::validateTOTP()` + Recovery-Code-Fallback; Enrollment in `mfa_enrollments_` | `test_access_control.cpp` | `access_control.cpp` (authenticate path) |
 
 ### `server`
 
