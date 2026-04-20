@@ -4,6 +4,9 @@ This directory contains research papers, draft manuscripts, architectural analys
 
 ## Contents
 
+### Submission-Ready Draft Set (Core, 2026-04-20)
+- [THEMIS_MULTIMODEL_INDEX_EVALUATION.md](THEMIS_MULTIMODEL_INDEX_EVALUATION.md) — ThemisDB multi-model database: individual index methods (HNSW, B-tree, RMI, R-tree, MRL, IVF+PQ, Graph, Inverted, Adaptive), system evaluation (latency SLA, ANN recall, QPS), and operational risk model — repository-grounded, arXiv-structured draft
+
 ### Submission-Ready Draft Set (Core, 2026-04-19)
 - [DB_NATIVE_RAG_EVALUATION_PAPER_DRAFT.md](DB_NATIVE_RAG_EVALUATION_PAPER_DRAFT.md) — Includes RQ/Hypotheses, reporting-table plan, Threats to Validity, and claim-to-evidence appendix
 - [HYBRID_ANN_RETRIEVAL_SYSTEMS_PAPER_DRAFT.md](HYBRID_ANN_RETRIEVAL_SYSTEMS_PAPER_DRAFT.md) — Includes RQ/Hypotheses, planner evaluation matrix, Threats to Validity, and claim-to-evidence appendix
@@ -17,6 +20,7 @@ This directory contains research papers, draft manuscripts, architectural analys
 - (To be added)
 
 ### Research Drafts & Work-in-Progress
+- [THEMIS_MULTIMODEL_INDEX_EVALUATION.md](THEMIS_MULTIMODEL_INDEX_EVALUATION.md) — Multi-model database index methods (nine families: HNSW, B-tree, RMI, R-tree, MRL, IVF+PQ, Graph, Inverted, Adaptive), system evaluation, and risk model
 - [DB_NATIVE_RAG_EVALUATION_PAPER_DRAFT.md](DB_NATIVE_RAG_EVALUATION_PAPER_DRAFT.md) — ACID-constrained, database-native RAG with integrated quality evaluation
 - [HYBRID_ANN_RETRIEVAL_SYSTEMS_PAPER_DRAFT.md](HYBRID_ANN_RETRIEVAL_SYSTEMS_PAPER_DRAFT.md) — Cost-aware hybrid ANN retrieval with HNSW/FAISS and planner integration
 - [LORA_QLORA_DATABASE_NATIVE_OPERATIONS_PAPER_DRAFT.md](LORA_QLORA_DATABASE_NATIVE_OPERATIONS_PAPER_DRAFT.md) — Operational lifecycle and SLO-focused study for LoRA/QLoRA in DB runtime
@@ -70,4 +74,4 @@ Papers should include version and status information:
 
 ---
 
-*Last Updated: 2026-04-19*
+*Last Updated: 2026-04-20*
