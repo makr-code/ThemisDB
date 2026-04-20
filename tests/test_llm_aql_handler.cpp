@@ -612,6 +612,83 @@ TEST_F(LLMAQLHandlerTest, ExecuteBatchInferDomainFanOutPreservesOrder) {
 
 }
 
+TEST_F(LLMAQLHandlerTest, ExecuteInferLegalMedicalAliasesRouteViaAdaptiveShardRouter) {
+    auto plugin = std::make_unique<CapturingLLMPlugin>();
+    auto* plugin_ptr = plugin.get();
+    auto& plugin_mgr = LLMPluginManager::instance();
+    plugin_mgr.registerPlugin("capturing-legal-medical", std::move(plugin));
+    plugin_mgr.setDefaultPlugin("capturing-legal-medical");
+    struct Cleanup {
+        ~Cleanup() { LLMPluginManager::instance().unregisterPlugin("capturing-legal-medical"); }
+    } cleanup;
+
+    auto topology = std::make_shared<themis::sharding::ShardTopology>();
+    auto ring = std::make_shared<themis::sharding::ConsistentHashRing>();
+    auto resolver = std::make_shared<themis::sharding::URNResolver>(topology, ring);
+    themis::sharding::ShardRouter::Config router_cfg;
+    auto router = std::make_shared<themis::sharding::AdaptiveShardRouter>(
+        resolver, nullptr, topology, router_cfg);
+
+    themis::distributed_knowledge::AdapterCapabilityAnnouncement legal_cap;
+    legal_cap.domain_type    = themis::distributed_knowledge::AdapterDomainType::LEGAL;
+    legal_cap.accuracy_delta = 0.91;
+    legal_cap.adapter_version = "v1";
+    router->updateAdapterCapability("shard-legal", legal_cap);
+
+    themis::distributed_knowledge::AdapterCapabilityAnnouncement medical_cap;
+    medical_cap.domain_type    = themis::distributed_knowledge::AdapterDomainType::MEDICAL;
+    medical_cap.accuracy_delta = 0.87;
+    medical_cap.adapter_version = "v1";
+    router->updateAdapterCapability("shard-medical", medical_cap);
+
+    handler->setAdaptiveShardRouter(router);
+
+    // "legal" hint → shard-legal
+    {
+        std::unordered_map<std::string, std::string> opts;
+        opts["domain_hint"] = "legal";
+        const auto result = handler->executeInfer("contract draft", "", "", opts);
+        EXPECT_EQ(result, "ok:contract draft");
+        EXPECT_EQ(plugin_ptr->last_request.metadata.value("routing_decision", std::string{}),
+                  "ADAPTER_DOMAIN");
+        EXPECT_EQ(plugin_ptr->last_request.metadata.value("target_shard_id", std::string{}),
+                  "shard-legal");
+    }
+
+    // "legal_analysis" alias → same result
+    {
+        std::unordered_map<std::string, std::string> opts;
+        opts["domain_hint"] = "legal_analysis";
+        handler->executeInfer("clause extraction", "", "", opts);
+        EXPECT_EQ(plugin_ptr->last_request.metadata.value("routing_decision", std::string{}),
+                  "ADAPTER_DOMAIN");
+        EXPECT_EQ(plugin_ptr->last_request.metadata.value("target_shard_id", std::string{}),
+                  "shard-legal");
+    }
+
+    // "medical" hint → shard-medical
+    {
+        std::unordered_map<std::string, std::string> opts;
+        opts["domain_hint"] = "medical";
+        handler->executeInfer("diagnosis summary", "", "", opts);
+        EXPECT_EQ(plugin_ptr->last_request.metadata.value("routing_decision", std::string{}),
+                  "ADAPTER_DOMAIN");
+        EXPECT_EQ(plugin_ptr->last_request.metadata.value("target_shard_id", std::string{}),
+                  "shard-medical");
+    }
+
+    // "healthcare" alias → same as "medical"
+    {
+        std::unordered_map<std::string, std::string> opts;
+        opts["domain_hint"] = "healthcare";
+        handler->executeInfer("patient notes", "", "", opts);
+        EXPECT_EQ(plugin_ptr->last_request.metadata.value("routing_decision", std::string{}),
+                  "ADAPTER_DOMAIN");
+        EXPECT_EQ(plugin_ptr->last_request.metadata.value("target_shard_id", std::string{}),
+                  "shard-medical");
+    }
+}
+
 // ============================================================================
 // Model Management Tests
 // ============================================================================

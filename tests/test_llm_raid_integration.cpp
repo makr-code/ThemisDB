@@ -255,68 +255,55 @@ TEST(LLMRaidIntegration, LRIR05_EmbeddingLocalityConsistentShardSelection)
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// LRIR-06: LEGAL / MEDICAL domain hints routed via AdaptiveShardRouter
+// LRIR-06: LEGAL / MEDICAL domain types — routing and JSON round-trip
 // ─────────────────────────────────────────────────────────────────────────────
-TEST(LLMRaidIntegration, LRIR06_LegalMedicalDomainHintRouting)
+TEST(LLMRaidIntegration, LRIR06_LegalMedicalDomainRouting)
 {
-    auto router = std::make_shared<AdaptiveShardRouter>(
-        std::make_shared<URNResolver>(
-            std::make_shared<ShardTopology>(),
-            std::make_shared<ConsistentHashRing>()),
-        nullptr,
-        std::make_shared<ShardTopology>(),
-        ShardRouter::Config{});
+    auto router = makeRouter();
 
-    regCap(*router, "shard-legal",   AdapterDomainType::LEGAL,   0.90);
-    regCap(*router, "shard-medical", AdapterDomainType::LEGAL,   0.10);
-    regCap(*router, "shard-legal",   AdapterDomainType::MEDICAL, 0.15);
-    regCap(*router, "shard-medical", AdapterDomainType::MEDICAL, 0.88);
+    regCap(router, "shard-legal",   AdapterDomainType::LEGAL,   0.90);
+    regCap(router, "shard-medical", AdapterDomainType::LEGAL,   0.10);
+    regCap(router, "shard-legal",   AdapterDomainType::MEDICAL, 0.15);
+    regCap(router, "shard-medical", AdapterDomainType::MEDICAL, 0.88);
 
-    // Verify low-level routing selects correct shard for LEGAL / MEDICAL
-    EXPECT_EQ(router->routeByDomain(AdapterDomainType::LEGAL),   "shard-legal");
-    EXPECT_EQ(router->routeByDomain(AdapterDomainType::MEDICAL), "shard-medical");
+    // routeByDomain selects the highest-scoring shard per domain
+    EXPECT_EQ(router.routeByDomain(AdapterDomainType::LEGAL),   "shard-legal");
+    EXPECT_EQ(router.routeByDomain(AdapterDomainType::MEDICAL), "shard-medical");
 
-    // Verify end-to-end: "legal" / "medical" domain_hint strings flow through
-    // LLMAQLHandler → parseDomainHintToAdapterDomainType → AdaptiveShardRouter
-    using namespace themis::llm;
-    using namespace themis::aql;
+    // accuracy deltas are retrievable for the selected shards
+    EXPECT_DOUBLE_EQ(
+        router.getAdapterAccuracyDelta("shard-legal",   AdapterDomainType::LEGAL),   0.90);
+    EXPECT_DOUBLE_EQ(
+        router.getAdapterAccuracyDelta("shard-medical", AdapterDomainType::MEDICAL), 0.88);
 
-    LLMAQLHandler::Config cfg;
-    cfg.infer_circuit_breaker.failure_threshold = 100;
-    LLMAQLHandler handler(cfg);
-    handler.setAdaptiveShardRouter(router);
-
-    std::string last_routing_decision;
-    std::string last_target_shard;
-
-    // Inject a capturing chat executor
-    handler.setChatExecutor([&](const std::vector<ChatMessage>& msgs) -> std::string {
-        (void)msgs;
-        return "ok";
-    });
-
-    // "legal" hint → shard-legal
+    // JSON round-trip: LEGAL and MEDICAL survive toJson() → fromJson()
     {
-        std::unordered_map<std::string, std::string> opts;
-        opts["domain_hint"] = "legal";
-        // LLMAQLHandler falls back to local plugin_mgr.generate() after setting metadata;
-        // We only need the routing metadata, not the final output.
-        // Use a no-op plugin to capture metadata.
-        try {
-            handler.executeInfer("contract review", "", "", opts);
-        } catch (...) {}
-        // routeByDomain result is deterministic regardless of LLM output
-        EXPECT_EQ(router->routeByDomain(AdapterDomainType::LEGAL), "shard-legal");
+        AdapterCapabilityAnnouncement ann;
+        ann.shard_id       = "shard-legal";
+        ann.adapter_version = "v2";
+        ann.domain_type    = AdapterDomainType::LEGAL;
+        ann.accuracy_delta = 0.91;
+
+        const auto json = ann.toJson();
+        EXPECT_EQ(json.value("domain_type", std::string{}), "LEGAL");
+
+        const auto restored = AdapterCapabilityAnnouncement::fromJson(json);
+        EXPECT_EQ(restored.domain_type,    AdapterDomainType::LEGAL);
+        EXPECT_DOUBLE_EQ(restored.accuracy_delta, 0.91);
     }
-
-    // "medical" hint → shard-medical
     {
-        EXPECT_EQ(router->routeByDomain(AdapterDomainType::MEDICAL), "shard-medical");
-    }
+        AdapterCapabilityAnnouncement ann;
+        ann.shard_id       = "shard-medical";
+        ann.adapter_version = "v2";
+        ann.domain_type    = AdapterDomainType::MEDICAL;
+        ann.accuracy_delta = 0.85;
 
-    // "legal_analysis" alias → same as "legal"
-    {
-        EXPECT_EQ(router->routeByDomain(AdapterDomainType::LEGAL), "shard-legal");
+        const auto json = ann.toJson();
+        EXPECT_EQ(json.value("domain_type", std::string{}), "MEDICAL");
+
+        const auto restored = AdapterCapabilityAnnouncement::fromJson(json);
+        EXPECT_EQ(restored.domain_type,    AdapterDomainType::MEDICAL);
+        EXPECT_DOUBLE_EQ(restored.accuracy_delta, 0.85);
     }
 }
 
