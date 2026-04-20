@@ -50,6 +50,7 @@ Key additions since v1.15.0:
 - [x] LoRA adapter hot-loading at inference time (Issue: #1929)
 - [x] Model quantization pipeline integration (GGUF, AWQ, GPTQ) (Issue: #2412)
 - [x] ActiveVRAMAllocator: GPU VRAM allocation, OOM recovery (LRU eviction, defragmentation, CPU spilling), VRAM waste tracking (LLM-MISSING-001, 2026-03-11)
+- [x] ActiveVRAMAllocator production wiring: `registerExternal()` / `free()` added; LLMPluginManager carries a shared `vram_allocator_` that registers model VRAM on `loadModel()` and deregisters on `unloadModel()`; `getVRAMStats()` + `getHealthStatus()` enriched with VRAM pressure fields; `/api/v1/llm/vram` GET endpoint exposes full stats; OOM callback logs pressure warnings; AVA_EXT_01..03 tests added (2026-04-20)
 
 ## In Progress 🚧
 - [~] Inference optimizations: adaptive batching, n-gram lookup decoding, KV-budget guards, RAID-sharding hints (Issue: #LLM-INFER-OPT)

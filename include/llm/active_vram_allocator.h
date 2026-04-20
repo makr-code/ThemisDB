@@ -131,6 +131,11 @@ public:
         /// True when the handle is valid and has not been freed.
         bool valid = false;
 
+        /// True when this handle tracks externally-managed memory (e.g., llama.cpp model
+        /// weights loaded by the inference runtime).  free() updates accounting stats but
+        /// does NOT release any GPU or CPU memory — the external owner remains responsible.
+        bool is_external = false;
+
         /// Timestamp of allocation (ms since epoch, for LRU eviction).
         int64_t allocated_at_ms = 0;
 
@@ -368,6 +373,28 @@ public:
 
     /// True when backed by a real GPU (false in CPU-simulation fallback mode).
     bool isGPUAvailable() const noexcept;
+
+    // -----------------------------------------------------------------------
+    // External-memory registration (for externally-managed GPU memory)
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Register externally-managed VRAM (e.g., a model loaded by llama.cpp).
+     *
+     * Does NOT allocate GPU or CPU memory — only updates accounting stats so that
+     * VRAM pressure monitoring, OOM threshold detection, and `getStats()` reflect
+     * the true system-wide VRAM usage.
+     *
+     * The returned handle must be passed to `free()` when the external owner
+     * releases the memory; `free()` will update stats but skip any actual dealloc.
+     *
+     * Thread-safe.
+     *
+     * @param bytes    Bytes of VRAM managed externally.
+     * @param owner_id Logical owner tag (e.g., model name / plugin id).
+     * @return A valid AllocationHandle with `is_external = true`.
+     */
+    AllocationHandle registerExternal(size_t bytes, const std::string& owner_id);
 
     // -----------------------------------------------------------------------
     // Integration with AdaptiveVRAMAllocator (bridge API)
