@@ -52,6 +52,20 @@ std::string AuditedImporter::eventTypeToString(EventType t) {
 // ImmutableAuditLog – private hash helper
 // ---------------------------------------------------------------------------
 
+// STUB/SIMULATION NOTE:
+// Purpose:          Provides a deterministic, portable hash so the audit-log chain
+//                   compiles and runs in all build configurations including those
+//                   without OpenSSL.
+// Activation:       Active when THEMIS_AUDIT_CRYPTO_HASH is not defined (default
+//                   dev/CI builds). Production builds must define that flag and link
+//                   OpenSSL to activate the SHA-256 path.
+// Production Delta: std::hash is NOT cryptographic and is NOT collision-resistant.
+//                   An adversary can forge audit-log entries. SHA-256 (OpenSSL EVP)
+//                   must replace std::hash before this code is used in a regulated
+//                   or security-sensitive environment.
+// Removal Plan:     Introduce #ifdef THEMIS_AUDIT_CRYPTO_HASH guard and implement
+//                   the OpenSSL EVP_Digest path. Remove std::hash fallback once all
+//                   production build targets enable the flag (see src/importers/ROADMAP.md).
 std::string AuditedImporter::ImmutableAuditLog::computeEventHash(
     const AuditEvent& event,
     const std::string& prev_hash) const

@@ -124,14 +124,22 @@ _Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNC
 
 ### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
 
-- `CatalogExporter` – Exportiert Metadaten-Katalog; getestet in test_catalog_exporter
-  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+- `CatalogExporter` – Exportiert Metadaten-Katalog; getestet in `test_catalog_exporter.cpp`
+- `buildAtlasPayload` – Baut Apache Atlas Bulk-Entity-Payload (JSON) aus TableSchema-Liste;
+  vollständig implementiert (~73 Zeilen), **indirekt** über `publishSchema()` in Tests geprüft
+- `sendToAtlas` – HTTP-POST an Atlas v2 REST-API mit Basic-Auth; vollständig implementiert;
+  **indirekt** via `publishSchema()` + `setHttpPostForTesting()` getestet
+- `buildDataHubProposals` – Erstellt DataHub MetadataChangeProposal (URN + datasetProperties +
+  schemaMetadata); vollständig implementiert; indirekt getestet
+- `sendToDataHub` – HTTP-POST jedes DataHub-Proposals an GMS `/aspects?action=ingestProposal`;
+  vollständig implementiert; indirekt getestet
 
-### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+> **Korrektur (2026-04-20):** `buildAtlasPayload`, `sendToAtlas`, `buildDataHubProposals` und
+> `sendToDataHub` wurden initial als `🟡 UNGENUTZT` klassifiziert, da die Grep-Analyse private
+> Methoden nicht direkt in Testdateien aufspürte. Alle vier sind **vollständig implementiert** und
+> werden über `publishSchema()` in `test_catalog_exporter.cpp` getestet (HTTP-Injection via
+> `setHttpPostForTesting`). Korrekte Klassifikation: **🧪 NUR_TESTS**.
 
-- `buildAtlasPayload` – Baut Apache Atlas Lineage-Payload aus Metadaten
-- `sendToAtlas` – Sendet Atlas-Payload an externen Atlas-Endpunkt (HTTP POST)
-- `buildDataHubProposals` – Baut LinkedIn DataHub Proposals aus Schemadaten
-- `sendToDataHub` – Sendet DataHub-Proposals an konfigurierten DataHub-Endpunkt
-  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+> **Aktion:** `CatalogExporter` in `HttpServer` oder einem neuen `MetadataApiHandler` verdrahten,
+> sobald Atlas/DataHub-Endpunkt-Konfiguration im Server-Config-Schema vorhanden ist.
 

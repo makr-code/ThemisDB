@@ -157,6 +157,14 @@ _Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNC
 
 ### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
 
-- `ActiveVRAMAllocator` – Verwaltet aktive VRAM-Allokationen pro Inference-Session; Tests + Bench vorhanden
-  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+- `ActiveVRAMAllocator` – Verwaltet aktive VRAM-Allokationen pro Inference-Session; vollständig
+  implementiert (LRU-Eviction, Defragmentierung, CPU-Spilling, Nutzungsstatistiken, Bridge-API).
+  36 Unit-Tests + Benchmark vorhanden.
+
+> **Verwendungskette:** `ActiveVRAMAllocator` wird als Backend von `AdaptiveVRAMAllocator::Impl`
+> genutzt (`active_allocator_`-Member). `AdaptiveVRAMAllocator` selbst hat aber ebenfalls keinen
+> bestätigten Produktions-Aufrufer — die Kette endet vor der Integration in den Inference-Server.
+>
+> **Aktion:** `AdaptiveVRAMAllocator` in `LLMPluginManager` oder dem Inference-Server-Kontext
+> verdrahten, sobald die VRAM-Budget-Planung Teil des Modell-Ladevorgangs wird (Target: Q3 2026).
 

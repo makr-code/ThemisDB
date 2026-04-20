@@ -122,8 +122,12 @@ _Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNC
 
 - `CDCAdmin` – Admin-Schnittstelle für CDC-Konfiguration (Tenant, Retention); genutzt in changefeed_api_handler
 
-### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+### 🟡 UNGENUTZT — ⚠️ STUB (kein Test, kein externer Aufrufer, unvollständige Implementierung)
 
-- `purgeTenant` – Löscht alle CDC-Events eines Tenants (GDPR-Compliance)
-  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+- `purgeTenant` – GDPR-Tenant-Purge: löscht alle CDC-Events eines Tenants.
+  **Implementierungsstatus:** Wirft `internalError("Tenant purge requires tenant buffer manager
+  implementation in current build")` — TenantBufferManager ist im modularen Build nicht verlinkt.
+  Ein `// STUB/SIMULATION NOTE:` Kommentar wurde in `src/cdc/cdc_admin.cpp` ergänzt.
+  > **Aktion:** TenantBufferManager in modularem Build verdrahten und `throw` durch echte
+  > Purge-Logik ersetzen. Bis dahin: keine GDPR-Tenant-Löschung möglich.
 

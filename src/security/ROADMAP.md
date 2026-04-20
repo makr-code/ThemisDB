@@ -231,9 +231,22 @@ _Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNC
 
 - `AccessControl` – ABAC-Zugriffssteuerung; genutzt in compliance_reporter.cpp + Tests + Bench
 
-### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+### 🟡 UNGENUTZT — ⚠️ STUB (kein Test, kein externer Aufrufer, unvollständige Implementierung)
 
-- `verifyMFA` – Prüft TOTP/FIDO2-MFA-Token für privilegierte Operationen
-- `disableMFA` – Deaktiviert MFA für einen User (Admin-Only-Pfad)
-  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+- `verifyMFA` – Prüft MFA-Token für privilegierte Operationen.
+  **Implementierungsstatus:** Stub — akzeptiert **jeden nicht-leeren String** als gültiges MFA-Token.
+  Kommentar im Code: "For now, always return true if token is provided. Real implementation would
+  call mfa_authenticator_->validateTOTP()". Ein `// STUB/SIMULATION NOTE:` Kommentar wurde in
+  `src/security/access_control.cpp` ergänzt.
+  > **Sicherheitsrisiko:** MFA-Schutz ist wirkungslos — jeder Token-Wert wird akzeptiert.
+  > Muss durch echten TOTP/FIDO2-Validator ersetzt werden, bevor MFA-geschützte Endpunkte
+  > extern erreichbar sind.
+
+- `disableMFA` – Deaktiviert MFA für einen User (Admin-Only-Pfad).
+  **Implementierungsstatus:** Stub — schreibt nur ein Audit-Log-Event, persistiert aber keine
+  Zustandsänderung. MFA bleibt für den User aktiv, da keine Credentials aus dem Store gelöscht
+  werden. Ein `// STUB/SIMULATION NOTE:` Kommentar wurde in `src/security/access_control.cpp`
+  ergänzt.
+  > **Aktion:** Storage-seitige MFA-Credential-Löschung implementieren und mit User-Auth-Store
+  > koppeln, bevor dieser Endpunkt extern exponiert wird.
 

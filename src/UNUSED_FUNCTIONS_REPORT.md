@@ -202,13 +202,19 @@ Handlungsbedarf: im jeweiligen Modul-ROADMAP prüfen ob und wann die Integration
 
 ### `metadata`
 
+> **Korrektur (2026-04-20):** `buildAtlasPayload`, `sendToAtlas`, `buildDataHubProposals` und `sendToDataHub`
+> wurden zunächst als `🟡 UNGENUTZT` klassifiziert. Grep-Analyse erkannte sie nicht direkt in Testdateien,
+> da sie **private Methoden** sind, die ausschließlich über `publishSchema()` aufgerufen werden —
+> und `publishSchema()` wird in `test_catalog_exporter.cpp` via `setHttpPostForTesting` vollständig getestet.
+> **Korrekte Klassifikation: 🧪 NUR_TESTS** (implementiert + getestet, kein Produktions-Aufrufer außerhalb von Tests).
+
 | Symbol | Status | Use-Case | Tests | Externe Aufrufer |
 |--------|--------|----------|-------|-----------------|
 | `CatalogExporter` | 🧪 NUR_TESTS | Exportiert Metadaten-Katalog; getestet in test_catalog_exporter | `test_catalog_exporter.cpp` | `–` |
-| `buildAtlasPayload` | 🟡 UNGENUTZT | Baut Apache Atlas Lineage-Payload aus Metadaten | `–` | `–` |
-| `buildDataHubProposals` | 🟡 UNGENUTZT | Baut LinkedIn DataHub Proposals aus Schemadaten | `–` | `–` |
-| `sendToAtlas` | 🟡 UNGENUTZT | Sendet Atlas-Payload an externen Atlas-Endpunkt (HTTP POST) | `–` | `–` |
-| `sendToDataHub` | 🟡 UNGENUTZT | Sendet DataHub-Proposals an konfigurierten DataHub-Endpunkt | `–` | `–` |
+| `buildAtlasPayload` | 🧪 NUR_TESTS | Baut Apache Atlas Lineage-Payload aus Metadaten | `–` | `–` |
+| `buildDataHubProposals` | 🧪 NUR_TESTS | Baut LinkedIn DataHub Proposals aus Schemadaten | `–` | `–` |
+| `sendToAtlas` | 🧪 NUR_TESTS | Sendet Atlas-Payload an externen Atlas-Endpunkt (HTTP POST) | `–` | `–` |
+| `sendToDataHub` | 🧪 NUR_TESTS | Sendet DataHub-Proposals an konfigurierten DataHub-Endpunkt | `–` | `–` |
 
 ### `network`
 
@@ -303,7 +309,7 @@ Handlungsbedarf: im jeweiligen Modul-ROADMAP prüfen ob und wann die Integration
 |--------|--------|----------|-------|-----------------|
 | `AccessControl` | ✅ AKTIV | ABAC-Zugriffssteuerung; genutzt in compliance_reporter.cpp + Tests + Bench | `test_access_control.cpp` | `compliance_reporter.cpp` |
 | `disableMFA` | 🟡 UNGENUTZT | Deaktiviert MFA für einen User (Admin-Only-Pfad) | `–` | `–` |
-| `verifyMFA` | 🟡 UNGENUTZT | Prüft TOTP/FIDO2-MFA-Token für privilegierte Operationen | `–` | `–` |
+| `verifyMFA` | 🟡 UNGENUTZT (STUB) | Prüft TOTP/FIDO2-MFA-Token – **Stub**: akzeptiert jeden nicht-leeren Token, kein TOTP-Check | `–` | `–` |
 
 ### `server`
 

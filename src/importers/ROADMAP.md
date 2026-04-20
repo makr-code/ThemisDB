@@ -253,8 +253,14 @@ implemented on top of the production-ready v1.x multi-source import pipeline.
 
 _Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
 
-### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+### 🟡 UNGENUTZT — ⚠️ STUB (kein Test, kein externer Aufrufer, Placeholder-Implementierung)
 
-- `computeEventHash` – Berechnet deterministischen Hash für Audit-Trail-Events (Deduplizierung)
-  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+- `computeEventHash` – Berechnet deterministischen Hash für Audit-Trail-Event-Chaining.
+  **Implementierungsstatus:** Verwendet `std::hash<std::string>` als Placeholder — **nicht
+  kryptographisch**. Der bestehende Code-Kommentar sagt explizit: "Production builds replace
+  this with OpenSSL SHA-256". Ein `// STUB/SIMULATION NOTE:` Kommentar wurde in
+  `src/importers/audit_trail.cpp` ergänzt.
+  > **Sicherheitsrisiko:** Ein Angreifer kann Audit-Log-Einträge fälschen, solange std::hash
+  > verwendet wird. Vor Produktionseinsatz in sicherheitsrelevanter Umgebung muss OpenSSL
+  > EVP_Digest (SHA-256) aktiviert werden (`THEMIS_AUDIT_CRYPTO_HASH` Build-Flag).
 
