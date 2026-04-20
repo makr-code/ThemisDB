@@ -984,7 +984,7 @@
         "primary_benchmark": "BM_StreamProtocol_FrameHeaderBuild",
         "primary_case": "BM_StreamProtocol_FrameHeaderBuild",
         "fallback_case": "BM_StreamProtocol_MetricsSnapshot",
-        "slo_target": "> 50 M ops/s"
+        "slo_target": "> 50 M ops/s",
         "file": "bench_stream_protocol.cpp",
         "status": "mapped"
       },
