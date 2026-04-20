@@ -302,3 +302,13 @@ v2.0.0 – Production-grade networking layer. All transport paths (TCP, WebSocke
   remains IPv4 "0.0.0.0").
 - `WireProtocolServer::Config` gained new field `tcp_backlog` (default: 128); existing
   deployments are unaffected as 128 matches the previous implicit OS default.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `AdaptiveCircuitBreaker` – Circuit-Breaker mit adaptiver Schwellwert-Anpassung; nur im CB-Test geprüft
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+

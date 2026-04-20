@@ -101,3 +101,16 @@ Core HTTP API server implemented with RESTful endpoints, AQL query execution, au
 ## Breaking Changes
 - GraphQL schema will be introduced as a new endpoint (non-breaking to REST)
 - gRPC surface planned for a future major version
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `hookId` – Identifier für registrierte API-Lifecycle-Hooks
+- `registerHook` – Registriert einen API-Gateway-Hook (Pre/Post-Request)
+- `unregisterHook` – Entfernt einen registrierten Hook anhand der hookId
+- `getHooks` – Gibt alle registrierten Hooks für einen Endpoint zurück
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

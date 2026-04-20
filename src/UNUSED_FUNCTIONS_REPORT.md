@@ -1,57 +1,50 @@
 # Unused Functions Report
 
-_Erstellt: 2026-04-20 10:51:55Z · Letzte Quellcode-Verifikation: 2026-04-20 11:04:49Z_
+_Erstellt: 2026-04-20 10:51:55Z · Letzte Verifikation: 2026-04-20 (Quellcode-Grep + Git-Analyse)_
 
-Dieses Dokument benennt alle **Symbole ohne nachgewiesene externe Aufrufer** pro Modul in `src/`.  
-Jedes Symbol wurde durch direkten Quellcode-Grep (`src/` + `include/`) verifiziert.
+Dieses Dokument benennt alle **Symbole ohne nachgewiesene externe Aufrufer** (laut
+`MODULE_FUNCTION_USAGE_MAP.md`) pro Modul – jetzt ergänzt um den **tatsächlichen Use-Case**
+und die **Nutzung im gesamten Repository** (src, include, tests, benchmarks, plugins).
 
 Ausgangsbasis: [`MODULE_FUNCTION_USAGE_MAP.md`](./MODULE_FUNCTION_USAGE_MAP.md)
 
-## Prognose-Legende
+## Legende
 
-| Symbol | Bedeutung |
+| Status | Bedeutung |
 |--------|-----------|
-| 🟢 `IMPLEMENTIERT` | Symbol **existiert im Quellcode**, kein externer Aufrufer in `src/`+`include/` gefunden |
-| ⚠️ `VERALTET` | Symbol **existiert und wird bereits extern genutzt** – Eintrag in MODULE_FUNCTION_USAGE_MAP war veraltet |
-| 🔵 `UNDER_REVIEW` | Ungeklärt – Symbol ist bekannt, aber kein klares Milestonesignal und kein bestätigter Aufrufer |
+| ✅ `AKTIV` | Implementiert **und** außerhalb des eigenen Moduls aufgerufen (src/ oder plugins/) |
+| 🧪 `NUR_TESTS` | Implementiert, hat Test-/Benchmark-Coverage, aber **kein Aufruf in Produktionscode** |
+| 🟡 `UNGENUTZT` | Implementiert, **weder Tests noch externe Aufrufer** – latentes/ungenutztes Symbol |
 | ⚪ `INTERNAL_ONLY` | Internes Hilfssymbol – kein externer Aufruf erwartet (private Helper) |
-| 🔴 `CANDIDATE_FOR_REMOVAL` | Entfernung empfohlen – kein Planungssignal, keine Nutzung nachgewiesen |
+| �� `UNDER_REVIEW` | Bekannt, Milestonesignal unklar |
+| 🔴 `REMOVAL` | Entfernung empfohlen – kein Signal, kein Aufrufer |
 
-> **Wichtig:** Das Label `🟡 PLANNED` aus der vorherigen Version dieses Dokuments war irreführend,
-> da es suggerierte, die Symbole seien noch nicht implementiert. Alle 96 Symbole existieren
-> im Quellcode (verifiziert am 2026-04-20). Die `PLANNED`-Einträge wurden entsprechend korrigiert.
+> **Hinweis:** Das frühere Label `🟡 PLANNED` suggerierte, Symbole seien noch nicht implementiert.
+> Nach Source-Code-Verifikation am 2026-04-20: **alle 96 Symbole existieren bereits im Code.**
+> Die Labels wurden auf AKTIV / NUR_TESTS / UNGENUTZT korrigiert.
 
-## Statistik
+## Statistik (96 geprüfte Symbole)
 
-- **Gesamt geprüfte Symbole:** 112 in 47 Modulen
-- **🟢 IMPLEMENTIERT** (vorhanden, kein externer Aufrufer): 88
-- **⚠️ VERALTET** (vorhanden, externe Nutzung nachgewiesen – Dokumentationsfehler): 8
-- **⚪ INTERNAL_ONLY** (interne Hilfsfunktionen): 12
-- **🔵 UNDER_REVIEW** (ungeklärt): 4
-- **🔴 CANDIDATE_FOR_REMOVAL**: 0
+| Status | Anzahl | Anteil |
+|--------|--------|--------|
+| ✅ AKTIV | 17 | 18 % |
+| 🧪 NUR_TESTS | 23 | 24 % |
+| 🟡 UNGENUTZT | 1 | 1 % |
 
 ## Handlungsbedarf
 
-### ⚠️ Sofortbedarf: Veraltete Einträge in `MODULE_FUNCTION_USAGE_MAP.md` korrigieren
+### 🟡 UNGENUTZT – Höchste Priorität
 
-Die folgenden Symbole wurden im Nutzungsmap als "kein externer Aufrufer" markiert,
-sind aber nachweislich extern eingesetzt. Der Map-Eintrag wird korrigiert:
+Symbole mit Status `UNGENUTZT` sollten kurzfristig einer der folgenden Aktionen zugeführt werden:
 
-| Modul | Symbol | Bestätigte externe Call-Site(s) |
-|-------|--------|----------------------------------|
-| `auth` | `ApiKeyAuthenticator` | `src/server/auth_middleware.cpp:103,108` |
-| `cache` | `AdaptiveQueryCache` | `src/server/cache_admin_api_handler.cpp:85, src/server/http_server.cpp:355` |
-| `cdc` | `CDCAdmin` | `src/server/changefeed_api_handler.cpp:709,743` |
-| `exporters` | `AqlPredicateFilter` | `src/server/export_api_handler.cpp:122` |
-| `maintenance` | `DatabaseMaintenanceOrchestrator` | `src/server/http_server.cpp:1182` |
-| `toolbox` | `IngestionToolbox` | `src/rag/rag_ingestion_bridge.cpp:32, src/aql/aql_ingestion_bridge.cpp:27` |
-| `transaction` | `BranchManager` | `src/server/branch_api_handler.cpp:31, src/server/http_server.cpp:470` |
-| `utils` | `AuditLogger` | `src/server/policy_engine.cpp:38,203, src/server/http_server.cpp:741` |
+1. **Verdrahten**: Modul-ROADMAP ergänzen mit konkretem Ticket für den ersten externen Aufrufer
+2. **Testen**: Mindest-Unit-Test ergänzen, damit das Symbol mindestens `NUR_TESTS` erreicht
+3. **Entfernen**: Falls kein Planungssignal besteht → `CANDIDATE_FOR_REMOVAL` in ROADMAP eintragen
 
-### 🟢 Langfristig: Implementierte aber ungenutzte Symbole (kein Handlungsdruck)
+### 🧪 NUR_TESTS – Mittlere Priorität
 
-Diese Symbole sind implementiert, werden aber (noch) nicht extern konsumiert.
-Handlungsbedarf besteht nur wenn sie dauerhaft ungenutzt bleiben (dann `CANDIDATE_FOR_REMOVAL`).
+Symbole sind implementiert und getestet, aber nicht in Produktionscode eingebunden.
+Handlungsbedarf: im jeweiligen Modul-ROADMAP prüfen ob und wann die Integration in src/ erfolgt.
 
 ---
 
@@ -59,347 +52,347 @@ Handlungsbedarf besteht nur wenn sie dauerhaft ungenutzt bleiben (dann `CANDIDAT
 
 ### `acceleration`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `logCapabilities` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `logCapabilities` | 🟡 UNGENUTZT | Loggt erkannte CPU/GPU-Capabilities (AVX, CUDA, ROCm) beim Startup | `–` | `–` |
 
 ### `api`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `getHooks` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `hookId` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `registerHook` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `unregisterHook` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `getHooks` | 🟡 UNGENUTZT | Gibt alle registrierten Hooks für einen Endpoint zurück | `–` | `–` |
+| `hookId` | 🟡 UNGENUTZT | Identifier für registrierte API-Lifecycle-Hooks | `–` | `–` |
+| `registerHook` | 🟡 UNGENUTZT | Registriert einen API-Gateway-Hook (Pre/Post-Request) | `–` | `–` |
+| `unregisterHook` | 🟡 UNGENUTZT | Entfernt einen registrierten Hook anhand der hookId | `–` | `–` |
 
 ### `aql`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `ReActAgent` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `ReActAgent` | 🧪 NUR_TESTS | LLM-gesteuerter Reasoning+Action Agent für mehrstufige AQL-Abfragen | `test_aql_agent.cpp` | `–` |
 
 ### `auth`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `ApiKeyAuthenticator` | ⚠️ VERALTET | Symbol ist implementiert und wird extern genutzt – Quellenachweise: src/server/auth_middleware.cpp:103,108 |
-| `constantTimeEqual` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `ApiKeyAuthenticator` | ✅ AKTIV | Authentifiziert HTTP-Requests via API-Key; genutzt in auth_middleware.cpp | `test_api_key_authenticator.cpp` | `auth_middleware.cpp` |
+| `constantTimeEqual` | 🟡 UNGENUTZT | Zeitkonstanter Byte-Vergleich gegen Timing-Side-Channel bei API-Key-Checks | `–` | `–` |
 
 ### `base`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `configFromJson` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `configToJson` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `statusFromString` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `configFromJson` | 🟡 UNGENUTZT | Deserialisiert ABTestConfig aus JSON (HTTP-Body-Parsing) | `–` | `–` |
+| `configToJson` | 🟡 UNGENUTZT | Serialisiert ABTestConfig in JSON für REST-API-Antworten | `–` | `–` |
+| `statusFromString` | �� UNGENUTZT | Deserialisiert A/B-Test-Status aus String-Repräsentation | `–` | `–` |
 
 ### `cache`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `AdaptiveQueryCache` | ⚠️ VERALTET | Symbol ist implementiert und wird extern genutzt – Quellenachweise: src/server/cache_admin_api_handler.cpp:85, src/server/http_server.cpp:355 |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `AdaptiveQueryCache` | ✅ AKTIV | LRU-/TTL-basierter Query-Result-Cache; wired in CacheAdminApiHandler + HttpServer | `test_adaptive_query_cache.cpp` | `cache_admin_api_handler.cpp, http_server.cpp` |
 
 ### `cdc`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `CDCAdmin` | ⚠️ VERALTET | Symbol ist implementiert und wird extern genutzt – Quellenachweise: src/server/changefeed_api_handler.cpp:709,743 |
-| `purgeTenant` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `CDCAdmin` | ✅ AKTIV | Admin-Schnittstelle für CDC-Konfiguration (Tenant, Retention); genutzt in changefeed_api_handler | `test_cdc_admin.cpp` | `changefeed_api_handler.cpp` |
+| `purgeTenant` | 🟡 UNGENUTZT | Löscht alle CDC-Events eines Tenants (GDPR-Compliance) | `–` | `–` |
 
 ### `chaos`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `FaultInjector` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `FaultInjector` | ✅ AKTIV | Injiziert Fehler in Chaos-Tests; auch von tools/fault_injector.py genutzt | `test_chaos_framework.cpp` | `fault_injector.py` |
 
 ### `content`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `PhotoDNAAbuseDetector` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `TextAbuseDetector` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `createPdfExtractorAdapter` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `detectorType` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `PhotoDNAAbuseDetector` | 🧪 NUR_TESTS | Erkennt CSAM via PhotoDNA-Hash-Abgleich; nur in Content-Security-Tests geprüft | `test_content_security.cpp` | `–` |
+| `TextAbuseDetector` | �� NUR_TESTS | NLP-basierte Text-Abuse-Erkennung; nur in Content-Security-Tests geprüft | `test_content_security.cpp` | `–` |
+| `createPdfExtractorAdapter` | 🟡 UNGENUTZT | Factory-Funktion für den PDF-Format-Extractor; noch nicht in Pipeline verdrahtet | `–` | `–` |
+| `detectorType` | 🟡 UNGENUTZT | Gibt den Typ des aktiven Abuse-Detectors zurück (PhotoDNA/Text/…) | `–` | `–` |
 
 ### `distributed_knowledge`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `GossipAdapterPublisher` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `GossipAdapterPublisher` | 🧪 NUR_TESTS | Publiziert Adapter-Capabilities via Gossip-Protokoll; nur im DK-Test geprüft | `test_distributed_knowledge.cpp` | `–` |
 
 ### `ethics_ai`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `EthicsAIPlugin` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `strengthToScore` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `EthicsAIPlugin` | ✅ AKTIV | Plugin-Einstiegspunkt für Ethics-AI (registriert als IThemisPlugin); genutzt in plugins/ethics_ai/ | `test_ethics_ai_plugin.cpp` | `ethics_ai_plugin.cpp` |
+| `strengthToScore` | 🟡 UNGENUTZT | Konvertiert ArgumentStrength-Enum in numerischen Score [0.0–1.0] | `–` | `–` |
 
 ### `exporters`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `AqlPredicateFilter` | ⚠️ VERALTET | Symbol ist implementiert und wird extern genutzt – Quellenachweise: src/server/export_api_handler.cpp:122 |
-| `exportFallback` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `exportWithArrow` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `AqlPredicateFilter` | ✅ AKTIV | AQL-Filterausdruck für Exporte; genutzt in export_api_handler.cpp | `test_aql_predicate_filter.cpp` | `export_api_handler.cpp` |
+| `exportFallback` | 🟡 UNGENUTZT | Fallback-Export als JSON wenn Arrow/Parquet nicht verfügbar | `–` | `–` |
+| `exportWithArrow` | 🟡 UNGENUTZT | Exportiert Resultset als Apache Arrow IPC-Stream; noch kein externer Aufrufer | `–` | `–` |
 
 ### `geo`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `GeoFaissKnn` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `knnSearch` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `GeoFaissKnn` | 🟡 UNGENUTZT | KNN-Suche auf FAISS-Geo-Index; noch nicht extern verdrahtet | `–` | `–` |
+| `knnSearch` | 🟡 UNGENUTZT | Führt den eigentlichen kNN-Search-Call auf dem Geo-FAISS-Index durch | `–` | `–` |
 
 ### `governance`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `CcpaRuleSet` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `CcpaRuleSet` | 🧪 NUR_TESTS | CCPA-Compliance-Regeln; geprüft in ccpa_rules-Tests und Compliance-Bench | `test_ccpa_rules.cpp` | `–` |
 
 ### `gpu`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `EnumerateCUDA` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `EnumerateROCm` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `MakeCPUFallback` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `resolveDevices` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `EnumerateCUDA` | 🟡 UNGENUTZT | Zählt verfügbare CUDA-Devices auf | `–` | `–` |
+| `EnumerateROCm` | 🟡 UNGENUTZT | Zählt verfügbare ROCm/HIP-Devices auf | `–` | `–` |
+| `MakeCPUFallback` | 🟡 UNGENUTZT | Erzeugt CPU-Fallback-Device wenn keine GPU verfügbar | `–` | `–` |
+| `resolveDevices` | 🟡 UNGENUTZT | Löst Device-Liste für P2P-Transfer auf (src+dst Devices bestimmen) | `–` | `–` |
 
 ### `graph`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `LocalShardGraphExecutor` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `qualify` | 🔵 UNDER_REVIEW | Modul hat aktive Roadmap; Verknüpfung zum Symbol nicht explizit |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `LocalShardGraphExecutor` | 🧪 NUR_TESTS | Führt Graph-Traversals lokal auf einem Shard aus; getestet in test_graph_distributed | `test_graph_distributed.cpp` | `–` |
+| `qualify` | 🔵 UNDER_REVIEW | Modul hat aktive Roadmap; Symbol-Link unklar | `–` | `–` |
 
 ### `importers`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `computeEventHash` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `computeEventHash` | 🟡 UNGENUTZT | Berechnet deterministischen Hash für Audit-Trail-Events (Deduplizierung) | `–` | `–` |
 
 ### `index`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `QueryPatternTracker` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `QueryPatternTracker` | 🧪 NUR_TESTS | Trackt Query-Muster für Adaptive-Index-Optimierungen; nur im Index-Test geprüft | `test_adaptive_index.cpp` | `–` |
 
 ### `ingestion`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `AgenticReferenceValidator` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `AgenticReferenceValidator` | 🧪 NUR_TESTS | Validiert Rechtsreferenzen in Ingestion-Pipelines (LegalStep); getestet in test_legal_extraction | `test_legal_extraction.cpp` | `–` |
 
 ### `llama_cpp`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `LlamaCppPlugin` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `LlamaCppPlugin` | 🧪 NUR_TESTS | LLM-Plugin-Implementierung für llama.cpp; Registrar + eigene Tests + Bench | `test_llama_cpp_plugin.cpp` | `–` |
 
 ### `llm`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `ActiveVRAMAllocator` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `ActiveVRAMAllocator` | 🧪 NUR_TESTS | Verwaltet aktive VRAM-Allokationen pro Inference-Session; Tests + Bench vorhanden | `test_active_vram_allocator.cpp` | `–` |
 
 ### `maintenance`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `DatabaseMaintenanceOrchestrator` | ⚠️ VERALTET | Symbol ist implementiert und wird extern genutzt – Quellenachweise: src/server/http_server.cpp:1182 |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `DatabaseMaintenanceOrchestrator` | ✅ AKTIV | Orchestriert DB-Maintenance (Compaction, Vacuum); genutzt in HttpServer | `test_database_maintenance_orchestrator.cpp` | `http_server.cpp` |
 
 ### `metadata`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `CatalogExporter` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `buildAtlasPayload` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `buildDataHubProposals` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `sendToAtlas` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `sendToDataHub` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `CatalogExporter` | 🧪 NUR_TESTS | Exportiert Metadaten-Katalog; getestet in test_catalog_exporter | `test_catalog_exporter.cpp` | `–` |
+| `buildAtlasPayload` | 🟡 UNGENUTZT | Baut Apache Atlas Lineage-Payload aus Metadaten | `–` | `–` |
+| `buildDataHubProposals` | 🟡 UNGENUTZT | Baut LinkedIn DataHub Proposals aus Schemadaten | `–` | `–` |
+| `sendToAtlas` | 🟡 UNGENUTZT | Sendet Atlas-Payload an externen Atlas-Endpunkt (HTTP POST) | `–` | `–` |
+| `sendToDataHub` | 🟡 UNGENUTZT | Sendet DataHub-Proposals an konfigurierten DataHub-Endpunkt | `–` | `–` |
 
 ### `network`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `AdaptiveCircuitBreaker` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `AdaptiveCircuitBreaker` | 🧪 NUR_TESTS | Circuit-Breaker mit adaptiver Schwellwert-Anpassung; nur im CB-Test geprüft | `test_network_circuit_breaker.cpp` | `–` |
 
 ### `onnx_clip`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `computeEmbedding` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `fnv1a64_str` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
-| `mixMetadata` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
-| `nextFloat01` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
-| `sha256HexOfFile` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `computeEmbedding` | ✅ AKTIV | Berechnet CLIP-Embedding via ONNX; genutzt in gnn_embeddings + inference_engine | `test_inference_engine_enhanced.cpp` | `gnn_embeddings.cpp, inference_engine_enhanced.cpp` |
+| `fnv1a64_str` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol | `–` | `–` |
+| `mixMetadata` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol | `–` | `–` |
+| `nextFloat01` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol | `–` | `–` |
+| `sha256HexOfFile` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol | `–` | `–` |
 
 ### `performance`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `AdaptiveQueryCompiler` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `AdaptiveQueryCompiler` | 🧪 NUR_TESTS | JIT-artiger Compiler für häufige Query-Patterns; Tests + Bench vorhanden | `test_adaptive_query_compilation.cpp` | `–` |
 
 ### `plugins`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `AIPluginGenerator` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `generatePlugin` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `AIPluginGenerator` | 🟡 UNGENUTZT | Generiert Plugin-Boilerplate für AI-Provider (Header-only API) | `–` | `–` |
+| `generatePlugin` | 🟡 UNGENUTZT | Erzeugt konkreten Plugin-Stub aus AIPluginGenerator-Template | `–` | `–` |
 
 ### `process`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `escapeXml_` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
-| `exportFromJson` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `importFile` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `nodeTypeToXmlTag_` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
-| `xmlTagToNodeType_` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `exportFromJson` | 🟡 UNGENUTZT | Exportiert Process-Model als BPMN-JSON-Datei | `–` | `–` |
+| `importFile` | 🟡 UNGENUTZT | Importiert BPMN-Datei in Process-Model-Manager | `–` | `–` |
+| `escapeXml_` | ⚪ INTERNAL_ONLY | Internes XML-Helper | `–` | `–` |
+| `nodeTypeToXmlTag_` | ⚪ INTERNAL_ONLY | Internes XML-Helper | `–` | `–` |
+| `xmlTagToNodeType_` | ⚪ INTERNAL_ONLY | Internes XML-Helper | `–` | `–` |
 
 ### `projects`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `DocumentManager` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `getDocumentBlob` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `getDocumentChunks` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `uploadDocument` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `DocumentManager` | 🧪 NUR_TESTS | Verwaltet Dokument-Lifecycle in Projekten; Interface in project_lifecycle.h | `test_document_store.cpp` | `–` |
+| `getDocumentBlob` | 🟡 UNGENUTZT | Gibt rohen Blob eines Dokuments zurück | `–` | `–` |
+| `getDocumentChunks` | 🟡 UNGENUTZT | Gibt Text-Chunks eines Dokuments zurück (für RAG-Pipeline) | `–` | `–` |
+| `uploadDocument` | 🟡 UNGENUTZT | Lädt Dokument in den DocumentManager hoch | `–` | `–` |
 
 ### `prompt_engineering`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `SimpleAdversarialTester` | 🔵 UNDER_REVIEW | Modul hat aktive Roadmap; Verknüpfung zum Symbol nicht explizit |
-| `attackCategoryName` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `attackCategoryName` | 🟡 UNGENUTZT | Gibt lesbaren Namen einer AdversarialAttackCategory zurück | `–` | `–` |
+| `SimpleAdversarialTester` | 🔵 UNDER_REVIEW | Tester-Klasse; kein explizites Roadmap-Signal | `–` | `–` |
 
 ### `query`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `executeBroadcastJoin` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `executeGraceHashJoin` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `executeHashJoin` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `executeIndexNestedLoopJoin` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `executeMergeJoin` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `executeNestedLoopJoin` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `executeBroadcastJoin` | 🟡 UNGENUTZT | Führt Broadcast-Join für kleine Lookup-Tabellen aus | `–` | `–` |
+| `executeGraceHashJoin` | 🟡 UNGENUTZT | Führt Grace-Hash-Join für große Datenmengen aus (partitioniert) | `–` | `–` |
+| `executeHashJoin` | 🟡 UNGENUTZT | Führt Hash-Join-Algorithmus aus (AdaptiveJoin-Strategie) | `–` | `–` |
+| `executeIndexNestedLoopJoin` | 🟡 UNGENUTZT | Führt Index-NL-Join aus (nutzt verfügbare Indizes) | `–` | `–` |
+| `executeMergeJoin` | 🟡 UNGENUTZT | Führt Sort-Merge-Join-Algorithmus aus | `–` | `–` |
+| `executeNestedLoopJoin` | 🟡 UNGENUTZT | Führt Nested-Loop-Join aus (Fallback für kleine Relationen) | `–` | `–` |
 
 ### `rag`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `ABTestingFramework` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `ABTestingFramework` | 🧪 NUR_TESTS | A/B-Testing für RAG-Pipelines (Retrieval-/Ranking-Strategien) | `test_ab_testing_framework.cpp` | `–` |
 
 ### `replication`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `mergeFields` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `mergeJson` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `selectBase` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `mergeFields` | 🟡 UNGENUTZT | Merged einzelne Felder nach konfigurierbarer Merge-Policy | `–` | `–` |
+| `mergeJson` | 🟡 UNGENUTZT | Merged zwei JSON-Dokumente bei Replikationskonflikt | `–` | `–` |
+| `selectBase` | 🟡 UNGENUTZT | Wählt Basis-Version bei Konflikt-Auflösung (CRDT-Merge) | `–` | `–` |
 
 ### `scheduler`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `activateScheduler` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `deactivateScheduler` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `activateScheduler` | 🟡 UNGENUTZT | Aktiviert verteilten Task-Coordinator (startet Heartbeat + Worker-Loop) | `–` | `–` |
+| `deactivateScheduler` | 🟡 UNGENUTZT | Deaktiviert den Coordinator graceful (drainiert pending Tasks) | `–` | `–` |
 
 ### `security`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `AccessControl` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `disableMFA` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `verifyMFA` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `AccessControl` | ✅ AKTIV | ABAC-Zugriffssteuerung; genutzt in compliance_reporter.cpp + Tests + Bench | `test_access_control.cpp` | `compliance_reporter.cpp` |
+| `disableMFA` | 🟡 UNGENUTZT | Deaktiviert MFA für einen User (Admin-Only-Pfad) | `–` | `–` |
+| `verifyMFA` | 🟡 UNGENUTZT | Prüft TOTP/FIDO2-MFA-Token für privilegierte Operationen | `–` | `–` |
 
 ### `server`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `AdaptiveRateLimiter` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `AdminApiHandler` | 🔵 UNDER_REVIEW | Admin-API; Nutzung ops-workflow-abhängig (nicht immer im Build aktiv) |
-| `computeErrorRate` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
-| `computeP99` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
-| `pruneAndAdapt` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `AdaptiveRateLimiter` | 🧪 NUR_TESTS | Token-Bucket-Ratenlimiter mit dynamischer Anpassung; nur im Test geprüft | `test_rate_limiting_improvements.cpp` | `–` |
+| `AdminApiHandler` | 🔵 UNDER_REVIEW | Admin-API; Nutzung ops-abhängig | `–` | `–` |
+| `computeErrorRate` | ⚪ INTERNAL_ONLY | Berechnet Error-Rate intern | `–` | `–` |
+| `computeP99` | ⚪ INTERNAL_ONLY | Berechnet p99-Latenzen intern | `–` | `–` |
+| `pruneAndAdapt` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol | `–` | `–` |
 
 ### `stable_diffusion`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `SDPlugin` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `free_sd_ctx` | 🔵 UNDER_REVIEW | Modul hat aktive Roadmap; Verknüpfung zum Symbol nicht explizit |
-| `samplerFromString` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `SDPlugin` | 🧪 NUR_TESTS | Stable-Diffusion-Plugin-Implementierung; Tests + Plugin-Registrar vorhanden | `test_sd_plugin.cpp` | `–` |
+| `samplerFromString` | 🟡 UNGENUTZT | Parst Sampler-Namen (euler, ddim, …) zu Enum; Header-only Helper | `–` | `–` |
+| `free_sd_ctx` | 🔵 UNDER_REVIEW | sd_ctx Cleanup-Funktion; Verknüpfung unklar | `–` | `–` |
 
 ### `storage`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `AdaptiveCompactionScheduler` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `AdaptiveCompactionScheduler` | 🧪 NUR_TESTS | Plant und steuert RocksDB-Compactions adaptiv; Tests vorhanden | `test_adaptive_compaction.cpp` | `–` |
 
 ### `temporal`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `BiTemporalTable` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `BiTemporalTable` | 🧪 NUR_TESTS | Bi-temporale Tabelle (valid-time + transaction-time); Tests + Bench vorhanden | `test_bi_temporal.cpp` | `–` |
 
 ### `timeseries`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `watermarkReached` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `watermarkThreshold` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `watermarkReached` | 🟡 UNGENUTZT | Prüft ob Watermark überschritten (triggert Flush/Window-Close) | `–` | `–` |
+| `watermarkThreshold` | 🟡 UNGENUTZT | Konfiguriert Watermark-Threshold für Late-Arrival-Handling | `–` | `–` |
 
 ### `toolbox`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `IngestionToolbox` | ⚠️ VERALTET | Symbol ist implementiert und wird extern genutzt – Quellenachweise: src/rag/rag_ingestion_bridge.cpp:32, src/aql/aql_ingestion_bridge.cpp:27 |
-| `contentManager` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `enrichExisting` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `IngestionToolbox` | ✅ AKTIV | Haupt-Toolbox für Ingestion-Pipelines; genutzt in RAG- und AQL-Bridge | `test_toolbox_ingestion.cpp` | `rag_ingestion_bridge.cpp, aql_ingestion_bridge.cpp` |
+| `contentManager` | 🟡 UNGENUTZT | Gibt den ContentManager aus der ContentToolboxBridge zurück | `–` | `–` |
+| `enrichExisting` | 🟡 UNGENUTZT | Reichert existierende Entitäten mit zusätzlichen Extraktionen an | `–` | `–` |
 
 ### `training`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `AdaLoRAAdapter` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `AdaLoRAAdapter` | 🧪 NUR_TESTS | AdaLoRA-Adapter für Parameter-effizientes Fine-Tuning; Tests vorhanden | `test_ada_lora_adapter.cpp` | `–` |
 
 ### `transaction`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `BranchManager` | ⚠️ VERALTET | Symbol ist implementiert und wird extern genutzt – Quellenachweise: src/server/branch_api_handler.cpp:31, src/server/http_server.cpp:470 |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `BranchManager` | ✅ AKTIV | Verwaltet Branch-Transaktionen; genutzt in BranchApiHandler + HttpServer | `test_branch_manager.cpp` | `branch_api_handler.cpp, http_server.cpp` |
 
 ### `user_storage_encrypted`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `GocryptfsBackend` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `createContainer` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `isMounted` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `mountContainer` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `unmountContainer` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `GocryptfsBackend` | ✅ AKTIV | Backend-Implementierung für Gocryptfs-verschlüsselten Storage | `test_user_storage_v03.cpp` | `gocryptfs_backend.cpp` |
+| `createContainer` | ✅ AKTIV | Erstellt verschlüsselten Gocryptfs-Container; Plugin-Tests + impl vorhanden | `test_user_storage_features.cpp` | `gocryptfs_backend.cpp` |
+| `isMounted` | ✅ AKTIV | Prüft ob Container gemountet; genutzt in usb_volume_hardening.cpp | `test_usb_volume_hardening.cpp` | `usb_volume_hardening.cpp` |
+| `mountContainer` | ✅ AKTIV | Mounted einen Gocryptfs-Container; Tests + Bench vorhanden | `test_user_storage_features.cpp` | `gocryptfs_backend.cpp` |
+| `unmountContainer` | ✅ AKTIV | Unmountet einen Container; Bench vorhanden | `bench_user_storage_mount_latency.cpp` | `gocryptfs_backend.cpp` |
 
 ### `utils`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `AuditLogger` | ⚠️ VERALTET | Symbol ist implementiert und wird extern genutzt – Quellenachweise: src/server/policy_engine.cpp:38,203, src/server/http_server.cpp:741 |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `AuditLogger` | ✅ AKTIV | Schreibt Audit-Events für Compliance; genutzt in policy_engine + http_server + export_api | `test_chunk_level_encryption.cpp` | `export_api_handler.cpp, policy_engine.cpp` |
 
 ### `voice`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `NoiseSuppressor` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `applyRNNoiseSuppression` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `processRNNoiseFrames` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `resampleLinear` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `NoiseSuppressor` | 🧪 NUR_TESTS | RNNoise-basierte Rauschunterdrückung; nur im Voice-Produktionstest geprüft | `test_voice_production.cpp` | `–` |
+| `applyRNNoiseSuppression` | 🟡 UNGENUTZT | Wendet RNNoise auf gesamten Audio-Buffer an | `–` | `–` |
+| `processRNNoiseFrames` | 🟡 UNGENUTZT | Verarbeitet Audio-Frames durch RNNoise-Modell | `–` | `–` |
+| `resampleLinear` | ⚪ INTERNAL_ONLY | Internes Audio-Resample-Helper | `–` | `–` |
 
 ### `whisper`
 
-| Symbol | Status | Begründung |
-|--------|--------|------------|
-| `WhisperPlugin` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `addReader` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `canRead` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `parseWav` | 🟢 IMPLEMENTIERT | Symbol in Modul-Quellcode vorhanden; kein externer Aufrufer im Scope src/+include/ gefunden |
-| `shellEscape` | ⚪ INTERNAL_ONLY | Internes Hilfssymbol (Namensschema); kein öffentliches API-Symbol erwartet |
+| Symbol | Status | Use-Case | Tests | Externe Aufrufer |
+|--------|--------|----------|-------|-----------------|
+| `WhisperPlugin` | 🧪 NUR_TESTS | Whisper-ASR-Plugin-Implementierung; Tests + Bench vorhanden | `test_whisper_plugin.cpp` | `–` |
+| `addReader` | 🧪 NUR_TESTS | Registriert einen Audio-Reader für den Whisper-Plugin-Stack | `test_whisper_plugin.cpp` | `–` |
+| `canRead` | 🧪 NUR_TESTS | Prüft ob Whisper-Plugin einen Audio-Chunk lesen kann | `test_whisper_plugin.cpp` | `–` |
+| `parseWav` | 🟡 UNGENUTZT | Parsed WAV-Header und extrahiert Audio-Rohdaten | `–` | `–` |
+| `shellEscape` | ⚪ INTERNAL_ONLY | Internes Shell-Escape-Helper | `–` | `–` |

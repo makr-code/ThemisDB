@@ -117,3 +117,21 @@ RBAC/access-control and observer interfaces are all shipped.
 ## Breaking Changes
 - INFORMATION_SCHEMA view column names follow SQL standard; no planned breaking changes.
 - `SchemaManager` public API is stable from v1.x.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `CatalogExporter` – Exportiert Metadaten-Katalog; getestet in test_catalog_exporter
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `buildAtlasPayload` – Baut Apache Atlas Lineage-Payload aus Metadaten
+- `sendToAtlas` – Sendet Atlas-Payload an externen Atlas-Endpunkt (HTTP POST)
+- `buildDataHubProposals` – Baut LinkedIn DataHub Proposals aus Schemadaten
+- `sendToDataHub` – Sendet DataHub-Proposals an konfigurierten DataHub-Endpunkt
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

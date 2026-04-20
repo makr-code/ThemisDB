@@ -64,3 +64,18 @@
 
 ## Breaking Changes
 - Keine bekannten Breaking Changes dokumentiert.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### ✅ Aktiv (implementiert + externer Aufrufer bestätigt)
+
+- `IngestionToolbox` – Haupt-Toolbox für Ingestion-Pipelines; genutzt in RAG- und AQL-Bridge
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `enrichExisting` – Reichert existierende Entitäten mit zusätzlichen Extraktionen an
+- `contentManager` – Gibt den ContentManager aus der ContentToolboxBridge zurück
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

@@ -258,3 +258,15 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 ## Breaking Changes
 - `ReplicationConfig` struct is stable from v1.x; new optional fields only.
 - CDC event format may gain new metadata fields in v1.5.0; consumers should use open-ended deserialization.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `selectBase` – Wählt Basis-Version bei Konflikt-Auflösung (CRDT-Merge)
+- `mergeJson` – Merged zwei JSON-Dokumente bei Replikationskonflikt
+- `mergeFields` – Merged einzelne Felder nach konfigurierbarer Merge-Policy
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

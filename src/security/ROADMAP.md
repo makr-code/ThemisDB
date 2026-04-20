@@ -222,3 +222,18 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - SecurityManager API is stable from v1.x.
 - Key management API is stable in v1.5.0; additional rotation hooks planned for v1.6.0+.
 - DEK versioning scheme is fixed; no breaking changes planned.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### ✅ Aktiv (implementiert + externer Aufrufer bestätigt)
+
+- `AccessControl` – ABAC-Zugriffssteuerung; genutzt in compliance_reporter.cpp + Tests + Bench
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `verifyMFA` – Prüft TOTP/FIDO2-MFA-Token für privilegierte Operationen
+- `disableMFA` – Deaktiviert MFA für einen User (Admin-Only-Pfad)
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

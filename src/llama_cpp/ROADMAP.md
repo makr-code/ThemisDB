@@ -100,3 +100,13 @@ Stub mode (empty path / CI without model) is preserved as a transparent fallback
 
 v2.1.0 — `getCapabilities().plugin_version` changed from `"2.0.0"` to `"2.1.0"`.
 `getPluginVersion()` similarly returns `"2.1.0"`.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `LlamaCppPlugin` – LLM-Plugin-Implementierung für llama.cpp; Registrar + eigene Tests + Bench
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+

@@ -195,3 +195,17 @@ v0.3.0 — `PhilosophyLoader::reloadProfiles()` atomic hot-reload with mutex. `E
   L2-normalised); ANN search results are lexically meaningful but not semantically rich.
   A real ONNX embedding model is planned for v0.1.0 (Q3 2026).
 - No built-in philosophy YAML profiles are shipped; operators must provide them.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### ✅ Aktiv (implementiert + externer Aufrufer bestätigt)
+
+- `EthicsAIPlugin` – Plugin-Einstiegspunkt für Ethics-AI (registriert als IThemisPlugin); genutzt in plugins/ethics_ai/
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `strengthToScore` – Konvertiert ArgumentStrength-Enum in numerischen Score [0.0–1.0]
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

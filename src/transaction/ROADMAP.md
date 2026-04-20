@@ -247,3 +247,12 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - `TransactionManager` public API is stable from v1.x.
 - SAGA compensating action interface may gain new lifecycle hooks in v1.5.0.
 - Branch/merge API is new; no stability guarantees until v1.7.0.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### ✅ Aktiv (implementiert + externer Aufrufer bestätigt)
+
+- `BranchManager` – Verwaltet Branch-Transaktionen; genutzt in BranchApiHandler + HttpServer
+

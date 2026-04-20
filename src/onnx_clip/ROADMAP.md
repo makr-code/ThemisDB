@@ -103,3 +103,12 @@ check (SHA-256) are all implemented.
 - Integration tests with real ViT-B/32 / ViT-L/14 ONNX model files still pending.
 - DirectML backend requires Windows; silently falls back to CPU on Linux.
 - SHA-256 model integrity check requires OpenSSL at build time (`THEMIS_HAS_OPENSSL`); skipped without it.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### ✅ Aktiv (implementiert + externer Aufrufer bestätigt)
+
+- `computeEmbedding` – Berechnet CLIP-Embedding via ONNX; genutzt in gnn_embeddings + inference_engine
+

@@ -249,3 +249,12 @@ implemented on top of the production-ready v1.x multi-source import pipeline.
 - `SchemaInferenceConfig` is now a free struct (not a nested struct of `SchemaInferenceEngine`) for C++17 default-argument compatibility.
 - `CDCOptions` is now a free struct (not a nested struct of `PostgreSQLCDC`) for the same reason.
 
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `computeEventHash` – Berechnet deterministischen Hash für Audit-Trail-Events (Deduplizierung)
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

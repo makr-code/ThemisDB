@@ -139,3 +139,13 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 ## Breaking Changes
 - `CycleMetrics` configuration struct is additive; no breaking changes planned for v1.x.
 - Export format for Chimera may evolve; Prometheus format is stable.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `AdaptiveQueryCompiler` – JIT-artiger Compiler für häufige Query-Patterns; Tests + Bench vorhanden
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+

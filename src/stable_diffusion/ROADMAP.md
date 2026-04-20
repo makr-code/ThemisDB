@@ -114,3 +114,18 @@ Stub mode fully functional. stable-diffusion.cpp integration compiled when
 ## Breaking Changes
 
 None (v2.0.0 is the initial release).
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `SDPlugin` – Stable-Diffusion-Plugin-Implementierung; Tests + Plugin-Registrar vorhanden
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `samplerFromString` – Parst Sampler-Namen (euler, ddim, …) zu Enum; Header-only Helper
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

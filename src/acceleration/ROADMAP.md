@@ -103,3 +103,13 @@ Production hardening complete — all GPU kernel surfaces and design contracts a
 - GPU kernel APIs are not yet stable; function signatures may change before v1.0
 - `BackendType` enum: new values (NPU_APPLE, NPU_INTEL, NPU_QUALCOMM, NPU_ARM, NNAPI, ONNX_RUNTIME) inserted before AUTO — any code that switch-cases on BackendType without a default must be recompiled
 - `PrecisionMode` enum: new bitmask values (INT4, FP4, W4A8, W8A8) added — existing stored bitmasks remain valid (additive change)
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `logCapabilities` – Loggt erkannte CPU/GPU-Capabilities (AVX, CUDA, ROCm) beim Startup
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

@@ -259,3 +259,13 @@ v1.5.x – Production-grade data intake layer. All connectors (FileSystem, Huggi
 - Source connector interface may gain new lifecycle hooks in v1.6.0.
 - `FileFormat` enum extended in v2.0.0 — switch statements that previously covered all enum values must add cases for: `MD`, `EPUB`, `XLSX`, `CSV`, `ZIP`, `SHP`, `GEOJSON`, `DXF`, `PNG`, `JPG`, `DB`.
 - `PluginType` enum extended with `INGESTION_STEP` — any serialisation/deserialisation of `PluginType` strings must handle `"ingestion_step"`.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `AgenticReferenceValidator` – Validiert Rechtsreferenzen in Ingestion-Pipelines (LegalStep); getestet in test_legal_extraction
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+

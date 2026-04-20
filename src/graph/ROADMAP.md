@@ -132,3 +132,13 @@
 ## Breaking Changes
 - Distributed graph query introduces shard-aware plan nodes (new plan format, backward-compatible with single-node)
 - Subgraph isomorphism query syntax will extend AQL graph traversal syntax (additive)
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `LocalShardGraphExecutor` – Führt Graph-Traversals lokal auf einem Shard aus; getestet in test_graph_distributed
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+

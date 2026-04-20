@@ -132,3 +132,13 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 ## Breaking Changes
 - LLM command handler API is stable; new command types will be additive
 - Confidence scoring API was introduced as an optional field (non-breaking)
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `ReActAgent` – LLM-gesteuerter Reasoning+Action Agent für mehrstufige AQL-Abfragen
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+

@@ -187,3 +187,13 @@ v2.0.0 – Production-ready Retrieval-Augmented Generation system. 27 implementa
 ## Breaking Changes
 - Evaluator scoring API (0–1 float range) is stable from v1.x.
 - JudgeConfig fields may gain new optional parameters; backward-compatible.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `ABTestingFramework` – A/B-Testing für RAG-Pipelines (Retrieval-/Ranking-Strategien)
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+

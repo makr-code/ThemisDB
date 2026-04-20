@@ -113,3 +113,17 @@
 ## Breaking Changes
 - Consumer group API will be a new interface (additive, non-breaking to existing subscriptions)
 - Kafka producer interface will require separate configuration block
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### ✅ Aktiv (implementiert + externer Aufrufer bestätigt)
+
+- `CDCAdmin` – Admin-Schnittstelle für CDC-Konfiguration (Tenant, Retention); genutzt in changefeed_api_handler
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `purgeTenant` – Löscht alle CDC-Events eines Tenants (GDPR-Compliance)
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

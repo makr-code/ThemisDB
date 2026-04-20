@@ -71,3 +71,19 @@ versioning, structural diff/merge, template instantiation, and collaboration ses
 
 None.
 
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `DocumentManager` – Verwaltet Dokument-Lifecycle in Projekten; Interface in project_lifecycle.h
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `uploadDocument` – Lädt Dokument in den DocumentManager hoch
+- `getDocumentBlob` – Gibt rohen Blob eines Dokuments zurück
+- `getDocumentChunks` – Gibt Text-Chunks eines Dokuments zurück (für RAG-Pipeline)
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

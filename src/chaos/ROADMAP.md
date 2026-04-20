@@ -35,3 +35,12 @@
 
 ## Breaking Changes
 - None currently planned.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### ✅ Aktiv (implementiert + externer Aufrufer bestätigt)
+
+- `FaultInjector` – Injiziert Fehler in Chaos-Tests; auch von tools/fault_injector.py genutzt
+
