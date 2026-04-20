@@ -697,7 +697,7 @@ public:
             }
         }
         
-        int total = ngrams1.size() + ngrams2.size();
+        int total = static_cast<int>(ngrams1.size() + ngrams2.size());
         if (total == 0) return 0.0;
         
         return 2.0 * intersection / total;

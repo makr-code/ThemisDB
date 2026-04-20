@@ -218,8 +218,8 @@ size_t IoUringBatchedSender::submitAndWait() {
 // enqueueSqe  (io_uring path only)
 // ============================================================================
 
-bool IoUringBatchedSender::enqueueSqe(int fd, const ::iovec* iovs,
-                                       size_t iov_cnt, uint64_t user_data) {
+bool IoUringBatchedSender::enqueueSqe([[maybe_unused]] int fd, [[maybe_unused]] const ::iovec* iovs,
+                                       [[maybe_unused]] size_t iov_cnt, [[maybe_unused]] uint64_t user_data) {
 #if defined(THEMIS_ENABLE_IO_URING) && defined(__linux__)
     if (ring_fd_ < 0 || !sqe_base_) return false;
 
@@ -267,7 +267,7 @@ bool IoUringBatchedSender::enqueueSqe(int fd, const ::iovec* iovs,
 // initRing / teardownRing
 // ============================================================================
 
-bool IoUringBatchedSender::initRing(unsigned queue_depth) {
+bool IoUringBatchedSender::initRing([[maybe_unused]] unsigned queue_depth) {
 #if defined(THEMIS_ENABLE_IO_URING) && defined(__linux__)
     struct io_uring_params params;
     std::memset(&params, 0, sizeof(params));

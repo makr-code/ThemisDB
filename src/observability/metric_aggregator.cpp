@@ -355,7 +355,7 @@ std::vector<AggregatedMetric> MetricAggregator::applyRules() const {
 // Cross-shard aggregation and rollup
 // ============================================================================
 
-MetricSnapshot MetricAggregator::aggregateShardMetrics(
+ShardAggregationSnapshot MetricAggregator::aggregateShardMetrics(
     const std::vector<ShardMetrics>& shard_metrics) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -432,7 +432,7 @@ MetricSnapshot MetricAggregator::aggregateShardMetrics(
         }
     }
 
-    MetricSnapshot snapshot;
+    ShardAggregationSnapshot snapshot;
     snapshot.metrics = std::move(results);
     snapshot.timestamp = std::chrono::system_clock::now();
     return snapshot;

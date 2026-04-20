@@ -701,7 +701,7 @@ http::response<http::string_body> VectorApiHandler::makeResponse(
 }
 
 std::optional<http::response<http::string_body>> VectorApiHandler::requireAccess(
-    const http::request<http::string_body>& req,
+    [[maybe_unused]] const http::request<http::string_body>& req,
     const std::string& /*permission*/,
     const std::string& /*resource*/,
     const std::string& /*path*/)

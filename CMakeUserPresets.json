@@ -1,7 +1,36 @@
 {
   "version": 6,
-  "include": ["CMakePresets.json"],
+  "include": [
+    "CMakePresets.json"
+  ],
   "configurePresets": [
+    {
+      "name": "msvc-monolith-tests",
+      "displayName": "Windows: MSVC Monolith Tests (themis_tests)",
+      "description": "Monolithic test build (THEMIS_BUILD_MODULAR=OFF) to build and fix themis_tests.exe",
+      "hidden": false,
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
+      "inherits": "msvc-ninja-release",
+      "cacheVariables": {
+        "THEMIS_BUILD_MODULAR": "OFF",
+        "THEMIS_CORE_SHARED": "OFF",
+        "THEMIS_BUILD_TESTS": "ON",
+        "THEMIS_ENABLE_LLM": "OFF",
+        "THEMIS_ENABLE_GPU": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "OFF",
+        "THEMIS_BUILD_CHIMERA": "OFF",
+        "THEMIS_PLUGIN_ETHICS_AI": "ON",
+        "THEMIS_DEV_ETHICS_AI_OVERRIDE": "ON",
+        "THEMIS_BUILD_ENTERPRISE_PLUGINS": "OFF",
+        "CMAKE_UNITY_BUILD": "OFF",
+        "THEMIS_BASE_EXPORTS": "ON",
+        "THEMIS_ENABLE_GRPC": "ON"
+      }
+    },
     {
       "name": "vscode-windows-release",
       "displayName": "VS Code: Windows Release (Default)",
@@ -160,13 +189,17 @@
     {
       "name": "vscode-windows-release",
       "configurePreset": "vscode-windows-release",
-      "targets": ["themis_server"],
+      "targets": [
+        "themis_server"
+      ],
       "jobs": 8
     },
     {
       "name": "vscode-windows-debug",
       "configurePreset": "vscode-windows-debug",
-      "targets": ["themis_tests"],
+      "targets": [
+        "themis_tests"
+      ],
       "jobs": 2
     },
     {
@@ -334,14 +367,18 @@
       "name": "vscode-wsl-release",
       "displayName": "Build: WSL Release (Linux/GCC)",
       "configurePreset": "vscode-wsl-release",
-      "targets": ["themis_server"],
+      "targets": [
+        "themis_server"
+      ],
       "jobs": 8
     },
     {
       "name": "vscode-wsl-debug",
       "displayName": "Build: WSL Debug (Linux/GCC)",
       "configurePreset": "vscode-wsl-debug",
-      "targets": ["themis_tests"],
+      "targets": [
+        "themis_tests"
+      ],
       "jobs": 4
     },
     {
@@ -519,4 +556,3 @@
     }
   ]
 }
-

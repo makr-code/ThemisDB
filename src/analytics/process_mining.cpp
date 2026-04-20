@@ -1792,7 +1792,7 @@ ProcessMining::checkConformance(const EventLog& log, const DiscoveredProcess& mo
         }
         
         // Check remaining tokens
-        result.remaining_tokens += tokens.size();
+        result.remaining_tokens += static_cast<int>(tokens.size());
         if (!tokens.empty()) {
             bool hasEndToken = false;
             for (const auto& token : tokens) {
@@ -1972,7 +1972,7 @@ ProcessMining::clusterVariants(const EventLog& log, int num_clusters) {
     
     // Group traces by variant
     for (size_t i = 0; i < log.traces.size(); ++i) {
-        variant_to_traces[log.traces[i].variant_signature].push_back(i);
+        variant_to_traces[log.traces[i].variant_signature].push_back(static_cast<int>(i));
     }
     
     // Assign variants to clusters
@@ -2213,7 +2213,7 @@ ProcessMining::enhanceWithPerformance(const DiscoveredProcess& model, const Even
         for (double d : durations) sum += d;
         double avg = sum / durations.size();
         enhanced.node_avg_duration[activity] = avg;
-        enhanced.node_frequency[activity] = durations.size();
+        enhanced.node_frequency[activity] = static_cast<int>(durations.size());
     }
     
     THEMIS_INFO("Enhanced process with performance metrics for {} activities", activity_durations.size());
@@ -2349,7 +2349,7 @@ ProcessMining::discoverGeoVariants(const EventLog& log, [[maybe_unused]] double 
         GeoProcessCluster cluster;
         cluster.region = "default";
         cluster.centroid_wkt = "POINT(51.5074 -0.1278)";
-        cluster.case_count = trace_ids.size();
+        cluster.case_count = static_cast<int>(trace_ids.size());
         
         // Create a basic local model for this cluster
         cluster.local_model.name = "Cluster_" + variant_sig.substr(0, 8);

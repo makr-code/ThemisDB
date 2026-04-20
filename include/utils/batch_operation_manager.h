@@ -330,7 +330,7 @@ size_t BatchOperationManager<T>::processBatch(const std::vector<T>& batch) {
     
     auto end = std::chrono::steady_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-    double latency_ms = duration.count();
+    double latency_ms = static_cast<double>(duration.count());
     double throughput = processed / (latency_ms / 1000.0); // items per second
     
     // Update statistics
@@ -348,7 +348,7 @@ size_t BatchOperationManager<T>::processBatch(const std::vector<T>& batch) {
 }
 
 template<typename T>
-void BatchOperationManager<T>::adaptBatchSize(double throughput, double latency_ms) {
+void BatchOperationManager<T>::adaptBatchSize([[maybe_unused]] double throughput, double latency_ms) {
     auto now = std::chrono::steady_clock::now();
     auto since_last = std::chrono::duration_cast<std::chrono::seconds>(now - last_adaptation_);
     

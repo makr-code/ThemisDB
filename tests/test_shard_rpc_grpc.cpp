@@ -37,20 +37,20 @@ public:
     bool should_vote_commit = true;
     
     bool onPrepare(
-        const std::string& transaction_id,
-        const std::string& coordinator_shard_id,
-        const std::string& transaction_data
+        [[maybe_unused]] const std::string& transaction_id,
+        [[maybe_unused]] const std::string& coordinator_shard_id,
+        [[maybe_unused]] const std::string& transaction_data
     ) override {
         prepare_count++;
         return should_vote_commit;
     }
     
-    bool onCommit(const std::string& transaction_id) override {
+    bool onCommit([[maybe_unused]] const std::string& transaction_id) override {
         commit_count++;
         return true;
     }
     
-    bool onAbort(const std::string& transaction_id) override {
+    bool onAbort([[maybe_unused]] const std::string& transaction_id) override {
         abort_count++;
         return true;
     }

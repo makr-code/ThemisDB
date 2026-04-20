@@ -55,7 +55,7 @@ Status ArgumentStore::initialize(
     return Status::OK();
 }
 
-Status ArgumentStore::storeArgument(const EthicalArgument& argument, bool store_vector) {
+Status ArgumentStore::storeArgument(const EthicalArgument& argument, [[maybe_unused]] bool store_vector) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (!initialized_) {

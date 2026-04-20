@@ -538,7 +538,7 @@ TemporalTierManager::makeContext(const std::string& table_name,
 }
 
 size_t TemporalTierManager::flushHotToWarmLocked(
-    const std::string& table_name,
+    [[maybe_unused]] const std::string& table_name,
     const std::string& doc_key,
     HotMap&            hot_map,
     WarmBlocks&        warm_blocks) {
@@ -579,7 +579,7 @@ size_t TemporalTierManager::flushHotToWarmLocked(
 
 size_t TemporalTierManager::flushWarmToColdLocked(
     const std::string& table_name,
-    const std::string& doc_key,
+    [[maybe_unused]] const std::string& doc_key,
     WarmBlocks&        warm_blocks) {
 
     if (warm_blocks.empty()) return 0;

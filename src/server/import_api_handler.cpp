@@ -436,7 +436,7 @@ httplib::Response& ImportApiHandler::jsonError(httplib::Response& res,
 // v2.0 Handlers
 // ============================================================================
 
-void ImportApiHandler::handleGetSchema(const httplib::Request& req,
+void ImportApiHandler::handleGetSchema([[maybe_unused]] const httplib::Request& req,
                                         httplib::Response& res) {
     auto span = Tracer::startSpan("handleGetSchema");
 #ifndef THEMIS_ENABLE_POSTGRES_WIRE
@@ -479,7 +479,7 @@ void ImportApiHandler::handleGetSchema(const httplib::Request& req,
 #endif
 }
 
-void ImportApiHandler::handleValidateSchema(const httplib::Request& req,
+void ImportApiHandler::handleValidateSchema([[maybe_unused]] const httplib::Request& req,
                                              httplib::Response& res) {
     auto span = Tracer::startSpan("handleValidateSchema");
 #ifndef THEMIS_ENABLE_POSTGRES_WIRE

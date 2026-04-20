@@ -420,7 +420,7 @@ bool HealthMonitor::performHealthCheck(const std::string& endpoint) {
         // Connection errors: Unhealthy (exception thrown)
         return response.isSuccess();
         
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
         // Connection error, timeout, or other exception
         return false;
     }

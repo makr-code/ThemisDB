@@ -62,7 +62,7 @@ public:
     }
     
     grpc::Status PrepareTransaction(
-        grpc::ServerContext* context,
+        [[maybe_unused]] grpc::ServerContext* context,
         const themis::sharding::proto::PrepareRequest* request,
         themis::sharding::proto::PrepareResponse* response
     ) override {
@@ -92,7 +92,7 @@ public:
     }
     
     grpc::Status CommitTransaction(
-        grpc::ServerContext* context,
+        [[maybe_unused]] grpc::ServerContext* context,
         const themis::sharding::proto::CommitRequest* request,
         themis::sharding::proto::CommitResponse* response
     ) override {
@@ -117,7 +117,7 @@ public:
     }
     
     grpc::Status AbortTransaction(
-        grpc::ServerContext* context,
+        [[maybe_unused]] grpc::ServerContext* context,
         const themis::sharding::proto::AbortRequest* request,
         themis::sharding::proto::AbortResponse* response
     ) override {
@@ -141,8 +141,8 @@ public:
     }
     
     grpc::Status HealthCheck(
-        grpc::ServerContext* context,
-        const themis::sharding::proto::HealthRequest* request,
+        [[maybe_unused]] grpc::ServerContext* context,
+        [[maybe_unused]] const themis::sharding::proto::HealthRequest* request,
         themis::sharding::proto::HealthResponse* response
     ) override {
         THEMIS_DEBUG("gRPC HealthCheck");
@@ -167,7 +167,7 @@ public:
     }
     
     grpc::Status GetShardStatus(
-        grpc::ServerContext* context,
+        [[maybe_unused]] grpc::ServerContext* context,
         const themis::sharding::proto::StatusRequest* request,
         themis::sharding::proto::StatusResponse* response
     ) override {

@@ -204,13 +204,13 @@ __global__ void dfsSingleSourceKernel(
 namespace {
 
 bool runBFSCudaIfAvailable(
-    const std::vector<uint32_t>& row_offsets,
-    const std::vector<uint32_t>& column_indices,
-    uint32_t start_id,
-    const std::vector<uint8_t>& forbidden_mask,
-    const themis::graph::GPUGraphTraversal::Config& config,
-    themis::graph::GPUGraphTraversal::TraversalResult& result,
-    std::vector<int>& out_distances) {
+    [[maybe_unused]] const std::vector<uint32_t>& row_offsets,
+    [[maybe_unused]] const std::vector<uint32_t>& column_indices,
+    [[maybe_unused]] uint32_t start_id,
+    [[maybe_unused]] const std::vector<uint8_t>& forbidden_mask,
+    [[maybe_unused]] const themis::graph::GPUGraphTraversal::Config& config,
+    [[maybe_unused]] themis::graph::GPUGraphTraversal::TraversalResult& result,
+    [[maybe_unused]] std::vector<int>& out_distances) {
 
 #if defined(THEMIS_ENABLE_CUDA) && defined(__CUDACC__)
     const uint32_t vertex_count = static_cast<uint32_t>(row_offsets.size() - 1);
@@ -344,13 +344,13 @@ bool runBFSCudaIfAvailable(
 }
 
 bool runDFSCudaIfAvailable(
-    const std::vector<uint32_t>& row_offsets,
-    const std::vector<uint32_t>& column_indices,
-    uint32_t start_id,
-    const std::vector<uint8_t>& forbidden_mask,
-    const themis::graph::GPUGraphTraversal::Config& config,
-    themis::graph::GPUGraphTraversal::TraversalResult& result,
-    std::vector<int>& out_order) {
+    [[maybe_unused]] const std::vector<uint32_t>& row_offsets,
+    [[maybe_unused]] const std::vector<uint32_t>& column_indices,
+    [[maybe_unused]] uint32_t start_id,
+    [[maybe_unused]] const std::vector<uint8_t>& forbidden_mask,
+    [[maybe_unused]] const themis::graph::GPUGraphTraversal::Config& config,
+    [[maybe_unused]] themis::graph::GPUGraphTraversal::TraversalResult& result,
+    [[maybe_unused]] std::vector<int>& out_order) {
 
 #if defined(THEMIS_ENABLE_CUDA) && defined(__CUDACC__)
     const uint32_t vertex_count = static_cast<uint32_t>(row_offsets.size() - 1);

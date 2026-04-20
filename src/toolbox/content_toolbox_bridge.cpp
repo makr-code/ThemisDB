@@ -80,7 +80,7 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::ingest(
     std::span<const std::byte> data,
     const std::string& filename,
     const std::string& mime_type,
-    const std::string& collection,
+    [[maybe_unused]] const std::string& collection,
     const std::string& user_context)
 {
     BridgeResult out;
@@ -169,7 +169,7 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::ingest(
 
 ContentToolboxBridge::BridgeResult ContentToolboxBridge::enrichExisting(
     const std::string& content_id,
-    const std::string& collection)
+    [[maybe_unused]] const std::string& collection)
 {
     BridgeResult out;
     out.content_id = content_id;

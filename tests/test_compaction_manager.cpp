@@ -128,9 +128,9 @@ TEST_F(CompactionManagerTest, CompactAll_Succeeds) {
 
 TEST_F(CompactionManagerTest, MultipleManualCompactions_CountedCorrectly) {
     insertData(5);
-    manager().compactAll();
-    manager().compactAll();
-    manager().compactRange("key_0", "key_3");
+    (void)manager().compactAll();
+    (void)manager().compactAll();
+    (void)manager().compactRange("key_0", "key_3");
 
     EXPECT_EQ(manager().stats().manual_compactions, 3u);
 }
@@ -234,5 +234,5 @@ TEST_F(CompactionManagerTest, Stats_RocksDBStatsNotEmpty) {
     auto s = manager().stats();
     // RocksDB statistics string should be non-empty (even if statistics is disabled,
     // an empty string is still returned, so we just ensure no exception occurs).
-    EXPECT_NO_THROW(s.rocksdb_stats.size());
+    EXPECT_NO_THROW((void)s.rocksdb_stats.size());
 }

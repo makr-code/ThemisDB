@@ -103,7 +103,9 @@ protected:
         db_path_ = "/tmp/pm2_test_" + std::to_string(
             std::chrono::steady_clock::now().time_since_epoch().count());
         std::filesystem::create_directories(db_path_);
-        db_ = std::make_unique<RocksDBWrapper>(db_path_);
+        RocksDBWrapper::Config cfg;
+        cfg.db_path = db_path_;
+        db_ = std::make_unique<RocksDBWrapper>(cfg);
         mining_ = std::make_unique<ProcessMining>(*db_);
     }
     void TearDown() override {

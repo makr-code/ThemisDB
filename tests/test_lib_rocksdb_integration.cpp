@@ -263,7 +263,7 @@ TEST_F(RocksDBLibIntegrationTest, PrefixScan) {
     
     // Scan with prefix "prefix_a" (callback must return bool)
     int count = 0;
-    wrapper.scanPrefix("prefix_a", [&count](std::string_view key, std::string_view value) -> bool {
+    wrapper.scanPrefix("prefix_a", [&count](std::string_view key, [[maybe_unused]] std::string_view value) -> bool {
         count++;
         EXPECT_TRUE(key.starts_with("prefix_a"));
         return true;  // Continue scanning

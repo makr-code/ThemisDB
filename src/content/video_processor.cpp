@@ -424,7 +424,7 @@ std::string VideoProcessor::extractSubtitles(const std::vector<uint8_t>& /*blob*
     return "";
 }
 
-std::vector<int64_t> VideoProcessor::detectScenes(const std::vector<uint8_t>& blob) {
+std::vector<int64_t> VideoProcessor::detectScenes([[maybe_unused]] const std::vector<uint8_t>& blob) {
 #ifdef THEMIS_HAS_FFMPEG
     return detectScenesFFmpeg(blob);
 #else
@@ -434,7 +434,7 @@ std::vector<int64_t> VideoProcessor::detectScenes(const std::vector<uint8_t>& bl
 #endif
 }
 
-std::vector<int64_t> VideoProcessor::extractKeyframes(const std::vector<uint8_t>& blob) {
+std::vector<int64_t> VideoProcessor::extractKeyframes([[maybe_unused]] const std::vector<uint8_t>& blob) {
 #ifdef THEMIS_HAS_FFMPEG
     return extractKeyframesFFmpeg(blob);
 #else

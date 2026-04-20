@@ -51,7 +51,7 @@ using json = nlohmann::json;
 // so all operations degrade gracefully.
 // ============================================================================
 static RedisCacheCoordinatorConfig makeOfflineConfig(
-    const std::string& node_id = "test-node")
+    [[maybe_unused]] const std::string& node_id = "test-node")
 {
     RedisCacheCoordinatorConfig cfg;
     cfg.host                 = "127.0.0.1";

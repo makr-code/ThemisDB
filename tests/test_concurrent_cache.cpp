@@ -148,7 +148,7 @@ TEST_F(ConcurrentCacheTest, ForEach) {
     cache.insert("c", 3);
     
     std::vector<int> values;
-    cache.for_each([&](const std::string& k, int v) {
+    cache.for_each([&]([[maybe_unused]] const std::string& k, int v) {
         values.push_back(v);
     });
     

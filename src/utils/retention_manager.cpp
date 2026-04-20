@@ -155,8 +155,6 @@ RetentionManager::RetentionAction RetentionManager::archiveEntity(
         logAction(action);
         return action;
     }
-    const auto* policy = *policy_result;
-    
     try {
         action.success = archive_handler(entity_id);
         if (!action.success) {

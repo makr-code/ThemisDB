@@ -89,7 +89,7 @@ static const std::string base64_chars =
     "abcdefghijklmnopqrstuvwxyz"
     "0123456789+/";
 
-static std::string base64_encode(const std::vector<uint8_t>& data) {
+static std::string fieldBase64Encode(const std::vector<uint8_t>& data) {
     std::string ret;
     int i = 0;
     int j = 0;
@@ -134,7 +134,7 @@ static bool is_base64(uint8_t c) {
     return (isalnum(c) || (c == '+') || (c == '/'));
 }
 
-static std::vector<uint8_t> base64_decode(const std::string& encoded_string) {
+static std::vector<uint8_t> fieldBase64Decode(const std::string& encoded_string) {
     size_t in_len = encoded_string.size();
     int i = 0;
     int j = 0;
@@ -179,9 +179,9 @@ std::string EncryptedBlob::toBase64() const {
     std::ostringstream oss;
     oss << key_id << ":"
         << key_version << ":"
-        << base64_encode(iv) << ":"
-        << base64_encode(ciphertext) << ":"
-        << base64_encode(tag);
+        << fieldBase64Encode(iv) << ":"
+        << fieldBase64Encode(ciphertext) << ":"
+        << fieldBase64Encode(tag);
     return oss.str();
 }
 
@@ -202,9 +202,9 @@ EncryptedBlob EncryptedBlob::fromBase64(const std::string& b64) {
     
     blob.key_id = parts[0];
     blob.key_version = std::stoul(parts[1]);
-    blob.iv = base64_decode(parts[2]);
-    blob.ciphertext = base64_decode(parts[3]);
-    blob.tag = base64_decode(parts[4]);
+    blob.iv = fieldBase64Decode(parts[2]);
+    blob.ciphertext = fieldBase64Decode(parts[3]);
+    blob.tag = fieldBase64Decode(parts[4]);
     
     return blob;
 }
@@ -213,9 +213,9 @@ nlohmann::json EncryptedBlob::toJson() const {
     return nlohmann::json{
         {"key_id", key_id},
         {"key_version", key_version},
-        {"iv", base64_encode(iv)},
-        {"ciphertext", base64_encode(ciphertext)},
-        {"tag", base64_encode(tag)}
+        {"iv", fieldBase64Encode(iv)},
+        {"ciphertext", fieldBase64Encode(ciphertext)},
+        {"tag", fieldBase64Encode(tag)}
     };
 }
 
@@ -234,9 +234,9 @@ EncryptedBlob EncryptedBlob::fromJson(const nlohmann::json& j) {
         std::string ct_b64 = j.at("ciphertext").get<std::string>();
         std::string tag_b64 = j.at("tag").get<std::string>();
 
-        blob.iv = base64_decode(iv_b64);
-        blob.ciphertext = base64_decode(ct_b64);
-        blob.tag = base64_decode(tag_b64);
+        blob.iv = fieldBase64Decode(iv_b64);
+        blob.ciphertext = fieldBase64Decode(ct_b64);
+        blob.tag = fieldBase64Decode(tag_b64);
 
     } catch (const nlohmann::json::exception& ex) {
         throw std::runtime_error(std::string("EncryptedBlob::fromJson: JSON error: ") + ex.what());

@@ -108,7 +108,7 @@ TEST(StorageAuditTest, LogDel_WritesDelLine) {
     {
         auto logger = *StorageAuditLogger::open(cfg);
         EXPECT_TRUE(logger->logDel("user:99").has_value());
-        logger->flush();
+        (void)logger->flush();
         content = readFile(
             (fs::path(dir) / StorageAuditLogger::segmentName(0)).string());
     }
@@ -139,7 +139,7 @@ TEST(StorageAuditTest, SequenceMonotonicallyIncreases) {
     {
         auto logger = *StorageAuditLogger::open(cfg);
         for (int i = 0; i < 20; ++i) {
-            logger->logPut("key:" + std::to_string(i));
+            (void)logger->logPut("key:" + std::to_string(i));
         }
         EXPECT_EQ(logger->lastSequence(), 20u);
     }
@@ -157,7 +157,7 @@ TEST(StorageAuditTest, Rotation_NewSegmentCreatedWhenLimitReached) {
     {
         auto logger = *StorageAuditLogger::open(cfg);
         for (int i = 0; i < 50; ++i) {
-            logger->logPut("key-" + std::to_string(i), "extra-data-padding");
+            (void)logger->logPut("key-" + std::to_string(i), "extra-data-padding");
         }
         EXPECT_GT(logger->segmentCount(), 1u);
     }
@@ -208,7 +208,7 @@ TEST(StorageAuditTest, ConcurrentLogging_NoRaceConditions) {
         for (int t = 0; t < kThreads; ++t) {
             threads.emplace_back([&, t]() {
                 for (int i = 0; i < kPerThread; ++i) {
-                    logger->logPut("thread:" + std::to_string(t) + ":" + std::to_string(i));
+                    (void)logger->logPut("thread:" + std::to_string(t) + ":" + std::to_string(i));
                 }
             });
         }

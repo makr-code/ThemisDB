@@ -94,7 +94,7 @@ static CURLcode ssl_ctx_callback([[maybe_unused]] CURL* curl, void* ssl_ctx, voi
 }
 
 // Verify certificate chain against pinned fingerprints (called after SSL handshake)
-static bool verify_peer_certificate(CURL* curl, const PKIConfig& cfg) {
+[[maybe_unused]] static bool verify_peer_certificate(CURL* curl, const PKIConfig& cfg) {
     if (!cfg.enable_cert_pinning || cfg.pinned_cert_fingerprints.empty()) {
         return true; // Pinning disabled
     }

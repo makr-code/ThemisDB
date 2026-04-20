@@ -131,7 +131,7 @@ int main() {
     ExplainabilityReasonBuilder erb;
     CausalChain chain = erb.build(
         DecisionType::WORKLOAD_ADAPTATION,
-        MetricSnapshot{ .qps_delta = +3200, .p99_latency_ms = 85 }
+        ShardAggregationSnapshot{ .qps_delta = +3200, .p99_latency_ms = 85 }
     );
     std::cout << "  Summary: " << chain.summary << "\n";
     for (const auto& step : chain.steps) {

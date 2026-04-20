@@ -80,7 +80,7 @@ public:
             "See: docs/security/VAULT_SIGNING_PROVIDER.md");
     }
     
-    std::vector<uint8_t> getKey([[maybe_unused]] const std::string& key_id, uint32_t version) override {
+    std::vector<uint8_t> getKey([[maybe_unused]] const std::string& key_id, [[maybe_unused]] uint32_t version) override {
         throw KeyOperationException(
             "VaultSigningProvider: getKey(version) not implemented - signing-only provider. "
             "Use VaultKeyProvider for key management operations. "
@@ -101,21 +101,21 @@ public:
             "See: docs/security/VAULT_SIGNING_PROVIDER.md");
     }
     
-    KeyMetadata getKeyMetadata([[maybe_unused]] const std::string& key_id, uint32_t version = 0) override {
+    KeyMetadata getKeyMetadata([[maybe_unused]] const std::string& key_id, [[maybe_unused]] uint32_t version = 0) override {
         throw KeyOperationException(
             "VaultSigningProvider: getKeyMetadata() not implemented - signing-only provider. "
             "Use VaultKeyProvider for key metadata operations. "
             "See: docs/security/VAULT_SIGNING_PROVIDER.md");
     }
     
-    void deleteKey([[maybe_unused]] const std::string& key_id, uint32_t version) override {
+    void deleteKey([[maybe_unused]] const std::string& key_id, [[maybe_unused]] uint32_t version) override {
         throw KeyOperationException(
             "VaultSigningProvider: deleteKey() not implemented - signing-only provider. "
             "Use VaultKeyProvider or Vault API for key deletion. "
             "See: docs/security/VAULT_SIGNING_PROVIDER.md");
     }
     
-    bool hasKey([[maybe_unused]] const std::string& key_id, uint32_t version = 0) override {
+    bool hasKey([[maybe_unused]] const std::string& key_id, [[maybe_unused]] uint32_t version = 0) override {
         throw KeyOperationException(
             "VaultSigningProvider: hasKey() not implemented - signing-only provider. "
             "Use VaultKeyProvider for key existence checks. "

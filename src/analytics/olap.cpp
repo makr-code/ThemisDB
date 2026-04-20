@@ -1260,7 +1260,7 @@ public:
                 }
             }
         }
-        double result(Measure::Function f, double pct = 0.0) const {
+        double result(Measure::Function f, [[maybe_unused]] double pct = 0.0) const {
             if (count == 0) return 0.0;
             switch (f) {
                 case Measure::Function::Count:    return static_cast<double>(count);

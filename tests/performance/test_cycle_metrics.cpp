@@ -73,7 +73,7 @@ TEST(CycleMetricsTest, CPUModel) {
  * @brief Test scoped cycle timer
  */
 TEST(CycleMetricsTest, ScopedCycleTimer) {
-    uint64_t cycles = 0;
+    [[maybe_unused]] uint64_t cycles = 0;
     
     {
         ScopedCycleTimer timer(&cycles);
@@ -85,7 +85,8 @@ TEST(CycleMetricsTest, ScopedCycleTimer) {
     }
     
     // Should have measured some cycles
-    EXPECT_GT(cycles, 0);
+        (void)cycles;
+        EXPECT_GT(cycles, 0);
 }
 
 /**
@@ -290,7 +291,7 @@ TEST(CycleMetricsTest, ZeroCostAbstraction) {
     // This test verifies that macros compile without errors
     // When THEMIS_ENABLE_CYCLE_METRICS is OFF, macros should compile to nothing
     
-    uint64_t cycles = 0;
+    [[maybe_unused]] uint64_t cycles = 0;
     
     THEMIS_MEASURE_CYCLES_START(cycles);
     // Do some work
@@ -315,6 +316,7 @@ TEST(CycleMetricsTest, ZeroCostAbstraction) {
     THEMIS_SCOPED_CACHE_MISS_TIMER(pmu_analyzer, pmu_metrics);
 
     // Test should pass regardless of whether metrics are enabled
+    (void)cycles;
     SUCCEED();
 }
 

@@ -407,7 +407,7 @@ TEST_F(RegressionTest, PredictReturnsSameCount) {
 TEST_F(RegressionTest, PredictionsAreNumericStrings) {
     auto preds = model.predict(data);
     for (const auto& p : preds) {
-        EXPECT_NO_THROW(std::stod(p)) << "Non-numeric prediction: " << p;
+        EXPECT_NO_THROW((void)std::stod(p)) << "Non-numeric prediction: " << p;
     }
 }
 
@@ -646,7 +646,7 @@ TEST(KNNRegressorTest, PredictOneRegNotStub) {
     query.set("x", 0.5);
 
     const std::string pred_str = model.predictOne(query);
-    ASSERT_NO_THROW(std::stod(pred_str));
+    ASSERT_NO_THROW((void)std::stod(pred_str));
     const double pred = std::stod(pred_str);
 
     // Must not be the 0.0 stub and must be within ±0.5 of the true value.
@@ -831,7 +831,7 @@ TEST(LRModelRegressorTest, PredictOneRegNotZeroStub) {
     qHigh.set("x", 0.9);
 
     const std::string pred_str = model.predictOne(qHigh);
-    ASSERT_NO_THROW(std::stod(pred_str));
+    ASSERT_NO_THROW((void)std::stod(pred_str));
     const double pred = std::stod(pred_str);
 
     // Result must be a valid probability in [0, 1].

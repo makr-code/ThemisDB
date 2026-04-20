@@ -184,7 +184,6 @@ json parseVccVpbYaml(const std::string& yaml_text) {
     stack.push_back({&result, -1, false, ""});
 
     std::string current_list_key;
-    json* current_list_ptr = nullptr;
 
     auto indentOf = [](const std::string& l) -> int {
         int i = 0;

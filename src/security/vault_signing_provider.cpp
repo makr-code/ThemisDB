@@ -32,7 +32,7 @@ using json = nlohmann::json;
 
 namespace themis {
 
-static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
+static size_t vaultWriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
     ((std::string*)userp)->append((char*)contents, size * nmemb);
     return size * nmemb;
 }
@@ -43,7 +43,7 @@ static const std::string b64_chars =
     "abcdefghijklmnopqrstuvwxyz"
     "0123456789+/";
 
-static std::string base64_encode(const std::vector<uint8_t>& data) {
+static std::string vaultBase64Encode(const std::vector<uint8_t>& data) {
     std::string ret;
     int val = 0, valb = -6;
     for (uint8_t c : data) {
@@ -59,7 +59,7 @@ static std::string base64_encode(const std::vector<uint8_t>& data) {
     return ret;
 }
 
-static std::vector<uint8_t> base64_decode(const std::string& encoded) {
+static std::vector<uint8_t> vaultBase64Decode(const std::string& encoded) {
     std::vector<int> T(256, -1);
     for (int i = 0; i < 64; i++) T[(unsigned char)b64_chars[i]] = i;
 
@@ -114,7 +114,7 @@ SigningResult VaultSigningProvider::sign(const std::string& key_id, const std::v
 
     // Prepare JSON payload: { "input": base64(data) }
     json payload;
-    payload["input"] = base64_encode(data);
+    payload["input"] = vaultBase64Encode(data);
 
     // Setup CURL
     CURL* curl = curl_easy_init();
@@ -124,7 +124,7 @@ SigningResult VaultSigningProvider::sign(const std::string& key_id, const std::v
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_POST, 1L);
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, payload.dump().c_str());
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, vaultWriteCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, 5000L);
 
@@ -164,7 +164,7 @@ SigningResult VaultSigningProvider::sign(const std::string& key_id, const std::v
             size_t pos = sig_b64.find(':', 6); // after 'vault:'
             if (pos != std::string::npos && pos + 1 < sig_b64.size()) {
                 std::string inner = sig_b64.substr(pos + 1);
-                std::vector<uint8_t> sig = base64_decode(inner);
+                std::vector<uint8_t> sig = vaultBase64Decode(inner);
                 SigningResult res;
                 res.signature = std::move(sig);
                 res.algorithm = "VAULT+TRANSIT";
@@ -175,7 +175,7 @@ SigningResult VaultSigningProvider::sign(const std::string& key_id, const std::v
         // Otherwise assume sig_b64 itself is base64
         if (!sig_b64.empty()) {
             SigningResult res;
-            res.signature = base64_decode(sig_b64);
+            res.signature = vaultBase64Decode(sig_b64);
             res.algorithm = "VAULT+TRANSIT";
             return res;
         }

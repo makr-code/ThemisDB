@@ -324,7 +324,7 @@ Benchmark suites for each optimization:
 - `benchmarks/performance_optimizations/phase3/bench_*.cpp`
 
 ### Configuration
-- `config/phase3_optimizations.json` ✅
+- `config/deprecated/phase3_optimizations.json` ✅
 
 ---
 

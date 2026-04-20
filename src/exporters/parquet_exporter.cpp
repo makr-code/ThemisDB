@@ -629,15 +629,15 @@ ExportStats ParquetExporter::exportWithArrow(
                            .store_schema()
                            ->build();
 
-    std::unique_ptr<parquet::arrow::FileWriter> writer;
-    auto status = parquet::arrow::FileWriter::Open(
+    auto writer_result = parquet::arrow::FileWriter::Open(
         *schema, arrow::default_memory_pool(), outfile,
-        std::move(props), std::move(arrow_props), &writer);
-    if (!status.ok()) {
+        std::move(props), std::move(arrow_props));
+    if (!writer_result.ok()) {
         throw ExportIOException(
-            "Failed to create Parquet writer: " + status.ToString(),
+            "Failed to create Parquet writer: " + writer_result.status().ToString(),
             options.output_path);
     }
+    auto writer = std::move(writer_result).ValueOrDie();
 
     // ── Collect column builders ────────────────────────────────────────────
     std::set<std::string> duplicate_set;

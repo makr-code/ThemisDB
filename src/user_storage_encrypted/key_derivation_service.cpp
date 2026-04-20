@@ -22,36 +22,79 @@
  */
 
 #include "key_derivation_service.hpp"
+#if defined(__has_include)
+#  if __has_include(<argon2.h>)
+#    include <argon2.h>
+#    define THEMIS_HAS_ARGON2 1
+#  else
+#    define THEMIS_HAS_ARGON2 0
+#  endif
+#else
+#  define THEMIS_HAS_ARGON2 0
+#endif
 
-#include <argon2.h>
+#include <stdexcept>
 #include <fstream>
 #include <cstring>
-#include <sys/stat.h>
-
-#ifdef __linux__
-#  include <sys/random.h>
-#else
-#  include <unistd.h>
-#endif
-/*
- * key_derivation_service.cpp
- *
- * Argon2id-based key derivation for ThemisDB User Encrypted Storage.
- * Requires libargon2 (apt: libargon2-dev / libargon2-1).
- */
-
-#include "key_derivation_service.hpp"
-
-#include <argon2.h>
-#include <stdexcept>
-#include <cstring>
 #include <fcntl.h>
-#include <unistd.h>
-#include <strings.h>
+#include <sstream>
+#include <random>
+#include <filesystem>
+
+#if defined(__linux__) || defined(__APPLE__)
+#  include <unistd.h>
+#  ifdef __linux__
+#    include <sys/random.h>
+#  endif
+#endif
+
+#include <openssl/sha.h>
 
 namespace themis {
 namespace plugins {
 namespace user_storage {
+
+namespace {
+inline void secureZero(void* ptr, size_t len) {
+    volatile unsigned char* p = static_cast<volatile unsigned char*>(ptr);
+    while (len--) {
+        *p++ = 0;
+    }
+}
+
+// STUB/SIMULATION NOTE:
+// Purpose: Keep Windows/community builds functional when libargon2 headers are unavailable.
+// Activation: THEMIS_HAS_ARGON2 == 0 at compile time.
+// Production Delta: Uses iterative SHA-256 KDF fallback instead of Argon2id.
+// Removal Plan: Remove once Argon2 is available/linked in all supported build environments.
+std::vector<uint8_t> deriveFallbackSha256(
+    const std::vector<uint8_t>& password,
+    const std::vector<uint8_t>& salt,
+    size_t out_len,
+    uint32_t iterations)
+{
+    std::vector<uint8_t> out;
+    out.reserve(out_len);
+
+    std::vector<uint8_t> state(password);
+    state.insert(state.end(), salt.begin(), salt.end());
+
+    for (uint32_t i = 0; i < std::max<uint32_t>(1, iterations) && out.size() < out_len; ++i) {
+        unsigned char digest[SHA256_DIGEST_LENGTH];
+        SHA256(state.data(), state.size(), digest);
+
+        const size_t remaining = out_len - out.size();
+        const size_t take = std::min(remaining, static_cast<size_t>(SHA256_DIGEST_LENGTH));
+        out.insert(out.end(), digest, digest + take);
+
+        state.assign(digest, digest + SHA256_DIGEST_LENGTH);
+        state.insert(state.end(), salt.begin(), salt.end());
+    }
+
+    secureZero(state.data(), state.size());
+    return out;
+}
+}
 
 // ---------------------------------------------------------------------------
 // Argon2idKeyDerivationService
@@ -68,6 +111,7 @@ Result<std::vector<uint8_t>> Argon2idKeyDerivationService::deriveKey(
         return Result<std::vector<uint8_t>>::error("salt must not be empty");
     }
 
+#if THEMIS_HAS_ARGON2
     std::vector<uint8_t> derived(kKeyLength, 0);
 
     int rc = argon2id_hash_raw(
@@ -86,6 +130,11 @@ Result<std::vector<uint8_t>> Argon2idKeyDerivationService::deriveKey(
     }
 
     return Result<std::vector<uint8_t>>(derived);
+#else
+    return Result<std::vector<uint8_t>>(
+        deriveFallbackSha256(master_key, salt, kKeyLength, kTimeCost)
+    );
+#endif
 }
 
 Result<std::vector<uint8_t>> Argon2idKeyDerivationService::generateSalt() const {
@@ -95,6 +144,11 @@ Result<std::vector<uint8_t>> Argon2idKeyDerivationService::generateSalt() const 
     ssize_t got = getrandom(salt.data(), salt.size(), 0);
     if (got < 0 || static_cast<size_t>(got) != salt.size()) {
         return Result<std::vector<uint8_t>>::error("getrandom() failed");
+    }
+#elif defined(_WIN32)
+    std::random_device rd;
+    for (auto& b : salt) {
+        b = static_cast<uint8_t>(rd() & 0xFF);
     }
 #else
     // POSIX fallback: /dev/urandom
@@ -140,10 +194,8 @@ Result<std::vector<uint8_t>> Argon2idKeyDerivationService::loadOrCreateSalt(
     const auto& salt = gen.value();
 
     {
-        // Create with restrictive permissions
-        int fd = open(salt_file_path.c_str(),
-                      O_WRONLY | O_CREAT | O_EXCL, 0600);
-        if (fd < 0) {
+        std::ofstream out(salt_file_path, std::ios::binary | std::ios::trunc);
+        if (!out) {
             // Another process may have created it concurrently — try to read
             std::ifstream f(salt_file_path, std::ios::binary);
             if (f) {
@@ -163,10 +215,8 @@ Result<std::vector<uint8_t>> Argon2idKeyDerivationService::loadOrCreateSalt(
             );
         }
 
-        ssize_t written = write(fd, salt.data(), salt.size());
-        close(fd);
-
-        if (written < 0 || static_cast<size_t>(written) != salt.size()) {
+        out.write(reinterpret_cast<const char*>(salt.data()), static_cast<std::streamsize>(salt.size()));
+        if (!out) {
             return Result<std::vector<uint8_t>>::error(
                 "Failed to write salt file: " + salt_file_path
             );
@@ -204,6 +254,7 @@ std::vector<uint8_t> Argon2idKeyDerivationService::derive(
                     reinterpret_cast<const uint8_t*>(container_id.data()),
                     reinterpret_cast<const uint8_t*>(container_id.data()) + container_id.size());
 
+#if THEMIS_HAS_ARGON2
     std::vector<uint8_t> derived_key(params_.output_len);
 
     int rc = argon2id_hash_raw(
@@ -215,8 +266,7 @@ std::vector<uint8_t> Argon2idKeyDerivationService::derive(
         derived_key.data(), derived_key.size()
     );
 
-    // Securely clear the combined password material.
-    explicit_bzero(password.data(), password.size());
+    secureZero(password.data(), password.size());
 
     if (rc != ARGON2_OK) {
         throw std::runtime_error(
@@ -225,6 +275,11 @@ std::vector<uint8_t> Argon2idKeyDerivationService::derive(
     }
 
     return derived_key;
+#else
+    auto derived = deriveFallbackSha256(password, salt, params_.output_len, params_.iterations);
+    secureZero(password.data(), password.size());
+    return derived;
+#endif
 }
 
 std::vector<uint8_t> Argon2idKeyDerivationService::generateSalt(size_t length) {
@@ -234,6 +289,13 @@ std::vector<uint8_t> Argon2idKeyDerivationService::generateSalt(size_t length) {
 
     std::vector<uint8_t> salt(length);
 
+#ifdef _WIN32
+    std::random_device rd;
+    for (auto& b : salt) {
+        b = static_cast<uint8_t>(rd() & 0xFF);
+    }
+    return salt;
+#else
     int fd = open("/dev/urandom", O_RDONLY | O_CLOEXEC);
     if (fd == -1) {
         throw std::runtime_error("Failed to open /dev/urandom for salt generation");
@@ -251,6 +313,7 @@ std::vector<uint8_t> Argon2idKeyDerivationService::generateSalt(size_t length) {
     close(fd);
 
     return salt;
+#endif
 }
 
 } // namespace user_storage

@@ -768,7 +768,7 @@ json ThemisRPCService::handleVectorSearch(const json& params) {
         }
         
         // Extract parameters
-        int k = params.value("k", 10);  // default top-k = 10
+        [[maybe_unused]] int k = params.value("k", 10);  // default top-k = 10
         std::string metric(params.value("metric", "cosine"));  // cosine, euclidean, dot
         
         // Note: Vector search requires the vector index module (FAISS or similar).
@@ -803,7 +803,7 @@ json ThemisRPCService::handleGraphTraverse(const json& params) {
         // Extract parameters
         std::string start_vertex(params.value("start_vertex", ""));
         std::string direction(params.value("direction", "outbound"));  // outbound, inbound, any
-        int max_depth = params.value("max_depth", 1);
+        [[maybe_unused]] int max_depth = params.value("max_depth", 1);
         
         if (start_vertex.empty()) {
             return createError(
@@ -1308,7 +1308,7 @@ json ThemisRPCService::handleTransactionAbort(const json& params) {
     }
 }
 
-json ThemisRPCService::handleHealthCheck(const json& params) {
+json ThemisRPCService::handleHealthCheck([[maybe_unused]] const json& params) {
     try {
         int64_t uptime_seconds = 0;
         if (start_time_) {
@@ -1475,7 +1475,7 @@ json ThemisRPCService::handleSearch(const json& params) {
     }
 }
 
-json ThemisRPCService::handleStats(const json& params) {
+json ThemisRPCService::handleStats([[maybe_unused]] const json& params) {
     try {
         // Get storage engine
         auto storage = storage_;
@@ -2002,7 +2002,7 @@ json ThemisRPCService::handleAggregationPipeline(const json& params) {
     }
 }
 
-json ThemisRPCService::handleListCollections(const json& params) {
+json ThemisRPCService::handleListCollections([[maybe_unused]] const json& params) {
     try {
         // Get storage engine
         auto storage = storage_;

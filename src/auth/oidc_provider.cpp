@@ -33,7 +33,7 @@ namespace auth {
 
 namespace {
 
-size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
+size_t oidcWriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
     const auto total = size * nmemb;
     static_cast<std::string*>(userdata)->append(ptr, total);
     return total;
@@ -215,7 +215,7 @@ std::string OIDCProvider::httpGet(const std::string& url) const {
     std::string response_body;
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, oidcWriteCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_body);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT,
                      static_cast<long>(config_.http_timeout_seconds));

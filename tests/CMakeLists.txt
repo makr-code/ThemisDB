@@ -24166,6 +24166,32 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_toolbox_primitives.cpp")
     )
 
     target_include_directories(test_toolbox_primitives_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_toolbox_primitives_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_toolbox_primitives_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ToolboxPrimitivesTests COMMAND test_toolbox_primitives_focused)
+
+    set_tests_properties(ToolboxPrimitivesTests PROPERTIES
+        LABELS "toolbox;text;chunker;normalizer;fingerprinter;quality;language;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Toolbox Primitives: TXC/TXN/CFP/TQS/LDT/CMP/TCS test groups")
+else()
+    message(STATUS "Toolbox Primitives tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_toolbox_primitives.cpp")
+endif()
+
 # SerializationStrategyAdvisor focused tests
 # Covers: SA-01..12 (adviseSerializationStrategy decision tree, Plan field,
 #          chooseOrderForAndQuery integration, PerQueryCostModel feedback,
@@ -24188,27 +24214,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_serialization_advisor.cpp")
         ${THEMIS_ROOT_DIR}/src
     )
 
-    target_link_libraries(test_toolbox_primitives_focused PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        OpenSSL::Crypto
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_toolbox_primitives_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    add_test(NAME ToolboxPrimitivesTests COMMAND test_toolbox_primitives_focused)
-
-    set_tests_properties(ToolboxPrimitivesTests PROPERTIES
-        LABELS "toolbox;primitives;chunker;normalizer;fingerprinter;quality;language;composite;streaming;unit"
-        TIMEOUT 60
-    )
-
-    message(STATUS "  Toolbox Primitives: TXC-01..06, TXN-01..04, CFP-01..08, TQS-01..08, LDT-01..06, CMP-01..06, TCS-01..04")
-else()
-    message(STATUS "Toolbox Primitives tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_toolbox_primitives.cpp")
     target_link_libraries(test_serialization_advisor_focused PRIVATE
         ${TEST_LIBS}
         themis_core

@@ -592,7 +592,7 @@ TEST_F(GraphQueryRewriterTest, Explain_DecompositionMentioned) {
 
 TEST_F(GraphQueryRewriterTest, CustomRule_CalledDuringRewrite) {
     bool was_called = false;
-    rewriter_.addCustomRule("TestCustomRule", [&](json& plan) -> size_t {
+    rewriter_.addCustomRule("TestCustomRule", [&]( [[maybe_unused]] json& plan) -> size_t {
         was_called = true;
         return 0;
     });

@@ -29,6 +29,8 @@
 #include "plugins/self_healing_plugin.h"
 #include "plugins/oci_registry_client.h"
 #include "acceleration/plugin_security.h"
+#include "themis/edition.h"
+#include "themis/runtime_license_gate.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <algorithm>
@@ -492,7 +494,20 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
 Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     TracedSpan span("PluginManager.loadPlugin");
     span.setAttribute("plugin.name", name);
-    
+
+    // Edition + runtime license gate: reject early on unsupported editions
+    if (!isEditionSupported()) {
+        const std::string msg = communityUnavailableMessage(name);
+        THEMIS_WARN("{}", msg);
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND, msg);
+    }
+    if (!isLicensed()) {
+        const std::string msg = "Plugin '" + name +
+            "' cannot be loaded: runtime license does not permit enterprise_plugins.";
+        THEMIS_WARN("{}", msg);
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND, msg);
+    }
+
     auto start = std::chrono::steady_clock::now();
     
     std::unique_lock<std::mutex> lock(mutex_);
@@ -1530,6 +1545,54 @@ void PluginManager::attachHealthMonitor(PluginHealthMonitor* monitor) {
     }
 
     THEMIS_INFO("PluginManager: health monitor attached");
+}
+
+// ============================================================================
+// Edition / License gating helpers
+// ============================================================================
+
+bool PluginManager::isEditionSupported() {
+    return edition::FEATURE_ENTERPRISE_PLUGINS;
+}
+
+bool PluginManager::isLicensed() {
+    return license::RuntimeLicenseGate::instance().isFeatureAllowed("enterprise_plugins");
+}
+
+std::string PluginManager::communityUnavailableMessage(const std::string& plugin_name) {
+    return "Plugin '" + plugin_name +
+           "' is not available in Community Edition. "
+           "Custom plugins require Enterprise Edition or higher. "
+           "Please upgrade at https://themisdb.io/pricing";
+}
+
+std::string PluginManager::marketplaceInfo() {
+    const auto info = edition::EditionInfo::Get();
+    if (!info.supports_plugins) {
+        return "Plugin Marketplace: Not available in " +
+               std::string(info.name) + " Edition";
+    }
+    std::string result = "Plugin Marketplace: Available\n";
+    result += "Edition: " + std::string(info.name) + "\n";
+    result += "Visit: https://marketplace.themisdb.io/";
+    if (info.type == edition::EditionType::HYPERSCALER) {
+        result += " (OEM custom plugins available)";
+    }
+    return result;
+}
+
+std::string PluginManager::installationInstructions() {
+    if (!edition::FEATURE_ENTERPRISE_PLUGINS) {
+        return "Error: Plugins are not supported in " +
+               std::string(edition::EDITION_STRING) +
+               " Edition. Please upgrade to Enterprise or Hyperscaler.";
+    }
+    return "To install a plugin:\n"
+           "1. Download from https://marketplace.themisdb.io/\n"
+           "2. Verify SHA256 checksum\n"
+           "3. Place in $THEMIS_HOME/plugins/\n"
+           "4. Restart themis_server\n"
+           "5. Use CREATE PLUGIN command";
 }
 
 } // namespace plugins

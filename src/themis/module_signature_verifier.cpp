@@ -55,7 +55,7 @@ namespace modules {
 
 ModuleSignatureVerificationResult ModuleSignatureVerifier::verifySignature(
     const std::string& modulePath,
-    const std::string& signaturePath)
+    [[maybe_unused]] const std::string& signaturePath)
 {
     ModuleSignatureVerificationResult result;
 

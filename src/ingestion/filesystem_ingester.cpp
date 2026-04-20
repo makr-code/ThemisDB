@@ -156,7 +156,7 @@ static void collectTextNodes(const pugi::xml_node& node, std::ostringstream& out
 /// Extract plain text from an XML/HTML buffer using pugixml.
 /// Falls back to returning an empty string when pugixml is not available.
 static std::string extractXmlText(const std::string& raw,
-                                   bool is_html) {
+                                   [[maybe_unused]] bool is_html) {
 #ifdef THEMIS_HAS_PUGIXML
     pugi::xml_document doc;
     unsigned int parse_flags = is_html

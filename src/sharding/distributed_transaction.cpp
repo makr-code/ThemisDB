@@ -330,7 +330,7 @@ bool DistributedTransactionCoordinator::abort(const std::string& txn_id) {
 
 nlohmann::json DistributedTransactionCoordinator::executeReadOnly(
     const std::vector<std::string>& shard_ids,
-    const nlohmann::json& operations
+    [[maybe_unused]] const nlohmann::json& operations
 ) {
     // Read-only transactions use TrueTime for snapshot isolation
     // 1. Get snapshot timestamp (latest bound ensures we see all committed data)
@@ -481,7 +481,7 @@ bool DistributedTransactionCoordinator::sendPrepare(
     try {
         ShardRPCClient::Config rpc_config;
         rpc_config.endpoint = participant.endpoint;
-        rpc_config.timeout_ms = config_.rpc_timeout_ms;
+        rpc_config.timeout_ms = static_cast<int>(config_.rpc_timeout_ms);
         rpc_config.max_retries = config_.max_retries;
         
         ShardRPCClient client(rpc_config);
@@ -522,7 +522,7 @@ bool DistributedTransactionCoordinator::sendCommit(
     try {
         ShardRPCClient::Config rpc_config;
         rpc_config.endpoint = participant.endpoint;
-        rpc_config.timeout_ms = config_.rpc_timeout_ms;
+        rpc_config.timeout_ms = static_cast<int>(config_.rpc_timeout_ms);
         rpc_config.max_retries = config_.max_retries;
         
         ShardRPCClient client(rpc_config);
@@ -552,7 +552,7 @@ bool DistributedTransactionCoordinator::sendAbort(
     try {
         ShardRPCClient::Config rpc_config;
         rpc_config.endpoint = participant.endpoint;
-        rpc_config.timeout_ms = config_.rpc_timeout_ms;
+        rpc_config.timeout_ms = static_cast<int>(config_.rpc_timeout_ms);
         rpc_config.max_retries = config_.max_retries;
         
         ShardRPCClient client(rpc_config);

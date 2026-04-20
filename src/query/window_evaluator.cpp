@@ -547,7 +547,7 @@ nlohmann::json WindowEvaluator::evaluateExpression(
     
     try {
         return evaluator.evaluateExpression(expr, row);
-    } catch (const std::exception& e) {
+    } catch ([[maybe_unused]] const std::exception& e) {
         // Fallback: null
         return nullptr;
     }

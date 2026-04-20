@@ -179,7 +179,7 @@ void SLOMonitor::recordShardAvailability(const std::string& shard_id, bool is_av
     checkAndGenerateAlerts();
 }
 
-void SLOMonitor::recordQueryLatency(const std::string& shard_id, const std::string& query_type, double latency_ms) {
+void SLOMonitor::recordQueryLatency([[maybe_unused]] const std::string& shard_id, const std::string& query_type, double latency_ms) {
     auto window = getOrCreateQueryWindow(query_type);
     window->recordLatency(latency_ms);
     
@@ -207,7 +207,7 @@ void SLOMonitor::recordReplicationLag(const std::string& shard_id, double lag_ms
     checkAndGenerateAlerts();
 }
 
-void SLOMonitor::recordLeaderElection(const std::string& shard_id, double duration_s) {
+void SLOMonitor::recordLeaderElection([[maybe_unused]] const std::string& shard_id, double duration_s) {
     // Leader election duration impacts consistency SLO
     if (duration_s > config_.targets.max_leader_election_time_s) {
         std::lock_guard<std::mutex> lock(mutex_);

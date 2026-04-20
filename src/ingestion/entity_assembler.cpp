@@ -118,7 +118,6 @@ std::string EntityNormalizer::canonicalId(const BaseEntity& ent,
             // Try to parse from properties first
             const auto& norm = ent.propertyOr("norm_id",    "");
             const auto& sec  = ent.propertyOr("section_ref", ent.text);
-            const auto& abs  = ent.propertyOr("abs",         "");
 
             std::string abbr = norm.empty()
                 ? toIdToken(ent.text.substr(0, std::min(ent.text.size(), std::size_t{20})))

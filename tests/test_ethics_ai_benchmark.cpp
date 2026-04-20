@@ -201,6 +201,7 @@ TEST_F(EthicsAIBenchmarkTests, PB05_VectorSemanticSearchUnder5ms) {
     // store; this threshold covers the query-path overhead only.
     std::vector<float> query(768, 0.0f);
     query[0] = 1.0f;
+    auto t0 = Clock::now();
     auto result = rag_->vectorSemanticSearch(query, "utilitarianism", 1);
     auto t1 = Clock::now();
 

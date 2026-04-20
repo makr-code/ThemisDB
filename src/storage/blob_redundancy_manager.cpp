@@ -411,8 +411,6 @@ Result<void> BlobRedundancyManager::repairBlob(const std::string& blob_id) {
         );
     }
     
-    const auto& metadata = it->second;
-    
     stats_repairs_++;
     auto end = std::chrono::steady_clock::now();
     auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);

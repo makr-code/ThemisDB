@@ -862,8 +862,8 @@ ProcessGraphRag::findSimilarCases(std::string_view instance_id,
     // Build reference variable key set for Jaccard fallback
     std::unordered_set<std::string> ref_var_keys;
     if (ref_inst.variables.is_object()) {
-        for (auto& [k, v] : ref_inst.variables.items()) {
-            ref_var_keys.insert(k);
+        for (auto& [var_key, v] : ref_inst.variables.items()) {
+            ref_var_keys.insert(var_key);
         }
     }
 

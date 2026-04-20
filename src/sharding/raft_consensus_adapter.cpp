@@ -652,7 +652,7 @@ ConsensusLogEntry RaftConsensusAdapter::convertLogEntry(const LogEntry& entry) {
         auto command_json = nlohmann::json::parse(entry.command);
         consensus_entry.operation = command_json.value("operation", "");
         consensus_entry.data = command_json.value("data", nlohmann::json{});
-    } catch (const std::exception& e) {
+    } catch (const std::exception&) {
         // If parsing fails, store raw command
         consensus_entry.operation = "raw";
         consensus_entry.data = {{"command", entry.command}};

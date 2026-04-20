@@ -859,7 +859,7 @@ http::response<http::string_body> RopeApiHandler::makeResponse(
 }
 
 std::optional<http::response<http::string_body>> RopeApiHandler::requireAccess(
-    const http::request<http::string_body>& req,
+    [[maybe_unused]] const http::request<http::string_body>& req,
     [[maybe_unused]] const std::string& permission,
     [[maybe_unused]] const std::string& resource,
     [[maybe_unused]] const std::string& path)

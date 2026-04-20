@@ -286,7 +286,7 @@ bool PKIShardCertificate::validateShardCertificate(const ShardCertificateInfo& i
 }
 
 bool PKIShardCertificate::parseCustomExtensions(void* x509_cert_ptr, ShardCertificateInfo& info) {
-    X509* cert = static_cast<X509*>(x509_cert_ptr);
+    [[maybe_unused]] X509* cert = static_cast<X509*>(x509_cert_ptr);
     // Future: parse custom X.509 extensions
     
     // Note: In Phase 2, we're providing the structure for custom extension parsing

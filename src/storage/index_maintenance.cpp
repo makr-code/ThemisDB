@@ -47,7 +47,7 @@ IndexMaintenanceManager::IndexMaintenanceManager(
 
 IndexMaintenanceManager::~IndexMaintenanceManager() {
     if (running_) {
-        stop();
+        (void)stop();
     }
 }
 
@@ -455,18 +455,18 @@ void IndexMaintenanceManager::maintenanceThreadFunc() {
                 if (metrics.fragmentation_percentage >= policy_.rebuild_threshold) {
                     THEMIS_INFO("High fragmentation detected for {}: {:.2f}%",
                                index_name, metrics.fragmentation_percentage);
-                    rebuildIndex(index_name, true);
+                    (void)rebuildIndex(index_name, true);
                 } else if (metrics.fragmentation_percentage >= policy_.reorganize_threshold) {
                     THEMIS_INFO("Medium fragmentation detected for {}: {:.2f}%",
                                index_name, metrics.fragmentation_percentage);
-                    reorganizeIndex(index_name, true);
+                    (void)reorganizeIndex(index_name, true);
                 }
                 
                 // Check statistics staleness
                 if (metrics.statistics_staleness_ms >= policy_.statistics_update_interval_ms) {
                     THEMIS_INFO("Stale statistics for {}: {}ms",
                                index_name, metrics.statistics_staleness_ms);
-                    updateStatistics(index_name);
+                    (void)updateStatistics(index_name);
                 }
             }
             

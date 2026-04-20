@@ -66,7 +66,7 @@ TEST_F(ServiceMeshApiHandlerDisabledTest, Status_ContentTypeIsJson) {
 
 TEST_F(ServiceMeshApiHandlerDisabledTest, Status_BodyIsValidJson) {
     auto res = handler.handleStatus(makeGet("/api/v1/service-mesh/status"));
-    EXPECT_NO_THROW(json::parse(res.body()));
+    EXPECT_NO_THROW((void)json::parse(res.body()));
 }
 
 TEST_F(ServiceMeshApiHandlerDisabledTest, Status_ContainsEnabledOrMessage) {
@@ -84,7 +84,7 @@ TEST_F(ServiceMeshApiHandlerDisabledTest, Config_Returns200) {
 
 TEST_F(ServiceMeshApiHandlerDisabledTest, Config_BodyIsValidJson) {
     auto res = handler.handleConfig(makeGet("/api/v1/service-mesh/config"));
-    EXPECT_NO_THROW(json::parse(res.body()));
+    EXPECT_NO_THROW((void)json::parse(res.body()));
 }
 
 TEST_F(ServiceMeshApiHandlerDisabledTest, Annotations_Returns200) {
@@ -94,7 +94,7 @@ TEST_F(ServiceMeshApiHandlerDisabledTest, Annotations_Returns200) {
 
 TEST_F(ServiceMeshApiHandlerDisabledTest, Annotations_BodyIsValidJson) {
     auto res = handler.handleAnnotations(makeGet("/api/v1/service-mesh/annotations"));
-    EXPECT_NO_THROW(json::parse(res.body()));
+    EXPECT_NO_THROW((void)json::parse(res.body()));
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

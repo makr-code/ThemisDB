@@ -482,10 +482,9 @@ bool VCCPKIClient::validateCertChain(const X509Certificate& cert) const {
     // Log verification errors if validation failed
     if (!is_valid) {
         int error = X509_STORE_CTX_get_error(ctx);
-        const char* error_string = X509_verify_cert_error_string(error);
+        (void)X509_verify_cert_error_string(error);
         // Note: In production, log this error for debugging
         // For now, we just fail silently to maintain minimal changes
-        // Suppress unused variable warning
     }
     
     // Clean up

@@ -126,7 +126,7 @@ TEST_F(ShardResilienceTest, QuorumDuringPartition) {
     // Simulate partition: only 2 nodes respond
     std::atomic<int> available_nodes{2};
     
-    auto operation = [&available_nodes](const std::string& node_id) -> bool {
+    auto operation = [&available_nodes]([[maybe_unused]] const std::string& node_id) -> bool {
         // First 2 nodes succeed, rest fail (simulating partition)
         int current = available_nodes.fetch_sub(1, std::memory_order_relaxed);
         return current > 0;
@@ -224,7 +224,7 @@ TEST_F(ShardResilienceTest, QuorumWithMultipleFailures) {
     // Simulate 2 nodes failing
     std::vector<std::string> failed_nodes = {"node3", "node4"};
     
-    auto operation = [&failed_nodes](const std::string& node_id) -> bool {
+    auto operation = [&failed_nodes]([[maybe_unused]] const std::string& node_id) -> bool {
         // Check if node is in failed list
         return std::find(failed_nodes.begin(), failed_nodes.end(), node_id) 
                == failed_nodes.end();

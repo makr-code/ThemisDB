@@ -121,7 +121,8 @@ bool ZstdDictionaryCompressor::train(
     std::vector<uint8_t> dict_buf(max_dict_size);
     const size_t dict_size = ZDICT_trainFromBuffer(
         dict_buf.data(), dict_buf.size(),
-        concat.data(), sample_sizes.data(), samples.size());
+        concat.data(), sample_sizes.data(),
+        static_cast<unsigned>(samples.size()));
 
     if (ZDICT_isError(dict_size)) return false;
 

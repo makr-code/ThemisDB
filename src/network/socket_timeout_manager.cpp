@@ -272,7 +272,7 @@ socket_t SocketTimeoutManager::acceptWithTimeout(socket_t server_socket,
 }
 
 ssize_t SocketTimeoutManager::readWithTimeout(socket_t socket, void* buffer, size_t size,
-                                                std::chrono::milliseconds timeout_ms) {
+                                                [[maybe_unused]] std::chrono::milliseconds timeout_ms) {
     if (socket == INVALID_SOCKET_VALUE || buffer == nullptr || size == 0) {
         return -1;
     }
@@ -317,7 +317,7 @@ ssize_t SocketTimeoutManager::readWithTimeout(socket_t socket, void* buffer, siz
 }
 
 ssize_t SocketTimeoutManager::writeWithTimeout(socket_t socket, const void* buffer, size_t size,
-                                                 std::chrono::milliseconds timeout_ms) {
+                                                 [[maybe_unused]] std::chrono::milliseconds timeout_ms) {
     if (socket == INVALID_SOCKET_VALUE || buffer == nullptr || size == 0) {
         return -1;
     }

@@ -112,8 +112,8 @@ std::string GCSBlobBackend::objectName(const std::string& blob_id) const {
 // ─────────────────────────────────────────────────────────────────────────────
 // IBlobStorageBackend interface
 // ─────────────────────────────────────────────────────────────────────────────
-Result<BlobRef> GCSBlobBackend::put(const std::string& blob_id,
-                                    const std::vector<uint8_t>& data) {
+Result<BlobRef> GCSBlobBackend::put([[maybe_unused]] const std::string& blob_id,
+                                    [[maybe_unused]] const std::vector<uint8_t>& data) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     if (!impl_->available) {
@@ -152,7 +152,7 @@ Result<BlobRef> GCSBlobBackend::put(const std::string& blob_id,
 #endif
 }
 
-Result<std::vector<uint8_t>> GCSBlobBackend::get(const BlobRef& ref) {
+Result<std::vector<uint8_t>> GCSBlobBackend::get([[maybe_unused]] const BlobRef& ref) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     if (!impl_->available) {
@@ -213,7 +213,7 @@ Result<std::vector<uint8_t>> GCSBlobBackend::get(const BlobRef& ref) {
 #endif
 }
 
-Result<void> GCSBlobBackend::remove(const BlobRef& ref) {
+Result<void> GCSBlobBackend::remove([[maybe_unused]] const BlobRef& ref) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     if (!impl_->available) {
@@ -239,7 +239,7 @@ Result<void> GCSBlobBackend::remove(const BlobRef& ref) {
 #endif
 }
 
-bool GCSBlobBackend::exists(const BlobRef& ref) {
+bool GCSBlobBackend::exists([[maybe_unused]] const BlobRef& ref) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
 
     if (!impl_->available) {

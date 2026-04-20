@@ -187,7 +187,7 @@ VectorIndexManager::Status VectorAutoBuffer::update(const BaseEntity& entity) {
         stats_.current_buffer_memory += op_size;
         
         if (buffer.operations.size() >= config_.max_vectors_per_buffer) {
-            size_t flushed = flushBuffer(buffer_key, buffer);
+            flushBuffer(buffer_key, buffer);
             stats_.size_triggered_flush++;
         }
     }
@@ -222,7 +222,7 @@ VectorIndexManager::Status VectorAutoBuffer::remove(const std::string& pk) {
         stats_.current_buffer_memory += op_size;
         
         if (buffer.operations.size() >= config_.max_vectors_per_buffer) {
-            size_t flushed = flushBuffer(buffer_key, buffer);
+            flushBuffer(buffer_key, buffer);
             stats_.size_triggered_flush++;
         }
     }

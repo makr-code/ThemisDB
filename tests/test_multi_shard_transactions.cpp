@@ -260,10 +260,10 @@ TEST(MultiShardTransactionTest, ConcurrentTransactions) {
             // Select random subset of shards
             std::random_device rd;
             std::mt19937 gen(rd());
-            std::uniform_int_distribution<> dis(0, shards.size() - 1);
+            std::uniform_int_distribution<> dis(0, static_cast<int>(shards.size() - 1));
             
             int shard1 = dis(gen);
-            int shard2 = (shard1 + 1 + dis(gen)) % shards.size();
+            int shard2 = (shard1 + 1 + dis(gen)) % static_cast<int>(shards.size());
             
             // Phase 1: Prepare
             bool prep1 = shards[shard1].prepare(tx_id);

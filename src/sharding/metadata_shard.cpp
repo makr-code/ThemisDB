@@ -384,7 +384,7 @@ void MetadataShard::subscribe(
 }
 
 std::string MetadataShard::determineShardOwner(
-    MetadataPartitionKey partition,
+    [[maybe_unused]] MetadataPartitionKey partition,
     const std::string& key
 ) const {
     // Simple hash-based sharding
@@ -555,7 +555,7 @@ nlohmann::json MetadataShardRouter::getStatistics() const {
 }
 
 std::string MetadataShardRouter::routeToShard(
-    MetadataPartitionKey partition,
+    [[maybe_unused]] MetadataPartitionKey partition,
     const std::string& key
 ) const {
     size_t hash = hashKey(key);

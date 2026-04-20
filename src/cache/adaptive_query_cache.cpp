@@ -434,11 +434,11 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
         
         std::lock_guard<std::mutex> lock(l3_mutex_);
         
-        std::string key = QUERY_CACHE_PREFIX + fingerprint;
+        std::string l3_key = QUERY_CACHE_PREFIX + fingerprint;
         std::optional<std::vector<uint8_t>> result;
         
         try {
-            result = l3_db_->get(key);
+            result = l3_db_->get(l3_key);
         } catch (const std::exception& e) {
             THEMIS_WARN("L3 cache read exception: {}", e.what());
             enhanced_metrics_.l3_read_errors++;
@@ -1062,11 +1062,11 @@ void AdaptiveQueryCache::clear() {
                 });
             }
             // Deletes happen outside l3_mutex_ to avoid blocking readers.
-            for (const auto& key : keys) {
-                l3_db_->del(key);
+            for (const auto& del_key : keys) {
+                l3_db_->del(del_key);
             }
-            for (const auto& key : pii_ref_keys) {
-                l3_db_->del(key);
+            for (const auto& del_key : pii_ref_keys) {
+                l3_db_->del(del_key);
             }
         } catch (const std::exception& e) {
             THEMIS_WARN("Failed to clear L3 cache: {}", e.what());
@@ -1078,8 +1078,6 @@ void AdaptiveQueryCache::clear() {
 
 uint64_t AdaptiveQueryCache::clearExpired() {
     uint64_t count = 0;
-    int64_t now_ms = getCurrentTimeMs();
-    
     // Clear expired L1 entries
     {
         std::scoped_lock<std::shared_mutex, std::mutex> lock(l1_mutex_, l1_eviction_mutex_);

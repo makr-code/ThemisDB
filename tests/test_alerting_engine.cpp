@@ -219,7 +219,7 @@ TEST_F(AlertingEngineEvalTest, EvaluateAndNotify_NoRules_ReturnsZero) {
 }
 
 TEST_F(AlertingEngineEvalTest, EvaluateAndNotify_ConditionMet_NotifiesChannel) {
-    engine_.ruleManager().addRule(
+    (void)engine_.ruleManager().addRule(
         makeRule("cpu_rule", "themis_cpu_usage_percent",
                  AlertRuleOperator::GREATER_THAN, 80.0));
 
@@ -234,7 +234,7 @@ TEST_F(AlertingEngineEvalTest, EvaluateAndNotify_ConditionMet_NotifiesChannel) {
 }
 
 TEST_F(AlertingEngineEvalTest, EvaluateAndNotify_ConditionNotMet_NoNotification) {
-    engine_.ruleManager().addRule(
+    (void)engine_.ruleManager().addRule(
         makeRule("cpu_rule", "themis_cpu_usage_percent",
                  AlertRuleOperator::GREATER_THAN, 80.0));
 
@@ -246,12 +246,12 @@ TEST_F(AlertingEngineEvalTest, EvaluateAndNotify_ConditionNotMet_NoNotification)
 }
 
 TEST_F(AlertingEngineEvalTest, EvaluateAndNotify_AlertResolved_NotifiesChannel) {
-    engine_.ruleManager().addRule(
+    (void)engine_.ruleManager().addRule(
         makeRule("cpu_rule", "themis_cpu_usage_percent",
                  AlertRuleOperator::GREATER_THAN, 80.0));
 
     // Fire the alert
-    engine_.evaluateAndNotify({{"themis_cpu_usage_percent", 90.0}});
+    (void)engine_.evaluateAndNotify({{"themis_cpu_usage_percent", 90.0}});
     ASSERT_EQ(channel_->received.size(), 1u);
 
     // Clear and resolve
@@ -268,10 +268,10 @@ TEST_F(AlertingEngineEvalTest, EvaluateAndNotify_MultipleChannels_AllNotified) {
     auto second_channel = std::make_shared<RecordingChannel>();
     engine_.addChannel(second_channel);
 
-    engine_.ruleManager().addRule(
+    (void)engine_.ruleManager().addRule(
         makeRule("r1", "m", AlertRuleOperator::GREATER_THAN, 0.0));
 
-    engine_.evaluateAndNotify({{"m", 1.0}});
+    (void)engine_.evaluateAndNotify({{"m", 1.0}});
 
     EXPECT_EQ(channel_->received.size(), 1u);
     EXPECT_EQ(second_channel->received.size(), 1u);
@@ -281,7 +281,7 @@ TEST_F(AlertingEngineEvalTest, EvaluateAndNotify_FailingChannel_DoesNotAbort) {
     engine_.addChannel(std::make_shared<FailingChannel>());
     engine_.addChannel(std::make_shared<RecordingChannel>());  // should still receive
 
-    engine_.ruleManager().addRule(
+    (void)engine_.ruleManager().addRule(
         makeRule("r1", "m", AlertRuleOperator::GREATER_THAN, 0.0));
 
     // Should not throw even though FailingChannel returns an error.
@@ -381,10 +381,10 @@ TEST(AlertingEngineSendTest, ResolveAlert_RemovesFromActiveAndNotifiesChannel) {
     a.severity   = AlertSeverity::WARNING;
     a.status     = AlertStatus::FIRING;
     a.message    = "firing";
-    engine.sendAlert(a);
+    (void)engine.sendAlert(a);
 
     rec->received.clear();
-    engine.resolveAlert("test-002");
+    (void)engine.resolveAlert("test-002");
 
     // Active list should be empty after resolution.
     EXPECT_TRUE(engine.getActiveAlerts().empty());
@@ -435,7 +435,7 @@ TEST(AlertingEngineBackendTest, SendAlert_ForwardsToBackend) {
     a.alert_id   = "bk-001";
     a.severity   = AlertSeverity::INFO;
     a.status     = AlertStatus::FIRING;
-    engine.sendAlert(a);
+    (void)engine.sendAlert(a);
 
     EXPECT_EQ(mock->send_count, 1);
 }
@@ -447,9 +447,9 @@ TEST(AlertingEngineBackendTest, ResolveAlert_ForwardsToBackend) {
     Alert a;
     a.alert_id = "bk-002";
     a.status   = AlertStatus::FIRING;
-    engine.sendAlert(a);
+    (void)engine.sendAlert(a);
 
-    engine.resolveAlert("bk-002");
+    (void)engine.resolveAlert("bk-002");
     EXPECT_EQ(mock->resolve_count, 1);
 }
 
@@ -550,7 +550,7 @@ TEST(AlertingEngineSilenceTest, SilenceAlert_MarksAlertSilenced) {
     a.severity   = AlertSeverity::WARNING;
     a.status     = AlertStatus::FIRING;
     a.message    = "needs silencing";
-    engine.sendAlert(a);
+    (void)engine.sendAlert(a);
 
     // Silence the alert — should mark it silenced in active list.
     auto res = engine.silenceAlert("sl-001", 30);
@@ -574,7 +574,7 @@ TEST(AlertingEngineSilenceTest, SilenceAlert_ForwardsToBackend) {
     Alert a;
     a.alert_id = "sl-002";
     a.status   = AlertStatus::FIRING;
-    engine.sendAlert(a);
+    (void)engine.sendAlert(a);
 
     auto res = engine.silenceAlert("sl-002", 15);
     EXPECT_TRUE(res.has_value());
@@ -587,7 +587,7 @@ TEST(AlertingEngineSilenceTest, SilenceAlert_ForwardsToBackend) {
 
 TEST(AlertingEngineConcurrencyTest, AddChannelDuringEvaluate_NoDeadlock) {
     AlertingEngine engine;
-    engine.ruleManager().addRule(
+    (void)engine.ruleManager().addRule(
         makeRule("conc", "m", AlertRuleOperator::GREATER_THAN, 0.0));
 
     std::atomic<bool> done{false};

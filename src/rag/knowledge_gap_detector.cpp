@@ -173,7 +173,7 @@ DetectionResult KnowledgeGapDetector::detectPreGeneration(
 }
 
 DetectionResult KnowledgeGapDetector::detectDuringGeneration(
-    const std::string& query,
+    [[maybe_unused]] const std::string& query,
     const std::vector<RetrievedDocument>& documents,
     const GenerationContext& context
 ) {
@@ -547,7 +547,7 @@ double KnowledgeGapDetector::calculateAverageSimilarity(
 }
 
 double KnowledgeGapDetector::calculateQueryCoverage(
-    const std::string& query,
+    [[maybe_unused]] const std::string& query,
     const std::vector<RetrievedDocument>& docs
 ) {
     // Basic coverage calculation based on:
@@ -790,7 +790,7 @@ bool KnowledgeGapDetector::verifyClaim(
     
     for (char c : claim) {
         if (std::isalnum(static_cast<unsigned char>(c)) || c == '_') {
-            current_term += std::tolower(static_cast<unsigned char>(c));
+            current_term += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
         } else if (!current_term.empty()) {
             if (current_term.length() > 3) { // Only significant terms
                 claim_terms.push_back(current_term);
@@ -1056,7 +1056,7 @@ double KnowledgeGapDetector::calculateSemanticSimilarity(
         std::string word;
         for (char c : text) {
             if (std::isalnum(static_cast<unsigned char>(c)) || c == '_') {
-                word += std::tolower(static_cast<unsigned char>(c));
+                word += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
             } else if (!word.empty()) {
                 if (word.length() > 2) { // Only meaningful words
                     words.insert(word);
@@ -1212,7 +1212,7 @@ double KnowledgeGapDetector::monitorSentenceConfidence(
     
     for (char c : sentence) {
         if (std::isalnum(static_cast<unsigned char>(c))) {
-            current_term += std::tolower(static_cast<unsigned char>(c));
+            current_term += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
         } else if (!current_term.empty()) {
             if (current_term.length() > 3) {
                 sentence_terms.push_back(current_term);
