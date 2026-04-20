@@ -23,6 +23,7 @@
 #include <algorithm>
 #include <cmath>
 #include <chrono>
+#include <thread>
 
 namespace themis {
 
@@ -439,7 +440,130 @@ void OptimizerCostModel::updateConstant(const std::string& name, double value) {
         constants_.networkBandwidth = value;
     } else if (name == "networkLatency") {
         constants_.networkLatency = value;
+    } else if (name == "gpu_row_threshold_low") {
+        constants_.gpu_row_threshold_low = static_cast<size_t>(value);
+    } else if (name == "gpu_row_threshold_high") {
+        constants_.gpu_row_threshold_high = static_cast<size_t>(value);
+    } else if (name == "vram_safety_factor") {
+        constants_.vram_safety_factor = value;
+    } else if (name == "cpu_batch_thread_low") {
+        constants_.cpu_batch_thread_low = static_cast<size_t>(value);
+    } else if (name == "cpu_batch_thread_high") {
+        constants_.cpu_batch_thread_high = static_cast<size_t>(value);
+    } else if (name == "msgpack_row_threshold") {
+        constants_.msgpack_row_threshold = static_cast<size_t>(value);
     }
+}
+
+// =============================
+// Serialization Strategy Advisor
+// =============================
+
+OptimizerCostModel::SerializationAdvice
+OptimizerCostModel::adviseSerializationStrategy(
+        size_t       estimated_row_count,
+        size_t       avg_row_bytes,
+        bool         gpu_available,
+        size_t       vram_free_bytes,
+        WorkloadType workload) const {
+
+    using Format        = SerializationAdvice::Format;
+    using ExecutionPath = SerializationAdvice::ExecutionPath;
+
+    SerializationAdvice advice;
+
+    // Effective CPU thread count for batch paths
+    const size_t hw_threads = std::thread::hardware_concurrency();
+    const size_t threads_high = (constants_.cpu_batch_thread_high > 0)
+                                    ? constants_.cpu_batch_thread_high
+                                    : hw_threads;
+
+    // --- Override rules for specific workload classes ---
+
+    if (workload == WorkloadType::CDC_STREAM) {
+        // Change-data-capture: schema-versioned binary to keep per-event overhead low
+        advice.wire_format              = Format::BINARY_CUSTOM;
+        advice.exec_path                = ExecutionPath::CPU_THREADED_BATCH;
+        advice.recommended_batch_size   = 256;
+        advice.recommended_thread_count = constants_.cpu_batch_thread_low;
+        advice.use_vram_pinned_memory   = false;
+        advice.rationale                = "CDC_STREAM → BINARY_CUSTOM/CPU_THREADED_BATCH";
+        return advice;
+    }
+
+    if (workload == WorkloadType::CACHE_REPL) {
+        // Internal cache replication uses Protobuf for compact, schema-safe encoding
+        advice.wire_format              = Format::PROTOBUF;
+        advice.exec_path                = ExecutionPath::CPU_THREADED_BATCH;
+        advice.recommended_batch_size   = 512;
+        advice.recommended_thread_count = constants_.cpu_batch_thread_low;
+        advice.use_vram_pinned_memory   = false;
+        advice.rationale                = "CACHE_REPL → PROTOBUF/CPU_THREADED_BATCH";
+        return advice;
+    }
+
+    if (workload == WorkloadType::DOCUMENT_CRUD ||
+        estimated_row_count < constants_.msgpack_row_threshold) {
+        // Small payload or simple CRUD: JSON + single-threaded path is cheapest
+        advice.wire_format              = Format::JSON_TEXT;
+        advice.exec_path                = ExecutionPath::CPU_SINGLE;
+        advice.recommended_batch_size   = estimated_row_count > 0 ? estimated_row_count : 1;
+        advice.recommended_thread_count = 1;
+        advice.use_vram_pinned_memory   = false;
+        advice.rationale                = "row_count<" +
+            std::to_string(constants_.msgpack_row_threshold) + " or DOCUMENT_CRUD → JSON_TEXT/CPU_SINGLE";
+        return advice;
+    }
+
+    // Below the GPU threshold: binary format + multi-threaded CPU
+    if (estimated_row_count < constants_.gpu_row_threshold_low) {
+        advice.wire_format              = Format::MSGPACK_CBOR;
+        advice.exec_path                = ExecutionPath::CPU_THREADED_BATCH;
+        advice.recommended_batch_size   = 1024;
+        advice.recommended_thread_count = constants_.cpu_batch_thread_low;
+        advice.use_vram_pinned_memory   = false;
+        advice.rationale                = std::to_string(constants_.msgpack_row_threshold) +
+            "≤row_count<" + std::to_string(constants_.gpu_row_threshold_low) +
+            " → MSGPACK_CBOR/CPU_THREADED_BATCH(" +
+            std::to_string(constants_.cpu_batch_thread_low) + " threads)";
+        return advice;
+    }
+
+    // At or above the GPU threshold — decide CPU vs GPU
+    const size_t payload_bytes = estimated_row_count * (avg_row_bytes > 0 ? avg_row_bytes : 256);
+    const size_t required_vram =
+        static_cast<size_t>(static_cast<double>(payload_bytes) * constants_.vram_safety_factor);
+
+    const bool vram_fits = gpu_available && (vram_free_bytes >= required_vram);
+
+    if (vram_fits) {
+        advice.wire_format              = Format::ARROW_IPC;
+        advice.exec_path                = ExecutionPath::GPU_VRAM;
+        advice.recommended_batch_size   = 8192;
+        advice.recommended_thread_count = 1;   // GPU handles internal parallelism
+        advice.use_vram_pinned_memory   = true;
+        advice.rationale                = "row_count=" + std::to_string(estimated_row_count) +
+            "≥" + std::to_string(constants_.gpu_row_threshold_low) +
+            " GPU+VRAM_OK → ARROW_IPC/GPU_VRAM";
+    } else {
+        advice.wire_format              = Format::ARROW_IPC;
+        advice.exec_path                = ExecutionPath::CPU_THREADED_BATCH;
+        advice.recommended_batch_size   = 4096;
+        advice.recommended_thread_count = threads_high;
+        advice.use_vram_pinned_memory   = false;
+        if (!gpu_available) {
+            advice.rationale = "row_count=" + std::to_string(estimated_row_count) +
+                "≥" + std::to_string(constants_.gpu_row_threshold_low) +
+                " no_gpu → ARROW_IPC/CPU_THREADED_BATCH(" + std::to_string(threads_high) + ")";
+        } else {
+            advice.rationale = "row_count=" + std::to_string(estimated_row_count) +
+                "≥" + std::to_string(constants_.gpu_row_threshold_low) +
+                " VRAM_insufficient(need=" + std::to_string(required_vram) +
+                ",free=" + std::to_string(vram_free_bytes) +
+                ") → ARROW_IPC/CPU_THREADED_BATCH(" + std::to_string(threads_high) + ")";
+        }
+    }
+    return advice;
 }
 
 // =============================

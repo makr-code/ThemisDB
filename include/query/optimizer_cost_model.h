@@ -20,12 +20,27 @@
 #pragma once
 
 #include <string>
+#include <thread>
 #include <vector>
 #include <map>
 #include <memory>
 #include <cstddef>
 
 namespace themis {
+
+/**
+ * @brief Workload classification used by SerializationStrategyAdvisor.
+ *
+ * Allows the query optimizer to tailor the serialization/execution path
+ * to the dominant access pattern without inspecting query internals.
+ */
+enum class WorkloadType {
+    DOCUMENT_CRUD,   ///< Point reads/writes, small payloads → JSON/CPU_SINGLE
+    VECTOR_SEARCH,   ///< ANN / embedding queries → Arrow IPC, GPU-eligible
+    ANALYTICS_OLAP,  ///< Full-scan aggregations → Arrow IPC + GPU (large batches)
+    CDC_STREAM,      ///< Change-data-capture event streams → Binary/CPU threaded
+    CACHE_REPL,      ///< Internal cache replication → Protobuf/CPU threaded
+};
 
 /**
  * Comprehensive Query Optimizer Cost Model
@@ -106,6 +121,50 @@ public:
         size_t hashTableKeySize = 8;           // Default hash key size in bytes
         size_t hashTablePointerSize = 8;       // Pointer size (use sizeof(void*) on target platform)
         size_t hashTableGroupOverhead = 64;    // Overhead per group in aggregation
+
+        // GPU / Serialization thresholds (kalibrierbar via calibrateCosts / updateConstant)
+        size_t gpu_row_threshold_low  = 50'000;   ///< Rows ≥ this value → consider GPU path
+        size_t gpu_row_threshold_high = 500'000;  ///< Rows ≥ this value → GPU+Parquet (OLAP)
+        double vram_safety_factor     = 1.5;      ///< payload_bytes × factor must fit in free VRAM
+        size_t cpu_batch_thread_low   = 4;        ///< Threads for medium row counts (1k–50k)
+        size_t cpu_batch_thread_high  = 0;        ///< 0 = std::thread::hardware_concurrency()
+        size_t msgpack_row_threshold  = 1'000;    ///< Rows ≥ this value → binary wire format
+    };
+
+    // =============================
+    // Serialization Strategy Advisor
+    // =============================
+
+    /**
+     * @brief Recommended wire format and execution path for a query result set.
+     *
+     * Produced by adviseSerializationStrategy() and embedded in QueryOptimizer::Plan.
+     * Consumers use wire_format and exec_path to decide how to serialize the result
+     * and how many CPU threads (or the GPU) to use for parallelism.
+     */
+    struct SerializationAdvice {
+        /// On-wire encoding to use for result rows.
+        enum class Format {
+            JSON_TEXT,      ///< Standard JSON – always safe, no deps
+            BINARY_CUSTOM,  ///< Compact custom binary (length-prefix framing)
+            MSGPACK_CBOR,   ///< MessagePack / CBOR – smaller than JSON, schema-free
+            ARROW_IPC,      ///< Apache Arrow IPC stream – columnar, zero-copy capable
+            PROTOBUF,       ///< Protocol Buffers – for gRPC-internal paths
+        };
+
+        /// Execution path for the compute kernel.
+        enum class ExecutionPath {
+            CPU_SINGLE,          ///< Single-threaded sequential processing (default)
+            CPU_THREADED_BATCH,  ///< Multi-threaded batch processing via CPU thread pool
+            GPU_VRAM,            ///< Parallel execution in GPU VRAM (Arrow IPC staging)
+        };
+
+        Format        wire_format             = Format::JSON_TEXT;
+        ExecutionPath exec_path               = ExecutionPath::CPU_SINGLE;
+        size_t        recommended_batch_size  = 1;       ///< rows per batch [1..65536]
+        size_t        recommended_thread_count = 1;      ///< CPU threads (1 = serial)
+        bool          use_vram_pinned_memory  = false;   ///< pin host buffer for GPU DMA
+        std::string   rationale;                         ///< human-readable decision reason
     };
     
     // =============================
@@ -211,6 +270,37 @@ public:
     // Cost calibration
     void calibrateCosts(const std::map<std::string, double>& measurements);
     void updateConstant(const std::string& name, double value);
+
+    /**
+     * @brief Choose the optimal serialization format and execution path.
+     *
+     * Decision tree (thresholds from CostConstants; all overridable via calibrateCosts):
+     *  - row_count < msgpack_row_threshold  OR  workload==DOCUMENT_CRUD
+     *      → JSON_TEXT / CPU_SINGLE
+     *  - msgpack_row_threshold ≤ row_count < gpu_row_threshold_low
+     *      → MSGPACK_CBOR / CPU_THREADED_BATCH  (cpu_batch_thread_low threads)
+     *  - CDC_STREAM workload
+     *      → BINARY_CUSTOM / CPU_THREADED_BATCH  (any row count)
+     *  - CACHE_REPL workload
+     *      → PROTOBUF / CPU_THREADED_BATCH
+     *  - row_count ≥ gpu_row_threshold_low, GPU available, VRAM fits
+     *      → ARROW_IPC / GPU_VRAM  (use_vram_pinned_memory=true)
+     *  - row_count ≥ gpu_row_threshold_low, no GPU (or VRAM too small)
+     *      → ARROW_IPC / CPU_THREADED_BATCH  (hardware_concurrency threads)
+     *
+     * @param estimated_row_count  Expected rows in result set.
+     * @param avg_row_bytes        Average encoded row size in bytes.
+     * @param gpu_available        True when a GPU with sufficient VRAM is present.
+     * @param vram_free_bytes      Free VRAM bytes at time of planning.
+     * @param workload             Dominant access pattern hint.
+     * @return SerializationAdvice filled with wire_format, exec_path, thread count, etc.
+     */
+    SerializationAdvice adviseSerializationStrategy(
+        size_t       estimated_row_count,
+        size_t       avg_row_bytes,
+        bool         gpu_available,
+        size_t       vram_free_bytes,
+        WorkloadType workload) const;
     
     // Accessors
     const CostConstants& getConstants() const { return constants_; }

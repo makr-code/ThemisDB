@@ -179,6 +179,57 @@ PerQueryCostModel::getCalibrationFactors() const {
         factors["pageReadCost"] = calibrated;
     }
 
+    // ---- GPU threshold calibration from serialization feedback ----
+    //
+    // When records using the GPU_VRAM path show that serialization overhead is
+    // disproportionately high (> 50 % of total execution time), the GPU breakeven
+    // threshold should be raised so the advisor graduates to GPU only for larger
+    // batches.  Conversely, when CPU_SINGLE records show negligible overhead, the
+    // msgpack threshold may be safely lowered.
+
+    using ExecutionPath = OptimizerCostModel::SerializationAdvice::ExecutionPath;
+
+    double gpu_serial_ratio_sum    = 0.0;
+    size_t gpu_serial_samples      = 0;
+    double cpu_single_serial_ratio = 0.0;
+    size_t cpu_single_samples      = 0;
+
+    for (const auto& r : records_) {
+        if (r.execution_time_ms <= 0.0) { continue; }
+        const double ratio = r.serialization_time_ms / r.execution_time_ms;
+        if (r.exec_path_used == ExecutionPath::GPU_VRAM) {
+            gpu_serial_ratio_sum += ratio;
+            ++gpu_serial_samples;
+        } else if (r.exec_path_used == ExecutionPath::CPU_SINGLE) {
+            cpu_single_serial_ratio += ratio;
+            ++cpu_single_samples;
+        }
+    }
+
+    if (gpu_serial_samples >= 5) {
+        const double avg_gpu_ratio =
+            gpu_serial_ratio_sum / static_cast<double>(gpu_serial_samples);
+        if (avg_gpu_ratio > 0.5) {
+            // GPU serialisation dominates: raise the low threshold by 25 %
+            // (capped between 10k and 2M rows so the advisor stays reasonable)
+            constexpr double kCurrentLow = 50'000.0;
+            const double raised = std::min(2'000'000.0, kCurrentLow * 1.25);
+            factors["gpu_row_threshold_low"] = raised;
+        }
+    }
+
+    if (cpu_single_samples >= 5) {
+        const double avg_cpu_ratio =
+            cpu_single_serial_ratio / static_cast<double>(cpu_single_samples);
+        // If CPU_SINGLE serialisation is very cheap, the binary threshold can be
+        // pushed down slightly so binary format kicks in sooner.
+        if (avg_cpu_ratio < 0.05) {
+            constexpr double kCurrentMsgpack = 1'000.0;
+            const double lowered = std::max(100.0, kCurrentMsgpack * 0.8);
+            factors["msgpack_row_threshold"] = lowered;
+        }
+    }
+
     return factors;
 }
 
