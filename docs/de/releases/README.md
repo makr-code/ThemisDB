@@ -38,6 +38,8 @@ ThemisDB Release-Dokumentation enthält:
 
 | Version | Datum | Fokus | Dokumentation |
 |---------|-------|-------|---------------|
+| **v1.8.2** | 19.04.2026 (Aggregation) | Retrospektive Aggregation der Features zwischen v1.8.0 und v1.8.2 inkl. QA-/Blocker-Status | [Release Notes](./RELEASE_NOTES_v1.8.2.md) |
+| **v1.8.1-rc1** | 04.04.2026 | Geo/Search/Storage/Sharding-Hardening-Release (RC) | [Release Notes](./RELEASE_NOTES_v1.8.1-rc1.md) |
 | **v1.8.0** | TBD | SSI, Versioned API Routing, SAGA Orchestration, Markov Prefetching, ArrowUserRegistration, JWT Scope, CRL/OCSP, HardwareAccelerator, ExporterFactory, Geo Clustering, Wire Protocol V2 | [Release Notes](./RELEASE_NOTES_v1.8.0.md) |
 
 ### v1.7.x Serie (Q2 2026)
