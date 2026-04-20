@@ -130,14 +130,14 @@ v0.3.0 — `PhilosophyLoader::reloadProfiles()` atomic hot-reload with mutex. `E
   - Errors: missing YAML → plugin returns `Status::Error`; empty dilemma options → `Status::Error`
   - Tests: `tests/test_ethics_ai_integration.cpp` — GTest, direct-source compilation pattern
   - File: `tests/test_ethics_ai_integration.cpp` (new), added to `tests/CMakeLists.txt`
-- [ ] Integration test: ArgumentStore with real RocksDB (Target: Q3 2026)
+- [x] Integration test: ArgumentStore with real RocksDB (Target: Q3 2026)
   - Scope: `ArgumentStore` in RocksDB mode – store, load, scanPrefix, storeChain, getChain
   - Subsystems: `argument_store.cpp`, `storage/rocksdb_wrapper.h`, `ethics_base_entity_adapter.h`
   - Inputs: 10+ `EthicalArgument` entities written to a temp RocksDB directory (`std::filesystem::temp_directory_path()`)
   - Outputs: round-trip identity (serialize → store → load → deserialize equals original); chain map reconstructed correctly
   - Constraints: temp directory cleaned up via `RAII`; test repeatable without leftover state
   - Errors: RocksDB open failure → `Status::Error`; corrupt blob → `Status::Error` (not crash)
-  - Tests: fixture using `SetUpTestSuite`/`TearDownTestSuite` for temp dir management; assert no data loss across shutdown/reopen cycle
+  - Tests: 10 tests ASRDB-01..10 in `tests/test_ethics_ai_argument_store_rocksdb.cpp` (`test_ethics_ai_argument_store_rocksdb_focused` CMake target) — fixture using `SetUpTestSuite`/`TearDownTestSuite` for temp dir management; no data loss across shutdown/reopen cycle
 - [x] Integration test: RAGContextEngine with live ArgumentStore data (Target: Q3 2026)
   - Scope: `RAGContextEngine` query methods reading from a pre-populated `ArgumentStore`
   - Subsystems: `rag_context_engine.cpp`, `argument_store.cpp`, AQL constants in `ethics_aql_queries.h`

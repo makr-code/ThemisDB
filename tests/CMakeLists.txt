@@ -23277,6 +23277,52 @@ elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
 endif()
 
 # ============================================================================
+# Ethics AI – ArgumentStore + RocksDB Integration Tests (ASRDB-01..10)
+# ============================================================================
+
+if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_ai_argument_store_rocksdb.cpp")
+    message(STATUS "Adding Ethics AI ArgumentStore RocksDB integration tests")
+
+    add_executable(test_ethics_ai_argument_store_rocksdb_focused
+        test_ethics_ai_argument_store_rocksdb.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/argument_store.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_evaluator.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/discourse_engine.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai/rag_context_engine.cpp
+    )
+
+    target_include_directories(test_ethics_ai_argument_store_rocksdb_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+    )
+
+    target_link_libraries(test_ethics_ai_argument_store_rocksdb_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_ethics_ai_argument_store_rocksdb_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ArgumentStoreRocksDBTests
+             COMMAND test_ethics_ai_argument_store_rocksdb_focused)
+
+    set_tests_properties(ArgumentStoreRocksDBTests PROPERTIES
+        LABELS "ethics;argument-store;rocksdb;integration"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ArgumentStore+RocksDB: ASRDB-01..10 (round-trip, chain, decision, debate, reopen, corrupt, concurrent)")
+elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
+    message(STATUS "ArgumentStore RocksDB integration tests skipped (THEMIS_PLUGIN_ETHICS_AI disabled)")
+endif()
+
+# ============================================================================
 # Ethics AI – RAGContextEngine Tests
 # ============================================================================
 

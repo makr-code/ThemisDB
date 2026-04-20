@@ -73,7 +73,8 @@ is now ≥ 90/100; `KeyRotationScheduler` retains Production-Ready (100/100).
 - [x] Remove deprecated `GocryptfsBackend::executeCommand()` (v0.3.0)
   - Replaced all 3 call sites (`checkAvailability`, `getBackendVersion`, `isMounted`) with `executeCommandSafe()`
   - Removed declaration from `gocryptfs_backend.hpp` and implementation from `gocryptfs_backend.cpp`
-- [ ] Stale mount reconciliation on startup via `/proc/mounts` scan (Target: Q3 2026)
+- [x] Stale mount reconciliation on startup via `/proc/mounts` scan (Target: Q3 2026)
+  → Implemented in v0.2.0: `reconcileStaleMounts()` scans for orphaned FUSE mounts; see v0.2.0 section above
 - [ ] Per-user container isolation: one encrypted dir per user_id (Target: Q1 2027)
 - [ ] Storage quota enforcement per container (Target: Q1 2027)
 

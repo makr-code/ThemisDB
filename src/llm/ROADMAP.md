@@ -61,7 +61,7 @@ Key additions since v1.15.0:
 - [ ] Real draft-model logits for speculative decoding (Target: v1.18.0)
 - [ ] Persistent disk-backed KV-cache (Target: v1.18.0)
 - [ ] Hard cancellation for in-flight requests (Target: v1.18.0)
-- [ ] `DecisionRecordYamlProcessor` integration: `LoraRouter`, `AdapterLoadBalancer`, `LoraOrchestrator` (Target: v1.9.0)
+- [x] `DecisionRecordYamlProcessor` integration: `LoraRouter`, `AdapterLoadBalancer`, `LoraOrchestrator` (Target: v1.9.0) — `setDecisionRecordProcessor()` + `dr_processor_->submit()` in `lora_router.cpp`, `adapter_load_balancer.cpp`, `lora_orchestrator.cpp`; tested in `test_lora_router.cpp` + `test_decision_record_integration.cpp`
 
 ### Completed (formerly planned)
 - [x] Function / tool calling support (JSON schema binding) (Issue: #1922)
