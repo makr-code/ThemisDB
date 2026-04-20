@@ -24,6 +24,8 @@
 #include "ingestion/base_entity.h"
 #include "ingestion/extraction_context.h"
 #include "ingestion/file_manifest.h"
+#include <atomic>
+#include <cstdint>
 #include <memory>
 #include <string>
 #include <vector>
@@ -166,6 +168,59 @@ public:
         const std::string& mime     = "text/plain",
         const std::string& filename = "input.txt"
     );
+
+    /**
+     * @brief Extract the full `BaseEntitySet` from a plain text string.
+     *
+     * Like `extractEntities()` but returns the complete `BaseEntitySet`
+     * including `nodes`, `edges`, and `chunks` (vector index entries).
+     * Consumers that need both the graph entities **and** the embedding
+     * chunks (e.g. `ContentToolboxBridge` for `BridgeResult::vectors`)
+     * should call this method instead of `extractEntities()`.
+     *
+     * @param text      UTF-8 text to process (may be empty — returns {}).
+     * @param mime      Detected MIME type hint (default: "text/plain").
+     * @param filename  Filename hint used for profile selection
+     *                  (default: "input.txt").
+     * @return Full assembled entity set; empty `BaseEntitySet` on failure.
+     */
+    ingestion::BaseEntitySet extractEntitySet(
+        const std::string& text,
+        const std::string& mime     = "text/plain",
+        const std::string& filename = "input.txt"
+    );
+
+    // ── Prometheus metrics ────────────────────────────────────────────────────
+
+    /**
+     * @brief Record one completed `extractEntities()` call in the metrics
+     *        counters.
+     *
+     * Call this after every `extractEntities()` / `extractEntitySet()`
+     * invocation (including error paths).  Thread-safe; uses `std::atomic`.
+     *
+     * @param entity_count Number of entities returned (0 on failure).
+     * @param latency_ms   Wall-clock latency of the call in milliseconds.
+     * @param success      Whether the workflow completed without error.
+     */
+    void recordExtraction(std::size_t entity_count,
+                          uint64_t    latency_ms,
+                          bool        success) noexcept;
+
+    /**
+     * @brief Produce Prometheus text-format metrics.
+     *
+     * Emits the following metric families (Prometheus text v0.0.4):
+     * - `toolbox_extract_calls_total`      counter — total `extractEntities()` calls
+     * - `toolbox_extract_errors_total`     counter — failed calls
+     * - `toolbox_extract_entities_total`   counter — cumulative entity count
+     * - `toolbox_extract_latency_ms_total` counter — cumulative latency
+     *
+     * Returns an empty string when no calls have been recorded.
+     *
+     * @return Prometheus text payload, or "" if unused.
+     */
+    std::string getMetricsText() const;
 
 private:
     class Impl;

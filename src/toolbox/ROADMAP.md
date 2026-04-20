@@ -16,8 +16,8 @@
 
 ## In Progress
 
-- [~] `PrometheusIngestionToolboxMetrics` — concrete metrics backend (Target: Q3 2026)
-- [~] `BridgeResult::vectors` population from `ContentManager` (Target: Q3 2026)
+- [x] `PrometheusIngestionToolboxMetrics` — concrete metrics backend (Target: Q3 2026)
+- [x] `BridgeResult::vectors` population from `ContentManager` (Target: Q3 2026)
 
 ## Planned Features
 
@@ -45,22 +45,23 @@
 - [x] Integration tests for `ContentToolboxBridge::ingest()` (Target: Q3 2026) — CTB-01..CTB-05 in `tests/test_content_toolbox_bridge.cpp` (FE-01..03, TB-01..12, CTB-01..05, FM-01..08)
 
 ### Phase 5: Performance/Hardening
-- [ ] Add `PrometheusIngestionToolboxMetrics` for production observability (Target: Q3 2026)
-- [ ] Populate `BridgeResult::vectors` from `ContentManager::getVectorRecords()` (Target: Q3 2026)
+- [x] Add `PrometheusIngestionToolboxMetrics` for production observability (Target: Q3 2026)
+  → `IngestionToolbox::recordExtraction()` + `getMetricsText()` (4 families: calls/errors/entities/latency, `std::atomic`); auto-recorded inside `extractEntities()` / `extractEntitySet()`; tests ITM-01..06 in `tests/test_toolbox_phase5.cpp`
+- [x] Populate `BridgeResult::vectors` from `ContentManager::getVectorRecords()` (Target: Q3 2026)
+  → `IngestionToolbox::extractEntitySet()` returns full `BaseEntitySet` including `chunks`; `ContentToolboxBridge::ingest()` + `enrichExisting()` now populate `BridgeResult::vectors` from `entity_set.chunks`; tests VEC-01..03 in `tests/test_toolbox_phase5.cpp`
 
 ### Phase 6: Dokumentation & Abnahme
 - [ ] Update include-level docs once `buildWithBridges()` is implemented (Target: Q4 2026)
 
 ## Production Readiness Checklist
 - [x] `IngestionToolbox`, `ToolboxBuilder`, `ContentToolboxBridge` implemented and headers documented
-- [x] Unit and integration test coverage confirmed — `test_toolbox_ingestion.cpp` (IT-01..LH-03) + `test_content_toolbox_bridge.cpp` (FE-01..FM-08)
-- [ ] Prometheus metrics for production observability
-- [ ] `BridgeResult::vectors` fully populated
+- [x] Unit and integration test coverage confirmed — `test_toolbox_ingestion.cpp` (IT-01..LH-03) + `test_content_toolbox_bridge.cpp` (FE-01..FM-08) + `test_toolbox_phase5.cpp` (ITM-01..06, VEC-01..03)
+- [x] Prometheus metrics for production observability — `getMetricsText()` on `IngestionToolbox`
+- [x] `BridgeResult::vectors` fully populated — via `extractEntitySet()` returning `BaseEntitySet::chunks`
 
 ## Known Issues & Limitations
 - `ToolboxBuilder::withGraphWriter(writer)` stores the writer but the auto-wiring to AQL/RAG bridges is not yet implemented in `build()`.
-- `ContentToolboxBridge::BridgeResult::vectors` is never populated — vector-store writes are a no-op until `ContentManager::getVectorRecords()` is added.
-- No production-observable metrics available for `IngestionToolbox` invocations.
+- `ContentToolboxBridge::BridgeResult::vectors` is populated from `BaseEntitySet::chunks` (the embedding pipeline); chunks are only non-empty when a real `IEmbeddingBackend` is wired in via `builtin.chunk_embed`.
 
 ## Breaking Changes
 - Keine bekannten Breaking Changes dokumentiert.

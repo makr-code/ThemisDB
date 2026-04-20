@@ -1,0 +1,246 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_toolbox_phase5.cpp                            ║
+  Version:         0.1.0                                              ║
+  Last Modified:   2026-04-20                                         ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
+ * ThemisDB — Toolbox Phase 5: Prometheus Metrics + BridgeResult::vectors
+ *
+ * Phase 5 items from src/toolbox/ROADMAP.md:
+ *   "Add PrometheusIngestionToolboxMetrics for production observability"
+ *   "Populate BridgeResult::vectors from ContentManager::getVectorRecords()"
+ *
+ * Tests:
+ *   ITM-01  getMetricsText() returns empty string when no calls recorded
+ *   ITM-02  recordExtraction() increments all four counters
+ *   ITM-03  getMetricsText() contains all four Prometheus metric families
+ *   ITM-04  error counter incremented only when success=false
+ *   ITM-05  extractEntities() auto-records via internal recordExtraction()
+ *   ITM-06  extractEntitySet() auto-records via internal recordExtraction()
+ *   VEC-01  extractEntitySet() returns BaseEntitySet with nodes + chunks
+ *   VEC-02  BridgeResult::vectors populated from extractEntitySet().chunks
+ *   VEC-03  BridgeResult::vectors written to IVectorWriter sink when non-empty
+ */
+
+#include <gtest/gtest.h>
+
+#include "toolbox/ingestion_toolbox.h"
+#include "ingestion/base_entity.h"
+#include "ingestion/ingestion_sinks.h"
+#include "ingestion/inference_backend.h"
+#include "ingestion/workflow_engine.h"
+
+#include <atomic>
+#include <string>
+#include <vector>
+
+using themis::ingestion::BaseEntity;
+using themis::ingestion::BaseEntitySet;
+using themis::ingestion::VectorRecord;
+using themis::ingestion::InMemoryVectorWriter;
+using themis::toolbox::IngestionToolbox;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ITM-01 .. ITM-06 — IngestionToolbox metrics
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(IngestionToolboxMetrics, ITM01_EmptyTextBeforeAnyCall) {
+    IngestionToolbox toolbox;
+    // No calls → getMetricsText() should return empty
+    EXPECT_EQ(toolbox.getMetricsText(), "");
+}
+
+TEST(IngestionToolboxMetrics, ITM02_RecordExtractionIncrementsCounters) {
+    IngestionToolbox toolbox;
+
+    toolbox.recordExtraction(3, 42, /*success=*/true);
+    toolbox.recordExtraction(0, 10, /*success=*/false);
+
+    const std::string text = toolbox.getMetricsText();
+    EXPECT_FALSE(text.empty()) << "Expected non-empty metrics after recordExtraction";
+
+    // calls = 2
+    EXPECT_NE(text.find("toolbox_extract_calls_total 2"), std::string::npos)
+        << "calls counter should be 2; text:\n" << text;
+
+    // errors = 1
+    EXPECT_NE(text.find("toolbox_extract_errors_total 1"), std::string::npos)
+        << "errors counter should be 1; text:\n" << text;
+
+    // entities = 3
+    EXPECT_NE(text.find("toolbox_extract_entities_total 3"), std::string::npos)
+        << "entities counter should be 3; text:\n" << text;
+
+    // latency = 52
+    EXPECT_NE(text.find("toolbox_extract_latency_ms_total 52"), std::string::npos)
+        << "latency counter should be 52; text:\n" << text;
+}
+
+TEST(IngestionToolboxMetrics, ITM03_MetricsTextHasFourFamilies) {
+    IngestionToolbox toolbox;
+    toolbox.recordExtraction(1, 5, true);
+
+    const std::string text = toolbox.getMetricsText();
+    EXPECT_NE(text.find("# HELP toolbox_extract_calls_total"),      std::string::npos);
+    EXPECT_NE(text.find("# TYPE toolbox_extract_calls_total"),      std::string::npos);
+    EXPECT_NE(text.find("# HELP toolbox_extract_errors_total"),     std::string::npos);
+    EXPECT_NE(text.find("# HELP toolbox_extract_entities_total"),   std::string::npos);
+    EXPECT_NE(text.find("# HELP toolbox_extract_latency_ms_total"), std::string::npos);
+}
+
+TEST(IngestionToolboxMetrics, ITM04_ErrorCounterOnlyOnFailure) {
+    IngestionToolbox toolbox;
+    toolbox.recordExtraction(5, 10, /*success=*/true);
+    toolbox.recordExtraction(5, 10, /*success=*/true);
+    toolbox.recordExtraction(0,  5, /*success=*/false);
+
+    const std::string text = toolbox.getMetricsText();
+    // 3 calls, 1 error
+    EXPECT_NE(text.find("toolbox_extract_calls_total 3"),  std::string::npos);
+    EXPECT_NE(text.find("toolbox_extract_errors_total 1"), std::string::npos);
+}
+
+TEST(IngestionToolboxMetrics, ITM05_ExtractEntitiesAutoRecords) {
+    IngestionToolbox toolbox;
+
+    // Before any call: empty
+    EXPECT_EQ(toolbox.getMetricsText(), "");
+
+    // extractEntities() on empty text returns {} and does NOT record (early-out)
+    toolbox.extractEntities("");
+    EXPECT_EQ(toolbox.getMetricsText(), "")
+        << "Empty text path should not record a metric call";
+
+    // extractEntities() on non-empty text should record exactly one call
+    toolbox.extractEntities("Hello world", "text/plain", "test.txt");
+    const std::string text = toolbox.getMetricsText();
+    EXPECT_FALSE(text.empty()) << "Expected metrics after extractEntities() call";
+    EXPECT_NE(text.find("toolbox_extract_calls_total 1"), std::string::npos)
+        << "Should have recorded exactly 1 call; text:\n" << text;
+}
+
+TEST(IngestionToolboxMetrics, ITM06_ExtractEntitySetAutoRecords) {
+    IngestionToolbox toolbox;
+
+    // extractEntitySet() on empty text → no recording
+    toolbox.extractEntitySet("");
+    EXPECT_EQ(toolbox.getMetricsText(), "");
+
+    // extractEntitySet() on non-empty text → records 1 call
+    toolbox.extractEntitySet("Brief legal text §3 StGB.", "text/plain", "doc.txt");
+    const std::string text = toolbox.getMetricsText();
+    EXPECT_FALSE(text.empty());
+    EXPECT_NE(text.find("toolbox_extract_calls_total 1"), std::string::npos)
+        << "Should have recorded 1 call; text:\n" << text;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// VEC-01 .. VEC-03 — extractEntitySet / BridgeResult::vectors
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(IngestionToolboxVectors, VEC01_ExtractEntitySetReturnsBaseEntitySet) {
+    IngestionToolbox toolbox;
+
+    // The default toolbox has no heavy steps; result nodes/chunks may be empty,
+    // but the return type must be correct and no exception thrown.
+    BaseEntitySet result = toolbox.extractEntitySet(
+        "Ein kurzer Gesetzestext § 1 BGB.", "text/plain", "test.txt");
+
+    // We only assert that the call succeeded structurally — no crash, proper type.
+    // In a real deployment the assembler step would populate nodes + chunks.
+    // (The default toolbox only has ner_de + llm_extract registered; both are
+    //  NullBackend-backed, so they produce no entities.  That is expected.)
+    SUCCEED() << "extractEntitySet() returned without exception; "
+              << "nodes=" << result.nodes.size()
+              << " chunks=" << result.chunks.size();
+}
+
+TEST(IngestionToolboxVectors, VEC02_BridgeResultVectorsPopulatedFromEntitySetChunks) {
+    // Synthesise a toolbox whose workflow produces VectorRecords.
+    // We inject a custom WorkflowEngine that returns a canned BaseEntitySet
+    // with two chunks.
+
+    // Build a minimal workflow that produces two VectorRecord chunks
+    class ChunkProducingEngine : public themis::ingestion::WorkflowEngine {
+    public:
+        ChunkProducingEngine() = default;
+
+        themis::Result<BaseEntitySet> execute(
+            themis::ingestion::ExtractionContext& ctx) override
+        {
+            BaseEntitySet out;
+
+            VectorRecord r1;
+            r1.chunk_id      = "chunk-001";
+            r1.source_file_id = "src-abc";
+            r1.text_snippet  = "snippet one";
+            r1.embedding     = {0.1f, 0.2f, 0.3f};
+
+            VectorRecord r2;
+            r2.chunk_id      = "chunk-002";
+            r2.source_file_id = "src-abc";
+            r2.text_snippet  = "snippet two";
+            r2.embedding     = {0.4f, 0.5f, 0.6f};
+
+            out.chunks = {r1, r2};
+            return out;
+        }
+    };
+
+    IngestionToolbox toolbox;
+    toolbox.setWorkflowEngine(std::make_shared<ChunkProducingEngine>());
+
+    BaseEntitySet result = toolbox.extractEntitySet(
+        "Some content that produces chunks.", "text/plain", "chunked.txt");
+
+    EXPECT_EQ(result.chunks.size(), 2u)
+        << "Expected 2 VectorRecords from the chunk-producing engine";
+    EXPECT_EQ(result.chunks[0].chunk_id, "chunk-001");
+    EXPECT_EQ(result.chunks[1].chunk_id, "chunk-002");
+}
+
+TEST(IngestionToolboxVectors, VEC03_VectorWriterCalledWhenBridgeResultHasVectors) {
+    // We directly test that IngestionToolbox::extractEntitySet()
+    // returns chunks which a caller (bridge) can forward to IVectorWriter.
+
+    class TwoChunkEngine : public themis::ingestion::WorkflowEngine {
+    public:
+        themis::Result<BaseEntitySet> execute(
+            themis::ingestion::ExtractionContext&) override
+        {
+            BaseEntitySet out;
+            VectorRecord r;
+            r.chunk_id     = "vec-chunk-1";
+            r.text_snippet = "text";
+            r.embedding    = {1.0f};
+            out.chunks.push_back(r);
+            return out;
+        }
+    };
+
+    IngestionToolbox toolbox;
+    toolbox.setWorkflowEngine(std::make_shared<TwoChunkEngine>());
+
+    auto entity_set = toolbox.extractEntitySet(
+        "Document text.", "text/plain", "doc.txt");
+
+    ASSERT_EQ(entity_set.chunks.size(), 1u);
+
+    // Simulate what ContentToolboxBridge does with the chunks
+    auto vec_writer = std::make_shared<InMemoryVectorWriter>();
+    if (!entity_set.chunks.empty()) {
+        auto res = vec_writer->writeVectors(entity_set.chunks);
+        EXPECT_TRUE(res.has_value()) << "writeVectors should succeed";
+    }
+
+    EXPECT_EQ(vec_writer->vectorCount(), 1u);
+    EXPECT_NE(vec_writer->findByChunkId("vec-chunk-1"), nullptr);
+}

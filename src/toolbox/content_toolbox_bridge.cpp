@@ -122,18 +122,19 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::ingest(
     }
 
     // ── Step 3: Toolbox enrichment (NER, deontic, entity assembly)
-    std::vector<ingestion::BaseEntity> entities;
+    ingestion::BaseEntitySet entity_set;
     {
         std::lock_guard<std::mutex> lk(impl_->mutex_);
-        entities = impl_->toolbox_->extractEntities(
+        entity_set = impl_->toolbox_->extractEntitySet(
             extracted_text, mime_type, filename);
     }
-    out.entities = entities;
+    out.entities = entity_set.nodes;
+    out.vectors  = entity_set.chunks;
 
     // ── Step 4: Write entities to graph store sink
     bool sinks_written = false;
-    if (impl_->graph_writer_ && !entities.empty()) {
-        auto res = impl_->graph_writer_->writeEntities(entities);
+    if (impl_->graph_writer_ && !entity_set.nodes.empty()) {
+        auto res = impl_->graph_writer_->writeEntities(entity_set.nodes);
         if (!res) {
             THEMIS_WARN("ContentToolboxBridge: graph_writer failed for '{}': {}",
                         out.content_id, res.error().message());
@@ -198,15 +199,18 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::enrichExisting(
     }
 
     // Toolbox enrichment
+    ingestion::BaseEntitySet entity_set;
     {
         std::lock_guard<std::mutex> lk(impl_->mutex_);
-        out.entities = impl_->toolbox_->extractEntities(
+        entity_set = impl_->toolbox_->extractEntitySet(
             extracted_text, mime_type, filename_hint);
     }
+    out.entities = entity_set.nodes;
+    out.vectors  = entity_set.chunks;
 
     bool sinks_written = false;
-    if (impl_->graph_writer_ && !out.entities.empty()) {
-        auto res = impl_->graph_writer_->writeEntities(out.entities);
+    if (impl_->graph_writer_ && !entity_set.nodes.empty()) {
+        auto res = impl_->graph_writer_->writeEntities(entity_set.nodes);
         if (!res) {
             THEMIS_WARN("ContentToolboxBridge::enrichExisting: graph_writer failed: {}",
                         res.error().message());

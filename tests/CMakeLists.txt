@@ -23632,6 +23632,47 @@ else()
 endif()
 
 # ============================================================================
+# Toolbox Phase 5: Prometheus metrics + BridgeResult::vectors — focused target
+# Covers: ITM-01..ITM-06 (metrics counters + Prometheus text), VEC-01..VEC-03
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_toolbox_phase5.cpp")
+    message(STATUS "Adding Toolbox Phase 5 tests (ITM-01..06, VEC-01..03)")
+
+    add_executable(test_toolbox_phase5_focused
+        test_toolbox_phase5.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/ingestion_toolbox.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/content_toolbox_bridge.cpp
+        ${THEMIS_ROOT_DIR}/src/ingestion/ingestion_sinks.cpp
+    )
+
+    target_include_directories(test_toolbox_phase5_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_toolbox_phase5_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_toolbox_phase5_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ToolboxPhase5Tests COMMAND test_toolbox_phase5_focused)
+
+    set_tests_properties(ToolboxPhase5Tests PROPERTIES
+        LABELS "toolbox;metrics;prometheus;vectors;phase5;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Toolbox Phase 5: ITM-01..06 (metrics), VEC-01..03 (BridgeResult::vectors)")
+else()
+    message(STATUS "Toolbox Phase 5 tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_toolbox_phase5.cpp")
+endif()
+
+# ============================================================================
 # IMPL-A1: DatabaseDomainAutoLabeler — focused test target
 # Covers: DBO-01..DBO-08 (labeling, confidence, JSONL export, dedup, golden dataset)
 # ============================================================================
