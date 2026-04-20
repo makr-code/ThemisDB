@@ -61,7 +61,7 @@ Key additions since v1.15.0:
 - [ ] Real draft-model logits for speculative decoding (Target: v1.18.0)
 - [ ] Persistent disk-backed KV-cache (Target: v1.18.0)
 - [ ] Hard cancellation for in-flight requests (Target: v1.18.0)
-- [ ] `DecisionRecordYamlProcessor` integration: `LoraRouter`, `AdapterLoadBalancer`, `LoraOrchestrator` (Target: v1.9.0)
+- [x] `DecisionRecordYamlProcessor` integration: `LoraRouter`, `AdapterLoadBalancer`, `LoraOrchestrator` (Target: v1.9.0) — `setDecisionRecordProcessor()` on all three; focused tests `DecisionRecordIntegrationFocusedTests` (DRI-01..11), `DecisionRecordYamlProcessorFocusedTests`, `DecisionRecordE2EFocusedTests` registered in tests/CMakeLists.txt
 
 ### Completed (formerly planned)
 - [x] Function / tool calling support (JSON schema binding) (Issue: #1922)
@@ -114,6 +114,7 @@ Key additions since v1.15.0:
 - [x] ActiveVRAMAllocator implemented (LLM-MISSING-001): real GPU allocation, OOM recovery (eviction/defrag/spill), 36 tests, benchmark (2026-03-11)
 - [x] KV-cache prewarming with embedding-based lookup (LLM-MISSING-002): `prewarmCache()` stores real embeddings via `ILLMPlugin::embed()`, `checkCache()` / `updateCache()` use prompt-keyed HNSW similarity search, `PrefixCacheEntry::generated_text` returns actual cached response (2026-03-11)
 - [x] InlineTrainingEngine implemented (`src/llm/inline_training_engine.cpp`): on-the-fly LoRA fine-tuning from RocksDB data, AdamW/Adam/SGD/Adagrad/RMSProp optimizers, Cosine/Linear/Polynomial LR schedulers, gradient accumulation, gradient clipping, JSON checkpointing with pruning, progress/checkpoint callbacks (2026-04-13)
+- [x] `DecisionRecordYamlProcessor` wired to `LoRARouter`, `AdapterLoadBalancer`, `LoRAOrchestrator` via `setDecisionRecordProcessor()`; `DecisionRecordIntegrationFocusedTests` (DRI-01..11), `DecisionRecordYamlProcessorFocusedTests`, `DecisionRecordE2EFocusedTests` registered (2026-04-20)
 
 ## Known Issues & Limitations
 - Cancellation is best-effort only; in-flight inference cannot be interrupted at llama.cpp level.

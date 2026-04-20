@@ -14539,6 +14539,37 @@ if(THEMIS_ENABLE_LLM)
         message(STATUS "LookupDecoder focused tests: n-gram index, draft proposal, dynamic update, eviction, thread safety")
     endif()
 
+    # DecisionRecordYamlProcessor integration tests
+    # DRI-01..11: LoRARouter/AdapterLoadBalancer/LoRAOrchestrator record schema + processor wiring
+    add_llm_focused_test(
+        test_decision_record_integration
+        test_decision_record_integration.cpp
+        DecisionRecordIntegrationFocusedTests
+        "llm;decision-record;integration;lora;unit"
+        "Decision record integration: LoRARouter/AdapterLoadBalancer/LoRAOrchestrator schema + processor wiring (DRI-01..11)"
+    )
+
+    # DecisionRecordYamlProcessor unit tests (requires yaml-cpp)
+    add_llm_focused_test(
+        test_decision_record_yaml_processor
+        test_decision_record_yaml_processor.cpp
+        DecisionRecordYamlProcessorFocusedTests
+        "llm;decision-record;yaml;unit"
+        "DecisionRecordYamlProcessor: lifecycle, submit, YAML file writing, mandatory fields"
+    )
+    if(TARGET test_decision_record_yaml_processor AND TARGET yaml-cpp::yaml-cpp)
+        target_link_libraries(test_decision_record_yaml_processor PRIVATE yaml-cpp::yaml-cpp)
+    endif()
+
+    # Decision record end-to-end tests (federation round → YAML on disk)
+    add_llm_focused_test(
+        test_decision_record_e2e
+        test_decision_record_e2e.cpp
+        DecisionRecordE2EFocusedTests
+        "llm;decision-record;e2e;federation;unit"
+        "Decision record E2E: federation round YAML on disk, required fields, multiple rounds"
+    )
+
     # NOTE: tests/llm/bench_model_loading_from_themisdb.cpp uses Google Benchmark
     # (benchmark::benchmark_main / BENCHMARK() macro), NOT GTest.
     # It is registered as a proper benchmark target in benchmarks/CMakeLists.txt.
