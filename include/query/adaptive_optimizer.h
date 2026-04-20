@@ -121,7 +121,10 @@ public:
             MERGE_JOIN,
             NESTED_LOOP_JOIN,
             INDEX_INTERSECTION,
-            PARALLEL_SCAN
+            PARALLEL_SCAN,
+            BINARY_BATCH_CPU,   ///< MessagePack/custom-binary + CPU thread pool
+            ARROW_GPU_VRAM,     ///< Apache Arrow IPC + GPU/VRAM parallel execution
+            ARROW_CPU_PARALLEL, ///< Apache Arrow IPC + CPU thread pool
         };
         
         Strategy strategy;
