@@ -162,4 +162,43 @@ std::vector<LabeledDbSample> DatabaseDomainAutoLabeler::labelFromLogFile(
     return result;
 }
 
+// ── exportToJsonl ─────────────────────────────────────────────────────────
+
+/*static*/
+std::string DatabaseDomainAutoLabeler::exportToJsonl(
+    const std::vector<LabeledDbSample>& samples)
+{
+    if (samples.empty()) return {};
+
+    std::ostringstream oss;
+
+    auto escape = [](const std::string& s) -> std::string {
+        std::string out;
+        out.reserve(s.size() + 4);
+        for (char c : s) {
+            switch (c) {
+                case '"':  out += "\\\""; break;
+                case '\\': out += "\\\\"; break;
+                case '\n': out += "\\n";  break;
+                case '\r': out += "\\r";  break;
+                case '\t': out += "\\t";  break;
+                default:   out += c;      break;
+            }
+        }
+        return out;
+    };
+
+    for (const auto& s : samples) {
+        oss << '{'
+            << "\"query\":\"" << escape(s.query_text) << "\","
+            << "\"explain_plan\":\"" << escape(s.plan_json) << "\","
+            << "\"latency_delta_ms\":" << s.delta_p99_ms << ","
+            << "\"confidence\":" << s.confidence << ","
+            << "\"source\":\"" << escape(s.source) << "\""
+            << "}\n";
+    }
+
+    return oss.str();
+}
+
 } // namespace themis::training

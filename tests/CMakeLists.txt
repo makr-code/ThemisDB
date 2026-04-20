@@ -23586,6 +23586,50 @@ else()
 endif()
 
 # ============================================================================
+# IMPL-A1: DatabaseDomainAutoLabeler — focused test target
+# Covers: DBO-01..DBO-08 (labeling, confidence, JSONL export, dedup, golden dataset)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_training_database_optimizer.cpp")
+    message(STATUS "Adding DatabaseDomainAutoLabeler tests (IMPL-A1)")
+
+    add_executable(test_training_database_optimizer_focused
+        test_training_database_optimizer.cpp
+        ${THEMIS_ROOT_DIR}/src/training/database_domain_auto_labeler.cpp
+        ${THEMIS_ROOT_DIR}/src/training/lora_data_selection.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+
+    target_include_directories(test_training_database_optimizer_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_training_database_optimizer_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_training_database_optimizer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME DatabaseOptimizerLabelerTests
+        COMMAND test_training_database_optimizer_focused)
+
+    set_tests_properties(DatabaseOptimizerLabelerTests PROPERTIES
+        LABELS "training;database_optimizer;IMPL-A1;DBO;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  DatabaseOptimizer IMPL-A1: DBO-01..DBO-08 (label, confidence, JSONL export, dedup, golden dataset)")
+else()
+    message(STATUS "DatabaseDomainAutoLabeler tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_training_database_optimizer.cpp")
+endif()
+
+# ============================================================================
 # IMPL-A3: IncrementalLoRATrainer Federation Bridges — focused test target
 # Covers: exportGradient (ILT-EG-01..03), applyGlobalDelta (ILT-AG-01..02)
 # ============================================================================
