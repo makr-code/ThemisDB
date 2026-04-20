@@ -221,7 +221,7 @@ http::response<http::string_body> GrpcWebProxyHandler::handleStatus(
 
 http::response<http::string_body> GrpcWebProxyHandler::handlePost(
     const http::request<http::string_body>& req,
-    const std::string& /*method*/)
+    [[maybe_unused]] const std::string& method)
 {
     // Validate Content-Type
     const std::string content_type{req[http::field::content_type]};
@@ -257,14 +257,14 @@ http::response<http::string_body> GrpcWebProxyHandler::handlePost(
             const char unit = timeout_hdr.back();
             const int64_t value = std::stoll(timeout_hdr.substr(0, timeout_hdr.size() - 1));
             using namespace std::chrono;
-            system_clock::time_point deadline;
+            system_clock::time_point deadline = system_clock::now();
             switch (unit) {
-                case 'H': deadline = system_clock::now() + hours(value);        break;
-                case 'M': deadline = system_clock::now() + minutes(value);      break;
-                case 'S': deadline = system_clock::now() + seconds(value);      break;
-                case 'm': deadline = system_clock::now() + milliseconds(value); break;
-                case 'u': deadline = system_clock::now() + microseconds(value); break;
-                case 'n': deadline = system_clock::now() + nanoseconds(value);  break;
+                case 'H': deadline = system_clock::now() + std::chrono::duration_cast<system_clock::duration>(hours(value));        break;
+                case 'M': deadline = system_clock::now() + std::chrono::duration_cast<system_clock::duration>(minutes(value));      break;
+                case 'S': deadline = system_clock::now() + std::chrono::duration_cast<system_clock::duration>(seconds(value));      break;
+                case 'm': deadline = system_clock::now() + std::chrono::duration_cast<system_clock::duration>(milliseconds(value)); break;
+                case 'u': deadline = system_clock::now() + std::chrono::duration_cast<system_clock::duration>(microseconds(value)); break;
+                case 'n': deadline = system_clock::now() + std::chrono::duration_cast<system_clock::duration>(nanoseconds(value));  break;
                 default:  break;
             }
             if (unit == 'H' || unit == 'M' || unit == 'S' ||

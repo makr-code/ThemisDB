@@ -1,7 +1,7 @@
 # ThemisDB Configuration Structure Guide
 
-**Version:** 1.0  
-**Last Updated:** April 7, 2026  
+**Version:** 1.1  
+**Last Updated:** April 20, 2026  
 
 ---
 
@@ -16,15 +16,15 @@ ThemisDB uses a hierarchical configuration structure to improve organization and
 ```
 config/
 │
-├── config.yaml                 # MAIN: Core server configuration (REQUIRED)
+├── config.yaml                 # Legacy compatibility entry (maps to core/config.yaml)
 ├── MIGRATION_GUIDE.md          # Path migration documentation
 ├── CONFIG_STRUCTURE_GUIDE.md   # This file
 ├── migrate.ps1                 # Config reorganization helper (Windows)
 │
 ├── security/                   # 🔐 Security & Access Control
 │   ├── pii_patterns.yaml       # PII detection engines & patterns
-│   ├── security.yaml           # HSM, encryption, key management
-│   ├── rbac_roles.yaml         # Role-Based Access Control definitions
+│   ├── rbac_roles.yaml         # Canonical role-based access control definitions
+│   ├── rbac_roles.json         # Legacy-compatible RBAC format
 │   ├── user_roles.json         # User-to-role mapping
 │   └── graph_protection.yaml   # Graph-specific access policies
 │
@@ -83,10 +83,11 @@ config/
 │   └── sharding/               # Sharding Configuration
 │       └── with-metrics.yaml   # Sharding with metrics
 │
-├── core/                       # ⚠️ DEPRECATED - Legacy Location
-│   ├── config.yaml             # → Use: ../config.yaml
-│   ├── security.yaml           # → Use: ../security/security.yaml
-│   └── updates.yaml            # → Use: ../security/updates.yaml
+├── core/                       # ✅ Canonical core runtime configuration
+│   ├── config.yaml             # Main server configuration
+│   ├── config-minimal.yaml     # Minimal baseline configuration
+│   ├── security.yaml           # Core security/HSM settings
+│   └── updates.yaml            # Update channel configuration
 │
 └── deprecated/                 # 🗂️ Archived Configurations
     └── phase*.json             # Old phase optimization configs
@@ -99,21 +100,21 @@ config/
 The `ConfigPathResolver` searches for configuration files in this priority order:
 
 ### For Main Configuration
-1. `./config.yaml` ← **Primary** (Recommended)
-2. `./config/config.yaml`
-3. `/etc/themisdb/config.yaml`
-4. `/etc/vccdb/config.yaml`
+1. `./config/core/config.yaml` ← **Primary** (Recommended)
+2. `./config/config.yaml` ⚠️ (Legacy fallback)
+3. `./config.yaml` ⚠️ (Compatibility shim)
+4. `/etc/themisdb/config.yaml`
+5. `/etc/vccdb/config.yaml`
 
 ### For Security Configuration
-1. `./config/security/security.yaml` ← **Primary** (Recommended)
-2. `./config/core/security.yaml` ⚠️ (Deprecated)
-3. `./config/security.yaml` ⚠️ (Deprecated)
-4. `/etc/themisdb/security.yaml` ⚠️ (Deprecated)
+1. `./config/core/security.yaml` ← **Primary** (Recommended)
+2. `./config/security.yaml` ⚠️ (Legacy fallback)
+3. `/etc/themisdb/security.yaml` ⚠️ (Legacy fallback)
 
 ### For PII Patterns
 1. `./config/security/pii_patterns.yaml` ← **Primary** (Recommended)
-2. `./config/pii_patterns.yaml` ⚠️ (DEPRECATED - 83 days until removal)
-3. `/etc/themisdb/pii_patterns.yaml` ⚠️ (Deprecated)
+2. `./config/pii_patterns.yaml` ⚠️ (Legacy fallback; migration deadline per resolver metadata)
+3. `/etc/themisdb/pii_patterns.yaml` ⚠️ (Legacy fallback)
 
 ---
 
@@ -123,10 +124,10 @@ The `ConfigPathResolver` searches for configuration files in this priority order
 
 ```bash
 # Windows PowerShell
-Test-Path "config\config.yaml"
+Test-Path "config\core\config.yaml"
 
 # Linux/macOS
-test -f config/config.yaml && echo "Found" || echo "Not found"
+test -f config/core/config.yaml && echo "Found" || echo "Not found"
 ```
 
 ### 2. Check for Deprecation Warnings
@@ -160,7 +161,7 @@ Update your code to use new paths:
 
 # After
 + path: config/security/pii_patterns.yaml
-+ path: config/security/security.yaml
++ path: config/core/security.yaml
 ```
 
 ---
@@ -183,11 +184,13 @@ Sensitive authentication, encryption, and access control settings.
 
 **Files:**
 - `pii_patterns.yaml` - PII detection rules
-- `security.yaml` - HSM & encryption config
-- `rbac_roles.yaml` - Role definitions
+- `rbac_roles.yaml` - Canonical role definitions
+- `rbac_roles.json` - Legacy-compatible RBAC format
 - `user_roles.json` - User assignments
 
-**Loading:** `PIIDetector`, `HsmProvider`, `AuthManager`
+**Loading:** `PIIDetector`, `AuthManager`
+
+**Related core security file:** `config/core/security.yaml` (loaded by `HsmProvider` and security bootstrap)
 
 ---
 
@@ -358,4 +361,8 @@ export THEMIS_DB_PATH=/custom/path
 - **Documentation:** config/MIGRATION_GUIDE.md
 - **Issues:** GitHub #config-refactor
 - **Community:** Discord #configuration
+
+---
+
+**Update note (2026-04-20):** This guide was aligned with the active `ConfigPathResolver` mapping and current canonical `core/` paths.
 

@@ -53,8 +53,8 @@ struct ApiHttpResponse {
 };
 
 // libcurl write callback – appends received data to a std::string.
-static size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb,
-                                void* userdata) {
+static size_t apiCurlWriteCallback(char* ptr, size_t size, size_t nmemb,
+                                   void* userdata) {
     const auto total = size * nmemb;
     static_cast<std::string*>(userdata)->append(ptr, total);
     return total;
@@ -82,7 +82,7 @@ static ApiHttpResponse apiHttpGet(const std::string& url,
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, static_cast<long>(timeout_ms));
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, apiCurlWriteCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &r.body);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
@@ -133,7 +133,7 @@ static ApiHttpResponse apiHttpPost(const std::string& url,
     curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, static_cast<long>(body.size()));
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, static_cast<long>(timeout_ms));
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, apiCurlWriteCallback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &r.body);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);

@@ -300,7 +300,7 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
     return result;
 }
 
-bool HSMProvider::generateKeyPair(const std::string& label, [[maybe_unused]] uint32_t key_size, bool extractable) {
+bool HSMProvider::generateKeyPair(const std::string& label, [[maybe_unused]] uint32_t key_size, [[maybe_unused]] bool extractable) {
     // Stub: unused
     THEMIS_WARN("HSMProvider stub generateKeyPair ignored (label='{}')", label);
     return false;

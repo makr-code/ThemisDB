@@ -400,9 +400,9 @@ public:
      * @return Caption result with text
      */
     virtual CaptionResult generateCaption(
-        const std::vector<uint8_t>& image_data,
-        const ImageMetadata* metadata = nullptr,
-        int max_length = 50
+        [[maybe_unused]] const std::vector<uint8_t>& image_data,
+        [[maybe_unused]] const ImageMetadata* metadata = nullptr,
+        [[maybe_unused]] int max_length = 50
     ) {
         // Default: not supported
         CaptionResult result;
@@ -423,9 +423,9 @@ public:
      * @return Detection result with bounding boxes
      */
     virtual DetectionResult detectObjects(
-        const std::vector<uint8_t>& image_data,
-        const ImageMetadata* metadata = nullptr,
-        float confidence_threshold = 0.5f
+        [[maybe_unused]] const std::vector<uint8_t>& image_data,
+        [[maybe_unused]] const ImageMetadata* metadata = nullptr,
+        [[maybe_unused]] float confidence_threshold = 0.5f
     ) {
         // Default: not supported
         DetectionResult result;
@@ -444,8 +444,8 @@ public:
      * @return Segmentation result with mask
      */
     virtual SegmentationResult segmentImage(
-        const std::vector<uint8_t>& image_data,
-        const ImageMetadata* metadata = nullptr
+        [[maybe_unused]] const std::vector<uint8_t>& image_data,
+        [[maybe_unused]] const ImageMetadata* metadata = nullptr
     ) {
         // Default: not supported
         SegmentationResult result;
@@ -462,7 +462,7 @@ public:
      * @param params Generation parameters
      * @return Generation result with image data
      */
-    virtual GenerationResult generateImage(const GenerationParams& params) {
+    virtual GenerationResult generateImage([[maybe_unused]] const GenerationParams& params) {
         // Default: not supported
         GenerationResult result;
         result.success = false;
@@ -481,9 +481,9 @@ public:
      * @return Answer as text
      */
     virtual std::string answerVisualQuestion(
-        const std::vector<uint8_t>& image_data,
-        const std::string& question,
-        const ImageMetadata* metadata = nullptr
+        [[maybe_unused]] const std::vector<uint8_t>& image_data,
+        [[maybe_unused]] const std::string& question,
+        [[maybe_unused]] const ImageMetadata* metadata = nullptr
     ) {
         // Default: not supported
         return "Visual question answering not supported by this plugin";
@@ -522,7 +522,7 @@ public:
      * @param text Natural language query string (max 77 tokens for CLIP)
      * @return Embedding result with float vector in the same space as image embeddings
      */
-    virtual EmbeddingResult generateTextEmbedding(const std::string& text) {
+    virtual EmbeddingResult generateTextEmbedding([[maybe_unused]] const std::string& text) {
         // Default: not supported
         EmbeddingResult result;
         result.success = false;

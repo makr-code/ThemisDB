@@ -22,6 +22,10 @@
 
 #pragma once
 
+#ifdef DELETE
+#undef DELETE
+#endif
+
 #include "ingestion_manager.h"
 #include <string>
 #include <functional>

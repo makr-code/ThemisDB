@@ -776,8 +776,6 @@ void PromptVersionControl::loadFromDB() {
     if (!db_) return;
     
     size_t loaded_versions = 0;
-    size_t loaded_branches = 0;
-    
     // Load versions
     db_->scanPrefix(KEY_PREFIX_VERSION, [this, &loaded_versions](std::string_view /*key*/, std::string_view value) -> bool {
         try {

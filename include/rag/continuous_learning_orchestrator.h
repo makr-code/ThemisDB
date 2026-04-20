@@ -416,6 +416,11 @@ class ContinuousLearningOrchestrator {
      */
     void setTrainerForFederation(themis::training::IncrementalLoRATrainer* trainer);
 
+    // Persistence
+    void saveMetrics();
+    void loadMetrics();
+    void saveModelCheckpoint(const std::string &model_id);
+
   private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
@@ -428,11 +433,6 @@ class ContinuousLearningOrchestrator {
     // A/B Testing
     void deployABTest(const std::string &model_id);
     void promoteOrRollback(const ABTestResult &result);
-
-    // Persistence
-    void saveMetrics();
-    void loadMetrics();
-    void saveModelCheckpoint(const std::string &model_id);
 
     // Background thread
     void learningLoopThread();

@@ -428,7 +428,7 @@ TEST(ToolboxStreamingTest, TCS02_CallbackCalledPerEntity) {
     themis::toolbox::extractEntitiesStream(
         *toolbox, "Hello world. Test sentence.", "text/plain", "doc.txt",
         [&](const themis::ingestion::BaseEntity& e) {
-            labels.push_back(e.label);
+            labels.push_back(e.text);
         });
     // With NullBackend, no entities are produced — verify no crash.
     SUCCEED();

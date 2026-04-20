@@ -140,7 +140,7 @@ private:
     /**
      * @brief Format error message for user consumption (masks internal details)
      */
-    static std::string formatErrorMessage(LLMErrorCode code, const std::string& internal_msg) {
+    static std::string formatErrorMessage(LLMErrorCode code, [[maybe_unused]] const std::string& internal_msg) {
         // For user-facing errors, provide generic safe messages
         switch (code) {
             case LLMErrorCode::INVALID_PROMPT:

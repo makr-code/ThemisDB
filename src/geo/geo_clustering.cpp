@@ -156,7 +156,7 @@ static LonLat extractLonLat(const GeometryInfo& g) noexcept {
 GeoClusterResult dbscanCluster(
     const std::vector<GeometryInfo>& points,
     const DbscanConfig& config,
-    const GpuClusteringConfig& gpu_cfg)
+    [[maybe_unused]] const GpuClusteringConfig& gpu_cfg)
 {
     const std::size_t n = points.size();
     GeoClusterResult result;
@@ -290,7 +290,7 @@ GeoClusterResult dbscanCluster(
 GeoClusterResult kmeansCluster(
     const std::vector<GeometryInfo>& points,
     const KMeansConfig& config,
-    const GpuClusteringConfig& gpu_cfg)
+    [[maybe_unused]] const GpuClusteringConfig& gpu_cfg)
 {
     const std::size_t n = points.size();
     GeoClusterResult result;

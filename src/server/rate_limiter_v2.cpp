@@ -289,10 +289,10 @@ bool TokenBucketRateLimiter::redisConnect() {
 #endif
 }
 
-int TokenBucketRateLimiter::redisEvalBucket(Priority prio,
-                                             size_t capacity,
-                                             size_t refill_rate,
-                                             size_t consume_count) {
+int TokenBucketRateLimiter::redisEvalBucket([[maybe_unused]] Priority prio,
+                                             [[maybe_unused]] size_t capacity,
+                                             [[maybe_unused]] size_t refill_rate,
+                                             [[maybe_unused]] size_t consume_count) {
 #ifdef THEMIS_ENABLE_REDIS
     std::string key = redisKey(config_.bucket_id, prio);
 
@@ -320,10 +320,10 @@ int TokenBucketRateLimiter::redisEvalBucket(Priority prio,
 #endif
 }
 
-int TokenBucketRateLimiter::redisExecEvalsha(const std::string& key,
-                                              size_t capacity,
-                                              size_t refill_rate,
-                                              size_t consume_count) {
+int TokenBucketRateLimiter::redisExecEvalsha([[maybe_unused]] const std::string& key,
+                                              [[maybe_unused]] size_t capacity,
+                                              [[maybe_unused]] size_t refill_rate,
+                                              [[maybe_unused]] size_t consume_count) {
 #ifdef THEMIS_ENABLE_REDIS
     // Caller must hold redis_mutex_ and have a valid redis_ctx_ with script loaded.
     auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(

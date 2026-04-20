@@ -204,21 +204,23 @@ bool FlatFileImporter::validateSource(const std::string& source_path,
         }
 #ifdef ARROW_ENABLED
         // Open with Arrow Parquet reader to validate the full file footer.
-        std::shared_ptr<arrow::io::ReadableFile> infile;
-        auto open_status = arrow::io::ReadableFile::Open(source_path, &infile);
-        if (!open_status.ok()) {
+        auto open_result = arrow::io::ReadableFile::Open(source_path);
+        if (!open_result.ok()) {
             errors.push_back("Cannot open Parquet file via Arrow: " +
-                             open_status.ToString());
+                             open_result.status().ToString());
             return false;
         }
-        std::unique_ptr<parquet::arrow::FileReader> reader;
-        auto reader_status = parquet::arrow::OpenFile(
-            infile, arrow::default_memory_pool(), &reader);
-        if (!reader_status.ok()) {
+        std::shared_ptr<arrow::io::ReadableFile> infile = open_result.ValueOrDie();
+
+        auto reader_result = parquet::arrow::OpenFile(
+            infile, arrow::default_memory_pool());
+        if (!reader_result.ok()) {
             errors.push_back("Invalid Parquet file (Arrow): " +
-                             reader_status.ToString());
+                             reader_result.status().ToString());
             return false;
         }
+        std::unique_ptr<parquet::arrow::FileReader> reader =
+            std::move(reader_result).ValueOrDie();
         std::shared_ptr<arrow::Schema> schema;
         auto schema_status = reader->GetSchema(&schema);
         if (!schema_status.ok() || !schema) {
@@ -507,14 +509,17 @@ json FlatFileImporter::getSourceSchema(const std::string& source_path) {
         }
     } else if (fmt == FlatFileFormat::PARQUET) {
 #ifdef ARROW_ENABLED
-        std::shared_ptr<arrow::io::ReadableFile> infile;
-        if (!arrow::io::ReadableFile::Open(source_path, &infile).ok())
+        auto open_result = arrow::io::ReadableFile::Open(source_path);
+        if (!open_result.ok())
             return result;
+        std::shared_ptr<arrow::io::ReadableFile> infile = open_result.ValueOrDie();
 
-        std::unique_ptr<parquet::arrow::FileReader> reader;
-        if (!parquet::arrow::OpenFile(
-                infile, arrow::default_memory_pool(), &reader).ok())
+        auto reader_result = parquet::arrow::OpenFile(
+            infile, arrow::default_memory_pool());
+        if (!reader_result.ok())
             return result;
+        std::unique_ptr<parquet::arrow::FileReader> reader =
+            std::move(reader_result).ValueOrDie();
 
         std::shared_ptr<arrow::Schema> schema;
         if (!reader->GetSchema(&schema).ok() || !schema) return result;
@@ -1115,25 +1120,26 @@ bool FlatFileImporter::importParquetFile(const std::string& path,
     }
 
     // ---- Open file ----
-    std::shared_ptr<arrow::io::ReadableFile> infile;
-    auto open_status = arrow::io::ReadableFile::Open(path, &infile);
-    if (!open_status.ok()) {
+    auto open_result = arrow::io::ReadableFile::Open(path);
+    if (!open_result.ok()) {
         addError(stats, ImportErrorCode::FILE_OPEN_FAILED,
                  ImportErrorSeverity::CRITICAL,
-                 "Cannot open Parquet file: " + open_status.ToString());
+                 "Cannot open Parquet file: " + open_result.status().ToString());
         return false;
     }
+    std::shared_ptr<arrow::io::ReadableFile> infile = open_result.ValueOrDie();
 
     // ---- Open Parquet reader ----
-    std::unique_ptr<parquet::arrow::FileReader> reader;
-    auto reader_status = parquet::arrow::OpenFile(
-        infile, arrow::default_memory_pool(), &reader);
-    if (!reader_status.ok()) {
+    auto reader_result = parquet::arrow::OpenFile(
+        infile, arrow::default_memory_pool());
+    if (!reader_result.ok()) {
         addError(stats, ImportErrorCode::FILE_READ_FAILED,
                  ImportErrorSeverity::CRITICAL,
-                 "Failed to open Parquet reader: " + reader_status.ToString());
+                 "Failed to open Parquet reader: " + reader_result.status().ToString());
         return false;
     }
+    std::unique_ptr<parquet::arrow::FileReader> reader =
+        std::move(reader_result).ValueOrDie();
 
     // ---- Read full table ----
     std::shared_ptr<arrow::Table> arrow_table;

@@ -121,7 +121,7 @@ namespace {
 /// Extract the value of the `Retry-After` response header from a raw
 /// header block captured by headerCaptureCb().  Returns an empty string
 /// when the header is absent.
-static std::string extractRetryAfterHeader(const std::string& raw_headers) {
+[[maybe_unused]] static std::string extractRetryAfterHeader(const std::string& raw_headers) {
     // Walk line by line (headers end with \r\n or \n).
     std::istringstream stream(raw_headers);
     std::string line;
@@ -225,9 +225,9 @@ std::string HuggingFaceHubClient::resolveToken() const {
 // ── HTTP helpers (libcurl path) ──────────────────────────────────────────────
 
 std::pair<int, std::string> HuggingFaceHubClient::httpPost(
-    const std::string& url,
-    const std::string& json_body,
-    const std::string& bearer_token) const
+    [[maybe_unused]] const std::string& url,
+    [[maybe_unused]] const std::string& json_body,
+    [[maybe_unused]] const std::string& bearer_token) const
 {
 #ifndef CURL_ENABLED
     return {0, "CURL_ENABLED is not defined; Hub upload requires libcurl"};
@@ -264,12 +264,12 @@ std::pair<int, std::string> HuggingFaceHubClient::httpPost(
 }
 
 int HuggingFaceHubClient::httpPutBytes(
-    const std::string& url,
-    const char* data,
-    std::size_t size,
-    const std::string& bearer_token,
-    std::function<void(double)> progress_cb,
-    std::string* retry_after_out) const
+    [[maybe_unused]] const std::string& url,
+    [[maybe_unused]] const char* data,
+    [[maybe_unused]] std::size_t size,
+    [[maybe_unused]] const std::string& bearer_token,
+    [[maybe_unused]] std::function<void(double)> progress_cb,
+    [[maybe_unused]] std::string* retry_after_out) const
 {
 #ifndef CURL_ENABLED
     return 0;
@@ -324,11 +324,11 @@ int HuggingFaceHubClient::httpPutBytes(
 }
 
 int HuggingFaceHubClient::httpPutFile(
-    const std::string& url,
-    const std::string& file_path,
-    const std::string& bearer_token,
-    std::function<void(double)> progress_cb,
-    std::string* retry_after_out) const
+    [[maybe_unused]] const std::string& url,
+    [[maybe_unused]] const std::string& file_path,
+    [[maybe_unused]] const std::string& bearer_token,
+    [[maybe_unused]] std::function<void(double)> progress_cb,
+    [[maybe_unused]] std::string* retry_after_out) const
 {
 #ifndef CURL_ENABLED
     return 0;

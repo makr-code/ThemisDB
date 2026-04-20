@@ -48,7 +48,7 @@ Die Capability-Auto-Generierung ist jetzt als **native C++-Komponente im `themis
 
 ## Konfiguration (YAML)
 
-### Datei: `config/capability_auto_generation.yaml`
+### Datei: `config/features/capability_auto_generation.yaml`
 
 ```yaml
 # Master-Schalter
@@ -114,7 +114,7 @@ output:
 
 // 1. Config laden
 auto cap_gen_config = themis::util::CapabilityAutoGenerator::Config::loadFromYAML(
-    "config/capability_auto_generation.yaml"
+  "config/features/capability_auto_generation.yaml"
 );
 
 // 2. Auto-Generator erstellen

@@ -29,14 +29,25 @@
 #include <fstream>
 #include <iomanip>
 #include <sys/stat.h>
+#if defined(__linux__) || defined(__APPLE__)
 #include <sys/wait.h>
 #include <unistd.h>
 #include <fcntl.h>
+#endif
 #include <string.h>
 
 namespace themis {
 namespace plugins {
 namespace user_storage {
+
+namespace {
+inline void secureZero(void* ptr, size_t len) {
+    volatile unsigned char* p = static_cast<volatile unsigned char*>(ptr);
+    while (len--) {
+        *p++ = 0;
+    }
+}
+}
 
 struct GocryptfsBackend::Impl {
     std::string gocryptfs_binary;
@@ -57,7 +68,7 @@ GocryptfsBackend::GocryptfsBackend(KeyDerivationService* kdf_service)
 
 GocryptfsBackend::~GocryptfsBackend() = default;
 
-Result<void> GocryptfsBackend::initialize(const std::string& config_json) {
+Result<void> GocryptfsBackend::initialize([[maybe_unused]] const std::string& config_json) {
     // For now, simple initialization
     // Could parse config_json to customize gocryptfs_binary path
     impl_->initialized = true;
@@ -222,6 +233,11 @@ Result<void> GocryptfsBackend::deliverKeyViaStdin(
     int write_fd,
     const std::vector<uint8_t>& key_material
 ) {
+#if defined(_WIN32)
+    (void)write_fd;
+    (void)key_material;
+    return Result<void>::error("gocryptfs backend is not supported on Windows");
+#else
     // Build hex string + newline so gocryptfs terminates the read cleanly.
     std::string hex_key;
     hex_key.reserve(key_material.size() * 2 + 1);
@@ -241,21 +257,27 @@ Result<void> GocryptfsBackend::deliverKeyViaStdin(
         if (n < 0) {
             if (errno == EINTR) continue;
             // Securely clear before returning error.
-            explicit_bzero(hex_key.data(), hex_key.size());
+            secureZero(hex_key.data(), hex_key.size());
             return Result<void>::error("Failed to write key to stdin pipe");
         }
         written += n;
     }
 
     // Securely clear key material from the stack buffer.
-    explicit_bzero(hex_key.data(), hex_key.size());
+    secureZero(hex_key.data(), hex_key.size());
     return Result<void>();
+#endif
 }
 
 Result<std::string> GocryptfsBackend::executeCommandWithStdin(
     const std::vector<std::string>& args,
     const std::vector<uint8_t>& key_material
 ) {
+#if defined(_WIN32)
+    (void)args;
+    (void)key_material;
+    return Result<std::string>::error("gocryptfs backend is not supported on Windows");
+#else
     if (args.empty()) {
         return Result<std::string>::error("Empty command arguments");
     }
@@ -337,6 +359,7 @@ Result<std::string> GocryptfsBackend::executeCommandWithStdin(
     }
 
     return Result<std::string>(output);
+#endif
 }
 
 // ---------------------------------------------------------------------------
@@ -367,32 +390,30 @@ Result<std::vector<uint8_t>> GocryptfsBackend::resolveKey(
             );
         }
 
-        // Write salt as raw bytes to the salt file (mode 0600).
-        int fd = open(salt_file.c_str(), O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC, 0600);
-        if (fd == -1) {
+        // Write salt as raw bytes to the salt file.
+        std::ofstream out(salt_file, std::ios::binary | std::ios::trunc);
+        if (!out) {
             return Result<std::vector<uint8_t>>::error(
                 "Failed to create salt file: " + salt_file
             );
         }
-        ssize_t written = write(fd, salt.data(), salt.size());
-        close(fd);
-        if (written != static_cast<ssize_t>(salt.size())) {
+        out.write(reinterpret_cast<const char*>(salt.data()), static_cast<std::streamsize>(salt.size()));
+        if (!out) {
             return Result<std::vector<uint8_t>>::error(
                 "Failed to write salt to: " + salt_file
             );
         }
     } else {
         // Load existing salt.
-        int fd = open(salt_file.c_str(), O_RDONLY | O_CLOEXEC);
-        if (fd == -1) {
+        std::ifstream in(salt_file, std::ios::binary);
+        if (!in) {
             return Result<std::vector<uint8_t>>::error(
                 "Salt file not found (was container created with KDF?): " + salt_file
             );
         }
         salt.resize(16);
-        ssize_t n = read(fd, salt.data(), salt.size());
-        close(fd);
-        if (n != static_cast<ssize_t>(salt.size())) {
+        in.read(reinterpret_cast<char*>(salt.data()), static_cast<std::streamsize>(salt.size()));
+        if (!in) {
             return Result<std::vector<uint8_t>>::error(
                 "Failed to read salt from: " + salt_file
             );
@@ -421,6 +442,11 @@ Result<std::string> GocryptfsBackend::executeCommandWithStdin(
     const std::vector<std::string>& args,
     const std::string& stdin_data
 ) {
+#if defined(_WIN32)
+    (void)args;
+    (void)stdin_data;
+    return Result<std::string>::error("gocryptfs backend is not supported on Windows");
+#else
     if (args.empty()) {
         return Result<std::string>::error("Empty command arguments");
     }
@@ -510,6 +536,7 @@ Result<std::string> GocryptfsBackend::executeCommandWithStdin(
     }
 
     return Result<std::string>(output);
+#endif
 }
 
 Result<std::string> GocryptfsBackend::deliverKeyViaStdin(
@@ -530,6 +557,10 @@ Result<std::string> GocryptfsBackend::deliverKeyViaStdin(
 Result<std::string> GocryptfsBackend::executeCommandSafe(
     const std::vector<std::string>& args
 ) {
+#if defined(_WIN32)
+    (void)args;
+    return Result<std::string>::error("gocryptfs backend is not supported on Windows");
+#else
     if (args.empty()) {
         return Result<std::string>::error("Empty command arguments");
     }
@@ -594,6 +625,7 @@ Result<std::string> GocryptfsBackend::executeCommandSafe(
     }
     
     return Result<std::string>(output);
+#endif
 }
 
 bool GocryptfsBackend::directoryExists(const std::string& path) {

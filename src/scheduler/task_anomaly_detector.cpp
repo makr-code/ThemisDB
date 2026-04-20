@@ -128,7 +128,7 @@ void TaskAnomalyDetector::updateStatistics(const std::string& task_id,
     
     // Record resource usage
     stats.cpu_usage.push_back(event.resource_usage.cpu_time_ms);
-    stats.memory_usage.push_back(event.resource_usage.memory_bytes);
+    stats.memory_usage.push_back(static_cast<double>(event.resource_usage.memory_bytes));
     
     // Limit history size
     if (stats.execution_times.size() > config_.max_history_size) {
@@ -231,7 +231,7 @@ double TaskAnomalyDetector::detectFrequencyAnomaly(const std::string& task_id,
 }
 
 double TaskAnomalyDetector::detectPatternAnomaly(const std::string& task_id,
-                                                 const std::chrono::system_clock::time_point& now) {
+                                                 [[maybe_unused]] const std::chrono::system_clock::time_point& now) {
     const auto& stats = task_stats_[task_id];
     
     if (stats.execution_times.size() < config_.pattern_window_size) {
@@ -302,7 +302,7 @@ double TaskAnomalyDetector::detectResourceAnomaly(const std::string& task_id,
 }
 
 double TaskAnomalyDetector::detectFailureRateAnomaly(const std::string& task_id,
-                                                     bool success) {
+                                                     [[maybe_unused]] bool success) {
     const auto& stats = task_stats_[task_id];
     
     if (stats.execution_results.size() < config_.min_samples) {

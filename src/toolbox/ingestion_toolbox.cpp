@@ -71,10 +71,10 @@ std::shared_ptr<IngestionToolbox> IngestionToolbox::createDefault() {
     // Register all built-in steps into the engine's StepRegistry
     auto& reg = toolbox->stepRegistry();
 
-    reg.registerStep("builtin.ner_de",
+    (void)reg.registerStep("builtin.ner_de",
         ingestion::builtin::createNerDeStep(toolbox->textBackend()));
 
-    reg.registerStep("builtin.llm_extract",
+    (void)reg.registerStep("builtin.llm_extract",
         ingestion::builtin::createLlmExtractStep(toolbox->textBackend()));
 
     return toolbox;

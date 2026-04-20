@@ -363,7 +363,7 @@ static bool isDisallowedByRobots(const std::string& url,
 
 #ifdef THEMIS_ENABLE_CURL
 // libcurl write callback
-static size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
+static size_t webCrawlerWriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
     auto* buf = static_cast<std::string*>(userdata);
     buf->append(ptr, size * nmemb);
     return size * nmemb;
@@ -589,7 +589,7 @@ private:
         std::string response_body;
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_USERAGENT, user_agent_.c_str());
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, webCrawlerWriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_body);
         curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS,
                          static_cast<long>(retry_config_.timeout_ms));

@@ -262,7 +262,7 @@ private:
     
     // Internal helpers
     std::string callLLM(const std::string& prompt, const std::map<std::string, std::string>& params);
-    nlohmann::json parseResponse(const std::string& raw_response, TaskType task_type);
+    nlohmann::json parseResponse(const std::string& raw_response, [[maybe_unused]] TaskType task_type);
     std::string getCacheKey(const LLMRequest& request) const;
 };
 

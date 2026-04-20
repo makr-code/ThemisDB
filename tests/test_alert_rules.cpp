@@ -172,20 +172,20 @@ TEST_F(AlertRuleManagerTest, UpdateRule_EmptyMetricName_ReturnsError) {
 }
 
 TEST_F(AlertRuleManagerTest, ListRules_ReturnsAll) {
-    mgr_.addRule(makeRule("l1", "m1", AlertRuleOperator::GREATER_THAN, 1.0));
-    mgr_.addRule(makeRule("l2", "m2", AlertRuleOperator::LESS_THAN, 2.0));
-    mgr_.addRule(makeRule("l3", "m3", AlertRuleOperator::EQUAL, 3.0));
+    (void)mgr_.addRule(makeRule("l1", "m1", AlertRuleOperator::GREATER_THAN, 1.0));
+    (void)mgr_.addRule(makeRule("l2", "m2", AlertRuleOperator::LESS_THAN, 2.0));
+    (void)mgr_.addRule(makeRule("l3", "m3", AlertRuleOperator::EQUAL, 3.0));
 
     auto rules = mgr_.listRules();
     EXPECT_EQ(rules.size(), 3u);
 }
 
 TEST_F(AlertRuleManagerTest, ClearRules_RemovesAll) {
-    mgr_.addRule(makeRule("c1", "m1", AlertRuleOperator::GREATER_THAN, 1.0));
-    mgr_.addRule(makeRule("c2", "m2", AlertRuleOperator::LESS_THAN, 2.0));
+    (void)mgr_.addRule(makeRule("c1", "m1", AlertRuleOperator::GREATER_THAN, 1.0));
+    (void)mgr_.addRule(makeRule("c2", "m2", AlertRuleOperator::LESS_THAN, 2.0));
     ASSERT_EQ(mgr_.ruleCount(), 2u);
 
-    mgr_.clearRules();
+    (void)mgr_.clearRules();
     EXPECT_EQ(mgr_.ruleCount(), 0u);
     EXPECT_TRUE(mgr_.listRules().empty());
 }
@@ -206,8 +206,8 @@ TEST_F(AlertRuleEvalTest, EvaluateRules_NoRules_ReturnsZero) {
 }
 
 TEST_F(AlertRuleEvalTest, EvaluateRules_ConditionMet_FiresAlert) {
-    mgr_.addRule(makeRule("cpu_high", "themis_cpu",
-                          AlertRuleOperator::GREATER_THAN, 80.0));
+    (void)mgr_.addRule(makeRule("cpu_high", "themis_cpu",
+                                AlertRuleOperator::GREATER_THAN, 80.0));
 
     std::map<std::string, double> metrics{{"themis_cpu", 90.0}};
     int triggered = mgr_.evaluateRules(metrics, am_);
@@ -215,8 +215,8 @@ TEST_F(AlertRuleEvalTest, EvaluateRules_ConditionMet_FiresAlert) {
 }
 
 TEST_F(AlertRuleEvalTest, EvaluateRules_ConditionNotMet_DoesNotFire) {
-    mgr_.addRule(makeRule("cpu_high", "themis_cpu",
-                          AlertRuleOperator::GREATER_THAN, 80.0));
+    (void)mgr_.addRule(makeRule("cpu_high", "themis_cpu",
+                                AlertRuleOperator::GREATER_THAN, 80.0));
 
     std::map<std::string, double> metrics{{"themis_cpu", 50.0}};
     int triggered = mgr_.evaluateRules(metrics, am_);
@@ -227,7 +227,7 @@ TEST_F(AlertRuleEvalTest, EvaluateRules_DisabledRule_IsSkipped) {
     AlertRule rule = makeRule("disabled_rule", "themis_cpu",
                               AlertRuleOperator::GREATER_THAN, 0.0);
     rule.enabled = false;
-    mgr_.addRule(rule);
+    (void)mgr_.addRule(rule);
 
     std::map<std::string, double> metrics{{"themis_cpu", 999.0}};
     int triggered = mgr_.evaluateRules(metrics, am_);
@@ -235,8 +235,8 @@ TEST_F(AlertRuleEvalTest, EvaluateRules_DisabledRule_IsSkipped) {
 }
 
 TEST_F(AlertRuleEvalTest, EvaluateRules_MissingMetric_DoesNotFire) {
-    mgr_.addRule(makeRule("latency_rule", "themis_latency_p99",
-                          AlertRuleOperator::GREATER_THAN, 500.0));
+    (void)mgr_.addRule(makeRule("latency_rule", "themis_latency_p99",
+                                AlertRuleOperator::GREATER_THAN, 500.0));
 
     // Snapshot does not contain the required metric
     std::map<std::string, double> metrics{{"themis_cpu", 90.0}};
@@ -245,8 +245,8 @@ TEST_F(AlertRuleEvalTest, EvaluateRules_MissingMetric_DoesNotFire) {
 }
 
 TEST_F(AlertRuleEvalTest, EvaluateRules_AlertResolvedWhenConditionClears) {
-    mgr_.addRule(makeRule("cpu_rule", "themis_cpu",
-                          AlertRuleOperator::GREATER_THAN, 80.0));
+    (void)mgr_.addRule(makeRule("cpu_rule", "themis_cpu",
+                                AlertRuleOperator::GREATER_THAN, 80.0));
 
     // First pass: condition is met → alert fires
     {
@@ -271,12 +271,12 @@ TEST_F(AlertRuleEvalTest, EvaluateRules_AlertResolvedWhenConditionClears) {
 }
 
 TEST_F(AlertRuleEvalTest, EvaluateRules_MultipleRules) {
-    mgr_.addRule(makeRule("r1", "themis_cpu",
-                          AlertRuleOperator::GREATER_THAN, 80.0));
-    mgr_.addRule(makeRule("r2", "themis_memory_mb",
-                          AlertRuleOperator::GREATER_THAN, 8192.0));
-    mgr_.addRule(makeRule("r3", "themis_disk_free_pct",
-                          AlertRuleOperator::LESS_THAN, 10.0));
+    (void)mgr_.addRule(makeRule("r1", "themis_cpu",
+                                AlertRuleOperator::GREATER_THAN, 80.0));
+    (void)mgr_.addRule(makeRule("r2", "themis_memory_mb",
+                                AlertRuleOperator::GREATER_THAN, 8192.0));
+    (void)mgr_.addRule(makeRule("r3", "themis_disk_free_pct",
+                                AlertRuleOperator::LESS_THAN, 10.0));
 
     std::map<std::string, double> metrics{
         {"themis_cpu",        90.0},  // triggers r1
@@ -297,44 +297,44 @@ protected:
 };
 
 TEST_F(AlertRuleOperatorTest, GreaterThan) {
-    mgr_.addRule(makeRule("r", "m", AlertRuleOperator::GREATER_THAN, 10.0));
+    (void)mgr_.addRule(makeRule("r", "m", AlertRuleOperator::GREATER_THAN, 10.0));
     EXPECT_EQ(mgr_.evaluateRules({{"m", 11.0}}, am_), 1);
-    mgr_.clearRules(); mgr_.addRule(makeRule("r", "m", AlertRuleOperator::GREATER_THAN, 10.0));
+    (void)mgr_.clearRules(); (void)mgr_.addRule(makeRule("r", "m", AlertRuleOperator::GREATER_THAN, 10.0));
     EXPECT_EQ(mgr_.evaluateRules({{"m", 10.0}}, am_), 0);
 }
 
 TEST_F(AlertRuleOperatorTest, GreaterThanOrEqual) {
-    mgr_.addRule(makeRule("r", "m", AlertRuleOperator::GREATER_THAN_OR_EQUAL, 10.0));
+    (void)mgr_.addRule(makeRule("r", "m", AlertRuleOperator::GREATER_THAN_OR_EQUAL, 10.0));
     EXPECT_EQ(mgr_.evaluateRules({{"m", 10.0}}, am_), 1);
-    mgr_.clearRules(); mgr_.addRule(makeRule("r", "m", AlertRuleOperator::GREATER_THAN_OR_EQUAL, 10.0));
+    (void)mgr_.clearRules(); (void)mgr_.addRule(makeRule("r", "m", AlertRuleOperator::GREATER_THAN_OR_EQUAL, 10.0));
     EXPECT_EQ(mgr_.evaluateRules({{"m", 9.0}}, am_), 0);
 }
 
 TEST_F(AlertRuleOperatorTest, LessThan) {
-    mgr_.addRule(makeRule("r", "m", AlertRuleOperator::LESS_THAN, 5.0));
+    (void)mgr_.addRule(makeRule("r", "m", AlertRuleOperator::LESS_THAN, 5.0));
     EXPECT_EQ(mgr_.evaluateRules({{"m", 3.0}}, am_), 1);
-    mgr_.clearRules(); mgr_.addRule(makeRule("r", "m", AlertRuleOperator::LESS_THAN, 5.0));
+    (void)mgr_.clearRules(); (void)mgr_.addRule(makeRule("r", "m", AlertRuleOperator::LESS_THAN, 5.0));
     EXPECT_EQ(mgr_.evaluateRules({{"m", 5.0}}, am_), 0);
 }
 
 TEST_F(AlertRuleOperatorTest, LessThanOrEqual) {
-    mgr_.addRule(makeRule("r", "m", AlertRuleOperator::LESS_THAN_OR_EQUAL, 5.0));
+    (void)mgr_.addRule(makeRule("r", "m", AlertRuleOperator::LESS_THAN_OR_EQUAL, 5.0));
     EXPECT_EQ(mgr_.evaluateRules({{"m", 5.0}}, am_), 1);
-    mgr_.clearRules(); mgr_.addRule(makeRule("r", "m", AlertRuleOperator::LESS_THAN_OR_EQUAL, 5.0));
+    (void)mgr_.clearRules(); (void)mgr_.addRule(makeRule("r", "m", AlertRuleOperator::LESS_THAN_OR_EQUAL, 5.0));
     EXPECT_EQ(mgr_.evaluateRules({{"m", 6.0}}, am_), 0);
 }
 
 TEST_F(AlertRuleOperatorTest, Equal) {
-    mgr_.addRule(makeRule("r", "m", AlertRuleOperator::EQUAL, 42.0));
+    (void)mgr_.addRule(makeRule("r", "m", AlertRuleOperator::EQUAL, 42.0));
     EXPECT_EQ(mgr_.evaluateRules({{"m", 42.0}}, am_), 1);
-    mgr_.clearRules(); mgr_.addRule(makeRule("r", "m", AlertRuleOperator::EQUAL, 42.0));
+    (void)mgr_.clearRules(); (void)mgr_.addRule(makeRule("r", "m", AlertRuleOperator::EQUAL, 42.0));
     EXPECT_EQ(mgr_.evaluateRules({{"m", 43.0}}, am_), 0);
 }
 
 TEST_F(AlertRuleOperatorTest, NotEqual) {
-    mgr_.addRule(makeRule("r", "m", AlertRuleOperator::NOT_EQUAL, 0.0));
+    (void)mgr_.addRule(makeRule("r", "m", AlertRuleOperator::NOT_EQUAL, 0.0));
     EXPECT_EQ(mgr_.evaluateRules({{"m", 1.0}}, am_), 1);
-    mgr_.clearRules(); mgr_.addRule(makeRule("r", "m", AlertRuleOperator::NOT_EQUAL, 0.0));
+    (void)mgr_.clearRules(); (void)mgr_.addRule(makeRule("r", "m", AlertRuleOperator::NOT_EQUAL, 0.0));
     EXPECT_EQ(mgr_.evaluateRules({{"m", 0.0}}, am_), 0);
 }
 
@@ -349,7 +349,7 @@ TEST(AlertRuleMessageTemplateTest, EvaluateRules_FiresWithCorrectMessage) {
     AlertRule rule = makeRule("msg_rule", "themis_cpu",
                               AlertRuleOperator::GREATER_THAN, 80.0);
     rule.message_template = "CPU {metric} is at {value} percent";
-    mgr.addRule(rule);
+    (void)mgr.addRule(rule);
 
     std::map<std::string, double> metrics{{"themis_cpu", 90.0}};
     int triggered = mgr.evaluateRules(metrics, am);
@@ -368,7 +368,7 @@ TEST(AlertRuleMessageTemplateTest, DefaultMessage_WhenTemplateEmpty) {
 
     AlertRule rule = makeRule("no_tmpl", "themis_mem", AlertRuleOperator::GREATER_THAN, 100.0);
     rule.message_template = "";
-    mgr.addRule(rule);
+    (void)mgr.addRule(rule);
 
     std::map<std::string, double> metrics{{"themis_mem", 200.0}};
     EXPECT_EQ(mgr.evaluateRules(metrics, am), 1);
@@ -390,7 +390,7 @@ TEST(AlertRuleLabelTest, LabelsAttachedToFiredAlert) {
                               AlertRuleOperator::GREATER_THAN, 80.0);
     rule.labels["component"] = "database";
     rule.labels["env"]       = "production";
-    mgr.addRule(rule);
+    (void)mgr.addRule(rule);
 
     std::map<std::string, double> metrics{{"themis_cpu", 90.0}};
     mgr.evaluateRules(metrics, am);
@@ -423,8 +423,8 @@ TEST(AlertRuleConcurrencyTest, CrudDuringEvaluateRules_DoesNotDeadlock) {
 
     // Seed some initial rules
     for (int i = 0; i < 5; ++i) {
-        mgr.addRule(makeRule("pre_" + std::to_string(i), "themis_cpu",
-                             AlertRuleOperator::GREATER_THAN, 80.0));
+        (void)mgr.addRule(makeRule("pre_" + std::to_string(i), "themis_cpu",
+                       AlertRuleOperator::GREATER_THAN, 80.0));
     }
 
     std::atomic<bool> done{false};
@@ -441,9 +441,9 @@ TEST(AlertRuleConcurrencyTest, CrudDuringEvaluateRules_DoesNotDeadlock) {
     std::thread crud_thread([&] {
         for (int i = 0; i < 10; ++i) {
             std::string id = "concurrent_" + std::to_string(i);
-            mgr.addRule(makeRule(id, "themis_cpu",
-                                 AlertRuleOperator::GREATER_THAN, 50.0));
-            mgr.removeRule(id);
+            (void)mgr.addRule(makeRule(id, "themis_cpu",
+                                       AlertRuleOperator::GREATER_THAN, 50.0));
+            (void)mgr.removeRule(id);
         }
         done = true;
     });

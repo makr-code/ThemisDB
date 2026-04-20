@@ -195,7 +195,7 @@ static bool parse_gpu_container(
 
 /// Build and append the GPU container header to @p out.
 /// @p out must have been empty (or cleared) before the call.
-static void write_gpu_container_header(
+[[maybe_unused]] static void write_gpu_container_header(
     std::vector<uint8_t>& out,
     uint64_t n_chunks,
     uint64_t orig_size,
@@ -945,6 +945,9 @@ bool GpuCompressionManager::init_gpu()
     }
 
     switch (requested) {
+        case GpuAccelerationType::CPU_ONLY:
+            active_accel_ = GpuAccelerationType::CPU_ONLY;
+            return false;
 #ifdef THEMIS_ENABLE_CUDA
         case GpuAccelerationType::CUDA: {
             auto cuda_impl = std::make_unique<CudaNvcompImpl>();

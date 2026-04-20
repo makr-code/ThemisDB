@@ -95,7 +95,7 @@ Result<void> Alertmanager::resolveAlert([[maybe_unused]] const std::string& aler
     return {};
 }
 
-Result<void> Alertmanager::silenceAlert([[maybe_unused]] const std::string& alert_id, int duration_minutes) {
+Result<void> Alertmanager::silenceAlert([[maybe_unused]] const std::string& alert_id, [[maybe_unused]] int duration_minutes) {
     // Base-class no-op: subclasses provide the concrete transport.
     return {};
 }

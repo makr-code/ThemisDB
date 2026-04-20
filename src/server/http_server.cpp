@@ -1181,7 +1181,7 @@ HttpServer::HttpServer(
         // Initialize Database Maintenance Orchestrator
         maintenance_orchestrator_ = std::make_unique<themis::maintenance::DatabaseMaintenanceOrchestrator>(
             task_scheduler_.get());
-        maintenance_orchestrator_->start();
+        [[maybe_unused]] const auto maintenance_started = maintenance_orchestrator_->start();
 
         // Wire STORAGE_COMPACTION handler — calls CompactionManager::compactAll()
         {
@@ -5405,7 +5405,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                     break;
                 }
             }
-            const auto method = req.method();
+            const auto route_method = req.method();
             const bool has_invoke  = path_only.size() > 7 &&
                 path_only.substr(path_only.size() - 7) == "/invoke";
             const bool has_versions = path_only.size() > 9 &&
@@ -5414,9 +5414,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = serverless_fn_handler_->handleInvoke(req, id);
             else if (has_versions)
                 response = serverless_fn_handler_->handleVersions(req, id);
-            else if (method == http::verb::get)
+            else if (route_method == http::verb::get)
                 response = serverless_fn_handler_->handleGet(req, id);
-            else if (method == http::verb::put)
+            else if (route_method == http::verb::put)
                 response = serverless_fn_handler_->handleUpdate(req, id);
             else
                 response = serverless_fn_handler_->handleDelete(req, id);

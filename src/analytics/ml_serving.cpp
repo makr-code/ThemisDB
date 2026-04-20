@@ -399,7 +399,7 @@ std::string TFServingBackend::backendName() const {
 
 bool TFServingBackend::isAvailable() const { return true; }
 
-MLServingResponse TFServingBackend::infer(const MLServingRequest& req) {
+MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingRequest& req) {
     using json = nlohmann::json;
     Stopwatch sw;
     MLServingResponse resp;
@@ -552,7 +552,7 @@ std::string TFServingBackend::backendName() const {
 
 bool TFServingBackend::isAvailable() const { return false; }
 
-MLServingResponse TFServingBackend::infer(const MLServingRequest& req) {
+MLServingResponse TFServingBackend::infer([[maybe_unused]] const MLServingRequest& req) {
 #if !defined(THEMIS_HAS_CURL)
     spdlog::warn("MLServing[TF]: libcurl not compiled in – "
                  "rebuild with THEMIS_HAS_CURL=1");
@@ -651,10 +651,10 @@ MLServingResponse MLServingClient::inferFromDataPoint(
     values.reserve(field_names.size());
     for (const auto& fname : field_names) {
         // Try double first, then int64
-        if (auto v = point.get<double>(fname)) {
-            values.push_back(static_cast<float>(*v));
-        } else if (auto v = point.get<int64_t>(fname)) {
-            values.push_back(static_cast<float>(*v));
+        if (auto v_double = point.get<double>(fname)) {
+            values.push_back(static_cast<float>(*v_double));
+        } else if (auto v_i64 = point.get<int64_t>(fname)) {
+            values.push_back(static_cast<float>(*v_i64));
         }
     }
 

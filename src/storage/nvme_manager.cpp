@@ -398,7 +398,7 @@ bool NVMeManager::submitWrite(const NVMeIORequest& req) {
 }
 
 int NVMeManager::pollCompletions(std::vector<NVMeIOResult>& results,
-                                  uint32_t min_complete) {
+                                  [[maybe_unused]] uint32_t min_complete) {
     results.clear();
 #ifdef THEMIS_ENABLE_IO_URING
 #  ifdef __linux__
@@ -440,7 +440,7 @@ int NVMeManager::pollCompletions(std::vector<NVMeIOResult>& results,
 // ZNS zone management
 // ─────────────────────────────────────────────────────────────────────────────
 
-bool NVMeManager::resetZone(uint64_t zone_offset) {
+bool NVMeManager::resetZone([[maybe_unused]] uint64_t zone_offset) {
     if (!config_.enable_zns || config_.device_path.empty()) {
         return false;
     }
@@ -469,7 +469,7 @@ bool NVMeManager::resetZone(uint64_t zone_offset) {
 #endif
 }
 
-bool NVMeManager::finishZone(uint64_t zone_offset) {
+bool NVMeManager::finishZone([[maybe_unused]] uint64_t zone_offset) {
     if (!config_.enable_zns || config_.device_path.empty()) {
         return false;
     }
@@ -497,7 +497,7 @@ bool NVMeManager::finishZone(uint64_t zone_offset) {
 #endif
 }
 
-uint64_t NVMeManager::getZoneWritePointer(uint64_t zone_offset) const {
+uint64_t NVMeManager::getZoneWritePointer([[maybe_unused]] uint64_t zone_offset) const {
     if (!config_.enable_zns || config_.device_path.empty()) {
         return UINT64_MAX;
     }

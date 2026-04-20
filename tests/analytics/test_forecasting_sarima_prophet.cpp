@@ -34,17 +34,6 @@ static TimeSeries makeSineSeries(int n, double period = 12.0, double amp = 5.0,
     return ts;
 }
 
-static TimeSeries makeLinearSeries(int n, double slope = 1.0,
-                                   int64_t start_ms    = 0,
-                                   int64_t interval_ms = 86400000LL)
-{
-    TimeSeries ts;
-    for (int i = 0; i < n; ++i)
-        ts.push(start_ms + static_cast<int64_t>(i) * interval_ms,
-                slope * static_cast<double>(i) + 5.0);
-    return ts;
-}
-
 // ============================================================================
 // FSP: SARIMA tests
 // ============================================================================

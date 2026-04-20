@@ -119,7 +119,7 @@ void LLMMetricsCollector::recordInference(
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Record latency
-    exporter_->observeHistogram("llm_operation_latency_ms", latency.count(), {
+    exporter_->observeHistogram("llm_operation_latency_ms", static_cast<double>(latency.count()), {
         {"operation", "infer"},
         {"model", model_id},
         {"lora", lora_id}
@@ -168,7 +168,7 @@ void LLMMetricsCollector::recordRAG(
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Record latency
-    exporter_->observeHistogram("llm_operation_latency_ms", latency.count(), {
+    exporter_->observeHistogram("llm_operation_latency_ms", static_cast<double>(latency.count()), {
         {"operation", "rag"},
         {"model", collection},
         {"lora", lora_id}
@@ -221,7 +221,7 @@ void LLMMetricsCollector::recordEmbedding(
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Record latency
-    exporter_->observeHistogram("llm_operation_latency_ms", latency.count(), {
+    exporter_->observeHistogram("llm_operation_latency_ms", static_cast<double>(latency.count()), {
         {"operation", "embed"},
         {"model", model_id},
         {"lora", ""}

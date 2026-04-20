@@ -304,7 +304,7 @@ TEST_F(BidiStreamAdapterTest, BSA18_RunStopsAfterFinishCalled) {
 TEST_F(BidiStreamAdapterTest, BSA19_DestructorNoCrash) {
     MockBidiStream mock({});
     EXPECT_NO_THROW({
-        TestAdapter adapter(raw, 5);
+        TestAdapter adapter(&mock, 5);
         adapter.finish(grpc::Status::OK);
         // adapter goes out of scope here
     });
@@ -316,7 +316,7 @@ TEST_F(BidiStreamAdapterTest, BSA19_DestructorNoCrash) {
 TEST_F(BidiStreamAdapterTest, BSA20_QueueDepthBoundedByMaxDepth) {
     MockBidiStream mock({});
     constexpr std::size_t kDepth = 5;
-    TestAdapter adapter(raw, kDepth);
+    TestAdapter adapter(&mock, kDepth);
 
     // Write 3 messages; each write flushes synchronously so queue drains.
     for (int i = 0; i < 3; ++i) {

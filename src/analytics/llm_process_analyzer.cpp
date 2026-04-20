@@ -196,7 +196,7 @@ std::pair<bool, LLMResponse> LLMProcessAnalyzer::analyze(const LLMRequest& reque
             try {
                 raw_llm_response = callLLM(prompt, request.parameters);
                 break;
-            } catch (const std::exception& e) {
+            } catch ([[maybe_unused]] const std::exception& e) {
                 if (retries == pImpl->config.max_retries) {
                     throw;
                 }
@@ -500,7 +500,7 @@ std::string LLMProcessAnalyzer::callLLM(
 
 nlohmann::json LLMProcessAnalyzer::parseResponse(
     const std::string& raw_response,
-    TaskType task_type
+    [[maybe_unused]] TaskType task_type
 ) {
     try {
         return nlohmann::json::parse(raw_response);

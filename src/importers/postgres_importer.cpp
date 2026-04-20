@@ -238,7 +238,7 @@ std::vector<std::string> PostgreSQLImporter::getSupportedTypes() const {
     return {"postgresql", "postgres", "pg_dump"};
 }
 
-bool PostgreSQLImporter::initialize(const std::string& config) {
+bool PostgreSQLImporter::initialize([[maybe_unused]] const std::string& config) {
     cancelled_ = false;
     schemas_.clear();
     
@@ -1575,7 +1575,6 @@ bool PostgreSQLImporter::parseGeneratedColumn(const std::string& col_def,
 
     // GENERATED ALWAYS AS (expr) STORED
     if (!rest.empty() && rest[0] == '(') {
-        size_t paren = gen_pos + 11 + (upper.size() - rest.size() - (gen_pos + 11 - gen_pos - 11));
         // Find the paren in the original col_def
         size_t orig_paren = col_def.find('(', gen_pos);
         if (orig_paren == std::string::npos) return false;

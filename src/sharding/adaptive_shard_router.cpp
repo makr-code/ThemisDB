@@ -242,13 +242,13 @@ nlohmann::json AdaptiveShardRouter::executeAdaptiveQuery(
             already_queried.insert(shard_id);
         }
         
-        stats.total_shards_queried += shard_ids.size();
+        stats.total_shards_queried += static_cast<uint32_t>(shard_ids.size());
         
         // Count results
         uint32_t iteration_result_count = 0;
         for (const auto& result : iteration_results) {
             if (result.success && result.data.is_array()) {
-                iteration_result_count += result.data.size();
+                iteration_result_count += static_cast<uint32_t>(result.data.size());
             }
         }
         
@@ -294,9 +294,10 @@ nlohmann::json AdaptiveShardRouter::executeAdaptiveQuery(
         stats.end_time - stats.start_time).count();
     
     // Calculate iterations saved
-    uint32_t potential_iterations = (all_shards.size() + 
+    uint32_t potential_iterations = static_cast<uint32_t>(
+        (all_shards.size() + 
         adaptive_config_.results_per_iteration - 1) / 
-        adaptive_config_.results_per_iteration;
+        adaptive_config_.results_per_iteration);
     if (potential_iterations > stats.iterations_executed) {
         iterations_saved_ += (potential_iterations - stats.iterations_executed);
     }
@@ -410,9 +411,9 @@ std::vector<std::string> AdaptiveShardRouter::selectShardsForIteration(
 }
 
 std::vector<ShardResult> AdaptiveShardRouter::executeOnShards(
-    const std::string& query,
+    [[maybe_unused]] const std::string& query,
     const std::vector<std::string>& shard_ids,
-    uint32_t timeout_ms
+    [[maybe_unused]] uint32_t timeout_ms
 ) {
     std::vector<ShardResult> results;
     
@@ -515,7 +516,7 @@ AdaptiveShardRouter::IterationStats AdaptiveShardRouter::calculateIterationStats
 ) {
     IterationStats stats;
     stats.iteration_number = iteration;
-    stats.shards_queried = shard_ids.size();
+    stats.shards_queried = static_cast<uint32_t>(shard_ids.size());
     stats.iteration_time_ms = iteration_time_ms;
     stats.shard_ids = shard_ids;
     
@@ -523,7 +524,7 @@ AdaptiveShardRouter::IterationStats AdaptiveShardRouter::calculateIterationStats
     stats.results_received = 0;
     for (const auto& result : results) {
         if (result.success && result.data.is_array()) {
-            stats.results_received += result.data.size();
+            stats.results_received += static_cast<uint32_t>(result.data.size());
         }
     }
     

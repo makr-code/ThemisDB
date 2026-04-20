@@ -447,7 +447,7 @@ MergeEngine::MergeResult MergeEngine::previewMerge(
 // Check if fast-forward is possible
 bool MergeEngine::canFastForward(
     uint64_t base_sequence,
-    uint64_t source_sequence,
+    [[maybe_unused]] uint64_t source_sequence,
     uint64_t target_sequence) {
     
     analytics::DiffEngine::DiffOptions opts;

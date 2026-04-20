@@ -671,7 +671,7 @@ std::vector<std::string> QueryFederation::determineRelevantShards(
 
 std::string QueryFederation::rewriteQueryForShard(
     const std::string& query,
-    const std::string& shard_id
+    [[maybe_unused]] const std::string& shard_id
 ) {
     // Rewrite query to add shard-specific predicates
     // For example, add a filter on partition key
@@ -686,7 +686,7 @@ std::string QueryFederation::rewriteQueryForShard(
 
 nlohmann::json QueryFederation::mergeResults(
     const std::vector<sharding::ShardResult>& results,
-    const QueryMetadata& metadata
+    [[maybe_unused]] const QueryMetadata& metadata
 ) {
     nlohmann::json merged = nlohmann::json::array();
     
@@ -751,7 +751,7 @@ nlohmann::json QueryFederation::applyGlobalOperations(
     return result;
 }
 
-uint64_t QueryFederation::estimateCollectionSize(const std::string& collection) {
+uint64_t QueryFederation::estimateCollectionSize([[maybe_unused]] const std::string& collection) {
     // Simplified size estimation
     // Real implementation would query metadata or use statistics
     

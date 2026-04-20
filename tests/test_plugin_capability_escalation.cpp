@@ -116,8 +116,7 @@ protected:
             name,
             PluginType::CUSTOM,
             [&plugin]() -> std::unique_ptr<IThemisPlugin> {
-                // Return a non-owning wrapper via a no-op deleter.
-                return std::unique_ptr<IThemisPlugin>(&plugin, [](IThemisPlugin*) {});
+                return std::make_unique<MockCapabilityPlugin>(plugin);
             });
     }
 };
@@ -332,7 +331,7 @@ TEST(CapabilityEscalationBlockedTests, LoadedPluginWithMatchingCapsIsOk) {
         "mock_no_escalation",
         PluginType::CUSTOM,
         []() -> std::unique_ptr<IThemisPlugin> {
-            return std::unique_ptr<IThemisPlugin>(&g_plugin, [](IThemisPlugin*) {});
+            return std::make_unique<MockCapabilityPlugin>(g_plugin);
         });
 
     // The PluginManager singleton may already know about this plugin from a

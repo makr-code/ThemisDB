@@ -54,7 +54,7 @@
  * span->setAttribute("db.operation", "SELECT");
  *
  * // Attach metrics snapshot
- * MetricSnapshot snap;
+ * SpanMetrics snap;
  * snap.cpu_usage_percent = 45.2;
  * tracer.recordMetrics(*span, snap);
  *
@@ -119,7 +119,7 @@ struct SpanContext {
 };
 
 // ---------------------------------------------------------------------------
-// MetricSnapshot — runtime metrics to attach to a span
+// SpanMetrics — runtime metrics to attach to a span
 // ---------------------------------------------------------------------------
 
 /**
@@ -128,7 +128,7 @@ struct SpanContext {
  *
  * All fields are optional; zero-values are silently omitted when recording.
  */
-struct MetricSnapshot {
+struct SpanMetrics {
     double  cpu_usage_percent{0.0};       ///< Host CPU utilisation [0–100]
     double  memory_usage_bytes{0.0};      ///< Process RSS in bytes
     int64_t active_connections{0};        ///< Current open client connections
@@ -298,17 +298,17 @@ public:
     void recordException(ISpan& span, const std::exception& ex);
 
     /**
-     * @brief Attach a `MetricSnapshot` as span attributes.
+    * @brief Attach a `SpanMetrics` as span attributes.
      *
      * Each non-zero metric field is added as a span attribute using the
      * `db.metrics.*` namespace (e.g. `db.metrics.cpu_usage_percent`).
-     * Custom metrics in `MetricSnapshot::custom` are prefixed with
+    * Custom metrics in `SpanMetrics::custom` are prefixed with
      * `db.metrics.custom.`.
      *
      * @param span    Target span.
      * @param metrics Runtime metrics snapshot to record.
      */
-    void recordMetrics(ISpan& span, const MetricSnapshot& metrics);
+    void recordMetrics(ISpan& span, const SpanMetrics& metrics);
 
     // -----------------------------------------------------------------------
     // Baggage — tenant / user context propagation

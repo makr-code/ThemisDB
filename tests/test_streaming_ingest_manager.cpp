@@ -96,7 +96,7 @@ protected:
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST_F(StreamingIngestManagerTest, SM01_ConstructsWithValidDb) {
-    EXPECT_NO_THROW(StreamingIngestManager::create(db_));
+    EXPECT_NO_THROW((void)StreamingIngestManager::create(db_));
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

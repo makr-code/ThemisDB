@@ -889,7 +889,7 @@ ProcessModelResult ProcessModelManager::deployToEngine(
 
 ProcessModelResult ProcessModelManager::undeployFromEngine(
     std::string_view     model_id,
-    ProcessGraphManager& engine) const
+    [[maybe_unused]] ProcessGraphManager& engine) const
 {
     // ProcessGraphManager doesn't have an unregister API yet; use the
     // removeProcess method if available, or log a warning.

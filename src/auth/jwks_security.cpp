@@ -50,7 +50,7 @@ std::string base64Encode(const unsigned char* data, size_t len) {
     bio = BIO_push(b64, bio);
     
     BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL);
-    BIO_write(bio, data, len);
+    BIO_write(bio, data, static_cast<int>(len));
     BIO_flush(bio);
     
     BUF_MEM* bufferPtr;
@@ -400,7 +400,7 @@ std::string CertificateUtils::computeSPKIHashFromFile(const std::string& cert_pa
 }
 
 std::string CertificateUtils::computeSPKIHashFromPEM(const std::string& cert_pem) {
-    BIO* bio = BIO_new_mem_buf(cert_pem.c_str(), cert_pem.size());
+    BIO* bio = BIO_new_mem_buf(cert_pem.c_str(), static_cast<int>(cert_pem.size()));
     if (!bio) {
         throw std::runtime_error("Failed to create BIO");
     }

@@ -28,6 +28,8 @@
 #include "plugins/plugin_hot_plug_monitor.h"  // HotPlugConfig definition
 #include "plugins/oci_registry_client.h"  // OCI registry pull support
 #include "acceleration/plugin_loader.h"  // Reuse existing loader
+#include "themis/edition.h"
+#include "themis/runtime_license_gate.h"
 #include "utils/expected.h"
 #include <string>
 #include <memory>
@@ -381,6 +383,37 @@ public:
      * @brief Singleton instance
      */
     static PluginManager& instance();
+
+    // -----------------------------------------------------------------------
+    // Edition / License gating helpers
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Check whether the running edition supports plugins (compile-time gate).
+     * @return true for Enterprise / Hyperscaler editions.
+     */
+    static bool isEditionSupported();
+
+    /**
+     * @brief Check whether the runtime license allows the enterprise_plugins feature.
+     * @return true when the runtime license grants plugin loading.
+     */
+    static bool isLicensed();
+
+    /**
+     * @brief Human-readable error message for Community-edition plugin load attempts.
+     */
+    static std::string communityUnavailableMessage(const std::string& plugin_name);
+
+    /**
+     * @brief Returns marketplace availability info for the running edition.
+     */
+    static std::string marketplaceInfo();
+
+    /**
+     * @brief Returns installation instructions, gated by edition.
+     */
+    static std::string installationInstructions();
 };
 
 /**

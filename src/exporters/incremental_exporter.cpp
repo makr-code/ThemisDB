@@ -189,7 +189,7 @@ ExportStats IncrementalExporter::exportEntities(
                         enc_tmp);
                 }
                 metrics_->recordEncryption(enc_bytes);
-            } catch (const std::exception& e) {
+            } catch ([[maybe_unused]] const std::exception& e) {
                 std::error_code ec;
                 std::filesystem::remove(enc_tmp, ec);
                 throw;

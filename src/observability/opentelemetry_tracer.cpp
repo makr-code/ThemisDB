@@ -35,6 +35,7 @@
 
 #include "observability/opentelemetry_tracer.h"
 #include "observability/metrics_collector.h"
+#include "tracer_utils.h"
 #include "api/otlp_exporter.h"
 #include "core/concerns/jaeger_tracer_adapter.h"
 #include "core/concerns/zipkin_tracer_adapter.h"
@@ -56,91 +57,17 @@
 namespace themis {
 namespace observability {
 
+using namespace detail;  // bring generateTraceId, generateSpanId, etc. into scope
+
 // ---------------------------------------------------------------------------
-// Internal helpers
+// OTel-specific helpers
 // ---------------------------------------------------------------------------
 
 namespace {
 
-/// Generate a 128-bit random hex string for use as a W3C trace-id.
-std::string generateTraceId() {
-    thread_local std::mt19937_64 rng{std::random_device{}()};
-    std::uniform_int_distribution<uint64_t> dist;
-    uint64_t hi = dist(rng);
-    uint64_t lo = dist(rng);
-    std::ostringstream oss;
-    oss << std::hex << std::setfill('0')
-        << std::setw(16) << hi
-        << std::setw(16) << lo;
-    return oss.str();
-}
-
-/// Generate a 64-bit random hex string for use as a W3C span-id.
-std::string generateSpanId() {
-    thread_local std::mt19937_64 rng{std::random_device{}()};
-    std::uniform_int_distribution<uint64_t> dist;
-    std::ostringstream oss;
-    oss << std::hex << std::setfill('0') << std::setw(16) << dist(rng);
-    return oss.str();
-}
-
-/// Probabilistic sampling decision for a given rate in [0.0, 1.0].
-bool shouldSample(double rate) {
-    if (rate >= 1.0) return true;
-    if (rate <= 0.0) return false;
-    thread_local std::mt19937_64 rng{std::random_device{}()};
-    thread_local std::uniform_real_distribution<double> dist(0.0, 1.0);
-    return dist(rng) < rate;
-}
-
-/// Parse a W3C traceparent of the form
-///   "00-<32hexTraceId>-<16hexSpanId>-<2hexFlags>"
-/// Returns {trace_id, span_id} or {"", ""} on failure.
-std::pair<std::string, std::string> parseTraceparent(
-    const std::string& value) noexcept
-{
-    if (value.size() < 55) return {"", ""};
-    if (value[2] != '-' || value[35] != '-' || value[52] != '-')
-        return {"", ""};
-
-    std::string trace_id  = value.substr(3,  32);
-    std::string parent_id = value.substr(36, 16);
-
-    auto isHex = [](const std::string& s) {
-        return std::all_of(s.begin(), s.end(), [](unsigned char c) {
-            return std::isxdigit(c) != 0;
-        });
-    };
-
-    if (!isHex(trace_id) || !isHex(parent_id)) return {"", ""};
-    return {trace_id, parent_id};
-}
-
-/// Build a W3C traceparent header value.
-std::string buildTraceparent(const std::string& trace_id,
-                              const std::string& span_id,
-                              bool sampled = true) {
-    return "00-" + trace_id + "-" + span_id + (sampled ? "-01" : "-00");
-}
-
-/// Case-insensitive header lookup.
-std::string findHeader(const std::map<std::string, std::string>& headers,
-                       const std::string& lower_key) {
-    for (const auto& [k, v] : headers) {
-        std::string lk = k;
-        std::transform(lk.begin(), lk.end(), lk.begin(),
-                       [](unsigned char c) {
-                           return static_cast<char>(std::tolower(c));
-                       });
-        if (lk == lower_key) return v;
-    }
-    return {};
-}
-
 /// Map an exporter name string to ExporterType.
-/// Logs an unknown-exporter warning via MetricsCollector counter (labelled
-/// with the unknown name) and falls back to OTLP so the tracer remains
-/// functional on misconfiguration.
+/// Logs an unknown-exporter warning via MetricsCollector counter and falls
+/// back to OTLP so the tracer remains functional on misconfiguration.
 ExporterType exporterFromString(const std::string& name) {
     std::string lower = name;
     std::transform(lower.begin(), lower.end(), lower.begin(),
@@ -150,10 +77,6 @@ ExporterType exporterFromString(const std::string& name) {
     if (lower == "jaeger") return ExporterType::JAEGER;
     if (lower == "zipkin") return ExporterType::ZIPKIN;
     if (lower != "otlp") {
-        // Unknown exporter name: record a misconfiguration counter.  The
-        // unknown name is normalised to the literal string "unknown" to keep
-        // cardinality bounded (a single metric series regardless of how many
-        // different typos are used in config).
         MetricsCollector::getInstance().addCounter(
             "themis_otel_unknown_exporter_total",
             1,
@@ -163,8 +86,6 @@ ExporterType exporterFromString(const std::string& name) {
 }
 
 /// Return the canonical OTLP traces endpoint URL.
-/// If the supplied endpoint already ends with "/v1/traces" it is returned
-/// unchanged; otherwise "/v1/traces" is appended.
 std::string resolveOtlpTracesEndpoint(const std::string& base) {
     constexpr std::string_view kSuffix = "/v1/traces";
     if (base.size() >= kSuffix.size() &&
@@ -173,14 +94,6 @@ std::string resolveOtlpTracesEndpoint(const std::string& base) {
     }
     return base + std::string(kSuffix);
 }
-
-} // anonymous namespace
-
-// ---------------------------------------------------------------------------
-// OtelSpan — ISpan implementation
-// ---------------------------------------------------------------------------
-
-namespace {
 
 /**
  * @brief Production span used by OpenTelemetryTracer.
@@ -654,7 +567,7 @@ void OpenTelemetryTracer::recordException(ISpan& span,
 }
 
 void OpenTelemetryTracer::recordMetrics(ISpan& span,
-                                        const MetricSnapshot& metrics)
+                                        const SpanMetrics& metrics)
 {
     if (metrics.cpu_usage_percent != 0.0) {
         span.setAttribute("db.metrics.cpu_usage_percent",

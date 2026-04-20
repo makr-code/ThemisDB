@@ -91,7 +91,7 @@ static std::string sourceTypeLabel(SourceType t) {
 }
 
 /// Map IngestionErrorCode to its integer string for a metric label
-static std::string errorCodeLabel(IngestionErrorCode c) {
+[[maybe_unused]] static std::string errorCodeLabel(IngestionErrorCode c) {
     return std::to_string(static_cast<int>(c));
 }
 

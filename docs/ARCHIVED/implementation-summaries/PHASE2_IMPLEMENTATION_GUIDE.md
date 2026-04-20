@@ -294,7 +294,7 @@ cmake --build build
 ### Tier 1: Runtime (< 1 minute)
 
 ```json
-// config/phase2_optimizations.json
+// config/deprecated/phase2_optimizations.json
 {
   "performance": {
     "phase2": {
@@ -347,7 +347,7 @@ git push
 - `benchmarks/performance_optimizations/phase2/benchmark_phase2.cpp` - 20+ benchmarks
 
 ### Configuration
-- `config/phase2_optimizations.json` - Runtime configuration
+- `config/deprecated/phase2_optimizations.json` - Runtime configuration
 
 ---
 

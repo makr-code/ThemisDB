@@ -34,6 +34,7 @@
 #include "security/user_registration_plugin.h"
 #include "server/policy_engine.h"
 #include "utils/expected.h"
+#include "auth/mfa_authenticator.h"
 
 // Forward declarations
 namespace themis {

@@ -384,7 +384,7 @@ CoverageAnalysis ComplianceReporter::analyzeCoverage(
     const std::vector<std::string>& resources
 ) const {
     CoverageAnalysis analysis;
-    analysis.total_resources_analyzed = resources.size();
+    analysis.total_resources_analyzed = static_cast<int>(resources.size());
     
     auto rules = policy_manager_->listRules();
     

@@ -576,12 +576,13 @@ size_t HnswMemoryOptimizer::getCacheLineSize() {
 #if defined(__x86_64__) || defined(_M_X64) || defined(__i386__) || defined(_M_IX86)
     // CPUID leaf 0x1: EBX[15:8] gives CLFLUSH line size * 8.
     // Supported on all x86/x64 CPUs that have CLFLUSH (CPUID.01h:EDX.CLFSH[bit 19]).
-    uint32_t eax = 1, ebx = 0, ecx = 0, edx = 0;
+    uint32_t eax = 1, ebx = 0, ecx = 0, edx = 0; // eax/ecx used in GCC asm path only
 #   if defined(_MSC_VER)
     int regs[4];
     __cpuid(regs, 1);
     ebx = static_cast<uint32_t>(regs[1]);
     edx = static_cast<uint32_t>(regs[3]);
+    (void)eax; (void)ecx;  // only used in GCC/Clang asm branch
 #   else
     __asm__ volatile(
         "cpuid"

@@ -431,7 +431,7 @@ std::vector<uint8_t> BufferBinaryProtocolHandler::createResponse(
     response.push_back(status);
     
     // Payload length (4 bytes, big-endian)
-    uint32_t payload_len = payload.size();
+    uint32_t payload_len = static_cast<uint32_t>(payload.size());
     response.push_back((payload_len >> 24) & 0xFF);
     response.push_back((payload_len >> 16) & 0xFF);
     response.push_back((payload_len >> 8) & 0xFF);

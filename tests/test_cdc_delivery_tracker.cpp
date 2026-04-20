@@ -266,7 +266,7 @@ TEST(DeliveryTrackerTest, RedeliveryCallbackInvokedByBackgroundThread) {
     cfg.ack_timeout = std::chrono::milliseconds{0}; // immediate timeout for test
     cfg.recheck_interval = std::chrono::milliseconds{50};
 
-    DeliveryTracker tracker(cfg, [&](const std::string& cid,
+    DeliveryTracker tracker(cfg, [&]([[maybe_unused]] const std::string& cid,
                                      const std::vector<Changefeed::ChangeEvent>& evts) {
         callback_count.fetch_add(static_cast<int>(evts.size()));
         for (const auto& ev : evts) {

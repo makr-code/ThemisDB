@@ -167,7 +167,7 @@ void PredictiveFailureDetector::checkAllShards() {
                 stats_.predictions_made++;
             }
             
-        } catch (const std::exception& e) {
+        } catch (const std::exception&) {
             // Skip this shard and continue
             continue;
         }
@@ -353,9 +353,9 @@ std::vector<float> PredictiveFailureDetector::computeStatisticalFeatures(
     features.push_back(compute_mean(latencies));
     features.push_back(compute_stddev(latencies));
     features.push_back(compute_trend(latencies));
-    features.push_back(history.back().avg_latency_ms / 100.0f);  // Current normalized
-    features.push_back(history.back().p95_latency_ms / 100.0f);
-    features.push_back(history.back().p99_latency_ms / 100.0f);
+    features.push_back(static_cast<float>(history.back().avg_latency_ms / 100.0));  // Current normalized
+    features.push_back(static_cast<float>(history.back().p95_latency_ms / 100.0));
+    features.push_back(static_cast<float>(history.back().p99_latency_ms / 100.0));
     
     // Throughput features (indices 6-9)
     features.push_back(compute_mean(throughputs));

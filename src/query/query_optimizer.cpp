@@ -62,7 +62,8 @@ struct GpuInfo {
 
 inline GpuInfo probeGpu() noexcept {
     const uint64_t vram_total = themis::gpu::GPUMemoryManager::GetMaxGPUVRAMBytes();
-    if (vram_total == 0) {
+	const bool has_vram = (vram_total != 0);
+	if (!has_vram) {
         return {};
     }
     const uint64_t vram_used =
@@ -172,8 +173,8 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 		    : (plan.details.empty() ? 0
 		           : plan.details[idx[0]].estimatedCount);
 		const size_t avg_bytes = table_stats_ptr
-		    ? static_cast<size_t>(table_stats_ptr->avgRowSize > 0.0
-		                              ? table_stats_ptr->avgRowSize
+		    ? static_cast<size_t>(table_stats_ptr->avg_row_size_bytes > 0.0
+		                              ? table_stats_ptr->avg_row_size_bytes
 		                              : 256.0)
 		    : 256u;
 		const auto   gpu       = probeGpu();
@@ -232,7 +233,7 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQueryWithNLP(
             ? tsp->row_count
             : (plan.details.empty() ? 0 : plan.details[0].estimatedCount);
         const size_t avg_bytes = tsp
-            ? static_cast<size_t>(tsp->avgRowSize > 0.0 ? tsp->avgRowSize : 256.0)
+            ? static_cast<size_t>(tsp->avg_row_size_bytes > 0.0 ? tsp->avg_row_size_bytes : 256.0)
             : 256u;
 
         const auto gpu = probeGpu();
@@ -587,7 +588,7 @@ QueryOptimizer::DistributedPlan QueryOptimizer::optimizeForDistribution(
 
 bool QueryOptimizer::DistributedQueryCostModel::shouldPrunePartition(
     const ShardInfo& info, 
-    size_t total_shards, 
+	[[maybe_unused]] size_t total_shards, 
     double selectivity) const {
     
     // Production implementation: Prune partitions with low expected row count
@@ -786,7 +787,7 @@ double QueryOptimizer::DistributedQueryCostModel::calculatePredicateSelectivity(
 QueryOptimizer::VectorWorkloadPlan QueryOptimizer::optimizeVectorWorkload(
 	size_t k,
 	size_t dataset_size,
-	size_t dimension,
+	[[maybe_unused]] size_t dimension,
 	double target_recall) const {
 	
 	VectorWorkloadPlan plan;

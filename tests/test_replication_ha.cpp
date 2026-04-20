@@ -4420,7 +4420,7 @@ TEST(CrossClusterPrometheusTest, SubscriptionMetricsReflectErrors) {
     auto pub = std::make_shared<CrossClusterPublication>("prom_pub3");
 
     int calls = 0;
-    CrossClusterSubscription sub("err_sub", pub, [&](const WALEntry& e) {
+    CrossClusterSubscription sub("err_sub", pub, [&]([[maybe_unused]] const WALEntry& e) {
         ++calls;
         if (calls == 1) throw std::runtime_error("simulated error");
     });

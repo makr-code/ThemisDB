@@ -103,7 +103,7 @@ inline void* allocate_aligned(size_t size, size_t alignment) {
  * @param ptr Pointer to aligned memory
  * @param alignment Alignment that was used for allocation
  */
-inline void deallocate_aligned(void* ptr, size_t alignment) {
+inline void deallocate_aligned(void* ptr, [[maybe_unused]] size_t alignment) {
     if (!ptr) return;
     
     #ifdef THEMIS_ENABLE_JEMALLOC

@@ -226,7 +226,7 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeKHopN
 }
 
 Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeKHopNeighborhood(
-    std::string_view start_vertex,
+    [[maybe_unused]] std::string_view start_vertex,
     int k,
     const QueryConstraints& constraints) {
 
@@ -1841,7 +1841,7 @@ GraphQueryOptimizer::executeSubgraphIsomorphism(
 }
 
 Result<GraphQueryOptimizer::GraphStatistics> GraphQueryOptimizer::collectStatistics(
-    std::optional<std::string_view> graph_id) {
+    [[maybe_unused]] std::optional<std::string_view> graph_id) {
     
     GraphStatistics stats;
     

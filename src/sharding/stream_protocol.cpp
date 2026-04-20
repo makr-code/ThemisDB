@@ -365,7 +365,7 @@ std::string StreamingStats::toPrometheusFormat() const {
 std::vector<uint8_t> StreamCompressor::compress(
     const std::vector<uint8_t>& data,
     CompressionAlgorithm algorithm,
-    int level) {
+    [[maybe_unused]] int level) {
     
     if (data.empty() || algorithm == CompressionAlgorithm::NONE) {
         return data;
@@ -417,7 +417,7 @@ std::vector<uint8_t> StreamCompressor::compress(
 std::vector<uint8_t> StreamCompressor::decompress(
     const std::vector<uint8_t>& data,
     CompressionAlgorithm algorithm,
-    size_t uncompressed_size) {
+    [[maybe_unused]] size_t uncompressed_size) {
     
     if (data.empty() || algorithm == CompressionAlgorithm::NONE) {
         return data;
@@ -754,7 +754,7 @@ void StreamSession::transitionState(StreamSessionState new_state) {
     state_.store(new_state);
 }
 
-bool StreamSession::sendMessage(StreamMessageType type, const std::vector<uint8_t>& payload) {
+bool StreamSession::sendMessage([[maybe_unused]] StreamMessageType type, [[maybe_unused]] const std::vector<uint8_t>& payload) {
     // In real implementation, this would send over the mTLS connection
     return true;
 }

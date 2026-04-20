@@ -901,9 +901,7 @@ std::vector<std::string> TaskScheduler::topologicalSort(
         in_degree[id] = 0;
     }
     for (const auto& [id, deps] : adj) {
-        for (const auto& dep : deps) {
-            in_degree[id]++;  // 'id' depends on 'dep', so it has higher in-degree
-        }
+        in_degree[id] += static_cast<int>(deps.size());
     }
 
     // Queue nodes with no dependencies

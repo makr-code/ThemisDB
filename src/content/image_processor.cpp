@@ -396,7 +396,7 @@ std::vector<uint8_t> ImageProcessor::generateThumbnail(const std::vector<uint8_t
     return std::vector<uint8_t>();
 }
 
-std::string ImageProcessor::performOCR(const std::vector<uint8_t>& blob) {
+std::string ImageProcessor::performOCR([[maybe_unused]] const std::vector<uint8_t>& blob) {
 #ifdef THEMIS_ENABLE_OCR
     return OcrProcessor::performOcr(blob, ocr_language_);
 #else
