@@ -85,7 +85,9 @@ std::optional<std::string> parseDomainHint(
         hint == "explainability" ||
         hint == "vector_search" || hint == "vector" ||
         hint == "process_mining" ||
-        hint == "geospatial") {
+        hint == "geospatial" ||
+        hint == "legal" || hint == "legal_analysis" ||
+        hint == "medical" || hint == "healthcare") {
         return hint;
     }
     return std::nullopt;
@@ -121,6 +123,12 @@ std::optional<themis::distributed_knowledge::AdapterDomainType> parseDomainHintT
     }
     if (domain_hint == "geospatial") {
         return AdapterDomainType::GEOSPATIAL;
+    }
+    if (domain_hint == "legal" || domain_hint == "legal_analysis") {
+        return AdapterDomainType::LEGAL;
+    }
+    if (domain_hint == "medical" || domain_hint == "healthcare") {
+        return AdapterDomainType::MEDICAL;
     }
     return std::nullopt;
 }

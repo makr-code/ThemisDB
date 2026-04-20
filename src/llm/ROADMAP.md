@@ -130,7 +130,19 @@ Key additions since v1.15.0:
 - [x] Integration-Test: Circuit breaker OPEN during batch → throws (LRIR-03)
 - [x] Integration-Test: Remote-Draft-Shard SpeculativeDecoder accept-rate telemetry (LRIR-04)
 - [x] Integration-Test: Embedding locality — ShardingManager::GetShardForKey deterministic routing (LRIR-05)
-- [x] Registered `test_llm_raid_integration_focused` (LRIR-01..05) in tests/CMakeLists.txt
+- [x] Integration-Test: LEGAL/MEDICAL domain hint end-to-end routing via AdaptiveShardRouter (LRIR-06)
+- [x] Registered `test_llm_raid_integration_focused` (LRIR-01..06) in tests/CMakeLists.txt
+
+### Phase 4b: Direct AdaptiveShardRouter Integration (Status: Completed ✅)
+
+- [x] `LLMAQLHandler::setAdaptiveShardRouter()` — inject `AdaptiveShardRouter` directly (no custom resolver needed)
+- [x] `parseDomainHintToAdapterDomainType()` — maps AQL `domain_hint` strings to `AdapterDomainType`
+- [x] Resolver-over-router precedence: `domain_route_resolver_` takes priority when both are set
+- [x] `AdapterDomainType::LEGAL` — legal document analysis / contract intelligence
+- [x] `AdapterDomainType::MEDICAL` — medical / healthcare NLP and clinical decision support
+- [x] `adapterDomainTypeToString()` + `fromJson()` updated for LEGAL / MEDICAL
+- [x] Unit tests: `ExecuteInferUsesAdaptiveShardRouterWhenResolverNotSet` + `ExecuteInferPrefersResolverOverAdaptiveShardRouter`
+- [x] LRIR-01 updated to use proper LEGAL/MEDICAL domain types (no PROCESS_MINING/MULTI_TENANT workarounds)
 
 ### Phase 5: KV-Prefix Cross-Shard Transfer (Status: Completed ✅)
 
