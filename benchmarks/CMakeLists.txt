@@ -3696,6 +3696,45 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_process_import_retrieval.cpp")
 endif()
 
 # ============================================================================
+# Process Mining Performance Benchmarks
+# Validates: discovery algorithm throughput, DFG construction, conformance,
+#            BPMN/PNML export, variant clustering at scale
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_process_mining.cpp")
+    message(STATUS "Adding Process Mining benchmarks")
+
+    add_executable(bench_process_mining
+        bench_process_mining.cpp
+    )
+
+    target_include_directories(bench_process_mining PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_process_mining PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_process_mining PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_process_mining)
+
+    install(TARGETS bench_process_mining
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  ProcessMining: Alpha/Heuristic/Inductive discovery, DFG, conformance, export")
+endif()
+
+# ============================================================================
 # Chaos Framework Extended Stress Benchmarks
 # Validates: FaultInjector throughput, concurrent stress, scheduler overhead
 # ============================================================================

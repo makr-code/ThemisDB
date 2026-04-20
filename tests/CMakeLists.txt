@@ -19924,6 +19924,35 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_graph.cpp")
     message(STATUS "  ProcessGraph: visit_timestamps, getVisitTimestamp, multi-hop ordering")
 endif()
 
+# Process Mining v2 focused tests (PM2-01 … PM2-16)
+# Covers: ProcessMining pair<Status,T> API — DFG, discovery, variants, conformance,
+#         performance enhancement, bottleneck detection, BPMN/PNML export
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_mining_v2.cpp")
+    message(STATUS "Adding Process Mining v2 focused tests (PM2-01..16)")
+    add_executable(test_process_mining_v2_focused
+        test_process_mining_v2.cpp
+    )
+    target_include_directories(test_process_mining_v2_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_process_mining_v2_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_process_mining_v2_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    add_test(NAME ProcessMiningV2FocusedTests COMMAND test_process_mining_v2_focused)
+    set_tests_properties(ProcessMiningV2FocusedTests PROPERTIES
+        LABELS "process;mining;dfg;discovery;conformance;focused;unit"
+        TIMEOUT 120
+    )
+    message(STATUS "  ProcessMiningV2: PM2-01..16 DFG/discovery/variants/conformance/export")
+endif()
+
 # ============================================================================
 # Temporal Module Focused Tests
 # ============================================================================
