@@ -1,35 +1,30 @@
 # PERFORMANCE_EXPECTATIONS — src/geo
 
 ## Scope
-- Diese Datei definiert die Performance-Erwartungen für `src/geo` im Produktivbetrieb.
-- Ziele basieren auf Benchmarks unter `benchmarks/` und, falls notwendig, auf expliziten Annahmen.
+- Modul: `src/geo`
+- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
+- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
 ## Benchmark-Bezug
-- Abdeckungsmodus: **Direkte Modul-Benchmarks**
-- Relevante Quellen (Auszug):
-  - `benchmarks/bench_geo_cpu_gpu.cpp`
+- Relevante Benchmark-Dateien:
   - `benchmarks/bench_hybrid_vector_geo.cpp`
   - `benchmarks/bench_spatial_index.cpp`
+  - `benchmarks/bench_geo_cpu_gpu.cpp`
   - `benchmarks/bench_spatial_join.cpp`
 
-## Annahmen
-- Messungen erfolgen in Release-Builds mit stabiler CPU/GPU-Taktung und ohne Debug-Instrumentierung.
-- Datenverteilungen und Lastprofile orientieren sich an den jeweils genannten Benchmark-Szenarien.
-- Für CI-Gates wird eine Regression gegen die zuletzt akzeptierte Baseline desselben Benchmarks bewertet.
-
-## Service-Level-Ziele (SLO)
-| KPI | Erwartung | Gate |
+## Spezifische Erwartungswerte
+| Ziel-ID | Erwartungswert | Benchmark-Fall |
 |---|---|---|
-| Throughput | Keine Regression > 10 % gegenüber Baseline | Warnung > 8 %, Fehler > 10 % |
-| P95-Latenz | Keine Regression > 15 % gegenüber Baseline | Warnung > 10 %, Fehler > 15 % |
-| P99/P50-Verhältnis | Stabilität in Lastspitzen, Ziel ≤ 2.5x | Warnung > 2.3x, Fehler > 2.5x |
-| Speicher/VRAM | Peak ≤ 120 % der Baseline (gleicher Workload) | Warnung > 110 %, Fehler > 120 % |
+| GEO-1 | >= 20 M/s | `BM_GeoDistance_Haversine` |
+| GEO-2 | >= 30 M/s | `BM_RTree_Contains` |
+| GEO-3 | <= 5 ms (R-Tree) | `BM_RTree_Intersects` |
+| GEO-4 | <= 3 s | `BM_RTree_BulkLoad` |
+| GEO-5 | <= 200 ms/Core | `BM_GeoCPUExact_StBuffer` |
+| GEO-6 | <= 500 ms | `BM_SpatialJoin_First1000` |
+| GEO-7 | <= 2 s | `n/a` |
+| GEO-8 | <= 50 ms | `BM_GeoGPU_BatchIntersects` |
+| GEO-9 | > 100x vs. CPU | `n/a` |
 
 ## Validierung
-- Vor einem Release sollen die oben referenzierten Benchmarks (oder Proxy-Benchmarks) mindestens 3-mal reproduzierbar laufen.
-- Ausreißerbehandlung: Median + P95/P99 pro Lauf dokumentieren; Regressionen nur nach Root-Cause-Analyse akzeptieren.
-- Änderungen an Algorithmen, Speicherlayout oder Parallelisierung erfordern ein Baseline-Update mit Begründung.
-
-## Nicht-Ziele / Hinweise
-- Diese Erwartungen ersetzen keine funktionalen Korrektheitstests und keine Security-Validierung.
-- Bei fehlender direkter Benchmark-Abdeckung sind die Ziele konservativ und müssen bei erster Messung präzisiert werden.
+- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
+- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.

@@ -1,33 +1,27 @@
 # PERFORMANCE_EXPECTATIONS — src/replication
 
 ## Scope
-- Diese Datei definiert die Performance-Erwartungen für `src/replication` im Produktivbetrieb.
-- Ziele basieren auf Benchmarks unter `benchmarks/` und, falls notwendig, auf expliziten Annahmen.
+- Modul: `src/replication`
+- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
+- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
 ## Benchmark-Bezug
-- Abdeckungsmodus: **Direkte Modul-Benchmarks**
-- Relevante Quellen (Auszug):
+- Relevante Benchmark-Dateien:
   - `benchmarks/bench_replication_throughput.cpp`
-  - `benchmarks/bench_wal_apply_grpc.cpp`
+  - `benchmarks/bench_changefeed_throughput.cpp`
 
-## Annahmen
-- Messungen erfolgen in Release-Builds mit stabiler CPU/GPU-Taktung und ohne Debug-Instrumentierung.
-- Datenverteilungen und Lastprofile orientieren sich an den jeweils genannten Benchmark-Szenarien.
-- Für CI-Gates wird eine Regression gegen die zuletzt akzeptierte Baseline desselben Benchmarks bewertet.
-
-## Service-Level-Ziele (SLO)
-| KPI | Erwartung | Gate |
+## Spezifische Erwartungswerte
+| Ziel-ID | Erwartungswert | Benchmark-Fall |
 |---|---|---|
-| Throughput | Keine Regression > 10 % gegenüber Baseline | Warnung > 8 %, Fehler > 10 % |
-| P95-Latenz | Keine Regression > 15 % gegenüber Baseline | Warnung > 10 %, Fehler > 15 % |
-| P99/P50-Verhältnis | Stabilität in Lastspitzen, Ziel ≤ 2.5x | Warnung > 2.3x, Fehler > 2.5x |
-| Speicher/VRAM | Peak ≤ 120 % der Baseline (gleicher Workload) | Warnung > 110 %, Fehler > 120 % |
+| R-1 | ≤ 50 ms @ 10k Writes/s (LAN) | `WalBenchFixture_Append` |
+| R-2 | ≥ 500 MB/s/Follower (10 GbE) | `WalBenchFixture_ReadFrom` |
+| R-3 | ≤ 10 s | `BM_ReplicationManager_Initialize` |
+| R-4 | < 5 µs/Write | `BM_WALEntry_Serialize` |
+| R-5 | ≤ 1 µs/Merge | `BM_WALEntry_Deserialize` |
+| R-6 | ≥ 200 MB/s; ≤ 10 min | `WalBenchFixture_ReadFrom` |
+| R-7 | ≤ 1 ms (Commit → CDC Queue) | `ChangefeedBenchmarkFixture_EventRecordingThroughput` |
+| R-8 | ≤ 200 ms P99 (50 ms RTT WAN) | `WalBenchFixture_ReadFrom` |
 
 ## Validierung
-- Vor einem Release sollen die oben referenzierten Benchmarks (oder Proxy-Benchmarks) mindestens 3-mal reproduzierbar laufen.
-- Ausreißerbehandlung: Median + P95/P99 pro Lauf dokumentieren; Regressionen nur nach Root-Cause-Analyse akzeptieren.
-- Änderungen an Algorithmen, Speicherlayout oder Parallelisierung erfordern ein Baseline-Update mit Begründung.
-
-## Nicht-Ziele / Hinweise
-- Diese Erwartungen ersetzen keine funktionalen Korrektheitstests und keine Security-Validierung.
-- Bei fehlender direkter Benchmark-Abdeckung sind die Ziele konservativ und müssen bei erster Messung präzisiert werden.
+- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
+- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.

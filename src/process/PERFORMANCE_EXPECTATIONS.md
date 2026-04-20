@@ -1,36 +1,18 @@
 # PERFORMANCE_EXPECTATIONS — src/process
 
 ## Scope
-- Diese Datei definiert die Performance-Erwartungen für `src/process` im Produktivbetrieb.
-- Ziele basieren auf Benchmarks unter `benchmarks/` und, falls notwendig, auf expliziten Annahmen.
+- Modul: `src/process`
+- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
+- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
 ## Benchmark-Bezug
-- Abdeckungsmodus: **Direkte Modul-Benchmarks**
-- Relevante Quellen (Auszug):
-  - `benchmarks/bench_content_processor_paths.cpp`
-  - `benchmarks/bench_process_import_retrieval.cpp`
-  - `benchmarks/bench_process_mining.cpp`
-  - `benchmarks/bench_process_retrieval.cpp`
-  - `benchmarks/bench_video_processor.cpp`
+- Direkte Mapping-Einträge fehlen; Fallback auf modulnahe Benchmarks `benchmarks/bench_process*.cpp` und globale Systemziele.
 
-## Annahmen
-- Messungen erfolgen in Release-Builds mit stabiler CPU/GPU-Taktung und ohne Debug-Instrumentierung.
-- Datenverteilungen und Lastprofile orientieren sich an den jeweils genannten Benchmark-Szenarien.
-- Für CI-Gates wird eine Regression gegen die zuletzt akzeptierte Baseline desselben Benchmarks bewertet.
-
-## Service-Level-Ziele (SLO)
-| KPI | Erwartung | Gate |
+## Spezifische Erwartungswerte
+| Ziel-ID | Erwartungswert | Benchmark-Fall |
 |---|---|---|
-| Throughput | Keine Regression > 10 % gegenüber Baseline | Warnung > 8 %, Fehler > 10 % |
-| P95-Latenz | Keine Regression > 15 % gegenüber Baseline | Warnung > 10 %, Fehler > 15 % |
-| P99/P50-Verhältnis | Stabilität in Lastspitzen, Ziel ≤ 2.5x | Warnung > 2.3x, Fehler > 2.5x |
-| Speicher/VRAM | Peak ≤ 120 % der Baseline (gleicher Workload) | Warnung > 110 %, Fehler > 120 % |
+| MOD-BASELINE | Throughput-Regression <= 10 %, P95-Regression <= 15 %, P99/P50 <= 2.5x, Peak-Memory <= 120 % ggü. Baseline | modulnahe Benchmarks |
 
 ## Validierung
-- Vor einem Release sollen die oben referenzierten Benchmarks (oder Proxy-Benchmarks) mindestens 3-mal reproduzierbar laufen.
-- Ausreißerbehandlung: Median + P95/P99 pro Lauf dokumentieren; Regressionen nur nach Root-Cause-Analyse akzeptieren.
-- Änderungen an Algorithmen, Speicherlayout oder Parallelisierung erfordern ein Baseline-Update mit Begründung.
-
-## Nicht-Ziele / Hinweise
-- Diese Erwartungen ersetzen keine funktionalen Korrektheitstests und keine Security-Validierung.
-- Bei fehlender direkter Benchmark-Abdeckung sind die Ziele konservativ und müssen bei erster Messung präzisiert werden.
+- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
+- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.

@@ -1,32 +1,24 @@
 # PERFORMANCE_EXPECTATIONS — src/ethics_ai
 
 ## Scope
-- Diese Datei definiert die Performance-Erwartungen für `src/ethics_ai` im Produktivbetrieb.
-- Ziele basieren auf Benchmarks unter `benchmarks/` und, falls notwendig, auf expliziten Annahmen.
+- Modul: `src/ethics_ai`
+- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
+- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
 ## Benchmark-Bezug
-- Abdeckungsmodus: **Direkte Modul-Benchmarks**
-- Relevante Quellen (Auszug):
-  - `benchmarks/bench_ethics_ai_plugin.cpp`
+- Relevante Benchmark-Dateien:
+  - `benchmarks/bench_rag_ethics.cpp`
 
-## Annahmen
-- Messungen erfolgen in Release-Builds mit stabiler CPU/GPU-Taktung und ohne Debug-Instrumentierung.
-- Datenverteilungen und Lastprofile orientieren sich an den jeweils genannten Benchmark-Szenarien.
-- Für CI-Gates wird eine Regression gegen die zuletzt akzeptierte Baseline desselben Benchmarks bewertet.
-
-## Service-Level-Ziele (SLO)
-| KPI | Erwartung | Gate |
+## Spezifische Erwartungswerte
+| Ziel-ID | Erwartungswert | Benchmark-Fall |
 |---|---|---|
-| Throughput | Keine Regression > 10 % gegenüber Baseline | Warnung > 8 %, Fehler > 10 % |
-| P95-Latenz | Keine Regression > 15 % gegenüber Baseline | Warnung > 10 %, Fehler > 15 % |
-| P99/P50-Verhältnis | Stabilität in Lastspitzen, Ziel ≤ 2.5x | Warnung > 2.3x, Fehler > 2.5x |
-| Speicher/VRAM | Peak ≤ 120 % der Baseline (gleicher Workload) | Warnung > 110 %, Fehler > 120 % |
+| ETH-1 | Siehe Zielbeschreibung: Single Argument Generation P95 | `BM_EthicalCompliance_Full_Good` |
+| ETH-2 | Siehe Zielbeschreibung: Batch 5 Arguments (parallel, 5 Schulen) | `BM_MoralDiversity_MultiFramework` |
+| ETH-3 | Siehe Zielbeschreibung: Embedding Latenz (512-Token, CPU) | `BM_EthicalCompliance_Disabled` |
+| ETH-4 | Siehe Zielbeschreibung: Batch 10 Queries | `BM_AutonomyRespect_Good` |
+| ETH-5 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_MoralDiversity_MultiFramework` |
+| ETH-6 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_EthicalCompliance_Disabled` |
 
 ## Validierung
-- Vor einem Release sollen die oben referenzierten Benchmarks (oder Proxy-Benchmarks) mindestens 3-mal reproduzierbar laufen.
-- Ausreißerbehandlung: Median + P95/P99 pro Lauf dokumentieren; Regressionen nur nach Root-Cause-Analyse akzeptieren.
-- Änderungen an Algorithmen, Speicherlayout oder Parallelisierung erfordern ein Baseline-Update mit Begründung.
-
-## Nicht-Ziele / Hinweise
-- Diese Erwartungen ersetzen keine funktionalen Korrektheitstests und keine Security-Validierung.
-- Bei fehlender direkter Benchmark-Abdeckung sind die Ziele konservativ und müssen bei erster Messung präzisiert werden.
+- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
+- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.

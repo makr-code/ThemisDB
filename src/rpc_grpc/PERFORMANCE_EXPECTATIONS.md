@@ -1,32 +1,30 @@
 # PERFORMANCE_EXPECTATIONS — src/rpc_grpc
 
 ## Scope
-- Diese Datei definiert die Performance-Erwartungen für `src/rpc_grpc` im Produktivbetrieb.
-- Ziele basieren auf Benchmarks unter `benchmarks/` und, falls notwendig, auf expliziten Annahmen.
+- Modul: `src/rpc_grpc`
+- Diese Datei dokumentiert die modulspezifischen, messbaren Performance-Erwartungswerte (Ops/s, Latenz, Throughput) für Release-Gates.
+- Primärquelle: `benchmarks/benchmark_target_mapping.json` (Ziel-ID ↔ Benchmark-Fall).
 
 ## Benchmark-Bezug
-- Abdeckungsmodus: **Direkte Modul-Benchmarks**
-- Relevante Quellen (Auszug):
-  - `benchmarks/bench_wal_apply_grpc.cpp`
+- Dieses Modul nutzt die Ziel-ID-Matrix des Parent-Moduls `network` als Referenzpfad.
+- Relevante Benchmark-Dateien:
+  - `benchmarks/bench_api_endpoints.cpp`
+  - `benchmarks/bench_security.cpp`
+  - `benchmarks/bench_stream_protocol.cpp`
 
-## Annahmen
-- Messungen erfolgen in Release-Builds mit stabiler CPU/GPU-Taktung und ohne Debug-Instrumentierung.
-- Datenverteilungen und Lastprofile orientieren sich an den jeweils genannten Benchmark-Szenarien.
-- Für CI-Gates wird eine Regression gegen die zuletzt akzeptierte Baseline desselben Benchmarks bewertet.
-
-## Service-Level-Ziele (SLO)
-| KPI | Erwartung | Gate |
+## Spezifische Erwartungswerte
+| Ziel-ID | Erwartungswert | Benchmark-Fall |
 |---|---|---|
-| Throughput | Keine Regression > 10 % gegenüber Baseline | Warnung > 8 %, Fehler > 10 % |
-| P95-Latenz | Keine Regression > 15 % gegenüber Baseline | Warnung > 10 %, Fehler > 15 % |
-| P99/P50-Verhältnis | Stabilität in Lastspitzen, Ziel ≤ 2.5x | Warnung > 2.3x, Fehler > 2.5x |
-| Speicher/VRAM | Peak ≤ 120 % der Baseline (gleicher Workload) | Warnung > 110 %, Fehler > 120 % |
+| NET-1 | Keine absolute Zielzahl dokumentiert; Throughput-Regression <= 10 % und P95-Regression <= 15 % ggü. Baseline | `BM_GraphQL_Execute_MockResolver` |
+| NET-2 | Siehe Zielbeschreibung: TLS 1.3 Handshake P99 | `BM_AES256GCM_Encrypt_1KB` |
+| NET-3 | Siehe Zielbeschreibung: TLS 1.3 Session Resumption P99 | `BM_AES256GCM_Encrypt_64KB` |
+| NET-4 | Siehe Zielbeschreibung: WebSocket Round-Trip P99 | `BM_GraphQL_Parse_Simple_Cached` |
+| NET-5 | Siehe Zielbeschreibung: QUIC 0-RTT Resumption P99 | `BM_AES256GCM_Decrypt_1MB` |
+| NET-6 | Siehe Zielbeschreibung: UDP Fast-Path GET P99 | `BM_GraphQL_Parse_Complex_Uncached` |
+| SP-1 | > 50 M ops/s | `BM_StreamProtocol_FrameHeaderBuild` |
+| SP-2 | < 1 ms (16 KiB Payload) | `BM_StreamProtocol_LZ4Roundtrip` |
+| SP-3 | < 5 ms (10k Samples) | `BM_StreamProtocol_MetricsSnapshot` |
 
 ## Validierung
-- Vor einem Release sollen die oben referenzierten Benchmarks (oder Proxy-Benchmarks) mindestens 3-mal reproduzierbar laufen.
-- Ausreißerbehandlung: Median + P95/P99 pro Lauf dokumentieren; Regressionen nur nach Root-Cause-Analyse akzeptieren.
-- Änderungen an Algorithmen, Speicherlayout oder Parallelisierung erfordern ein Baseline-Update mit Begründung.
-
-## Nicht-Ziele / Hinweise
-- Diese Erwartungen ersetzen keine funktionalen Korrektheitstests und keine Security-Validierung.
-- Bei fehlender direkter Benchmark-Abdeckung sind die Ziele konservativ und müssen bei erster Messung präzisiert werden.
+- Erwartungswerte gelten als erfüllt, wenn die zugeordneten Benchmarks im Release-Profil reproduzierbar laufen und die Zielwerte erreichen.
+- Bei `proxy`/`not_measurable`-Ziel-IDs ist ein dedizierter Messpfad als Folgeaufgabe zu tracken; bis dahin gilt das dokumentierte Proxy-Ziel.
