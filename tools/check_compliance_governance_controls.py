@@ -23,7 +23,7 @@ REQUIRED_SECTIONS = (
 
 def _row_tokens(line: str) -> list[str]:
     parts = [p.strip() for p in line.strip().strip("|").split("|")]
-    return [p for p in parts]
+    return parts
 
 
 def _is_missing(value: str) -> bool:
@@ -36,7 +36,11 @@ def run(repo_root: Path) -> int:
         print(f"FAIL: required governance document missing: {DOC_PATH}")
         return 1
 
-    text = doc.read_text(encoding="utf-8", errors="replace")
+    try:
+        text = doc.read_text(encoding="utf-8")
+    except UnicodeDecodeError:
+        print(f"FAIL: governance document is not valid UTF-8: {DOC_PATH}")
+        return 1
     failures: list[str] = []
 
     for section in REQUIRED_SECTIONS:
