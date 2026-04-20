@@ -1,7 +1,7 @@
 # Themis: It Is Okay to Fail
 
 **Status**: Draft
-**Version**: 0.4
+**Version**: 0.5
 **Last Updated**: 2026-04-20
 **Target Venue**: Internal Engineering Retrospective / arXiv-style draft candidate
 
@@ -13,7 +13,9 @@ Dieses Paper dokumentiert Fehlentwicklungen, Fehlannahmen und falsche Entscheidu
 
 Version 0.3 fügte ein evidenzbasiertes Fehlerregister mit 28 Befunden in fünf Kategorien hinzu.
 
-Version 0.4 erweitert das Register auf **67 dokumentierte Befunde** über alle Module hinweg. Neu: Kategorie F (33 weitere Laufzeit- und Logikfehler aus Graph, Index, API, Query, Metadata, Scheduler, Cache, Ingestion, Importer, Prompt Engineering, Plugins, Storage, Acceleration) und Kategorie G (6 weitere Sicherheits- und Datenleck-Befunde inkl. GraphQL-Variablen-Substitution, Audit-Log-Hardcoding, Cross-Tenant-Cache-Leak, PKI-Stub, RAG-Stub und HSM-Stub-Warnung).
+Version 0.4 erweiterte das Register auf **67 dokumentierte Befunde** über alle Module hinweg. Neu: Kategorie F (33 weitere Laufzeit- und Logikfehler aus Graph, Index, API, Query, Metadata, Scheduler, Cache, Ingestion, Importer, Prompt Engineering, Plugins, Storage, Acceleration) und Kategorie G (6 weitere Sicherheits- und Datenleck-Befunde inkl. GraphQL-Variablen-Substitution, Audit-Log-Hardcoding, Cross-Tenant-Cache-Leak, PKI-Stub, RAG-Stub und HSM-Stub-Warnung).
+
+Version 0.5 schließt RPC/Observability (Kategorie H, 11 Befunde) ab und fügt **Kategorie I (23 PR-gesicherte Befunde)** hinzu — direkt aus abgeschlossenen GitHub-Pull-Requests belegt. Darunter: ~79x Write-Throughput Regression durch WAL-Sync-Konfigurationsfehler (PR #4596), Fake-Benchmark der 796 M/s "KPI" produzierte (PR #4595), DoS-Vektor in gRPC-BatchWrite (PR #4591), vollständig fehlende Paxos-RPC-Callbacks (PR #4678), CMake-Makro-Mismatch der alle GPU-Benchmarks zu Stubs machte (PR #4664), und 141-Datei-Concurrency-Audit mit Deadlocks+Blocking-I/O in 19+ Klassen (PR #4646). Gesamtstand: **~90 dokumentierte Befunde**.
 
 ## I. Einordnung und Zielbild
 
@@ -235,6 +237,8 @@ Alle Einträge sind mit Dateipfad/Changelog/Commit-Referenz belegt und aus der C
 | FA-05 | "Architektur-Migration kann inkrementell nachgezogen werden" | D-04 (HTTP Server), Error Code Migration | Dauerhafte Integrationsschuld | Migration in eigenem Sprint, nicht als Nebenaufgabe |
 | FA-06 | "Performance-Ziele ohne Messung setzen" | E-01..E-05 | Ziele ohne Validierbarkeit | Messung vor Zielsetzung; Benchmark CI als Gate |
 | FA-07 | "Security-relevante Defaultwerte sind sicher" | G-01 (VRAM), G-04 (PKI-Stub always-true), G-06 (HSM-Stub ohne Warnung), F-22 (Cache-Tenant-Leak) | Stille Sicherheitsverletzungen | Security-Defaults-Review als Pflicht-Gate |
+| FA-08 | "Benchmark-KPI = gemessene Performance" | I-02 (fake 796 M/s), I-09 (GPU-Benchmarks immer Stubs wegen Makro-Mismatch), E-03/E-04 | Phantom-KPIs; Regressionen unsichtbar | Benchmark-Validierung: Audit dass tatsächliche Operationen ausgeführt werden |
+| FA-09 | "Merge-Konflikte sind nach der Auflösung korrekt" | I-10 (garbled function bodies, `#include` mid-function) | Kompilierungsfehler, nicht erkennbare Logikfehler | Post-Merge-Kompilierung als obligatorischer CI-Check |
 
 ## V. Fehlentscheidungen (Cluster-Ebene)
 
@@ -259,6 +263,14 @@ Alle Einträge sind mit Dateipfad/Changelog/Commit-Referenz belegt und aus der C
 - **Korrektur**: Refaktorierungen enden mit 0 verbleibenden Bridge-Adaptern oder explizitem Migrations-Milestone.
 
 ### FD-06: Sicherheitskritische Stubs ohne Warnung in Produktion gelangt
+- **Evidenz**: I-02 (fake `DoNotOptimize(42.0)` Benchmark lieferte 796 M/s KPI), I-09 (CMake-Makro-Mismatch: alle GPU-Benchmarks immer Stubs), E-03/E-04 (GPU-Benchmarks disabled).
+- **Folge**: Management- und Roadmap-Entscheidungen basierten auf Zahlen ohne Bezug zur tatsächlichen Systemperformance.
+- **Korrektur**: CI-Gate: jeder Benchmark muss ≥1 tatsächliche Datenbankoperation ausführen (auditierbar via `--benchmark_list_tests` + Code-Review); Makro-Konsistenz als Linting-Regel.
+
+### FD-08: Großflächige Concurrency-Schulden durch fehlendes Design-Review
+- **Evidenz**: I-23 (PR #4646, 141 Dateien, 19+ Klassen, 3 Fehlerklassen: Deadlocks, Blocking-I/O unter Lock, Exclusive-Mutex auf Read-Pfaden), A-01..A-07 (frühere Session).
+- **Folge**: Ein einziger PR musste 141 Dateien ändern, weil kein systemisches Concurrency-Gate existierte.
+- **Korrektur**: Thread-Safety-Kontrakt als expliziter API-Kommentar; TSan-CI-Gate; `shared_mutex`-Policy für `const`-Methoden auf shared State als Lint-Regel.
 - **Evidenz**: G-02 (ProvenanceTracker-Stub), G-03 (RAG-LLM-Stub), G-04 (PKI-Stub immer true), G-06 (HSM-Stub ohne Warnung).
 - **Folge**: Sicherheitsfunktionen schienen aktiv (PKI-Verifikation, Provenance-Tracking, RAG-Evaluation), waren aber effektiv keine-Ops.
 - **Korrektur**: Sicherheitskritische Stubs sind verboten ohne Runtime-Warning + Startup-Error + CI-Gate.
@@ -267,13 +279,14 @@ Alle Einträge sind mit Dateipfad/Changelog/Commit-Referenz belegt und aus der C
 
 Wiederkehrende Root Causes:
 
-1. **Ambitionsüberhang** gegenüber verfügbarer Validierungskapazität (Stubs als Features).
-2. **Fehlende Thread-Safety-Disziplin** als Default (12+ Concurrency-Bugs in verschiedenen Modulen).
-3. **Integration-Tests zu spät** im Lebenszyklus (RAID-Hotfix, Port-Mapping-Fehler).
+1. **Ambitionsüberhang** gegenüber verfügbarer Validierungskapazität (Stubs als Features — 15+ Instanzen).
+2. **Fehlende Thread-Safety-Disziplin** als Default (30+ Concurrency-Bugs; ein einziger Audit-PR änderte 141 Dateien).
+3. **Integration-Tests zu spät** im Lebenszyklus (RAID-Hotfix, Port-Mapping-Fehler, Paxos-Korrektheitslücke).
 4. **Migration als Nebenaufgabe** statt eigenem Sprint (HTTP-Server-Schulden).
-5. **Performance ohne Messung** (Disabled-Stubs in Benchmarks).
-6. **Off-by-one durch fehlende Randbedingungs-Tests** (15+ Off-by-one/Bounds-Befunde).
-7. **Sicherheitskritische Stubs ohne Runtime-Gate** (G-02..G-06: PKI, RAG, HSM, ProvenanceTracker).
+5. **Performance ohne Messung** — Fake-Benchmarks, Disabled-Stubs, Makro-Mismatch (I-02, I-09, E-03/E-04).
+6. **Off-by-one durch fehlende Randbedingungs-Tests** (15+ Befunde).
+7. **Sicherheitskritische Stubs ohne Runtime-Gate** (G-02..G-06, I-12..I-15).
+8. **Fehlende Merge-Qualitätskontrolle** (I-10: garbled artifacts; I-23: 141-Datei Concurrency-Schulden).
 
 ## VII. Korrekturprogramm (verbindlich)
 
@@ -324,7 +337,8 @@ Wiederkehrende Root Causes:
 | Cache | F-22 (Cross-Tenant Leak) | — | gut |
 | Plugins | F-28 (Hot-Plug Race), F-29 (Stale Capabilities) | — | gut |
 | Acceleration | F-32 (Capabilities), F-33 (RTLD_LAZY) | — | gut |
-| RPC/Observability | — | — | offen |
+| RPC/Observability | H-01..H-11 (tracer absent, profilers fehlten in CMake, MetricsCollector exclusive mutex, /metrics unauthenticated, PII in spans, exemplar nicht integriert, health service nicht verdrahtet, recordRPC manuell, keepalive silently ignored, TLS reload nur cache, kein mTLS Integration-Test) | — | vollständig |
+| GitHub PRs (Cross-Module) | I-01..I-23 (WAL sync 79x regression, fake benchmark, DoS-Vektor, Paxos-Stub, GPU-CMake-Makro, Merge-Artifacts, OLAPEngine-Win-Stub, LoRA-Mock, fp16-Placeholder, VRAM-No-Op, listUsers-Error, Voice-No-Ops, NVLink-Bug, O(N) scan, 141-Datei-Concurrency-Audit) | FD-07, FD-08 | vollständig |
 
 ## IX. Was sich konkret ändern muss (ab sofort)
 
@@ -341,11 +355,11 @@ Wiederkehrende Root Causes:
 Fehler werden akzeptiert, transparent gemacht und in belastbare Verbesserungen überführt.
 Der Wert dieses Dokuments entsteht durch kontinuierliche Pflege, harte Evidenz und die Bereitschaft, auch unbequeme Entscheidungen rückblickend als falsch zu markieren.
 
-Die **67 dokumentierten Befunde** (v0.4) zeigen ein klares Muster: Die häufigsten Fehlerklassen sind
-(1) nicht-threadsichere Shared State ohne expliziten Schutz (12+ Fälle),
-(2) Off-by-one- und Bounds-Fehler ohne Randbedingungs-Tests (15+ Fälle),
-(3) Stubs die als Implementierungen galten — inkl. sicherheitskritischer Stubs ohne Warnung (10+ Fälle).
-Diese drei Muster sind adressierbar durch konkrete, nicht aufwändige Gates: TSan-CI, Property-based Tests, Stub-Policy.
+Die **~90 dokumentierten Befunde** (v0.5) über alle Kategorien A–I zeigen ein klares Muster: Die häufigsten Fehlerklassen sind
+(1) nicht-threadsichere Shared State ohne expliziten Schutz (30+ Fälle; ein einziger Audit-PR änderte 141 Dateien),
+(2) Stubs die als Implementierungen galten — inkl. sicherheitskritischer Stubs, Fake-Benchmarks und No-Op-Funktionen (15+ Fälle),
+(3) Off-by-one- und Bounds-Fehler ohne Randbedingungs-Tests (15+ Fälle).
+Kategorie I (PR-gesicherte Befunde) liefert die stärkste Evidenz: jeden dieser Bugs hat ein Reviewer als real akzeptiert und behoben — darunter eine ~79x Write-Throughput Regression durch eine Einzeiler-Fehlkonfiguration (I-01), ein Benchmark der 796 M/s "KPI" aus `DoNotOptimize(42.0)` produzierte (I-02), und vollständig fehlende Paxos-RPC-Callbacks in einem verteilten Konsenssystem (I-12).
 
 ---
 
@@ -356,7 +370,7 @@ Bei jeder größeren Iteration:
 1. Mindestens einen neuen Befund mit Dateipfad-Referenz dokumentieren.
 2. Vollständigkeitsregister aktualisieren (Status offen > teilweise > gut > vollständig).
 3. Übergreifende Fehlannahmen auf Aktualität prüfen.
-4. Offene Lücken (RPC/Observability) priorisieren.
+4. Offene Lücken (keine mehr — alle Module abgedeckt; zukünftige Sessions können neue Kategorien J+ anlegen).
 
 ## Appendix B. Schnellreferenz: Offene TODOs mit kritischem Potenzial
 
@@ -607,4 +621,126 @@ Bei jeder größeren Iteration:
 - **Fundstelle**: `src/rpc_grpc/AUDIT.md`, GRPC-OPEN-03 / CHANGELOG.md [Unreleased]
 - **Problem**: mTLS wird nur durch Unit-Tests auf Konfigurations-Level getestet. Ein echter mTLS Round-Trip (Client-Zertifikat + Server-Verifikation + Datenaustausch) ist nie im CI validiert worden.
 - **Auswirkung**: Produktionsfehler bei mTLS-Deployments könnten bis zum Deployment-Zeitpunkt unentdeckt bleiben.
+
+
+### Kategorie I: PR-gesicherte Befunde (GitHub Closed PRs)
+
+Die folgenden Befunde sind durch abgeschlossene und gemergte Pull Requests auf GitHub belegt — die stärkste Form der Evidenz, da jeder Bug von einem Reviewer als real akzeptiert und behoben wurde.
+
+#### I-01: WAL-Sync Konfigurationsfehler — ~79x Write-Throughput Regression (PR #4596)
+- **Fundstelle**: `src/storage/rocksdb_wrapper.cpp`, PR #4596 (merged 2026-04-13)
+- **Problem**: `write_options_->sync = config_.enable_wal` verknüpfte zwei orthogonale Konzepte: ob der WAL *geschrieben* wird vs. ob jeder Write *fsynced* wird. Da `enable_wal=true` der Default ist, wurde jeder `put()`-Aufruf mit einem synchronen `fsync()` beendet — was den Throughput auf Disk-IOPS (~1.276 k/s) beschränkte.
+- **Auswirkung**: ~79x Throughput-Regression gegenüber dem WAL-on/sync-off Modus. Der Fehler war im Default-Pfad aktiv. Das KPI-Ziel von 100 k/s war strukturell unerreichbar.
+- **Fix**: `write_options_->sync = false`; explizites fsync nur über `force_sync_on_write`-Flag.
+
+#### I-02: Fake Benchmark `QueryEngineBench/SimpleEvaluation` (`DoNotOptimize(42.0)`) (PR #4595)
+- **Fundstelle**: `benchmarks/bench_core_performance.cpp`, PR #4595 (merged 2026-04-13)
+- **Problem**: Das Benchmark das die "796.4 M/s"-KPI-Kennzahl produzierte, war `DoNotOptimize(42.0)` — ein Loop-Overhead-Measurement, das keine einzige Datenbankoperation ausführte. Das KPI-Dashboard zeigte einen "Wert" der nichts über tatsächliche Query-Performance aussagte.
+- **Auswirkung**: Alle KPI-Berichte für Query Engine Throughput basierten auf einer sinnlosen Messung. Performance-Regressionen waren unsichtbar.
+
+#### I-03: QueryEngine — Doppelter RocksDB Round-Trip bei Primary-Key Queries (PR #4595)
+- **Fundstelle**: `src/query/query_engine.cpp`, PR #4595
+- **Problem**: `executeAndEntities()` führte für PK-Queries zuerst einen Existenz-Check via `executeAndKeys()` und danach einen separaten Blob-Fetch durch — 2+ RocksDB-Reads statt 1.
+- **Fix**: `pk_eq`-Fast-Path: single `db_->get()` ohne Secondary-Index-Scan.
+
+#### I-04: Rate Limiter — Unbeschränktes Wachstum der Bucket-Map (Memory Leak) (PR #4592)
+- **Fundstelle**: `include/api/rate_limiter.h`, PR #4592 (merged 2026-04-13)
+- **Problem**: `buckets_`-Map wuchs unbegrenzt — ein Eintrag pro eindeutigem Key, niemals entfernt. Bei vielen verschiedenen Clients (z.B. IP-basierten Rate-Limits) wuchs der Speicherbedarf kontinuierlich.
+- **Auswirkung**: Langlaufende Server verloren Speicher; Denial-of-Service durch Speichererschöpfung möglich.
+
+#### I-05: Rate Limiter — Verschachteltes Mutex-Locking als serialisierende Flaschenhals (PR #4592)
+- **Fundstelle**: `include/api/rate_limiter.h`, PR #4592
+- **Problem**: `OperationRateLimiter::allow()` hielt äußeres `std::mutex` während es `RateLimiter::allow()` aufrief, das seinerseits ein eigenes Mutex aquirierte. Alle Requests serialisierten sich durch diese Two-Mutex-Chain.
+
+#### I-06: Rate Limiter — Clock-Syscall innerhalb kritischer Section (PR #4592)
+- **Fundstelle**: `include/api/rate_limiter.h`, PR #4592
+- **Problem**: `Bucket::refill()` rief `steady_clock::now()` unter `mutex_` auf — unnötige Syscall-Latenz im Hot-Path.
+- **Fix**: Timestamp vor Lock-Acquisition berechnen.
+
+#### I-07: gRPC API — `BatchWrite`/`BatchRead` ohne Input-Size-Limit (DoS-Vektor) (PR #4591)
+- **Fundstelle**: `src/api/themisdb_grpc_service.cpp`, PR #4591 (merged 2026-04-13)
+- **Problem**: `BatchWrite` und `BatchRead` alloziierten pro Item ohne vorherige Größenprüfung. Beliebig große Batches (z.B. 1 Mio. Items) konnten Speicher erschöpfen.
+- **Auswirkung**: DoS-Vektor: Jeder nicht-authentifizierte Client konnte den Server über einen einzelnen Giant-Batch überwältigen.
+- **Fix**: Hard-Cap von 10.000 Items; Überschreitung → `RESOURCE_EXHAUSTED`.
+
+#### I-08: gRPC API Server — `stop()` hielt `mutex_` während 30-sekündigem blockierenden `Shutdown()` (PR #4591)
+- **Fundstelle**: `src/api/grpc_api_server.cpp`, PR #4591
+- **Problem**: `stop()` verwendete `lock_guard` und hielt `mutex_` für das vollständige 30-Sekunden-Drain-Fenster. Gleichzeitige Aufrufe zu `isRunning()` deadlockten.
+- **Anmerkung**: Verwandt mit CHANGELOG-Bug F-04, aber dieser PR zeigt die zweite Instanz desselben Musters in `stop()`.
+
+#### I-09: CMake Makro-Mismatch — GPU-Benchmarks immer als Stubs gebaut (`THEMIS_GPU_ENABLED` ≠ `THEMIS_ENABLE_GPU`) (PR #4664)
+- **Fundstelle**: `cmake/CMakeLists.txt` + `benchmarks/`, PR #4664 (merged 2026-04-15)
+- **Problem**: CMake definierte `THEMIS_GPU_ENABLED` als PUBLIC-Definition auf `themis_core`. Benchmark-Quelldateien prüften aber `#ifndef THEMIS_ENABLE_GPU` (unterschiedlicher Makro-Name). Resultat: alle 5+ GPU-Benchmark-Targets kompilierten immer als Disabled-Stubs, auch bei explizitem `-DTHEMIS_ENABLE_GPU=ON -DTHEMIS_ENABLE_CUDA=ON`.
+- **Auswirkung**: Keine einzige GPU-Benchmark-Messung war je real. Alle GPU-Performance-KPIs waren Phantome.
+
+#### I-10: `user_storage_encrypted` — Garbled Merge Artifacts, fehlende Closing Braces, `#include` mid-Function (PR #4661)
+- **Fundstelle**: `src/user_storage_encrypted/`, PR #4661 (merged 2026-04-15)
+- **Problem**: Mehrere defekte Merge-Artefakte in verschiedenen Quelldateien: abgeschnittene Funktionskörper mit fremdem Code vermengt, fehlende schließende Klammern, duplizierte Klassen- und Funktionsdefinitionen, `#include`-Direktiven mitten in Funktionskörpern injiziert, Typ-Mismatch in `rotateKey()` (`uint32_t` in `std::vector` zugewiesen).
+- **Auswirkung**: Modul konnte über mehrere Sessions nicht kompiliert werden; alle Tests nicht lauffähig.
+
+#### I-11: `OLAPEngine` unter `_WIN32` vollständig als No-Op-Stub (325 LOC) (PR #4626)
+- **Fundstelle**: `src/analytics/olap.cpp`, PR #4626 (merged 2026-04-13)
+- **Problem**: Die gesamte `OLAPEngine`-Klasse war in `#if defined(_WIN32) ... #endif` eingeschlossen — 325 Zeilen No-Ops. Audit ergab: keine einzige POSIX-spezifische API-Nutzung im Code; SIMD-Intrinsics waren bereits per-Instruktion gegattet. Der Klassen-Level-Guard war grundlos.
+- **Auswirkung**: Jeder Windows-Build hatte null OLAP-Funktionalität ohne Fehlermeldung.
+
+#### I-12: Paxos RPC — `PaxosPrepareCallback`/`PaxosAcceptCallback` fehlten; Nodes wurden autom. eingefügt (PR #4678)
+- **Fundstelle**: `src/sharding/paxos_consensus.cpp`, PR #4678 (merged 2026-04-15)
+- **Problem**: Prepare- und Accept-Phasen riefen keine echten RPC-Callbacks auf — stattdessen wurden alle Cluster-Nodes automatisch als "stimmen zu" eingetragen. Paxos lief effektiv im Single-Node-Mode ohne echten Konsens.
+- **Auswirkung**: Paxos-Korrektheitsinvariante verletzt; verteilter Konsens war faktisch nicht vorhanden.
+
+#### I-13: LoRA `batchInferenceMultiLoRA` — Mock-Response statt echtem llama.cpp-Dispatch (PR #4678)
+- **Fundstelle**: `src/llm/multi_lora_manager.cpp`, PR #4678
+- **Problem**: Funktion gab immer eine hartgekodierte Mock-Response zurück, anstatt an den echten llama.cpp Extern-C-Aufruf zu delegieren.
+- **Auswirkung**: Alle Multi-LoRA-Inference-Ergebnisse waren gefälscht.
+
+#### I-14: `fp32_to_fp16`/`fp16_to_fp32` — Placeholder statt IEEE 754 Bit-Manipulation (PR #4678)
+- **Fundstelle**: `src/llm/lora_framework/mixed_precision.cpp`, PR #4678
+- **Problem**: FP16-Konvertierungsfunktionen enthielten keine korrekte IEEE 754 Bit-Manipulation (Sign/Exponent/Mantissa, Round-to-Nearest, Subnormals, Inf/NaN). Stattdessen: Placeholder-Implementierung die falsche oder undefinierte Werte produzierte.
+- **Auswirkung**: Alle Mixed-Precision-Operationen in der LoRA-Pipeline lieferten numerisch falsche Ergebnisse.
+
+#### I-15: Vulkan VRAM Allocator — Kein einziger Vulkan-API-Aufruf (PR #4678)
+- **Fundstelle**: `src/llm/lora_framework/vram_allocator.cpp`, PR #4678
+- **Problem**: `vram_allocator.cpp` enthielt keinerlei Vulkan-API-Aufrufe (`vkCreateBuffer`, `vkAllocateMemory` etc.). Alle VRAM-Allokationen waren No-Ops.
+- **Auswirkung**: GPU-beschleunigtes LoRA-Training war faktisch nicht möglich; Metriken/Tests die "Vulkan VRAM" validierten, validierten nichts.
+
+#### I-16: `listUsers`/`listGroups` gaben immer Hard Error zurück (PR #4708)
+- **Fundstelle**: `plugins/user_storage_encrypted/`, PR #4708 (merged 2026-04-16)
+- **Problem**: Beide Funktionen gaben einen Fehler-Statuswert zurück, ohne das Dateisystem zu scannen.
+- **Auswirkung**: User- und Gruppen-Management im verschlüsselten Storage war funktionslos.
+
+#### I-17: VoiceAPI `handleSynthesize` — gab immer leeres Audio zurück (PR #4708)
+- **Fundstelle**: `src/server/voice_api_handler`, PR #4708
+- **Problem**: `handleSynthesize()` gab bedingungslos leeres Audio zurück, ohne die `tts_processor_`-Implementierung aufzurufen.
+
+#### I-18: VoiceAPI `handleGetVoices` — gab hartgekodierte 4-Item-Liste zurück (PR #4708)
+- **Fundstelle**: `src/server/voice_api_handler`, PR #4708
+- **Problem**: Statt echte verfügbare Stimmen vom TTS-Backend abzufragen, lieferte die Funktion immer exakt dieselben 4 hartgekodierte Einträge.
+
+#### I-19: VoiceAPI `handleDeleteSession` — war vollständiger No-Op (PR #4708)
+- **Fundstelle**: `src/server/voice_api_handler`, PR #4708
+- **Problem**: `handleDeleteSession()` führte keine Aktion aus; Session-Context wurde nicht gelöscht.
+- **Auswirkung**: Session-Leaks; Clients die eine Session explizit löschen wollten, sahen keine Wirkung.
+
+#### I-20: `ExtractChunks` gab immer leere Map zurück (PR #4708)
+- **Fundstelle**: `src/server/rpc/differential_update_engine`, PR #4708
+- **Problem**: `ExtractChunks` berechnete keine CDC-Chunk-Grenzen, sondern lieferte bedingungslos `{}`.
+- **Auswirkung**: Differentielle Updates waren faktisch nicht implementiert.
+
+#### I-21: `GPUClusterTopology::addLink()` setzte `has_nvlink = true` nie (PR #4485)
+- **Fundstelle**: `src/gpu/cluster_topology.cpp`, PR #4485 (merged 2026-04-09)
+- **Problem**: `addLink()` aktualisierte nur `bandwidth_matrix`, setzte aber `has_nvlink` nie auf `true`. Nur `detect()` (automatische Hardware-Detection) setzte das Flag. Folge: NVLink-aware Scheduling war durch manuelle Topology-Injektion nicht erreichbar.
+- **Auswirkung**: NVLink-Scheduling-Pfad war in CPU-only CI vollständig toter Code; NVLink-Optimierungen nie validierbarer.
+
+#### I-22: CDC `SequenceCounter::scanMaxSequence()` — O(N) Full Scan mit JSON-Parsing (PR #4496)
+- **Fundstelle**: `src/cdc/sequence_counter.cpp`, PR #4496 (merged 2026-04-09)
+- **Problem**: `scanMaxSequence()` scannte alle Changefeed-Keys und parsierte dabei jeden als JSON — O(N) bei N Events.
+- **Fix**: `SeekForPrev` auf letzten Changefeed-Key + Sequenz direkt aus dem Key-String extrahiert (O(log N)).
+
+#### I-23: Großflächige Deadlock-Muster und Blocking-I/O unter Locks in 19+ Klassen (PR #4646)
+- **Fundstelle**: `src/`, PR #4646 (merged 2026-04-14), 141 geänderte Dateien
+- **Problem**: Systematisches Concurrency-Audit entdeckte drei Fehlerklassen gleichzeitig:
+  - **Deadlocks durch Lock-Order Inversions**: `task_scheduler.cpp` (verschachteltes `tasks_mutex_` → `running_mutex_`), `adaptive_query_cache.cpp` (verschachtelte L1+Eviction-Locks), `cross_shard_transaction.cpp` (retry sleep *innerhalb* Lock — hielt Lock während `sleep_for`)
+  - **Blocking I/O unter Lock**: `vault_key_provider.cpp` (Netzwerk-RPC `curl_easy_perform` unter mutex), `adaptive_query_cache.cpp` (4 L3-Scan-Pfade), `ml_model_manager.cpp` (Poll-Schleife mit Sleep unter Lock)
+  - **Exclusive Mutex auf Read-Heavy-Pfaden**: 19 Klassen nutzten exklusiven `std::mutex` für `const`-Methoden; u.a. `RateLimiter`, `IndexManager`, `ReplicationManager`, `TaskScheduler`, `MetricsCollector`, `HybridLogicalClock`
+- **Auswirkung**: Latenz-Spikes, Deadlock-Potenzial, Throughput-Verlust auf Read-Pfaden bei 19 verschiedenen Klassen. Umfang des Problems (141 Dateien) zeigt, dass kein systemisches Concurrency-Review vor Merge stattgefunden hatte.
 
