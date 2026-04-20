@@ -215,6 +215,30 @@ Production-ready multi-model query engine supporting relational, document, graph
 - [x] AQL injection prevention: parameterised literals in `AQLParser`; maximum AST depth = 256
 - [x] JIT compilation tests — `tests/test_query_jit_compilation.cpp`; optimizer statistics tests — `tests/test_query_optimizer_statistics.cpp`; adaptive compilation tests — `tests/test_adaptive_query_compilation.cpp`
 
+### Phase 7: Serialization Strategy Advisor (Status: Completed ✅)
+- [x] `WorkloadType` enum (`DOCUMENT_CRUD`, `VECTOR_SEARCH`, `ANALYTICS_OLAP`, `CDC_STREAM`, `CACHE_REPL`) — `include/query/optimizer_cost_model.h`
+- [x] `SerializationAdvice` struct — `Format` × `ExecutionPath` enums + `recommended_batch_size`, `recommended_thread_count`, `use_vram_pinned_memory`, `rationale` — `include/query/optimizer_cost_model.h`
+- [x] 6 calibratable `CostConstants` thresholds: `gpu_row_threshold_low`, `gpu_row_threshold_high`, `vram_safety_factor`, `cpu_batch_thread_low`, `cpu_batch_thread_high`, `msgpack_row_threshold` — `include/query/optimizer_cost_model.h`
+- [x] `adviseSerializationStrategy(row_count, avg_row_bytes, gpu_available, vram_free_bytes, workload)` decision tree — `src/query/optimizer_cost_model.cpp`
+- [x] `Plan::serialization_advice` field populated on every plan — `include/query/query_optimizer.h`, `src/query/query_optimizer.cpp`
+- [x] `QueryCostRecord::exec_path_used` + `serialization_time_ms` fields — `include/performance/phase3/per_query_cost_model.h`, `src/performance/phase3/per_query_cost_model.cpp`
+- [x] `getCalibrationFactors()` emits `gpu_row_threshold_low` and `msgpack_row_threshold` auto-adjustment hints
+- [x] `AdaptivePlanSelector::Strategy` extended: `BINARY_BATCH_CPU`, `ARROW_GPU_VRAM`, `ARROW_CPU_PARALLEL` — `include/query/adaptive_optimizer.h`
+- [x] 12 unit tests SA-01..12 — `tests/test_serialization_advisor.cpp` (`test_serialization_advisor_focused`)
+- [x] Performance expectations documented in `PERFORMANCE_EXPECTATIONS.md` §2.5
+
+**Performance Targets (default thresholds, RTX-class GPU, ≥ 4 cores, ~100 B avg row):**
+
+| Path                                       | Condition                              | Throughput gain vs JSON/CPU_SINGLE | Payload reduction |
+|--------------------------------------------|----------------------------------------|-----------------------------------:|-------------------|
+| MSGPACK_CBOR / CPU_THREADED_BATCH (4 T)    | 1 k–50 k rows, non-CDC                |                          1.3–2.5×  | 20–50 %           |
+| BINARY_CUSTOM / CPU_THREADED_BATCH (4 T)   | CDC_STREAM (any row count)             |                          1.5–3×    | 30–60 %           |
+| ARROW_IPC / CPU_THREADED_BATCH (hw_conc)   | ≥ 50 k rows, no GPU or VRAM too small  |                          2–4×      | 40–65 %           |
+| ARROW_IPC / GPU_VRAM                        | ≥ 50 k rows, GPU + VRAM ≥ 1.5× payload|                          3–10×     | 40–65 %           |
+| PROTOBUF / CPU_THREADED_BATCH              | CACHE_REPL workload                    |                    30–70 % smaller payload | —          |
+
+Decision overhead: ≤ 1 µs/call (no I/O, pure arithmetic; see `PERFORMANCE_EXPECTATIONS.md` §2.5).
+
 ## Production Readiness Checklist
 
 - [x] Unit test coverage ≥ 80 % across `AQLParser`, `QueryOptimizer`, `QueryExecutor`, `QueryCache`, and `UDFRegistry`
@@ -231,6 +255,9 @@ Production-ready multi-model query engine supporting relational, document, graph
   - Execution ≥ 10,000 simple AQL/s at p99 < 20 ms (3-node cluster, warm cache)
   - Exact-match cache lookup ≤ 1 ms at p99 under 10,000 concurrent clients
   - Streaming first-chunk ≤ 50 ms
+  - `adviseSerializationStrategy()` decision overhead ≤ 1 µs/call
+  - MSGPACK_CBOR path: 1.3–2.5× throughput gain and 20–50 % payload reduction vs JSON baseline (1 k–50 k rows)
+  - ARROW_IPC + GPU_VRAM path: 3–10× throughput gain (≥ 50 k rows, RTX-class GPU)
 - [x] Documentation complete (`src/query/README.md`, `include/query/README.md`, `src/query/CHANGELOG.md`)
 - [x] API stability guaranteed for `AQLParser::parse`, `QueryOptimizer::optimize`, `QueryEngine::execute*`, `QueryCache::lookup`, `UDFRegistry::register_fn`
 - [x] `QueryFederation` shard-key routing (point-lookup + range routing implemented — v1.9.0)
