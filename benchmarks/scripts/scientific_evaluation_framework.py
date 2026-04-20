@@ -24,6 +24,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence
 
 _REQUIRED_WORKLOAD_FAMILIES = {"oltp", "olap", "graph", "vector", "rag", "hybrid"}
+_PERMUTATION_SEED_OFFSET = 11
 
 
 @dataclass(frozen=True)
@@ -239,11 +240,12 @@ def _permutation_p_value(
     seed: int,
 ) -> float:
     observed = statistics.mean(treatment) - statistics.mean(baseline)
-    pooled = list(baseline) + list(treatment)
+    base_pooled = list(baseline) + list(treatment)
     n_b = len(baseline)
     rng = random.Random(seed)
     extreme = 0
     for _ in range(iterations):
+        pooled = base_pooled[:]
         rng.shuffle(pooled)
         b = pooled[:n_b]
         t = pooled[n_b:]
@@ -315,7 +317,7 @@ def evaluate_experiment(
         baseline,
         treatment,
         iterations=permutation_iterations,
-        seed=global_seed + 11,
+        seed=global_seed + _PERMUTATION_SEED_OFFSET,
     )
 
     improvement_pct = _relative_improvement_percent(

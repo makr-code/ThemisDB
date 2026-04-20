@@ -2,6 +2,7 @@
 """Unittests for benchmarks/scripts/scientific_evaluation_framework.py."""
 
 import unittest
+import random
 from pathlib import Path
 import sys
 
@@ -10,6 +11,11 @@ if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
 import scientific_evaluation_framework as sef  # noqa: E402
+
+
+def _seeded_samples(mean, stddev, n, seed):
+    rng = random.Random(seed)
+    return [mean + rng.gauss(0.0, stddev) for _ in range(n)]
 
 
 def _base_payload():
@@ -58,8 +64,8 @@ def _base_payload():
                     "practical_significance_percent": 3.0,
                     "critical": True,
                 },
-                "baseline_samples": [12.0 + (i % 5) * 0.2 for i in range(40)],
-                "treatment_samples": [10.8 + (i % 5) * 0.2 for i in range(40)],
+                "baseline_samples": _seeded_samples(12.0, 0.25, 40, 1001),
+                "treatment_samples": _seeded_samples(10.8, 0.20, 40, 2002),
                 "performance_budget_percent": 2.0,
             }
         ],
@@ -89,7 +95,7 @@ class ScientificEvaluationFrameworkTests(unittest.TestCase):
 
     def test_gate_violation_generates_ticket(self):
         payload = _base_payload()
-        payload["experiments"][0]["treatment_samples"] = [13.5 + (i % 4) * 0.2 for i in range(40)]
+        payload["experiments"][0]["treatment_samples"] = _seeded_samples(13.5, 0.25, 40, 3003)
         report = sef.run_pipeline(payload)
         self.assertEqual(report["summary"]["gate_violations"], 1)
         self.assertEqual(len(report["regression_tickets"]), 1)
