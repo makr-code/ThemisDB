@@ -41,8 +41,8 @@
 - [x] `ingest()` propagates `ContentManager` errors via `BridgeResult::error`
 
 ### Phase 4: Tests
-- [ ] Unit tests for `IngestionToolbox::extractEntities()` (Target: Q3 2026)
-- [ ] Integration tests for `ContentToolboxBridge::ingest()` (Target: Q3 2026)
+- [x] Unit tests for `IngestionToolbox::extractEntities()` (Target: Q3 2026) — IT-09/IT-10 in `tests/test_toolbox_ingestion.cpp`
+- [x] Integration tests for `ContentToolboxBridge::ingest()` (Target: Q3 2026) — CTB-01..CTB-05 in `tests/test_content_toolbox_bridge.cpp` (FE-01..03, TB-01..12, CTB-01..05, FM-01..08)
 
 ### Phase 5: Performance/Hardening
 - [ ] Add `PrometheusIngestionToolboxMetrics` for production observability (Target: Q3 2026)
@@ -53,7 +53,7 @@
 
 ## Production Readiness Checklist
 - [x] `IngestionToolbox`, `ToolboxBuilder`, `ContentToolboxBridge` implemented and headers documented
-- [ ] Unit and integration test coverage confirmed
+- [x] Unit and integration test coverage confirmed — `test_toolbox_ingestion.cpp` (IT-01..LH-03) + `test_content_toolbox_bridge.cpp` (FE-01..FM-08)
 - [ ] Prometheus metrics for production observability
 - [ ] `BridgeResult::vectors` fully populated
 

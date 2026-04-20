@@ -51,14 +51,72 @@
 #include "ingestion/builtin_step_factories.h"
 #include "ingestion/extraction_context.h"
 
+#include "content/content_manager.h"
+#include "storage/rocksdb_wrapper.h"
+#include "index/vector_index.h"
+#include "index/graph_index.h"
+#include "index/secondary_index.h"
+
+#include <chrono>
+#include <filesystem>
+#include <map>
 #include <memory>
-#include <string>
-#include <vector>
 #include <stdexcept>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 using namespace themis;
 using namespace themis::toolbox;
 using namespace themis::ingestion;
+using namespace themis::content;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TestDatabase — minimal ContentManager backed by a temp RocksDB instance
+// ─────────────────────────────────────────────────────────────────────────────
+
+struct TestDatabase {
+    std::filesystem::path                   path;
+    std::shared_ptr<RocksDBWrapper>         storage;
+    std::shared_ptr<VectorIndexManager>     vector_index;
+    std::shared_ptr<GraphIndexManager>      graph_index;
+    std::shared_ptr<SecondaryIndexManager>  secondary_index;
+    std::shared_ptr<ContentManager>         content_manager;
+
+    TestDatabase() {
+        path = std::filesystem::temp_directory_path() /
+               ("themis_ctb_test_" +
+                std::to_string(std::chrono::steady_clock::now()
+                                   .time_since_epoch()
+                                   .count()));
+        std::filesystem::create_directories(path);
+
+        RocksDBWrapper::Config cfg;
+        cfg.db_path    = path.string();
+        cfg.enable_wal = true;
+        storage = std::make_shared<RocksDBWrapper>(cfg);
+        if (!storage->open()) {
+            throw std::runtime_error(
+                "TestDatabase: failed to open RocksDB at " + path.string());
+        }
+
+        vector_index    = std::make_shared<VectorIndexManager>(*storage);
+        graph_index     = std::make_shared<GraphIndexManager>(*storage);
+        secondary_index = std::make_shared<SecondaryIndexManager>(*storage);
+        content_manager = std::make_shared<ContentManager>(
+            storage, vector_index, graph_index, secondary_index);
+    }
+
+    ~TestDatabase() noexcept {
+        content_manager.reset();
+        secondary_index.reset();
+        graph_index.reset();
+        vector_index.reset();
+        storage.reset();
+        std::error_code ec;
+        std::filesystem::remove_all(path, ec);
+    }
+};
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Minimal mock FormatExtractor for testing
@@ -238,14 +296,26 @@ TEST(ContentToolboxBridgeTest, CTB02_NullContentManagerThrows) {
         std::invalid_argument);
 }
 
+TEST(ContentToolboxBridgeTest, CTB03_ToolboxAccessorReturnsValue) {
+    TestDatabase db;
+    auto toolbox = IngestionToolbox::createDefault();
+    ContentToolboxBridge bridge(toolbox, db.content_manager);
+    EXPECT_EQ(bridge.toolbox(), toolbox);
+    EXPECT_EQ(bridge.contentManager(), db.content_manager);
+}
+
 TEST(ContentToolboxBridgeTest, CTB04_GraphWriterNullWhenNotSet) {
-    // Can't construct without ContentManager, so only test the extractor
-    // for now. Construction tests above cover the null guards.
-    SUCCEED();  // placeholder — real ContentManager needs storage deps
+    TestDatabase db;
+    auto toolbox = IngestionToolbox::createDefault();
+    ContentToolboxBridge bridge(toolbox, db.content_manager);
+    EXPECT_EQ(bridge.graphWriter(), nullptr);
 }
 
 TEST(ContentToolboxBridgeTest, CTB05_VectorWriterNullWhenNotSet) {
-    SUCCEED();  // same as above
+    TestDatabase db;
+    auto toolbox = IngestionToolbox::createDefault();
+    ContentToolboxBridge bridge(toolbox, db.content_manager);
+    EXPECT_EQ(bridge.vectorWriter(), nullptr);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
