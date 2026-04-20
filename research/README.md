@@ -5,7 +5,7 @@ This directory contains research papers, draft manuscripts, architectural analys
 ## Contents
 
 ### Submission-Ready Draft Set (Core, 2026-04-20)
-- [THEMIS_RAID_SHARDING_EVALUATION_AND_RISK.md](THEMIS_RAID_SHARDING_EVALUATION_AND_RISK.md) — Systematic evaluation and risk analysis of the ThemisDB RAID-sharding system: 18-item risk taxonomy (5 dimensions), evaluation methodology with 4 fault-injection workloads, theoretical performance analysis, production readiness gap analysis, and security threat model
+- [THEMIS_RAID_SHARDING_EVALUATION_AND_RISK.md](THEMIS_RAID_SHARDING_EVALUATION_AND_RISK.md) — Systematic evaluation and risk analysis of the ThemisDB RAID-sharding system: 20-item risk taxonomy (5 dimensions), 8 Related Work subsections (consistent hashing [Karger97], Dynamo anti-entropy, ARIES WAL recovery, CAP/PACELC/isolation levels, chaos engineering, circuit breaker), CAP/PACELC positioning table, 6 fault-injection workloads, production readiness gap analysis, and security threat model (v0.2)
 
 ### Submission-Ready Draft Set (Core, 2026-04-19)
 - [DB_NATIVE_RAG_EVALUATION_PAPER_DRAFT.md](DB_NATIVE_RAG_EVALUATION_PAPER_DRAFT.md) — Includes RQ/Hypotheses, reporting-table plan, Threats to Validity, and claim-to-evidence appendix
@@ -31,7 +31,7 @@ This directory contains research papers, draft manuscripts, architectural analys
 - [QUERY_ENGINE_AQL_GRAPHQL_UNIFICATION_DRAFT.md](QUERY_ENGINE_AQL_GRAPHQL_UNIFICATION_DRAFT.md) — Unified query engine for AQL and GraphQL (submission-structured: RQ/Hypotheses, methodology, validity, traceability, readiness checklist)
 - [GOSSIP_AWARE_LORA_ROUTING_DRAFT.md](GOSSIP_AWARE_LORA_ROUTING_DRAFT.md) — Federated LoRA routing via epidemic gossip protocols (submission-structured: RQ/Hypotheses, validity, traceability, readiness checklist)
 - [GOSSIP_DRIVEN_LORA_DOMAIN_ROUTING_DRAFT.md](GOSSIP_DRIVEN_LORA_DOMAIN_ROUTING_DRAFT.md) — Domain-aware LoRA routing with capability gossip and failover (submission-structured: RQ/Hypotheses, validity, traceability, readiness checklist)
-- [THEMIS_RAID_SHARDING_EVALUATION_AND_RISK.md](THEMIS_RAID_SHARDING_EVALUATION_AND_RISK.md) — Systematic evaluation and risk analysis of the Themis RAID-sharding system (18-item risk taxonomy, fault-injection workloads, gap analysis, threat model)
+- [THEMIS_RAID_SHARDING_EVALUATION_AND_RISK.md](THEMIS_RAID_SHARDING_EVALUATION_AND_RISK.md) — Systematic evaluation and risk analysis of the Themis RAID-sharding system (20-item risk taxonomy, 8 Related Work subsections, CAP/PACELC positioning, 6 fault-injection workloads, 37 references — v0.2)
 - [THEMIS_IT_IS_OKAY_TO_FAIL](THEMIS_IT_IS_OKAY_TO_FAIL) — Retrospektive zu Fehlentwicklungen, Fehlannahmen und Fehlentscheidungen in ThemisDB mit Korrekturprogramm und Vollständigkeitsregister
 - [LLM_PROCESSING_OPTIMIZATION_PATTERNS.md](LLM_PROCESSING_OPTIMIZATION_PATTERNS.md) — Inference optimization patterns from llama.cpp (batching, speculative decoding, KV-cache)
 - [CONTINUOUS_BATCHING_DATABASE_NATIVE_LLM_DRAFT.md](CONTINUOUS_BATCHING_DATABASE_NATIVE_LLM_DRAFT.md) — Scheduler/KV cache trade-offs for DB-native LLM serving
