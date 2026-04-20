@@ -30,8 +30,13 @@
 #include "aql/aql_fewshot_example_library.h"
 #include "aql/aql_query_validator.h"
 #include "aql/llm_error_codes.h"
+#include "distributed_knowledge/adapter_capability_announcement.h"
 #include "llm/embedded_llm.h"
 #include "llm/llm_plugin_manager.h"
+#include "sharding/adaptive_shard_router.h"
+#include "sharding/consistent_hash.h"
+#include "sharding/shard_topology.h"
+#include "sharding/urn_resolver.h"
 #include <chrono>
 #include <thread>
 
@@ -503,6 +508,40 @@ TEST_F(LLMAQLHandlerTest, ExecuteInferFallsBackLocalWhenDomainAccuracyLow) {
               "LOCAL_FALLBACK_LOW_ACCURACY");
     EXPECT_FALSE(plugin_ptr->last_request.metadata.contains("target_shard_id"));
 
+}
+
+TEST_F(LLMAQLHandlerTest, ExecuteInferUsesAdaptiveShardRouterWhenResolverNotSet) {
+    auto plugin = std::make_unique<CapturingLLMPlugin>();
+    auto* plugin_ptr = plugin.get();
+    auto& plugin_mgr = LLMPluginManager::instance();
+    plugin_mgr.registerPlugin("capturing-router", std::move(plugin));
+    plugin_mgr.setDefaultPlugin("capturing-router");
+    struct Cleanup {
+        ~Cleanup() { LLMPluginManager::instance().unregisterPlugin("capturing-router"); }
+    } cleanup;
+
+    auto topology = std::make_shared<themis::sharding::ShardTopology>();
+    auto ring = std::make_shared<themis::sharding::ConsistentHashRing>();
+    auto resolver = std::make_shared<themis::sharding::URNResolver>(topology, ring);
+    themis::sharding::ShardRouter::Config router_cfg;
+    auto router = std::make_shared<themis::sharding::AdaptiveShardRouter>(
+        resolver, nullptr, topology, router_cfg);
+
+    themis::distributed_knowledge::AdapterCapabilityAnnouncement cap;
+    cap.domain_type = themis::distributed_knowledge::AdapterDomainType::TRANSACTION;
+    cap.accuracy_delta = 0.88;
+    cap.adapter_version = "v1";
+    router->updateAdapterCapability("shard-router", cap);
+
+    handler->setAdaptiveShardRouter(router);
+
+    std::unordered_map<std::string, std::string> options;
+    options["domain_hint"] = "transaction";
+
+    const auto result = handler->executeInfer("router-test", "", "", options);
+    EXPECT_EQ(result, "ok:router-test");
+    EXPECT_EQ(plugin_ptr->last_request.metadata.value("routing_decision", std::string{}), "ADAPTER_DOMAIN");
+    EXPECT_EQ(plugin_ptr->last_request.metadata.value("target_shard_id", std::string{}), "shard-router");
 }
 
 TEST_F(LLMAQLHandlerTest, ExecuteBatchInferDomainFanOutPreservesOrder) {

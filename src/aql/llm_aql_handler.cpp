@@ -32,6 +32,8 @@
 #include "aql/llm_timeout_manager.h"
 #include "aql/llm_metrics_collector.h"
 #include "aql/llm_token_estimator.h"
+#include "distributed_knowledge/adapter_capability_announcement.h"
+#include "sharding/adaptive_shard_router.h"
 #include "sharding/circuit_breaker.h"
 #include "sharding/sharding_manager.h"
 #include "llm/kv_prefix_transfer_manager.h"
@@ -85,6 +87,40 @@ std::optional<std::string> parseDomainHint(
         hint == "process_mining" ||
         hint == "geospatial") {
         return hint;
+    }
+    return std::nullopt;
+}
+
+std::optional<themis::distributed_knowledge::AdapterDomainType> parseAdapterDomainType(
+    const std::string& domain_hint
+) {
+    using themis::distributed_knowledge::AdapterDomainType;
+    if (domain_hint == "general") {
+        return AdapterDomainType::GENERAL;
+    }
+    if (domain_hint == "security" || domain_hint == "security_monitor") {
+        return AdapterDomainType::SECURITY_MONITOR;
+    }
+    if (domain_hint == "schema" || domain_hint == "schema_advisor") {
+        return AdapterDomainType::SCHEMA_ADVISOR;
+    }
+    if (domain_hint == "transaction") {
+        return AdapterDomainType::TRANSACTION;
+    }
+    if (domain_hint == "multi_tenant" || domain_hint == "multitenant") {
+        return AdapterDomainType::MULTI_TENANT;
+    }
+    if (domain_hint == "explainability") {
+        return AdapterDomainType::EXPLAINABILITY;
+    }
+    if (domain_hint == "vector_search" || domain_hint == "vector") {
+        return AdapterDomainType::VECTOR_SEARCH;
+    }
+    if (domain_hint == "process_mining") {
+        return AdapterDomainType::PROCESS_MINING;
+    }
+    if (domain_hint == "geospatial") {
+        return AdapterDomainType::GEOSPATIAL;
     }
     return std::nullopt;
 }
@@ -310,6 +346,7 @@ public:
     // Optional AQLIngestionBridge for entity-context enrichment
     std::shared_ptr<AQLIngestionBridge> ingestion_bridge_;
     LLMAQLHandler::DomainRouteResolver domain_route_resolver_;
+    std::shared_ptr<sharding::AdaptiveShardRouter> adaptive_shard_router_;
     sharding::ShardingManager* sharding_manager_;
 
     // Optional Phase 5 KV-prefix transfer manager
@@ -346,6 +383,12 @@ void LLMAQLHandler::setTimeoutConfig(const LLMTimeoutManager::TimeoutConfig& con
 
 void LLMAQLHandler::setDomainRouteResolver(DomainRouteResolver resolver) {
     impl_->domain_route_resolver_ = std::move(resolver);
+}
+
+void LLMAQLHandler::setAdaptiveShardRouter(
+    std::shared_ptr<sharding::AdaptiveShardRouter> router)
+{
+    impl_->adaptive_shard_router_ = std::move(router);
 }
 
 void LLMAQLHandler::setShardingManager(sharding::ShardingManager* sharding_manager) {
@@ -436,6 +479,25 @@ std::string LLMAQLHandler::executeInfer(
                             }
                         } else {
                             routing_decision = "LOCAL_FALLBACK_NO_MATCH";
+                        }
+                    } else if (impl_->adaptive_shard_router_) {
+                        if (const auto domain_type = parseAdapterDomainType(*domain); domain_type.has_value()) {
+                            const auto candidate = impl_->adaptive_shard_router_->routeByDomain(*domain_type);
+                            if (!candidate.empty()) {
+                                const auto accuracy_delta =
+                                    impl_->adaptive_shard_router_->getAdapterAccuracyDelta(
+                                        candidate, *domain_type);
+                                if (accuracy_delta > kMinRoutingAccuracyDelta) {
+                                    routed_shard_id = candidate;
+                                    routing_decision = "ADAPTER_DOMAIN";
+                                } else {
+                                    routing_decision = "LOCAL_FALLBACK_LOW_ACCURACY";
+                                }
+                            } else {
+                                routing_decision = "LOCAL_FALLBACK_NO_MATCH";
+                            }
+                        } else {
+                            routing_decision = "LOCAL_FALLBACK_INVALID_DOMAIN";
                         }
                     } else {
                         routing_decision = "LOCAL_FALLBACK_NO_RESOLVER";

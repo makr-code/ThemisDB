@@ -38,6 +38,7 @@
 namespace themis { namespace aql { class AQLIngestionBridge; } }
 namespace themis { namespace sharding {
 class ShardingManager;
+class AdaptiveShardRouter;
 } }
 namespace themis { namespace llm {
 class KVPrefixTransferManager;
@@ -636,6 +637,7 @@ public:
      */
     void setTimeoutConfig(const LLMTimeoutManager::TimeoutConfig& config);
     void setDomainRouteResolver(DomainRouteResolver resolver);
+    void setAdaptiveShardRouter(std::shared_ptr<sharding::AdaptiveShardRouter> router);
     void setShardingManager(sharding::ShardingManager* sharding_manager);
 
     /**
