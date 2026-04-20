@@ -10,6 +10,7 @@ Dieses Verzeichnis enthält die produktive Implementierung von ThemisDB.
 - Modul-Doku pro Modul in der Regel über:
   - `README.md`
   - `MODULE_FUNCTION_USAGE_MAP.md` (modulübergreifende Funktionsnutzungs- und Verknüpfungsanalyse)
+  - `UNUSED_FUNCTIONS_REPORT.md` (nicht extern genutzte Symbole mit Prognose zur zukünftigen Nutzung)
   - `ROADMAP.md`
   - `FUTURE_ENHANCEMENTS.md`
 

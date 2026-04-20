@@ -9,6 +9,8 @@ Diese Dokumentation zeigt für **jedes Modul in `src/`**:
 
 > Hinweis: Best-effort aus statischer Symbolsuche. Für Freigaben zusätzlich Build/Test/Profiling und Laufzeit-Telemetrie nutzen.
 
+**Verwandtes Dokument:** [`UNUSED_FUNCTIONS_REPORT.md`](./UNUSED_FUNCTIONS_REPORT.md) – Vollständige Liste aller nicht extern genutzten Symbole mit Prognose zur zukünftigen Nutzung (PLANNED / UNDER_REVIEW / INTERNAL_ONLY / CANDIDATE_FOR_REMOVAL).
+
 ## Global Audit Workflow (pro Modul)
 
 1. Missing Links/Nutzung über „Consumer Modules“ und „Symbol References“ prüfen.
