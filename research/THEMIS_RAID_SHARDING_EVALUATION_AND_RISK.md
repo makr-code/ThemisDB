@@ -1,7 +1,7 @@
 # Evaluation and Risk Analysis of the Themis RAID-Sharding System
 
 **Status**: Draft  
-**Version**: 0.3  
+**Version**: 0.4  
 **Last Updated**: 2026-04-20  
 **Target Venue**: arXiv (cs.DB / cs.DC)
 
@@ -9,7 +9,7 @@
 
 ## Abstract
 
-Distributed database sharding introduces a complex interplay among fault-tolerance, consistency, availability, and operational risk that is rarely subjected to systematic empirical evaluation in open-source systems. This paper presents a structured evaluation and risk analysis of the ThemisDB RAID-sharding subsystem — an open-source, production-targeting distributed storage engine that combines pluggable consensus (Raft, Paxos, Gossip), multi-protocol cross-shard transactions (2PC, 3PC, SAGA, Percolator), a Reed-Solomon repair engine, AVX2-accelerated erasure coding, and adaptive consistent-hash routing. Drawing on static codebase analysis, the existing test suite (32+ focused targets), documented production incidents across 98 verified bugs in 10 failure categories, and a formal fault model, we derive a risk taxonomy across five dimensions: *consistency risk*, *availability risk*, *durability risk*, *operational risk*, and *security risk*. We identify three critical open gaps — unbounded WAL growth under Raft, a blocking window in the 2PC coordinator path, and an incomplete read-path gRPC migration — and propose measurable acceptance criteria for each. We provide the first comprehensive topology characterization of the system: a full taxonomy of its seven RAID redundancy modes (NONE, STRIPE, MIRROR, STRIPE_MIRROR, PARITY/RAID5, RAID6, GEO_MIRROR), three erasure-coding algorithms (Reed-Solomon, Cauchy, LRC), the consistent-hash ring implementation with configurable virtual nodes (default: 150 per physical node) and deterministic collision probing, and the quorum model (write quorum $W = 2$, read quorum $R = 1$, with formal availability derivation). We position the system against the CAP theorem [28] and its refinement PACELC [30], showing that ThemisDB's pluggable consensus creates workload-specific consistency–availability–latency operating points that are not enforced at configuration time. Theoretical performance models quantify expected repair throughput, scatter-gather fan-out efficiency, and consensus latency under partial failures, grounded in references spanning consistent hashing [23], anti-entropy repair [24], ARIES-style WAL recovery [25], distributed deadlock detection [26], chaos engineering methodology [32], [33], and Google Bigtable's range-tablet topology [38]. The result is a concrete evaluation framework, topology reference, and risk register that can guide production readiness decisions for RAID-sharded distributed databases.
+Distributed database sharding introduces a complex interplay among fault-tolerance, consistency, availability, and operational risk that is rarely subjected to systematic empirical evaluation in open-source systems. This paper presents a structured evaluation and risk analysis of the ThemisDB RAID-sharding subsystem — an open-source, production-targeting distributed storage engine that combines pluggable consensus (Raft, Paxos, Gossip), multi-protocol cross-shard transactions (2PC, 3PC, SAGA, Percolator), a Reed-Solomon repair engine, AVX2-accelerated erasure coding, and adaptive consistent-hash routing. Drawing on static codebase analysis, the existing test suite (32+ focused targets), documented production incidents across 98 verified bugs in 10 failure categories, and a formal fault model, we derive a risk taxonomy across five dimensions: *consistency risk*, *availability risk*, *durability risk*, *operational risk*, and *security risk*. We extend the taxonomy in this version with three new risk items (R-21–R-23) covering router topology-update races, Gossip convergence windows, and LLM KV-cache cross-tenant isolation in converged storage-inference deployments. We identify three critical open gaps — unbounded WAL growth under Raft, a blocking window in the 2PC coordinator path, and an incomplete read-path gRPC migration — and propose measurable acceptance criteria for each. We provide the first comprehensive topology characterization of the system: a full taxonomy of its seven RAID redundancy modes (NONE, STRIPE, MIRROR, STRIPE_MIRROR, PARITY/RAID5, RAID6, GEO_MIRROR), three erasure-coding algorithms (Reed-Solomon, Cauchy, LRC), the consistent-hash ring implementation with configurable virtual nodes (default: 150 per physical node) and deterministic collision probing, and the quorum model (write quorum $W = 2$, read quorum $R = 1$, with formal availability derivation). We position the system against the CAP theorem [28] and its refinement PACELC [30], showing that ThemisDB's pluggable consensus creates workload-specific consistency–availability–latency operating points that are not enforced at configuration time. Theoretical performance models quantify expected repair throughput, scatter-gather fan-out efficiency, and consensus latency under partial failures, grounded in references spanning consistent hashing [23], anti-entropy repair [24], ARIES-style WAL recovery [25], distributed deadlock detection [26], the FLP impossibility of consensus in asynchronous systems [27], chaos engineering methodology [32], [33], and Google Bigtable's range-tablet topology [38]. We add a new related-work section (§II-J) analyzing converged storage-inference sharding in the context of recent LLM serving systems [41], [42], identifying the unique risk surface introduced when KV-cache management and distributed storage share a sharding topology. We also provide a formal STRIDE-based security threat model (Appendix C) that systematically derives attack paths across all five STRIDE categories for the inter-shard communication layer. The result is a concrete evaluation framework, topology reference, 23-item risk register, and formal threat model that can guide production readiness decisions for RAID-sharded distributed databases.
 
 ---
 
@@ -23,12 +23,14 @@ Despite this implementation breadth, no systematic evaluation or risk analysis o
 
 This paper fills that gap. Our contributions are:
 
-1. A **risk taxonomy** for RAID-sharded distributed databases, grounded in ThemisDB's architecture and the documented failure history, covering five risk dimensions with 20 catalogued risk items.
+1. A **risk taxonomy** for RAID-sharded distributed databases, grounded in ThemisDB's architecture and the documented failure history, covering five risk dimensions with 23 catalogued risk items (R-01–R-23).
 2. A **topology reference architecture** detailing all seven RAID redundancy modes, three erasure-coding algorithm variants, the consistent-hash ring with virtual-node load-balance analysis, the quorum model, and the geo-distribution topology — the first complete topology characterization of the system.
 3. A **component-level evaluation framework** defining testable hypotheses, measurable acceptance criteria, and fault-injection workloads for each sharding layer.
 4. A **theoretical performance analysis** of Reed-Solomon repair throughput, scatter-gather fan-out, consensus latency, and quorum availability under partial failures.
 5. An **evidence-grounded gap analysis** mapping three critical open production-readiness items to specific source files, with estimated closure effort.
-6. A **security threat model** covering the inter-shard mTLS perimeter, shard-map poisoning, split-brain, tenant isolation, and 2PC coordinator failure modes.
+6. A **security threat model** covering the inter-shard mTLS perimeter, shard-map poisoning, split-brain, tenant isolation, and 2PC coordinator failure modes; formalized as a STRIDE model in Appendix C.
+7. A **FLP impossibility contextualization** [27] explaining why Raft's explicit leader-election and log-compaction mechanism is necessary in an asynchronous network model and what the absence of log compaction implies for ThemisDB's liveness under long-running deployments.
+8. A **converged storage-inference sharding analysis** (§II-J) examining the additional risk surface created when LLM KV-cache management shares a RAID-sharding topology with persistent storage, referencing recent LLM serving systems [41], [42].
 
 ### A. Research Questions and Hypotheses
 
@@ -46,7 +48,7 @@ This paper fills that gap. Our contributions are:
 
 **H3**: For a 3-node Raft replica group with write quorum $W = 2$ and a shard failure probability $p$, the probability of write availability loss equals $p^2 (3 - 2p)$; at $p = 0.01$ this is approximately $2.97 \times 10^{-4}$, which satisfies typical four-nines availability targets but not five-nines without additional mitigation.
 
-The remainder of the paper is organized as follows. Section II reviews related work. Section III describes the system architecture and component interactions. Section IV presents the risk taxonomy. Section V covers the evaluation methodology. Section VI presents theoretical performance analysis. Section VII discusses the production readiness gap analysis. Section VIII addresses threats to validity and limitations. Section IX provides implementation evidence. Section X discusses reproducibility. Section XI concludes.
+The remainder of the paper is organized as follows. Section II reviews related work, including a new §II-J on converged storage-inference sharding. Section III describes the system architecture and component interactions. Section IV presents the risk taxonomy (23 items, R-01–R-23). Section V covers the evaluation methodology. Section VI presents theoretical performance analysis. Section VII discusses the production readiness gap analysis. Section VIII addresses threats to validity and limitations. Section IX provides implementation evidence. Section X discusses reproducibility. Section XI concludes. Appendix C provides the formal STRIDE security threat model.
 
 ---
 
@@ -55,6 +57,8 @@ The remainder of the paper is organized as follows. Section II reviews related w
 ### A. Consistency and Fault Tolerance in Distributed Databases
 
 Lamport's Paxos [6] and Ongaro and Ousterhout's Raft [7] established the consensus algorithm foundations used in ThemisDB. Raft's explicit leader election and log compaction (snapshot) mechanism directly addresses the WAL-growth risk identified in Section IV; the absence of snapshot compaction in the current implementation is a known gap relative to the reference design.
+
+The **FLP impossibility theorem** [27] establishes the fundamental bound within which both Paxos and Raft operate: in an asynchronous message-passing system with even one possibly-faulty process, no deterministic consensus protocol can guarantee both safety and liveness. Paxos and Raft achieve consensus in practice by making timing assumptions (election timeouts, heartbeat intervals) that violate the purely asynchronous model — a design choice that works in practice but means their liveness guarantees are contingent on the timing assumptions holding. For ThemisDB, this has a direct implication: the Raft snapshot compaction mechanism (absent in the current implementation, R-06) is necessary not only for storage efficiency but for *bounded liveness* — without compaction, recovery replay time grows without bound, and recovery may eventually exceed the election timeout, causing spurious leader elections during restart.
 
 **Spanner** [8] introduced TrueTime-bounded external consistency in a globally distributed database, motivating ThemisDB's `TrueTime` stub and `DistributedTimeCoordinator`. The correctness argument for cross-shard transactions in Spanner depends on bounded clock uncertainty; ThemisDB's current deployment without hardware TrueTime API support represents a construct validity gap acknowledged in this paper.
 
@@ -133,6 +137,20 @@ ARIES also defines the concept of **fuzzy checkpointing**: a checkpoint records 
 **Huang et al.** [40] introduced Local Reconstruction Codes (LRC) in Windows Azure Storage as an alternative to standard Reed-Solomon erasure coding. LRC partitions the codeword into local groups, each with its own local parity, so that single-failure recovery requires reading only $k/\ell$ symbols (where $\ell$ is the number of local groups) rather than all $k$ data symbols. ThemisDB's `ErasureCodingAlgorithm::LRC` implements this approach; for large shards where repair I/O is the bottleneck, LRC can reduce repair read amplification by a factor of $\ell$ at the cost of slightly higher storage overhead compared to standard Reed-Solomon.
 
 **Spanner's geo-replication** [8] demonstrates that globally distributed transactions are feasible with bounded latency when clock uncertainty is bounded by TrueTime. ThemisDB's `GEO_MIRROR` redundancy mode provides geo-distributed replication with per-region write quorums and a configurable `region_failure_threshold`, but without hardware TrueTime, cross-region transaction ordering depends on NTP synchronization (R-19).
+
+---
+
+### J. Converged Storage and LLM Inference Sharding
+
+A distinctive aspect of the ThemisDB architecture is the co-location of distributed persistent storage and LLM inference serving on the same RAID-sharding infrastructure, as described in the companion paper [4]. This *converged storage-inference* topology is a relatively recent architectural pattern in production ML systems, and it introduces a new class of sharding risks that are not addressed by classical distributed database theory.
+
+**PagedAttention** [41] introduced the key memory management primitive for modern LLM serving: KV-cache is divided into fixed-size pages (analogous to virtual memory pages) that can be allocated, freed, and shared across concurrent inference requests without fragmentation. In a single-node setting, this significantly reduces KV-cache memory waste. In a distributed sharded setting — as in ThemisDB's `KVPrefixTransferManager` — pages must be transferred between shard nodes when domain routing selects a different shard for continuation of a multi-turn conversation or prompt prefix reuse. This cross-shard KV-page movement is a new type of distributed operation with no direct analogue in classical database sharding.
+
+**Orca** [42] demonstrated that continuous batching — dynamically inserting new requests into in-flight inference batches at the sequence level — can dramatically improve GPU utilization and reduce tail latency in LLM serving. Continuous batching in a multi-shard ThemisDB deployment implies that the routing layer must make batching decisions in milliseconds, using the `AdaptiveShardRouter`'s domain capability scores to select the shard best suited for a given prompt's domain (legal, medical, general). This tight coupling between storage-layer gossip propagation and inference scheduling creates a new latency dependency: if the gossip convergence window (R-22) delays a domain capability update, the router may persistently misroute inference requests to a suboptimal shard.
+
+The interaction between KV-cache sharding and storage sharding also creates a new **tenant isolation boundary** (R-23): when `KVPrefixTransferManager::transfer()` moves a KV-cache prefix from shard A to shard B for cross-shard inference routing, the transfer must enforce tenant key-prefix isolation at the transfer layer, not merely at the routing layer. A bug that strips the tenant prefix during transfer could expose one tenant's conversation context to another tenant's inference session — a privacy violation with potential regulatory consequences under GDPR Article 4(1).
+
+The academic literature on distributed KV-cache management for LLM inference is nascent. Neither Orca [42] nor PagedAttention [41] analyze multi-tenant distributed KV-cache isolation; the security model in both papers assumes a single trusted operator. ThemisDB's converged architecture is therefore operating at a research frontier where existing frameworks do not provide sufficient safety guidance, motivating the dedicated risk items R-10, R-22, and R-23 in Section IV.
 
 ---
 
@@ -226,8 +244,9 @@ The `ConsensusFactory` selects among Raft, Paxos, and Gossip at cluster initiali
 | Linearizable reads | Yes (leader-reads) | Yes | **No** — eventual consistency only |
 | Partition behavior | Leader partition → new election | Leader partition → new election | Continue with partial view |
 | WAL growth management | **Unbounded** (gap) | Bounded by WAL rotation | N/A |
+| FLP compliance [27] | Relies on election timeout assumption | Relies on leader timeout assumption | Achieves eventual delivery only |
 
-The missing Raft snapshot compaction is explicitly documented as `[?]` in the ROADMAP and constitutes Risk Item R-06 in Section IV.
+The missing Raft snapshot compaction is explicitly documented as `[?]` in the ROADMAP and constitutes Risk Item R-06 in Section IV. As noted in §II-A, the FLP result [27] implies that the absence of log compaction risks unbounded recovery time that may exceed the election timeout, creating a self-amplifying failure mode under long-running deployments.
 
 ### D. Cross-Shard Transaction Protocols
 
@@ -508,6 +527,23 @@ ThemisDB's Percolator protocol [17] provides snapshot isolation for cross-shard 
 The practical impact depends on whether applications use 2PC/SAGA for operations where cross-shard read consistency is required. Applications that use Percolator for all reads are not affected; the risk materializes only for mixed-protocol deployments.
 - *Affected files*: `src/sharding/two_phase_commit_coordinator.cpp`, `src/sharding/cross_shard_transaction.cpp`
 - *Mitigation path*: Document per-protocol isolation guarantees in a transaction protocol selection guide; add a `consistency_guarantee` field to `CrossShardTransactionConfig` (PA/EC vs. PC/EC classification per [30]); enforce appropriate protocol selection for workloads requiring `SNAPSHOT ISOLATION` or stronger.
+
+**R-21 — Adaptive Shard Router Race Condition on Topology Update** *(Severity: Medium)*  
+When `GossipProtocol` propagates a topology change (e.g., a shard becoming `UNAVAILABLE`) and `AdaptiveShardRouter` updates its internal routing table, the two operations are not atomic with respect to in-flight requests. In the window between the `GossipProtocol` processing the `PEER_OFFLINE` event and the `AdaptiveShardRouter` removing the shard from its candidate set, new requests may continue to be dispatched to the departing shard. The circuit breaker (`circuit_breaker.cpp`) will eventually open, but the first $k$ requests within the failure detection window (typically 5 failures) are sent to a shard that is known-unreachable at the gossip layer.
+- *Affected files*: `src/sharding/gossip_protocol.cpp`, `src/sharding/adaptive_shard_router.cpp`, `src/sharding/circuit_breaker.cpp`
+- *Mitigation path*: Add a callback interface `IGossipTopologyListener::onShardUnavailable(shard_id)` that is invoked by `GossipProtocol` under the gossip lock before the topology update is published; `AdaptiveShardRouter` registers as a listener and atomically removes the shard from its candidate set before the first affected request can be dispatched.
+
+**R-22 — Gossip Convergence Window as Availability Gap** *(Severity: Medium)*  
+The `GossipProtocol` disseminates topology updates and domain capability scores using a fanout-based epidemic model. For a cluster of $N$ nodes with gossip fanout $F$ and gossip interval $\Delta T$, the convergence time to reach all nodes is $O(\log_F N)$ gossip rounds, each of duration $\Delta T$. During this window, different nodes have inconsistent views of shard availability and domain capability scores, leading to divergent routing decisions across the cluster. Concretely: node A may have already marked shard X as `UNAVAILABLE` while node B still routes requests to shard X, causing B's requests to fail until B's gossip view converges.
+
+For a cluster of $N = 32$ nodes, $F = 3$, $\Delta T = 1\,\text{s}$: convergence requires $\lceil \log_3 32 \rceil = 4$ rounds = approximately 4 s. During this window, up to $N / 2 = 16$ nodes may have stale routing views.
+- *Affected files*: `src/sharding/gossip_protocol.cpp`, `src/sharding/adaptive_shard_router.cpp`
+- *Mitigation path*: Reduce gossip interval to ≤ 200 ms for `PEER_OFFLINE` events (fast path); add a `gossip_convergence_lag_p99_ms` Prometheus metric; document convergence window in the operations guide as a first-class availability parameter.
+
+**R-23 — LLM KV-Cache Cross-Tenant Isolation in Converged Mode** *(Severity: High for multi-tenant deployments)*  
+In converged storage-inference deployments, the `KVPrefixTransferManager` moves KV-cache prefix data between shards during domain-routing-triggered inference migrations (see §II-J). The transfer path in `src/llm/kv_prefix_transfer_manager.cpp` constructs the transfer payload from the source shard's KV-cache without a server-side tenant-prefix validation step at the transfer layer; tenant isolation is enforced only at the `AdaptiveShardRouter` routing layer before the transfer is initiated. A bug in the routing layer that strips or mismatches the tenant prefix causes `KVPrefixTransferManager` to transfer one tenant's KV-cache data to another tenant's inference context on the destination shard. This is a privacy violation that may be undetectable until inference output leaks confidential context.
+- *Affected files*: `src/llm/kv_prefix_transfer_manager.cpp`, `src/sharding/adaptive_shard_router.cpp`
+- *Mitigation path*: Add a `tenant_id` field to `KVPrefixTransferRequest`; validate that the transfer destination shard's active inference session belongs to the same tenant before executing the transfer; emit `kv_transfer_tenant_mismatch_total` counter on any detected mismatch; reject the transfer and return `PERMISSION_DENIED` to the caller.
 
 ---
 
@@ -810,6 +846,9 @@ Nygard's empirical observation is that circuit breakers should be tuned per-depe
 | E20 | `include/sharding/redundancy_strategy.h` | `ReadPreference` enum + quorum fields | Quorum model and read preference (§III-I) | Ready |
 | E21 | `include/sharding/redundancy_strategy.h` | `GeoReplicationConfig` struct | Geo-distribution topology (§III-J, Fig. 4) | Ready |
 | E22 | `src/sharding/hardware_migration_manager.cpp` | DrainGuard + updatePeerAddress | Node identity decoupling (§III-G, Fig. 2) | Ready |
+| E23 | `src/llm/kv_prefix_transfer_manager.cpp` | Transfer payload construction without tenant check | KV-cache cross-tenant isolation risk (R-23) | Ready |
+| E24 | `src/sharding/gossip_protocol.cpp` | Epidemic fanout parameters, no fast-path for PEER_OFFLINE | Gossip convergence window (R-22) | Ready |
+| E25 | `src/sharding/adaptive_shard_router.cpp` | Routing table update not atomic with gossip callback | Router topology-update race (R-21) | Ready |
 
 ---
 
@@ -852,9 +891,13 @@ For deployments integrating the sharding layer with LLM inference (as described 
 
 ## XII. Conclusion
 
-We have presented a systematic evaluation and risk analysis of the ThemisDB RAID-sharding subsystem, contributing a 20-item risk taxonomy across five dimensions, a **complete topology reference architecture** (the first systematic characterization of the system's seven RAID redundancy modes, three erasure-coding algorithms, consistent-hash ring with virtual-node load analysis, quorum model, and geo-distribution topology), a component-level evaluation framework with measurable acceptance criteria and six fault-injection workloads, and a theoretical performance analysis grounded in the actual implementation. We have positioned the system against the CAP theorem [28], [29] and PACELC [30], identifying a dangerous PA/EC operating point that arises when Gossip consensus is mixed with Raft data shards without configuration-time enforcement. We have quantified the quorum availability model: for $N = 3$, $W = 2$, the write unavailability probability is $p^2(3-2p)$, yielding approximately 5.5 nines at $p = 0.001$, confirming H3.
+We have presented a systematic evaluation and risk analysis of the ThemisDB RAID-sharding subsystem, contributing a 23-item risk taxonomy across five dimensions (extended in v0.4 with R-21–R-23 covering router topology-update races, Gossip convergence windows, and LLM KV-cache cross-tenant isolation in converged deployments), a **complete topology reference architecture** (the first systematic characterization of the system's seven RAID redundancy modes, three erasure-coding algorithms, consistent-hash ring with virtual-node load analysis, quorum model, and geo-distribution topology), a component-level evaluation framework with measurable acceptance criteria and six fault-injection workloads, and a theoretical performance analysis grounded in the actual implementation. We have positioned the system against the CAP theorem [28], [29] and PACELC [30], identifying a dangerous PA/EC operating point that arises when Gossip consensus is mixed with Raft data shards without configuration-time enforcement. We have quantified the quorum availability model: for $N = 3$, $W = 2$, the write unavailability probability is $p^2(3-2p)$, yielding approximately 5.5 nines at $p = 0.001$, confirming H3.
 
-The architecture analysis reveals that ThemisDB's LRC erasure coding, 7-mode RAID taxonomy, and GEO_MIRROR with per-region quorum configuration are genuinely differentiated from production alternatives such as CockroachDB [9] and TiDB [10]. The three critical production-readiness gaps (unbounded Raft WAL growth, absent 2PC coordinator timeout, incomplete gRPC read path) and two medium-severity gaps (clock skew assumptions, MVCC gap for 2PC/SAGA) remain the delta to close before a general availability declaration.
+We have placed the ThemisDB consensus design in the context of the FLP impossibility result [27]: since distributed consensus is impossible in a purely asynchronous system with even one faulty process, Raft's explicit leader election and log compaction (snapshot) mechanism — not yet implemented — is a *liveness* necessity, not merely an optimization. The absence of Raft snapshot compaction (R-06) is therefore not a deferred enhancement but a fundamental liveness gap relative to the Raft design specification [7].
+
+We have added a related work section on converged storage-inference sharding (§II-J), analyzing the unique risk surface created when LLM KV-cache management (PagedAttention [41], Orca [42]) shares a RAID-sharding topology with persistent storage. We have formalized the security risk surface as a STRIDE threat model (Appendix C), providing attack-path derivations for spoofing, tampering, repudiation, information disclosure, denial of service, and privilege escalation across the inter-shard communication layer.
+
+The architecture analysis reveals that ThemisDB's LRC erasure coding, 7-mode RAID taxonomy, and GEO_MIRROR with per-region quorum configuration are genuinely differentiated from production alternatives such as CockroachDB [9] and TiDB [10]. The three critical production-readiness gaps (unbounded Raft WAL growth, absent 2PC coordinator timeout, incomplete gRPC read path) and five medium-severity gaps (clock skew assumptions, MVCC gap for 2PC/SAGA, router topology-update race, Gossip convergence window, KV-cache cross-tenant isolation) remain the delta to close before a general availability declaration.
 
 The retrospective failure analysis in the ThemisDB bug register [5] identifies several root causes that are architectural rather than incidental: absence of benchmark regression gates, documentation that outpaces implementation, and insufficient chaos testing scope. These systemic patterns — analogous to the "fallacies of distributed computing" [2] applied at the process level — must be addressed as process changes alongside the specific technical gaps.
 
@@ -914,7 +957,7 @@ The retrospective failure analysis in the ThemisDB bug register [5] identifies s
 
 [26] K. M. Chandy, J. Misra, and L. M. Haas, "Distributed Deadlock Detection," *ACM Trans. Comput. Syst.*, vol. 1, no. 2, pp. 144–156, May 1983.
 
-[27] *(Reserved for future citation.)*
+[27] M. J. Fischer, N. A. Lynch, and M. S. Paterson, "Impossibility of Distributed Consensus with One Faulty Process," *J. ACM*, vol. 32, no. 2, pp. 374–382, Apr. 1985.
 
 [28] E. A. Brewer, "Towards Robust Distributed Systems," in *Proc. ACM PODC* (invited talk), Portland, OR, USA, 2000, p. 7.
 
@@ -942,24 +985,32 @@ The retrospective failure analysis in the ThemisDB bug register [5] identifies s
 
 [40] C. Huang, H. Simitci, Y. Xu, A. Ogus, B. Calder, P. Gopalan, J. Li, and S. Yekhanin, "Erasure Coding in Windows Azure Storage," in *Proc. USENIX ATC*, Boston, MA, USA, 2012, pp. 15–26.
 
+[41] W. Kwon, Z. Li, S. Zhuang, Y. Sheng, L. Zheng, C. H. Yu, J. Gonzalez, H. Zhang, and I. Stoica, "Efficient Memory Management for Large Language Model Serving with PagedAttention," in *Proc. ACM SOSP*, Koblenz, Germany, 2023, pp. 611–626.
+
+[42] G.-I. Yu, J. S. Jeong, G.-W. Kim, S. Kim, and B.-G. Chun, "Orca: A Distributed Serving System for Transformer-Based Generative Models," in *Proc. USENIX OSDI*, Carlsbad, CA, USA, 2022, pp. 521–538.
+
 ---
 
 ## Appendix A. arXiv Submission Readiness Checklist
 
 - [x] Title is specific and technically scoped
 - [x] Abstract states measurable contributions and new citation coverage
-- [x] All headline claims are evidence-backed (TABLE II, 22 entries)
-- [x] Related work includes closest baselines and novelty delta (§II-A through §II-I)
-- [x] Risk taxonomy is grounded in documented failure history (20 items)
+- [x] All headline claims are evidence-backed (TABLE II, 25 entries)
+- [x] Related work includes closest baselines and novelty delta (§II-A through §II-J)
+- [x] Risk taxonomy is grounded in documented failure history (23 items, R-01..R-23)
 - [x] Evaluation methodology defines testable workloads and metrics (W1–W6)
 - [x] Theoretical performance analysis states all assumptions
 - [x] Quorum availability model derived and validated against H3 (§VI-F)
 - [x] Full topology reference: 7 RAID modes, 3 EC algorithms, hash ring, quorum, geo (§III-B through §III-J)
 - [x] CAP/PACELC positioning is explicit (§VIII-D)
 - [x] Comparison table updated: 12 features vs CockroachDB/TiDB
-- [x] Limitations and threat model are transparent (§VIII-F)
+- [x] Limitations and threat model are transparent (§VIII-F, Appendix C)
 - [x] Tables and figures are referenced in text (4 figures)
-- [x] References are complete and consistent ([1]–[40])
+- [x] References are complete and consistent ([1]–[42])
+- [x] FLP impossibility ([27]) fills the reserved slot; contextualized for Raft liveness analysis
+- [x] Converged storage-inference sharding (§II-J) with [41], [42] citations
+- [x] New risk items R-21..R-23 added with evidence E23–E25 in TABLE II
+- [x] Formal STRIDE threat model added (Appendix C)
 - [ ] Final empirical benchmark results inserted (W1–W6 workloads)
 - [ ] Commit hash and artifact manifest frozen for submission
 - [ ] Gap closure items (Phase A–C) verified and status updated
@@ -988,3 +1039,190 @@ The retrospective failure analysis in the ThemisDB bug register [5] identifies s
 | R-18 | Security | Medium | Open |
 | R-19 | Consistency / Operational | Medium | Open (new in v0.2) |
 | R-20 | Consistency | Medium | Open (new in v0.2) |
+| R-21 | Availability / Consistency | Medium | Open (new in v0.4) |
+| R-22 | Availability | Medium | Open (new in v0.4) |
+| R-23 | Security | High | Open (new in v0.4) |
+
+---
+
+## Appendix C. Formal STRIDE Security Threat Model
+
+This appendix formalizes the security analysis in §IV-E and §VIII using the STRIDE threat modeling framework [22]. STRIDE classifies threats across six categories: **S**poofing, **T**ampering, **R**epudiation, **I**nformation Disclosure, **D**enial of Service, and **E**levation of Privilege. Each threat is mapped to a specific ThemisDB component, the attack path is described, and the existing or recommended mitigation is stated.
+
+The primary trust boundaries in the ThemisDB sharding layer are:
+1. **Intra-cluster mTLS boundary** — connections between `ShardRPCClient` and `ShardRPCServer` endpoints via `mtls_client.cpp`.
+2. **Gossip broadcast boundary** — `GossipProtocol` messages shared across the cluster without application-level signing.
+3. **Storage-inference boundary** — the interface between `KVPrefixTransferManager` and the per-shard RocksDB storage layer.
+4. **Admin API boundary** — HTTP endpoints in `MaintenanceApiHandler` and `ShardAdminApi` protected by RBAC tokens.
+
+### C.1 Spoofing
+
+**Threat S-1 — Certificate Identity Spoofing via Compromised Shard Node**
+
+| Attribute | Value |
+|-----------|-------|
+| Asset | Inter-shard RPC trust (mTLS identity) |
+| Attack path | An attacker who compromises a shard node obtains the node's private key and client certificate. Using these credentials, the attacker can impersonate the compromised shard to all other cluster members, injecting replicated writes or draining KV-cache transfers. |
+| Affected component | `src/sharding/mtls_client.cpp`, `src/sharding/pki_shard_certificate.cpp` |
+| Current mitigation | mTLS mutual authentication requires both parties to present valid certificates signed by the cluster CA. |
+| Gap | Certificate revocation checking latency is unbounded (R-16); a compromised certificate may remain valid for up to the certificate TTL (potentially 1 year in default configurations) if OCSP responses are slow or cached. |
+| Recommended mitigation | Enforce short-lived certificates (≤ 24 h TTL, automated rotation); bound OCSP/CRL check timeout to ≤ 100 ms; implement certificate pinning at the `ShardRPCServer` for known cluster members. |
+
+**Threat S-2 — Gossip Source Spoofing**
+
+| Attribute | Value |
+|-----------|-------|
+| Asset | Shard topology and domain capability routing scores |
+| Attack path | A compromised shard injects `AdapterCapabilityAnnouncement` messages with fraudulent domain scores, causing `AdaptiveShardRouter` to prefer the attacker-controlled shard for high-value domain queries (legal, medical). |
+| Affected component | `src/sharding/gossip_protocol.cpp`, `src/distributed_knowledge/adapter_capability_announcement.h` |
+| Current mitigation | Gossip messages are exchanged over mTLS-authenticated connections; message origin is implicitly authenticated by the connection identity. |
+| Gap | No application-level HMAC on gossip payloads (R-18); a compromised node can inject valid-looking messages from any claimed source. |
+| Recommended mitigation | Add HMAC-SHA256 signatures to `AdapterCapabilityAnnouncement` using a cluster-shared signing key; validate signatures at the receiving `AdaptiveShardRouter` before updating capability scores. |
+
+---
+
+### C.2 Tampering
+
+**Threat T-1 — WAL Entry Tampering**
+
+| Attribute | Value |
+|-----------|-------|
+| Asset | Transaction durability (WAL integrity) |
+| Attack path | An attacker with filesystem-level access to a shard node modifies WAL entries in `RaftLog` or `TransactionWAL` before the recovery replay. Since the WAL is an append-only log without per-entry checksums in the current implementation, tampered entries would be replayed silently. |
+| Affected component | `src/sharding/raft_log.cpp`, `src/sharding/transaction_wal.cpp` |
+| Current mitigation | mTLS protects in-flight replication; RocksDB block-level checksums protect the storage layer from silent disk corruption. |
+| Gap | WAL entries themselves are not HMAC-signed; an attacker with direct filesystem access can modify log entries without detection at the WAL replay layer. |
+| Recommended mitigation | Add a per-entry CRC-32C or SHA-256 hash to WAL records; validate on replay; integrate with RocksDB's block checksum verification. |
+
+**Threat T-2 — Gossip Capability Score Manipulation**
+
+| Attribute | Value |
+|-----------|-------|
+| Asset | Routing correctness (domain capability scores) |
+| Attack path | A compromised node modifies `capability_score` fields in gossip payloads before forwarding to downstream peers, amplifying or suppressing domain scores to manipulate load distribution across the cluster. |
+| Current mitigation | None (no message signing). |
+| Recommended mitigation | Same as S-2: HMAC signatures on capability announcements. |
+
+---
+
+### C.3 Repudiation
+
+**Threat R-T-1 — Transaction Coordinator Repudiation**
+
+| Attribute | Value |
+|-----------|-------|
+| Asset | Cross-shard transaction audit trail |
+| Attack path | The 2PC coordinator issues a COMMIT decision, but its WAL entry is lost due to a storage failure before the COMMIT is fsynced. After recovery, the coordinator has no record of the COMMIT; participants may have committed but the coordinator repudiates knowledge of the transaction. |
+| Affected component | `src/sharding/two_phase_commit_coordinator.cpp`, `src/sharding/transaction_wal.cpp` |
+| Current mitigation | The WAL ordering guarantee (ARIES-style) requires the COMMIT record to be fsynced before the coordinator sends COMMIT to participants; if fsync fails, the coordinator aborts. |
+| Gap | If the fsync failure is not correctly detected and propagated, the commit record may be silently lost. Audit log completeness is not separately asserted in the test suite. |
+| Recommended mitigation | Assert that every `CommitDecision` has a corresponding `WalEntry::COMMIT` log record before sending the commit broadcast; add a test that verifies WAL completeness after coordinator crash. |
+
+**Threat R-T-2 — Admin API Action Without Audit Trail**
+
+| Attribute | Value |
+|-----------|-------|
+| Asset | Administrative operation traceability |
+| Attack path | An authorized admin triggers a `POST /api/v1/shards/{id}/migrate-hardware` without the operation being recorded in an immutable audit log. If the migration causes data loss, there is no record of who triggered it or when. |
+| Current mitigation | `AuditLogger` is invoked for maintenance operations; sharding admin API audit coverage is partial. |
+| Recommended mitigation | Enforce that all state-changing admin API calls (migrate, rebalance, force-repair) write a signed audit record before executing the operation; integrate with `MaintenanceApiHandler`'s existing audit path. |
+
+---
+
+### C.4 Information Disclosure
+
+**Threat I-1 — Tenant Key Prefix Isolation Bypass**
+
+| Attribute | Value |
+|-----------|-------|
+| Asset | Multi-tenant data isolation |
+| Attack path | As described in R-17: a bug in the key prefix extraction logic in `shard_router.cpp` causes tenant A's queries to be routed to tenant B's key range. Since there is no secondary server-side validation, the storage operation executes and returns tenant B's data to tenant A. |
+| Affected component | `src/sharding/shard_router.cpp`, `src/sharding/adaptive_shard_router.cpp` |
+| Current mitigation | Tenant prefix is embedded in the routing key at the AQL layer before reaching the shard router. |
+| Gap | No server-side validation that the incoming request's tenant prefix matches the shard's authorized tenant set. |
+| Recommended mitigation | Add server-side tenant prefix validation in `ShardRPCServer` before executing storage operations; emit `tenant_isolation_violation_total` counter on mismatch. |
+
+**Threat I-2 — KV-Cache Cross-Tenant Information Disclosure (R-23)**
+
+| Attribute | Value |
+|-----------|-------|
+| Asset | LLM inference context confidentiality |
+| Attack path | As described in R-23: `KVPrefixTransferManager` transfers a KV-cache prefix from shard A to shard B. If the tenant prefix is stripped or mismatched during the transfer, the destination shard's inference session receives another tenant's conversation history, leaking confidential context. |
+| Recommended mitigation | Add `tenant_id` field to `KVPrefixTransferRequest`; validate at transfer layer; return `PERMISSION_DENIED` on mismatch. |
+
+---
+
+### C.5 Denial of Service
+
+**Threat D-1 — Raft WAL Disk Exhaustion (R-06)**
+
+| Attribute | Value |
+|-----------|-------|
+| Asset | Shard node availability |
+| Attack path | Under a sustained write workload, the Raft log grows without bound (R-06). An attacker who can sustain a high write rate (legitimate or via a flooding attack that bypasses rate limiting) can exhaust the shard node's disk capacity, crashing the node. With a 3-node Raft group, a coordinated attack against two nodes simultaneously causes quorum loss and cluster-wide write unavailability. |
+| Affected component | `src/sharding/raft_log.cpp` |
+| Current mitigation | None (no Raft snapshot compaction). |
+| Recommended mitigation | Implement Raft snapshot compaction (Phase A gap closure); add `wal_size_bytes` Prometheus gauge with alerting threshold. |
+
+**Threat D-2 — gRPC BatchWrite Amplification (R-14, mitigated)**
+
+| Attribute | Value |
+|-----------|-------|
+| Asset | Shard node memory availability |
+| Attack path | A client submits an oversized `BatchWrite` request that allocates memory proportional to the batch size on the shard server. With no bound on batch size, an attacker can exhaust server memory with a single gRPC call. |
+| Current mitigation | **Fixed** in v2.0.0: `max_batch_entries` check added at the gRPC handler (PR #4591). |
+| Remaining risk | The `max_batch_entries` default value is not documented; operators may not realize it exists, leaving it at a default that may be too permissive for adversarial environments. |
+
+**Threat D-3 — Circuit Breaker False-Positive Trip Under Read Load**
+
+| Attribute | Value |
+|-----------|-------|
+| Asset | Read availability |
+| Attack path | As described in §VIII-E: the single circuit breaker threshold (`failure_threshold = 5`) applies uniformly to all inter-shard RPC paths. A transient read-path failure spike (e.g., from a large repair scan) can trip the breaker for write-path operations as well, unnecessarily degrading write availability. |
+| Recommended mitigation | Separate circuit breaker instances per operation type (read vs. write vs. repair); configure per-type thresholds. |
+
+---
+
+### C.6 Elevation of Privilege
+
+**Threat E-1 — Consensus Protocol Impersonation as Leader**
+
+| Attribute | Value |
+|-----------|-------|
+| Asset | Raft log integrity / cross-shard write ordering |
+| Attack path | A compromised shard node that has been excluded from the Raft group (term-based expiry) attempts to continue issuing `AppendEntries` RPCs to followers using a stale leader lease. If epoch fencing is not enforced correctly (R-07), followers may accept AppendEntries from a deposed leader, causing log divergence. |
+| Affected component | `src/sharding/raft_consensus.cpp`, `src/sharding/epoch_fencing.cpp` |
+| Current mitigation | Epoch fencing rejects `AppendEntries` from leaders whose epoch lease has expired. 39 tests in `test_auto_failover_focused` cover this scenario under normal timing. |
+| Gap | Time-skew injection is not yet tested (R-07); a sufficient clock skew may allow a deposed leader's epoch to appear valid beyond its expiry. |
+| Recommended mitigation | Add time-skew injection tests; set `EpochFencing::lease_duration_ms` conservatively (≥ 3× observed NTP drift). |
+
+**Threat E-2 — Admin API RBAC Bypass via Token Replay**
+
+| Attribute | Value |
+|-----------|-------|
+| Asset | Administrative operation privilege |
+| Attack path | The `maintenance:admin` RBAC token used to authorize destructive operations (e.g., `DELETE /api/v1/maintenance/schedules/{id}`) is a static bearer token without expiry or nonce protection. An attacker who captures the token (e.g., via server log exfiltration) can replay it indefinitely to execute admin operations. |
+| Affected component | `src/maintenance/maintenance_api_handler.cpp`, `src/sharding/admin_api.cpp` |
+| Current mitigation | Token-based RBAC check (`maintenance:admin` / `maintenance:write` / `maintenance:read`). |
+| Gap | No token expiry, no nonce, no short-lived credential rotation. |
+| Recommended mitigation | Replace static admin tokens with short-lived JWTs (≤ 1 h TTL) signed by a cluster CA; implement token refresh endpoint; log all token usage to the audit trail. |
+
+---
+
+### C.7 STRIDE Summary Table
+
+| Threat ID | Category | Component | Severity | Status |
+|-----------|----------|-----------|----------|--------|
+| S-1 | Spoofing | mtls_client.cpp, pki_shard_certificate.cpp | Medium | Open (R-16 mitigation pending) |
+| S-2 | Spoofing | gossip_protocol.cpp | Medium | Open (R-18 mitigation pending) |
+| T-1 | Tampering | raft_log.cpp, transaction_wal.cpp | Medium | Open |
+| T-2 | Tampering | gossip_protocol.cpp | Medium | Open (same as R-18) |
+| R-T-1 | Repudiation | two_phase_commit_coordinator.cpp | Medium | Partially mitigated (WAL ordering) |
+| R-T-2 | Repudiation | maintenance_api_handler.cpp | Low | Open |
+| I-1 | Info. Disclosure | shard_router.cpp | High | Open (R-17 mitigation pending) |
+| I-2 | Info. Disclosure | kv_prefix_transfer_manager.cpp | High | Open (R-23 mitigation pending) |
+| D-1 | DoS | raft_log.cpp | High | Open (R-06 mitigation pending) |
+| D-2 | DoS | gRPC BatchWrite handler | High | **Mitigated** (PR #4591) |
+| D-3 | DoS | circuit_breaker.cpp | Medium | Open |
+| E-1 | Privilege Escalation | raft_consensus.cpp, epoch_fencing.cpp | High | Partially mitigated (time-skew gap) |
+| E-2 | Privilege Escalation | admin_api.cpp, maintenance_api_handler.cpp | Medium | Open |
