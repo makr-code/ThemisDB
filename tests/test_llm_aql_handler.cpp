@@ -643,49 +643,26 @@ TEST_F(LLMAQLHandlerTest, ExecuteInferLegalMedicalAliasesRouteViaAdaptiveShardRo
 
     handler->setAdaptiveShardRouter(router);
 
-    // "legal" hint → shard-legal
-    {
-        std::unordered_map<std::string, std::string> opts;
-        opts["domain_hint"] = "legal";
-        const auto result = handler->executeInfer("contract draft", "", "", opts);
-        EXPECT_EQ(result, "ok:contract draft");
-        EXPECT_EQ(plugin_ptr->last_request.metadata.value("routing_decision", std::string{}),
-                  "ADAPTER_DOMAIN");
-        EXPECT_EQ(plugin_ptr->last_request.metadata.value("target_shard_id", std::string{}),
-                  "shard-legal");
-    }
+    struct Case { const char* hint; const char* prompt; const char* expected_shard; };
+    const Case cases[] = {
+        {"legal",          "contract draft",   "shard-legal"},
+        {"legal_analysis", "clause extraction","shard-legal"},
+        {"medical",        "diagnosis summary","shard-medical"},
+        {"healthcare",     "patient notes",    "shard-medical"},
+    };
 
-    // "legal_analysis" alias → same result
-    {
+    for (const auto& c : cases) {
         std::unordered_map<std::string, std::string> opts;
-        opts["domain_hint"] = "legal_analysis";
-        handler->executeInfer("clause extraction", "", "", opts);
+        opts["domain_hint"] = c.hint;
+        const auto result = handler->executeInfer(c.prompt, "", "", opts);
+        EXPECT_EQ(result, std::string("ok:") + c.prompt)
+            << "domain_hint=" << c.hint;
         EXPECT_EQ(plugin_ptr->last_request.metadata.value("routing_decision", std::string{}),
-                  "ADAPTER_DOMAIN");
+                  "ADAPTER_DOMAIN")
+            << "domain_hint=" << c.hint;
         EXPECT_EQ(plugin_ptr->last_request.metadata.value("target_shard_id", std::string{}),
-                  "shard-legal");
-    }
-
-    // "medical" hint → shard-medical
-    {
-        std::unordered_map<std::string, std::string> opts;
-        opts["domain_hint"] = "medical";
-        handler->executeInfer("diagnosis summary", "", "", opts);
-        EXPECT_EQ(plugin_ptr->last_request.metadata.value("routing_decision", std::string{}),
-                  "ADAPTER_DOMAIN");
-        EXPECT_EQ(plugin_ptr->last_request.metadata.value("target_shard_id", std::string{}),
-                  "shard-medical");
-    }
-
-    // "healthcare" alias → same as "medical"
-    {
-        std::unordered_map<std::string, std::string> opts;
-        opts["domain_hint"] = "healthcare";
-        handler->executeInfer("patient notes", "", "", opts);
-        EXPECT_EQ(plugin_ptr->last_request.metadata.value("routing_decision", std::string{}),
-                  "ADAPTER_DOMAIN");
-        EXPECT_EQ(plugin_ptr->last_request.metadata.value("target_shard_id", std::string{}),
-                  "shard-medical");
+                  c.expected_shard)
+            << "domain_hint=" << c.hint;
     }
 }
 

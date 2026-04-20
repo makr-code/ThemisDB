@@ -68,31 +68,6 @@ std::string toLower(const std::string& s) {
     return out;
 }
 
-std::optional<std::string> parseDomainHint(
-    const std::unordered_map<std::string, std::string>& options
-) {
-    const auto it = options.find("domain_hint");
-    if (it == options.end() || it->second.empty()) {
-        return std::nullopt;
-    }
-
-    const std::string hint = toLower(it->second);
-    if (hint == "general" ||
-        hint == "security" || hint == "security_monitor" ||
-        hint == "schema" || hint == "schema_advisor" ||
-        hint == "transaction" ||
-        hint == "multi_tenant" || hint == "multitenant" ||
-        hint == "explainability" ||
-        hint == "vector_search" || hint == "vector" ||
-        hint == "process_mining" ||
-        hint == "geospatial" ||
-        hint == "legal" || hint == "legal_analysis" ||
-        hint == "medical" || hint == "healthcare") {
-        return hint;
-    }
-    return std::nullopt;
-}
-
 std::optional<themis::distributed_knowledge::AdapterDomainType> parseDomainHintToAdapterDomainType(
     const std::string& domain_hint
 ) {
@@ -129,6 +104,22 @@ std::optional<themis::distributed_knowledge::AdapterDomainType> parseDomainHintT
     }
     if (domain_hint == "medical" || domain_hint == "healthcare") {
         return AdapterDomainType::MEDICAL;
+    }
+    return std::nullopt;
+}
+
+std::optional<std::string> parseDomainHint(
+    const std::unordered_map<std::string, std::string>& options
+) {
+    const auto it = options.find("domain_hint");
+    if (it == options.end() || it->second.empty()) {
+        return std::nullopt;
+    }
+    const std::string hint = toLower(it->second);
+    // Validate by delegating to the canonical type-mapping function.
+    // A hint is accepted if and only if it maps to a known AdapterDomainType.
+    if (parseDomainHintToAdapterDomainType(hint).has_value()) {
+        return hint;
     }
     return std::nullopt;
 }
