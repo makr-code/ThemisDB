@@ -127,7 +127,8 @@ PerQueryCostModel::getRecentRecords(size_t limit) const {
 // -----------------------------------------------------------------
 
 std::unordered_map<std::string, double>
-PerQueryCostModel::getCalibrationFactors() const {
+PerQueryCostModel::getCalibrationFactors(
+    const OptimizerCostModel::CostConstants* current) const {
     std::lock_guard<std::mutex> lock(mutex_);
 
     std::unordered_map<std::string, double> factors;
@@ -211,9 +212,13 @@ PerQueryCostModel::getCalibrationFactors() const {
             gpu_serial_ratio_sum / static_cast<double>(gpu_serial_samples);
         if (avg_gpu_ratio > 0.5) {
             // GPU serialisation dominates: raise the low threshold by 25 %
-            // (capped between 10k and 2M rows so the advisor stays reasonable)
-            constexpr double kCurrentLow = 50'000.0;
-            const double raised = std::min(2'000'000.0, kCurrentLow * 1.25);
+            // (capped between 10k and 2M rows so the advisor stays reasonable).
+            // Use the currently configured threshold (if provided) as the base so
+            // repeated calibration calls converge instead of oscillating.
+            const double base_low = current
+                ? static_cast<double>(current->gpu_row_threshold_low)
+                : 50'000.0;
+            const double raised = std::min(2'000'000.0, base_low * 1.25);
             factors["gpu_row_threshold_low"] = raised;
         }
     }
@@ -224,8 +229,10 @@ PerQueryCostModel::getCalibrationFactors() const {
         // If CPU_SINGLE serialisation is very cheap, the binary threshold can be
         // pushed down slightly so binary format kicks in sooner.
         if (avg_cpu_ratio < 0.05) {
-            constexpr double kCurrentMsgpack = 1'000.0;
-            const double lowered = std::max(100.0, kCurrentMsgpack * 0.8);
+            const double base_msgpack = current
+                ? static_cast<double>(current->msgpack_row_threshold)
+                : 1'000.0;
+            const double lowered = std::max(100.0, base_msgpack * 0.8);
             factors["msgpack_row_threshold"] = lowered;
         }
     }
@@ -234,7 +241,9 @@ PerQueryCostModel::getCalibrationFactors() const {
 }
 
 void PerQueryCostModel::calibrate(OptimizerCostModel& model) const {
-    auto factors = getCalibrationFactors();
+    // Pass the model's current constants so threshold adjustments compound
+    // correctly across successive calibration calls.
+    auto factors = getCalibrationFactors(&model.getConstants());
     if (!factors.empty()) {
         // calibrateCosts expects std::map; convert from unordered_map
         std::map<std::string, double> ordered_factors(factors.begin(), factors.end());

@@ -577,8 +577,17 @@ int64_t StatisticsManager::getCurrentTimestamp() const {
 }
 
 void StatisticsManager::collectTableStatistics(const std::string& tableName) {
-    // Placeholder implementation
-    // In a real system, this would query the storage engine
+    // STUB/SIMULATION NOTE:
+    // Purpose: Creates an empty placeholder entry so that getTableStatistics()
+    //   always returns a well-initialised struct for a known table, even before
+    //   real stats are injected.
+    // Activation: Called at table-registration time and by refreshAllStatistics().
+    // Production Delta: A production implementation would query the storage
+    //   engine for live row count, page count, and average row size.  The
+    //   actual stats must be injected via updateTableStatistics() (e.g. from
+    //   StatisticsCollector after a table scan) until that path is wired up.
+    // Removal Plan: Replace body with a storage-engine call once StorageEngine
+    //   is injectable into StatisticsManager (planned for v2.x).
     OptimizerCostModel::TableStatistics stats;
     stats.tableName = tableName;
     stats.rowCount = 0;
@@ -594,7 +603,14 @@ void StatisticsManager::collectColumnStatistics(
     const std::string& tableName,
     const std::string& columnName) {
     
-    // Placeholder implementation
+    // STUB/SIMULATION NOTE:
+    // Purpose: Creates a zero-initialised column stats entry so downstream
+    //   callers always get a valid struct (distinctValues=0 → worst-case
+    //   selectivity assumption).
+    // Activation: Called at schema-registration time or on first access.
+    // Production Delta: Should scan existing index or sample storage to derive
+    //   distinctValues, nullFraction, min/max, and histogram.
+    // Removal Plan: Replace with storage-engine scan once injectable (v2.x).
     OptimizerCostModel::ColumnStatistics stats;
     stats.columnName = columnName;
     stats.distinctValues = 0;
@@ -604,7 +620,14 @@ void StatisticsManager::collectColumnStatistics(
 }
 
 void StatisticsManager::collectIndexStatistics(const std::string& indexName) {
-    // Placeholder implementation
+    // STUB/SIMULATION NOTE:
+    // Purpose: Registers a default btree-shaped index entry so that
+    //   estimateIndexScan() always has a valid struct to work with.
+    // Activation: Called when a new index is registered with the optimizer.
+    // Production Delta: Should query the index subsystem for actual entry
+    //   count, tree depth, and selectivity histogram.
+    // Removal Plan: Replace with real index-metadata query once the index
+    //   subsystem exposes a stats API (v2.x).
     OptimizerCostModel::IndexStatistics stats;
     stats.indexName = indexName;
     stats.indexType = "btree";

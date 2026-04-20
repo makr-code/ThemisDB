@@ -75,6 +75,24 @@ public:
 
     // Schätzt Selektivitäten der Gleichheitsprädikate und liefert eine Ordnung (kleinste zuerst)
     Plan chooseOrderForAndQuery(const ConjunctiveQuery& q, size_t maxProbePerPred = 1000) const;
+
+    // =============================
+    // Serialization Advisor tuning
+    // =============================
+
+    /**
+     * @brief Replace the cost constants used by the serialization-strategy advisor.
+     *
+     * Allows external calibration (e.g. via PerQueryCostModel::calibrate) to flow
+     * into subsequent chooseOrderForAndQuery() calls.  Thread-safe only with
+     * external serialization of calls to this method and chooseOrderForAndQuery().
+     */
+    void setAdvisorCostConstants(const OptimizerCostModel::CostConstants& c);
+
+    /**
+     * @brief Return a read-only reference to the advisor's current cost constants.
+     */
+    const OptimizerCostModel::CostConstants& advisorCostConstants() const;
     
     // NLP-enhanced query optimization (PR #317 Phase 1)
     // Combines traditional cost-based optimization with NLP-based semantic analysis
@@ -265,6 +283,11 @@ private:
 
     // Per-query cost model (Phase 3, Issue #2419)
     mutable std::shared_ptr<performance::phase3::PerQueryCostModel> per_query_cost_model_;
+
+    // Cost model instance shared across chooseOrderForAndQuery() calls so that
+    // calibrated constants (via setAdvisorCostConstants / PerQueryCostModel::calibrate)
+    // are preserved between calls instead of being discarded with a local instance.
+    OptimizerCostModel advisor_cost_model_;
 
     // Adaptive query optimization components
     // Use the full implementations from adaptive_optimizer.h

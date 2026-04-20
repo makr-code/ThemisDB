@@ -73,6 +73,13 @@ inline GpuInfo probeGpu() noexcept {
 }
 
 /// Infer WorkloadType from the query structure (conservative defaults).
+///
+/// NOTE: Only DOCUMENT_CRUD and ANALYTICS_OLAP can be inferred from the
+/// ConjunctiveQuery structure.  CDC_STREAM, CACHE_REPL, and VECTOR_SEARCH
+/// require caller-supplied context that is not captured in the query AST.
+/// Callers that need those workload types must call adviseSerializationStrategy()
+/// directly on their own OptimizerCostModel instance with the correct WorkloadType,
+/// rather than going through chooseOrderForAndQuery().
 inline WorkloadType inferWorkloadType(const ConjunctiveQuery& q) {
     if (q.spatialPredicate.has_value()) {
         return WorkloadType::ANALYTICS_OLAP;
@@ -171,8 +178,7 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 		    : 256u;
 		const auto   gpu       = probeGpu();
 		const auto   workload  = inferWorkloadType(q);
-		OptimizerCostModel advisor;
-		plan.serialization_advice = advisor.adviseSerializationStrategy(
+		plan.serialization_advice = advisor_cost_model_.adviseSerializationStrategy(
 		    estimated_rows, avg_bytes, gpu.available, gpu.free_bytes, workload);
 	}
 
@@ -272,6 +278,18 @@ void QueryOptimizer::attachPerQueryCostModel(
 std::shared_ptr<performance::phase3::PerQueryCostModel>
 QueryOptimizer::perQueryCostModel() const {
     return per_query_cost_model_;
+}
+
+// ---------------- Serialization Advisor tuning ----------------
+
+void QueryOptimizer::setAdvisorCostConstants(
+    const OptimizerCostModel::CostConstants& c) {
+    advisor_cost_model_.setConstants(c);
+}
+
+const OptimizerCostModel::CostConstants&
+QueryOptimizer::advisorCostConstants() const {
+    return advisor_cost_model_.getConstants();
 }
 
 Result<std::vector<std::string>>

@@ -177,8 +177,15 @@ public:
      *    the GPU breakeven threshold should be raised.
      *  - "msgpack_row_threshold"  when CPU_SINGLE records show the row count
      *    distribution warrants switching to binary format at a lower threshold.
+     *
+     * @param current  Optional pointer to the model's current CostConstants.
+     *   When provided the GPU/msgpack threshold adjustments are computed
+     *   relative to the actual configured values rather than the compile-time
+     *   defaults, preventing threshold oscillation after repeated calibrations.
+     *   Pass nullptr (default) for backwards compatibility.
      */
-    std::unordered_map<std::string, double> getCalibrationFactors() const;
+    std::unordered_map<std::string, double> getCalibrationFactors(
+        const OptimizerCostModel::CostConstants* current = nullptr) const;
 
     /**
      * @brief Apply calibration directly to an OptimizerCostModel.
