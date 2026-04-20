@@ -544,6 +544,47 @@ TEST_F(LLMAQLHandlerTest, ExecuteInferUsesAdaptiveShardRouterWhenResolverNotSet)
     EXPECT_EQ(plugin_ptr->last_request.metadata.value("target_shard_id", std::string{}), "shard-router");
 }
 
+TEST_F(LLMAQLHandlerTest, ExecuteInferPrefersResolverOverAdaptiveShardRouter) {
+    auto plugin = std::make_unique<CapturingLLMPlugin>();
+    auto* plugin_ptr = plugin.get();
+    auto& plugin_mgr = LLMPluginManager::instance();
+    plugin_mgr.registerPlugin("capturing-router-precedence", std::move(plugin));
+    plugin_mgr.setDefaultPlugin("capturing-router-precedence");
+    struct Cleanup {
+        ~Cleanup() { LLMPluginManager::instance().unregisterPlugin("capturing-router-precedence"); }
+    } cleanup;
+
+    auto topology = std::make_shared<themis::sharding::ShardTopology>();
+    auto ring = std::make_shared<themis::sharding::ConsistentHashRing>();
+    auto resolver = std::make_shared<themis::sharding::URNResolver>(topology, ring);
+    themis::sharding::ShardRouter::Config router_cfg;
+    auto router = std::make_shared<themis::sharding::AdaptiveShardRouter>(
+        resolver, nullptr, topology, router_cfg);
+
+    themis::distributed_knowledge::AdapterCapabilityAnnouncement cap;
+    cap.domain_type = themis::distributed_knowledge::AdapterDomainType::TRANSACTION;
+    cap.accuracy_delta = 0.88;
+    cap.adapter_version = "v1";
+    router->updateAdapterCapability("shard-router", cap);
+
+    handler->setAdaptiveShardRouter(router);
+    handler->setDomainRouteResolver([](const std::string& domain_hint)
+        -> std::optional<std::pair<std::string, double>> {
+        if (domain_hint == "transaction") {
+            return std::make_pair(std::string("shard-resolver"), 0.93);
+        }
+        return std::nullopt;
+    });
+
+    std::unordered_map<std::string, std::string> options;
+    options["domain_hint"] = "transaction";
+
+    const auto result = handler->executeInfer("resolver-precedence-test", "", "", options);
+    EXPECT_EQ(result, "ok:resolver-precedence-test");
+    EXPECT_EQ(plugin_ptr->last_request.metadata.value("routing_decision", std::string{}), "ADAPTER_DOMAIN");
+    EXPECT_EQ(plugin_ptr->last_request.metadata.value("target_shard_id", std::string{}), "shard-resolver");
+}
+
 TEST_F(LLMAQLHandlerTest, ExecuteBatchInferDomainFanOutPreservesOrder) {
     auto plugin = std::make_unique<CapturingLLMPlugin>();
     auto& plugin_mgr = LLMPluginManager::instance();

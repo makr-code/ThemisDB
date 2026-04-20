@@ -91,7 +91,7 @@ std::optional<std::string> parseDomainHint(
     return std::nullopt;
 }
 
-std::optional<themis::distributed_knowledge::AdapterDomainType> parseAdapterDomainType(
+std::optional<themis::distributed_knowledge::AdapterDomainType> parseDomainHintToAdapterDomainType(
     const std::string& domain_hint
 ) {
     using themis::distributed_knowledge::AdapterDomainType;
@@ -481,7 +481,7 @@ std::string LLMAQLHandler::executeInfer(
                             routing_decision = "LOCAL_FALLBACK_NO_MATCH";
                         }
                     } else if (impl_->adaptive_shard_router_) {
-                        if (const auto domain_type = parseAdapterDomainType(*domain); domain_type.has_value()) {
+                        if (const auto domain_type = parseDomainHintToAdapterDomainType(*domain); domain_type.has_value()) {
                             const auto candidate = impl_->adaptive_shard_router_->routeByDomain(*domain_type);
                             if (!candidate.empty()) {
                                 const auto accuracy_delta =
