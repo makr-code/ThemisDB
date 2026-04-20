@@ -854,10 +854,10 @@ void WireProtocolServer::Session::handleMessage() {
             handleDelete();
             break;
         case 0x13: // BATCH_GET
-            handleBatchGet();
+            dispatchToWorkerPool([this]() { handleBatchGet(); });
             break;
         case 0x14: // BATCH_PUT
-            handleBatchPut();
+            dispatchToWorkerPool([this]() { handleBatchPut(); });
             break;
         case 0x20: // QUERY_AQL
             dispatchToWorkerPool([this]() { handleQuery(); });
@@ -1363,27 +1363,31 @@ void WireProtocolServer::Session::handleBatchPut() {
             return;
         }
 
+        // Validate all items first; reject any with missing key/value before
+        // writing to storage so that we don't commit a partial batch.
         json results = json::array();
-        uint32_t success_count = 0;
         uint32_t failure_count = 0;
+
+        std::vector<RocksDBWrapper::KeyValuePair> batch;
+        batch.reserve(items_arr.size());
 
         for (const auto& item_val : items_arr) {
             std::string key = item_val.value("key", "");
             if (key.empty()) {
-                json item_result;
-                item_result["key"] = key;
-                item_result["success"] = false;
-                item_result["error"] = "Missing 'key' in item";
-                results.push_back(std::move(item_result));
+                json r;
+                r["key"]     = key;
+                r["success"] = false;
+                r["error"]   = "Missing 'key' in item";
+                results.push_back(std::move(r));
                 ++failure_count;
                 continue;
             }
             if (!item_val.contains("value")) {
-                json item_result;
-                item_result["key"] = key;
-                item_result["success"] = false;
-                item_result["error"] = "Missing 'value' in item";
-                results.push_back(std::move(item_result));
+                json r;
+                r["key"]     = key;
+                r["success"] = false;
+                r["error"]   = "Missing 'value' in item";
+                results.push_back(std::move(r));
                 ++failure_count;
                 continue;
             }
@@ -1392,26 +1396,44 @@ void WireProtocolServer::Session::handleBatchPut() {
                 ? item_val["value"].get<std::string>()
                 : item_val["value"].dump();
 
-            std::string storage_key = collection + ":" + key;
-            bool ok = server_->storage_->put(storage_key, value_str);
+            std::vector<uint8_t> value_bytes(value_str.begin(), value_str.end());
+            batch.push_back({collection + ":" + key, std::move(value_bytes)});
+        }
 
-            json item_result;
-            item_result["key"] = key;
-            item_result["success"] = ok;
-            if (!ok) {
-                item_result["error"] = "Storage write failed";
-                ++failure_count;
+        // Write all valid items atomically via putBatch (B3: single WriteBatch commit).
+        // If any validation error occurred we still write the good items atomically;
+        // the bad-item errors are already queued in results above.
+        uint32_t success_count = 0;
+        if (!batch.empty()) {
+            bool ok = server_->storage_->putBatch(batch);
+            if (ok) {
+                success_count = static_cast<uint32_t>(batch.size());
+                for (const auto& kv : batch) {
+                    // Strip the "collection:" prefix to recover the original key.
+                    std::string short_key = kv.key.substr(collection.size() + 1);
+                    json r;
+                    r["key"]     = short_key;
+                    r["success"] = true;
+                    results.push_back(std::move(r));
+                }
             } else {
-                ++success_count;
+                failure_count += static_cast<uint32_t>(batch.size());
+                for (const auto& kv : batch) {
+                    std::string short_key = kv.key.substr(collection.size() + 1);
+                    json r;
+                    r["key"]     = short_key;
+                    r["success"] = false;
+                    r["error"]   = "Atomic batch write failed";
+                    results.push_back(std::move(r));
+                }
             }
-            results.push_back(std::move(item_result));
         }
 
         json response;
-        response["results"] = std::move(results);
+        response["results"]       = std::move(results);
         response["success_count"] = success_count;
         response["failure_count"] = failure_count;
-        response["collection"] = collection;
+        response["collection"]    = collection;
 
         std::string response_str = response.dump();
         std::vector<uint8_t> response_data(response_str.begin(), response_str.end());

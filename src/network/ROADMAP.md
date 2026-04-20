@@ -207,8 +207,16 @@ v2.0.0 – Production-grade networking layer. All transport paths (TCP, WebSocke
   - HELLO: server info + capabilities response
   - AUTH_REQUEST: token validation, `authenticated_.store(true)`, stats.auth_failures accounting
   - GET/PUT/DELETE: RocksDB dispatch with collection-prefixed keys
-  - QUERY_AQL / GEO_QUERY: structured error with HTTP REST API redirect hint
-  - VECTOR_SEARCH: `VectorIndexManager::searchKnn()` dispatch
+  - QUERY_AQL: `QueryEngine::executeAql()` when engine wired; `AQL_NOT_INTEGRATED` redirect otherwise (2026-04-20)
+  - GRAPH_TRAVERSE: `QueryEngine::executeGeneralTraversal()` when engine wired; `GRAPH_NOT_INTEGRATED` redirect otherwise (2026-04-20)
+  - CURSOR_NEXT / CURSOR_CLOSE: TTL-based `CursorEntry` registry; 404/410 error handling (2026-04-20)
+  - BATCH_GET: `multiGet()` instead of O(N) loop (B2, 2026-04-20); dispatched to worker_pool_ (2026-04-20)
+  - BATCH_PUT: `putBatch()` for atomic N-key WriteBatch commit (B3-wire, 2026-04-20); dispatched to worker_pool_ (2026-04-20)
+  - VECTOR_SEARCH: `VectorIndexManager::searchKnn()` dispatch; dispatched to worker_pool_ (2026-04-20)
+  - GEO_QUERY / TIMESERIES_QUERY: structured error; dispatched to worker_pool_ (2026-04-20)
+- [x] QueryEngine DI: optional 9th ctor param `std::shared_ptr<QueryEngine>` (default nullptr); backward-compatible (2026-04-20)
+- [x] `asyncWriteResponse()` uses `net::dispatch` for socket-thread safety from worker threads (B1, 2026-04-20)
+- [x] `dispatchToWorkerPool()` helper on Session — offloads CPU-heavy handlers off the I/O thread (2026-04-20)
 - [x] Authentication wired: `authenticated_` flag correctly set after successful AUTH (2026-03-10)
 - [x] `Config::auth_token` field added for pre-shared token validation (2026-03-10)
 - [x] Focused standalone test targets added for network components in `tests/CMakeLists.txt` (2026-03-10):
@@ -225,6 +233,10 @@ v2.0.0 – Production-grade networking layer. All transport paths (TCP, WebSocke
 - [x] `getActiveConnections()` counts both binary and WebSocket sessions
 - [x] Binary/text frame mode correctly tracked per queued message
 - [x] Welcome frame sent on connect; graceful close handling
+- [x] Unit tests added for data-flow Phase 1–5 (`test_wire_protocol_dataflow.cpp`, 15 tests, 2026-04-20)
+  - WPD-01..10: QueryEngine DI, CursorEntry struct, BATCH_GET/BATCH_PUT response shapes,
+    cursor-next/close contracts, dispatched-opcode constants (WireProtocolDataflowFocusedTests)
+  - KB-01..05: RocksDBWrapper::KeyValuePair struct + putBatch() declaration
 - [x] V2 multiplexed protocol fully implemented (`wire_protocol_v2.cpp`)
   - Frame types: DATA, HEADERS, RST_STREAM, SETTINGS, PING, GOAWAY, WINDOW_UPDATE, PUSH_PROMISE
   - Stream state machine: IDLE → OPEN → HALF_CLOSED_{LOCAL,REMOTE} → CLOSED
@@ -277,8 +289,12 @@ v2.0.0 – Production-grade networking layer. All transport paths (TCP, WebSocke
 ## Known Issues & Limitations
 - Wire Protocol V1 opcode handlers (HELLO, AUTH, GET, PUT, DELETE) are fully implemented
   (resolved 2026-03-10, see `NETWORK-MISSING-001`/`NETWORK-MISSING-002`).
-  QUERY_AQL and GEO_QUERY return structured errors directing clients to the HTTP REST API;
+  QUERY_AQL dispatches to `QueryEngine::executeAql()` when engine is injected (2026-04-20);
+  returns `AQL_NOT_INTEGRATED` redirect if no engine is wired (backward-compatible).
+  GRAPH_TRAVERSE dispatches to `QueryEngine::executeGeneralTraversal()` when engine is
+  injected; returns `GRAPH_NOT_INTEGRATED` redirect otherwise (2026-04-20).
   VECTOR_SEARCH dispatches to `VectorIndexManager::searchKnn`.
+  GEO_QUERY returns structured error directing clients to the HTTP REST API.
 - `grpc_transport.cpp` was missing from `cmake/CMakeLists.txt` (fixed: 2026-03-09).
 - `envoy_xds.cpp`, `service_mesh.cpp`, `socket_timeout_manager.cpp`, `udp_fast_path.cpp`, `wire_protocol_server_ws.cpp` were missing from `cmake/ModularBuild.cmake` (fixed: 2026-03-10).
 - WebSocket upgrade support is implemented; binary frames over WebSocket are not yet
@@ -292,6 +308,8 @@ v2.0.0 – Production-grade networking layer. All transport paths (TCP, WebSocke
   Guarded by `THEMIS_ENABLE_SERVICE_MESH`.
 - `RaftLoadBalancer` simulates Raft consensus in-process (leader election + follower replication
   without real network RPC); full distributed multi-node Raft is planned for a future milestone.
+- `dispatchToWorkerPool()`: under aggressive request pipelining a per-session `net::strand`
+  is needed to fully serialize `payload_buffer_` access. Tracked for Q3 2026 refactor.
 
 ## Breaking Changes
 - Wire protocol frame format is versioned; v2 frame format planned with extended metadata fields.
@@ -302,3 +320,5 @@ v2.0.0 – Production-grade networking layer. All transport paths (TCP, WebSocke
   remains IPv4 "0.0.0.0").
 - `WireProtocolServer::Config` gained new field `tcp_backlog` (default: 128); existing
   deployments are unaffected as 128 matches the previous implicit OS default.
+- `WireProtocolServer` ctor gained optional 9th parameter `std::shared_ptr<QueryEngine>` (default
+  `nullptr`); existing callers do not need to change (2026-04-20).

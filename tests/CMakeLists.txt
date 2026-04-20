@@ -15415,6 +15415,16 @@ add_network_focused_test(
     "UDPServer: config defaults, packet constants (TM magic/opcodes/flags), validatePacket, buildAck, stats init, isRunning, seq-num encoding, ACK flag"
 )
 
+# --- Wire Protocol Data-Flow (Phase 1–5, 2026-04-20) ---
+add_network_focused_test(
+    test_wire_protocol_dataflow_focused
+    test_wire_protocol_dataflow.cpp
+    WireProtocolDataflowFocusedTests
+    "network;wire-protocol;dataflow;query-engine;cursor;batch-get;batch-put;putBatch;multiGet;focused;unit"
+    "WireProtocolDataflow: QueryEngine DI, CursorEntry struct, BATCH_GET multiGet shape, BATCH_PUT putBatch shape, cursor-next/close contracts, dispatched-opcode constants, RocksDBWrapper::KeyValuePair API (WPD-01..10, KB-01..05)"
+)
+
+
 # --- Geo Topology Router ---
 # Needs sharding sources for ShardTopology / ShardInfo types.
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_geo_topology_router.cpp")
