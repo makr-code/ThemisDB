@@ -305,6 +305,22 @@ public:
     /// Delete key
     bool del(std::string_view key);
 
+    /// Struct for a key-value pair used in batch writes.
+    struct KeyValuePair {
+        std::string key;
+        std::vector<uint8_t> value;
+    };
+
+    /// Write multiple key-value pairs atomically in a single WriteBatch commit.
+    ///
+    /// All writes succeed or fail together.  This is significantly faster than
+    /// N individual put() calls for OLTP workloads with many small writes because
+    /// it opens only one MVCC transaction instead of N.
+    ///
+    /// @param pairs  Key-value pairs to write.
+    /// @return true if all writes were committed successfully.
+    bool putBatch(const std::vector<KeyValuePair>& pairs);
+
     // ===== Streaming Blob API (v2.0.0, PERF-D5) =====
 
     /// Store a blob using the high-throughput streaming write path.

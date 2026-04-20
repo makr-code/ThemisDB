@@ -14539,6 +14539,37 @@ if(THEMIS_ENABLE_LLM)
         message(STATUS "LookupDecoder focused tests: n-gram index, draft proposal, dynamic update, eviction, thread safety")
     endif()
 
+    # DecisionRecordYamlProcessor integration tests
+    # DRI-01..11: LoRARouter/AdapterLoadBalancer/LoRAOrchestrator record schema + processor wiring
+    add_llm_focused_test(
+        test_decision_record_integration
+        test_decision_record_integration.cpp
+        DecisionRecordIntegrationFocusedTests
+        "llm;decision-record;integration;lora;unit"
+        "Decision record integration: LoRARouter/AdapterLoadBalancer/LoRAOrchestrator schema + processor wiring (DRI-01..11)"
+    )
+
+    # DecisionRecordYamlProcessor unit tests (requires yaml-cpp)
+    add_llm_focused_test(
+        test_decision_record_yaml_processor
+        test_decision_record_yaml_processor.cpp
+        DecisionRecordYamlProcessorFocusedTests
+        "llm;decision-record;yaml;unit"
+        "DecisionRecordYamlProcessor: lifecycle, submit, YAML file writing, mandatory fields"
+    )
+    if(TARGET test_decision_record_yaml_processor AND TARGET yaml-cpp::yaml-cpp)
+        target_link_libraries(test_decision_record_yaml_processor PRIVATE yaml-cpp::yaml-cpp)
+    endif()
+
+    # Decision record end-to-end tests (federation round → YAML on disk)
+    add_llm_focused_test(
+        test_decision_record_e2e
+        test_decision_record_e2e.cpp
+        DecisionRecordE2EFocusedTests
+        "llm;decision-record;e2e;federation;unit"
+        "Decision record E2E: federation round YAML on disk, required fields, multiple rounds"
+    )
+
     # NOTE: tests/llm/bench_model_loading_from_themisdb.cpp uses Google Benchmark
     # (benchmark::benchmark_main / BENCHMARK() macro), NOT GTest.
     # It is registered as a proper benchmark target in benchmarks/CMakeLists.txt.
@@ -15414,6 +15445,16 @@ add_network_focused_test(
     "network;udp;server;ingestion;metrics;logs;events;batching;acks;dedup;rate-limit;v1.8.0;focused;unit"
     "UDPServer: config defaults, packet constants (TM magic/opcodes/flags), validatePacket, buildAck, stats init, isRunning, seq-num encoding, ACK flag"
 )
+
+# --- Wire Protocol Data-Flow (Phase 1–5, 2026-04-20) ---
+add_network_focused_test(
+    test_wire_protocol_dataflow_focused
+    test_wire_protocol_dataflow.cpp
+    WireProtocolDataflowFocusedTests
+    "network;wire-protocol;dataflow;query-engine;cursor;batch-get;batch-put;putBatch;multiGet;focused;unit"
+    "WireProtocolDataflow: QueryEngine DI, CursorEntry struct, BATCH_GET multiGet shape, BATCH_PUT putBatch shape, cursor-next/close contracts, dispatched-opcode constants, RocksDBWrapper::KeyValuePair API (WPD-01..10, KB-01..05)"
+)
+
 
 # --- Geo Topology Router ---
 # Needs sharding sources for ShardTopology / ShardInfo types.
@@ -18157,7 +18198,7 @@ else()
     message(STATUS "API Gateway Enhancements focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_api_gateway_enhancements.cpp")
 endif()
 
-# DatabaseMaintenanceOrchestrator ÔÇô focused tests for CRUD, jobs, and health
+# DatabaseMaintenanceOrchestrator — focused tests for CRUD, jobs, and health
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_database_maintenance_orchestrator.cpp")
     message(STATUS "Adding Database Maintenance Orchestrator focused tests")
 
@@ -18199,6 +18240,44 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_database_maintenance_orchestrator.cp
 else()
     message(STATUS "Database Maintenance Orchestrator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_database_maintenance_orchestrator.cpp")
 endif()
+
+# ReplicaValidationHandler — focused tests (RVH-01..08, 2026-04-20)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replica_validation_handler.cpp")
+    message(STATUS "Adding ReplicaValidationHandler focused tests (RVH-01..08)")
+
+    add_executable(test_replica_validation_handler_focused
+        test_replica_validation_handler.cpp
+    )
+
+    target_include_directories(test_replica_validation_handler_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_replica_validation_handler_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_replica_validation_handler_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ReplicaValidationHandlerFocusedTests
+             COMMAND test_replica_validation_handler_focused)
+
+    set_tests_properties(ReplicaValidationHandlerFocusedTests PROPERTIES
+        LABELS "maintenance;replica-validation;handler;sharding;focused;unit"
+        TIMEOUT 30
+    )
+
+    message(STATUS "  ReplicaValidationHandler: handlerName, execute success/error/null-fn, null engine, live engine wiring, independent state (RVH-01..08)")
+else()
+    message(STATUS "ReplicaValidationHandler focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_replica_validation_handler.cpp")
+endif()
+
+
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_query_engine.cpp")
     message(STATUS "Adding Query: QueryEngine focused tests")

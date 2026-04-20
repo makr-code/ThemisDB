@@ -57,9 +57,11 @@ coordination via `IDistributedLock`, and multi-tenant schedule isolation.
 - [x] StorageCompaction integration (Target: v1.2.0)
   - `StorageCompactionHandler` in `include/maintenance/maintenance_task_handler_impls.h`: wraps `CompactionManager::compactAll()`
   - Register via `orchestrator.registerTaskHandler(STORAGE_COMPACTION, std::make_shared<StorageCompactionHandler>(mgr))`
-- [ ] Replica consistency check integration (Target: v1.2.0)
-  - Wire `REPLICA_VALIDATION` task to sharding/replica module once available
-  - Health probe contributed by sharding module via `registerHealthProbe("replica", ...)`
+- [x] Replica consistency check integration (Target: v1.2.0)
+  - `makeReplicaValidationHandler(shard_repair_engine_)` wired in `http_server.cpp` (2026-04-20)
+  - `ReplicaValidationHandler` delegates to `ShardRepairEngine::runConsistencyCheck()`
+  - Guarded by `if (shard_repair_engine_)` — no-op when ShardRepairEngine not injected
+  - Focused tests RVH-01..08 in `test_replica_validation_handler.cpp`
 
 ### Long-term (v2.0.0)
 - [x] Multi-tenant schedule isolation – per-tenant windows and quotas (Target: v2.0.0)
@@ -98,14 +100,14 @@ coordination via `IDistributedLock`, and multi-tenant schedule isolation.
 - [x] IMaintenanceTaskHandler registry – implemented v1.2.0 (`registerTaskHandler`, `listTaskHandlers`)
 - [x] STORAGE_COMPACTION wired – implemented v1.2.0 (`StorageCompactionHandler` in `http_server.cpp`)
 - [x] MVCC_CLEANUP wired – implemented v1.2.0 (`MvccCleanupHandler` in `http_server.cpp`)
-- [ ] REPLICA_VALIDATION wired – pending (handler interface ready; sharding module wiring pending)
+- [x] REPLICA_VALIDATION wired – implemented v1.2.0 (`makeReplicaValidationHandler(shard_repair_engine_)` in `http_server.cpp` guarded by `if (shard_repair_engine_)`, 2026-04-20)
 
 ## Known Issues & Limitations
 
-- `REPLICA_VALIDATION` tasks are not yet wired to real implementations; the `ReplicaValidationHandler` class is provided in `maintenance_task_handler_impls.h` but the sharding/replica module has not yet registered a handler. Tracking: `include/maintenance/ROADMAP.md` planned item.
 - Raft-backed `IDistributedLock` implementation not yet available; use `InProcessDistributedLock` for single-node or test deployments.
 - `MVCC_CLEANUP` is wired (2026-04-12): `MvccCleanupHandler` registered in `http_server.cpp` using the shared `mvcc_store_` member.
 - `STORAGE_COMPACTION` is wired (2026-04-12): `StorageCompactionHandler` registered in `http_server.cpp` via `CompactionManager`.
+- `REPLICA_VALIDATION` is wired (2026-04-20): `makeReplicaValidationHandler(shard_repair_engine_)` registered in `http_server.cpp` when `shard_repair_engine_` is non-null; no-op if the ShardRepairEngine has not been injected (silently skipped, SKIPPED job state in the orchestrator).
 
 ## Implementation Phases
 
@@ -138,6 +140,8 @@ coordination via `IDistributedLock`, and multi-tenant schedule isolation.
 - [x] RocksDB persistence for schedules (`MaintenanceScheduleStore`, write-through CRUD, loadAll on start())
 - [x] Explicit per-task dependency graph (`MaintenanceTaskDependency`, `resolveTaskExecutionOrder`, Kahn's topological sort)
 - [x] Module-specific task wiring: `StorageCompactionHandler`, `MvccCleanupHandler`, `ReplicaValidationHandler` (handler classes); `registerTaskHandler()` registry
+- [x] `REPLICA_VALIDATION` wired in `http_server.cpp` via `makeReplicaValidationHandler(shard_repair_engine_)` (2026-04-20)
+- [x] Focused tests RVH-01..08 in `test_replica_validation_handler.cpp` (`ReplicaValidationHandlerFocusedTests`)
 
 ### Phase 6: Distributed Coordination & Multi-Tenancy (Status: Completed ✅ — v2.0.0)
 - [x] `IDistributedLock` interface + `InProcessDistributedLock` implementation
@@ -147,7 +151,6 @@ coordination via `IDistributedLock`, and multi-tenant schedule isolation.
 
 ### Phase 7: Production Hardening (Planned — v2.1.0+)
 - [ ] Raft-backed `IDistributedLock` implementation (integrate with `src/replication/raft_v2.cpp`)
-- [ ] REPLICA_VALIDATION wired to sharding/replica module
 - [ ] Maintenance impact prediction (ML model for CPU/memory forecasting)
 
 ## Breaking Changes
