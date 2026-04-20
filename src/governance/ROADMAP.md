@@ -35,11 +35,16 @@
 
 ## In Progress 🚧
 
-_(No items currently in progress — all tracked features are implemented.)_
+- [~] ML/AI Impact Assessment & Governance framework (Target: Q2 2026)
+  - Scope: full inventory of ML/AI touchpoints across retrieval, ranking, inference, embeddings, query-assist, and content pipelines
+  - Deliverable: `src/governance/AI_ML_IMPACT_ASSESSMENT.md` (impact map, risk register, control stack, KPIs, pilot/scale path)
+  - Exit criteria: critical touchpoints have guardrail policy, hard-fallback definition, and audit/trace requirements
 
 ## Planned Features 📋
 
-_(No new planned features at this time — see `FUTURE_ENHANCEMENTS.md` for long-horizon research items.)_
+- [ ] Pilot and operationalize ML/AI control stack for 2–3 critical paths (Target: Q3 2026)
+- [ ] Enforce model release governance gate (lineage/license/security/rollback) in CI/CD (Target: Q3 2026)
+- [ ] Add quarterly ML/AI risk review cadence with KPI deltas and remediation tracking (Target: Q4 2026)
 
 ## Implementation Phases
 
@@ -72,6 +77,20 @@ _(No new planned features at this time — see `FUTURE_ENHANCEMENTS.md` for long
 - [x] Implement `evaluateEffectivePolicy()` merging decisions from full ancestor chain (Target: Q1 2026)
 - [x] Implement `resolveEffectiveRules()` returning flattened rule list (Target: Q1 2026)
 - [x] Unit tests covering hierarchy registration, cycle prevention, merge semantics, and edge cases (Target: Q1 2026)
+
+### Phase 5: ML/AI Impact Assessment & Governance (Status: In Progress 🚧)
+
+- [x] System map of ML/AI touchpoints and trust boundaries documented (`AI_ML_IMPACT_ASSESSMENT.md`, Section 1/2)
+- [x] Deterministic vs probabilistic decision taxonomy and criticality classes (S0–S3) documented (`AI_ML_IMPACT_ASSESSMENT.md`, Section 3)
+- [x] Chance/risk catalog including hallucination, drift, injection, cost/latency, and coupling risks documented (`AI_ML_IMPACT_ASSESSMENT.md`, Section 4/5)
+- [x] Defense-in-depth control framework (policy, runtime guardrails, observability/audit, governance process) defined (`AI_ML_IMPACT_ASSESSMENT.md`, Section 6/7)
+- [ ] Pilot rollout for 2–3 critical AI paths with KPI baseline and incident drill evidence (Target: Q3 2026)
+
+### Phase 6: Documentation & Acceptance (Status: In Progress 🚧)
+
+- [x] Deliverables bundle documented: impact map, prioritized risks, control framework, KPI set, backlog seeds (`AI_ML_IMPACT_ASSESSMENT.md`)
+- [ ] Governance runbooks/playbooks finalized and linked to operations docs (Target: Q3 2026)
+- [ ] Acceptance gate review: all critical touchpoints show fallback + audit trace + owner sign-off (Target: Q3 2026)
 
 ## Production Readiness Checklist
 
@@ -112,4 +131,3 @@ _Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNC
 
 - `CcpaRuleSet` – CCPA-Compliance-Regeln; geprüft in ccpa_rules-Tests und Compliance-Bench
   > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
-
