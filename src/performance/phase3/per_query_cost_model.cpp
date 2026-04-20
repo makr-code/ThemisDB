@@ -139,6 +139,7 @@ PerQueryCostModel::getCalibrationFactors() const {
     // Derive cpuCostPerRow from records that have row data
     double total_time_per_row = 0.0;
     size_t row_samples = 0;
+    size_t rows_processed_total = 0;
 
     double total_time_per_page = 0.0;
     size_t page_samples = 0;
@@ -154,6 +155,7 @@ PerQueryCostModel::getCalibrationFactors() const {
                                ? static_cast<double>(r.cycles_elapsed) * ms_per_cycle
                                : r.execution_time_ms;
             total_time_per_row += time_ms / static_cast<double>(r.rows_processed);
+            rows_processed_total += r.rows_processed;
             ++row_samples;
         }
 
@@ -170,6 +172,19 @@ PerQueryCostModel::getCalibrationFactors() const {
         // Scale: 1 cost unit ≈ 0.01 ms; clamp to [1e-6, 1.0]
         double calibrated = std::max(1e-6, std::min(1.0, avg_time_per_row / 0.01));
         factors["cpuCostPerRow"] = calibrated;
+
+        // Emit serialization threshold calibrations based on observed rows.
+        // gpu_row_threshold_low: use average rows as a heuristic floor for GPU
+        // worthiness; clamp to a practical range [1'000, 10'000'000].
+        double avg_rows = static_cast<double>(rows_processed_total) /
+                          static_cast<double>(row_samples);
+        double gpu_threshold = std::max(1000.0, std::min(10'000'000.0, avg_rows * 0.5));
+        factors["gpu_row_threshold_low"] = gpu_threshold;
+
+        // msgpack threshold: slightly lower than GPU threshold (Arrow CPU makes
+        // sense before GPU transfers become worthwhile).
+        double msgpack_threshold = std::max(500.0, gpu_threshold * 0.2);
+        factors["msgpack_row_threshold"] = msgpack_threshold;
     }
 
     if (page_samples > 0) {

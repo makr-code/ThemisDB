@@ -585,4 +585,41 @@ void StatisticsManager::updateTableStatistics(
     tableStats_[tableName] = stats;
 }
 
+// ================================================================
+// Serialization Strategy Advisor
+// ================================================================
+
+OptimizerCostModel::SerializationAdvice
+OptimizerCostModel::adviseSerializationStrategy(
+    SerializationWorkloadType workload,
+    size_t                    row_count) const
+{
+    SerializationAdvice advice;
+
+    if (workload == SerializationWorkloadType::GPU_VRAM &&
+        row_count >= constants_.gpuRowThresholdLow)
+    {
+        advice.format      = SerializationAdvice::Format::ARROW_GPU_VRAM;
+        advice.gpu_capable = true;
+        advice.description = "Apache Arrow IPC for GPU VRAM transfer (rows >= " +
+                             std::to_string(constants_.gpuRowThresholdLow) + ")";
+    }
+    else if (workload != SerializationWorkloadType::GPU_VRAM &&
+             row_count >= constants_.msgpackRowThreshold)
+    {
+        advice.format      = SerializationAdvice::Format::ARROW_CPU_PARALLEL;
+        advice.gpu_capable = false;
+        advice.description = "Apache Arrow IPC for parallel CPU execution (rows >= " +
+                             std::to_string(constants_.msgpackRowThreshold) + ")";
+    }
+    else
+    {
+        advice.format      = SerializationAdvice::Format::BINARY_BATCH_CPU;
+        advice.gpu_capable = false;
+        advice.description = "Binary/msgpack batch serialization for small CPU workload";
+    }
+
+    return advice;
+}
+
 } // namespace themis

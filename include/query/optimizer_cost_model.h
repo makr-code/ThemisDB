@@ -106,6 +106,10 @@ public:
         size_t hashTableKeySize = 8;           // Default hash key size in bytes
         size_t hashTablePointerSize = 8;       // Pointer size (use sizeof(void*) on target platform)
         size_t hashTableGroupOverhead = 64;    // Overhead per group in aggregation
+
+        // Serialization strategy thresholds
+        size_t gpuRowThresholdLow  = 50'000;   // Rows above which GPU Arrow IPC is preferred
+        size_t msgpackRowThreshold = 10'000;   // Rows above which Arrow CPU-parallel beats msgpack
     };
     
     // =============================
@@ -215,6 +219,47 @@ public:
     // Accessors
     const CostConstants& getConstants() const { return constants_; }
     void setConstants(const CostConstants& constants) { constants_ = constants; }
+
+    // =============================
+    // Serialization Strategy Advisor
+    // =============================
+
+    /// Workload context for serialization strategy selection.
+    enum class SerializationWorkloadType {
+        UNKNOWN,
+        CPU_BATCH,          ///< General CPU batch processing
+        CPU_PARALLEL,       ///< Parallel CPU execution (multiple threads)
+        GPU_VRAM,           ///< GPU execution, data resides in VRAM
+    };
+
+    /// Recommended serialization path for a query plan.
+    struct SerializationAdvice {
+        enum class Format {
+            BINARY_BATCH_CPU,    ///< msgpack / binary row format for CPU batches
+            ARROW_CPU_PARALLEL,  ///< Apache Arrow IPC for multi-threaded CPU
+            ARROW_GPU_VRAM,      ///< Apache Arrow IPC optimised for GPU memory transfer
+        };
+
+        Format              format      = Format::BINARY_BATCH_CPU;
+        std::string         description;    ///< Human-readable rationale
+        bool                gpu_capable = false; ///< Indicates GPU-accelerated path
+    };
+
+    /**
+     * @brief Advise the best serialization strategy given workload and row count.
+     *
+     * Decision tree:
+     *  - GPU workload AND rows >= gpuRowThresholdLow  → ARROW_GPU_VRAM
+     *  - rows >= msgpackRowThreshold (non-GPU)        → ARROW_CPU_PARALLEL
+     *  - otherwise                                    → BINARY_BATCH_CPU
+     *
+     * @param workload  Workload classification for the planned query.
+     * @param row_count Expected number of rows to serialise.
+     * @return          Populated SerializationAdvice struct.
+     */
+    SerializationAdvice adviseSerializationStrategy(
+        SerializationWorkloadType workload,
+        size_t                    row_count) const;
 
 private:
     CostConstants constants_;
