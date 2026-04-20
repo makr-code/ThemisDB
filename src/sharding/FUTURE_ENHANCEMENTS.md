@@ -18,6 +18,7 @@ This document covers planned enhancements to ThemisDB's sharding subsystem, whic
 - Formal models must preserve durability semantics of WAL-before-ack rules used in consensus and distributed commit paths.
 - Model abstraction must be deterministic and finite for CI exploration while still representing crash/restart and delayed/reordered network events.
 - Proof artifacts must be versioned with protocol changes; stale proofs cannot satisfy merge requirements.
+- Trace capture on consensus/commit hot paths must be runtime-gated (`verification.trace.enabled`) and non-blocking (bounded lock-free queue + async flush worker) to keep protocol latency budgets stable.
 
 ### Required Interfaces
 | Interface | Consumer | Notes |
@@ -48,6 +49,7 @@ This document covers planned enhancements to ThemisDB's sharding subsystem, whic
 - Verification gate must be mandatory for protocol-change workflows; no bypass for `main` merges.
 - Proof artifacts and trace mappings must be tamper-evident (hash + commit reference).
 - Recovery/reconfiguration invariants must remain green before release tagging.
+- Emergency security hotfix override is allowed only via signed `verification-override` label + mandatory audit log + linked follow-up issue with proof submission SLA (≤72h).
 
 ## Design Constraints
 

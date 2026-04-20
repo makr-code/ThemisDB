@@ -33,7 +33,7 @@
   - [x] `ShardRPCClient::writeEntity()` added — uses gRPC `ReplicateData` RPC for cross-shard entity writes
   - [~] `readKey` / `readEntity` gRPC RPC not yet in proto (planned Q3 2026); reads currently routed via HTTP `RemoteExecutor`
 - [~] Formal verification program for consensus and cross-shard transaction invariants (Target: Q3 2026)
-  - [~] S0/S1 invariant set defined for Raft/Paxos/Gossip quorum safety, WAL recovery convergence, and cross-shard 2PC/3PC/SAGA/Percolator commit rules
+  - [ ] S0/S1 invariant set defined for Raft/Paxos/Gossip quorum safety, WAL recovery convergence, and cross-shard 2PC/3PC/SAGA/Percolator commit rules
   - [ ] Code-to-model abstraction boundaries mapped for `raft_consensus.cpp`, `paxos_consensus.cpp`, `gossip_protocol.cpp`, `cross_shard_transaction.cpp`, `two_phase_commit_coordinator.cpp`
   - [ ] CI model-checking gate for protocol-change PRs (TLA+/PlusCal) (Target: Q3 2026)
 - [x] Persistent Paxos acceptor state (survives process restart) — **Fixed 2026-04-12**
