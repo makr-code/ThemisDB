@@ -294,6 +294,25 @@ public:
      * @param vram_free_bytes      Free VRAM bytes at time of planning.
      * @param workload             Dominant access pattern hint.
      * @return SerializationAdvice filled with wire_format, exec_path, thread count, etc.
+     *
+     * ### Performance Targets
+     *
+     * The following speedup targets relative to a baseline JSON_TEXT / CPU_SINGLE pipeline
+     * are expected at the default CostConstants thresholds.  All figures assume 100-byte
+     * average row size on a host with ≥ 4 cores; GPU figures require RTX-class hardware
+     * (≥ 8 GB VRAM, PCIe 4.0 x16).
+     *
+     * | Path selected                          | Condition                        | Expected throughput gain | Payload size reduction |
+     * |----------------------------------------|----------------------------------|-------------------------:|------------------------|
+     * | MSGPACK_CBOR / CPU_THREADED_BATCH (4T)  | 1 k–50 k rows, non-CDC           |              1.3–2.5×    | 20–50 %                |
+     * | BINARY_CUSTOM / CPU_THREADED_BATCH (4T) | CDC_STREAM (any row count)       |              1.5–3×      | 30–60 %                |
+     * | ARROW_IPC / CPU_THREADED_BATCH (N_hw)   | ≥ 50 k rows, no GPU              |              2–4×        | 40–65 %                |
+     * | ARROW_IPC / GPU_VRAM                    | ≥ 50 k rows, GPU + VRAM ≥ 1.5× payload |       3–10×      | 40–65 %                |
+     * | PROTOBUF / CPU_THREADED_BATCH           | CACHE_REPL workload              |         30–70 % smaller payload | —              |
+     *
+     * Decision overhead: ≤ 1 µs per call (no I/O, pure arithmetic).
+     *
+     * These targets are tracked in `PERFORMANCE_EXPECTATIONS.md` §2.5.
      */
     SerializationAdvice adviseSerializationStrategy(
         size_t       estimated_row_count,
