@@ -121,10 +121,7 @@ public:
             MERGE_JOIN,
             NESTED_LOOP_JOIN,
             INDEX_INTERSECTION,
-            PARALLEL_SCAN,
-            BINARY_BATCH_CPU,    ///< Serialization: binary/msgpack for small CPU batches
-            ARROW_CPU_PARALLEL,  ///< Serialization: Arrow IPC for parallel CPU execution
-            ARROW_GPU_VRAM,      ///< Serialization: Arrow IPC for GPU VRAM transfer
+            PARALLEL_SCAN
         };
         
         Strategy strategy;

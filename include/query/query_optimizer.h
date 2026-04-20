@@ -31,7 +31,6 @@
 
 #include "query/query_engine.h"
 #include "query/adaptive_optimizer.h"
-#include "query/optimizer_cost_model.h"
 
 // Forward-declare PerQueryCostModel to avoid a hard dependency;
 // callers that want to use it must include the full header.
@@ -61,10 +60,6 @@ public:
         double nlp_complexity = 0.0;                // Query complexity estimate (0.0-1.0)
         std::vector<std::string> nlp_suggested_indexes; // Suggested index types
         std::map<std::string, std::string> nlp_hints;   // Semantic optimization hints
-
-        // Serialization strategy advice (populated by QueryOptimizer when a
-        // SerializationStrategyAdvisor evaluation is requested)
-        OptimizerCostModel::SerializationAdvice serialization_advice;
     };
 
     /// @param secIdx          Secondary index manager (required).

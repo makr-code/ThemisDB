@@ -60,8 +60,6 @@ struct QueryCostRecord {
     size_t      pages_read       = 0;  ///< Pages fetched from storage
     double      estimated_cost   = 0.0; ///< OptimizerCostModel estimate at plan time
     double      cost_ratio       = 1.0; ///< estimated_cost / actual_cost (>1 = over-estimated)
-    std::string exec_path_used;         ///< Serialization path chosen ("BINARY_BATCH_CPU", "ARROW_CPU_PARALLEL", "ARROW_GPU_VRAM")
-    double      serialization_time_ms = 0.0; ///< Time spent on serialization/deserialization
 };
 
 /**

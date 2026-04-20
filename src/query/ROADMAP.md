@@ -130,16 +130,6 @@ Production-ready multi-model query engine supporting relational, document, graph
   - `PERFORMANCE_EXPECTATIONS.md` D-7 and P-8 updated
   - Remaining work: CUDA/AVX-512 explicit intrinsics for scan kernels (Target: Q4 2026)
 
-- [x] **Serialization Strategy Advisor** (Target: Q3 2026)
-  - `OptimizerCostModel::adviseSerializationStrategy()` decision tree: BINARY_BATCH_CPU / ARROW_CPU_PARALLEL / ARROW_GPU_VRAM
-  - `SerializationWorkloadType` enum + `SerializationAdvice` struct in `include/query/optimizer_cost_model.h`
-  - GPU/serialization thresholds (`gpuRowThresholdLow`, `msgpackRowThreshold`) in `CostConstants`
-  - `Plan::serialization_advice` field in `include/query/query_optimizer.h`
-  - `QueryCostRecord::exec_path_used` + `::serialization_time_ms` in `include/performance/phase3/per_query_cost_model.h`
-  - `getCalibrationFactors()` now emits `gpu_row_threshold_low` + `msgpack_row_threshold`
-  - `AdaptivePlanSelector::Strategy` extended with `BINARY_BATCH_CPU`, `ARROW_CPU_PARALLEL`, `ARROW_GPU_VRAM`
-  - 12 focused tests SA-01..SA-12 in `tests/test_serialization_advisor.cpp` (`test_serialization_advisor_focused`)
-
 - [ ] Machine learning–based query optimizer (Target: Q3 2026)
   - Affected: `src/query/query_optimizer.cpp`, `include/query/query_optimizer.h`
   - Approach: learned cost model (neural net predicts operator costs); training data from `runtime_reoptimizer.cpp` feedback loop
