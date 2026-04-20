@@ -28,6 +28,7 @@ This directory contains research papers, draft manuscripts, architectural analys
 - [QUERY_ENGINE_AQL_GRAPHQL_UNIFICATION_DRAFT.md](QUERY_ENGINE_AQL_GRAPHQL_UNIFICATION_DRAFT.md) — Unified query engine for AQL and GraphQL (submission-structured: RQ/Hypotheses, methodology, validity, traceability, readiness checklist)
 - [GOSSIP_AWARE_LORA_ROUTING_DRAFT.md](GOSSIP_AWARE_LORA_ROUTING_DRAFT.md) — Federated LoRA routing via epidemic gossip protocols (submission-structured: RQ/Hypotheses, validity, traceability, readiness checklist)
 - [GOSSIP_DRIVEN_LORA_DOMAIN_ROUTING_DRAFT.md](GOSSIP_DRIVEN_LORA_DOMAIN_ROUTING_DRAFT.md) — Domain-aware LoRA routing with capability gossip and failover (submission-structured: RQ/Hypotheses, validity, traceability, readiness checklist)
+- [THEMIS_IT_IS_OKAY_TO_FAIL](THEMIS_IT_IS_OKAY_TO_FAIL) — Retrospektive zu Fehlentwicklungen, Fehlannahmen und Fehlentscheidungen in ThemisDB mit Korrekturprogramm und Vollständigkeitsregister
 - [LLM_PROCESSING_OPTIMIZATION_PATTERNS.md](LLM_PROCESSING_OPTIMIZATION_PATTERNS.md) — Inference optimization patterns from llama.cpp (batching, speculative decoding, KV-cache)
 - [CONTINUOUS_BATCHING_DATABASE_NATIVE_LLM_DRAFT.md](CONTINUOUS_BATCHING_DATABASE_NATIVE_LLM_DRAFT.md) — Scheduler/KV cache trade-offs for DB-native LLM serving
 - [COST_AWARE_HYBRID_RETRIEVAL_PLANNING_AQL_DRAFT.md](COST_AWARE_HYBRID_RETRIEVAL_PLANNING_AQL_DRAFT.md) — Cost-based plan selection for lexical+vector+graph retrieval

@@ -1,1 +1,169 @@
-Es ist okay, wenn etwas nicht funktioniert und nicht die gewünschte Leistung erreicht. Wichtiger ist daraus zu lernen und sich weiterzuentwickeln. 
+# Themis: It Is Okay to Fail
+
+**Status**: Draft
+**Version**: 0.2
+**Last Updated**: 2026-04-20
+**Target Venue**: Internal Engineering Retrospective / arXiv-style draft candidate
+
+---
+
+## Abstract
+
+Dieses Paper dokumentiert Fehlentwicklungen, Fehlannahmen und falsche Entscheidungen im Kontext von ThemisDB als bewusstes Lernartefakt. Ziel ist nicht Schuldzuweisung, sondern systematische Erkenntnis: Welche Annahmen waren falsch, welche Entscheidungen haben unnötige Komplexität erzeugt, welche Risiken wurden zu spät adressiert, und welche Gegenmaßnahmen haben sich bewährt?
+Der Kernbeitrag ist eine strukturierte Taxonomie von Fehlern (Scope, Architektur, Betrieb, Qualität, Organisation), ergänzt um ein Korrekturprogramm mit klaren Leitplanken für zukünftige Roadmap- und Implementierungsarbeit. Das Dokument ist als **lebendes Register** angelegt und wird fortlaufend um evidenzbasierte Fälle erweitert.
+
+## I. Einordnung und Zielbild
+
+ThemisDB ist ambitioniert und interdisziplinär (Storage, Query, AI/LLM, Distributed Systems, Tooling). Genau dieses Profil erhöht das Risiko für:
+
+- zu frühe Komplexität,
+- falsche Priorisierung,
+- überoptimistische Annahmen über Reifegrad und Betriebsfähigkeit.
+
+Dieses Dokument etabliert daher ein gemeinsames Prinzip:
+
+> Scheitern ist akzeptabel. Unreflektiertes Wiederholen desselben Fehlers ist es nicht.
+
+## II. Begriffsrahmen
+
+### A. Fehlentwicklung
+Ein Verlauf, der systematisch von den eigentlichen Zielen (Robustheit, Nachvollziehbarkeit, Betriebsfähigkeit) wegführt.
+
+### B. Fehlannahme
+Eine als wahr behandelte Annahme, die sich im Betrieb, in Tests oder in der Integrationsrealität als falsch herausstellt.
+
+### C. Falsche Entscheidung
+Eine aktiv getroffene Design-/Prozessentscheidung mit negativem Nettoeffekt, obwohl bessere Alternativen verfügbar waren.
+
+## III. Taxonomie der wichtigsten Fehlmuster in ThemisDB
+
+### 1) Scope-Inflation vor Stabilisierung
+
+- **Muster**: Breite Feature-Expansion in vielen Modulen, bevor Kernpfade vollständig gehärtet sind.
+- **Auswirkung**: Hohe kognitive Last, fragmentierte Reifegrade, erschwerte End-to-End-Validierung.
+- **Lerneffekt**: „Mehr Features“ ist kein Fortschrittsindikator ohne klare Produktionskriterien.
+
+### 2) Architekturkomplexität zu früh
+
+- **Muster**: Frühe Einführung verteilter/fortgeschrittener Muster in Bereichen mit noch unsicherer Basis.
+- **Auswirkung**: Hoher Integrationsaufwand, schwer debuggbares Verhalten, langsamere Iteration.
+- **Lerneffekt**: Architektur sollte in Stufen wachsen (Baseline -> Messung -> gezielte Komplexität).
+
+### 3) Optimismus-Bias bei Betriebsannahmen
+
+- **Muster**: Annahme, dass Features aus isolierten Tests direkt produktionstauglich sind.
+- **Auswirkung**: Latenz-/Stabilitätsprobleme unter Mischlast und Übergangszuständen.
+- **Lerneffekt**: „Works in isolation“ ist kein Ersatz für realistische Last- und Fehlerprofile.
+
+### 4) Zu schwache Negative-Result-Kultur
+
+- **Muster**: Erfolge sind prominent dokumentiert, Fehlpfade und Sackgassen zu selten.
+- **Auswirkung**: Wiederholung bekannter Fehlversuche, Wissensverlust zwischen Iterationen.
+- **Lerneffekt**: Negative Ergebnisse sind strategisch wertvolle Artefakte.
+
+### 5) Dokumentation nicht strikt an Evidenz gekoppelt
+
+- **Muster**: Aussagen werden schneller formuliert als reproduzierbare Evidenz (Tests/Benchmarks) aufgebaut.
+- **Auswirkung**: Unklare Claim-Grenzen, Interpretationsspielraum in Reviews.
+- **Lerneffekt**: Jede starke Behauptung braucht explizite Evidenzanker.
+
+## IV. Zentrale Fehlannahmen und Korrekturen
+
+| ID | Fehlannahme | Realität | Effekt | Korrekturprinzip |
+|----|-------------|----------|--------|------------------|
+| FA-01 | „Feature-Fortschritt = Produktreife“ | Reife entsteht durch Verifikation, Betriebserfahrung und harte Kantenfälle | Scheinfortschritt | Reife-Kriterien vor Feature-Merge |
+| FA-02 | „Architekturvorsprung jetzt spart Zeit später“ | Frühe Komplexität erzeugt Integrationsschuld | Verzögerte Lieferfähigkeit | Sequenzielle Reifephasen |
+| FA-03 | „Gute Einzelbenchmark genügt“ | Mischlast und Degradationspfade dominieren echte Risiken | Instabile SLOs | Pflicht: Lastprofile + Failure-Injection |
+| FA-04 | „Tests decken implizit alles Wichtige ab“ | Viele Risiken liegen zwischen Komponenten | Integrationslücken | Mehr End-to-End und Invarianten-Tests |
+| FA-05 | „Dokumentation kann später präzisiert werden“ | Unpräzise Claims verfestigen falsche Narrative | Entscheidungsfehler | Claim-to-Evidence als Standard |
+
+## V. Fehlentscheidungen (Cluster-Ebene)
+
+### FD-01: Zu viele parallele Baustellen ohne einheitliche Exit-Kriterien
+- **Problem**: Fortschritt wurde zu oft an Aktivität statt an abgeschlossenem Qualitätsniveau gemessen.
+- **Folge**: Unterschiedliche Module mit heterogenem Produktionsstatus.
+- **Korrektur**: Verbindliche „Definition of Done“ pro Modul inkl. Test-, Betriebs- und Doku-Kriterien.
+
+### FD-02: Unterschätzung von Übergangszuständen und Degradationspfaden
+- **Problem**: Fokus auf steady-state, weniger auf Fehler- und Recovery-Phasen.
+- **Folge**: Unerwartetes Verhalten in Lastspitzen/Failover-Szenarien.
+- **Korrektur**: Failure-Mode-Design als gleichwertiger Teil jeder Architekturentscheidung.
+
+### FD-03: Zu späte Konsolidierung von Entscheidungen
+- **Problem**: Entscheidungen wurden zu lange implizit gehalten.
+- **Folge**: Divergierende Implementierungen und inkonsistente Erwartungshaltungen.
+- **Korrektur**: Frühzeitige, explizite Decision Records mit klaren Claim-Grenzen.
+
+## VI. Ursachenanalyse
+
+Wiederkehrende Root Causes:
+
+1. **Ambitionsüberhang** gegenüber verfügbarer Validierungskapazität.
+2. **Messlücken** zwischen Funktionsfähigkeit und Produktionsfähigkeit.
+3. **Fehlende harte Priorisierung** zwischen „neu bauen“ und „stabilisieren“.
+4. **Asynchrone Wissenslage** zwischen Subsystemen und Dokumentation.
+
+## VII. Korrekturprogramm (verbindlich)
+
+1. **Stability-First-Gates**
+   Jede größere Erweiterung benötigt vorab definierte Stabilitätskriterien.
+
+2. **Claim-to-Evidence-Pflicht**
+   Jede zentrale Aussage in Research-/Architekturtexten muss auf Test/Benchmark/Code referenzieren.
+
+3. **Negative-Results-Register**
+   Für jedes Modul wird dokumentiert:
+   - was nicht funktioniert hat,
+   - unter welchen Bedingungen,
+   - welche Alternative gewählt wurde.
+
+4. **Failure-by-Design Reviews**
+   Designreviews müssen explizit folgende Fragen beantworten:
+   - Was ist der wahrscheinlichste Ausfallmodus?
+   - Wie wird degradiert statt eskaliert?
+   - Wie wird Recovery verifiziert?
+
+5. **Roadmap-Disziplin**
+   Keine „done“-Markierung ohne nachgewiesene Akzeptanzkriterien.
+
+## VIII. Vollständigkeitsregister (alle Themenfelder)
+
+Dieses Register dient dem Anspruch „alle Fehlentwicklungen/Fehlannahmen/Fehlentscheidungen“ systematisch zu erfassen.
+
+| Bereich | Status | Fehlentwicklungen erfasst | Fehlannahmen erfasst | Fehlentscheidungen erfasst |
+|---------|--------|---------------------------|----------------------|----------------------------|
+| Core/Storage | in Arbeit | teilweise | teilweise | teilweise |
+| Query/Planner | in Arbeit | teilweise | teilweise | teilweise |
+| Sharding/Distributed | in Arbeit | teilweise | teilweise | teilweise |
+| LLM/Serving | in Arbeit | teilweise | teilweise | teilweise |
+| RAG/Training | in Arbeit | teilweise | teilweise | teilweise |
+| Ingestion/Pipeline | in Arbeit | teilweise | teilweise | teilweise |
+| Prompt Engineering | in Arbeit | teilweise | teilweise | teilweise |
+| Analytics/Forecasting | in Arbeit | teilweise | teilweise | teilweise |
+| RPC/Observability | in Arbeit | teilweise | teilweise | teilweise |
+| Security/Compliance | offen | offen | offen | offen |
+| Tooling/CI/Release | in Arbeit | teilweise | teilweise | teilweise |
+
+## IX. Was sich konkret ändern muss (ab sofort)
+
+- Keine Roadmap-Fortschreibung ohne dokumentierte Fehlpfade.
+- Keine Leistungsbehauptung ohne reproduzierbaren Messkontext.
+- Keine neue Komplexitätsstufe ohne vereinfachte Baseline als Vergleich.
+- Keine Abschlussmeldung ohne explizite Grenzen („was gilt nicht?“).
+
+## X. Schlussfolgerung
+
+„It is okay to fail“ ist für ThemisDB kein Motto, sondern ein Arbeitsprinzip:
+Fehler werden akzeptiert, transparent gemacht und in belastbare Verbesserungen überführt.
+Der Wert dieses Dokuments entsteht durch kontinuierliche Pflege, harte Evidenz und die Bereitschaft, auch unbequeme Entscheidungen rückblickend als falsch zu markieren.
+
+---
+
+## Appendix A. Pflegeprozess für dieses Dokument
+
+Bei jeder größeren Iteration:
+
+1. mindestens eine neue Fehlannahme oder Fehlentscheidung dokumentieren,
+2. Auswirkungen und Korrekturmaßnahme ergänzen,
+3. Vollständigkeitsregister aktualisieren,
+4. offene Lücken priorisieren.
