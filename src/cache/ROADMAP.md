@@ -109,3 +109,12 @@ Production-ready multi-level cache (L1/L2/L3) with all four implementation phase
 ## Breaking Changes
 - Admin API endpoints (`/v1/admin/cache/`) were introduced as new endpoints; non-breaking to existing cache read/write/invalidate API.
 - Distributed cache configuration adds new optional fields for cluster mode; existing single-node configurations are unaffected.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### ✅ Aktiv (implementiert + externer Aufrufer bestätigt)
+
+- `AdaptiveQueryCache` – LRU-/TTL-basierter Query-Result-Cache; wired in CacheAdminApiHandler + HttpServer
+

@@ -539,6 +539,10 @@ private:
     std::unique_ptr<UserRoleStore> user_role_store_;
     std::unique_ptr<AuthMiddleware> auth_middleware_;
     std::unique_ptr<auth::MFAAuthenticator> mfa_authenticator_;
+    // In-memory MFA enrollment store: user_id → EnrollmentData (secret + recovery codes).
+    // Populated by enrollMFA(); cleared by disableMFA().
+    // Production: replace with encrypted persistent store (see src/security/ROADMAP.md).
+    std::unordered_map<std::string, auth::MFAAuthenticator::EnrollmentData> mfa_enrollments_;
     std::unique_ptr<utils::AuditLogger> audit_logger_;
     std::unique_ptr<UserRegistrationPluginManager> user_registration_plugin_manager_;
     PolicyEngine policy_engine_;  ///< ABAC policy engine (evaluated alongside RBAC)

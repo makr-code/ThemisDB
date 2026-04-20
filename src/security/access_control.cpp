@@ -385,7 +385,11 @@ Result<nlohmann::json> AccessControl::enrollMFA(const std::string& user_id) {
         {"qr_code_uri", uri},
         {"recovery_codes", enrollment.recovery_codes}
     };
-    
+
+    // Persist enrollment so verifyMFA() can look up the secret.
+    enrollment.enabled = true;
+    mfa_enrollments_[user_id] = std::move(enrollment);
+
     logSecurityEvent(
         utils::SecurityEventType::MFA_ENROLLED,
         user_id,
@@ -397,25 +401,50 @@ Result<nlohmann::json> AccessControl::enrollMFA(const std::string& user_id) {
     return themis::Ok(std::move(result));
 }
 
-bool AccessControl::verifyMFA([[maybe_unused]] const std::string& user_id, const std::string& token) {
-    // This is a simplified implementation
-    // In production, retrieve stored MFA secret from database
-    
-    // For now, always return true if token is provided
-    // Real implementation would call mfa_authenticator_->validateTOTP()
-    return !token.empty();
+bool AccessControl::verifyMFA(const std::string& user_id, const std::string& token) {
+    if (token.empty()) {
+        return false;
+    }
+
+    auto it = mfa_enrollments_.find(user_id);
+    if (it == mfa_enrollments_.end() || !it->second.enabled) {
+        THEMIS_WARN("verifyMFA: no active MFA enrollment found for user '{}'", user_id);
+        return false;
+    }
+
+    const auto& enrollment = it->second;
+
+    // Primary path: TOTP code validation.
+    if (mfa_authenticator_->validateTOTP(enrollment.secret_base32, token,
+                                          std::nullopt, user_id)) {
+        return true;
+    }
+
+    // Fallback path: single-use recovery code.
+    auto& mutable_enrollment = it->second;
+    if (mfa_authenticator_->validateRecoveryCode(mutable_enrollment, token)) {
+        THEMIS_INFO("verifyMFA: recovery code used for user '{}'", user_id);
+        return true;
+    }
+
+    return false;
 }
 
 Result<void> AccessControl::disableMFA(const std::string& user_id) {
     std::lock_guard<std::mutex> lock(mutex_);
-    
+
+    const auto erased = mfa_enrollments_.erase(user_id);
+    if (erased == 0) {
+        THEMIS_WARN("disableMFA: no active MFA enrollment found for user '{}'", user_id);
+    }
+
     logSecurityEvent(
         utils::SecurityEventType::MFA_DISABLED,
         user_id,
         "mfa",
         {{"action", "MFA disabled"}}
     );
-    
+
     THEMIS_INFO("MFA disabled for user: {}", user_id);
     return themis::OkVoid();
 }

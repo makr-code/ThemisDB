@@ -94,3 +94,14 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 
 ## Breaking Changes
 - WASM plugin interface will be a new API surface (additive, non-breaking to existing plugin interface)
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `configToJson` – Serialisiert ABTestConfig in JSON für REST-API-Antworten
+- `configFromJson` – Deserialisiert ABTestConfig aus JSON (HTTP-Body-Parsing)
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

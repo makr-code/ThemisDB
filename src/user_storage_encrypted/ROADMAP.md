@@ -142,3 +142,16 @@ is now ≥ 90/100; `KeyRotationScheduler` retains Production-Ready (100/100).
 - `getBackendVersion()` uses `const_cast` to call `executeCommandSafe()` on a const object (cosmetic; `executeCommand()` fully removed in v0.3.0).
 - Stale mount reconciliation on startup is planned but not yet implemented (FUTURE_ENHANCEMENTS §4).
 - Per-user container isolation and storage quota enforcement are planned for v0.3.0 / Q1 2027.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### ✅ Aktiv (implementiert + externer Aufrufer bestätigt)
+
+- `createContainer` – Erstellt verschlüsselten Gocryptfs-Container; Plugin-Tests + impl vorhanden
+- `mountContainer` – Mounted einen Gocryptfs-Container; Tests + Bench vorhanden
+- `unmountContainer` – Unmountet einen Container; Bench vorhanden
+- `isMounted` – Prüft ob Container gemountet; genutzt in usb_volume_hardening.cpp
+- `GocryptfsBackend` – Backend-Implementierung für Gocryptfs-verschlüsselten Storage
+

@@ -100,3 +100,20 @@ v2.1.0 — Thread-safe. MP3/OGG input via FFmpeg adapter. Benchmarks wired.
 - v2.1.0: `WhisperPlugin` default constructor now installs a `CompositeAudioChunkReader`
   (WAV first, then FFmpeg) instead of a bare `WavAudioChunkReader`.  Injection-constructor
   callers are unaffected.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `canRead` – Prüft ob Whisper-Plugin einen Audio-Chunk lesen kann
+- `addReader` – Registriert einen Audio-Reader für den Whisper-Plugin-Stack
+- `WhisperPlugin` – Whisper-ASR-Plugin-Implementierung; Tests + Bench vorhanden
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `parseWav` – Parsed WAV-Header und extrahiert Audio-Rohdaten
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

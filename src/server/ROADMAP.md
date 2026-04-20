@@ -197,3 +197,13 @@ v1.7.0 – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTT
 - REST API path versioning (`/api/v1/`) guarantees stability for v1.x endpoints.
 - gRPC service `.proto` definitions are stable; no breaking field removals planned.
 - MCP server protocol follows the MCP spec; updates track upstream spec changes.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `AdaptiveRateLimiter` – Token-Bucket-Ratenlimiter mit dynamischer Anpassung; nur im Test geprüft
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+

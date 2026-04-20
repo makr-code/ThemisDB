@@ -278,3 +278,18 @@ Decision overhead: ≤ 1 µs/call (no I/O, pure arithmetic; see `PERFORMANCE_EXP
 - **v1.5.0 (SPARQL/SQL parsers)**: `AQLParser::parse()` now rejects raw SQL or SPARQL strings with a structured `AQLParseException`; route SQL/SPARQL through `SQLParser`/`SPARQLParser` before passing to the AQL pipeline.
 - **v1.8.0 (JIT compiler)**: `QueryCompiler` requires LLVM 15+ at link time when `THEMIS_ENABLE_JIT=ON` (default: OFF); builds without LLVM remain unaffected.
 - **v1.9.0 (ShardRouter)**: `scatterGather()` and `executeOnShards()` are now `virtual`; subclasses or mocks that previously relied on them being non-virtual must be updated.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `executeHashJoin` – Führt Hash-Join-Algorithmus aus (AdaptiveJoin-Strategie)
+- `executeMergeJoin` – Führt Sort-Merge-Join-Algorithmus aus
+- `executeNestedLoopJoin` – Führt Nested-Loop-Join aus (Fallback für kleine Relationen)
+- `executeIndexNestedLoopJoin` – Führt Index-NL-Join aus (nutzt verfügbare Indizes)
+- `executeGraceHashJoin` – Führt Grace-Hash-Join für große Datenmengen aus (partitioniert)
+- `executeBroadcastJoin` – Führt Broadcast-Join für kleine Lookup-Tabellen aus
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

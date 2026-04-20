@@ -94,3 +94,19 @@ v1.1.0 – Production-ready voice assistant system. VoiceAssistant orchestrator 
 ## Breaking Changes
 - VoiceAssistant session API is stable from v1.x.
 - Audio format configuration (sample rate, encoding) may gain new options in v1.5.0; backward-compatible.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `NoiseSuppressor` – RNNoise-basierte Rauschunterdrückung; nur im Voice-Produktionstest geprüft
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `processRNNoiseFrames` – Verarbeitet Audio-Frames durch RNNoise-Modell
+- `applyRNNoiseSuppression` – Wendet RNNoise auf gesamten Audio-Buffer an
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

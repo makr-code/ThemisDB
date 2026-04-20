@@ -116,3 +116,12 @@ v1.5.0 – Comprehensive shared utilities library. Logging, audit trail, PII det
 - ILogger interface is stable from v1.x; new optional log levels are additive.
 - ZSTD codec API is stable; compression level defaults may be tuned in v1.5.0.
 - Tracing span API follows OpenTelemetry conventions; stable from v1.x.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### ✅ Aktiv (implementiert + externer Aufrufer bestätigt)
+
+- `AuditLogger` – Schreibt Audit-Events für Compliance; genutzt in policy_engine + http_server + export_api
+

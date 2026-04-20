@@ -130,20 +130,30 @@ PurgeResult CDCAdmin::purgeByTimestamp(uint64_t before_timestamp_ms) {
     return result;
 }
 
+// STUB/SIMULATION NOTE:
+// Purpose:          purgeTenant() API surface is defined to allow GDPR/tenant-isolation
+//                   callers to compile; the TenantBufferManager dependency is not yet
+//                   linked in the modular build configuration.
+// Activation:       Always active (no build-flag gate). Throws unconditionally.
+// Production Delta: Real implementation must drain and delete all CDC events for the
+//                   given tenant via TenantBufferManager, then return an accurate
+//                   PurgeResult with events_deleted and elapsed_time_ms populated.
+// Removal Plan:     Replace throw with real implementation once TenantBufferManager
+//                   is available in the modular build (see src/cdc/ROADMAP.md).
 PurgeResult CDCAdmin::purgeTenant(const std::string& tenant_id) {
     THEMIS_INFO("CDC Admin: Purging tenant '{}'", tenant_id);
-    
+
     if (!tenant_manager_) {
         throw error::internalError("No tenant manager available for tenant purge");
     }
-    
+
     if (tenant_id.empty()) {
         throw error::invalidArgument("Tenant ID cannot be empty");
     }
-    
+
     auto start = steady_clock::now();
     PurgeResult result;
-    
+
     // Tenant purge via TenantBufferManager is currently unavailable in modular build.
     // Keep API deterministic and fail explicitly instead of linking against unavailable implementation.
     throw error::internalError(

@@ -20,6 +20,7 @@
 #pragma once
 
 #include "llm/llm_plugin_interface.h"
+#include "llm/active_vram_allocator.h"
 #include <memory>
 #include <unordered_map>
 #include <vector>
@@ -186,12 +187,27 @@ public:
         std::string async_engine_status = "ok";
         int models_loaded = 0;
         int loras_loaded = 0;
+        // VRAM pressure summary (populated from ActiveVRAMAllocator)
+        size_t vram_total_bytes = 0;
+        size_t vram_used_bytes  = 0;
+        size_t vram_free_bytes  = 0;
+        bool   vram_oom_threshold_exceeded = false;
     };
 
     PluginStatistics getStatistics() const;
     CacheStatistics getCacheStatistics() const;
     HealthStatus getHealthStatus() const;
     void clearAllCaches();
+
+    /**
+     * @brief Return a snapshot of tracked VRAM statistics.
+     *
+     * Includes total/free/used bytes, peak usage, live allocation count,
+     * OOM event and recovery counters, and the OOM-threshold flag.
+     * In CPU-simulation builds (no CUDA) the numbers reflect
+     * the simulation budget configured in ActiveVRAMAllocator::Config.
+     */
+    ActiveVRAMAllocator::Stats getVRAMStats() const;
     
 private:
     struct PluginEntry {
@@ -202,6 +218,13 @@ private:
     std::unordered_map<std::string, PluginEntry> plugins_;
     std::string default_plugin_name_;
     mutable std::mutex mutex_;
+
+    /// VRAM budget tracker — registers externally-managed GPU memory (loaded models)
+    /// for system-wide VRAM pressure monitoring and OOM-threshold alerting.
+    ActiveVRAMAllocator vram_allocator_;
+
+    /// Maps model_id → VRAM handle so we can deregister on unload.
+    std::unordered_map<std::string, ActiveVRAMAllocator::AllocationHandle> vram_handles_;
     
     ILLMPlugin* getDefaultPluginLocked() const;
 };

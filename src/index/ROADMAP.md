@@ -114,3 +114,13 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 ## Breaking Changes
 - `IndexManager` factory API (`createDefault()`) is stable from v1.x.
 - GPU index configuration struct may gain new fields in v2.0; additive only.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `QueryPatternTracker` – Trackt Query-Muster für Adaptive-Index-Optimierungen; nur im Index-Test geprüft
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+

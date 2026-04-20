@@ -100,3 +100,26 @@ Stub mode (empty path / CI without model) is preserved as a transparent fallback
 
 v2.1.0 — `getCapabilities().plugin_version` changed from `"2.0.0"` to `"2.1.0"`.
 `getPluginVersion()` similarly returns `"2.1.0"`.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `LlamaCppPlugin` – LLM-Plugin-Implementierung für llama.cpp; vollständig implementiert
+  (`generate`, `embed`, `generateRAG`, `generateStream`, `generateBatch`, LoRA-Lifecycle,
+  Memory/Performance-Stats). 50 Unit-Tests + Benchmark vorhanden.
+
+> **Produktionslücke:** `LlamaCppPluginRegistrar::registerWithLLMManager()` existiert und ist
+> vollständig implementiert, wird aber **nicht** vom Server-Startup aufgerufen. Der
+> `LLMPluginManager` wird in `http_server.cpp` (Zeile 3416) für `/api/v1/llm/*`-Endpunkte
+> genutzt — aber kein Startup-Code registriert `LlamaCppPlugin` in diesem Manager.
+>
+> **STUB-Hinweis in Registrar:** `defaultReloadCallback()` enthält den Kommentar
+> "Stub mode — no model to load; treat as success" für den Fall ohne Modelpfad.
+>
+> **Aktion:** In `HttpServer::init()` oder einer dedizierten Plugin-Konfigurationsdatei
+> `LlamaCppPluginRegistrar::registerWithLLMManager(plugin_mgr, ...)` aufrufen, sobald
+> Modelpfad aus Server-Konfiguration gelesen wird (Target: Q3 2026).
+

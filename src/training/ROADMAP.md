@@ -166,3 +166,13 @@ v1.6.0 – AdaLoRA (adaptive rank pruning), LoRAAdapterMerger (TIES + linear), a
 ## Breaking Changes
 - `TrainingSample` struct is stable from v1.x; new optional fields only.
 - `IncrementalTrainingConfig` may gain new hyperparameter fields in v1.5.0; backward-compatible.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `AdaLoRAAdapter` – AdaLoRA-Adapter für Parameter-effizientes Fine-Tuning; Tests vorhanden
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+

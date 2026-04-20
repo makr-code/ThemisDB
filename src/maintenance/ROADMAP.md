@@ -152,3 +152,12 @@ coordination via `IDistributedLock`, and multi-tenant schedule isolation.
 
 ## Breaking Changes
 *None – new module with no existing API contract.*
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### ✅ Aktiv (implementiert + externer Aufrufer bestätigt)
+
+- `DatabaseMaintenanceOrchestrator` – Orchestriert DB-Maintenance (Compaction, Vacuum); genutzt in HttpServer
+

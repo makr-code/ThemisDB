@@ -155,3 +155,14 @@ v1.3.0 — Phases 1–4 complete and production-ready (Phase 5 planned):
 - `IThemisPlugin` vtable is stable from v1.x; any new pure virtual method would be a breaking change requiring a major version bump.
 - `PluginManifest` struct is stable from v1.x; new optional fields are backward compatible; removing or renaming existing fields requires a major version bump.
 - `PluginRegistry::clearRegistry()` is marked testing-only; calling it in production is unsupported.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `AIPluginGenerator` – Generiert Plugin-Boilerplate für AI-Provider (Header-only API)
+- `generatePlugin` – Erzeugt konkreten Plugin-Stub aus AIPluginGenerator-Template
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

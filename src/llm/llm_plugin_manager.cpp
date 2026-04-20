@@ -208,6 +208,20 @@ json LLMPluginManager::getAggregatedStats() const {
 
 LLMPluginManager& LLMPluginManager::instance() {
     static LLMPluginManager instance;
+    // Wire up OOM callback once on first access so VRAM pressure warnings are
+    // logged even before the first plugin is registered.
+    static bool oom_cb_installed = false;
+    if (!oom_cb_installed) {
+        oom_cb_installed = true;
+        instance.vram_allocator_.setOOMCallback([](const ActiveVRAMAllocator::OOMEvent& ev) {
+            spdlog::warn("[LLMPluginManager] VRAM OOM event: need={} bytes, strategy={}, "
+                         "recovered={}, freed={} bytes",
+                         ev.requested_bytes,
+                         static_cast<int>(ev.strategy),
+                         ev.recovered,
+                         ev.bytes_recovered);
+        });
+    }
     return instance;
 }
 
@@ -245,16 +259,47 @@ std::vector<float> LLMPluginManager::embed(const std::string& text) {
     return plugin->embed(text);
 }
 
-bool LLMPluginManager::loadModel(const std::string& /*model_id*/, const std::string& path) {
-    auto* plugin = getDefaultPlugin();
+bool LLMPluginManager::loadModel(const std::string& model_id, const std::string& path) {
+    ILLMPlugin* plugin;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        plugin = getDefaultPluginLocked();
+    }
     if (!plugin) {
         throw std::runtime_error("No default LLM plugin available");
     }
-    return plugin->loadModel(path);
+    const bool ok = plugin->loadModel(path);
+    if (ok && !model_id.empty()) {
+        // Register model VRAM usage in the budget tracker.
+        // vram_required_mb is populated by the plugin after a successful load.
+        // When it is 0 (unknown / THEMIS_LLM_ENABLED not set), we skip
+        // registration to avoid allocating a 0-byte sentinel.
+        auto info = plugin->getModelInfo();
+        if (info && info->vram_required_mb > 0) {
+            const size_t vram_bytes = info->vram_required_mb * 1024ULL * 1024ULL;
+            auto handle = vram_allocator_.registerExternal(vram_bytes, model_id);
+            std::lock_guard<std::mutex> lock(mutex_);
+            vram_handles_[model_id] = std::move(handle);
+        }
+    }
+    return ok;
 }
 
-void LLMPluginManager::unloadModel(const std::string& /*model_id*/) {
-    auto* plugin = getDefaultPlugin();
+void LLMPluginManager::unloadModel(const std::string& model_id) {
+    // Free the VRAM handle first (before the plugin frees the underlying memory).
+    if (!model_id.empty()) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = vram_handles_.find(model_id);
+        if (it != vram_handles_.end()) {
+            vram_allocator_.free(it->second);
+            vram_handles_.erase(it);
+        }
+    }
+    ILLMPlugin* plugin;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        plugin = getDefaultPluginLocked();
+    }
     if (!plugin) {
         throw std::runtime_error("No default LLM plugin available");
     }
@@ -368,7 +413,23 @@ LLMPluginManager::HealthStatus LLMPluginManager::getHealthStatus() const {
     HealthStatus health;
     health.models_loaded = static_cast<int>(listModels().size());
     health.loras_loaded = static_cast<int>(listLoRAs().size());
+
+    const auto vram = vram_allocator_.getStats();
+    health.vram_total_bytes           = vram.total_vram_bytes;
+    health.vram_used_bytes            = vram.used_vram_bytes;
+    health.vram_free_bytes            = vram.free_vram_bytes;
+    health.vram_oom_threshold_exceeded = vram.oom_threshold_exceeded;
+
+    if (vram.oom_threshold_exceeded) {
+        health.is_healthy = false;
+        health.plugin_manager_status = "vram_pressure";
+    }
+
     return health;
+}
+
+ActiveVRAMAllocator::Stats LLMPluginManager::getVRAMStats() const {
+    return vram_allocator_.getStats();
 }
 
 void LLMPluginManager::clearAllCaches() {

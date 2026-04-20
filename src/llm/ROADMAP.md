@@ -50,6 +50,7 @@ Key additions since v1.15.0:
 - [x] LoRA adapter hot-loading at inference time (Issue: #1929)
 - [x] Model quantization pipeline integration (GGUF, AWQ, GPTQ) (Issue: #2412)
 - [x] ActiveVRAMAllocator: GPU VRAM allocation, OOM recovery (LRU eviction, defragmentation, CPU spilling), VRAM waste tracking (LLM-MISSING-001, 2026-03-11)
+- [x] ActiveVRAMAllocator production wiring: `registerExternal()` / `free()` added; LLMPluginManager carries a shared `vram_allocator_` that registers model VRAM on `loadModel()` and deregisters on `unloadModel()`; `getVRAMStats()` + `getHealthStatus()` enriched with VRAM pressure fields; `/api/v1/llm/vram` GET endpoint exposes full stats; OOM callback logs pressure warnings; AVA_EXT_01..03 tests added (2026-04-20)
 
 ## In Progress 🚧
 - [~] Inference optimizations: adaptive batching, n-gram lookup decoding, KV-budget guards, RAID-sharding hints (Issue: #LLM-INFER-OPT)
@@ -179,3 +180,21 @@ Key additions since v1.15.0:
 - [x] `BM_BatchFanOut_LatencyScaling` — batch sizes 1/8/16/32/64 fan-out benchmark
 - [x] `docs/de/llm/CROSS_SHARD_INFERENCE_RUNBOOK.md` — operational runbook for cross-shard debugging
 - [x] `docs/de/llm/AI_ECOSYSTEM_SHARDING_ARCHITECTURE.md` — Phase 5 KV-Prefix + Phase 6 benchmark data added
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `ActiveVRAMAllocator` – Verwaltet aktive VRAM-Allokationen pro Inference-Session; vollständig
+  implementiert (LRU-Eviction, Defragmentierung, CPU-Spilling, Nutzungsstatistiken, Bridge-API).
+  36 Unit-Tests + Benchmark vorhanden.
+
+> **Verwendungskette:** `ActiveVRAMAllocator` wird als Backend von `AdaptiveVRAMAllocator::Impl`
+> genutzt (`active_allocator_`-Member). `AdaptiveVRAMAllocator` selbst hat aber ebenfalls keinen
+> bestätigten Produktions-Aufrufer — die Kette endet vor der Integration in den Inference-Server.
+>
+> **Aktion:** `AdaptiveVRAMAllocator` in `LLMPluginManager` oder dem Inference-Server-Kontext
+> verdrahten, sobald die VRAM-Budget-Planung Teil des Modell-Ladevorgangs wird (Target: Q3 2026).
+

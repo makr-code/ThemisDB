@@ -145,3 +145,13 @@ v2.0.0 – Full lifecycle management for LLM prompt templates is production-read
 - PromptTemplate schema is stable from v1.x; new optional fields only.
 - `FeedbackType` enum may gain new values; exhaustive switches in callers should use a default case.
 - `PromptManager::createTemplate()` now returns an empty-id sentinel on validation failure (id.empty() == true); callers should check the returned id before use.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+
+- `attackCategoryName` – Gibt lesbaren Namen einer AdversarialAttackCategory zurück
+  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+

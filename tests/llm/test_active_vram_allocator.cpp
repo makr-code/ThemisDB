@@ -832,3 +832,80 @@ TEST(AdaptiveVRAMAllocatorDualModelTest, ExplicitDraftPrecisionRespected) {
     EXPECT_EQ(plan.draft_precision_bytes, 1)
         << "draft_precision_bytes should reflect the explicit INT8 value";
 }
+
+// ---------------------------------------------------------------------------
+// AVA_EXT: registerExternal / free (external-memory tracking)
+// ---------------------------------------------------------------------------
+
+/// AVA_EXT_01 — registerExternal() creates a valid handle, marks is_external=true,
+/// and updates used_vram_bytes + live_allocation_count in the Stats snapshot.
+TEST(ActiveVRAMAllocatorTest, RegisterExternalCreatesValidHandle) {
+    ActiveVRAMAllocator alloc(makeTestConfig(/*max_vram_mb=*/256));
+
+    const size_t model_bytes = 7ULL * 1024 * 1024 * 1024;  // 7 GB simulated
+
+    auto handle = alloc.registerExternal(model_bytes, "llama-7b");
+
+    EXPECT_TRUE(handle.valid)        << "AVA_EXT_01: handle must be valid";
+    EXPECT_TRUE(handle.is_external)  << "AVA_EXT_01: is_external must be true";
+    EXPECT_EQ(handle.owner_id, "llama-7b");
+    EXPECT_EQ(handle.requested_bytes, model_bytes);
+    EXPECT_EQ(handle.allocated_bytes, model_bytes);
+    EXPECT_EQ(handle.gpu_ptr, nullptr)  << "AVA_EXT_01: external handle must not hold a GPU pointer";
+    EXPECT_EQ(handle.cpu_ptr, nullptr);
+    EXPECT_FALSE(handle.is_spilled);
+
+    const auto stats = alloc.getStats();
+    EXPECT_EQ(stats.used_vram_bytes, model_bytes)
+        << "AVA_EXT_01: used_vram_bytes must reflect the registered external allocation";
+    EXPECT_EQ(stats.live_allocation_count, 1u)
+        << "AVA_EXT_01: live_allocation_count must be 1 after registerExternal";
+    EXPECT_GE(stats.peak_vram_bytes, model_bytes)
+        << "AVA_EXT_01: peak usage must track the external allocation";
+}
+
+/// AVA_EXT_02 — free() on an external handle decrements stats correctly and does NOT crash.
+/// In particular, used_vram_bytes must return to 0 and no GPU/CPU memory must be touched.
+TEST(ActiveVRAMAllocatorTest, FreeExternalHandleUpdatesStatsWithoutCrash) {
+    ActiveVRAMAllocator alloc(makeTestConfig(/*max_vram_mb=*/256));
+
+    const size_t model_bytes = 4ULL * 1024 * 1024 * 1024;  // 4 GB
+
+    auto handle = alloc.registerExternal(model_bytes, "llama-4b");
+    ASSERT_TRUE(handle.valid) << "AVA_EXT_02: pre-condition: handle must be valid";
+
+    bool freed = alloc.free(handle);
+    EXPECT_TRUE(freed)          << "AVA_EXT_02: free() must return true for a valid external handle";
+    EXPECT_FALSE(handle.valid)  << "AVA_EXT_02: handle must be invalid after free";
+
+    const auto stats = alloc.getStats();
+    EXPECT_EQ(stats.used_vram_bytes, 0u)
+        << "AVA_EXT_02: used_vram_bytes must be 0 after freeing the only external allocation";
+    EXPECT_EQ(stats.live_allocation_count, 0u)
+        << "AVA_EXT_02: live_allocation_count must be 0 after free";
+}
+
+/// AVA_EXT_03 — OOM threshold is triggered when external + internal allocations
+/// together exceed oom_threshold_fraction of max_vram_bytes.
+TEST(ActiveVRAMAllocatorTest, OOMThresholdConsidersExternalAllocations) {
+    // 128 MB budget, 90% OOM threshold = 115.2 MB trigger
+    ActiveVRAMAllocator alloc(makeTestConfig(/*max_vram_mb=*/128, /*spill=*/false, /*defrag=*/false));
+
+    // Register 100 MB as an external allocation (e.g. model weights)
+    const size_t external_bytes = 100ULL * 1024 * 1024;
+    auto ext_handle = alloc.registerExternal(external_bytes, "big-model");
+    ASSERT_TRUE(ext_handle.valid);
+
+    // Allocate another 30 MB internally — this should push usage past 90%
+    auto inner = alloc.allocate(30ULL * 1024 * 1024, "kv-cache");
+    // Regardless of whether the inner allocation succeeds (depends on free VRAM),
+    // the combined logical usage must have set the OOM-threshold flag.
+    const auto stats = alloc.getStats();
+    EXPECT_TRUE(stats.oom_threshold_exceeded)
+        << "AVA_EXT_03: OOM threshold must be exceeded when external + internal "
+           "allocations together surpass oom_threshold_fraction";
+
+    // Cleanup
+    alloc.free(ext_handle);
+    if (inner) alloc.free(*inner);
+}

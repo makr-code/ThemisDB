@@ -240,3 +240,13 @@ v1.8.0 – Production-grade persistent storage layer built on RocksDB with MVCC,
 ## Breaking Changes
 - `StorageEngine::createDefault()` factory is deprecated; use the DI constructor with explicit `IExpressionEvaluatorPtr`, `IFieldEncryptionPtr`, `IKeyProviderPtr`, and `IIndexManagerPtr` to avoid insecure defaults in production
 - `KeySchema` key format v1.5.0+ (prefix-based) is not backward-compatible with keys created before v1.5.0; migration required for existing data
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
+
+- `AdaptiveCompactionScheduler` – Plant und steuert RocksDB-Compactions adaptiv; Tests vorhanden
+  > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
+

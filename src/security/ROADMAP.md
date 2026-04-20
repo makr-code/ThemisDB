@@ -222,3 +222,27 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - SecurityManager API is stable from v1.x.
 - Key management API is stable in v1.5.0; additional rotation hooks planned for v1.6.0+.
 - DEK versioning scheme is fixed; no breaking changes planned.
+
+## Latente Symbole (Unused-Functions-Audit)
+
+_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+
+### ✅ Aktiv (implementiert + externer Aufrufer bestätigt)
+
+- `AccessControl` – ABAC-Zugriffssteuerung; genutzt in compliance_reporter.cpp + Tests + Bench
+
+### ✅ Aktiv — Security-Fixes 2026-04-20
+
+- `verifyMFA` – Prüft MFA-Token für privilegierte Operationen.
+  **Implementierungsstatus (ab 2026-04-20):** Vollständig implementiert. Schlägt den User in
+  `AccessControl::mfa_enrollments_` nach (map: `user_id → MFAAuthenticator::EnrollmentData`),
+  ruft `mfa_authenticator_->validateTOTP(secret_base32, token)` auf und fällt bei Misserfolg auf
+  `validateRecoveryCode()` zurück (markiert den Code als verbraucht). Fehlendes oder deaktiviertes
+  Enrollment → `false`, kein Silent-Pass-through mehr.
+  `enrollMFA()` persistiert das Enrollment (`enabled = true`) in `mfa_enrollments_`.
+
+- `disableMFA` – Deaktiviert MFA für einen User (Admin-Only-Pfad).
+  **Implementierungsstatus (ab 2026-04-20):** Vollständig implementiert. Ruft
+  `mfa_enrollments_.erase(user_id)` auf — nach diesem Aufruf schlägt `verifyMFA()` für den User
+  garantiert fehl. Audit-Log-Event wird weiterhin geschrieben.
+
