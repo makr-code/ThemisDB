@@ -548,3 +548,63 @@ Bei jeder größeren Iteration:
 - **Fundstelle**: `CHANGELOG.md` (v1.7.x HSM Stub Warning)
 - **Problem**: Bis v1.7.x startete der Server mit aktivem Stub-HSM-Provider ohne Warnung; produktive Deployments konnten versehentlich den nicht-sicheren Stub nutzen.
 
+
+### Kategorie H: RPC / Observability
+
+#### H-01: Observability — `tracer.cpp` und `log_aggregator.cpp` komplett fehlend (OBS-MISSING-001)
+- **Fundstelle**: `src/observability/ROADMAP.md` Known Issues / OBS-MISSING-001, implementiert 2026-03-11
+- **Problem**: Zwei der zentralen Observability-Quelldateien (`tracer.cpp`, `log_aggregator.cpp`) existierten schlicht nicht. Alle Funktionen die W3C Trace Context Propagation oder strukturiertes Logging benötigten, hatten keine Implementierung.
+- **Auswirkung**: Distributed Tracing und strukturiertes Logging waren über mehrere Releases faktisch nicht vorhanden — trotz entsprechender Header-Deklarationen.
+
+#### H-02: Observability — `query_profiler.cpp`, `storage_profiler.cpp`, `performance_analyzer.cpp` fehlten in CMakeLists.txt
+- **Fundstelle**: `src/observability/ROADMAP.md` Known Issues, fix 2026-03-09
+- **Problem**: Drei Profiler-Quelldateien waren zwar implementiert, aber nicht in `cmake/CMakeLists.txt` registriert. `test_observability_profilers.cpp` konnte nicht gelinkt werden.
+- **Auswirkung**: Profiler-Tests konnten über mehrere Entwicklungszyklen nicht gebaut werden; Regressions-Gate faktisch nicht vorhanden.
+
+#### H-03: Observability — `MetricsCollector` nutzte exklusiven `std::mutex` auch für Lesepfade
+- **Fundstelle**: `src/observability/FUTURE_ENHANCEMENTS.md` Source Code Audit Findings (2026-03-12)
+- **Problem**: `metrics_collector.cpp` verwendete `std::lock_guard<std::mutex>` (exklusiv) für alle Operationen — auch für den Prometheus-Scrape-Pfad (`getPrometheusMetrics`, `getCardinalityLimit`). Gleichzeitige Scraper serialisierten sich.
+- **Auswirkung**: Prometheus-Scraping unter 16 gleichzeitigen Scrapern serialisiert; strukturell signifikanter Throughput-Verlust. Erst TSAN-Stress-Test `TSANStress_16ScrapersAnd8Writers` deckte das Muster auf.
+- **Fix**: Upgrade auf `std::shared_mutex`; Lesepfade auf `std::shared_lock`, Schreibpfade auf `std::unique_lock`.
+
+#### H-04: Observability — `/metrics`-Endpunkt ohne Authentication erreichbar
+- **Fundstelle**: `src/observability/FUTURE_ENHANCEMENTS.md`, `src/observability/AUDIT.md` OBS-OPEN-01
+- **Problem**: Der Prometheus-Scrape-Endpunkt `/metrics` (Prometheus text) hat keine Authentifizierung (kein Bearer Token, kein mTLS-Guard). Alle Prometheus-Metriken (inkl. interner Betriebsdaten) sind ohne Zugangsprüfung abrufbar.
+- **Auswirkung**: Datenleck interner Betriebsdaten an nicht-authentifizierte Clients. Offenes Security-Item OBS-OPEN-01, Target Q3 2026.
+- **Status**: Noch offen.
+
+#### H-05: Observability — Trace Spans können PII enthalten (keine Scan/Sanitization)
+- **Fundstelle**: `src/observability/AUDIT.md` OBS-OPEN-02, `src/observability/FUTURE_ENHANCEMENTS.md`
+- **Problem**: Trace-Span-Attribute werden ohne PII-Scan in OTLP-Exporter weitergesendet. Strukturierte Log-Einträge sollen keine Nutzerdaten enthalten — ob das überall eingehalten wird, ist nicht auditiert.
+- **Auswirkung**: PII-Leakage via Observability-Backend (Jaeger, Zipkin, OTLP) möglich.
+- **Status**: Noch offen (OBS-OPEN-02, Target Q3 2026).
+
+#### H-06: Observability — OTLP Exemplar-Verknüpfung nicht in Export-Pipeline integriert
+- **Fundstelle**: `src/observability/AUDIT.md` OBS-OPEN-05
+- **Problem**: `IExemplarReservoir`-Interface (`otlp_exemplar.h`) ist deklariert, aber nicht in die OTLP-Export-Pipeline eingebunden. Trace-zu-Metrik-Verknüpfung via Exemplars funktioniert nicht.
+
+#### H-07: RPC/gRPC — `setServiceHealth()` nicht mit gRPC Proto Health Service verdrahtet
+- **Fundstelle**: `src/rpc_grpc/ROADMAP.md` Known Issues & Limitations
+- **Problem**: `setServiceHealth()` verwaltet Health-State nur im Prozess-Speicher; kein Bezug zum gRPC-eigenen `grpc.health.v1.Health` Proto-Service. Externe Health Probe-Clients (Kubernetes `grpc_health_probe`) sehen nie den Zustand der internen Statusverwaltung.
+- **Auswirkung**: Kubernetes Liveness/Readiness Probes via gRPC Health Protocol können keinen korrekten Zustand liefern.
+
+#### H-08: RPC/gRPC — `recordRPC()` ist manueller Hook, kein automatischer Interceptor
+- **Fundstelle**: `src/rpc_grpc/ROADMAP.md` Known Issues & Limitations
+- **Problem**: Metriken werden nur für explizit mit `recordRPC()` instrumentierte RPC-Methoden erfasst. Alle anderen Server-seitigen RPCs (z.B. neue Services ohne explizite Instrumentierung) erzeugen keine Prometheus-Metriken.
+- **Auswirkung**: Metriken-Lücken bei nicht explizit instrumentierten RPCs; kein vollständiges Observability-Bild.
+
+#### H-09: RPC/gRPC — Ungültige Keepalive-Werte werden stillschweigend ignoriert
+- **Fundstelle**: `src/rpc_grpc/CHANGELOG.md` v0.2.0
+- **Problem**: Wenn `extra_config["keepalive_time_ms"]` oder `keepalive_timeout_ms` mit einem ungültigen Wert (z.B. Nicht-Zahl, negativer Wert) konfiguriert wird, wird der Fehler stillschweigend ignoriert und der Default-Wert verwendet. Kein Warn-Log, kein Fehler.
+- **Auswirkung**: Fehlerhafte Keepalive-Konfiguration ist für Operatoren nicht erkennbar; Production-Deployments laufen mit falschen Netzwerk-Timeouts ohne Hinweis.
+
+#### H-10: RPC/gRPC — `reloadTls()` aktualisiert nur gecachte Credentials, keine laufenden Sessions
+- **Fundstelle**: `src/rpc_grpc/ROADMAP.md` Known Issues & Limitations
+- **Problem**: Nach `reloadTls()` mit neuen Zertifikaten werden bestehende TLS-Sessions nicht neu ausgehandelt. Neue Verbindungen nutzen die aktualisierten Zertifikate; laufende Verbindungen bleiben auf den alten Credentials.
+- **Auswirkung**: Bei Zertifikatsrotation bleiben alle Langzeit-Verbindungen auf dem alten Zertifikat aktiv bis zur Session-Trennung. Bei kompromittierten Zertifikaten kein sofortiger Schutz.
+
+#### H-11: RPC/gRPC — Kein mTLS Round-Trip Integrationstest
+- **Fundstelle**: `src/rpc_grpc/AUDIT.md`, GRPC-OPEN-03 / CHANGELOG.md [Unreleased]
+- **Problem**: mTLS wird nur durch Unit-Tests auf Konfigurations-Level getestet. Ein echter mTLS Round-Trip (Client-Zertifikat + Server-Verifikation + Datenaustausch) ist nie im CI validiert worden.
+- **Auswirkung**: Produktionsfehler bei mTLS-Deployments könnten bis zum Deployment-Zeitpunkt unentdeckt bleiben.
+
