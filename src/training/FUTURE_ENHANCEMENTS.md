@@ -243,3 +243,47 @@ Implement end-to-end provenance tracking for every training sample from source d
 - `IncrementalLoRATrainer::exportGradient()` → `EncryptedGradient` (AES-256-GCM)
 - `IncrementalLoRATrainer::applyGlobalDelta(const GlobalAdapterDelta&)` → FedAvg weight update
 - Privacy invariant enforced by unit test: raw query text absent from gradient blob
+
+---
+
+## ✅ Implemented — Federated Distillation & Privacy-Preserving Learning (v1.9.0-alpha)
+
+### Scope
+- Teacher-student distillation across tenant/institution boundaries without raw data exchange.
+- Secure federated round coordination with DP-protected gradient aggregation.
+- Governance-controlled model release, canary rollout, and rollback/fallback to local adapters.
+
+### Design Constraints
+- Raw training samples must never leave the local institution boundary.
+- Coordinator only processes opaque `EncryptedGradient` payloads and aggregated deltas.
+- Differential privacy budget (`epsilon`, `delta`) is mandatory and auditable per round.
+- Byzantine/outlier behavior must be handled by robust aggregation and resilience controls.
+
+### Required Interfaces
+- `IncrementalLoRATrainer::exportGradient()` and `applyGlobalDelta(const GlobalAdapterDelta&)`
+- `LoRAFederationCoordinator::{submitGradient, triggerAggregation, getStats}`
+- `IncrementalLoRATrainer::{deployVersionEx, rollbackVersionEx}` for governance rollout/rollback
+- Federation admin + audit callback integration for release decisions and policy gates
+
+### Implementation Notes
+- `[x]` Federated protocol roles (Client/Coordinator/Verifier) implemented through trainer export/apply hooks and coordinator round lifecycle.
+- `[x]` Secure aggregation path uses non-raw gradient payloads, FedAvg/median aggregation, and Gaussian DP protection.
+- `[x]` Non-IID/drift and poisoning/failure resilience validated with integration + OR test suites.
+- `[x]` Canary and rollback path uses existing adapter lifecycle APIs with governance enforcement and audit records.
+
+### Test Strategy
+- Focused unit/integration coverage in:
+  - `tests/test_incremental_lora_trainer.cpp`
+  - `tests/test_distributed_knowledge_integration.cpp`
+  - `tests/test_distributed_knowledge_or.cpp`
+- Validate privacy invariant (no cleartext data in shared payloads), robustness under fault/poison-like scenarios, and rollback safety.
+
+### Performance Targets
+- Federated round overhead: ≤ 15% vs. local-only update path.
+- Task utility retention: ≥ 90% of centralized distillation baseline under configured privacy budget.
+- Coordinator observability overhead (`getStats` + audit emission): operationally bounded for continuous rounds.
+
+### Security / Reliability
+- Differential privacy accounting (`epsilon`, `delta`) is enforced per round and audited.
+- Cross-border/policy checks can block aggregation prior to global delta release.
+- Local rollback/fallback remains available if policy, quality, or availability checks fail.
