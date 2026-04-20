@@ -132,6 +132,9 @@ public:
     SpeculativeDecoder();
     explicit SpeculativeDecoder(const Config& config);
 
+    /// Read-only access to the active configuration.
+    const Config& getConfig() const noexcept { return config_; }
+
     // ── Core interface ───────────────────────────────────────────────
 
     /**

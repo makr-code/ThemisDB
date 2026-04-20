@@ -144,6 +144,23 @@ Key additions since v1.15.0:
 - [x] Unit tests: `ExecuteInferUsesAdaptiveShardRouterWhenResolverNotSet` + `ExecuteInferPrefersResolverOverAdaptiveShardRouter`
 - [x] LRIR-01 updated to use proper LEGAL/MEDICAL domain types (no PROCESS_MINING/MULTI_TENANT workarounds)
 
+### Phase 4c: Live LLM-Queue Telemetry + Remote Draft Dispatch (Status: Completed ✅)
+
+**Phase 2 gap (LLM-Queue-Metriken in ShardStats):**
+- [x] `ContinuousBatchScheduler::ShardLoadCallback` — `std::function<void(size_t pending, double avg_ms)>`
+- [x] `ContinuousBatchScheduler::setShardLoadCallback()` — injection point for router update callbacks
+- [x] Callback fired in `submitRequest()` and `processBatchResults()` on every queue-depth change
+- [x] `LLMAQLHandler::setBatchScheduler(scheduler, local_shard_id)` — wires scheduler→router load callback
+- [x] `LLMAQLHandler::Impl::wireShardLoadCallback()` — private helper, re-wires on either router or scheduler change
+- [x] LRIR-07: LEAST_LOADED tie-breaking verified end-to-end via `setBatchScheduler` + `routeByDomain`
+
+**Phase 4 gap (SpeculativeDecoder Remote Draft Dispatch):**
+- [x] `SpeculativeDecoder::getConfig() const` — read-only config accessor (needed by engine for remote path check)
+- [x] `InferenceEngineEnhanced::Config::speculative_remote_draft_shard_id` — wired into `SpeculativeDecoder::Config` in constructor
+- [x] `InferenceEngineEnhanced::setRemoteExecutor(RemoteExecutor*, ShardInfo)` — injection point for remote draft
+- [x] `trySpeculativeGeneration()`: remote draft path via `RemoteExecutor::post("/api/v1/llm/speculative/draft")` with fallback to local draft model
+- [x] LRIR-08: `remote_draft_shard_id` round-trip through `SpeculativeDecoder::Config` + `InferenceEngineEnhanced::Config`
+
 ### Phase 5: KV-Prefix Cross-Shard Transfer (Status: Completed ✅)
 
 - [x] `RemoteExecutor::postBinary()` — binary payload transfer via base64-encoded JSON body

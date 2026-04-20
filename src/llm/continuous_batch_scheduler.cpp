@@ -133,7 +133,14 @@ std::string ContinuousBatchScheduler::submitRequest(
     
     // Wake up scheduler
     cv_.notify_one();
-    
+
+    // Notify shard router about updated queue depth.
+    // Called inside the mutex — AdaptiveShardRouter's own lock is independent
+    // so there is no circular lock ordering.
+    if (shard_load_cb_) {
+        shard_load_cb_(waiting_queue_.size(), stats_.avg_time_to_first_token_ms);
+    }
+
     return scheduled->request_id;
 }
 
@@ -432,6 +439,11 @@ void ContinuousBatchScheduler::processBatchResults(
     stats_.adaptive_prefill_chunk_size_tokens = effective_prefill_chunk_size_;
     
     updateStats();
+
+    // Notify shard router about updated queue depth after batch completion.
+    if (shard_load_cb_) {
+        shard_load_cb_(waiting_queue_.size(), stats_.avg_time_to_first_token_ms);
+    }
 }
 
 void ContinuousBatchScheduler::preemptRequests(

@@ -26,6 +26,7 @@
 #include "llm/model_router.h"
 #include "llm/shared_worker_pool.h"
 #include "llm/speculative_decoder.h"
+#include "sharding/remote_executor.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <numeric>
@@ -92,6 +93,7 @@ InferenceEngineEnhanced::InferenceEngineEnhanced(const Config& config)
     if (config_.enable_speculative_decoding) {
         SpeculativeDecoder::Config sd_cfg;
         sd_cfg.k = config_.speculative_draft_tokens;
+        sd_cfg.remote_draft_shard_id = config_.speculative_remote_draft_shard_id;
         speculative_decoder_ = std::make_unique<SpeculativeDecoder>(sd_cfg);
 
         if (config_.speculative_draft_model_id.empty()) {
@@ -136,6 +138,22 @@ InferenceEngineEnhanced::InferenceEngineEnhanced(
 
 InferenceEngineEnhanced::~InferenceEngineEnhanced() {
     shutdown();
+}
+
+void InferenceEngineEnhanced::setRemoteExecutor(
+    sharding::RemoteExecutor* exec,
+    const sharding::ShardInfo& draft_shard)
+{
+    std::lock_guard<std::mutex> lock(stats_mutex_);
+    remote_executor_          = exec;
+    remote_draft_shard_info_  = draft_shard;
+    if (exec) {
+        spdlog::info("InferenceEngineEnhanced: remote draft executor set "
+                     "(shard='{}', endpoint='{}')",
+                     draft_shard.shard_id, draft_shard.primary_endpoint);
+    } else {
+        spdlog::info("InferenceEngineEnhanced: remote draft executor detached");
+    }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1635,12 +1653,63 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
     draft_request.stream_callback = nullptr;
 
     InferenceResponse draft_response;
-    try {
-        draft_response = draft_plugin->generate(draft_request);
-    } catch (const std::exception& e) {
-        spdlog::warn("Draft model generation failed: {} — falling back to target",
-                     e.what());
-        return false;
+
+    // ── Remote draft path ─────────────────────────────────────────────────
+    // When a remote draft shard is configured and a RemoteExecutor is injected,
+    // attempt to fetch draft tokens from the remote shard first.  On any
+    // failure (network error, circuit-breaker open, empty response) we fall
+    // through to the local draft model below.
+    sharding::RemoteExecutor* remote_exec = nullptr;
+    sharding::ShardInfo        remote_shard;
+    {
+        std::lock_guard<std::mutex> lk(stats_mutex_);
+        remote_exec  = remote_executor_;
+        remote_shard = remote_draft_shard_info_;
+    }
+    const bool use_remote =
+        remote_exec != nullptr &&
+        speculative_decoder_ &&
+        !speculative_decoder_->getConfig().remote_draft_shard_id.empty();
+
+    if (use_remote) {
+        try {
+            const nlohmann::json body = {
+                {"prompt",     request.prompt},
+                {"max_tokens", static_cast<int>(config_.speculative_draft_tokens)},
+                {"model_id",   config_.speculative_draft_model_id}
+            };
+            const auto result = remote_exec->post(
+                remote_shard,
+                "/api/v1/llm/speculative/draft",
+                body
+            );
+            if (result.success && result.data.contains("text") &&
+                !result.data["text"].get<std::string>().empty())
+            {
+                draft_response.text = result.data["text"].get<std::string>();
+                spdlog::debug("Remote draft tokens fetched from shard '{}' ({} chars)",
+                              remote_shard.shard_id, draft_response.text.size());
+            } else {
+                spdlog::debug("Remote draft shard '{}' returned no tokens — "
+                              "falling back to local draft model",
+                              remote_shard.shard_id);
+            }
+        } catch (const std::exception& e) {
+            spdlog::warn("Remote draft dispatch to shard '{}' failed: {} — "
+                         "falling back to local draft model",
+                         remote_shard.shard_id, e.what());
+        }
+    }
+
+    // ── Local draft path (fallback or primary) ────────────────────────────
+    if (draft_response.text.empty()) {
+        try {
+            draft_response = draft_plugin->generate(draft_request);
+        } catch (const std::exception& e) {
+            spdlog::warn("Draft model generation failed: {} — falling back to target",
+                         e.what());
+            return false;
+        }
     }
 
     if (draft_response.text.empty()) {

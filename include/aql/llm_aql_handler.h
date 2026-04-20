@@ -42,6 +42,7 @@ class AdaptiveShardRouter;
 } }
 namespace themis { namespace llm {
 class KVPrefixTransferManager;
+class ContinuousBatchScheduler;
 } }
 #include <string>
 #include <cstdint>
@@ -639,6 +640,21 @@ public:
     void setDomainRouteResolver(DomainRouteResolver resolver);
     void setAdaptiveShardRouter(std::shared_ptr<sharding::AdaptiveShardRouter> router);
     void setShardingManager(sharding::ShardingManager* sharding_manager);
+
+    /**
+     * @brief Inject a ContinuousBatchScheduler for live LLM-queue telemetry.
+     *
+     * When both a scheduler and an AdaptiveShardRouter are set, the scheduler's
+     * ShardLoadCallback is wired to call
+     * @c AdaptiveShardRouter::updateShardLLMLoad() on every queue-depth change
+     * so that LEAST_LOADED routing decisions reflect actual LLM queue pressure.
+     *
+     * @param sched           Pointer to the scheduler.  Pass @c nullptr to detach.
+     *                        Ownership is NOT transferred.
+     * @param local_shard_id  Shard identifier reported to the router for this node.
+     */
+    void setBatchScheduler(llm::ContinuousBatchScheduler* sched,
+                           std::string local_shard_id);
 
     /**
      * @brief Inject a KVPrefixTransferManager for Phase 5 cross-shard KV

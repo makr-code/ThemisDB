@@ -38,6 +38,7 @@
 #include "sharding/sharding_manager.h"
 #include "llm/kv_prefix_transfer_manager.h"
 #include "llm/llm_plugin_manager.h"
+#include "llm/continuous_batch_scheduler.h"
 #include "llm/embedded_llm.h"
 #include "llm/llama_wrapper.h"
 #include "index/vector_index.h"
@@ -348,8 +349,32 @@ public:
     std::shared_ptr<sharding::AdaptiveShardRouter> adaptive_shard_router_;
     sharding::ShardingManager* sharding_manager_;
 
+    // Optional live LLM-queue telemetry bridge — not owned, may be nullptr.
+    llm::ContinuousBatchScheduler* batch_scheduler_ = nullptr;
+    std::string local_shard_id_;
+
     // Optional Phase 5 KV-prefix transfer manager
     std::unique_ptr<llm::KVPrefixTransferManager> kv_prefix_transfer_mgr_;
+
+    // Wire the shard-load callback between batch_scheduler_ and
+    // adaptive_shard_router_ whenever either is changed.  Both must be
+    // non-null and local_shard_id_ must be non-empty for wiring to happen.
+    void wireShardLoadCallback() {
+        if (!batch_scheduler_ || !adaptive_shard_router_ || local_shard_id_.empty()) {
+            if (batch_scheduler_) {
+                // Detach any previously wired callback.
+                batch_scheduler_->setShardLoadCallback({});
+            }
+            return;
+        }
+        auto router = adaptive_shard_router_;
+        std::string shard_id = local_shard_id_;
+        batch_scheduler_->setShardLoadCallback(
+            [router, shard_id](size_t pending, double avg_ms) {
+                router->updateShardLLMLoad(shard_id, pending, avg_ms);
+            }
+        );
+    }
 };
 
 LLMAQLHandler::LLMAQLHandler() 
@@ -388,10 +413,19 @@ void LLMAQLHandler::setAdaptiveShardRouter(
     std::shared_ptr<sharding::AdaptiveShardRouter> router)
 {
     impl_->adaptive_shard_router_ = std::move(router);
+    impl_->wireShardLoadCallback();
 }
 
 void LLMAQLHandler::setShardingManager(sharding::ShardingManager* sharding_manager) {
     impl_->sharding_manager_ = sharding_manager;
+}
+
+void LLMAQLHandler::setBatchScheduler(llm::ContinuousBatchScheduler* sched,
+                                       std::string local_shard_id)
+{
+    impl_->batch_scheduler_  = sched;
+    impl_->local_shard_id_   = std::move(local_shard_id);
+    impl_->wireShardLoadCallback();
 }
 
 void LLMAQLHandler::setKVPrefixTransferManager(
