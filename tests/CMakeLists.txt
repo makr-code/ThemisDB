@@ -24111,3 +24111,55 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_clo_loops.cpp")
 else()
     message(STATUS "CLO loop tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_clo_loops.cpp")
 endif()
+
+# ============================================================================
+# Toolbox Primitives: TextChunker, TextNormalizer, ContentFingerprinter,
+#                     TextQualityScorer, LanguageDetector,
+#                     ToolboxComposite, extractEntitiesStream
+# Covers: TXC-01..06, TXN-01..04, CFP-01..08, TQS-01..08, LDT-01..06,
+#         CMP-01..06, TCS-01..04
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_toolbox_primitives.cpp")
+    message(STATUS "Adding Toolbox Primitives tests (TXC/TXN/CFP/TQS/LDT/CMP/TCS)")
+
+    add_executable(test_toolbox_primitives_focused
+        test_toolbox_primitives.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/text_chunker.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/text_normalizer.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/content_fingerprinter.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/text_quality_scorer.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/language_detector.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/toolbox_composite.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/toolbox_streaming.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/ingestion_toolbox.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/toolbox_registry.cpp
+        ${THEMIS_ROOT_DIR}/src/ingestion/ingestion_sinks.cpp
+    )
+
+    target_include_directories(test_toolbox_primitives_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_toolbox_primitives_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_toolbox_primitives_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ToolboxPrimitivesTests COMMAND test_toolbox_primitives_focused)
+
+    set_tests_properties(ToolboxPrimitivesTests PROPERTIES
+        LABELS "toolbox;primitives;chunker;normalizer;fingerprinter;quality;language;composite;streaming;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Toolbox Primitives: TXC-01..06, TXN-01..04, CFP-01..08, TQS-01..08, LDT-01..06, CMP-01..06, TCS-01..04")
+else()
+    message(STATUS "Toolbox Primitives tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_toolbox_primitives.cpp")
+endif()
