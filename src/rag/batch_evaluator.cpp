@@ -405,10 +405,15 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
     out.bias_fairness_drift_rate = static_cast<double>(bias_drift_cases) / n;
     out.traceable_decisions = traceable_decisions;
     out.untraceable_decisions = results.size() - traceable_decisions;
-    out.cost_to_quality_efficiency =
-        total_quality > std::numeric_limits<double>::epsilon()
-            ? total_cost / total_quality
-            : 0.0;
+    if (total_quality > std::numeric_limits<double>::epsilon()) {
+        out.cost_to_quality_efficiency = total_cost / total_quality;
+    } else if (total_cost > 0.0) {
+        out.cost_to_quality_efficiency = std::numeric_limits<double>::infinity();
+        THEMIS_WARN("BatchEvaluator: total quality is ~0 while cost is {:.6f}; "
+                    "cost_to_quality_efficiency set to +inf", total_cost);
+    } else {
+        out.cost_to_quality_efficiency = 0.0;
+    }
 
     if (!latencies_ms.empty()) {
         std::sort(latencies_ms.begin(), latencies_ms.end());
