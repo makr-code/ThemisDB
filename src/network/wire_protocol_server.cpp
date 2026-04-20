@@ -37,6 +37,8 @@
 #include "timeseries/tsstore.h"
 #include "timeseries/continuous_agg.h"
 #include "security/transport_security_checker.h"
+#include "query/query_engine.h"
+#include "query/aql_runner.h"
 
 #include <nlohmann/json.hpp>
 #include <iostream>
@@ -131,7 +133,8 @@ WireProtocolServer::WireProtocolServer(
     std::shared_ptr<TransactionManager> tx_manager,
     std::shared_ptr<ProcessGraphManager> process_graph,
     std::shared_ptr<TSStore> ts_store,
-    std::shared_ptr<ContinuousAggregateManager> agg_manager)
+    std::shared_ptr<ContinuousAggregateManager> agg_manager,
+    std::shared_ptr<QueryEngine> query_engine)
     : config_(config)
     , storage_(storage)
     , secondary_index_(secondary_index)
@@ -141,6 +144,7 @@ WireProtocolServer::WireProtocolServer(
     , process_graph_(process_graph)
     , ts_store_(ts_store)
     , agg_manager_(agg_manager)
+    , query_engine_(std::move(query_engine))
 {
     io_context_ = std::make_unique<net::io_context>();
     worker_pool_ = std::make_unique<net::thread_pool>(config_.num_worker_threads);
@@ -782,6 +786,38 @@ void WireProtocolServer::Session::asyncReadChecksum() {
         });
 }
 
+void WireProtocolServer::Session::dispatchToWorkerPool(std::function<void()> handler) {
+    if (server_->worker_pool_) {
+        auto self = shared_from_this();
+        // Copy the current frame's buffers so the handler can read them on the
+        // worker thread. The copies are written back into the session members
+        // before calling fn() so that handler methods which access payload_buffer_
+        // and header_buffer_ via 'this->' see the correct frame data.
+        //
+        // KNOWN LIMITATION (FIXME): payload_buffer_ is also used by asyncReadPayload
+        // for the NEXT incoming frame. Under high-frequency pipelining, a race
+        // exists between this write (worker thread) and asyncReadPayload's
+        // resize+async_read (I/O thread). The canonical fix is to use a per-session
+        // net::strand to serialize all session state mutations, or to pass the
+        // payload as an explicit parameter to each handler method instead of
+        // relying on the session-level member. To be addressed in a follow-up
+        // refactor (Target: Q3 2026).
+        auto payload_copy = payload_buffer_;
+        auto header_copy  = header_buffer_;
+        net::post(*server_->worker_pool_,
+            [this, self,
+             payload = std::move(payload_copy),
+             hdr     = std::move(header_copy),
+             fn      = std::move(handler)]() mutable {
+                payload_buffer_ = std::move(payload);
+                header_buffer_  = std::move(hdr);
+                fn();
+            });
+    } else {
+        handler();
+    }
+}
+
 void WireProtocolServer::Session::handleMessage() {
     requests_processed_.fetch_add(1, std::memory_order_relaxed);
     bytes_received_.fetch_add(header_buffer_.size() + payload_buffer_.size(), std::memory_order_relaxed);
@@ -824,7 +860,7 @@ void WireProtocolServer::Session::handleMessage() {
             handleBatchPut();
             break;
         case 0x20: // QUERY_AQL
-            handleQuery();
+            dispatchToWorkerPool([this]() { handleQuery(); });
             break;
         case 0x23: // CURSOR_NEXT
             handleCursorNext();
@@ -842,16 +878,16 @@ void WireProtocolServer::Session::handleMessage() {
             handleTransactionAbort();
             break;
         case 0x40: // VECTOR_SEARCH
-            handleVectorSearch();
+            dispatchToWorkerPool([this]() { handleVectorSearch(); });
             break;
         case 0x41: // GRAPH_TRAVERSE
-            handleGraphTraverse();
+            dispatchToWorkerPool([this]() { handleGraphTraverse(); });
             break;
         case 0x50: // GEO_QUERY
-            handleGeoQuery();
+            dispatchToWorkerPool([this]() { handleGeoQuery(); });
             break;
         case 0x51: // TIMESERIES_QUERY
-            handleTimeseriesQuery();
+            dispatchToWorkerPool([this]() { handleTimeseriesQuery(); });
             break;
         case 0x60: // BPMN_START_PROCESS
             handleBpmnStartProcess();
@@ -931,14 +967,21 @@ void WireProtocolServer::Session::cancelTimeout() {
 }
 
 void WireProtocolServer::Session::asyncWriteResponse(const std::vector<uint8_t>& data) {
-    std::lock_guard<std::mutex> lock(write_mutex_);
-    write_queue_.push_back(data);
-    
-    // Start writing if not already in progress
-    if (!write_in_progress_) {
-        write_in_progress_ = true;
-        doWrite();
+    {
+        std::lock_guard<std::mutex> lock(write_mutex_);
+        write_queue_.push_back(data);
     }
+    // Dispatch write initiation to the socket's executor so that net::async_write
+    // is always called from the I/O thread, even when this method is invoked from
+    // a worker thread (Phase 1.2 – worker pool dispatch).
+    auto self = shared_from_this();
+    net::dispatch(socket_.get_executor(), [this, self]() {
+        std::lock_guard<std::mutex> lock(write_mutex_);
+        if (!write_in_progress_) {
+            write_in_progress_ = true;
+            doWrite();
+        }
+    });
 }
 
 void WireProtocolServer::Session::doWrite() {
@@ -1238,19 +1281,26 @@ void WireProtocolServer::Session::handleBatchGet() {
             return;
         }
 
+        // Build storage key list for multiGet (B2: replaces O(N) sequential gets)
+        std::vector<std::string> storage_keys;
+        storage_keys.reserve(keys_arr.size());
+        for (const auto& key_val : keys_arr) {
+            storage_keys.push_back(collection + ":" + key_val.get<std::string>());
+        }
+
+        // Execute parallel multi-key lookup
+        auto multi_results = server_->storage_->multiGet(storage_keys);
+
         json results = json::array();
         uint32_t found_count = 0;
         uint32_t not_found_count = 0;
 
-        for (const auto& key_val : keys_arr) {
-            std::string key = key_val.get<std::string>();
-            std::string storage_key = collection + ":" + key;
-            auto result = server_->storage_->get(storage_key);
-
+        for (size_t i = 0; i < keys_arr.size(); ++i) {
+            const std::string key = keys_arr[i].get<std::string>();
             json item;
             item["key"] = key;
-            if (result.has_value()) {
-                const auto& value_bytes = result.value();
+            if (i < multi_results.size() && multi_results[i].has_value()) {
+                const auto& value_bytes = multi_results[i].value();
                 std::string value_str(value_bytes.begin(), value_bytes.end());
                 try {
                     item["value"] = json::parse(value_str);
@@ -1523,18 +1573,59 @@ void WireProtocolServer::Session::handleGraphTraverse() {
             return;
         }
 
-        // Graph traversal is not yet integrated with the wire protocol transport.
-        json response;
-        response["success"] = false;
-        response["error_code"] = "GRAPH_NOT_INTEGRATED";
-        response["error"] = "Graph traversal is not yet integrated in the wire protocol. "
-                            "Use the HTTP REST API endpoint POST /api/v1/graph/traverse instead.";
-        response["collection"] = collection;
-        response["start_vertex"] = start_vertex;
+        if (!server_->query_engine_) {
+            // Engine not wired — redirect client to HTTP API.
+            json response;
+            response["success"] = false;
+            response["error_code"] = "GRAPH_NOT_INTEGRATED";
+            response["error"] = "Graph traversal is not yet integrated in the wire protocol. "
+                                "Use the HTTP REST API endpoint POST /api/v1/graph/traverse instead.";
+            response["collection"] = collection;
+            response["start_vertex"] = start_vertex;
+            std::string rs = response.dump();
+            asyncWriteResponse({rs.begin(), rs.end()});
+            return;
+        }
 
-        std::string response_str = response.dump();
-        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
-        asyncWriteResponse(response_data);
+        // Parse traversal parameters.
+        std::string direction_str = request.value("direction", "outbound");
+        int depth_min = request.value("depth_min", 1);
+        int depth_max = request.value("depth_max", 3);
+        int limit     = request.value("limit", 100);
+        std::string edge_type = request.value("edge_type", "");
+
+        themis::TraversalDirection direction = themis::TraversalDirection::OUTBOUND;
+        if (direction_str == "inbound")  direction = themis::TraversalDirection::INBOUND;
+        else if (direction_str == "any") direction = themis::TraversalDirection::ANY;
+
+        auto trav_result = server_->query_engine_->executeGeneralTraversal(
+            start_vertex, depth_min, depth_max, direction, collection, edge_type);
+
+        json response;
+        if (trav_result) {
+            json vertices = json::array();
+            int count = 0;
+            for (const auto& tr : trav_result.value()) {
+                if (count++ >= limit) break;
+                json v;
+                v["vertex_pk"] = tr.vertex_pk;
+                v["depth"]     = tr.depth;
+                v["path"]      = tr.path;
+                v["edges"]     = tr.edges;
+                v["data"]      = tr.vertex_data;
+                vertices.push_back(std::move(v));
+            }
+            response["success"]  = true;
+            response["vertices"] = std::move(vertices);
+            response["count"]    = count;
+        } else {
+            response["success"]    = false;
+            response["error"]      = trav_result.error().message();
+            response["error_code"] = "ERR_GRAPH_TRAVERSE";
+        }
+
+        std::string rs = response.dump();
+        asyncWriteResponse({rs.begin(), rs.end()});
     } catch (const json::exception& e) {
         sendError(400, std::string("Invalid JSON in GRAPH_TRAVERSE payload: ") + e.what());
     } catch (const std::exception& e) {
@@ -1561,19 +1652,73 @@ void WireProtocolServer::Session::handleQuery() {
             return;
         }
 
-        // AQL engine is not yet integrated with the wire protocol transport.
-        // Return a structured error so clients can detect this condition and
-        // fall back to the HTTP API endpoint.
-        json response;
-        response["success"] = false;
-        response["error_code"] = "AQL_NOT_INTEGRATED";
-        response["error"] = "AQL query execution is not yet integrated in the wire protocol. "
-                            "Use the HTTP REST API endpoint POST /api/v1/query instead.";
-        response["query"] = query_str;
+        if (!server_->query_engine_) {
+            // Engine not wired — redirect client to HTTP API.
+            json response;
+            response["success"] = false;
+            response["error_code"] = "AQL_NOT_INTEGRATED";
+            response["error"] = "AQL query execution is not yet integrated in the wire protocol. "
+                                "Use the HTTP REST API endpoint POST /api/v1/query instead.";
+            response["query"] = query_str;
+            std::string rs = response.dump();
+            asyncWriteResponse({rs.begin(), rs.end()});
+            return;
+        }
 
-        std::string response_str = response.dump();
-        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
-        asyncWriteResponse(response_data);
+        // Execute the AQL query through the shared QueryEngine.
+        auto result = themis::executeAql(query_str, *server_->query_engine_);
+
+        json response;
+        if (result) {
+            const auto& result_json = result.value();
+            const size_t batch_size = static_cast<size_t>(request.value("batch_size", 100));
+
+            bool has_more = false;
+            json first_batch;
+            std::string cursor_id;
+
+            if (result_json.is_array() && result_json.size() > batch_size) {
+                // Large result: store in cursor registry and return first batch.
+                first_batch = json::array();
+                for (size_t i = 0; i < batch_size; ++i) {
+                    first_batch.push_back(result_json[i]);
+                }
+                has_more = true;
+
+                static constexpr int64_t kCursorTtlMs = 300'000; // 5 minute TTL
+                auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::system_clock::now().time_since_epoch()).count();
+                char buf[64];
+                std::snprintf(buf, sizeof(buf), "cursor-%llu-%llu",
+                              static_cast<unsigned long long>(session_id_),
+                              static_cast<unsigned long long>(now_ms));
+                cursor_id = buf;
+
+                WireProtocolServer::CursorEntry entry;
+                entry.results = result_json;
+                entry.offset  = batch_size;
+                entry.ttl_ms  = now_ms + kCursorTtlMs;
+
+                std::lock_guard<std::mutex> lock(server_->cursors_mutex_);
+                server_->cursors_[cursor_id] = std::move(entry);
+            } else {
+                first_batch = result_json;
+            }
+
+            response["success"]  = true;
+            response["result"]   = first_batch;
+            response["has_more"] = has_more;
+            if (has_more) {
+                response["cursor_id"] = cursor_id;
+            }
+        } else {
+            response["success"]    = false;
+            response["error"]      = result.error().message();
+            response["error_code"] = "ERR_QUERY_FAILED";
+        }
+
+        std::string rs = response.dump();
+        asyncWriteResponse({rs.begin(), rs.end()});
     } catch (const json::exception& e) {
         sendError(400, std::string("Invalid JSON in QUERY payload: ") + e.what());
     } catch (const std::exception& e) {
@@ -1601,16 +1746,49 @@ void WireProtocolServer::Session::handleCursorNext() {
             return;
         }
 
+        const size_t batch_size = static_cast<size_t>(request.value("batch_size", 100));
+
+        std::lock_guard<std::mutex> lock(server_->cursors_mutex_);
+        auto it = server_->cursors_.find(cursor_id);
+        if (it == server_->cursors_.end()) {
+            sendError(404, "Cursor not found: " + cursor_id);
+            return;
+        }
+
+        auto& entry = it->second;
+
+        // Check TTL expiry.
+        if (entry.ttl_ms > 0) {
+            int64_t now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count();
+            if (now_ms > entry.ttl_ms) {
+                server_->cursors_.erase(it);
+                sendError(410, "Cursor expired: " + cursor_id);
+                return;
+            }
+        }
+
+        json batch = json::array();
+        size_t end = std::min(entry.offset + batch_size,
+                              static_cast<size_t>(entry.results.size()));
+        for (size_t i = entry.offset; i < end; ++i) {
+            batch.push_back(entry.results[i]);
+        }
+        entry.offset = end;
+
+        bool has_more = (entry.offset < static_cast<size_t>(entry.results.size()));
+        if (!has_more) {
+            server_->cursors_.erase(it);
+        }
+
         json response;
-        response["success"] = false;
-        response["error_code"] = "CURSOR_NOT_INTEGRATED";
-        response["error"] = "Cursor pagination is not yet integrated in the wire protocol. "
-                            "Use the HTTP REST API endpoint GET /api/v1/cursor/" + cursor_id + " instead.";
+        response["success"]   = true;
+        response["result"]    = std::move(batch);
+        response["has_more"]  = has_more;
         response["cursor_id"] = cursor_id;
 
-        std::string response_str = response.dump();
-        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
-        asyncWriteResponse(response_data);
+        std::string rs = response.dump();
+        asyncWriteResponse({rs.begin(), rs.end()});
     } catch (const json::exception& e) {
         sendError(400, std::string("Invalid JSON in CURSOR_NEXT payload: ") + e.what());
     } catch (const std::exception& e) {
@@ -1635,16 +1813,18 @@ void WireProtocolServer::Session::handleCursorClose() {
             return;
         }
 
-        json response;
-        response["success"] = false;
-        response["error_code"] = "CURSOR_NOT_INTEGRATED";
-        response["error"] = "Cursor management is not yet integrated in the wire protocol. "
-                            "Use the HTTP REST API endpoint DELETE /api/v1/cursor/" + cursor_id + " instead.";
-        response["cursor_id"] = cursor_id;
+        std::lock_guard<std::mutex> lock(server_->cursors_mutex_);
+        auto erased = server_->cursors_.erase(cursor_id);
 
-        std::string response_str = response.dump();
-        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
-        asyncWriteResponse(response_data);
+        json response;
+        response["success"]   = (erased > 0);
+        response["cursor_id"] = cursor_id;
+        if (erased == 0) {
+            response["error"] = "Cursor not found or already closed";
+        }
+
+        std::string rs = response.dump();
+        asyncWriteResponse({rs.begin(), rs.end()});
     } catch (const json::exception& e) {
         sendError(400, std::string("Invalid JSON in CURSOR_CLOSE payload: ") + e.what());
     } catch (const std::exception& e) {
