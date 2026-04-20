@@ -19,6 +19,8 @@ This document covers planned enhancements to ThemisDB's sharding subsystem, whic
 - Model abstraction must be deterministic and finite for CI exploration while still representing crash/restart and delayed/reordered network events.
 - Proof artifacts must be versioned with protocol changes; stale proofs cannot satisfy merge requirements.
 - Trace capture on consensus/commit hot paths must be runtime-gated (`verification.trace.enabled`) and non-blocking (bounded lock-free queue + async flush worker) to keep protocol latency budgets stable.
+- Trace queue overflow must fail open for request processing (drop oldest trace batch + increment `verification_trace_dropped_total` metric + emit throttled warning); consensus/2PC flows must never block on trace backpressure.
+- Async trace worker failure must trigger auto-restart with exponential backoff and persistent health metric (`verification_trace_worker_up`); when restart attempts are exhausted, CI/proof generation consumes only persisted traces and marks gaps explicitly in verification reports.
 
 ### Required Interfaces
 | Interface | Consumer | Notes |
@@ -50,6 +52,7 @@ This document covers planned enhancements to ThemisDB's sharding subsystem, whic
 - Proof artifacts and trace mappings must be tamper-evident (hash + commit reference).
 - Recovery/reconfiguration invariants must remain green before release tagging.
 - Emergency security hotfix override is allowed only via signed `verification-override` label + mandatory audit log + linked follow-up issue with proof submission SLA (≤72h).
+- `verification-override` signatures use organization-maintained GPG keys (security-oncall maintainers only); signature verification runs in CI against pinned public keys before override activation.
 
 ## Design Constraints
 
