@@ -1,7 +1,7 @@
 # Themis: It Is Okay to Fail
 
 **Status**: Draft
-**Version**: 0.5
+**Version**: 0.6
 **Last Updated**: 2026-04-20
 **Target Venue**: Internal Engineering Retrospective / arXiv-style draft candidate
 
@@ -15,7 +15,9 @@ Version 0.3 fügte ein evidenzbasiertes Fehlerregister mit 28 Befunden in fünf 
 
 Version 0.4 erweiterte das Register auf **67 dokumentierte Befunde** über alle Module hinweg. Neu: Kategorie F (33 weitere Laufzeit- und Logikfehler aus Graph, Index, API, Query, Metadata, Scheduler, Cache, Ingestion, Importer, Prompt Engineering, Plugins, Storage, Acceleration) und Kategorie G (6 weitere Sicherheits- und Datenleck-Befunde inkl. GraphQL-Variablen-Substitution, Audit-Log-Hardcoding, Cross-Tenant-Cache-Leak, PKI-Stub, RAG-Stub und HSM-Stub-Warnung).
 
-Version 0.5 schließt RPC/Observability (Kategorie H, 11 Befunde) ab und fügt **Kategorie I (23 PR-gesicherte Befunde)** hinzu — direkt aus abgeschlossenen GitHub-Pull-Requests belegt. Darunter: ~79x Write-Throughput Regression durch WAL-Sync-Konfigurationsfehler (PR #4596), Fake-Benchmark der 796 M/s "KPI" produzierte (PR #4595), DoS-Vektor in gRPC-BatchWrite (PR #4591), vollständig fehlende Paxos-RPC-Callbacks (PR #4678), CMake-Makro-Mismatch der alle GPU-Benchmarks zu Stubs machte (PR #4664), und 141-Datei-Concurrency-Audit mit Deadlocks+Blocking-I/O in 19+ Klassen (PR #4646). Gesamtstand: **~90 dokumentierte Befunde**.
+Version 0.5 schließt RPC/Observability (Kategorie H, 11 Befunde) ab und fügt **Kategorie I (23 PR-gesicherte Befunde)** hinzu — direkt aus abgeschlossenen GitHub-Pull-Requests belegt. Darunter: ~79x Write-Throughput Regression durch WAL-Sync-Konfigurationsfehler (PR #4596), Fake-Benchmark der 796 M/s "KPI" produzierte (PR #4595), DoS-Vektor in gRPC-BatchWrite (PR #4591), vollständig fehlende Paxos-RPC-Callbacks (PR #4678), CMake-Makro-Mismatch der alle GPU-Benchmarks zu Stubs machte (PR #4664), und 141-Datei-Concurrency-Audit mit Deadlocks+Blocking-I/O in 19+ Klassen (PR #4646). Gesamtstand v0.5: **~90 dokumentierte Befunde**.
+
+Version 0.6 fügt **Kategorie J (8 weitere PR-gesicherte Befunde)** aus PRs #4444–#4453 hinzu: Docker-Image SIGSEGV durch RocksDB-Öffnung im statischen Initializer, GraphQL-Variable-Substitution strukturell defekt, vier schwere Concurrency-Bugs in Analytics-Modulen (TOCTOU+vollständige-Inference-unter-Lock in ONNX-/ModelServing-/AnomalyDetector-/CEP-Engine), Cache-Stampede+O(N)-Scan in DiffEngine, und silentes HNSW-k-Clamping ohne Caller-Notification. Gesamtstand v0.6: **~98 dokumentierte Befunde**.
 
 ## I. Einordnung und Zielbild
 
@@ -339,6 +341,7 @@ Wiederkehrende Root Causes:
 | Acceleration | F-32 (Capabilities), F-33 (RTLD_LAZY) | — | gut |
 | RPC/Observability | H-01..H-11 (tracer absent, profilers fehlten in CMake, MetricsCollector exclusive mutex, /metrics unauthenticated, PII in spans, exemplar nicht integriert, health service nicht verdrahtet, recordRPC manuell, keepalive silently ignored, TLS reload nur cache, kein mTLS Integration-Test) | — | vollständig |
 | GitHub PRs (Cross-Module) | I-01..I-23 (WAL sync 79x regression, fake benchmark, DoS-Vektor, Paxos-Stub, GPU-CMake-Makro, Merge-Artifacts, OLAPEngine-Win-Stub, LoRA-Mock, fp16-Placeholder, VRAM-No-Op, listUsers-Error, Voice-No-Ops, NVLink-Bug, O(N) scan, 141-Datei-Concurrency-Audit) | FD-07, FD-08 | vollständig |
+| GitHub PRs (Analytics/API) | J-01..J-08 (Docker SIGSEGV Startup, GraphQL Variable-Stub, ONNX TOCTOU+full-inference-lock, ModelServing use-after-free+lock, StreamingAnomalyDetector use-after-free+O(N²)-lock, CEP user-callback under lock + shutdown stall, DiffEngine cache stampede + O(N) scan, CUDA HNSW silent k-clamp) | FD-07, FD-08 | vollständig |
 
 ## IX. Was sich konkret ändern muss (ab sofort)
 
@@ -355,11 +358,11 @@ Wiederkehrende Root Causes:
 Fehler werden akzeptiert, transparent gemacht und in belastbare Verbesserungen überführt.
 Der Wert dieses Dokuments entsteht durch kontinuierliche Pflege, harte Evidenz und die Bereitschaft, auch unbequeme Entscheidungen rückblickend als falsch zu markieren.
 
-Die **~90 dokumentierten Befunde** (v0.5) über alle Kategorien A–I zeigen ein klares Muster: Die häufigsten Fehlerklassen sind
-(1) nicht-threadsichere Shared State ohne expliziten Schutz (30+ Fälle; ein einziger Audit-PR änderte 141 Dateien),
-(2) Stubs die als Implementierungen galten — inkl. sicherheitskritischer Stubs, Fake-Benchmarks und No-Op-Funktionen (15+ Fälle),
+Die **~98 dokumentierten Befunde** (v0.6) über alle Kategorien A–J zeigen ein klares Muster: Die häufigsten Fehlerklassen sind
+(1) nicht-threadsichere Shared State ohne expliziten Schutz — darunter Blocking-I/O unter Lock, vollständige Inference unter globalem Mutex, Training unter Lock (40+ Fälle über alle Module);
+(2) Stubs die als Implementierungen galten — inkl. sicherheitskritischer Stubs, Fake-Benchmarks und No-Op-Funktionen (15+ Fälle);
 (3) Off-by-one- und Bounds-Fehler ohne Randbedingungs-Tests (15+ Fälle).
-Kategorie I (PR-gesicherte Befunde) liefert die stärkste Evidenz: jeden dieser Bugs hat ein Reviewer als real akzeptiert und behoben — darunter eine ~79x Write-Throughput Regression durch eine Einzeiler-Fehlkonfiguration (I-01), ein Benchmark der 796 M/s "KPI" aus `DoNotOptimize(42.0)` produzierte (I-02), und vollständig fehlende Paxos-RPC-Callbacks in einem verteilten Konsenssystem (I-12).
+Kategorie I+J (PR-gesicherte Befunde) liefern die stärkste Evidenz: jeden dieser Bugs hat ein Reviewer als real akzeptiert und behoben — darunter eine ~79x Write-Throughput Regression durch eine Einzeiler-Fehlkonfiguration (I-01), ein Docker-Image das nie startete (J-01), GraphQL-Variable-Substitution die strukturell komplett defekt war (J-02), und vier schwere Concurrency-Bugs im Analytics-Modul die O(N)-Training unter globalem Lock ausführten (J-03..J-06).
 
 ---
 
@@ -370,7 +373,7 @@ Bei jeder größeren Iteration:
 1. Mindestens einen neuen Befund mit Dateipfad-Referenz dokumentieren.
 2. Vollständigkeitsregister aktualisieren (Status offen > teilweise > gut > vollständig).
 3. Übergreifende Fehlannahmen auf Aktualität prüfen.
-4. Offene Lücken (keine mehr — alle Module abgedeckt; zukünftige Sessions können neue Kategorien J+ anlegen).
+4. Offene Lücken (keine mehr — alle Module und PR-Seiten 1-4 abgedeckt; zukünftige Sessions können weitere PR-Seiten 5+ oder Issues minen).
 
 ## Appendix B. Schnellreferenz: Offene TODOs mit kritischem Potenzial
 
@@ -743,4 +746,54 @@ Die folgenden Befunde sind durch abgeschlossene und gemergte Pull Requests auf G
   - **Blocking I/O unter Lock**: `vault_key_provider.cpp` (Netzwerk-RPC `curl_easy_perform` unter mutex), `adaptive_query_cache.cpp` (4 L3-Scan-Pfade), `ml_model_manager.cpp` (Poll-Schleife mit Sleep unter Lock)
   - **Exclusive Mutex auf Read-Heavy-Pfaden**: 19 Klassen nutzten exklusiven `std::mutex` für `const`-Methoden; u.a. `RateLimiter`, `IndexManager`, `ReplicationManager`, `TaskScheduler`, `MetricsCollector`, `HybridLogicalClock`
 - **Auswirkung**: Latenz-Spikes, Deadlock-Potenzial, Throughput-Verlust auf Read-Pfaden bei 19 verschiedenen Klassen. Umfang des Problems (141 Dateien) zeigt, dass kein systemisches Concurrency-Review vor Merge stattgefunden hatte.
+
+
+### Kategorie J: Weitere PR-gesicherte Befunde (Seiten 3-4, PRs ~4255–4476)
+
+#### J-01: Docker-Image SIGSEGV beim Start — RocksDB-Öffnung im statischen Initializer (PR #4444)
+- **Fundstelle**: `src/llm/llama_wrapper.h`, `src/llm/llm_response_cache.cpp`, PR #4444 (hotfix, merged 2026-04-04)
+- **Problem**: `LlamaWrapper::Config::enable_response_cache = true` als Default löste bei jeder `LlamaWrapper`-Konstruktion — auch in statischen Funktions-Registry-Initializern vor `main()` — ein vollständiges `TransactionDB::Open()` aus. Im Docker-Startprozess führte dies zu einem SIGSEGV in `rocksdb::ImmutableDBOptions::Dump` (Exit 139).
+- **Auswirkung**: Das offizielle Docker-Image `themisdb/themisdb:latest` und `1.8.1-rc1` crashten unmittelbar beim Start. Produktionsdeployments via Docker waren strukturell nicht möglich.
+- **Weitere Befunde im selben PR**:
+  - `--data-dir` und `--config=VALUE` CLI-Argumente (die das Dockerfile-CMD nutzte) wurden silently ignoriert — fehlerhafte Konfiguration ohne Fehlermeldung
+  - RocksDB-Kompressions-Codecs (`liblz4`, `libzstd`, `libsnappy`) fehlten im Docker Runtime Stage — stiller Fallback oder Crash
+
+#### J-02: GraphQL `$variable`-Referenzen wurden nie substituiert — immer Literal-String `"$id"` (PR #4453)
+- **Fundstelle**: `src/api/graphql.cpp`, PR #4453 (merged 2026-04-07)
+- **Problem**: `parseValue()` speicherte `$name`-Referenzen als `Value::string("$name")` statt als `VariableRef`. Alle GraphQL-Resolver empfingen immer den Literal-String `"$id"` statt des gebundenen Wertes. Variable-Substitution im GraphQL-Executor war strukturell komplett defekt.
+- **Auswirkung**: Jede parametrisierte GraphQL-Query lieferte falsche Ergebnisse. Die Funktion war unnutzbar.
+
+#### J-03: `ONNXServingBackend::infer()` — TOCTOU Session-Check + gesamte Inference unter globalem Lock (PR #4315)
+- **Fundstelle**: `src/analytics/ml_serving.cpp`, PR #4315 (merged 2026-03-18)
+- **Problem**: Double-Lock-Pattern: Session-Existenzprüfung unter Lock, Lock-Release, erneute Lock-Akquisition für `sessions.at()`. Zwischen beiden Locks konnte ein anderer Thread die Session evakuieren → unbehandelte Exception. Zusätzlich: der zweite `lock_guard` hielt `sessions_mutex_` für die gesamte ONNX `Run()`-Dauer (O(N) für k-NN), serialisierte alle Model-Inferenzen.
+- **Auswirkung**: Race Condition führt zu unbehandelten Exceptions; vollständige Serialisierung aller ONNX-Inferences unabhängig vom Zielmodell.
+
+#### J-04: `ModelServingEngine::predict()` — gesamte Inference unter Registry `shared_lock` (PR #4314)
+- **Fundstelle**: `src/analytics/model_serving.cpp`, PR #4314 (merged 2026-03-18)
+- **Problem**: `predict()` hielt `shared_lock(impl_->mu)` für die vollständige Inference-Dauer (O(depth) für Trees, O(k·N) für k-NN). Jeder wartende `registerModel()`/`unregisterModel()`-Writer wurde für die gesamte Inference-Dauer geblockt. Zusätzlich: `e.health_mu` wurde unter dem äußeren Registry-Lock genommen — implizite Lock-Order-Dependency. Concurrent `unregisterModel()` konnte zu Use-After-Free führen (`unique_ptr` → dangling reference).
+- **Auswirkung**: Writer-Starvation + potenzielle Use-After-Free bei gleichzeitiger `unregisterModel()`-Ausführung.
+
+#### J-05: `StreamingAnomalyDetector::process()` — O(N·T) Training unter globalem Lock (PR #4313)
+- **Fundstelle**: `src/analytics/anomaly_detection.cpp:1040`, PR #4313 (merged 2026-03-18)
+- **Problem**: `process()` hielt `mu_` für den gesamten Ablauf: Window-Copy, O(N·T) IsolationForest-/O(N²) LOF-Training und `predict()`. Alle Producer-Threads serialisierten sich für die vollständige Trainings-Dauer. Async-Retrain-Lambda captured `this` ohne Destruktor-Guard → Use-After-Free bei Objekt-Destruktion. `retrain_future_`-Überschreibung erzeugte Blocking-Destruktor-Race.
+- **Auswirkung**: Vollständige Serialisierung aller Producers bei jedem Retrain-Zyklus; Use-After-Free bei Destruktion während aktivem Retrain.
+
+#### J-06: `CEPEngine::timerLoop()` hielt `windows_mutex_` während user-supplied Callbacks (PR #4291)
+- **Fundstelle**: `src/analytics/cep_engine.cpp:1079-1084`, PR #4291 (merged 2026-03-16)
+- **Problem**: `WindowManager::timerLoop()` rief user-supplied `callback_()` unter gehaltenem `windows_mutex_` auf. User-Callbacks sind arbiträrer Code (I/O, DB-Writes, netzwerk). Während `windows_mutex_` gehalten wird, kann kein anderer Thread Events hinzufügen, Windows schließen oder Window-State lesen.
+- **Weiterer Bug**: `metricsLoop()` nutzte `sleep_for(config_.metrics_interval)` ohne `condition_variable` — `shutdown()` stall für bis zu einen vollständigen `metrics_interval`.
+- **Auswirkung**: Vollständige Event-Ingestion-Starvation während user Callbacks; potenzielle sekundenlange Shutdown-Verzögerung.
+
+#### J-07: `DiffEngine::computeDiff()` — Cache Stampede + O(N) Full Changefeed Scan mit `limit=0` (PR #4325)
+- **Fundstelle**: `src/analytics/diff_engine.cpp:175-220`, PR #4325 (merged 2026-03-19)
+- **Problem (1)**: Double-Check-Cache-Pattern ohne "inflight"-Schutz: zwei gleichzeitige Caller für dieselbe Range vermissten beide den Cache, führten beide den teuren Scan durch, schrieben beide das Ergebnis — klassischer Cache Stampede.
+- **Problem (2)**: `listEvents()` mit `limit=0` scannte den gesamten Changefeed unabhängig von der angeforderten Sequenz-Range. O(N) Post-Filter-Loop discardete Events außerhalb des Bereichs statt bounds-gesteuerter Abfrage.
+- **Problem (3)**: `evictOldCacheEntries()` wurde unter `cache_mutex_` aufgerufen — ungeschützte Iteration während Lock gehalten.
+- **Problem (4)**: `limit=0` Bug: wurde als "kein Limit" interpretiert statt `std::numeric_limits<size_t>::max()` verwendet.
+- **Auswirkung**: Bei konkurrenten Zugriffen auf denselben Diff-Range: N-fache Redundanz-Berechnung; O(N) Scan des gesamten Event-Logs für jede einzelne Anfrage.
+
+#### J-08: CUDA HNSW Kernel — silentes k-Clamping auf `kMaxK=256` ohne Caller-Notification (PR #4320)
+- **Fundstelle**: `src/acceleration/cuda/cuda_hnsw_kernels.cu:325`, PR #4320 (merged 2026-03-18)
+- **Problem**: `if (k > kMaxK) k = kMaxK;` clamped k still auf maximal 256 ohne jede Rückmeldung an den Caller. Re-Ranking-Pipelines die `k=512` oder mehr Kandidaten anforderten, erhielten still 256 Ergebnisse zurück — keine Exception, kein Error-Code, keine Warnung.
+- **Auswirkung**: Jeder `k > 256` HNSW-Query lieferte strukturell falsche Ergebnisse. Re-Ranking-Qualität war systematisch degradiert ohne Erkennbarkeit.
 
