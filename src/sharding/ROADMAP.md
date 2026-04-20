@@ -32,6 +32,10 @@
 - [~] Full RPC integration for cross-shard read/write operations (`sharding/rpc/`) (Target: Q2 2026)
   - [x] `ShardRPCClient::writeEntity()` added — uses gRPC `ReplicateData` RPC for cross-shard entity writes
   - [~] `readKey` / `readEntity` gRPC RPC not yet in proto (planned Q3 2026); reads currently routed via HTTP `RemoteExecutor`
+- [~] Formal verification program for consensus and cross-shard transaction invariants (Target: Q3 2026)
+  - [~] S0/S1 invariant set defined for Raft/Paxos/Gossip quorum safety, WAL recovery convergence, and cross-shard 2PC/3PC/SAGA/Percolator commit rules
+  - [ ] Code-to-model abstraction boundaries mapped for `raft_consensus.cpp`, `paxos_consensus.cpp`, `gossip_protocol.cpp`, `cross_shard_transaction.cpp`, `two_phase_commit_coordinator.cpp`
+  - [ ] CI model-checking gate for protocol-change PRs (TLA+/PlusCal) (Target: Q3 2026)
 - [x] Persistent Paxos acceptor state (survives process restart) — **Fixed 2026-04-12**
   - `handlePrepare()` now calls `wal_->logPromise()` before returning PROMISE
   - `handleAccept()` now calls `wal_->logAccept()` before returning ACCEPTED
@@ -113,6 +117,39 @@ Sharding is a database architecture pattern that involves breaking a database in
   - `DrainGuard` RAII scope (move-only); `makeRequestGuard(shard_id)` factory
   - `waitForDrain(shard_id, timeout)` — `condition_variable`-based; `timeout=0` → skip; returns `true` if all requests drained before deadline
 
+### Phase 6: Formal Verification of Consensus and Cross-Shard Invariants (Status: In Progress 🚧)
+- [~] **Phase 1: Formal model**
+  - [ ] TLA+/PlusCal model package created for consensus and cross-shard transaction state machines (Target: Q2 2026)
+  - [ ] Abstraction boundaries between implementation traces and model events defined (Target: Q2 2026)
+  - [ ] Safety + liveness properties formalized for quorum, commit, recovery, and reconfiguration paths (Target: Q2 2026)
+- [ ] **Phase 2: Model checking**
+  - [ ] Fault scenarios covered: partition, delay, reorder, crash, restart (Target: Q3 2026)
+  - [ ] Bounded + unbounded critical state-space exploration runs automated (Target: Q3 2026)
+  - [ ] Counterexamples exported into deterministic regression fixtures (Target: Q3 2026)
+- [ ] **Phase 3: Code integration**
+  - [ ] Property-based tests generated from counterexample traces (Target: Q3 2026)
+  - [ ] Verification-aligned assertions added to critical commit/recovery/reconfiguration code paths (Target: Q3 2026)
+  - [ ] Dedicated CI model-checking job wired into protocol-change workflows (Target: Q3 2026)
+- [ ] **Phase 4: Governance**
+  - [ ] Safety gates block merge of protocol changes without proof artifacts (Target: Q3 2026)
+  - [ ] Review template requires impacted invariants + proof status (Target: Q3 2026)
+  - [ ] Quarterly re-verification cadence for major architecture changes (Target: Q4 2026)
+- [ ] **Core invariants tracked**
+  - [ ] No duplicate commits for the same transaction ID
+  - [ ] No acknowledged write without valid quorum/commit condition
+  - [ ] WAL recovery does not cause replica state divergence
+  - [ ] Reconfiguration must preserve safety properties
+- [ ] **KPIs (initial)**
+  - [ ] 100% of defined S0/S1 invariants formally modeled
+  - [ ] 100% of discovered counterexamples captured as regression tests
+  - [ ] 0 unresolved safety violations before release
+  - [ ] CI verification run mandatory for protocol changes
+- [ ] **Deliverables**
+  - [ ] Formal specification package
+  - [ ] Verification report with found/fixed counterexamples
+  - [ ] Regression suite generated from model-checker outputs
+  - [ ] Governance policy for protocol changes
+
 ## Conclusion
 Implementing sharding requires careful planning and execution. Following this roadmap will help ensure that the ThemisDB sharding architecture is robust, scalable, and ready for production deployment.
 ## Production Readiness Checklist
@@ -130,6 +167,8 @@ Implementing sharding requires careful planning and execution. Following this ro
 - [x] Drain-period enforcement — `DrainGuard` RAII + `waitForDrain()` condition-variable (v2.1.0)
 - [ ] RPC integration with mTLS for all cross-shard channels (write: gRPC ReplicateData ✅; read: HTTP for now)
 - [ ] End-to-end cross-shard query routing verified under load (≥ 10,000 cross-shard ops/s)
+- [ ] Formal safety invariants for consensus/cross-shard protocols are model-checked in CI for every protocol change
+- [ ] Critical model-checker counterexamples are converted into deterministic regression tests
 
 ## Known Issues & Limitations
 
@@ -137,6 +176,7 @@ Implementing sharding requires careful planning and execution. Following this ro
 - `[~]` Raft snapshot compaction not yet wired — WAL growth unbounded for long-running Raft deployments.
 - `[?]` Adaptive rebalancer not yet implemented; rebalancing is currently manual-only.
 - `[?]` Focused chaos tests are in CI, but full cluster-level chaos/failover scenarios are not yet part of the default production-readiness gate.
+- `[~]` Formal verification rollout for consensus + cross-shard protocols is in progress; CI gate and full counterexample-to-regression automation are not yet complete.
 
 | # | Description | Status |
 |---|-------------|--------|

@@ -7,6 +7,48 @@
 
 This document covers planned enhancements to ThemisDB's sharding subsystem, which implements horizontal scaling through pluggable consensus algorithms (`ConsensusFactory` supporting Raft, Gossip, and Paxos), cross-shard distributed transactions (2PC, 3PC, SAGA, Percolator), deadlock detection, metadata sharding, and the `ShardRepairEngine` (anti-entropy with Reed-Solomon erasure coding). The module is currently in Beta state and requires RPC integration hardening, a production-ready cross-shard transaction coordinator, and improved observability before General Availability.
 
+## Formal Verification of Consensus and Cross-Shard Transaction Invariants
+
+### Scope
+- Formalize and model-check safety/liveness invariants for Raft/Paxos/Gossip and cross-shard 2PC/3PC/SAGA/Percolator flows.
+- Cover WAL recovery, reconfiguration/failover, and network partition scenarios.
+- Maintain trace-to-proof mapping from implementation events (`raft_*`, `paxos_*`, `gossip_*`, `cross_shard_transaction.cpp`) to model actions.
+
+### Design Constraints
+- Formal models must preserve durability semantics of WAL-before-ack rules used in consensus and distributed commit paths.
+- Model abstraction must be deterministic and finite for CI exploration while still representing crash/restart and delayed/reordered network events.
+- Proof artifacts must be versioned with protocol changes; stale proofs cannot satisfy merge requirements.
+
+### Required Interfaces
+| Interface | Consumer | Notes |
+|-----------|----------|-------|
+| `ConsensusTraceEmitter::onPropose/onCommit/onRecover` | `raft_consensus.cpp`, `paxos_consensus.cpp`, `gossip_protocol.cpp` | Emits normalized events for trace-to-model replay |
+| `CrossShardTxnTraceEmitter::onPrepare/onCommit/onAbort/onCompensate` | `cross_shard_transaction.cpp`, `two_phase_commit_coordinator.cpp` | Provides transaction-id scoped event stream |
+| `VerificationGate::validateProofBundle()` | CI protocol-change workflows | Must fail closed when proof bundle or invariant map is missing |
+| `CounterexampleReplay::toRegressionCase()` | `tests/test_multi_shard_transactions.cpp`, `tests/test_transaction_distributed_2pc.cpp` | Converts model checker traces into deterministic test fixtures |
+
+### Implementation Notes
+- Define S0/S1 invariants: unique-commit-per-txn-id, quorum-validated acknowledged writes, recovery convergence, and reconfiguration safety.
+- Keep one canonical invariant catalog (`invariant_id`, statement, affected files, proof source, regression-test id).
+- Use model-checking configs for bounded and unbounded runs with fault injections (partition, delay, reorder, crash, restart).
+- Auto-generate replay inputs from counterexamples and persist them under versioned fixtures to prevent regressions.
+
+### Test Strategy
+- Unit: Validate trace normalization and invariant mapping consistency.
+- Integration: Replay generated counterexamples against sharding and transaction focused test targets.
+- CI: Run model checking on every protocol-change PR and block merge on invariant failures.
+- Regression policy: Every discovered safety counterexample must map to at least one deterministic test case.
+
+### Performance Targets
+- CI model-checking wall-time for protocol-change PRs: ≤15 minutes (bounded run).
+- Counterexample-to-regression conversion time: ≤2 minutes per trace.
+- Trace capture overhead on protocol paths: ≤3% P95 latency increase under focused test load.
+
+### Security / Reliability
+- Verification gate must be mandatory for protocol-change workflows; no bypass for `main` merges.
+- Proof artifacts and trace mappings must be tamper-evident (hash + commit reference).
+- Recovery/reconfiguration invariants must remain green before release tagging.
+
 ## Design Constraints
 
 - All consensus algorithm implementations must be interchangeable at runtime via `consensus_factory.cpp` without requiring a cluster restart; the `IConsensusAdapter` contract must not be broken between adapter implementations.
