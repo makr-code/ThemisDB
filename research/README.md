@@ -4,8 +4,11 @@ This directory contains research papers, draft manuscripts, architectural analys
 
 ## Contents
 
+### Full Draft v1.0 (Core, 2026-04-20)
+- [THEMIS_MULTIMODEL_INDEX_EVALUATION_V2.md](THEMIS_MULTIMODEL_INDEX_EVALUATION_V2.md) — **v1.0 full scientific paper**: ThemisDB multi-model database — nine individualized index families (HNSW, B-tree, IVF+PQ, Graph, R-tree+Z-order, Inverted, RMI, MRL, Adaptive Advisor), formal system evaluation protocol (W1/W2/W3 workloads, 6 RQs, 12 hypotheses with acceptance criteria), operational risk model (10 failure modes, security threat model, concurrency table), threats to validity, 24 references with DOIs, full traceability appendix. arXiv cs.DB / VLDB-ready.
+
 ### Submission-Ready Draft Set (Core, 2026-04-20)
-- [THEMIS_MULTIMODEL_INDEX_EVALUATION.md](THEMIS_MULTIMODEL_INDEX_EVALUATION.md) — ThemisDB multi-model database: individual index methods (HNSW, B-tree, RMI, R-tree, MRL, IVF+PQ, Graph, Inverted, Adaptive), system evaluation (latency SLA, ANN recall, QPS), and operational risk model — repository-grounded, arXiv-structured draft
+- [THEMIS_MULTIMODEL_INDEX_EVALUATION.md](THEMIS_MULTIMODEL_INDEX_EVALUATION.md) — ThemisDB multi-model database: individual index methods (HNSW, B-tree, RMI, R-tree, MRL, IVF+PQ, Graph, Inverted, Adaptive), system evaluation (latency SLA, ANN recall, QPS), and operational risk model — repository-grounded, arXiv-structured draft (v0.1)
 
 ### Submission-Ready Draft Set (Core, 2026-04-19)
 - [DB_NATIVE_RAG_EVALUATION_PAPER_DRAFT.md](DB_NATIVE_RAG_EVALUATION_PAPER_DRAFT.md) — Includes RQ/Hypotheses, reporting-table plan, Threats to Validity, and claim-to-evidence appendix
