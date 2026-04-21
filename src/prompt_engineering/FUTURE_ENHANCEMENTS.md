@@ -225,38 +225,37 @@ Cross-environment portability for prompt template collections via JSON and YAML 
 ### Gap 5 — Consolidate Dual PromptInjectionDetector Implementations (Target: Q4 2026)
 
 **Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 5 (Severity: Medium/S2)`
+**Status:** ✅ Implemented (2026-04-21)
 **See also:** `src/rag/FUTURE_ENHANCEMENTS.md §Gap 5` (RAG-module counterpart).
 
-**Problem:** Two independent `PromptInjectionDetector` classes exist:
-1. `src/prompt_engineering/prompt_injection_detector.cpp` — 10 built-in pattern groups
-   (role injection, markup injection, instruction injection, delimiter injection, etc.).
-2. `src/rag/prompt_injection_detector.cpp` — RAG-specific patterns with `InjectionScanResult`
-   and `scan_density` metric.
+**Problem (resolved):** Two independent `PromptInjectionDetector` implementations
+maintained separate pattern registries.  A new attack pattern added to one was
+silently absent from the other.
 
-Because the pattern lists are maintained independently, a new attack pattern discovered
-in production must be manually added to both implementations.  This manual process is
-error-prone: a pattern update in one file is silently absent from the other, leaving
-one pipeline unprotected.
+**Implemented changes:**
+- `include/security/prompt_injection_pattern_registry.h` + `src/security/prompt_injection_pattern_registry.cpp`:
+  `PromptInjectionPatternRegistry` singleton with 11 shared patterns + 11 keywords.
+  `version()` monotonic integer; `SHARED_INJECTION_PATTERN_COUNT` / `SHARED_INJECTION_KEYWORD_COUNT`
+  compile-time constants.
+- `PromptInjectionDetector::initializePatterns()` now calls
+  `PromptInjectionPatternRegistry::defaultRegistry()` to load the 11 shared patterns
+  as its base; caller `custom_patterns` appended after.
+- Startup parity assertion: logs ERROR + aborts if `patternCount() != SHARED_INJECTION_PATTERN_COUNT`.
+- `src/rag/prompt_injection_detector.cpp::getRules()` similarly loads shared patterns
+  first, then appends RAG-specific patterns (score_manipulation, role headers,
+  separator, markup, exfiltration).
+- Tests: `test_prompt_injection_pattern_registry.cpp` (PRR_01..08) registered as
+  `PromptInjectionPatternRegistryFocusedTests`.
 
-**Solution:**
-- Create `src/security/prompt_injection_patterns.cpp` +
-  `include/security/prompt_injection_patterns.h` as the single source of truth for
-  all injection patterns.
-- Both `PromptInjectionDetector` implementations load their base patterns from this
-  registry; each may still register domain-specific patterns on top.
-- `PromptInjectionPatternRegistry::version()` returns a monotonic integer bumped on
-  every update; callers can log the version in injection-event audit records.
-- Add a CI check (`scripts/check_injection_pattern_sync.py`) that reads both detectors'
-  base pattern counts and fails if they differ.
+**Invariant:** pattern shared_forget_instructions (pattern 4 — previously absent
+from PE detector) is now detected by both detectors. PRR_05 tests this explicitly.
 
-**Inputs:** Shared pattern YAML/JSON file (`config/prompt_injection_patterns.yaml`);
-runtime `addPattern()` calls per detector instance.
-**Outputs:** Both detectors use the same base patterns; domain-specific extensions preserved.
-**Constraints:** No change to public APIs of either detector (backward-compatible).
-**Errors:** Missing shared pattern file → compile-in defaults + WARN at startup.
-**Tests:** 2 integration tests — pattern count identical in both detectors after registry
-load; custom domain pattern visible only in the registering detector.
-**Perf target:** Registry load at process startup ≤ 5 ms; per-scan overhead unchanged.
+**Deferred (Q4 2026):**
+- YAML/JSON pattern file (`config/prompt_injection_patterns.yaml`) for operator
+  overrides at deployment time.
+- CI script `scripts/check_injection_pattern_sync.py`.
+
+**Perf target:** Registry load at startup ≤ 5 ms (static singleton); per-scan unchanged.
 
 ## Scientific References
 

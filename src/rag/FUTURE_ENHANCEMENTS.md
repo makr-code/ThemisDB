@@ -820,35 +820,24 @@ all iterations. Slow-converging queries could silently exhaust GPU/API token bud
 ### Gap 5 — Consolidate Dual PromptInjectionDetector Implementations (Target: Q4 2026)
 
 **Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 5 (Severity: Medium/S2)`
+**Status:** ✅ Implemented (2026-04-21)
 
-**Problem:** Two independent `PromptInjectionDetector` implementations exist:
-- `src/rag/prompt_injection_detector.cpp` — RAG-focused, produces `InjectionScanResult`
-  with `scan_density` score.
-- `src/prompt_engineering/prompt_injection_detector.cpp` — prompt-engineering-focused,
-  10 built-in patterns.
+**Problem (resolved):** Two independent `PromptInjectionDetector` implementations
+existed with separate pattern registries, causing silent pattern divergence.
 
-These implementations maintain separate pattern registries.  A new injection pattern
-added to one is silently absent from the other, creating divergent security postures
-across the RAG and prompt-engineering pipelines.
+**Implemented changes:**
+- `PromptInjectionPatternRegistry` singleton (11 shared patterns + 11 keywords)
+  added to `include/security/prompt_injection_pattern_registry.h` +
+  `src/security/prompt_injection_pattern_registry.cpp`.
+- RAG detector `getRules()` loads shared patterns first (11 entries), then appends
+  RAG-specific patterns (6 entries: score_manipulation, role_headers, separator,
+  markup x2, exfiltration). Total: 17.
+- PE detector `initializePatterns()` loads all 11 shared patterns + keywords from
+  registry, replacing the previous 10 hard-coded patterns.
+- Startup parity assertion logs ERROR if `patternCount() != SHARED_INJECTION_PATTERN_COUNT`.
+- Tests: PRR_01..08 (`PromptInjectionPatternRegistryFocusedTests`).
 
-**Solution:**
-- Extract a shared `PromptInjectionPatternRegistry` (header-only or a new
-  `src/security/prompt_injection_patterns.cpp`) that holds the canonical pattern list.
-- Both `PromptInjectionDetector` classes load from this shared registry by default;
-  each may still add domain-specific patterns on top.
-- `PromptInjectionPatternRegistry::version()` returns a monotonic integer so callers
-  can detect registry updates.
-- Add a compile-time static assert that fires if the two detector classes diverge
-  in default pattern count.
-
-**Inputs:** Shared YAML/JSON pattern file (`config/prompt_injection_patterns.yaml`);
-runtime `addPattern()` calls.
-**Outputs:** Both detectors use the same base patterns; domain additions preserved.
-**Constraints:** No change to public APIs of either detector; backward-compatible.
-**Errors:** Missing pattern file → fallback to compiled-in defaults + WARN.
-**Tests:** 2 integration tests — pattern added to registry reflected in both detectors;
-pattern count static assert fires on mismatch.
-**Perf target:** Registry load at startup ≤ 5 ms; per-scan overhead unchanged.
+**Deferred (Q4 2026):** YAML/JSON operator override file; CI sync script.
 
 ---
 

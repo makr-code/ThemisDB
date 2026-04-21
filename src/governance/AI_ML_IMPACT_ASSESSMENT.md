@@ -312,8 +312,8 @@ references the concrete file and mechanism found during code review.
 - [x] `LLMJudgeIntegration`: Mock-Scores durch `ParsedResponse::is_mock` Flag kennzeichnen (S2) — ✅ 2026-04-21: `is_mock=true` in mock-mode; JGI_MOCK_01..05 tests
 - [x] `HuggingFaceConnector`: Datenklassifikations-Gate vor Ingestion (S1) — ✅ 2026-04-21: `setIngestionPolicy()` + `checkExportPermission()` in `initialize()`; HFC_GOV_01..05 tests
 - [x] `LlmQueryRewriter`: Semantischer Output-Validator + `RewriteQuality` Enum (S2) — ✅ 2026-04-21: Jaccard-Overlap-Filter + `quality=OK|FALLBACK`; LQR_VAL_01..06 tests
+- [x] Konsolidierung der zwei `PromptInjectionDetector`-Implementierungen (S2) — ✅ 2026-04-21: `PromptInjectionPatternRegistry` (11 Patterns + 11 Keywords); PRR_01..08 tests; RAG+PE Detector laden Shared-Base
 - [ ] Token-Kosten-Budget-Tracking fuer externe API-Calls (Gap 6 — S1) — Requires `LLMTokenBudgetManager` (Q4 2026)
-- [ ] Konsolidierung der zwei `PromptInjectionDetector`-Implementierungen (S2) — Q4 2026
 - [ ] `RAGError::JudgeUnavailable` bei `engine==nullptr` im strict-mode (Gap 7 Rest — S2) — Q4 2026
 - [ ] `DataClassificationGate` fuer alle externen Connectors (Gap 8 Rest — WebCrawler etc.) — Q4 2026
 - [ ] Zentrales ML/AI API-Kostenbudget + Alert (S1)

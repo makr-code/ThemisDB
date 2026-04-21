@@ -5975,6 +5975,31 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_query_rewriter_validator.cpp")
     message(STATUS "  LlmQueryRewriterValidator: LQR_VAL_01..06 overlap filter, RewriteQuality enum")
 endif()
 
+# Gap 5 ─ PromptInjectionPatternRegistry shared registry focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_injection_pattern_registry.cpp")
+    message(STATUS "Adding PromptInjectionPatternRegistry shared registry tests (Gap 5)")
+    add_executable(test_prompt_injection_pattern_registry_focused
+        test_prompt_injection_pattern_registry.cpp
+        ${THEMIS_ROOT_DIR}/src/security/prompt_injection_pattern_registry.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/prompt_injection_detector.cpp
+        ${THEMIS_ROOT_DIR}/src/prompt_engineering/prompt_injection_detector.cpp
+    )
+    target_link_libraries(test_prompt_injection_pattern_registry_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_prompt_injection_pattern_registry_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME PromptInjectionPatternRegistryFocusedTests
+             COMMAND test_prompt_injection_pattern_registry_focused)
+    set_tests_properties(PromptInjectionPatternRegistryFocusedTests PROPERTIES
+        LABELS "security;rag;prompt-engineering;pattern-registry;gap5;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  PromptInjectionPatternRegistry: PRR_01..08 shared registry parity + singleton")
+endif()
+
 # Governance ÔÇô compliance + security integration focused tests (Issue: #1778)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_compliance_security_governance.cpp")
     message(STATUS "Adding Compliance & Security Governance integration tests (Issue #1778)")
