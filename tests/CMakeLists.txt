@@ -24472,3 +24472,135 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_federated_distillation_coordinator.c
 else()
     message(STATUS "FDF tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_federated_distillation_coordinator.cpp")
 endif()
+
+# =============================================================================
+# HotReloadManager unit tests (base module — ROADMAP #1574)
+# Tests: ModuleVersion, HotReloadResult, HotReloadManagerTest (~25 tests)
+# =============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_hot_reload_manager.cpp")
+    message(STATUS "Adding HotReloadManager unit tests (base module, ROADMAP #1574)")
+
+    add_executable(test_hot_reload_manager_focused
+        test_hot_reload_manager.cpp
+    )
+
+    target_include_directories(test_hot_reload_manager_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_hot_reload_manager_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    if(TARGET themis_base)
+        target_link_libraries(test_hot_reload_manager_focused PRIVATE themis_base)
+    endif()
+
+    target_compile_definitions(test_hot_reload_manager_focused PRIVATE THEMIS_TEST_BUILD=1)
+
+    set_target_properties(test_hot_reload_manager_focused PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME HotReloadManagerFocusedTests COMMAND test_hot_reload_manager_focused)
+    set_tests_properties(HotReloadManagerFocusedTests PROPERTIES
+        LABELS "base;hot-reload;unit;focused"
+        TIMEOUT 60
+    )
+    message(STATUS "  HotReloadManager: ModuleVersion, HotReloadResult, register/unregister, reload, rollback, callbacks, stats")
+else()
+    message(STATUS "HotReloadManager tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_hot_reload_manager.cpp")
+endif()
+
+# =============================================================================
+# ModuleSandbox unit tests (base module — ROADMAP #1573/#1574)
+# Tests: AbiChecker (~14 tests), ModuleSandbox construction + config
+# =============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_module_sandbox.cpp")
+    message(STATUS "Adding ModuleSandbox unit tests (base module, ROADMAP #1573/#1574)")
+
+    add_executable(test_module_sandbox_focused
+        test_module_sandbox.cpp
+    )
+
+    target_include_directories(test_module_sandbox_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_module_sandbox_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    if(TARGET themis_base)
+        target_link_libraries(test_module_sandbox_focused PRIVATE themis_base)
+    endif()
+
+    target_compile_definitions(test_module_sandbox_focused PRIVATE THEMIS_TEST_BUILD=1)
+
+    set_target_properties(test_module_sandbox_focused PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME ModuleSandboxFocusedTests COMMAND test_module_sandbox_focused)
+    set_tests_properties(ModuleSandboxFocusedTests PROPERTIES
+        LABELS "base;sandbox;abi-checker;unit;focused"
+        TIMEOUT 60
+    )
+    message(STATUS "  ModuleSandbox: AbiChecker (14 tests), ModuleSandbox config/construction, cgroup/resource limits")
+else()
+    message(STATUS "ModuleSandbox tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_module_sandbox.cpp")
+endif()
+
+# =============================================================================
+# ModuleSandbox WASM injection unit tests (base module — ROADMAP #1573/#1574)
+# Tests: WasmConfig, WasmLaunch, WasmInjectionFixture (~12 tests)
+# =============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_module_sandbox_wasm_injection.cpp")
+    message(STATUS "Adding ModuleSandbox WASM injection tests (base module, ROADMAP #1573/#1574)")
+
+    add_executable(test_module_sandbox_wasm_injection_focused
+        test_module_sandbox_wasm_injection.cpp
+    )
+
+    target_include_directories(test_module_sandbox_wasm_injection_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_module_sandbox_wasm_injection_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    if(TARGET themis_base)
+        target_link_libraries(test_module_sandbox_wasm_injection_focused PRIVATE themis_base)
+    endif()
+
+    target_compile_definitions(test_module_sandbox_wasm_injection_focused PRIVATE THEMIS_TEST_BUILD=1)
+
+    set_target_properties(test_module_sandbox_wasm_injection_focused PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME ModuleSandboxWasmInjectionFocusedTests COMMAND test_module_sandbox_wasm_injection_focused)
+    set_tests_properties(ModuleSandboxWasmInjectionFocusedTests PROPERTIES
+        LABELS "base;sandbox;wasm;injection;unit;focused"
+        TIMEOUT 60
+    )
+    message(STATUS "  ModuleSandboxWasmInjection: WasmConfig defaults, launch w/o runtime, launch+isolation with injected runtime")
+else()
+    message(STATUS "ModuleSandbox WASM injection tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_module_sandbox_wasm_injection.cpp")
+endif()
