@@ -237,6 +237,9 @@ v1.8.0 – Production-grade persistent storage layer built on RocksDB with MVCC,
 ## Known Issues & Limitations
 - `NLPMetadataExtractor` depends on an external NLP model; slow startup if model is not pre-warmed
 - Tiered storage uses flat filesystem files per key; for large datasets a more efficient store (e.g. RocksDB column-family per tier) is recommended
+- **[R-1] `rocksdb_wrapper.cpp::close()`**: TOCTOU race — `db_lifecycle_mutex_` released before busy-wait; new `OperationGuard`s can start after the lock is released; `db_.reset()` races with active operations → use-after-free.
+- **[R-2] `rocksdb_wrapper.cpp::putBlob()`**: Multi-chunk blob `WriteBatch` bypasses TransactionDB MVCC; concurrent snapshot-reads can observe partially written blobs.
+- **[R-5] `rocksdb_wrapper.cpp`**: `write_options_->sync = false` default — acknowledged writes can be lost on power failure.
 
 ## Breaking Changes
 - `StorageEngine::createDefault()` factory is deprecated; use the DI constructor with explicit `IExpressionEvaluatorPtr`, `IFieldEncryptionPtr`, `IKeyProviderPtr`, and `IIndexManagerPtr` to avoid insecure defaults in production

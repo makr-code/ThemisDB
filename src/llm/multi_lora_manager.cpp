@@ -29,6 +29,7 @@
 #include <algorithm>
 #include <cstring>
 #include <cmath>
+#include <filesystem>
 #include <numeric>
 #include <fstream>
 #include <limits>  // For std::numeric_limits (range validation)
@@ -1119,6 +1120,13 @@ bool MultiLoRAManager::importLoRA(
     lora->path = std::string(reinterpret_cast<const char*>(data.data() + offset), path_len);
     offset += path_len;
     
+    // F1-2 fix: reject deserialized paths that escape the trusted base directory.
+    if (!isLoRAPathTrusted(lora->path)) {
+        spdlog::error("importLoRA: rejected untrusted remote LoRA path '{}' for adapter '{}'",
+                      lora->path, lora_id);
+        return false;
+    }
+    
     std::memcpy(&lora->vram_bytes, data.data() + offset, sizeof(size_t));
     offset += sizeof(size_t);
     std::memcpy(&lora->rank, data.data() + offset, sizeof(int));
@@ -1948,6 +1956,35 @@ std::vector<int> MultiLoRAManager::getAvailableGPUs() const {
     return available;
 }
 
+// F1-1/F1-2 fix: verify that lora_path is confined to the trusted base directory.
+bool MultiLoRAManager::isLoRAPathTrusted(const std::string& lora_path) const {
+    if (config_.lora_base_dir.empty()) {
+        // No base directory configured — skip the check (legacy mode).
+        return true;
+    }
+    try {
+        // Use weakly_canonical to handle paths that do not yet exist on disk
+        // (e.g., during import before the file is placed).  Prefer canonical()
+        // when the path exists so that symlinks are fully resolved.
+        namespace fs = std::filesystem;
+        fs::path base = fs::weakly_canonical(fs::path(config_.lora_base_dir));
+        fs::path candidate = fs::weakly_canonical(fs::path(lora_path));
+
+        // Ensure candidate starts with base (i.e., is a descendant).
+        auto [base_it, cand_it] = std::mismatch(base.begin(), base.end(),
+                                                  candidate.begin(), candidate.end());
+        if (base_it != base.end()) {
+            spdlog::error("LoRA path '{}' is outside trusted base directory '{}'",
+                          lora_path, config_.lora_base_dir);
+            return false;
+        }
+        return true;
+    } catch (const std::exception& ex) {
+        spdlog::error("LoRA path trust check failed for '{}': {}", lora_path, ex.what());
+        return false;
+    }
+}
+
 // Update loadLoRAInternal to support multi-GPU placement
 LoRASlot* MultiLoRAManager::loadLoRAInternal(
     const std::string& lora_id,
@@ -1959,6 +1996,13 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
 ) {
     // Already locked by caller
     
+    // F1-1 fix: reject LoRA paths that escape the trusted base directory.
+    if (!isLoRAPathTrusted(lora_path)) {
+        spdlog::error("loadLoRAInternal: rejected untrusted LoRA path '{}' for adapter '{}'",
+                      lora_path, lora_id);
+        return nullptr;
+    }
+
     // Validate that LoRA file exists
     std::ifstream file_check(lora_path, std::ios::binary);
     if (!file_check.good()) {

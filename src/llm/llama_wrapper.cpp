@@ -544,6 +544,23 @@ bool LlamaWrapper::loadModelFromThemisDB(
         // Create temp file path
         std::filesystem::path temp_model_path = temp_dir / (model_id + extension);
         
+        // F2-1 fix: verify the constructed path stays within temp_dir before writing.
+        // A model_id containing ".." (e.g. "../../etc/cron.d/payload") would
+        // otherwise escape the intended directory.
+        {
+            namespace fs = std::filesystem;
+            fs::path safe_base  = fs::weakly_canonical(temp_dir);
+            fs::path safe_child = fs::weakly_canonical(temp_model_path);
+            auto [base_it, child_it] = std::mismatch(safe_base.begin(), safe_base.end(),
+                                                      safe_child.begin(), safe_child.end());
+            if (base_it != safe_base.end()) {
+                spdlog::error("loadModelFromThemisDB: model_id '{}' produces a path '{}' "
+                              "outside the temp directory; rejecting", model_id,
+                              temp_model_path.string());
+                return false;
+            }
+        }
+
         // Write model data to file
         std::ofstream out_file(temp_model_path, std::ios::binary);
         if (!out_file) {

@@ -25,6 +25,7 @@
 
 #include <memory>
 #include <string>
+#include <condition_variable>
 #include <map>
 #include <set>
 #include <mutex>
@@ -94,6 +95,7 @@ private:
     Config config_;
     bool is_leader_;
     std::mutex mutex_;
+    std::condition_variable cv_;  ///< Notified by onAppendEntriesResponse() when ACKs arrive
     
     // Track pending writes for quorum
     struct PendingWrite {

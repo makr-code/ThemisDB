@@ -139,8 +139,8 @@ void GossipProtocol::addPeer(const PeerInfo& peer) {
             on_peer_discovered_(new_peer);
         }
         
-        // Sync with topology
-        syncWithTopology();
+        // Sync with topology without re-acquiring peers_mutex_
+        syncWithTopologyLocked();
     } else {
         // Update existing peer
         if (peer.version > it->second.version) {
@@ -167,8 +167,8 @@ void GossipProtocol::removePeer(const std::string& peer_id) {
             on_peer_lost_(peer_id);
         }
         
-        // Sync with topology
-        syncWithTopology();
+        // Sync with topology without re-acquiring peers_mutex_
+        syncWithTopologyLocked();
     }
 }
 
@@ -523,8 +523,15 @@ void GossipProtocol::updatePeerHealth() {
 void GossipProtocol::syncWithTopology() {
     if (!topology_) return;
     
-    // Convert discovered peers to ShardInfo and add to topology
+    // Convert discovered peers to ShardInfo and add to topology.
+    // Acquire the lock so this public variant is safe to call from outside.
     std::lock_guard<std::mutex> lock(peers_mutex_);
+    syncWithTopologyLocked();
+}
+
+// Called only when peers_mutex_ is already held by the current thread.
+void GossipProtocol::syncWithTopologyLocked() {
+    if (!topology_) return;
     
     for (const auto& [id, peer] : peers_) {
         if (!peer.is_healthy) continue;
