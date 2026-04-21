@@ -401,17 +401,18 @@ std::string ExportApiHandler::buildAqlQuery(const json& request_json) {
 }
 
 std::string ExportApiHandler::generateExportId() {
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
-    static std::uniform_int_distribution<> dis(0, 15);
-    
+    // GAP-019: Use std::random_device directly for cryptographic-quality randomness.
+    // mt19937 (a Mersenne Twister) is not cryptographically secure; export IDs
+    // must not be predictable because they serve as opaque access tokens.
+    std::random_device rd;
+
     std::stringstream ss;
     ss << "exp_";
-    
+    static constexpr char hex_digits[] = "0123456789abcdef";
     for (int i = 0; i < 16; i++) {
-        ss << std::hex << dis(gen);
+        ss << hex_digits[rd() & 0x0Fu];
     }
-    
+
     return ss.str();
 }
 
