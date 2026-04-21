@@ -2873,6 +2873,35 @@ if(THEMIS_BUILD_MODULAR)
             endif()
 
             message(STATUS "themis_shard_proto library created for inter-shard communication (modular build)")
+
+            # Generate ThemisDB API protobuf/grpc stubs for modular network module
+            set(THEMISDB_API_PROTO ${THEMIS_ROOT_DIR}/proto/themisdb.proto)
+            set(THEMISDB_API_PROTO_GEN_DIR ${CMAKE_BINARY_DIR}/proto_generated)
+            file(MAKE_DIRECTORY ${THEMISDB_API_PROTO_GEN_DIR})
+
+            set(THEMISDB_API_PROTO_SRCS
+                ${THEMISDB_API_PROTO_GEN_DIR}/themisdb.pb.cc
+                ${THEMISDB_API_PROTO_GEN_DIR}/themisdb.grpc.pb.cc
+            )
+            set(THEMISDB_API_PROTO_HDRS
+                ${THEMISDB_API_PROTO_GEN_DIR}/themisdb.pb.h
+                ${THEMISDB_API_PROTO_GEN_DIR}/themisdb.grpc.pb.h
+            )
+
+            add_custom_command(
+                OUTPUT ${THEMISDB_API_PROTO_SRCS} ${THEMISDB_API_PROTO_HDRS}
+                COMMAND $<TARGET_FILE:protobuf::protoc>
+                ARGS --cpp_out ${THEMISDB_API_PROTO_GEN_DIR}
+                     --grpc_out ${THEMISDB_API_PROTO_GEN_DIR}
+                     --plugin=protoc-gen-grpc=$<TARGET_FILE:gRPC::grpc_cpp_plugin>
+                     -I ${THEMIS_ROOT_DIR}/proto
+                     ${THEMISDB_API_PROTO}
+                DEPENDS ${THEMISDB_API_PROTO} protobuf::protoc gRPC::grpc_cpp_plugin
+                COMMENT "Generating protobuf and gRPC sources for themisdb.proto (modular build)"
+                VERBATIM
+            )
+            set(THEMIS_API_PROTO_AVAILABLE ON)
+            message(STATUS "themisdb API proto generation configured for modular build")
         else()
             message(WARNING "gRPC/Protobuf not found - shard RPC stubs will not be generated")
         endif()
@@ -2888,7 +2917,25 @@ if(THEMIS_BUILD_MODULAR)
         target_compile_definitions(themis_network PUBLIC THEMIS_WIRE_V1_PROTO_AVAILABLE)
         target_link_libraries(themis_network PRIVATE protobuf::libprotobuf)
         target_include_directories(themis_network PRIVATE ${CMAKE_BINARY_DIR}/proto_generated)
+        # Proto-generated files use #pragma init_seg(lib) and file-scope const arrays;
+        # they must not be merged into a Unity batch (causes C2356/C2374/C2086).
+        if(MSVC)
+            set_source_files_properties(${WIRE_V1_PROTO_SRC}
+                PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON)
+        endif()
         message(STATUS "THEMIS_WIRE_V1_PROTO_AVAILABLE: enabled for themis_network (themis::wire protobuf handlers active)")
+    endif()
+
+    if(THEMIS_API_PROTO_AVAILABLE AND TARGET themis_network)
+        target_sources(themis_network PRIVATE ${THEMISDB_API_PROTO_SRCS})
+        target_link_libraries(themis_network PRIVATE gRPC::grpc++ protobuf::libprotobuf)
+        target_include_directories(themis_network PRIVATE ${CMAKE_BINARY_DIR}/proto_generated)
+        # Proto-generated files must not be in a Unity batch (C2356/C2374/C2086).
+        if(MSVC)
+            set_source_files_properties(${THEMISDB_API_PROTO_SRCS}
+                PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON)
+        endif()
+        message(STATUS "THEMIS_API_PROTO_AVAILABLE: enabled for themis_network (ThemisDB gRPC API handlers active)")
     endif()
 
     # Create themis_core as an interface library that links all modules
@@ -3781,7 +3828,7 @@ if(THEMIS_ENABLE_GRPC)
         # Generates C++ stubs from proto/themisdb.proto.
         # The library `themis_api_proto` is linked into themis_core so that
         # GrpcApiServer can register ThemisDBService implementations.
-        if(COMMAND protobuf_generate)
+        if(TARGET protobuf::protoc AND TARGET gRPC::grpc_cpp_plugin)
             set(THEMISDB_API_PROTO ${THEMIS_ROOT_DIR}/proto/themisdb.proto)
             set(THEMISDB_API_PROTO_GEN_DIR ${CMAKE_BINARY_DIR}/proto_generated)
             file(MAKE_DIRECTORY ${THEMISDB_API_PROTO_GEN_DIR})
@@ -3826,7 +3873,7 @@ if(THEMIS_ENABLE_GRPC)
             target_link_libraries(themis_core PUBLIC themis_api_proto)
             message(STATUS "themis_api_proto library created for ThemisDB API gRPC service")
         else()
-            message(WARNING "protobuf_generate() unavailable – themisdb.proto stubs will not be generated")
+            message(WARNING "protoc/grpc plugin targets unavailable – themisdb.proto stubs will not be generated")
         endif()
     else()
         message(WARNING "gRPC/Protobuf not found - WAL gRPC service will be disabled at runtime")
@@ -5504,50 +5551,11 @@ if(THEMIS_BUILD_TESTS)
     )
 
     # =========================================================================
-    # S-16 / DecisionRecordYamlProcessor unit tests
+    # S-16 / DecisionRecord tests
     # =========================================================================
-    add_executable(test_decision_record_yaml_processor
-        ${THEMIS_ROOT_DIR}/tests/test_decision_record_yaml_processor.cpp
-    )
-    target_link_libraries(test_decision_record_yaml_processor
-        PRIVATE themis_core GTest::gtest GTest::gtest_main
-    )
-    gtest_discover_tests(test_decision_record_yaml_processor
-        DISCOVERY_MODE PRE_TEST
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_decision_record_yaml_processor>
-        EXTRA_ARGS --gtest_color=yes
-    )
-
-    # =========================================================================
-    # S-16 / DecisionRecord integration tests (LoRARouter, AdapterLoadBalancer,
-    #         LoRAOrchestrator wiring)
-    # =========================================================================
-    add_executable(test_decision_record_integration
-        ${THEMIS_ROOT_DIR}/tests/test_decision_record_integration.cpp
-    )
-    target_link_libraries(test_decision_record_integration
-        PRIVATE themis_core GTest::gtest GTest::gtest_main
-    )
-    gtest_discover_tests(test_decision_record_integration
-        DISCOVERY_MODE PRE_TEST
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_decision_record_integration>
-        EXTRA_ARGS --gtest_color=yes
-    )
-
-    # =========================================================================
-    # S-16 / DecisionRecord end-to-end test (YAML on disk, required fields)
-    # =========================================================================
-    add_executable(test_decision_record_e2e
-        ${THEMIS_ROOT_DIR}/tests/test_decision_record_e2e.cpp
-    )
-    target_link_libraries(test_decision_record_e2e
-        PRIVATE themis_core GTest::gtest GTest::gtest_main
-    )
-    gtest_discover_tests(test_decision_record_e2e
-        DISCOVERY_MODE PRE_TEST
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_decision_record_e2e>
-        EXTRA_ARGS --gtest_color=yes
-    )
+    # Targets are defined in tests/CMakeLists.txt via focused test registration.
+    # Keep this file free of duplicate target definitions to avoid CMP0002 during
+    # regenerate-during-build paths.
 
     # =========================================================================
     # DK-1: Distributed Knowledge Layer 11 unit tests (25+ cases)

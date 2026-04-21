@@ -56,6 +56,11 @@ std::string calculateSHA256(const std::string& file_path) {
 }
 
 std::string calculateMD5(const std::string& file_path) {
+    // TODO(GAP-005): MD5 is cryptographically broken (collision attacks, CVE-2004-2761).
+    // Using MD5 for file integrity checks allows a motivated attacker to craft two
+    // files with the same checksum, undermining tamper detection.
+    // Fix: replace MD5_CTX / MD5_Init / MD5_Update / MD5_Final with EVP_MD_CTX and
+    // EVP_sha256() (OpenSSL ≥ 1.1, already a dependency).  Target: Q3 2026
     std::ifstream file(file_path, std::ios::binary);
     if (!file.is_open()) {
         return "";

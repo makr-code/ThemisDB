@@ -1,0 +1,148 @@
+{
+  "name": "copilot-ollama-router",
+  "displayName": "Copilot ↔ Ollama Router",
+  "description": "Routes Copilot chat requests to a local Ollama model for cost-effective code generation while keeping Copilot for security review, architecture, and complex debugging.",
+  "version": "0.2.0",
+  "publisher": "makr-code",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/makr-code/ThemisDB"
+  },
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "AI",
+    "Other"
+  ],
+  "keywords": [
+    "ollama",
+    "copilot",
+    "delegation",
+    "llm",
+    "local-ai"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "chatParticipants": [
+      {
+        "id": "copilot-ollama-router.delegate",
+        "fullName": "Ollama Router",
+        "name": "ollama",
+        "description": "Routes your request to a local Ollama model or Copilot based on task type.",
+        "isSticky": false,
+        "commands": [
+          {
+            "name": "local",
+            "description": "Force delegation to local Ollama model"
+          },
+          {
+            "name": "cloud",
+            "description": "Force delegation to Copilot (cloud)"
+          },
+          {
+            "name": "auto",
+            "description": "Auto-route based on task classification"
+          }
+        ]
+      }
+    ],
+    "commands": [
+      {
+        "command": "copilotOllamaRouter.delegateToOllama",
+        "title": "Delegate to Ollama",
+        "category": "Copilot Ollama Router"
+      },
+      {
+        "command": "copilotOllamaRouter.askCopilot",
+        "title": "Ask Copilot (Cloud)",
+        "category": "Copilot Ollama Router"
+      },
+      {
+        "command": "copilotOllamaRouter.autoRoute",
+        "title": "Auto-Route (Classify & Delegate)",
+        "category": "Copilot Ollama Router"
+      },
+      {
+        "command": "copilotOllamaRouter.checkOllamaHealth",
+        "title": "Check Ollama Connection",
+        "category": "Copilot Ollama Router"
+      },
+      {
+        "command": "copilotOllamaRouter.setupModels",
+        "title": "Set Up / Download Coding Models",
+        "category": "Copilot Ollama Router"
+      },
+      {
+        "command": "copilotOllamaRouter.listInstalledModels",
+        "title": "List Installed Models",
+        "category": "Copilot Ollama Router"
+      }
+    ],
+    "configuration": {
+      "title": "Copilot Ollama Router",
+      "properties": {
+        "copilotOllamaRouter.endpoint": {
+          "type": "string",
+          "default": "http://localhost:11434",
+          "description": "Base URL of the local Ollama API server."
+        },
+        "copilotOllamaRouter.defaultModel": {
+          "type": "string",
+          "default": "codellama:13b",
+          "description": "Default Ollama model for code-generation tasks."
+        },
+        "copilotOllamaRouter.reasoningModel": {
+          "type": "string",
+          "default": "llama3",
+          "description": "Ollama model used for reasoning/documentation tasks."
+        },
+        "copilotOllamaRouter.delegationMode": {
+          "type": "string",
+          "enum": ["auto", "always", "never"],
+          "enumDescriptions": [
+            "Automatically classify and route each request.",
+            "Always delegate to local Ollama.",
+            "Never delegate; always use Copilot (cloud)."
+          ],
+          "default": "auto",
+          "description": "Controls when requests are sent to local Ollama vs Copilot cloud."
+        },
+        "copilotOllamaRouter.copilotReviewEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Run an optional Copilot quality-check pass on Ollama-generated output."
+        },
+        "copilotOllamaRouter.requestTimeoutMs": {
+          "type": "number",
+          "default": 60000,
+          "description": "Maximum time in milliseconds to wait for an Ollama streaming response."
+        },
+        "copilotOllamaRouter.themisDbRules": {
+          "type": "boolean",
+          "default": true,
+          "description": "Apply ThemisDB-specific routing rules: C++ codegen → Ollama local; security/architecture → Copilot cloud."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.90.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.57.0",
+    "typescript": "^5.4.0"
+  }
+}

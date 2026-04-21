@@ -122,6 +122,10 @@ struct AdapterCapabilityAnnouncement {
     // Liveness
     std::chrono::system_clock::time_point announced_at;
 
+    /// When true, this announcement signals that the adapter has been unloaded
+    /// and is no longer available on the originating shard.
+    bool is_withdrawal = false;
+
     // ── Serialisation ────────────────────────────────────────────────────────
 
     [[nodiscard]] nlohmann::json toJson() const {
@@ -137,6 +141,7 @@ struct AdapterCapabilityAnnouncement {
             {"training_samples",           training_samples},
             {"federation_round",           federation_round},
             {"last_global_delta_version",  last_global_delta_version},
+            {"is_withdrawal",              is_withdrawal},
             {"announced_at_ms",
              std::chrono::duration_cast<std::chrono::milliseconds>(
                  announced_at.time_since_epoch()).count()}
@@ -154,6 +159,7 @@ struct AdapterCapabilityAnnouncement {
         a.training_samples          = j.value<size_t>("training_samples", 0);
         a.federation_round          = j.value<uint64_t>("federation_round", 0);
         a.last_global_delta_version = j.value("last_global_delta_version", "");
+        a.is_withdrawal             = j.value("is_withdrawal", false);
 
         const std::string dt = j.value("domain_type", "GENERAL");
         if      (dt == "SECURITY_MONITOR") a.domain_type = AdapterDomainType::SECURITY_MONITOR;

@@ -231,6 +231,7 @@ v1.8.0 – Production-grade persistent storage layer built on RocksDB with MVCC,
 - [x] Distributed 2PC transactions for cross-shard atomicity
 - [x] Write-Optimized Merge Tree for write-heavy workloads
 - [x] Streaming blob write path (`putBlob` / `getBlob` / `delBlob`) for high-throughput 1 MB+ blob storage (PERF-D5, v2.0.0)
+- [x] `RocksDBWrapper::putBatch(vector<KeyValuePair>)` — atomic N-key WriteBatch commit; eliminates per-write MVCC overhead for OLTP bulk-write paths (B3, 2026-04-20)
 - [ ] Chaos/fault-injection tests for blob backend failover (Target: v2.0.0)
 
 ## Known Issues & Limitations

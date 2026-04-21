@@ -184,3 +184,56 @@ Add a compaction job and a public replay API to `saga_logger.cpp` so that comple
 - [ ] `pki_client.cpp` certificate validation must reject expired, revoked (via OCSP stapling), and self-signed certificates unless explicitly whitelisted in the node trust store; no `verify=false` escape hatch in production builds.
 - [!] Review whether `regex_detection_engine.cpp` ReDoS exposure exists on attacker-controlled PII patterns; fuzz the engine with `fuzz/` harness before GA.
 - [ ] `lek_manager.cpp` must enforce a maximum DEK age policy (default 30 days) and automatically trigger key rotation; rotation events must be logged to `audit_logger.cpp` with old and new key IDs (not key material).
+
+---
+
+## Security Hardening Backlog (Q3 2026)
+
+> GAP-005 – identified via static analysis (2026-04-21).
+> Reference: `docs/governance/SOURCECODE_COMPLIANCE_GOVERNANCE.md`.
+
+### GAP-005 – Replace MD5 with SHA-256 in `checksum_utils.cpp`
+
+**Scope:** `src/utils/checksum_utils.cpp:58` (`calculateMD5`)
+
+### Design Constraints
+- All existing callers of `calculateMD5()` must be migrated; the function must be renamed
+  or deprecated with a clear error to prevent new callers
+- Binary format of stored checksums in metadata tables will change from 32-hex-char (MD5)
+  to 64-hex-char (SHA-256); migration guide required
+
+### Required Interfaces
+```cpp
+// New function (replaces calculateMD5):
+std::string calculateSHA256(const std::string& file_path);
+
+// Deprecated shim (compile-time warning):
+[[deprecated("Use calculateSHA256; MD5 is cryptographically broken")]]
+std::string calculateMD5(const std::string& file_path);
+```
+
+### Implementation Notes
+- Use `EVP_MD_CTX` + `EVP_sha256()` from OpenSSL (already a dependency):
+  ```cpp
+  EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+  EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr);
+  // read file in chunks, EVP_DigestUpdate per chunk
+  EVP_DigestFinal_ex(ctx, digest, &len);
+  EVP_MD_CTX_free(ctx);
+  ```
+- The existing `MD5_CTX` / `MD5_Init` / `MD5_Update` / `MD5_Final` OpenSSL APIs are
+  deprecated in OpenSSL 3.0 and will be removed in a future release
+
+### Test Strategy
+- Unit test: known file → SHA-256 digest matches `sha256sum` reference value
+- Unit test: `calculateMD5` call → compiler deprecation warning (test via `-Werror=deprecated`)
+- Migration test: update fixture checksums in all tests that use `calculateMD5`
+
+### Performance Targets
+- SHA-256 throughput (OpenSSL, AES-NI-class CPU): ≥ 500 MB/s for large files
+- Overhead vs MD5: ≤ 2× (acceptable for a one-time file integrity check)
+
+### Security / Reliability
+- MD5 collision attacks are feasible with commodity hardware (< 1 hour); SHA-256 has
+  no known collision attacks
+- OpenSSL's EVP interface is FIPS 140-3 compliant when using the FIPS provider

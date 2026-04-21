@@ -974,3 +974,71 @@ Interested in contributing to security features? See:
 - RBAC policy evaluation (up to 100 roles): p99 ≤ 0.5 ms
 - HSM-backed RSA-2048 sign (SoftHSM2 baseline): p99 ≤ 20 ms
 - Audit log write (tamper-evident append): p99 ≤ 2 ms per entry
+
+---
+
+## Security Hardening Backlog (Q2–Q3 2026)
+
+> Items below were identified via static analysis (2026-04-21) and are tracked as
+> GAP entries in `docs/governance/SOURCECODE_COMPLIANCE_GOVERNANCE.md`.
+
+### GAP-008 – Constant-Time Token Comparison
+
+**Scope:** `src/server/export_api_handler.cpp:443`, `src/server/auth_middleware.cpp:204`
+
+### Design Constraints
+- Must not regress existing auth flow (all tests in `tests/test_auth_middleware.cpp` must pass)
+- Constant-time comparison must guard against both value-equality and length-equality leaks
+
+### Required Interfaces
+- Use `CRYPTO_memcmp` (OpenSSL, already a dependency) for raw byte comparison
+- For `auth_middleware`, hash each stored token with HMAC-SHA256 (keyed by a server secret)
+  and compare the incoming token's digest against stored digests
+
+### Implementation Notes
+- `export_api_handler.cpp:443`: `return token == admin_token;`
+  → replace with constant-length comparison after `strlen(admin_token) == token.size()` check
+  (length check itself must **not** short-circuit; use `|=` to accumulate difference)
+- `auth_middleware.cpp:204`: key the token map on HMAC-SHA256(token); on lookup, compute the
+  incoming token's HMAC and do a direct map lookup (hash maps are structurally O(1) and hide
+  timing from the value comparison)
+
+### Test Strategy
+- Unit test: submit tokens that differ only in last byte; assert response times are statistically
+  indistinguishable (Welch's t-test, α=0.01, n=1000 samples)
+- Regression: all existing auth tests must pass unchanged
+
+### Performance Targets
+- Token validation overhead: ≤ 5 µs additional latency per request (HMAC-SHA256 is ~1 µs on modern HW)
+
+### Security / Reliability
+- `CRYPTO_memcmp` must be used; `std::equal` with custom comparator is **not** acceptable because
+  the compiler may optimise it into a timing-unsafe branch
+
+---
+
+### GAP-003 – Reject SHA-1 in SAML Assertions
+
+**Scope:** `src/auth/saml_authenticator.cpp:338`
+
+### Design Constraints
+- Existing SHA-256 SAML flows must not be affected
+- Change must be accompanied by an operator-visible warning period (deprecation log at WARN for 1 release before hard rejection)
+
+### Required Interfaces
+- EVP_sha1() branch becomes: `THEMIS_ERROR("SAML: SHA-1 digest rejected"); return false;`
+- Add a `THEMIS_SAML_ALLOW_SHA1` emergency override env-var (logs a critical warning on startup)
+
+### Implementation Notes
+- RFC 8211 (2017) mandates deprecation of SHA-1 in XML Digital Signatures
+- NIST SP 800-131A Rev. 2 prohibits SHA-1 for digital signatures after 2015
+
+### Test Strategy
+- Unit test: assert that a SHA-1-signed assertion returns `false`
+- Unit test: assert that `THEMIS_SAML_ALLOW_SHA1=1` env var re-enables SHA-1 with CRITICAL log
+
+### Performance Targets
+- No performance impact (rejection is early-exit)
+
+### Security / Reliability
+- Hard rejection by default; no silent downgrade

@@ -817,3 +817,57 @@ All planned features in this document are grounded in the following peer-reviewe
 - [`src/storage/ROADMAP.md`](ROADMAP.md) — Implementation phases and planned milestones
 - [`docs/de/storage/README.md`](../../../docs/de/storage/README.md) — German-language secondary documentation
 - [`docs/de/storage/missing-implementations.md`](../../../docs/de/storage/missing-implementations.md) — Reality-check findings
+
+---
+
+## Security Hardening Backlog (Q3 2026)
+
+> GAP-015 – identified via static analysis (2026-04-21).
+> Reference: `docs/governance/SOURCECODE_COMPLIANCE_GOVERNANCE.md`.
+
+### GAP-015 – Replace `system(tar)` with libarchive in BackupManager
+
+**Scope:** `src/storage/backup_manager.cpp:940,979`
+
+### Design Constraints
+- libarchive (BSD licence) is already indirectly available in the dependency tree;
+  it must be added as an explicit CMake target dependency
+- Backup/restore semantics (gzip-compressed tarball) must be preserved
+- The "directory" parameter from `POST /admin/backup` must be sandboxed to a
+  configurable backup root before being passed to `BackupManager`
+
+### Required Interfaces
+```cpp
+// New helper replacing system(tar):
+Result<std::string> archiveDirectory(const std::filesystem::path& src_dir,
+                                      const std::filesystem::path& dest_archive);
+Result<std::string> extractArchive(const std::filesystem::path& src_archive,
+                                    const std::filesystem::path& dest_dir);
+```
+- Uses `archive_write_open_filename` + `archive_write_add_filter_gzip` +
+  `archive_write_set_format_pax_restricted` from `<archive.h>`
+
+### Implementation Notes
+- **Sandbox check**: before calling `BackupManager`, `admin_api_handler.cpp` must
+  validate that `body["directory"]` is within `config_.backup_root_dir`:
+  ```cpp
+  if (!std::filesystem::weakly_canonical(dir).string().starts_with(backup_root)) {
+      return makeErrorResponse(400, "backup path out of sandbox");
+  }
+  ```
+- `system()` calls are unsafe even with double-quoted arguments because a newline
+  in `backup_dir` terminates the command and starts a new shell command
+
+### Test Strategy
+- Unit test: create a temp directory, archive it via `archiveDirectory`, extract it
+  via `extractArchive`, compare file trees
+- Unit test: path `"../../etc"` as backup dir → 400 from handler, no archive created
+- Fuzz test: random path strings as `backup_dir` → no shell command executed
+
+### Performance Targets
+- Throughput: ≥ gzip(1) baseline (libarchive uses the same zlib backend)
+- No measurable regression in CI backup integration tests
+
+### Security / Reliability
+- No shell process spawned; OS signal delivery to child process cannot escape the parent
+- On libarchive error: return structured error, no partial archive left on disk
