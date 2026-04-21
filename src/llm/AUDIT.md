@@ -19,7 +19,7 @@
 | Source files audited | 84 (all registered in CMake) |
 | Test targets | 28 focused targets |
 | Estimated test coverage | > 80 % |
-| S0 Critical | 🔴 3 (arbitrary path injection; arbitrary file write via path traversal) |
+| S0 Critical | ✅ 0 (F1-1, F1-2, F2-1 fixed 2026-04-21) |
 | S1 High | 🔴 8 |
 | S2 Medium | ⚠️ 4 |
 | Trusted-directory enforcement on model loading | 🔴 **None** |

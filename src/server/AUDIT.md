@@ -14,7 +14,7 @@
 | Build System Registration | ✅ Verified (`cmake/CMakeLists.txt`, `cmake/ModularBuild.cmake`) |
 | Source Files | 116 registered |
 | Test Coverage | ✅ Present (focused test targets in tests/CMakeLists.txt) |
-| S0 Critical | 🔴 2 (admin shard management + WAL apply unauthenticated) |
+| S0 Critical | ✅ 0 (HS-1 + HS-2 fixed 2026-04-21) |
 | S1 High | 🔴 8 |
 | S2 Medium | ⚠️ 4 |
 | Centralized auth enforcement | 🔴 **None — every handler responsible for own auth; new handlers trivially ship without it** |

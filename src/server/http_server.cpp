@@ -3814,6 +3814,13 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = monitoring_api_->handleLicenseStatus(req);
             break;
         case Route::WalApplyPost:
+            // HS-2 fix: require admin privilege at the routing layer.
+            // WALApiHandler::handleApply() also validates X-WAL-Auth / X-WAL-HMAC
+            // when those secrets are configured, providing defense-in-depth.
+            if (auto auth_err = requireAccess(req, "admin", "admin", "/api/v1/wal/apply")) {
+                response = *auth_err;
+                break;
+            }
             response = wal_api_->handleApply(req);
             break;
         case Route::Config:
@@ -4140,6 +4147,11 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         case Route::AdminShardsPost: {
+            // HS-1 fix: require admin privilege before mutating shard topology.
+            if (auto auth_err = requireAccess(req, "admin", "admin", "/v1/admin/shards")) {
+                response = *auth_err;
+                break;
+            }
             if (!sharding_manager_) {
                 sharding_manager_ = &themis::sharding::ShardingManager::GetInstance();
             }
@@ -4170,6 +4182,11 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         }
         case Route::AdminShardsGet: {
+            // HS-1 fix: require admin privilege before exposing shard topology.
+            if (auto auth_err = requireAccess(req, "admin", "admin", "/v1/admin/shards")) {
+                response = *auth_err;
+                break;
+            }
             if (!sharding_manager_) {
                 sharding_manager_ = &themis::sharding::ShardingManager::GetInstance();
             }

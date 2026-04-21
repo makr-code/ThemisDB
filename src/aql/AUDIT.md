@@ -19,7 +19,7 @@
 | Build System Registration | ✅ Verified |
 | Source Files | 21 (`.cpp` in `src/aql/`) |
 | Test Coverage | ✅ All 4 phases complete; unit tests for all core components |
-| S0 Critical | 🔴 2 (prompt injection; generated AQL at system privilege) |
+| S0 Critical | ✅ 1 fixed (LLM-1 prompt injection fixed 2026-04-21); 🔴 1 remaining (LLM-2 privilege) |
 | S1 High | 🔴 1 (RAG indirect prompt injection) |
 | S2 Medium | ⚠️ 1 (unsanitized inputs in confidence scoring) |
 | NL→AQL privilege isolation | 🔴 **None — generated queries run at system privilege** |
