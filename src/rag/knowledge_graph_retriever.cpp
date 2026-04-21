@@ -239,10 +239,11 @@ std::unordered_set<std::string> KnowledgeGraph::neighbours(
     visited.insert(start_id);
 
     while (!q.empty()) {
-        // -1 because start_id is in visited but excluded from the result.
-        // Guard against max_nodes==0 (degenerate) by using saturating arithmetic.
-        const size_t current_result_size = visited.size() - 1u;
-        if (max_nodes > 0 && current_result_size >= max_nodes) {
+        // GAP-010: Check node count before dequeuing.
+        // visited always contains at least start_id (inserted before the loop),
+        // so visited.size() >= 1; the subtraction is safe from underflow.
+        if (max_nodes > 0 && visited.size() > 0 &&
+            visited.size() - 1u >= max_nodes) {
             spdlog::warn("KnowledgeGraph::neighbours: BFS node cap ({}) reached "
                          "from '{}'; truncating traversal", max_nodes, start_id);
             break;
@@ -257,7 +258,8 @@ std::unordered_set<std::string> KnowledgeGraph::neighbours(
         if (adj_it == impl_->adj.end()) continue;
 
         for (const auto& edge : adj_it->second) {
-            if (max_nodes > 0 && visited.size() - 1u >= max_nodes) break;
+            if (max_nodes > 0 && visited.size() > 0 &&
+                visited.size() - 1u >= max_nodes) break;
             if (edge.weight < min_edge_weight) continue;
             if (visited.count(edge.to_id))     continue;
             if (!impl_->nodes.count(edge.to_id)) continue;

@@ -273,7 +273,19 @@ bool LLMPluginManager::loadModel(const std::string& model_id, const std::string&
             std::error_code ec;
             const fs::path root_canonical  = fs::canonical(fs::path(model_root_str), ec);
             if (!ec) {
-                fs::path resolved = fs::weakly_canonical(fs::path(path), ec);
+                // Prefer canonical() which resolves all symlinks fully (no TOCTOU risk
+                // from unresolved components). If the model file does not yet exist
+                // (pre-download), fall back to weakly_canonical() which resolves
+                // existing components only.  In the fallback case the remaining
+                // unresolved suffix is still checked against the root prefix, so a
+                // path like "/root/../evil" is caught because weakly_canonical still
+                // resolves the "/.." component for existing directories.
+                fs::path resolved = fs::canonical(fs::path(path), ec);
+                if (ec) {
+                    // File may not exist yet (pre-download path); try weakly_canonical.
+                    ec.clear();
+                    resolved = fs::weakly_canonical(fs::path(path), ec);
+                }
                 if (ec) {
                     spdlog::error("LLMPluginManager::loadModel: cannot resolve path '{}': {}",
                                   path, ec.message());

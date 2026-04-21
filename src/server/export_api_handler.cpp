@@ -405,12 +405,14 @@ std::string ExportApiHandler::generateExportId() {
     // GAP-019: Use std::random_device directly for cryptographic-quality randomness.
     // mt19937 (a Mersenne Twister) is not cryptographically secure; export IDs
     // must not be predictable because they serve as opaque access tokens.
+    // Use 128 bits of entropy (32 hex digits) to match UUID entropy levels and
+    // prevent brute-force attacks against the opaque export token.
     std::random_device rd;
 
     std::stringstream ss;
     ss << "exp_";
     static constexpr char hex_digits[] = "0123456789abcdef";
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < 32; i++) {  // 32 hex chars = 128 bits of entropy
         ss << hex_digits[rd() & 0x0Fu];
     }
 
