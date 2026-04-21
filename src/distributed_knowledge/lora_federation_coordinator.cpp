@@ -218,9 +218,16 @@ GlobalAdapterDelta LoRAFederationCoordinator::doAggregation() {
     // ── Step 0: apply poisoning / outlier filter (FPD) ───────────────────────
     // If a filter is set, evaluate every pending gradient before aggregation.
     // Rejected gradients are removed from the round and counted for observability.
+    //
+    // A snapshot of pending_gradients_ is taken before the loop so that the
+    // filter always sees a consistent, fully-populated peer set regardless of
+    // the order in which gradients are evaluated.  This prevents the statistics
+    // (e.g. L2-norm mean/stddev) from drifting as outliers are successively
+    // removed, and ensures each gradient is scored against the same baseline.
     if (gradient_outlier_filter_) {
+        const auto snapshot = pending_gradients_;
         for (auto it = pending_gradients_.begin(); it != pending_gradients_.end(); ) {
-            if (!gradient_outlier_filter_(it->second, pending_gradients_)) {
+            if (!gradient_outlier_filter_(it->second, snapshot)) {
                 ++total_gradients_filtered_;
                 it = pending_gradients_.erase(it);
             } else {

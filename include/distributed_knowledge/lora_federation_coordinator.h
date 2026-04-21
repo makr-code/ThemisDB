@@ -459,6 +459,17 @@ public:
      * `z_threshold` standard deviations from the mean L2 norm of all
      * submitted gradients in the same round.
      *
+     * **Edge case — fewer than 2 samples:** When the peer set contains fewer
+     * than 2 gradients, no statistics can be computed and all gradients are
+     * accepted.  This avoids false positives in minimal-participant rounds, but
+     * means the filter provides no protection in single-participant rounds.
+     * Configure `FederationConfig::min_participants >= 2` to avoid this.
+     *
+     * **Performance note:** The filter recalculates L2 norms for every gradient
+     * in the peer set on each invocation.  For large rounds this is O(N) per
+     * gradient call; the caller in `doAggregation()` supplies a pre-snapshotted
+     * peer map so statistics remain consistent throughout filtering.
+     *
      * This provides a lightweight poisoning defence without requiring the
      * full `ByzantineDetector` hierarchy (which depends on `GradientTensor`
      * and the LLM module).

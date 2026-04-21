@@ -85,8 +85,8 @@ TEST(FPD_PoisoningDetection, FPD_01_FilterIsInvokedDuringAggregation) {
     coord.submitGradient(makeGrad("s1"));
     coord.submitGradient(makeGrad("s2"));  // auto-triggers
 
-    // Filter must have been called at least once (once per gradient in the round)
-    EXPECT_GE(invocation_count, 1u);
+    // Filter must be called exactly once per gradient in the round (2 gradients)
+    EXPECT_EQ(invocation_count, 2u);
 }
 
 // ============================================================================
@@ -151,9 +151,16 @@ TEST(FPD_PoisoningDetection, FPD_04_TwoOutliersRejectedBelowThresholdThrows) {
     coord.submitGradient(makePoisonedGrad("s-evil-1", 1, 500.0));
     coord.submitGradient(makePoisonedGrad("s-evil-2", 1, 600.0));
 
-    // Auto-trigger fires on third gradient — expect throw
-    // (The coordinator catches the exception internally; try manual trigger)
-    EXPECT_THROW(coord.triggerAggregation(), std::runtime_error);
+    // Auto-trigger fires on third gradient — expect throw with diagnostic message
+    try {
+        coord.triggerAggregation();
+        FAIL() << "Expected std::runtime_error when participants drop below min_participants";
+    } catch (const std::runtime_error& e) {
+        const std::string msg(e.what());
+        EXPECT_TRUE(msg.find("insufficient") != std::string::npos ||
+                    msg.find("participants") != std::string::npos)
+            << "Exception message must contain diagnostic info; got: " << msg;
+    }
 }
 
 // ============================================================================
