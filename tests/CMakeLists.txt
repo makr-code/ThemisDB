@@ -23636,6 +23636,47 @@ else()
     message(STATUS "Projects module tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_projects.cpp")
 endif()
 
+# Projects concurrent + audit log tests (CC-01..CC-08, PAL-01..PAL-06)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_project_collaboration_concurrent.cpp")
+    message(STATUS "Adding Projects concurrent + audit log tests (CC-01..CC-08, PAL-01..PAL-06)")
+
+    add_executable(test_project_collaboration_concurrent
+        test_project_collaboration_concurrent.cpp
+        ${CMAKE_SOURCE_DIR}/src/projects/collaboration_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/projects/in_memory_project_audit_log.cpp
+    )
+
+    target_include_directories(test_project_collaboration_concurrent PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/third_party
+    )
+
+    target_link_libraries(test_project_collaboration_concurrent PRIVATE
+        GTest::gtest_main
+        themis_rocksdb_lib
+        Threads::Threads
+    )
+
+    target_compile_features(test_project_collaboration_concurrent PRIVATE cxx_std_17)
+
+    if(WIN32)
+        themis_sync_runtime_dlls_for_target(test_project_collaboration_concurrent)
+        add_dependencies(test_project_collaboration_concurrent sync_test_runtime_dlls)
+    endif()
+
+    add_test(NAME ProjectCollaborationConcurrentTests
+        COMMAND test_project_collaboration_concurrent)
+
+    set_tests_properties(ProjectCollaborationConcurrentTests PROPERTIES
+        LABELS "projects;collaboration;concurrent;audit;integration"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Projects Concurrent: CC-01..CC-08 (lock contention, notify, subscribe, share), PAL-01..PAL-06 (audit log record/query/count/purge/wiring)")
+else()
+    message(STATUS "Projects concurrent tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_project_collaboration_concurrent.cpp")
+endif()
+
 # RAGIngestionBridge tests (subset of AllTests)
 # Covers: RAGIngestionBridge construction (RI-01..RI-07), indexDocument (RI-08..RI-16),
 #         extractEntitiesForContext (RI-17..RI-18), buildEntityContext (RI-19..RI-21),

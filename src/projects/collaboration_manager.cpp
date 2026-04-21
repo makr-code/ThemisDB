@@ -23,6 +23,7 @@
 #include "projects/collaboration_manager.h"
 
 #include <chrono>
+#include <random>
 
 namespace themis {
 namespace projects {
@@ -185,6 +186,20 @@ bool CollaborationManager::isLocked(
     return locks_.count(project_id + ":" + object_name) > 0;
 }
 
+// ── Audit log DI ─────────────────────────────────────────────────────────────
+
+void CollaborationManager::setAuditLog(std::shared_ptr<IProjectAuditLog> log)
+{
+    std::unique_lock lock(audit_mutex_);
+    audit_log_ = std::move(log);
+}
+
+void CollaborationManager::clearAuditLog()
+{
+    std::unique_lock lock(audit_mutex_);
+    audit_log_.reset();
+}
+
 // ── Change feed ───────────────────────────────────────────────────────────────
 
 std::vector<Change> CollaborationManager::getChanges(
@@ -224,6 +239,23 @@ void CollaborationManager::notifyChange(const Change& change) {
     std::shared_lock sub_lock(subscribers_mutex_);
     for (const auto& cb : subscribers_)
         cb(change);
+
+    // Emit audit record if a sink is registered
+    {
+        std::shared_lock al_lock(audit_mutex_);
+        if (audit_log_) {
+            ProjectAuditEntry entry;
+            entry.project_id   = change.project_id;
+            entry.action       = ProjectAuditAction::DOCUMENT_UPDATED;
+            entry.actor_id     = change.actor;
+            entry.actor_type   = "user";
+            entry.resource_id  = change.object_name;
+            entry.resource_type = "object";
+            entry.timestamp    = std::chrono::system_clock::now();
+            entry.details["field_path"] = change.field_path;
+            audit_log_->record(entry);
+        }
+    }
 }
 
 } // namespace projects
