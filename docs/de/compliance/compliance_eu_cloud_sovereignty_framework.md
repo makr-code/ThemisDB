@@ -118,4 +118,3 @@ Interpretation: ThemisDB zeigt in mehreren Kernbereichen Reifegrad 3–4, wird a
 ## 6. Verifizierung und externe Prüfung
 
 Für die formale Verifizierung der ES3-Einstufung ist eine externe Prüfung mit Wirtschaftsprüfung (z. B. **BDO**) vorgesehen. Dieser Bericht dient als interne Vorbewertung und Evidenzbasis für die externe Validierung.
-
