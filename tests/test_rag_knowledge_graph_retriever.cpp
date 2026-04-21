@@ -555,8 +555,8 @@ TEST(GAP010BfsCapTest, DenseChain_NodeCapRespected) {
     KnowledgeGraph g;
     for (int i = 0; i < 1000; ++i) {
         KGNode n;
-        n.id   = "c" + std::to_string(i);
-        n.text = "chain node " + std::to_string(i);
+        n.id = "c" + std::to_string(i);
+        n.canonical_name = "chain node " + std::to_string(i);
         g.addNode(n);
     }
     for (int i = 0; i < 999; ++i) {

@@ -207,8 +207,6 @@ TEST(ExportPolicyErrorCode, PolicyEngineReturnsNotPermittedForRestrictedCollecti
     EXPECT_FALSE(decision.denial_reason.empty());
 }
 
-}  // namespace themis::server
-
 // ===========================================================================
 // GAP-008 — Timing-safe token comparison in validateAdminToken()
 // ===========================================================================
@@ -323,3 +321,5 @@ TEST_F(ExportApiHandlerTest, GAP004_CommentInjectionInSubject_ReturnsBadRequest)
     EXPECT_EQ(res.result(), http::status::bad_request)
         << "Comment injection '--' in 'subject' must return 400";
 }
+
+}  // namespace themis::server

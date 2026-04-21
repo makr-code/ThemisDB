@@ -44,9 +44,13 @@ PromptTemplateManager makeTemplateManager() {
 
 EvaluationInput makeInput() {
     EvaluationInput in;
-    in.question = "What is X?";
-    in.answer   = "X is Y.";
-    in.context  = "X equals Y.";
+    in.query = "What is X?";
+    in.generated_answer = "X is Y.";
+    RetrievedDocument d;
+    d.id = "doc-1";
+    d.content = "X equals Y.";
+    d.similarity_score = 1.0;
+    in.documents.push_back(std::move(d));
     return in;
 }
 

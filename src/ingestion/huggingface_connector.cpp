@@ -671,6 +671,8 @@ private:
     /// Optional governance policy set via setIngestionPolicy() (Gap 8).
     std::shared_ptr<governance::ModelGovernancePolicy> ingestion_policy_;
 
+};
+
 // Public API implementation
 HuggingFaceConnector::HuggingFaceConnector()
     : impl_(std::make_unique<Impl>()) {

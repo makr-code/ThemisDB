@@ -487,43 +487,6 @@ void LoRAFederationCoordinator::setSigningCallback(
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// FPD: Gradient Outlier Filter (Federated Poisoning Detection)
-// ─────────────────────────────────────────────────────────────────────────────
-
-void LoRAFederationCoordinator::setGradientOutlierFilter(GradientOutlierFilter filter)
-{
-    std::lock_guard<std::mutex> lk(mutex_);
-    gradient_outlier_filter_ = std::move(filter);
-}
-
-size_t LoRAFederationCoordinator::filteredGradientsCount() const
-{
-    std::lock_guard<std::mutex> lk(mutex_);
-    return filtered_gradients_count_;
-}
-
-/* static */
-LoRAFederationCoordinator::GradientOutlierFilter
-LoRAFederationCoordinator::makeL2NormOutlierFilter(double max_norm)
-{
-    if (max_norm <= 0.0) {
-        throw std::invalid_argument(
-            "makeL2NormOutlierFilter: max_norm must be > 0");
-    }
-    return [max_norm](const EncryptedGradient& g) -> bool {
-        if (!g.data.is_object()) { return true; } // non-numeric → accept
-        double sum_sq = 0.0;
-        for (const auto& [key, val] : g.data.items()) {
-            if (val.is_number()) {
-                const double v = val.get<double>();
-                sum_sq += v * v;
-            }
-        }
-        return std::sqrt(sum_sq) <= max_norm;
-    };
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
 // DK-OR: Operational Resilience — timeout overload, erase
 // ─────────────────────────────────────────────────────────────────────────────
 

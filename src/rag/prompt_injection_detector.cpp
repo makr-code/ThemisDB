@@ -127,7 +127,6 @@ const std::vector<DetectionRule>& getRules()
                              "shared pattern '{}' — skipped", e.label);
             }
         }
-        });
 
         // ── RAG-specific patterns (not in shared registry) ───────────────────
 
@@ -179,7 +178,7 @@ const std::vector<DetectionRule>& getRules()
         });
 
         return r;
-    }(shared);
+    }();
 
     return rules;
 }

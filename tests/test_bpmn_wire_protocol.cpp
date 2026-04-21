@@ -581,7 +581,7 @@ TEST_F(BpmnApiHandlerTest, GAP001_AuthEnabled_WrongScope_Returns403) {
 // This is a structural/logic test — we cannot spin up a real TLS socket in
 // a unit test, but we can verify the config field exists and is checked.
 TEST(MqttClientServiceTest, GAP017_EmptyTlsCaPath_ConfigAccepted) {
-    MqttClientConfig cfg;
+    themis::server::MqttClientConfig cfg;
     cfg.broker_host  = "localhost";
     cfg.broker_port  = 8883;
     cfg.tls_enabled  = true;
@@ -595,7 +595,7 @@ TEST(MqttClientServiceTest, GAP017_EmptyTlsCaPath_ConfigAccepted) {
 }
 
 TEST(MqttClientServiceTest, GAP017_PopulatedTlsCaPath_TakesVerifyPeerPath) {
-    MqttClientConfig cfg;
+    themis::server::MqttClientConfig cfg;
     cfg.broker_host  = "localhost";
     cfg.broker_port  = 8883;
     cfg.tls_enabled  = true;

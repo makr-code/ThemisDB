@@ -39,7 +39,7 @@
 namespace fs = std::filesystem;
 using namespace themis;
 using namespace themis::projects;
-using clock = std::chrono::system_clock;
+using sys_clock = std::chrono::system_clock;
 
 // ─── Fixture ─────────────────────────────────────────────────────────────────
 
@@ -77,7 +77,7 @@ protected:
         c.field_path  = "/title";
         c.old_value   = "old";
         c.new_value   = "new";
-        c.timestamp   = clock::to_time_t(clock::now());
+        c.timestamp   = sys_clock::to_time_t(sys_clock::now());
         c.actor       = actor;
         return c;
     }
@@ -351,7 +351,7 @@ static ProjectAuditEntry makeEntry(
     const std::string& project_id,
     ProjectAuditAction action,
     const std::string& actor_id = "alice",
-    clock::time_point  ts       = clock::now())
+    sys_clock::time_point ts    = sys_clock::now())
 {
     ProjectAuditEntry e;
     e.entry_id    = "eid-" + project_id + "-" + actor_id;
@@ -442,8 +442,8 @@ TEST(InMemoryProjectAuditLogTests, PAL_05_PurgeRemovesOldEntriesOneProject)
 {
     InMemoryProjectAuditLog log;
 
-    const auto epoch      = clock::time_point{};
-    const auto now        = clock::now();
+    const auto epoch      = sys_clock::time_point{};
+    const auto now        = sys_clock::now();
     const auto future     = now + std::chrono::hours(1);
     const auto long_ago   = epoch + std::chrono::seconds(1);
 

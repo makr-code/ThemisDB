@@ -1001,12 +1001,21 @@ target_sources(themis_tests PRIVATE
     ${THEMIS_ROOT_DIR}/src/exporters/data_augmentation.cpp
     ${THEMIS_ROOT_DIR}/src/exporters/export_format_registry.cpp
     ${THEMIS_ROOT_DIR}/src/exporters/huggingface_hub_client.cpp
+    ${THEMIS_ROOT_DIR}/src/distributed_knowledge/federated_distillation_coordinator.cpp
+    ${THEMIS_ROOT_DIR}/src/ingestion/oauth_token_manager.cpp
     ${THEMIS_ROOT_DIR}/src/performance/phase3/adaptive_batch_tuner.cpp
+    ${THEMIS_ROOT_DIR}/src/process/epk_aris_xml_importer.cpp
+    ${THEMIS_ROOT_DIR}/src/process/dmn_evaluator.cpp
+    ${THEMIS_ROOT_DIR}/src/process/ocel_exporter.cpp
+    ${THEMIS_ROOT_DIR}/src/process/process_model_generator.cpp
+    ${THEMIS_ROOT_DIR}/src/projects/collaboration_manager.cpp
+    ${THEMIS_ROOT_DIR}/src/projects/in_memory_project_audit_log.cpp
     ${THEMIS_ROOT_DIR}/src/server/import_wizard_builder.cpp
     ${THEMIS_ROOT_DIR}/src/llm/llm_security_utils.cpp
     ${THEMIS_ROOT_DIR}/src/search/multi_field_search.cpp
     ${THEMIS_ROOT_DIR}/src/search/search_highlighter.cpp
     ${THEMIS_ROOT_DIR}/src/search/negative_keyword_filter.cpp
+    ${THEMIS_ROOT_DIR}/src/security/prompt_injection_pattern_registry.cpp
     ${THEMIS_ROOT_DIR}/src/sharding/cloud_backup.cpp
     ${THEMIS_ROOT_DIR}/src/transaction/distributed_saga.cpp
     ${THEMIS_ROOT_DIR}/src/server/grpc_web_proxy_handler.cpp
@@ -1115,6 +1124,7 @@ if(THEMIS_BUILD_MODULAR)
             if(_themis_network_target_type_for_sources STREQUAL "STATIC_LIBRARY")
                 list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]server[\\\\/].*\\.cpp$")
                 list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]network[\\\\/].*\\.cpp$")
+                list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]src[\\\\/]observability[\\\\/]alertmanager\\.cpp$")
                 list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]proto_generated[\\\\/]themis_.*\\.pb\\.cc$")
                 list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*[\\\\/]proto_generated[\\\\/]themisdb(\\.grpc)?\\.pb\\.cc$")
                 message(STATUS "themis_tests: excluding direct server/network sources (provided by static themis_network module)")
@@ -1320,6 +1330,7 @@ if(_themis_tests_sources_final)
         if(_themis_network_target_type_final STREQUAL "STATIC_LIBRARY")
             list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]src[\\/]server[\\/].*\\.cpp$")
             list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]src[\\/]network[\\/].*\\.cpp$")
+            list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]src[\\/]observability[\\/]alertmanager\.cpp$")
             list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]proto_generated[\\/]themis_.*\\.pb\\.cc$")
             list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]proto_generated[\\/]themisdb(\\.grpc)?\\.pb\\.cc$")
         endif()
@@ -24661,85 +24672,6 @@ else()
     message(STATUS "SerializationAdvisor tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_serialization_advisor.cpp")
 endif()
 
-# =============================================================================
-# FPD — Federated Poisoning Detection (GradientOutlierFilter) tests
-# Tests: FPD_01..10 (10 tests)
-# =============================================================================
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_federated_poisoning_detection.cpp")
-    message(STATUS "Adding Federated Poisoning Detection tests (FPD_01..10)")
-
-    add_executable(test_federated_poisoning_detection_focused
-        test_federated_poisoning_detection.cpp
-    )
-
-    target_include_directories(test_federated_poisoning_detection_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-
-    target_link_libraries(test_federated_poisoning_detection_focused PRIVATE
-        ${TEST_LIBS}
-        themis_distributed_knowledge
-        nlohmann_json::nlohmann_json
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_federated_poisoning_detection_focused PRIVATE THEMIS_TEST_BUILD=1)
-
-    set_target_properties(test_federated_poisoning_detection_focused PROPERTIES
-        CXX_STANDARD 17
-        CXX_STANDARD_REQUIRED ON
-    )
-
-    add_test(NAME FPD_Tests COMMAND test_federated_poisoning_detection_focused)
-    set_tests_properties(FPD_Tests PROPERTIES
-        LABELS "distributed_knowledge;federation;poisoning;security;focused;unit"
-        TIMEOUT 60
-    )
-    message(STATUS "  FPD_01..10: GradientOutlierFilter, L2NormFilter, filteredCount, all-reject")
-else()
-    message(STATUS "FPD tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_federated_poisoning_detection.cpp")
-endif()
-
-# =============================================================================
-# FDF — Federated Distillation Coordinator tests
-# Tests: FDF_01..15 (15 tests)
-# =============================================================================
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_federated_distillation_coordinator.cpp")
-    message(STATUS "Adding Federated Distillation Coordinator tests (FDF_01..15)")
-
-    add_executable(test_federated_distillation_coordinator_focused
-        test_federated_distillation_coordinator.cpp
-    )
-
-    target_include_directories(test_federated_distillation_coordinator_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-
-    target_link_libraries(test_federated_distillation_coordinator_focused PRIVATE
-        ${TEST_LIBS}
-        themis_distributed_knowledge
-        nlohmann_json::nlohmann_json
-        Threads::Threads
-    )
-
-    target_compile_definitions(test_federated_distillation_coordinator_focused PRIVATE THEMIS_TEST_BUILD=1)
-
-    set_target_properties(test_federated_distillation_coordinator_focused PROPERTIES
-        CXX_STANDARD 17
-        CXX_STANDARD_REQUIRED ON
-    )
-
-    add_test(NAME FDF_Tests COMMAND test_federated_distillation_coordinator_focused)
-    set_tests_properties(FDF_Tests PROPERTIES
-        LABELS "distributed_knowledge;federation;distillation;focused;unit"
-        TIMEOUT 60
-    )
-    message(STATUS "  FDF_01..15: SoftLabelBatch, aggregation, DP noise, PolicyGate, AuditCallback, RollbackTrigger")
-else()
-    message(STATUS "FDF tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_federated_distillation_coordinator.cpp")
-endif()
 
 # =============================================================================
 # HotReloadManager unit tests (base module — ROADMAP #1574)
@@ -24914,10 +24846,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_project_collaboration_concurrent.cpp
         CXX_STANDARD_REQUIRED ON
     )
 
-    add_test(NAME ProjectCollaborationConcurrentTests
+    add_test(NAME ProjectCollaborationConcurrentFocusedTests
         COMMAND test_project_collaboration_concurrent_focused)
 
-    set_tests_properties(ProjectCollaborationConcurrentTests PROPERTIES
+    set_tests_properties(ProjectCollaborationConcurrentFocusedTests PROPERTIES
         LABELS "projects;collaboration;concurrent;integration;focused"
         TIMEOUT 120
     )

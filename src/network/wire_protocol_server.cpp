@@ -973,17 +973,7 @@ void WireProtocolServer::Session::asyncWriteResponse(const std::vector<uint8_t>&
     auto data_copy = data;  // capture by value so the caller's buffer can be freed
     net::dispatch(socket_.get_executor(), [this, self, data_copy = std::move(data_copy)]() {
         std::lock_guard<std::mutex> lock(write_mutex_);
-        write_queue_.push_back(data_copy);
-    {
-        std::lock_guard<std::mutex> lock(write_mutex_);
-        write_queue_.push_back(data);
-    }
-    // Dispatch write initiation to the socket's executor so that net::async_write
-    // is always called from the I/O thread, even when this method is invoked from
-    // a worker thread (Phase 1.2 – worker pool dispatch).
-    auto self = shared_from_this();
-    net::dispatch(socket_.get_executor(), [this, self]() {
-        std::lock_guard<std::mutex> lock(write_mutex_);
+        write_queue_.push_back(std::move(data_copy));
         if (!write_in_progress_) {
             write_in_progress_ = true;
             doWrite();
@@ -1288,42 +1278,24 @@ void WireProtocolServer::Session::handleBatchGet() {
             return;
         }
 
-        // Build storage key list for multiGet (B2: replaces O(N) sequential gets)
+        std::vector<std::string> client_keys;
+        client_keys.reserve(keys_arr.size());
         std::vector<std::string> storage_keys;
         storage_keys.reserve(keys_arr.size());
         for (const auto& key_val : keys_arr) {
-            storage_keys.push_back(collection + ":" + key_val.get<std::string>());
+            const std::string key = key_val.get<std::string>();
+            client_keys.push_back(key);
+            storage_keys.push_back(collection + ":" + key);
         }
 
-        // Execute parallel multi-key lookup
-        auto multi_results = server_->storage_->multiGet(storage_keys);
+        const auto multi_results = server_->storage_->multiGet(storage_keys);
 
         json results = json::array();
         uint32_t found_count = 0;
         uint32_t not_found_count = 0;
-
-        // Build storage keys and perform a single batch lookup (B2 optimisation).
-        std::vector<std::string> storage_keys;
-        storage_keys.reserve(keys_arr.size());
-        std::vector<std::string> client_keys;
-        client_keys.reserve(keys_arr.size());
-        for (const auto& key_val : keys_arr) {
-            client_keys.push_back(key_val.get<std::string>());
-            storage_keys.push_back(collection + ":" + client_keys.back());
-        }
-
-        const auto batch_results = server_->storage_->multiGet(storage_keys);
-
         for (size_t i = 0; i < client_keys.size(); ++i) {
-            const auto& result = batch_results[i];
             json item;
             item["key"] = client_keys[i];
-            if (result.has_value()) {
-                const auto& value_bytes = result.value();
-        for (size_t i = 0; i < keys_arr.size(); ++i) {
-            const std::string key = keys_arr[i].get<std::string>();
-            json item;
-            item["key"] = key;
             if (i < multi_results.size() && multi_results[i].has_value()) {
                 const auto& value_bytes = multi_results[i].value();
                 std::string value_str(value_bytes.begin(), value_bytes.end());
@@ -1388,48 +1360,33 @@ void WireProtocolServer::Session::handleBatchPut() {
             return;
         }
 
-        // Validate all items first, then commit atomically using a write batch (B3 optimisation).
         struct ValidatedItem {
             std::string key;
             std::string storage_key;
             std::string value_str;
         };
+
         std::vector<ValidatedItem> valid_items;
-        json pre_results = json::array();
-        // Validate all items first; reject any with missing key/value before
-        // writing to storage so that we don't commit a partial batch.
+        valid_items.reserve(items_arr.size());
+
         json results = json::array();
         uint32_t failure_count = 0;
-
-        std::vector<RocksDBWrapper::KeyValuePair> batch;
-        batch.reserve(items_arr.size());
-
         for (const auto& item_val : items_arr) {
-            std::string key = item_val.value("key", "");
+            const std::string key = item_val.value("key", "");
             if (key.empty()) {
-                json item_result;
-                item_result["key"] = key;
-                item_result["success"] = false;
-                item_result["error"] = "Missing 'key' in item";
-                pre_results.push_back(std::move(item_result));
                 json r;
-                r["key"]     = key;
+                r["key"] = "";
                 r["success"] = false;
-                r["error"]   = "Missing 'key' in item";
+                r["error"] = "Missing 'key' in item";
                 results.push_back(std::move(r));
                 ++failure_count;
                 continue;
             }
             if (!item_val.contains("value")) {
-                json item_result;
-                item_result["key"] = key;
-                item_result["success"] = false;
-                item_result["error"] = "Missing 'value' in item";
-                pre_results.push_back(std::move(item_result));
                 json r;
-                r["key"]     = key;
+                r["key"] = key;
                 r["success"] = false;
-                r["error"]   = "Missing 'value' in item";
+                r["error"] = "Missing 'value' in item";
                 results.push_back(std::move(r));
                 ++failure_count;
                 continue;
@@ -1438,11 +1395,9 @@ void WireProtocolServer::Session::handleBatchPut() {
             std::string value_str = item_val["value"].is_string()
                 ? item_val["value"].get<std::string>()
                 : item_val["value"].dump();
-
             valid_items.push_back({key, collection + ":" + key, std::move(value_str)});
         }
 
-        // Commit all valid items as one atomic WriteBatch.
         bool batch_ok = true;
         if (!valid_items.empty()) {
             auto batch = server_->storage_->createWriteBatch();
@@ -1453,53 +1408,25 @@ void WireProtocolServer::Session::handleBatchPut() {
             batch_ok = batch->commit();
         }
 
-        json results = std::move(pre_results);
         uint32_t success_count = 0;
         for (const auto& vi : valid_items) {
             json item_result;
             item_result["key"] = vi.key;
             item_result["success"] = batch_ok;
-            if (!batch_ok) {
+            if (batch_ok) {
+                ++success_count;
+            } else {
                 item_result["error"] = "Batch write failed";
                 ++failure_count;
-            std::vector<uint8_t> value_bytes(value_str.begin(), value_str.end());
-            batch.push_back({collection + ":" + key, std::move(value_bytes)});
-        }
-
-        // Write all valid items atomically via putBatch (B3: single WriteBatch commit).
-        // If any validation error occurred we still write the good items atomically;
-        // the bad-item errors are already queued in results above.
-        uint32_t success_count = 0;
-        if (!batch.empty()) {
-            bool ok = server_->storage_->putBatch(batch);
-            if (ok) {
-                success_count = static_cast<uint32_t>(batch.size());
-                for (const auto& kv : batch) {
-                    // Strip the "collection:" prefix to recover the original key.
-                    std::string short_key = kv.key.substr(collection.size() + 1);
-                    json r;
-                    r["key"]     = short_key;
-                    r["success"] = true;
-                    results.push_back(std::move(r));
-                }
-            } else {
-                failure_count += static_cast<uint32_t>(batch.size());
-                for (const auto& kv : batch) {
-                    std::string short_key = kv.key.substr(collection.size() + 1);
-                    json r;
-                    r["key"]     = short_key;
-                    r["success"] = false;
-                    r["error"]   = "Atomic batch write failed";
-                    results.push_back(std::move(r));
-                }
             }
+            results.push_back(std::move(item_result));
         }
 
         json response;
-        response["results"]       = std::move(results);
+        response["results"] = std::move(results);
         response["success_count"] = success_count;
         response["failure_count"] = failure_count;
-        response["collection"]    = collection;
+        response["collection"] = collection;
 
         std::string response_str = response.dump();
         std::vector<uint8_t> response_data(response_str.begin(), response_str.end());

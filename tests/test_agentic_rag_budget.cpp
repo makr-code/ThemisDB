@@ -27,12 +27,12 @@ using namespace themis::rag::agentic;
 namespace {
 
 // Helper: build a list of N fake documents, each with content of a given length.
-std::vector<judge::RetrievedDocument> makeDocs(size_t count, size_t content_len = 100)
+std::vector<themis::rag::judge::RetrievedDocument> makeDocs(size_t count, size_t content_len = 100)
 {
-    std::vector<judge::RetrievedDocument> docs;
+    std::vector<themis::rag::judge::RetrievedDocument> docs;
     docs.reserve(count);
     for (size_t i = 0; i < count; ++i) {
-        judge::RetrievedDocument d;
+        themis::rag::judge::RetrievedDocument d;
         d.id               = "doc-" + std::to_string(i);
         d.content          = std::string(content_len, 'x');
         d.similarity_score = 0.5f;

@@ -46,7 +46,7 @@ public:
         uint64_t random_seed = 42;
         
         // Quality filtering (reuse from JSONLLMExporter)
-        exporters::JSONLLMConfig::QualityFilter quality_filter;
+        exporters::JSONLLLMConfig::QualityFilter quality_filter;
         
         // Multi-model enrichment
         bool enable_graph_context = false;
@@ -86,8 +86,8 @@ public:
     };
     
     explicit TrainingDataIterator(
-        std::shared_ptr<storage::RocksDBWrapper> db,
-        std::shared_ptr<exporters::JSONLLMExporter> exporter,
+        std::shared_ptr<RocksDBWrapper> db,
+        std::shared_ptr<exporters::JSONLLLMExporter> exporter,
         const Config& config = {}
     );
     
@@ -143,8 +143,8 @@ public:
     void setConfig(const Config& config);
     
 private:
-    std::shared_ptr<storage::RocksDBWrapper> db_;
-    std::shared_ptr<exporters::JSONLLMExporter> exporter_;
+    std::shared_ptr<RocksDBWrapper> db_;
+    std::shared_ptr<exporters::JSONLLLMExporter> exporter_;
     Config config_;
     
     // Iterator state
@@ -164,7 +164,7 @@ private:
     
     // Internal helpers
     bool loadSamples(const std::string& aql_query);
-    TrainingSample convertToTrainingSample(const storage::BaseEntity& entity);
+    TrainingSample convertToTrainingSample(const BaseEntity& entity);
     void shuffleSamples();
     void enrichSampleWithGraphContext(TrainingSample& sample);
     void enrichSampleWithVectorContext(TrainingSample& sample);

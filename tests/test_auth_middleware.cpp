@@ -1183,8 +1183,8 @@ TEST(AuthMiddlewareGap013Test, ValidateToken_UnknownToken_ReturnsDenied) {
     auth.addToken(tc);
 
     auto result = auth.validateToken("completely-unknown-token");
-    EXPECT_FALSE(result.ok) << "Unknown token must be denied (GAP-013)";
-    EXPECT_EQ(result.error, "Invalid token");
+    EXPECT_FALSE(result.authorized) << "Unknown token must be denied (GAP-013)";
+    EXPECT_EQ(result.reason, "Invalid token");
 }
 
 // GAP-013-02: authorize() with a recognised user but wrong scope returns Denied.
@@ -1197,7 +1197,7 @@ TEST(AuthMiddlewareGap013Test, Authorize_WrongScope_ReturnsDenied) {
     auth.addToken(tc);
 
     auto result = auth.authorize("read-only-token", "data:write");
-    EXPECT_FALSE(result.ok) << "Insufficient scope must be denied (GAP-013)";
+    EXPECT_FALSE(result.authorized) << "Insufficient scope must be denied (GAP-013)";
 }
 
 // GAP-013-03: authorize() with a completely invalid token returns Denied.
@@ -1210,5 +1210,5 @@ TEST(AuthMiddlewareGap013Test, Authorize_InvalidToken_ReturnsDenied) {
     auth.addToken(tc);
 
     auto result = auth.authorize("not-a-valid-token", "admin");
-    EXPECT_FALSE(result.ok) << "Invalid token must be denied (GAP-013)";
+    EXPECT_FALSE(result.authorized) << "Invalid token must be denied (GAP-013)";
 }
