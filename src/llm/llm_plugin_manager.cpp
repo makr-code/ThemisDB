@@ -24,7 +24,6 @@
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <sstream>
-
 namespace themis {
 namespace llm {
 
@@ -325,7 +324,31 @@ bool LLMPluginManager::loadLoRA(const std::string& lora_id, const std::string& p
     if (!plugin) {
         throw std::runtime_error("No default LLM plugin available");
     }
-    return plugin->loadLoRA(lora_id, path, 1.0f);
+    const bool ok = plugin->loadLoRA(lora_id, path, 1.0f);
+
+    // ── AI Safety: Gossip adapter capability announcement ──────────────────
+    if (ok) {
+        distributed_knowledge::GossipAdapterPublisher* publisher;
+        std::string shard_id;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            publisher = adapter_publisher_;
+            shard_id  = local_shard_id_;
+        }
+        if (publisher) {
+            distributed_knowledge::AdapterCapabilityAnnouncement ann;
+            ann.shard_id        = shard_id;
+            ann.adapter_id      = lora_id;
+            ann.adapter_version = "v1.0.0";          // incremental; callers may update via the publisher directly
+            ann.domain_type     = distributed_knowledge::AdapterDomainType::GENERAL;
+            ann.training_samples = 0;                // unknown at load time
+            publisher->announce(std::move(ann));
+            spdlog::info("LLMPluginManager::loadLoRA: gossip announcement sent for '{}'", lora_id);
+        }
+    }
+    // ── end gossip announcement ────────────────────────────────────────────
+
+    return ok;
 }
 
 bool LLMPluginManager::unloadLoRA(const std::string& lora_id) {
@@ -333,7 +356,33 @@ bool LLMPluginManager::unloadLoRA(const std::string& lora_id) {
     if (!plugin) {
         throw std::runtime_error("No default LLM plugin available");
     }
-    return plugin->unloadLoRA(lora_id);
+    const bool ok = plugin->unloadLoRA(lora_id);
+
+    // ── AI Safety: Gossip withdrawal announcement ──────────────────────────
+    if (ok) {
+        distributed_knowledge::GossipAdapterPublisher* publisher;
+        std::string shard_id;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            publisher = adapter_publisher_;
+            shard_id  = local_shard_id_;
+        }
+        if (publisher) {
+            // Withdraw: broadcast a zero-performance announcement so peers
+            // know the adapter is no longer available on this shard.
+            distributed_knowledge::AdapterCapabilityAnnouncement withdrawal;
+            withdrawal.shard_id        = shard_id;
+            withdrawal.adapter_id      = lora_id + "_WITHDRAWN";
+            withdrawal.adapter_version = "v0.0.0";
+            withdrawal.domain_type     = distributed_knowledge::AdapterDomainType::GENERAL;
+            withdrawal.accuracy_delta  = -1.0;       // sentinel: adapter removed
+            publisher->announce(std::move(withdrawal));
+            spdlog::info("LLMPluginManager::unloadLoRA: gossip withdrawal sent for '{}'", lora_id);
+        }
+    }
+    // ── end gossip withdrawal ──────────────────────────────────────────────
+
+    return ok;
 }
 
 std::vector<LoRAInfo> LLMPluginManager::listLoRAs() const {
@@ -430,6 +479,17 @@ LLMPluginManager::HealthStatus LLMPluginManager::getHealthStatus() const {
 
 ActiveVRAMAllocator::Stats LLMPluginManager::getVRAMStats() const {
     return vram_allocator_.getStats();
+}
+
+void LLMPluginManager::setAdapterPublisher(
+    distributed_knowledge::GossipAdapterPublisher* publisher,
+    std::string local_shard_id)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    adapter_publisher_ = publisher;
+    local_shard_id_    = std::move(local_shard_id);
+    spdlog::info("LLMPluginManager::setAdapterPublisher: gossip publisher {}",
+                 publisher ? "configured" : "disconnected");
 }
 
 void LLMPluginManager::clearAllCaches() {

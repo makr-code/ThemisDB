@@ -14459,6 +14459,14 @@ if(THEMIS_ENABLE_LLM)
         "ActiveVRAMAllocator: allocation/free, OOM recovery (eviction/defrag/spill), thread safety, AdaptiveVRAMAllocator delegation"
     )
 
+    add_llm_focused_test(
+        test_llm_gossip_adapter_publisher
+        llm/test_llm_gossip_adapter_publisher.cpp
+        GossipAdapterPublisherFocusedTests
+        "llm;gossip;distributed_knowledge;lora;unit"
+        "GossipAdapterPublisher wired in LLMPluginManager: announce on loadLoRA, withdrawal on unloadLoRA, no-op without publisher (GAP-01..05)"
+    )
+
     # Standalone focused test target for InferenceEngineEnhanced.
     # Exercises KV-cache prewarming, embedding-based cache lookup, hot-swap,
     # speculative decoding, load-balancing, and per-model quotas.
