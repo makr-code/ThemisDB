@@ -235,11 +235,15 @@ model is installed:
 ollama serve &
 
 # 2. Pull recommended models via VS Code command palette:
-#    "Ollama Bridge: Set Up / Download Coding Models"
+#    Command: "Ollama Bridge: Set Up / Download Coding Models"
+#    Command ID: ollamaBridge.setupModels
 #    → selects from ranked list (DeepSeek-Coder-V2, Qwen2.5-Coder, CodeLlama…)
 
-# 3. Verify:
-#    "Ollama Bridge: Check Ollama Connection"
+# 3. Verify connectivity and list installed models:
+#    Command: "Ollama Bridge: Check Ollama Connection"
+#    Command ID: ollamaBridge.checkOllamaHealth
+#    Command: "Ollama Bridge: List Installed Models"
+#    Command ID: ollamaBridge.listInstalledModels
 ```
 
 Or from the terminal:
