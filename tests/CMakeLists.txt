@@ -24604,3 +24604,57 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_module_sandbox_wasm_injection.cpp")
 else()
     message(STATUS "ModuleSandbox WASM injection tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_module_sandbox_wasm_injection.cpp")
 endif()
+
+# =============================================================================
+# ProjectCollaborationConcurrent integration tests (projects module — Phase 3)
+# CC-01..CC-08: lock contention, concurrent subscribers, notifyChange,
+#               permission writes, lock/unlock interleaving, late subscribe,
+#               consistent getChanges under concurrent writes, lifecycle race
+# =============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_project_collaboration_concurrent.cpp")
+    message(STATUS "Adding ProjectCollaborationConcurrent integration tests (projects Phase 3)")
+
+    add_executable(test_project_collaboration_concurrent_focused
+        test_project_collaboration_concurrent.cpp
+        ${CMAKE_SOURCE_DIR}/src/projects/collaboration_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/projects/project_lifecycle.cpp
+    )
+
+    target_include_directories(test_project_collaboration_concurrent_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_project_collaboration_concurrent_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_project_collaboration_concurrent_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    set_target_properties(test_project_collaboration_concurrent_focused PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME ProjectCollaborationConcurrentTests
+        COMMAND test_project_collaboration_concurrent_focused)
+
+    set_tests_properties(ProjectCollaborationConcurrentTests PROPERTIES
+        LABELS "projects;collaboration;concurrent;integration;focused"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ProjectCollaborationConcurrent: CC-01..CC-08 (lock contention, concurrent subscribers/notify/permissions, lock/unlock race, late subscribe, consistent reads, lifecycle race)")
+else()
+    message(STATUS "ProjectCollaborationConcurrent tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_project_collaboration_concurrent.cpp")
+endif()
