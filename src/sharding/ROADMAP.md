@@ -34,7 +34,8 @@
   - [~] `readKey` / `readEntity` gRPC RPC not yet in proto (planned Q3 2026); reads currently routed via HTTP `RemoteExecutor`
 - [~] Formal source code analysis of consensus/cross-shard invariants (Target: Q2 2026)
   - [x] S0/S1 invariant violations identified in `raft_consensus.cpp`, `paxos_consensus.cpp`, `gossip_protocol.cpp`, `cross_shard_transaction.cpp`, `raft_wal_integration.cpp`, `distributed_transaction_manager.cpp`, `transaction_wal.cpp` (see `AUDIT.md`)
-  - [ ] Code fixes for PAX-1, PAX-2, PAX-3, GOS-1, CST-1, CST-2, CST-3, RWALI-1, RWALI-2 (S0 critical) (Target: Q2 2026)
+  - [x] Code fixes for PAX-1, PAX-3, GOS-1, CST-1, CST-2, CST-3, RWALI-1, RWALI-2 (S0 critical) — Fixed 2026-04-21
+  - [ ] Code fixes for PAX-2 (split-brain leader election) — pending (Target: Q2 2026)
   - [ ] Code fixes for PAX-4, RAFT-1, RLOG-1, 2PC-2, DTM-1, DTM-2, DTM-3 (S1 high) (Target: Q2 2026)
 - [x] Persistent Paxos acceptor state (survives process restart) — **Fixed 2026-04-12**
   - `handlePrepare()` now calls `wal_->logPromise()` before returning PROMISE
@@ -126,38 +127,29 @@ Sharding is a database architecture pattern that involves breaking a database in
 
 #### Phase 6.1: S0 Critical — Code Fixes Required (Target: Q2 2026)
 
-- [ ] **PAX-1 — Fix Paxos non-recursive mutex self-deadlock (`paxos_consensus.cpp`)**
-  - `executePreparePhase()` holds `state_mutex_` then calls `executeAcceptPhase()` which
-    re-acquires the same mutex → all Paxos proposals hang permanently.
-  - Fix: split into finer-grained per-instance locks or restructure call chain.
-  - Affected: `paxos_consensus.cpp` `executePreparePhase()` L548, `executeAcceptPhase()` L650
+- [x] **PAX-1 — Fix Paxos non-recursive mutex self-deadlock (`paxos_consensus.cpp`)** — Fixed 2026-04-21
+  - `executePreparePhase()` held `state_mutex_` then called `executeAcceptPhase()` which
+    re-acquired the same mutex → all Paxos proposals hung permanently.
+  - Fix: promise-collection logic moved into scoped block; mutex released before tail call.
 - [ ] **PAX-2 — Fix Paxos leader election: replace deterministic node-ID sort with quorum-based ballot exchange (`paxos_consensus.cpp`)**
   - Current code unconditionally appoints the lexicographically smallest `node_id_` as leader
     without any Paxos Phase 1 messaging; split-brain is possible.
   - Affected: `paxos_consensus.cpp` `leaderElectionThread()` L513–527
-- [ ] **PAX-3 — Enforce WAL write failure as hard error in all Paxos phases (`paxos_consensus.cpp`)**
-  - WAL exceptions are caught and swallowed ("graceful degradation") in all three phases.
-    After restart the node can accept lower-ballot proposals it previously rejected.
-  - Affected: `executePreparePhase()` L543, `executeAcceptPhase()` L644, `broadcastCommit()` L748
-- [ ] **GOS-1 — Fix Gossip `addPeer`→`syncWithTopology` deadlock (`gossip_protocol.cpp`)**
-  - `addPeer()` acquires `peers_mutex_` then calls `syncWithTopology()` which re-acquires it.
-  - Affected: `gossip_protocol.cpp` `addPeer()` L120, `syncWithTopology()` L527 (also `removePeer()`)
-- [ ] **CST-1 — Fix dangling reference UB in `commit()` (`cross_shard_transaction.cpp`)**
-  - `auto& txn = it->second` taken from map; lock released; concurrent `abort()` can erase
-    the entry; `execute2PC(txn)` then operates on freed memory → UB.
-  - Affected: `cross_shard_transaction.cpp` `commit()` L375–402
-- [ ] **CST-2 — Fix dangling reference UB in `abort()` (`cross_shard_transaction.cpp`)**
-  - Same pattern as CST-1 in `abort()` L440–473.
-- [ ] **CST-3 — Fix stale reference after re-lock in `executeSaga()` (`cross_shard_transaction.cpp`)**
-  - `auto& txn` reference reused at L688 after unlock/relock cycle; map may have been modified.
-  - Affected: `cross_shard_transaction.cpp` `executeSaga()` L522–691
-- [ ] **RWALI-1 — Fix `raft_wal_integration.cpp::write()` self-deadlock**
-  - `write()` holds `mutex_` across a 5-second busy-wait loop;
-    `onAppendEntriesResponse()` cannot acquire the same mutex → every write times out.
-  - Affected: `raft_wal_integration.cpp` `write()` L42–96
-- [ ] **RWALI-2 — Fix hardcoded cluster-size-3 in `hasQuorum()` (`raft_wal_integration.cpp`)**
-  - Quorum function hardcodes cluster size = 3; wrong for any other configuration.
-  - Affected: `raft_wal_integration.cpp` `hasQuorum()` L179–185
+- [x] **PAX-3 — Enforce WAL write failure as hard error in all Paxos phases (`paxos_consensus.cpp`)** — Fixed 2026-04-21
+  - WAL exceptions were caught and swallowed ("graceful degradation") in all three phases.
+  - Fix: WAL failures now return false from each phase; `broadcastCommit()` returns bool.
+- [x] **GOS-1 — Fix Gossip `addPeer`→`syncWithTopology` deadlock (`gossip_protocol.cpp`)** — Fixed 2026-04-21
+  - Fix: added `syncWithTopologyLocked()` private helper; `addPeer()`/`removePeer()` call it while holding `peers_mutex_`.
+- [x] **CST-1 — Fix dangling reference UB in `commit()` (`cross_shard_transaction.cpp`)** — Fixed 2026-04-21
+  - Fix: copy `txn` by value before `lock.unlock()`; re-look-up live entry after re-locking.
+- [x] **CST-2 — Fix dangling reference UB in `abort()` (`cross_shard_transaction.cpp`)** — Fixed 2026-04-21
+  - Fix: same copy-before-unlock pattern as CST-1.
+- [x] **CST-3 — Fix stale reference after re-lock in `executeSaga()` (`cross_shard_transaction.cpp`)** — Fixed 2026-04-21
+  - Fix: removed stale `&txn` reference; all locked accesses re-look-up via `transactions_.find()`.
+- [x] **RWALI-1 — Fix `raft_wal_integration.cpp::write()` self-deadlock** — Fixed 2026-04-21
+  - Fix: replaced `lock_guard` with `unique_lock` + `cv_.wait_for()`; `onAppendEntriesResponse()` calls `cv_.notify_all()` when quorum reached.
+- [x] **RWALI-2 — Fix hardcoded cluster-size-3 in `hasQuorum()` (`raft_wal_integration.cpp`)** — Fixed 2026-04-21
+  - Fix: uses `config_.raft_state->getClusterMembers().size()` with safe fallback to 1.
 
 #### Phase 6.2: S1 High — Required Before Production (Target: Q2 2026)
 
@@ -218,13 +210,13 @@ Implementing sharding requires careful planning and execution. Following this ro
 - [x] Drain-period enforcement — `DrainGuard` RAII + `waitForDrain()` condition-variable (v2.1.0)
 - [ ] RPC integration with mTLS for all cross-shard channels (write: gRPC ReplicateData ✅; read: HTTP for now)
 - [ ] End-to-end cross-shard query routing verified under load (≥ 10,000 cross-shard ops/s)
-- [ ] **[PAX-1] Paxos `state_mutex_` re-entrant deadlock fixed** (`paxos_consensus.cpp`)
+- [x] **[PAX-1] Paxos `state_mutex_` re-entrant deadlock fixed** (`paxos_consensus.cpp`) — Fixed 2026-04-21
 - [ ] **[PAX-2] Paxos leader election replaced with quorum-based ballot exchange** (`paxos_consensus.cpp`)
-- [ ] **[PAX-3] WAL failure is a hard error in all Paxos phases** (`paxos_consensus.cpp`)
-- [ ] **[GOS-1] Gossip `addPeer`→`syncWithTopology` deadlock fixed** (`gossip_protocol.cpp`)
-- [ ] **[CST-1/CST-2/CST-3] Dangling-reference UB fixed in `commit()`/`abort()`/`executeSaga()`** (`cross_shard_transaction.cpp`)
-- [ ] **[RWALI-1] Raft WAL `write()` self-deadlock resolved** (`raft_wal_integration.cpp`)
-- [ ] **[RWALI-2] `hasQuorum()` uses actual cluster size from configuration** (`raft_wal_integration.cpp`)
+- [x] **[PAX-3] WAL failure is a hard error in all Paxos phases** (`paxos_consensus.cpp`) — Fixed 2026-04-21
+- [x] **[GOS-1] Gossip `addPeer`→`syncWithTopology` deadlock fixed** (`gossip_protocol.cpp`) — Fixed 2026-04-21
+- [x] **[CST-1/CST-2/CST-3] Dangling-reference UB fixed in `commit()`/`abort()`/`executeSaga()`** (`cross_shard_transaction.cpp`) — Fixed 2026-04-21
+- [x] **[RWALI-1] Raft WAL `write()` self-deadlock resolved** (`raft_wal_integration.cpp`) — Fixed 2026-04-21
+- [x] **[RWALI-2] `hasQuorum()` uses actual cluster size from configuration** (`raft_wal_integration.cpp`) — Fixed 2026-04-21
 - [ ] **[DTM-1] Remote 2PC participant voting uses real RPC, not unconditional COMMIT vote** (`distributed_transaction_manager.cpp`)
 
 ## Known Issues & Limitations
@@ -233,13 +225,13 @@ Implementing sharding requires careful planning and execution. Following this ro
 - `[~]` Raft snapshot compaction not yet wired — WAL growth unbounded for long-running Raft deployments.
 - `[?]` Adaptive rebalancer not yet implemented; rebalancing is currently manual-only.
 - `[?]` Focused chaos tests are in CI, but full cluster-level chaos/failover scenarios are not yet part of the default production-readiness gate.
-- `[!]` **PAX-1** `paxos_consensus.cpp::executePreparePhase()` holds `state_mutex_` and calls `executeAcceptPhase()` which re-acquires it — non-recursive mutex deadlock; all Paxos proposals hang permanently.
+- `[x]` **PAX-1** `paxos_consensus.cpp::executePreparePhase()` — Fixed 2026-04-21: state_mutex_ released before tail call to executeAcceptPhase().
 - `[!]` **PAX-2** `paxos_consensus.cpp::leaderElectionThread()` performs no quorum-based election; smallest node-ID wins unconditionally — split-brain risk.
-- `[!]` **PAX-3** `paxos_consensus.cpp` WAL write failures silently ignored in all three Paxos phases — durability not guaranteed.
-- `[!]` **GOS-1** `gossip_protocol.cpp::addPeer()` deadlocks when topology is configured (`peers_mutex_` re-acquired via `syncWithTopology()`).
-- `[!]` **CST-1/CST-2/CST-3** `cross_shard_transaction.cpp::commit()`/`abort()`/`executeSaga()`: dangling map references after lock release — UB under concurrent access.
-- `[!]` **RWALI-1** `raft_wal_integration.cpp::write()` holds `mutex_` during 5-second quorum wait; `onAppendEntriesResponse()` can never run — every write times out.
-- `[!]` **RWALI-2** `raft_wal_integration.cpp::hasQuorum()` hardcodes cluster-size = 3 — wrong for any other configuration.
+- `[x]` **PAX-3** `paxos_consensus.cpp` WAL write failures — Fixed 2026-04-21: hard errors in all three phases; broadcastCommit() returns bool.
+- `[x]` **GOS-1** `gossip_protocol.cpp::addPeer()` deadlock — Fixed 2026-04-21: syncWithTopologyLocked() helper added.
+- `[x]` **CST-1/CST-2/CST-3** `cross_shard_transaction.cpp::commit()`/`abort()`/`executeSaga()` — Fixed 2026-04-21: copy-by-value before lock release; re-lookup after re-lock.
+- `[x]` **RWALI-1** `raft_wal_integration.cpp::write()` self-deadlock — Fixed 2026-04-21: unique_lock + condition_variable; onAppendEntriesResponse() notifies cv_.
+- `[x]` **RWALI-2** `raft_wal_integration.cpp::hasQuorum()` hardcoded cluster-size — Fixed 2026-04-21: uses getClusterMembers().size().
 - `[!]` **DTM-1** `distributed_transaction_manager.cpp::runPhase1Unlocked()` unconditionally returns COMMIT vote for remote participants — 2PC safety bypassed for all remote nodes.
 
 | # | Description | Status |
