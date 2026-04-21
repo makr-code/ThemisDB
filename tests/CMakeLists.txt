@@ -23962,6 +23962,35 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_federated_poisoning_detection.cpp")
 else()
     message(STATUS "FPD tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_federated_poisoning_detection.cpp")
 endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_federated_distillation_coordinator.cpp")
+    message(STATUS "Adding FDF Federated Distillation Coordinator tests")
+
+    add_executable(test_federated_distillation_coordinator_focused
+        test_federated_distillation_coordinator.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/federated_distillation_coordinator.cpp
+    )
+
+    target_include_directories(test_federated_distillation_coordinator_focused
+        PRIVATE ${THEMIS_ROOT_DIR}/include)
+
+    target_link_libraries(test_federated_distillation_coordinator_focused
+        PRIVATE ${TEST_LIBS} Threads::Threads)
+
+    target_compile_definitions(test_federated_distillation_coordinator_focused
+        PRIVATE THEMIS_TEST_BUILD=1)
+
+    add_test(NAME FDF_Tests COMMAND test_federated_distillation_coordinator_focused)
+
+    set_tests_properties(FDF_Tests PROPERTIES
+        LABELS "distributed_knowledge;distillation;FDF;teacher-student;privacy;DP;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  FDF: 01..10 (submit, broadcast, DP noise, policy gate, audit, rollback, budget)")
+else()
+    message(STATUS "FDF tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_federated_distillation_coordinator.cpp")
+endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_encrypted_blob_backend.cpp")
     message(STATUS "Adding EncryptedBlobBackend focused tests")
 

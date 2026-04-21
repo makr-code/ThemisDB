@@ -246,26 +246,38 @@ Implement end-to-end provenance tracking for every training sample from source d
 
 ---
 
-## ✅ Implemented — Federated Distillation & Privacy-Preserving Learning (v1.9.0-alpha)
+## ✅ Implemented — Federated Distillation & Privacy-Preserving Learning (v1.9.0 / FDF)
 
 ### Scope
 - Teacher-student distillation across tenant/institution boundaries without raw data exchange.
-- Secure federated round coordination with DP-protected gradient aggregation.
+- `FederatedDistillationCoordinator` — dedicated teacher→student soft-label transfer layer with
+  Gaussian DP noise, configurable policy gate, student utility reporting, and rollback trigger.
+- Secure federated round coordination with DP-protected gradient aggregation via `LoRAFederationCoordinator`.
 - Governance-controlled model release, canary rollout, and rollback/fallback to local adapters.
 
 ### Design Constraints
 - Raw training samples must never leave the local institution boundary.
-- Coordinator only processes opaque `EncryptedGradient` payloads and aggregated deltas.
+- Only temperature-scaled softmax distributions (soft labels) are shared; raw query text stays on the teacher.
+- Coordinator processes opaque `EncryptedGradient` payloads for the gradient path; `SoftLabel` structs for the distillation path.
 - Differential privacy budget (`epsilon`, `delta`) is mandatory and auditable per round.
 - Byzantine/outlier behavior must be handled by robust aggregation and resilience controls.
 
 ### Required Interfaces
-- `IncrementalLoRATrainer::exportGradient()` and `applyGlobalDelta(const GlobalAdapterDelta&)`
-- `LoRAFederationCoordinator::{submitGradient, triggerAggregation, getStats}`
+- `FederatedDistillationCoordinator::{submitSoftLabels, broadcastToStudents, registerStudent, reportStudentUtility}`
+- `DistillationConfig::{dp_epsilon, dp_delta, dp_sensitivity, temperature, alpha, min_utility_threshold}`
+- `SoftLabel::{query_id, probabilities, temperature, teacher_id}`
+- `IncrementalLoRATrainer::exportGradient()` and `applyGlobalDelta(const GlobalAdapterDelta&)` (gradient path)
+- `LoRAFederationCoordinator::{submitGradient, triggerAggregation, getStats}` (gradient path)
 - `IncrementalLoRATrainer::{deployVersionEx, rollbackVersionEx}` for governance rollout/rollback
 - Federation admin + audit callback integration for release decisions and policy gates
 
 ### Implementation Notes
+- `[x]` `FederatedDistillationCoordinator` implemented — `include/distributed_knowledge/federated_distillation_coordinator.h` + `src/distributed_knowledge/federated_distillation_coordinator.cpp` (2026-04-21)
+- `[x]` Gaussian DP noise: σ = sensitivity·√(2·ln(1.25/δ))/ε applied per broadcast; probabilities re-normalised to valid simplex.
+- `[x]` Policy gate DI-setter: `setPolicyGate()` — blocks broadcast when gate returns false.
+- `[x]` Audit DI-setter: `setAuditCallback()` — JSON audit record emitted on every successful broadcast.
+- `[x]` Rollback trigger DI-setter: `setRollbackTrigger()` — fires when reported student utility drops below `min_utility_threshold`.
+- `[x]` Privacy budget observability: `privacyBudgetRemaining()`, `verifyPrivacyBudget()`.
 - `[x]` Federated protocol roles (Client/Coordinator/Verifier) implemented through trainer export/apply hooks and coordinator round lifecycle.
 - `[x]` Secure aggregation path uses non-raw gradient payloads, FedAvg/median aggregation, and Gaussian DP protection.
 - `[x]` Non-IID/drift and poisoning/failure resilience validated with integration + OR test suites.
@@ -273,10 +285,11 @@ Implement end-to-end provenance tracking for every training sample from source d
 
 ### Test Strategy
 - Focused unit/integration coverage in:
+  - `tests/test_federated_distillation_coordinator.cpp` — FDF-01..10 (submit, broadcast, DP noise validity, policy gate, audit, rollback trigger, budget exhaustion)
   - `tests/test_incremental_lora_trainer.cpp`
   - `tests/test_distributed_knowledge_integration.cpp`
   - `tests/test_distributed_knowledge_or.cpp`
-- Validate privacy invariant (no cleartext data in shared payloads), robustness under fault/poison-like scenarios, and rollback safety.
+- Validated privacy invariant (no cleartext data in shared payloads), robustness under fault/poison-like scenarios, and rollback safety.
 
 ### Performance Targets
 - Federated round overhead: ≤ 15% vs. local-only update path.

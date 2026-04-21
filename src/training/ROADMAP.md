@@ -68,7 +68,7 @@ v1.6.0 – AdaLoRA (adaptive rank pruning), LoRAAdapterMerger (TIES + linear), a
 - [?] Multi-modal training samples (text + table + chart)
 - [x] Domain adaptation beyond legal (medical, financial) — `DomainType` LEGAL/MEDICAL/FINANCIAL in `auto_labeler.h`; domain-specific keyword extraction for medical/financial domains in `auto_labeler.cpp`
 - [x] Federated learning for privacy-preserving cross-institution training (Target: Q2 2026) — `LoRAFederationCoordinator` + `IncrementalLoRATrainer::exportGradient()/applyGlobalDelta()` in `distributed_knowledge` and `training` modules
-- [x] Model distillation from large to small adapters (Target: Q2 2026) — teacher-student adapter transfer via federated delta exchange + coordinated rollout hooks
+- [x] Model distillation from large to small adapters (Target: Q2 2026) — `FederatedDistillationCoordinator` in `distributed_knowledge/federated_distillation_coordinator.h/.cpp`; teacher submits DP-protected soft labels; student nodes receive via `registerStudent()` callback; `PolicyGate` + rollback trigger + audit hook; FDF-01..10 tests in `tests/test_federated_distillation_coordinator.cpp`
 
 ## Implementation Phases
 
