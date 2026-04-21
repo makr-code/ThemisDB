@@ -303,3 +303,49 @@ TEST_F(GunrockTest, Stats) {
     EXPECT_FALSE(stats.gpu_available);  // CPU fallback
     EXPECT_EQ(stats.gpu_memory_mb, 0);
 }
+
+// ===========================================================================
+// GAP-021 — BFS frontier size cap (CWE-400)
+// ===========================================================================
+
+// GAP-021-01: A graph with 2,000,000 nodes in a long chain must not exhaust
+// memory — gpu_bfs() must return before visiting all nodes when the frontier
+// cap (1,000,000 nodes) is reached.
+TEST_F(GunrockTest, GAP021_LargeChainGraph_FrontierCapRespected) {
+    // Build a 2M-node chain: 0→1→2→…→N-1
+    constexpr int N = 2'000'000;
+    std::vector<std::vector<NodeID>> adj(N);
+    for (int i = 0; i < N - 1; ++i) {
+        adj[i].push_back(i + 1);
+    }
+    processor->load_graph(adj);
+
+    auto distances = processor->gpu_bfs(0);
+    ASSERT_EQ(static_cast<int>(distances.size()), N);
+
+    // Node 0 must always be at distance 0.
+    EXPECT_EQ(distances[0], 0);
+
+    // Nodes beyond the cap (1M) should be -1 (unreachable / truncated).
+    // We check the last node: on a capped run it must be -1.
+    EXPECT_EQ(distances[N - 1], -1)
+        << "BFS should have been truncated; last node must remain unreachable";
+}
+
+// GAP-021-02: Small graphs (< cap) must still return correct distances.
+TEST_F(GunrockTest, GAP021_SmallGraph_FullTraversalUnaffected) {
+    std::vector<std::vector<NodeID>> adj = {
+        {1, 2},  // 0 → 1, 2
+        {3},     // 1 → 3
+        {3},     // 2 → 3
+        {}       // 3 (leaf)
+    };
+    processor->load_graph(adj);
+
+    auto distances = processor->gpu_bfs(0);
+    ASSERT_EQ(distances.size(), 4u);
+    EXPECT_EQ(distances[0], 0);
+    EXPECT_EQ(distances[1], 1);
+    EXPECT_EQ(distances[2], 1);
+    EXPECT_EQ(distances[3], 2);
+}

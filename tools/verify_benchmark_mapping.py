@@ -126,6 +126,22 @@ def check_entry_fields(data: dict) -> bool:
 # Check 3 – source files exist
 # ---------------------------------------------------------------------------
 
+def _resolve_bench_file(fname: str) -> tuple[Path, bool]:
+    """Return (resolved_path, found).
+
+    Lookup order:
+    1. BENCHMARKS_DIR / fname  (standard: benchmarks/…)
+    2. REPO_ROOT / fname       (fallback: external/… or other repo-root-relative paths)
+    """
+    candidate = BENCHMARKS_DIR / fname
+    if candidate.exists():
+        return candidate, True
+    fallback = REPO_ROOT / fname
+    if fallback.exists():
+        return fallback, True
+    return candidate, False
+
+
 def check_files_exist(data: dict) -> bool:
     ok = True
     seen: set[str] = set()
@@ -138,9 +154,10 @@ def check_files_exist(data: dict) -> bool:
             if fname in seen:
                 continue
             seen.add(fname)
-            fpath = BENCHMARKS_DIR / fname
-            if not fpath.exists():
-                _err(f"{module}/{tid}: referenced file not found: benchmarks/{fname}")
+            resolved_path, found = _resolve_bench_file(fname)
+            if not found:
+                _err(f"{module}/{tid}: referenced file not found: {fname} "
+                     f"(searched under benchmarks/ and repo root)")
                 ok = False
     if ok:
         _ok(f"All {len(seen)} referenced benchmark source files exist")
@@ -189,8 +206,8 @@ def check_benchmarks_present(data: dict) -> bool:
             if not fname or not bench:
                 continue
             if fname not in file_cache:
-                fpath = BENCHMARKS_DIR / fname
-                if fpath.exists():
+                fpath, found = _resolve_bench_file(fname)
+                if found:
                     file_cache[fname] = fpath.read_text(encoding="utf-8",
                                                         errors="replace")
                 else:

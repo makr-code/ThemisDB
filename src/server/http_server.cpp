@@ -320,11 +320,13 @@ HttpServer::HttpServer(
         // Non-fatal: geo features will be disabled
     }
     
-    // Diagnostic: log raw getenv value for admin token to verify visibility
-    try {
-        const char* _adm = std::getenv("THEMIS_TOKEN_ADMIN");
-        THEMIS_INFO("HttpServer ctor: getenv(THEMIS_TOKEN_ADMIN)='{}'", _adm ? _adm : "<null>");
-    } catch (...) {}
+    // GAP-011: Do NOT log the raw token value — log presence only to avoid
+    // leaking the secret into log files (CWE-532).
+    {
+        const bool admin_token_set = (std::getenv("THEMIS_TOKEN_ADMIN") != nullptr);
+        THEMIS_INFO("HttpServer ctor: THEMIS_TOKEN_ADMIN is {}",
+                    admin_token_set ? "set" : "not set");
+    }
     // Initialize ContentManager and register built-in processors
     // ContentManager wird nach Initialisierung von FieldEncryption erstellt (siehe weiter unten).
     // Hier zunächst nur Platzhalter (nullptr); tatsächliche Instanz folgt nach key_provider_/field_encryption_ Setup.
@@ -1444,7 +1446,13 @@ HttpServer::HttpServer(
         if (!v->empty()) cors_allowed_headers_ = *v;
     }
     if (cors_allow_all_) {
-        THEMIS_INFO("CORS: allowing all origins (Access-Control-Allow-Origin: *)");
+        // GAP-012: CORS wildcard is a security risk (CWE-346).  Any origin can
+        // make cross-site requests; browsers will expose the response to untrusted
+        // JavaScript.  Emit a prominent WARNING so operators know this is not a
+        // production-safe configuration.
+        THEMIS_WARN("[SECURITY] CORS: Access-Control-Allow-Origin: * is ENABLED via "
+                    "THEMIS_CORS_ALLOW_ALL. Any origin can read responses. "
+                    "This is NOT recommended for production deployments (GAP-012/CWE-346).");
     } else if (!cors_allowed_origins_.empty()) {
         THEMIS_INFO("CORS: allowed origins configured ({} entries)", cors_allowed_origins_.size());
     } else {

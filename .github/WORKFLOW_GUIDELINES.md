@@ -4,7 +4,7 @@
 Diese Richtlinie gilt fuer den schlanken, release-zentrierten Workflow-Kern.
 Die kanonische Liste aktiver Workflows steht in `.github/WORKFLOW_REGISTRY.md`.
 
-## Aktive Workflows (8)
+## Aktive Workflows (11)
 - `.github/workflows/01-core_ci.yml`
 - `.github/workflows/03-editions_ci.yml`
 - `.github/workflows/04-release_bootstrap-release-branches.yml`
@@ -13,6 +13,9 @@ Die kanonische Liste aktiver Workflows steht in `.github/WORKFLOW_REGISTRY.md`.
 - `.github/workflows/04-release_publish-private.yml`
 - `.github/workflows/09-pr-gates_quick-checks.yml`
 - `.github/workflows/09-pr-gates_path-policy.yml`
+- `.github/workflows/02-feature-modules_llm_voice-benchmark-ci.yml`
+- `.github/workflows/06-infrastructure_gpu_gpu-benchmark-matrix-ci.yml`
+- `.github/workflows/07-quality_nightly-benchmark-sweep.yml`
 
 ## Naming Conventions
 - Behalte den numerischen Prefix je Verantwortungsbereich (`01`, `03`, `04`, `09`) bei.

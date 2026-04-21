@@ -14460,6 +14460,14 @@ if(THEMIS_ENABLE_LLM)
     )
 
     add_llm_focused_test(
+        test_llm_model_path_traversal
+        llm/test_llm_model_path_traversal.cpp
+        LlmModelPathTraversalTests
+        "llm;security;path-traversal;gap-009;unit"
+        "GAP-009: loadModel() path containment check against THEMIS_MODEL_ROOT"
+    )
+
+    add_llm_focused_test(
         test_llm_json_schema_binding
         llm/test_json_schema_binding.cpp
         LlmJsonSchemaBindingFocusedTests

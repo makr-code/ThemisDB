@@ -119,6 +119,15 @@ struct SAMLConfig {
     // Optional: NameID policy to request in AuthnRequest
     std::string requested_authn_context{
         "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport"};
+
+    // Algorithm security policy.
+    // SHA-1 based digest and signature algorithms (e.g. http://www.w3.org/2000/09/xmldsig#sha1,
+    // http://www.w3.org/2000/09/xmldsig#rsa-sha1) are cryptographically broken and
+    // MUST NOT be accepted in new deployments (CWE-327, NIST SP 800-131A rev. 2).
+    // Set to true ONLY for temporary backward compatibility with legacy IdPs that
+    // cannot yet be migrated to SHA-256.  Log a security warning each time SHA-1
+    // is encountered regardless of this setting.
+    bool allow_sha1_deprecated{false};
 };
 
 // ============================================================================

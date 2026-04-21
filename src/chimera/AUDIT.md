@@ -29,6 +29,6 @@
 ## Findings
 
 - Finding: Only ThemisDB reference adapter present in `src/chimera/`; vendor adapters absent | Evidence: `src/chimera/` directory listing | Status: open
-- Finding: `Capability::CONNECTION_POOLING` reported as available but no pooling API implemented | Evidence: `include/chimera/themisdb_adapter.hpp` | Status: open
+- Finding: `Capability::CONNECTION_POOLING` reported as available but no pooling API implemented | Evidence: `include/chimera/themisdb_adapter.hpp` | Status: **fixed 2026-04-21** — `has_capability(CONNECTION_POOLING)` returns `false`; capability removed from `get_capabilities()`; regression test added (`ConnectionPoolingNotAvailable`, `GetCapabilitiesExcludesConnectionPooling`)
 - Finding: Engine-backed dispatch returns `NOT_IMPLEMENTED` when `THEMISDB_ENGINE_AVAILABLE` is not defined | Evidence: `src/chimera/themisdb_adapter.cpp` | Status: open
 - Finding: Streaming and prepared-statement paths covered by tests | Evidence: `tests/chimera/test_chimera_streaming.cpp`, `tests/chimera/test_chimera_prepared_statements.cpp` | Status: resolved

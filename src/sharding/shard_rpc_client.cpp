@@ -189,7 +189,10 @@ struct ShardRPCClient::Impl {
                 }
                 
             } catch (const std::exception& e) {
-                THEMIS_ERROR("Failed to load mTLS certificates: {}. Falling back to insecure connection.", e.what());
+                // GAP-016: mTLS cert load failure silently fell back to insecure.
+                // Log at ERROR for audit visibility (CWE-295).
+                THEMIS_ERROR("[SECURITY] ShardRPCClient: Failed to load mTLS certificates: {}. "
+                             "Falling back to INSECURE channel (GAP-016/CWE-295).", e.what());
                 credentials = grpc::InsecureChannelCredentials();
             }
         } else {

@@ -113,6 +113,15 @@ Reports are saved to `audit-results-<timestamp>/comprehensive-audit-report.md`.
 
 ---
 
+## Quality Audit Wave 1 (Q2 2026)
+
+A reproducible, cross-axis quality audit run for duplicate code, performance, concurrency/race risk, maintainability, and build/test reliability was completed for Wave 1.
+
+- 📄 Consolidated report: [docs/audit-reports/q2-2026-quality-wave-1/AUDIT.md](docs/audit-reports/q2-2026-quality-wave-1/AUDIT.md)
+- 📌 Follow-up backlog: [docs/audit-reports/q2-2026-quality-wave-1/FOLLOWUP_ISSUES.md](docs/audit-reports/q2-2026-quality-wave-1/FOLLOWUP_ISSUES.md)
+
+---
+
 ## Compliance Coverage Matrix
 
 | Standard | Coverage | Notes |

@@ -331,12 +331,17 @@ public:
      * @param start_id       Starting node identifier.
      * @param max_depth      Maximum BFS depth (1 = direct neighbours only).
      * @param min_edge_weight Minimum edge weight to follow.
+     * @param max_nodes      Maximum number of nodes to visit (DoS guard, GAP-010).
+     *                       The BFS terminates once this many nodes have been
+     *                       enqueued, preventing unbounded traversal of dense
+     *                       graphs.  Defaults to 4096.
      * @return               Set of reachable node IDs (excluding start_id).
      */
     std::unordered_set<std::string> neighbours(
         const std::string& start_id,
         size_t             max_depth      = 1,
-        double             min_edge_weight = 0.0) const;
+        double             min_edge_weight = 0.0,
+        size_t             max_nodes      = 4096) const;
 
     /**
      * @brief Return all outgoing edges from @p node_id.  Thread-safe.

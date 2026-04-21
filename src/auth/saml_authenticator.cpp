@@ -337,11 +337,25 @@ bool SAMLAuthenticator::verifyXmlSignature(
         digest_md = EVP_sha256();
     } else if (digest_algorithm_uri.find("sha1") != std::string::npos ||
                digest_algorithm_uri.find("SHA1") != std::string::npos) {
-        // TODO(GAP-003): SHA-1 is broken for digital signatures (SHAttered attack, 2017).
-        // Accepting SHA-1 SAML assertions allows a downgrade to a weak digest algorithm.
-        // Fix: reject SHA-1 with a hard error instead of accepting it silently:
-        //   THEMIS_ERROR("SAML: SHA-1 digest rejected - upgrade IdP to SHA-256"); return false;
-        // Target: Q2 2026
+        // SHA-1 is cryptographically broken (CWE-327, NIST SP 800-131A rev. 2).
+        // Reject unless the operator has explicitly enabled the legacy fallback.
+        // Sanitize the URI before logging to prevent log injection — truncate to
+        // 128 chars and replace control characters with '?'.
+        std::string safe_uri = digest_algorithm_uri.substr(0, 128);
+        for (char& c : safe_uri) {
+            if (static_cast<unsigned char>(c) < 0x20 || c == '\n' || c == '\r') {
+                c = '?';
+            }
+        }
+        THEMIS_WARN("[SECURITY] SAML: SHA-1 digest algorithm detected ({}). "
+                    "SHA-1 is cryptographically broken. Migrate to SHA-256.",
+                    safe_uri);
+        if (!config_.allow_sha1_deprecated) {
+            THEMIS_ERROR("[SECURITY] SAML: SHA-1 digest rejected. "
+                         "Set SAMLConfig::allow_sha1_deprecated=true to allow "
+                         "temporarily during IdP migration.");
+            return false;
+        }
         digest_md = EVP_sha1();
     } else {
         THEMIS_WARN("SAML: Unsupported digest algorithm: {}", digest_algorithm_uri);
@@ -355,6 +369,16 @@ bool SAMLAuthenticator::verifyXmlSignature(
         sig_md = EVP_sha256();
     } else if (sig_algorithm_uri.find("rsa-sha1") != std::string::npos ||
                sig_algorithm_uri.find("RSA-SHA1") != std::string::npos) {
+        // SHA-1 based signature algorithm is broken (CWE-327).
+        THEMIS_WARN("[SECURITY] SAML: SHA-1 signature algorithm detected ({}). "
+                    "SHA-1 is cryptographically broken. Migrate to RSA-SHA256.",
+                    sig_algorithm_uri);
+        if (!config_.allow_sha1_deprecated) {
+            THEMIS_ERROR("[SECURITY] SAML: SHA-1 signature rejected. "
+                         "Set SAMLConfig::allow_sha1_deprecated=true to allow "
+                         "temporarily during IdP migration.");
+            return false;
+        }
         sig_md = EVP_sha1();
     } else {
         THEMIS_WARN("SAML: Unsupported signature algorithm: {}", sig_algorithm_uri);

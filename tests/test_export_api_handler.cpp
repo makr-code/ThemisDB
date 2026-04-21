@@ -208,3 +208,118 @@ TEST(ExportPolicyErrorCode, PolicyEngineReturnsNotPermittedForRestrictedCollecti
 }
 
 }  // namespace themis::server
+
+// ===========================================================================
+// GAP-008 — Timing-safe token comparison in validateAdminToken()
+// ===========================================================================
+
+// GAP-008-01: A correct token must be accepted (sanity check after the
+// CRYPTO_memcmp migration).
+TEST_F(ExportApiHandlerTest, GAP008_CorrectToken_Accepted) {
+    ScopedEnv admin_token("THEMIS_TOKEN_ADMIN", "correct-secret-token");
+    auto req = makePostRequest("/api/v1/export/jsonl_llm",
+                               {{"collection", "col1"}},
+                               "correct-secret-token");
+    // A 400 (JSON/collection error) or any 2xx means the token was accepted;
+    // we must NOT receive 401 Unauthorized.
+    auto res = handler_.handleExportJsonlLlm(req);
+    EXPECT_NE(res.result(), http::status::unauthorized)
+        << "Correct token must not return 401";
+}
+
+// GAP-008-02: A token that differs only in its last byte must be rejected.
+// With a timing-unsafe == comparison an attacker can probe byte positions;
+// CRYPTO_memcmp must reject the mismatched token.
+TEST_F(ExportApiHandlerTest, GAP008_AlmostCorrectToken_Rejected) {
+    ScopedEnv admin_token("THEMIS_TOKEN_ADMIN", "correct-secret-token");
+    auto req = makePostRequest("/api/v1/export/jsonl_llm",
+                               {{"collection", "col1"}},
+                               "correct-secret-toke0");  // last char changed
+    auto res = handler_.handleExportJsonlLlm(req);
+    EXPECT_EQ(res.result(), http::status::unauthorized)
+        << "Token differing by one byte must be rejected";
+}
+
+// GAP-008-03: A token with the correct prefix but extra characters must be
+// rejected (length mismatch guard in CRYPTO_memcmp path).
+TEST_F(ExportApiHandlerTest, GAP008_TokenWithExtraChars_Rejected) {
+    ScopedEnv admin_token("THEMIS_TOKEN_ADMIN", "short");
+    auto req = makePostRequest("/api/v1/export/jsonl_llm",
+                               {{"collection", "col1"}},
+                               "short-but-longer");  // same prefix, longer
+    auto res = handler_.handleExportJsonlLlm(req);
+    EXPECT_EQ(res.result(), http::status::unauthorized)
+        << "Token longer than expected must be rejected";
+}
+
+
+// ===========================================================================
+// GAP-004 — AQL injection prevention in buildAqlQuery() (CWE-89)
+// ===========================================================================
+//
+// These tests exercise the ExportApiHandler::buildAqlQuery logic through the
+// public handleExportJsonlLlm() interface.  An injected field such as
+//   "theme": "x' OR 1=1 --"
+// must be rejected with HTTP 400 before reaching the AQL engine.
+
+namespace {
+// Minimal ExportApiHandler that has auth disabled (no token validation)
+// but still processes the AQL query.
+std::string makeExportBody(const json& params) {
+    return params.dump();
+}
+
+static http::request<http::string_body>
+makeExportReq(const std::string& body_str) {
+    http::request<http::string_body> req;
+    req.method(http::verb::post);
+    req.target("/api/v1/export/jsonl_llm");
+    req.version(11);
+    req.set(http::field::content_type, "application/json");
+    // set admin token to pass auth
+    req.set(http::field::authorization, "Bearer correct-secret-token");
+    req.body() = body_str;
+    req.prepare_payload();
+    return req;
+}
+} // namespace
+
+// GAP-004-01: A theme value containing a single quote is rejected (injection guard).
+TEST_F(ExportApiHandlerTest, GAP004_InjectionInTheme_ReturnsBadRequest) {
+    ScopedEnv admin_token("THEMIS_TOKEN_ADMIN", "correct-secret-token");
+    auto req = makeExportReq(makeExportBody({{"theme", "x' OR 1=1 --"}, {"collection", "c"}}));
+    auto res = handler_.handleExportJsonlLlm(req);
+    EXPECT_EQ(res.result(), http::status::bad_request)
+        << "AQL injection in 'theme' must return 400";
+}
+
+// GAP-004-02: A domain value containing a backtick is rejected.
+TEST_F(ExportApiHandlerTest, GAP004_InjectionInDomain_ReturnsBadRequest) {
+    ScopedEnv admin_token("THEMIS_TOKEN_ADMIN", "correct-secret-token");
+    auto req = makeExportReq(makeExportBody({{"domain", "evil`cmd`"}, {"collection", "c"}}));
+    auto res = handler_.handleExportJsonlLlm(req);
+    EXPECT_EQ(res.result(), http::status::bad_request)
+        << "AQL injection in 'domain' must return 400";
+}
+
+// GAP-004-03: A well-formed request with clean fields should not be rejected
+// by the injection guard (it may still fail for other reasons such as missing
+// backend, but NOT with a 400 from the validation layer).
+TEST_F(ExportApiHandlerTest, GAP004_CleanFields_PassesInjectionGuard) {
+    ScopedEnv admin_token("THEMIS_TOKEN_ADMIN", "correct-secret-token");
+    // A completely clean body should pass the guard (handler may return
+    // 200/500/503 depending on backend, but not 400 from validation).
+    auto req = makeExportReq(makeExportBody({{"theme", "engineering"}, {"collection", "c"}}));
+    auto res = handler_.handleExportJsonlLlm(req);
+    EXPECT_NE(res.result(), http::status::bad_request)
+        << "Clean 'theme' value must not be rejected by the injection guard";
+}
+
+// GAP-004-04: A subject field containing "--" (SQL/AQL comment) is rejected.
+TEST_F(ExportApiHandlerTest, GAP004_CommentInjectionInSubject_ReturnsBadRequest) {
+    ScopedEnv admin_token("THEMIS_TOKEN_ADMIN", "correct-secret-token");
+    auto req = makeExportReq(makeExportBody({{"subject", "science--all"}, {"collection", "c"}}));
+    auto res = handler_.handleExportJsonlLlm(req);
+    EXPECT_EQ(res.result(), http::status::bad_request)
+        << "Comment injection '--' in 'subject' must return 400";
+}

@@ -748,10 +748,16 @@ void MqttClientService::doHandshake() {
         ctx.set_verify_mode(boost::asio::ssl::verify_peer, ec);
         if (ec) { scheduleReconnect(); return; }
     } else {
-        // TODO(GAP-017): verify_none without CRITICAL log - any MQTT broker certificate
-        // is accepted, making MITM trivial.  CDC events (database changes) are exposed.
-        // Fix: THEMIS_CRITICAL("MQTT TLS: verify_none - MITM possible; set tls_ca_path");
-        // Target: Q2 2026
+        // GAP-017: No CA certificate configured — peer verification is disabled.
+        // This means the TLS connection will NOT authenticate the broker; a
+        // man-in-the-middle can intercept MQTT traffic.
+        // Set verify_none only when the operator has explicitly omitted tls_ca_path,
+        // and emit a loud warning so the configuration gap is visible.
+        spdlog::warn("[SECURITY] MQTT TLS: tls_ca_path is empty — "
+                     "using verify_none for broker {}. "
+                     "Set tls_ca_path to enable broker certificate verification "
+                     "and prevent man-in-the-middle attacks (GAP-017/CWE-295).",
+                     config_.broker_host);
         ctx.set_verify_mode(boost::asio::ssl::verify_none, ec);
         if (ec) { scheduleReconnect(); return; }
     }

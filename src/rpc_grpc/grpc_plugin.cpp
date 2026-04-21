@@ -98,6 +98,10 @@ bool GRPCServer::start() {
                 int ap = std::stoi(ap_it->second);
                 if (ap > 0 && ap < 65536) {
                     admin_address_ = config_.host + ":" + std::to_string(ap);
+                    // GAP-016: Log warning for insecure admin port binding (CWE-295).
+                    std::cerr << "[SECURITY] GRPCServer: admin port " << ap
+                              << " bound with insecure credentials (GAP-016/CWE-295)."
+                              << std::endl;
                     builder.AddListeningPort(admin_address_,
                                              grpc::InsecureServerCredentials());
                 }
@@ -406,7 +410,13 @@ std::string GRPCServer::loadFile(const std::string& path) {
 std::shared_ptr<grpc::ServerCredentials>
 GRPCServer::configureCredentials() {
     if (!config_.tls_enabled) {
-        std::cout << "gRPC server using insecure credentials (no TLS)" << std::endl;
+        // GAP-016: Log a security warning when falling back to insecure credentials
+        // (CWE-295). Using std::cerr instead of a proper log sink misses SIEM routing.
+        // Replace std::cout with std::cerr + structured warning so the message is
+        // visible at default log levels.
+        std::cerr << "[SECURITY] GRPCServer: TLS is disabled — using insecure gRPC "
+                     "credentials. All gRPC traffic is unencrypted. "
+                     "Enable TLS in production (GAP-016/CWE-295)." << std::endl;
         return grpc::InsecureServerCredentials();
     }
 
