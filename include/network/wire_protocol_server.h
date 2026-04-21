@@ -40,7 +40,9 @@
 #include <deque>
 #include <atomic>
 #include <mutex>
+#include <functional>
 #include <unordered_map>
+#include <nlohmann/json.hpp>
 
 namespace themis {
 // Forward declarations
@@ -52,6 +54,7 @@ class TransactionManager;
 class ProcessGraphManager;
 class TSStore;
 class ContinuousAggregateManager;
+class QueryEngine;
 
 namespace network {
 
@@ -159,7 +162,8 @@ public:
         std::shared_ptr<TransactionManager> tx_manager,
         std::shared_ptr<ProcessGraphManager> process_graph = nullptr,
         std::shared_ptr<TSStore> ts_store = nullptr,
-        std::shared_ptr<ContinuousAggregateManager> agg_manager = nullptr
+        std::shared_ptr<ContinuousAggregateManager> agg_manager = nullptr,
+        std::shared_ptr<QueryEngine> query_engine = nullptr
     );
 
     ~WireProtocolServer();
@@ -304,6 +308,17 @@ private:
     std::shared_ptr<ProcessGraphManager> process_graph_;
     std::shared_ptr<TSStore> ts_store_;
     std::shared_ptr<ContinuousAggregateManager> agg_manager_;
+    std::shared_ptr<QueryEngine> query_engine_;
+
+    // Cursor registry: stores live AQL query results for batch pagination.
+    // cursor_id -> {results as JSON array, current offset, TTL timestamp}
+    struct CursorEntry {
+        nlohmann::json results;    // Full result set (JSON array)
+        size_t         offset = 0; // Next item index to return
+        int64_t        ttl_ms = 0; // Expiry (epoch ms); 0 = never
+    };
+    mutable std::mutex cursors_mutex_;
+    std::unordered_map<std::string, CursorEntry> cursors_;
 
     // Networking (SEPARATE from HTTP server!)
     std::unique_ptr<net::io_context> io_context_;  // Dedicated IO context
@@ -401,6 +416,12 @@ private:
     void asyncReadChecksum();
     void asyncWriteResponse(const std::vector<uint8_t>& data);
     void doWrite();  // Internal write loop
+
+    // Dispatch a heavy handler function to the server's worker_pool_.
+    // Copies payload_buffer_ and header_buffer_ for the worker lambda so the
+    // I/O thread can immediately begin reading the next frame.
+    // Falls back to direct invocation when worker_pool_ is not configured.
+    void dispatchToWorkerPool(std::function<void()> handler);
 
 #ifdef THEMIS_ENABLE_WEBSOCKET
     // Protocol detection: reads first 4 bytes and decides binary vs WebSocket

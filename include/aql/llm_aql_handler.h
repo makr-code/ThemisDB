@@ -23,6 +23,9 @@
 
 #pragma once
 
+// Forward-declare RocksDBWrapper to allow setStorage() without pulling in its header.
+namespace themis { class RocksDBWrapper; }
+
 #include "aql/aql_syntax_highlighter.h"
 #include "aql/aql_confidence_scorer.h"
 #include "aql/aql_fewshot_example_library.h"
@@ -735,6 +738,15 @@ public:
      * @brief Return the currently attached `AQLIngestionBridge`, or nullptr.
      */
     std::shared_ptr<AQLIngestionBridge> ingestionBridge() const;
+
+    /**
+     * @brief Inject a storage layer so that RAG result documents can be
+     *        hydrated with their actual content instead of just the primary key.
+     *
+     * Call this before invoking executeRAG() / executeCommand(…, "RAG", …).
+     * When not set, doc.content carries the primary key (backward-compatible).
+     */
+    void setStorage(std::shared_ptr<RocksDBWrapper> storage);
 
 private:
     class Impl;

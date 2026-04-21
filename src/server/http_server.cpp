@@ -1199,6 +1199,14 @@ HttpServer::HttpServer(
                 std::make_shared<themis::maintenance::MvccCleanupHandler>(mvcc_store_));
         }
 
+        // Wire REPLICA_VALIDATION handler — delegates to ShardRepairEngine::runConsistencyCheck()
+        if (shard_repair_engine_) {
+            maintenance_orchestrator_->registerTaskHandler(
+                themis::maintenance::MaintenanceTaskType::REPLICA_VALIDATION,
+                themis::maintenance::makeReplicaValidationHandler(shard_repair_engine_));
+            THEMIS_INFO("REPLICA_VALIDATION handler wired to ShardRepairEngine");
+        }
+
         maintenance_api_ = std::make_unique<server::MaintenanceApiHandler>(
             maintenance_orchestrator_.get());
         THEMIS_INFO("Database Maintenance Orchestrator initialized (endpoints: /api/v1/maintenance/*)");
