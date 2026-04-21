@@ -111,6 +111,30 @@ by depth limit (same constraint as LLM module).
 
 ---
 
+### 6. Structured Error on Unloaded Model — Replace Silent Stub Echo (Target: Q3 2026)
+
+**Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 1 (Severity: High/S1)`
+**Status:** ✅ Implemented (2026-04-21)
+
+**Problem:** When `LlamaCppPlugin::generate()` is called without a loaded model
+(wrapper_ == nullptr), it returned a stub response with `success=true` and text
+`"[stub:<prompt_prefix>]"`.  Callers could not distinguish this from a real inference
+result at the `InferenceResponse` level; silent incorrect output may propagate into
+RAG pipelines and AQL results.
+
+**Implemented changes:**
+- `generate()` now returns `success=false` + `error_message="Model not loaded — call loadModel() before generate()"` when `wrapper_` is nullptr and `THEMIS_LLAMA_CPP_STUB_MODE` is not defined.
+- Test builds define `THEMIS_LLAMA_CPP_STUB_MODE` via CMakeLists to preserve the echo stub for existing tests (D2/D3/N6 groups).
+- New Group O tests (O1..O3) added to `src/llama_cpp/tests/test_llama_cpp_plugin.cpp` verify the production error path and stub-mode compatibility.
+
+**Inputs:** `InferenceRequest` (unchanged); `wrapper_` state (nullptr vs. loaded).
+**Outputs:** `InferenceResponse { success=false, error_message }`.
+**Constraints:** Existing unit tests that rely on the stub response use `THEMIS_LLAMA_CPP_STUB_MODE`.
+**Tests:** Group O tests (O1..O3) in `src/llama_cpp/tests/test_llama_cpp_plugin.cpp`.
+**Perf target:** No performance impact (error path only).
+
+---
+
 ## Security / Reliability
 
 - All new inference paths must pass through `PolicyEngine::checkInferencePermission()`

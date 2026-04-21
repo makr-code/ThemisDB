@@ -24,8 +24,10 @@ versioning, structural diff/merge, template instantiation, and collaboration ses
 ## Planned Features 📋
 
 ### Short-term (2026-Q3)
-- [ ] Unit and integration tests for all lifecycle transition paths (Target: 2026-Q3)
-- [ ] Unit tests for `ProjectDiff` conflict detection and `ProjectMerge` three-way merge (Target: 2026-Q3)
+- [x] Unit and integration tests for all lifecycle transition paths (Target: 2026-Q3) — `test_projects.cpp` PL-01..PL-07 (2026-04-15); `test_project_collaboration_concurrent.cpp` CC-08 lifecycle race (2026-04-21)
+- [x] Unit tests for `ProjectDiff` conflict detection and `ProjectMerge` three-way merge (Target: 2026-Q3) — `test_projects.cpp` PD-01..PD-07 (2026-04-15)
+- [x] Unit tests for `ProjectVersioning` round-trips and snapshot restore (Target: 2026-Q3) — `test_projects.cpp` PV-01..PV-06 (2026-04-15)
+- [x] Integration tests for concurrent collaboration session scenarios (Target: 2026-Q3) — `test_project_collaboration_concurrent.cpp` CC-01..CC-08: lock contention, concurrent subscribers, notifyChange data-race, permission writes, lock/unlock interleaving, late subscribe, consistent getChanges, lifecycle race (2026-04-21)
 - [ ] REST API endpoints for project bundle export/import via `IProjectBundleManager` (Target: 2026-Q3)
 
 ### Medium-term (2026-Q4)
@@ -45,10 +47,11 @@ versioning, structural diff/merge, template instantiation, and collaboration ses
 - [x] `IProjectAuditLog` interface with `ProjectAuditAction` enum
 - [x] `IProjectBundleManager` interface with `ProjectBundleManifest`
 
-### Phase 3: Tests (Status: Planned)
-- [ ] Unit tests for lifecycle transitions and invalid-transition rejection (Target: 2026-Q3)
-- [ ] Unit tests for versioning round-trips and snapshot restore (Target: 2026-Q3)
-- [ ] Integration tests for concurrent collaboration session scenarios (Target: 2026-Q3)
+### Phase 3: Tests (Status: Completed ✅ 2026-04-21)
+- [x] Unit tests for lifecycle transitions and invalid-transition rejection — `ProjectsModuleTests` (PL-01..PL-07) in `tests/test_projects.cpp`
+- [x] Unit tests for versioning round-trips and snapshot restore — `ProjectsModuleTests` (PV-01..PV-06) in `tests/test_projects.cpp`
+- [x] Unit tests for `ProjectDiff` conflict detection and `ProjectMerge` three-way merge — `ProjectsModuleTests` (PD-01..PD-07) in `tests/test_projects.cpp`
+- [x] Integration tests for concurrent collaboration session scenarios — `ProjectCollaborationConcurrentTests` (CC-01..CC-08) in `tests/test_project_collaboration_concurrent.cpp`
 
 ### Phase 4: Observability & Security Hardening (Status: Planned)
 - [ ] Prometheus metrics for collaboration session counts and diff computation latency (Target: 2026-Q4)
@@ -57,15 +60,15 @@ versioning, structural diff/merge, template instantiation, and collaboration ses
 ## Production Readiness Checklist
 
 - [x] Core implementation complete (5 source files, 7 header interfaces)
-- [ ] Test coverage for critical lifecycle and merge paths
+- [x] Test coverage for critical lifecycle and merge paths — `ProjectsModuleTests` + `ProjectCollaborationConcurrentTests` (CC-01..CC-08)
 - [ ] Observability: metrics and audit logging hooked up
 - [ ] Security review complete
 
 ## Known Issues & Limitations
 
-- Test coverage for the projects module has not yet been confirmed; integration tests are planned for 2026-Q3.
 - `ProjectMerge` returns conflicts for the caller to resolve; no automatic conflict resolution is applied.
 - Real-time transport for collaboration (WebSocket/SSE) is handled by the server module, not here.
+- REST API for `IProjectBundleManager` (export/import) is planned for 2026-Q3.
 
 ## Breaking Changes
 

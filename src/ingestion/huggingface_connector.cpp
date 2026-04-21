@@ -21,6 +21,8 @@
  */
 
 #include "ingestion/huggingface_connector.h"
+#include "governance/model_governance.h"
+#include "utils/logger.h"
 #include <curl/curl.h>
 #include <stdexcept>
 #include <sstream>
@@ -640,6 +642,20 @@ public:
         document_validator_ = std::move(v);
     }
 
+    void setIngestionPolicy(
+        std::shared_ptr<governance::ModelGovernancePolicy> policy)
+    {
+        ingestion_policy_ = std::move(policy);
+    }
+
+    bool hasIngestionPolicy() const { return ingestion_policy_ != nullptr; }
+
+    governance::ModelGovernanceDecision checkIngestionPermission(
+        const governance::ModelTrainingExportRequest& req) const
+    {
+        return ingestion_policy_->checkExportPermission(req);
+    }
+
 private:
     SourceConfig config_;
     std::string dataset_name_;
@@ -648,11 +664,12 @@ private:
     size_t batch_size_;
     bool streaming_enabled_;
     RetryConfig retry_config_;
-    OAuthConfig   oauth_config_; // OAuth 2.0 token refresh configuration
-    ApiHttpGetFn  http_get_fn_;  // testing hook; empty = use real libcurl GET
-    ApiHttpPostFn http_post_fn_; // testing hook; empty = use real libcurl POST
-    DocumentValidatorFn document_validator_; ///< Optional per-document validator
-};
+    OAuthConfig   oauth_config_;
+    ApiHttpGetFn  http_get_fn_;
+    ApiHttpPostFn http_post_fn_;
+    DocumentValidatorFn document_validator_;
+    /// Optional governance policy set via setIngestionPolicy() (Gap 8).
+    std::shared_ptr<governance::ModelGovernancePolicy> ingestion_policy_;
 
 // Public API implementation
 HuggingFaceConnector::HuggingFaceConnector()
@@ -661,7 +678,43 @@ HuggingFaceConnector::HuggingFaceConnector()
 
 HuggingFaceConnector::~HuggingFaceConnector() = default;
 
+// Gap 8 (AI_ML_IMPACT_ASSESSMENT.md §7 — Severity: Medium/S1) — implemented 2026-04-21.
+// The data classification gate is performed inside initialize() by calling
+// ModelGovernancePolicy::checkExportPermission() with purpose="DATA_INGESTION"
+// when an ingestion policy has been injected via setIngestionPolicy().
+// When no policy is set (nullptr), a WARN is logged and the gate is bypassed
+// (degraded mode) to preserve backward compatibility with existing connectors.
+// Tracked: src/ingestion/FUTURE_ENHANCEMENTS.md §"Data Classification Gate for
+//          External Connectors"
 bool HuggingFaceConnector::initialize(const SourceConfig& config) {
+    // ── Governance gate (Gap 8) ───────────────────────────────────────────────
+    if (impl_->hasIngestionPolicy()) {
+        governance::ModelTrainingExportRequest req;
+        req.export_job_id    = config.source_id;
+        req.requesting_user  = "HuggingFaceConnector";
+        req.adapter_id       = "";
+        req.purpose          = "DATA_INGESTION";
+        req.collection_ids   = {config.location};
+        req.classification   = "offen"; // default; callers may override via options
+        if (auto it = config.options.find("classification"); it != config.options.end()) {
+            req.classification = it->second;
+        }
+        const auto decision = impl_->checkIngestionPermission(req);
+        if (!decision.is_permitted) {
+            THEMIS_ERROR("HuggingFaceConnector::initialize: governance gate DENIED "
+                         "dataset='{}': {}",
+                         config.location, decision.denial_reason);
+            return false;
+        }
+        THEMIS_INFO("HuggingFaceConnector::initialize: governance gate PERMITTED "
+                    "dataset='{}' (lineage={})",
+                    config.location, decision.lineage_event_id);
+    } else {
+        THEMIS_WARN("HuggingFaceConnector::initialize: no ingestion policy set — "
+                    "governance gate bypassed for dataset '{}' (Gap 8 degraded mode).",
+                    config.location);
+    }
+    // ─────────────────────────────────────────────────────────────────────────
     return impl_->initialize(config);
 }
 
@@ -708,6 +761,12 @@ void HuggingFaceConnector::setHttpPostForTesting(ApiHttpPostFn fn) {
 
 void HuggingFaceConnector::setDocumentValidator(DocumentValidatorFn validator) {
     impl_->setDocumentValidator(std::move(validator));
+}
+
+void HuggingFaceConnector::setIngestionPolicy(
+    std::shared_ptr<governance::ModelGovernancePolicy> policy)
+{
+    impl_->setIngestionPolicy(std::move(policy));
 }
 
 } // namespace ingestion

@@ -242,6 +242,9 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - Serializable isolation is implemented via predicate locking (SSI); SERIALIZABLE transactions acquire predicate locks on read ranges and detect write conflicts at write time.
 - Cross-shard 2PC is available at three levels: `themis::sharding::TwoPhaseCommitCoordinator` (v1.5.0, sharding-layer), `themis::storage::DistributedTransactionManager` (v1.7.0, storage-layer), and `themis::transaction::DistributedTransactionManager` (v1.9.0, transaction-domain — this implementation).
 - `TransactionBatcher` uses a type-erased `std::function<Status()>` as the commit unit, allowing full flexibility at the cost of one virtual dispatch per submitted item.
+- **[DTM-1]** `distributed_transaction_manager.cpp::runPhase1Unlocked()`: Remote participants registered by endpoint without a callback unconditionally return a COMMIT vote — 2PC safety is bypassed for all remote nodes. Affects `themis::transaction::DistributedTransactionManager` (v1.9.0). Fix: replace with real RPC or explicit ABORT-on-unreachable policy.
+- **[DTM-2]** `distributed_transaction_manager.cpp::recoverInDoubtTransactions()`: In-doubt transactions are logged ABORTED in WAL but the abort is never broadcast to participants. Participants remain PREPARED indefinitely, blocking their locked resources.
+- **[DTM-3]** `distributed_transaction_manager.cpp::isParticipantAlive()`: Always returns `true`; dead participants are never detected.
 
 ## Breaking Changes
 - `TransactionManager` public API is stable from v1.x.

@@ -30,8 +30,8 @@ This document covers planned enhancements to the LLM module beyond what is track
 ## Planned Features
 
 ### RAID-Sharding Interlock for Cross-Instance (Batch-)Inference
-**Priority:** High  
-**Target Version:** v1.18.0  
+**Priority:** High
+**Target Version:** v1.18.0
 **Status:** [~] In progress (API contract + metadata wiring)
 
 #### Scope
@@ -291,6 +291,70 @@ Extend `adapter_registry.cpp` and `AdapterLoadBalancer` (`adapter_load_balancer.
 - LoRA adapter hot-load accepts a file path from the admin API; the path must be validated against a configurable allowlist directory (`LlmConfig::adapter_load_dir`) to prevent loading arbitrary files from the filesystem.
 - Speculative decoding's draft model shares the GPU memory space with the target model; `adaptive_vram_allocator.cpp` must enforce a hard cap to prevent the draft model from evicting KV cache entries needed by in-flight target-model requests.
 - `grammar.cpp` EBNF compilation is bounded by a configurable max grammar size (default 64 KB) to prevent CPU exhaustion from adversarial grammar inputs submitted via the OpenAI tools API.
+
+---
+
+## Identified Gaps (from AI_ML_IMPACT_ASSESSMENT.md)
+
+### Gap 3 — Inline Training Policy Gate: ModelGovernancePolicy Check before LoRA Training (Target: Q3 2026)
+
+**Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 3 (Severity: High/S0)`
+**Status:** ✅ Implemented (2026-04-21)
+
+**Problem:** `InlineTrainingEngine::train()` (`src/llm/inline_training_engine.cpp`)
+started on-the-fly LoRA fine-tuning immediately without consulting
+`ModelGovernancePolicy::checkExportPermission()`.
+
+**Implemented changes:**
+- `InlineTrainingEngine::setGovernancePolicy(shared_ptr<ModelGovernancePolicy>)` added to public API.
+- `InlineTrainingConfig::require_policy_gate` (default: `false`) — set to `true` in production environments to enforce that a policy is always present.
+- `train()` now checks the policy gate before `trainLoop()`:
+  - No policy + `require_policy_gate=true` → `TrainingResult { success=false, message="policy gate is required..." }`.
+  - No policy + `require_policy_gate=false` → spdlog WARN + proceed.
+  - Policy DENY → `TrainingResult { success=false, message="Governance policy DENIED: <reason>" }`.
+  - Policy PERMIT → spdlog INFO with `lineage_event_id` + proceed to `trainLoop()`.
+- Tests: `test_inline_training_governance.cpp` (ITE_GOV_A1..A4, B1..B2) registered as `InlineTrainingGovernanceFocusedTests`.
+
+**Inputs:** `adapter_id`, `base_model_path`, `TrainingConfig`, optional `ModelGovernancePolicy`.
+**Outputs:** `TrainingResult`; audit log entry via `ModelGovernancePolicy`.
+**Perf target:** Policy check overhead ≤ 5 ms (synchronous; runs once per training job).
+
+---
+
+### Gap 6 — Central ML/AI Token-Cost Budget and Rate-Limit Tracking (Target: Q4 2026)
+
+**Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 6 (Severity: High/S1)`
+
+**Problem:** There is no central accounting of token spend across all inference paths
+(AQL, RAG, Agentic loops, reranking, judge calls).  Each path independently sends LLM
+requests; without a shared budget, a burst of agentic sessions or a misconfigured
+auto-evaluation pipeline can exhaust GPU resources or incur runaway API costs silently.
+The existing `CircuitBreaker` in `LLMAQLHandler` protects against backend failure but
+not against aggregate cost overrun.
+
+**Solution:**
+- Add `LLMTokenBudgetManager` (singleton or DI-scoped) with:
+  - `bool consume(size_t tokens, const std::string& path_id)` — atomically deducts
+    from the remaining per-period budget; returns `false` when budget is exhausted.
+  - `void reset(Period period)` — called by the existing scheduler to reset counters
+    per minute / hour / day.
+  - Prometheus gauge `llm_token_budget_remaining{path}` + counter
+    `llm_token_spend_total{path}`.
+- Wire `consume()` into `AsyncInferenceEngine` before each `generate()` dispatch;
+  return a `429 TooManyRequests`-equivalent `InferenceResponse` on budget exhaustion.
+- Expose `GET /api/v1/llm/token-budget` via `http_server.cpp` for operational visibility.
+- `LlmConfig` gains `token_budget_per_hour` (default: unlimited, 0 = disabled) so
+  existing deployments are unaffected until the field is set.
+
+**Inputs:** Per-request `InferenceRequest::max_tokens`; `path_id` tag ("aql", "rag",
+"agentic", "judge", "reranker").
+**Outputs:** Budget accounting in Prometheus; rejection response when exhausted.
+**Constraints:** Counter must be thread-safe (`std::atomic<int64_t>`); no blocking.
+**Errors:** Budget exhausted → structured `InferenceError::BUDGET_EXHAUSTED`; config
+`token_budget_per_hour=0` disables enforcement.
+**Tests:** 5 unit tests — normal consume; exhaustion → rejection; reset clears counter;
+Prometheus gauge updated; disabled budget allows all requests.
+**Perf target:** `consume()` overhead ≤ 50 ns per call (atomic compare-exchange only).
 
 ---
 

@@ -222,6 +222,7 @@ Total Issues: 6908
 | include/query/functions/vector_functions.h | 23 |
 | include/utils/utils_interfaces.h | 22 |
 | include/training/training_interfaces.h | 22 |
+| src/replication/replication_manager.cpp | 21 |
 | include/llm/ai_orchestrator.h | 21 |
 | include/analytics/process_mining.h | 21 |
 | include/query/functions/relational_functions.h | 21 |

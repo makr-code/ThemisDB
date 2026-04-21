@@ -5883,7 +5883,154 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_model_governance.cpp")
     message(STATUS "  Model Governance: training export request, bias audit, data lineage, checkExportAllowed")
 endif()
 
-# Governance - compliance + security integration focused tests (Issue: #1778)
+# Inline Training Governance gate tests (Gap 3 — AI_ML_IMPACT_ASSESSMENT.md §7)
+# Tests ModelGovernancePolicy permit/deny and InlineTrainingConfig::require_policy_gate API.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_inline_training_governance.cpp")
+    message(STATUS "Adding InlineTrainingGovernance gate tests (Gap 3 — ITE_GOV_A1..A4, B1..B2)")
+    add_executable(test_inline_training_governance_focused
+        test_inline_training_governance.cpp
+    )
+    target_include_directories(test_inline_training_governance_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+    target_link_libraries(test_inline_training_governance_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_inline_training_governance_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME InlineTrainingGovernanceFocusedTests
+             COMMAND test_inline_training_governance_focused)
+    set_tests_properties(InlineTrainingGovernanceFocusedTests PROPERTIES
+        LABELS "governance;training;inline-training;policy-gate;gap3;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  InlineTrainingGovernance: ITE_GOV_A1..A4 policy permit/deny, B1..B2 config API")
+endif()
+
+# AgenticRAG session token-budget cap tests (Gap 4 — AI_ML_IMPACT_ASSESSMENT.md §7)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_agentic_rag_budget.cpp")
+    message(STATUS "Adding AgenticRAG budget cap tests (Gap 4 — ARG_BUD_01..05)")
+    add_executable(test_agentic_rag_budget_focused
+        test_agentic_rag_budget.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/agentic_rag.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+    target_include_directories(test_agentic_rag_budget_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+    target_link_libraries(test_agentic_rag_budget_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_agentic_rag_budget_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME AgenticRAGBudgetFocusedTests
+             COMMAND test_agentic_rag_budget_focused)
+    set_tests_properties(AgenticRAGBudgetFocusedTests PROPERTIES
+        LABELS "rag;agentic-rag;budget;token-budget;gap4;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  AgenticRAGBudget: ARG_BUD_01..05 budget cap, BUDGET_EXCEEDED stop reason, tokens_consumed")
+endif()
+
+# Gap 7 ─ LLMJudgeIntegration is_mock flag focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_judge_is_mock.cpp")
+    message(STATUS "Adding LLMJudgeIntegration is_mock flag tests (Gap 7)")
+    add_executable(test_llm_judge_is_mock_focused test_llm_judge_is_mock.cpp)
+    target_link_libraries(test_llm_judge_is_mock_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_llm_judge_is_mock_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME LLMJudgeIsMockFocusedTests
+             COMMAND test_llm_judge_is_mock_focused)
+    set_tests_properties(LLMJudgeIsMockFocusedTests PROPERTIES
+        LABELS "rag;llm-judge;is_mock;gap7;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  LLMJudgeIsMock: JGI_MOCK_01..05 is_mock flag in ParsedResponse")
+endif()
+
+# Gap 8 ─ HuggingFaceConnector governance gate focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_huggingface_connector_governance.cpp")
+    message(STATUS "Adding HuggingFaceConnector governance gate tests (Gap 8)")
+    add_executable(test_huggingface_connector_governance_focused
+        test_huggingface_connector_governance.cpp
+        ${THEMIS_ROOT_DIR}/src/ingestion/huggingface_connector.cpp
+    )
+    target_link_libraries(test_huggingface_connector_governance_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        CURL::libcurl
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_huggingface_connector_governance_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME HuggingFaceConnectorGovernanceFocusedTests
+             COMMAND test_huggingface_connector_governance_focused)
+    set_tests_properties(HuggingFaceConnectorGovernanceFocusedTests PROPERTIES
+        LABELS "ingestion;huggingface;governance;classification;gap8;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  HuggingFaceConnectorGovernance: HFC_GOV_01..05 classification gate")
+endif()
+
+# Gap 2 (search) ─ LlmQueryRewriter semantic output validator focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_query_rewriter_validator.cpp")
+    message(STATUS "Adding LlmQueryRewriter semantic output validator tests (Gap 2 / search)")
+    add_executable(test_llm_query_rewriter_validator_focused
+        test_llm_query_rewriter_validator.cpp
+        ${THEMIS_ROOT_DIR}/src/search/llm_query_rewriter.cpp
+    )
+    target_link_libraries(test_llm_query_rewriter_validator_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_llm_query_rewriter_validator_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME LlmQueryRewriterValidatorFocusedTests
+             COMMAND test_llm_query_rewriter_validator_focused)
+    set_tests_properties(LlmQueryRewriterValidatorFocusedTests PROPERTIES
+        LABELS "search;query-rewriter;semantic-validator;overlap;gap2;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  LlmQueryRewriterValidator: LQR_VAL_01..06 overlap filter, RewriteQuality enum")
+endif()
+
+# Gap 5 ─ PromptInjectionPatternRegistry shared registry focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_injection_pattern_registry.cpp")
+    message(STATUS "Adding PromptInjectionPatternRegistry shared registry tests (Gap 5)")
+    add_executable(test_prompt_injection_pattern_registry_focused
+        test_prompt_injection_pattern_registry.cpp
+        ${THEMIS_ROOT_DIR}/src/security/prompt_injection_pattern_registry.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/prompt_injection_detector.cpp
+        ${THEMIS_ROOT_DIR}/src/prompt_engineering/prompt_injection_detector.cpp
+    )
+    target_link_libraries(test_prompt_injection_pattern_registry_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_prompt_injection_pattern_registry_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME PromptInjectionPatternRegistryFocusedTests
+             COMMAND test_prompt_injection_pattern_registry_focused)
+    set_tests_properties(PromptInjectionPatternRegistryFocusedTests PROPERTIES
+        LABELS "security;rag;prompt-engineering;pattern-registry;gap5;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  PromptInjectionPatternRegistry: PRR_01..08 shared registry parity + singleton")
+endif()
+
+# Governance ÔÇô compliance + security integration focused tests (Issue: #1778)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_compliance_security_governance.cpp")
     message(STATUS "Adding Compliance & Security Governance integration tests (Issue #1778)")
     add_executable(test_compliance_security_governance_focused test_compliance_security_governance.cpp)
@@ -23182,7 +23329,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plu
         fmt::fmt
     )
     target_compile_features(test_llama_cpp_plugin PRIVATE cxx_std_17)
-    target_compile_definitions(test_llama_cpp_plugin PRIVATE THEMIS_PLUGIN_EXPORTS)
+    target_compile_definitions(test_llama_cpp_plugin PRIVATE
+        THEMIS_PLUGIN_EXPORTS
+        # Enable the stub-echo path (loadModel("","") returns success=true) so
+        # existing tests D2/D3/E1/E2 continue to work.  Production builds must NOT
+        # define this macro — see llama_cpp/FUTURE_ENHANCEMENTS.md §6 (Gap 1).
+        THEMIS_LLAMA_CPP_STUB_MODE
+    )
     add_test(NAME LlamaCppPluginFocusedTests COMMAND test_llama_cpp_plugin)
     set_tests_properties(LlamaCppPluginFocusedTests PROPERTIES
         LABELS "plugins;llama_cpp;llm;v2.1.0"
@@ -24363,4 +24516,270 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_serialization_advisor.cpp")
     message(STATUS "  SerializationAdvisor: SA-01..12 (decision tree, Plan field, calibration, Strategy enum)")
 else()
     message(STATUS "SerializationAdvisor tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_serialization_advisor.cpp")
+endif()
+
+# =============================================================================
+# FPD — Federated Poisoning Detection (GradientOutlierFilter) tests
+# Tests: FPD_01..10 (10 tests)
+# =============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_federated_poisoning_detection.cpp")
+    message(STATUS "Adding Federated Poisoning Detection tests (FPD_01..10)")
+
+    add_executable(test_federated_poisoning_detection_focused
+        test_federated_poisoning_detection.cpp
+    )
+
+    target_include_directories(test_federated_poisoning_detection_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_federated_poisoning_detection_focused PRIVATE
+        ${TEST_LIBS}
+        themis_distributed_knowledge
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_federated_poisoning_detection_focused PRIVATE THEMIS_TEST_BUILD=1)
+
+    set_target_properties(test_federated_poisoning_detection_focused PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME FPD_Tests COMMAND test_federated_poisoning_detection_focused)
+    set_tests_properties(FPD_Tests PROPERTIES
+        LABELS "distributed_knowledge;federation;poisoning;security;focused;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  FPD_01..10: GradientOutlierFilter, L2NormFilter, filteredCount, all-reject")
+else()
+    message(STATUS "FPD tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_federated_poisoning_detection.cpp")
+endif()
+
+# =============================================================================
+# FDF — Federated Distillation Coordinator tests
+# Tests: FDF_01..15 (15 tests)
+# =============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_federated_distillation_coordinator.cpp")
+    message(STATUS "Adding Federated Distillation Coordinator tests (FDF_01..15)")
+
+    add_executable(test_federated_distillation_coordinator_focused
+        test_federated_distillation_coordinator.cpp
+    )
+
+    target_include_directories(test_federated_distillation_coordinator_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_federated_distillation_coordinator_focused PRIVATE
+        ${TEST_LIBS}
+        themis_distributed_knowledge
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_federated_distillation_coordinator_focused PRIVATE THEMIS_TEST_BUILD=1)
+
+    set_target_properties(test_federated_distillation_coordinator_focused PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME FDF_Tests COMMAND test_federated_distillation_coordinator_focused)
+    set_tests_properties(FDF_Tests PROPERTIES
+        LABELS "distributed_knowledge;federation;distillation;focused;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  FDF_01..15: SoftLabelBatch, aggregation, DP noise, PolicyGate, AuditCallback, RollbackTrigger")
+else()
+    message(STATUS "FDF tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_federated_distillation_coordinator.cpp")
+endif()
+
+# =============================================================================
+# HotReloadManager unit tests (base module — ROADMAP #1574)
+# Tests: ModuleVersion, HotReloadResult, HotReloadManagerTest (~25 tests)
+# =============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_hot_reload_manager.cpp")
+    message(STATUS "Adding HotReloadManager unit tests (base module, ROADMAP #1574)")
+
+    add_executable(test_hot_reload_manager_focused
+        test_hot_reload_manager.cpp
+    )
+
+    target_include_directories(test_hot_reload_manager_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_hot_reload_manager_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    if(TARGET themis_base)
+        target_link_libraries(test_hot_reload_manager_focused PRIVATE themis_base)
+    endif()
+
+    target_compile_definitions(test_hot_reload_manager_focused PRIVATE THEMIS_TEST_BUILD=1)
+
+    set_target_properties(test_hot_reload_manager_focused PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME HotReloadManagerFocusedTests COMMAND test_hot_reload_manager_focused)
+    set_tests_properties(HotReloadManagerFocusedTests PROPERTIES
+        LABELS "base;hot-reload;unit;focused"
+        TIMEOUT 60
+    )
+    message(STATUS "  HotReloadManager: ModuleVersion, HotReloadResult, register/unregister, reload, rollback, callbacks, stats")
+else()
+    message(STATUS "HotReloadManager tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_hot_reload_manager.cpp")
+endif()
+
+# =============================================================================
+# ModuleSandbox unit tests (base module — ROADMAP #1573/#1574)
+# Tests: AbiChecker (~14 tests), ModuleSandbox construction + config
+# =============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_module_sandbox.cpp")
+    message(STATUS "Adding ModuleSandbox unit tests (base module, ROADMAP #1573/#1574)")
+
+    add_executable(test_module_sandbox_focused
+        test_module_sandbox.cpp
+    )
+
+    target_include_directories(test_module_sandbox_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_module_sandbox_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    if(TARGET themis_base)
+        target_link_libraries(test_module_sandbox_focused PRIVATE themis_base)
+    endif()
+
+    target_compile_definitions(test_module_sandbox_focused PRIVATE THEMIS_TEST_BUILD=1)
+
+    set_target_properties(test_module_sandbox_focused PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME ModuleSandboxFocusedTests COMMAND test_module_sandbox_focused)
+    set_tests_properties(ModuleSandboxFocusedTests PROPERTIES
+        LABELS "base;sandbox;abi-checker;unit;focused"
+        TIMEOUT 60
+    )
+    message(STATUS "  ModuleSandbox: AbiChecker (14 tests), ModuleSandbox config/construction, cgroup/resource limits")
+else()
+    message(STATUS "ModuleSandbox tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_module_sandbox.cpp")
+endif()
+
+# =============================================================================
+# ModuleSandbox WASM injection unit tests (base module — ROADMAP #1573/#1574)
+# Tests: WasmConfig, WasmLaunch, WasmInjectionFixture (~12 tests)
+# =============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_module_sandbox_wasm_injection.cpp")
+    message(STATUS "Adding ModuleSandbox WASM injection tests (base module, ROADMAP #1573/#1574)")
+
+    add_executable(test_module_sandbox_wasm_injection_focused
+        test_module_sandbox_wasm_injection.cpp
+    )
+
+    target_include_directories(test_module_sandbox_wasm_injection_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_module_sandbox_wasm_injection_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+        ${CMAKE_DL_LIBS}
+    )
+
+    if(TARGET themis_base)
+        target_link_libraries(test_module_sandbox_wasm_injection_focused PRIVATE themis_base)
+    endif()
+
+    target_compile_definitions(test_module_sandbox_wasm_injection_focused PRIVATE THEMIS_TEST_BUILD=1)
+
+    set_target_properties(test_module_sandbox_wasm_injection_focused PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME ModuleSandboxWasmInjectionFocusedTests COMMAND test_module_sandbox_wasm_injection_focused)
+    set_tests_properties(ModuleSandboxWasmInjectionFocusedTests PROPERTIES
+        LABELS "base;sandbox;wasm;injection;unit;focused"
+        TIMEOUT 60
+    )
+    message(STATUS "  ModuleSandboxWasmInjection: WasmConfig defaults, launch w/o runtime, launch+isolation with injected runtime")
+else()
+    message(STATUS "ModuleSandbox WASM injection tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_module_sandbox_wasm_injection.cpp")
+endif()
+
+# =============================================================================
+# ProjectCollaborationConcurrent integration tests (projects module — Phase 3)
+# CC-01..CC-08: lock contention, concurrent subscribers, notifyChange,
+#               permission writes, lock/unlock interleaving, late subscribe,
+#               consistent getChanges under concurrent writes, lifecycle race
+# =============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_project_collaboration_concurrent.cpp")
+    message(STATUS "Adding ProjectCollaborationConcurrent integration tests (projects Phase 3)")
+
+    add_executable(test_project_collaboration_concurrent_focused
+        test_project_collaboration_concurrent.cpp
+        ${CMAKE_SOURCE_DIR}/src/projects/collaboration_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/projects/project_lifecycle.cpp
+    )
+
+    target_include_directories(test_project_collaboration_concurrent_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_project_collaboration_concurrent_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_project_collaboration_concurrent_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    set_target_properties(test_project_collaboration_concurrent_focused PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME ProjectCollaborationConcurrentTests
+        COMMAND test_project_collaboration_concurrent_focused)
+
+    set_tests_properties(ProjectCollaborationConcurrentTests PROPERTIES
+        LABELS "projects;collaboration;concurrent;integration;focused"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ProjectCollaborationConcurrent: CC-01..CC-08 (lock contention, concurrent subscribers/notify/permissions, lock/unlock race, late subscribe, consistent reads, lifecycle race)")
+else()
+    message(STATUS "ProjectCollaborationConcurrent tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_project_collaboration_concurrent.cpp")
 endif()

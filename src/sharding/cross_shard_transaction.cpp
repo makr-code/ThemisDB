@@ -373,7 +373,10 @@ bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id)
         return false;
     }
     
-    auto& txn = it->second;
+    // Copy the transaction by value before releasing the lock to avoid a dangling
+    // reference: a concurrent abort() could erase the map entry while we are
+    // executing the protocol outside the lock (CST-1).
+    auto txn = it->second;
     
     // Execute protocol-specific commit
     bool success = false;
@@ -402,26 +405,33 @@ bool CrossShardTransactionCoordinator::commit(const std::string& transaction_id)
     }
     
     lock.lock();
-    if (success) {
-        txn.state = TransactionState::COMMITTED;
-        txn.end_time = std::chrono::system_clock::now();
-        committed_transactions_++;
-        persistTransactionState(transaction_id, TransactionState::COMMITTED);
-        spdlog::info("Transaction {} committed successfully", transaction_id);
-    } else {
-        txn.state = TransactionState::ABORTED;
-        txn.end_time = std::chrono::system_clock::now();
-        aborted_transactions_++;
-        persistTransactionState(transaction_id, TransactionState::ABORTED);
-        spdlog::error("Transaction {} commit failed, aborted", transaction_id);
+    // Re-look-up the entry after re-acquiring the lock; the entry may have been
+    // erased by a concurrent operation while the lock was released.
+    auto it2 = transactions_.find(transaction_id);
+    if (it2 != transactions_.end()) {
+        auto& live_txn = it2->second;
+        if (success) {
+            live_txn.state = TransactionState::COMMITTED;
+            live_txn.end_time = std::chrono::system_clock::now();
+            committed_transactions_++;
+            persistTransactionState(transaction_id, TransactionState::COMMITTED);
+            spdlog::info("Transaction {} committed successfully", transaction_id);
+        } else {
+            live_txn.state = TransactionState::ABORTED;
+            live_txn.end_time = std::chrono::system_clock::now();
+            aborted_transactions_++;
+            persistTransactionState(transaction_id, TransactionState::ABORTED);
+            spdlog::error("Transaction {} commit failed, aborted", transaction_id);
+        }
     }
     lock.unlock();
     
     // Replicate final state via consensus
     if (consensus_) {
+        auto final_state = success ? TransactionState::COMMITTED : TransactionState::ABORTED;
         consensus_->propose("FINALIZE_TRANSACTION", {
             {"transaction_id", transaction_id},
-            {"state", static_cast<int>(txn.state)}
+            {"state", static_cast<int>(final_state)}
         });
     }
     
@@ -437,17 +447,17 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
         return false;
     }
     
-    auto& txn = it->second;
+    // Copy the transaction by value before releasing the lock to avoid a dangling
+    // reference: a concurrent commit() could erase the map entry while we are
+    // sending abort RPCs outside the lock (CST-2).
+    auto txn = it->second;
     txn.state = TransactionState::ABORTING;
+    it->second.state = TransactionState::ABORTING;
     persistTransactionState(transaction_id, TransactionState::ABORTING);
     
     // Phase 2.3.4: Log ABORT decision to WAL
     if (transaction_wal_) {
         try {
-            nlohmann::json abort_data = {
-                {"reason", "explicit_abort"},
-                {"protocol", static_cast<int>(txn.protocol)}
-            };
             transaction_wal_->logAbort(txn.transaction_id, "coordinator_decision");
             operations_since_snapshot_++;
         } catch (const std::exception& e) {
@@ -457,7 +467,7 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
     
     lock.unlock();
     
-    // Send abort requests to all participants
+    // Send abort requests to all participants using the local copy.
     for (auto& [shard_id, participant] : txn.participants) {
         sendAbort(shard_id, transaction_id);
         participant.aborted = true;
@@ -474,10 +484,14 @@ bool CrossShardTransactionCoordinator::abort(const std::string& transaction_id) 
     }
     
     lock.lock();
-    txn.state = TransactionState::ABORTED;
-    txn.end_time = std::chrono::system_clock::now();
-    aborted_transactions_++;
-    persistTransactionState(transaction_id, TransactionState::ABORTED);
+    // Re-look-up after re-acquiring the lock so we update the live entry, not the copy.
+    auto it2 = transactions_.find(transaction_id);
+    if (it2 != transactions_.end()) {
+        it2->second.state = TransactionState::ABORTED;
+        it2->second.end_time = std::chrono::system_clock::now();
+        aborted_transactions_++;
+        persistTransactionState(transaction_id, TransactionState::ABORTED);
+    }
     
     // Phase 2.3.4: Check if snapshot needed
     if (transaction_wal_ && transaction_wal_->shouldCreateSnapshot(operations_since_snapshot_.load())) {
@@ -520,12 +534,15 @@ bool CrossShardTransactionCoordinator::executeSaga(
         return false;
     }
     
-    auto& txn = it->second;
-    if (txn.protocol != TransactionProtocol::SAGA) {
+    // Validate the protocol on the live entry while locked, then release.
+    if (it->second.protocol != TransactionProtocol::SAGA) {
         spdlog::error("Transaction {} is not a SAGA transaction", transaction_id);
         return false;
     }
     
+    // Do NOT hold a reference across the lock release (CST-3): after unlock a
+    // concurrent call could erase the map entry.  The only field needed during
+    // the unlocked section is the transaction_id (already a local string).
     lock.unlock();
     
     spdlog::info("Executing SAGA transaction {} with {} steps", 
@@ -557,8 +574,18 @@ bool CrossShardTransactionCoordinator::executeSaga(
         // Execute step - send operation to shard via RPC
         try {
             lock.lock();
-            auto participant_it = txn.participants.find(shard_id);
-            if (participant_it == txn.participants.end()) {
+            // Re-look-up the live transaction (txn reference was not kept across the lock
+            // release to avoid the CST-3 dangling reference).
+            auto saga_participant_it = transactions_.find(transaction_id);
+            if (saga_participant_it == transactions_.end()) {
+                lock.unlock();
+                spdlog::error("Transaction {} disappeared while executing SAGA step {}",
+                             transaction_id, i);
+                executeCompensations(transaction_id, executed_steps, compensations);
+                return false;
+            }
+            auto participant_it = saga_participant_it->second.participants.find(shard_id);
+            if (participant_it == saga_participant_it->second.participants.end()) {
                 lock.unlock();
                 spdlog::error("Shard {} not found in transaction {} participants", 
                             shard_id, transaction_id);
@@ -569,8 +596,7 @@ bool CrossShardTransactionCoordinator::executeSaga(
                 return false;
             }
             
-            auto& participant = participant_it->second;
-            std::string endpoint = participant.endpoint;
+            std::string endpoint = participant_it->second.endpoint;
             lock.unlock();
             
             // Create RPC client for this shard
@@ -685,9 +711,14 @@ bool CrossShardTransactionCoordinator::executeSaga(
     
     // All steps completed successfully
     lock.lock();
-    txn.state = TransactionState::COMMITTED;
-    txn.end_time = std::chrono::system_clock::now();
-    committed_transactions_++;
+    // Re-look-up the live entry; it may have been erased during the unlocked
+    // execution of the SAGA steps (CST-3 fix).
+    auto saga_it = transactions_.find(transaction_id);
+    if (saga_it != transactions_.end()) {
+        saga_it->second.state = TransactionState::COMMITTED;
+        saga_it->second.end_time = std::chrono::system_clock::now();
+        committed_transactions_++;
+    }
     lock.unlock();
     
     spdlog::info("SAGA transaction {} completed successfully with {} steps", 

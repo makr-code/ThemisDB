@@ -37,9 +37,9 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] Unit test coverage > 80% (Target: Q2 2026) (Issue: #1573)
-- [ ] Integration tests for hot-reload and sandbox scenarios (Target: Q2 2026) (Issue: #1574)
-- [ ] Performance benchmarks for module load and hot-reload cycles (Target: Q2 2026) (Issue: #1575)
+- [x] Unit test coverage > 80% (Target: Q2 2026) (Issue: #1573) — `test_base_entity.cpp`, `test_base_interfaces.cpp`, `test_hot_reload_manager.cpp`, `test_module_sandbox.cpp`, `test_module_sandbox_wasm_injection.cpp` registered as focused CTest targets (2026-04-21)
+- [x] Integration tests for hot-reload and sandbox scenarios (Target: Q2 2026) (Issue: #1574) — `HotReloadManagerFocusedTests`, `ModuleSandboxFocusedTests`, `ModuleSandboxWasmInjectionFocusedTests` registered in `tests/CMakeLists.txt` (2026-04-21)
+- [ ] Performance benchmarks for module load and hot-reload cycles (Target: Q2 2026) (Issue: #1575) — `benchmarks/bench_module_load_hot_reload.cpp` exists; benchmark mapping entry pending
 - [x] Automatic plugin restart after health-check failure (Issue: #2373) — implemented via `ModuleLoader` watchdog: `startWatchdog()`, `stopWatchdog()`, `configureWatchdog(WatchdogConfig)`, `getWatchdogStats()`, `getAllWatchdogStats()`, `resetWatchdogStats()`
 
 ### Long-term (6-12 months)
@@ -80,9 +80,9 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 - [x] WASM instruction fuel metering — `WasmPluginSandbox::Config::max_instructions` (total budget, 0 = unlimited) and `fuel_check_interval` (units deducted per `callExport()`) added; `fuel_remaining_` counter initialized at load and decremented per call; fuel-exhausted calls return structured error without invoking runtime; `remainingFuel()` exposes current budget; 8 unit tests in `tests/test_wasm_plugin_sandbox.cpp` (v1.8.0)
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (Issue: #1573) — `test_base_entity.cpp` (383 LOC), `test_base_interfaces.cpp` (678 LOC); focused standalone targets: `BaseEntityFocusedTests`, `BaseInterfacesFocusedTests`
-- [I] Integration tests (Issue: #1574)
-- [I] Performance benchmarks (Issue: #1575)
+- [x] Unit tests coverage > 80% (Issue: #1573) — `test_base_entity.cpp` (383 LOC), `test_base_interfaces.cpp` (678 LOC), `test_hot_reload_manager.cpp` (509 LOC), `test_module_sandbox.cpp` (521 LOC), `test_module_sandbox_wasm_injection.cpp` (489 LOC); focused standalone targets: `BaseEntityFocusedTests`, `BaseInterfacesFocusedTests`, `HotReloadManagerFocusedTests`, `ModuleSandboxFocusedTests`, `ModuleSandboxWasmInjectionFocusedTests`
+- [x] Integration tests (Issue: #1574) — hot-reload, sandbox, and WASM injection integration tests registered in `tests/CMakeLists.txt` (2026-04-21)
+- [I] Performance benchmarks (Issue: #1575) — `benchmarks/bench_module_load_hot_reload.cpp` exists; benchmark mapping entry pending
 - [x] Security audit (signature verification, revocation checking)
 - [x] Documentation complete — validated 2026-03-09
 - [x] API stability guaranteed for module loading interface
@@ -90,7 +90,7 @@ Production-ready for module loading, signature verification, and plugin lifecycl
 ## Known Issues & Limitations
 - WASM plugin isolation (`WasmPluginSandbox`) requires injection of a concrete WASM runtime (Wasmtime, WasmEdge, etc.) for full execution support (Issue: #1572)
 - Automatic plugin restart after health-check failure is implemented via `ModuleLoader` watchdog thread (Issue: #2373)
-- Integration tests and performance benchmarks are still open (Issues: #1574, #1575)
+- Performance benchmarks (`bench_module_load_hot_reload.cpp`) exist but benchmark mapping entry is pending (Issue: #1575)
 
 ## Breaking Changes
 - WASM plugin interface will be a new API surface (additive, non-breaking to existing plugin interface)

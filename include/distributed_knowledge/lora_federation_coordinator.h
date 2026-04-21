@@ -399,6 +399,69 @@ public:
     void setAuditRecordCallback(
         std::function<void(const nlohmann::json&)> callback);
 
+    // ── Federated Poisoning Detection (FPD) ──────────────────────────────────
+
+    /**
+     * @brief Predicate type for the gradient outlier filter.
+     *
+     * Returns `true` when the gradient should be **accepted** (not an outlier);
+     * `false` when the gradient should be **rejected** as a suspected
+     * gradient-poisoning attempt.
+     *
+     * @param gradient  The candidate gradient to evaluate.
+     * @return          `true` → accept; `false` → discard.
+     *
+     * Thread-safety: the filter is called while `mutex_` is held.  The
+     * implementation must be non-blocking and must not call back into
+     * `LoRAFederationCoordinator`.
+     *
+     * Scientific reference: Blanchard et al. (2017) "Machine Learning with
+     * Adversaries: Byzantine Tolerant Gradient Descent." NeurIPS 2017.
+     */
+    using GradientOutlierFilter =
+        std::function<bool(const EncryptedGradient&)>;
+
+    /**
+     * @brief Inject a gradient outlier filter (FPD DI-setter).
+     *
+     * When set, `doAggregation()` passes each pending gradient through the
+     * filter before aggregation.  Rejected gradients are discarded from the
+     * current round and the `filtered_gradients_count_` counter is incremented.
+     *
+     * If all gradients are rejected by the filter, `triggerAggregation()`
+     * throws `std::runtime_error("all gradients filtered as outliers")`.
+     *
+     * Set to `nullptr` to disable filtering (default).
+     *
+     * @param filter  Predicate returning `true` for accepted gradients.
+     */
+    void setGradientOutlierFilter(GradientOutlierFilter filter);
+
+    /**
+     * @brief Return the cumulative count of gradients rejected by the outlier filter.
+     *
+     * Resets to 0 after `advanceRound()`.
+     */
+    [[nodiscard]] size_t filteredGradientsCount() const;
+
+    /**
+     * @brief Factory: return an L2-norm outlier filter.
+     *
+     * Rejects any gradient whose L2-norm of numeric data values exceeds
+     * `max_norm`.  This is a simple yet effective defence against
+     * norm-inflation gradient poisoning attacks.
+     *
+     * Usage:
+     * @code
+     * coordinator.setGradientOutlierFilter(
+     *     LoRAFederationCoordinator::makeL2NormOutlierFilter(10.0));
+     * @endcode
+     *
+     * @param max_norm  Maximum allowed L2 norm (must be > 0).
+     * @return          GradientOutlierFilter predicate.
+     */
+    [[nodiscard]] static GradientOutlierFilter makeL2NormOutlierFilter(double max_norm);
+
     /**
      * @brief Inject a SphincsPlus signing callback (DK-7 DI-setter).
      *
@@ -428,6 +491,10 @@ private:
     // DK-7: Audit and signing callbacks
     std::function<void(const nlohmann::json&)>       audit_record_callback_;
     std::function<std::string(const nlohmann::json&)> signing_callback_;
+
+    // FPD: Gradient outlier filter
+    GradientOutlierFilter   gradient_outlier_filter_;
+    size_t                  filtered_gradients_count_{0};
 
     // Statistics
     uint64_t total_rounds_completed_{0};

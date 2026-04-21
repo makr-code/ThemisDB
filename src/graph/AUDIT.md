@@ -1,13 +1,13 @@
 > ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
 
-<!-- Status: current | validated: 2026-04-19 -->
+<!-- Status: HIGH FINDINGS | validated: 2026-04-21 (source code analysis of graph_query_optimizer.cpp) -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Graph Module
 
-**Last Audit:** 2026-03-12
+**Last Audit:** 2026-04-21
 **Auditor:** Copilot
-**Status:** ✅ Pass
+**Status:** ⚠️ High — 2×S1 (bidirectional BFS no timeout + VF2 exponential without bounds)
 
 ## Summary
 
@@ -16,9 +16,9 @@
 | Build System Registration | ✅ Verified |
 | Source Files | 8 |
 | Test Coverage | ⚠️ >80% target per ROADMAP; GPU paths not yet covered |
-| Open TODOs | 1 (ANN/GNN integration) |
-| Open Stubs | 0 |
-| Security Issues | 0 open — query injection via path constraints fixed (#1832, 2026-02-28) |
+| S0 Critical | ✅ None from graph_query_optimizer.cpp |
+| S1 High | ⚠️ 2 (bidirectional BFS hangs; VF2 exponential) |
+| Traversal timeout enforcement | 🔴 **Bidirectional BFS has no timeout** |
 
 ## Build System
 
@@ -46,28 +46,61 @@ The graph module is registered in the top-level `CMakeLists.txt` as a static lib
 
 ## Findings
 
-### Resolved
-- **Race condition in parallel frontier sharing** — Fixed in v1.3.0; thread-local frontier queues prevent concurrent mutation.
+### S1 — High (from source code analysis of `graph_query_optimizer.cpp`)
+
+#### GQ-1 · `graph_query_optimizer.cpp` · `executeBidirectional()` — No timeout check inside BFS loop
+
+Unlike `executeBFS()` and `executeDFS()`, the bidirectional BFS implementation has **no
+timeout check** inside its `while` loop:
+
+```cpp
+while (!forward_queue.empty() || !backward_queue.empty()) {
+    // ← No: if (timedOut()) return Err(ERR_QUERY_TIMEOUT, ...)
+    if (meeting_point.has_value()) {
+        break;
+    }
+}
+```
+
+On a dense or cyclic graph (`max_depth = INT_MAX`, default `constraints.timeout_ms = 0`),
+this loop runs indefinitely, permanently blocking the handling thread.
+
+**Fix required:** Add `if (constraints.timeout_ms > 0 && timedOut()) { return Err(...); }`
+at the top of the while loop, consistent with `executeBFS` and `executeDFS`.
+
+---
+
+#### GQ-2 · `graph_query_optimizer.cpp` · `executeSubgraphIsomorphism()` — VF2 exponential without hard resource limit
+
+The VF2 backtracking is O(|V|^|pattern|). The only stopping conditions are `max_results`
+and `timeout_ms`, both of which are `0` in the default `QueryConstraints{}`. A 5-vertex
+pattern on a 1,000-node graph explores up to 10^15 candidate pairs:
+
+```cpp
+std::function<void(size_t)> backtrack = [&](size_t depth) {
+    if (timedOut()) { ... return; }  // only if timeout_ms > 0
+    for (const auto& dv : data_vertices) {
+        backtrack(depth + 1);  // O(|V|^|pattern|) blow-up when timeout = 0
+    }
+};
+backtrack(0);  // called with default QueryConstraints{}
+```
+
+**Fix required:** Enforce a hard maximum on pattern size (e.g., 8 vertices) at the API
+entry point, and set a non-zero default `timeout_ms` for isomorphism queries even when
+the caller does not specify one.
+
+---
+
+### Resolved (from 2026-03-12 audit)
+- **Race condition in parallel frontier sharing** — Fixed in v1.3.0; thread-local frontier queues.
 - **VF2 duplicate candidate mappings** — Fixed in v1.2.0; symmetry pruning added.
-- **Incorrect BFS shortest-path with negative weights** — Fixed in v1.1.0; negative-weight edges now rejected at ingestion.
+- **Incorrect BFS shortest-path with negative weights** — Fixed in v1.1.0; negative-weight edges rejected at ingestion.
 
-### Open
-
-#### ⚠️ [#1829] GPU-accelerated BFS/DFS not yet production-ready
-- `gpu_traversal.cpp` contains partial Vulkan/CUDA implementation; GPU paths are disabled by feature flag.
-- CPU fallback is fully functional and tested.
-- **Action:** Complete GPU kernel implementation and add hardware-in-the-loop tests before enabling.
-
-#### ⚠️ [#1830] Unit test coverage gaps
-- Several edge-case branches in `graph_query_optimizer.cpp` (multi-hop cost estimation for star topologies) lack explicit test cases.
-- **Action:** Add parametrised tests covering star, clique, and chain graph shapes.
-
-#### ✅ [#1832] Security — Query injection via path constraints — RESOLVED
-- `isValidIdentifier()` and `isValidFieldName()` added to `path_constraints.cpp` (commit `23f569828d`, 2026-02-28).
-- All six input entry points (`addForbiddenNode`, `addRequiredNode`, `addForbiddenEdge`, `addRequiredEdge`, `addEdgePropertyConstraint`, `addNodePropertyConstraint`) now validate inputs.
-- `findConstrainedPaths()` validates start/end node IDs and clamps `max_results` to `MAX_RESULTS_LIMIT` (10 000).
-- Integer overflow in `validatePath()` (negative `MIN_LENGTH`/`MAX_LENGTH`) fixed.
-- 12 security regression tests added to `tests/test_graph_query_optimizer.cpp`.
+### Open (carried forward)
+- **[#1829]** GPU-accelerated BFS/DFS not yet production-ready; GPU paths disabled by feature flag.
+- **[#1830]** Unit test coverage gaps for star topology cost estimation.
+- **[#1832]** Query injection via path constraints — RESOLVED (2026-02-28).
 
 #### 📝 Open TODO — ANN/GNN integration
 - One TODO comment in `scheduled_edge_refresh.cpp` marks the planned integration point for ANN-based graph neural network embeddings.

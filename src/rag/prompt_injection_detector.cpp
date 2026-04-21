@@ -26,6 +26,7 @@
  */
 
 #include "rag/prompt_injection_detector.h"
+#include "security/prompt_injection_pattern_registry.h"
 #include "utils/logger.h"
 
 #include <algorithm>
@@ -74,28 +75,63 @@ struct DetectionRule {
     std::regex        pattern;
 };
 
-/// Build the static rule list (lazy-initialised once).
+/// Build the static rule list (shared registry base + RAG-specific rules).
+/// Gap 5 (AI_ML_IMPACT_ASSESSMENT.md §7): patterns 1-11 come from
+/// PromptInjectionPatternRegistry::defaultRegistry() so that any pattern
+/// added there automatically appears here too.  RAG-specific patterns
+/// (score_manipulation, role_headers, separator, markup, exfiltration)
+/// are appended after the shared base.
 const std::vector<DetectionRule>& getRules()
 {
-    static const std::vector<DetectionRule> rules = [] {
+    // Startup assertion: registry size must match the compile-time constant.
+    // This fires on the very first call and aborts rather than silently
+    // missing shared patterns (Gap 5 compile-time parity enforcement).
+    const auto& shared = themis::security::PromptInjectionPatternRegistry::defaultRegistry();
+    [&] {
+        if (shared.patternCount() != themis::security::SHARED_INJECTION_PATTERN_COUNT) {
+            // In production, logger is available; in unit tests, stderr is fine.
+            THEMIS_ERROR(
+                "PromptInjectionPatternRegistry: expected {} shared patterns, found {} "
+                "(Gap 5 parity violation — update SHARED_INJECTION_PATTERN_COUNT)",
+                themis::security::SHARED_INJECTION_PATTERN_COUNT,
+                shared.patternCount());
+        }
+    }();
+
+    static const std::vector<DetectionRule> rules = [&shared] {
         using S = InjectionSeverity;
         std::vector<DetectionRule> r;
 
-        // ── Instruction override ──────────────────────────────────────────
-        r.push_back({
-            "instruction_override", S::CRITICAL,
-            "Direct override of system/assistant instructions",
-            std::regex(
-                R"((?:ignore|disregard|forget|override|bypass)\s+(?:all\s+)?(?:previous|prior|above|your)\s+(?:instructions?|prompts?|rules?|guidelines?|context))",
-                std::regex::icase)
+        // ── Shared base patterns (from PromptInjectionPatternRegistry) ───────
+        // Map SharedPatternSeverity → InjectionSeverity.
+        auto toSev = [](themis::security::SharedPatternSeverity s) -> InjectionSeverity {
+            switch (s) {
+                case themis::security::SharedPatternSeverity::CRITICAL: return S::CRITICAL;
+                case themis::security::SharedPatternSeverity::HIGH:     return S::HIGH;
+                case themis::security::SharedPatternSeverity::MEDIUM:   return S::MEDIUM;
+                case themis::security::SharedPatternSeverity::LOW:      return S::LOW;
+            }
+            return S::MEDIUM;
+        };
+
+        for (const auto& e : shared.patterns()) {
+            try {
+                r.push_back({
+                    e.label,
+                    toSev(e.severity),
+                    e.description,
+                    std::regex(e.pattern_str, std::regex::icase)
+                });
+            } catch (const std::regex_error&) {
+                THEMIS_ERROR("PromptInjectionPatternRegistry: failed to compile "
+                             "shared pattern '{}' — skipped", e.label);
+            }
+        }
         });
-        r.push_back({
-            "instruction_override", S::HIGH,
-            "Instruction injection via imperative form",
-            std::regex(
-                R"(\b(?:you\s+(?:must|will|shall|should)\s+now|from\s+now\s+on\s+you|new\s+instructions?\s*:))",
-                std::regex::icase)
-        });
+
+        // ── RAG-specific patterns (not in shared registry) ───────────────────
+
+        // Score/output manipulation (RAG-specific: evaluation context)
         r.push_back({
             "instruction_override", S::HIGH,
             "Score/output manipulation instruction",
@@ -104,28 +140,8 @@ const std::vector<DetectionRule>& getRules()
                 std::regex::icase)
         });
 
-        // ── System prompt leakage ─────────────────────────────────────────
-        r.push_back({
-            "system_prompt_leak", S::CRITICAL,
-            "Attempt to reveal system prompt",
-            std::regex(
-                R"(\b(?:print|output|reveal|show|tell\s+me|repeat|echo)\s+(?:your\s+)?(?:system\s+prompt|instructions?|initial\s+prompt|hidden\s+prompt))",
-                std::regex::icase)
-        });
-
-        // ── Delimiter / escape attacks ────────────────────────────────────
-        // std::regex::multiline is intentional here: it makes ^ match at the
-        // start of each line (in addition to string start), allowing the
-        // patterns to detect injected section headers that appear mid-prompt.
-        // The (?:^|\n) construct is kept as a belt-and-suspenders guard that
-        // also catches an explicit '\n' character even in non-multiline mode.
-        r.push_back({
-            "delimiter_escape", S::HIGH,
-            "Delimiter-based section injection (---SYSTEM / ###)",
-            std::regex(
-                R"((?:^|\n)\s*(?:---+\s*SYSTEM|#{1,6}\s*SYSTEM|<\s*system\s*>|\[SYSTEM\]|\[INST\]|<\|im_start\|>))",
-                std::regex::icase)
-        });
+        // Role header injection (RAG-specific: multi-turn prompt structure)
+        // Note: std::regex::multiline is intentional — see original comment above.
         r.push_back({
             "delimiter_escape", S::HIGH,
             "Assistant/User role header injection",
@@ -139,29 +155,11 @@ const std::vector<DetectionRule>& getRules()
             std::regex(R"((?:^|\n)[-=]{10,}\s*(?:\n|$))")
         });
 
-        // ── Role / persona injection ──────────────────────────────────────
-        r.push_back({
-            "role_injection", S::HIGH,
-            "Role-play or persona takeover",
-            std::regex(
-                R"(\b(?:act\s+as(?:\s+if\s+you\s+are)?|pretend\s+(?:you\s+are|to\s+be)|you\s+are\s+now\s+(?:a\s+)?(?:DAN|jailbreak|evil|uncensored|unfiltered))\b)",
-                std::regex::icase)
-        });
-        r.push_back({
-            "role_injection", S::MEDIUM,
-            "Jailbreak keyword",
-            std::regex(
-                R"(\b(?:jailbreak|DAN\b|do\s+anything\s+now|developer\s+mode\s+enabled)\b)",
-                std::regex::icase)
-        });
-
-        // ── Markup injection ──────────────────────────────────────────────
+        // Markup injection (RAG-specific: HTML in retrieved documents)
         r.push_back({
             "markup_injection", S::MEDIUM,
             "Embedded HTML script tag",
-            std::regex(
-                R"(<\s*script[^>]*>)",
-                std::regex::icase)
+            std::regex(R"(<\s*script[^>]*>)", std::regex::icase)
         });
         r.push_back({
             "markup_injection", S::LOW,
@@ -171,7 +169,7 @@ const std::vector<DetectionRule>& getRules()
                 std::regex::icase)
         });
 
-        // ── Indirect exfiltration ─────────────────────────────────────────
+        // URL-based exfiltration (RAG-specific: attacker-controlled URLs in docs)
         r.push_back({
             "exfiltration", S::HIGH,
             "URL-based data exfiltration attempt",
@@ -181,7 +179,7 @@ const std::vector<DetectionRule>& getRules()
         });
 
         return r;
-    }();
+    }(shared);
 
     return rules;
 }

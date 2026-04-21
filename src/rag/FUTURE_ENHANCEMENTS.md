@@ -791,6 +791,83 @@ public:
 
 ---
 
+## Identified Gaps (from AI_ML_IMPACT_ASSESSMENT.md)
+
+### Gap 4 — Session Token-Budget Cap for AgenticRAG (Target: Q3 2026)
+
+**Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 4 (Severity: Medium/S1)`
+**Status:** ✅ Implemented (2026-04-21)
+
+**Problem:** `AgenticRAG::run()` had no upper bound on total tokens consumed across
+all iterations. Slow-converging queries could silently exhaust GPU/API token budgets.
+
+**Implemented changes:**
+- `AgenticRAGConfig::max_session_tokens` (default: `0` = disabled) added.
+- `StopReason::BUDGET_EXCEEDED` enum value added.
+- `AgenticRAGResult::tokens_consumed` field added (best-effort: `content.size()/4 + 1` per doc + query).
+- `run()` checks the cumulative token estimate at the start of each iteration:
+  - When `max_session_tokens > 0` and the estimated iteration cost would exceed the budget, the loop exits with `stop_reason=BUDGET_EXCEEDED`.
+- Tests: `test_agentic_rag_budget.cpp` (ARG_BUD_01..05) registered as `AgenticRAGBudgetFocusedTests`.
+- Open: Full integration with `LLMTokenBudgetManager` (Gap 6) will replace the heuristic estimate with exact token counts from `InferenceResponse::tokens_generated`.
+
+**Inputs:** `InferenceResponse::tokens_generated` per iteration (currently heuristic).
+**Outputs:** `AgenticRAGResult::stop_reason == BUDGET_EXCEEDED`; `tokens_consumed` field.
+**Constraints:** Token counting is best-effort; exact counts require Gap 6 (LLMTokenBudgetManager).
+**Perf target:** No overhead beyond one integer addition per iteration.
+
+---
+
+### Gap 5 — Consolidate Dual PromptInjectionDetector Implementations (Target: Q4 2026)
+
+**Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 5 (Severity: Medium/S2)`
+**Status:** ✅ Implemented (2026-04-21)
+
+**Problem (resolved):** Two independent `PromptInjectionDetector` implementations
+existed with separate pattern registries, causing silent pattern divergence.
+
+**Implemented changes:**
+- `PromptInjectionPatternRegistry` singleton (11 shared patterns + 11 keywords)
+  added to `include/security/prompt_injection_pattern_registry.h` +
+  `src/security/prompt_injection_pattern_registry.cpp`.
+- RAG detector `getRules()` loads shared patterns first (11 entries), then appends
+  RAG-specific patterns (6 entries: score_manipulation, role_headers, separator,
+  markup x2, exfiltration). Total: 17.
+- PE detector `initializePatterns()` loads all 11 shared patterns + keywords from
+  registry, replacing the previous 10 hard-coded patterns.
+- Startup parity assertion logs ERROR if `patternCount() != SHARED_INJECTION_PATTERN_COUNT`.
+- Tests: PRR_01..08 (`PromptInjectionPatternRegistryFocusedTests`).
+
+**Deferred (Q4 2026):** YAML/JSON operator override file; CI sync script.
+
+---
+
+### Gap 7 — Replace LLMJudgeIntegration Mock Scores with Typed JudgeUnavailable Error (Target: Q3 2026)
+
+**Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 7 (Severity: Medium/S2)`
+**Status:** ✅ Partially implemented (2026-04-21) — `is_mock` flag added; full `RAGError::JudgeUnavailable` deferred to Q4 2026.
+**See also:** `src/rag/llm_judge_integration.cpp::defaultInference()` STUB/SIMULATION NOTE.
+
+**Problem (resolved part):** When `LLMJudgeIntegration` is in mock mode, callers that
+do not check `isMockMode()` receive plausible-looking metrics that are entirely synthetic.
+
+**Implemented changes:**
+- `ParsedResponse::is_mock` field added (default `false`); set to `true` by `evaluateWithLLM()`
+  when `isMockMode()` returns true.  Callers can now filter mock results from dashboards
+  without calling `isMockMode()` separately.
+- Tests: `test_llm_judge_is_mock.cpp` (JGI_MOCK_01..05) registered as `LLMJudgeIsMockFocusedTests`.
+
+**Deferred (Q4 2026):**
+- `RAGError::JudgeUnavailable` typed exception when `engine==nullptr` in strict mode.
+- `BatchEvaluator`/`QualityControlPipeline` skip `is_mock=true` scores and increment
+  `judge_mock_skip_total` Prometheus counter.
+
+**Inputs:** `LLMJudgeIntegration::Config { use_mock_mode, allow_mock, warn_on_mock_mode }`.
+**Outputs:** `ParsedResponse::is_mock=true` in mock mode (2026-04-21);
+`RAGError::JudgeUnavailable` (deferred).
+**Perf target:** No performance impact (control-flow path only).
+
+---
+
 ## Paper 1+2 — Loop Orchestration, Explainability & Federated RAG (IMPL-A2, IMPL-A3, IMPL-B9)
 
 > Full papers: `docs/en/research/THEMISDB_LORA_RESEARCH_PAPER.md` · `docs/en/research/LLM_OPTIMIZATION_LAYERS_MATRIX.md`

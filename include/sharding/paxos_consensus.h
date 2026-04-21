@@ -274,8 +274,9 @@ private:
     
     /**
      * @brief Broadcast commit to all nodes
+     * @return false if WAL COMMIT log fails (phase must be aborted to preserve durability)
      */
-    void broadcastCommit(uint64_t slot, const ConsensusLogEntry& value);
+    bool broadcastCommit(uint64_t slot, const ConsensusLogEntry& value);
     
     /**
      * @brief Calculate quorum size
