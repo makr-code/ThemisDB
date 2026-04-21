@@ -23919,7 +23919,41 @@ else()
     message(STATUS "DK-OR tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge_or.cpp")
 endif()
 
-# EncryptedBlobBackend focused tests (EBB-01 … EBB-10)
+# ─────────────────────────────────────────────────────────────────────────────
+# FPD: Federated Poisoning Detection tests
+# Covers: FPD-01..10 (gradient outlier filter, L2-norm detection, stats, fallback)
+# ─────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_federated_poisoning_detection.cpp")
+    message(STATUS "Adding FPD Federated Poisoning Detection tests")
+
+    add_executable(test_federated_poisoning_detection_focused
+        test_federated_poisoning_detection.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/lora_federation_coordinator.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/federated_rag_merger.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/cross_shard_feedback_sync.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/adapter_capability_announcement.cpp
+    )
+
+    target_include_directories(test_federated_poisoning_detection_focused
+        PRIVATE ${THEMIS_ROOT_DIR}/include)
+
+    target_link_libraries(test_federated_poisoning_detection_focused
+        PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+
+    target_compile_definitions(test_federated_poisoning_detection_focused
+        PRIVATE THEMIS_TEST_BUILD=1)
+
+    add_test(NAME FPD_Tests COMMAND test_federated_poisoning_detection_focused)
+
+    set_tests_properties(FPD_Tests PROPERTIES
+        LABELS "distributed_knowledge;poisoning;FPD;federation;privacy;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  FPD: 01..10 (outlier filter wiring, L2-norm, stats, threshold variants, fallback)")
+else()
+    message(STATUS "FPD tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_federated_poisoning_detection.cpp")
+endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_encrypted_blob_backend.cpp")
     message(STATUS "Adding EncryptedBlobBackend focused tests")
 

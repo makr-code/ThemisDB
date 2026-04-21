@@ -28,6 +28,7 @@
 #include <cmath>
 #include <future>
 #include <limits>
+#include <numeric>
 #include <random>
 #include <sstream>
 #include <stdexcept>
@@ -65,6 +66,8 @@ LoRAFederationCoordinator::LoRAFederationCoordinator(
     , total_rounds_completed_(other.total_rounds_completed_)
     , total_gradients_processed_(other.total_gradients_processed_)
     , total_epsilon_spent_(other.total_epsilon_spent_)
+    , total_gradients_filtered_(other.total_gradients_filtered_)
+    , gradient_outlier_filter_(std::move(other.gradient_outlier_filter_))
     // mutex_ is default-constructed; the moved-from object retains its own mutex
 {}
 
@@ -89,6 +92,8 @@ LoRAFederationCoordinator& LoRAFederationCoordinator::operator=(
         total_rounds_completed_    = other.total_rounds_completed_;
         total_gradients_processed_ = other.total_gradients_processed_;
         total_epsilon_spent_       = other.total_epsilon_spent_;
+        total_gradients_filtered_  = other.total_gradients_filtered_;
+        gradient_outlier_filter_   = std::move(other.gradient_outlier_filter_);
     }
     return *this;
 }
@@ -210,6 +215,29 @@ GlobalAdapterDelta LoRAFederationCoordinator::triggerAggregation() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 GlobalAdapterDelta LoRAFederationCoordinator::doAggregation() {
+    // ── Step 0: apply poisoning / outlier filter (FPD) ───────────────────────
+    // If a filter is set, evaluate every pending gradient before aggregation.
+    // Rejected gradients are removed from the round and counted for observability.
+    if (gradient_outlier_filter_) {
+        for (auto it = pending_gradients_.begin(); it != pending_gradients_.end(); ) {
+            if (!gradient_outlier_filter_(it->second, pending_gradients_)) {
+                ++total_gradients_filtered_;
+                it = pending_gradients_.erase(it);
+            } else {
+                ++it;
+            }
+        }
+        // Re-check participant count after filtering
+        if (pending_gradients_.size() < config_.min_participants) {
+            throw std::runtime_error(
+                "LoRAFederationCoordinator::doAggregation: insufficient "
+                "participants after outlier filtering (" +
+                std::to_string(pending_gradients_.size()) + " < " +
+                std::to_string(config_.min_participants) + ")");
+        }
+    }
+    // ─────────────────────────────────────────────────────────────────────────
+
     // ── Step 1: collect all numeric fields across gradients ──────────────────
     // Determine the union of all keys present in any gradient
     std::map<std::string, std::vector<std::pair<double, size_t>>> key_values;
@@ -350,6 +378,7 @@ nlohmann::json LoRAFederationCoordinator::getStats() const {
             {"pending_gradients",          pending_gradients_.size()},
             {"total_rounds_completed",     total_rounds_completed_},
             {"total_gradients_processed",  total_gradients_processed_},
+            {"total_gradients_filtered",   total_gradients_filtered_},
             {"total_epsilon_spent",        total_epsilon_spent_},
             {"algorithm",                  config_.aggregation_algorithm},
             {"min_participants",           config_.min_participants}};
@@ -491,6 +520,75 @@ themis::governance::StoreErasureResult LoRAFederationCoordinator::erase(
 size_t LoRAFederationCoordinator::eraseCount() const {
     std::lock_guard<std::mutex> lk(mutex_);
     return erase_count_;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FPD: Gradient Outlier / Poisoning Detection
+// ─────────────────────────────────────────────────────────────────────────────
+
+void LoRAFederationCoordinator::setGradientOutlierFilter(GradientOutlierFilter filter)
+{
+    std::lock_guard<std::mutex> lk(mutex_);
+    gradient_outlier_filter_ = std::move(filter);
+}
+
+size_t LoRAFederationCoordinator::filteredGradientsCount() const {
+    std::lock_guard<std::mutex> lk(mutex_);
+    return static_cast<size_t>(total_gradients_filtered_);
+}
+
+LoRAFederationCoordinator::GradientOutlierFilter
+LoRAFederationCoordinator::makeL2NormOutlierFilter(double z_threshold)
+{
+    return [z_threshold](const EncryptedGradient& candidate,
+                         const std::map<std::string, EncryptedGradient>& all_gradients)
+        -> bool
+    {
+        // Compute per-gradient L2 norm helper (sqrt(Σ value²) across all numeric keys)
+        auto l2norm = [](const nlohmann::json& data) -> double {
+            double sum_sq = 0.0;
+            for (const auto& [key, val] : data.items()) {
+                if (val.is_number()) {
+                    const double v = val.get<double>();
+                    sum_sq += v * v;
+                }
+            }
+            return std::sqrt(sum_sq);
+        };
+
+        // Collect norms for every gradient in this round
+        std::vector<double> norms;
+        norms.reserve(all_gradients.size());
+        for (const auto& [sid, grad] : all_gradients) {
+            if (grad.data.is_object()) {
+                norms.push_back(l2norm(grad.data));
+            }
+        }
+
+        if (norms.size() < 2) {
+            // Cannot compute statistics with fewer than 2 samples — accept all
+            return true;
+        }
+
+        // Compute mean and standard deviation of norms
+        const double mean = std::accumulate(norms.begin(), norms.end(), 0.0) /
+                            static_cast<double>(norms.size());
+        double var = 0.0;
+        for (double n : norms) {
+            var += (n - mean) * (n - mean);
+        }
+        var /= static_cast<double>(norms.size());
+        const double stddev = std::sqrt(var);
+
+        // If all norms are essentially identical, accept all (no outliers possible)
+        if (stddev < 1e-12) {
+            return true;
+        }
+
+        // Accept the candidate if its norm is within z_threshold standard deviations
+        const double candidate_norm = l2norm(candidate.data);
+        return std::abs(candidate_norm - mean) <= z_threshold * stddev;
+    };
 }
 
 } // namespace themis::distributed_knowledge
