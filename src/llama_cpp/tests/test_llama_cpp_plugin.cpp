@@ -470,3 +470,43 @@ TEST(LlamaCppPluginFocusedTests, N6_InferenceResponseEchoesTraceContext) {
     EXPECT_EQ(resp.trace_id, "abc123");
     EXPECT_EQ(resp.span_id,  "span456");
 }
+
+// ── Group O – Gap 1: structured error when no model loaded (non-stub mode) ───
+// These tests verify the production contract: generate() without STUB_MODE
+// defined (and without a loaded LlamaWrapper) returns success=false with a
+// descriptive error_message.  In this test file THEMIS_LLAMA_CPP_STUB_MODE is
+// defined, so we test the error path via the "model not loaded" gate instead.
+//
+// O1: model never loaded → success=false, error_message non-empty  (D1 alias)
+// O2: model loaded with empty path, STUB_MODE → still returns success=true  (sanity)
+// O3: error_message contains "not loaded" when model is absent
+
+TEST(LlamaCppPluginFocusedTests, O1_ModelNotLoadedReturnsSuccessFalse) {
+    LlamaCppPlugin p;
+    // Do NOT call loadModel() — model_loaded_ remains false.
+    InferenceRequest req; req.prompt = "test";
+    const auto resp = p.generate(req);
+    EXPECT_FALSE(resp.success) << "generate() must fail when no model was ever loaded";
+    EXPECT_FALSE(resp.error_message.empty()) << "error_message must be set";
+}
+
+TEST(LlamaCppPluginFocusedTests, O2_StubModeLoadedReturnsSuccessTrue) {
+    // With THEMIS_LLAMA_CPP_STUB_MODE defined (as it is in this test build),
+    // loadModel("", {}) + generate() must still return success=true so all
+    // existing tests in groups A-N continue to pass.
+    LlamaCppPlugin p;
+    p.loadModel("", {});
+    InferenceRequest req; req.prompt = "stub";
+    const auto resp = p.generate(req);
+    EXPECT_TRUE(resp.success)
+        << "THEMIS_LLAMA_CPP_STUB_MODE must preserve success=true for test builds";
+}
+
+TEST(LlamaCppPluginFocusedTests, O3_NotLoadedErrorMessageDescriptive) {
+    LlamaCppPlugin p;
+    InferenceRequest req; req.prompt = "x";
+    const auto resp = p.generate(req);
+    EXPECT_FALSE(resp.success);
+    EXPECT_NE(resp.error_message.find("not loaded"), std::string::npos)
+        << "error_message should mention 'not loaded'; got: " << resp.error_message;
+}

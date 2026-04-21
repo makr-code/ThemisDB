@@ -523,6 +523,37 @@ Real-time query suggestions.
 - SPLADE index memory: ≤ 4 GB for a 10 M-document corpus stored in CSR format
 - Autocomplete suggestion latency: ≤ 5 ms at p99 for prefix queries against a 1 M-term dictionary
 
+---
+
+## Identified Gaps (from AI_ML_IMPACT_ASSESSMENT.md)
+
+### Gap 2 — LlmQueryRewriter: Semantic Output Validator and Structured Fallback (Target: Q3 2026)
+
+**Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 2 (Severity: Medium/S2)`
+**Status:** ✅ Implemented (2026-04-21)
+
+**Problem:** `LlmQueryRewriter::rewrite()` had no semantic output validator: an LLM
+response that is syntactically parseable but semantically nonsensical was accepted
+and returned as-is with no signal to callers.
+
+**Implemented changes:**
+- `RewriteQuality` enum (`OK` / `FALLBACK`) added to `llm_query_rewriter.h`.
+- `RewrittenQuery::quality` field added (default: `OK`).
+- `Config::min_token_overlap_ratio` (default: `0.2`) — rewrites below the Jaccard
+  token-overlap threshold are discarded; when all are discarded, `quality=FALLBACK`
+  and the original query is returned via `fallback_to_original`.
+- `LlmQueryRewriter::jaccardTokenOverlap()` + `applyOverlapFilter()` private helpers
+  added to `llm_query_rewriter.h` / `.cpp`.
+- Tests: `test_llm_query_rewriter_validator.cpp` (LQR_VAL_01..06) registered as
+  `LlmQueryRewriterValidatorFocusedTests`.
+
+**Inputs:** `std::string query`, LLM-generated rewrite lines.
+**Outputs:** `RewrittenQuery { rewrites, quality=OK|FALLBACK }`.
+**Constraints:** Existing `fallback_to_original` behaviour on error/timeout paths unchanged.
+**Perf target:** ≤ 1 ms additional overhead at p99 (one `unordered_set` per rewrite).
+
+---
+
 ## Security / Reliability
 
 - Query injection prevention: all user-supplied query strings must be length-limited (≤ 4,096 bytes) and stripped of control characters before being passed to the BM25 tokenizer or LLM rewriter
