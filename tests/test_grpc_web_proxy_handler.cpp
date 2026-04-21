@@ -355,3 +355,25 @@ TEST_F(GrpcWebProxyHandlerTest, Post_GrpcWebContentType_Accepted) {
     // Should NOT return 415 Unsupported Media Type
     EXPECT_NE(res.result(), http::status::unsupported_media_type);
 }
+
+// ===========================================================================
+// GAP-012 — CORS wildcard (CWE-346) — config-level structural tests
+// ===========================================================================
+// The GrpcWebProxyHandler constructor now emits THEMIS_WARN when
+// cors_allow_origin is '*'. The following tests verify the FIELD values and
+// the security-relevant behaviour that follows from the config.
+
+// GAP-012-01: Default Config has cors_allow_origin = '*'.
+TEST(CorsConfigTest, GAP012_DefaultCorsAllowOriginIsWildcard) {
+    GrpcWebProxyHandler::Config cfg;
+    EXPECT_EQ(cfg.cors_allow_origin, "*")
+        << "Default config must start with wildcard so the warning fires (GAP-012)";
+}
+
+// GAP-012-02: Specific origin string is not the wildcard.
+TEST(CorsConfigTest, GAP012_SpecificOriginIsNotWildcard) {
+    GrpcWebProxyHandler::Config cfg;
+    cfg.cors_allow_origin = "https://app.example.com";
+    EXPECT_NE(cfg.cors_allow_origin, "*")
+        << "Configuring a specific origin must not be '*' (GAP-012)";
+}

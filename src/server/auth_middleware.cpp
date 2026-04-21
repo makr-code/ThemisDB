@@ -413,8 +413,14 @@ AuthMiddleware::AuthResult AuthMiddleware::validateToken(std::string_view token)
             // GAP-013: Log JWT validation failures at WARN for auditability (CWE-778).
             // Previously logged at DEBUG, which means auth failures were invisible
             // in production log levels and could not be detected by SIEM systems.
+            // The JWT-specific message is the most informative denial reason, so we
+            // also emit the final counter update here and return immediately to avoid
+            // a redundant second WARN from the generic catch-all below.
+            metrics_.authz_invalid_token_total++;
             THEMIS_WARN("[SECURITY] validateToken: JWT validation failed — "
-                        "possible invalid or tampered token (GAP-013/CWE-778): {}", e.what());
+                        "possible invalid or tampered token (GAP-013/CWE-778). "
+                        "authz_invalid_token_total={}", metrics_.authz_invalid_token_total.load());
+            return AuthResult::Denied("Invalid token");
         }
     }
     
