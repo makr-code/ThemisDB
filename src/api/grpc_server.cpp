@@ -291,6 +291,12 @@ std::string GrpcApiServer::loadFile(const std::string& path) {
 
 std::shared_ptr<grpc::ServerCredentials> GrpcApiServer::buildCredentials() const {
     if (!config_.tls_enabled) {
+        // TODO(GAP-016): InsecureServerCredentials() – gRPC traffic is unencrypted and
+        // unauthenticated.  In production environments this exposes all gRPC calls
+        // (including entity data and admin operations) to plaintext interception and
+        // MITM attacks.  No CRITICAL log is emitted here.
+        // Fix: add THEMIS_CRITICAL("gRPC: InsecureServerCredentials active"); and
+        // block startup when THEMIS_ENV=production.  Target: Q2 2026
         THEMIS_INFO("GrpcApiServer: using insecure credentials (TLS disabled)");
         return grpc::InsecureServerCredentials();
     }

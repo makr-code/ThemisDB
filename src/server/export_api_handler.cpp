@@ -385,6 +385,13 @@ std::string ExportApiHandler::buildAqlQuery(const json& request_json) {
     if (request_json.contains("query")) {
         std::string custom_query = request_json["query"];
         if (!custom_query.empty()) {
+            // TODO(GAP-004): AQL Injection – custom_query is embedded verbatim without
+            // any validation through AQLInjectionDetector::validateForReadOnlyContext().
+            // An attacker can append "OR true" to extract all records, or attempt
+            // mutation via "OR UPDATE collection ...".
+            // Fix: (1) validate via validateForReadOnlyContext() before push_back;
+            // (2) replace string-concat conditions with AQL bind parameters (@category etc.)
+            // Target: Q2 2026
             conditions.push_back(custom_query);
         }
     }
@@ -401,6 +408,11 @@ std::string ExportApiHandler::buildAqlQuery(const json& request_json) {
 }
 
 std::string ExportApiHandler::generateExportId() {
+    // TODO(GAP-019): mt19937 is a deterministic PRNG – not a CSPRNG.
+    // On systems where std::random_device falls back to a low-entropy seed (e.g. some
+    // embedded Linux kernels), export IDs become guessable, enabling IDOR attacks.
+    // Fix: use RAND_bytes(buf, 8) from OpenSSL for cryptographically secure IDs.
+    // Target: Q3 2026
     static std::random_device rd;
     static std::mt19937 gen(rd());
     static std::uniform_int_distribution<> dis(0, 15);

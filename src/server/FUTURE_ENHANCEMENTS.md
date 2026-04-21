@@ -1327,3 +1327,115 @@ audit_logger_->logEvent({.type="AUTH_FAILURE", .endpoint="/api/export", .ip=remo
 ### Test Strategy
 - Unit test: invalid token → audit log entry with `AUTH_FAILURE` type emitted
 - Unit test: valid token → no `AUTH_FAILURE` entry
+
+---
+
+### GAP-004 – AQL Injection in `buildAqlQuery` (Export Handler)
+
+**Scope:** `src/server/export_api_handler.cpp:354–388`
+
+### Design Constraints
+- Existing export functionality must remain (filtering by theme, domain, date, rating)
+- Custom query support (`"query"` field) is used by VCC-Clara and must not be removed entirely;
+  it must instead be validated before use
+
+### Required Interfaces
+```cpp
+// Validate before embedding:
+auto check = aql_injection_detector_.validateForReadOnlyContext(custom_query);
+if (!check.is_safe) {
+    return makeErrorResponse(http::status::bad_request,
+        "Invalid query: " + check.error_message, req);
+}
+```
+- String-concatenation conditions must be replaced with AQL bind parameters:
+  ```
+  FILTER d.category == @category AND d.domain == @domain
+  ```
+  with bind variable map `{category: theme, domain: domain, ...}`
+
+### Test Strategy
+- Unit test: `"query": "OR true"` → 400 (injection blocked)
+- Unit test: `"query": "FILTER d.category == 'x'"` → accepted (valid read-only)
+- Unit test: `"theme": "x' OR 'a'='a"` → safe (bind param, not injectable)
+
+### Security / Reliability
+- `validateForReadOnlyContext` must run before any query is executed, not after
+- Admin scope does not bypass injection validation
+
+---
+
+### GAP-018 – Sanitize `e.what()` from HTTP Error Responses
+
+**Scope:** 245 locations in `src/server/*.cpp`
+
+### Design Constraints
+- Server-side structured logging (`THEMIS_ERROR`) must still capture `e.what()`
+- Client-facing HTTP error bodies must only contain opaque error codes or generic messages
+
+### Required Interfaces
+```cpp
+// New helper (replaces direct makeErrorResponse(status, e.what(), req)):
+http::response<http::string_body> makeInternalErrorResponse(
+    const http::request<http::string_body>& req,
+    const std::exception& e,
+    std::string_view context = "");
+// Logs: THEMIS_ERROR("Internal error [{}]: {}", context, e.what());
+// Returns: {"error": "internal_error", "request_id": "<uuid>"}
+```
+
+### Test Strategy
+- Unit test: trigger exception in handler → response body does NOT contain e.what()
+- Unit test: THEMIS_ERROR log DOES contain e.what()
+
+### Performance Targets
+- No measurable overhead (UUID generation is O(1))
+
+---
+
+### GAP-019 – Replace `mt19937` with CSPRNG for Export IDs
+
+**Scope:** `src/server/export_api_handler.cpp:405`
+
+### Required Interfaces
+```cpp
+// Replace mt19937-based generation:
+std::string ExportApiHandler::generateExportId() {
+    unsigned char buf[8];
+    if (RAND_bytes(buf, sizeof(buf)) != 1) throw std::runtime_error("CSPRNG failure");
+    std::ostringstream oss;
+    oss << "exp_";
+    for (auto b : buf) oss << std::hex << std::setw(2) << std::setfill('0') << (int)b;
+    return oss.str();
+}
+```
+
+### Test Strategy
+- Unit test: generate 10,000 IDs → no duplicates
+- Unit test: RAND_bytes failure → exception propagated (not silently ignored)
+
+---
+
+### GAP-020 – Enforce Batch Size Limits on JSON Array Endpoints
+
+**Scope:** `src/server/vector_api_handler.cpp:233,300`, `src/server/distributed_txn_api_handler.cpp:59`,
+           `src/server/compliance_reporting_api_handler.cpp:210`, and other batch endpoints
+
+### Design Constraints
+- Default max batch size: configurable via `THEMIS_MAX_BATCH_SIZE` env var (default: 10,000 items)
+- Check must happen BEFORE iterating, not inside the loop
+
+### Required Interfaces
+```cpp
+// Shared helper in a new batch_validation.h:
+inline bool checkBatchSize(const nlohmann::json& arr, size_t max,
+                            const http::request<http::string_body>& req,
+                            http::response<http::string_body>& err_out);
+```
+
+### Test Strategy
+- Unit test per handler: array of max+1 items → 400 with `"batch_too_large"` error
+- Unit test: array of max items → 200 (success)
+
+### Performance Targets
+- Size check: O(1) (nlohmann::json::size() is O(1))

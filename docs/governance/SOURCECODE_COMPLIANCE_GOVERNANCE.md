@@ -568,3 +568,219 @@ Einige Aspekte sind gut implementiert und sollten als Referenz dienen:
 | SAML-Parse-Fehler | SHA-1 wird gewarnt; unsupportete Algo lehnt ab | `src/auth/saml_authenticator.cpp:342` |
 | gRPC TLS | gRPC-Transport hat konfigurierbares `max_message_size_bytes` | `src/network/grpc_transport.cpp:200` |
 | Token-Logging | Token-Masking für ≥ 9 Zeichen (Prefix+Suffix) existiert | `src/server/http_server.cpp:639` (partiell) |
+
+---
+
+## 18. Deep Dive – Runde 3
+
+**Analysedatum:** 2026-04-21 (Runde 3)
+**Fokus:** AQL-Injection im Export, Information-Leakage in Error-Responses, gRPC Insecure Mode, mt19937 in Security-Contexts, unbegrenzte JSON-Array-Iteration
+
+---
+
+### 18.1 AQL-Injection via `buildAqlQuery` (Export Handler)
+
+**Datei:** `src/server/export_api_handler.cpp`, Zeilen 354–388
+
+```cpp
+conditions.push_back("category='" + theme + "'");    // theme direkt aus HTTP body
+conditions.push_back("domain='" + domain + "'");
+// ...
+conditions.push_back(custom_query);  // user-supplied AQL without validation
+```
+
+`buildAqlQuery()` baut AQL-Queries durch direkte String-Konkatenation aus HTTP-Body-Feldern.
+Der Wert `request_json["query"]` wird **unvalidiert direkt als AQL-Condition eingebettet**.
+Das erlaubt:
+- AQL-Injection: `"query": "OR true"` – gibt alle Datensätze zurück
+- AQL-Injection mit Mutation: `"query": "OR UPDATE ..."` – schreibender Zugriff
+
+Das Ergebnis wird **nicht** durch `AQLInjectionDetector::validateAQLAST()` geprüft (überprüft via Quellcode).
+
+**Schwere:** **High** (Datenexfiltration aller Datensätze, potenziell schreibende Operationen)
+
+**Empfehlung:**
+1. `custom_query` (Zeile 388) durch `AQLInjectionDetector::validateForReadOnlyContext()` validieren
+2. String-Concat-Conditions durch parametrisierte Queries ersetzen (Bind-Parameter-API)
+3. `FILTER category == @category` statt `category='...'` (AQL-native Escaping)
+
+---
+
+### 18.2 Information-Leakage: `e.what()` in HTTP-500-Responses
+
+**Dateien:** 245 Stellen in `src/server/*.cpp` – z.B.:
+- `src/server/admin_api_handler.cpp:66` – `e.what()` im HTTP 500
+- `src/server/admin_api_handler.cpp:54` – interner Pfad in 500: `"Failed to create checkpoint at " + dir`
+
+```cpp
+return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+return makeErrorResponse(http::status::internal_server_error,
+    std::string("Failed to create checkpoint at ") + dir, req);
+```
+
+`std::exception::what()` kann enthalten:
+- Interne Dateipfade (`/srv/data/themisdb/...`)
+- C++-Type-Namen (RTTI, Demangling bei Boost/STL-Exceptions)
+- RocksDB-interne Fehlertexte mit Datenbankpfaden
+- SQL/AQL-Ausschnitte, die sensitives Schema enthüllen
+
+**Schwere:** **Medium** – Fingerprinting des Servers, erleichtert gezielte Angriffe
+
+**Empfehlung:**
+- HTTP-500-Responses nur generische Meldung zurückgeben (`"Internal server error"`)
+- `e.what()` in strukturierten Server-Logs mit `THEMIS_ERROR`, aber **nicht** in die HTTP-Antwort
+- Einheitlicher Error-Wrapper: `makeInternalErrorResponse(req)` ohne Payload-Parameter
+
+---
+
+### 18.3 gRPC Insecure Mode in Produktion aktivierbar
+
+**Dateien:**
+- `src/api/grpc_server.cpp:295` – `InsecureServerCredentials()` wenn `!config_.tls_enabled`
+- `src/main_server.cpp:1505` – `InsecureServerCredentials()` wenn mTLS nicht konfiguriert (WAL gRPC)
+- `src/network/grpc_transport.cpp:100` – `InsecureServerCredentials()` im Fallback
+
+```cpp
+if (!config_.tls_enabled) {
+    THEMIS_INFO("GrpcApiServer: using insecure credentials (TLS disabled)");
+    return grpc::InsecureServerCredentials();   // ← Plaintext gRPC, kein Auth
+}
+```
+
+`InsecureServerCredentials()` = kein TLS, kein Mutual-Auth, gRPC-Payload im Klartext.
+Die WAL-gRPC-Verbindung kommuniziert WAL-Daten (Datenbankänderungen) **unverschlüsselt** wenn
+mTLS nicht konfiguriert ist.
+
+**Befund:** Konfigurationsfehler oder fehlende mTLS-Konfiguration führt zu:
+- Plaintext-Replikationsstream (WAL) über Netzwerk
+- Kein Client-Auth → beliebige Clients können gRPC-Calls machen
+- `THEMIS_WARN` für WAL existiert, fehlt für den API-gRPC-Server komplett
+
+**Schwere:** **High** (je nach Deployment – inakzeptabel in Produktionsumgebungen)
+
+**Empfehlung:**
+- Build-Flag oder Runtime-Check: in Production-Mode (`THEMIS_ENV=production`) `InsecureServerCredentials()` verbieten
+- `THEMIS_WARN` → `THEMIS_CRITICAL` für alle Insecure-Fallbacks, inkl. Startup-Fehler wenn env = production
+- API-gRPC-Server muss eine Warnung auf CRITICAL-Level loggen
+
+---
+
+### 18.4 mt19937 für Security-relevante IDs
+
+**Dateien:**
+- `src/auth/auth_error.cpp:215` – `mt19937` für Auth-Request-IDs (`auth-XXXXXXXX`)
+- `src/server/export_api_handler.cpp:405` – `mt19937` für Export-IDs (`exp_XXXXXXXXXXXXXXXX`)
+
+```cpp
+static std::mt19937 gen(rd());
+// ...
+ss << std::hex << dis(gen);  // auth-XXXXXXXX or exp_XXXXXXXXXXXXXXXX
+```
+
+`std::mt19937` ist eine deterministische PRNG; kein CSPRNG. Der State-Raum ist 2^19937
+theoretisch, aber wenn `std::random_device rd` intern auf `std::time()` oder einem anderen
+seed mit geringer Entropie zurückfällt (wie auf manchen Embedded-Linux-Systemen), ist die
+Entropie erheblich reduziert.
+
+**Risiko:** Export-IDs könnten vorhersagbar sein → Angreifer kann Export-Ergebnisse anderer
+Nutzer abrufen (IDOR wenn IDs rate-limitiert oder guessable sind).
+
+**Empfehlung:**
+- `RAND_bytes(buf, 8)` (OpenSSL) für kryptografisch sichere IDs
+- Alternativ: `std::random_device` direkt ohne MT-Wrapper (auf Linux read from `/dev/urandom`)
+
+---
+
+### 18.5 Unbegrenzte JSON-Array-Iteration (DoS durch großen Batch)
+
+**Dateien:** `src/server/vector_api_handler.cpp:233,300`, `src/server/compliance_reporting_api_handler.cpp:210`,
+`src/server/distributed_txn_api_handler.cpp:59`, `src/server/api_key_mgmt_handler.cpp:133` u.a.
+
+```cpp
+for (const auto& it : body["items"]) {   // items.size() ist unbegrenzt!
+    // vector insert per item
+}
+```
+
+JSON-Arrays aus dem HTTP-Body werden **ohne Size-Limit** iteriert. Ein Angreifer kann
+`{"items": [...1M items...]}` senden (Body-Size-Limit schützt, aber 10 MB reichen für
+tausende Vektoren der Dimension 128).
+
+**Schwere:** **Medium** – CPU-Saturation, langer Transaktions-Hold, OOM bei Deserialisierung
+
+**Empfehlung:** Jeder Array-Iterator muss vor der Schleife einen Size-Check haben:
+```cpp
+if (body["items"].size() > kMaxBatchSize) { return makeErrorResponse(400, "batch too large"); }
+```
+Empfohlenes `kMaxBatchSize`: konfigurierbar, Default 10.000
+
+---
+
+### 18.6 MQTT-Client: `verify_none` ohne CA-Konfigurationswarnung auf CRITICAL
+
+**Datei:** `src/server/mqtt_client_service.cpp:751`
+
+```cpp
+if (!config_.tls_ca_path.empty()) {
+    ctx.set_verify_mode(boost::asio::ssl::verify_peer, ec);
+} else {
+    ctx.set_verify_mode(boost::asio::ssl::verify_none, ec);  // ← kein CRITICAL log
+}
+```
+
+Wenn kein CA-Pfad konfiguriert ist, akzeptiert der MQTT-Client **jedes TLS-Zertifikat**
+(inkl. selbstsignierter und gefälschter). Es gibt keinen `CRITICAL`-Log-Eintrag – lediglich
+implizites Verhalten. Ein Man-in-the-Middle-Angriff auf den MQTT-Broker ist damit trivial.
+
+**Schwere:** **High** (MQTT transportiert CDC-Events – Datenexfiltration oder Datenmanipulation)
+
+**Empfehlung:**
+- `THEMIS_CRITICAL("MQTT TLS: verify_none active – MITM possible; set tls_ca_path")` bei Aktivierung
+- Umgebungsvariable `THEMIS_MQTT_ALLOW_NO_VERIFY` als opt-in mit CRITICAL warning
+
+---
+
+### 19. Ergänzte Compliance-Control-Matrix (Runde 3)
+
+| Control ID | Schwere | Bereich | Befund | Datei / Zeile | Status |
+|---|---|---|---|---|---|
+| C-023 | High | AQL-Injection | `buildAqlQuery` – user-controlled `custom_query` ohne Validation eingebettet | `src/server/export_api_handler.cpp:388` | Missing |
+| C-024 | High | gRPC-Security | `InsecureServerCredentials()` in API-gRPC ohne CRITICAL-Log | `src/api/grpc_server.cpp:295`, `src/main_server.cpp:1505` | Missing |
+| C-025 | High | TLS | MQTT-Client `verify_none` ohne CRITICAL-Warnung | `src/server/mqtt_client_service.cpp:751` | Missing |
+| C-026 | Medium | Info-Leakage | `e.what()` in 245 HTTP-500-Responses (interne Pfade, C++-Types) | `src/server/admin_api_handler.cpp:66`, widespread | Missing |
+| C-027 | Medium | RNG | `mt19937` für Export-IDs (predictable) | `src/server/export_api_handler.cpp:405` | Missing |
+| C-028 | Medium | DoS | Unbegrenzte JSON-Array-Iteration in Batch-Endpunkten | `src/server/vector_api_handler.cpp:233`, widespread | Missing |
+| C-029 | Low | RNG | `mt19937` für Auth-Request-IDs (diagnostic only – Low risk) | `src/auth/auth_error.cpp:215` | Low |
+
+---
+
+### 20. Gesamtübersicht aller Befunde (alle 3 Runden)
+
+| GAP ID | Schwere | Bereich | Maßnahme | Status |
+|---|---|---|---|---|
+| GAP-001 | Critical | AuthZ | Scheduler AuthZ-Checks aktivieren | Missing |
+| GAP-002 | Critical | TLS | `verify_none` mit CRITICAL-Log + Production-Guard | Partial |
+| GAP-003 | High | Krypto | SAML SHA-1 ablehnen | Partial (TODO) |
+| GAP-004 | High | Injection | AQL injection in export `buildAqlQuery` | Missing |
+| GAP-005 | Medium | Krypto | MD5 → SHA-256 | Missing |
+| GAP-006 | Medium | Input | `sscanf` Längenprüfung | Low risk |
+| GAP-007 | Low | AuthZ | ROPE/AsyncJob RBAC | Missing |
+| GAP-008 | High | Krypto | Constant-time Token-Vergleich | Missing |
+| GAP-009 | High | Path | LLM model_path Sandbox | Missing |
+| GAP-010 | High | DoS | Graph-BFS max_depth Cap | Missing |
+| GAP-011 | Medium | Secrets | Token-Logging bereinigen | Missing |
+| GAP-012 | Medium | CORS | Hardcoded `*` durch zentrales CORS ersetzen | Missing |
+| GAP-013 | Medium | Auth | Auth-Failure-Audit-Log im Export-Handler | Missing |
+| GAP-014 | Medium | Injection | popen(gpg) → execvp() | Missing |
+| GAP-015 | Medium | Injection | system(tar) → libarchive + Sandbox | Missing |
+| GAP-016 | High | gRPC | InsecureServerCredentials ohne Production-Guard | Missing |
+| GAP-017 | High | TLS | MQTT verify_none ohne CRITICAL | Missing |
+| GAP-018 | Medium | Info-Leak | e.what() in HTTP 500 → generisch | Missing |
+| GAP-019 | Medium | RNG | mt19937 für Export-IDs → CSPRNG | Missing |
+| GAP-020 | Medium | DoS | Unbegrenzte JSON-Array-Batch-Größen | Missing |
+
+**Statistik:**
+- Critical: 2 (GAP-001, GAP-002)
+- High: 8 (GAP-003, GAP-004, GAP-008, GAP-009, GAP-010, GAP-016, GAP-017)
+- Medium: 9 (GAP-005, GAP-006, GAP-011..015, GAP-018..020)
+- Low: 1 (GAP-007)
