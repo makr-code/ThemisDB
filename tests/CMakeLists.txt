@@ -14645,6 +14645,14 @@ if(THEMIS_ENABLE_LLM)
     )
 
     add_llm_focused_test(
+        test_llm_metrics_server_wiring
+        llm/test_metrics_server_wiring.cpp
+        MSW_Tests
+        "llm;metrics;grafana;admin;wiring;unit"
+        "MetricsServer admin callback wiring (MSW-01..10): reload/simulate/session-delete endpoints wired to LLMPluginManager"
+    )
+
+    add_llm_focused_test(
         test_llm_gossip_adapter_publisher
         llm/test_llm_gossip_adapter_publisher.cpp
         GossipAdapterPublisherFocusedTests
@@ -23906,6 +23914,47 @@ else()
     message(STATUS "Projects module tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_projects.cpp")
 endif()
 
+# Projects concurrent + audit log tests (CC-01..CC-08, PAL-01..PAL-06)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_project_collaboration_concurrent.cpp")
+    message(STATUS "Adding Projects concurrent + audit log tests (CC-01..CC-08, PAL-01..PAL-06)")
+
+    add_executable(test_project_collaboration_concurrent
+        test_project_collaboration_concurrent.cpp
+        ${CMAKE_SOURCE_DIR}/src/projects/collaboration_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/projects/in_memory_project_audit_log.cpp
+    )
+
+    target_include_directories(test_project_collaboration_concurrent PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/third_party
+    )
+
+    target_link_libraries(test_project_collaboration_concurrent PRIVATE
+        GTest::gtest_main
+        themis_rocksdb_lib
+        Threads::Threads
+    )
+
+    target_compile_features(test_project_collaboration_concurrent PRIVATE cxx_std_17)
+
+    if(WIN32)
+        themis_sync_runtime_dlls_for_target(test_project_collaboration_concurrent)
+        add_dependencies(test_project_collaboration_concurrent sync_test_runtime_dlls)
+    endif()
+
+    add_test(NAME ProjectCollaborationConcurrentTests
+        COMMAND test_project_collaboration_concurrent)
+
+    set_tests_properties(ProjectCollaborationConcurrentTests PROPERTIES
+        LABELS "projects;collaboration;concurrent;audit;integration"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  Projects Concurrent: CC-01..CC-08 (lock contention, notify, subscribe, share), PAL-01..PAL-06 (audit log record/query/count/purge/wiring)")
+else()
+    message(STATUS "Projects concurrent tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_project_collaboration_concurrent.cpp")
+endif()
+
 # RAGIngestionBridge tests (subset of AllTests)
 # Covers: RAGIngestionBridge construction (RI-01..RI-07), indexDocument (RI-08..RI-16),
 #         extractEntitiesForContext (RI-17..RI-18), buildEntityContext (RI-19..RI-21),
@@ -24197,7 +24246,70 @@ else()
     message(STATUS "DK-OR tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge_or.cpp")
 endif()
 
-# EncryptedBlobBackend focused tests (EBB-01 … EBB-10)
+# ─────────────────────────────────────────────────────────────────────────────
+# FPD: Federated Poisoning Detection tests
+# Covers: FPD-01..10 (gradient outlier filter, L2-norm detection, stats, fallback)
+# ─────────────────────────────────────────────────────────────────────────────
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_federated_poisoning_detection.cpp")
+    message(STATUS "Adding FPD Federated Poisoning Detection tests")
+
+    add_executable(test_federated_poisoning_detection_focused
+        test_federated_poisoning_detection.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/lora_federation_coordinator.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/federated_rag_merger.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/cross_shard_feedback_sync.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/adapter_capability_announcement.cpp
+    )
+
+    target_include_directories(test_federated_poisoning_detection_focused
+        PRIVATE ${THEMIS_ROOT_DIR}/include)
+
+    target_link_libraries(test_federated_poisoning_detection_focused
+        PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+
+    target_compile_definitions(test_federated_poisoning_detection_focused
+        PRIVATE THEMIS_TEST_BUILD=1)
+
+    add_test(NAME FPD_Tests COMMAND test_federated_poisoning_detection_focused)
+
+    set_tests_properties(FPD_Tests PROPERTIES
+        LABELS "distributed_knowledge;poisoning;FPD;federation;privacy;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  FPD: 01..10 (outlier filter wiring, L2-norm, stats, threshold variants, fallback)")
+else()
+    message(STATUS "FPD tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_federated_poisoning_detection.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_federated_distillation_coordinator.cpp")
+    message(STATUS "Adding FDF Federated Distillation Coordinator tests")
+
+    add_executable(test_federated_distillation_coordinator_focused
+        test_federated_distillation_coordinator.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_knowledge/federated_distillation_coordinator.cpp
+    )
+
+    target_include_directories(test_federated_distillation_coordinator_focused
+        PRIVATE ${THEMIS_ROOT_DIR}/include)
+
+    target_link_libraries(test_federated_distillation_coordinator_focused
+        PRIVATE ${TEST_LIBS} Threads::Threads)
+
+    target_compile_definitions(test_federated_distillation_coordinator_focused
+        PRIVATE THEMIS_TEST_BUILD=1)
+
+    add_test(NAME FDF_Tests COMMAND test_federated_distillation_coordinator_focused)
+
+    set_tests_properties(FDF_Tests PROPERTIES
+        LABELS "distributed_knowledge;distillation;FDF;teacher-student;privacy;DP;unit"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  FDF: 01..10 (submit, broadcast, DP noise, policy gate, audit, rollback, budget)")
+else()
+    message(STATUS "FDF tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_federated_distillation_coordinator.cpp")
+endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_encrypted_blob_backend.cpp")
     message(STATUS "Adding EncryptedBlobBackend focused tests")
 

@@ -1,198 +1,298 @@
-/**
- * @file test_federated_poisoning_detection.cpp
- * @brief Unit tests for GradientOutlierFilter hook in LoRAFederationCoordinator (FPD).
- *
- * Tests
- * -----
- * FPD_01  makeL2NormOutlierFilter() accepts a gradient within the norm bound
- * FPD_02  makeL2NormOutlierFilter() rejects a gradient exceeding the norm bound
- * FPD_03  makeL2NormOutlierFilter(0) throws std::invalid_argument
- * FPD_04  setGradientOutlierFilter(nullptr) removes the filter
- * FPD_05  Poisoned gradient filtered out; clean gradients still aggregated
- * FPD_06  filteredGradientsCount() increments for each rejected gradient
- * FPD_07  All gradients rejected → triggerAggregation() throws "all gradients filtered"
- * FPD_08  Filter not set → no gradients filtered, normal aggregation
- * FPD_09  Custom filter (always-reject) → filteredGradientsCount() == submitted count
- * FPD_10  Non-numeric gradient data (empty object) → accepted by L2NormFilter
- */
+// Copyright 2026 ThemisDB — Licensed under MIT License
+//
+// FPD — Federated Poisoning Detection unit tests
+//
+// Test groups:
+//   FPD-01  setGradientOutlierFilter() wiring — filter is invoked during aggregation
+//   FPD-02  Benign gradients pass the L2-norm filter (no rejection)
+//   FPD-03  Poisoned outlier is rejected by L2-norm filter; round still succeeds
+//   FPD-04  Two outliers rejected — round aborts when remaining < min_participants
+//   FPD-05  filteredGradientsCount() accumulates across multiple rounds
+//   FPD-06  getStats() exposes total_gradients_filtered field
+//   FPD-07  Custom always-reject filter rejects all → round throws
+//   FPD-08  makeL2NormOutlierFilter() with tight threshold rejects outlier
+//   FPD-09  makeL2NormOutlierFilter() with wide threshold accepts all
+//   FPD-10  Filter disabled (nullptr) — all gradients accepted
+//
+// All tests: no network, no file I/O, < 100 ms total.
 
 #include <gtest/gtest.h>
+
 #include "distributed_knowledge/lora_federation_coordinator.h"
+
+#include <cmath>
+#include <stdexcept>
+#include <string>
+#include <vector>
 
 using namespace themis::distributed_knowledge;
 
-// ---------------------------------------------------------------------------
+// ============================================================================
 // Helpers
-// ---------------------------------------------------------------------------
+// ============================================================================
 
-static EncryptedGradient makeGradient(const std::string& shard_id,
-                                       uint64_t round,
-                                       const nlohmann::json& data,
-                                       size_t samples = 10)
-{
-    return EncryptedGradient{shard_id, round, samples, data};
-}
+namespace {
 
-static FederationConfig minConfig(size_t min_p = 1)
+FederationConfig makeConfig(size_t min_participants = 2,
+                            double dp_sensitivity  = 1e-9)
 {
     FederationConfig cfg;
-    cfg.min_participants = min_p;
-    cfg.dp_epsilon       = 0.0; // no DP noise in unit tests
+    cfg.min_participants = min_participants;
+    cfg.dp_epsilon       = 0.5;
     cfg.dp_delta         = 1e-5;
+    cfg.dp_sensitivity   = dp_sensitivity;  // near-zero noise for determinism
     return cfg;
 }
 
-// ---------------------------------------------------------------------------
-// FPD_01 — makeL2NormOutlierFilter accepts within-bound gradient
-// ---------------------------------------------------------------------------
-TEST(FPD, FPD_01_L2FilterAcceptsInBound) {
-    auto filter = LoRAFederationCoordinator::makeL2NormOutlierFilter(10.0);
-    EncryptedGradient g = makeGradient("s1", 1,
-        {{"w1", 3.0}, {"w2", 4.0}}); // L2 = 5.0 < 10.0
-    EXPECT_TRUE(filter(g));
+EncryptedGradient makeGrad(const std::string& shard_id,
+                            uint64_t round      = 1,
+                            double   layer_val  = 0.01)
+{
+    EncryptedGradient g;
+    g.shard_id     = shard_id;
+    g.round        = round;
+    g.sample_count = 100;
+    g.data         = {{"layer_0", layer_val}, {"layer_1", layer_val * 0.5}};
+    return g;
 }
 
-// ---------------------------------------------------------------------------
-// FPD_02 — makeL2NormOutlierFilter rejects exceeding-bound gradient
-// ---------------------------------------------------------------------------
-TEST(FPD, FPD_02_L2FilterRejectsOutOfBound) {
-    auto filter = LoRAFederationCoordinator::makeL2NormOutlierFilter(4.0);
-    EncryptedGradient g = makeGradient("s1", 1,
-        {{"w1", 3.0}, {"w2", 4.0}}); // L2 = 5.0 > 4.0
-    EXPECT_FALSE(filter(g));
+/// A gradient with a very large L2 norm (simulates a poisoning injection).
+EncryptedGradient makePoisonedGrad(const std::string& shard_id,
+                                    uint64_t round = 1,
+                                    double   layer_val = 9999.0)
+{
+    return makeGrad(shard_id, round, layer_val);
 }
 
-// ---------------------------------------------------------------------------
-// FPD_03 — makeL2NormOutlierFilter(0) throws
-// ---------------------------------------------------------------------------
-TEST(FPD, FPD_03_L2FilterZeroNormThrows) {
-    EXPECT_THROW(LoRAFederationCoordinator::makeL2NormOutlierFilter(0.0),
-                 std::invalid_argument);
-    EXPECT_THROW(LoRAFederationCoordinator::makeL2NormOutlierFilter(-1.0),
-                 std::invalid_argument);
+} // anonymous namespace
+
+// ============================================================================
+// FPD-01: filter callable is invoked during auto-aggregation
+// ============================================================================
+
+TEST(FPD_PoisoningDetection, FPD_01_FilterIsInvokedDuringAggregation) {
+    auto cfg = makeConfig(2);
+    LoRAFederationCoordinator coord(cfg);
+
+    size_t invocation_count = 0;
+    coord.setGradientOutlierFilter(
+        [&invocation_count](const EncryptedGradient&,
+                             const std::map<std::string, EncryptedGradient>&) -> bool {
+            ++invocation_count;
+            return true;  // accept all
+        });
+
+    coord.submitGradient(makeGrad("s1"));
+    coord.submitGradient(makeGrad("s2"));  // auto-triggers
+
+    // Filter must be called exactly once per gradient in the round (2 gradients)
+    EXPECT_EQ(invocation_count, 2u);
 }
 
-// ---------------------------------------------------------------------------
-// FPD_04 — setGradientOutlierFilter(nullptr) removes the filter
-// ---------------------------------------------------------------------------
-TEST(FPD, FPD_04_NullFilterRemovesFilter) {
-    LoRAFederationCoordinator coord(minConfig());
-    // Install a filter that rejects everything
-    coord.setGradientOutlierFilter([](const EncryptedGradient&) { return false; });
-    // Remove it
-    coord.setGradientOutlierFilter(nullptr);
+// ============================================================================
+// FPD-02: benign gradients pass the L2-norm filter
+// ============================================================================
 
-    // With no filter, gradient is accepted and aggregation completes normally
-    coord.submitGradient(makeGradient("s1", 1, {{"w", 1.0}}));
-    EXPECT_NO_THROW(coord.triggerAggregation());
-}
-
-// ---------------------------------------------------------------------------
-// FPD_05 — Poisoned gradient filtered out; clean gradient aggregated
-// ---------------------------------------------------------------------------
-TEST(FPD, FPD_05_PoisonedGradientFiltered_CleanAggregated) {
-    auto cfg = minConfig(2);
+TEST(FPD_PoisoningDetection, FPD_02_BenignGradientsPassL2Filter) {
+    auto cfg = makeConfig(3);
     LoRAFederationCoordinator coord(cfg);
     coord.setGradientOutlierFilter(
-        LoRAFederationCoordinator::makeL2NormOutlierFilter(5.0));
+        LoRAFederationCoordinator::makeL2NormOutlierFilter(2.5));
 
-    // s1: L2 = 3.0 (clean)
-    coord.submitGradient(makeGradient("s1", 1, {{"w", 3.0}}));
-    // s2: L2 = 100.0 (poisoned) — should be filtered
-    coord.submitGradient(makeGradient("s2", 1, {{"w", 100.0}}));
+    // Three similar gradients — all should be accepted
+    coord.submitGradient(makeGrad("s1", 1, 0.01));
+    coord.submitGradient(makeGrad("s2", 1, 0.011));
+    coord.submitGradient(makeGrad("s3", 1, 0.012));
 
-    // min_participants=2 but after filtering only 1 remains — manual trigger needed
-    // min_participants down to 1 so it auto-fires after filtering
-    // Actually let's use min_p=1 for auto-fire, then check result
-    auto cfg2 = minConfig(1);
-    LoRAFederationCoordinator coord2(cfg2);
-    coord2.setGradientOutlierFilter(
-        LoRAFederationCoordinator::makeL2NormOutlierFilter(5.0));
-    coord2.submitGradient(makeGradient("s1", 1, {{"w", 3.0}}));
-    // s2 submitted but filtered on aggregation → should not appear
-    coord2.submitGradient(makeGradient("s2", 1, {{"w", 100.0}}));
-
-    EXPECT_EQ(coord2.filteredGradientsCount(), 1u);
-}
-
-// ---------------------------------------------------------------------------
-// FPD_06 — filteredGradientsCount() increments per rejected gradient
-// ---------------------------------------------------------------------------
-TEST(FPD, FPD_06_FilteredCountIncrements) {
-    LoRAFederationCoordinator coord(minConfig(1));
-    coord.setGradientOutlierFilter(
-        LoRAFederationCoordinator::makeL2NormOutlierFilter(1.0));
-
-    // Submit 1 clean + trigger aggregation
-    coord.submitGradient(makeGradient("clean", 1, {{"w", 0.5}})); // L2=0.5 <= 1.0
-    // Trigger round 2
-    coord.submitGradient(makeGradient("c2", 2, {{"w", 0.5}}));
-    // Submit 1 outlier
-    LoRAFederationCoordinator coord2(minConfig(1));
-    coord2.setGradientOutlierFilter(
-        LoRAFederationCoordinator::makeL2NormOutlierFilter(1.0));
-    EXPECT_EQ(coord2.filteredGradientsCount(), 0u);
-    // Submit clean — auto-triggers
-    coord2.submitGradient(makeGradient("clean", 1, {{"w", 0.5}}));
-    EXPECT_EQ(coord2.filteredGradientsCount(), 0u);
-}
-
-// ---------------------------------------------------------------------------
-// FPD_07 — All gradients rejected → triggerAggregation throws
-// ---------------------------------------------------------------------------
-TEST(FPD, FPD_07_AllGradientsRejectedThrows) {
-    LoRAFederationCoordinator coord(minConfig(1));
-    // Filter that rejects everything
-    coord.setGradientOutlierFilter([](const EncryptedGradient&) { return false; });
-    // Can't auto-trigger because submitGradient() would auto-aggregate and throw
-    // Use min_participants=2 to prevent auto-trigger, then manually trigger
-    LoRAFederationCoordinator coord2(minConfig(2));
-    coord2.setGradientOutlierFilter([](const EncryptedGradient&) { return false; });
-    coord2.submitGradient(makeGradient("s1", 1, {{"w", 1.0}}));
-    coord2.submitGradient(makeGradient("s2", 1, {{"w", 2.0}}));
-    // All 2 submitted but filter rejects all — now manually trigger
-    // But they were already filtered during submitGradient auto-trigger attempt.
-    // Use triggerAggregation directly on a coordinator that hasn't auto-aggregated:
-    LoRAFederationCoordinator coord3(minConfig(3));
-    coord3.setGradientOutlierFilter([](const EncryptedGradient&) { return false; });
-    coord3.submitGradient(makeGradient("s1", 1, {{"w", 1.0}}));
-    coord3.submitGradient(makeGradient("s2", 1, {{"w", 2.0}}));
-    coord3.submitGradient(makeGradient("s3", 1, {{"w", 3.0}}));
-    EXPECT_THROW(coord3.triggerAggregation(), std::runtime_error);
-}
-
-// ---------------------------------------------------------------------------
-// FPD_08 — No filter set → normal aggregation, filteredCount stays 0
-// ---------------------------------------------------------------------------
-TEST(FPD, FPD_08_NoFilterNormalAggregation) {
-    LoRAFederationCoordinator coord(minConfig(1));
-    // No filter
-    coord.submitGradient(makeGradient("s1", 1, {{"w", 999.0}}));
+    EXPECT_TRUE(coord.lastDelta().has_value())
+        << "All benign gradients should be accepted and round should complete";
     EXPECT_EQ(coord.filteredGradientsCount(), 0u);
-    // No throw — large norm accepted without filter
-    auto delta = coord.lastDelta();
-    EXPECT_TRUE(delta.has_value());
 }
 
-// ---------------------------------------------------------------------------
-// FPD_09 — Custom always-reject filter → filteredCount == submitted
-// ---------------------------------------------------------------------------
-TEST(FPD, FPD_09_AlwaysRejectFilterCounts) {
-    LoRAFederationCoordinator coord(minConfig(5));
-    coord.setGradientOutlierFilter([](const EncryptedGradient&) { return false; });
-    for (int i = 0; i < 5; ++i) {
-        coord.submitGradient(makeGradient("s" + std::to_string(i), 1, {{"w", 1.0}}));
+// ============================================================================
+// FPD-03: outlier is rejected; round still succeeds with remaining participants
+// ============================================================================
+
+TEST(FPD_PoisoningDetection, FPD_03_SingleOutlierRejectedRoundSucceeds) {
+    // min_participants=2 so 3 submitted - 1 rejected = 2 → still above threshold
+    auto cfg = makeConfig(2);
+    LoRAFederationCoordinator coord(cfg);
+    coord.setGradientOutlierFilter(
+        LoRAFederationCoordinator::makeL2NormOutlierFilter(2.5));
+
+    // Two normal gradients and one poisoned outlier
+    coord.submitGradient(makeGrad("s1", 1, 0.01));
+    coord.submitGradient(makeGrad("s2", 1, 0.011));
+    auto poison = makePoisonedGrad("s-evil", 1, 9999.0);
+    coord.submitGradient(poison);
+    // Auto-trigger fires when 3rd gradient arrives (>= min_participants=2)
+
+    ASSERT_TRUE(coord.lastDelta().has_value())
+        << "Round should complete using the 2 benign gradients";
+    EXPECT_GE(coord.filteredGradientsCount(), 1u)
+        << "Outlier gradient must be counted as filtered";
+}
+
+// ============================================================================
+// FPD-04: two outliers rejected → fewer than min_participants remaining → throws
+// ============================================================================
+
+TEST(FPD_PoisoningDetection, FPD_04_TwoOutliersRejectedBelowThresholdThrows) {
+    // min_participants=3; only 2 legit submitted (+ 1 poisoned) → after filter
+    // only 2 remain → below min_participants=3 → error
+    FederationConfig cfg = makeConfig(3);
+    LoRAFederationCoordinator coord(cfg);
+    coord.setGradientOutlierFilter(
+        LoRAFederationCoordinator::makeL2NormOutlierFilter(0.5));  // tight threshold
+
+    // Submit two outlier-range gradients and one legitimate gradient.
+    // With a tight z=0.5 threshold and large variation the outliers are rejected.
+    coord.submitGradient(makeGrad("s1", 1, 0.01));
+    coord.submitGradient(makePoisonedGrad("s-evil-1", 1, 500.0));
+    coord.submitGradient(makePoisonedGrad("s-evil-2", 1, 600.0));
+
+    // Auto-trigger fires on third gradient — expect throw with diagnostic message
+    try {
+        coord.triggerAggregation();
+        FAIL() << "Expected std::runtime_error when participants drop below min_participants";
+    } catch (const std::runtime_error& e) {
+        const std::string msg(e.what());
+        EXPECT_TRUE(msg.find("insufficient") != std::string::npos ||
+                    msg.find("participants") != std::string::npos)
+            << "Exception message must contain diagnostic info; got: " << msg;
     }
-    EXPECT_THROW(coord.triggerAggregation(), std::runtime_error);
-    EXPECT_EQ(coord.filteredGradientsCount(), 5u);
 }
 
-// ---------------------------------------------------------------------------
-// FPD_10 — Non-numeric (empty object) gradient accepted by L2NormFilter
-// ---------------------------------------------------------------------------
-TEST(FPD, FPD_10_EmptyObjectAcceptedByL2Filter) {
-    auto filter = LoRAFederationCoordinator::makeL2NormOutlierFilter(0.001);
-    EncryptedGradient g = makeGradient("s1", 1, nlohmann::json::object());
-    // L2 norm of empty object = 0 ≤ 0.001 → accepted
-    EXPECT_TRUE(filter(g));
+// ============================================================================
+// FPD-05: filteredGradientsCount() accumulates across rounds
+// ============================================================================
+
+TEST(FPD_PoisoningDetection, FPD_05_FilteredCountAccumulatesAcrossRounds) {
+    auto cfg = makeConfig(2);
+    LoRAFederationCoordinator coord(cfg);
+
+    // Always-reject filter for the outlier shard
+    coord.setGradientOutlierFilter(
+        [](const EncryptedGradient& g,
+           const std::map<std::string, EncryptedGradient>&) -> bool {
+            return g.shard_id != "poison";
+        });
+
+    // Round 1: 2 good + 1 poisoned → 1 filtered, round succeeds
+    coord.submitGradient(makeGrad("s1", 1));
+    coord.submitGradient(makeGrad("s2", 1));
+    coord.submitGradient(makeGrad("poison", 1));
+    coord.triggerAggregation();
+
+    // Round 2: 2 good + 1 poisoned → 1 more filtered
+    coord.submitGradient(makeGrad("s1", 2));
+    coord.submitGradient(makeGrad("s2", 2));
+    coord.submitGradient(makeGrad("poison", 2));
+    coord.triggerAggregation();
+
+    EXPECT_GE(coord.filteredGradientsCount(), 2u)
+        << "Filtered count must accumulate across rounds";
+}
+
+// ============================================================================
+// FPD-06: getStats() exposes total_gradients_filtered
+// ============================================================================
+
+TEST(FPD_PoisoningDetection, FPD_06_GetStatsExposesTotalGradientsFiltered) {
+    auto cfg = makeConfig(2);
+    LoRAFederationCoordinator coord(cfg);
+
+    coord.setGradientOutlierFilter(
+        [](const EncryptedGradient& g,
+           const std::map<std::string, EncryptedGradient>&) -> bool {
+            return g.shard_id != "bad";
+        });
+
+    coord.submitGradient(makeGrad("s1", 1));
+    coord.submitGradient(makeGrad("bad", 1));
+    coord.submitGradient(makeGrad("s2", 1));
+    coord.triggerAggregation();
+
+    const auto stats = coord.getStats();
+    ASSERT_TRUE(stats.contains("total_gradients_filtered"));
+    EXPECT_GE(stats["total_gradients_filtered"].get<uint64_t>(), 1u);
+}
+
+// ============================================================================
+// FPD-07: custom always-reject filter → round throws
+// ============================================================================
+
+TEST(FPD_PoisoningDetection, FPD_07_AlwaysRejectFilterThrows) {
+    auto cfg = makeConfig(2);
+    LoRAFederationCoordinator coord(cfg);
+
+    // Filter that rejects every gradient
+    coord.setGradientOutlierFilter(
+        [](const EncryptedGradient&,
+           const std::map<std::string, EncryptedGradient>&) -> bool {
+            return false;
+        });
+
+    coord.submitGradient(makeGrad("s1", 1));
+    coord.submitGradient(makeGrad("s2", 1));
+
+    EXPECT_THROW(coord.triggerAggregation(), std::runtime_error);
+}
+
+// ============================================================================
+// FPD-08: makeL2NormOutlierFilter() with tight threshold rejects outlier
+// ============================================================================
+
+TEST(FPD_PoisoningDetection, FPD_08_L2FilterTightThresholdRejectsOutlier) {
+    auto cfg = makeConfig(2);
+    LoRAFederationCoordinator coord(cfg);
+    // Very tight threshold: anything > 0.1 stddev from mean gets rejected
+    coord.setGradientOutlierFilter(
+        LoRAFederationCoordinator::makeL2NormOutlierFilter(0.1));
+
+    // Two similar small gradients + one huge outlier
+    coord.submitGradient(makeGrad("s1", 1, 0.01));
+    coord.submitGradient(makeGrad("s2", 1, 0.011));
+    coord.submitGradient(makePoisonedGrad("poison", 1, 100.0));
+
+    coord.triggerAggregation();
+
+    EXPECT_GE(coord.filteredGradientsCount(), 1u)
+        << "Outlier must be rejected with tight z_threshold=0.1";
+}
+
+// ============================================================================
+// FPD-09: makeL2NormOutlierFilter() with wide threshold accepts all
+// ============================================================================
+
+TEST(FPD_PoisoningDetection, FPD_09_L2FilterWideThresholdAcceptsAll) {
+    auto cfg = makeConfig(2);
+    LoRAFederationCoordinator coord(cfg);
+    // Extremely wide threshold — nothing should be rejected
+    coord.setGradientOutlierFilter(
+        LoRAFederationCoordinator::makeL2NormOutlierFilter(1000.0));
+
+    coord.submitGradient(makeGrad("s1", 1, 0.01));
+    coord.submitGradient(makePoisonedGrad("s2", 1, 500.0));
+    coord.triggerAggregation();
+
+    EXPECT_EQ(coord.filteredGradientsCount(), 0u)
+        << "No gradient should be rejected with a very wide threshold";
+}
+
+// ============================================================================
+// FPD-10: filter not set (nullptr / default) — all gradients accepted
+// ============================================================================
+
+TEST(FPD_PoisoningDetection, FPD_10_NoFilterAcceptsAll) {
+    auto cfg = makeConfig(2);
+    LoRAFederationCoordinator coord(cfg);
+    // Do NOT call setGradientOutlierFilter — default is no filter
+
+    coord.submitGradient(makeGrad("s1", 1));
+    coord.submitGradient(makePoisonedGrad("s2", 1, 9999.0));
+
+    EXPECT_TRUE(coord.lastDelta().has_value())
+        << "Without a filter all gradients must be accepted";
+    EXPECT_EQ(coord.filteredGradientsCount(), 0u);
 }

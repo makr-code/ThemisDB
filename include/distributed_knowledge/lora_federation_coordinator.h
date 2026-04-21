@@ -471,6 +471,78 @@ public:
     void setSigningCallback(
         std::function<std::string(const nlohmann::json&)> signing_fn);
 
+    // ── FPD: Poisoning / Outlier Detection ────────────────────────────────────
+
+    /**
+     * @brief Callable type for gradient outlier/poisoning filters.
+     *
+     * A filter receives an `EncryptedGradient` and returns `true` when the
+     * gradient is safe to include in the aggregation, or `false` to reject
+     * it as a potential poisoning or outlier contribution.
+     *
+     * The built-in L2-norm filter (`makeL2NormOutlierFilter()`) rejects
+     * gradients whose key-wise L2 norm deviates more than `z_threshold`
+     * standard deviations from the mean of all submitted gradients.
+     *
+     * Custom filters (e.g., Krum, Bulyan) may be injected for testing or
+     * production hardening without changing the coordinator's aggregation logic.
+     */
+    using GradientOutlierFilter =
+        std::function<bool(const EncryptedGradient&,
+                           const std::map<std::string, EncryptedGradient>&)>;
+
+    /**
+     * @brief Inject a gradient outlier / poisoning-detection filter (FPD).
+     *
+     * When set, `doAggregation()` calls the filter for every pending gradient
+     * before aggregation.  Gradients for which the filter returns `false` are
+     * excluded from the round and counted in `total_gradients_filtered_`.
+     *
+     * The filter is called under `mutex_`, so it must not call back into the
+     * coordinator.
+     *
+     * @param filter  Callable `(const EncryptedGradient&,
+     *                           const std::map<std::string, EncryptedGradient>&)
+     *                          → bool`.  May be `nullptr` to disable filtering.
+     */
+    void setGradientOutlierFilter(GradientOutlierFilter filter);
+
+    /**
+     * @brief Return the number of gradients rejected by the outlier filter.
+     *
+     * Counter accumulates across all rounds.
+     */
+    [[nodiscard]] size_t filteredGradientsCount() const;
+
+    /**
+     * @brief Create a simple L2-norm-based outlier filter.
+     *
+     * Rejects any gradient whose L2 norm (computed as
+     * `sqrt(Σ value²)` over all numeric keys in `data`) deviates more than
+     * `z_threshold` standard deviations from the mean L2 norm of all
+     * submitted gradients in the same round.
+     *
+     * **Edge case — fewer than 2 samples:** When the peer set contains fewer
+     * than 2 gradients, no statistics can be computed and all gradients are
+     * accepted.  This avoids false positives in minimal-participant rounds, but
+     * means the filter provides no protection in single-participant rounds.
+     * Configure `FederationConfig::min_participants >= 2` to avoid this.
+     *
+     * **Performance note:** The filter recalculates L2 norms for every gradient
+     * in the peer set on each invocation.  For large rounds this is O(N) per
+     * gradient call; the caller in `doAggregation()` supplies a pre-snapshotted
+     * peer map so statistics remain consistent throughout filtering.
+     *
+     * This provides a lightweight poisoning defence without requiring the
+     * full `ByzantineDetector` hierarchy (which depends on `GradientTensor`
+     * and the LLM module).
+     *
+     * @param z_threshold  Rejection threshold in standard deviations (default 2.5).
+     * @return A `GradientOutlierFilter` suitable for `setGradientOutlierFilter()`.
+     */
+    [[nodiscard]] static GradientOutlierFilter makeL2NormOutlierFilter(
+        double z_threshold = 2.5);
+
 private:
     FederationConfig                         config_;
     uint64_t                                 current_round_{1};
@@ -500,6 +572,11 @@ private:
     uint64_t total_rounds_completed_{0};
     uint64_t total_gradients_processed_{0};
     double   total_epsilon_spent_{0.0};
+    /// Number of gradients rejected by the outlier/poisoning filter (FPD).
+    uint64_t total_gradients_filtered_{0};
+
+    // FPD: injectable poisoning / outlier filter (optional)
+    GradientOutlierFilter gradient_outlier_filter_;
 
     mutable std::mutex mutex_;
 

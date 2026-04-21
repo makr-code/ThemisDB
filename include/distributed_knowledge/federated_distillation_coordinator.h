@@ -1,58 +1,48 @@
+// SPDX-License-Identifier: MIT
 // Copyright 2026 ThemisDB — Licensed under MIT License
 #pragma once
 
 /**
  * @file federated_distillation_coordinator.h
- * @brief Federated Knowledge Distillation — teacher→student soft-label transfer
- *        with (ε, δ)-Differential Privacy.
+ * @brief Federated Distillation Coordinator — teacher-student knowledge transfer
+ *        across institution/tenant boundaries without raw data exchange.
  *
- * ## Motivation
- *
- * `LoRAFederationCoordinator` (Ebene B) federates LoRA *gradient* updates via
- * FedAvg/FedProx.  In scenarios where gradient sharing is too privacy-costly
- * or the teacher and student architectures differ, **Federated Distillation**
- * provides an alternative: the teacher shards share only *soft labels*
- * (probability vectors over a task-specific output vocabulary or class set),
- * and the student aggregates them.
- *
- * Soft-label exchange is complementary to gradient-based federation:
- *   • Soft labels convey less raw parameter information than gradients.
- *   • Calibrated Gaussian noise is applied to each label probability to
- *     enforce (ε, δ)-DP on the aggregated labels (same formula as Ebene B).
- *   • The student applies the aggregated labels in a cross-entropy distillation
- *     step, not a direct weight update.
- *
- * ## Flow (per distillation round)
+ * ## Protocol
  *
  * ```
- * Teacher shard k → computeSoftLabels(query_batch) → SoftLabelBatch
- *     ↓  (one per teacher shard)
- * FederatedDistillationCoordinator::submitLabels(shard_k, labels)
- *     ↓  (after min_teachers submitted or timeout)
- * aggregate() → arithmetic mean per label position
- *     ↓
- * addGaussianNoise(σ = sensitivity·√(2·ln(1.25/δ))/ε)
- *     ↓
- * AggregatedLabelBatch  ─→  student_callback_(batch)
+ * Teacher node
+ *   └─ infer(query) → raw_logits
+ *   └─ temperature_scale(raw_logits, T) → soft_label
+ *   └─ submitSoftLabels(round, [{query_id, soft_label}])
+ *           ↓
+ * FederatedDistillationCoordinator
+ *   └─ applyDPNoise(labels, ε, δ)          — Gaussian mechanism
+ *   └─ checkPolicyGate()                   — cross-border / governance
+ *   └─ broadcastSoftLabels(round, labels) →
+ *           ↓
+ * Student node(s)
+ *   └─ receiveSoftLabels(labels) → distillation_loss += KL(student || teacher)
+ *   └─ train() → LoRA adapter update
  * ```
  *
  * ## Design Constraints
- *  - Raw training examples never leave a shard.
- *  - `submitLabels()` is idempotent per `(shard_id, round)`.
- *  - Thread-safe: all public methods are mutex-guarded.
- *  - PolicyGate DI-setter rejects rounds when governance policy denies transfer.
- *  - AuditCallback DI-setter emits an audit record after each round.
- *  - RollbackTrigger DI-setter is called when a round is abandoned (all rejected
- *    or policy-blocked) to let the student revert partial learning.
+ *   - Raw training samples / cleartext query text never leave the teacher node.
+ *   - Only temperature-scaled logit distributions (soft labels) are shared.
+ *   - Gaussian DP noise is applied *before* broadcasting; ε is tracked per round.
+ *   - A configurable `PolicyGate` callback can block distribution for any shard.
+ *   - Rollback is triggered automatically when utility falls below threshold.
  *
- * Scientific references:
- *   Hinton, G. et al. (2015). "Distilling the Knowledge in a Neural Network."
- *   arXiv:1503.02531.
- *   Jeong, E. et al. (2018). "Communication-Efficient On-Device Machine Learning:
- *   Federated Distillation and Augmentation under Non-IID Private Data." NeurIPS FL Workshop.
- *   Dwork, C. et al. (2014). The Algorithmic Foundations of Differential Privacy.
+ * ## Scientific references
+ *   Hinton, G., Vinyals, O., Dean, J. (2015). "Distilling the Knowledge in a
+ *   Neural Network." NIPS Workshop.
+ *   Anil, R., et al. (2018). "Large-Scale Distributed Neural Network Training
+ *   Through Online Distillation." ICLR 2018.
+ *   Dwork, C., et al. (2014). "The Algorithmic Foundations of Differential
+ *   Privacy." Foundations and Trends in Theoretical Computer Science.
  *
- * @see include/distributed_knowledge/lora_federation_coordinator.h — gradient federation
+ * @see include/distributed_knowledge/lora_federation_coordinator.h — gradient path
+ * @see include/training/adapter_serving.h — rollback/deploy lifecycle
+ * @see include/training/incremental_lora_trainer.h — student trainer interface
  */
 
 #include <cstddef>
@@ -66,215 +56,376 @@
 #include <vector>
 #include <nlohmann/json.hpp>
 
-namespace themis::distributed_knowledge {
+namespace themis {
+namespace distributed_knowledge {
 
 // ─────────────────────────────────────────────────────────────────────────────
-// SoftLabelBatch — teacher output for one round
-// ─────────────────────────────────────────────────────────────────────────────
-
-/**
- * @brief Soft-label contribution from a single teacher shard.
- *
- * Each element of `labels` corresponds to one query/input; `labels[i]` is a
- * probability distribution over the output vocabulary (must sum to ≈1 after
- * normalisation, but the coordinator does not enforce this — it is the
- * teacher's responsibility).
- *
- * `labels` must be non-empty and all inner vectors must have the same length.
- */
-struct SoftLabelBatch {
-    /// Contributing shard identifier.
-    std::string shard_id;
-    /// Current distillation round.
-    uint64_t    round{0};
-    /// Soft labels: outer = queries, inner = probability over classes/tokens.
-    std::vector<std::vector<double>> labels;
-    /// Number of local training samples used to compute the labels.
-    size_t      sample_count{0};
-
-    [[nodiscard]] nlohmann::json toJson() const;
-    [[nodiscard]] static SoftLabelBatch fromJson(const nlohmann::json& j);
-};
-
-// ─────────────────────────────────────────────────────────────────────────────
-// AggregatedLabelBatch — coordinator output for one round
+// SoftLabel — temperature-scaled probability distribution from teacher model
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * @brief DP-noised aggregate of teacher soft labels for one distillation round.
+ * @brief A single teacher soft-label prediction for one query.
  *
- * Distributed to the student shard after each round.
+ * `probabilities` is the softmax output of the teacher model after dividing
+ * logits by `temperature`.  Higher temperature → softer distribution.
+ *
+ * Only `probabilities` is shared; the raw query text stays on the teacher node.
  */
-struct AggregatedLabelBatch {
-    /// Distillation round that produced this batch.
-    uint64_t    round{0};
-    /// Number of teacher shards that contributed.
-    size_t      teachers{0};
-    /// Aggregated labels: same shape as per-teacher `labels`.
-    std::vector<std::vector<double>> labels;
-    /// DP privacy budget spent for this round (ε_round).
-    double      epsilon_spent{0.0};
-    /// Monotonic version string, e.g. "distill-v7".
-    std::string version;
+struct SoftLabel {
+    std::string              query_id;       ///< Opaque identifier (e.g. hash of query)
+    std::vector<double>      probabilities;  ///< Temperature-scaled softmax distribution
+    double                   temperature;    ///< Distillation temperature T (1.0 = argmax)
+    std::string              teacher_id;     ///< Opaque teacher model identifier
 
-    [[nodiscard]] nlohmann::json toJson() const;
-};
+    [[nodiscard]] nlohmann::json toJson() const {
+        return {{"query_id",      query_id},
+                {"probabilities", probabilities},
+                {"temperature",   temperature},
+                {"teacher_id",    teacher_id}};
+    }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// DistillationConfig — per-coordinator configuration
-// ─────────────────────────────────────────────────────────────────────────────
-
-/**
- * @brief Configuration for `FederatedDistillationCoordinator`.
- */
-struct DistillationConfig {
-    /// Minimum number of teacher shards required to trigger aggregation.
-    size_t      min_teachers{1};
-    /// ε parameter for the Gaussian DP noise applied to labels (must be > 0).
-    double      dp_epsilon{1.0};
-    /// δ parameter for the Gaussian DP noise (must be in (0, 1)).
-    double      dp_delta{1e-5};
-    /// Sensitivity of the soft-label mechanism (L2 bound on per-label influence).
-    double      sensitivity{1.0};
-    /// Maximum number of rounds before the privacy budget is exhausted.
-    /// 0 = unlimited.
-    size_t      max_rounds{0};
-
-    [[nodiscard]] bool isValid() const {
-        return min_teachers >= 1 &&
-               dp_epsilon   >  0.0 &&
-               dp_delta     >  0.0 && dp_delta < 1.0 &&
-               sensitivity  >  0.0;
+    [[nodiscard]] static SoftLabel fromJson(const nlohmann::json& j) {
+        SoftLabel s;
+        s.query_id     = j.value("query_id", "");
+        s.probabilities = j.value("probabilities", std::vector<double>{});
+        s.temperature  = j.value("temperature", 1.0);
+        s.teacher_id   = j.value("teacher_id", "");
+        return s;
     }
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// FederatedDistillationCoordinator
+// DistillationRound — coordinator-signed batch of soft labels for one round
+// ─────────────────────────────────────────────────────────────────────────────
+
+struct DistillationRound {
+    uint64_t                 round;          ///< Monotonic round counter
+    std::string              teacher_id;     ///< Teacher model identifier
+    std::vector<SoftLabel>   labels;         ///< DP-protected soft labels
+    double                   epsilon_spent;  ///< DP budget spent this round
+    size_t                   label_count;    ///< Number of soft labels
+    bool                     dp_applied;     ///< Whether DP noise was applied
+
+    [[nodiscard]] nlohmann::json toJson() const {
+        nlohmann::json js_labels = nlohmann::json::array();
+        for (const auto& l : labels) js_labels.push_back(l.toJson());
+        return {{"round",         round},
+                {"teacher_id",    teacher_id},
+                {"labels",        js_labels},
+                {"epsilon_spent", epsilon_spent},
+                {"label_count",   label_count},
+                {"dp_applied",    dp_applied}};
+    }
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DistillationModelCard — governance snapshot per coordinator lifecycle
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * @brief Coordinates federated knowledge distillation from N teacher shards
- *        to a single student shard.
+ * @brief Per-session governance snapshot produced by the coordinator.
  *
- * ### Usage
- * @code
- * DistillationConfig cfg;
- * cfg.min_teachers = 3;
- * cfg.dp_epsilon   = 2.0;
- * FederatedDistillationCoordinator coord(cfg);
+ * Captures the privacy, utility, and policy history up to the point of
+ * generation.  Intended for audit logs, model registries, and risk reports
+ * as required by issue #4743 Phase 4 ("Modellkarten + Risikoakte").
  *
- * // Install student callback:
- * coord.setStudentCallback([](const AggregatedLabelBatch& b) {
- *     student.applyDistillationBatch(b.labels);
- * });
- *
- * // Each teacher shard submits its soft labels:
- * coord.submitLabels({shard_id, round, labels, sample_count});
- *
- * // After min_teachers have submitted, aggregation fires automatically.
- * // Or trigger manually:
- * coord.triggerAggregation();
- * @endcode
+ * Immutable once generated — call `generateModelCard()` to get a fresh
+ * snapshot.  Serialisable to JSON via `toJson()`.
  */
-class FederatedDistillationCoordinator {
+struct DistillationModelCard {
+    // Identity
+    std::string coordinator_id;     ///< Coordinator instance identifier (optional)
+    std::string teacher_id;         ///< Last teacher model identifier (or empty)
+
+    // Privacy accounting
+    uint64_t    rounds_completed;   ///< Total rounds broadcast
+    double      total_epsilon;      ///< DP budget spent (sum over all rounds)
+    double      dp_epsilon_per_round; ///< Configured ε per round
+    double      dp_delta;           ///< Configured δ
+    bool        dp_applied;         ///< Whether DP noise was applied in this session
+
+    // Utility
+    double      min_utility_reported; ///< Lowest utility reported by any student
+    double      max_utility_reported; ///< Highest utility reported (1.0 = no reports)
+    size_t      rollback_count;     ///< Number of rollbacks triggered
+
+    // Policy
+    size_t      policy_blocks;      ///< Broadcasts blocked by policy gate
+    size_t      registered_students; ///< Number of registered student callbacks
+
+    [[nodiscard]] nlohmann::json toJson() const {
+        return {{"coordinator_id",      coordinator_id},
+                {"teacher_id",         teacher_id},
+                {"rounds_completed",   rounds_completed},
+                {"total_epsilon",      total_epsilon},
+                {"dp_epsilon_per_round", dp_epsilon_per_round},
+                {"dp_delta",           dp_delta},
+                {"dp_applied",         dp_applied},
+                {"min_utility_reported", min_utility_reported},
+                {"max_utility_reported", max_utility_reported},
+                {"rollback_count",     rollback_count},
+                {"policy_blocks",      policy_blocks},
+                {"registered_students", registered_students}};
+    }
+};
+
+
+
+struct DistillationConfig {
+    // DP parameters (Gaussian mechanism)
+    double dp_epsilon   = 0.5;    ///< DP ε per round (lower = more private)
+    double dp_delta     = 1e-5;   ///< DP failure probability δ
+    double dp_sensitivity = 0.1;  ///< L2 sensitivity of probability vectors
+
+    // Distillation hyper-parameters
+    double temperature  = 4.0;    ///< Default distillation temperature
+    double alpha        = 0.5;    ///< Blend weight (0=hard labels, 1=soft labels only)
+
+    // Budget control
+    size_t max_rounds   = 0;      ///< 0 = unlimited
+
+    // Utility gate — trigger rollback if student utility drops below this
+    double min_utility_threshold = 0.90; ///< Fraction of teacher utility required
+
+    // Require DP noise before broadcasting
+    bool require_dp     = true;
+
+    [[nodiscard]] bool isValid() const {
+        return dp_epsilon > 0.0 && dp_epsilon <= 1.0 &&
+               dp_delta   > 0.0 && dp_delta < 0.1 &&
+               dp_sensitivity > 0.0 &&
+               temperature >= 1.0 &&
+               alpha >= 0.0 && alpha <= 1.0 &&
+               min_utility_threshold > 0.0 && min_utility_threshold <= 1.0;
+    }
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// IFederatedDistillationCoordinator — public interface
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Pure-virtual interface for the federated distillation coordinator.
+ *
+ * Injected by the cluster manager; tests inject a mock.
+ */
+class IFederatedDistillationCoordinator {
 public:
-    explicit FederatedDistillationCoordinator(DistillationConfig config = {});
-    ~FederatedDistillationCoordinator() = default;
+    virtual ~IFederatedDistillationCoordinator() = default;
+
+    /**
+     * @brief Teacher submits soft labels for the current round.
+     *
+     * @param teacher_id  Teacher model identifier.
+     * @param labels      Temperature-scaled predictions (one per shared query).
+     * @throws std::runtime_error on budget exhaustion or policy rejection.
+     */
+    virtual void submitSoftLabels(const std::string& teacher_id,
+                                  std::vector<SoftLabel> labels) = 0;
+
+    /**
+     * @brief Broadcast DP-protected labels to all registered student callbacks.
+     *
+     * @return The `DistillationRound` that was broadcast.
+     * @throws std::runtime_error when no labels have been submitted this round.
+     */
+    virtual DistillationRound broadcastToStudents() = 0;
+
+    /**
+     * @brief Current federated round number (starts at 1 after first submit).
+     */
+    [[nodiscard]] virtual uint64_t currentRound() const = 0;
+
+    /**
+     * @brief Number of soft-label sets submitted for the current round.
+     */
+    [[nodiscard]] virtual size_t submittedCount() const = 0;
+
+    /**
+     * @brief Last broadcast round, if any.
+     */
+    [[nodiscard]] virtual std::optional<DistillationRound> lastRound() const = 0;
+
+    /**
+     * @brief Observability stats as JSON.
+     */
+    [[nodiscard]] virtual nlohmann::json getStats() const = 0;
+
+    /**
+     * @brief Register a student callback to receive broadcast rounds.
+     *
+     * Multiple students may register.  The coordinator calls every callback
+     * (in registration order) during `broadcastToStudents()`.
+     *
+     * @param student_id  Opaque student identifier (used in audit records).
+     * @param cb          Callback receiving the broadcast `DistillationRound`.
+     */
+    virtual void registerStudent(
+        const std::string& student_id,
+        std::function<void(const DistillationRound&)> cb) = 0;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FederatedDistillationCoordinator — production implementation
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Production implementation of the federated distillation coordinator.
+ *
+ * Thread-safe: all public methods are mutex-protected.
+ *
+ * ### DP Noise Injection (Gaussian mechanism)
+ *
+ * For each probability value `p_i` in the soft label:
+ *   `p_noisy_i = p_i + Gaussian(0, σ²)`
+ * where `σ = sensitivity * sqrt(2 * ln(1.25/δ)) / ε`.
+ * The noisy distribution is then re-normalised to sum to 1.0 and clamped to
+ * [0, 1] to maintain a valid probability simplex.
+ *
+ * ### Policy Gate
+ *
+ * An injectable callback of type `PolicyGate` is called before each broadcast.
+ * Return `true` to allow, `false` to block.  When blocked, `broadcastToStudents()`
+ * throws `std::runtime_error("Policy gate rejected distillation broadcast")`.
+ */
+class FederatedDistillationCoordinator : public IFederatedDistillationCoordinator {
+public:
+    /**
+     * @brief Callback invoked before each broadcast.
+     * @param round      Current round number.
+     * @param teacher_id Teacher that submitted labels.
+     * @return `true` if broadcast is permitted; `false` to block.
+     */
+    using PolicyGate =
+        std::function<bool(uint64_t round, const std::string& teacher_id)>;
+
+    explicit FederatedDistillationCoordinator(DistillationConfig cfg = {});
+    ~FederatedDistillationCoordinator() override;
 
     FederatedDistillationCoordinator(const FederatedDistillationCoordinator&)            = delete;
     FederatedDistillationCoordinator& operator=(const FederatedDistillationCoordinator&) = delete;
-    FederatedDistillationCoordinator(FederatedDistillationCoordinator&&)                 noexcept = default;
-    FederatedDistillationCoordinator& operator=(FederatedDistillationCoordinator&&)      noexcept = default;
 
-    // ── Core API ─────────────────────────────────────────────────────────────
+    // ── IFederatedDistillationCoordinator ─────────────────────────────────────
+
+    void submitSoftLabels(const std::string& teacher_id,
+                          std::vector<SoftLabel> labels) override;
+
+    DistillationRound broadcastToStudents() override;
+
+    [[nodiscard]] uint64_t                        currentRound()   const override;
+    [[nodiscard]] size_t                          submittedCount() const override;
+    [[nodiscard]] std::optional<DistillationRound> lastRound()     const override;
+    [[nodiscard]] nlohmann::json                  getStats()       const override;
+
+    void registerStudent(const std::string& student_id,
+                         std::function<void(const DistillationRound&)> cb) override;
+
+    // ── DI setters ─────────────────────────────────────────────────────────────
 
     /**
-     * @brief Submit soft labels from a teacher shard.
+     * @brief Inject a policy gate callback.
      *
-     * Idempotent per `(shard_id, round)`.  Triggers aggregation automatically
-     * when `submittedCount() >= config.min_teachers`.
-     *
-     * @param batch  Soft-label batch from the teacher shard.
-     * @throws std::invalid_argument  on malformed batch (empty labels, mismatched sizes).
-     * @throws std::runtime_error     when privacy budget is exhausted.
+     * Called in `broadcastToStudents()`.  Pass `nullptr` to clear (allow all).
      */
-    void submitLabels(const SoftLabelBatch& batch);
+    void setPolicyGate(PolicyGate gate);
 
     /**
-     * @brief Manually trigger aggregation of all currently submitted labels.
+     * @brief Inject an audit callback.
      *
-     * @return  The aggregated label batch.
-     * @throws std::runtime_error  when fewer than `min_teachers` have submitted,
-     *                             when the policy gate rejects the round, or
-     *                             when all labels are filtered out.
-     */
-    AggregatedLabelBatch triggerAggregation();
-
-    // ── Accessors ─────────────────────────────────────────────────────────────
-
-    [[nodiscard]] uint64_t currentRound()    const;
-    [[nodiscard]] size_t   submittedCount()  const;
-    [[nodiscard]] size_t   completedRounds() const;
-    [[nodiscard]] double   privacyBudgetRemaining() const;
-    [[nodiscard]] bool     verifyPrivacyBudget() const;
-    [[nodiscard]] std::optional<AggregatedLabelBatch> lastBatch() const;
-    [[nodiscard]] const DistillationConfig& config() const { return config_; }
-
-    // ── DI-setters ────────────────────────────────────────────────────────────
-
-    /**
-     * @brief Inject the student callback.
-     *
-     * Called after every successful aggregation with the `AggregatedLabelBatch`.
-     */
-    void setStudentCallback(std::function<void(const AggregatedLabelBatch&)> cb);
-
-    /**
-     * @brief Inject a policy gate (FDF DI-setter).
-     *
-     * Invoked before aggregation.  If the gate returns `false`, aggregation is
-     * aborted for the current round and the rollback trigger (if set) is called.
-     * Signature: `bool gate(round, submittedCount)`.
-     */
-    void setPolicyGate(std::function<bool(uint64_t round, size_t teachers)> gate);
-
-    /**
-     * @brief Inject an audit callback (FDF DI-setter).
-     *
-     * Called after every successful aggregation with a JSON audit record
-     * containing `decision_type`, `round`, `teachers`, `epsilon_spent`.
+     * Called after every successful broadcast with a JSON audit record.
      */
     void setAuditCallback(std::function<void(const nlohmann::json&)> cb);
 
     /**
-     * @brief Inject a rollback trigger (FDF DI-setter).
+     * @brief Inject a rollback trigger.
      *
-     * Called when a round is abandoned (policy-blocked or all labels filtered).
-     * Signature: `void trigger(round, reason_message)`.
+     * Called when `reportStudentUtility()` drops below
+     * `DistillationConfig::min_utility_threshold`.
+     *
+     * @param cb  `void(uint64_t round, double utility)` — trigger rollback logic.
      */
-    void setRollbackTrigger(std::function<void(uint64_t round, const std::string& reason)> trigger);
+    void setRollbackTrigger(std::function<void(uint64_t, double)> cb);
+
+    // ── Utility reporting ──────────────────────────────────────────────────────
+
+    /**
+     * @brief Report student utility for the last broadcast round.
+     *
+     * If `utility` is below `config_.min_utility_threshold`, the registered
+     * rollback trigger (if any) is called.
+     *
+     * @param student_id  Student reporting.
+     * @param utility     Fraction of teacher utility achieved (0.0–1.0).
+     */
+    void reportStudentUtility(const std::string& student_id, double utility);
+
+    // ── Budget observability ───────────────────────────────────────────────────
+
+    /**
+     * @brief Remaining DP epsilon budget.
+     *
+     * Returns `std::numeric_limits<double>::max()` when `max_rounds == 0`.
+     */
+    [[nodiscard]] double privacyBudgetRemaining() const;
+
+    /**
+     * @brief True when further rounds are permitted under the budget.
+     */
+    [[nodiscard]] bool verifyPrivacyBudget() const;
+
+    /**
+     * @brief Reset to round 0 and clear pending submissions (for testing).
+     */
+    void reset();
+
+    /**
+     * @brief Generate a governance model card snapshot.
+     *
+     * Captures privacy accounting, utility statistics, and policy history
+     * at the point of invocation.  Thread-safe.
+     *
+     * @param coordinator_id  Optional identifier for this coordinator instance.
+     * @return Immutable `DistillationModelCard` snapshot.
+     */
+    [[nodiscard]] DistillationModelCard generateModelCard(
+        const std::string& coordinator_id = "") const;
+
+    [[nodiscard]] const DistillationConfig& config() const { return config_; }
 
 private:
-    DistillationConfig                              config_;
-    uint64_t                                        current_round_{1};
-    std::map<std::string, SoftLabelBatch>           pending_labels_; ///< shard_id → labels
-    std::optional<AggregatedLabelBatch>             last_batch_;
-    size_t                                          completed_rounds_{0};
-    double                                          total_epsilon_spent_{0.0};
+    // ── Implementation ─────────────────────────────────────────────────────────
 
-    // DI callbacks
-    std::function<void(const AggregatedLabelBatch&)>                 student_callback_;
-    std::function<bool(uint64_t, size_t)>                            policy_gate_;
-    std::function<void(const nlohmann::json&)>                       audit_callback_;
-    std::function<void(uint64_t, const std::string&)>                rollback_trigger_;
+    /// Apply Gaussian DP noise and re-normalise each SoftLabel in-place.
+    void applyDPNoise(std::vector<SoftLabel>& labels) const;
 
-    mutable std::mutex mutex_;
+    DistillationConfig config_;
 
-    // Internal helpers
-    [[nodiscard]] AggregatedLabelBatch doAggregation();
-    [[nodiscard]] std::vector<std::vector<double>> applyGaussianNoise(
-        std::vector<std::vector<double>> labels) const;
-    [[nodiscard]] std::string nextBatchVersion() const;
+    mutable std::mutex                         mutex_;
+    uint64_t                                   current_round_  = 0;
+    double                                     total_epsilon_spent_ = 0.0;
+    size_t                                     broadcast_count_ = 0;
+    size_t                                     rollback_count_  = 0;
+    size_t                                     policy_block_count_ = 0;
+    double                                     min_utility_reported_ = 1.0;
+    double                                     max_utility_reported_ = 1.0;
+    bool                                       any_utility_reported_ = false;
+
+    // Pending submission for current round
+    std::string                                pending_teacher_id_;
+    std::vector<SoftLabel>                     pending_labels_;
+    bool                                       has_pending_ = false;
+
+    std::optional<DistillationRound>           last_round_;
+
+    // Registered students
+    std::vector<std::pair<std::string,
+        std::function<void(const DistillationRound&)>>>   students_;
+
+    // Callbacks
+    PolicyGate                                 policy_gate_;
+    std::function<void(const nlohmann::json&)> audit_cb_;
+    std::function<void(uint64_t, double)>      rollback_trigger_;
 };
 
-} // namespace themis::distributed_knowledge
+} // namespace distributed_knowledge
+} // namespace themis

@@ -6,17 +6,19 @@
 
 ## Current Status
 
-v1.0.0 — **Module implemented and integrated (DK-1…DK-8 + DK-OR).**
+v1.1.0 — **Module implemented and integrated (DK-1…DK-8 + DK-OR + FDF).**
 
 Primary implementation files:
 - `include/distributed_knowledge/adapter_capability_announcement.h` ✅
 - `include/distributed_knowledge/lora_federation_coordinator.h` ✅
 - `include/distributed_knowledge/federated_rag_merger.h` ✅
 - `include/distributed_knowledge/cross_shard_feedback_sync.h` ✅
+- `include/distributed_knowledge/federated_distillation_coordinator.h` ✅ (v1.1.0)
 - `src/distributed_knowledge/adapter_capability_announcement.cpp` ✅
 - `src/distributed_knowledge/lora_federation_coordinator.cpp` ✅
 - `src/distributed_knowledge/federated_rag_merger.cpp` ✅
 - `src/distributed_knowledge/cross_shard_feedback_sync.cpp` ✅
+- `src/distributed_knowledge/federated_distillation_coordinator.cpp` ✅ (v1.1.0)
 
 Reality-check (2026-04-17):
 - Build/Test integration present: `tests/test_distributed_knowledge.cpp`, `tests/test_distributed_knowledge_integration.cpp`, `tests/test_distributed_knowledge_or.cpp`, `benchmarks/bench_distributed_knowledge.cpp`, `benchmarks/bench_distributed_knowledge_or.cpp`
@@ -45,6 +47,8 @@ See [Implementation Phases](#implementation-phases) for the full session breakdo
 - [x] Layer B: `LoRAFederationCoordinator` wired to `IncrementalLoRATrainer` + `ContinuousLearningOrchestrator` (Target: Session 4)
 - [x] Layer C: `FederatedRAGMerger` wired to `QueryFederation` + `RAGIngestionBridge` (Target: Session 5)
 - [x] Layer D: `CrossShardFeedbackSync` wired to `FeedbackCollector` + `RLAIFTrainer` (Target: Session 6)
+- [x] Federated Distillation: `FederatedDistillationCoordinator` — teacher-student soft-label transfer with Gaussian DP, policy gate, rollback trigger, `DistillationModelCard` governance snapshot (Target: Q2 2026) — `federated_distillation_coordinator.h/.cpp`; FDF-01..15 tests in `tests/test_federated_distillation_coordinator.cpp`
+- [x] Federated Distillation threat model: `docs/en/security/FEDERATED_DISTILLATION_THREAT_MODEL.md` — T-1..T-6, SEC-FDF-01..07 requirements, test coverage mapping (Target: Q2 2026)
 
 ### Validation & Hardening
 - [x] End-to-end integration tests (Target: Session 7)

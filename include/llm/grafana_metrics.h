@@ -424,7 +424,22 @@ public:
     void setSessionDeleteCallback(std::function<std::string(const std::string&)> cb) {
         session_delete_cb_ = std::move(cb);
     }
-    
+
+    // ── Test-accessible request dispatch ──────────────────────────────────────
+    //
+    // These methods are called from the httplib route handlers inside Impl.
+    // They are exposed publicly so that unit tests can exercise the callback
+    // wiring without starting the HTTP listener.
+
+    /// Dispatch a POST request (reload / simulate) to the registered callback.
+    void handlePost(const std::string& path, const std::string& body,
+                    std::string& response);
+    /// Dispatch a DELETE request (session cancel) to the registered callback.
+    void handleDelete(const std::string& path, const std::string& resource_id,
+                      std::string& response);
+
+    const ServerConfig& serverConfig() const { return config_; }
+
 private:
     ServerConfig config_;
     PrometheusExporter* exporter_;
@@ -441,15 +456,8 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
     
-    // HTTP request handling (called from httplib route handlers inside Impl)
+    // HTTP GET request handling (called from httplib route handlers inside Impl)
     void handleRequest(const std::string& path, std::string& response);
-    // POST body is passed separately to keep GET paths clean.
-    void handlePost(const std::string& path, const std::string& body,
-                    std::string& response);
-    // DELETE handler: path includes the resource prefix (e.g. "/admin/sessions"),
-    // resource_id carries the extracted ID segment (e.g. the session UUID).
-    void handleDelete(const std::string& path, const std::string& resource_id,
-                      std::string& response);
 };
 
 } // namespace monitoring

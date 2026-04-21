@@ -1,267 +1,450 @@
 /**
  * @file test_federated_distillation_coordinator.cpp
- * @brief Unit tests for FederatedDistillationCoordinator (FDF).
+ * @brief Focused tests for FederatedDistillationCoordinator (FDF-01..10)
  *
- * Tests
- * -----
- * FDF_01  Coordinator initialises — currentRound==1, submittedCount==0
- * FDF_02  submitLabels() — idempotent per shard in same round
- * FDF_03  submitLabels() — auto-triggers when min_teachers reached
- * FDF_04  triggerAggregation() — produces AggregatedLabelBatch with correct shape
- * FDF_05  DP noise applied — aggregated label differs from raw average by ≥ 0
- *         (noise σ > 0 for default dp_epsilon=1.0, dp_delta=1e-5)
- * FDF_06  setStudentCallback() called with AggregatedLabelBatch after round
- * FDF_07  setPolicyGate() — round blocked when gate returns false; rollback triggered
- * FDF_08  setAuditCallback() called with JSON audit record containing round/teachers/epsilon
- * FDF_09  setRollbackTrigger() called with round + reason when policy blocks
- * FDF_10  Privacy budget exhausted → submitLabels() throws std::runtime_error
- * FDF_11  submitLabels() with empty shard_id → std::invalid_argument
- * FDF_12  submitLabels() with empty labels → std::invalid_argument
- * FDF_13  submitLabels() with mismatched label sizes → std::invalid_argument
- * FDF_14  completedRounds() increments after each successful aggregation
- * FDF_15  version strings are monotonic (distill-v1, distill-v2, …)
+ * FDF-01: Invalid config throws on construction.
+ * FDF-02: submitSoftLabels advances round counter.
+ * FDF-03: broadcastToStudents without prior submit throws.
+ * FDF-04: broadcastToStudents dispatches to all registered students.
+ * FDF-05: DP noise is applied (require_dp=true) — probabilities differ from input.
+ * FDF-06: DP-noised probabilities remain valid (≥0, ≤1, sum≈1).
+ * FDF-07: Policy gate rejection throws and does not dispatch to students.
+ * FDF-08: Audit callback is invoked with correct fields.
+ * FDF-09: Rollback trigger fires when student utility drops below threshold.
+ * FDF-10: Privacy budget exhaustion blocks submit when max_rounds exceeded.
  */
 
 #include <gtest/gtest.h>
 #include "distributed_knowledge/federated_distillation_coordinator.h"
+#include <atomic>
+#include <numeric>
 
 using namespace themis::distributed_knowledge;
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
+// ── helpers ──────────────────────────────────────────────────────────────────
 
-static SoftLabelBatch makeBatch(const std::string& shard_id,
-                                 uint64_t round,
-                                 size_t n_queries   = 2,
-                                 size_t n_classes   = 3,
-                                 double fill_value  = 0.5,
-                                 size_t samples     = 10)
+static SoftLabel makeSoftLabel(const std::string& qid = "q1",
+                               std::vector<double> probs = {0.6, 0.3, 0.1})
 {
-    SoftLabelBatch b;
-    b.shard_id    = shard_id;
-    b.round       = round;
-    b.sample_count = samples;
-    b.labels.assign(n_queries, std::vector<double>(n_classes, fill_value));
-    return b;
+    SoftLabel sl;
+    sl.query_id     = qid;
+    sl.probabilities = std::move(probs);
+    sl.temperature  = 4.0;
+    sl.teacher_id   = "teacher-large";
+    return sl;
 }
 
-static DistillationConfig testConfig(size_t min_t = 1,
-                                      double eps = 1e-6,     // tiny ε → tiny σ
-                                      double dlt = 1e-10)
+static DistillationConfig defaultCfg()
 {
-    DistillationConfig cfg;
-    cfg.min_teachers = min_t;
-    cfg.dp_epsilon   = eps;
-    cfg.dp_delta     = dlt;
-    cfg.sensitivity  = 1.0;
-    return cfg;
+    DistillationConfig c;
+    c.dp_epsilon   = 0.5;
+    c.dp_delta     = 1e-5;
+    c.dp_sensitivity = 0.1;
+    c.temperature  = 4.0;
+    c.max_rounds   = 0;
+    c.require_dp   = true;
+    return c;
 }
 
-// ---------------------------------------------------------------------------
-// FDF_01 — Initial state
-// ---------------------------------------------------------------------------
-TEST(FDF, FDF_01_InitialState) {
-    FederatedDistillationCoordinator coord(testConfig());
-    EXPECT_EQ(coord.currentRound(),   1u);
+// ── FDF-01: Invalid config throws ────────────────────────────────────────────
+
+TEST(FDF_Tests, FDF_01_InvalidConfigThrows)
+{
+    DistillationConfig bad;
+    bad.dp_epsilon = -1.0;    // invalid
+    EXPECT_THROW(FederatedDistillationCoordinator{bad}, std::invalid_argument);
+}
+
+// ── FDF-02: submitSoftLabels advances round counter ───────────────────────────
+
+TEST(FDF_Tests, FDF_02_SubmitAdvancesRound)
+{
+    FederatedDistillationCoordinator coord{defaultCfg()};
+    EXPECT_EQ(coord.currentRound(), 0u);
     EXPECT_EQ(coord.submittedCount(), 0u);
-    EXPECT_EQ(coord.completedRounds(), 0u);
-    EXPECT_FALSE(coord.lastBatch().has_value());
+
+    coord.submitSoftLabels("teacher-A", {makeSoftLabel()});
+
+    EXPECT_EQ(coord.currentRound(), 1u);
+    EXPECT_EQ(coord.submittedCount(), 1u);
 }
 
-// ---------------------------------------------------------------------------
-// FDF_02 — submitLabels() idempotent per shard in same round
-// ---------------------------------------------------------------------------
-TEST(FDF, FDF_02_SubmitIdempotent) {
-    FederatedDistillationCoordinator coord(testConfig(2)); // need 2 teachers to avoid auto-trigger
-    coord.submitLabels(makeBatch("s1", 1));
-    coord.submitLabels(makeBatch("s1", 1)); // duplicate
-    EXPECT_EQ(coord.submittedCount(), 1u);  // still 1
+// ── FDF-03: broadcastToStudents without submit throws ────────────────────────
+
+TEST(FDF_Tests, FDF_03_BroadcastWithoutSubmitThrows)
+{
+    FederatedDistillationCoordinator coord{defaultCfg()};
+    EXPECT_THROW(coord.broadcastToStudents(), std::runtime_error);
 }
 
-// ---------------------------------------------------------------------------
-// FDF_03 — Auto-triggers when min_teachers reached
-// ---------------------------------------------------------------------------
-TEST(FDF, FDF_03_AutoTrigger) {
-    FederatedDistillationCoordinator coord(testConfig(2));
-    coord.submitLabels(makeBatch("s1", 1));
-    EXPECT_EQ(coord.completedRounds(), 0u);
-    coord.submitLabels(makeBatch("s2", 1));
-    EXPECT_EQ(coord.completedRounds(), 1u);  // auto-triggered
+// ── FDF-04: broadcastToStudents dispatches to all registered students ─────────
+
+TEST(FDF_Tests, FDF_04_BroadcastDispatchesToAllStudents)
+{
+    FederatedDistillationCoordinator coord{defaultCfg()};
+
+    std::atomic<int> calls_A{0}, calls_B{0};
+    std::string last_teacher;
+
+    coord.registerStudent("student-A",
+        [&calls_A, &last_teacher](const DistillationRound& r) {
+            ++calls_A;
+            last_teacher = r.teacher_id;
+        });
+    coord.registerStudent("student-B",
+        [&calls_B](const DistillationRound&) { ++calls_B; });
+
+    coord.submitSoftLabels("teacher-X", {makeSoftLabel("q1"), makeSoftLabel("q2")});
+    const auto round = coord.broadcastToStudents();
+
+    EXPECT_EQ(calls_A.load(), 1);
+    EXPECT_EQ(calls_B.load(), 1);
+    EXPECT_EQ(last_teacher, "teacher-X");
+    EXPECT_EQ(round.label_count, 2u);
+    EXPECT_EQ(round.teacher_id, "teacher-X");
+    EXPECT_EQ(round.round, 1u);
+
+    // lastRound() is populated
+    ASSERT_TRUE(coord.lastRound().has_value());
+    EXPECT_EQ(coord.lastRound()->round, 1u);
 }
 
-// ---------------------------------------------------------------------------
-// FDF_04 — AggregatedLabelBatch has correct shape
-// ---------------------------------------------------------------------------
-TEST(FDF, FDF_04_AggregatedBatchShape) {
-    FederatedDistillationCoordinator coord(testConfig(2));
-    coord.submitLabels(makeBatch("s1", 1, 3, 4, 0.25));
-    coord.submitLabels(makeBatch("s2", 1, 3, 4, 0.75));
-    auto batch = coord.lastBatch();
-    ASSERT_TRUE(batch.has_value());
-    EXPECT_EQ(batch->labels.size(),       3u);   // n_queries
-    EXPECT_EQ(batch->labels.front().size(), 4u); // n_classes
-    EXPECT_EQ(batch->teachers,            2u);
-    EXPECT_EQ(batch->round,               1u);
+// ── FDF-05: DP noise changes probabilities ────────────────────────────────────
+
+TEST(FDF_Tests, FDF_05_DPNoiseAltersDistribution)
+{
+    auto cfg      = defaultCfg();
+    cfg.dp_epsilon   = 1.0;    // higher epsilon → less noise, but still nonzero
+    cfg.dp_sensitivity = 1.0;  // large sensitivity → clearly visible noise
+    cfg.require_dp = true;
+
+    std::vector<double> original_probs = {0.7, 0.2, 0.1};
+    bool any_diff = false;
+
+    // Run 5 broadcasts to reduce chance of coincidental exact match
+    for (int trial = 0; trial < 5; ++trial) {
+        FederatedDistillationCoordinator coord{cfg};
+
+        std::vector<double> received;
+        coord.registerStudent("s1",
+            [&received](const DistillationRound& r) {
+                if (!r.labels.empty()) {
+                    received = r.labels[0].probabilities;
+                }
+            });
+
+        coord.submitSoftLabels("teacher", {makeSoftLabel("q1", original_probs)});
+        coord.broadcastToStudents();
+
+        if (received != original_probs) { any_diff = true; break; }
+    }
+    EXPECT_TRUE(any_diff) << "DP noise must alter at least one probability";
 }
 
-// ---------------------------------------------------------------------------
-// FDF_05 — DP noise applied (aggregated label ≠ exact raw average in expectation)
-//          With very large ε the noise is tiny but still present.
-//          We use a large ε but check that the implementation doesn't produce NaN/Inf.
-// ---------------------------------------------------------------------------
-TEST(FDF, FDF_05_NoisedBatchNoNaN) {
-    // Use realistic DP params
-    DistillationConfig cfg;
-    cfg.min_teachers = 1;
-    cfg.dp_epsilon   = 1.0;
-    cfg.dp_delta     = 1e-5;
-    cfg.sensitivity  = 1.0;
-    FederatedDistillationCoordinator coord(cfg);
-    coord.submitLabels(makeBatch("s1", 1, 5, 10, 0.1));
-    auto batch = coord.lastBatch();
-    ASSERT_TRUE(batch.has_value());
-    for (const auto& row : batch->labels) {
-        for (double v : row) {
-            EXPECT_FALSE(std::isnan(v));
-            EXPECT_FALSE(std::isinf(v));
-        }
+// ── FDF-06: DP-noised probabilities are valid ─────────────────────────────────
+
+TEST(FDF_Tests, FDF_06_DPNoisedProbabilitiesAreValid)
+{
+    auto cfg = defaultCfg();
+    cfg.dp_sensitivity = 1.0;
+    FederatedDistillationCoordinator coord{cfg};
+
+    std::vector<double> received;
+    coord.registerStudent("s1",
+        [&received](const DistillationRound& r) {
+            if (!r.labels.empty()) received = r.labels[0].probabilities;
+        });
+
+    // 10-class distribution
+    std::vector<double> probs(10, 0.1);
+    coord.submitSoftLabels("teacher", {makeSoftLabel("q1", probs)});
+    coord.broadcastToStudents();
+
+    ASSERT_EQ(received.size(), 10u);
+    double sum = 0.0;
+    for (double p : received) {
+        EXPECT_GE(p, 0.0) << "Probability must be >= 0";
+        EXPECT_LE(p, 1.0) << "Probability must be <= 1";
+        sum += p;
+    }
+    EXPECT_NEAR(sum, 1.0, 1e-9) << "Probabilities must sum to 1.0";
+}
+
+// ── FDF-07: Policy gate rejection blocks broadcast ────────────────────────────
+
+TEST(FDF_Tests, FDF_07_PolicyGateBlocksBroadcast)
+{
+    FederatedDistillationCoordinator coord{defaultCfg()};
+
+    std::atomic<int> student_calls{0};
+    coord.registerStudent("s1",
+        [&student_calls](const DistillationRound&) { ++student_calls; });
+
+    // Block all broadcasts
+    coord.setPolicyGate(
+        [](uint64_t, const std::string&) -> bool { return false; });
+
+    coord.submitSoftLabels("teacher", {makeSoftLabel()});
+    EXPECT_THROW(coord.broadcastToStudents(), std::runtime_error);
+
+    // Student must NOT have been called
+    EXPECT_EQ(student_calls.load(), 0);
+    // lastRound must still be empty
+    EXPECT_FALSE(coord.lastRound().has_value());
+}
+
+// ── FDF-08: Audit callback receives correct fields ────────────────────────────
+
+TEST(FDF_Tests, FDF_08_AuditCallbackCorrectFields)
+{
+    FederatedDistillationCoordinator coord{defaultCfg()};
+
+    nlohmann::json audit_record;
+    coord.setAuditCallback([&audit_record](const nlohmann::json& r) {
+        audit_record = r;
+    });
+
+    coord.submitSoftLabels("teacher-audit",
+                           {makeSoftLabel("q1"), makeSoftLabel("q2")});
+    coord.broadcastToStudents();
+
+    EXPECT_EQ(audit_record.value("event", ""), "distillation_broadcast");
+    EXPECT_EQ(audit_record.value("teacher_id", ""), "teacher-audit");
+    EXPECT_EQ(audit_record.value("label_count", size_t{0}), 2u);
+    EXPECT_EQ(audit_record.value("round", uint64_t{0}), uint64_t{1});
+    EXPECT_TRUE(audit_record.value("dp_applied", false));
+    EXPECT_GT(audit_record.value("epsilon_spent", 0.0), 0.0);
+}
+
+// ── FDF-09: Rollback trigger fires on low student utility ─────────────────────
+
+TEST(FDF_Tests, FDF_09_RollbackTriggerOnLowUtility)
+{
+    auto cfg = defaultCfg();
+    cfg.min_utility_threshold = 0.90;
+    FederatedDistillationCoordinator coord{cfg};
+
+    std::atomic<bool>   triggered{false};
+    uint64_t            rollback_round = 0;
+    double              rollback_utility = 1.0;
+
+    coord.setRollbackTrigger(
+        [&triggered, &rollback_round, &rollback_utility](uint64_t rnd, double u) {
+            triggered.store(true);
+            rollback_round   = rnd;
+            rollback_utility = u;
+        });
+
+    coord.submitSoftLabels("teacher", {makeSoftLabel()});
+    coord.broadcastToStudents();
+
+    // Report utility below threshold
+    coord.reportStudentUtility("student-1", 0.85);
+
+    EXPECT_TRUE(triggered.load());
+    EXPECT_EQ(rollback_round, 1u);
+    EXPECT_NEAR(rollback_utility, 0.85, 1e-9);
+}
+
+TEST(FDF_Tests, FDF_09b_RollbackTriggerNotFiredAboveThreshold)
+{
+    auto cfg = defaultCfg();
+    cfg.min_utility_threshold = 0.90;
+    FederatedDistillationCoordinator coord{cfg};
+
+    bool triggered = false;
+    coord.setRollbackTrigger(
+        [&triggered](uint64_t, double) { triggered = true; });
+
+    coord.submitSoftLabels("teacher", {makeSoftLabel()});
+    coord.broadcastToStudents();
+
+    // Utility above threshold — no rollback
+    coord.reportStudentUtility("student-1", 0.95);
+    EXPECT_FALSE(triggered);
+}
+
+// ── FDF-10: Privacy budget exhaustion blocks further submissions ───────────────
+
+TEST(FDF_Tests, FDF_10_PrivacyBudgetExhausted)
+{
+    DistillationConfig cfg = defaultCfg();
+    cfg.max_rounds = 2;   // only 2 rounds allowed
+    FederatedDistillationCoordinator coord{cfg};
+
+    // Round 1
+    coord.submitSoftLabels("teacher", {makeSoftLabel()});
+    coord.broadcastToStudents();
+
+    // Round 2
+    coord.submitSoftLabels("teacher", {makeSoftLabel()});
+    coord.broadcastToStudents();
+
+    // Round 3 must be rejected (budget exhausted)
+    EXPECT_THROW(coord.submitSoftLabels("teacher", {makeSoftLabel()}),
+                 std::runtime_error);
+}
+
+// ── Bonus: getStats fields ────────────────────────────────────────────────────
+
+TEST(FDF_Tests, FDF_STATS_FieldsPopulated)
+{
+    FederatedDistillationCoordinator coord{defaultCfg()};
+
+    coord.submitSoftLabels("teacher", {makeSoftLabel()});
+    coord.broadcastToStudents();
+
+    const auto stats = coord.getStats();
+    EXPECT_EQ(stats.value("current_round", 0u),   1u);
+    EXPECT_EQ(stats.value("broadcast_count", 0u), 1u);
+    EXPECT_FALSE(stats.value("has_pending", true));
+    EXPECT_GT(stats.value("total_epsilon", 0.0),  0.0);
+    EXPECT_TRUE(stats.contains("config"));
+}
+
+// ── FDF-11: Privacy invariant — SoftLabel contains no raw query text ──────────
+
+TEST(FDF_Tests, FDF_11_PrivacyInvariantNoRawQueryText)
+{
+    // SoftLabel.query_id is an opaque identifier (hash), not cleartext.
+    // Verify by checking that query_id is independent of raw text content
+    // and that SoftLabel has no field for raw query text.
+    SoftLabel label = makeSoftLabel("sha256:abc123");  // opaque hash
+
+    // SoftLabel JSON must not contain any field that could carry raw text
+    const auto j = label.toJson();
+    EXPECT_FALSE(j.contains("query_text"))    << "Raw query text must not be in SoftLabel";
+    EXPECT_FALSE(j.contains("raw_query"))     << "Raw query text must not be in SoftLabel";
+    EXPECT_FALSE(j.contains("prompt"))        << "Raw prompt must not be in SoftLabel";
+    EXPECT_FALSE(j.contains("document_text")) << "Document text must not be in SoftLabel";
+
+    // query_id field is present and opaque (cannot reconstruct the query from it)
+    EXPECT_TRUE(j.contains("query_id"));
+    EXPECT_TRUE(j.contains("probabilities"));
+    EXPECT_TRUE(j.contains("temperature"));
+    EXPECT_TRUE(j.contains("teacher_id"));
+    EXPECT_EQ(j.size(), 4u) << "SoftLabel must have exactly 4 fields";
+}
+
+// ── FDF-12: require_dp=false path — broadcast without noise ───────────────────
+
+TEST(FDF_Tests, FDF_12_RequireDpFalseSkipsNoise)
+{
+    auto cfg = defaultCfg();
+    cfg.require_dp = false;
+
+    FederatedDistillationCoordinator coord{cfg};
+
+    std::vector<double> received;
+    coord.registerStudent("s1",
+        [&received](const DistillationRound& r) {
+            if (!r.labels.empty()) received = r.labels[0].probabilities;
+        });
+
+    const std::vector<double> original = {0.7, 0.2, 0.1};
+    coord.submitSoftLabels("teacher", {makeSoftLabel("q1", original)});
+    const auto round = coord.broadcastToStudents();
+
+    // dp_applied must be false in the round
+    EXPECT_FALSE(round.dp_applied);
+    // probabilities must be unmodified (no noise added)
+    ASSERT_EQ(received.size(), original.size());
+    for (size_t i = 0; i < original.size(); ++i) {
+        EXPECT_NEAR(received[i], original[i], 1e-12)
+            << "require_dp=false: probabilities must be unmodified";
     }
 }
 
-// ---------------------------------------------------------------------------
-// FDF_06 — setStudentCallback() is invoked after aggregation
-// ---------------------------------------------------------------------------
-TEST(FDF, FDF_06_StudentCallbackInvoked) {
-    FederatedDistillationCoordinator coord(testConfig(1));
-    int call_count = 0;
-    coord.setStudentCallback([&](const AggregatedLabelBatch& b) {
-        ++call_count;
-        EXPECT_EQ(b.teachers, 1u);
-    });
-    coord.submitLabels(makeBatch("s1", 1));
-    EXPECT_EQ(call_count, 1);
-}
+// ── FDF-13: Multi-round — round counter increments correctly ─────────────────
 
-// ---------------------------------------------------------------------------
-// FDF_07 — setPolicyGate() blocks round when gate returns false
-// ---------------------------------------------------------------------------
-TEST(FDF, FDF_07_PolicyGateBlocks) {
-    FederatedDistillationCoordinator coord(testConfig(2));
-    coord.setPolicyGate([](uint64_t /*round*/, size_t /*t*/) { return false; });
-    coord.submitLabels(makeBatch("s1", 1));
-    coord.submitLabels(makeBatch("s2", 1));
-    // triggerAggregation must throw because gate returns false
-    EXPECT_THROW(coord.triggerAggregation(), std::runtime_error);
-    EXPECT_EQ(coord.completedRounds(), 0u);
-}
+TEST(FDF_Tests, FDF_13_MultiRoundConsistency)
+{
+    FederatedDistillationCoordinator coord{defaultCfg()};
 
-// ---------------------------------------------------------------------------
-// FDF_08 — setAuditCallback() receives JSON record
-// ---------------------------------------------------------------------------
-TEST(FDF, FDF_08_AuditCallbackReceivesRecord) {
-    FederatedDistillationCoordinator coord(testConfig(1));
-    nlohmann::json last_record;
-    coord.setAuditCallback([&](const nlohmann::json& r) { last_record = r; });
-    coord.submitLabels(makeBatch("s1", 1));
-    EXPECT_EQ(last_record.value("decision_type", ""), "DISTILLATION_ROUND");
-    EXPECT_EQ(last_record.value<uint64_t>("round", 0), 1u);
-    EXPECT_EQ(last_record.value<size_t>("teachers", 0), 1u);
-}
-
-// ---------------------------------------------------------------------------
-// FDF_09 — setRollbackTrigger() called when policy blocks
-// ---------------------------------------------------------------------------
-TEST(FDF, FDF_09_RollbackTriggerCalledOnPolicyBlock) {
-    FederatedDistillationCoordinator coord(testConfig(2));
-    coord.setPolicyGate([](uint64_t, size_t) { return false; });
-
-    bool rollback_called = false;
-    uint64_t rb_round    = 0;
-    coord.setRollbackTrigger([&](uint64_t r, const std::string&) {
-        rollback_called = true;
-        rb_round = r;
-    });
-
-    coord.submitLabels(makeBatch("s1", 1));
-    coord.submitLabels(makeBatch("s2", 1));
-    try { coord.triggerAggregation(); } catch (...) {}
-
-    EXPECT_TRUE(rollback_called);
-    EXPECT_EQ(rb_round, 1u);
-}
-
-// ---------------------------------------------------------------------------
-// FDF_10 — Privacy budget exhausted → submitLabels throws
-// ---------------------------------------------------------------------------
-TEST(FDF, FDF_10_PrivacyBudgetExhausted) {
-    DistillationConfig cfg = testConfig(1);
-    cfg.max_rounds = 1;
-    FederatedDistillationCoordinator coord(cfg);
-    coord.submitLabels(makeBatch("s1", 1)); // round 1 → OK, now exhausted
-    EXPECT_THROW(coord.submitLabels(makeBatch("s2", 2)), std::runtime_error);
-}
-
-// ---------------------------------------------------------------------------
-// FDF_11 — Empty shard_id throws
-// ---------------------------------------------------------------------------
-TEST(FDF, FDF_11_EmptyShardIdThrows) {
-    FederatedDistillationCoordinator coord(testConfig());
-    auto b = makeBatch("s1", 1);
-    b.shard_id = "";
-    EXPECT_THROW(coord.submitLabels(b), std::invalid_argument);
-}
-
-// ---------------------------------------------------------------------------
-// FDF_12 — Empty labels vector throws
-// ---------------------------------------------------------------------------
-TEST(FDF, FDF_12_EmptyLabelsThrows) {
-    FederatedDistillationCoordinator coord(testConfig());
-    SoftLabelBatch b;
-    b.shard_id = "s1";
-    b.round    = 1;
-    // labels is empty
-    EXPECT_THROW(coord.submitLabels(b), std::invalid_argument);
-}
-
-// ---------------------------------------------------------------------------
-// FDF_13 — Mismatched inner label sizes throw on aggregation
-// ---------------------------------------------------------------------------
-TEST(FDF, FDF_13_MismatchedLabelSizesThrow) {
-    FederatedDistillationCoordinator coord(testConfig(2));
-    coord.submitLabels(makeBatch("s1", 1, 2, 3)); // 2 queries, 3 classes
-    SoftLabelBatch b2 = makeBatch("s2", 1, 2, 5); // 2 queries, 5 classes — mismatch
-    coord.submitLabels(b2);
-    EXPECT_THROW(coord.triggerAggregation(), std::runtime_error);
-}
-
-// ---------------------------------------------------------------------------
-// FDF_14 — completedRounds() increments after each round
-// ---------------------------------------------------------------------------
-TEST(FDF, FDF_14_CompletedRoundsIncrement) {
-    FederatedDistillationCoordinator coord(testConfig(1));
-    for (int i = 0; i < 3; ++i) {
-        coord.submitLabels(makeBatch("s" + std::to_string(i),
-                                    static_cast<uint64_t>(i + 1)));
+    for (uint64_t expected_round = 1u; expected_round <= 4u; ++expected_round) {
+        coord.submitSoftLabels("teacher", {makeSoftLabel()});
+        EXPECT_EQ(coord.currentRound(), expected_round);
+        const auto r = coord.broadcastToStudents();
+        EXPECT_EQ(r.round, expected_round);
+        EXPECT_EQ(coord.currentRound(), expected_round);
     }
-    EXPECT_EQ(coord.completedRounds(), 3u);
+
+    // After 4 rounds the stats should show 4 broadcasts
+    EXPECT_EQ(coord.getStats().value("broadcast_count", 0u), 4u);
 }
 
-// ---------------------------------------------------------------------------
-// FDF_15 — version strings are monotonic
-// ---------------------------------------------------------------------------
-TEST(FDF, FDF_15_VersionStringsMonotonic) {
-    FederatedDistillationCoordinator coord(testConfig(1));
-    std::vector<std::string> versions;
-    coord.setStudentCallback([&](const AggregatedLabelBatch& b) {
-        versions.push_back(b.version);
+// ── FDF-14: reset() clears all state ─────────────────────────────────────────
+
+TEST(FDF_Tests, FDF_14_ResetClearsState)
+{
+    FederatedDistillationCoordinator coord{defaultCfg()};
+
+    bool student_called = false;
+    coord.registerStudent("s1",
+        [&student_called](const DistillationRound&) { student_called = true; });
+
+    coord.submitSoftLabels("teacher", {makeSoftLabel()});
+    coord.broadcastToStudents();
+    ASSERT_EQ(coord.currentRound(), 1u);
+
+    coord.reset();
+
+    EXPECT_EQ(coord.currentRound(), 0u);
+    EXPECT_EQ(coord.submittedCount(), 0u);
+    EXPECT_FALSE(coord.lastRound().has_value());
+
+    // Students cleared — broadcast without re-registration must not call old callback
+    student_called = false;
+    // With students cleared, broadcast throws (no submit), so just verify state
+    EXPECT_THROW(coord.broadcastToStudents(), std::runtime_error);
+
+    const auto stats = coord.getStats();
+    EXPECT_EQ(stats.value("broadcast_count", 99u), 0u);
+    EXPECT_EQ(stats.value("current_round", 99u),   0u);
+    EXPECT_EQ(stats.value("total_epsilon", 99.0),  0.0);
+}
+
+// ── FDF-15: DistillationModelCard captures correct governance fields ───────────
+
+TEST(FDF_Tests, FDF_15_ModelCardFields)
+{
+    auto cfg = defaultCfg();
+    cfg.min_utility_threshold = 0.90;
+    FederatedDistillationCoordinator coord{cfg};
+
+    bool rollback_fired = false;
+    coord.setRollbackTrigger([&rollback_fired](uint64_t, double) {
+        rollback_fired = true;
     });
-    for (int i = 0; i < 3; ++i) {
-        coord.submitLabels(makeBatch("s" + std::to_string(i),
-                                    static_cast<uint64_t>(i + 1)));
-    }
-    ASSERT_EQ(versions.size(), 3u);
-    EXPECT_EQ(versions[0], "distill-v1");
-    EXPECT_EQ(versions[1], "distill-v2");
-    EXPECT_EQ(versions[2], "distill-v3");
+
+    // Two broadcasts
+    coord.submitSoftLabels("teacher-large", {makeSoftLabel()});
+    coord.broadcastToStudents();
+    coord.submitSoftLabels("teacher-large", {makeSoftLabel()});
+    coord.broadcastToStudents();
+
+    // Report high utility (no rollback) then low utility (rollback)
+    coord.reportStudentUtility("student-1", 0.95);
+    coord.reportStudentUtility("student-1", 0.80);  // triggers rollback
+
+    const auto card = coord.generateModelCard("coordinator-prod");
+
+    EXPECT_EQ(card.coordinator_id,   "coordinator-prod");
+    EXPECT_EQ(card.teacher_id,       "teacher-large");
+    EXPECT_EQ(card.rounds_completed, 2u);
+    EXPECT_NEAR(card.total_epsilon,  2.0 * cfg.dp_epsilon, 1e-9);
+    EXPECT_EQ(card.dp_epsilon_per_round, cfg.dp_epsilon);
+    EXPECT_EQ(card.dp_delta,         cfg.dp_delta);
+    EXPECT_TRUE(card.dp_applied);
+    EXPECT_NEAR(card.min_utility_reported, 0.80, 1e-9);
+    EXPECT_NEAR(card.max_utility_reported, 0.95, 1e-9);
+    EXPECT_EQ(card.rollback_count,   1u);
+    EXPECT_EQ(card.policy_blocks,    0u);
+
+    // JSON round-trip
+    const auto j = card.toJson();
+    EXPECT_EQ(j.value("coordinator_id", ""), "coordinator-prod");
+    EXPECT_EQ(j.value("rounds_completed", 0u), 2u);
+    EXPECT_TRUE(j.value("dp_applied", false));
+    EXPECT_TRUE(rollback_fired);
 }

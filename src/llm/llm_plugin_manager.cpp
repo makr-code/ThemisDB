@@ -18,6 +18,8 @@
  */
 
 #include "llm/llm_plugin_manager.h"
+#include "llm/grafana_metrics.h"
+#include "llm/context_window_budget.h"
 #include "llm/llama_wrapper.h"
 #include "llm/embedded_llm.h"
 #include "utils/error_registry.h"
@@ -638,6 +640,122 @@ bool createLlamaWrapper(
         spdlog::error("Failed to create llama.cpp plugin: {}", e.what());
         return false;
     }
+}
+
+// ═══════════════════════════════════════════════════════════
+// MSW: MetricsServer Admin Callback Wiring
+// ═══════════════════════════════════════════════════════════
+
+void LLMPluginManager::setCancelSessionCallback(CancelSessionCallback cb)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    cancel_session_cb_ = std::move(cb);
+}
+
+void LLMPluginManager::wireMetricsServerCallbacks(monitoring::MetricsServer& server)
+{
+    // ── Reload callback ────────────────────────────────────────────────────────
+    // Body format: {"model_id":"<id>","path":"<optional-path>"}
+    // When "path" is omitted the model_id is also used as the path (Ollama-style).
+    server.setReloadCallback(
+        [this](const std::string& body) -> std::string {
+            try {
+                const json req = json::parse(body, nullptr, /*allow_exceptions=*/false);
+                if (req.is_discarded()) {
+                    return json{{"status", "error"},
+                                {"message", "Invalid JSON body; expected {\"model_id\":\"...\"}"}}.dump();
+                }
+                const std::string model_id =
+                    req.value("model_id", req.value("model", std::string{}));
+                if (model_id.empty()) {
+                    return json{{"status", "error"},
+                                {"message", "\"model_id\" field required"}}.dump();
+                }
+                const std::string path = req.value("path", model_id);
+                const bool ok = loadModel(model_id, path);
+                if (ok) {
+                    return json{{"status", "ok"}, {"model_id", model_id}}.dump();
+                }
+                return json{{"status", "error"},
+                            {"message", "loadModel() returned false for model_id: " + model_id}}.dump();
+            } catch (const std::exception& ex) {
+                return json{{"status", "error"}, {"message", ex.what()}}.dump();
+            }
+        });
+
+    // ── Simulate callback ──────────────────────────────────────────────────────
+    // Body format: {"prompt":"<text>","model_id":"<optional>"}
+    // Returns estimated token count using the CHAR_HEURISTIC.  When a live
+    // tokenizer is wired into context_window_budget.h the heuristic will be
+    // replaced automatically without changing this callback.
+    server.setSimulateCallback(
+        [](const std::string& body) -> std::string {
+            try {
+                const json req = json::parse(body, nullptr, /*allow_exceptions=*/false);
+                if (req.is_discarded()) {
+                    return json{{"status", "error"},
+                                {"message", "Invalid JSON body; expected {\"prompt\":\"...\"}"}}.dump();
+                }
+                const std::string prompt = req.value("prompt", std::string{});
+                if (prompt.empty()) {
+                    return json{{"status", "error"},
+                                {"message", "\"prompt\" field required"}}.dump();
+                }
+                const size_t tokens = estimateTokens(prompt);
+                const std::string model_id = req.value("model_id", std::string{"default"});
+                return json{{"status",         "ok"},
+                            {"model_id",       model_id},
+                            {"prompt_chars",   prompt.size()},
+                            {"estimated_tokens", tokens},
+                            {"method",         "CHAR_HEURISTIC"}}.dump();
+            } catch (const std::exception& ex) {
+                return json{{"status", "error"}, {"message", ex.what()}}.dump();
+            }
+        });
+
+    // ── Session-delete callback ────────────────────────────────────────────────
+    // `resource_id` is the session/request ID extracted from the DELETE path by
+    // MetricsServer (e.g. DELETE /admin/sessions/req-42 → "req-42").
+    // The actual cancellation is delegated to cancel_session_cb_, which must be
+    // wired via setCancelSessionCallback() pointing to
+    // ContinuousBatchScheduler::cancelRequest().
+    // If the callback is not set, the endpoint returns a clear "not_configured"
+    // response instead of the generic "not_implemented" message.
+    CancelSessionCallback cancel_cb;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        cancel_cb = cancel_session_cb_;
+    }
+    if (cancel_cb) {
+        server.setSessionDeleteCallback(
+            [cb = std::move(cancel_cb)](const std::string& session_id) -> std::string {
+                try {
+                    const bool cancelled = cb(session_id);
+                    if (cancelled) {
+                        return json{{"status", "ok"}, {"session_id", session_id}}.dump();
+                    }
+                    return json{{"status", "not_found"},
+                                {"session_id", session_id},
+                                {"message", "No active session with this ID"}}.dump();
+                } catch (const std::exception& ex) {
+                    return json{{"status", "error"}, {"message", ex.what()}}.dump();
+                }
+            });
+    } else {
+        server.setSessionDeleteCallback(
+            [](const std::string& session_id) -> std::string {
+                return json{{"status",     "not_configured"},
+                            {"session_id", session_id},
+                            {"message",
+                             "Wire LLMPluginManager::setCancelSessionCallback() to "
+                             "ContinuousBatchScheduler::cancelRequest() to enable "
+                             "session cancellation via this endpoint."}}.dump();
+            });
+    }
+
+    spdlog::info("LLMPluginManager::wireMetricsServerCallbacks: "
+                 "reload/simulate/{} wired",
+                 cancel_cb ? "session-delete" : "session-delete(not_configured)");
 }
 
 } // namespace llm

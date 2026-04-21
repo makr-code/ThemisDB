@@ -30,6 +30,7 @@
 #include <shared_mutex>
 #include <nlohmann/json.hpp>
 #include "projects/DocumentManager/document_manager.h"
+#include "projects/project_audit_log.h"
 #include "storage/rocksdb_wrapper.h"
 
 namespace themis {
@@ -214,6 +215,23 @@ public:
         const std::string& object_name
     ) const;
 
+    // ── Audit log DI ─────────────────────────────────────────────────────
+
+    /**
+     * @brief Inject an audit log sink.
+     *
+     * When set, `notifyChange()` records a `DOCUMENT_UPDATED` entry for
+     * every change event.  Pass `nullptr` to disable.
+     *
+     * Thread-safe.
+     */
+    void setAuditLog(std::shared_ptr<IProjectAuditLog> log);
+
+    /**
+     * @brief Remove the audit log sink (no-op if not set).
+     */
+    void clearAuditLog();
+
     // ── Change feed ────────────────────────────────────────────────────────
 
     /**
@@ -243,6 +261,9 @@ public:
 
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
+
+    mutable std::shared_mutex audit_mutex_;
+    std::shared_ptr<IProjectAuditLog> audit_log_;
 
     mutable std::shared_mutex subscribers_mutex_;
     std::vector<ProjectEventCallback> subscribers_;
