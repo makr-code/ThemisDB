@@ -855,32 +855,26 @@ pattern count static assert fires on mismatch.
 ### Gap 7 — Replace LLMJudgeIntegration Mock Scores with Typed JudgeUnavailable Error (Target: Q3 2026)
 
 **Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 7 (Severity: Medium/S2)`
+**Status:** ✅ Partially implemented (2026-04-21) — `is_mock` flag added; full `RAGError::JudgeUnavailable` deferred to Q4 2026.
 **See also:** `src/rag/llm_judge_integration.cpp::defaultInference()` STUB/SIMULATION NOTE.
 
-**Problem:** When `LLMJudgeIntegration` is instantiated in mock mode
-(`config.use_mock_mode=true` or `allow_mock=true` with `engine==nullptr`),
-`defaultInference()` returns hardcoded scores (`score=4.0`, `confidence=0.85`).
-Callers that do not check `isMockMode()` receive plausible-looking metrics that are
-entirely synthetic, leading to silent quality regressions going undetected in
-evaluation dashboards.
+**Problem (resolved part):** When `LLMJudgeIntegration` is in mock mode, callers that
+do not check `isMockMode()` receive plausible-looking metrics that are entirely synthetic.
 
-**Solution:**
-- Introduce `RAGError::JudgeUnavailable` in the RAG error hierarchy.
-- When `engine==nullptr` and `allow_mock=false` (the default), throw
-  `RAGError::JudgeUnavailable` instead of silently activating mock mode.
-- When `allow_mock=true`, continue to return mock scores but annotate the
-  `LLMJudgeScore` result with `is_mock=true` so callers can filter mock data.
-- `BatchEvaluator` and `QualityControlPipeline` must skip mock scores from
-  aggregated metrics and increment a `judge_mock_skip_total` Prometheus counter.
+**Implemented changes:**
+- `ParsedResponse::is_mock` field added (default `false`); set to `true` by `evaluateWithLLM()`
+  when `isMockMode()` returns true.  Callers can now filter mock results from dashboards
+  without calling `isMockMode()` separately.
+- Tests: `test_llm_judge_is_mock.cpp` (JGI_MOCK_01..05) registered as `LLMJudgeIsMockFocusedTests`.
+
+**Deferred (Q4 2026):**
+- `RAGError::JudgeUnavailable` typed exception when `engine==nullptr` in strict mode.
+- `BatchEvaluator`/`QualityControlPipeline` skip `is_mock=true` scores and increment
+  `judge_mock_skip_total` Prometheus counter.
 
 **Inputs:** `LLMJudgeIntegration::Config { use_mock_mode, allow_mock, warn_on_mock_mode }`.
-**Outputs:** `RAGError::JudgeUnavailable` on nullptr engine in strict mode;
-`LLMJudgeScore { score, confidence, is_mock=true }` in permissive mode.
-**Constraints:** Existing unit tests that rely on `allow_mock=true` continue to work;
-only strict-mode callers gain the new error.
-**Errors:** `JudgeUnavailable` — callers must handle or propagate.
-**Tests:** 3 unit tests — strict mode throws `JudgeUnavailable`; permissive mode returns
-`is_mock=true`; `BatchEvaluator` skips `is_mock` scores.
+**Outputs:** `ParsedResponse::is_mock=true` in mock mode (2026-04-21);
+`RAGError::JudgeUnavailable` (deferred).
 **Perf target:** No performance impact (control-flow path only).
 
 ---

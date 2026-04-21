@@ -5908,6 +5908,73 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_agentic_rag_budget.cpp")
     message(STATUS "  AgenticRAGBudget: ARG_BUD_01..05 budget cap, BUDGET_EXCEEDED stop reason, tokens_consumed")
 endif()
 
+# Gap 7 ─ LLMJudgeIntegration is_mock flag focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_judge_is_mock.cpp")
+    message(STATUS "Adding LLMJudgeIntegration is_mock flag tests (Gap 7)")
+    add_executable(test_llm_judge_is_mock_focused test_llm_judge_is_mock.cpp)
+    target_link_libraries(test_llm_judge_is_mock_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_llm_judge_is_mock_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME LLMJudgeIsMockFocusedTests
+             COMMAND test_llm_judge_is_mock_focused)
+    set_tests_properties(LLMJudgeIsMockFocusedTests PROPERTIES
+        LABELS "rag;llm-judge;is_mock;gap7;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  LLMJudgeIsMock: JGI_MOCK_01..05 is_mock flag in ParsedResponse")
+endif()
+
+# Gap 8 ─ HuggingFaceConnector governance gate focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_huggingface_connector_governance.cpp")
+    message(STATUS "Adding HuggingFaceConnector governance gate tests (Gap 8)")
+    add_executable(test_huggingface_connector_governance_focused
+        test_huggingface_connector_governance.cpp
+        ${THEMIS_ROOT_DIR}/src/ingestion/huggingface_connector.cpp
+    )
+    target_link_libraries(test_huggingface_connector_governance_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        CURL::libcurl
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_huggingface_connector_governance_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME HuggingFaceConnectorGovernanceFocusedTests
+             COMMAND test_huggingface_connector_governance_focused)
+    set_tests_properties(HuggingFaceConnectorGovernanceFocusedTests PROPERTIES
+        LABELS "ingestion;huggingface;governance;classification;gap8;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  HuggingFaceConnectorGovernance: HFC_GOV_01..05 classification gate")
+endif()
+
+# Gap 2 (search) ─ LlmQueryRewriter semantic output validator focused tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_query_rewriter_validator.cpp")
+    message(STATUS "Adding LlmQueryRewriter semantic output validator tests (Gap 2 / search)")
+    add_executable(test_llm_query_rewriter_validator_focused
+        test_llm_query_rewriter_validator.cpp
+        ${THEMIS_ROOT_DIR}/src/search/llm_query_rewriter.cpp
+    )
+    target_link_libraries(test_llm_query_rewriter_validator_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_llm_query_rewriter_validator_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME LlmQueryRewriterValidatorFocusedTests
+             COMMAND test_llm_query_rewriter_validator_focused)
+    set_tests_properties(LlmQueryRewriterValidatorFocusedTests PROPERTIES
+        LABELS "search;query-rewriter;semantic-validator;overlap;gap2;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  LlmQueryRewriterValidator: LQR_VAL_01..06 overlap filter, RewriteQuality enum")
+endif()
+
 # Governance ÔÇô compliance + security integration focused tests (Issue: #1778)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_compliance_security_governance.cpp")
     message(STATUS "Adding Compliance & Security Governance integration tests (Issue #1778)")

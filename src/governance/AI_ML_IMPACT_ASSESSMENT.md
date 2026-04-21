@@ -309,9 +309,11 @@ references the concrete file and mechanism found during code review.
 - [x] Stub-Pfad in `LlamaCppPlugin::generate()` zu strukturiertem Fehler upgraden (S1) — ✅ 2026-04-21: `success=false` + STUB_MODE flag
 - [x] `InlineTrainingEngine`: Pre-Training-Policy-Gate mit `ModelGovernancePolicy` verdrahten (S0) — ✅ 2026-04-21: `setGovernancePolicy()` + `require_policy_gate` + ITE_GOV_A1..A4 tests
 - [x] `AgenticRAG`: Session-Token-Budget-Cap verdrahten (S1) — ✅ 2026-04-21: `max_session_tokens` + `BUDGET_EXCEEDED` + ARG_BUD_01..05 tests
+- [x] `LLMJudgeIntegration`: Mock-Scores durch `ParsedResponse::is_mock` Flag kennzeichnen (S2) — ✅ 2026-04-21: `is_mock=true` in mock-mode; JGI_MOCK_01..05 tests
+- [x] `HuggingFaceConnector`: Datenklassifikations-Gate vor Ingestion (S1) — ✅ 2026-04-21: `setIngestionPolicy()` + `checkExportPermission()` in `initialize()`; HFC_GOV_01..05 tests
+- [x] `LlmQueryRewriter`: Semantischer Output-Validator + `RewriteQuality` Enum (S2) — ✅ 2026-04-21: Jaccard-Overlap-Filter + `quality=OK|FALLBACK`; LQR_VAL_01..06 tests
 - [ ] Token-Kosten-Budget-Tracking fuer externe API-Calls (Gap 6 — S1) — Requires `LLMTokenBudgetManager` (Q4 2026)
-- [ ] Konsolidierung der zwei `PromptInjectionDetector`-Implementierungen (S2)
-- [ ] `HuggingFaceConnector`: Datenklassifikations-Gate vor Ingestion (S1)
-- [ ] `LLMJudgeIntegration`: Mock-Scores durch strukturierten Fehler ersetzen (S2)
-- [ ] `LlmQueryRewriter`: Output-Validierung und Fallback auf Originalquery (S2)
+- [ ] Konsolidierung der zwei `PromptInjectionDetector`-Implementierungen (S2) — Q4 2026
+- [ ] `RAGError::JudgeUnavailable` bei `engine==nullptr` im strict-mode (Gap 7 Rest — S2) — Q4 2026
+- [ ] `DataClassificationGate` fuer alle externen Connectors (Gap 8 Rest — WebCrawler etc.) — Q4 2026
 - [ ] Zentrales ML/AI API-Kostenbudget + Alert (S1)

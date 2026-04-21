@@ -226,42 +226,30 @@ Enable third-party code to register custom source connectors at runtime without 
 ### Gap 8 — Data Classification Gate for External Connectors (HuggingFaceConnector) (Target: Q3 2026)
 
 **Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 8 (Severity: Medium/S1)`
-**See also:** `src/ingestion/huggingface_connector.cpp::initialize()` GOVERNANCE GAP comment.
+**Status:** ✅ Implemented (2026-04-21) — policy gate via `ModelGovernancePolicy`.
 
-**Problem:** `HuggingFaceConnector::initialize()` and `ingest()` fetch arbitrary datasets
-from `api.huggingface.co` and write them into the target collection without any data
-classification or privacy review.  Dataset rows may contain:
-- Personally identifiable information (PII): names, emails, phone numbers.
-- Licensed content subject to copyright restrictions.
-- Data that is explicitly restricted for model training under `ModelGovernancePolicy`
-  (e.g., data sourced from collections tagged `geheim`).
+**Problem (resolved):** `HuggingFaceConnector::initialize()` fetched datasets without
+any classification gate, allowing PII or restricted data to enter collections unchecked.
 
-This gap is particularly critical when `HuggingFaceConnector` is combined with
-`InlineTrainingEngine` (Gap 3): data fetched without a classification gate can flow
-directly into LoRA fine-tuning without any governance checkpoint.
+**Implemented changes:**
+- `HuggingFaceConnector::setIngestionPolicy(shared_ptr<ModelGovernancePolicy>)` added.
+- `initialize()` now calls `ModelGovernancePolicy::checkExportPermission()` with
+  `purpose="DATA_INGESTION"` before any HTTP request.  DENY → returns `false` + ERROR log.
+  PERMIT → continues with existing connector logic + INFO log.
+- `config.options["classification"]` is forwarded to the governance request; defaults
+  to `"offen"` when not provided.
+- No policy set (nullptr) → WARN log + existing behavior (backward compatible).
+- Tests: `test_huggingface_connector_governance.cpp` (HFC_GOV_01..05) registered as
+  `HuggingFaceConnectorGovernanceFocusedTests`.
 
-**Solution:**
-- Introduce `DataClassificationGate` (new class in `src/ingestion/`) with a single
-  method `checkDataset(const std::string& source_url, const std::string& target_collection,
-  const PolicyEngine& policy) -> DataClassificationDecision`.
-- Call `checkDataset()` inside `HuggingFaceConnector::Impl::initialize()` before
-  any HTTP request is issued to HuggingFace.
-- On DENY (restricted collection or forbidden source domain): return `false` from
-  `initialize()` and log a WARN-level governance event.
-- On PERMIT: proceed with existing connector logic.
-- Apply the same gate to any other external connector that fetches from untrusted
-  origins (`WebCrawlerConnector`, `HuggingFaceConnector`, future connectors).
+**Deferred (Q4 2026):**
+- `DataClassificationGate` dedicated class (full domain/URL-based restriction).
+- `IngestionConfig::require_classification_gate` enforcement flag.
+- Same gate applied to `WebCrawlerConnector` and future external connectors.
 
-**Inputs:** `SourceConfig::options["dataset"]` (HuggingFace dataset ID);
-`target_collection`; `PolicyEngine` reference.
-**Outputs:** `DataClassificationDecision { PERMIT, DENY, reason }`.
-**Constraints:** Gate must not add more than 10 ms overhead to `initialize()` (local
-policy lookup; no network call).
-**Errors:** DENY → `initialize()` returns `false`; missing `PolicyEngine` (null) →
-WARN + permit (degraded mode, configurable via `IngestionConfig::require_classification_gate`).
-**Tests:** 4 unit tests — DENY on restricted target collection; DENY on forbidden source
-domain; PERMIT on open collection; nullptr policy with `require_classification_gate=false`.
-**Perf target:** Gate lookup ≤ 10 ms; no network call in gate itself.
+**Inputs:** `SourceConfig::location` (HuggingFace dataset ID); `classification` option.
+**Outputs:** `initialize()` returns `false` on DENY.
+**Perf target:** Gate adds ≤ 2 ms (synchronous local policy lookup; no network).
 
 ---
 

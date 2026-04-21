@@ -132,11 +132,18 @@ ParsedResponse LLMJudgeIntegration::evaluateWithLLM(
     
     // Parse response
     ParsedResponse parsed = ResponseParser::parse(llm_response);
-    
+
+    // Gap 7 (AI_ML_IMPACT_ASSESSMENT.md §7): mark the result as mock-produced
+    // so callers can filter it from production dashboards without having to
+    // separately call isMockMode().
+    if (isMockMode()) {
+        parsed.is_mock = true;
+    }
+
     if (!parsed.success) {
         THEMIS_WARN("Failed to parse LLM response: {}", parsed.error_message);
     }
-    
+
     return parsed;
 }
 
@@ -223,12 +230,13 @@ std::string LLMJudgeIntegration::defaultInference(const std::string& prompt) {
     //             engine; the mock path is never reached.
     // Production Delta: Returns a hardcoded score=4.0 / confidence=0.85 regardless
     //                   of the prompt content.  Real scores are model-generated and
-    //                   prompt-dependent.  Callers that rely on these values without
-    //                   checking isMockMode() will silently receive garbage metrics
-    //                   (AI_ML_IMPACT_ASSESSMENT.md §7, Gap 7).
-    // Removal Plan: Replace with a typed RAGError::JudgeUnavailable return value
-    //               when engine == nullptr; tracked in rag/FUTURE_ENHANCEMENTS.md
-    //               §B-11 (Target: Q3 2026).
+    //                   prompt-dependent.  As of 2026-04-21 the caller (evaluateWithLLM)
+    //                   sets ParsedResponse::is_mock=true on the parsed result so
+    //                   callers can filter mock data from production dashboards
+    //                   (AI_ML_IMPACT_ASSESSMENT.md §7, Gap 7 — implemented).
+    // Removal Plan: Full removal when LLMTokenBudgetManager (Gap 6) and a real engine
+    //               DI path are the only supported entry points.  Track in
+    //               rag/FUTURE_ENHANCEMENTS.md §Gap 7.
     (void)prompt; // unused in mock path — intentional
     THEMIS_DEBUG("Using mock inference function (for testing only)");
     

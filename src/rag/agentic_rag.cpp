@@ -216,25 +216,45 @@ AgenticRAGResult AgenticRAG::run(
         // LLMTokenBudgetManager (Gap 6) will replace this heuristic once that
         // component is available (see rag/FUTURE_ENHANCEMENTS.md §Gap 4).
         if (impl_->config.max_session_tokens > 0) {
+            // Overflow-safe token estimation: cap each document's contribution at
+            // max_session_tokens to prevent size_t overflow on pathologically large
+            // document content, then clamp the running total to max_session_tokens+1
+            // (one above the limit) before comparing.
+            const size_t budget = impl_->config.max_session_tokens;
             size_t iter_token_estimate = 0;
             const auto& eval_docs =
                 impl_->config.accumulate_documents ? accumulated : initial_docs;
             for (const auto& doc : eval_docs) {
-                iter_token_estimate += doc.content.size() / 4 + 1;
+                // Per-document estimate: 1 token per 4 chars + 1; capped at budget.
+                const size_t doc_est = std::min(doc.content.size() / 4 + 1, budget);
+                // Saturating add: if already over budget, stop accumulating.
+                iter_token_estimate = (iter_token_estimate >= budget - doc_est)
+                                      ? budget + 1
+                                      : iter_token_estimate + doc_est;
+                if (iter_token_estimate > budget) break; // early-out
             }
-            // Also account for the query prompt itself.
-            iter_token_estimate += current_query.size() / 4 + 1;
+            if (iter_token_estimate <= budget) {
+                // Also account for the query prompt itself.
+                const size_t q_est = std::min(current_query.size() / 4 + 1, budget);
+                iter_token_estimate = (iter_token_estimate >= budget - q_est)
+                                      ? budget + 1
+                                      : iter_token_estimate + q_est;
+            }
 
-            if (result.tokens_consumed + iter_token_estimate >
-                    impl_->config.max_session_tokens) {
+            // Saturating add for accumulated tokens.
+            const size_t new_total = (result.tokens_consumed >= budget - iter_token_estimate ||
+                                      iter_token_estimate > budget)
+                                     ? budget + 1
+                                     : result.tokens_consumed + iter_token_estimate;
+
+            if (new_total > budget) {
                 THEMIS_WARN("AgenticRAG session token budget exceeded at iteration {}: "
                             "consumed={}, estimate={}, limit={}",
-                            iter, result.tokens_consumed, iter_token_estimate,
-                            impl_->config.max_session_tokens);
+                            iter, result.tokens_consumed, iter_token_estimate, budget);
                 result.stop_reason = StopReason::BUDGET_EXCEEDED;
                 break;
             }
-            result.tokens_consumed += iter_token_estimate;
+            result.tokens_consumed = new_total;
         }
         // ─────────────────────────────────────────────────────────────────
 
