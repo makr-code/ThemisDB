@@ -21,11 +21,16 @@
 
 #include "llm/llm_plugin_interface.h"
 #include "llm/active_vram_allocator.h"
+#include <functional>
 #include <memory>
 #include <unordered_map>
 #include <vector>
 #include <optional>
 #include <mutex>
+
+// Forward-declare MetricsServer to avoid pulling httplib into every TU that
+// includes llm_plugin_manager.h.
+namespace themis { namespace llm { namespace monitoring { class MetricsServer; } } }
 
 /**
  * @file llm_plugin_manager.h
@@ -208,7 +213,59 @@ public:
      * the simulation budget configured in ActiveVRAMAllocator::Config.
      */
     ActiveVRAMAllocator::Stats getVRAMStats() const;
-    
+
+    // ── MSW: MetricsServer Admin Callback Wiring ─────────────────────────────
+
+    /**
+     * @brief Callable type for session-cancellation callbacks (MSW).
+     *
+     * Receives a `session_id` string and returns `true` if the session was
+     * found and cancelled, `false` if the session was not found.
+     *
+     * Wire this via `setCancelSessionCallback()` from wherever the
+     * `ContinuousBatchScheduler` is owned (e.g. the `LlamaWrapper` or
+     * `InferenceEngineEnhanced` that holds `batch_scheduler_`).
+     */
+    using CancelSessionCallback = std::function<bool(const std::string& session_id)>;
+
+    /**
+     * @brief Inject a session-cancellation callback for the MetricsServer
+     *        DELETE /admin/sessions/{id} endpoint (MSW).
+     *
+     * When set, `wireMetricsServerCallbacks()` connects this callback to the
+     * `MetricsServer::setSessionDeleteCallback()` slot so that DELETEs are
+     * forwarded to the `ContinuousBatchScheduler::cancelRequest()` of the
+     * underlying inference runtime.
+     *
+     * @param cb  `bool(const std::string& session_id)`.  May be `nullptr`
+     *            to clear an existing registration.
+     */
+    void setCancelSessionCallback(CancelSessionCallback cb);
+
+    /**
+     * @brief Wire the three MetricsServer admin callbacks to this manager.
+     *
+     * After this call, the following HTTP endpoints on @p server become
+     * operational instead of returning `{"status":"not_implemented"}`:
+     *
+     * | Endpoint                           | Wired to                          |
+     * |------------------------------------|-----------------------------------|
+     * | POST /admin/models/reload          | `loadModel(model_id, path)`       |
+     * | POST /admin/prompt/simulate        | `estimateTokens(prompt)` heuristic|
+     * | DELETE /admin/sessions/{id}        | `cancel_session_cb_` (if set)     |
+     *
+     * **Thread safety**: the lambdas capture `this` by raw pointer.  Ensure
+     * that `server` lifetime does not exceed that of this `LLMPluginManager`.
+     *
+     * **Session-delete**: only operational if `setCancelSessionCallback()` was
+     * called before `wireMetricsServerCallbacks()`.  Otherwise the DELETE
+     * endpoint returns a clear `{"status":"not_configured"}` JSON body.
+     *
+     * @param server  `MetricsServer` instance to wire.  Must outlive the
+     *                callbacks (i.e. must not be destroyed before this manager).
+     */
+    void wireMetricsServerCallbacks(monitoring::MetricsServer& server);
+
 private:
     struct PluginEntry {
         std::string name;
@@ -225,6 +282,10 @@ private:
 
     /// Maps model_id → VRAM handle so we can deregister on unload.
     std::unordered_map<std::string, ActiveVRAMAllocator::AllocationHandle> vram_handles_;
+
+    /// MSW: injectable session-cancellation callback wired to the DELETE
+    /// /admin/sessions/{id} endpoint of the MetricsServer.
+    CancelSessionCallback cancel_session_cb_;
     
     ILLMPlugin* getDefaultPluginLocked() const;
 };
