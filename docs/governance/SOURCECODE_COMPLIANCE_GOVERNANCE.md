@@ -784,3 +784,105 @@ implizites Verhalten. Ein Man-in-the-Middle-Angriff auf den MQTT-Broker ist dami
 - High: 8 (GAP-003, GAP-004, GAP-008, GAP-009, GAP-010, GAP-016, GAP-017)
 - Medium: 9 (GAP-005, GAP-006, GAP-011..015, GAP-018..020)
 - Low: 1 (GAP-007)
+
+---
+
+## 21. Deep Dive – Runde 4
+
+**Analysedatum:** 2026-04-21 (Runde 4)
+**Fokus:** Query-Resource-Limit-Bypass, pugixml XXE, AQL Komplexitätsgrenzen
+
+---
+
+### 21.1 Query-Traversal: `max_frontier_size` / `max_results` ohne Server-seitiges Cap
+
+**Datei:** `src/server/query_api_handler.cpp:531–532`
+
+```cpp
+size_t max_frontier_size = body.contains("max_frontier_size")
+    ? body["max_frontier_size"].get<size_t>() : 100000;   // kein Server-Cap!
+size_t max_results = body.contains("max_results")
+    ? body["max_results"].get<size_t>() : 10000;          // kein Server-Cap!
+```
+
+Die Standard-Defaults (100.000 / 10.000) schützen nur wenn der User die Felder weglässt.
+Ein authentifizierter Nutzer kann `{"max_frontier_size": 999999999}` senden und dadurch
+eine Traversal mit massivem Speicher- und CPU-Bedarf auslösen (DoS-Amplifikation).
+
+**Schwere:** **High** – Query-DoS ohne Admin-Rechte erforderlich
+
+**Empfehlung:**
+```cpp
+static constexpr size_t kServerMaxFrontier = 500'000;
+max_frontier_size = std::min(max_frontier_size, kServerMaxFrontier);
+max_results = std::min(max_results, size_t{100'000});
+```
+
+---
+
+### 21.2 Query-Memory-Limit: `max_memory_bytes=0` deaktiviert den Check
+
+**Datei:** `src/server/query_api_handler.cpp:537`, `src/query/aql_runner.cpp:826`
+
+```cpp
+// query_api_handler.cpp: default 0 → unlimited
+resource_limits.max_memory_bytes = body.contains("max_memory_bytes")
+    ? body["max_memory_bytes"].get<size_t>() : 0;
+
+// aql_runner.cpp:826 – check nur wenn > 0
+if (limits.max_memory_bytes > 0) { /* enforce */ }
+```
+
+Ein Nutzer kann explizit `{"max_memory_bytes": 0}` senden und damit das Memory-Limit
+vollständig deaktivieren. Da auch der Default 0 ist, gilt für alle Queries, die den
+Parameter weglassen: **kein Memory-Limit**.
+
+**Schwere:** **High** – Jede AQL-Query kann unbegrenzten Heap-Speicher verbrauchen
+
+**Empfehlung:**
+```cpp
+static constexpr size_t kDefaultMaxMemoryBytes = 256 * 1024 * 1024; // 256 MB
+if (resource_limits.max_memory_bytes == 0) {
+    resource_limits.max_memory_bytes = kDefaultMaxMemoryBytes;
+}
+```
+
+---
+
+### 21.3 Positiv: pugixml ist XXE-sicher by Design
+
+`src/auth/saml_authenticator.cpp` verwendet `pugixml` (`load_string()` mit Default-Flags).
+pugixml unterstützt **keine** DTD/External-Entity-Auflösung by design; der Parser verarbeitet
+DOCTYPE-Deklarationen nicht. XXE-Angriffe auf den SAML-Parser sind daher nicht möglich.
+
+---
+
+### 22. Ergänzte GAPs (Runde 4)
+
+| GAP ID | Schwere | Bereich | Maßnahme | Datei |
+|---|---|---|---|---|
+| GAP-021 | High | DoS | `max_frontier_size` / `max_results` Server-seitigen Cap hinzufügen | `src/server/query_api_handler.cpp:531` |
+| GAP-022 | High | DoS | `max_memory_bytes=0` → server-seitiger Default 256 MB | `src/server/query_api_handler.cpp:537`, `aql_runner.cpp:826` |
+
+---
+
+### 23. Finale Gesamtstatistik (alle 4 Runden)
+
+| Kategorie | Anzahl |
+|---|---|
+| **Critical** | 2 |
+| **High** | 10 |
+| **Medium** | 9 |
+| **Low** | 1 |
+| **Gesamt GAPs** | **22** |
+
+**Abgedeckte Bereiche:**
+- Authentication & Authorization (GAP-001, GAP-003, GAP-007, GAP-013)
+- Cryptography (GAP-002, GAP-005, GAP-008)
+- Input Validation & Injection (GAP-004, GAP-006, GAP-014)
+- Network Security / TLS (GAP-002, GAP-016, GAP-017)
+- Path & Resource Security (GAP-009, GAP-010, GAP-015, GAP-020, GAP-021, GAP-022)
+- Information Leakage (GAP-011, GAP-018)
+- CORS / Browser Security (GAP-012)
+- Random Number Generation (GAP-019)
+- Shell Command Injection (GAP-014, GAP-015)
