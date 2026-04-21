@@ -7,6 +7,17 @@
 
 ---
 
+## Update 2026-04-21 (C5-Delta in zentralem Audit)
+
+Das zentrale Audit wurde nach `audit/` konsolidiert und um eine C5-2026-Delta-Bewertung erweitert:
+
+- `audit/AUDIT.md`
+- `audit/BSI_C5_2026_THEMISDB_AUDIT.md`
+
+Dieses Dokument bleibt die fachliche Detailanalyse zur Spaltenverschlüsselung und dient weiterhin als Evidenzquelle für CRY-bezogene Kontrollen.
+
+---
+
 ## Zusammenfassung
 
 Diese Analyse untersucht die Implementierung der Spaltenverschlüsselung (Column-Level Encryption) in ThemisDB hinsichtlich der Einhaltung der BSI C5 (Cloud Computing Compliance Criteria Catalogue) Anforderungen, insbesondere der Kryptographie-Kontrollen (CRY-01 bis CRY-06).
