@@ -72,11 +72,12 @@
 | 8 | **BCP/DRP** | `docs/compliance/compliance_bcp_drp.md` | 500 Zeilen | ✅ |
 | 9 | **Risk Register** | `docs/compliance/compliance_risk_register.md` | 350 Zeilen | ✅ |
 | 10 | **Vendor Assessment** | `docs/compliance/compliance_vendor_assessment.md` | 350 Zeilen | ✅ |
-| 11 | **Access Control Policy** | `docs/policies/policies_access_control.md` | 400 Zeilen | ✅ |
-| 12 | **Change Management Policy** | `docs/policies/policies_change_management.md` | 450 Zeilen | ✅ |
-| 13 | **Data Classification Policy** | `docs/policies/policies_data_classification.md` | 500 Zeilen | ✅ |
-| 14 | **Encryption & Key Management** | `docs/policies/policies_encryption_key.md` | 750 Zeilen | ✅ |
-| 15 | **Project Valuation** | 🔒 Confidential | N/A | 🔒 |
+| 11 | **EU Cloud Sovereignty (ES3) Audit** | `docs/de/compliance/compliance_eu_cloud_sovereignty_framework.md` | 620+ Zeilen | ✅ |
+| 12 | **Access Control Policy** | `docs/policies/policies_access_control.md` | 400 Zeilen | ✅ |
+| 13 | **Change Management Policy** | `docs/policies/policies_change_management.md` | 450 Zeilen | ✅ |
+| 14 | **Data Classification Policy** | `docs/policies/policies_data_classification.md` | 500 Zeilen | ✅ |
+| 15 | **Encryption & Key Management** | `docs/policies/policies_encryption_key.md` | 750 Zeilen | ✅ |
+| 16 | **Project Valuation** | 🔒 Confidential | N/A | 🔒 |
 
 ### Fuzzing-Infrastruktur (AFL++)
 
