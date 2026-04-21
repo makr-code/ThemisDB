@@ -103,8 +103,16 @@ TEST(ChecksumUtilsTest, SHA256_TwoDistinctFiles_DifferentChecksums) {
 }
 
 // ============================================================================
-// calculateMD5
+// calculateMD5 (deprecated — legacy backward-compat tests only)
 // ============================================================================
+// calculateMD5 is [[deprecated]] (CWE-327). The tests below verify the
+// backward-compatible behaviour that is needed while legacy artifact checksums
+// are being migrated to SHA-256.  Deprecation warnings are suppressed only
+// for this block.
+#if defined(__GNUC__) || defined(__clang__)
+#  pragma GCC diagnostic push
+#  pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
 
 TEST(ChecksumUtilsTest, MD5_KnownContent) {
     // MD5("hello\n") = b1946ac92492d2347c6235b4d2611184
@@ -130,6 +138,10 @@ TEST(ChecksumUtilsTest, MD5_NonExistentFile_ReturnsEmpty) {
     auto md5 = themis::utils::calculateMD5("/tmp/nonexistent_themis_xyz.bin");
     EXPECT_TRUE(md5.empty());
 }
+
+#if defined(__GNUC__) || defined(__clang__)
+#  pragma GCC diagnostic pop
+#endif
 
 // ============================================================================
 // readFileContents
