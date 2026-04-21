@@ -1,17 +1,17 @@
 # ThemisDB Source Code Audit Report
 Generated: /home/runner/work/ThemisDB/ThemisDB
-Total Issues: 7141
+Total Issues: 7145
 
 ## Summary Statistics
 
 - **Intrinsics No Fallback**: 80
-- **Missing Export Macros**: 6866
+- **Missing Export Macros**: 6870
 - **Templates No Instantiation**: 39
 - **Unguarded Platform Code**: 156
 
-## HIGH Priority Issues (6866)
+## HIGH Priority Issues (6870)
 
-### Missing Export Macro (6866)
+### Missing Export Macro (6870)
 
 **include/raid_data_pusher.h:36**
 - Description: Class 'RAIDDataPusher' in public header lacks export macro
@@ -93,7 +93,7 @@ Total Issues: 7141
 - Description: Class 'SearchForm' in public header lacks export macro
 - Suggestion: Add THEMIS_*_API macro before class declaration
 
-... and 6846 more
+... and 6850 more
 
 ## MEDIUM Priority Issues (236)
 
