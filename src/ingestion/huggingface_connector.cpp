@@ -661,6 +661,21 @@ HuggingFaceConnector::HuggingFaceConnector()
 
 HuggingFaceConnector::~HuggingFaceConnector() = default;
 
+// GOVERNANCE GAP (AI_ML_IMPACT_ASSESSMENT.md §7, Gap 8 — Severity: Medium/S1):
+// Missing: Data classification gate before ingesting external HuggingFace datasets.
+//          HuggingFaceConnector fetches arbitrary datasets from api.huggingface.co
+//          directly into the target collection without any data privacy review or
+//          classification check.  Dataset rows may contain PII, licensed content, or
+//          data that is restricted for training under ModelGovernancePolicy.
+// Risk:    Ingestion of personally identifiable or legally restricted data into
+//          ThemisDB collections; possible GDPR / CCPA violations; unintentional
+//          model training on restricted data (coupled with Gap 3).
+// Planned Fix: Add DataClassificationGate::checkDataset(source_url, target_collection)
+//              call inside initialize() (or at ingest() entry) that consults
+//              PolicyEngine::checkIngestionPermission(); reject with IngestionError
+//              when classification result is RESTRICTED or FORBIDDEN.
+// Tracked: src/ingestion/FUTURE_ENHANCEMENTS.md §"Data Classification Gate for
+//          External Connectors" (Target: Q3 2026).
 bool HuggingFaceConnector::initialize(const SourceConfig& config) {
     return impl_->initialize(config);
 }

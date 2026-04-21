@@ -282,6 +282,19 @@ TrainingResult InlineTrainingEngine::train(
     const std::string&    base_model_path,
     const TrainingConfig& training_config
 ) {
+    // GOVERNANCE GAP (AI_ML_IMPACT_ASSESSMENT.md §7, Gap 3 — Severity: High/S0):
+    // Missing: Pre-training ModelGovernancePolicy::checkExportPermission() gate.
+    //          InlineTrainingEngine starts LoRA fine-tuning immediately without
+    //          consulting ModelGovernancePolicy (src/governance/model_governance.cpp).
+    //          This allows training on restricted collections or exporting adapters
+    //          trained on classified data without an explicit Allow decision.
+    // Risk:    Adapter derived from confidential data (geheim/streng-geheim) may be
+    //          saved to disk and distributed without governance approval.
+    // Planned Fix: Inject std::shared_ptr<ModelGovernancePolicy> into
+    //              InlineTrainingEngine; call checkExportPermission() at the top of
+    //              train() before trainLoop(); return failure on DENY decision.
+    // Tracked: src/llm/FUTURE_ENHANCEMENTS.md §"Inline Training Policy Gate"
+    //          (Target: Q3 2026).
     if (impl_->is_training.exchange(true)) {
         TrainingResult r;
         r.success = false;

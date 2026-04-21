@@ -209,7 +209,22 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
     }
 #endif
 
-    // ── Stub fallback (no real model or THEMIS_LLM_ENABLED not set) ──────────
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provide a safe no-op response when llama.cpp is not compiled in
+    //          (THEMIS_ENABLE_LLAMA_CPP not set) or no model file has been loaded,
+    //          so that unit tests and CI environments work without real model weights.
+    // Activation: Reached when `wrapper_` is nullptr (model not loaded or build
+    //             flag absent); controlled by build flag THEMIS_ENABLE_LLAMA_CPP
+    //             and runtime loadModel() call.
+    // Production Delta: Returns a deterministic echo string "[stub:<prompt_prefix>]"
+    //                   with success=true instead of a real LLM-generated response.
+    //                   Callers cannot distinguish stub output from model output at
+    //                   the InferenceResponse level — this is the documented gap
+    //                   (AI_ML_IMPACT_ASSESSMENT.md §7, Gap 1).
+    // Removal Plan: Replaced by a structured InferenceError::ModelNotLoaded result
+    //               in llama_cpp/FUTURE_ENHANCEMENTS.md §6 (Target: Q3 2026).
+    //               The stub path itself remains as a build-configuration fallback;
+    //               only the silent success=true will be removed.
     ++inference_count_;
     const std::string text = "[stub:" + request.prompt.substr(0, 40) + "]";
 

@@ -794,6 +794,39 @@ Support queries and documents in multiple languages:
 
 ---
 
+## Identified Gaps (from AI_ML_IMPACT_ASSESSMENT.md)
+
+### Gap 4b — AQLAgent: Session Token-Budget Cap (Target: Q3 2026)
+
+**Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 4 (Severity: Medium/S1)`
+**See also:** `src/rag/FUTURE_ENHANCEMENTS.md §Gap 4` (AgenticRAG counterpart).
+
+**Problem:** `AQLAgent` (`src/aql/aql_agent.cpp`) orchestrates multi-step AQL
+construction using an LLM with an iteration limit, but has no upper bound on the
+total tokens consumed across all steps.  An adversarial or poorly-constrained query
+can drive the agent into long token chains that exhaust shared LLM capacity without
+triggering the existing `CircuitBreaker` (which only fires on repeated backend errors,
+not on cost overrun).
+
+**Solution:**
+- Add `AQLAgentConfig::max_session_tokens` (default: 8192; 0 = disabled).
+- Track cumulative `InferenceResponse::tokens_generated` across agent steps.
+- When budget is exceeded, break the agent loop and return an `AQLAgentResult` with
+  `status=BUDGET_EXCEEDED` and the partial AQL generated so far (or an empty AQL with
+  the error flag set, depending on partial-result policy).
+- Wire the same `LLMTokenBudgetManager` (from `llm/FUTURE_ENHANCEMENTS.md §Gap 6`) if
+  available, so per-session limits and global limits are enforced jointly.
+
+**Inputs:** Cumulative token count from `InferenceResponse`; `max_session_tokens` config.
+**Outputs:** `AQLAgentResult::status == BUDGET_EXCEEDED` when limit reached.
+**Constraints:** No change to existing caller contracts when `max_session_tokens=0`.
+**Errors:** Budget exceeded → partial result or empty result with error status.
+**Tests:** 2 unit tests — budget exceeded mid-agent-loop (stops early with status flag);
+`max_session_tokens=0` disables enforcement.
+**Perf target:** One integer addition per step; no measurable overhead.
+
+---
+
 *Last Updated: June 2026*
 *Module Version: v1.5.x → v1.6.0 target*
 *Next Review: v1.6.0 Release*

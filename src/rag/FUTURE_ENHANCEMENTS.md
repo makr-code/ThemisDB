@@ -791,6 +791,105 @@ public:
 
 ---
 
+## Identified Gaps (from AI_ML_IMPACT_ASSESSMENT.md)
+
+### Gap 4 — Session Token-Budget Cap for AgenticRAG (Target: Q3 2026)
+
+**Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 4 (Severity: Medium/S1)`
+
+**Problem:** `AgenticRAG::run()` (`src/rag/agentic_rag.cpp`) enforces `max_iterations`
+(default: 5) and a document count limit, but has no upper bound on the total tokens
+consumed across all iterations.  On slow-converging queries, each iteration may
+invoke the LLM retrieval and judge pipelines multiple times, silently exhausting
+GPU/API token budgets before `max_iterations` is reached.
+
+**Solution:**
+- Add `AgenticRAGConfig::max_session_tokens` (default: 16384; 0 = disabled).
+- Track cumulative token usage from each iteration's `InferenceResponse::tokens_generated`
+  plus the judge's token spend (if available).
+- When cumulative usage exceeds `max_session_tokens`, break the iteration loop
+  with `StopReason::BUDGET_EXCEEDED` and log at WARN level.
+- Expose the consumed token count in `AgenticRAGResult::tokens_consumed`.
+
+**Inputs:** `InferenceResponse::tokens_generated` per iteration; `max_session_tokens` config.
+**Outputs:** `AgenticRAGResult::stop_reason == BUDGET_EXCEEDED`; `tokens_consumed` field.
+**Constraints:** Token counting is best-effort (model may not report exact token count);
+use an upper-bound estimate when the model returns 0.
+**Errors:** Budget exceeded → graceful loop exit, partial result returned.
+**Tests:** 3 unit tests — budget not exceeded (normal path); budget exceeded mid-loop
+(stops early); `max_session_tokens=0` disables enforcement.
+**Perf target:** No overhead beyond one integer addition per iteration.
+
+---
+
+### Gap 5 — Consolidate Dual PromptInjectionDetector Implementations (Target: Q4 2026)
+
+**Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 5 (Severity: Medium/S2)`
+
+**Problem:** Two independent `PromptInjectionDetector` implementations exist:
+- `src/rag/prompt_injection_detector.cpp` — RAG-focused, produces `InjectionScanResult`
+  with `scan_density` score.
+- `src/prompt_engineering/prompt_injection_detector.cpp` — prompt-engineering-focused,
+  10 built-in patterns.
+
+These implementations maintain separate pattern registries.  A new injection pattern
+added to one is silently absent from the other, creating divergent security postures
+across the RAG and prompt-engineering pipelines.
+
+**Solution:**
+- Extract a shared `PromptInjectionPatternRegistry` (header-only or a new
+  `src/security/prompt_injection_patterns.cpp`) that holds the canonical pattern list.
+- Both `PromptInjectionDetector` classes load from this shared registry by default;
+  each may still add domain-specific patterns on top.
+- `PromptInjectionPatternRegistry::version()` returns a monotonic integer so callers
+  can detect registry updates.
+- Add a compile-time static assert that fires if the two detector classes diverge
+  in default pattern count.
+
+**Inputs:** Shared YAML/JSON pattern file (`config/prompt_injection_patterns.yaml`);
+runtime `addPattern()` calls.
+**Outputs:** Both detectors use the same base patterns; domain additions preserved.
+**Constraints:** No change to public APIs of either detector; backward-compatible.
+**Errors:** Missing pattern file → fallback to compiled-in defaults + WARN.
+**Tests:** 2 integration tests — pattern added to registry reflected in both detectors;
+pattern count static assert fires on mismatch.
+**Perf target:** Registry load at startup ≤ 5 ms; per-scan overhead unchanged.
+
+---
+
+### Gap 7 — Replace LLMJudgeIntegration Mock Scores with Typed JudgeUnavailable Error (Target: Q3 2026)
+
+**Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 7 (Severity: Medium/S2)`
+**See also:** `src/rag/llm_judge_integration.cpp::defaultInference()` STUB/SIMULATION NOTE.
+
+**Problem:** When `LLMJudgeIntegration` is instantiated in mock mode
+(`config.use_mock_mode=true` or `allow_mock=true` with `engine==nullptr`),
+`defaultInference()` returns hardcoded scores (`score=4.0`, `confidence=0.85`).
+Callers that do not check `isMockMode()` receive plausible-looking metrics that are
+entirely synthetic, leading to silent quality regressions going undetected in
+evaluation dashboards.
+
+**Solution:**
+- Introduce `RAGError::JudgeUnavailable` in the RAG error hierarchy.
+- When `engine==nullptr` and `allow_mock=false` (the default), throw
+  `RAGError::JudgeUnavailable` instead of silently activating mock mode.
+- When `allow_mock=true`, continue to return mock scores but annotate the
+  `LLMJudgeScore` result with `is_mock=true` so callers can filter mock data.
+- `BatchEvaluator` and `QualityControlPipeline` must skip mock scores from
+  aggregated metrics and increment a `judge_mock_skip_total` Prometheus counter.
+
+**Inputs:** `LLMJudgeIntegration::Config { use_mock_mode, allow_mock, warn_on_mock_mode }`.
+**Outputs:** `RAGError::JudgeUnavailable` on nullptr engine in strict mode;
+`LLMJudgeScore { score, confidence, is_mock=true }` in permissive mode.
+**Constraints:** Existing unit tests that rely on `allow_mock=true` continue to work;
+only strict-mode callers gain the new error.
+**Errors:** `JudgeUnavailable` — callers must handle or propagate.
+**Tests:** 3 unit tests — strict mode throws `JudgeUnavailable`; permissive mode returns
+`is_mock=true`; `BatchEvaluator` skips `is_mock` scores.
+**Perf target:** No performance impact (control-flow path only).
+
+---
+
 ## Paper 1+2 — Loop Orchestration, Explainability & Federated RAG (IMPL-A2, IMPL-A3, IMPL-B9)
 
 > Full papers: `docs/en/research/THEMISDB_LORA_RESEARCH_PAPER.md` · `docs/en/research/LLM_OPTIMIZATION_LAYERS_MATRIX.md`

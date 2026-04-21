@@ -523,6 +523,43 @@ Real-time query suggestions.
 - SPLADE index memory: ≤ 4 GB for a 10 M-document corpus stored in CSR format
 - Autocomplete suggestion latency: ≤ 5 ms at p99 for prefix queries against a 1 M-term dictionary
 
+---
+
+## Identified Gaps (from AI_ML_IMPACT_ASSESSMENT.md)
+
+### Gap 2 — LlmQueryRewriter: Semantic Output Validator and Structured Fallback (Target: Q3 2026)
+
+**Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 2 (Severity: Medium/S2)`
+
+**Problem:** `LlmQueryRewriter::rewrite()` (`src/search/llm_query_rewriter.cpp`) has a
+`fallback_to_original=true` flag that triggers on LLM error or timeout, but:
+- It has no semantic output validator: an LLM response that is syntactically parseable
+  but semantically nonsensical (e.g., a rewrite that is completely unrelated to the
+  original query) is accepted and returned as-is.
+- There is no structured fallback return signal: callers receive the unvalidated rewrite
+  with no indication that the LLM output quality is suspect.
+
+**Solution:**
+- Add `LlmQueryRewriter::Config::min_token_overlap_ratio` (default: 0.2): after parsing
+  the LLM response, compute the Jaccard token overlap between each rewrite and the
+  original query; discard rewrites below the threshold and fall back to the original.
+- When all LLM rewrites are discarded, set `RewrittenQuery::quality = FALLBACK` so
+  callers (e.g., `HybridSearch`) can log or skip re-ranking.
+- Keep the existing `fallback_to_original=true` behaviour for error/timeout paths
+  unchanged (no regression).
+
+**Inputs:** `std::string query`, LLM-generated rewrite lines.
+**Outputs:** `RewrittenQuery { rewrites, quality=OK|FALLBACK }`.
+**Constraints:** Token overlap must be computed before returning from `rewrite()`;
+max overhead ≤ 1 ms for a 256-token query.
+**Errors:** LLM output empty → existing fallback path; all rewrites below threshold →
+`quality=FALLBACK` with original query in `rewrites`.
+**Tests:** 3 unit tests — semantically valid rewrite accepted; nonsensical rewrite
+discarded + fallback applied; overlap threshold configurable.
+**Perf target:** ≤ 1 ms additional overhead at p99 for threshold check.
+
+---
+
 ## Security / Reliability
 
 - Query injection prevention: all user-supplied query strings must be length-limited (≤ 4,096 bytes) and stripped of control characters before being passed to the BM25 tokenizer or LLM rewriter

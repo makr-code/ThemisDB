@@ -111,6 +111,36 @@ by depth limit (same constraint as LLM module).
 
 ---
 
+### 6. Structured Error on Unloaded Model — Replace Silent Stub Echo (Target: Q3 2026)
+
+**Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 1 (Severity: High/S1)`
+
+**Problem:** When `LlamaCppPlugin::generate()` is called without a loaded model
+(wrapper_ == nullptr), it returns a stub response with `success=true` and text
+`"[stub:<prompt_prefix>]"`.  Callers cannot distinguish this from a real inference
+result at the `InferenceResponse` level; silent incorrect output may propagate into
+RAG pipelines and AQL results.
+
+**Solution:** Replace the silent stub path with a typed failure:
+- Set `response.success = false` and populate `response.error_message` with a
+  human-readable `"Model not loaded — call loadModel() before generate()"` string.
+- Introduce `InferenceErrorCode::MODEL_NOT_LOADED` in the shared inference types so
+  calling code can programmatically distinguish this error from network or OOM errors.
+- Retain the build-configuration fallback stub path (guarded by a separate
+  `THEMIS_LLAMA_CPP_STUB_MODE` compile flag used exclusively in unit-test builds).
+
+**Inputs:** `InferenceRequest` (unchanged); `wrapper_` state (nullptr vs. loaded).
+**Outputs:** `InferenceResponse { success=false, error_code=MODEL_NOT_LOADED, error_message }`.
+**Constraints:** Existing unit tests that rely on the stub response must be updated to
+set the new compile flag or inject a mock `LlamaWrapper`.
+**Errors:** No new runtime errors; changes the contract of existing stub path.
+**Tests:** 2 unit tests — one asserting `success=false` with `MODEL_NOT_LOADED` code
+when model is not loaded; one asserting the stub continues to work under
+`THEMIS_LLAMA_CPP_STUB_MODE`.
+**Perf target:** No performance impact (error path only).
+
+---
+
 ## Security / Reliability
 
 - All new inference paths must pass through `PolicyEngine::checkInferencePermission()`

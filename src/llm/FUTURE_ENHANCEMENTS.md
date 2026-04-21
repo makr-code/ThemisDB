@@ -294,6 +294,80 @@ Extend `adapter_registry.cpp` and `AdapterLoadBalancer` (`adapter_load_balancer.
 
 ---
 
+## Identified Gaps (from AI_ML_IMPACT_ASSESSMENT.md)
+
+### Gap 3 — Inline Training Policy Gate: ModelGovernancePolicy Check before LoRA Training (Target: Q3 2026)
+
+**Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 3 (Severity: High/S0)`
+
+**Problem:** `InlineTrainingEngine::train()` (`src/llm/inline_training_engine.cpp`)
+starts on-the-fly LoRA fine-tuning immediately without consulting
+`ModelGovernancePolicy::checkExportPermission()`.  As a result, adapters can be
+trained on data from restricted collections (classified `geheim`/`streng-geheim`)
+without an explicit governance approval, and the resulting adapter weights can be
+saved and distributed without any audit record.
+
+**Solution:**
+- Inject `std::shared_ptr<ModelGovernancePolicy> governance_policy` as an optional
+  constructor parameter of `InlineTrainingEngine` (or via `setGovernancePolicy()`).
+- At the top of `train()`, call `governance_policy->checkExportPermission(request)`
+  where `request.job_id = adapter_id` and `request.collection_ids` is derived from
+  the `TrainingDataIterator`'s declared source collections.
+- Return `TrainingResult { success=false, message="Governance policy DENIED: <reason>" }`
+  immediately on a DENY decision; do not start `trainLoop()`.
+- Write an audit entry for both PERMIT and DENY decisions.
+
+**Inputs:** `adapter_id`, `base_model_path`, `TrainingConfig`,
+`TrainingDataIterator::getDeclaredCollections()`.
+**Outputs:** `TrainingResult`; audit log entry via `ModelGovernancePolicy::writeAuditEntry()`.
+**Constraints:** `governance_policy` may be nullptr (legacy callers); in that case the
+existing behaviour is preserved and a WARN is emitted.
+**Errors:** DENY → `TrainingResult::success=false`; policy unavailable → WARN + proceed
+(degraded mode, must be configurable via `InlineTrainingConfig::require_policy_gate`).
+**Tests:** 4 unit tests — DENY on restricted collection; PERMIT on open collection;
+nullptr policy with `require_policy_gate=false`; nullptr policy with `require_policy_gate=true`
+(must fail).
+**Perf target:** Policy check overhead ≤ 5 ms (synchronous; runs once per training job).
+
+---
+
+### Gap 6 — Central ML/AI Token-Cost Budget and Rate-Limit Tracking (Target: Q4 2026)
+
+**Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 6 (Severity: High/S1)`
+
+**Problem:** There is no central accounting of token spend across all inference paths
+(AQL, RAG, Agentic loops, reranking, judge calls).  Each path independently sends LLM
+requests; without a shared budget, a burst of agentic sessions or a misconfigured
+auto-evaluation pipeline can exhaust GPU resources or incur runaway API costs silently.
+The existing `CircuitBreaker` in `LLMAQLHandler` protects against backend failure but
+not against aggregate cost overrun.
+
+**Solution:**
+- Add `LLMTokenBudgetManager` (singleton or DI-scoped) with:
+  - `bool consume(size_t tokens, const std::string& path_id)` — atomically deducts
+    from the remaining per-period budget; returns `false` when budget is exhausted.
+  - `void reset(Period period)` — called by the existing scheduler to reset counters
+    per minute / hour / day.
+  - Prometheus gauge `llm_token_budget_remaining{path}` + counter
+    `llm_token_spend_total{path}`.
+- Wire `consume()` into `AsyncInferenceEngine` before each `generate()` dispatch;
+  return a `429 TooManyRequests`-equivalent `InferenceResponse` on budget exhaustion.
+- Expose `GET /api/v1/llm/token-budget` via `http_server.cpp` for operational visibility.
+- `LlmConfig` gains `token_budget_per_hour` (default: unlimited, 0 = disabled) so
+  existing deployments are unaffected until the field is set.
+
+**Inputs:** Per-request `InferenceRequest::max_tokens`; `path_id` tag ("aql", "rag",
+"agentic", "judge", "reranker").
+**Outputs:** Budget accounting in Prometheus; rejection response when exhausted.
+**Constraints:** Counter must be thread-safe (`std::atomic<int64_t>`); no blocking.
+**Errors:** Budget exhausted → structured `InferenceError::BUDGET_EXHAUSTED`; config
+`token_budget_per_hour=0` disables enforcement.
+**Tests:** 5 unit tests — normal consume; exhaustion → rejection; reset clears counter;
+Prometheus gauge updated; disabled budget allows all requests.
+**Perf target:** `consume()` overhead ≤ 50 ns per call (atomic compare-exchange only).
+
+---
+
 ## Scientific References
 
 The following IEEE-formatted references support the research basis for features described in this document. References cover speculative decoding, federated/distributed inference, streaming inference, LoRA and adapter methods, and grammar-constrained generation.

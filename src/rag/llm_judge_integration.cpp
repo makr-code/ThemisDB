@@ -214,9 +214,22 @@ std::string LLMJudgeIntegration::callLLM(const std::string& prompt) {
 }
 
 std::string LLMJudgeIntegration::defaultInference(const std::string& prompt) {
-    // Mock inference function for testing only
-    // This should only be used when explicitly enabled via config.use_mock_mode = true
-    
+    // STUB/SIMULATION NOTE:
+    // Purpose: Provide a structurally-valid LLM-judge response when no real
+    //          ILLMInferenceEngine is injected, enabling unit tests and offline
+    //          evaluation pipelines without a live model endpoint.
+    // Activation: Called only when config.use_mock_mode == true or allow_mock == true
+    //             AND engine == nullptr.  Production deployments always inject a real
+    //             engine; the mock path is never reached.
+    // Production Delta: Returns a hardcoded score=4.0 / confidence=0.85 regardless
+    //                   of the prompt content.  Real scores are model-generated and
+    //                   prompt-dependent.  Callers that rely on these values without
+    //                   checking isMockMode() will silently receive garbage metrics
+    //                   (AI_ML_IMPACT_ASSESSMENT.md §7, Gap 7).
+    // Removal Plan: Replace with a typed RAGError::JudgeUnavailable return value
+    //               when engine == nullptr; tracked in rag/FUTURE_ENHANCEMENTS.md
+    //               §B-11 (Target: Q3 2026).
+    (void)prompt; // unused in mock path — intentional
     THEMIS_DEBUG("Using mock inference function (for testing only)");
     
     // Return a mock JSON response

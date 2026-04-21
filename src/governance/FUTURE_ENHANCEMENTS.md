@@ -171,6 +171,44 @@ Extend the Governance module to track training data lineage for models trained o
 - `DataMasker` TOKENIZE pseudonyms are keyed on a per-collection secret stored in the key management service, never in source code or configuration files.
 - `ModelGovernancePolicy` must be evaluated before any training-purpose export begins; partial exports that start before policy evaluation must be rejected, not retroactively audited.
 
+---
+
+## Identified Gaps (from AI_ML_IMPACT_ASSESSMENT.md)
+
+### Gap 6 — Governance Visibility into ML/AI Token-Cost Budgets (Target: Q4 2026)
+
+**Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 6 (Severity: High/S1)`
+**Primary implementation:** `src/llm/FUTURE_ENHANCEMENTS.md §Gap 6` (`LLMTokenBudgetManager`).
+
+**Problem:** `PolicyEngine` governs data access and model export but has no visibility
+into ML/AI resource consumption (token spend, GPU utilization per tenant).  A tenant
+that is permitted to run inference can exhaust shared GPU capacity without any
+governance checkpoint, because token budgets are currently absent (see Gap 6 in the
+LLM module).
+
+**Governance Module Responsibility:**
+- Extend `PolicyEngine` with a `checkTokenBudget(tenant_id, path_id, requested_tokens)`
+  method that delegates to `LLMTokenBudgetManager` (when available).
+- Add `TokenBudgetPolicy` as a new policy type in `model_governance.cpp`:
+  ```
+  token_budget:
+    per_tenant_hourly: 50000
+    per_path:
+      agentic: 16384
+      judge:   8192
+  ```
+- Emit `governance_token_budget_deny_total{tenant, path}` Prometheus counter on
+  policy DENY so operations teams can detect budget abuse.
+- Write `BUDGET_EXCEEDED` events to the existing append-only audit trail with
+  `tenant_id`, `path_id`, `requested_tokens`, and `remaining_budget`.
+
+**Inputs:** `PolicyEngine::checkTokenBudget()` call from `AsyncInferenceEngine`.
+**Outputs:** PERMIT / DENY decision; audit log entry; Prometheus counter.
+**Constraints:** Must not add synchronous network round-trips; local policy evaluation only.
+**Errors:** Budget policy absent → PERMIT (backward-compatible); budget exceeded → DENY.
+**Tests:** 3 unit tests — budget permit; budget deny; audit entry written on deny.
+**Perf target:** `checkTokenBudget()` ≤ 100 µs (local memory lookup + atomic read).
+
 ## Scientific References
 
 [1] European Parliament and Council, "General Data Protection Regulation (GDPR)," *Official Journal of the European Union*, L 119, May 2016. https://eur-lex.europa.eu/eli/reg/2016/679/oj

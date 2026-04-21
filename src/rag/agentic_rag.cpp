@@ -181,6 +181,20 @@ AgenticRAGResult AgenticRAG::run(
 {
     impl_->cancel_requested.store(false, std::memory_order_relaxed);
 
+    // GOVERNANCE GAP (AI_ML_IMPACT_ASSESSMENT.md §7, Gap 4 — Severity: Medium/S1):
+    // Missing: Session-level cumulative token-cost budget cap.
+    //          AgenticRAG enforces max_iterations (default: 5) and a doc-count limit,
+    //          but has no upper bound on the total tokens consumed across all
+    //          iterations (retrieval LLM calls + judge LLM calls combined).
+    //          On a slow-converging query this can exhaust GPU/API token budgets
+    //          silently and only fail once the LLM backend hits its own rate limit.
+    // Risk:    Uncontrolled token spend per agentic session; potential DoS of the
+    //          shared LLM endpoint when many concurrent sessions run.
+    // Planned Fix: Add AgenticRAGConfig::max_session_tokens (default: 16384); track
+    //              cumulative token usage from each iteration's InferenceResponse;
+    //              break the loop with StopReason::BUDGET_EXCEEDED when exceeded.
+    // Tracked: src/rag/FUTURE_ENHANCEMENTS.md §"Session Token-Budget Cap for AgenticRAG"
+    //          (Target: Q3 2026).
     const auto loop_start = std::chrono::steady_clock::now();
 
     THEMIS_INFO("AgenticRAG::run started: query='{}', initial_docs={}, max_iter={}",
