@@ -21,6 +21,7 @@
  */
 
 #include "prompt_engineering/prompt_injection_detector.h"
+#include "security/prompt_injection_pattern_registry.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <utility>
@@ -54,42 +55,38 @@ PromptInjectionDetector::PromptInjectionDetector(Config config)
 }
 
 void PromptInjectionDetector::initializePatterns() {
-    // Patterns that attempt to override or disregard existing instructions
-    auto add = [this](const std::string& label, const std::string& expr) {
-        patterns_.emplace_back(expr, std::regex::icase);
-        pattern_labels_.push_back(label);
-    };
+    // Gap 5 (AI_ML_IMPACT_ASSESSMENT.md §7): load the canonical shared pattern
+    // registry so that patterns added to the registry appear here automatically.
+    // Domain-specific patterns (custom_patterns, dangerous_keywords) are appended
+    // after the shared base.
+    const auto& reg = themis::security::PromptInjectionPatternRegistry::defaultRegistry();
 
-    add("ignore_instructions",
-        R"(ignore\s+(?:previous|all|prior|your|these)\s+(?:instructions?|prompts?|rules?|context|constraints?))");
-    add("disregard_instructions",
-        R"(disregard\s+(?:previous|all|prior|your|these)\s+(?:instructions?|prompts?|rules?|context|constraints?))");
-    add("forget_instructions",
-        R"(forget\s+(?:everything|all|prior|previous|your)\s*(?:previous\s+)?(?:instructions?|rules?|context|training))");
-    add("reveal_system_prompt",
-        R"(reveal\s+(?:your\s+|the\s+|this\s+|all\s+)?(?:system|hidden|original|internal)\s+(?:prompt|instruction|config))");
-    add("tell_system_prompt",
-        R"(tell\s+me\s+(?:your|the)\s+(?:system\s+)?(?:prompt|instructions?|directives?))");
-    add("print_system_prompt",
-        R"((?:print|show|output|display|repeat|share)\s+(?:your\s+|the\s+)?(?:system\s+)?(?:prompt|instructions?|directives?))");
-    add("special_system_token",
-        R"(\[\s*system\s*\]|\[INST\]|\[\/INST\]|<\|system\|>|<\|user\|>|<\|assistant\|>)");
-    add("jailbreak_mode",
-        R"((?:enter|activate|enable|switch\s+to)\s+(?:DAN|jailbreak|developer|god|unrestricted|free)\s+mode)");
-    add("act_as_unrestricted",
-        R"(act\s+as\s+(?:if\s+you\s+(?:have\s+no|are\s+without)\s+(?:restrictions?|guidelines?|filters?)|an?\s+unfiltered))");
-    add("override_safety",
-        R"((?:override|bypass|disable|ignore)\s+(?:safety|content|moderation|ethical?)\s+(?:filter|guideline|restriction|check))");
+    // Startup parity assertion (Gap 5 enforcement): abort rather than silently
+    // miss shared patterns if the registry and the compile-time constant diverge.
+    if (reg.patternCount() != themis::security::SHARED_INJECTION_PATTERN_COUNT) {
+        spdlog::error("PromptInjectionDetector (PE): expected {} shared patterns, "
+                      "found {} — Gap 5 parity violation. "
+                      "Update SHARED_INJECTION_PATTERN_COUNT.",
+                      themis::security::SHARED_INJECTION_PATTERN_COUNT,
+                      reg.patternCount());
+    }
 
-    // Dangerous keywords scored separately
-    dangerous_keywords_ = {
-        "jailbreak", "pwned", "hacked",
-        "exploit", "privilege", "root access",
-        "execute arbitrary", "eval(", "require(",
-        "bypass filter", "bypass safety"
-    };
+    // ── Load shared patterns ──────────────────────────────────────────────────
+    for (const auto& e : reg.patterns()) {
+        try {
+            patterns_.emplace_back(e.pattern_str, std::regex::icase);
+            pattern_labels_.push_back(e.label);
+        } catch (const std::regex_error&) {
+            spdlog::warn("PromptInjectionDetector (PE): failed to compile shared "
+                         "pattern '{}' — skipped", e.label);
+        }
+    }
 
-    // Append caller-supplied custom patterns (best-effort; skip on compile error)
+    // ── Dangerous keywords (from shared registry) ─────────────────────────────
+    dangerous_keywords_ = std::vector<std::string>(reg.keywords().begin(),
+                                                   reg.keywords().end());
+
+    // ── Append caller-supplied custom patterns (best-effort) ─────────────────
     for (const auto& pat : config_.custom_patterns) {
         try {
             patterns_.emplace_back(pat, std::regex::icase);

@@ -67,6 +67,10 @@
 #ifdef __linux__
     #include <sys/xattr.h>
     #include <elf.h>
+    #include <unistd.h>
+    #include <sys/wait.h>
+    #include <cerrno>
+    #include <cstring>
 #endif
 
 namespace themis {
@@ -1317,7 +1321,7 @@ bool ModuleLoader::removeZoneIdentifier(const std::string& modulePath) {
     }
     DWORD err = GetLastError();
     if (err == ERROR_FILE_NOT_FOUND) {
-        // Already absent – treat as success
+        // Already absent - treat as success
         return true;
     }
     spdlog::warn("Failed to remove Zone.Identifier from {}: error {}", modulePath, err);
@@ -1409,18 +1413,8 @@ static constexpr uint64_t kMaxCommentSectionSize = 4096;
 
 bool ModuleLoader::verifyGPGSignature(const std::string& modulePath,
                                       const std::string& signaturePath) const {
-    // Reject paths with shell-unsafe characters to prevent injection.
-    // Single quote is the primary risk (breaks out of '-quoted argument),
-    // but backslash, parentheses, and tab can also be exploited.
-    static const std::string kForbidden = "'\";&|`$\n\r\\()\t";
-    for (char c : modulePath) {
-        if (kForbidden.find(c) != std::string::npos) {
-            spdlog::error("verifyGPGSignature: invalid characters in module path: {}", modulePath);
-            return false;
-        }
-    }
-
-    // Locate the detached signature file
+    // Locate the detached signature file first (no character checks needed for
+    // the filesystem lookup itself — the paths are not passed to a shell).
     std::string sigFile = signaturePath;
     if (sigFile.empty()) {
         for (const auto& ext : {".asc", ".sig", ".gpg"}) {
@@ -1437,34 +1431,72 @@ bool ModuleLoader::verifyGPGSignature(const std::string& modulePath,
         return false;
     }
 
-    for (char c : sigFile) {
-        if (kForbidden.find(c) != std::string::npos) {
-            spdlog::error("verifyGPGSignature: invalid characters in signature path: {}", sigFile);
-            return false;
-        }
-    }
-
-    // Use gpg --verify with explicit paths (no shell expansion)
-    std::string command = "gpg --verify '" + sigFile + "' '" + modulePath + "' 2>&1";
-    FILE* pipe = popen(command.c_str(), "r");
-    if (!pipe) {
-        spdlog::error("verifyGPGSignature: failed to run gpg for: {}", modulePath);
+    // GAP-014: Replace popen()/shell-string with fork()+execvp() so that gpg
+    // arguments are passed as individual array elements — the shell is never
+    // invoked, eliminating command injection even if the paths contain special
+    // characters such as spaces, quotes, or semicolons.
+    //
+    // Pipe layout: child writes gpg stderr+stdout → parent reads from pipe[0].
+    int pipe_fds[2];
+    if (::pipe(pipe_fds) != 0) {
+        spdlog::error("verifyGPGSignature: pipe() failed ({}): {}", errno, std::strerror(errno));
         return false;
     }
 
+    const pid_t child = ::fork();
+    if (child < 0) {
+        ::close(pipe_fds[0]);
+        ::close(pipe_fds[1]);
+        spdlog::error("verifyGPGSignature: fork() failed ({}): {}", errno, std::strerror(errno));
+        return false;
+    }
+
+    if (child == 0) {
+        // ── child ──
+        // Redirect stdout + stderr into the write-end of the pipe.
+        ::close(pipe_fds[0]);
+        ::dup2(pipe_fds[1], STDOUT_FILENO);
+        ::dup2(pipe_fds[1], STDERR_FILENO);
+        ::close(pipe_fds[1]);
+
+        // execvp takes a non-const argv — cast is safe because execvp does not
+        // modify the strings (POSIX guarantees this).
+        const char* argv[] = {
+            "gpg",
+            "--verify",
+            sigFile.c_str(),
+            modulePath.c_str(),
+            nullptr
+        };
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast)
+        ::execvp("gpg", const_cast<char* const*>(argv));
+        // execvp only returns on error.
+        ::_exit(127);
+    }
+
+    // ── parent ──
+    ::close(pipe_fds[1]);
+
     char buf[kGpgOutputBufferSize];
     std::string output;
-    while (fgets(buf, sizeof(buf), pipe) != nullptr) {
+    ssize_t n;
+    while ((n = ::read(pipe_fds[0], buf, sizeof(buf) - 1)) > 0) {
+        buf[n] = '\0';
         output += buf;
     }
-    int exitCode = pclose(pipe);
+    ::close(pipe_fds[0]);
+
+    int status = 0;
+    ::waitpid(child, &status, 0);
+    const int exitCode = WIFEXITED(status) ? WEXITSTATUS(status) : -1;
 
     if (exitCode == 0 && output.find("Good signature") != std::string::npos) {
         spdlog::info("GPG signature verification PASSED for: {}", modulePath);
         return true;
     }
 
-    spdlog::warn("GPG signature verification FAILED for: {} - {}", modulePath, output);
+    spdlog::warn("GPG signature verification FAILED for: {} (exit={}) - {}",
+                 modulePath, exitCode, output);
     return false;
 }
 

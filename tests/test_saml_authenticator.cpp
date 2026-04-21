@@ -1074,3 +1074,185 @@ EqRd6vemBb1xoeIW4UwgSn0lgQ==
         EXPECT_EQ(e.error().code(), AuthErrorCode::SAML_DECRYPTION_FAILED);
     }
 }
+
+// ============================================================================
+// SHA-1 algorithm policy tests (GAP-003 / CWE-327)
+// ============================================================================
+
+namespace {
+
+/// Build a base64-encoded SAML response that embeds a fake ds:Signature with
+/// the supplied SignatureMethod/DigestMethod Algorithm URIs.  The signature
+/// bytes themselves are non-zero base64 dummies (not cryptographically valid),
+/// which is sufficient to reach the algorithm-selection branch inside
+/// verifyXmlSignature().
+static std::string buildSAMLResponseWithAlgorithms(
+    const std::string& sig_alg_uri,
+    const std::string& digest_alg_uri,
+    std::chrono::system_clock::time_point anchor)
+{
+    auto fmt = [](std::chrono::system_clock::time_point tp) -> std::string {
+        auto tt = std::chrono::system_clock::to_time_t(tp);
+        std::tm tm_utc{};
+#ifdef _WIN32
+        gmtime_s(&tm_utc, &tt);
+#else
+        gmtime_r(&tt, &tm_utc);
+#endif
+        char buf[32];
+        std::strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%SZ", &tm_utc);
+        return std::string(buf);
+    };
+
+    auto not_before    = anchor - std::chrono::seconds(300);
+    auto not_on_or_after = anchor + std::chrono::seconds(600);
+
+    // A minimal SAML response that includes a ds:Signature block on the
+    // Response element with the caller-supplied algorithm URIs.
+    std::string xml =
+        R"(<samlp:Response)"
+        R"( xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol")"
+        R"( xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion")"
+        R"( ID="_sha1_policy_resp" Version="2.0")"
+        R"( IssueInstant=")" + fmt(anchor) + R"(")"
+        R"( Destination="https://myapp.example.com/saml/acs">)"
+        R"(<saml:Issuer>https://test-idp.example.com/metadata</saml:Issuer>)"
+        R"(<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">)"
+        R"(<ds:SignedInfo>)"
+        R"(<ds:SignatureMethod Algorithm=")" + sig_alg_uri + R"("/>)"
+        R"(<ds:Reference URI="#_sha1_policy_resp">)"
+        R"(<ds:DigestMethod Algorithm=")" + digest_alg_uri + R"("/>)"
+        R"(<ds:DigestValue>AAEC/w==</ds:DigestValue>)"
+        R"(</ds:Reference>)"
+        R"(</ds:SignedInfo>)"
+        R"(<ds:SignatureValue>AAEC/w==</ds:SignatureValue>)"
+        R"(</ds:Signature>)"
+        R"(<samlp:Status>)"
+        R"(<samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success"/>)"
+        R"(</samlp:Status>)"
+        R"(<saml:Assertion)"
+        R"( xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion")"
+        R"( ID="_sha1_policy_assert" Version="2.0")"
+        R"( IssueInstant=")" + fmt(anchor) + R"(">)"
+        R"(<saml:Issuer>https://test-idp.example.com/metadata</saml:Issuer>)"
+        R"(<saml:Subject>)"
+        R"(<saml:NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress">)"
+        R"(sha1test@example.com</saml:NameID>)"
+        R"(<saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">)"
+        R"(<saml:SubjectConfirmationData)"
+        R"( Recipient="https://myapp.example.com/saml/acs")"
+        R"( NotOnOrAfter=")" + fmt(not_on_or_after) + R"("/>)"
+        R"(</saml:SubjectConfirmation>)"
+        R"(</saml:Subject>)"
+        R"(<saml:Conditions)"
+        R"( NotBefore=")" + fmt(not_before) + R"(")"
+        R"( NotOnOrAfter=")" + fmt(not_on_or_after) + R"(">)"
+        R"(<saml:AudienceRestriction>)"
+        R"(<saml:Audience>https://myapp.example.com/saml/metadata</saml:Audience>)"
+        R"(</saml:AudienceRestriction>)"
+        R"(</saml:Conditions>)"
+        R"(</saml:Assertion>)"
+        R"(</samlp:Response>)";
+
+    // Base64-encode (same algorithm as buildSAMLResponseB64)
+    const char b64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    std::vector<uint8_t> bytes(xml.begin(), xml.end());
+    std::string out;
+    out.reserve(((bytes.size() + 2) / 3) * 4);
+    for (size_t i = 0; i < bytes.size(); i += 3) {
+        uint32_t b = (static_cast<uint32_t>(bytes[i]) << 16);
+        if (i + 1 < bytes.size()) b |= (static_cast<uint32_t>(bytes[i + 1]) << 8);
+        if (i + 2 < bytes.size()) b |= static_cast<uint32_t>(bytes[i + 2]);
+        out += b64[(b >> 18) & 0x3F];
+        out += b64[(b >> 12) & 0x3F];
+        out += (i + 1 < bytes.size()) ? b64[(b >> 6) & 0x3F] : '=';
+        out += (i + 2 < bytes.size()) ? b64[b & 0x3F] : '=';
+    }
+    return out;
+}
+
+} // anonymous namespace
+
+// GAP-003-01: allow_sha1_deprecated defaults to false (deny-by-default policy)
+TEST(SAMLAuthenticatorTest, SAMLConfigAllowSHA1DefaultsFalse) {
+    SAMLConfig cfg;
+    EXPECT_FALSE(cfg.allow_sha1_deprecated);
+}
+
+// GAP-003-02: SHA-1 signature is rejected when allow_sha1_deprecated=false
+TEST(SAMLAuthenticatorTest, SHA1SignatureRejectedByDefault) {
+    auto cfg = makeTestConfig();
+    cfg.require_signed_response  = true;
+    cfg.require_signed_assertion = false;
+    cfg.allow_sha1_deprecated    = false;  // explicit — matches default
+    SAMLAuthenticator auth(cfg);
+
+    auto now = std::chrono::system_clock::now();
+    auth.setClockForTesting([now]() { return now; });
+
+    const std::string sha1_sig_alg    = "http://www.w3.org/2000/09/xmldsig#rsa-sha1";
+    const std::string sha1_digest_alg = "http://www.w3.org/2000/09/xmldsig#sha1";
+
+    auto b64 = buildSAMLResponseWithAlgorithms(sha1_sig_alg, sha1_digest_alg, now);
+
+    try {
+        auth.processResponse(b64);
+        FAIL() << "Expected SAML_INVALID_SIGNATURE: SHA-1 should be rejected by default";
+    } catch (const AuthException& e) {
+        EXPECT_EQ(e.error().code(), AuthErrorCode::SAML_INVALID_SIGNATURE);
+    }
+}
+
+// GAP-003-03: SHA-256 signature is accepted (sanity check — algorithm not rejected)
+// The response fails with SAML_INVALID_SIGNATURE because the signature bytes are
+// dummy values, but the failure is NOT due to algorithm rejection.
+TEST(SAMLAuthenticatorTest, SHA256SignatureNotRejectedForAlgorithm) {
+    auto cfg = makeTestConfig();
+    cfg.require_signed_response  = true;
+    cfg.require_signed_assertion = false;
+    SAMLAuthenticator auth(cfg);
+
+    auto now = std::chrono::system_clock::now();
+    auth.setClockForTesting([now]() { return now; });
+
+    const std::string sha256_sig_alg    = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256";
+    const std::string sha256_digest_alg = "http://www.w3.org/2001/04/xmlenc#sha256";
+
+    auto b64 = buildSAMLResponseWithAlgorithms(sha256_sig_alg, sha256_digest_alg, now);
+
+    // Expect SAML_INVALID_SIGNATURE because the signature bytes are invalid,
+    // but NOT because of algorithm rejection — the algorithm itself is accepted.
+    try {
+        auth.processResponse(b64);
+        FAIL() << "Expected SAML_INVALID_SIGNATURE for invalid signature bytes";
+    } catch (const AuthException& e) {
+        EXPECT_EQ(e.error().code(), AuthErrorCode::SAML_INVALID_SIGNATURE);
+    }
+}
+
+// GAP-003-04: SHA-1 signature is tolerated when allow_sha1_deprecated=true
+// (still fails for invalid bytes, but NOT rejected at the algorithm selection step)
+TEST(SAMLAuthenticatorTest, SHA1SignatureToleratedWhenAllowFlagSet) {
+    auto cfg = makeTestConfig();
+    cfg.require_signed_response  = true;
+    cfg.require_signed_assertion = false;
+    cfg.allow_sha1_deprecated    = true;  // operator explicitly opts in
+    SAMLAuthenticator auth(cfg);
+
+    auto now = std::chrono::system_clock::now();
+    auth.setClockForTesting([now]() { return now; });
+
+    const std::string sha1_sig_alg    = "http://www.w3.org/2000/09/xmldsig#rsa-sha1";
+    const std::string sha1_digest_alg = "http://www.w3.org/2000/09/xmldsig#sha1";
+
+    auto b64 = buildSAMLResponseWithAlgorithms(sha1_sig_alg, sha1_digest_alg, now);
+
+    // Algorithm is accepted; signature bytes are invalid so the result is still
+    // SAML_INVALID_SIGNATURE — but for wrong-bytes, not algorithm-rejection.
+    try {
+        auth.processResponse(b64);
+        FAIL() << "Expected SAML_INVALID_SIGNATURE for invalid signature bytes";
+    } catch (const AuthException& e) {
+        EXPECT_EQ(e.error().code(), AuthErrorCode::SAML_INVALID_SIGNATURE);
+    }
+}

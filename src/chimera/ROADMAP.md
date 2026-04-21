@@ -10,7 +10,8 @@
 
 ## In Progress
 
-- [ ] Konsolidierung der capability claims für Simulations- vs. Engine-Modus (Target: v1.8.0)
+- [x] Konsolidierung der capability claims für Simulations- vs. Engine-Modus (Target: v1.8.0)
+  - `Capability::CONNECTION_POOLING` aus `has_capability()` und `get_capabilities()` entfernt (falsely advertised → false); Test ergänzt (2026-04-21)
 - [x] Präzisierung und Nachrüstung von Include-Dokumentation unter `include/chimera/` (Target: v1.8.0)
 
 ## Planned Features
@@ -35,7 +36,8 @@
 ### Phase 3 — Fehlerbehandlung & Edge Cases
 
 - [x] Verbindungsprüfung und strukturierte Fehlercodes in Kernpfaden (Target: v1.9.0)
-- [ ] Einheitliche Behandlung von Feature-Mismatch zwischen Capabilities und Verhalten (Target: v1.8.0)
+- [x] Einheitliche Behandlung von Feature-Mismatch zwischen Capabilities und Verhalten (Target: v1.8.0)
+  - `CONNECTION_POOLING` liefert nun korrekt `false` bis zur Implementierung (2026-04-21)
 
 ### Phase 4 — Tests
 
@@ -57,7 +59,8 @@
 
 - [x] Simulationsmodus stabil für lokale Tests
 - [x] Streaming- und Prepared-Statement-Pfade testbar
-- [ ] Capability-Matrix deckt reales Verhalten ohne Widersprüche ab
+- [x] Capability-Matrix deckt reales Verhalten ohne Widersprüche ab
+  - `CONNECTION_POOLING` korrekt auf `false` gesetzt bis zur Implementierung (2026-04-21)
 - [ ] Engine-Mode ohne `NOT_IMPLEMENTED`-Abbrüche für produktive Kernpfade
 - [x] Include-API-Doku vollständig und mit Sourcecode konsistent (`include/chimera/README.md`)
 - [ ] Sicherheits- und Lasttests für produktive Adapteranbindung dokumentiert
@@ -66,7 +69,7 @@
 
 - Nur ThemisDB-Referenzadapter ist im Modulpfad `src/chimera/` vorhanden.
 - Teile des engine-backed Dispatches hängen an `THEMISDB_ENGINE_AVAILABLE`.
-- `Capability::CONNECTION_POOLING` wird als verfügbar gemeldet, ohne dedizierte Pooling-API-Implementierung im Adapter.
+- `Capability::CONNECTION_POOLING` wird als verfügbar gemeldet, ohne dedizierte Pooling-API-Implementierung im Adapter. (**Fix 2026-04-21**: `has_capability()` gibt jetzt `false`, `get_capabilities()` enthält `CONNECTION_POOLING` nicht mehr.)
 - Include-Dokumentation (`include/chimera/README.md`) fehlt derzeit nicht mehr — vorhanden.
 - `shortest_path` mit `max_depth != 10` verwendet `dijkstraWithConstraints` (engine-backed); `traverse` mit mehreren `edge_labels` läuft als BFS-pro-Label mit Deduplication (engine-backed).
 

@@ -1,6 +1,6 @@
 > **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
 
-<!-- Status: current | validated: 2026-04-17 -->
+<!-- Status: current | validated: 2026-04-21 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # distributed_knowledge Module — Future Enhancements
@@ -23,6 +23,58 @@ All items here are explicitly out of scope for DK-1…DK-8.
 | `FederatedAIDecisionAuditor` | DK-7 + IMPL-B9 | Global timeline of all-shard decisions for DBA |
 | `AdapterCapabilityAnnouncement` v2 | DK-2 + IMPL-B8 | Include `WorkloadFingerprint` in Gossip payload |
 | `LoRAFederationCoordinator::RAID6Mode` | DK-3 | Hierarchical aggregation: Shard → Region → Global |
+
+---
+
+## ✅ Implemented Enhancements
+
+### H — Gradient Outlier Filter / Federated Poisoning Detection (FPD)
+
+**Status:** ✅ Implemented (2026-04-21) — `include/distributed_knowledge/lora_federation_coordinator.h`
+
+**Scope:** Injectable `GradientOutlierFilter` predicate applied before aggregation
+to detect and discard gradient-poisoning contributions.
+
+**Delivered:**
+- `GradientOutlierFilter` function type: `bool(const EncryptedGradient&)`
+- `setGradientOutlierFilter()` DI-setter on `LoRAFederationCoordinator`
+- `filteredGradientsCount()` cumulative counter accessor
+- `makeL2NormOutlierFilter(double max_norm)` factory method
+- Filter applied in `doAggregation()` before FedAvg step; "all gradients filtered"
+  exception when no gradients survive
+
+**Tests:** FPD_01..10 in `tests/test_federated_poisoning_detection.cpp`
+  (registered as `FPD_Tests` in `tests/CMakeLists.txt`)
+
+**Scientific Reference:** Blanchard et al. (2017) "Machine Learning with Adversaries:
+  Byzantine Tolerant Gradient Descent." NeurIPS 2017.
+
+---
+
+### I — Federated Knowledge Distillation (FDF)
+
+**Status:** ✅ Implemented (2026-04-21) — `include/distributed_knowledge/federated_distillation_coordinator.h`
+
+**Scope:** Teacher→student soft-label transfer with Gaussian (ε, δ)-DP noise.
+Complementary to gradient-based federation (Ebene B) for scenarios where raw
+gradient sharing is too privacy-costly or the teacher/student architectures differ.
+
+**Delivered:**
+- `SoftLabelBatch` / `AggregatedLabelBatch` data types with JSON serialisation
+- `DistillationConfig` with `min_teachers`, `dp_epsilon`, `dp_delta`, `sensitivity`, `max_rounds`
+- `FederatedDistillationCoordinator`: `submitLabels()`, `triggerAggregation()`,
+  `privacyBudgetRemaining()`, `verifyPrivacyBudget()`
+- DI-setters: `setStudentCallback()`, `setPolicyGate()`, `setAuditCallback()`,
+  `setRollbackTrigger()`
+- Gaussian noise: σ = sensitivity·√(2·ln(1.25/δ))/ε (same as Ebene B)
+
+**Tests:** FDF_01..15 in `tests/test_federated_distillation_coordinator.cpp`
+  (registered as `FDF_Tests` in `tests/CMakeLists.txt`)
+
+**Scientific References:**
+  Hinton et al. (2015). "Distilling the Knowledge in a Neural Network."
+  Jeong et al. (2018). "Communication-Efficient On-Device ML: Federated Distillation
+    and Augmentation under Non-IID Private Data." NeurIPS FL Workshop.
 
 ---
 

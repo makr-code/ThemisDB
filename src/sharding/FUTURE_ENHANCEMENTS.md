@@ -7,6 +7,91 @@
 
 This document covers planned enhancements to ThemisDB's sharding subsystem, which implements horizontal scaling through pluggable consensus algorithms (`ConsensusFactory` supporting Raft, Gossip, and Paxos), cross-shard distributed transactions (2PC, 3PC, SAGA, Percolator), deadlock detection, metadata sharding, and the `ShardRepairEngine` (anti-entropy with Reed-Solomon erasure coding). The module is currently in Beta state and requires RPC integration hardening, a production-ready cross-shard transaction coordinator, and improved observability before General Availability.
 
+## Formal Verification of Consensus and Cross-Shard Transaction Invariants
+
+> **Source code analysis completed 2026-04-21.** The findings below are grounded in direct
+> inspection of `src/sharding/` and `src/transaction/`. Full details with code excerpts and
+> specific line numbers are in `src/sharding/AUDIT.md`.
+
+### Scope
+- Analyze and fix safety/liveness invariant violations in `raft_consensus.cpp`,
+  `paxos_consensus.cpp`, `gossip_protocol.cpp`, `cross_shard_transaction.cpp`,
+  `raft_wal_integration.cpp`, `two_phase_commit_coordinator.cpp`, `transaction_wal.cpp`, and
+  `src/transaction/distributed_transaction_manager.cpp`.
+- Invariants covered: quorum-before-commit, WAL-before-ack, no-duplicate-commit,
+  recovery-convergence, reconfiguration-safety, no-dangling-transaction-reference.
+
+### Design Constraints
+- WAL write failure must be a hard error in all consensus phase handlers; "graceful
+  degradation" (warn + continue) violates durability guarantees.
+- Map element references (`auto& x = map.at(k)`) must not be used across lock boundaries;
+  copy by value or use `shared_ptr`-based transaction handles.
+- Quorum sizes must be derived from runtime cluster configuration, not compile-time
+  constants.
+- Mutex lock ordering must be consistent across call chains; non-recursive mutexes must not
+  be re-acquired from the same thread.
+
+### Required Code Changes (by finding ID)
+
+| ID | Severity | File | Function | Required Change |
+|----|----------|------|----------|-----------------|
+| PAX-1 | S0 | `paxos_consensus.cpp` | `executePreparePhase()` → `executeAcceptPhase()` | Restructure to avoid re-acquiring `state_mutex_` on same thread; use per-instance lock or pass locked state by reference |
+| PAX-2 | S0 | `paxos_consensus.cpp` | `leaderElectionThread()` | Replace deterministic node-ID sort with Paxos ballot-based Phase 1 election (gather quorum of promises) |
+| PAX-3 | S0 | `paxos_consensus.cpp` | `executePreparePhase()`, `executeAcceptPhase()`, `broadcastCommit()` | Change all WAL-failure catch blocks to propagate the error and abort the phase; remove "graceful degradation" pattern |
+| GOS-1 | S0 | `gossip_protocol.cpp` | `addPeer()`, `removePeer()` | Release `peers_mutex_` before calling `syncWithTopology()`; or pass snapshot to topology sync |
+| CST-1 | S0 | `cross_shard_transaction.cpp` | `commit()` | Copy transaction by value before releasing lock; or use `shared_ptr`-based handle |
+| CST-2 | S0 | `cross_shard_transaction.cpp` | `abort()` | Same fix as CST-1 |
+| CST-3 | S0 | `cross_shard_transaction.cpp` | `executeSaga()` | Re-look up transaction after re-acquiring lock at L687 |
+| RWALI-1 | S0 | `raft_wal_integration.cpp` | `write()` | Replace `std::lock_guard` + busy-wait with `std::unique_lock` + `std::condition_variable`; release lock while waiting for ACKs |
+| RWALI-2 | S0 | `raft_wal_integration.cpp` | `hasQuorum()` | Replace `size_t cluster_size = 3` with `config_.cluster_members.size()` or injected quorum value |
+| PAX-4 | S1 | `paxos_consensus.cpp` | `runAcceptor()` | Implement message processing loop for incoming Prepare/Accept requests |
+| PAX-5 | S1 | `paxos_consensus.cpp` | `generateProposalNumber()` | Change `current_round_` to `std::atomic<uint64_t>` |
+| RAFT-1 | S1 | `raft_consensus.cpp` | `propose()` | Add leadership re-check inside detached thread before `setCommitIndex`; add rollback of uncommitted log entry on failure |
+| RLOG-1 | S1 | `raft_log.cpp` | `getLastLogIndex()` | Return `snapshot_index_` when log map is empty (post-compaction) |
+| 2PC-2 | S1 | `two_phase_commit_coordinator.cpp` | `recoverInDoubtTransactions()` | Call `runPhase2()` to broadcast ABORT after marking in-doubt transaction as aborted |
+| DTM-1 | S1 | `distributed_transaction_manager.cpp` | `runPhase1Unlocked()` | Replace unconditional COMMIT vote for callback-less participants with a real RPC or an explicit "remote participant not reachable → ABORT" policy |
+| DTM-2 | S1 | `distributed_transaction_manager.cpp` | `recoverInDoubtTransactions()` | Broadcast ABORT to participants after WAL log, same as 2PC-2 |
+| DTM-3 | S1 | `distributed_transaction_manager.cpp` | `isParticipantAlive()` | Implement health check or return `false` (safe-default) until real check is available |
+
+### Implementation Notes
+- Fix S0 items before S1; each S0 finding independently makes the affected component
+  non-functional or unsafe under concurrent access.
+- For CST-1/CST-2/CST-3: the correct pattern is either (a) copy the transaction struct by
+  value before the first `lock.unlock()`, or (b) keep the lock held and make participant
+  RPCs asynchronous (submitting to a thread pool and awaiting results after re-locking).
+- For RWALI-1: pending writes should be stored in a `std::unordered_map<uint64_t, PendingWrite>`
+  under a separate mutex; `write()` inserts and then waits on a per-entry `condition_variable`;
+  `onAppendEntriesResponse()` notifies the matching entry's condition variable.
+- For PAX-2: the minimal correct approach is a Paxos Phase 1 broadcast to all `cluster_nodes_`
+  with a ballot number greater than any previously seen, waiting for a quorum of PROMISE
+  responses before transitioning to LEADER.
+
+### Test Strategy
+- **S0 fixes:** Each fix must be accompanied by a focused unit test that reproduces the
+  original failure (deadlock, UB, incorrect quorum) and passes after the fix.
+  - PAX-1: test that `prepare()` on a multi-node Paxos instance returns (does not hang).
+  - RWALI-1: test that a concurrent `onAppendEntriesResponse()` unblocks `write()`.
+  - CST-1: test that concurrent `commit()` + `abort()` on the same transaction-ID does not
+    produce a crash or UB (run under ASan/TSan).
+  - RWALI-2: test quorum calculation for 1-node, 3-node, and 5-node configurations.
+- **S1 fixes:** Integration tests calling the affected code path under concurrent access,
+  verified under ThreadSanitizer.
+- **Regression policy:** Every S0/S1 fix must be covered by a focused test target registered
+  in `tests/CMakeLists.txt` before the fix is considered complete.
+
+### Performance Targets
+- `paxos_consensus.cpp::executePreparePhase()` wall-time (3-node, LAN): ≤5 ms P99 after fix.
+- `raft_wal_integration.cpp::write()` throughput: ≥ 1,000 writes/s on a 3-node cluster.
+- `cross_shard_transaction.cpp::commit()` under 8 concurrent callers: 0 crashes under ASan.
+
+### Security / Reliability
+- `gossip_protocol.cpp::verifyMessage()` must implement actual signature verification
+  (GOS-2) before deployment in a multi-tenant environment.
+- WAL write failures must never silently bypass durability requirements; any path that
+  currently "continues on WAL error" must be audited and changed to fail-closed.
+- `cross_shard_transaction.cpp`: transaction log path must be validated at startup;
+  no fallback to `/tmp` (CST-4).
+
 ## Design Constraints
 
 - All consensus algorithm implementations must be interchangeable at runtime via `consensus_factory.cpp` without requiring a cluster restart; the `IConsensusAdapter` contract must not be broken between adapter implementations.

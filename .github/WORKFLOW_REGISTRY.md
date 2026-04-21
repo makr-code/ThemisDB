@@ -29,6 +29,14 @@ Signalqualität und Release-Stabilitaet zu verbessern.
 - `.github/workflows/09-pr-gates_quick-checks.yml`
 - `.github/workflows/09-pr-gates_path-policy.yml`
 
+### Quality / Performance Gates (activated 2026-04-21, QA Wave-1 QA-W1-C1)
+- `.github/workflows/02-feature-modules_llm_voice-benchmark-ci.yml`
+  — Optional voice benchmark CI (THEMIS_ENABLE_VOICE_ASSISTANT=ON); satisfies PERFORMANCE_EXPECTATIONS.md §1.4 Maßnahme #4 (perf audit check 4d)
+- `.github/workflows/06-infrastructure_gpu_gpu-benchmark-matrix-ci.yml`
+  — GPU benchmark matrix (CUDA/HIP/Vulkan); satisfies §1.4 Maßnahme #5 (perf audit check 5c)
+- `.github/workflows/07-quality_nightly-benchmark-sweep.yml`
+  — Nightly benchmark sweep (schedule 02:00 UTC, modules 2..35); satisfies §1.4 Maßnahme #10 (perf audit check 10a)
+
 ## Governance fuer neue Workflows
 Neue Workflow-Dateien sind nur erlaubt, wenn mindestens einer der Punkte zutrifft:
 - Erforderlich fuer ein neues Release-Artefakt oder verpflichtendes Compliance-Gate.
@@ -43,5 +51,5 @@ pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode all
 ```
 
 ## Stand
-- Gesamtzahl Workflows: 8
+- Gesamtzahl Workflows: 11 (8 Kern + 3 Quality-Gates, aktiviert 2026-04-21)
 - Strategie: Lean + modular + release-zentriert

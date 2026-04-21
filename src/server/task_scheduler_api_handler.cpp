@@ -106,7 +106,7 @@ json TaskSchedulerApiHandler::registerTask(const json& request) {
         return json{{"status", "created"}, {"id", id}};
     } catch (const std::exception& e) {
         spdlog::warn("TaskSchedulerApiHandler: registerTask failed: {}", e.what());
-        return json{{"status", "error"}, {"error", e.what()}};
+        return json{{"status", "error"}, {"error", "Internal server error"}};
     }
 }
 
@@ -148,7 +148,7 @@ json TaskSchedulerApiHandler::updateTask(const std::string& task_id, const json&
         return json{{"status", "updated"}, {"id", task_id}};
     } catch (const std::exception& e) {
         spdlog::warn("TaskSchedulerApiHandler: updateTask '{}' failed: {}", task_id, e.what());
-        return json{{"status", "error"}, {"error", e.what()}};
+        return json{{"status", "error"}, {"error", "Internal server error"}};
     }
 }
 
@@ -163,7 +163,7 @@ json TaskSchedulerApiHandler::unregisterTask(const std::string& task_id) {
         return json{{"status", "deleted"}, {"id", task_id}};
     } catch (const std::exception& e) {
         spdlog::warn("TaskSchedulerApiHandler: unregisterTask '{}' failed: {}", task_id, e.what());
-        return json{{"status", "error"}, {"error", e.what()}};
+        return json{{"status", "error"}, {"error", "Internal server error"}};
     }
 }
 
@@ -178,7 +178,7 @@ json TaskSchedulerApiHandler::enableTask(const std::string& task_id) {
         return json{{"status", "enabled"}, {"id", task_id}};
     } catch (const std::exception& e) {
         spdlog::warn("TaskSchedulerApiHandler: enableTask '{}' failed: {}", task_id, e.what());
-        return json{{"status", "error"}, {"error", e.what()}};
+        return json{{"status", "error"}, {"error", "Internal server error"}};
     }
 }
 
@@ -193,7 +193,7 @@ json TaskSchedulerApiHandler::disableTask(const std::string& task_id) {
         return json{{"status", "disabled"}, {"id", task_id}};
     } catch (const std::exception& e) {
         spdlog::warn("TaskSchedulerApiHandler: disableTask '{}' failed: {}", task_id, e.what());
-        return json{{"status", "error"}, {"error", e.what()}};
+        return json{{"status", "error"}, {"error", "Internal server error"}};
     }
 }
 
@@ -208,7 +208,7 @@ json TaskSchedulerApiHandler::executeTask(const std::string& task_id) {
         return json{{"status", "executed"}, {"id", task_id}, {"result", result}};
     } catch (const std::exception& e) {
         spdlog::warn("TaskSchedulerApiHandler: executeTask '{}' failed: {}", task_id, e.what());
-        return json{{"status", "error"}, {"error", e.what()}};
+        return json{{"status", "error"}, {"error", "Internal server error"}};
     }
 }
 
@@ -839,13 +839,13 @@ json TaskSchedulerApiHandler::executeDAG(const json& request) {
         };
     } catch (const std::invalid_argument& e) {
         spdlog::warn("TaskSchedulerApiHandler: executeDAG failed (invalid argument): {}", e.what());
-        return json{{"status", "error"}, {"error", e.what()}};
+        return json{{"status", "error"}, {"error", "Internal server error"}};
     } catch (const std::runtime_error& e) {
         spdlog::warn("TaskSchedulerApiHandler: executeDAG failed (runtime error): {}", e.what());
-        return json{{"status", "error"}, {"error", e.what()}};
+        return json{{"status", "error"}, {"error", "Internal server error"}};
     } catch (const std::exception& e) {
         spdlog::warn("TaskSchedulerApiHandler: executeDAG failed: {}", e.what());
-        return json{{"status", "error"}, {"error", e.what()}};
+        return json{{"status", "error"}, {"error", "Internal server error"}};
     }
 }
 
@@ -928,7 +928,7 @@ json TaskSchedulerApiHandler::exportToKubernetesCronJobJson(const std::string& t
         return json{{"manifest", manifest}};
     } catch (const std::exception& e) {
         spdlog::warn("exportToKubernetesCronJobJson failed: {}", e.what());
-        return json{{"status", "error"}, {"error", e.what()}};
+        return json{{"status", "error"}, {"error", "Internal server error"}};
     }
 }
 
@@ -948,7 +948,7 @@ json TaskSchedulerApiHandler::exportToKubernetesCronJobYaml(const std::string& t
         return json{{"yaml", yaml}};
     } catch (const std::exception& e) {
         spdlog::warn("exportToKubernetesCronJobYaml failed: {}", e.what());
-        return json{{"status", "error"}, {"error", e.what()}};
+        return json{{"status", "error"}, {"error", "Internal server error"}};
     }
 }
 
@@ -976,7 +976,7 @@ json TaskSchedulerApiHandler::exportToAirflowDag(const json& request) {
         return json{{"dag_python", py}};
     } catch (const std::exception& e) {
         spdlog::warn("exportToAirflowDag failed: {}", e.what());
-        return json{{"status", "error"}, {"error", e.what()}};
+        return json{{"status", "error"}, {"error", "Internal server error"}};
     }
 }
 
@@ -992,7 +992,7 @@ json TaskSchedulerApiHandler::importFromKubernetesCronJob(const json& request) {
         return json{{"status", "created"}, {"id", id}};
     } catch (const std::exception& e) {
         spdlog::warn("importFromKubernetesCronJob failed: {}", e.what());
-        return json{{"status", "error"}, {"error", e.what()}};
+        return json{{"status", "error"}, {"error", "Internal server error"}};
     }
 }
 

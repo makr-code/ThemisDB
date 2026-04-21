@@ -1,6 +1,4 @@
-> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
-
-<!-- Status: current | validated: 2026-04-19 -->
+<!-- Status: CRITICAL FINDINGS | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · SECURITY.md -->
 
 # Audit Record — Query Module
@@ -11,9 +9,9 @@
 |--------------|--------------------------------------------|
 | Module       | query                                      |
 | Source path  | `src/query/`                               |
-| Audit date   | 2026-04-19                                 |
-| Audited by   | ThemisDB core team                         |
-| Status       | Production-ready; benchmark/security audit in progress |
+| Audit date   | 2026-04-21                                 |
+| Audited by   | Copilot (source code analysis)             |
+| Status       | 🔴 Critical — 3×S0: data race, missing ACL, parser stack overflow |
 
 ## Source File Inventory
 
@@ -71,28 +69,104 @@
 
 | Control                               | Status        | Notes                                         |
 |---------------------------------------|---------------|-----------------------------------------------|
-| AQL injection detection               | ✅ Complete   | Security module detector + parameterized API  |
+| AQL injection detection               | ⚠️ Partial   | Security module detector present but bypassed via LLM path (see LLM-1/LLM-2 in aql/AUDIT.md) |
 | SPARQL/SQL parse-and-translate        | ✅ Complete   | No direct dialect execution                   |
-| Per-query resource limits             | ✅ Complete   | max-rows, max-memory, timeout enforced        |
+| Per-query resource limits             | 🔴 Incomplete | `timeout_ms=0` default disables timeout in traversals; no result-set cap in `executeAndEntities` |
 | Query cancellation                    | ✅ Complete   | Via request ID                                |
-| Tenant namespace isolation            | ✅ Complete   | KeySchema enforced                            |
+| Tenant namespace isolation            | 🔴 Missing    | `execute*` methods perform no ACL check on collection name — any caller can access any collection |
 | AQLParser thread-safety               | ⚠️ Open      | Per-thread or mutex required (KL-01)          |
+| Parser recursion depth limit          | 🔴 Missing    | No depth counter → stack overflow on crafted input (PA-1) |
 | Performance benchmarks                | ❌ Pending    | Vectorized + federated paths (Q2 2026)        |
-| Full security audit                   | ⚠️ In progress | Injection + resource exhaustion (Q2 2026)   |
+| Full security audit                   | 🔴 Findings  | QE-1..QE-5, PA-1..PA-2, TR-1..TR-2 — see Findings section |
+
+## Findings
+
+### S0 — Critical
+
+#### QE-1 · `query_engine.cpp` · `executeAndKeys()` — Data race on shared `errors` vector
+
+Multiple TBB tasks concurrently call `push_back()` on a shared `std::vector<std::string>`
+without synchronization. `std::vector::push_back` is not thread-safe — this is undefined
+behavior (heap corruption, torn writes, silent swallowing of error messages):
+
+```cpp
+std::vector<std::string> errors;  // shared, no mutex
+tg.run([this, &q, &p, &all_lists, i, &errors]() {
+    if (!st.ok) {
+        errors.push_back(st.message);  // CONCURRENT UNSYNCHRONIZED WRITE
+    }
+});
+```
+
+**Fix required:** Use `std::atomic<bool>` error flag + per-task slot, or protect with a
+`std::mutex`, consistent with the correct approach already used for `all_lists[i]`.
+
+---
+
+#### QE-2 · `query_engine.cpp` · All `execute*` methods — No authorization check on collection access
+
+Every `executeAnd*` / `executeOr*` method passes `q.table` directly to the storage layer
+without any ACL or caller-identity check. Any caller who can construct or inject a query
+object can read any collection by name:
+
+```cpp
+auto blob = db_->get(KeySchema::makeRelationalKey(q.table, pk));
+// No: if (!acl_->canRead(caller_id, q.table)) return Err(...)
+```
+
+The per-collection ACL enforced by `KeySchema` is a namespace prefix, not an access gate.
+This is the storage-layer companion to the HTTP-layer auth gaps found in Session 3.
+
+**Fix required:** Add an `IAccessControl::checkRead(caller_id, table)` call before any
+storage access, consistent with how access is supposed to be enforced end-to-end.
+
+---
+
+#### PA-1 · `aql_parser.cpp` · `parseUnary()` / `parsePrimary()` — Unbounded recursion → stack overflow
+
+The recursive descent parser has no depth counter in any of its mutually recursive functions
+(`parseExpression`, `parseLogicalOr`, `parseLogicalAnd`, `parseComparison`, `parseUnary`,
+`parsePrimary`, `parseQuery`). A crafted query with thousands of nested `NOT` operators or
+deeply nested subqueries causes an OS-level stack overflow, crashing the database process:
+
+```cpp
+std::shared_ptr<Expression> parseUnary() {
+    if (match(TokenType::NOT)) {
+        advance();
+        auto operand = parseUnary();  // UNBOUNDED SELF-RECURSION
+        return std::make_shared<UnaryOpExpr>(...);
+    }
+}
+```
+
+**Attack:** `FILTER NOT NOT NOT ... NOT x` (10,000 NOTs, trivially crafted).
+
+**Fix required:** Add a depth counter initialized to 0 in `parseExpression`, passed by
+reference through all recursive calls, with a hard limit (e.g., 500) that returns a
+parse error rather than recursing further.
+
+---
+
+### S1 — High
+
+| ID | Function | Description |
+|----|----------|-------------|
+| QE-3 | `executeOrKeysWithFallback()` | Disjunct storage errors silently swallowed → false-negative results indistinguishable from "no data" |
+| QE-4 | `executeAndEntities()` et al. | No result-set size cap — `out.reserve(keys.size())` with no upper bound → memory exhaustion |
+| QE-5 | `qe_evalFunction()` / `ST_Within` | Geometry parse failure returns `true` (fail-open) — all records pass a broken spatial filter |
+| PA-2 | `parseForClause()` | No upper bound on parsed graph traversal depth → `INT_MAX` passed as `max_depth` to BFS/DFS |
+| TR-1 | `translate()` in `aql_translator.cpp` | ST_* spatial filter silently dropped for non-literal geometry expressions → geo-fence bypass |
+| TR-2 | `translate()` in `aql_translator.cpp` | DNF cartesian product of OR-clauses is O(M^N) with no size limit → query planning OOM |
+
+---
 
 ## Open Items
 
 | ID    | Description                                                  | Target  | Priority |
 |-------|--------------------------------------------------------------|---------|----------|
 | OI-01 | AQLParser thread-safety refactor                             | Planned | High     |
+| **OI-04** | **Add recursion depth limit to all recursive-descent functions (PA-1)** | **Immediate** | **Critical** |
+| **OI-05** | **Add ACL check on collection name in all execute* methods (QE-2)** | **Immediate** | **Critical** |
+| **OI-06** | **Fix data race on `errors` vector in `executeAndKeys` (QE-1)** | **Immediate** | **Critical** |
 | OI-02 | Performance benchmarks (vectorized, federated)               | Q2 2026 | High     |
 | OI-03 | Full security audit (injection, resource exhaustion)         | Q2 2026 | High     |
-
-## Build Audit
-
-| Check                        | Result     |
-|------------------------------|------------|
-| Compilation (all 38 files) | ✅ Pass    |
-| Static analysis              | ✅ Pass    |
-| Test coverage > 80%          | ✅ Pass    |
-| Audit completed              | 2026-03-12 |

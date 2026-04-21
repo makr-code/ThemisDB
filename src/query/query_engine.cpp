@@ -63,6 +63,7 @@
 #include <unordered_set>
 #include <set>
 #include <map>
+#include <mutex>
 #include <queue>
 #include <thread>
 
@@ -537,18 +538,20 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 
 	// Parallele Scans pro Prädikat
 	std::vector<std::vector<std::string>> all_lists(q.predicates.size());
+	std::mutex errors_mutex;
 	std::vector<std::string> errors;
 	tbb::task_group tg;
 
 	for (size_t i = 0; i < q.predicates.size(); ++i) {
 		const auto& p = q.predicates[i];
-		tg.run([this, &q, &p, &all_lists, i, &errors]() {
+		tg.run([this, &q, &p, &all_lists, i, &errors, &errors_mutex]() {
 			auto child = Tracer::startSpan("index.scanEqual");
 			child.setAttribute("index.table", q.table);
 			child.setAttribute("index.column", p.column);
 			auto [st, keys] = secIdx_->scanKeysEqual(q.table, p.column, p.value);
 			if (!st.ok) {
 				THEMIS_ERROR("Parallel scan error ({}={}): {}", p.column, p.value, st.message);
+				std::lock_guard<std::mutex> lk(errors_mutex);
 				errors.push_back(st.message);
 				child.setStatus(false, st.message);
 				return;

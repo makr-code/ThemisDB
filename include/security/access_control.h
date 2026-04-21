@@ -587,6 +587,14 @@ private:
     std::string generateSessionToken() const;
     void updateRateLimit(const std::string& user_id);
     bool checkRateLimit(const std::string& user_id);
+
+    // Mutex-free variants for internal use when mutex_ is already held by the caller.
+    std::vector<std::string> getUserRolesLocked(const std::string& user_id) const;
+    std::string createSessionLocked(const std::string& user_id,
+                                    const std::vector<std::string>& roles,
+                                    bool mfa_verified);
+    void invalidateSessionLocked(const std::string& session_token);
+    void invalidateUserSessionsLocked(const std::string& user_id);
 };
 
 } // namespace security

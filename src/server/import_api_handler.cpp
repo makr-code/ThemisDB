@@ -27,6 +27,7 @@
 
 #include <httplib.h>
 #include <nlohmann/json.hpp>
+#include <algorithm>
 #include <sstream>
 #include <chrono>
 #include "utils/tracing.h"
@@ -378,8 +379,18 @@ ImportOptions ImportApiHandler::optionsFromJson(const json& j) {
         opts.dry_run = j["dry_run"].get<bool>();
     if (j.contains("continue_on_error") && j["continue_on_error"].is_boolean())
         opts.continue_on_error = j["continue_on_error"].get<bool>();
-    if (j.contains("batch_size") && j["batch_size"].is_number_unsigned())
-        opts.batch_size = j["batch_size"].get<size_t>();
+    if (j.contains("batch_size") && j["batch_size"].is_number_unsigned()) {
+        // GAP-020: Cap batch_size to prevent unbounded memory allocation (DoS).
+        // A malicious or misconfigured client sending batch_size=UINT64_MAX would
+        // cause the import engine to attempt allocations of billions of records.
+        static constexpr size_t kMaxBatchSize = 100'000;
+        const size_t requested = j["batch_size"].get<size_t>();
+        if (requested > kMaxBatchSize) {
+            spdlog::warn("ImportApiHandler: batch_size {} exceeds maximum {}; clamping",
+                         requested, kMaxBatchSize);
+        }
+        opts.batch_size = std::min(requested, kMaxBatchSize);
+    }
     if (j.contains("default_namespace") && j["default_namespace"].is_string())
         opts.default_namespace = j["default_namespace"].get<std::string>();
     if (j.contains("preserve_ids") && j["preserve_ids"].is_boolean())

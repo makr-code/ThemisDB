@@ -202,6 +202,11 @@ AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std
     THEMIS_INFO("AuthMiddleware::authorize called for token='{}' required_scope='{}'", mask(token), required_scope);
     
     // First try API token lookup
+    // TODO(GAP-008): std::unordered_map::find() is not constant-time - hash collisions
+    // and key comparison expose a timing side-channel for token value enumeration.
+    // Fix: derive a HMAC-SHA256 of each token as the map key so comparison is always
+    // over fixed-length digests; verify the original token with CRYPTO_memcmp.
+    // Target: Q2 2026
     auto it = tokens_.find(std::string(token));
     if (it != tokens_.end()) {
         const auto& config = it->second;
@@ -258,8 +263,12 @@ AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std
         return authorizeViaMTLS(token, required_scope);
     }
 
-    // No match found
+    // No match found — GAP-013: log at WARN for audit trail (CWE-778).
     metrics_.authz_invalid_token_total++;
+    THEMIS_WARN("[SECURITY] authorize: token unrecognized for required_scope='{}' — "
+                "no matching static token, API key, JWT, Kerberos, or mTLS credential "
+                "(GAP-013/CWE-778). authz_invalid_token_total={}",
+                required_scope, metrics_.authz_invalid_token_total.load());
     return AuthResult::Denied("Invalid or missing token");
 }
 
@@ -406,11 +415,26 @@ AuthMiddleware::AuthResult AuthMiddleware::validateToken(std::string_view token)
             return AuthResult::OK(claims.sub, claims.tenant_id, claims.groups);
         } catch (const std::exception& e) {
             metrics_.jwt_validation_failed_total++;
-            THEMIS_DEBUG("JWT validation failed during validateToken: {}", e.what());
+            // GAP-013: Log JWT validation failures at WARN for auditability (CWE-778).
+            // Previously logged at DEBUG, which means auth failures were invisible
+            // in production log levels and could not be detected by SIEM systems.
+            // The JWT-specific message is the most informative denial reason, so we
+            // also emit the final counter update here and return immediately to avoid
+            // a redundant second WARN from the generic catch-all below.
+            metrics_.authz_invalid_token_total++;
+            THEMIS_WARN("[SECURITY] validateToken: JWT validation failed — "
+                        "possible invalid or tampered token (GAP-013/CWE-778). "
+                        "authz_invalid_token_total={}", metrics_.authz_invalid_token_total.load());
+            return AuthResult::Denied("Invalid token");
         }
     }
     
+    // GAP-013: Log the final denial at WARN so every unauthenticated request
+    // is visible in the audit trail regardless of log level.
     metrics_.authz_invalid_token_total++;
+    THEMIS_WARN("[SECURITY] validateToken: token rejected — no matching static token, "
+                "API key, or JWT found (GAP-013/CWE-778). "
+                "authz_invalid_token_total={}", metrics_.authz_invalid_token_total.load());
     return AuthResult::Denied("Invalid token");
 }
 

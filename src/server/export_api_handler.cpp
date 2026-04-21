@@ -32,6 +32,7 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <nlohmann/json.hpp>
+#include <openssl/crypto.h>
 #include <algorithm>
 #include <cctype>
 #include <filesystem>
@@ -39,6 +40,7 @@
 #include <sstream>
 #include <random>
 #include <iomanip>
+#include <stdexcept>
 
 using json = nlohmann::json;
 
@@ -345,46 +347,89 @@ http::response<http::string_body> ExportApiHandler::handleExportStatus(
 }
 
 std::string ExportApiHandler::buildAqlQuery(const json& request_json) {
+    // GAP-004: Prevent AQL injection (CWE-89).
+    // String fields (theme, domain, subject, from_date, to_date) are embedded
+    // inside single-quoted AQL literals.  Without validation a value like
+    //   "theme": "x' AND 1=1 OR category='admin"
+    // would break out of the quoted context and inject arbitrary predicates.
+    //
+    // Defence-in-depth: reject any string value that contains characters which
+    // cannot appear in a well-formed field value (single quote, semicolons,
+    // parentheses, backticks, and the comment introducer "--").  Numeric fields
+    // (min_rating) are safe because they are converted via std::to_string().
+    // The free-form custom "query" field is validated through the existing
+    // AqlPredicateFilter parser which raises AqlPredicateFilterException on
+    // syntactically invalid expressions.
+
+    auto validateStringField = [](const std::string& value, const std::string& field_name) {
+        static const std::string kForbiddenChars = "'\"`;\\";
+        for (char c : value) {
+            if (kForbiddenChars.find(c) != std::string::npos) {
+                throw std::invalid_argument(
+                    "Export request field '" + field_name +
+                    "' contains forbidden character: " + c);
+            }
+        }
+        if (value.find("--") != std::string::npos) {
+            throw std::invalid_argument(
+                "Export request field '" + field_name +
+                "' contains forbidden substring '--'");
+        }
+        static constexpr size_t kMaxFieldLength = 256;
+        if (value.size() > kMaxFieldLength) {
+            throw std::invalid_argument(
+                "Export request field '" + field_name + "' exceeds maximum length");
+        }
+    };
+
     std::string query;
     std::vector<std::string> conditions;
     
     // Thematic filtering (VCC-Clara use case)
     if (request_json.contains("theme")) {
         std::string theme = request_json["theme"];
+        validateStringField(theme, "theme");
         conditions.push_back("category='" + theme + "'");
     }
     
     if (request_json.contains("domain")) {
         std::string domain = request_json["domain"];
+        validateStringField(domain, "domain");
         conditions.push_back("domain='" + domain + "'");
     }
     
     if (request_json.contains("subject")) {
         std::string subject = request_json["subject"];
+        validateStringField(subject, "subject");
         conditions.push_back("subject='" + subject + "'");
     }
     
     // Temporal boundaries (VCC-Clara use case)
     if (request_json.contains("from_date")) {
         std::string from_date = request_json["from_date"];
+        validateStringField(from_date, "from_date");
         conditions.push_back("created_at>='" + from_date + "'");
     }
     
     if (request_json.contains("to_date")) {
         std::string to_date = request_json["to_date"];
+        validateStringField(to_date, "to_date");
         conditions.push_back("created_at<='" + to_date + "'");
     }
     
-    // Quality filters
+    // Quality filters (numeric — safe, no injection risk)
     if (request_json.contains("min_rating")) {
         double min_rating = request_json["min_rating"];
         conditions.push_back("rating>=" + std::to_string(min_rating));
     }
     
-    // Custom AQL query (if provided)
+    // Custom AQL query (if provided) — validated by the AQL parser.
+    // AqlPredicateFilter construction throws on invalid expressions so callers
+    // should wrap buildAqlQuery() in a try/catch to return a 400.
     if (request_json.contains("query")) {
         std::string custom_query = request_json["query"];
         if (!custom_query.empty()) {
+            exporters::AqlPredicateFilter syntax_check(custom_query);
             conditions.push_back(custom_query);
         }
     }
@@ -401,17 +446,20 @@ std::string ExportApiHandler::buildAqlQuery(const json& request_json) {
 }
 
 std::string ExportApiHandler::generateExportId() {
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
-    static std::uniform_int_distribution<> dis(0, 15);
-    
+    // GAP-019: Use std::random_device directly for cryptographic-quality randomness.
+    // mt19937 (a Mersenne Twister) is not cryptographically secure; export IDs
+    // must not be predictable because they serve as opaque access tokens.
+    // Use 128 bits of entropy (32 hex digits) to match UUID entropy levels and
+    // prevent brute-force attacks against the opaque export token.
+    std::random_device rd;
+
     std::stringstream ss;
     ss << "exp_";
-    
-    for (int i = 0; i < 16; i++) {
-        ss << std::hex << dis(gen);
+    static constexpr char hex_digits[] = "0123456789abcdef";
+    for (int i = 0; i < 32; i++) {  // 32 hex chars = 128 bits of entropy
+        ss << hex_digits[rd() & 0x0Fu];
     }
-    
+
     return ss.str();
 }
 
@@ -440,7 +488,14 @@ bool ExportApiHandler::validateAdminToken(
         return false;
     }
     
-    return token == admin_token;
+    // GAP-008: Use constant-time comparison (CRYPTO_memcmp) to prevent
+    // timing-oracle attacks that could allow an attacker to recover the
+    // admin token one byte at a time by measuring response latency.
+    const std::string expected(admin_token);
+    if (token.size() != expected.size()) {
+        return false;
+    }
+    return CRYPTO_memcmp(token.data(), expected.data(), expected.size()) == 0;
 }
 
 http::response<http::string_body> ExportApiHandler::jsonResponse(

@@ -105,6 +105,9 @@ Production-ready multi-level cache (L1/L2/L3) with all four implementation phase
 - Distributed cache coordination (`RedisCacheCoordinator`) requires an external Redis server; enable via `THEMIS_ENABLE_REDIS=ON` and link hiredis. The coordinator degrades gracefully when Redis is unavailable.
 - Predictive pre-fetching is implemented (`PredictivePrefetcher`, opt-in via `enable_predictive_prefetch`); actual pre-warm scheduling is delegated to the caller.
 - Cache entries are not encrypted at rest (L3); enable RocksDB encryption at the storage layer for at-rest protection.
+- **[D-1] `distributed_cache_coordinator.cpp::verifyHmac()`**: Non-POSIX stub returns `true` unconditionally — HMAC validation silently disabled on Windows and non-POSIX platforms even when an HMAC secret is configured.
+- **[C-1] `adaptive_query_cache.cpp` `put()`/`get()`**: L2 (WARM tier) entries stored under bare `fingerprint` but looked up under tenant-prefixed `key` when `enable_tenant_isolation = true` — L2 permanently empty in multi-tenant deployments.
+- **[C-2] `adaptive_query_cache.cpp::invalidate()`**: `l3_db_->del()` called after `l3_mutex_` is released — null pointer dereference if L3 is reset concurrently.
 
 ## Breaking Changes
 - Admin API endpoints (`/v1/admin/cache/`) were introduced as new endpoints; non-breaking to existing cache read/write/invalidate API.

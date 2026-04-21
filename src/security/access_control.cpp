@@ -153,8 +153,8 @@ AccessControl::AuthenticationResult AccessControl::authenticate(const Credential
         auto result = auth_middleware_->validateToken(credentials.oauth_token.value());
         if (result.authorized) {
             stats_.successful_authentications++;
-            auto roles = getUserRoles(result.user_id);
-            auto session_token = createSession(result.user_id, roles, false);
+            auto roles = getUserRolesLocked(result.user_id);
+            auto session_token = createSessionLocked(result.user_id, roles, false);
             
             logSecurityEvent(
                 utils::SecurityEventType::LOGIN_SUCCESS,
@@ -249,7 +249,7 @@ AccessControl::AuthenticationResult AccessControl::authenticate(const Credential
     stats_.successful_authentications++;
     auto user_data = auth_result.value();
     auto roles = user_data.roles;
-    auto session_token = createSession(credentials.user_id, roles, credentials.mfa_token.has_value());
+    auto session_token = createSessionLocked(credentials.user_id, roles, credentials.mfa_token.has_value());
     
     logSecurityEvent(
         utils::SecurityEventType::LOGIN_SUCCESS,
@@ -352,7 +352,7 @@ Result<void> AccessControl::changePassword(
     THEMIS_WARN("Password change for embedded plugin - consider using external identity provider"); // NOPII: static advisory string, no PII value
     
     // Invalidate all existing sessions
-    invalidateUserSessions(user_id);
+    invalidateUserSessionsLocked(user_id);
     
     logSecurityEvent(
         utils::SecurityEventType::CONFIG_CHANGED,
@@ -604,9 +604,13 @@ Result<void> AccessControl::revokeRole(const std::string& user_id, const std::st
     return themis::OkVoid();
 }
 
+std::vector<std::string> AccessControl::getUserRolesLocked(const std::string& user_id) const {
+    return user_role_store_->getUserRoles(user_id);
+}
+
 std::vector<std::string> AccessControl::getUserRoles(const std::string& user_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    return user_role_store_->getUserRoles(user_id);
+    return getUserRolesLocked(user_id);
 }
 
 // ============================================================================
@@ -630,17 +634,14 @@ bool AccessControl::removeABACPolicy(const std::string& policy_id) {
 // Session Management
 // ============================================================================
 
-std::string AccessControl::createSession(
+std::string AccessControl::createSessionLocked(
     const std::string& user_id,
     const std::vector<std::string>& roles,
     bool mfa_verified
 ) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
     // Generate session token
     auto session_token = generateSessionToken();
-    
-    // Create session
+
     Session session;
     session.session_id = session_token;
     session.user_id = user_id;
@@ -648,20 +649,29 @@ std::string AccessControl::createSession(
     session.created_at = std::chrono::system_clock::now();
     session.last_access = session.created_at;
     session.mfa_verified = mfa_verified;
-    
+
     sessions_[session_token] = session;
     user_sessions_[user_id].push_back(session_token);
-    
+
     // Check max concurrent sessions
     auto& user_sess = user_sessions_[user_id];
     if (user_sess.size() > static_cast<size_t>(config_.session_config.max_concurrent_sessions)) {
-        // Remove oldest session
-        invalidateSession(user_sess.front());
+        // Remove oldest session without re-acquiring the mutex.
+        invalidateSessionLocked(user_sess.front());
         user_sess.erase(user_sess.begin());
     }
-    
+
     THEMIS_DEBUG("Session created for user: {}", user_id);
     return session_token;
+}
+
+std::string AccessControl::createSession(
+    const std::string& user_id,
+    const std::vector<std::string>& roles,
+    bool mfa_verified
+) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return createSessionLocked(user_id, roles, mfa_verified);
 }
 
 std::optional<AccessControl::Session> AccessControl::validateSession(const std::string& session_token) {
@@ -686,51 +696,56 @@ std::optional<AccessControl::Session> AccessControl::validateSession(const std::
     return session;
 }
 
-void AccessControl::invalidateSession(const std::string& session_token) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
+void AccessControl::invalidateSessionLocked(const std::string& session_token) {
     auto it = sessions_.find(session_token);
     if (it != sessions_.end()) {
         auto user_id = it->second.user_id;
         sessions_.erase(it);
-        
-        // Remove from user sessions
+
         auto& user_sess = user_sessions_[user_id];
         user_sess.erase(
             std::remove(user_sess.begin(), user_sess.end(), session_token),
             user_sess.end()
         );
-        
+
         logSecurityEvent(
             utils::SecurityEventType::LOGOUT,
             user_id,
             "session",
             {{"action", "Session invalidated"}}
         );
-        
+
         THEMIS_DEBUG("Session invalidated: {}", session_token);
     }
 }
 
-void AccessControl::invalidateUserSessions(const std::string& user_id) {
+void AccessControl::invalidateSession(const std::string& session_token) {
     std::lock_guard<std::mutex> lock(mutex_);
-    
+    invalidateSessionLocked(session_token);
+}
+
+void AccessControl::invalidateUserSessionsLocked(const std::string& user_id) {
     auto it = user_sessions_.find(user_id);
     if (it != user_sessions_.end()) {
         for (const auto& session_token : it->second) {
             sessions_.erase(session_token);
         }
         user_sessions_.erase(it);
-        
+
         logSecurityEvent(
             utils::SecurityEventType::LOGOUT,
             user_id,
             "session",
             {{"action", "All sessions invalidated"}}
         );
-        
+
         THEMIS_INFO("All sessions invalidated for user: {}", user_id);
     }
+}
+
+void AccessControl::invalidateUserSessions(const std::string& user_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    invalidateUserSessionsLocked(user_id);
 }
 
 // ============================================================================
@@ -924,7 +939,7 @@ void AccessControl::cleanupExpiredSessions() {
     }
     
     for (const auto& token : expired_sessions) {
-        invalidateSession(token);
+        invalidateSessionLocked(token);
     }
 }
 

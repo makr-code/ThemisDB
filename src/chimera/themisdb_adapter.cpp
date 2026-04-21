@@ -1146,7 +1146,6 @@ Result<SystemMetrics> ThemisDBAdapter::get_metrics() const {
 }
 
 bool ThemisDBAdapter::has_capability(Capability cap) const {
-    // ThemisDB supports all capabilities in this example
     switch (cap) {
         case Capability::RELATIONAL_QUERIES:
         case Capability::VECTOR_SEARCH:
@@ -1162,14 +1161,19 @@ bool ThemisDBAdapter::has_capability(Capability cap) const {
         case Capability::ASYNC_OPERATIONS:
         case Capability::STREAMING_RESULTS:
         case Capability::PREPARED_STATEMENTS:
-        case Capability::CONNECTION_POOLING:
             return true;
+        case Capability::CONNECTION_POOLING:
+            // Not yet implemented; no dedicated pooling API exists in this adapter.
+            // Tracked: src/chimera/ROADMAP.md — Target Q3 2026.
+            return false;
         default:
             return false;
     }
 }
 
 std::vector<Capability> ThemisDBAdapter::get_capabilities() const {
+    // CONNECTION_POOLING intentionally excluded: no pooling API is implemented yet.
+    // See src/chimera/ROADMAP.md — Target Q3 2026.
     return {
         Capability::RELATIONAL_QUERIES,
         Capability::VECTOR_SEARCH,
@@ -1184,8 +1188,7 @@ std::vector<Capability> ThemisDBAdapter::get_capabilities() const {
         Capability::SECONDARY_INDEXES,
         Capability::ASYNC_OPERATIONS,
         Capability::STREAMING_RESULTS,
-        Capability::PREPARED_STATEMENTS,
-        Capability::CONNECTION_POOLING
+        Capability::PREPARED_STATEMENTS
     };
 }
 

@@ -22,6 +22,7 @@
 #include "llm/llm_plugin_interface.h"
 #include "llm/active_vram_allocator.h"
 #include <functional>
+#include "distributed_knowledge/adapter_capability_announcement.h"
 #include <memory>
 #include <unordered_map>
 #include <vector>
@@ -265,6 +266,25 @@ public:
      *                callbacks (i.e. must not be destroyed before this manager).
      */
     void wireMetricsServerCallbacks(monitoring::MetricsServer& server);
+    /**
+     * @brief Wire a @c GossipAdapterPublisher into the manager.
+     *
+     * When set, successful @c loadLoRA() calls broadcast an
+     * @c AdapterCapabilityAnnouncement to the gossip network, and
+     * @c unloadLoRA() broadcasts a zeroed-out withdrawal announcement.
+     *
+     * The pointer is non-owning: the caller must keep the publisher alive
+     * for the lifetime of this @c LLMPluginManager instance.
+     *
+     * Pass @c nullptr to disconnect.
+     *
+     * @param publisher  Pointer to an initialised @c GossipAdapterPublisher,
+     *                   or @c nullptr to disable gossip announcements.
+     * @param local_shard_id  Shard ID embedded in outgoing announcements.
+     */
+    void setAdapterPublisher(
+        distributed_knowledge::GossipAdapterPublisher* publisher,
+        std::string local_shard_id = "");
 
 private:
     struct PluginEntry {
@@ -286,6 +306,12 @@ private:
     /// MSW: injectable session-cancellation callback wired to the DELETE
     /// /admin/sessions/{id} endpoint of the MetricsServer.
     CancelSessionCallback cancel_session_cb_;
+    /// Optional gossip publisher wired via setAdapterPublisher().
+    /// Non-owning; may be nullptr when gossip is not configured.
+    distributed_knowledge::GossipAdapterPublisher* adapter_publisher_ = nullptr;
+
+    /// Shard ID used in outgoing adapter capability announcements.
+    std::string local_shard_id_;
     
     ILLMPlugin* getDefaultPluginLocked() const;
 };

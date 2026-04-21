@@ -68,6 +68,13 @@ http::response<http::string_body> GraphApiHandler::handleTraverse(
         }
 
         std::string start_vertex = body_json["start_vertex"];
+        // TODO(GAP-010): max_depth taken directly from user without upper-bound cap.
+        // A request with max_depth=UINT_MAX triggers a full-graph BFS traversal, causing
+        // CPU saturation and OOM (Denial-of-Service).
+        // Fix: enforce a server-side cap, e.g.:
+        //   static constexpr size_t kMaxBfsDepth = 20;
+        //   if (max_depth > kMaxBfsDepth) { return makeErrorResponse(400, "max_depth exceeds limit"); }
+        // Target: Q2 2026
         size_t max_depth = body_json["max_depth"];
         
         span.setAttribute("graph.start_vertex", start_vertex);
@@ -367,7 +374,7 @@ http::response<http::string_body> GraphApiHandler::handleMetricsPrometheus(
             "Plan-cache entries evicted by LRU or TTL policy",
             m.plan_cache_evictions.load(std::memory_order_relaxed));
     gauge("themis_graph_query_error_rate",
-          "Fraction of graph queries that failed (0.0–1.0)",
+          "Fraction of graph queries that failed (0.0-1.0)",
           m.errorRate());
     gauge("themis_graph_query_avg_duration_ms",
           "Average graph query execution time in milliseconds",

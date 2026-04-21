@@ -727,9 +727,18 @@ TEST_F(ThemisDBCapabilityTest, HasTransactionCapability) {
     EXPECT_TRUE(adapter.has_capability(Capability::TRANSACTIONS));
 }
 
-TEST_F(ThemisDBCapabilityTest, GetCapabilitiesReturnsNonEmpty) {
+TEST_F(ThemisDBCapabilityTest, ConnectionPoolingNotAvailable) {
+    // CONNECTION_POOLING is not implemented; has_capability() must return false
+    // to avoid false capability advertisement. Tracked: src/chimera/ROADMAP.md Q3-2026.
+    EXPECT_FALSE(adapter.has_capability(Capability::CONNECTION_POOLING));
+}
+
+TEST_F(ThemisDBCapabilityTest, GetCapabilitiesExcludesConnectionPooling) {
     auto caps = adapter.get_capabilities();
     EXPECT_FALSE(caps.empty());
+    auto it = std::find(caps.begin(), caps.end(), Capability::CONNECTION_POOLING);
+    EXPECT_EQ(it, caps.end())
+        << "CONNECTION_POOLING must not appear in get_capabilities() until implemented";
 }
 
 TEST_F(ThemisDBCapabilityTest, GetSystemInfoReturnsOk) {

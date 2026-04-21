@@ -27,14 +27,12 @@ Ausgangsbasis: [`MODULE_FUNCTION_USAGE_MAP.md`](./MODULE_FUNCTION_USAGE_MAP.md)
 
 | Status | Anzahl | Anteil |
 |--------|--------|--------|
-| ✅ AKTIV | 22 | 23 % |
-| 🧪 NUR_TESTS | 22 | 23 % |
+| ✅ AKTIV | 23 | 24 % |
+| 🧪 NUR_TESTS | 21 | 22 % |
 | ⚪ INTERNAL_ONLY | 23 | 24 % |
 | 🟡 UNGENUTZT | 35 | 36 % |
 
-> **Stand 2026-04-20 (Update):** `ActiveVRAMAllocator` auf AKTIV gesetzt (LLMPluginManager-Wiring).
-> `constantTimeEqual`, `verifyMFA`, `disableMFA`, `computeEventHash` auf AKTIV gesetzt (Security-Fixes).
-> 13 Private-Methoden (AdaptiveJoin/Scheduler/Exporter/Replication) von UNGENUTZT auf INTERNAL_ONLY korrigiert.
+> **Stand 2026-04-21 (Update):** `GossipAdapterPublisher` auf AKTIV gesetzt (LLMPluginManager::loadLoRA/unloadLoRA Wiring, commit 2026-04-21).
 
 ## Handlungsbedarf
 
@@ -123,7 +121,7 @@ Handlungsbedarf: im jeweiligen Modul-ROADMAP prüfen ob und wann die Integration
 
 | Symbol | Status | Use-Case | Tests | Externe Aufrufer |
 |--------|--------|----------|-------|-----------------|
-| `GossipAdapterPublisher` | 🧪 NUR_TESTS | Publiziert Adapter-Capabilities via Gossip-Protokoll; nur im DK-Test geprüft | `test_distributed_knowledge.cpp` | `–` |
+| `GossipAdapterPublisher` | ✅ AKTIV | Publiziert Adapter-Capabilities via Gossip-Protokoll; wird jetzt von LLMPluginManager::loadLoRA()/unloadLoRA() aufgerufen | `test_distributed_knowledge.cpp`, `test_llm_gossip_adapter_publisher.cpp` | `llm_plugin_manager.cpp` |
 
 ### `ethics_ai`
 

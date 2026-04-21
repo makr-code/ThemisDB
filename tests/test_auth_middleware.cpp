@@ -1164,3 +1164,51 @@ TEST(TaskSchedulerRequestContext, FallbackParameterUsed) {
     TaskScheduler::clearRequestContext();
     EXPECT_EQ(TaskScheduler::currentUserId("svc-account"), "svc-account");
 }
+
+// ===========================================================================
+// GAP-013 — Auth failure audit logging (CWE-778)
+// ===========================================================================
+
+// GAP-013-01: validateToken with an unknown token returns Denied.
+// The validateToken implementation now logs at WARN for every failure.
+// This test verifies the Denied outcome so that it is exercised in CI
+// (SIEM log coverage is verified by log inspection in integration tests).
+TEST(AuthMiddlewareGap013Test, ValidateToken_UnknownToken_ReturnsDenied) {
+    AuthMiddleware auth;
+    // Add one known token so isEnabled()=true.
+    AuthMiddleware::TokenConfig tc;
+    tc.token   = "good-token";
+    tc.user_id = "alice";
+    tc.scopes  = {"read"};
+    auth.addToken(tc);
+
+    auto result = auth.validateToken("completely-unknown-token");
+    EXPECT_FALSE(result.ok) << "Unknown token must be denied (GAP-013)";
+    EXPECT_EQ(result.error, "Invalid token");
+}
+
+// GAP-013-02: authorize() with a recognised user but wrong scope returns Denied.
+TEST(AuthMiddlewareGap013Test, Authorize_WrongScope_ReturnsDenied) {
+    AuthMiddleware auth;
+    AuthMiddleware::TokenConfig tc;
+    tc.token   = "read-only-token";
+    tc.user_id = "bob";
+    tc.scopes  = {"data:read"};
+    auth.addToken(tc);
+
+    auto result = auth.authorize("read-only-token", "data:write");
+    EXPECT_FALSE(result.ok) << "Insufficient scope must be denied (GAP-013)";
+}
+
+// GAP-013-03: authorize() with a completely invalid token returns Denied.
+TEST(AuthMiddlewareGap013Test, Authorize_InvalidToken_ReturnsDenied) {
+    AuthMiddleware auth;
+    AuthMiddleware::TokenConfig tc;
+    tc.token   = "good-token";
+    tc.user_id = "carol";
+    tc.scopes  = {"admin"};
+    auth.addToken(tc);
+
+    auto result = auth.authorize("not-a-valid-token", "admin");
+    EXPECT_FALSE(result.ok) << "Invalid token must be denied (GAP-013)";
+}

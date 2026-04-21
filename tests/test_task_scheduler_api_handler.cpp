@@ -1107,3 +1107,72 @@ TEST_F(TaskSchedulerApiHandlerTest, ImportFromK8sCronJob_ImportedTaskAppearsInLi
     }
     EXPECT_TRUE(found) << "Imported task not found in task list";
 }
+
+// ============================================================================
+// GAP-018 — e.what() must NOT be forwarded into HTTP API responses (CWE-209)
+// ============================================================================
+
+// GAP-018-01: registerTask with a malformed request must return a generic error
+// message (not the raw exception text) in the JSON response.
+TEST_F(TaskSchedulerApiHandlerTest, GAP018_RegisterTask_ErrorResponseIsGeneric) {
+    // Intentionally malformed: "type" and "trigger_type" are missing so
+    // parseTaskFromJson must throw, exercising the catch block.
+    nlohmann::json bad_req{{"name", "bad_task"}};
+    auto result = handler_->registerTask(bad_req);
+
+    ASSERT_EQ(result.value("status", ""), "error");
+    const std::string err = result.value("error", "");
+    // The response must NOT contain raw C++ exception text that would reveal
+    // internal implementation details (CWE-209 / GAP-018).
+    EXPECT_NE(err, "") << "Error field must be present";
+    EXPECT_EQ(err, "Internal server error")
+        << "Expected generic message; got: " << err;
+}
+
+// GAP-018-02: unregisterTask with an unknown task ID returns a generic error.
+TEST_F(TaskSchedulerApiHandlerTest, GAP018_UnregisterTask_UnknownId_ErrorResponseIsGeneric) {
+    auto result = handler_->unregisterTask("nonexistent_xyz");
+
+    ASSERT_EQ(result.value("status", ""), "error");
+    const std::string err = result.value("error", "");
+    EXPECT_NE(err, "");
+    EXPECT_TRUE(err.find("std::") == std::string::npos)
+        << "Response must not expose C++ exception type; got: " << err;
+    EXPECT_TRUE(err.find("exception") == std::string::npos)
+        << "Response must not expose exception details; got: " << err;
+}
+
+// GAP-018-03: enableTask with an unknown task ID returns a generic error.
+TEST_F(TaskSchedulerApiHandlerTest, GAP018_EnableTask_UnknownId_ErrorResponseIsGeneric) {
+    auto result = handler_->enableTask("nonexistent_xyz");
+
+    ASSERT_EQ(result.value("status", ""), "error");
+    const std::string err = result.value("error", "");
+    EXPECT_NE(err, "");
+    EXPECT_TRUE(err.find("std::") == std::string::npos);
+}
+
+// GAP-018-04: disableTask with an unknown task ID returns a generic error.
+TEST_F(TaskSchedulerApiHandlerTest, GAP018_DisableTask_UnknownId_ErrorResponseIsGeneric) {
+    auto result = handler_->disableTask("nonexistent_xyz");
+
+    ASSERT_EQ(result.value("status", ""), "error");
+    const std::string err = result.value("error", "");
+    EXPECT_NE(err, "");
+    EXPECT_TRUE(err.find("std::") == std::string::npos);
+}
+
+// ============================================================================
+// GAP-019 — mt19937 replaced with random_device for security-sensitive IDs
+// ============================================================================
+
+// GAP-019-01: Registered task IDs must be unique (verifies that the underlying
+// UUID generator produces non-colliding values even on rapid successive calls).
+TEST_F(TaskSchedulerApiHandlerTest, GAP019_RegisteredTaskIds_AreUnique) {
+    auto t1 = handler_->registerTask(makeTaskJson("rng_task_1"));
+    auto t2 = handler_->registerTask(makeTaskJson("rng_task_2"));
+    ASSERT_EQ(t1.value("status", ""), "created");
+    ASSERT_EQ(t2.value("status", ""), "created");
+    EXPECT_NE(t1.value("id", ""), t2.value("id", ""))
+        << "Task IDs must be unique across consecutive registrations";
+}

@@ -1010,11 +1010,27 @@ bool LLMDeploymentPlugin::verifyChecksum(const std::string& file_path,
                                           const std::string& expected_checksum,
                                           const std::string& checksum_type) {
     std::string calculated_checksum;
-    
+
     if (checksum_type == "sha256") {
         calculated_checksum = utils::calculateSHA256(file_path);
     } else if (checksum_type == "md5") {
+        // SECURITY WARNING: MD5 is cryptographically broken (CWE-327).
+        // This path is provided only for backward-compatible verification of
+        // artifacts that were published with an MD5 checksum before this
+        // deprecation.  New manifests MUST use "sha256".
+        // Hard rejection of MD5 is planned for v2.0.0; track migration in
+        // FUTURE_ENHANCEMENTS.md under "MD5 hard-reject (Target: v2.0.0)".
+        LOG_WARN("[SECURITY] verifyChecksum: MD5 is deprecated (CWE-327). "
+                 "Migrate artifact checksums to SHA-256. "
+                 "MD5 support will be removed in v2.0.0. File: {}", file_path);
+#if defined(__GNUC__) || defined(__clang__)
+#  pragma GCC diagnostic push
+#  pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
         calculated_checksum = utils::calculateMD5(file_path);
+#if defined(__GNUC__) || defined(__clang__)
+#  pragma GCC diagnostic pop
+#endif
     } else {
         LOG_ERROR("Unsupported checksum type: {}", checksum_type);
         return false;

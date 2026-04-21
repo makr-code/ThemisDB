@@ -26,11 +26,13 @@
 #include <chrono>
 #include <atomic>
 #include <climits>
+#include <algorithm>
 #include <sstream>
 #include <iomanip>
 #include <thread>
 #include <future>
 #include <stdexcept>
+#include <spdlog/spdlog.h>
 #include "utils/tracing.h"
 
 namespace themis {
@@ -286,7 +288,9 @@ ServerlessFunctionApiHandler::handleRegister(
     fn.description = body.value("description", "");
     fn.code        = body["code"];
     fn.timeout_ms       = body.value("timeout_ms", 5000u);
-    fn.memory_limit_kb  = body.value("memory_limit_kb", 4096u);
+    // GAP-022: Cap creation-time memory_limit_kb at 16 GB (16,777,216 KB).
+    static constexpr uint32_t kMaxMemoryLimitKb = 16'777'216u;
+    fn.memory_limit_kb  = std::min(body.value("memory_limit_kb", 4096u), kMaxMemoryLimitKb);
     fn.version     = 1;
     fn.created_at  = utcNow();
     fn.updated_at  = fn.created_at;
@@ -407,8 +411,16 @@ ServerlessFunctionApiHandler::handleUpdate(
     }
     if (body.contains("memory_limit_kb") && body["memory_limit_kb"].is_number()) {
         const int64_t v = body["memory_limit_kb"].get<int64_t>();
-        if (v > 0 && v <= static_cast<int64_t>(UINT32_MAX)) {
+        // GAP-022: Cap memory_limit_kb to prevent DoS via absurdly large allocation
+        // requests.  UINT32_MAX (~4TB) is the previous upper bound; now capped at
+        // 16GB (16,777,216 KB) which is the practical maximum per-function limit.
+        static constexpr int64_t kMaxMemoryLimitKb = 16'777'216; // 16 GB
+        if (v > 0 && v <= kMaxMemoryLimitKb) {
             fn.memory_limit_kb = static_cast<uint32_t>(v);
+        } else if (v > kMaxMemoryLimitKb) {
+            spdlog::warn("[SECURITY] Serverless: memory_limit_kb={} exceeds cap {}; "
+                         "clamping to cap (GAP-022/CWE-400)", v, kMaxMemoryLimitKb);
+            fn.memory_limit_kb = static_cast<uint32_t>(kMaxMemoryLimitKb);
         }
     }
 
