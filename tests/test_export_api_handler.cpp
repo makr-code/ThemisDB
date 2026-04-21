@@ -208,3 +208,47 @@ TEST(ExportPolicyErrorCode, PolicyEngineReturnsNotPermittedForRestrictedCollecti
 }
 
 }  // namespace themis::server
+
+// ===========================================================================
+// GAP-008 — Timing-safe token comparison in validateAdminToken()
+// ===========================================================================
+
+// GAP-008-01: A correct token must be accepted (sanity check after the
+// CRYPTO_memcmp migration).
+TEST_F(ExportApiHandlerTest, GAP008_CorrectToken_Accepted) {
+    ScopedEnv admin_token("THEMIS_TOKEN_ADMIN", "correct-secret-token");
+    auto req = makePostRequest("/api/v1/export/jsonl_llm",
+                               {{"collection", "col1"}},
+                               "correct-secret-token");
+    // A 400 (JSON/collection error) or any 2xx means the token was accepted;
+    // we must NOT receive 401 Unauthorized.
+    auto res = handler_.handleExportJsonlLlm(req);
+    EXPECT_NE(res.result(), http::status::unauthorized)
+        << "Correct token must not return 401";
+}
+
+// GAP-008-02: A token that differs only in its last byte must be rejected.
+// With a timing-unsafe == comparison an attacker can probe byte positions;
+// CRYPTO_memcmp must reject the mismatched token.
+TEST_F(ExportApiHandlerTest, GAP008_AlmostCorrectToken_Rejected) {
+    ScopedEnv admin_token("THEMIS_TOKEN_ADMIN", "correct-secret-token");
+    auto req = makePostRequest("/api/v1/export/jsonl_llm",
+                               {{"collection", "col1"}},
+                               "correct-secret-toke0");  // last char changed
+    auto res = handler_.handleExportJsonlLlm(req);
+    EXPECT_EQ(res.result(), http::status::unauthorized)
+        << "Token differing by one byte must be rejected";
+}
+
+// GAP-008-03: A token with the correct prefix but extra characters must be
+// rejected (length mismatch guard in CRYPTO_memcmp path).
+TEST_F(ExportApiHandlerTest, GAP008_TokenWithExtraChars_Rejected) {
+    ScopedEnv admin_token("THEMIS_TOKEN_ADMIN", "short");
+    auto req = makePostRequest("/api/v1/export/jsonl_llm",
+                               {{"collection", "col1"}},
+                               "short-but-longer");  // same prefix, longer
+    auto res = handler_.handleExportJsonlLlm(req);
+    EXPECT_EQ(res.result(), http::status::unauthorized)
+        << "Token longer than expected must be rejected";
+}
+

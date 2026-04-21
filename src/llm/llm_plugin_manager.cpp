@@ -24,6 +24,8 @@
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <sstream>
+#include <filesystem>
+#include <cstdlib>
 
 namespace themis {
 namespace llm {
@@ -260,6 +262,41 @@ std::vector<float> LLMPluginManager::embed(const std::string& text) {
 }
 
 bool LLMPluginManager::loadModel(const std::string& model_id, const std::string& path) {
+    // GAP-009: Prevent path traversal attacks by checking that the resolved
+    // model path is contained within the configured model root directory.
+    // The root is read from THEMIS_MODEL_ROOT; if unset the check is skipped
+    // so that existing deployments without this env-var are not broken.
+    if (const char* model_root_env = std::getenv("THEMIS_MODEL_ROOT")) {
+        const std::string model_root_str(model_root_env);
+        if (!model_root_str.empty()) {
+            namespace fs = std::filesystem;
+            std::error_code ec;
+            const fs::path root_canonical  = fs::canonical(fs::path(model_root_str), ec);
+            if (!ec) {
+                fs::path resolved = fs::weakly_canonical(fs::path(path), ec);
+                if (ec) {
+                    spdlog::error("LLMPluginManager::loadModel: cannot resolve path '{}': {}",
+                                  path, ec.message());
+                    return false;
+                }
+                // Verify that resolved is inside root_canonical
+                const std::string root_str = root_canonical.string();
+                const std::string res_str  = resolved.string();
+                if (res_str.rfind(root_str, 0) != 0 ||
+                    (res_str.size() > root_str.size() &&
+                     res_str[root_str.size()] != fs::path::preferred_separator)) {
+                    spdlog::error("LLMPluginManager::loadModel: path '{}' is outside "
+                                  "THEMIS_MODEL_ROOT '{}'", path, model_root_str);
+                    return false;
+                }
+            } else {
+                spdlog::warn("LLMPluginManager::loadModel: THEMIS_MODEL_ROOT '{}' cannot "
+                             "be canonicalized ({}); skipping containment check",
+                             model_root_str, ec.message());
+            }
+        }
+    }
+
     ILLMPlugin* plugin;
     {
         std::lock_guard<std::mutex> lock(mutex_);

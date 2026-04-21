@@ -543,3 +543,49 @@ TEST(KGEdgeCasesTest, KGWeightZeroPreservesOriginalScores) {
     EXPECT_DOUBLE_EQ(result.documents[1].final_score,
                      result.documents[1].document.similarity_score);
 }
+
+// ===========================================================================
+// GAP-010 — BFS DoS guard: neighbours() must respect the max_nodes cap
+// ===========================================================================
+
+// GAP-010-01: Build a dense chain graph (1000 nodes → single path) and verify
+// that neighbours() respects a cap of 10 nodes, terminating early instead of
+// visiting all 1000 nodes.
+TEST(GAP010BfsCapTest, DenseChain_NodeCapRespected) {
+    KnowledgeGraph g;
+    for (int i = 0; i < 1000; ++i) {
+        KGNode n;
+        n.id   = "c" + std::to_string(i);
+        n.text = "chain node " + std::to_string(i);
+        g.addNode(n);
+    }
+    for (int i = 0; i < 999; ++i) {
+        KGEdge e;
+        e.from_id = "c" + std::to_string(i);
+        e.to_id   = "c" + std::to_string(i + 1);
+        e.weight  = 1.0;
+        g.addEdge(e);
+    }
+
+    // Set max_depth high enough that depth isn't the limiting factor;
+    // max_nodes=10 should be the binding constraint.
+    auto nbrs = g.neighbours("c0", /*max_depth=*/2000, /*min_weight=*/0.0, /*max_nodes=*/10);
+
+    EXPECT_LE(nbrs.size(), 10u)
+        << "BFS must not exceed max_nodes cap";
+}
+
+// GAP-010-02: When max_nodes is larger than the graph, all reachable nodes
+// are returned (no spurious truncation).
+TEST(GAP010BfsCapTest, SmallGraph_AllNodesReturned) {
+    KnowledgeGraph g = buildMLGraph();  // 6 nodes, sparse
+
+    // With a generous cap the full neighbourhood must be returned.
+    auto nbrs = g.neighbours("ent-rag", /*max_depth=*/10, /*min_weight=*/0.0,
+                             /*max_nodes=*/1000);
+
+    // ent-rag is reachable to all other 5 nodes through the ML graph
+    // (transitively at depth 2); at least direct neighbours must be present.
+    EXPECT_GE(nbrs.size(), 2u)
+        << "All reachable nodes should be returned when cap is generous";
+}

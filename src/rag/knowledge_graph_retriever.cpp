@@ -221,19 +221,33 @@ size_t KnowledgeGraph::edgeCount() const {
 std::unordered_set<std::string> KnowledgeGraph::neighbours(
     const std::string& start_id,
     size_t             max_depth,
-    double             min_edge_weight) const
+    double             min_edge_weight,
+    size_t             max_nodes) const
 {
     std::lock_guard<std::mutex> lk(impl_->mtx);
 
     std::unordered_set<std::string> visited;
     if (!impl_->nodes.count(start_id)) return visited;
 
+    // GAP-010: BFS is capped at max_nodes to prevent unbounded traversal
+    // (DoS) on densely-connected graphs.  The caller can raise the cap
+    // explicitly for trusted internal paths that genuinely need wider
+    // traversal, but the safe default is 4096 nodes.
     // BFS queue: (node_id, depth)
     std::queue<std::pair<std::string, size_t>> q;
     q.push({start_id, 0});
     visited.insert(start_id);
 
     while (!q.empty()) {
+        // -1 because start_id is in visited but excluded from the result.
+        // Guard against max_nodes==0 (degenerate) by using saturating arithmetic.
+        const size_t current_result_size = visited.size() - 1u;
+        if (max_nodes > 0 && current_result_size >= max_nodes) {
+            spdlog::warn("KnowledgeGraph::neighbours: BFS node cap ({}) reached "
+                         "from '{}'; truncating traversal", max_nodes, start_id);
+            break;
+        }
+
         auto [cur_id, depth] = q.front();
         q.pop();
 
@@ -243,6 +257,7 @@ std::unordered_set<std::string> KnowledgeGraph::neighbours(
         if (adj_it == impl_->adj.end()) continue;
 
         for (const auto& edge : adj_it->second) {
+            if (max_nodes > 0 && visited.size() - 1u >= max_nodes) break;
             if (edge.weight < min_edge_weight) continue;
             if (visited.count(edge.to_id))     continue;
             if (!impl_->nodes.count(edge.to_id)) continue;

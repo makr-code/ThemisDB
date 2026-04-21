@@ -32,6 +32,7 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <nlohmann/json.hpp>
+#include <openssl/crypto.h>
 #include <algorithm>
 #include <cctype>
 #include <filesystem>
@@ -441,7 +442,14 @@ bool ExportApiHandler::validateAdminToken(
         return false;
     }
     
-    return token == admin_token;
+    // GAP-008: Use constant-time comparison (CRYPTO_memcmp) to prevent
+    // timing-oracle attacks that could allow an attacker to recover the
+    // admin token one byte at a time by measuring response latency.
+    const std::string expected(admin_token);
+    if (token.size() != expected.size()) {
+        return false;
+    }
+    return CRYPTO_memcmp(token.data(), expected.data(), expected.size()) == 0;
 }
 
 http::response<http::string_body> ExportApiHandler::jsonResponse(
