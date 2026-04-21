@@ -1189,3 +1189,141 @@ The planned enhancements described above are grounded in current research. Selec
 **References:**
 - OASIS MQTT 3.1.1 Specification, OASIS Standard, Oct. 2014. [Online]. Available: https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html
 - C. Bormann and P. Hoffman, "CBOR: Concise Binary Object Representation," IETF RFC 8949, Dec. 2020. [Online]. Available: https://www.rfc-editor.org/rfc/rfc8949
+
+---
+
+## Security Hardening Backlog (Q2–Q3 2026)
+
+> Items identified via static analysis (2026-04-21).
+> Reference: `docs/governance/SOURCECODE_COMPLIANCE_GOVERNANCE.md`, GAP-009..GAP-013.
+
+### GAP-009 – LLM Model Path Traversal Sandbox
+
+**Scope:** `src/server/http_server.cpp:3508`, `src/server/llm_api_handler.cpp:637`
+
+### Design Constraints
+- Model loading must continue to work for legitimate paths under the configured model directory
+- The sandbox check must happen before `LLMPluginManager::loadModel()` is called
+
+### Required Interfaces
+```cpp
+// New helper in HttpServer or LLMApiHandler:
+static bool isPathInModelDir(const std::string& path, const std::string& model_dir) {
+    auto canon = std::filesystem::weakly_canonical(path);
+    return canon.string().starts_with(std::filesystem::canonical(model_dir).string());
+}
+```
+- `config_.model_dir` (or `THEMIS_MODEL_DIR` env var) defines the allowed root
+- Return HTTP 400 with `{"error": "path out of model sandbox"}` on violation
+
+### Implementation Notes
+- `weakly_canonical` handles non-existent paths; use `canonical` only after existence check
+- Symlinks must be resolved (`canonical` follows symlinks); a symlink pointing outside the
+  sandbox must be rejected
+
+### Test Strategy
+- Unit test: path `../../../etc/shadow` → 400
+- Unit test: path `/tmp/evil.gguf` → 400 (if model_dir is `/srv/models`)
+- Unit test: path `/srv/models/llama-7b.gguf` → 200 (success)
+
+### Performance Targets
+- `weakly_canonical` call: ≤ 1 ms (one `stat()` syscall)
+
+### Security / Reliability
+- Fail-closed: any `std::filesystem` exception on canonicalization → 400
+
+---
+
+### GAP-010 – Graph BFS `max_depth` Upper-Bound Cap
+
+**Scope:** `src/server/graph_api_handler.cpp:71`
+
+### Design Constraints
+- Cap must be configurable (not hardcoded) to allow large graphs in controlled environments
+- Default cap: 20; configurable via `THEMIS_BFS_MAX_DEPTH` env var or server config
+
+### Required Interfaces
+```cpp
+static constexpr size_t kDefaultMaxBfsDepth = 20;
+size_t server_max_depth = config_.bfs_max_depth > 0 ? config_.bfs_max_depth : kDefaultMaxBfsDepth;
+if (max_depth > server_max_depth) {
+    return makeErrorResponse(http::status::bad_request,
+        "max_depth exceeds server limit of " + std::to_string(server_max_depth), req);
+}
+```
+
+### Test Strategy
+- Unit test: `max_depth = 21` with default cap → 400
+- Unit test: `max_depth = 20` → 200 (BFS runs)
+- Unit test: `max_depth = 999999999` → 400 (no OOM)
+
+### Performance Targets
+- Validation: O(1), ≤ 100 ns
+
+### Security / Reliability
+- Return 400 (not 500) to avoid masking the policy violation with a server error
+
+---
+
+### GAP-011 – Remove Token Prefix/Suffix from Startup Logs
+
+**Scope:** `src/server/http_server.cpp:638`
+
+### Implementation Notes
+- Replace the masked substring log with only the token length:
+```cpp
+THEMIS_INFO("Auth: token registered for user='{}', len={}", cfg.user_id, cfg.token.size());
+```
+- Remove the debug-verify block entirely (it only exists to confirm `addToken()` works;
+  that can be covered by unit tests)
+
+### Test Strategy
+- Log scraper test: assert that no substring of a known test-token appears in log output
+  after startup
+
+---
+
+### GAP-012 – Centralise CORS Header Application
+
+**Scope:** `src/server/changefeed_api_handler.cpp:403`, `src/server/llm_api_handler.cpp:504,571`,
+           `src/server/query_api_handler.cpp:3447`, `src/llm/grafana_metrics.cpp:1392`
+
+### Design Constraints
+- SSE (Server-Sent Event) responses cannot go through the standard CORS preflight because
+  they are GET requests; the `Access-Control-Allow-Origin` header must still be set per-response
+- The origin must be validated against `cors_allowed_origins_` before being reflected
+
+### Required Interfaces
+```cpp
+// New method in HttpServer or a shared CORSPolicy helper:
+std::string resolveAllowedOrigin(std::string_view request_origin) const;
+// Returns the matched origin string, or "" if not allowed
+```
+- Each SSE handler calls `resolveAllowedOrigin(req["Origin"])` and sets the result (or skips
+  the header if empty)
+
+### Implementation Notes
+- If `cors_allow_all_` is true, `resolveAllowedOrigin` returns `"*"` (existing behaviour)
+- If credentials are enabled, `"*"` must never be returned; return `""` (no header)
+
+### Test Strategy
+- Unit test per SSE handler: forbidden origin → no `Access-Control-Allow-Origin` header
+- Unit test per SSE handler: allowed origin → `Access-Control-Allow-Origin: <origin>`
+
+---
+
+### GAP-013 – Auth Failure Audit Log in Export Handler
+
+**Scope:** `src/server/export_api_handler.cpp`
+
+### Implementation Notes
+- On failed admin token check, emit a structured audit entry:
+```cpp
+THEMIS_WARN("ExportApiHandler: auth failure, remote_ip={}", remote_ip);
+audit_logger_->logEvent({.type="AUTH_FAILURE", .endpoint="/api/export", .ip=remote_ip});
+```
+- The export handler currently has no reference to an audit logger; inject it via constructor DI
+
+### Test Strategy
+- Unit test: invalid token → audit log entry with `AUTH_FAILURE` type emitted
+- Unit test: valid token → no `AUTH_FAILURE` entry

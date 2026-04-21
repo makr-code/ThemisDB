@@ -935,6 +935,12 @@ Result<std::string> BackupManager::compressBackup(const std::string& backup_dir)
         // Create compressed file path
         auto compressed_file = backup_dir + ".tar.gz";
         
+        // TODO(GAP-015): system(tar) with user-controlled path – shell-injection risk.
+        // The backup_dir string originates from the HTTP request body ("directory" field in
+        // POST /admin/backup).  A double-quote in the path breaks out of the shell quoting.
+        // Additionally, an admin can backup arbitrary filesystem paths (data exfiltration).
+        // Fix: (1) restrict dest_dir to a whitelist of allowed backup roots; (2) replace
+        // system()/tar with libarchive to avoid shell execution entirely. Target: Q3 2026
         // Use system tar command for compression
         std::string cmd = "tar -czf \"" + compressed_file + "\" -C \"" + 
                          fs::path(backup_dir).parent_path().string() + "\" \"" + 
@@ -970,6 +976,8 @@ Result<std::string> BackupManager::decompressBackup(const std::string& compresse
                                    "Failed to create destination directory: " + ec.message());
         }
         
+        // TODO(GAP-015): Same system()/shell-injection risk as compressBackup().
+        // Fix: use libarchive for decompression. Target: Q3 2026
         // Use system tar command for decompression
         std::string cmd = "tar -xzf \"" + compressed_file + "\" -C \"" + dest_dir + "\"";
         

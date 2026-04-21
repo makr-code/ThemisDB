@@ -202,6 +202,11 @@ AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std
     THEMIS_INFO("AuthMiddleware::authorize called for token='{}' required_scope='{}'", mask(token), required_scope);
     
     // First try API token lookup
+    // TODO(GAP-008): std::unordered_map::find() is not constant-time – hash collisions
+    // and key comparison expose a timing side-channel for token value enumeration.
+    // Fix: derive a HMAC-SHA256 of each token as the map key so comparison is always
+    // over fixed-length digests; verify the original token with CRYPTO_memcmp.
+    // Target: Q2 2026
     auto it = tokens_.find(std::string(token));
     if (it != tokens_.end()) {
         const auto& config = it->second;

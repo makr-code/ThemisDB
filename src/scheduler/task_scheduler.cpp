@@ -505,6 +505,12 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
     // Sanitize task parameters
     auto sanitized_task = sanitizeTask(task);
     
+    // TODO(GAP-001): AuthZ stub – task registration is completely unauthenticated.
+    // The comment below was left as a placeholder since the auth system was not yet
+    // integrated; the check is intentionally disabled.  Any authenticated API user
+    // can register arbitrary AQL tasks without permission validation.
+    // Fix: wire the auth_context (available from the HTTP layer) and enable the
+    // hasPermission("task:register") guard.  Target: Q2 2026
     // Note: User permission checks should be added here when authentication
     // system is integrated. Example:
     // if (!auth_context || !auth_context->hasPermission("task:register")) {

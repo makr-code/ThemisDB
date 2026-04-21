@@ -337,6 +337,11 @@ bool SAMLAuthenticator::verifyXmlSignature(
         digest_md = EVP_sha256();
     } else if (digest_algorithm_uri.find("sha1") != std::string::npos ||
                digest_algorithm_uri.find("SHA1") != std::string::npos) {
+        // TODO(GAP-003): SHA-1 is broken for digital signatures (SHAttered attack, 2017).
+        // Accepting SHA-1 SAML assertions allows a downgrade to a weak digest algorithm.
+        // Fix: reject SHA-1 with a hard error instead of accepting it silently:
+        //   THEMIS_ERROR("SAML: SHA-1 digest rejected – upgrade IdP to SHA-256"); return false;
+        // Target: Q2 2026
         digest_md = EVP_sha1();
     } else {
         THEMIS_WARN("SAML: Unsupported digest algorithm: {}", digest_algorithm_uri);

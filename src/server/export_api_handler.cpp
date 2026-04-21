@@ -440,6 +440,12 @@ bool ExportApiHandler::validateAdminToken(
         return false;
     }
     
+    // TODO(GAP-008): Non-constant-time string comparison – timing side-channel.
+    // An attacker can enumerate the correct token byte-by-byte via response-time
+    // differences of std::string::operator==.
+    // Fix: replace with CRYPTO_memcmp(token.data(), admin_token, token.size())
+    // after verifying lengths are equal first (length itself must not leak via early-exit).
+    // Target: Q2 2026
     return token == admin_token;
 }
 
