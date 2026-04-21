@@ -241,17 +241,18 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
                         "Evaluation aborted for query: {}",
                         total_findings, input.query);
 
-            if (!impl_->config.block_on_high_severity_injection) {
-                // Configured not to block — log a warning but continue
-                result.injection_blocked = false;
-                THEMIS_WARN("block_on_high_severity_injection=false: "
-                            "continuing evaluation despite HIGH severity injection findings");
-            } else {
+            if (impl_->config.block_on_high_severity_injection) {
+                // Default path: abort evaluation immediately
                 auto end_time = std::chrono::steady_clock::now();
                 result.evaluation_time = std::chrono::duration_cast<std::chrono::milliseconds>(
                     end_time - start_time);
                 return result;
             }
+
+            // block_on_high_severity_injection=false: log a warning and continue
+            result.injection_blocked = false;
+            THEMIS_WARN("block_on_high_severity_injection=false: "
+                        "continuing evaluation despite HIGH severity injection findings");
         }
 
         if (total_findings > 0) {

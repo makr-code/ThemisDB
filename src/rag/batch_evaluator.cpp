@@ -339,6 +339,9 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
     std::vector<double> latencies_ms;
     latencies_ms.reserve(results.size());
 
+    // One shared detector instance for inline scanning of un-screened documents.
+    security::PromptInjectionDetector inline_detector;
+
     for (size_t i = 0; i < results.size() && i < inputs.size(); ++i) {
         const auto& input = inputs[i];
         const auto& result = results[i];
@@ -379,10 +382,9 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
                 }
             } else {
                 // Documents were not screened by RAGJudge (screening disabled or no documents),
-                // or no findings at all. Run the detector inline to check the documents.
+                // or no findings at all. Run the shared detector inline to check the documents.
                 if (!input.documents.empty()) {
-                    security::PromptInjectionDetector detector;
-                    const auto scan_results = detector.scanDocuments(input);
+                    const auto scan_results = inline_detector.scanDocuments(input);
                     bool any_high = false;
                     for (const auto& sr : scan_results) {
                         if (sr.is_blocked()) {
