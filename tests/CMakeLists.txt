@@ -22,7 +22,7 @@ if(NOT GTest_FOUND)
     return()
 endif()
 
-# Find yaml-cpp for test configuration (optional ÔÇô tests that need it add it explicitly)
+# Find yaml-cpp for test configuration (optional - tests that need it add it explicitly)
 find_package(yaml-cpp CONFIG QUIET)
 if(NOT yaml-cpp_FOUND)
     message(STATUS "yaml-cpp not found - YAML-based tests will be skipped")
@@ -178,7 +178,7 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_openai_compat_adapter\\.cpp$"
         ".*test_model_quantization_pipeline\\.cpp$"
         ".*test_model_router\\.cpp$"
-        # LLM feedback store ÔÇô depends on llm/feedback_store.h / llm/i_feedback_plugin.h
+        # LLM feedback store - depends on llm/feedback_store.h / llm/i_feedback_plugin.h
         ".*test_feedback_store\\.cpp$"
         # DR integration uses LoRAOrchestrator which is gated on THEMIS_ENABLE_LLM
         ".*test_decision_record_integration\\.cpp$"
@@ -258,7 +258,7 @@ if(NOT THEMIS_ENABLE_LLM AND THEMIS_ENABLE_LEGAL_TRAINING)
     list(APPEND ALL_TEST_SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_data_selection.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/test_training_pipeline_e2e.cpp"
-        # Phase 3 training tests ÔÇô not LLM-dependent
+        # Phase 3 training tests - not LLM-dependent
         "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_checkpoint_manager.cpp"
     )
     list(REMOVE_DUPLICATES ALL_TEST_SOURCES)
@@ -399,7 +399,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_quality_control_pipeline\\.cpp$"
     ".*test_slo_monitor\\.cpp$"
     ".*test_jsonl_llm_exporter\\.cpp$"
-    # Standalone test executables that define their own main() ÔÇö incompatible with themis_tests
+    # Standalone test executables that define their own main() - incompatible with themis_tests
     ".*test_oauth2_provider\\.cpp$"
     ".*test_postgres_importer_v2\\.cpp$"
     ".*test_saml_auth_provider\\.cpp$"
@@ -529,7 +529,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     # target below (PluginCapabilityEscalationTests) to allow running the
     # escalation-blocking tests in isolation.
     ".*test_plugin_capability_escalation\\.cpp$"
-    # Runtime Device Capability Negotiation focused tests ÔÇö built as dedicated
+    # Runtime Device Capability Negotiation focused tests - built as dedicated
     # standalone targets below so they can run in isolation without pulling in
     # the full themis_tests link graph.
     ".*test_device_manager\\.cpp$"
@@ -939,14 +939,14 @@ endif()
 # Re-include LlmQueryRewriter tests when LLM is disabled.
 # The ".*test_llm.*\.cpp$" exclusion pattern above would exclude
 # test_llm_query_rewriter.cpp in MINIMAL builds, but that test has zero actual
-# LLM library dependency ÔÇö it only uses a std::function mock backend.
+# LLM library dependency - it only uses a std::function mock backend.
 # Add it back unconditionally so it runs in every build variant.
 if(NOT THEMIS_ENABLE_LLM)
     target_sources(themis_tests PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/test_llm_query_rewriter.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/test_llm_reranker.cpp
         # LLMProcessAnalyzer has no actual LLM library dependency (uses a
-        # simulated callLLM stub) ÔÇö include in every build variant.
+        # simulated callLLM stub) - include in every build variant.
         ${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_llm_process_analyzer.cpp
         # CitationHighlighter has no LLM dependency (pure Jaccard term-overlap);
         # re-include so non-LLM builds exercise the citation highlighting feature.
@@ -1992,7 +1992,7 @@ else()
 endif()
 
 # ============================================================================
-# Graph Advanced Features Tests (standalone ÔÇö excluded from unified binary
+# Graph Advanced Features Tests (standalone - excluded from unified binary
 # because helper functions use bare assert() calls that abort the process)
 # ============================================================================
 
@@ -2195,7 +2195,7 @@ else()
 endif()
 
 # ============================================================================
-# GPU Graph Traversal Tests (standalone ÔÇö CPU fallback, no GPU required)
+# GPU Graph Traversal Tests (standalone - CPU fallback, no GPU required)
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gpu_graph_traversal.cpp")
@@ -2655,7 +2655,7 @@ else()
 endif()
 
 # ============================================================================
-# Cache Admin API Handler Tests (Phase 3 ÔÇô health endpoint, stats, eviction)
+# Cache Admin API Handler Tests (Phase 3 - health endpoint, stats, eviction)
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_admin_api_handler.cpp")
@@ -2690,7 +2690,7 @@ else()
 endif()
 
 # ============================================================================
-# Cache Warmup Tests (Phase 3 ÔÇô bulk warmup from query log / snapshot)
+# Cache Warmup Tests (Phase 3 - bulk warmup from query log / snapshot)
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_warmup.cpp")
@@ -2725,7 +2725,7 @@ else()
 endif()
 
 # ============================================================================
-# Cache Replication Tests (Phase 4 ÔÇô HA cache replication)
+# Cache Replication Tests (Phase 4 - HA cache replication)
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_replication.cpp")
@@ -2762,7 +2762,7 @@ else()
 endif()
 
 # ============================================================================
-# Cache Replication Coordinator Tests (v1.8.0 ÔÇô network-backed peer discovery)
+# Cache Replication Coordinator Tests (v1.8.0 - network-backed peer discovery)
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cache_replication_coordinator.cpp")
@@ -2847,7 +2847,7 @@ else()
 endif()
 
 # ============================================================================
-# Multi-Region Active-Active Tests (Phase 4 ÔÇô bounded staleness)
+# Multi-Region Active-Active Tests (Phase 4 - bounded staleness)
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_region_active_active.cpp")
@@ -3043,7 +3043,7 @@ else()
 endif()
 
 # ============================================================================
-# Replication HA Tests (Phase 1-3 ÔÇô leader election, witness nodes, WAL)
+# Replication HA Tests (Phase 1-3 - leader election, witness nodes, WAL)
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replication_ha.cpp")
@@ -3079,7 +3079,7 @@ else()
 endif()
 
 # ============================================================================
-# Replication New Features Tests (v1.7.0 ÔÇô observer, slots, policy, events)
+# Replication New Features Tests (v1.7.0 - observer, slots, policy, events)
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replication_new_features.cpp")
@@ -3113,7 +3113,7 @@ else()
 endif()
 
 # ============================================================================
-# Logical Replication Tests (v1.7.0 ÔÇô schema-aware, filters, initial sync)
+# Logical Replication Tests (v1.7.0 - schema-aware, filters, initial sync)
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_logical_replication.cpp")
@@ -3181,7 +3181,7 @@ else()
 endif()
 
 # ============================================================================
-# Replication Raft v2 Tests (Phase 4 ÔÇô joint consensus membership changes)
+# Replication Raft v2 Tests (Phase 4 - joint consensus membership changes)
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replication_raft_v2.cpp")
@@ -3215,7 +3215,7 @@ else()
 endif()
 
 # ============================================================================
-# Replication CRDT Types Tests (Phase 4 ÔÇô expanded CRDT library)
+# Replication CRDT Types Tests (Phase 4 - expanded CRDT library)
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_replication_crdt_types.cpp")
@@ -3349,9 +3349,9 @@ endif()
 # ============================================================================
 # AQL ↔ GraphQL Integration Tests
 # Tests both integration layers:
-#   Layer 1 – AQL in GraphQL (GraphQLAqlResolverFactory, cost model bridge,
+#   Layer 1 - AQL in GraphQL (GraphQLAqlResolverFactory, cost model bridge,
 #              aqlMutation/apiVersion/schemaVersion schema fields)
-#   Layer 2 – GraphQL in AQL (GRAPHQL() AQL function, EXTERNAL cost class)
+#   Layer 2 - GraphQL in AQL (GRAPHQL() AQL function, EXTERNAL cost class)
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_aql_graphql_integration.cpp")
@@ -3532,7 +3532,7 @@ else()
 endif()
 
 # ============================================================================
-# TracingMiddleware Unit Tests (v1.7.0 ÔÇö Issue #140)
+# TracingMiddleware Unit Tests (v1.7.0 - Issue #140)
 # Validates UUID v4 generation, thread-local correlation ID propagation,
 # logger context injection, and clearContext() behavior.
 # ============================================================================
@@ -5558,10 +5558,10 @@ else()
 endif()
 
 # ============================================================================
-# Utils Production Readiness Tests (Phases 1ÔÇô8)
+# Utils Production Readiness Tests (Phases 1-8)
 # ============================================================================
 
-# Phase 1 ÔÇô Logger production tests
+# Phase 1 - Logger production tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_logger_production.cpp")
     message(STATUS "Adding Logger production tests (Phase 1)")
     add_executable(test_logger_production
@@ -5583,7 +5583,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_logger_production.cpp")
     message(STATUS "  Logger Production: JSON logging, rotation, PII redaction, metrics")
 endif()
 
-# Phase 2 ÔÇô Tracing production tests
+# Phase 2 - Tracing production tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tracing_production.cpp")
     message(STATUS "Adding Tracing production tests (Phase 2)")
     add_executable(test_tracing_production test_tracing_production.cpp)
@@ -5601,7 +5601,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tracing_production.cpp")
     message(STATUS "  Tracing Production: Baggage, SamplingStrategy, W3C propagation")
 endif()
 
-# Phase 2 ÔÇô OpenTelemetry tracer adapter unit tests
+# Phase 2 - OpenTelemetry tracer adapter unit tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otel_tracer_adapter.cpp")
     message(STATUS "Adding OtelTracerAdapter unit tests (Phase 2)")
     add_executable(test_otel_tracer_adapter test_otel_tracer_adapter.cpp)
@@ -5619,7 +5619,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otel_tracer_adapter.cpp")
     message(STATUS "  OtelTracerAdapter: adapter construction, span lifecycle, circuit-breaker, health")
 endif()
 
-# Phase 2 ÔÇô Jaeger tracing backend adapter unit tests
+# Phase 2 - Jaeger tracing backend adapter unit tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jaeger_tracer_adapter.cpp")
     message(STATUS "Adding JaegerTracerAdapter unit tests (Phase 2)")
     add_executable(test_jaeger_tracer_adapter test_jaeger_tracer_adapter.cpp)
@@ -5637,7 +5637,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_jaeger_tracer_adapter.cpp")
     message(STATUS "  JaegerTracerAdapter: adapter construction, span lifecycle, uber-trace-id propagation, circuit-breaker, health")
 endif()
 
-# Phase 2 ÔÇô Zipkin tracing backend adapter unit tests
+# Phase 2 - Zipkin tracing backend adapter unit tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_zipkin_tracer_adapter.cpp")
     message(STATUS "Adding ZipkinTracerAdapter unit tests (Phase 2)")
     add_executable(test_zipkin_tracer_adapter test_zipkin_tracer_adapter.cpp)
@@ -5655,7 +5655,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_zipkin_tracer_adapter.cpp")
     message(STATUS "  ZipkinTracerAdapter: adapter construction, span lifecycle, B3 propagation, circuit-breaker, health")
 endif()
 
-# Phase 2 ÔÇô OpenTelemetry trace and span propagation tests
+# Phase 2 - OpenTelemetry trace and span propagation tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otel_propagation.cpp")
     message(STATUS "Adding OTel propagation tests (Phase 2)")
     add_executable(test_otel_propagation test_otel_propagation.cpp)
@@ -5673,7 +5673,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otel_propagation.cpp")
     message(STATUS "  OtelPropagation: startSpanFromHeaders, injectContext, baggage round-trip")
 endif()
     
-# Phase 3 ÔÇô Structured log correlation (trace ID injection into structured logs)
+# Phase 3 - Structured log correlation (trace ID injection into structured logs)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_structured_log_correlation.cpp")
     message(STATUS "Adding Structured Log Correlation tests (Phase 3)")
     add_executable(test_structured_log_correlation test_structured_log_correlation.cpp)
@@ -5692,7 +5692,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_structured_log_correlation.cpp")
     message(STATUS "  Structured Log Correlation: TraceContext, logWithContext(), logWithTrace(), JSON and plain-text injection")
 endif()
 
-# Phase 3 ÔÇô Distributed tracing unit tests
+# Phase 3 - Distributed tracing unit tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_tracing.cpp")
     message(STATUS "Adding Distributed Tracing tests (Phase 3)")
     add_executable(test_distributed_tracing test_distributed_tracing.cpp)
@@ -5731,7 +5731,7 @@ $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
     message(STATUS "  OTel API Tracing: span names, attributes, W3C propagation, OtlpExporter, TracingMiddleware")
 endif()
 
-# Phase 2 ÔÇô Sampling strategy unit tests (replaces stub)
+# Phase 2 - Sampling strategy unit tests (replaces stub)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sampling_strategy.cpp")
     message(STATUS "Adding Sampling Strategy tests (Phase 2)")
     add_executable(test_sampling_strategy test_sampling_strategy.cpp)
@@ -5748,7 +5748,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sampling_strategy.cpp")
     message(STATUS "  Sampling Strategy: ALWAYS_ON/OFF, PROBABILITY, PARENT_BASED")
 endif()
 
-# Phase 3 ÔÇô Audit Logger production tests
+# Phase 3 - Audit Logger production tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_audit_logger_production.cpp")
     message(STATUS "Adding Audit Logger production tests (Phase 3)")
     add_executable(test_audit_logger_production test_audit_logger_production.cpp)
@@ -5767,7 +5767,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_audit_logger_production.cpp")
     message(STATUS "  Audit Logger Production: search API, compliance reporting, retention")
 endif()
 
-# Phase 3 ÔÇô Governance policy hot-reload tests (Issue: #1774)
+# Phase 3 - Governance policy hot-reload tests (Issue: #1774)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_governance_policy_hot_reload.cpp")
     message(STATUS "Adding Governance Policy Hot-Reload tests (Phase 3 - Issue #1774)")
     add_executable(test_governance_policy_hot_reload test_governance_policy_hot_reload.cpp)
@@ -5786,7 +5786,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_governance_policy_hot_reload.cpp")
     message(STATUS "  Governance Hot-Reload: PolicyFileWatcher start/stop, file-change detection, Prometheus counter, audit entry")
 endif()
 
-# Governance ÔÇô OPA adapter focused tests (Issue: #1768 / #1778)
+# Governance - OPA adapter focused tests (Issue: #1768 / #1778)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_governance_opa_adapter.cpp")
     message(STATUS "Adding Governance OPA Adapter focused tests (Issue #1768 / #1778)")
     add_executable(test_governance_opa_adapter test_governance_opa_adapter.cpp)
@@ -5805,7 +5805,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_governance_opa_adapter.cpp")
     message(STATUS "  Governance OPA Adapter: construction, URL building, response parsing, fallback counter, CCPA enforcement on top of OPA")
 endif()
 
-# Governance ÔÇô policy simulation / dry-run focused tests (Issue: #1766 / #1778)
+# Governance - policy simulation / dry-run focused tests (Issue: #1766 / #1778)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_governance_policy_simulation.cpp")
     message(STATUS "Adding Governance Policy Simulation focused tests (Issue #1766 / #1778)")
     add_executable(test_governance_policy_simulation test_governance_policy_simulation.cpp)
@@ -5825,7 +5825,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_governance_policy_simulation.cpp")
     message(STATUS "  Governance Policy Simulation: simulateDecision, YAML-loaded profiles, heuristic fallback, header overrides")
 endif()
 
-# Governance ÔÇô compliance time window focused tests (Issue: #1781 / #1778)
+# Governance - compliance time window focused tests (Issue: #1781 / #1778)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_governance_compliance_time_window.cpp")
     message(STATUS "Adding Governance Compliance Time-Window focused tests (Issue #1781 / #1778)")
     add_executable(test_governance_compliance_time_window test_governance_compliance_time_window.cpp)
@@ -5844,7 +5844,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_governance_compliance_time_window.cp
     message(STATUS "  Governance Compliance Time-Window: generateReport, CCPA report, time-range filtering")
 endif()
 
-# Governance ÔÇô review scheduler focused tests (Issue: #1778)
+# Governance - review scheduler focused tests (Issue: #1778)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_governance_review_scheduler.cpp")
     message(STATUS "Adding Governance Review Scheduler focused tests (Issue #1778)")
     add_executable(test_governance_review_scheduler test_governance_review_scheduler.cpp)
@@ -5863,7 +5863,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_governance_review_scheduler.cpp")
     message(STATUS "  Governance Review Scheduler: schedule, create/approve/reject review, overdue detection, history, export/import")
 endif()
 
-# Governance ÔÇô AI/ML model governance focused tests (Issue: #1771 / #1778)
+# Governance - AI/ML model governance focused tests (Issue: #1771 / #1778)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_model_governance.cpp")
     message(STATUS "Adding Model Governance focused tests (Issue #1771 / #1778)")
     add_executable(test_model_governance_focused test_model_governance.cpp)
@@ -5883,7 +5883,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_model_governance.cpp")
     message(STATUS "  Model Governance: training export request, bias audit, data lineage, checkExportAllowed")
 endif()
 
-# Governance ÔÇô compliance + security integration focused tests (Issue: #1778)
+# Governance - compliance + security integration focused tests (Issue: #1778)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_compliance_security_governance.cpp")
     message(STATUS "Adding Compliance & Security Governance integration tests (Issue #1778)")
     add_executable(test_compliance_security_governance_focused test_compliance_security_governance.cpp)
@@ -5902,7 +5902,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_compliance_security_governance.cpp")
     message(STATUS "  Compliance & Security Governance: GDPR, HIPAA, SOC 2, PCI-DSS, CCPA/CPRA cross-compliance scenarios")
 endif()
 
-# Governance ÔÇô HTTP server governance endpoint focused tests (Issue: #1778)
+# Governance - HTTP server governance endpoint focused tests (Issue: #1778)
 if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http_governance.cpp")
     message(STATUS "Adding HTTP Governance endpoint focused tests (Issue #1778)")
     add_executable(test_http_governance_focused test_http_governance.cpp)
@@ -5920,7 +5920,7 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http_g
     message(STATUS "  HTTP Governance: policy evaluation via HTTP, governance endpoints, access-control enforcement")
 endif()
 
-# Export API Handler ÔÇö PolicyEngine authorization enforcement unit tests (EXP-001)
+# Export API Handler - PolicyEngine authorization enforcement unit tests (EXP-001)
 if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_export_api_handler.cpp")
     message(STATUS "Adding ExportApiHandler focused tests (EXP-001)")
     add_executable(test_export_api_handler_focused
@@ -5955,7 +5955,7 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_export
     message(STATUS "  ExportApiHandler: 403 Forbidden on ERR_EXPORT_POLICY_DENIED, setPolicyEngine/setAuditLogger setters")
 endif()
 
-# Governance ÔÇô HTTP changefeed + governance integration focused tests (Issue: #1778)
+# Governance - HTTP changefeed + governance integration focused tests (Issue: #1778)
 if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http_changefeed_governance.cpp")
     message(STATUS "Adding HTTP Changefeed Governance focused tests (Issue #1778)")
     add_executable(test_http_changefeed_governance_focused test_http_changefeed_governance.cpp)
@@ -5973,7 +5973,7 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http_c
     message(STATUS "  HTTP Changefeed Governance: changefeed governance enforcement, policy gating on CDC streams")
 endif()
 
-# Governance ÔÇô compliance reporting focused tests (Issue: #1781 / #1778)
+# Governance - compliance reporting focused tests (Issue: #1781 / #1778)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_compliance_reporting.cpp")
     message(STATUS "Adding Compliance Reporting focused tests (Issue #1781 / #1778)")
     add_executable(test_compliance_reporting_focused test_compliance_reporting.cpp)
@@ -5992,7 +5992,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_compliance_reporting.cpp")
     message(STATUS "  Compliance Reporting: CoverageAnalyzer, ComplianceGapDetector, ComplianceReporter (JSON/CSV/HTML/PDF)")
 endif()
 
-# Governance ÔÇô CCPA/CPRA data subject rights rule evaluators focused tests (Issue: #1761 / #1778)
+# Governance - CCPA/CPRA data subject rights rule evaluators focused tests (Issue: #1761 / #1778)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ccpa_rules.cpp")
     message(STATUS "Adding CCPA Rules focused tests (Issue #1761 / #1778)")
     add_executable(test_ccpa_rules_focused test_ccpa_rules.cpp)
@@ -6011,7 +6011,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ccpa_rules.cpp")
     message(STATUS "  CCPA Rules: RightToKnow, RightToDelete, OptOutOfSale, DataPortability, CcpaRuleSet opt-out registry")
 endif()
 
-# Governance ÔÇô cross-tenant policy inheritance focused tests (Issue: #1772 / #1778)
+# Governance - cross-tenant policy inheritance focused tests (Issue: #1772 / #1778)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_tenant_policy_inheritance.cpp")
     message(STATUS "Adding Cross-Tenant Policy Inheritance focused tests (Issue #1772 / #1778)")
     add_executable(test_cross_tenant_policy_inheritance_focused test_cross_tenant_policy_inheritance.cpp)
@@ -6029,7 +6029,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_tenant_policy_inheritance.cpp"
     message(STATUS "  Cross-Tenant Policy Inheritance: hierarchy registration, cycle detection, most-restrictive-wins merge, effective policy evaluation")
 endif()
 
-# Governance ÔÇô data lineage tracking focused tests (Issue: #1765 / #1778)
+# Governance - data lineage tracking focused tests (Issue: #1765 / #1778)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_data_lineage.cpp")
     message(STATUS "Adding Data Lineage focused tests (Issue #1765 / #1778)")
     add_executable(test_data_lineage_focused test_data_lineage.cpp)
@@ -6048,7 +6048,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_data_lineage.cpp")
     message(STATUS "  Data Lineage: record/query lineage events, MODEL_TRAINING events, DataLineageTracker")
 endif()
 
-# Governance ÔÇô automated data masking focused tests (Issue: #1773 / #1778)
+# Governance - automated data masking focused tests (Issue: #1773 / #1778)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_data_masker.cpp")
     message(STATUS "Adding Data Masker focused tests (Issue #1773 / #1778)")
     add_executable(test_data_masker_focused test_data_masker.cpp)
@@ -6067,7 +6067,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_data_masker.cpp")
     message(STATUS "  Data Masker: REDACT/TOKENIZE/TRUNCATE/HASH strategies, FieldMaskingPolicy, HMAC pseudonym stability, Prometheus counter")
 endif()
 
-# Governance ÔÇô PCI-DSS data isolation rules focused tests (Issue: #1770 / #1778)
+# Governance - PCI-DSS data isolation rules focused tests (Issue: #1770 / #1778)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_pci_dss_rules.cpp")
     message(STATUS "Adding PCI-DSS Rules focused tests (Issue #1770 / #1778)")
     add_executable(test_pci_dss_rules_focused test_pci_dss_rules.cpp)
@@ -6085,7 +6085,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_pci_dss_rules.cpp")
     message(STATUS "  PCI-DSS Rules: cardholder data isolation, encryption requirements, PciDssRuleSet evaluation")
 endif()
 
-# Governance ÔÇô policy review workflow focused tests (Issue: #1778)
+# Governance - policy review workflow focused tests (Issue: #1778)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_policy_review.cpp")
     message(STATUS "Adding Policy Review focused tests (Issue #1778)")
     add_executable(test_policy_review_focused test_policy_review.cpp)
@@ -6103,7 +6103,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_policy_review.cpp")
     message(STATUS "  Policy Review: draftÔåÆreviewÔåÆapprove/reject workflow, PolicyReview lifecycle, history tracking")
 endif()
 
-# Governance ÔÇô policy template library focused tests (Issue: #1778)
+# Governance - policy template library focused tests (Issue: #1778)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_policy_template.cpp")
     message(STATUS "Adding Policy Template focused tests (Issue #1778)")
     add_executable(test_policy_template_focused test_policy_template.cpp)
@@ -6122,7 +6122,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_policy_template.cpp")
     message(STATUS "  Policy Template: GDPR/HIPAA/SOC2/least-privilege built-in templates, PolicyTemplateManager")
 endif()
 
-# Governance ÔÇô policy versioning and conflict detection focused tests (Issue: #1780 / #1782)
+# Governance - policy versioning and conflict detection focused tests (Issue: #1780 / #1782)
 if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_policy_versioning.cpp")
     message(STATUS "Adding Policy Versioning focused tests (Issue #1780 / #1782)")
     add_executable(test_policy_versioning_focused test_policy_versioning.cpp)
@@ -6144,7 +6144,7 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_policy
     message(STATUS "  Policy Versioning: version history, rollback, conflict detection (contradictory/overlapping/circular), GET /policies/conflicts endpoint")
 endif()
 
-# Governance ÔÇô SOC 2 Trust Services Controls focused tests (Issue: #1769 / #1778)
+# Governance - SOC 2 Trust Services Controls focused tests (Issue: #1769 / #1778)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_soc2_controls.cpp")
     message(STATUS "Adding SOC 2 Controls focused tests (Issue #1769 / #1778)")
     add_executable(test_soc2_controls_focused test_soc2_controls.cpp)
@@ -6162,7 +6162,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_soc2_controls.cpp")
     message(STATUS "  SOC 2 Controls: CC6.1/CC7.2/CC8.1/A1.1/C1.1/PI1.2 controls, evidence collection, Soc2Controls")
 endif()
 
-# Scheduler ÔÇô TaskScheduler auth context propagation focused tests (Issue #98 v1.8.0)
+# Scheduler - TaskScheduler auth context propagation focused tests (Issue #98 v1.8.0)
 if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_task_scheduler_auth_context.cpp")
     message(STATUS "Adding TaskScheduler Auth Context focused tests (Issue #98)")
     add_executable(test_task_scheduler_auth_context_focused
@@ -6183,7 +6183,7 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_task_s
     message(STATUS "  TaskScheduler: RequestContext TLS propagation, audit event user attribution, sandbox_execution flag")
 endif()
 
-# ── Scheduler focused tests (Phase 1–4, registered per ROADMAP Production Readiness Checklist) ──
+# ── Scheduler focused tests (Phase 1-4, registered per ROADMAP Production Readiness Checklist) ──
 
 # TaskScheduler core focused tests
 if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_task_scheduler.cpp")
@@ -6307,7 +6307,7 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_task_s
         LABELS "scheduler;api;handler;http;rest;unit"
         TIMEOUT 120
     )
-    message(STATUS "  TaskSchedulerApiHandler: REST endpoints – register, list, enable, disable, execute, stats")
+    message(STATUS "  TaskSchedulerApiHandler: REST endpoints - register, list, enable, disable, execute, stats")
 endif()
 
 # Scheduler integration focused tests
@@ -6477,7 +6477,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lek_manager_lifecycle.cpp")
     message(STATUS "  LEK Manager Lifecycle: expiry, revocation, migration")
 endif()
 
-# Phase 7 ÔÇô SelfAwareness production tests
+# Phase 7 - SelfAwareness production tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_self_awareness_production.cpp")
     message(STATUS "Adding SelfAwareness production tests (Phase 7)")
     add_executable(test_self_awareness_production
@@ -6531,7 +6531,7 @@ else()
     message(STATUS "Graph Index comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_graph_index_comprehensive.cpp")
 endif()
 
-# Learned Index Structures ÔÇö ML-based B-tree replacement (Issue #1990)
+# Learned Index Structures - ML-based B-tree replacement (Issue #1990)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_learned_index.cpp")
     message(STATUS "Adding Learned Index tests (Issue #1990)")
 
@@ -6812,7 +6812,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_anomaly_detection.cpp")
     message(STATUS "  AnomalyDetection: Z-Score, MAD, IQR, IsolationForest, LOF, Ensemble, streaming, serialize")
 endif()
 
-# LLMProcessAnalyzer focused tests ÔÇö O(1) LRU cache eviction (v1.8.0)
+# LLMProcessAnalyzer focused tests - O(1) LRU cache eviction (v1.8.0)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_llm_process_analyzer.cpp")
     message(STATUS "Adding focused LLMProcessAnalyzer LRU cache tests")
 
@@ -7746,7 +7746,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_scheduled_edge_refresh.cpp")
 endif()
 
 # ============================================================================
-# Importer Plugin API Tests (standalone ÔÇô avoids createPlugin/destroyPlugin
+# Importer Plugin API Tests (standalone - avoids createPlugin/destroyPlugin
 # symbol collision with postgres_importer.cpp in themis_core)
 # ============================================================================
 
@@ -7822,7 +7822,7 @@ else()
 endif()
 
 # ============================================================================
-# Flatfile Importer Focused Tests (standalone ÔÇô has own main(), excluded from
+# Flatfile Importer Focused Tests (standalone - has own main(), excluded from
 # main build via TEST_EXCLUDE_PATTERNS)
 # ============================================================================
 
@@ -7860,7 +7860,7 @@ else()
 endif()
 
 # ============================================================================
-# Schema Validator Importer Focused Tests (standalone ÔÇô has own main(), excluded
+# Schema Validator Importer Focused Tests (standalone - has own main(), excluded
 # from main build via TEST_EXCLUDE_PATTERNS)
 # ============================================================================
 
@@ -8250,7 +8250,7 @@ else()
 endif()
 
 # ============================================================================
-# PostgreSQL Importer Focused Tests (standalone binary ÔÇô combines all
+# PostgreSQL Importer Focused Tests (standalone binary - combines all
 # postgres_importer test variants: advanced, chaos, complex_ddl, datatypes,
 # integration, robustness, security_audit, streaming)
 # ============================================================================
@@ -9186,7 +9186,7 @@ else()
 endif()
 
 # ============================================================================
-# LLM Timeout and Cancellation Tests (standalone ÔÇô requires themis_llm / themis_core)
+# LLM Timeout and Cancellation Tests (standalone - requires themis_llm / themis_core)
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_timeout_cancellation.cpp" AND THEMIS_ENABLE_LLM)
@@ -9490,7 +9490,7 @@ else()
 endif()
 
 # ============================================================================
-# Content Module ÔÇö Focused Standalone Test Targets (Phase 4)
+# Content Module - Focused Standalone Test Targets (Phase 4)
 # These targets build directly against themis_content (or source files) and
 # can be run quickly without the full unified test binary.
 # ============================================================================
@@ -10017,7 +10017,7 @@ if(THEMIS_ENABLE_CONTENT)
     endif()
 
 endif() # THEMIS_ENABLE_CONTENT
-# CDC Admin Tests (standalone ÔÇô cdc_admin.cpp is in themis_core only when
+# CDC Admin Tests (standalone - cdc_admin.cpp is in themis_core only when
 # THEMIS_ENABLE_HTTP_SERVER is ON; add it explicitly when HTTP_SERVER is OFF)
 # ============================================================================
 
@@ -10065,7 +10065,7 @@ else()
 endif()
 
 # ============================================================================
-# Tenant Buffer Manager Tests (standalone ÔÇô changefeed_buffer.cpp and
+# Tenant Buffer Manager Tests (standalone - changefeed_buffer.cpp and
 # tenant_buffer_manager.cpp are in themis_core; link directly)
 # ============================================================================
 
@@ -10105,7 +10105,7 @@ else()
 endif()
 
 # ============================================================================
-# CDC Retention Tests (standalone ÔÇô exercises runtime-configurable retention
+# CDC Retention Tests (standalone - exercises runtime-configurable retention
 # policies, background cleanup thread lifecycle, and RetentionStatus reporting)
 # ============================================================================
 
@@ -10153,7 +10153,7 @@ else()
 endif()
 
 # ============================================================================
-# CDC Changefeed Sequence Counter Tests (v1.8.0 ÔÇô roadmap #160)
+# CDC Changefeed Sequence Counter Tests (v1.8.0 - roadmap #160)
 # Validates: SequenceIncrementOperator, atomic counter, crash recovery,
 # no-duplicate sequences under 8 threads, ÔëÑ200K seq/s throughput.
 # ============================================================================
@@ -10195,7 +10195,7 @@ else()
 endif()
 
 # ============================================================================
-# ChangefeedCore Focused Tests (v1.8.0) ÔÇö validates Changefeed subscriptions,
+# ChangefeedCore Focused Tests (v1.8.0) - validates Changefeed subscriptions,
 # listEvents() upper-bound (to_sequence), JSON round-trips, watermarks, and
 # concurrent subscribe/record safety.
 # ============================================================================
@@ -10235,7 +10235,7 @@ else()
 endif()
 
 # ============================================================================
-# DiffEngine Focused Tests (v1.8.0) ÔÇö validates cache-stampede prevention,
+# DiffEngine Focused Tests (v1.8.0) - validates cache-stampede prevention,
 # bounded listEvents() via to_sequence, copy-evict-then-lock eviction, and
 # all original DiffEngine acceptance criteria.
 # ============================================================================
@@ -10276,7 +10276,7 @@ else()
 endif()
 
 # ============================================================================
-# CDC WebSocket Handler Tests (standalone ÔÇô validates the /v2/cdc/stream
+# CDC WebSocket Handler Tests (standalone - validates the /v2/cdc/stream
 # named-subscription protocol: subscribe/unsubscribe/ack frames,
 # back-pressure metric cdc_ws_overflow_total, and pollEvents delivery)
 # ============================================================================
@@ -10329,7 +10329,7 @@ else()
 endif()
 
 # ============================================================================
-# CDC Consumer Group Focused Tests (v1.8.0 ÔÇô consumer group semantics and
+# CDC Consumer Group Focused Tests (v1.8.0 - consumer group semantics and
 # durable offset tracking via ConsumerGroupManager)
 # ============================================================================
 
@@ -10377,7 +10377,7 @@ else()
 endif()
 
 # ============================================================================
-# CDC Kafka Producer Focused Tests (v1.9.0 — KafkaCDCProducer / ICDCTransport;
+# CDC Kafka Producer Focused Tests (v1.9.0 - KafkaCDCProducer / ICDCTransport;
 # exercises config defaults, no-op stub behaviour, ICDCTransport compliance,
 # Prometheus counter fields, Debezium format integration)
 # ============================================================================
@@ -10437,7 +10437,7 @@ else()
 endif()
 
 # ============================================================================
-# CDC Pause/Resume Control Focused Tests (v1.8.0 — ICDCPauseControl /
+# CDC Pause/Resume Control Focused Tests (v1.8.0 - ICDCPauseControl /
 # InMemoryPauseControl; header-only, no RocksDB dependency)
 # ============================================================================
 
@@ -10477,7 +10477,7 @@ else()
 endif()
 
 # ============================================================================
-# CDC Backpressure Signal Focused Tests (v1.8.0 ÔÇö ICDCBackpressureSignal /
+# CDC Backpressure Signal Focused Tests (v1.8.0 - ICDCBackpressureSignal /
 # InMemoryBackpressureSignal; header-only, no RocksDB dependency)
 # ============================================================================
 
@@ -10516,7 +10516,7 @@ else()
 endif()
 
 # ============================================================================
-# CDC Fan-In Focused Tests (v1.8.0 ÔÇö ICDCFanIn / InMemoryFanIn;
+# CDC Fan-In Focused Tests (v1.8.0 - ICDCFanIn / InMemoryFanIn;
 # requires RocksDB for Changefeed instances)
 # ============================================================================
 
@@ -10556,7 +10556,7 @@ else()
 endif()
 
 # ============================================================================
-# CDC Event Schema Focused Tests (v1.8.0 ÔÇö ICDCEventSchema /
+# CDC Event Schema Focused Tests (v1.8.0 - ICDCEventSchema /
 # InMemoryCDCEventSchema; header-only, no RocksDB dependency)
 # ============================================================================
 
@@ -10595,7 +10595,7 @@ else()
 endif()
 
 # ============================================================================
-# CDC Delivery Guarantee Config Focused Tests (v1.8.0 ÔÇö
+# CDC Delivery Guarantee Config Focused Tests (v1.8.0 -
 # IDeliveryGuaranteeConfig / InMemoryDeliveryGuaranteeConfig /
 # InMemoryIdempotentListener; header-only, no RocksDB dependency)
 # ============================================================================
@@ -10635,7 +10635,7 @@ else()
     message(STATUS "CDC Delivery Guarantee Config tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_cdc_delivery_guarantee_config.cpp")
 endif()
 
-# Config Module ÔÇô Focused Standalone Test Targets
+# Config Module - Focused Standalone Test Targets
 # ============================================================================
 
 # Shared config source list used by all four focused config test executables.
@@ -12247,7 +12247,7 @@ else()
 endif()
 
 # ============================================================================
-# Core Module ÔÇô ConcernsContext Focused Tests (Issue #1419)
+# Core Module - ConcernsContext Focused Tests (Issue #1419)
 # Standalone target so the DI/observability layer can be validated in isolation
 # without requiring the full themis_tests binary.
 # ============================================================================
@@ -12288,7 +12288,7 @@ else()
 endif()
 
 # ============================================================================
-# Core Module ÔÇô Fuzz / Robustness Tests (Issue #1419)
+# Core Module - Fuzz / Robustness Tests (Issue #1419)
 # Exercises wire-protocol frame parser, CompressionAdvisor, PayloadBufferPool,
 # WireProtocolMetrics, AbiChecker, LicenseData, and BuildInfo with adversarial
 # and boundary-value inputs.
@@ -12329,7 +12329,7 @@ else()
 endif()
 
 # ============================================================================
-# Core Module ÔÇô Lock-Free Metrics Focused Tests (Issue #66)
+# Core Module - Lock-Free Metrics Focused Tests (Issue #66)
 # Validates all three acceptance criteria:
 #   AC-1  std::atomic counters
 #   AC-2  Lock-free per-thread ring buffer for histograms
@@ -12872,7 +12872,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_usb_volume_hardening.cpp")
 endif()
 
 # ============================================================================
-# Time Series Module ÔÇô Focused Standalone Test Targets
+# Time Series Module - Focused Standalone Test Targets
 # Each test is a standalone executable covering a distinct Phase 2 / Phase 3
 # feature of the time series subsystem.  All tests are CPU-only; no TSStore
 # on-disk state is required for unit-level tests.
@@ -13094,7 +13094,7 @@ else()
 endif()
 
 # ============================================================================
-# TSStore putBatch — focused tests (TB-01 … TB-14)
+# TSStore putBatch - focused tests (TB-01 … TB-14)
 # ============================================================================
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tsstore_batch.cpp")
     message(STATUS "Adding TSStore putBatch focused tests (TB-01…TB-14)")
@@ -13132,7 +13132,7 @@ else()
 endif()
 
 # ============================================================================
-# StreamingIngestManager — focused tests (SM-01 … SM-10)
+# StreamingIngestManager - focused tests (SM-01 … SM-10)
 # ============================================================================
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_streaming_ingest_manager.cpp")
     message(STATUS "Adding StreamingIngestManager focused tests (SM-01…SM-10)")
@@ -13170,7 +13170,7 @@ else()
 endif()
 
 # ============================================================================
-# TsStreamCursor — focused tests (SC-01 … SC-08)
+# TsStreamCursor - focused tests (SC-01 … SC-08)
 # ============================================================================
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ts_stream_cursor.cpp")
     message(STATUS "Adding TsStreamCursor focused tests (SC-01…SC-08)")
@@ -13208,7 +13208,7 @@ else()
 endif()
 
 # ============================================================================
-# IoUringBatchedSender — focused tests (IUB-01 … IUB-12)
+# IoUringBatchedSender - focused tests (IUB-01 … IUB-12)
 # ============================================================================
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_io_uring_batcher.cpp")
     message(STATUS "Adding IoUringBatchedSender focused tests (IUB-01…IUB-12)")
@@ -13252,7 +13252,7 @@ else()
 endif()
 
 # ============================================================================
-# Kernel Bypass (DPDK / io_uring) — focused tests (KBP-01 … KBP-40)
+# Kernel Bypass (DPDK / io_uring) - focused tests (KBP-01 … KBP-40)
 # ============================================================================
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_kernel_bypass.cpp")
     message(STATUS "Adding Kernel Bypass focused tests (KBP-01…KBP-40)")
@@ -13312,7 +13312,7 @@ else()
 endif()
 
 # ============================================================================
-# RequestCoalescer Singleflight — focused tests (RC-01 … RC-14)
+# RequestCoalescer Singleflight - focused tests (RC-01 … RC-14)
 # ============================================================================
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_request_coalescer.cpp")
     message(STATUS "Adding RequestCoalescer Singleflight focused tests (RC-01…RC-14)")
@@ -13350,7 +13350,7 @@ else()
 endif()
 
 # ============================================================================
-# LockFreeHistogram — focused tests (LFH-01 … LFH-12)
+# LockFreeHistogram - focused tests (LFH-01 … LFH-12)
 # ============================================================================
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lockfree_histogram.cpp")
     message(STATUS "Adding LockFreeHistogram focused tests (LFH-01…LFH-12)")
@@ -13388,7 +13388,7 @@ else()
 endif()
 
 # ============================================================================
-# Geo Module ÔÇô Focused Standalone Test Targets
+# Geo Module - Focused Standalone Test Targets
 # Each geo test is a standalone executable so it can be run independently
 # without requiring a full themis_tests build.  All tests run in CPU-only
 # simulation mode by default; CUDA/HIP variants are gated on THEMIS_GEO_CUDA
@@ -13721,7 +13721,7 @@ endif()
 # CHIMERA Adapter Focused Tests
 # Each adapter test is a standalone executable so it can be run independently
 # without needing the full themis_core link.  All adapters run in simulation
-# mode ÔÇô no live database server required.
+# mode - no live database server required.
 # ============================================================================
 
 if(THEMIS_BUILD_CHIMERA)
@@ -14489,6 +14489,14 @@ if(THEMIS_ENABLE_LLM)
         "ActiveVRAMAllocator: allocation/free, OOM recovery (eviction/defrag/spill), thread safety, AdaptiveVRAMAllocator delegation"
     )
 
+    add_llm_focused_test(
+        test_llm_gossip_adapter_publisher
+        llm/test_llm_gossip_adapter_publisher.cpp
+        GossipAdapterPublisherFocusedTests
+        "llm;gossip;distributed_knowledge;lora;unit"
+        "GossipAdapterPublisher wired in LLMPluginManager: announce on loadLoRA, withdrawal on unloadLoRA, no-op without publisher (GAP-01..05)"
+    )
+
     # Standalone focused test target for InferenceEngineEnhanced.
     # Exercises KV-cache prewarming, embedding-based cache lookup, hot-swap,
     # speculative decoding, load-balancing, and per-model quotas.
@@ -14608,7 +14616,7 @@ else()
     message(STATUS "LLM focused tests (tests/llm/) skipped (THEMIS_ENABLE_LLM=OFF)")
 endif()
 
-# Ingestion Module ÔÇô Focused Standalone Test Targets
+# Ingestion Module - Focused Standalone Test Targets
 # Each target links against themis_core (which now always includes all 10
 # ingestion source files) and the target's single test source.
 # ============================================================================
@@ -14900,10 +14908,10 @@ add_ingestion_focused_test(
     "ingestion;legal;domain;phase5;phase6;focused;unit"
     "Ingestion Phase 5+6: DocumentStoreSinkAdapter (DS-01..DS-05), GesetzParser (LD-01..LD-04), TemporalExtractor (LD-05..LD-07), BehoerdenMapper (LD-08..LD-09), BescheidExtractor (LD-10..LD-11), CrossDocumentLinker (LD-12..LD-13), LegalEntityExport (LD-14..LD-15)"
 )
-# Metadata Module ÔÇô Focused Test Targets
+# Metadata Module - Focused Test Targets
 # ============================================================================
 
-# Metadata ÔÇô SchemaManager focused tests
+# Metadata - SchemaManager focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_manager.cpp")
     message(STATUS "Adding Metadata SchemaManager focused tests")
     add_executable(test_schema_manager_focused test_schema_manager.cpp)
@@ -14923,7 +14931,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_manager.cpp")
     message(STATUS "  SchemaManager: automatic table discovery, property type detection, adaptive TTL, changefeeds")
 endif()
 
-# Metadata ÔÇô StatisticsCollector focused tests
+# Metadata - StatisticsCollector focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_statistics_collector.cpp")
     message(STATUS "Adding Metadata StatisticsCollector focused tests")
     add_executable(test_statistics_collector_focused test_statistics_collector.cpp)
@@ -14943,7 +14951,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_statistics_collector.cpp")
     message(STATUS "  StatisticsCollector: equi-height histograms, cardinality estimation, index stats, auto-refresh, metrics hook")
 endif()
 
-# Metadata ÔÇô StatisticsCollector auto-refresh focused tests
+# Metadata - StatisticsCollector auto-refresh focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_statistics_auto_refresh.cpp")
     message(STATUS "Adding Metadata StatisticsCollector auto-refresh focused tests")
     add_executable(test_statistics_auto_refresh_focused test_statistics_auto_refresh.cpp)
@@ -14963,7 +14971,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_statistics_auto_refresh.cpp")
     message(STATUS "  StatisticsCollector auto-refresh: background thread, metrics hook, interval control")
 endif()
 
-# Metadata ÔÇô ColumnLineageTracker focused tests
+# Metadata - ColumnLineageTracker focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_column_lineage.cpp")
     message(STATUS "Adding Metadata ColumnLineage focused tests")
     add_executable(test_column_lineage_focused test_column_lineage.cpp)
@@ -14983,7 +14991,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_column_lineage.cpp")
     message(STATUS "  ColumnLineage: derivation DAG, transitive upstream/downstream traversal, provenance JSON export")
 endif()
 
-# Metadata ÔÇô CatalogExporter focused tests (Atlas + DataHub)
+# Metadata - CatalogExporter focused tests (Atlas + DataHub)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_catalog_exporter.cpp")
     message(STATUS "Adding Metadata CatalogExporter focused tests")
     add_executable(test_catalog_exporter_focused test_catalog_exporter.cpp)
@@ -15003,7 +15011,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_catalog_exporter.cpp")
     message(STATUS "  CatalogExporter: Apache Atlas entity bulk API, DataHub MCP emission, injected HTTP (no network)")
 endif()
 
-# Metadata ÔÇô SchemaAuditLog focused tests
+# Metadata - SchemaAuditLog focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_audit_log.cpp")
     message(STATUS "Adding Metadata SchemaAuditLog focused tests")
     add_executable(test_schema_audit_log_focused test_schema_audit_log.cpp)
@@ -15023,7 +15031,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_audit_log.cpp")
     message(STATUS "  SchemaAuditLog: durable per-table audit trail, JSON export, round-trip persistence")
 endif()
 
-# Metadata ÔÇô SchemaConsistencyChecker focused tests
+# Metadata - SchemaConsistencyChecker focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_consistency_checker.cpp")
     message(STATUS "Adding Metadata SchemaConsistencyChecker focused tests")
     add_executable(test_schema_consistency_checker_focused test_schema_consistency_checker.cpp)
@@ -15043,7 +15051,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_consistency_checker.cpp")
     message(STATUS "  SchemaConsistencyChecker: background health scan, inconsistency detection and reporting")
 endif()
 
-# Metadata ÔÇô IndexRecommender focused tests
+# Metadata - IndexRecommender focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_index_recommender.cpp")
     message(STATUS "Adding Metadata IndexRecommender focused tests")
     add_executable(test_index_recommender_focused
@@ -15066,7 +15074,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_index_recommender.cpp")
     message(STATUS "  IndexRecommender: query-pattern analysis, usage tracking, missing index detection, cost-benefit, RocksDB persistence, cost-model scoring, metric emission")
 endif()
 
-# Metadata ÔÇô DistributedMetadataCatalog focused tests
+# Metadata - DistributedMetadataCatalog focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_catalog.cpp")
     message(STATUS "Adding Metadata DistributedMetadataCatalog focused tests")
     add_executable(test_distributed_catalog_focused
@@ -15089,7 +15097,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_catalog.cpp")
     message(STATUS "  DistributedMetadataCatalog: cross-shard catalog synchronisation, shard metadata lookup")
 endif()
 
-# Metadata ÔÇô SchemaVersionManager focused tests
+# Metadata - SchemaVersionManager focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_version_manager.cpp")
     message(STATUS "Adding Metadata SchemaVersionManager focused tests")
     add_executable(test_schema_version_manager_focused test_schema_version_manager.cpp)
@@ -15109,7 +15117,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_version_manager.cpp")
     message(STATUS "  SchemaVersionManager: schema version tracking, change history, rollback, diff, audit log integration")
 endif()
 
-# Metadata ÔÇô SchemaVersionManager dry-run / validateMigration focused tests
+# Metadata - SchemaVersionManager dry-run / validateMigration focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_version_dryrun.cpp")
     message(STATUS "Adding Metadata SchemaVersionManager dry-run focused tests")
     add_executable(test_schema_version_dryrun_focused test_schema_version_dryrun.cpp)
@@ -15129,7 +15137,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_version_dryrun.cpp")
     message(STATUS "  SchemaVersionManager/validateMigration: dry-run validation, duplicate-column detection, no-persist guarantee")
 endif()
 
-# Metadata ÔÇô generateMigrationScript focused tests
+# Metadata - generateMigrationScript focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_migration_script.cpp")
     message(STATUS "Adding Metadata MigrationScript focused tests")
     add_executable(test_schema_migration_script_focused test_schema_migration_script.cpp)
@@ -15149,7 +15157,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_migration_script.cpp")
     message(STATUS "  SchemaMigrationScript: ADD/DROP/ALTER COLUMN DDL generation, type mapping, NOT NULL, reverse migration")
 endif()
 
-# Metadata ÔÇô schema migration regression focused tests
+# Metadata - schema migration regression focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_migration_regression.cpp")
     message(STATUS "Adding Metadata MigrationRegression focused tests")
     add_executable(test_schema_migration_regression_focused test_schema_migration_regression.cpp)
@@ -15169,7 +15177,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_migration_regression.cpp")
     message(STATUS "  SchemaMigrationRegression: forward/rollback across 5 versions, audit log, validateMigration lifecycle")
 endif()
 
-# Metadata ÔÇô SchemaConstraints focused tests
+# Metadata - SchemaConstraints focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_constraints.cpp")
     message(STATUS "Adding Metadata SchemaConstraints focused tests")
     add_executable(test_schema_constraints_focused test_schema_constraints.cpp)
@@ -15189,7 +15197,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_constraints.cpp")
     message(STATUS "  SchemaConstraints: NOT NULL, UNIQUE, CHECK, DEFAULT, foreign key enforcement")
 endif()
 
-# Metadata ÔÇô SchemaConstraints persistence focused tests
+# Metadata - SchemaConstraints persistence focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_constraints_persistence.cpp")
     message(STATUS "Adding Metadata SchemaConstraints persistence focused tests")
     add_executable(test_schema_constraints_persistence_focused test_schema_constraints_persistence.cpp)
@@ -15209,7 +15217,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_constraints_persistence.cpp")
     message(STATUS "  SchemaConstraintsPersistence: RocksDB round-trip for constraint definitions, reload after restart")
 endif()
 
-# Metadata ÔÇô IMetadataSecurityProvider focused tests
+# Metadata - IMetadataSecurityProvider focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metadata_security_provider.cpp")
     message(STATUS "Adding Metadata SecurityProvider focused tests")
     add_executable(test_metadata_security_provider_focused test_metadata_security_provider.cpp)
@@ -15227,7 +15235,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metadata_security_provider.cpp")
     message(STATUS "  MetadataSecurityProvider: NoOp allows all, RBAC grant/revoke/revokeAll, wildcard resource, ADMIN implies all, assertPermission throws, thread-safety")
 endif()
 
-# Metadata ÔÇô IMetadataChangeListener focused tests
+# Metadata - IMetadataChangeListener focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metadata_change_listener.cpp")
     message(STATUS "Adding Metadata ChangeListener focused tests")
     add_executable(test_metadata_change_listener_focused test_metadata_change_listener.cpp)
@@ -15245,7 +15253,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metadata_change_listener.cpp")
     message(STATUS "  MetadataChangeListener: FIFO ordering, lastEvent, clear, callback dispatch, setCallback, thread-safety, toJSON")
 endif()
 
-# Metadata ÔÇô IMetadataExportPolicy focused tests
+# Metadata - IMetadataExportPolicy focused tests
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metadata_export_policy.cpp")
     message(STATUS "Adding Metadata ExportPolicy focused tests")
     add_executable(test_metadata_export_policy_focused test_metadata_export_policy.cpp)
@@ -15263,7 +15271,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metadata_export_policy.cpp")
     message(STATUS "  MetadataExportPolicy: Always/Never/Filtered, exclusion list, exportDelay, removeExclusion, thread-safety")
 endif()
 
-# Metadata — IMetadataEncryptionProvider focused tests (v1.7.0)
+# Metadata - IMetadataEncryptionProvider focused tests (v1.7.0)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metadata_encryption_provider.cpp")
     message(STATUS "Adding Metadata EncryptionProvider focused tests")
     add_executable(test_metadata_encryption_provider_focused test_metadata_encryption_provider.cpp)
@@ -15281,7 +15289,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metadata_encryption_provider.cpp")
     message(STATUS "  MetadataEncryptionProvider: NoOp passthrough, FieldSet XOR cipher, wildcard, addField/removeField, thread-safety, round-trip")
 endif()
 
-# Metadata — SchemaDiff focused tests (v1.7.0)
+# Metadata - SchemaDiff focused tests (v1.7.0)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_diff.cpp")
     message(STATUS "Adding Metadata SchemaDiff focused tests")
     add_executable(test_schema_diff_focused test_schema_diff.cpp)
@@ -15299,7 +15307,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_diff.cpp")
     message(STATUS "  SchemaDiff: added/removed/modified columns and indexes, sorted output, isEmpty, toJSON, SchemaDiffEngine")
 endif()
 
-# Metadata — MetadataSnapshot focused tests (v1.7.0)
+# Metadata - MetadataSnapshot focused tests (v1.7.0)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metadata_snapshot.cpp")
     message(STATUS "Adding Metadata Snapshot focused tests")
     add_executable(test_metadata_snapshot_focused test_metadata_snapshot.cpp)
@@ -15318,7 +15326,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metadata_snapshot.cpp")
 endif()
 
 # ============================================================================
-# Network Module ÔÇô Focused Standalone Test Targets
+# Network Module - Focused Standalone Test Targets
 # Standalone executables so each network component can be tested in isolation
 # without linking the full themis_core library.
 # ============================================================================
@@ -15932,7 +15940,7 @@ else()
     message(STATUS "Ethics AI focused test not found: ${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_ai_pipeline.cpp")
 endif()
 
-# Prompt Engineering Module — Standalone Focused Test Targets
+# Prompt Engineering Module - Standalone Focused Test Targets
 # Each target is an independent executable so individual components can be
 # validated in isolation without linking the entire themis_tests binary.
 # All targets compile against themis_core only; no live database is required.
@@ -16017,7 +16025,7 @@ add_prompt_focused_test(
 )
 
 # ============================================================================
-# Index Module Focused Tests (Issue: #1882 ÔÇö unit test coverage >80%)
+# Index Module Focused Tests (Issue: #1882 - unit test coverage >80%)
 # Each test is a standalone executable covering a specific index subsystem.
 # ============================================================================
 
@@ -16110,7 +16118,7 @@ add_index_focused_test(
 )
 
 # ============================================================================
-# Cache Interfaces Tests (Issue: #1596 ÔÇö unit test coverage >80%)
+# Cache Interfaces Tests (Issue: #1596 - unit test coverage >80%)
 # ============================================================================
 add_prompt_focused_test(
     test_prompt_performance_tracker_focused
@@ -16290,7 +16298,7 @@ add_prompt_focused_test(
 # ============================================================================
 
 # ============================================================================
-# Ingestion Module Focused Tests (Issue: #1910 ÔÇö Integration tests)
+# Ingestion Module Focused Tests (Issue: #1910 - Integration tests)
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ingestion_integration.cpp" AND NOT TARGET test_ingestion_integration_focused)
@@ -16565,7 +16573,7 @@ else()
     message(STATUS "AlertingEngine focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_alerting_engine.cpp")
 endif()
 
-# MetricsStreamServer focused tests (v1.6.0 ÔÇö real-time metric streaming, Issue #82)
+# MetricsStreamServer focused tests (v1.6.0 - real-time metric streaming, Issue #82)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_metrics_stream_server.cpp")
     message(STATUS "Adding Observability: MetricsStreamServer focused tests (v1.6.0 streaming metrics)")
 
@@ -16705,7 +16713,7 @@ else()
     message(STATUS "LogAggregator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_log_aggregator.cpp")
 endif()
 
-# MLAnomalyDetector focused tests (v1.7.0 ÔÇö ML-based anomaly detection on metrics, Issue #2097)
+# MLAnomalyDetector focused tests (v1.7.0 - ML-based anomaly detection on metrics, Issue #2097)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ml_anomaly_detector.cpp")
     message(STATUS "Adding Observability: MLAnomalyDetector focused tests (v1.7.0, Issue #2097)")
 
@@ -16741,7 +16749,7 @@ else()
     message(STATUS "MLAnomalyDetector focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ml_anomaly_detector.cpp")
 endif()
 
-# RootCauseAnalyzer focused tests (v1.7.0 ÔÇö automated root cause identification, Issue #84)
+# RootCauseAnalyzer focused tests (v1.7.0 - automated root cause identification, Issue #84)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_root_cause_analyzer.cpp")
     message(STATUS "Adding Observability: RootCauseAnalyzer focused tests (v1.7.0, Issue #84)")
 
@@ -16859,7 +16867,7 @@ endif()
 # enabling fast iteration without recompiling the full themis_core library.
 # ============================================================================
 
-# ModalityParser focused tests ÔÇô covers ModalityDetector, all four extractors,
+# ModalityParser focused tests - covers ModalityDetector, all four extractors,
 # and ConfidenceCalibrator from the same test file.
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_training_convergence.cpp")
     message(STATUS "Adding ModalityParser focused tests (Phase 3)")
@@ -16906,7 +16914,7 @@ else()
     message(STATUS "Modality parser focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_training_convergence.cpp")
 endif()
 
-# TrainingConvergence alias ÔÇô same binary, separate CTest entry for labelling
+# TrainingConvergence alias - same binary, separate CTest entry for labelling
 if(TARGET test_modality_parser_focused)
     add_test(NAME TrainingConvergenceFocusedTests COMMAND test_modality_parser_focused)
 
@@ -16918,7 +16926,7 @@ if(TARGET test_modality_parser_focused)
     message(STATUS "  TrainingConvergence: ConfidenceCalibrator PAV isotonic regression, F1 threshold selection, multi-category")
 endif()
 
-# ProvenanceAqlIntegration focused tests ÔÇô round-trip provenance write + lineage
+# ProvenanceAqlIntegration focused tests - round-trip provenance write + lineage
 # query tests covering both offline (in-process store) and live QueryEngine paths.
 # Runs as a gtest_filter slice of themis_tests so it inherits all core libs.
 if(TARGET themis_tests)
@@ -16935,7 +16943,7 @@ if(TARGET themis_tests)
     message(STATUS "  ProvenanceAqlIntegration: provenance write + lineage round-trip (offline + QueryEngine paths)")
 endif()
 
-# AutoLabelerDbFetch focused tests ÔÇô covers DB fetch paths in labelAll() and
+# AutoLabelerDbFetch focused tests - covers DB fetch paths in labelAll() and
 # labelQuery() by wiring a real QueryEngine (RocksDB + SecondaryIndexManager).
 # Runs as a gtest_filter slice of themis_tests so it inherits all core libs.
 if(TARGET themis_tests)
@@ -16952,7 +16960,7 @@ if(TARGET themis_tests)
     message(STATUS "  AutoLabelerDbFetch: labelAll/labelQuery DB fetch via AQL executor, offline fallback, callback, stats")
 endif()
 
-# KgeVectorSearch focused tests ÔÇô covers findSimilarDocuments() wired to a
+# KgeVectorSearch focused tests - covers findSimilarDocuments() wired to a
 # real VectorIndexManager (FINDING-T-002 resolution, v1.6.0).
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_kge_vector_search.cpp")
     message(STATUS "Adding KgeVectorSearch focused tests (knowledge_graph_enricher + VectorIndexManager)")
@@ -16992,7 +17000,7 @@ else()
     message(STATUS "KgeVectorSearch focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_kge_vector_search.cpp")
 endif()
 
-# LoRAAdapter focused tests ÔÇô real weight manipulation (no simulation)
+# LoRAAdapter focused tests - real weight manipulation (no simulation)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_training_lora_adapter.cpp")
     message(STATUS "Adding LoRAAdapter focused tests (lora_adapter.cpp)")
 
@@ -17027,7 +17035,7 @@ else()
     message(STATUS "LoRAAdapter focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_training_lora_adapter.cpp")
 endif()
 
-# AdvancedTrainingFeatures focused tests ÔÇô quantization config, multi-GPU config,
+# AdvancedTrainingFeatures focused tests - quantization config, multi-GPU config,
 # training metrics tracking, checkpoint/resume enhancements (feat/advanced-training-features)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_advanced_training_features.cpp")
     message(STATUS "Adding AdvancedTrainingFeatures focused tests")
@@ -17074,7 +17082,7 @@ else()
     message(STATUS "AdvancedTrainingFeatures focused tests not found")
 endif()
 
-# AdaLoRA focused tests ÔÇô importance-based rank pruning (Phase: AdaLoRA)
+# AdaLoRA focused tests - importance-based rank pruning (Phase: AdaLoRA)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ada_lora_adapter.cpp")
     message(STATUS "Adding AdaLoRA focused tests")
 
@@ -17109,7 +17117,7 @@ else()
     message(STATUS "AdaLoRA focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_ada_lora_adapter.cpp")
 endif()
 
-# LoRAMerger focused tests ÔÇô linear + TIES merge (Phase: multi-adapter)
+# LoRAMerger focused tests - linear + TIES merge (Phase: multi-adapter)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_adapter_merger.cpp")
     message(STATUS "Adding LoRAMerger focused tests")
 
@@ -17145,7 +17153,7 @@ else()
     message(STATUS "LoRAMerger focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_lora_adapter_merger.cpp")
 endif()
 
-# TrainingPhase2 focused tests — adapter serving integration, multi-domain
+# TrainingPhase2 focused tests - adapter serving integration, multi-domain
 # support, and integrity verification (Phase 2 items from ROADMAP).
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_training_phase2.cpp")
     message(STATUS "Adding TrainingPhase2 focused tests")
@@ -17196,7 +17204,7 @@ endif()
 # Voice Module Focused Tests
 # ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
 
-# VoiceProduction focused tests ÔÇô covers all 10 production-readiness phases
+# VoiceProduction focused tests - covers all 10 production-readiness phases
 # (AudioPreprocessing, WakeWordDetector, VoiceIntentDetector, VoiceSessionManager,
 #  VoiceSecurityManager, VoiceErrorHandler, VoiceTTSCustomizer, VoiceMeetingSupport,
 #  VoiceAudioStorage, VoiceAccessibility, VoiceModelCache, VoiceBatchProcessor,
@@ -17252,7 +17260,7 @@ else()
     message(STATUS "Voice Production focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_voice_production.cpp")
 endif()
 
-# BlueGreenDeployment ÔÇô focused tests for blue/green deployment support
+# BlueGreenDeployment - focused tests for blue/green deployment support
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_blue_green_deployment.cpp" AND NOT TARGET test_blue_green_deployment_focused)
     message(STATUS "Adding Blue/Green Deployment focused tests")
 
@@ -17362,8 +17370,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_coverage.cpp" AND NOT TARGET t
     add_test(NAME VoiceCoverageFocusedTests COMMAND test_voice_coverage_focused)
 endif()
 
-# CanaryRollout ÔÇô focused tests for canary rollout mode
-# CanaryRollout ÔÇô focused tests for canary rollout mode
+# CanaryRollout - focused tests for canary rollout mode
+# CanaryRollout - focused tests for canary rollout mode
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_canary_rollout.cpp" AND NOT TARGET test_canary_rollout_focused)
     message(STATUS "Adding Canary Rollout focused tests")
 
@@ -17399,7 +17407,7 @@ else()
     message(STATUS "Canary Rollout focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_canary_rollout.cpp")
 endif()
 
-# BinaryDeltaPatches ÔÇô focused tests for DeltaUpdateEngine (v1.6.0, Issue #126)
+# BinaryDeltaPatches - focused tests for DeltaUpdateEngine (v1.6.0, Issue #126)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_binary_delta_patches.cpp" AND NOT TARGET test_binary_delta_patches_focused)
     message(STATUS "Adding Binary Delta Patches focused tests (Issue #126)")
 
@@ -17435,7 +17443,7 @@ else()
     message(STATUS "Binary Delta Patches focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_binary_delta_patches.cpp")
 endif()
 
-# AutomaticSchemaMigration ÔÇô focused tests for SchemaMigration (v1.7.0, Issue #127)
+# AutomaticSchemaMigration - focused tests for SchemaMigration (v1.7.0, Issue #127)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_automatic_schema_migration.cpp" AND NOT TARGET test_automatic_schema_migration_focused)
     message(STATUS "Adding Automatic Schema Migration focused tests (Issue #127)")
 
@@ -17471,7 +17479,7 @@ else()
     message(STATUS "Automatic Schema Migration focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_automatic_schema_migration.cpp")
 endif()
 
-# DistributedClusterUpdates ÔÇô focused tests for ClusterUpdateManager (v1.7.0, Issue #125)
+# DistributedClusterUpdates - focused tests for ClusterUpdateManager (v1.7.0, Issue #125)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cluster_updates.cpp" AND NOT TARGET test_distributed_cluster_updates_focused)
     message(STATUS "Adding Distributed Cluster Updates focused tests (Issue #125)")
 
@@ -17507,7 +17515,7 @@ else()
     message(STATUS "Distributed Cluster Updates focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_cluster_updates.cpp")
 endif()
 
-# ManifestDatabase file deletion focused tests ÔÇô v1.8.0 Issue #214
+# ManifestDatabase file deletion focused tests - v1.8.0 Issue #214
 # Covers: deleteManifest() file cleanup, tombstone race guard, registry/cache cleanup.
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_manifest_database_file_deletion.cpp" AND NOT TARGET test_manifest_database_file_deletion_focused)
     message(STATUS "Adding ManifestDatabase file deletion focused tests (v1.8.0)")
@@ -17548,7 +17556,7 @@ else()
     endif()
 endif()
 
-# CapabilityAutoGenerator: Persist Schedule and Document Count State ÔÇô v1.8.0 Issue #217
+# CapabilityAutoGenerator: Persist Schedule and Document Count State - v1.8.0 Issue #217
 # Covers: constructor state load, schedule gate, YAML serialisation, atomic write, persistState.
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_capabilityautogenerator_persist_state.cpp" AND NOT TARGET test_capabilityautogenerator_persist_state_focused)
     message(STATUS "Adding CapabilityAutoGenerator persist-state focused tests (v1.8.0, Issue #217)")
@@ -17647,7 +17655,7 @@ if(THEMIS_ENABLE_LLM)
     endif()
 endif()
 
-# VoiceBrowserStreaming focused tests ÔÇô covers VoiceStreamingSession lifecycle,
+# VoiceBrowserStreaming focused tests - covers VoiceStreamingSession lifecycle,
 # frame processing, streaming stats, partial-result emission, and error handling.
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_browser_streaming.cpp")
     message(STATUS "Adding Voice Browser Streaming focused tests")
@@ -17685,7 +17693,7 @@ else()
     message(STATUS "Voice Browser Streaming focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_voice_browser_streaming.cpp")
 endif()
 
-# VoiceSecurityFeatures focused tests – SSML sanitization, path traversal, origin allowlist
+# VoiceSecurityFeatures focused tests - SSML sanitization, path traversal, origin allowlist
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_security_features.cpp" AND NOT TARGET test_voice_security_features_focused)
     message(STATUS "Adding Voice Security Features focused tests")
 
@@ -17821,7 +17829,7 @@ else()
     message(STATUS "Data Augmentation focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_data_augmentation.cpp")
 endif()
 
-# VoiceTelephony focused tests ÔÇô covers SipCallSession, WebRtcCallSession,
+# VoiceTelephony focused tests - covers SipCallSession, WebRtcCallSession,
 # IVREngine, and TelephonyBridge coordinator.
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_telephony.cpp" AND NOT TARGET test_voice_telephony_focused)
     message(STATUS "Adding Voice Telephony focused tests")
@@ -17856,7 +17864,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_voice_telephony.cpp" AND NOT TARGET 
     )
 endif()
 
-# NotificationWebhook ÔÇô focused tests for Slack/PagerDuty update notifications
+# NotificationWebhook - focused tests for Slack/PagerDuty update notifications
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_notification_webhook.cpp" AND NOT TARGET test_notification_webhook_focused)
     message(STATUS "Adding Notification Webhook focused tests")
 
@@ -17889,7 +17897,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_notification_webhook.cpp" AND NOT TA
     )
 endif()
 
-# PreflightHealthCheck ÔÇô focused tests for pre-update health checks
+# PreflightHealthCheck - focused tests for pre-update health checks
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_preflight_health_check.cpp")
     message(STATUS "Adding Preflight Health Check focused tests")
 
@@ -17930,7 +17938,7 @@ else()
     message(STATUS "Preflight Health Check focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_preflight_health_check.cpp")
 endif()
 
-# SchemaMigrationTester ÔÇô focused tests for schema migration testing framework
+# SchemaMigrationTester - focused tests for schema migration testing framework
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_schema_migration_tester.cpp")
     message(STATUS "Adding Schema Migration Tester focused tests")
 
@@ -17967,7 +17975,7 @@ else()
     message(STATUS "Schema Migration Tester focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_schema_migration_tester.cpp")
 endif()
 
-# ParallelFileDownloads ÔÇô focused tests for parallel downloader (Issue #128 / v1.6.0)
+# ParallelFileDownloads - focused tests for parallel downloader (Issue #128 / v1.6.0)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_file_downloads.cpp")
     message(STATUS "Adding Parallel File Downloads focused tests")
 
@@ -18005,7 +18013,7 @@ else()
     message(STATUS "Parallel File Downloads focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_parallel_file_downloads.cpp")
 endif()
 
-# DependencyResolutionEngine ÔÇô focused tests for update dependency resolver (Issue #216 / v1.6.0)
+# DependencyResolutionEngine - focused tests for update dependency resolver (Issue #216 / v1.6.0)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_dependency_resolution_engine.cpp")
     message(STATUS "Adding Dependency Resolution Engine focused tests")
 
@@ -18041,7 +18049,7 @@ else()
     message(STATUS "Dependency Resolution Engine focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_dependency_resolution_engine.cpp")
 endif()
 
-# ContentEmbeddingPipeline ÔÇô focused tests for EmbeddingPipeline and
+# ContentEmbeddingPipeline - focused tests for EmbeddingPipeline and
 # ContentManager::generateEmbedding() (Issue #62 / v1.8.0)
 # Covers:
 #   AC-1  EmbeddingPipeline disabled when model_name is empty; enabled otherwise
@@ -18087,7 +18095,7 @@ else()
     message(STATUS "Content Embedding Pipeline focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_content_embedding_pipeline.cpp")
 endif()
 
-# MultiTenantUpdateScheduling ÔÇô focused tests for TenantUpdateScheduler (Issue #262 / v1.8.0)
+# MultiTenantUpdateScheduling - focused tests for TenantUpdateScheduler (Issue #262 / v1.8.0)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_tenant_update_scheduling.cpp")
     message(STATUS "Adding Multi-Tenant Update Scheduling focused tests")
 
@@ -18124,23 +18132,23 @@ else()
 endif()
 
 # ============================================================================
-# RaftLoadBalancer ÔÇô focused tests for Raft-coordinated load balancing
+# RaftLoadBalancer - focused tests for Raft-coordinated load balancing
 # (Issue #78 / v1.8.0)
 # Covers all 14 acceptance criteria:
-#   AC1  ÔÇô Raft consensus: single-node leader election, term increment
-#   AC2  ÔÇô Automatic failover after unhealthy_threshold failures
-#   AC3  ÔÇô Health-based routing excludes unhealthy backends
-#   AC4  ÔÇô Dynamic weight adjustment and rebalance events
-#   AC5  ÔÇô Cross-datacenter routing with local-DC preference
-#   AC6  ÔÇô Round Robin strategy
-#   AC7  ÔÇô Least Connections strategy
-#   AC8  ÔÇô Weighted Round Robin strategy
-#   AC9  ÔÇô Health-Based strategy
-#   AC10 ÔÇô Consistent Hashing strategy
-#   AC11 ÔÇô Health monitoring by the Raft leader
-#   AC12 ÔÇô Automatic removal of failed backends
-#   AC13 ÔÇô Automatic re-addition when backend recovers
-#   AC14 ÔÇô Leader election (Raft loop elects leader autonomously)
+#   AC1  - Raft consensus: single-node leader election, term increment
+#   AC2  - Automatic failover after unhealthy_threshold failures
+#   AC3  - Health-based routing excludes unhealthy backends
+#   AC4  - Dynamic weight adjustment and rebalance events
+#   AC5  - Cross-datacenter routing with local-DC preference
+#   AC6  - Round Robin strategy
+#   AC7  - Least Connections strategy
+#   AC8  - Weighted Round Robin strategy
+#   AC9  - Health-Based strategy
+#   AC10 - Consistent Hashing strategy
+#   AC11 - Health monitoring by the Raft leader
+#   AC12 - Automatic removal of failed backends
+#   AC13 - Automatic re-addition when backend recovers
+#   AC14 - Leader election (Raft loop elects leader autonomously)
 # ============================================================================
 add_network_focused_test(
     test_raft_load_balancer_focused
@@ -18150,7 +18158,7 @@ add_network_focused_test(
     "RaftLoadBalancer: leader election, failover, health-based routing, dynamic weights, cross-DC, all 5 strategies"
 )
 
-# DistributedGateway ÔÇô focused tests for multi-node API gateway
+# DistributedGateway - focused tests for multi-node API gateway
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_gateway.cpp")
     message(STATUS "Adding Distributed Gateway focused tests")
 
@@ -18188,7 +18196,7 @@ else()
     message(STATUS "Distributed Gateway focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_gateway.cpp")
 endif()
 
-# APIGatewayEnhancements ÔÇô focused tests for RequestCoalescingManager and SmartRouter
+# APIGatewayEnhancements - focused tests for RequestCoalescingManager and SmartRouter
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_api_gateway_enhancements.cpp")
     message(STATUS "Adding API Gateway Enhancements focused tests")
 
@@ -18228,7 +18236,7 @@ else()
     message(STATUS "API Gateway Enhancements focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_api_gateway_enhancements.cpp")
 endif()
 
-# DatabaseMaintenanceOrchestrator — focused tests for CRUD, jobs, and health
+# DatabaseMaintenanceOrchestrator - focused tests for CRUD, jobs, and health
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_database_maintenance_orchestrator.cpp")
     message(STATUS "Adding Database Maintenance Orchestrator focused tests")
 
@@ -18630,7 +18638,7 @@ else()
 endif()
 
 # ============================================================================
-# Philosophy Loader Tests (src/ethics_ai) — standalone target
+# Philosophy Loader Tests (src/ethics_ai) - standalone target
 # ============================================================================
 
 if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_philosophy_loader.cpp")
@@ -18679,7 +18687,7 @@ else()
 endif()
 
 # ============================================================================
-# Ethics AI Integration Tests — full pipeline end-to-end (standalone mode)
+# Ethics AI Integration Tests - full pipeline end-to-end (standalone mode)
 # ============================================================================
 # Tests three integration scenarios:
 #   1. FullPipelineIntegrationTest: initializeDebate → makeDecision → evaluateDecision
@@ -18849,7 +18857,7 @@ else()
 endif()
 
 # ============================================================================
-# Ethics AI v0.3.0 Tests — hot-reload, multi-round debates, Prometheus metrics
+# Ethics AI v0.3.0 Tests - hot-reload, multi-round debates, Prometheus metrics
 # ============================================================================
 
 if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_ai_v030.cpp")
@@ -19021,7 +19029,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_nvme_manager.cpp")
     message(STATUS "  NVMe: capability detection, io_uring lifecycle, ZNS no-ops, Direct I/O flags, RocksDB integration")
 endif()
 
-# Streaming Blob Write Path – focused tests (PERF-D5 / v2.0.0)
+# Streaming Blob Write Path - focused tests (PERF-D5 / v2.0.0)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_blob_streaming.cpp")
     message(STATUS "Adding Storage: BlobStreamingFocusedTests (PERF-D5)")
     add_executable(test_blob_streaming_focused test_blob_streaming.cpp)
@@ -19076,7 +19084,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_erasure_coding_backend.cpp" AND NOT 
 endif()
 
 # ============================================================================
-# OpenCL Erasure Coder ÔÇô CPU/GPU parity tests (Issue #105 / v1.8.0)
+# OpenCL Erasure Coder - CPU/GPU parity tests (Issue #105 / v1.8.0)
 # ============================================================================
 # Enabled when THEMIS_ENABLE_OPENCL is set (or the cmake find_package
 # for OpenCL succeeds).  Uses pocl-opencl-icd in CI for a CPU-only OpenCL
@@ -19124,7 +19132,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_opencl_erasure_coder_parity.cpp"
 
         message(STATUS "  OpenCLErasureCoder: encode/decode round-trip 1/2/3 erasures, CPU/GPU parity, batchEncode")
     else()
-        message(STATUS "OpenCL SDK not found ÔÇô OpenCL ErasureCoder parity tests will be skipped")
+        message(STATUS "OpenCL SDK not found - OpenCL ErasureCoder parity tests will be skipped")
     endif()
 endif()
 
@@ -19546,7 +19554,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_chaos_framework.cpp")
     message(STATUS "  ChaosFramework: FaultInjector lifecycle, fault inject/recover/expiry, ChaosScheduler, event callbacks")
 endif()
 
-# ── Chaos Stress focused tests (Phase 4 — scheduler jitter & configurable tick) ─
+# ── Chaos Stress focused tests (Phase 4 - scheduler jitter & configurable tick) ─
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_chaos_stress.cpp")
     message(STATUS "Adding Chaos: Stress / jitter focused tests (Phase 4)")
     add_executable(test_chaos_stress_focused
@@ -19684,13 +19692,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ingestion_builtin_steps_v14.cpp")
         LABELS "ingestion;builtin;decompress;legal_reference;chunk_embed;v140;focused;unit"
         TIMEOUT 60
     )
-    message(STATUS "  ING-01..04: builtin.decompress — name/version, MIME types, empty path, unknown MIME")
-    message(STATUS "  ING-05..08: builtin.legal_reference_extractor — name/version, empty text, extraction, dangling refs")
-    message(STATUS "  ING-09..12: builtin.chunk_embed — name/version, skip unavailable, error unavailable, produces VectorRecords")
+    message(STATUS "  ING-01..04: builtin.decompress - name/version, MIME types, empty path, unknown MIME")
+    message(STATUS "  ING-05..08: builtin.legal_reference_extractor - name/version, empty text, extraction, dangling refs")
+    message(STATUS "  ING-09..12: builtin.chunk_embed - name/version, skip unavailable, error unavailable, produces VectorRecords")
 endif()
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Distributed Knowledge Federation — Session 1 unit tests (2026-04-19)
+# Distributed Knowledge Federation - Session 1 unit tests (2026-04-19)
 # Tests: DK-A-01..06, DK-B-01..13, DK-C-01..10, DK-D-01..08 (37 tests)
 # ─────────────────────────────────────────────────────────────────────────────
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge.cpp")
@@ -19734,7 +19742,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_knowledge.cpp")
 endif()
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Distributed Knowledge Session 2 — GossipProtocol custom handler tests
+# Distributed Knowledge Session 2 - GossipProtocol custom handler tests
 # Tests: GP-CUSTOM-01..03 (3 tests)
 # ─────────────────────────────────────────────────────────────────────────────
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gossip_custom_handler.cpp")
@@ -19775,7 +19783,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gossip_custom_handler.cpp")
 endif()
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Distributed Knowledge Session 3 — AdaptiveShardRouter domain routing tests
+# Distributed Knowledge Session 3 - AdaptiveShardRouter domain routing tests
 # Tests: ASR-DOM-01..04 (4 new domain routing cases, plus existing suite)
 # ─────────────────────────────────────────────────────────────────────────────
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_shard_router.cpp")
@@ -20034,7 +20042,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_graph.cpp")
 endif()
 
 # Process Mining v2 focused tests (PM2-01 … PM2-16)
-# Covers: ProcessMining pair<Status,T> API — DFG, discovery, variants, conformance,
+# Covers: ProcessMining pair<Status,T> API - DFG, discovery, variants, conformance,
 #         performance enhancement, bottleneck detection, BPMN/PNML export
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_mining_v2.cpp")
     message(STATUS "Adding Process Mining v2 focused tests (PM2-01..16)")
@@ -20454,7 +20462,7 @@ else()
 endif()
 
 # ============================================================================
-# Core Module ÔÇô Distributed Cache Integration Focused Tests (Issue #64)
+# Core Module - Distributed Cache Integration Focused Tests (Issue #64)
 # Validates all seven acceptance criteria:
 #   AC-1  Cluster-wide cache invalidation
 #   AC-2  Consistent hashing for distributed keys
@@ -20588,7 +20596,7 @@ set_tests_properties(AdaptiveShardRebalancerFocusedTests PROPERTIES
     TIMEOUT 120
 )
 
-# Query Module ÔÇô Adaptive Join Strategies Focused Tests (v1.7.0, Issue #91)
+# Query Module - Adaptive Join Strategies Focused Tests (v1.7.0, Issue #91)
 # Validates all five acceptance criteria:
 #   AC-1  Hash Join: default for large equi-joins
 #   AC-2  Merge Join: both inputs sorted on join key
@@ -20633,7 +20641,7 @@ else()
     message(STATUS "AdaptiveJoinStrategies focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_join_strategies.cpp")
 endif()
 
-# Runtime Device Capability Negotiation ÔÇô focused tests (Issue #37, v1.7.0)
+# Runtime Device Capability Negotiation - focused tests (Issue #37, v1.7.0)
 #
 # Validates all acceptance criteria:
 #   AC-1  DeviceManager::probeDevices() returns a non-empty list with CPU fallback
@@ -20760,9 +20768,9 @@ else()
 endif()
 
 # ============================================================================
-# VecKnnInsertPipeline – PERF-D3 parallel batch insert + SIMD distance tests
+# VecKnnInsertPipeline - PERF-D3 parallel batch insert + SIMD distance tests
 # Covers: simd_l2_sq, simd_batch_l2_sq, DistanceCache, VecKnnInsertPipeline
-# Issue: PERF-D3 – Vector Insert: Parallel Insertion, SIMD Distance 600k/s
+# Issue: PERF-D3 - Vector Insert: Parallel Insertion, SIMD Distance 600k/s
 # ============================================================================
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_vec_knn_insert.cpp")
     message(STATUS "Adding VecKnnInsert focused tests (acceleration, PERF-D3, v1.0.0)")
@@ -20842,8 +20850,8 @@ else()
 endif()
 
 # ============================================================================
-# NCCLMergeTopKFocusedTests — NCCL/RCCL distributed mergeTopK() tests
-# Issue: #222 — Multi-GPU Sharding for Large Embedding Datasets (v1.9.0)
+# NCCLMergeTopKFocusedTests - NCCL/RCCL distributed mergeTopK() tests
+# Issue: #222 - Multi-GPU Sharding for Large Embedding Datasets (v1.9.0)
 # Covers:
 #   Section A (13 tests): CPU-side merge algorithm simulation, no hardware required
 #   Section B (6 tests): NCCLVectorBackend single-rank path, skipped without NCCL
@@ -20885,7 +20893,7 @@ else()
 endif()
 
 # ============================================================================
-# VLLMResourceManager — CPU/RAM Monitoring Stats Tests
+# VLLMResourceManager - CPU/RAM Monitoring Stats Tests
 # Covers: getStats() OS-specific CPU utilisation + RAM monitoring,
 #         canUseGPU() NVML timeout safety, uninitialised guard.
 # ============================================================================
@@ -20925,7 +20933,7 @@ else()
 endif()
 
 # ============================================================================
-# BlobRedundancyManager ÔÇô RocksDB Event Listener Focused Tests (v1.8.0)
+# BlobRedundancyManager - RocksDB Event Listener Focused Tests (v1.8.0)
 # Covers: createRocksDBListener(), notifySSTFileDeleted(),
 #         RocksDBBlobListener::OnTableFileDeleted(), healthyÔåÆunhealthy
 #         location marking, repair-queue notification.
@@ -20968,7 +20976,7 @@ else()
 endif()
 
 # ============================================================================
-# RemoteRegistryClient ÔÇô Async Retry Back-Off Focused Tests (v1.3.0, Issue #3986)
+# RemoteRegistryClient - Async Retry Back-Off Focused Tests (v1.3.0, Issue #3986)
 # Covers: sync API (listPlugins, fetchPlugin, downloadPlugin), RequestStats,
 #         max_total_retry_time_ms budget, and async variants (listPluginsAsync,
 #         fetchPluginAsync, downloadPluginAsync) that release the calling thread
@@ -21016,7 +21024,7 @@ else()
 endif()
 
 # ============================================================================
-# AdaptiveQueryCompiler ÔÇô Focused Tests (v1.8.0, Issue #86)
+# AdaptiveQueryCompiler - Focused Tests (v1.8.0, Issue #86)
 # Covers:
 #   AC-1  Hot Query Detection  (execution counter crosses hot_threshold)
 #   AC-2  Type Specialisation  (compiled path uses typed predicate dispatch)
@@ -21063,7 +21071,7 @@ else()
 endif()
 
 # ============================================================================
-# HardwareAccelerator ÔÇô Focused Tests (v1.8.0, Issue #85)
+# HardwareAccelerator - Focused Tests (v1.8.0, Issue #85)
 # Covers:
 #   AC-1  HashJoin dispatch      (GPU-sim and CPU paths produce identical results)
 #   AC-2  SortMergeJoin dispatch (results match hash-join for the same input)
@@ -21117,7 +21125,7 @@ endif()
 
 # ============================================================================
 # Custom Test Targets
-# LoRA Certificate Store ÔÇô focused tests (v1.8.0, Issue #75)
+# LoRA Certificate Store - focused tests (v1.8.0, Issue #75)
 # Covers all four acceptance criteria:
 #   AC-1  missing cert ÔåÆ verifySignature returns SIGNATURE_UNVERIFIABLE (fail closed)
 #   AC-2  valid cert registered in store + valid sig ÔåÆ verifySignature passes
@@ -21213,7 +21221,7 @@ endif()
 
 
 # ============================================================================
-# IntelligentPrefetcher ÔÇô focused tests (v1.8.0, Issue #192)
+# IntelligentPrefetcher - focused tests (v1.8.0, Issue #192)
 # Covers all six acceptance criteria:
 #   AC-1  Pattern Learning     (sequential and strided pattern detection)
 #   AC-2  Prefetch Distance    (adaptive distance responds to latency)
@@ -22094,7 +22102,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_egov_data_driven.cpp")
         message(STATUS "  Fixture-Pfad: ${CMAKE_CURRENT_SOURCE_DIR}/fixtures/egov")
         message(STATUS "  Überschreibbar: export THEMIS_EGOV_FIXTURES_DIR=<pfad>")
     else()
-        message(STATUS "nlohmann_json not found — EGovDataDrivenFocusedTests werden übersprungen")
+        message(STATUS "nlohmann_json not found - EGovDataDrivenFocusedTests werden übersprungen")
     endif()
 else()
     message(STATUS "E-Gov data-driven tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_egov_data_driven.cpp")
@@ -22173,7 +22181,7 @@ else()
 endif()
 
 # ---------------------------------------------------------------------------
-# CypherParserFocusedTests (30 tests) – v1.6.0
+# CypherParserFocusedTests (30 tests) - v1.6.0
 # ---------------------------------------------------------------------------
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cypher_parser.cpp")
     message(STATUS "Adding CypherParser focused tests (Cypher/AQL transpiler, v1.6.0)")
@@ -22211,7 +22219,7 @@ else()
 endif()
 
 # ---------------------------------------------------------------------------
-# GremlinParserFocusedTests (30 tests) – v1.6.0
+# GremlinParserFocusedTests (30 tests) - v1.6.0
 # ---------------------------------------------------------------------------
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_gremlin_parser.cpp")
     message(STATUS "Adding GremlinParser focused tests (Gremlin/AQL transpiler, v1.6.0)")
@@ -22249,7 +22257,7 @@ else()
 endif()
 
 # ============================================================================
-# MQTT Client Service Focused Tests (v1.9.0 — MqttClientService /
+# MQTT Client Service Focused Tests (v1.9.0 - MqttClientService /
 # MqttCDCTransport / IMqttMessageHandler; bidirectional MQTT client)
 # ============================================================================
 
@@ -22301,16 +22309,16 @@ endif()
 # Cross-Module: Timeseries (ContinuousAgg / DistributedAgg) + Analytics
 # (ForecastModel) integration tests (v1.9.0)
 #
-# Group A – ContinuousAggMaterializationEngine → ForecastModel pipeline
+# Group A - ContinuousAggMaterializationEngine → ForecastModel pipeline
 #   • A-1: linear-trend materialized data feeds linear regression forecast
 #   • A-2: empty materialized store causes ForecastModel::fit() to throw
 #   • A-3: partial refresh watermark is honoured by the forecasting consumer
 #   • A-4: two independent metrics produce independent forecast models
 #   • A-5: materialized timestamps are monotone in the resulting TimeSeries
-# Group B – mergeShardResults() mathematical correctness (no DB)
+# Group B - mergeShardResults() mathematical correctness (no DB)
 #   • B-1: empty input returns invalid result
-#   • B-2: single valid shard – identity
-#   • B-3: two shards – sum/count additive
+#   • B-2: single valid shard - identity
+#   • B-3: two shards - sum/count additive
 #   • B-4: weighted average correct across unequal shards
 #   • B-5: min/max are global extrema
 #   • B-6: from_ms/to_ms form the union of all shard time ranges
@@ -22367,16 +22375,16 @@ endif()
 # Cross-Module: TemporalQueryEngine + SystemVersionedTable + BiTemporalTable
 # integration tests (v1.9.0)
 #
-# Group A – executeTemporalQuery dispatcher (SystemVersionedTable)
+# Group A - executeTemporalQuery dispatcher (SystemVersionedTable)
 #   • A-1..A-5: AS_OF / FROM_TO / BETWEEN_AND / CONTAINED_IN / ALL clauses
-# Group B – executeTemporalQuery dispatcher (BiTemporalTable)
+# Group B - executeTemporalQuery dispatcher (BiTemporalTable)
 #   • B-1..B-3: AS_OF valid-time, FROM_TO, gap detection
-# Group C – Cross-table join consistency
+# Group C - Cross-table join consistency
 #   • C-1: joinAsOf returns pairs current at specified instant
 #   • C-2: never-matching predicate returns empty
 #   • C-3: empty right table returns empty
 #   • C-4: joinBiTemporal enforces both sys_as_of and valid_at
-# Group D – Temporal invariants under mutation
+# Group D - Temporal invariants under mutation
 #   • D-1: AS_OF before first insert returns empty
 #   • D-2: FROM_TO full range captures all versions
 #   • D-3: deleted rows excluded by default, included with include_deleted
@@ -22426,20 +22434,20 @@ endif()
 # ============================================================================
 # Cross-Module: German e-Government Connector Chain
 # eID (auth) → OZG Service Registry (importers) → XOEV Importer (importers)
-# → XDOMEA Connector (document) — integration tests
+# → XDOMEA Connector (document) - integration tests
 #
-# Group A (5 tests): eID × OZG — authenticated citizen looks up OZG service
+# Group A (5 tests): eID × OZG - authenticated citizen looks up OZG service
 #   A-1: Successful auth → OZG lookup by ID
 #   A-2: eID failure short-circuits; no OZG access
 #   A-3: eID identity attributes available for OZG compliance context
 #   A-4: OZG SDG-relevant flag accessible after auth
 #   A-5: Revoked session cannot be reused
-# Group B (4 tests): OZG × XOEV — service metadata drives XOEV records
+# Group B (4 tests): OZG × XOEV - service metadata drives XOEV records
 #   B-1: XOEV XBau record fields match OZG service fim_process_id
 #   B-2: OZG compliance_tags align with XOEVStandard::XBAU
 #   B-3: OZG field names match XOEV record field keys
 #   B-4: XOEV import for unknown OZG service is detectable
-# Group C (4 tests): XOEV × XDOMEA — XOEV records produce XDOMEA documents
+# Group C (4 tests): XOEV × XDOMEA - XOEV records produce XDOMEA documents
 #   C-1: Single XOEV record → XDOMEA Dokument
 #   C-2: Multiple XOEV records → Akte + N children
 #   C-3: XDOMEA round-trip preserves betreff/aktenzeichen from XOEV
@@ -22549,7 +22557,7 @@ endif()
 # ZeroTrustPolicyEnforcer (security) → DataLineageTracker (governance) →
 # MetricsCollector (observability) integration tests
 #
-# Group A (5 tests): ZeroTrust × DataLineage — access control drives lineage
+# Group A (5 tests): ZeroTrust × DataLineage - access control drives lineage
 #   A-1: Verified request → QUERY lineage event recorded
 #   A-2: Token failure    → no lineage event recorded
 #   A-3: Network denial   → no lineage event recorded
@@ -22971,20 +22979,20 @@ else()
 endif()
 
 # ============================================================================
-# Scraper Plugin – ScraperPluginFocusedTests
+# Scraper Plugin - ScraperPluginFocusedTests
 # 60 tests across 12 groups:
-#   Group A (6)  – UrlPolicy: whitelist, blacklist, glob, SSRF, edge cases
-#   Group B (5)  – ScraperConfig: YAML parsing, effectiveSearchQueries
-#   Group C (5)  – GovSourceCatalog: Bund, Bundesländer, EU, YAML overlay
-#   Group D (5)  – HtmlSearchEngine: form discovery, result-list, pagination
-#   Group E (4)  – ApiClient: page/cursor pagination, mock fetch
-#   Group F (4)  – LLMEvaluator: heuristic scoring, threshold, mock
-#   Group G (4)  – MetadataWriter: relational/graph/vector writes, flush
-#   Group H (7)  – ScraperPlugin: init, search, API, gov, JS renderer, blacklist
-#   Group I (6)  – Provenance flags on relational/graph/vector/document
-#   Group J (5)  – Knowledge source catalog completeness
-#   Group K (5)  – End-to-end provenance propagation through scrape()
-#   Group L (4)  – Provenance immutability
+#   Group A (6)  - UrlPolicy: whitelist, blacklist, glob, SSRF, edge cases
+#   Group B (5)  - ScraperConfig: YAML parsing, effectiveSearchQueries
+#   Group C (5)  - GovSourceCatalog: Bund, Bundesländer, EU, YAML overlay
+#   Group D (5)  - HtmlSearchEngine: form discovery, result-list, pagination
+#   Group E (4)  - ApiClient: page/cursor pagination, mock fetch
+#   Group F (4)  - LLMEvaluator: heuristic scoring, threshold, mock
+#   Group G (4)  - MetadataWriter: relational/graph/vector writes, flush
+#   Group H (7)  - ScraperPlugin: init, search, API, gov, JS renderer, blacklist
+#   Group I (6)  - Provenance flags on relational/graph/vector/document
+#   Group J (5)  - Knowledge source catalog completeness
+#   Group K (5)  - End-to-end provenance propagation through scrape()
+#   Group L (4)  - Provenance immutability
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_scraper_plugin.cpp")
@@ -23038,7 +23046,7 @@ else()
 endif()
 
 # ============================================================================
-# Connector Mode API – ConnectorModeApiTests
+# Connector Mode API - ConnectorModeApiTests
 # Integration tests that start a live themis_server and verify the
 # full HTTP connector-mode API (model load, inference, RAG, LoRA, PII).
 # Requires: config/config_with_llm.yaml, models/tinyllama-1.1b-q4_0.gguf
@@ -23113,7 +23121,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/whisper/tests/test_whisper_plugin.
     )
     message(STATUS "  WhisperPlugin: 44 tests (A-N)")
 else()
-    message(STATUS "  WhisperPlugin tests not found – skipped")
+    message(STATUS "  WhisperPlugin tests not found - skipped")
 endif()
 
 # ── Stable Diffusion Plugin Tests ─────────────────────────────────────────────
@@ -23141,7 +23149,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plu
     )
     message(STATUS "  SDPlugin: 51 tests (A-Q)")
 else()
-    message(STATUS "  SDPlugin tests not found – skipped")
+    message(STATUS "  SDPlugin tests not found - skipped")
 endif()
 
 # ── llama_cpp Plugin Tests ────────────────────────────────────────────────────
@@ -23174,11 +23182,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plu
     )
     message(STATUS "  LlamaCppPlugin: 50 tests (A-N)")
 else()
-    message(STATUS "  LlamaCppPlugin tests not found – skipped")
+    message(STATUS "  LlamaCppPlugin tests not found - skipped")
 endif()
 
 # ---------------------------------------------------------------------------
-# ContextWindowBudgetFocusedTests (30 tests) – v1.0.0
+# ContextWindowBudgetFocusedTests (30 tests) - v1.0.0
 # ---------------------------------------------------------------------------
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_context_window_budget.cpp")
     message(STATUS "Adding ContextWindowBudget focused tests (LLM token-budget, v1.0.0)")
@@ -23209,13 +23217,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_context_window_budget.cpp")
         TIMEOUT 60
     )
 
-    message(STATUS "  ContextWindowBudget: 30 tests (A-F) – estimateTokens, compute, response-guard")
+    message(STATUS "  ContextWindowBudget: 30 tests (A-F) - estimateTokens, compute, response-guard")
 else()
-    message(STATUS "ContextWindowBudget focused tests not found – skipped")
+    message(STATUS "ContextWindowBudget focused tests not found - skipped")
 endif()
 
 # ---------------------------------------------------------------------------
-# RagContextAssemblerFocusedTests (30 tests) – v1.0.0
+# RagContextAssemblerFocusedTests (30 tests) - v1.0.0
 # ---------------------------------------------------------------------------
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_context_assembler.cpp")
     message(STATUS "Adding RagContextAssembler focused tests (RAG budget-aware assembly, v1.0.0)")
@@ -23247,13 +23255,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_context_assembler.cpp")
         TIMEOUT 60
     )
 
-    message(STATUS "  RagContextAssembler: 30 tests (A-F) – greedy fill, truncation, response-guard, computeMaxTokens")
+    message(STATUS "  RagContextAssembler: 30 tests (A-F) - greedy fill, truncation, response-guard, computeMaxTokens")
 else()
-    message(STATUS "RagContextAssembler focused tests not found – skipped")
+    message(STATUS "RagContextAssembler focused tests not found - skipped")
 endif()
 
 # ---------------------------------------------------------------------------
-# MultiStepRAGFocusedTests (15 tests) – v1.0.0
+# MultiStepRAGFocusedTests (15 tests) - v1.0.0
 # ---------------------------------------------------------------------------
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_step_rag.cpp")
     message(STATUS "Adding MultiStepRAG focused tests (Map-Reduce + Iterative RAG, v1.0.0)")
@@ -23286,9 +23294,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_multi_step_rag.cpp")
         TIMEOUT 60
     )
 
-    message(STATUS "  MultiStepRAG: 15 tests (A-C) – map-reduce flow, iterative, factory helpers")
+    message(STATUS "  MultiStepRAG: 15 tests (A-C) - map-reduce flow, iterative, factory helpers")
 else()
-    message(STATUS "MultiStepRAG focused tests not found – skipped")
+    message(STATUS "MultiStepRAG focused tests not found - skipped")
 endif()
 
 # ============================================================================
@@ -23325,9 +23333,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_multi_hop_reasoner.cpp")
         TIMEOUT 60
     )
 
-    message(STATUS "  MultiHopReasoner: 15 tests (A-C) – config, decomposition, pipeline")
+    message(STATUS "  MultiHopReasoner: 15 tests (A-C) - config, decomposition, pipeline")
 else()
-    message(STATUS "MultiHopReasoner focused tests not found – skipped")
+    message(STATUS "MultiHopReasoner focused tests not found - skipped")
 endif()
 
 # ============================================================================
@@ -23364,13 +23372,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_adaptive_retrieval.cpp")
         TIMEOUT 60
     )
 
-    message(STATUS "  AdaptiveRetrieval: 15 tests (A-C) – config, complexity analysis, params")
+    message(STATUS "  AdaptiveRetrieval: 15 tests (A-C) - config, complexity analysis, params")
 else()
-    message(STATUS "AdaptiveRetrieval focused tests not found – skipped")
+    message(STATUS "AdaptiveRetrieval focused tests not found - skipped")
 endif()
 
 # ============================================================================
-# Ethics AI – ArgumentStore Standalone Tests
+# Ethics AI - ArgumentStore Standalone Tests
 # ============================================================================
 
 if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_argument_store_standalone.cpp")
@@ -23415,7 +23423,7 @@ elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
 endif()
 
 # ============================================================================
-# Ethics AI – ArgumentStore + RocksDB Integration Tests (ASRDB-01..10)
+# Ethics AI - ArgumentStore + RocksDB Integration Tests (ASRDB-01..10)
 # ============================================================================
 
 if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_ai_argument_store_rocksdb.cpp")
@@ -23461,7 +23469,7 @@ elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
 endif()
 
 # ============================================================================
-# Ethics AI – RAGContextEngine Tests
+# Ethics AI - RAGContextEngine Tests
 # ============================================================================
 
 if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rag_context_engine.cpp")
@@ -23512,7 +23520,7 @@ elseif(NOT THEMIS_PLUGIN_ETHICS_AI)
 endif()
 
 # ============================================================================
-# Ethics AI – Plugin Lifecycle Tests
+# Ethics AI - Plugin Lifecycle Tests
 # ============================================================================
 
 if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ethics_ai_plugin.cpp")
@@ -23684,7 +23692,7 @@ endif()
 
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Projects module tests — ProjectVersioning, ProjectDiff, ProjectLifecycle,
+# Projects module tests - ProjectVersioning, ProjectDiff, ProjectLifecycle,
 # ProjectTemplate, CollaborationManager
 # ──────────────────────────────────────────────────────────────────────────────
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_projects.cpp")
@@ -23812,7 +23820,7 @@ else()
 endif()
 
 # ============================================================================
-# IMPL-A1: DatabaseDomainAutoLabeler — focused test target
+# IMPL-A1: DatabaseDomainAutoLabeler - focused test target
 # Covers: DBO-01..DBO-08 (labeling, confidence, JSONL export, dedup, golden dataset)
 # ============================================================================
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_training_database_optimizer.cpp")
@@ -23856,7 +23864,7 @@ else()
 endif()
 
 # ============================================================================
-# IMPL-A3: IncrementalLoRATrainer Federation Bridges — focused test target
+# IMPL-A3: IncrementalLoRATrainer Federation Bridges - focused test target
 # Covers: exportGradient (ILT-EG-01..03), applyGlobalDelta (ILT-AG-01..02)
 # ============================================================================
 if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_incremental_lora_trainer.cpp")

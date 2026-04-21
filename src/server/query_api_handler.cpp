@@ -528,11 +528,20 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
     // Cursor-Pagination: Wir verlagern Cursor-Handling in die Engine (Anker-basiert)
         
         // Optional: Frontier-Limits f�r Traversal (Soft-Limit)
+        // TODO(GAP-021): max_frontier_size and max_results are taken from user without a
+        // server-side upper cap.  A request with max_frontier_size=999999999 causes a
+        // massive traversal and OOM.  Fix: add server-side caps from config/env.
+        // static constexpr size_t kMaxFrontierSizeCap = 500000;
+        // max_frontier_size = std::min(max_frontier_size, kMaxFrontierSizeCap);  Target: Q2 2026
         size_t max_frontier_size = body.contains("max_frontier_size") ? body["max_frontier_size"].get<size_t>() : 100000;
         size_t max_results = body.contains("max_results") ? body["max_results"].get<size_t>() : 10000;
 
         // Per-query resource limits (max rows, max memory, timeout)
         query::QueryResourceLimits resource_limits;
+        // TODO(GAP-022): max_memory_bytes=0 means unlimited (aql_runner.cpp:826 skips the check
+        // when 0).  A user can bypass the default by explicitly sending {"max_memory_bytes": 0}.
+        // Fix: if user sends 0 OR omits the field, apply a server-side default (e.g. 256 MB).
+        // Target: Q2 2026
         resource_limits.max_rows         = body.contains("max_rows")         ? body["max_rows"].get<size_t>()         : 0;
         resource_limits.max_memory_bytes = body.contains("max_memory_bytes") ? body["max_memory_bytes"].get<size_t>() : 0;
         resource_limits.timeout_ms       = body.contains("timeout_ms")       ? body["timeout_ms"].get<uint32_t>()     : 0;
@@ -656,7 +665,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         }
 
     // Translate AST to Query (relational oder traversal)
-    // Spezialfall: LET-Variablen in FILTER (MVP) – vor Übersetzung einfache Ersetzung erlauben
+    // Spezialfall: LET-Variablen in FILTER (MVP) - vor Übersetzung einfache Ersetzung erlauben
     bool letFilterHandled = false; // wenn true, nutzen wir einen manuell konstruierten ConjunctiveQuery
     themis::ConjunctiveQuery letQuery;
     if ((*parse_result) && (*parse_result)->traversal == nullptr && !(*parse_result)->for_nodes.empty()) {
@@ -3444,6 +3453,8 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
         res.set(http::field::content_type, "text/event-stream");
         res.set(http::field::cache_control, "no-cache, no-transform");
         res.set(http::field::connection, "keep-alive");
+        // TODO(GAP-012): Hardcoded CORS wildcard - bypasses central CORS policy.
+        // Fix: use the configured origin-whitelist from HttpServer config. Target: Q3 2026
         res.set(http::field::access_control_allow_origin, "*");
         res.keep_alive(true);
 
