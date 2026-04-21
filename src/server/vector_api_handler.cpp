@@ -702,14 +702,36 @@ http::response<http::string_body> VectorApiHandler::makeResponse(
 
 std::optional<http::response<http::string_body>> VectorApiHandler::requireAccess(
     [[maybe_unused]] const http::request<http::string_body>& req,
-    const std::string& /*permission*/,
+    const std::string& permission,
     const std::string& /*resource*/,
     const std::string& /*path*/)
 {
     if (!auth_ || !auth_->isEnabled()) {
         return std::nullopt;
     }
-    // TODO: implement fine-grained scope checks; currently allow if auth is enabled.
+
+    // GAP-001: Enforce scope-based authorization (CWE-862).
+    // Extract Bearer token and use auth_->authorize() to check the required
+    // permission scope, replacing the previous stub that granted access to any
+    // authenticated user without checking their role.
+    auto auth_header = req.find(http::field::authorization);
+    if (auth_header == req.end()) {
+        return makeErrorResponse(http::status::unauthorized, "Authentication required", req);
+    }
+
+    auto token = themis::AuthMiddleware::extractBearerToken(
+        std::string_view(auth_header->value().data(), auth_header->value().size())
+    );
+    if (!token) {
+        return makeErrorResponse(http::status::unauthorized, "Invalid authorization header", req);
+    }
+
+    auto ar = auth_->authorize(*token, permission);
+    if (!ar.authorized) {
+        return makeErrorResponse(http::status::forbidden,
+                                 "Insufficient permissions for scope: " + permission, req);
+    }
+
     return std::nullopt;
 }
 

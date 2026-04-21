@@ -612,3 +612,54 @@ TEST_F(ServerlessFunctionApiHandlerTest, UpdateTimeout_ZeroValue_IsIgnored) {
     // 0 is not a positive value – should be ignored
     EXPECT_EQ(parseBody(res)["timeout_ms"].get<int>(), 3000);
 }
+
+// ===========================================================================
+// GAP-022 — memory_limit_kb DoS cap (CWE-400)
+// ===========================================================================
+
+// GAP-022-01: Creating a function with memory_limit_kb at the cap (16 GB)
+// succeeds and stores exactly the cap value.
+TEST_F(ServerlessFunctionApiHandlerTest, GAP022_MemoryLimitAtCap_Stored) {
+    constexpr uint32_t kCap = 16'777'216u; // 16 GB in KB
+    json body = {{"name", "cap-fn"}, {"code", passthroughCode()},
+                 {"memory_limit_kb", kCap}};
+    auto res = handler.handleRegister(
+        makeRequest(http::verb::post, "/api/v1/functions", body.dump()));
+    ASSERT_EQ(res.result(), http::status::created);
+    EXPECT_EQ(parseBody(res)["memory_limit_kb"].get<uint32_t>(), kCap);
+}
+
+// GAP-022-02: Creating a function with memory_limit_kb beyond the cap
+// results in the limit being clamped to the cap rather than storing an
+// unreasonably large value.
+TEST_F(ServerlessFunctionApiHandlerTest, GAP022_OversizeMemoryLimit_ClampedOnCreate) {
+    constexpr uint32_t kCap = 16'777'216u;
+    // Request 1 TB more than the cap (in KB).
+    const uint64_t oversized = static_cast<uint64_t>(kCap) + 1'073'741'824ULL;
+    json body = {{"name", "oversize-fn"}, {"code", passthroughCode()},
+                 {"memory_limit_kb", oversized}};
+    auto res = handler.handleRegister(
+        makeRequest(http::verb::post, "/api/v1/functions", body.dump()));
+    ASSERT_EQ(res.result(), http::status::created);
+    EXPECT_LE(parseBody(res)["memory_limit_kb"].get<uint32_t>(), kCap)
+        << "memory_limit_kb must be clamped to cap on create";
+}
+
+// GAP-022-03: Updating a function with an over-cap memory_limit_kb clamps
+// the value rather than accepting it.
+TEST_F(ServerlessFunctionApiHandlerTest, GAP022_OversizeMemoryLimit_ClampedOnUpdate) {
+    constexpr uint32_t kCap = 16'777'216u;
+    json body = {{"name", "update-mem-fn"}, {"code", passthroughCode()},
+                 {"memory_limit_kb", 4096u}};
+    auto reg_res = handler.handleRegister(
+        makeRequest(http::verb::post, "/api/v1/functions", body.dump()));
+    std::string id = parseBody(reg_res)["id"].get<std::string>();
+
+    const uint64_t oversized = static_cast<uint64_t>(kCap) + 1'073'741'824ULL;
+    json upd = {{"memory_limit_kb", oversized}};
+    auto res = handler.handleUpdate(
+        makeRequest(http::verb::put, "/api/v1/functions/" + id, upd.dump()), id);
+    EXPECT_EQ(res.result(), http::status::ok);
+    EXPECT_LE(parseBody(res)["memory_limit_kb"].get<uint32_t>(), kCap)
+        << "memory_limit_kb must be clamped to cap on update";
+}

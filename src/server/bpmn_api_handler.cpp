@@ -82,7 +82,7 @@ BpmnApiHandler::AuthContext BpmnApiHandler::extractAuthContext(
 
 std::optional<http::response<http::string_body>> BpmnApiHandler::requireAccess(
     const http::request<http::string_body>& req,
-    const std::string& /*scope*/,
+    const std::string& scope,
     const std::string& /*action*/,
     const std::string& /*resource*/
 ) {
@@ -107,16 +107,17 @@ std::optional<http::response<http::string_body>> BpmnApiHandler::requireAccess(
         return makeErrorResponse(http::status::unauthorized, "Invalid authorization header", req);
     }
 
-    // Validate token
-    auto ar = auth_->validateToken(*token);
+    // GAP-001: Enforce scope-based authorization (CWE-862).
+    // Previously, requireAccess() discarded the scope/action/resource parameters
+    // and only verified token validity (authentication).  That left the BPMN API
+    // open to any authenticated user regardless of their role.  Now we use
+    // auth_->authorize() which checks that the token contains the required scope.
+    auto ar = auth_->authorize(*token, scope);
     if (!ar.authorized) {
-        // Invalid token -> 401 Unauthorized
-        return makeErrorResponse(http::status::unauthorized, "Invalid or expired token", req);
+        return makeErrorResponse(http::status::forbidden,
+                                 "Insufficient permissions for scope: " + scope, req);
     }
 
-    // TODO: Implement scope-based authorization when AuthMiddleware supports it
-    // For now, just ensure user is authenticated
-    
     return std::nullopt; // Access granted
 }
 
