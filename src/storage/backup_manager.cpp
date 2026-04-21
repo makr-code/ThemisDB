@@ -49,6 +49,19 @@
 
 namespace themis {
 
+#ifdef _WIN32
+/// Wrap a string in double quotes for use as a CreateProcess command argument.
+/// Backslash-escapes embedded double-quote characters.
+static std::string winQuoteForCreateProcess(const std::string& s) {
+    std::string out = "\"";
+    for (char c : s) {
+        if (c == '"') out += "\\\"";
+        else          out += c;
+    }
+    return out + "\"";
+}
+#endif
+
 BackupManager::BackupManager(std::shared_ptr<RocksDBWrapper> db_wrapper) 
     : db_wrapper_(std::move(db_wrapper)) {
     if (!db_wrapper_) {
@@ -976,16 +989,8 @@ Result<std::string> BackupManager::compressBackup(const std::string& backup_dir)
 #else
         // Windows: build a quoted command for CreateProcess (no shell).
         // Double-quote each argument component defensively.
-        auto winQuote = [](const std::string& s) -> std::string {
-            std::string out = "\"";
-            for (char c : s) {
-                if (c == '"') out += "\\\"";
-                else          out += c;
-            }
-            return out + "\"";
-        };
-        std::string cmd = "tar -czf " + winQuote(compressed_file) +
-                          " -C " + winQuote(parent_dir) + " " + winQuote(dir_name);
+        std::string cmd = "tar -czf " + winQuoteForCreateProcess(compressed_file) +
+                          " -C " + winQuoteForCreateProcess(parent_dir) + " " + winQuoteForCreateProcess(dir_name);
         STARTUPINFOA si{}; si.cb = sizeof(si);
         PROCESS_INFORMATION pi{};
         std::vector<char> mutable_cmd(cmd.begin(), cmd.end());
@@ -1056,16 +1061,8 @@ Result<std::string> BackupManager::decompressBackup(const std::string& compresse
                                    "tar exited with error during decompression");
         }
 #else
-        auto winQuote = [](const std::string& s) -> std::string {
-            std::string out = "\"";
-            for (char c : s) {
-                if (c == '"') out += "\\\"";
-                else          out += c;
-            }
-            return out + "\"";
-        };
-        std::string cmd = "tar -xzf " + winQuote(compressed_file) +
-                          " -C " + winQuote(dest_dir);
+        std::string cmd = "tar -xzf " + winQuoteForCreateProcess(compressed_file) +
+                          " -C " + winQuoteForCreateProcess(dest_dir);
         STARTUPINFOA si{}; si.cb = sizeof(si);
         PROCESS_INFORMATION pi{};
         std::vector<char> mutable_cmd(cmd.begin(), cmd.end());
