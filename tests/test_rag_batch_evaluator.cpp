@@ -332,7 +332,7 @@ TEST(BatchEvaluatorTest, StopAndResume) {
     EXPECT_EQ(result.results.size(), 1u);
 }
 
-TEST(BatchEvaluatorTest, ReliabilityScorecardTracksInjectionAndTraceability) {
+TEST(BatchEvaluatorTest, ReliabilityScorecardComputesInjectionSuccessRateAndTraceability) {
     auto judge = makeJudge();
     BatchEvaluatorConfig cfg;
     cfg.num_workers = 1;
@@ -375,7 +375,7 @@ TEST(BatchEvaluatorTest, ReliabilityScorecardTracksInjectionAndTraceability) {
               result.failed_release_gates.end());
 }
 
-TEST(BatchEvaluatorTest, ReliabilityScorecardRangesAreBounded) {
+TEST(BatchEvaluatorTest, ReliabilityScorecardMetricsAreWithinValidRanges) {
     auto judge = makeJudge();
     BatchEvaluatorConfig cfg;
     cfg.num_workers = 1;

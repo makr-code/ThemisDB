@@ -103,9 +103,12 @@ struct EvaluationResult {
     bool has_ethical_citations;                  ///< NEW: Cites sources for moral claims
 
     // AI Safety / reliability fields
-    bool injection_screened = false;             ///< True when documents were scanned for injection
-    size_t injection_findings_count = 0;         ///< Number of injection findings across all documents
-    bool injection_blocked = false;              ///< True when evaluation was blocked due to HIGH+ injection
+    /// True when config.enable_prompt_injection_screening is true and documents were non-empty
+    bool injection_screened = false;
+    /// Number of injection findings across all context documents; 0 when injection_screened is false
+    size_t injection_findings_count = 0;
+    /// True when evaluation was blocked because at least one finding had HIGH or higher severity
+    bool injection_blocked = false;
 
     // Quality assessment
     bool passed_quality_threshold;               ///< Meets minimum quality

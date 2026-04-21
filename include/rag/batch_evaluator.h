@@ -105,7 +105,8 @@ struct BatchEvaluatorConfig {
     double max_p95_latency_ms = 2000.0;               ///< Max allowed p95 latency in milliseconds
     double min_traceability_rate = 1.0;               ///< Min required decision traceability coverage [0,1]
     double faithfulness_hallucination_threshold = 0.8;///< Faithfulness cutoff used to classify hallucinations
-    bool enforce_release_gates = true;
+    bool enforce_release_gates = true; ///< When false, gates are evaluated but release_gates_passed is
+                                       ///< unconditionally true (dry-run mode for pre-production validation)
      
     // Callback for progress updates
     std::function<void(const BatchProgress&)> progress_callback;

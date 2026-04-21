@@ -46,6 +46,10 @@ namespace themis::rag::judge {
 
 namespace {
 
+/// Sentinel efficiency value when total quality is ~0 but cost is non-zero.
+/// Forces release-gate failure so broken evaluations are never silently passed.
+static constexpr double kWorstCaseEfficiency = std::numeric_limits<double>::infinity();
+
 bool iequals(const std::string& a, const std::string& b) {
     if (a.size() != b.size()) {
         return false;
@@ -447,7 +451,7 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
     } else if (total_cost > 0.0) {
         // "Cost with zero quality" is treated as worst-case efficiency to force
         // release-gate failure and avoid silently passing broken evaluations.
-        out.cost_to_quality_efficiency = std::numeric_limits<double>::infinity();
+        out.cost_to_quality_efficiency = kWorstCaseEfficiency;
         THEMIS_WARN("BatchEvaluator: total quality is ~0 while cost is {:.6f}; "
                     "cost_to_quality_efficiency set to +inf", total_cost);
     } else {
