@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Themis.PIIManager")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5a7a7affd42b39b837423c8deb2ba4a70a286a78")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+10f6975b1a9e7906aaf187263bd84d6c5ce2b144")]
 [assembly: System.Reflection.AssemblyProductAttribute("Themis.PIIManager")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Themis.PIIManager")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

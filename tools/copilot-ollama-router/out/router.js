@@ -17,26 +17,41 @@ exports.DelegationRouter = void 0;
 // ---------------------------------------------------------------------------
 // Keyword sets that drive classification
 // ---------------------------------------------------------------------------
-const OLLAMA_KEYWORDS = [
+const BOILERPLATE_KEYWORDS = [
     /\bboilerplate\b/i,
     /\bscaffold\b/i,
+    /\bfill\s+in\b/i,
+    /\bcomplete\s+the\b/i,
+    /\bcreate\s+(a\s+)?(class|struct|enum|function)\b/i,
+    /\bimplement\s+(interface|abstract|override)\b/i,
+    /\badd\s+(getter|setter|constructor|destructor)\b/i,
+];
+const TEST_KEYWORDS = [
     /\bgenerate\s+(test|spec|unit\s+test|mock)/i,
     /\bwrite\s+(test|spec|mock)/i,
+    /\bgtest\b/i,
+    /\bfixture\b/i,
+];
+const REFACTOR_KEYWORDS = [
     /\brefactor\b/i,
     /\bextract\s+(method|function|class)\b/i,
-    /\bdocument(ation)?\b/i,
-    /\bjsdoc\b/i,
-    /\bdoxygen\b/i,
-    /\breadme\b/i,
-    /\badd\s+(getter|setter|constructor|destructor)\b/i,
-    /\bimplement\s+(interface|abstract|override)\b/i,
     /\bconvert\s+(to|from)\b/i,
     /\btranslate\s+(to|from)\b/i,
     /\bformat\s+code\b/i,
     /\bclean\s+up\b/i,
-    /\bfill\s+in\b/i,
-    /\bcomplete\s+the\b/i,
-    /\bcreate\s+(a\s+)?(class|struct|enum|function)\b/i,
+];
+const DOC_KEYWORDS = [
+    /\bdocument(ation)?\b/i,
+    /\bjsdoc\b/i,
+    /\bdoxygen\b/i,
+    /\breadme\b/i,
+];
+const CMAKE_KEYWORDS = [
+    /\bcmakelists\.txt\b/i,
+    /\bcmake\b/i,
+    /\bbuild\s+system\b/i,
+    /\btest\s+target\b/i,
+    /\bpreset\b/i,
 ];
 const COPILOT_KEYWORDS = [
     /\bsecurity\b/i,
@@ -77,7 +92,7 @@ class DelegationRouter {
      * @param defaultModel    Configured default Ollama model.
      * @param reasoningModel  Configured Ollama reasoning model.
      */
-    classify(prompt, activeLanguage, themisDbRules, delegationMode, defaultModel, reasoningModel) {
+    classify(prompt, activeLanguage, themisDbRules, delegationMode, defaultModel, reasoningModel, policies) {
         if (delegationMode === "always") {
             return {
                 destination: "ollama",
@@ -109,23 +124,47 @@ class DelegationRouter {
                 suggestedModel: defaultModel,
             };
         }
-        // Generic copilot keywords
         if (this.matchesAny(prompt, COPILOT_KEYWORDS)) {
             return {
                 destination: "copilot",
                 reason: "Prompt classified as security/architecture/debugging → Copilot cloud.",
             };
         }
-        // Generic ollama keywords
-        if (this.matchesAny(prompt, OLLAMA_KEYWORDS)) {
-            const isDocTask = /\bdocument(ation)?\b/i.test(prompt) ||
-                /\breadme\b/i.test(prompt) ||
-                /\bjsdoc\b/i.test(prompt) ||
-                /\bdoxygen\b/i.test(prompt);
+        if (policies.routeCmakeToLocal && this.matchesAny(prompt, CMAKE_KEYWORDS)) {
             return {
                 destination: "ollama",
-                reason: "Prompt classified as boilerplate/test/refactoring/docs → local Ollama.",
-                suggestedModel: isDocTask ? reasoningModel : defaultModel,
+                reason: "Workspace policy: CMake/build-system tasks → local Ollama.",
+                suggestedModel: defaultModel,
+            };
+        }
+        if (policies.routeTestsToLocal && this.matchesAny(prompt, TEST_KEYWORDS)) {
+            return {
+                destination: "ollama",
+                reason: "Workspace policy: tests/specs/mocks → local Ollama.",
+                suggestedModel: defaultModel,
+            };
+        }
+        if (policies.routeBoilerplateToLocal &&
+            this.matchesAny(prompt, BOILERPLATE_KEYWORDS)) {
+            return {
+                destination: "ollama",
+                reason: "Workspace policy: boilerplate/scaffolding → local Ollama.",
+                suggestedModel: defaultModel,
+            };
+        }
+        if (policies.routeRefactorsToLocal &&
+            this.matchesAny(prompt, REFACTOR_KEYWORDS)) {
+            return {
+                destination: "ollama",
+                reason: "Workspace policy: refactoring/cleanup → local Ollama.",
+                suggestedModel: defaultModel,
+            };
+        }
+        if (policies.routeDocsToLocal && this.matchesAny(prompt, DOC_KEYWORDS)) {
+            return {
+                destination: "ollama",
+                reason: "Workspace policy: docs/comments/README → local Ollama.",
+                suggestedModel: reasoningModel,
             };
         }
         // Fallback: short prompts without clear signals → copilot for quality

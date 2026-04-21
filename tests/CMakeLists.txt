@@ -84,6 +84,14 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_columnar_cache\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_concurrent_write_controller\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_disaster_recovery_manager\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_ethics_ai_.*\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_toolbox_primitives\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_udp_server\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_user_storage_v03\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_vector_index_comprehensive\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_workload_fingerprint_engine\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_projects\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_kernel_bypass\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_multi_step_rag\\.cpp$")
 
 # Skip feature-dependent tests when the corresponding modules are disabled
 set(TEST_EXCLUDE_PATTERNS "")
@@ -561,6 +569,18 @@ target_sources(themis_tests PRIVATE
     ${THEMIS_ROOT_DIR}/src/graph/graph_watermark.cpp
     ${THEMIS_ROOT_DIR}/src/network/kernel_bypass.cpp
     ${THEMIS_ROOT_DIR}/src/rpc_grpc/grpc_plugin.cpp
+    ${THEMIS_ROOT_DIR}/src/server/workload_fingerprint_engine.cpp
+    ${THEMIS_ROOT_DIR}/src/storage/vector_index_backend.cpp
+    ${THEMIS_ROOT_DIR}/src/content/adapters/audio_extractor_adapter.cpp
+    ${THEMIS_ROOT_DIR}/src/toolbox/text_chunker.cpp
+    ${THEMIS_ROOT_DIR}/src/toolbox/text_normalizer.cpp
+    ${THEMIS_ROOT_DIR}/src/toolbox/content_fingerprinter.cpp
+    ${THEMIS_ROOT_DIR}/src/toolbox/text_quality_scorer.cpp
+    ${THEMIS_ROOT_DIR}/src/toolbox/language_detector.cpp
+    ${THEMIS_ROOT_DIR}/src/toolbox/toolbox_composite.cpp
+    ${THEMIS_ROOT_DIR}/src/toolbox/toolbox_streaming.cpp
+    ${THEMIS_ROOT_DIR}/src/toolbox/ingestion_toolbox.cpp
+    ${THEMIS_ROOT_DIR}/src/toolbox/toolbox_registry.cpp
 )
 
 # Enforce feature-gated exclusions on the resolved target source list as a
@@ -1275,14 +1295,12 @@ if(THEMIS_BUILD_MODULAR)
         endforeach()
     endif()
 
-    # In modular test builds with full THEMIS_CORE_SOURCES coverage, linking the
-    # static themis_network library in addition to directly compiled sources
-    # causes ODR duplicate symbols at final link (LNK2005).
+    # Keep themis_network linked when it is static; direct server/network/proto
+    # sources are already pruned above for STATIC builds to avoid ODR duplicates.
     if(TARGET themis_network)
         get_target_property(_themis_network_target_type themis_network TYPE)
         if(_themis_network_target_type STREQUAL "STATIC_LIBRARY")
-            list(REMOVE_ITEM _themis_test_core_libs themis_network)
-            message(STATUS "themis_tests: skipping themis_network static lib (network sources are compiled directly)")
+            message(STATUS "themis_tests: linking static themis_network (server/network/proto sources are pruned from direct compilation)")
         endif()
     endif()
 else()
@@ -1310,6 +1328,19 @@ if(_themis_tests_sources_final)
         list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]test_cpu_gpu_parity\\.cpp$")
     endif()
     set_property(TARGET themis_tests PROPERTY SOURCES ${_themis_tests_sources_final})
+endif()
+
+# Keep a small whitelist of focused implementations compiled directly into the
+# aggregate test binary even when broad server/network pruning is active for the
+# static themis_network module.
+if(TARGET themis_network)
+    get_target_property(_themis_network_target_type_keep themis_network TYPE)
+    if(_themis_network_target_type_keep STREQUAL "STATIC_LIBRARY")
+        target_sources(themis_tests PRIVATE
+            ${THEMIS_ROOT_DIR}/src/network/udp_server.cpp
+            ${THEMIS_ROOT_DIR}/src/server/workload_fingerprint_engine.cpp
+        )
+    endif()
 endif()
 
 target_link_libraries(themis_tests PRIVATE

@@ -39,37 +39,64 @@ using namespace themis::distributed_knowledge;
 // Stub ILLMPlugin that tracks loadLoRA/unloadLoRA calls
 // ─────────────────────────────────────────────────────────────────────────────
 
-class StubLLMPlugin final : public ILLMPlugin {
+class StubLLMPlugin final : public themis::llm::ILLMPlugin {
 public:
     std::vector<std::string> loaded_loras;
     std::vector<std::string> unloaded_loras;
 
-    // ILLMPlugin interface ────────────────────────────────────────────────────
-    bool initialize([[maybe_unused]] const json& config) override { return true; }
-    void shutdown() override {}
-    bool isHealthy() const override { return true; }
-    InferenceResponse generate([[maybe_unused]] const InferenceRequest& req) override { return {}; }
-    InferenceResponse generateRAG([[maybe_unused]] const RAGContext&,
-                                  [[maybe_unused]] const InferenceRequest&) override { return {}; }
-    std::vector<float> embed([[maybe_unused]] const std::string&) override { return {}; }
-    bool loadModel([[maybe_unused]] const std::string& path) override { return true; }
+    // Model Management
+    bool loadModel(const std::string& model_path,
+                   [[maybe_unused]] const json& config = {}) override { 
+        return true; 
+    }
     void unloadModel() override {}
+    std::optional<themis::llm::ModelInfo> getModelInfo() const override { 
+        return std::nullopt; 
+    }
     bool isModelLoaded() const override { return true; }
-    std::optional<ModelInfo> getModelInfo() const override { return std::nullopt; }
-    json getCapabilities() const override { return {}; }
+    
+    // Inference
+    themis::llm::InferenceResponse generate(
+        [[maybe_unused]] const themis::llm::InferenceRequest& request) override { 
+        return {}; 
+    }
+    themis::llm::InferenceResponse generateRAG(
+        [[maybe_unused]] const themis::llm::RAGContext& rag_context,
+        [[maybe_unused]] const themis::llm::InferenceRequest& request) override { 
+        return {}; 
+    }
+    std::vector<float> embed([[maybe_unused]] const std::string& text) override { 
+        return {}; 
+    }
+    
+    // Capabilities
+    themis::llm::LLMCapabilities getCapabilities() const override { 
+        return {}; 
+    }
+    json getMemoryStats() const override { return {}; }
     json getPerformanceStats() const override { return {}; }
-
-    bool loadLoRA(const std::string& id,
-                  [[maybe_unused]] const std::string& path,
-                  [[maybe_unused]] float scale) override {
-        loaded_loras.push_back(id);
+    
+    // LoRA Management
+    bool loadLoRA(const std::string& lora_id,
+                  [[maybe_unused]] const std::string& lora_path,
+                  [[maybe_unused]] float scale = 1.0f) override {
+        loaded_loras.push_back(lora_id);
         return true;
     }
-    bool unloadLoRA(const std::string& id) override {
-        unloaded_loras.push_back(id);
+    bool unloadLoRA(const std::string& lora_id) override {
+        unloaded_loras.push_back(lora_id);
         return true;
     }
-    std::vector<LoRAInfo> listLoRAs() const override { return {}; }
+    std::vector<themis::llm::LoRAInfo> listLoRAs() const override { return {}; }
+    
+    // Distributed Features
+    std::vector<uint8_t> exportLoRA([[maybe_unused]] const std::string& lora_id) override { 
+        return {}; 
+    }
+    bool importLoRA([[maybe_unused]] const std::string& lora_id,
+                    [[maybe_unused]] const std::vector<uint8_t>& data) override { 
+        return true; 
+    }
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

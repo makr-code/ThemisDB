@@ -81,6 +81,16 @@
         "command": "copilotOllamaRouter.listInstalledModels",
         "title": "List Installed Models",
         "category": "Copilot Ollama Router"
+      },
+      {
+        "command": "copilotOllamaRouter.openSettings",
+        "title": "Open Settings Panel",
+        "category": "Copilot Ollama Router"
+      },
+      {
+        "command": "copilotOllamaRouter.applyWorkspaceConfig",
+        "title": "Apply Workspace Config (Admin)",
+        "category": "Copilot Ollama Router"
       }
     ],
     "configuration": {
@@ -126,6 +136,31 @@
           "type": "boolean",
           "default": true,
           "description": "Apply ThemisDB-specific routing rules: C++ codegen → Ollama local; security/architecture → Copilot cloud."
+        },
+        "copilotOllamaRouter.routeBoilerplateToLocal": {
+          "type": "boolean",
+          "default": true,
+          "description": "Auto-route boilerplate/scaffolding prompts to local Ollama and prefill @ollama /local in chat entry commands."
+        },
+        "copilotOllamaRouter.routeTestsToLocal": {
+          "type": "boolean",
+          "default": true,
+          "description": "Auto-route test/spec/mock generation prompts to local Ollama and prefill @ollama /local in chat entry commands."
+        },
+        "copilotOllamaRouter.routeRefactorsToLocal": {
+          "type": "boolean",
+          "default": true,
+          "description": "Auto-route refactor/cleanup prompts to local Ollama and prefill @ollama /local in chat entry commands."
+        },
+        "copilotOllamaRouter.routeDocsToLocal": {
+          "type": "boolean",
+          "default": true,
+          "description": "Auto-route documentation prompts (README/JSDoc/Doxygen) to local Ollama and prefill @ollama /local in chat entry commands."
+        },
+        "copilotOllamaRouter.routeCmakeToLocal": {
+          "type": "boolean",
+          "default": true,
+          "description": "Auto-route CMake/build-system prompts to local Ollama and prefill @ollama /local in chat entry commands."
         }
       }
     }
@@ -134,15 +169,16 @@
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "lint": "eslint src",
+    "test": "node ./out/test/runTest.js",
+    "package": "npx -y @vscode/vsce@latest package"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
     "@types/vscode": "^1.90.0",
-    "@typescript-eslint/eslint-plugin": "^7.0.0",
-    "@typescript-eslint/parser": "^7.0.0",
-    "eslint": "^8.57.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.0.0",
     "typescript": "^5.4.0"
   }
 }

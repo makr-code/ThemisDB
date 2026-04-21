@@ -50,6 +50,16 @@ const ollamaClient_js_1 = require("./ollamaClient.js");
 const contextManager_js_1 = require("./contextManager.js");
 const copilotReviewer_js_1 = require("./copilotReviewer.js");
 const modelSetup_js_1 = require("./modelSetup.js");
+const settingsPanel_js_1 = require("./settingsPanel.js");
+function readRoutingPolicies(cfg) {
+    return {
+        routeBoilerplateToLocal: cfg.get("routeBoilerplateToLocal", true),
+        routeTestsToLocal: cfg.get("routeTestsToLocal", true),
+        routeRefactorsToLocal: cfg.get("routeRefactorsToLocal", true),
+        routeDocsToLocal: cfg.get("routeDocsToLocal", true),
+        routeCmakeToLocal: cfg.get("routeCmakeToLocal", true),
+    };
+}
 function readConfig() {
     const cfg = vscode.workspace.getConfiguration("copilotOllamaRouter");
     return {
@@ -60,6 +70,7 @@ function readConfig() {
         copilotReviewEnabled: cfg.get("copilotReviewEnabled", true),
         requestTimeoutMs: cfg.get("requestTimeoutMs", 60_000),
         themisDbRules: cfg.get("themisDbRules", true),
+        ...readRoutingPolicies(cfg),
     };
 }
 // ---------------------------------------------------------------------------
@@ -84,7 +95,7 @@ function activate(context) {
             effectiveMode = "never";
         }
         // Classify and route
-        const decision = router.classify(request.prompt, activeLanguage, config.themisDbRules, effectiveMode, config.defaultModel, config.reasoningModel);
+        const decision = router.classify(request.prompt, activeLanguage, config.themisDbRules, effectiveMode, config.defaultModel, config.reasoningModel, config);
         if (decision.destination === "ollama") {
             await handleOllamaRequest(enrichedPrompt, request.prompt, decision.suggestedModel ?? config.defaultModel, config, ollamaClient, reviewer, stream, token, decision.reason);
         }
@@ -140,8 +151,25 @@ function activate(context) {
         });
     }));
     context.subscriptions.push(vscode.commands.registerCommand("copilotOllamaRouter.askCopilot", async () => {
-        // Open a new chat panel and pre-fill the prompt — the simplest UX
-        await vscode.commands.executeCommand("workbench.action.chat.open", { query: "@workspace " });
+        const prompt = await vscode.window.showInputBox({
+            prompt: "Enter your request (will be pre-tagged for Copilot chat based on routing policy)",
+            placeHolder: "e.g. Generate boilerplate for a C++ RAII wrapper",
+        });
+        if (!prompt) {
+            return;
+        }
+        const config = readConfig();
+        const { activeLanguage } = contextManager.buildPrompt(prompt);
+        const decision = router.classify(prompt, activeLanguage, config.themisDbRules, config.delegationMode, config.defaultModel, config.reasoningModel, config);
+        const query = decision.destination === "ollama"
+            ? `@ollama /local ${prompt}`
+            : `@workspace ${prompt}`;
+        await vscode.commands.executeCommand("workbench.action.chat.open", {
+            query,
+        });
+        void vscode.window.showInformationMessage(decision.destination === "ollama"
+            ? `Copilot chat opened with local Ollama tag. Reason: ${decision.reason}`
+            : `Copilot chat opened without Ollama tag. Reason: ${decision.reason}`);
     }));
     context.subscriptions.push(vscode.commands.registerCommand("copilotOllamaRouter.autoRoute", async () => {
         const prompt = await vscode.window.showInputBox({
@@ -153,7 +181,7 @@ function activate(context) {
         }
         const config = readConfig();
         const { activeLanguage } = contextManager.buildPrompt(prompt);
-        const decision = router.classify(prompt, activeLanguage, config.themisDbRules, config.delegationMode, config.defaultModel, config.reasoningModel);
+        const decision = router.classify(prompt, activeLanguage, config.themisDbRules, config.delegationMode, config.defaultModel, config.reasoningModel, config);
         const label = decision.destination === "ollama"
             ? `🖥️  Local Ollama (${decision.suggestedModel ?? config.defaultModel})`
             : "☁️  Copilot (cloud)";
@@ -196,6 +224,23 @@ function activate(context) {
             return;
         }
         void vscode.window.showInformationMessage(`Installed Ollama models (${installed.length}): ${installed.join(", ")}`);
+    }));
+    context.subscriptions.push(vscode.commands.registerCommand("copilotOllamaRouter.openSettings", () => {
+        settingsPanel_js_1.SettingsPanel.show(context);
+    }));
+    context.subscriptions.push(vscode.commands.registerCommand("copilotOllamaRouter.applyWorkspaceConfig", async () => {
+        const config = readConfig();
+        const setupManager = new modelSetup_js_1.ModelSetupManager(config.endpoint);
+        const result = await setupManager.applyWorkspaceConfigWithConfirmation();
+        if (result.modifiedFiles.length > 0) {
+            void vscode.window.showInformationMessage(`Workspace config updated (${result.modifiedFiles.length} file(s)):\n${result.modifiedFiles.join("\n")}`);
+        }
+        else if (result.skipped.length > 0) {
+            void vscode.window.showWarningMessage(`Workspace config: skipped — ${result.skipped.join("; ")}`);
+        }
+        else {
+            void vscode.window.showInformationMessage("Workspace config is already up to date.");
+        }
     }));
 }
 function deactivate() {

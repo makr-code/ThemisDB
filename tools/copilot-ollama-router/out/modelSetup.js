@@ -195,6 +195,10 @@ Use the normal Copilot chat (no \`@ollama\`) for:
 - Code review with quality judgement
 - Any task requiring up-to-date knowledge (CVEs, new APIs)
 
+When a normal Copilot chat request clearly matches a local category
+(boilerplate, tests, refactoring, documentation, CMake/build-system, or C++ code generation),
+the request should be rewritten to start with \`@ollama /local\` before submission.
+
 ### 9.3 ThemisDB-specific routing rules (always enforced)
 
 - **C++ files** (\`.cpp\`, \`.hpp\`, \`.h\`, \`.cc\`) → always \`@ollama /local\`
@@ -242,7 +246,23 @@ class ModelSetupManager {
      * Safe to call multiple times.
      */
     async generateWorkspaceConfig() {
-        const result = { modifiedFiles: [], skipped: [] };
+        const preview = await this.previewWorkspaceConfig();
+        const result = {
+            modifiedFiles: [],
+            skipped: [...preview.skipped],
+        };
+        for (const item of preview.previews) {
+            if (!item.changed) {
+                continue;
+            }
+            fs.mkdirSync(path.dirname(item.filePath), { recursive: true });
+            fs.writeFileSync(item.filePath, item.afterContent, "utf8");
+            result.modifiedFiles.push(item.filePath);
+        }
+        return result;
+    }
+    async previewWorkspaceConfig() {
+        const result = { previews: [], skipped: [] };
         const folders = vscode.workspace.workspaceFolders;
         if (!folders || folders.length === 0) {
             result.skipped.push("No workspace folder open.");
@@ -251,32 +271,50 @@ class ModelSetupManager {
         const root = folders[0].uri.fsPath;
         const vscodeDirPath = path.join(root, ".vscode");
         const githubDirPath = path.join(root, ".github");
-        // Ensure directories exist
-        fs.mkdirSync(vscodeDirPath, { recursive: true });
-        fs.mkdirSync(githubDirPath, { recursive: true });
-        await Promise.all([
-            this.mergeVscodeSettings(vscodeDirPath, result),
-            this.mergeExtensionsJson(vscodeDirPath, result),
-            this.mergeCopilotInstructions(githubDirPath, result),
+        const previews = await Promise.all([
+            this.previewVscodeSettings(vscodeDirPath, result.skipped),
+            this.previewExtensionsJson(vscodeDirPath, result.skipped),
+            this.previewCopilotInstructions(githubDirPath),
         ]);
+        result.previews = previews.filter((preview) => preview !== undefined);
         return result;
     }
+    async applyWorkspaceConfigWithConfirmation() {
+        const preview = await this.previewWorkspaceConfig();
+        const changed = preview.previews.filter((item) => item.changed);
+        if (changed.length === 0) {
+            return { modifiedFiles: [], skipped: [...preview.skipped] };
+        }
+        for (const item of changed) {
+            await this.openPreviewDiff(item);
+        }
+        const action = await vscode.window.showWarningMessage(`Apply workspace config changes to ${changed.length} file(s)?`, {
+            modal: true,
+            detail: changed.map((item) => item.filePath).join("\n"),
+        }, "Apply");
+        if (action !== "Apply") {
+            return {
+                modifiedFiles: [],
+                skipped: [...preview.skipped, "User cancelled apply."],
+            };
+        }
+        return this.generateWorkspaceConfig();
+    }
     // ---------------------------------------------------------------------------
-    // .vscode/settings.json — merge missing keys only
+    // .vscode/settings.json — preview merged content
     // ---------------------------------------------------------------------------
-    async mergeVscodeSettings(vscodeDirPath, result) {
+    async previewVscodeSettings(vscodeDirPath, skipped) {
         const filePath = path.join(vscodeDirPath, "settings.json");
-        // Read existing content (tolerates JSONC comments via a relaxed parse)
         let existing = {};
+        let raw = "";
         if (fs.existsSync(filePath)) {
             try {
-                const raw = fs.readFileSync(filePath, "utf8");
+                raw = fs.readFileSync(filePath, "utf8");
                 existing = JSON.parse(stripJsonComments(raw));
             }
             catch {
-                // Malformed JSON — leave existing content untouched; bail out
-                result.skipped.push(`${filePath}: could not parse existing JSON, skipped.`);
-                return;
+                skipped.push(`${filePath}: could not parse existing JSON, skipped.`);
+                return undefined;
             }
         }
         const defaults = {
@@ -285,6 +323,11 @@ class ModelSetupManager {
             "copilotOllamaRouter.reasoningModel": "qwen2.5-coder:14b",
             "copilotOllamaRouter.copilotReviewEnabled": true,
             "copilotOllamaRouter.themisDbRules": true,
+            "copilotOllamaRouter.routeBoilerplateToLocal": true,
+            "copilotOllamaRouter.routeTestsToLocal": true,
+            "copilotOllamaRouter.routeRefactorsToLocal": true,
+            "copilotOllamaRouter.routeDocsToLocal": true,
+            "copilotOllamaRouter.routeCmakeToLocal": true,
             "github.copilot.chat.codeGeneration.instructions": [
                 { "file": ".github/copilot-instructions.md" },
             ],
@@ -315,40 +358,50 @@ class ModelSetupManager {
                 }
             }
         }
-        if (changed) {
-            fs.writeFileSync(filePath, JSON.stringify(existing, null, 2) + "\n", "utf8");
-            result.modifiedFiles.push(filePath);
-        }
+        const afterContent = JSON.stringify(existing, null, 2) + "\n";
+        return {
+            filePath,
+            beforeContent: raw,
+            afterContent,
+            changed,
+        };
     }
     // ---------------------------------------------------------------------------
-    // .vscode/extensions.json — merge recommendations
+    // .vscode/extensions.json — preview merged content
     // ---------------------------------------------------------------------------
-    async mergeExtensionsJson(vscodeDirPath, result) {
+    async previewExtensionsJson(vscodeDirPath, skipped) {
         const filePath = path.join(vscodeDirPath, "extensions.json");
         let existing = {};
+        let raw = "";
         if (fs.existsSync(filePath)) {
             try {
-                const raw = fs.readFileSync(filePath, "utf8");
+                raw = fs.readFileSync(filePath, "utf8");
                 existing = JSON.parse(stripJsonComments(raw));
             }
             catch {
-                result.skipped.push(`${filePath}: could not parse existing JSON, skipped.`);
-                return;
+                skipped.push(`${filePath}: could not parse existing JSON, skipped.`);
+                return undefined;
             }
         }
         const recommendations = existing.recommendations ?? [];
         const ourId = "makr-code.copilot-ollama-router";
+        let changed = false;
         if (!recommendations.includes(ourId)) {
             recommendations.push(ourId);
             existing.recommendations = recommendations;
-            fs.writeFileSync(filePath, JSON.stringify(existing, null, 2) + "\n", "utf8");
-            result.modifiedFiles.push(filePath);
+            changed = true;
         }
+        return {
+            filePath,
+            beforeContent: raw,
+            afterContent: JSON.stringify(existing, null, 2) + "\n",
+            changed,
+        };
     }
     // ---------------------------------------------------------------------------
-    // .github/copilot-instructions.md — sentinel-marker section update
+    // .github/copilot-instructions.md — preview sentinel-marker update
     // ---------------------------------------------------------------------------
-    async mergeCopilotInstructions(githubDirPath, result) {
+    async previewCopilotInstructions(githubDirPath) {
         const filePath = path.join(githubDirPath, "copilot-instructions.md");
         let content = "";
         if (fs.existsSync(filePath)) {
@@ -368,10 +421,33 @@ class ModelSetupManager {
             const separator = content.endsWith("\n") ? "\n" : "\n\n";
             updated = content + separator + COPILOT_INSTRUCTIONS_BRIDGE_SECTION + "\n";
         }
-        if (updated !== content) {
-            fs.writeFileSync(filePath, updated, "utf8");
-            result.modifiedFiles.push(filePath);
+        return {
+            filePath,
+            beforeContent: content,
+            afterContent: updated,
+            changed: updated !== content,
+        };
+    }
+    async openPreviewDiff(preview) {
+        const language = this.languageForPreview(preview.filePath);
+        const beforeDocument = await vscode.workspace.openTextDocument({
+            content: preview.beforeContent,
+            language,
+        });
+        const afterDocument = await vscode.workspace.openTextDocument({
+            content: preview.afterContent,
+            language,
+        });
+        await vscode.commands.executeCommand("vscode.diff", beforeDocument.uri, afterDocument.uri, `Preview: ${path.basename(preview.filePath)}`);
+    }
+    languageForPreview(filePath) {
+        if (filePath.endsWith(".json")) {
+            return "json";
         }
+        if (filePath.endsWith(".md")) {
+            return "markdown";
+        }
+        return "plaintext";
     }
     /** Returns the tags of all locally installed models. */
     async queryInstalledModels() {
@@ -539,6 +615,56 @@ class ModelSetupManager {
                 req.destroy();
                 reject(new Error("Pull aborted."));
             });
+            req.write(body);
+            req.end();
+        });
+    }
+    // ---------------------------------------------------------------------------
+    // Panel-accessible pull (used by SettingsPanel without WithProgress wrapper)
+    // ---------------------------------------------------------------------------
+    async pullModelForPanel(tag, onProgress) {
+        const abortController = new AbortController();
+        await this.streamPull(tag, abortController.signal, (p) => {
+            if (p.error) {
+                throw new Error(p.error);
+            }
+            if (p.total && p.completed) {
+                const pct = Math.round((p.completed / p.total) * 100);
+                onProgress(p.status ?? "downloading", pct);
+            }
+            else if (p.status) {
+                onProgress(p.status, null);
+            }
+        });
+    }
+    // ---------------------------------------------------------------------------
+    // Delete a locally installed model
+    // ---------------------------------------------------------------------------
+    async deleteModel(name) {
+        const body = JSON.stringify({ name });
+        const url = new url_1.URL("/api/delete", this.endpoint);
+        const isHttps = url.protocol === "https:";
+        const transport = isHttps ? https : http;
+        return new Promise((resolve, reject) => {
+            const req = transport.request({
+                hostname: url.hostname,
+                port: url.port || (isHttps ? 443 : 80),
+                path: url.pathname,
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Content-Length": Buffer.byteLength(body),
+                },
+            }, (res) => {
+                // 200 or 404 both indicate the model is gone
+                if (res.statusCode !== 200 && res.statusCode !== 404) {
+                    reject(new Error(`HTTP ${res.statusCode ?? "?"} from /api/delete`));
+                    return;
+                }
+                res.resume();
+                res.on("end", resolve);
+            });
+            req.on("error", reject);
             req.write(body);
             req.end();
         });

@@ -9,11 +9,12 @@
  */
 
 import * as vscode from "vscode";
-import { DelegationRouter } from "./router.js";
+import { DelegationRouter, type RoutingPolicyConfig } from "./router.js";
 import { OllamaClient } from "./ollamaClient.js";
 import { ContextManager } from "./contextManager.js";
 import { CopilotReviewer } from "./copilotReviewer.js";
 import { ModelSetupManager } from "./modelSetup.js";
+import { SettingsPanel } from "./settingsPanel.js";
 
 // ---------------------------------------------------------------------------
 // Helper: read config
@@ -27,6 +28,21 @@ interface BridgeConfig {
   copilotReviewEnabled: boolean;
   requestTimeoutMs: number;
   themisDbRules: boolean;
+  routeBoilerplateToLocal: boolean;
+  routeTestsToLocal: boolean;
+  routeRefactorsToLocal: boolean;
+  routeDocsToLocal: boolean;
+  routeCmakeToLocal: boolean;
+}
+
+function readRoutingPolicies(cfg: vscode.WorkspaceConfiguration): RoutingPolicyConfig {
+  return {
+    routeBoilerplateToLocal: cfg.get<boolean>("routeBoilerplateToLocal", true),
+    routeTestsToLocal: cfg.get<boolean>("routeTestsToLocal", true),
+    routeRefactorsToLocal: cfg.get<boolean>("routeRefactorsToLocal", true),
+    routeDocsToLocal: cfg.get<boolean>("routeDocsToLocal", true),
+    routeCmakeToLocal: cfg.get<boolean>("routeCmakeToLocal", true),
+  };
 }
 
 function readConfig(): BridgeConfig {
@@ -42,6 +58,7 @@ function readConfig(): BridgeConfig {
     copilotReviewEnabled: cfg.get<boolean>("copilotReviewEnabled", true),
     requestTimeoutMs: cfg.get<number>("requestTimeoutMs", 60_000),
     themisDbRules: cfg.get<boolean>("themisDbRules", true),
+    ...readRoutingPolicies(cfg),
   };
 }
 
@@ -86,7 +103,8 @@ export function activate(context: vscode.ExtensionContext): void {
         config.themisDbRules,
         effectiveMode,
         config.defaultModel,
-        config.reasoningModel
+        config.reasoningModel,
+        config
       );
 
       if (decision.destination === "ollama") {
@@ -180,10 +198,39 @@ export function activate(context: vscode.ExtensionContext): void {
 
   context.subscriptions.push(
     vscode.commands.registerCommand("copilotOllamaRouter.askCopilot", async () => {
-      // Open a new chat panel and pre-fill the prompt — the simplest UX
-      await vscode.commands.executeCommand(
-        "workbench.action.chat.open",
-        { query: "@workspace " }
+      const prompt = await vscode.window.showInputBox({
+        prompt: "Enter your request (will be pre-tagged for Copilot chat based on routing policy)",
+        placeHolder: "e.g. Generate boilerplate for a C++ RAII wrapper",
+      });
+      if (!prompt) {
+        return;
+      }
+
+      const config = readConfig();
+      const { activeLanguage } = contextManager.buildPrompt(prompt);
+      const decision = router.classify(
+        prompt,
+        activeLanguage,
+        config.themisDbRules,
+        config.delegationMode,
+        config.defaultModel,
+        config.reasoningModel,
+        config
+      );
+
+      const query =
+        decision.destination === "ollama"
+          ? `@ollama /local ${prompt}`
+          : `@workspace ${prompt}`;
+
+      await vscode.commands.executeCommand("workbench.action.chat.open", {
+        query,
+      });
+
+      void vscode.window.showInformationMessage(
+        decision.destination === "ollama"
+          ? `Copilot chat opened with local Ollama tag. Reason: ${decision.reason}`
+          : `Copilot chat opened without Ollama tag. Reason: ${decision.reason}`
       );
     })
   );
@@ -205,7 +252,8 @@ export function activate(context: vscode.ExtensionContext): void {
         config.themisDbRules,
         config.delegationMode,
         config.defaultModel,
-        config.reasoningModel
+        config.reasoningModel,
+        config
       );
 
       const label =
@@ -287,6 +335,40 @@ export function activate(context: vscode.ExtensionContext): void {
         void vscode.window.showInformationMessage(
           `Installed Ollama models (${installed.length}): ${installed.join(", ")}`
         );
+      }
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "copilotOllamaRouter.openSettings",
+      () => {
+        SettingsPanel.show(context);
+      }
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "copilotOllamaRouter.applyWorkspaceConfig",
+      async () => {
+        const config = readConfig();
+        const setupManager = new ModelSetupManager(config.endpoint);
+        const result = await setupManager.applyWorkspaceConfigWithConfirmation();
+
+        if (result.modifiedFiles.length > 0) {
+          void vscode.window.showInformationMessage(
+            `Workspace config updated (${result.modifiedFiles.length} file(s)):\n${result.modifiedFiles.join("\n")}`
+          );
+        } else if (result.skipped.length > 0) {
+          void vscode.window.showWarningMessage(
+            `Workspace config: skipped — ${result.skipped.join("; ")}`
+          );
+        } else {
+          void vscode.window.showInformationMessage(
+            "Workspace config is already up to date."
+          );
+        }
       }
     )
   );

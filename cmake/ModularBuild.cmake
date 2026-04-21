@@ -33,7 +33,7 @@ if(THEMIS_BUILD_MODULAR)
     option(THEMIS_MODULE_INGESTION "Include ingestion module (all data-intake connectors)" ON)
     option(THEMIS_MODULES_ENABLE_UNITY "Enable Unity Build for modular libraries on MSVC" ON)
     set(THEMIS_MODULES_UNITY_BATCH_SIZE "20" CACHE STRING "Unity batch size for modular libraries")
-    set(THEMIS_MODULES_UNITY_ALLOWLIST "network;query" CACHE STRING
+    set(THEMIS_MODULES_UNITY_ALLOWLIST "network;query;sharding;geo;graph;content;timeseries;security;transaction;ingestion;llm;llm_ext" CACHE STRING
         "Semicolon-separated module names for Unity Build (or ALL)")
 endif()
 

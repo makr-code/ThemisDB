@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyDescriptionAttribute(("Official .NET client library for ThemisDB - Multi-Model Database with ACID transa" +
     "ctions"))]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("0.1.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("0.1.0-beta.1+5a7a7affd42b39b837423c8deb2ba4a70a286a78")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("0.1.0-beta.1+10f6975b1a9e7906aaf187263bd84d6c5ce2b144")]
 [assembly: System.Reflection.AssemblyProductAttribute("ThemisDB.Client")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ThemisDB.Client")]
 [assembly: System.Reflection.AssemblyVersionAttribute("0.1.0.0")]
