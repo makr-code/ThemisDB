@@ -1317,7 +1317,7 @@ bool ModuleLoader::removeZoneIdentifier(const std::string& modulePath) {
     }
     DWORD err = GetLastError();
     if (err == ERROR_FILE_NOT_FOUND) {
-        // Already absent – treat as success
+        // Already absent - treat as success
         return true;
     }
     spdlog::warn("Failed to remove Zone.Identifier from {}: error {}", modulePath, err);
@@ -1444,7 +1444,7 @@ bool ModuleLoader::verifyGPGSignature(const std::string& modulePath,
         }
     }
 
-    // TODO(GAP-014): popen() with shell-constructed command string – injection risk.
+    // TODO(GAP-014): popen() with shell-constructed command string - injection risk.
     // Although kForbidden blocks common shell metacharacters, popen() still invokes /bin/sh
     // which applies its own parsing rules.  Exotic locales or future path formats could
     // introduce characters not in kForbidden.

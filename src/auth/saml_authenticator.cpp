@@ -340,7 +340,7 @@ bool SAMLAuthenticator::verifyXmlSignature(
         // TODO(GAP-003): SHA-1 is broken for digital signatures (SHAttered attack, 2017).
         // Accepting SHA-1 SAML assertions allows a downgrade to a weak digest algorithm.
         // Fix: reject SHA-1 with a hard error instead of accepting it silently:
-        //   THEMIS_ERROR("SAML: SHA-1 digest rejected – upgrade IdP to SHA-256"); return false;
+        //   THEMIS_ERROR("SAML: SHA-1 digest rejected - upgrade IdP to SHA-256"); return false;
         // Target: Q2 2026
         digest_md = EVP_sha1();
     } else {
@@ -473,7 +473,7 @@ pugi::xml_node findSignature(const pugi::xml_node& node) {
 } // anonymous namespace
 
 // ============================================================================
-// decryptAssertion – XML Encryption (XMLEnc) assertion decryption
+// decryptAssertion - XML Encryption (XMLEnc) assertion decryption
 // Supports AES-128-CBC / AES-256-CBC data encryption and
 // RSA-OAEP (rsa-oaep-mgf1p) / RSA-PKCS1-v1.5 key transport.
 // IV is the first block_size bytes of the CipherValue (per XML Enc §5.2).
@@ -762,7 +762,7 @@ std::string SAMLAuthenticator::decryptAssertion(
 }
 
 // ============================================================================
-// processResponse – main entry point
+// processResponse - main entry point
 // ============================================================================
 
 SAMLClaims SAMLAuthenticator::processResponse(

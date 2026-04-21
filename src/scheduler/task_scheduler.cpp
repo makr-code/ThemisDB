@@ -505,7 +505,7 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
     // Sanitize task parameters
     auto sanitized_task = sanitizeTask(task);
     
-    // TODO(GAP-001): AuthZ stub – task registration is completely unauthenticated.
+    // TODO(GAP-001): AuthZ stub - task registration is completely unauthenticated.
     // The comment below was left as a placeholder since the auth system was not yet
     // integrated; the check is intentionally disabled.  Any authenticated API user
     // can register arbitrary AQL tasks without permission validation.

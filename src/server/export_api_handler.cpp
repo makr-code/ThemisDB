@@ -385,7 +385,7 @@ std::string ExportApiHandler::buildAqlQuery(const json& request_json) {
     if (request_json.contains("query")) {
         std::string custom_query = request_json["query"];
         if (!custom_query.empty()) {
-            // TODO(GAP-004): AQL Injection – custom_query is embedded verbatim without
+            // TODO(GAP-004): AQL Injection - custom_query is embedded verbatim without
             // any validation through AQLInjectionDetector::validateForReadOnlyContext().
             // An attacker can append "OR true" to extract all records, or attempt
             // mutation via "OR UPDATE collection ...".
@@ -408,7 +408,7 @@ std::string ExportApiHandler::buildAqlQuery(const json& request_json) {
 }
 
 std::string ExportApiHandler::generateExportId() {
-    // TODO(GAP-019): mt19937 is a deterministic PRNG – not a CSPRNG.
+    // TODO(GAP-019): mt19937 is a deterministic PRNG - not a CSPRNG.
     // On systems where std::random_device falls back to a low-entropy seed (e.g. some
     // embedded Linux kernels), export IDs become guessable, enabling IDOR attacks.
     // Fix: use RAND_bytes(buf, 8) from OpenSSL for cryptographically secure IDs.
@@ -452,7 +452,7 @@ bool ExportApiHandler::validateAdminToken(
         return false;
     }
     
-    // TODO(GAP-008): Non-constant-time string comparison – timing side-channel.
+    // TODO(GAP-008): Non-constant-time string comparison - timing side-channel.
     // An attacker can enumerate the correct token byte-by-byte via response-time
     // differences of std::string::operator==.
     // Fix: replace with CRYPTO_memcmp(token.data(), admin_token, token.size())

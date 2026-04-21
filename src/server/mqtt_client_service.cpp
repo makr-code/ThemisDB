@@ -748,9 +748,9 @@ void MqttClientService::doHandshake() {
         ctx.set_verify_mode(boost::asio::ssl::verify_peer, ec);
         if (ec) { scheduleReconnect(); return; }
     } else {
-        // TODO(GAP-017): verify_none without CRITICAL log – any MQTT broker certificate
+        // TODO(GAP-017): verify_none without CRITICAL log - any MQTT broker certificate
         // is accepted, making MITM trivial.  CDC events (database changes) are exposed.
-        // Fix: THEMIS_CRITICAL("MQTT TLS: verify_none – MITM possible; set tls_ca_path");
+        // Fix: THEMIS_CRITICAL("MQTT TLS: verify_none - MITM possible; set tls_ca_path");
         // Target: Q2 2026
         ctx.set_verify_mode(boost::asio::ssl::verify_none, ec);
         if (ec) { scheduleReconnect(); return; }

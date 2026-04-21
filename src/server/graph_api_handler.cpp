@@ -374,7 +374,7 @@ http::response<http::string_body> GraphApiHandler::handleMetricsPrometheus(
             "Plan-cache entries evicted by LRU or TTL policy",
             m.plan_cache_evictions.load(std::memory_order_relaxed));
     gauge("themis_graph_query_error_rate",
-          "Fraction of graph queries that failed (0.0–1.0)",
+          "Fraction of graph queries that failed (0.0-1.0)",
           m.errorRate());
     gauge("themis_graph_query_avg_duration_ms",
           "Average graph query execution time in milliseconds",

@@ -665,7 +665,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         }
 
     // Translate AST to Query (relational oder traversal)
-    // Spezialfall: LET-Variablen in FILTER (MVP) – vor Übersetzung einfache Ersetzung erlauben
+    // Spezialfall: LET-Variablen in FILTER (MVP) - vor Übersetzung einfache Ersetzung erlauben
     bool letFilterHandled = false; // wenn true, nutzen wir einen manuell konstruierten ConjunctiveQuery
     themis::ConjunctiveQuery letQuery;
     if ((*parse_result) && (*parse_result)->traversal == nullptr && !(*parse_result)->for_nodes.empty()) {
@@ -3453,7 +3453,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryStreamSse(
         res.set(http::field::content_type, "text/event-stream");
         res.set(http::field::cache_control, "no-cache, no-transform");
         res.set(http::field::connection, "keep-alive");
-        // TODO(GAP-012): Hardcoded CORS wildcard – bypasses central CORS policy.
+        // TODO(GAP-012): Hardcoded CORS wildcard - bypasses central CORS policy.
         // Fix: use the configured origin-whitelist from HttpServer config. Target: Q3 2026
         res.set(http::field::access_control_allow_origin, "*");
         res.keep_alive(true);

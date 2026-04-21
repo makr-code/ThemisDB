@@ -330,7 +330,7 @@ HttpServer::HttpServer(
     // Hier zunächst nur Platzhalter (nullptr); tatsächliche Instanz folgt nach key_provider_/field_encryption_ Setup.
     // (Früher erstellt -> jetzt verschoben um Encryption sofort verfügbar zu machen.)
     // Defer ContentManager + Processor Registrierung bis FieldEncryption initialisiert ist.
-    // (Vorheriger Zugriff auf content_manager_ entfernt – war null und verursachte Crash.)
+    // (Vorheriger Zugriff auf content_manager_ entfernt - war null und verursachte Crash.)
     
     // Initialize Semantic Cache (Sprint A) if feature enabled
     if (config_.feature_semantic_cache) {
@@ -635,7 +635,7 @@ HttpServer::HttpServer(
         THEMIS_INFO("Auth: ADMIN token configured via env");
         try {
             auto v = auth_->validateToken(cfg.token);
-            // TODO(GAP-011): Token prefix+suffix logged at startup – exposes 8 chars of the
+            // TODO(GAP-011): Token prefix+suffix logged at startup - exposes 8 chars of the
             // real token value (4-char prefix + 4-char suffix).  Tokens ≤ 8 chars are logged
             // in full.  Fix: log only the token length, no prefix/suffix.
             //   THEMIS_INFO("token_len={}", cfg.token.size());
@@ -813,7 +813,7 @@ HttpServer::HttpServer(
         storage_, auth_, &request_count_, &error_count_, &start_time_,
         secondary_index_, schema_manager_.get(), nullptr,
         &running_, &active_requests_, &active_connections_,
-        concerns_   // may be nullptr – MonitoringApiHandler tolerates that
+        concerns_   // may be nullptr - MonitoringApiHandler tolerates that
     );
     // Wire a disabled-by-default Alertmanager so the Operator API is always available.
     // Operators can enable it via the THEMIS_ALERTMANAGER_URL environment variable.
@@ -1209,7 +1209,7 @@ HttpServer::HttpServer(
         THEMIS_INFO("Database Maintenance Orchestrator initialized (endpoints: /api/v1/maintenance/*)");
     }
 
-    // Initialize Async Job API Handler – long-running AQL query submission/polling
+    // Initialize Async Job API Handler - long-running AQL query submission/polling
     {
         // Executor: builds a synthetic Beast request and delegates to
         // the existing QueryApiHandler so all existing AQL machinery
@@ -1470,7 +1470,7 @@ HttpServer::HttpServer(
     const nlohmann::json entity_tags_prop  = {{"type", "array"}};
     const nlohmann::json entity_ttl_prop   = {{"type", "integer"}, {"minimum", 0}};
 
-    // POST /entities – create entity (key required in body)
+    // POST /entities - create entity (key required in body)
     request_validator_->registerSchema("POST", "/entities", {
         {"type", "object"},
         {"required", {"key"}},
@@ -1482,7 +1482,7 @@ HttpServer::HttpServer(
         }}
     });
 
-    // PUT /entities/<key> – upsert entity body (key is in the URL path, not in the body)
+    // PUT /entities/<key> - upsert entity body (key is in the URL path, not in the body)
     request_validator_->registerSchema("PUT", "/entities/", {
         {"type", "object"},
         {"properties", {
@@ -1492,7 +1492,7 @@ HttpServer::HttpServer(
         }}
     });
 
-    // POST /query – structured query
+    // POST /query - structured query
     request_validator_->registerSchema("POST", "/query", {
         {"type", "object"},
         {"required", {"query"}},
@@ -1514,14 +1514,14 @@ HttpServer::HttpServer(
             {"bindVars", {{"type", "object"}}}
         }}
     };
-    // POST /query/aql and POST /api/aql – further validated by validateAqlRequest
+    // POST /query/aql and POST /api/aql - further validated by validateAqlRequest
     request_validator_->registerSchema("POST", "/query/aql", aql_schema);
     request_validator_->registerSchema("POST", "/api/aql",   aql_schema);
 
-    // POST /v2/jobs – async job submission (same query shape as /query/aql)
+    // POST /v2/jobs - async job submission (same query shape as /query/aql)
     request_validator_->registerSchema("POST", "/v2/jobs", aql_schema);
 
-    // POST /index/create – create index
+    // POST /index/create - create index
     request_validator_->registerSchema("POST", "/index/create", {
         {"type", "object"},
         {"required", {"field"}},
@@ -1532,7 +1532,7 @@ HttpServer::HttpServer(
         }}
     });
 
-    // POST /api/v1/transactions – begin transaction
+    // POST /api/v1/transactions - begin transaction
     request_validator_->registerSchema("POST", "/api/v1/transactions", {
         {"type", "object"},
         {"properties", {
@@ -1541,7 +1541,7 @@ HttpServer::HttpServer(
         }}
     });
 
-    // DELETE /vector/by-filter – carries a body with filter criteria
+    // DELETE /vector/by-filter - carries a body with filter criteria
     request_validator_->registerSchema("DELETE", "/vector/by-filter", {
         {"type", "object"},
         {"required", {"filter"}},
@@ -1554,14 +1554,14 @@ HttpServer::HttpServer(
                 request_validator_->schemaCount());
 
     // ----------------------------------------------------------------------------
-    // CDN / Edge Cache Middleware – Cache-Control header management
+    // CDN / Edge Cache Middleware - Cache-Control header management
     // ----------------------------------------------------------------------------
     // Register default per-route policies.  Conservative no-store is the global
     // fallback for unregistered paths; only well-defined read endpoints receive
     // cacheable policies here.  Individual handlers may register additional
     // policies or rely on the defaults.
     {
-        // Health / liveness probes – very short public cache so CDNs and load
+        // Health / liveness probes - very short public cache so CDNs and load
         // balancers can coalesce repeated probes without hammering the origin.
         CdnRoutePolicy health_policy;
         health_policy.directive              = CacheDirective::PUBLIC;
@@ -1572,7 +1572,7 @@ HttpServer::HttpServer(
         cdn_cache_middleware_.registerPolicy("/health", health_policy);
         cdn_cache_middleware_.registerPolicy("/status", health_policy);
 
-        // Entity read endpoints – private (user-specific data), enable ETag for
+        // Entity read endpoints - private (user-specific data), enable ETag for
         // conditional GET support so repeated fetches avoid re-transferring bodies.
         CdnRoutePolicy entity_policy;
         entity_policy.directive              = CacheDirective::PRIVATE;
@@ -1581,14 +1581,14 @@ HttpServer::HttpServer(
         entity_policy.emit_cdn_cache_control = true;
         cdn_cache_middleware_.registerPolicy("/entities/", entity_policy);
 
-        // Query / AQL endpoints – dynamic results, never cache.
+        // Query / AQL endpoints - dynamic results, never cache.
         CdnRoutePolicy query_policy;
         query_policy.directive = CacheDirective::NO_CACHE;
         cdn_cache_middleware_.registerPolicy("/query", query_policy);
         cdn_cache_middleware_.registerPolicy("/api/aql", query_policy);
         cdn_cache_middleware_.registerPolicy("/v2/jobs", query_policy);
 
-        // Monitoring metrics – short public cache for Prometheus scrapers.
+        // Monitoring metrics - short public cache for Prometheus scrapers.
         CdnRoutePolicy metrics_policy;
         metrics_policy.directive              = CacheDirective::PUBLIC;
         metrics_policy.max_age_seconds        = 15;
@@ -1596,7 +1596,7 @@ HttpServer::HttpServer(
         metrics_policy.emit_cdn_cache_control = true;
         cdn_cache_middleware_.registerPolicy("/metrics", metrics_policy);
 
-        // OpenAPI spec – stable across deploys, cache aggressively.
+        // OpenAPI spec - stable across deploys, cache aggressively.
         CdnRoutePolicy openapi_policy;
         openapi_policy.directive              = CacheDirective::PUBLIC;
         openapi_policy.max_age_seconds        = 3600;
@@ -1871,7 +1871,7 @@ void HttpServer::stop() {
         }
         auto remaining = active_requests_.load(std::memory_order_acquire);
         if (remaining > 0) {
-            THEMIS_WARN("Shutdown timeout: {} request(s) still in flight – forcing close", remaining);
+            THEMIS_WARN("Shutdown timeout: {} request(s) still in flight - forcing close", remaining);
         } else {
             THEMIS_INFO("All active requests completed");
         }
@@ -1956,7 +1956,7 @@ void HttpServer::wait() {
 
 bool HttpServer::reloadTls() {
     if (!config_.enable_tls) {
-        THEMIS_WARN("TLS hot-reload requested but TLS is not enabled – ignoring");
+        THEMIS_WARN("TLS hot-reload requested but TLS is not enabled - ignoring");
         return false;
     }
 
@@ -2042,7 +2042,7 @@ void HttpServer::onAccept(beast::error_code ec, tcp::socket socket) {
         // Enforce max_connections limit: close the socket immediately if exceeded
         if (config_.max_connections > 0 &&
             active_connections_.load(std::memory_order_relaxed) >= config_.max_connections) {
-            THEMIS_WARN("Max connections ({}) reached – rejecting new connection",
+            THEMIS_WARN("Max connections ({}) reached - rejecting new connection",
                 config_.max_connections);
             beast::error_code close_ec;
             socket.shutdown(tcp::socket::shutdown_both, close_ec);
@@ -2132,14 +2132,14 @@ namespace {
 
     enum class Route {
         Health,
-        HealthLive,    // GET /health/live  – liveness probe
-        HealthReady,   // GET /health/ready – readiness probe
-        OpenApi,       // GET /api/openapi.json – OpenAPI 3.1 spec export
+        HealthLive,    // GET /health/live  - liveness probe
+        HealthReady,   // GET /health/ready - readiness probe
+        OpenApi,       // GET /api/openapi.json - OpenAPI 3.1 spec export
         Version,
         Stats,
         CapabilitiesGet,
         Metrics,
-        MetricsHtml,    // GET /metrics/html – lightweight HTML dashboard
+        MetricsHtml,    // GET /metrics/html - lightweight HTML dashboard
         PluginMetrics,  // GET /api/plugins/metrics
         // Operator observability API (Q1)
         ObservabilityAlertsGet,        // GET  /api/v1/observability/alerts
@@ -2154,7 +2154,7 @@ namespace {
         EntitiesDelete,
         EntitiesPost,
         EntitiesBatchPost,
-        V2DocumentsBulkPost,        // POST /v2/documents – bulk insert via NDJSON
+        V2DocumentsBulkPost,        // POST /v2/documents - bulk insert via NDJSON
         QueryPost,
         QueryAqlPost,
         QueryStreamSseGet,  // GET /v2/query/stream - SSE streaming of AQL results
@@ -2442,7 +2442,7 @@ namespace {
     ServerlessFnInvokePost,  // POST /api/v1/functions/{id}/invoke
     ServerlessFnVersionsGet, // GET  /api/v1/functions/{id}/versions
 
-    // Async job API – long-running AQL query submission and polling
+    // Async job API - long-running AQL query submission and polling
     AsyncJobSubmitPost,      // POST   /v2/jobs
     AsyncJobListGet,         // GET    /v2/jobs
     AsyncJobStatusGet,       // GET    /v2/jobs/{id}
@@ -2465,13 +2465,13 @@ namespace {
     SamlSloPost,             // POST   /api/v1/auth/saml/slo
     SamlMetadataGet,         // GET    /api/v1/auth/saml/metadata
 
-    // UDF registration API – AQL user-defined functions
+    // UDF registration API - AQL user-defined functions
     UdfPost,                 // POST   /api/v1/query/udfs
     UdfListGet,              // GET    /api/v1/query/udfs
     UdfGet,                  // GET    /api/v1/query/udfs/{name}
     UdfDelete,               // DELETE /api/v1/query/udfs/{name}
 
-    // Task Scheduler API – manage scheduled tasks
+    // Task Scheduler API - manage scheduled tasks
     TasksPost,               // POST   /api/tasks
     TasksListGet,            // GET    /api/tasks
     TasksStatsGet,           // GET    /api/tasks/stats
@@ -2481,8 +2481,8 @@ namespace {
     TasksEnablePost,         // POST   /api/tasks/{id}/enable
     TasksDisablePost,        // POST   /api/tasks/{id}/disable
     TasksExecutePost,        // POST   /api/tasks/{id}/execute
-    TasksHistoryGet,         // GET    /api/tasks/{id}/history – searchable audit log
-    TasksUiGet,              // GET    /ui/tasks  – Web UI
+    TasksHistoryGet,         // GET    /api/tasks/{id}/history - searchable audit log
+    TasksUiGet,              // GET    /ui/tasks  - Web UI
 
     // Database Maintenance Orchestrator API
     // Schedule CRUD
@@ -2548,7 +2548,7 @@ namespace {
         // Exact matches for /entities endpoints BEFORE parametrized routes
         if (target == "/entities" && method == http::verb::post) return Route::EntitiesPost;
         if (target == "/entities/batch" && method == http::verb::post) return Route::EntitiesBatchPost;
-        // POST /v2/documents – bulk insert via NDJSON (application/x-ndjson body)
+        // POST /v2/documents - bulk insert via NDJSON (application/x-ndjson body)
         if (path_only == "/v2/documents" && method == http::verb::post) return Route::V2DocumentsBulkPost;
 
         // Parametrized entity by key (e.g., /entities/users:123)
@@ -2595,7 +2595,7 @@ namespace {
         if (target == "/cache/query" && method == http::verb::post) return Route::CacheQueryPost;
         if (target == "/cache/put" && method == http::verb::post) return Route::CachePutPost;
         if (target == "/cache/stats" && method == http::verb::get) return Route::CacheStatsGet;
-    // Admin cache endpoints – order matters: more-specific paths first
+    // Admin cache endpoints - order matters: more-specific paths first
     if (path_only == "/v1/admin/cache/health" && method == http::verb::get) return Route::AdminCacheHealthGet;
     if (path_only == "/v1/admin/cache/stats" && method == http::verb::get) return Route::AdminCacheStatsGet;
     if (path_only == "/v1/admin/cache/circuit-breaker" && method == http::verb::get) return Route::AdminCacheCbStatusGet;
@@ -3274,7 +3274,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             res.set(http::field::content_type, "application/json");
             nlohmann::json body = {
                 {"status", 301},
-                {"message", "Moved Permanently – use versioned API path"},
+                {"message", "Moved Permanently - use versioned API path"},
                 {"location", *redirect_target}
             };
             res.body() = body.dump();
@@ -3511,7 +3511,7 @@ http::response<http::string_body> HttpServer::routeRequest(
 
                     const std::string model_id = payload.value("model_id", std::string{"default"});
                     const std::string model_path = payload.value("path", std::string{});
-                    // TODO(GAP-009): Path-traversal risk – model_path comes directly from the
+                    // TODO(GAP-009): Path-traversal risk - model_path comes directly from the
                     // HTTP request body and is only checked for emptiness.  An authenticated
                     // admin can supply "../../../etc/shadow" or any arbitrary filesystem path.
                     // Fix: canonicalize the path and assert it starts_with(config_.model_dir):
@@ -5380,7 +5380,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             const auto qpos = target_str.find('?');
             const std::string path_only = (qpos != std::string::npos)
                 ? target_str.substr(0, qpos) : target_str;
-            // Strip /grpc-web prefix – resulting path is "/<package>.<Service>/<Method>"
+            // Strip /grpc-web prefix - resulting path is "/<package>.<Service>/<Method>"
             static constexpr std::string_view kGrpcWebPrefix{"/grpc-web"};
             const std::string method_path = path_only.substr(kGrpcWebPrefix.size());
             response = grpc_web_proxy_->handlePost(req, method_path);
@@ -5965,7 +5965,7 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
 
         case Route::MaintenanceScheduleRunPost: {
-            // Step 1: baseline auth – all callers need at least maintenance:write.
+            // Step 1: baseline auth - all callers need at least maintenance:write.
             if (auto auth_err = requireAccess(req, "maintenance:write",
                                               "maintenance.schedules.run",
                                               "/api/v1/maintenance/schedules")) {
@@ -9739,7 +9739,7 @@ void HttpServer::Session::armReadTimer() {
     read_timer_.async_wait([self = shared_from_this()](beast::error_code ec) {
         if (!ec) {
             // Timer fired before I/O completed: cancel the pending socket operation
-            THEMIS_WARN("Request read timeout ({}ms) – closing connection",
+            THEMIS_WARN("Request read timeout ({}ms) - closing connection",
                 self->server_->config_.request_timeout_ms);
             beast::error_code close_ec;
             self->socket_.shutdown(tcp::socket::shutdown_both, close_ec);
@@ -10011,7 +10011,7 @@ void HttpServer::SslSession::armReadTimer() {
     );
     read_timer_.async_wait([self = shared_from_this()](beast::error_code ec) {
         if (!ec) {
-            THEMIS_WARN("Request read timeout ({}ms) – closing TLS connection",
+            THEMIS_WARN("Request read timeout ({}ms) - closing TLS connection",
                 self->server_->config_.request_timeout_ms);
             beast::error_code close_ec;
             self->stream_.lowest_layer().shutdown(tcp::socket::shutdown_both, close_ec);

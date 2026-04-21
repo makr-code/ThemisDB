@@ -837,7 +837,7 @@ http::response<http::string_body> ChangefeedApiHandler::handleRetentionPut(
 http::response<http::string_body> ChangefeedApiHandler::handleGdprRedact(
     const http::request<http::string_body>& req
 ) {
-    // Authorization check – requires admin scope (data erasure is a privileged operation)
+    // Authorization check - requires admin scope (data erasure is a privileged operation)
     if (auto auth_resp = checkAuth(req, "cdc:admin")) {
         return *auth_resp;
     }
