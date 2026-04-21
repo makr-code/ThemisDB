@@ -32,7 +32,7 @@
 #include <stdexcept>
 
 // gRPC reflection is only compiled in debug builds to prevent schema leakage
-// in production (FUTURE_ENHANCEMENTS.md – Security / Reliability).
+// in production (FUTURE_ENHANCEMENTS.md - Security / Reliability).
 #if !defined(NDEBUG) && !defined(THEMIS_TEST_BUILD)
 #  include <grpcpp/ext/proto_server_reflection_plugin.h>
 #endif
@@ -88,7 +88,7 @@ bool GrpcApiServer::initialize(const GrpcServerConfig& config) {
     }
 
     if (config.port == 0) {
-        THEMIS_ERROR("GrpcApiServer::initialize – invalid port 0");
+        THEMIS_ERROR("GrpcApiServer::initialize - invalid port 0");
         return false;
     }
 
@@ -117,7 +117,7 @@ bool GrpcApiServer::initialize(const GrpcServerConfig& config) {
                 }
             }
         } catch (const std::exception& ex) {
-            // Config file absent or unreadable – warn so that operators are
+            // Config file absent or unreadable - warn so that operators are
             // notified their configuration file is being ignored, then fall
             // back to the caller-supplied struct value.
             THEMIS_WARN(std::string("GrpcApiServer: could not load ") +
@@ -138,7 +138,7 @@ bool GrpcApiServer::initialize(const GrpcServerConfig& config) {
 
 void GrpcApiServer::registerService(grpc::Service* service) {
     if (!service) {
-        THEMIS_WARN("GrpcApiServer::registerService – null service pointer ignored");
+        THEMIS_WARN("GrpcApiServer::registerService - null service pointer ignored");
         return;
     }
     std::lock_guard<std::mutex> lock(mutex_);
@@ -158,17 +158,17 @@ bool GrpcApiServer::start() {
     std::unique_lock<std::mutex> lock(mutex_);
 
     if (running_) {
-        THEMIS_WARN("GrpcApiServer::start – server is already running on " + server_address_);
+        THEMIS_WARN("GrpcApiServer::start - server is already running on " + server_address_);
         return false;
     }
 
     if (server_address_.empty()) {
-        THEMIS_ERROR("GrpcApiServer::start – call initialize() first");
+        THEMIS_ERROR("GrpcApiServer::start - call initialize() first");
         return false;
     }
 
     if (services_.empty()) {
-        THEMIS_ERROR("GrpcApiServer::start – no gRPC services registered");
+        THEMIS_ERROR("GrpcApiServer::start - no gRPC services registered");
         return false;
     }
 
@@ -182,7 +182,7 @@ bool GrpcApiServer::start() {
     try {
         credentials = buildCredentials();
     } catch (const std::exception& ex) {
-        THEMIS_ERROR(std::string("GrpcApiServer::start – credential build failed: ") + ex.what());
+        THEMIS_ERROR(std::string("GrpcApiServer::start - credential build failed: ") + ex.what());
         return false;
     }
 
@@ -210,7 +210,7 @@ bool GrpcApiServer::start() {
 
         auto server = builder.BuildAndStart();
         if (!server) {
-            THEMIS_ERROR("GrpcApiServer::start – BuildAndStart() returned nullptr for " + address);
+            THEMIS_ERROR("GrpcApiServer::start - BuildAndStart() returned nullptr for " + address);
             return false;
         }
 
@@ -326,8 +326,8 @@ std::shared_ptr<grpc::ServerCredentials> GrpcApiServer::buildCredentials() const
 
     } catch (const std::exception& ex) {
         // Fail-closed: do not fall back to insecure mode when TLS is
-        // explicitly requested (FUTURE_ENHANCEMENTS.md – Design Constraints).
-        THEMIS_ERROR(std::string("GrpcApiServer: TLS configuration failed – ") + ex.what());
+        // explicitly requested (FUTURE_ENHANCEMENTS.md - Design Constraints).
+        THEMIS_ERROR(std::string("GrpcApiServer: TLS configuration failed - ") + ex.what());
         throw std::runtime_error(
             std::string("GrpcApiServer: TLS configuration failed: ") + ex.what());
     }

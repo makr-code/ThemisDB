@@ -1410,3 +1410,68 @@ Low-overhead query profiler for production environments.
 - Query cancellation must guarantee that all allocated memory is released and all acquired locks are freed within 100 ms of the cancellation signal
 - SQL dialect transpiler must never silently produce wrong results for unsupported constructs; it must return a structured error with the unsupported feature name
 - AQL parser must enforce a maximum AST depth of 256 to prevent stack-overflow from deeply nested subqueries
+
+---
+
+## Security Hardening Backlog (Q2 2026)
+
+> GAP-021 + GAP-022 – identified via static analysis (2026-04-21).
+> Reference: `docs/governance/SOURCECODE_COMPLIANCE_GOVERNANCE.md`.
+
+### GAP-021 – Server-Side Cap for `max_frontier_size` and `max_results`
+
+**Scope:** `src/server/query_api_handler.cpp:531–532`
+
+### Design Constraints
+- Caps must be configurable via `THEMIS_MAX_FRONTIER_SIZE` and `THEMIS_MAX_RESULTS` env vars
+- Default caps: `max_frontier_size = 500,000`, `max_results = 100,000`
+- Caps must be enforced **after** reading user value; user cannot exceed server cap
+
+### Required Interfaces
+```cpp
+static constexpr size_t kDefaultServerMaxFrontier = 500'000;
+static constexpr size_t kDefaultServerMaxResults  = 100'000;
+
+size_t server_frontier_cap = config_.max_frontier_size > 0
+    ? config_.max_frontier_size : kDefaultServerMaxFrontier;
+max_frontier_size = std::min(max_frontier_size, server_frontier_cap);
+max_results = std::min(max_results, server_results_cap);
+```
+
+### Test Strategy
+- Unit test: request with `max_frontier_size=999999999` → capped to server limit, no OOM
+- Unit test: server limit configurable via env var
+- Integration test: large graph traversal completes within memory bound
+
+### Performance Targets
+- Cap enforcement: O(1), negligible overhead
+
+---
+
+### GAP-022 – Enforce Default Memory Limit for AQL Queries
+
+**Scope:** `src/server/query_api_handler.cpp:537`, `src/query/aql_runner.cpp:826`
+
+### Design Constraints
+- Default memory limit: 256 MB (configurable via `THEMIS_MAX_QUERY_MEMORY_BYTES`)
+- Explicit `{"max_memory_bytes": 0}` from user must be treated as "use server default",
+  not "no limit"
+- Admins can set the limit higher than the default (e.g., for analytical workloads)
+
+### Required Interfaces
+```cpp
+static constexpr size_t kDefaultMaxQueryMemoryBytes = 256ULL * 1024 * 1024; // 256 MB
+if (resource_limits.max_memory_bytes == 0) {
+    resource_limits.max_memory_bytes = config_.max_query_memory_bytes > 0
+        ? config_.max_query_memory_bytes : kDefaultMaxQueryMemoryBytes;
+}
+```
+
+### Test Strategy
+- Unit test: omit `max_memory_bytes` → 256 MB limit applied
+- Unit test: `{"max_memory_bytes": 0}` → 256 MB limit applied (not unlimited)
+- Unit test: `{"max_memory_bytes": 134217728}` → 128 MB limit applied
+- Integration test: query producing > 256 MB result set → 413 error
+
+### Performance Targets
+- The memory check in `aql_runner.cpp` is O(1) per result batch; no measurable overhead

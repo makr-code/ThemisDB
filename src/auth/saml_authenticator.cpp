@@ -497,7 +497,7 @@ pugi::xml_node findSignature(const pugi::xml_node& node) {
 } // anonymous namespace
 
 // ============================================================================
-// decryptAssertion – XML Encryption (XMLEnc) assertion decryption
+// decryptAssertion - XML Encryption (XMLEnc) assertion decryption
 // Supports AES-128-CBC / AES-256-CBC data encryption and
 // RSA-OAEP (rsa-oaep-mgf1p) / RSA-PKCS1-v1.5 key transport.
 // IV is the first block_size bytes of the CipherValue (per XML Enc §5.2).
@@ -786,7 +786,7 @@ std::string SAMLAuthenticator::decryptAssertion(
 }
 
 // ============================================================================
-// processResponse – main entry point
+// processResponse - main entry point
 // ============================================================================
 
 SAMLClaims SAMLAuthenticator::processResponse(

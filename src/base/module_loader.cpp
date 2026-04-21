@@ -1321,7 +1321,7 @@ bool ModuleLoader::removeZoneIdentifier(const std::string& modulePath) {
     }
     DWORD err = GetLastError();
     if (err == ERROR_FILE_NOT_FOUND) {
-        // Already absent – treat as success
+        // Already absent - treat as success
         return true;
     }
     spdlog::warn("Failed to remove Zone.Identifier from {}: error {}", modulePath, err);
