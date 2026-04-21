@@ -49,6 +49,8 @@ exports.ModelSetupManager = exports.RANKED_CODING_MODELS = void 0;
 const vscode = __importStar(require("vscode"));
 const https = __importStar(require("https"));
 const http = __importStar(require("http"));
+const fs = __importStar(require("fs"));
+const path = __importStar(require("path"));
 const url_1 = require("url");
 /**
  * Ranked list: highest `humanEvalScore` first.
@@ -152,10 +154,224 @@ exports.RANKED_CODING_MODELS = [
         focus: "general",
     },
 ];
+// ---------------------------------------------------------------------------
+// Workspace config constants
+// ---------------------------------------------------------------------------
+const BRIDGE_SECTION_BEGIN = "<!-- OLLAMA-BRIDGE-SECTION:BEGIN -->";
+const BRIDGE_SECTION_END = "<!-- OLLAMA-BRIDGE-SECTION:END -->";
+/**
+ * Content injected into .github/copilot-instructions.md between the sentinel
+ * markers. Replaces any existing bridge section on re-run.
+ */
+const COPILOT_INSTRUCTIONS_BRIDGE_SECTION = `${BRIDGE_SECTION_BEGIN}
+
+## 9) Ollama Delegation Bridge — AI Agent Instructions
+
+The repository ships a VS Code extension at \`tools/vscode-ollama-bridge/\` that
+routes code-generation tasks to a **local Ollama model** instead of Copilot
+cloud. Every AI agent (Copilot, GitHub Copilot in VS Code, this coding agent)
+MUST follow these rules when working on ThemisDB:
+
+### 9.1 When to use local Ollama (via \`@ollama\` chat participant)
+
+Use \`@ollama\` for all of the following:
+
+| Task | Example prompt |
+|---|---|
+| C++ boilerplate / class scaffolding | \`@ollama Generate a RAII wrapper for FILE*\` |
+| Unit test generation | \`@ollama Write GTest cases for KnowledgeGraphRetriever::neighbours()\` |
+| Refactoring | \`@ollama Refactor this function to use std::expected\` |
+| Documentation / Doxygen comments | \`@ollama Add Doxygen docs to LLMPluginManager::loadModel()\` |
+| CMakeLists.txt edits | \`@ollama Add a new test target for test_foo.cpp\` |
+| Repetitive code patterns | \`@ollama Implement getters/setters for all fields in struct X\` |
+
+### 9.2 When to use Copilot cloud (standard chat)
+
+Use the normal Copilot chat (no \`@ollama\`) for:
+
+- Security review and vulnerability analysis
+- Architecture and design decisions
+- Complex multi-file debugging
+- Code review with quality judgement
+- Any task requiring up-to-date knowledge (CVEs, new APIs)
+
+### 9.3 ThemisDB-specific routing rules (always enforced)
+
+- **C++ files** (\`.cpp\`, \`.hpp\`, \`.h\`, \`.cc\`) → always \`@ollama /local\`
+- **Security / audit** prompts → always standard Copilot (cloud)
+- **CMakeLists.txt / build system** → \`@ollama\`
+- **ROADMAP.md / FUTURE_ENHANCEMENTS.md updates** → standard Copilot
+
+### 9.4 Delegation mode configuration
+
+Set in VS Code \`settings.json\` (workspace or user):
+
+\`\`\`jsonc
+{
+  "ollamaBridge.delegationMode": "auto",
+  "ollamaBridge.defaultModel": "deepseek-coder-v2:16b",
+  "ollamaBridge.reasoningModel": "qwen2.5-coder:14b",
+  "ollamaBridge.copilotReviewEnabled": true,
+  "ollamaBridge.themisDbRules": true
+}
+\`\`\`
+
+${BRIDGE_SECTION_END}`;
 class ModelSetupManager {
     endpoint;
     constructor(endpoint) {
         this.endpoint = endpoint;
+    }
+    // ---------------------------------------------------------------------------
+    // Workspace config
+    // ---------------------------------------------------------------------------
+    /**
+     * Idempotently writes/updates the three workspace config files consumed by
+     * VS Code and GitHub Copilot:
+     *
+     *   - `.vscode/settings.json`         — adds missing `ollamaBridge.*` keys
+     *                                        and `github.copilot.chat.*.instructions`
+     *                                        file references; existing user values
+     *                                        are preserved.
+     *   - `.vscode/extensions.json`        — adds `themisdb.vscode-ollama-bridge`
+     *                                        to `recommendations` if not present.
+     *   - `.github/copilot-instructions.md` — inserts/replaces only the sentinel-
+     *                                        delimited bridge section; all other
+     *                                        content is left untouched.
+     *
+     * Safe to call multiple times.
+     */
+    async generateWorkspaceConfig() {
+        const result = { modifiedFiles: [], skipped: [] };
+        const folders = vscode.workspace.workspaceFolders;
+        if (!folders || folders.length === 0) {
+            result.skipped.push("No workspace folder open.");
+            return result;
+        }
+        const root = folders[0].uri.fsPath;
+        const vscodeDirPath = path.join(root, ".vscode");
+        const githubDirPath = path.join(root, ".github");
+        // Ensure directories exist
+        fs.mkdirSync(vscodeDirPath, { recursive: true });
+        fs.mkdirSync(githubDirPath, { recursive: true });
+        await Promise.all([
+            this.mergeVscodeSettings(vscodeDirPath, result),
+            this.mergeExtensionsJson(vscodeDirPath, result),
+            this.mergeCopilotInstructions(githubDirPath, result),
+        ]);
+        return result;
+    }
+    // ---------------------------------------------------------------------------
+    // .vscode/settings.json — merge missing keys only
+    // ---------------------------------------------------------------------------
+    async mergeVscodeSettings(vscodeDirPath, result) {
+        const filePath = path.join(vscodeDirPath, "settings.json");
+        // Read existing content (tolerates JSONC comments via a relaxed parse)
+        let existing = {};
+        if (fs.existsSync(filePath)) {
+            try {
+                const raw = fs.readFileSync(filePath, "utf8");
+                existing = JSON.parse(stripJsonComments(raw));
+            }
+            catch {
+                // Malformed JSON — leave existing content untouched; bail out
+                result.skipped.push(`${filePath}: could not parse existing JSON, skipped.`);
+                return;
+            }
+        }
+        const defaults = {
+            "ollamaBridge.delegationMode": "auto",
+            "ollamaBridge.defaultModel": "deepseek-coder-v2:16b",
+            "ollamaBridge.reasoningModel": "qwen2.5-coder:14b",
+            "ollamaBridge.copilotReviewEnabled": true,
+            "ollamaBridge.themisDbRules": true,
+            "github.copilot.chat.codeGeneration.instructions": [
+                { "file": ".github/copilot-instructions.md" },
+            ],
+            "github.copilot.chat.testGeneration.instructions": [
+                { "file": ".github/copilot-instructions.md" },
+            ],
+            "github.copilot.chat.reviewSelection.instructions": [
+                { "file": ".github/copilot-instructions.md" },
+            ],
+        };
+        let changed = false;
+        for (const [key, value] of Object.entries(defaults)) {
+            if (!(key in existing)) {
+                existing[key] = value;
+                changed = true;
+            }
+            else if (key.startsWith("github.copilot.chat.") &&
+                Array.isArray(existing[key]) &&
+                Array.isArray(value)) {
+                // Merge instruction file refs: add missing entries
+                const arr = existing[key];
+                for (const entry of value) {
+                    const alreadyPresent = arr.some((e) => JSON.stringify(e) === JSON.stringify(entry));
+                    if (!alreadyPresent) {
+                        arr.push(entry);
+                        changed = true;
+                    }
+                }
+            }
+        }
+        if (changed) {
+            fs.writeFileSync(filePath, JSON.stringify(existing, null, 2) + "\n", "utf8");
+            result.modifiedFiles.push(filePath);
+        }
+    }
+    // ---------------------------------------------------------------------------
+    // .vscode/extensions.json — merge recommendations
+    // ---------------------------------------------------------------------------
+    async mergeExtensionsJson(vscodeDirPath, result) {
+        const filePath = path.join(vscodeDirPath, "extensions.json");
+        let existing = {};
+        if (fs.existsSync(filePath)) {
+            try {
+                const raw = fs.readFileSync(filePath, "utf8");
+                existing = JSON.parse(stripJsonComments(raw));
+            }
+            catch {
+                result.skipped.push(`${filePath}: could not parse existing JSON, skipped.`);
+                return;
+            }
+        }
+        const recommendations = existing.recommendations ?? [];
+        const ourId = "themisdb.vscode-ollama-bridge";
+        if (!recommendations.includes(ourId)) {
+            recommendations.push(ourId);
+            existing.recommendations = recommendations;
+            fs.writeFileSync(filePath, JSON.stringify(existing, null, 2) + "\n", "utf8");
+            result.modifiedFiles.push(filePath);
+        }
+    }
+    // ---------------------------------------------------------------------------
+    // .github/copilot-instructions.md — sentinel-marker section update
+    // ---------------------------------------------------------------------------
+    async mergeCopilotInstructions(githubDirPath, result) {
+        const filePath = path.join(githubDirPath, "copilot-instructions.md");
+        let content = "";
+        if (fs.existsSync(filePath)) {
+            content = fs.readFileSync(filePath, "utf8");
+        }
+        const beginIdx = content.indexOf(BRIDGE_SECTION_BEGIN);
+        const endIdx = content.indexOf(BRIDGE_SECTION_END);
+        let updated;
+        if (beginIdx !== -1 && endIdx !== -1 && endIdx > beginIdx) {
+            // Section already exists — replace only what is between the markers
+            const before = content.slice(0, beginIdx);
+            const after = content.slice(endIdx + BRIDGE_SECTION_END.length);
+            updated = before + COPILOT_INSTRUCTIONS_BRIDGE_SECTION + after;
+        }
+        else {
+            // First run — append the section (preserve any existing content)
+            const separator = content.endsWith("\n") ? "\n" : "\n\n";
+            updated = content + separator + COPILOT_INSTRUCTIONS_BRIDGE_SECTION + "\n";
+        }
+        if (updated !== content) {
+            fs.writeFileSync(filePath, updated, "utf8");
+            result.modifiedFiles.push(filePath);
+        }
     }
     /** Returns the tags of all locally installed models. */
     async queryInstalledModels() {
@@ -358,4 +574,61 @@ class ModelSetupManager {
     }
 }
 exports.ModelSetupManager = ModelSetupManager;
+// ---------------------------------------------------------------------------
+// Utility: strip single-line and block comments from JSONC
+// ---------------------------------------------------------------------------
+/**
+ * Minimal JSONC comment stripper.
+ * Removes single-line (//) and block (slash-star) comments while preserving
+ * string literals that contain comment-like sequences.
+ */
+function stripJsonComments(jsonc) {
+    let result = "";
+    let i = 0;
+    let inString = false;
+    while (i < jsonc.length) {
+        const ch = jsonc[i];
+        if (inString) {
+            if (ch === "\\" && i + 1 < jsonc.length) {
+                result += ch + jsonc[i + 1];
+                i += 2;
+                continue;
+            }
+            if (ch === '"') {
+                inString = false;
+            }
+            result += ch;
+            i++;
+            continue;
+        }
+        if (ch === '"') {
+            inString = true;
+            result += ch;
+            i++;
+            continue;
+        }
+        // Single-line comment
+        if (ch === "/" && jsonc[i + 1] === "/") {
+            while (i < jsonc.length && jsonc[i] !== "\n") {
+                i++;
+            }
+            continue;
+        }
+        // Block comment
+        if (ch === "/" && jsonc[i + 1] === "*") {
+            i += 2;
+            while (i < jsonc.length - 1 && !(jsonc[i] === "*" && jsonc[i + 1] === "/")) {
+                if (jsonc[i] === "\n") {
+                    result += "\n";
+                }
+                i++;
+            }
+            i += 2; // skip */
+            continue;
+        }
+        result += ch;
+        i++;
+    }
+    return result;
+}
 //# sourceMappingURL=modelSetup.js.map

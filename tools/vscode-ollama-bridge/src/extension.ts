@@ -250,6 +250,16 @@ export function activate(context: vscode.ExtensionContext): void {
       async () => {
         const config = readConfig();
         const setupManager = new ModelSetupManager(config.endpoint);
+
+        // 1. Generate / update workspace config files (idempotent)
+        const cfgResult = await setupManager.generateWorkspaceConfig();
+        if (cfgResult.modifiedFiles.length > 0) {
+          void vscode.window.showInformationMessage(
+            `Ollama Bridge: workspace config updated (${cfgResult.modifiedFiles.length} file(s)).`
+          );
+        }
+
+        // 2. Interactive model download wizard
         await setupManager.pickAndPullModels();
       }
     )
