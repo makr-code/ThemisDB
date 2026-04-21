@@ -1,13 +1,16 @@
-> ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
-
-<!-- Status: current | validated: 2026-04-19 -->
+<!-- Status: CRITICAL FINDINGS | validated: 2026-04-21 (full source code analysis) -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — LLM Module
 
-**Last Audit:** 2026-04-19
+**Last Audit:** 2026-04-21
 **Auditor:** Copilot
-**Status:** ✅ Pass
+**Status:** 🔴 Critical — 3×S0 path injection (LoRA loading + model file write), 8×S1
+
+> **Note:** Previous audit claimed "Open security issues: 0" and "LoRA adapter integrity verification: ✅".
+> Direct source analysis found three S0 path injection vulnerabilities: LoRA path from API callers
+> is not restricted to a trusted directory; model_id from storage metadata can traverse to arbitrary
+> filesystem paths; deserialized remote LoRA path is passed directly to libllama.
 
 ## Summary
 
@@ -16,8 +19,10 @@
 | Source files audited | 84 (all registered in CMake) |
 | Test targets | 28 focused targets |
 | Estimated test coverage | > 80 % |
-| Open security issues | 0 |
-| Open functional issues | 3 (federated inference, hard cancellation, speculative decoding logits) |
+| S0 Critical | 🔴 3 (arbitrary path injection; arbitrary file write via path traversal) |
+| S1 High | 🔴 8 |
+| S2 Medium | ⚠️ 4 |
+| Trusted-directory enforcement on model loading | 🔴 **None** |
 | Build system registration | ✅ All files registered in CMakeLists.txt |
 | Documentation completeness | ✅ CHANGELOG, SECURITY, AUDIT present |
 
@@ -156,31 +161,118 @@ Build types validated: `Debug`, `Release`, `RelWithDebInfo`. CUDA builds require
 
 ## Findings
 
-### Resolved
+### S0 — Critical
+
+#### F1-1 · `multi_lora_manager.cpp` · `loadLoRAInternal()` — Arbitrary path injection (L1952–1967)
+
+`lora_path` comes directly from API callers with only an existence check, no canonicalization
+or trusted-directory constraint:
+
+```cpp
+std::ifstream file_check(lora_path, std::ios::binary);
+if (!file_check.good()) { ... }
+GGUFLoader gguf_loader;
+if (gguf_loader.parseFile(lora_path)) { ... }  // arbitrary open + parse
+```
+
+Any caller who can invoke `loadLoRA()` can force the process to open, stat, and GGUF-parse
+any file readable by the server process (including `/etc/passwd`, private key files,
+or internal config). The GGUF parser streams arbitrary bytes from the file.
+
+**Fix required:** Compute `canonical(lora_path)` and verify it starts with
+`canonical(config_.model_base_dir)` before any file operation.
+
+---
+
+#### F1-2 · `multi_lora_manager.cpp` · `importLoRA()` → `initializeLoRAWithModel()` — Remote LoRA path injection
+
+In distributed LoRA sync, a shard-payload-deserialized `path` is passed directly to
+`llama_lora_adapter_init()` without sanitization:
+
+```cpp
+lora->path = std::string(reinterpret_cast<const char*>(data.data() + offset), path_len);
+// ...later:
+lora->adapter_handle = llama_lora_adapter_init(model, lora->path.c_str());
+```
+
+A malicious peer node can supply any path string in the sync payload, causing libllama to
+attempt loading of an arbitrary file as a LoRA adapter.
+
+**Fix required:** Apply the same trusted-directory check as F1-1 to all deserialized paths
+before passing to libllama.
+
+---
+
+#### F2-1 · `llama_wrapper.cpp` · `loadModelFromThemisDB()` — Path traversal → arbitrary file write (L533–545)
+
+`model_id` is taken from ThemisDB record metadata without canonicalization, then used to
+construct a temporary file path:
+
+```cpp
+std::filesystem::path temp_model_path = temp_dir / (model_id + extension);
+// ...
+std::ofstream out_file(temp_model_path, std::ios::binary);
+out_file.write(reinterpret_cast<const char*>(model_data.data()), model_data.size());
+```
+
+An attacker who stores a record with `model_id = "../../etc/cron.d/payload"` causes
+attacker-controlled model binary data to be written to `/etc/cron.d/payload.gguf`, which
+is an arbitrary file write for any path writable by the server process.
+
+**Fix required:** Compute `canonical(temp_model_path)` and verify it starts with
+`canonical(temp_dir)` before creating the file.
+
+---
+
+### S1 — High
+
+| ID | File | Function | Lines | Description |
+|----|------|----------|-------|-------------|
+| F1-3 | multi_lora_manager.cpp | `applyLoRA`, `removeLoRA` | 401–414, 463–470 | Pointer-to-int cast: `adapter_handle` range check always fails on 64-bit (heap addr > INT_MAX) — LoRA permanently non-functional in production |
+| F1-4 | multi_lora_manager.cpp | `loadLoRAMultiGPU` | 1826–1840 | DATA_PARALLEL VRAM undercount: `total_vram_bytes_` incremented once but each GPU is charged separately — OOM possible |
+| F1-5 | multi_lora_manager.cpp | `batchInferenceMultiLoRA` | 609–614 | KV cache not cleared between tenant requests — cross-tenant context leaks into generation |
+| F2-2 | llama_wrapper.cpp | `generate` | 829–853 | Dead `return` before response cache read — cache permanently bypassed, unbounded memory growth |
+| F2-3 | llama_wrapper.cpp | `generate`, `generateRegular` | 836, 1126–1128 | Response cache keyed on prompt only (no tenant ID) — cross-tenant inference leakage when dead code fixed |
+| F2-4 | llama_wrapper.cpp | `generate` | 755–757 | TOCTOU: mutex released during model reload — concurrent model swap corrupts inference identity |
+| F3-1 | gpu_memory_manager.cpp | `freeGPU` / `freeCPU` | ~495 | Unsigned underflow on `total_vram_used_` — pool permanently unavailable after any accounting mismatch |
+| F3-2 | gpu_memory_manager.cpp | `defragmentModelGPU` | 833–838 | Erase predicate matches all allocations by device_id, not only fragmented ones — silent accounting corruption |
+
+### S2 — Medium
+
+| ID | File | Function | Description |
+|----|------|----------|-------------|
+| F2-5 | llama_wrapper.cpp | `loadDraftModel` | Draft model path unvalidated — arbitrary file loaded as speculative decode draft model |
+| F2-6 | llama_wrapper.cpp | `loadModelFromThemisDB` | Decrypted model binary persists in world-readable `/tmp/themisdb_models/` indefinitely with predictable names |
+
+---
+
+### Resolved (from 2026-04-19 audit)
 
 | ID | Description | Resolution | Version |
 |----|-------------|------------|---------|
-| LLM-001 | Residual VRAM activations from previous model not zeroed on hot-swap | `vram_secure_clear.cpp` called unconditionally in hot-swap path | v1.16.0 |
-| LLM-002 | Stale deduplication cache entry returned after model hot-swap | Cache invalidated on every successful hot-swap | v1.16.0 |
-| LLM-003 | SSE connection not closed on empty-response edge case | Generator exhaustion check added to streaming output handler | v1.16.0 |
-| LLM-004 | Grammar constrained generation stack overflow on deeply recursive BNF | Recursion depth bounded; grammar rejected if limit exceeded | v1.15.0 |
+| LLM-001 | Residual VRAM activations not zeroed on hot-swap | `vram_secure_clear.cpp` called unconditionally in hot-swap path | v1.16.0 |
+| LLM-002 | Stale deduplication cache returned after hot-swap | Cache invalidated on every successful hot-swap | v1.16.0 |
+| LLM-003 | SSE connection not closed on empty-response | Generator exhaustion check added | v1.16.0 |
+| LLM-004 | Grammar constrained generation stack overflow on recursive BNF | Recursion depth bounded | v1.15.0 |
 
-### Open
+### Open (carried forward + new)
 
-| ID | Description | Priority | Target | Issue |
-|----|-------------|----------|--------|-------|
-| LLM-005 | Federated inference not yet implemented | High | v2.0.0 | #1928 |
-| LLM-006 | Request cancellation is best-effort; GPU kernel may complete | Medium | v1.17.0 | — |
-| LLM-007 | Speculative decoding uses synthetic draft-model logits | Medium | v1.17.0 | — |
+| ID | Description | Priority | Target |
+|----|-------------|----------|--------|
+| **LLM-NEW-1** | **Trusted-directory enforcement missing for all model/LoRA loading paths (F1-1, F1-2, F2-1)** | **Critical** | **Immediate** |
+| **LLM-NEW-2** | **Fix LoRA applyLoRA/removeLoRA pointer-to-int cast (F1-3)** | **Critical** | **Immediate** |
+| LLM-005 | Federated inference not yet implemented | High | v2.0.0 |
+| LLM-006 | Request cancellation is best-effort; GPU kernel may complete | Medium | v1.17.0 |
+| LLM-007 | Speculative decoding uses synthetic draft-model logits | Medium | v1.17.0 |
 
 ## Compliance
 
 | Requirement | Status |
 |-------------|--------|
 | API keys never logged | ✅ Deny-list enforced in log formatters |
-| VRAM isolation between models | ✅ `src/security/vram_secure_clear.cpp` + `ActiveVRAMAllocator` per-model regions |
-| LoRA adapter integrity verification | ✅ SHA-256 + trusted manifest enforced in `lora_security_validator.cpp` |
-| GGUF format validation before loading | ✅ Magic bytes, version, and metadata validated |
+| VRAM isolation between models | ✅ `vram_secure_clear.cpp` + `ActiveVRAMAllocator` per-model regions |
+| LoRA adapter integrity verification | 🔴 **Bypassed** — `lora_security_validator.cpp` not called from `loadLoRAInternal` before file open; path validation absent |
+| GGUF format validation before loading | ⚠️ Partial — magic bytes validated but path is untrusted input (F1-1) |
 | Prompt injection detection | ✅ `llm_security_utils.cpp` applied at inference boundary |
 | Post-generation constitutional filter | ✅ Constitutional reasoning engine + ethical guidelines manager |
 | Per-model resource quotas | ✅ Enforced by `token_quota_manager.cpp` |
