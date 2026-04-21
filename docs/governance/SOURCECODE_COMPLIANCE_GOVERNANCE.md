@@ -302,3 +302,269 @@ grep -rn --include="*.cpp" 'sscanf\|std::sscanf' src/server/
 # Rohes delete[]
 grep -rn --include="*.cpp" 'delete\s*\[\]' src/
 ```
+
+---
+
+## 14. Deep Dive – Erweiterte Analysebefunde
+
+**Analysedatum:** 2026-04-21 (Runde 2)
+**Fokus:** Timing-Angriffe, Path-Traversal, CORS, DoS, SSRF, JSON-Injection, Brute-Force, Token-Logging
+
+---
+
+### 14.1 Timing-Angriff: Nicht-konstant-zeitlicher Token-Vergleich
+
+**Datei:** `src/server/export_api_handler.cpp`, Zeile 443
+
+```cpp
+return token == admin_token;   // std::string::operator== – nicht constant-time
+```
+
+Der Admin-Token des Export-Endpunkts wird mit `operator==` verglichen. C++-String-Vergleich
+ist nicht constant-time: Ein Angreifer kann durch präzise Zeitmessung Byte-für-Byte
+herausfinden, wie viele Zeichen des richtigen Tokens er bereits erraten hat (timing side-channel).
+
+**Datei:** `src/server/auth_middleware.cpp`, Zeilen 204–206
+
+```cpp
+auto it = tokens_.find(std::string(token));   // map-Lookup – nicht constant-time
+if (it != tokens_.end()) { ... }
+```
+
+Hash-Map-Lookup via `std::unordered_map::find` ist ebenfalls nicht constant-time.
+
+**Empfehlung:** `CRYPTO_memcmp` (OpenSSL, bereits als Dependency vorhanden) oder
+`std::equal` mit Kurzschluss-Vermeidung für alle token-Vergleiche verwenden.
+
+---
+
+### 14.2 Path-Traversal: LLM Model Load ohne Pfadvalidierung
+
+**Datei:** `src/server/http_server.cpp`, Zeilen 3507–3518 und `src/server/llm_api_handler.cpp`, Zeile 637
+
+```cpp
+const std::string model_path = payload.value("path", std::string{});
+if (model_path.empty()) { /* 400 */ return; }
+// Einzige Validierung: path darf nicht leer sein
+plugin_mgr.loadModel(model_id, model_path);
+```
+
+HTTP-authentifizierte Nutzer können beliebige Dateisystempfade übergeben:
+- `../../../etc/passwd` – Dateileck
+- `/dev/null` – hängt Loader auf  
+- Netzwerkpfade (`smb://`, NFS-Mounts)
+
+Es gibt keine `canonical()`/`lexically_normal()`-Prüfung, keine Whitelist für
+erlaubte Modell-Verzeichnisse.
+
+**Empfehlung:** Vor `loadModel()` prüfen:
+```cpp
+auto canon = std::filesystem::canonical(model_path);
+if (!canon.string().starts_with(config_.model_dir)) throw std::runtime_error("path out of sandbox");
+```
+
+---
+
+### 14.3 DoS: Graph-BFS ohne `max_depth`-Obergrenze
+
+**Datei:** `src/server/graph_api_handler.cpp`, Zeile 71
+
+```cpp
+size_t max_depth = body_json["max_depth"];   // direkt aus HTTP-Body
+graph_index_->bfs(start_vertex, static_cast<int>(max_depth));
+```
+
+Ein Angreifer kann `max_depth: 999999999` senden und eine vollständige
+Graphtraversierung auslösen. Der BFS-Algorithmus (`graph_index.cpp:423`) hat
+intern keine Obergrenze – er traversiert alle erreichbaren Knoten bis `maxDepth`.
+Bei großen Graphen führt das zu OOM und CPU-Saturation (Denial of Service).
+
+**Empfehlung:** Maximale Tiefe serverseitig beschränken:
+```cpp
+static constexpr size_t kMaxBfsDepth = 20;
+if (max_depth > kMaxBfsDepth) { /* 400 Bad Request */ return; }
+```
+
+---
+
+### 14.4 Token-Wert in Startup-Logs (Partial Leak)
+
+**Datei:** `src/server/http_server.cpp`, Zeilen 638–640
+
+```cpp
+THEMIS_INFO("Auth check after addToken: validateToken(token='{}') -> ...",
+    cfg.token.size() > 8
+        ? (std::string(cfg.token).substr(0,4) + "..." + std::string(cfg.token).substr(cfg.token.size()-4))
+        : cfg.token);   // ← kurze Tokens werden vollständig geloggt
+```
+
+Tokens kürzer als 9 Zeichen werden im Klartext in die THEMIS_INFO-Logs geschrieben.
+Bei Tokens ≥ 9 Zeichen werden 8 Zeichen (Prefix + Suffix) exponiert – bei einem
+8-Zeichen-Token sind das 100 % des Wertes.
+
+**Befund:** Tokens mit ≤ 8 Zeichen werden vollständig geloggt. Selbst bei längeren
+Tokens reduziert das Loggen von Prefix+Suffix den effektiven Suchraum erheblich.
+
+**Empfehlung:** Nur die Tokenlänge loggen, kein Prefix/Suffix:
+```cpp
+THEMIS_INFO("Auth check after addToken: token_len={}", cfg.token.size());
+```
+
+---
+
+### 14.5 CORS: Wildcard in individuellen Handlern (unkontrolliert)
+
+**Dateien:** `src/server/changefeed_api_handler.cpp:403`,
+`src/server/llm_api_handler.cpp:504,571`,
+`src/server/query_api_handler.cpp:3447`,
+`src/llm/grafana_metrics.cpp:1392`
+
+Diese Handler setzen `Access-Control-Allow-Origin: *` **direkt und hardcoded**,
+unabhängig von der zentralen CORS-Konfiguration in `http_server.cpp`:
+
+```cpp
+res.set(http::field::access_control_allow_origin, "*");
+```
+
+Der zentrale CORS-Handler in `http_server.cpp` hat eine korrekte Origin-Whitelist-Prüfung
+(Zeile 9443: `cors_allow_credentials_ && allow_origin != "*"`). Die einzelnen Handler
+umgehen diese Logik vollständig.
+
+**Befund:** CORS-Policy wird inkonsistent angewendet. Wenn `cors_allow_credentials_`
+aktiv ist und bestimmte Endpunkte trotzdem `*` setzen, ignorieren Browser zwar
+`Allow-Credentials`, aber es entsteht eine konfuse und schwer zu auditierende Lage.
+
+**Empfehlung:** Alle CORS-Header müssen über den zentralen Handler gesetzt werden.
+Hardcoded `*` in individuellen API-Handlern entfernen.
+
+---
+
+### 14.6 Brute-Force: Kein Rate-Limiting auf Export-Admin-Auth
+
+**Datei:** `src/server/export_api_handler.cpp`, Zeile 443
+
+Der `ExportApiHandler` implementiert eine eigene Token-Verifikation gegen
+`THEMIS_TOKEN_ADMIN` – ohne Rate-Limiting, ohne Audit-Log bei fehlgeschlagenem
+Versuch, ohne Account-Lockout.
+
+Der zentrale Rate-Limiter in `http_server.cpp` (Zeile 3284) schützt diesen Handler
+möglicherweise, abhängig von der Routing-Konfiguration. Es gibt jedoch keinen
+expliziten Auth-Failure-Audit-Log-Eintrag in diesem Handler.
+
+**Empfehlung:**
+1. Auth-Fehler explizit mit IP-Adresse und Zeitstempel loggen.
+2. Rate-Limit explizit im Handler prüfen (nicht nur über globales Routing).
+
+---
+
+### 14.7 Command-Injection: `popen` mit GPG via Single-Quote-Injection
+
+**Datei:** `src/base/module_loader.cpp`, Zeilen 1415, 1449
+
+```cpp
+static const std::string kForbidden = "'\";&|`$\n\r\\()\t";
+// ...
+std::string command = "gpg --verify '" + sigFile + "' '" + modulePath + "' 2>&1";
+FILE* pipe = popen(command.c_str(), "r");
+```
+
+**Befund:** `kForbidden` enthält `'` – der Single-Quote ist also geblockt. Das
+verhindert die einfachste Shell-Injection. **Jedoch:** Der Forbidden-Check prüft
+Zeichen, die im Dateisystem-Pfad vorkommen können. Pfade auf Systemen mit exotischen
+Locales oder Unicode-Normalisierung können Zeichen enthalten, die nach Byte-Iteration
+harmlos erscheinen, aber als Shell-Metazeichen interpretiert werden.
+
+**Bessere Lösung:** `popen()` durch direkten `execvp()`-Aufruf ersetzen, der kein
+Shell-Parsing durchführt:
+```cpp
+// Kein Shell-Parsing, kein Injection-Risiko:
+execvp("gpg", {"gpg", "--verify", sigFile.c_str(), modulePath.c_str(), nullptr});
+```
+
+---
+
+### 14.8 Backup: User-kontrollierter Pfad in `system()` via Admin-API
+
+**Datei:** `src/server/admin_api_handler.cpp`, Zeile 49 →  
+**Datei:** `src/storage/backup_manager.cpp`, Zeilen 940–941
+
+```cpp
+// admin_api_handler.cpp:49 – direkt aus HTTP-Body:
+std::string dir = body.value("directory", "./data/backup_" + timestamp);
+storage_->createCheckpoint(dir);   // dir wird weitergegeben
+```
+
+`createCheckpoint()` ruft intern `BackupManager::compressBackup(backup_dir)`, das:
+
+```cpp
+std::string cmd = "tar -czf \"" + compressed_file + "\" -C \""
+                + fs::path(backup_dir).parent_path().string() + "\" \""
+                + fs::path(backup_dir).filename().string() + "\"";
+int result = system(cmd.c_str());
+```
+
+Ein Admin-Nutzer kann `directory` auf beliebige Pfade setzen. Das führt zu:
+- Backup beliebiger Systemverzeichnisse (Datenexfiltration)
+- Durch eingebettete `"` im Pfad: potenzielle Shell-Injection in `system()`
+
+**Aber:** Admin-Auth ist vorausgesetzt. Dennoch verstößt dies gegen
+Least-Privilege (Admin ≠ root, Backup sollte auf definierte Verzeichnisse beschränkt sein).
+
+**Empfehlung:**
+1. `directory` auf eine Whitelist erlaubter Backup-Verzeichnisse beschränken.
+2. `system()` durch `std::filesystem` + `libarchive` ersetzen.
+
+---
+
+### 15. Ergänzte Compliance-Control-Matrix (Deep Dive)
+
+| Control ID | Schwere | Bereich | Befund | Datei / Zeile | Status |
+|---|---|---|---|---|---|
+| C-014 | High | Krypto | Token-Vergleich nicht constant-time (Timing-Angriff) | `src/server/export_api_handler.cpp:443` | Missing |
+| C-015 | High | Krypto | Auth-Middleware-Lookup nicht constant-time | `src/server/auth_middleware.cpp:204` | Missing |
+| C-016 | High | Path Traversal | LLM model_path ohne Sandboxing (Path Traversal) | `src/server/http_server.cpp:3518` | Missing |
+| C-017 | High | DoS | Graph-BFS `max_depth` ohne Obergrenze (DoS) | `src/server/graph_api_handler.cpp:71` | Missing |
+| C-018 | Medium | Secrets | Token-Teilwert (Prefix+Suffix) in Startup-Logs | `src/server/http_server.cpp:638` | Partial |
+| C-019 | Medium | CORS | Hardcoded `*` in 4 API-Handlern, umgeht zentrale CORS-Policy | `src/server/changefeed_api_handler.cpp:403` u.a. | Missing |
+| C-020 | Medium | AuthZ | Kein Auth-Failure-Audit-Log in Export-Handler | `src/server/export_api_handler.cpp` | Missing |
+| C-021 | Medium | Injection | `popen(gpg)` via Shell-String – besser `execvp()` | `src/base/module_loader.cpp:1449` | Partial |
+| C-022 | Medium | Injection | `system(tar)` mit user-kontrolliertem Admin-Backup-Pfad | `src/storage/backup_manager.cpp:940` | Partial |
+
+---
+
+### 16. Kompletter Remediation-Backlog (alle Runden)
+
+| Gap ID | Schwere | Maßnahme | Datei | Deadline |
+|---|---|---|---|---|
+| GAP-001 | Critical | Scheduler AuthZ-Checks aktivieren | `src/scheduler/task_scheduler.cpp:510,711,1286` | Q2 2026 |
+| GAP-002 | Critical | `verify_none` mit THEMIS_ERROR versehen | `src/server/http_server.cpp:1688`, `quic_server.cpp:680`, `mqtt_client_service.cpp:751` | Q2 2026 |
+| GAP-003 | High | SAML SHA-1 ablehnen | `src/auth/saml_authenticator.cpp:338` | Q2 2026 |
+| GAP-004 | High | catch-Blöcke in Security-Modulen fail-closed | `src/security/aql_injection_detector.cpp:237`, `zero_trust_policy_enforcer.cpp:314` | Q2 2026 |
+| GAP-008 | High | `CRYPTO_memcmp` für Token-Vergleiche | `src/server/export_api_handler.cpp:443`, `auth_middleware.cpp:204` | Q2 2026 |
+| GAP-009 | High | LLM model_path auf Verzeichnis-Sandbox beschränken | `src/server/http_server.cpp:3518`, `llm_api_handler.cpp:637` | Q2 2026 |
+| GAP-010 | High | Graph-BFS max_depth serverseitig ≤ 20 begrenzen | `src/server/graph_api_handler.cpp:71` | Q2 2026 |
+| GAP-005 | Medium | MD5 → SHA-256 in checksum_utils | `src/utils/checksum_utils.cpp:64` | Q3 2026 |
+| GAP-006 | Medium | `sscanf` Längenprüfung normieren | `src/server/query_api_handler.cpp:884,1096` | Q3 2026 |
+| GAP-011 | Medium | Token-Logging: nur Länge loggen, kein Prefix/Suffix | `src/server/http_server.cpp:638` | Q3 2026 |
+| GAP-012 | Medium | Hardcoded CORS `*` aus API-Handlern entfernen | `changefeed_api_handler.cpp:403`, `llm_api_handler.cpp:504,571`, `query_api_handler.cpp:3447` | Q3 2026 |
+| GAP-013 | Medium | Auth-Failure-Audit-Log im Export-Handler | `src/server/export_api_handler.cpp` | Q3 2026 |
+| GAP-014 | Medium | `popen(gpg)` → `execvp()` | `src/base/module_loader.cpp:1449` | Q3 2026 |
+| GAP-015 | Medium | Backup-Pfad whitelist + `system(tar)` → libarchive | `src/storage/backup_manager.cpp:940,976` | Q3 2026 |
+| GAP-007 | Low | ROPE/AsyncJob RBAC-Granularität implementieren | `src/server/rope_api_handler.cpp`, `async_job_api_handler.cpp` | Q3 2026 |
+
+---
+
+### 17. Positiv-Befunde (Best Practices im Code)
+
+Einige Aspekte sind gut implementiert und sollten als Referenz dienen:
+
+| Bereich | Positiv-Befund | Datei |
+|---|---|---|
+| CORS | Zentrale CORS-Logik mit Origin-Whitelist und Vary-Header | `src/server/http_server.cpp:9406` |
+| Input-Injection | AQL-Injection-Detektor mit AST-Analyse (3-stufig) | `src/security/aql_injection_detector.cpp:79` |
+| GPG-Injection | kForbidden-Liste mit Shell-Metachar-Whitelist | `src/base/module_loader.cpp:1415` |
+| Rate Limiting | API-Gateway und HTTP-Server haben zentrales Rate-Limiting | `src/server/api_gateway.cpp:161`, `http_server.cpp:3284` |
+| Body-Size-Limit | `THEMIS_MAX_BODY_BYTES` konfigurierbar (Default 10 MB) | `src/server/http_server.cpp:1612` |
+| SAML-Parse-Fehler | SHA-1 wird gewarnt; unsupportete Algo lehnt ab | `src/auth/saml_authenticator.cpp:342` |
+| gRPC TLS | gRPC-Transport hat konfigurierbares `max_message_size_bytes` | `src/network/grpc_transport.cpp:200` |
+| Token-Logging | Token-Masking für ≥ 9 Zeichen (Prefix+Suffix) existiert | `src/server/http_server.cpp:639` (partiell) |
