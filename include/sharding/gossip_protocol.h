@@ -352,6 +352,8 @@ private:
     void mergePeerList(const std::vector<PeerInfo>& peers);
     void updatePeerHealth();
     void syncWithTopology();
+    // Requires peers_mutex_ already held by the calling thread.
+    void syncWithTopologyLocked();
     
     std::string generateMessageId() const;
     std::string signMessage(const GossipMessage& message) const;
