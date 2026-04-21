@@ -17,6 +17,10 @@ build-*/
 # Broken/dead-code stubs
 **/*.broken
 
+#sccache logs and files
+.sccache/
+.sccache-*/
+
 # VSCode user-specific settings (keep .vscode/ for enhanced config)
 .vscode/settings.json
 .vscode/launch.json

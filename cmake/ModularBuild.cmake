@@ -160,6 +160,12 @@ set(THEMIS_BASE_SOURCES
     ../src/utils/self_awareness.cpp
     ../src/utils/timestamp_utils.cpp
     ../src/observability/metrics_collector.cpp
+    ../src/security/pii_redaction_policy.cpp
+    ../src/utils/pii_detection_engine.cpp
+    ../src/utils/regex_detection_engine.cpp
+    ../src/utils/ner_detection_engine.cpp
+    ../src/utils/pii_detector.cpp
+    ../src/utils/pki_client.cpp
     ../src/config/config_path_resolver.cpp
     ../src/config/config_file_watcher.cpp
     ../src/config/config_metrics_exporter.cpp
@@ -661,9 +667,6 @@ set(THEMIS_SECURITY_SOURCES
     ../src/security/timestamp_authority.cpp
     ../src/security/timestamp_authority_openssl.cpp
     ../src/security/vcc_pki_client.cpp
-    ../src/security/pii_redaction_policy.cpp
-    ../src/utils/lek_manager.cpp
-    ../src/utils/saga_logger.cpp
     
     # Authentication
     ../src/auth/jwt_validator.cpp
@@ -720,16 +723,14 @@ set(THEMIS_SECURITY_SOURCES
     ../src/governance/policy_review.cpp
     ../src/governance/policy_file_watcher.cpp
     ../src/governance/soc2_controls.cpp
-    
-    # PII detection
-    ../src/utils/pii_detection_engine.cpp
-    ../src/utils/regex_detection_engine.cpp
-    ../src/utils/ner_detection_engine.cpp
-    ../src/utils/pii_detector.cpp
+
+    # Utility modules that depend on security/storage internals
     ../src/utils/pii_stream_scanner.cpp
     ../src/utils/utils_adapters.cpp
+    ../src/utils/lek_manager.cpp
+    ../src/utils/saga_logger.cpp
+    ../src/utils/audit_logger.cpp
     ../src/utils/retention_manager.cpp
-    ../src/utils/pki_client.cpp
     
     # Post-quantum cryptography (CRYSTALS-Kyber / Dilithium migration path)
     ../src/security/post_quantum_crypto.cpp
@@ -750,7 +751,6 @@ set(THEMIS_SECURITY_SOURCES
     # Encryption and vector/graph index helpers (use storage + security features)
     ../src/security/field_encryption.cpp
     ../src/security/encrypted_field.cpp
-    ../src/utils/audit_logger.cpp
     ../src/storage/index_maintenance.cpp
     ../src/index/vector_index.cpp
     ../src/index/graph_index.cpp
@@ -1863,6 +1863,9 @@ function(themis_build_modular)
     if(THEMIS_MODULE_CONTENT)
         list(APPEND _themis_network_deps themis_content)
     endif()
+    if(TARGET themis_api_proto)
+        list(APPEND _themis_network_deps themis_api_proto)
+    endif()
 
     themis_add_module(network
         SOURCES ${THEMIS_NETWORK_SOURCES}
@@ -1909,6 +1912,7 @@ function(themis_build_modular)
             DEPENDENCIES 
                 themis_base 
                 themis_storage
+                themis_security
         )
     endif()
     
