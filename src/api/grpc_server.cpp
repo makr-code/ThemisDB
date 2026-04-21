@@ -291,7 +291,12 @@ std::string GrpcApiServer::loadFile(const std::string& path) {
 
 std::shared_ptr<grpc::ServerCredentials> GrpcApiServer::buildCredentials() const {
     if (!config_.tls_enabled) {
-        THEMIS_INFO("GrpcApiServer: using insecure credentials (TLS disabled)");
+        // GAP-016: Log a security warning when falling back to insecure gRPC
+        // credentials (CWE-295). Previously logged at INFO, which is invisible at
+        // default WARN log levels and gives no signal to operators or SIEM systems.
+        THEMIS_WARN("[SECURITY] GrpcApiServer: TLS is disabled — using insecure "
+                    "gRPC credentials. All gRPC traffic is unencrypted. "
+                    "Enable TLS in production (GAP-016/CWE-295).");
         return grpc::InsecureServerCredentials();
     }
 

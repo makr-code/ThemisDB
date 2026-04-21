@@ -1433,7 +1433,13 @@ HttpServer::HttpServer(
         if (!v->empty()) cors_allowed_headers_ = *v;
     }
     if (cors_allow_all_) {
-        THEMIS_INFO("CORS: allowing all origins (Access-Control-Allow-Origin: *)");
+        // GAP-012: CORS wildcard is a security risk (CWE-346).  Any origin can
+        // make cross-site requests; browsers will expose the response to untrusted
+        // JavaScript.  Emit a prominent WARNING so operators know this is not a
+        // production-safe configuration.
+        THEMIS_WARN("[SECURITY] CORS: Access-Control-Allow-Origin: * is ENABLED via "
+                    "THEMIS_CORS_ALLOW_ALL. Any origin can read responses. "
+                    "This is NOT recommended for production deployments (GAP-012/CWE-346).");
     } else if (!cors_allowed_origins_.empty()) {
         THEMIS_INFO("CORS: allowed origins configured ({} entries)", cors_allowed_origins_.size());
     } else {

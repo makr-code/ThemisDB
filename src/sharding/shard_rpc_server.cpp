@@ -288,7 +288,10 @@ bool ShardRPCServer::start() {
                 THEMIS_INFO("mTLS enabled for shard RPC server");
                 
             } catch (const std::exception& e) {
-                THEMIS_ERROR("Failed to load mTLS certificates: {}. Falling back to insecure connection.", e.what());
+                // GAP-016: mTLS cert load failure silently fell back to insecure.
+                // Log at ERROR so operators see the degradation (CWE-295).
+                THEMIS_ERROR("[SECURITY] ShardRPCServer: Failed to load mTLS certificates: {}. "
+                             "Falling back to INSECURE connection (GAP-016/CWE-295).", e.what());
                 credentials = grpc::InsecureServerCredentials();
             }
         } else {

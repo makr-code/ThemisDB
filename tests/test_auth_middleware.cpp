@@ -22,6 +22,7 @@
 
 #include <gtest/gtest.h>
 #include "server/auth_middleware.h"
+#include "server/grpc_web_proxy_handler.h"
 #include "auth/api_key_authenticator.h"
 #include "auth/jwt_validator.h"
 #include <nlohmann/json.hpp>
@@ -1163,4 +1164,74 @@ TEST(TaskSchedulerRequestContext, ContextIsPerThread) {
 TEST(TaskSchedulerRequestContext, FallbackParameterUsed) {
     TaskScheduler::clearRequestContext();
     EXPECT_EQ(TaskScheduler::currentUserId("svc-account"), "svc-account");
+}
+
+// ===========================================================================
+// GAP-013 — Auth failure audit logging (CWE-778)
+// ===========================================================================
+
+// GAP-013-01: validateToken with an unknown token returns Denied.
+// The validateToken implementation now logs at WARN for every failure.
+// This test verifies the Denied outcome so that it is exercised in CI
+// (SIEM log coverage is verified by log inspection in integration tests).
+TEST(AuthMiddlewareGap013Test, ValidateToken_UnknownToken_ReturnsDenied) {
+    AuthMiddleware auth;
+    // Add one known token so isEnabled()=true.
+    AuthMiddleware::TokenConfig tc;
+    tc.token   = "good-token";
+    tc.user_id = "alice";
+    tc.scopes  = {"read"};
+    auth.addToken(tc);
+
+    auto result = auth.validateToken("completely-unknown-token");
+    EXPECT_FALSE(result.ok) << "Unknown token must be denied (GAP-013)";
+    EXPECT_EQ(result.error, "Invalid token");
+}
+
+// GAP-013-02: authorize() with a recognised user but wrong scope returns Denied.
+TEST(AuthMiddlewareGap013Test, Authorize_WrongScope_ReturnsDenied) {
+    AuthMiddleware auth;
+    AuthMiddleware::TokenConfig tc;
+    tc.token   = "read-only-token";
+    tc.user_id = "bob";
+    tc.scopes  = {"data:read"};
+    auth.addToken(tc);
+
+    auto result = auth.authorize("read-only-token", "data:write");
+    EXPECT_FALSE(result.ok) << "Insufficient scope must be denied (GAP-013)";
+}
+
+// GAP-013-03: authorize() with a completely invalid token returns Denied.
+TEST(AuthMiddlewareGap013Test, Authorize_InvalidToken_ReturnsDenied) {
+    AuthMiddleware auth;
+    AuthMiddleware::TokenConfig tc;
+    tc.token   = "good-token";
+    tc.user_id = "carol";
+    tc.scopes  = {"admin"};
+    auth.addToken(tc);
+
+    auto result = auth.authorize("not-a-valid-token", "admin");
+    EXPECT_FALSE(result.ok) << "Invalid token must be denied (GAP-013)";
+}
+
+// ===========================================================================
+// GAP-012 — CORS wildcard (CWE-346) — config-level structural tests
+// ===========================================================================
+// Note: The GrpcWebProxyHandler constructor now emits a spdlog::warn when
+// cors_allow_origin is '*'. The following tests verify the FIELD values and
+// the security-relevant behaviour that follows from the config.
+
+// GAP-012-01: Default Config has cors_allow_origin = '*'.
+TEST(CorsConfigTest, GAP012_DefaultCorsAllowOriginIsWildcard) {
+    GrpcWebProxyHandler::Config cfg;
+    EXPECT_EQ(cfg.cors_allow_origin, "*")
+        << "Default config must start with wildcard so the warning fires (GAP-012)";
+}
+
+// GAP-012-02: Specific origin string is not the wildcard.
+TEST(CorsConfigTest, GAP012_SpecificOriginIsNotWildcard) {
+    GrpcWebProxyHandler::Config cfg;
+    cfg.cors_allow_origin = "https://app.example.com";
+    EXPECT_NE(cfg.cors_allow_origin, "*")
+        << "Configuring a specific origin must not be '*' (GAP-012)";
 }

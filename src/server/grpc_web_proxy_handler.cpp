@@ -25,6 +25,7 @@
 
 #include <nlohmann/json.hpp>
 #include <chrono>
+#include <spdlog/spdlog.h>
 
 #ifdef THEMIS_ENABLE_GRPC
 #include <grpcpp/grpcpp.h>
@@ -123,7 +124,17 @@ GrpcWebProxyHandler::GrpcWebProxyHandler()
 
 GrpcWebProxyHandler::GrpcWebProxyHandler(Config config)
     : config_(std::move(config))
-{}
+{
+    // GAP-012: Warn when the CORS allow-origin is the wildcard '*' (CWE-346).
+    // A wildcard allows any browser origin to read gRPC-Web responses, which
+    // violates the principle of least privilege.  Set Config::cors_allow_origin
+    // to a specific origin (e.g. "https://app.example.com") in production.
+    if (config_.cors_allow_origin == "*") {
+        spdlog::warn("[SECURITY] GrpcWebProxy: cors_allow_origin='*' — any origin can read "
+                     "gRPC-Web responses. Configure a specific origin in production "
+                     "(GAP-012/CWE-346).");
+    }
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Channel management
