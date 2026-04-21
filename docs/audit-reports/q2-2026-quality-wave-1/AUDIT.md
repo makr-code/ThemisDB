@@ -60,7 +60,7 @@
 |------|---------|--------|
 | source_audit | `python3 tools/compiler_diagnostics/source_audit.py --json /tmp/themis_source_audit.json` | ✅ Completed, `7139` findings |
 | perf_expectations_audit | `python3 tools/perf_expectations_audit.py --output-dir /tmp/themis_perf_audit --strict` | ✅ Pass with warnings (`7 pass / 3 warn / 0 fail`) |
-| benchmark_mapping | `python3 tools/verify_benchmark_mapping.py` | ❌ Fail (chimera mapping path/symbol mismatch) |
+| benchmark_mapping | `python3 tools/verify_benchmark_mapping.py` | ✅ Pass (fixed in Wave-1 remediation) |
 | docs-lint | `python3 scripts/docs-lint.py AUDIT.md FUTURE_ENHANCEMENTS.MD` | ⚠️ Warnings only (pre-existing formatting) |
 
 ### 4.2 Dynamische Analyse
@@ -115,17 +115,15 @@
 
 ## 6) Prioritized Findings (Wave 1)
 
-### F-001: Benchmark Mapping Consistency Broken
+### F-001: Benchmark Mapping Consistency Broken ✅ FIXED
 - **Kategorie:** Build-Test / Maintainability
 - **Severity:** S1
 - **Komponenten/Dateien:** `benchmarks/benchmark_target_mapping.json`, `tools/verify_benchmark_mapping.py`
 - **Repro:** `python3 tools/verify_benchmark_mapping.py`
-- **Evidenz:** `chimera/CHI-*` referenziert fehlenden Pfad + fehlende Primärsymbole
-- **Root-Cause-Hypothese:** Mismatch zwischen Mapping-Datei und realem `external/chimera` Pfadmodell
-- **Fix-Vorschlag:** Mapping-Einträge auf reale Dateipfade/Symbole synchronisieren; Gate auf FAIL belassen
-- **Test-/Validierungsplan:** Script muss Exit `0` liefern; Regressionstest für CHI-1..4
-- **Risiko bei Nichtbehebung:** Falsch-positive Performance-Compliance, defekte KPI-Nachweise
-- **Owner / ETA:** Benchmark Infra Owner / Q2 2026
+- **Evidenz:** `chimera/CHI-*` referenzierte fehlenden Pfad + fehlende Primärsymbole
+- **Root-Cause:** `verify_benchmark_mapping.py` suchte Dateien nur unter `benchmarks/` statt auch unter Repo-Root; `primary_benchmark` für CHI-1..4 nutzte Modul-Colon-Notation statt workload_id
+- **Fix:** `_resolve_bench_file()` helper in Verifier ergänzt (BENCHMARKS_DIR → REPO_ROOT Fallback); `primary_benchmark` auf workload_id-Bezeichner synchronisiert
+- **Validierung:** `python3 tools/verify_benchmark_mapping.py` → Exit `0`, alle 207 IDs gecheckt
 
 ### F-002: Build Baseline Not Reproducible in Fresh Environment
 - **Kategorie:** Build-Test

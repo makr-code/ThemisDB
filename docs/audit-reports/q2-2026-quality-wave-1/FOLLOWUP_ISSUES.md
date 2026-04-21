@@ -11,12 +11,10 @@
 
 ## Cluster B — Benchmark Mapping Integrity (S1)
 
-- [ ] **QA-W1-B1:** `CHI-*` benchmark mapping korrigieren (Target: Q2 2026)
-  - Scope: `benchmarks/benchmark_target_mapping.json`, chimera benchmark references
-  - Acceptance:
-    - `python3 tools/verify_benchmark_mapping.py` Exit-Code `0`
-    - `CHI-1..CHI-4` referenzieren existierende Dateien + Primärsymbole
-    - Regression-test für Mapping-Gültigkeit aktiv
+- [x] **QA-W1-B1:** `CHI-*` benchmark mapping korrigiert ✅ (2026-04-21)
+  - `tools/verify_benchmark_mapping.py`: `_resolve_bench_file()` fallback auf REPO_ROOT ergänzt
+  - `benchmarks/benchmark_target_mapping.json`: `primary_benchmark` CHI-1..4 auf workload_id-Bezeichner synchronisiert
+  - `python3 tools/verify_benchmark_mapping.py` → Exit `0`, 207 IDs ✅
 
 ## Cluster C — Performance Gate Completeness (S2)
 
