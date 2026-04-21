@@ -386,3 +386,57 @@ Encrypted SAML assertions (`<EncryptedAssertion>`) are now supported. The implem
 - `[ ]` RFC 8693 (Token Exchange) — partially stubbed in `federated_identity_manager.cpp:187`
 - `[x]` RFC 4514 (LDAP DN string representation / escaping) — `escapeLDAPDNComponent()` in `ldap_authenticator.cpp`
 - `[x]` RFC 4515 (LDAP filter string representation / escaping) — `escapeLDAPFilterValue()` in `ldap_authenticator.cpp`
+
+---
+
+## Security Hardening Backlog (Q2 2026)
+
+> GAP-003 – identified via static analysis (2026-04-21).
+> Reference: `docs/governance/SOURCECODE_COMPLIANCE_GOVERNANCE.md`.
+
+### GAP-003 – Hard-Reject SHA-1 in SAML Signature / Digest Verification
+
+**Scope:** `src/auth/saml_authenticator.cpp:338`
+
+### Design Constraints
+- SHA-256 SAML flows must not be affected
+- A grace-period escape hatch (`THEMIS_SAML_ALLOW_SHA1=1` env var) is allowed for
+  operators upgrading their IdP, but must log a CRITICAL startup warning and be
+  clearly documented as a security risk
+
+### Required Interfaces
+```cpp
+// In SamlAuthenticator constructor / init:
+bool allow_sha1_ = (std::getenv("THEMIS_SAML_ALLOW_SHA1") != nullptr);
+if (allow_sha1_) {
+    THEMIS_CRITICAL("SAML: SHA-1 acceptance enabled via THEMIS_SAML_ALLOW_SHA1 – "
+                    "this is a security risk; upgrade your IdP to SHA-256");
+}
+```
+- In `verifySAMLAssertion()`, replace the SHA-1 branch:
+```cpp
+} else if (digest_algorithm_uri.find("sha1") != std::string::npos) {
+    if (!allow_sha1_) {
+        THEMIS_ERROR("SAML: SHA-1 digest rejected – set THEMIS_SAML_ALLOW_SHA1=1 to override");
+        return false;
+    }
+    digest_md = EVP_sha1();
+}
+```
+
+### Implementation Notes
+- RFC 8211 §4 prohibits SHA-1 for XML Digital Signatures in new deployments
+- NIST SP 800-131A Rev. 2 §9 prohibits SHA-1 for digital signature generation after 2017
+- The SHAttered (2017) attack demonstrated a practical SHA-1 chosen-prefix collision
+
+### Test Strategy
+- Unit test: SHA-1 signed assertion → `false` (default, no env var)
+- Unit test: SHA-1 signed assertion + `THEMIS_SAML_ALLOW_SHA1=1` → `true` + CRITICAL log
+- Unit test: SHA-256 signed assertion → `true` (unaffected)
+
+### Performance Targets
+- No performance impact (early-exit path)
+
+### Security / Reliability
+- Fail-closed by default; no silent downgrade
+- Operator must opt-in explicitly; the env var is documented in SECURITY.md

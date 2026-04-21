@@ -296,3 +296,43 @@ All inbound requests must carry or receive a `X-Correlation-ID` header that prop
 [9] Hunt, P., Konar, M., Junqueira, F. P., & Reed, B. (2010). **ZooKeeper: Wait-free Coordination for Internet-scale Systems**. *Proceedings of the 2010 USENIX Annual Technical Conference (ATC)*, 145–158. (Relevance: atomic write-batch semantics and distributed coordination patterns used in gRPC `BatchWrite` atomicity design.) https://www.usenix.org/conference/usenix-atc-10/zookeeper-wait-free-coordination-internet-scale-systems
 
 [10] Mell, P., & Grance, T. (2011). **The NIST Definition of Cloud Computing**. NIST Special Publication 800-145. https://doi.org/10.6028/NIST.SP.800-145 (Relevance: multi-tenant API isolation requirements for per-tenant rate limiting and namespace routing.)
+
+---
+
+## Security Hardening Backlog (Q2 2026)
+
+> GAP-016 – identified via static analysis (2026-04-21).
+> Reference: `docs/governance/SOURCECODE_COMPLIANCE_GOVERNANCE.md`.
+
+### GAP-016 – gRPC Server: Block `InsecureServerCredentials` in Production Mode
+
+**Scope:** `src/api/grpc_server.cpp:295`
+
+### Design Constraints
+- TLS-disabled mode must still be allowed in development (`THEMIS_ENV=development`)
+- In production, server startup must fail with a clear error message
+
+### Required Interfaces
+```cpp
+// In GrpcApiServer::buildCredentials():
+if (!config_.tls_enabled) {
+    const char* env = std::getenv("THEMIS_ENV");
+    if (env && std::string(env) == "production") {
+        THEMIS_CRITICAL("gRPC: InsecureServerCredentials forbidden in production – set tls_enabled=true");
+        throw std::runtime_error("gRPC TLS required in production");
+    }
+    THEMIS_CRITICAL("gRPC: InsecureServerCredentials active – all gRPC traffic is unencrypted");
+    return grpc::InsecureServerCredentials();
+}
+```
+
+### Test Strategy
+- Unit test: `tls_enabled=false` + `THEMIS_ENV=production` → `std::runtime_error` thrown
+- Unit test: `tls_enabled=false` + `THEMIS_ENV=development` → Insecure credentials + CRITICAL log
+- Unit test: `tls_enabled=true` → SslServerCredentials returned
+
+### Performance Targets
+- No runtime overhead (check only on server startup)
+
+### Security / Reliability
+- Production guard must not be bypassable by missing env var (default = deny in production)
