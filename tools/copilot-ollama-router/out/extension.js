@@ -51,7 +51,7 @@ const contextManager_js_1 = require("./contextManager.js");
 const copilotReviewer_js_1 = require("./copilotReviewer.js");
 const modelSetup_js_1 = require("./modelSetup.js");
 function readConfig() {
-    const cfg = vscode.workspace.getConfiguration("ollamaBridge");
+    const cfg = vscode.workspace.getConfiguration("copilotOllamaRouter");
     return {
         endpoint: cfg.get("endpoint", "http://localhost:11434"),
         defaultModel: cfg.get("defaultModel", "codellama:13b"),
@@ -70,7 +70,7 @@ function activate(context) {
     const contextManager = new contextManager_js_1.ContextManager();
     const reviewer = new copilotReviewer_js_1.CopilotReviewer();
     // ── Chat participant ──────────────────────────────────────────────────────
-    const participant = vscode.chat.createChatParticipant("ollama-bridge.delegate", async (request, _chatContext, stream, token) => {
+    const participant = vscode.chat.createChatParticipant("copilot-ollama-router.delegate", async (request, _chatContext, stream, token) => {
         const config = readConfig();
         const ollamaClient = new ollamaClient_js_1.OllamaClient(config.endpoint);
         // Build enriched prompt with editor context
@@ -99,7 +99,7 @@ function activate(context) {
     participant.iconPath = vscode.Uri.joinPath(context.extensionUri, "media", "ollama-icon.png");
     context.subscriptions.push(participant);
     // ── Commands ──────────────────────────────────────────────────────────────
-    context.subscriptions.push(vscode.commands.registerCommand("ollamaBridge.delegateToOllama", async () => {
+    context.subscriptions.push(vscode.commands.registerCommand("copilotOllamaRouter.delegateToOllama", async () => {
         const prompt = await vscode.window.showInputBox({
             prompt: "Enter your request (will be sent to local Ollama)",
             placeHolder: "e.g. Write unit tests for the selected function",
@@ -139,11 +139,11 @@ function activate(context) {
             await vscode.window.showTextDocument(doc);
         });
     }));
-    context.subscriptions.push(vscode.commands.registerCommand("ollamaBridge.askCopilot", async () => {
+    context.subscriptions.push(vscode.commands.registerCommand("copilotOllamaRouter.askCopilot", async () => {
         // Open a new chat panel and pre-fill the prompt — the simplest UX
         await vscode.commands.executeCommand("workbench.action.chat.open", { query: "@workspace " });
     }));
-    context.subscriptions.push(vscode.commands.registerCommand("ollamaBridge.autoRoute", async () => {
+    context.subscriptions.push(vscode.commands.registerCommand("copilotOllamaRouter.autoRoute", async () => {
         const prompt = await vscode.window.showInputBox({
             prompt: "Enter your request (will be auto-classified)",
             placeHolder: "e.g. Refactor this function to use RAII",
@@ -159,7 +159,7 @@ function activate(context) {
             : "☁️  Copilot (cloud)";
         void vscode.window.showInformationMessage(`Auto-route decision: ${label}\nReason: ${decision.reason}`);
     }));
-    context.subscriptions.push(vscode.commands.registerCommand("ollamaBridge.checkOllamaHealth", async () => {
+    context.subscriptions.push(vscode.commands.registerCommand("copilotOllamaRouter.checkOllamaHealth", async () => {
         const config = readConfig();
         const ollamaClient = new ollamaClient_js_1.OllamaClient(config.endpoint);
         const result = await ollamaClient.health();
@@ -173,7 +173,7 @@ function activate(context) {
             void vscode.window.showErrorMessage(`❌ Cannot reach Ollama at ${config.endpoint}: ${result.error ?? "unknown error"}`);
         }
     }));
-    context.subscriptions.push(vscode.commands.registerCommand("ollamaBridge.setupModels", async () => {
+    context.subscriptions.push(vscode.commands.registerCommand("copilotOllamaRouter.setupModels", async () => {
         const config = readConfig();
         const setupManager = new modelSetup_js_1.ModelSetupManager(config.endpoint);
         // 1. Generate / update workspace config files (idempotent)
@@ -184,14 +184,14 @@ function activate(context) {
         // 2. Interactive model download wizard
         await setupManager.pickAndPullModels();
     }));
-    context.subscriptions.push(vscode.commands.registerCommand("ollamaBridge.listInstalledModels", async () => {
+    context.subscriptions.push(vscode.commands.registerCommand("copilotOllamaRouter.listInstalledModels", async () => {
         const config = readConfig();
         const setupManager = new modelSetup_js_1.ModelSetupManager(config.endpoint);
         const installed = await setupManager.queryInstalledModels();
         if (installed.length === 0) {
             const action = await vscode.window.showWarningMessage("No Ollama models installed yet.", "Set up models…");
             if (action === "Set up models…") {
-                await vscode.commands.executeCommand("ollamaBridge.setupModels");
+                await vscode.commands.executeCommand("copilotOllamaRouter.setupModels");
             }
             return;
         }

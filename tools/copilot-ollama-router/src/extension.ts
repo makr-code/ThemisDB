@@ -30,7 +30,7 @@ interface BridgeConfig {
 }
 
 function readConfig(): BridgeConfig {
-  const cfg = vscode.workspace.getConfiguration("ollamaBridge");
+  const cfg = vscode.workspace.getConfiguration("copilotOllamaRouter");
   return {
     endpoint: cfg.get<string>("endpoint", "http://localhost:11434"),
     defaultModel: cfg.get<string>("defaultModel", "codellama:13b"),
@@ -57,7 +57,7 @@ export function activate(context: vscode.ExtensionContext): void {
   // ── Chat participant ──────────────────────────────────────────────────────
 
   const participant = vscode.chat.createChatParticipant(
-    "ollama-bridge.delegate",
+    "copilot-ollama-router.delegate",
     async (
       request: vscode.ChatRequest,
       _chatContext: vscode.ChatContext,
@@ -125,7 +125,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "ollamaBridge.delegateToOllama",
+      "copilotOllamaRouter.delegateToOllama",
       async () => {
         const prompt = await vscode.window.showInputBox({
           prompt: "Enter your request (will be sent to local Ollama)",
@@ -179,7 +179,7 @@ export function activate(context: vscode.ExtensionContext): void {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("ollamaBridge.askCopilot", async () => {
+    vscode.commands.registerCommand("copilotOllamaRouter.askCopilot", async () => {
       // Open a new chat panel and pre-fill the prompt — the simplest UX
       await vscode.commands.executeCommand(
         "workbench.action.chat.open",
@@ -189,7 +189,7 @@ export function activate(context: vscode.ExtensionContext): void {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("ollamaBridge.autoRoute", async () => {
+    vscode.commands.registerCommand("copilotOllamaRouter.autoRoute", async () => {
       const prompt = await vscode.window.showInputBox({
         prompt: "Enter your request (will be auto-classified)",
         placeHolder: "e.g. Refactor this function to use RAII",
@@ -221,7 +221,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "ollamaBridge.checkOllamaHealth",
+      "copilotOllamaRouter.checkOllamaHealth",
       async () => {
         const config = readConfig();
         const ollamaClient = new OllamaClient(config.endpoint);
@@ -246,7 +246,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "ollamaBridge.setupModels",
+      "copilotOllamaRouter.setupModels",
       async () => {
         const config = readConfig();
         const setupManager = new ModelSetupManager(config.endpoint);
@@ -267,7 +267,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "ollamaBridge.listInstalledModels",
+      "copilotOllamaRouter.listInstalledModels",
       async () => {
         const config = readConfig();
         const setupManager = new ModelSetupManager(config.endpoint);
@@ -279,7 +279,7 @@ export function activate(context: vscode.ExtensionContext): void {
             "Set up models…"
           );
           if (action === "Set up models…") {
-            await vscode.commands.executeCommand("ollamaBridge.setupModels");
+            await vscode.commands.executeCommand("copilotOllamaRouter.setupModels");
           }
           return;
         }

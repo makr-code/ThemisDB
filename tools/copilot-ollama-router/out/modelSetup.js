@@ -167,7 +167,7 @@ const COPILOT_INSTRUCTIONS_BRIDGE_SECTION = `${BRIDGE_SECTION_BEGIN}
 
 ## 9) Ollama Delegation Bridge — AI Agent Instructions
 
-The repository ships a VS Code extension at \`tools/vscode-ollama-bridge/\` that
+The repository ships a VS Code extension at \`tools/copilot-ollama-router/\` that
 routes code-generation tasks to a **local Ollama model** instead of Copilot
 cloud. Every AI agent (Copilot, GitHub Copilot in VS Code, this coding agent)
 MUST follow these rules when working on ThemisDB:
@@ -208,11 +208,11 @@ Set in VS Code \`settings.json\` (workspace or user):
 
 \`\`\`jsonc
 {
-  "ollamaBridge.delegationMode": "auto",
-  "ollamaBridge.defaultModel": "deepseek-coder-v2:16b",
-  "ollamaBridge.reasoningModel": "qwen2.5-coder:14b",
-  "ollamaBridge.copilotReviewEnabled": true,
-  "ollamaBridge.themisDbRules": true
+  "copilotOllamaRouter.delegationMode": "auto",
+  "copilotOllamaRouter.defaultModel": "deepseek-coder-v2:16b",
+  "copilotOllamaRouter.reasoningModel": "qwen2.5-coder:14b",
+  "copilotOllamaRouter.copilotReviewEnabled": true,
+  "copilotOllamaRouter.themisDbRules": true
 }
 \`\`\`
 
@@ -229,11 +229,11 @@ class ModelSetupManager {
      * Idempotently writes/updates the three workspace config files consumed by
      * VS Code and GitHub Copilot:
      *
-     *   - `.vscode/settings.json`         — adds missing `ollamaBridge.*` keys
+     *   - `.vscode/settings.json`         — adds missing `copilotOllamaRouter.*` keys
      *                                        and `github.copilot.chat.*.instructions`
      *                                        file references; existing user values
      *                                        are preserved.
-     *   - `.vscode/extensions.json`        — adds `themisdb.vscode-ollama-bridge`
+     *   - `.vscode/extensions.json`        — adds `makr-code.copilot-ollama-router`
      *                                        to `recommendations` if not present.
      *   - `.github/copilot-instructions.md` — inserts/replaces only the sentinel-
      *                                        delimited bridge section; all other
@@ -280,11 +280,11 @@ class ModelSetupManager {
             }
         }
         const defaults = {
-            "ollamaBridge.delegationMode": "auto",
-            "ollamaBridge.defaultModel": "deepseek-coder-v2:16b",
-            "ollamaBridge.reasoningModel": "qwen2.5-coder:14b",
-            "ollamaBridge.copilotReviewEnabled": true,
-            "ollamaBridge.themisDbRules": true,
+            "copilotOllamaRouter.delegationMode": "auto",
+            "copilotOllamaRouter.defaultModel": "deepseek-coder-v2:16b",
+            "copilotOllamaRouter.reasoningModel": "qwen2.5-coder:14b",
+            "copilotOllamaRouter.copilotReviewEnabled": true,
+            "copilotOllamaRouter.themisDbRules": true,
             "github.copilot.chat.codeGeneration.instructions": [
                 { "file": ".github/copilot-instructions.md" },
             ],
@@ -337,7 +337,7 @@ class ModelSetupManager {
             }
         }
         const recommendations = existing.recommendations ?? [];
-        const ourId = "themisdb.vscode-ollama-bridge";
+        const ourId = "makr-code.copilot-ollama-router";
         if (!recommendations.includes(ourId)) {
             recommendations.push(ourId);
             existing.recommendations = recommendations;

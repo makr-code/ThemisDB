@@ -7,7 +7,7 @@
  * → Ollama (local)   : boilerplate, test generation, refactoring, documentation
  * → Copilot (cloud)  : security review, architecture decisions, complex debugging
  *
- * ThemisDB-specific override (when ollamaBridge.themisDbRules = true):
+ * ThemisDB-specific override (when copilotOllamaRouter.themisDbRules = true):
  *   C++ code generation  → always Ollama
  *   Security / audit     → always Copilot
  */

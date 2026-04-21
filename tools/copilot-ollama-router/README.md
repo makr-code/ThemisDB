@@ -1,4 +1,4 @@
-# Copilot → Ollama Delegation Bridge
+# Copilot ↔ Ollama Router
 
 A VS Code extension that routes Copilot chat requests to a **local Ollama model** for
 cost-effective, low-latency code generation while keeping Copilot as the orchestrator
@@ -38,7 +38,7 @@ for security reviews, architecture decisions, and complex debugging.
 
 ```bash
 # 1. Install dependencies
-cd tools/vscode-ollama-bridge
+cd tools/copilot-ollama-router
 npm install
 
 # 2. Compile
@@ -61,13 +61,13 @@ Then in the chat panel:
 
 | Setting | Default | Description |
 |---|---|---|
-| `ollamaBridge.endpoint` | `http://localhost:11434` | Ollama API base URL |
-| `ollamaBridge.defaultModel` | `codellama:13b` | Model for code tasks |
-| `ollamaBridge.reasoningModel` | `llama3` | Model for docs/reasoning |
-| `ollamaBridge.delegationMode` | `auto` | `auto` \| `always` \| `never` |
-| `ollamaBridge.copilotReviewEnabled` | `true` | Run Copilot quality-check after Ollama |
-| `ollamaBridge.requestTimeoutMs` | `60000` | Ollama request timeout (ms) |
-| `ollamaBridge.themisDbRules` | `true` | ThemisDB-specific routing overrides |
+| `copilotOllamaRouter.endpoint` | `http://localhost:11434` | Ollama API base URL |
+| `copilotOllamaRouter.defaultModel` | `codellama:13b` | Model for code tasks |
+| `copilotOllamaRouter.reasoningModel` | `llama3` | Model for docs/reasoning |
+| `copilotOllamaRouter.delegationMode` | `auto` | `auto` \| `always` \| `never` |
+| `copilotOllamaRouter.copilotReviewEnabled` | `true` | Run Copilot quality-check after Ollama |
+| `copilotOllamaRouter.requestTimeoutMs` | `60000` | Ollama request timeout (ms) |
+| `copilotOllamaRouter.themisDbRules` | `true` | ThemisDB-specific routing overrides |
 
 ---
 
@@ -75,10 +75,10 @@ Then in the chat panel:
 
 | Command | Description |
 |---|---|
-| `Ollama Bridge: Delegate to Ollama` | Send a prompt directly to local Ollama |
-| `Ollama Bridge: Ask Copilot (Cloud)` | Open Copilot chat |
-| `Ollama Bridge: Auto-Route` | Classify a prompt and show routing decision |
-| `Ollama Bridge: Check Ollama Connection` | Verify Ollama is reachable |
+| `Copilot Ollama Router: Delegate to Ollama` | Send a prompt directly to local Ollama |
+| `Copilot Ollama Router: Ask Copilot (Cloud)` | Open Copilot chat |
+| `Copilot Ollama Router: Auto-Route` | Classify a prompt and show routing decision |
+| `Copilot Ollama Router: Check Ollama Connection` | Verify Ollama is reachable |
 
 ---
 

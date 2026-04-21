@@ -190,7 +190,7 @@ cpp_best_practices:
 
 ## 9) Ollama Delegation Bridge — AI Agent Instructions
 
-The repository ships a VS Code extension at `tools/vscode-ollama-bridge/` that
+The repository ships a VS Code extension at `tools/copilot-ollama-router/` that
 routes code-generation tasks to a **local Ollama model** instead of Copilot
 cloud. Every AI agent (Copilot, GitHub Copilot in VS Code, this coding agent)
 MUST follow these rules when working on ThemisDB:
@@ -255,7 +255,7 @@ ollama pull codellama:7b            # lightweight fallback
 ```
 
 The ranked model catalog is maintained in
-`tools/vscode-ollama-bridge/src/modelSetup.ts` → `RANKED_CODING_MODELS`.
+`tools/copilot-ollama-router/src/modelSetup.ts` → `RANKED_CODING_MODELS`.
 
 ### 9.5 Delegation mode configuration
 

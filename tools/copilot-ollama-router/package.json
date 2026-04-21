@@ -1,9 +1,9 @@
 {
-  "name": "vscode-ollama-bridge",
-  "displayName": "Copilot→Ollama Delegation Bridge",
-  "description": "Delegates code-generation tasks to a local Ollama model while Copilot retains orchestration, security review, and architecture decisions.",
-  "version": "0.1.0",
-  "publisher": "themisdb",
+  "name": "copilot-ollama-router",
+  "displayName": "Copilot ↔ Ollama Router",
+  "description": "Routes Copilot chat requests to a local Ollama model for cost-effective code generation while keeping Copilot for security review, architecture, and complex debugging.",
+  "version": "0.2.0",
+  "publisher": "makr-code",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -30,8 +30,8 @@
   "contributes": {
     "chatParticipants": [
       {
-        "id": "ollama-bridge.delegate",
-        "fullName": "Ollama Delegate",
+        "id": "copilot-ollama-router.delegate",
+        "fullName": "Ollama Router",
         "name": "ollama",
         "description": "Routes your request to a local Ollama model or Copilot based on task type.",
         "isSticky": false,
@@ -53,55 +53,55 @@
     ],
     "commands": [
       {
-        "command": "ollamaBridge.delegateToOllama",
+        "command": "copilotOllamaRouter.delegateToOllama",
         "title": "Delegate to Ollama",
-        "category": "Ollama Bridge"
+        "category": "Copilot Ollama Router"
       },
       {
-        "command": "ollamaBridge.askCopilot",
+        "command": "copilotOllamaRouter.askCopilot",
         "title": "Ask Copilot (Cloud)",
-        "category": "Ollama Bridge"
+        "category": "Copilot Ollama Router"
       },
       {
-        "command": "ollamaBridge.autoRoute",
+        "command": "copilotOllamaRouter.autoRoute",
         "title": "Auto-Route (Classify & Delegate)",
-        "category": "Ollama Bridge"
+        "category": "Copilot Ollama Router"
       },
       {
-        "command": "ollamaBridge.checkOllamaHealth",
+        "command": "copilotOllamaRouter.checkOllamaHealth",
         "title": "Check Ollama Connection",
-        "category": "Ollama Bridge"
+        "category": "Copilot Ollama Router"
       },
       {
-        "command": "ollamaBridge.setupModels",
+        "command": "copilotOllamaRouter.setupModels",
         "title": "Set Up / Download Coding Models",
-        "category": "Ollama Bridge"
+        "category": "Copilot Ollama Router"
       },
       {
-        "command": "ollamaBridge.listInstalledModels",
+        "command": "copilotOllamaRouter.listInstalledModels",
         "title": "List Installed Models",
-        "category": "Ollama Bridge"
+        "category": "Copilot Ollama Router"
       }
     ],
     "configuration": {
-      "title": "Ollama Bridge",
+      "title": "Copilot Ollama Router",
       "properties": {
-        "ollamaBridge.endpoint": {
+        "copilotOllamaRouter.endpoint": {
           "type": "string",
           "default": "http://localhost:11434",
           "description": "Base URL of the local Ollama API server."
         },
-        "ollamaBridge.defaultModel": {
+        "copilotOllamaRouter.defaultModel": {
           "type": "string",
           "default": "codellama:13b",
           "description": "Default Ollama model for code-generation tasks."
         },
-        "ollamaBridge.reasoningModel": {
+        "copilotOllamaRouter.reasoningModel": {
           "type": "string",
           "default": "llama3",
           "description": "Ollama model used for reasoning/documentation tasks."
         },
-        "ollamaBridge.delegationMode": {
+        "copilotOllamaRouter.delegationMode": {
           "type": "string",
           "enum": ["auto", "always", "never"],
           "enumDescriptions": [
@@ -112,17 +112,17 @@
           "default": "auto",
           "description": "Controls when requests are sent to local Ollama vs Copilot cloud."
         },
-        "ollamaBridge.copilotReviewEnabled": {
+        "copilotOllamaRouter.copilotReviewEnabled": {
           "type": "boolean",
           "default": true,
           "description": "Run an optional Copilot quality-check pass on Ollama-generated output."
         },
-        "ollamaBridge.requestTimeoutMs": {
+        "copilotOllamaRouter.requestTimeoutMs": {
           "type": "number",
           "default": 60000,
           "description": "Maximum time in milliseconds to wait for an Ollama streaming response."
         },
-        "ollamaBridge.themisDbRules": {
+        "copilotOllamaRouter.themisDbRules": {
           "type": "boolean",
           "default": true,
           "description": "Apply ThemisDB-specific routing rules: C++ codegen → Ollama local; security/architecture → Copilot cloud."
