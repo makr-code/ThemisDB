@@ -211,7 +211,11 @@ class SourceAuditor:
             # --- line comment: // … \n ---
             if src[i:i+2] == '//':
                 while i < n and src[i] != '\n':
-                    out.append('\n' if src[i] == '\n' else ' ')
+                    out.append(' ')
+                    i += 1
+                # Preserve the newline that terminates the comment (if any)
+                if i < n and src[i] == '\n':
+                    out.append('\n')
                     i += 1
                 continue
 
@@ -233,6 +237,10 @@ class SourceAuditor:
             # --- raw string literal: R"delim( … )delim" ---
             if src[i] == 'R' and i + 1 < n and src[i+1] == '"':
                 # Find the opening delimiter: R"DELIM(
+                # The C++ grammar requires the delimiter to appear between the
+                # opening '"' and the '(', with no newlines.  If we encounter a
+                # newline before '(' this is not a valid raw string; fall through
+                # to ordinary character processing.
                 j = i + 2
                 delim_start = j
                 while j < n and src[j] not in ('(', '\n'):
@@ -254,7 +262,7 @@ class SourceAuditor:
                         out.append('\n' if src[i] == '\n' else ' ')
                         i += 1
                     continue
-                # else: not a raw string, fall through to ordinary char handling
+                # else: newline before '(' → not a raw string; fall through
 
             # --- regular string literal: " … " ---
             if src[i] == '"':
