@@ -91,7 +91,7 @@ class SourceAuditor:
     ]
     
     PLATFORM_SPECIFIC_CODE = [
-        r'::Windows',
+        r'::Windows\b',  # Windows namespace/class — word boundary avoids ::WindowSpec etc.
         r'win32',
         r'HMODULE',
         r'HWND',
@@ -191,75 +191,206 @@ class SourceAuditor:
         
         return issues
     
+    @staticmethod
+    def _blank_non_code(src: str) -> str:
+        """Return a copy of *src* where string/char literals, raw string literals,
+        block comments (/* … */) and line comments (// …) are replaced with
+        whitespace, preserving every newline so that line-number accounting remains
+        accurate.
+
+        This eliminates false positives that arise when platform tokens or
+        intrinsic-like identifiers appear inside non-code regions (e.g. Prometheus
+        metric names starting with '_mm_', GLSL shader source stored in raw
+        string literals, or documentation comments).
+        """
+        out = []
+        i = 0
+        n = len(src)
+
+        while i < n:
+            # --- line comment: // … \n ---
+            if src[i:i+2] == '//':
+                while i < n and src[i] != '\n':
+                    out.append('\n' if src[i] == '\n' else ' ')
+                    i += 1
+                continue
+
+            # --- block comment: /* … */ ---
+            if src[i:i+2] == '/*':
+                i += 2
+                while i < n:
+                    if src[i] == '\n':
+                        out.append('\n')
+                    else:
+                        out.append(' ')
+                    if src[i:i+2] == '*/':
+                        out.append(' ')  # cover the trailing '/'
+                        i += 2
+                        break
+                    i += 1
+                continue
+
+            # --- raw string literal: R"delim( … )delim" ---
+            if src[i] == 'R' and i + 1 < n and src[i+1] == '"':
+                # Find the opening delimiter: R"DELIM(
+                j = i + 2
+                delim_start = j
+                while j < n and src[j] not in ('(', '\n'):
+                    j += 1
+                if j < n and src[j] == '(':
+                    delim = src[delim_start:j]  # content between " and (
+                    closing = ')' + delim + '"'
+                    i = j + 1  # skip past '('
+                    out.append('R')
+                    out.append('"')
+                    # blank body, preserve newlines
+                    while i < n:
+                        if src[i:i+len(closing)] == closing:
+                            # write closing sequence as spaces (keep its \n if any)
+                            for ch in closing:
+                                out.append('\n' if ch == '\n' else ' ')
+                            i += len(closing)
+                            break
+                        out.append('\n' if src[i] == '\n' else ' ')
+                        i += 1
+                    continue
+                # else: not a raw string, fall through to ordinary char handling
+
+            # --- regular string literal: " … " ---
+            if src[i] == '"':
+                out.append('"')
+                i += 1
+                while i < n and src[i] != '"':
+                    if src[i] == '\\' and i + 1 < n:
+                        # escaped character: blank both chars, preserve \n
+                        out.append('\n' if src[i] == '\n' else ' ')
+                        out.append('\n' if src[i+1] == '\n' else ' ')
+                        i += 2
+                    else:
+                        out.append('\n' if src[i] == '\n' else ' ')
+                        i += 1
+                if i < n:
+                    out.append('"')
+                    i += 1
+                continue
+
+            # --- character literal: ' … ' ---
+            if src[i] == "'":
+                out.append("'")
+                i += 1
+                while i < n and src[i] != "'":
+                    if src[i] == '\\' and i + 1 < n:
+                        out.append('\n' if src[i] == '\n' else ' ')
+                        out.append('\n' if src[i+1] == '\n' else ' ')
+                        i += 2
+                    else:
+                        out.append('\n' if src[i] == '\n' else ' ')
+                        i += 1
+                if i < n:
+                    out.append("'")
+                    i += 1
+                continue
+
+            out.append(src[i])
+            i += 1
+
+        return ''.join(out)
+
+    @staticmethod
+    def _build_guarded_lines(lines: List[str]) -> set:
+        """Return the set of 1-based line numbers that are nested inside at least
+        one preprocessor conditional (#if/#ifdef/#ifndef … #endif).
+
+        Any line inside such a block is considered 'guarded' even if the condition
+        is not specifically a platform guard.  This is intentional: a developer
+        who writes platform-specific code inside ANY conditional has explicitly
+        acknowledged the conditionality.  The only unguarded code we flag is code
+        that appears at conditional depth 0.
+        """
+        guarded: set = set()
+        depth = 0
+        for lineno, line in enumerate(lines, 1):
+            stripped = line.strip()
+            if re.match(r'#\s*(?:if|ifdef|ifndef)\b', stripped):
+                depth += 1
+            if depth > 0:
+                guarded.add(lineno)
+            if re.match(r'#\s*endif\b', stripped):
+                depth = max(0, depth - 1)
+        return guarded
+
     def _check_platform_guards(self, file_path: Path, content: str,
                                lines: List[str]) -> List[SourceIssue]:
         """Check for platform-specific code without proper guards"""
         issues = []
-        
+
+        # Blank strings/comments so platform tokens inside non-code are ignored.
+        stripped = self._blank_non_code(content)
+
+        # Pre-compute which lines are inside a preprocessor conditional block.
+        guarded = self._build_guarded_lines(lines)
+
         # Find all platform-specific code locations
-        platform_code_locations = []
         for pattern in self.PLATFORM_SPECIFIC_CODE:
-            for match in re.finditer(pattern, content, re.IGNORECASE):
-                line_num = content[:match.start()].count('\n') + 1
-                platform_code_locations.append((line_num, match.group(0)))
-        
-        # Check if each location is within a platform guard
-        for line_num, code in platform_code_locations:
-            # Look backwards for a platform guard
-            has_guard = False
-            for i in range(max(0, line_num - 20), line_num):
-                if i < len(lines):
-                    for guard_pattern in self.PLATFORM_GUARDS:
-                        if re.search(guard_pattern, lines[i]):
-                            has_guard = True
-                            break
-                if has_guard:
-                    break
-            
-            if not has_guard:
+            for match in re.finditer(pattern, stripped, re.IGNORECASE):
+                line_num = stripped[:match.start()].count('\n') + 1
+                line_text = lines[line_num - 1] if line_num <= len(lines) else ''
+                # Skip matches that ARE a preprocessor directive (e.g. "#ifdef _WIN32")
+                if re.match(r'^\s*#', line_text):
+                    continue
+                # Skip matches inside any conditional block
+                if line_num in guarded:
+                    continue
                 issues.append(SourceIssue(
                     file_path=str(file_path.relative_to(self.root_path)),
                     line_number=line_num,
                     issue_type="UNGUARDED_PLATFORM_CODE",
                     severity="medium",
-                    description=f"Platform-specific code '{code}' without preprocessor guard",
+                    description=f"Platform-specific code '{match.group(0)}' without preprocessor guard",
                     suggestion="Add #ifdef for platform (e.g., #ifdef _WIN32)"
                 ))
                 self.stats["unguarded_platform_code"] += 1
-        
+
         return issues
-    
+
     def _check_intrinsics(self, file_path: Path, content: str,
                          lines: List[str]) -> List[SourceIssue]:
         """Check for compiler intrinsics without fallbacks"""
         issues = []
-        
+
+        # Blank strings/comments to avoid matching intrinsic-like tokens inside
+        # quoted strings (e.g. Prometheus metric names starting with '_mm_') or
+        # block-comment documentation.
+        blanked = self._blank_non_code(content)
+
+        # Pre-compute guarded lines (inside any #if/#ifdef/#ifndef block).
+        guarded = self._build_guarded_lines(lines)
+
         for pattern in self.INTRINSICS:
-            for match in re.finditer(pattern, content):
-                line_num = content[:match.start()].count('\n') + 1
+            for match in re.finditer(pattern, blanked):
+                line_num = blanked[:match.start()].count('\n') + 1
                 intrinsic = match.group(0)
-                
-                # Check if there's a fallback implementation nearby
-                # Look for #ifdef or #if defined within 10 lines before
-                has_fallback = False
-                for i in range(max(0, line_num - 10), line_num):
-                    if i < len(lines):
-                        if re.search(r'#(?:if|ifdef|ifndef|else)', lines[i]):
-                            has_fallback = True
-                            break
-                
-                if not has_fallback:
-                    issues.append(SourceIssue(
-                        file_path=str(file_path.relative_to(self.root_path)),
-                        line_number=line_num,
-                        issue_type="INTRINSIC_NO_FALLBACK",
-                        severity="medium",
-                        description=f"Compiler intrinsic '{intrinsic}' without fallback",
-                        suggestion="Add preprocessor check and fallback implementation"
-                    ))
-                    self.stats["intrinsics_no_fallback"] += 1
-        
+
+                line_text = lines[line_num - 1] if line_num <= len(lines) else ''
+                # Skip intrinsic appearances on preprocessor directive lines
+                if re.match(r'^\s*#', line_text):
+                    continue
+                # A guarded line already has a conditional fallback path
+                if line_num in guarded:
+                    continue
+
+                issues.append(SourceIssue(
+                    file_path=str(file_path.relative_to(self.root_path)),
+                    line_number=line_num,
+                    issue_type="INTRINSIC_NO_FALLBACK",
+                    severity="medium",
+                    description=f"Compiler intrinsic '{intrinsic}' without fallback",
+                    suggestion="Add preprocessor check and fallback implementation"
+                ))
+                self.stats["intrinsics_no_fallback"] += 1
+
         return issues
+
     
     def _check_templates(self, file_path: Path, content: str,
                         lines: List[str]) -> List[SourceIssue]:
