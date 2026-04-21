@@ -14459,6 +14459,14 @@ if(THEMIS_ENABLE_LLM)
         "ActiveVRAMAllocator: allocation/free, OOM recovery (eviction/defrag/spill), thread safety, AdaptiveVRAMAllocator delegation"
     )
 
+    add_llm_focused_test(
+        test_llm_metrics_server_wiring
+        llm/test_metrics_server_wiring.cpp
+        MSW_Tests
+        "llm;metrics;grafana;admin;wiring;unit"
+        "MetricsServer admin callback wiring (MSW-01..10): reload/simulate/session-delete endpoints wired to LLMPluginManager"
+    )
+
     # Standalone focused test target for InferenceEngineEnhanced.
     # Exercises KV-cache prewarming, embedding-based cache lookup, hot-swap,
     # speculative decoding, load-balancing, and per-model quotas.
