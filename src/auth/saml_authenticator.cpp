@@ -339,9 +339,17 @@ bool SAMLAuthenticator::verifyXmlSignature(
                digest_algorithm_uri.find("SHA1") != std::string::npos) {
         // SHA-1 is cryptographically broken (CWE-327, NIST SP 800-131A rev. 2).
         // Reject unless the operator has explicitly enabled the legacy fallback.
+        // Sanitize the URI before logging to prevent log injection — truncate to
+        // 128 chars and replace control characters with '?'.
+        std::string safe_uri = digest_algorithm_uri.substr(0, 128);
+        for (char& c : safe_uri) {
+            if (static_cast<unsigned char>(c) < 0x20 || c == '\n' || c == '\r') {
+                c = '?';
+            }
+        }
         THEMIS_WARN("[SECURITY] SAML: SHA-1 digest algorithm detected ({}). "
                     "SHA-1 is cryptographically broken. Migrate to SHA-256.",
-                    digest_algorithm_uri);
+                    safe_uri);
         if (!config_.allow_sha1_deprecated) {
             THEMIS_ERROR("[SECURITY] SAML: SHA-1 digest rejected. "
                          "Set SAMLConfig::allow_sha1_deprecated=true to allow "
