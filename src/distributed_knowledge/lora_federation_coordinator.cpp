@@ -210,7 +210,24 @@ GlobalAdapterDelta LoRAFederationCoordinator::triggerAggregation() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 GlobalAdapterDelta LoRAFederationCoordinator::doAggregation() {
-    // ── Step 1: collect all numeric fields across gradients ──────────────────
+    // ── Step 0: apply gradient outlier filter (FPD) ──────────────────────────
+    if (gradient_outlier_filter_) {
+        std::map<std::string, EncryptedGradient> accepted;
+        for (auto& [shard_id, grad] : pending_gradients_) {
+            if (gradient_outlier_filter_(grad)) {
+                accepted.emplace(shard_id, std::move(grad));
+            } else {
+                ++filtered_gradients_count_;
+            }
+        }
+        pending_gradients_ = std::move(accepted);
+
+        if (pending_gradients_.empty()) {
+            throw std::runtime_error(
+                "LoRAFederationCoordinator: all gradients filtered as outliers "
+                "in round " + std::to_string(current_round_));
+        }
+    }
     // Determine the union of all keys present in any gradient
     std::map<std::string, std::vector<std::pair<double, size_t>>> key_values;
     // value: (gradient_value, sample_count) for FedAvg weighting
@@ -448,6 +465,43 @@ void LoRAFederationCoordinator::setSigningCallback(
 {
     std::lock_guard<std::mutex> lk(mutex_);
     signing_callback_ = std::move(signing_fn);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FPD: Gradient Outlier Filter (Federated Poisoning Detection)
+// ─────────────────────────────────────────────────────────────────────────────
+
+void LoRAFederationCoordinator::setGradientOutlierFilter(GradientOutlierFilter filter)
+{
+    std::lock_guard<std::mutex> lk(mutex_);
+    gradient_outlier_filter_ = std::move(filter);
+}
+
+size_t LoRAFederationCoordinator::filteredGradientsCount() const
+{
+    std::lock_guard<std::mutex> lk(mutex_);
+    return filtered_gradients_count_;
+}
+
+/* static */
+LoRAFederationCoordinator::GradientOutlierFilter
+LoRAFederationCoordinator::makeL2NormOutlierFilter(double max_norm)
+{
+    if (max_norm <= 0.0) {
+        throw std::invalid_argument(
+            "makeL2NormOutlierFilter: max_norm must be > 0");
+    }
+    return [max_norm](const EncryptedGradient& g) -> bool {
+        if (!g.data.is_object()) { return true; } // non-numeric → accept
+        double sum_sq = 0.0;
+        for (const auto& [key, val] : g.data.items()) {
+            if (val.is_number()) {
+                const double v = val.get<double>();
+                sum_sq += v * v;
+            }
+        }
+        return std::sqrt(sum_sq) <= max_norm;
+    };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

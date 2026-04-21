@@ -24392,3 +24392,83 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_serialization_advisor.cpp")
 else()
     message(STATUS "SerializationAdvisor tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_serialization_advisor.cpp")
 endif()
+
+# =============================================================================
+# FPD — Federated Poisoning Detection (GradientOutlierFilter) tests
+# Tests: FPD_01..10 (10 tests)
+# =============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_federated_poisoning_detection.cpp")
+    message(STATUS "Adding Federated Poisoning Detection tests (FPD_01..10)")
+
+    add_executable(test_federated_poisoning_detection_focused
+        test_federated_poisoning_detection.cpp
+    )
+
+    target_include_directories(test_federated_poisoning_detection_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_federated_poisoning_detection_focused PRIVATE
+        ${TEST_LIBS}
+        themis_distributed_knowledge
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_federated_poisoning_detection_focused PRIVATE THEMIS_TEST_BUILD=1)
+
+    set_target_properties(test_federated_poisoning_detection_focused PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME FPD_Tests COMMAND test_federated_poisoning_detection_focused)
+    set_tests_properties(FPD_Tests PROPERTIES
+        LABELS "distributed_knowledge;federation;poisoning;security;focused;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  FPD_01..10: GradientOutlierFilter, L2NormFilter, filteredCount, all-reject")
+else()
+    message(STATUS "FPD tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_federated_poisoning_detection.cpp")
+endif()
+
+# =============================================================================
+# FDF — Federated Distillation Coordinator tests
+# Tests: FDF_01..15 (15 tests)
+# =============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_federated_distillation_coordinator.cpp")
+    message(STATUS "Adding Federated Distillation Coordinator tests (FDF_01..15)")
+
+    add_executable(test_federated_distillation_coordinator_focused
+        test_federated_distillation_coordinator.cpp
+    )
+
+    target_include_directories(test_federated_distillation_coordinator_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_federated_distillation_coordinator_focused PRIVATE
+        ${TEST_LIBS}
+        themis_distributed_knowledge
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_federated_distillation_coordinator_focused PRIVATE THEMIS_TEST_BUILD=1)
+
+    set_target_properties(test_federated_distillation_coordinator_focused PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED ON
+    )
+
+    add_test(NAME FDF_Tests COMMAND test_federated_distillation_coordinator_focused)
+    set_tests_properties(FDF_Tests PROPERTIES
+        LABELS "distributed_knowledge;federation;distillation;focused;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  FDF_01..15: SoftLabelBatch, aggregation, DP noise, PolicyGate, AuditCallback, RollbackTrigger")
+else()
+    message(STATUS "FDF tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_federated_distillation_coordinator.cpp")
+endif()
