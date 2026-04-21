@@ -322,6 +322,7 @@ class ModelSetupManager {
             "copilotOllamaRouter.defaultModel": "deepseek-coder-v2:16b",
             "copilotOllamaRouter.reasoningModel": "qwen2.5-coder:14b",
             "copilotOllamaRouter.copilotReviewEnabled": true,
+            "copilotOllamaRouter.contextTokenBudget": 2048,
             "copilotOllamaRouter.themisDbRules": true,
             "copilotOllamaRouter.routeBoilerplateToLocal": true,
             "copilotOllamaRouter.routeTestsToLocal": true,

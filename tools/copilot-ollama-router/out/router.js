@@ -11,9 +11,37 @@
  * ThemisDB-specific override (when copilotOllamaRouter.themisDbRules = true):
  *   C++ code generation  → always Ollama
  *   Security / audit     → always Copilot
+ *
+ * Language profiles (copilotOllamaRouter.languageProfiles):
+ *   JSON map of VS Code language ID → preferred Ollama model tag.
+ *   When the active editor language matches a profile entry the suggested
+ *   model overrides the global default.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DelegationRouter = void 0;
+// ---------------------------------------------------------------------------
+// Built-in language profiles (sensible defaults, overridable via settings)
+// ---------------------------------------------------------------------------
+const BUILT_IN_LANGUAGE_PROFILES = {
+    cpp: "deepseek-coder-v2:16b",
+    c: "deepseek-coder-v2:16b",
+    rust: "deepseek-coder-v2:16b",
+    python: "qwen2.5-coder:7b",
+    typescript: "qwen2.5-coder:7b",
+    javascript: "qwen2.5-coder:7b",
+    go: "qwen2.5-coder:7b",
+    java: "qwen2.5-coder:7b",
+};
+/** Resolve the preferred model for a given language, merging built-in + user profiles. */
+function resolveModelForLanguage(lang, defaultModel, userProfiles) {
+    if (userProfiles && Object.prototype.hasOwnProperty.call(userProfiles, lang)) {
+        return userProfiles[lang];
+    }
+    if (Object.prototype.hasOwnProperty.call(BUILT_IN_LANGUAGE_PROFILES, lang)) {
+        return BUILT_IN_LANGUAGE_PROFILES[lang];
+    }
+    return defaultModel;
+}
 // ---------------------------------------------------------------------------
 // Keyword sets that drive classification
 // ---------------------------------------------------------------------------
@@ -24,19 +52,20 @@ const BOILERPLATE_KEYWORDS = [
     /\bcomplete\s+the\b/i,
     /\bcreate\s+(a\s+)?(class|struct|enum|function)\b/i,
     /\bimplement\s+(interface|abstract|override)\b/i,
-    /\badd\s+(getter|setter|constructor|destructor)\b/i,
+    /\badd\s+(getters?|setters?|constructor|destructor)\b/i,
 ];
 const TEST_KEYWORDS = [
-    /\bgenerate\s+(test|spec|unit\s+test|mock)/i,
-    /\bwrite\s+(test|spec|mock)/i,
+    /\bgenerate\s+(test|spec|unit\s+test|mock)s?\b/i,
+    /\bwrite\b.{0,30}\b(test|spec|mock)s?\b/i,
+    /\bcreate\s+(test|spec|mock|fixture)s?\b/i,
     /\bgtest\b/i,
     /\bfixture\b/i,
 ];
 const REFACTOR_KEYWORDS = [
     /\brefactor\b/i,
     /\bextract\s+(method|function|class)\b/i,
-    /\bconvert\s+(to|from)\b/i,
-    /\btranslate\s+(to|from)\b/i,
+    /\bconvert\b/i,
+    /\btranslate\b/i,
     /\bformat\s+code\b/i,
     /\bclean\s+up\b/i,
 ];
@@ -93,17 +122,20 @@ class DelegationRouter {
      * @param reasoningModel  Configured Ollama reasoning model.
      */
     classify(prompt, activeLanguage, themisDbRules, delegationMode, defaultModel, reasoningModel, policies) {
+        const langModel = resolveModelForLanguage(activeLanguage, defaultModel, policies.languageProfiles);
         if (delegationMode === "always") {
             return {
                 destination: "ollama",
                 reason: "delegationMode=always: forced to local Ollama.",
-                suggestedModel: defaultModel,
+                suggestedModel: langModel,
+                confidence: 1.0,
             };
         }
         if (delegationMode === "never") {
             return {
                 destination: "copilot",
                 reason: "delegationMode=never: forced to Copilot cloud.",
+                confidence: 1.0,
             };
         }
         // ThemisDB override: security/audit always → cloud
@@ -111,6 +143,7 @@ class DelegationRouter {
             return {
                 destination: "copilot",
                 reason: "ThemisDB rule: security/architecture → Copilot cloud.",
+                confidence: 1.0,
             };
         }
         // ThemisDB override: C++ in active file or prompt → local
@@ -120,28 +153,32 @@ class DelegationRouter {
                 CPP_LANGUAGE_PATTERN.test(prompt))) {
             return {
                 destination: "ollama",
-                reason: "ThemisDB rule: C++ code-generation → local Ollama (codellama).",
-                suggestedModel: defaultModel,
+                reason: "ThemisDB rule: C++ code-generation → local Ollama.",
+                suggestedModel: langModel,
+                confidence: 1.0,
             };
         }
         if (this.matchesAny(prompt, COPILOT_KEYWORDS)) {
             return {
                 destination: "copilot",
                 reason: "Prompt classified as security/architecture/debugging → Copilot cloud.",
+                confidence: 0.8,
             };
         }
         if (policies.routeCmakeToLocal && this.matchesAny(prompt, CMAKE_KEYWORDS)) {
             return {
                 destination: "ollama",
                 reason: "Workspace policy: CMake/build-system tasks → local Ollama.",
-                suggestedModel: defaultModel,
+                suggestedModel: langModel,
+                confidence: 0.8,
             };
         }
         if (policies.routeTestsToLocal && this.matchesAny(prompt, TEST_KEYWORDS)) {
             return {
                 destination: "ollama",
                 reason: "Workspace policy: tests/specs/mocks → local Ollama.",
-                suggestedModel: defaultModel,
+                suggestedModel: langModel,
+                confidence: 0.8,
             };
         }
         if (policies.routeBoilerplateToLocal &&
@@ -149,7 +186,8 @@ class DelegationRouter {
             return {
                 destination: "ollama",
                 reason: "Workspace policy: boilerplate/scaffolding → local Ollama.",
-                suggestedModel: defaultModel,
+                suggestedModel: langModel,
+                confidence: 0.8,
             };
         }
         if (policies.routeRefactorsToLocal &&
@@ -157,7 +195,8 @@ class DelegationRouter {
             return {
                 destination: "ollama",
                 reason: "Workspace policy: refactoring/cleanup → local Ollama.",
-                suggestedModel: defaultModel,
+                suggestedModel: langModel,
+                confidence: 0.8,
             };
         }
         if (policies.routeDocsToLocal && this.matchesAny(prompt, DOC_KEYWORDS)) {
@@ -165,12 +204,14 @@ class DelegationRouter {
                 destination: "ollama",
                 reason: "Workspace policy: docs/comments/README → local Ollama.",
                 suggestedModel: reasoningModel,
+                confidence: 0.8,
             };
         }
         // Fallback: short prompts without clear signals → copilot for quality
         return {
             destination: "copilot",
             reason: "No clear classification signal — defaulting to Copilot cloud.",
+            confidence: 0.5,
         };
     }
     matchesAny(text, patterns) {

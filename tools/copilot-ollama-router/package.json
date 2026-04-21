@@ -2,7 +2,7 @@
   "name": "copilot-ollama-router",
   "displayName": "Copilot ↔ Ollama Router",
   "description": "Routes Copilot chat requests to a local Ollama model for cost-effective code generation while keeping Copilot for security review, architecture, and complex debugging.",
-  "version": "0.2.0",
+  "version": "0.4.0",
   "publisher": "makr-code",
   "license": "MIT",
   "repository": {
@@ -91,6 +91,11 @@
         "command": "copilotOllamaRouter.applyWorkspaceConfig",
         "title": "Apply Workspace Config (Admin)",
         "category": "Copilot Ollama Router"
+      },
+      {
+        "command": "copilotOllamaRouter.showAuditLog",
+        "title": "Show Routing Audit Log",
+        "category": "Copilot Ollama Router"
       }
     ],
     "configuration": {
@@ -113,7 +118,11 @@
         },
         "copilotOllamaRouter.delegationMode": {
           "type": "string",
-          "enum": ["auto", "always", "never"],
+          "enum": [
+            "auto",
+            "always",
+            "never"
+          ],
           "enumDescriptions": [
             "Automatically classify and route each request.",
             "Always delegate to local Ollama.",
@@ -131,6 +140,13 @@
           "type": "number",
           "default": 60000,
           "description": "Maximum time in milliseconds to wait for an Ollama streaming response."
+        },
+        "copilotOllamaRouter.contextTokenBudget": {
+          "type": "number",
+          "default": 2048,
+          "minimum": 128,
+          "maximum": 32768,
+          "description": "Approximate token budget for editor context preamble. The router truncates context when this limit is exceeded (estimate: 1 token ≈ 4 chars)."
         },
         "copilotOllamaRouter.themisDbRules": {
           "type": "boolean",
@@ -161,6 +177,32 @@
           "type": "boolean",
           "default": true,
           "description": "Auto-route CMake/build-system prompts to local Ollama and prefill @ollama /local in chat entry commands."
+        },
+        "copilotOllamaRouter.auditLogVerbosity": {
+          "type": "string",
+          "enum": [
+            "off",
+            "info",
+            "verbose"
+          ],
+          "enumDescriptions": [
+            "Disable routing audit log.",
+            "Log destination and reason for each routing decision.",
+            "Log full routing decision including prompt preview (first 80 chars)."
+          ],
+          "default": "info",
+          "description": "Controls verbosity of routing decisions logged to the 'Copilot Ollama Router' Output Channel."
+        },
+        "copilotOllamaRouter.languageProfiles": {
+          "type": "object",
+          "default": {},
+          "description": "Map of VS Code language ID to preferred Ollama model tag. Overrides the default model for that language. Built-in profiles: cpp/c/rust → deepseek-coder-v2:16b, python/typescript/javascript/go/java → qwen2.5-coder:7b.",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "examples": [
+            { "cpp": "deepseek-coder-v2:16b", "python": "qwen2.5-coder:7b" }
+          ]
         }
       }
     }
@@ -170,15 +212,18 @@
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "lint": "eslint src",
-    "test": "node ./out/test/runTest.js",
+    "test": "npm run compile && mocha",
     "package": "npx -y @vscode/vsce@latest package"
   },
   "devDependencies": {
+    "@types/mocha": "^10.0.10",
     "@types/node": "^20.0.0",
     "@types/vscode": "^1.90.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "eslint": "^9.0.0",
-    "typescript": "^5.4.0"
+    "mocha": "^11.7.5",
+    "typescript": "^5.4.0",
+    "typescript-eslint": "^8.59.0"
   }
 }

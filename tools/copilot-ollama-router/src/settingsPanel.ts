@@ -30,12 +30,14 @@ interface SettingsState {
   delegationMode: "auto" | "always" | "never";
   copilotReviewEnabled: boolean;
   requestTimeoutMs: number;
+  contextTokenBudget: number;
   themisDbRules: boolean;
   routeBoilerplateToLocal: boolean;
   routeTestsToLocal: boolean;
   routeRefactorsToLocal: boolean;
   routeDocsToLocal: boolean;
   routeCmakeToLocal: boolean;
+  languageProfiles: Record<string, string>;
   installedModels: InstalledModel[];
   connectionOk: boolean;
   connectionError: string;
@@ -150,12 +152,14 @@ export class SettingsPanel {
       delegationMode: cfg.get<"auto" | "always" | "never">("delegationMode", "auto"),
       copilotReviewEnabled: cfg.get<boolean>("copilotReviewEnabled", true),
       requestTimeoutMs: cfg.get<number>("requestTimeoutMs", 60000),
+      contextTokenBudget: cfg.get<number>("contextTokenBudget", 2048),
       themisDbRules: cfg.get<boolean>("themisDbRules", true),
       routeBoilerplateToLocal: cfg.get<boolean>("routeBoilerplateToLocal", true),
       routeTestsToLocal: cfg.get<boolean>("routeTestsToLocal", true),
       routeRefactorsToLocal: cfg.get<boolean>("routeRefactorsToLocal", true),
       routeDocsToLocal: cfg.get<boolean>("routeDocsToLocal", true),
       routeCmakeToLocal: cfg.get<boolean>("routeCmakeToLocal", true),
+      languageProfiles: cfg.get<Record<string, string>>("languageProfiles", {}),
       installedModels,
       connectionOk,
       connectionError,
@@ -228,7 +232,7 @@ export class SettingsPanel {
     const endpoint = cfg.get<string>("endpoint", "http://localhost:11434");
     const setupManager = new ModelSetupManager(endpoint);
 
-    const sendProgress = (message: string, percent: number | null) => {
+    const sendProgress = (message: string, percent: number | null): void => {
       const msg: MessageToWebView = {
         type: "downloadProgress",
         tag,
@@ -491,6 +495,13 @@ export class SettingsPanel {
   </div>
 
   <div class="row">
+    <label for="contextTokenBudget">Context Token Budget</label>
+    <input type="number" id="contextTokenBudget" min="128" max="32768" step="128"
+           onchange="saveSetting('contextTokenBudget', +this.value)">
+    <span style="opacity:0.75; font-size:0.9em">Approximate budget for prepended file context (1 token ≈ 4 chars)</span>
+  </div>
+
+  <div class="row">
     <label for="copilotReviewEnabled">Copilot Quality Review</label>
     <input type="checkbox" id="copilotReviewEnabled"
            onchange="saveSetting('copilotReviewEnabled', this.checked)">
@@ -529,6 +540,19 @@ export class SettingsPanel {
     <label for="routeCmakeToLocal">CMake / Build System</label>
     <input type="checkbox" id="routeCmakeToLocal"
            onchange="saveSetting('routeCmakeToLocal', this.checked)">
+  </div>
+
+  <div class="row" style="display:block; margin-top: 10px;">
+    <label for="languageProfiles" style="display:block; margin-bottom:6px;">Language Profiles (lang → model)</label>
+    <textarea id="languageProfiles" rows="6" style="width:100%; font-family: var(--vscode-editor-font-family, Consolas, monospace);"
+      placeholder='{"cpp":"deepseek-coder-v2:16b","python":"qwen2.5-coder:7b"}'></textarea>
+    <div style="margin-top:6px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+      <button class="secondary" onclick="saveLanguageProfiles()">Save Language Profiles</button>
+      <span id="languageProfilesStatus" style="opacity:0.8; font-size:0.9em"></span>
+    </div>
+    <p style="opacity:0.75; margin-top:6px; font-size:0.9em;">
+      JSON object mapping VS Code language IDs to Ollama model tags. Example: <code>{"cpp":"deepseek-coder-v2:16b"}</code>
+    </p>
   </div>
 </section>
 
@@ -584,6 +608,45 @@ function saveEndpoint() {
   if (val) saveSetting('endpoint', val);
 }
 
+function saveLanguageProfiles() {
+  const statusEl = document.getElementById('languageProfilesStatus');
+  const raw = document.getElementById('languageProfiles').value.trim();
+
+  let parsed = {};
+  if (raw.length > 0) {
+    try {
+      parsed = JSON.parse(raw);
+    } catch (err) {
+      if (statusEl) {
+        const msg = err instanceof Error ? err.message : String(err);
+        statusEl.innerHTML = '<span class="status-badge err">Invalid JSON: ' + escHtml(msg) + '</span>';
+      }
+      return;
+    }
+  }
+
+  if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
+    if (statusEl) {
+      statusEl.innerHTML = '<span class="status-badge err">Must be a JSON object (e.g. {"cpp":"model:tag"})</span>';
+    }
+    return;
+  }
+
+  for (const [k, v] of Object.entries(parsed)) {
+    if (typeof v !== 'string') {
+      if (statusEl) {
+        statusEl.innerHTML = '<span class="status-badge err">Value for "' + escHtml(k) + '" must be a string.</span>';
+      }
+      return;
+    }
+  }
+
+  saveSetting('languageProfiles', parsed);
+  if (statusEl) {
+    statusEl.innerHTML = '<span class="status-badge ok">Saved</span>';
+  }
+}
+
 // --------------------------------------------------------------------------
 // Render state
 // --------------------------------------------------------------------------
@@ -611,6 +674,7 @@ function renderState(state) {
   const dm = document.getElementById('delegationMode');
   if (dm) dm.value = state.delegationMode;
   setVal('requestTimeoutMs', state.requestTimeoutMs);
+  setVal('contextTokenBudget', state.contextTokenBudget);
   setCheck('copilotReviewEnabled', state.copilotReviewEnabled);
   setCheck('themisDbRules', state.themisDbRules);
   setCheck('routeBoilerplateToLocal', state.routeBoilerplateToLocal);
@@ -618,6 +682,16 @@ function renderState(state) {
   setCheck('routeRefactorsToLocal', state.routeRefactorsToLocal);
   setCheck('routeDocsToLocal', state.routeDocsToLocal);
   setCheck('routeCmakeToLocal', state.routeCmakeToLocal);
+
+  const lpEl = document.getElementById('languageProfiles');
+  if (lpEl) {
+    lpEl.value = JSON.stringify(state.languageProfiles ?? {}, null, 2);
+  }
+
+  const lpStatus = document.getElementById('languageProfilesStatus');
+  if (lpStatus) {
+    lpStatus.innerHTML = '';
+  }
 }
 
 function setVal(id, v) {

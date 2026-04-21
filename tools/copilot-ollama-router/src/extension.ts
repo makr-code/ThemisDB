@@ -33,6 +33,8 @@ interface BridgeConfig {
   routeRefactorsToLocal: boolean;
   routeDocsToLocal: boolean;
   routeCmakeToLocal: boolean;
+  auditLogVerbosity: "off" | "info" | "verbose";
+  contextTokenBudget: number;
 }
 
 function readRoutingPolicies(cfg: vscode.WorkspaceConfiguration): RoutingPolicyConfig {
@@ -42,6 +44,7 @@ function readRoutingPolicies(cfg: vscode.WorkspaceConfiguration): RoutingPolicyC
     routeRefactorsToLocal: cfg.get<boolean>("routeRefactorsToLocal", true),
     routeDocsToLocal: cfg.get<boolean>("routeDocsToLocal", true),
     routeCmakeToLocal: cfg.get<boolean>("routeCmakeToLocal", true),
+    languageProfiles: cfg.get<Record<string, string>>("languageProfiles", {}),
   };
 }
 
@@ -58,8 +61,48 @@ function readConfig(): BridgeConfig {
     copilotReviewEnabled: cfg.get<boolean>("copilotReviewEnabled", true),
     requestTimeoutMs: cfg.get<number>("requestTimeoutMs", 60_000),
     themisDbRules: cfg.get<boolean>("themisDbRules", true),
+    auditLogVerbosity: cfg.get<"off" | "info" | "verbose">("auditLogVerbosity", "info"),
+    contextTokenBudget: cfg.get<number>("contextTokenBudget", 2048),
     ...readRoutingPolicies(cfg),
   };
+}
+
+// ---------------------------------------------------------------------------
+// Activate
+// ---------------------------------------------------------------------------
+
+// ---------------------------------------------------------------------------
+// Audit log helper
+// ---------------------------------------------------------------------------
+
+let _auditChannel: vscode.OutputChannel | undefined;
+
+function getAuditChannel(): vscode.OutputChannel {
+  if (!_auditChannel) {
+    _auditChannel = vscode.window.createOutputChannel("Copilot Ollama Router");
+  }
+  return _auditChannel;
+}
+
+function logDecision(
+  decision: import("./router.js").RoutingDecision,
+  prompt: string,
+  model: string,
+  verbosity: "off" | "info" | "verbose"
+): void {
+  if (verbosity === "off") {
+    return;
+  }
+  const ch = getAuditChannel();
+  const ts = new Date().toISOString();
+  const pct = `${Math.round(decision.confidence * 100)}%`;
+  const dest = decision.destination === "ollama" ? `🖥️  Ollama (${model})` : "☁️  Copilot";
+  if (verbosity === "verbose") {
+    const preview = prompt.length > 80 ? prompt.slice(0, 77) + "..." : prompt;
+    ch.appendLine(`[${ts}] ${dest} | confidence ${pct} | ${decision.reason} | prompt: "${preview}"`);
+  } else {
+    ch.appendLine(`[${ts}] ${dest} | confidence ${pct} | ${decision.reason}`);
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -70,6 +113,35 @@ export function activate(context: vscode.ExtensionContext): void {
   const router = new DelegationRouter();
   const contextManager = new ContextManager();
   const reviewer = new CopilotReviewer();
+
+  // ── Audit output channel ─────────────────────────────────────────────────
+  const auditChannel = getAuditChannel();
+  context.subscriptions.push(auditChannel);
+
+  // ── Status bar item ───────────────────────────────────────────────────────
+  const statusBarItem = vscode.window.createStatusBarItem(
+    vscode.StatusBarAlignment.Right,
+    100
+  );
+  statusBarItem.name = "Copilot Ollama Router";
+  statusBarItem.text = "$(circuit-board) Ollama Router";
+  statusBarItem.tooltip = "Copilot ↔ Ollama Router — click to open audit log";
+  statusBarItem.command = "copilotOllamaRouter.showAuditLog";
+  statusBarItem.show();
+  context.subscriptions.push(statusBarItem);
+
+  // ── Helper: update status bar after a routing decision ───────────────────
+  function updateStatusBar(decision: import("./router.js").RoutingDecision, model: string): void {
+    if (decision.destination === "ollama") {
+      statusBarItem.text = `$(circuit-board) Ollama: ${model}`;
+      statusBarItem.tooltip = `Last request routed to local Ollama (${model})\nClick to open audit log`;
+      statusBarItem.backgroundColor = undefined;
+    } else {
+      statusBarItem.text = "$(cloud) Copilot (cloud)";
+      statusBarItem.tooltip = `Last request routed to Copilot cloud\nClick to open audit log`;
+      statusBarItem.backgroundColor = undefined;
+    }
+  }
 
   // ── Chat participant ──────────────────────────────────────────────────────
 
@@ -86,7 +158,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
       // Build enriched prompt with editor context
       const { text: enrichedPrompt, activeLanguage } =
-        contextManager.buildPrompt(request.prompt);
+        await contextManager.buildPrompt(request.prompt, config.contextTokenBudget);
 
       // Determine effective delegation mode from slash command override
       let effectiveMode = config.delegationMode;
@@ -107,22 +179,28 @@ export function activate(context: vscode.ExtensionContext): void {
         config
       );
 
+      const effectiveModel = decision.suggestedModel ?? config.defaultModel;
+      logDecision(decision, request.prompt, effectiveModel, config.auditLogVerbosity);
+      updateStatusBar(decision, effectiveModel);
+
       if (decision.destination === "ollama") {
         await handleOllamaRequest(
           enrichedPrompt,
           request.prompt,
-          decision.suggestedModel ?? config.defaultModel,
+          effectiveModel,
           config,
           ollamaClient,
           reviewer,
           stream,
           token,
-          decision.reason
+          decision.reason,
+          decision.confidence
         );
       } else {
         // Let the user know we are redirecting to Copilot
+        const pct = `${Math.round(decision.confidence * 100)}%`;
         stream.markdown(
-          `> 🔀 **Routed to Copilot (cloud)** — *${decision.reason}*\n\n`
+          `> 🔀 **Routed to Copilot (cloud)** — *${decision.reason}* — confidence **${pct}**\n\n`
         );
         // Re-submit the prompt through the Language Model API so the answer
         // arrives in the same chat thread.
@@ -154,7 +232,10 @@ export function activate(context: vscode.ExtensionContext): void {
         }
         const config = readConfig();
         const ollamaClient = new OllamaClient(config.endpoint);
-        const { text: enrichedPrompt } = contextManager.buildPrompt(prompt);
+        const { text: enrichedPrompt } = await contextManager.buildPrompt(
+          prompt,
+          config.contextTokenBudget
+        );
 
         await vscode.window.withProgress(
           {
@@ -207,7 +288,10 @@ export function activate(context: vscode.ExtensionContext): void {
       }
 
       const config = readConfig();
-      const { activeLanguage } = contextManager.buildPrompt(prompt);
+      const { activeLanguage } = await contextManager.buildPrompt(
+        prompt,
+        config.contextTokenBudget
+      );
       const decision = router.classify(
         prompt,
         activeLanguage,
@@ -222,6 +306,10 @@ export function activate(context: vscode.ExtensionContext): void {
         decision.destination === "ollama"
           ? `@ollama /local ${prompt}`
           : `@workspace ${prompt}`;
+
+      const askModel = decision.suggestedModel ?? config.defaultModel;
+      logDecision(decision, prompt, askModel, config.auditLogVerbosity);
+      updateStatusBar(decision, askModel);
 
       await vscode.commands.executeCommand("workbench.action.chat.open", {
         query,
@@ -245,7 +333,10 @@ export function activate(context: vscode.ExtensionContext): void {
         return;
       }
       const config = readConfig();
-      const { activeLanguage } = contextManager.buildPrompt(prompt);
+      const { activeLanguage } = await contextManager.buildPrompt(
+        prompt,
+        config.contextTokenBudget
+      );
       const decision = router.classify(
         prompt,
         activeLanguage,
@@ -260,6 +351,10 @@ export function activate(context: vscode.ExtensionContext): void {
         decision.destination === "ollama"
           ? `🖥️  Local Ollama (${decision.suggestedModel ?? config.defaultModel})`
           : "☁️  Copilot (cloud)";
+
+      const autoModel = decision.suggestedModel ?? config.defaultModel;
+      logDecision(decision, prompt, autoModel, config.auditLogVerbosity);
+      updateStatusBar(decision, autoModel);
 
       void vscode.window.showInformationMessage(
         `Auto-route decision: ${label}\nReason: ${decision.reason}`
@@ -350,6 +445,15 @@ export function activate(context: vscode.ExtensionContext): void {
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
+      "copilotOllamaRouter.showAuditLog",
+      () => {
+        getAuditChannel().show(true);
+      }
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
       "copilotOllamaRouter.applyWorkspaceConfig",
       async () => {
         const config = readConfig();
@@ -375,7 +479,8 @@ export function activate(context: vscode.ExtensionContext): void {
 }
 
 export function deactivate(): void {
-  // No persistent resources to clean up.
+  _auditChannel?.dispose();
+  _auditChannel = undefined;
 }
 
 // ---------------------------------------------------------------------------
@@ -391,10 +496,12 @@ async function handleOllamaRequest(
   reviewer: CopilotReviewer,
   stream: vscode.ChatResponseStream,
   token: vscode.CancellationToken,
-  routingReason: string
+  routingReason: string,
+  confidence: number
 ): Promise<void> {
+  const pct = `${Math.round(confidence * 100)}%`;
   stream.markdown(
-    `> 🖥️  **Routed to local Ollama** (\`${model}\`) — *${routingReason}*\n\n`
+    `> 🖥️  **Routed to local Ollama** (\`${model}\`) — *${routingReason}* — confidence **${pct}**\n\n`
   );
 
   const abortController = new AbortController();
