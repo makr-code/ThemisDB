@@ -154,7 +154,7 @@ def check_files_exist(data: dict) -> bool:
             if fname in seen:
                 continue
             seen.add(fname)
-            _, found = _resolve_bench_file(fname)
+            resolved_path, found = _resolve_bench_file(fname)
             if not found:
                 _err(f"{module}/{tid}: referenced file not found: {fname} "
                      f"(searched under benchmarks/ and repo root)")
