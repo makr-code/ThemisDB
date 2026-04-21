@@ -27,6 +27,7 @@
 #include <memory>
 
 namespace themis {
+namespace governance { class ModelGovernancePolicy; }
 namespace ingestion {
 
 /**
@@ -169,6 +170,20 @@ public:
      * @param validator Validator callback; empty = disable
      */
     void setDocumentValidator(DocumentValidatorFn validator) override;
+
+    /**
+     * @brief Set the governance policy for data classification checks.
+     *
+     * When set, `initialize()` calls `policy->checkExportPermission()` with
+     * purpose="DATA_INGESTION" before accepting the configuration.  If the
+     * decision is DENY, `initialize()` returns false and logs the denial reason.
+     * When @p policy is nullptr, the classification gate is bypassed and a
+     * WARN is logged (Gap 8 degraded mode — AI_ML_IMPACT_ASSESSMENT.md §7).
+     *
+     * @param policy  Governance policy to consult; may be nullptr.
+     */
+    void setIngestionPolicy(
+        std::shared_ptr<governance::ModelGovernancePolicy> policy);
 
 private:
     class Impl;

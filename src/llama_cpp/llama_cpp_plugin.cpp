@@ -209,27 +209,40 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
     }
 #endif
 
-    // ── Stub fallback (no real model or THEMIS_LLM_ENABLED not set) ──────────
-    ++inference_count_;
-    const std::string text = "[stub:" + request.prompt.substr(0, 40) + "]";
-
-    // Honour streaming callback when present.
-    // In stub mode the full text is emitted as a single "token" so callers
-    // that set stream_callback always receive at least one invocation.
-    if (request.stream_callback) {
-        try {
-            request.stream_callback(text);
-        } catch (...) {
-            // Exceptions from callbacks are swallowed (per FUTURE_ENHANCEMENTS spec)
-            ++error_count_;
+    // STUB/SIMULATION NOTE:
+    // Purpose: Signal clearly that no model is loaded when llama.cpp is not
+    //          compiled in (THEMIS_ENABLE_LLAMA_CPP not set) or loadModel()
+    //          has not been called.  Unit-test builds that require the echo
+    //          behaviour should define THEMIS_LLAMA_CPP_STUB_MODE.
+    // Activation: Reached when `wrapper_` is nullptr (model not loaded or build
+    //             flag absent); controlled by build flag THEMIS_ENABLE_LLAMA_CPP
+    //             and runtime loadModel() call.
+    // Production Delta (fixed — Gap 1): Previously returned success=true with a
+    //             stub echo string, making the failure invisible to callers.
+    //             Now returns success=false + error_message="Model not loaded"
+    //             so callers can programmatically detect and handle the error.
+    // See: llama_cpp/FUTURE_ENHANCEMENTS.md §6; AI_ML_IMPACT_ASSESSMENT.md §7 Gap 1.
+#ifdef THEMIS_LLAMA_CPP_STUB_MODE
+    // Test-only path: retain the old echo behaviour when the test macro is set.
+    {
+        ++inference_count_;
+        const std::string text = "[stub:" + request.prompt.substr(0, 40) + "]";
+        if (request.stream_callback) {
+            try { request.stream_callback(text); } catch (...) { ++error_count_; }
         }
+        response.text             = text;
+        response.success          = true;
+        response.tokens_generated = static_cast<int>(text.size() / 4 + 1);
+        response.trace_id         = request.trace_id;
+        response.span_id          = request.span_id;
+        return response;
     }
-
-    response.text             = text;
-    response.success          = true;
-    response.tokens_generated = static_cast<int>(text.size() / 4 + 1);
-    response.trace_id         = request.trace_id;
-    response.span_id          = request.span_id;
+#endif
+    ++error_count_;
+    response.success       = false;
+    response.error_message = "Model not loaded — call loadModel() before generate()";
+    response.trace_id      = request.trace_id;
+    response.span_id       = request.span_id;
     return response;
 }
 

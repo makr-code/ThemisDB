@@ -66,6 +66,7 @@ For governance documentation, see:
 - [ARCHITECTURE.md](./ARCHITECTURE.md) — Architecture guide with component diagram and data flow
 - [ROADMAP.md](./ROADMAP.md) — Development roadmap and production readiness checklist
 - [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md) — Planned features with performance targets and IEEE references
+- [AI_ML_IMPACT_ASSESSMENT.md](./AI_ML_IMPACT_ASSESSMENT.md) — ML/AI impact map, risk register, guardrails, KPIs, and rollout path
 - [include/governance/README.md](../../include/governance/README.md) — Public API header overview
 - [docs/de/governance/README.md](../../docs/de/governance/README.md) — German secondary documentation
 

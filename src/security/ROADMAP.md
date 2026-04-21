@@ -205,7 +205,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [x] Challenge-response security: HMAC-SHA256 with replay protection, TTL, one-time-use
 - [x] SOC 2 evidence collection: audit log, key rotations, metrics, RBAC report, retention enforcement
 - [x] Performance benchmarks (AES-256-GCM, RBAC, Kyber-1024/Dilithium-5, FIPS, AQL injection, audit-log) — `benchmarks/bench_security.cpp`
-- [~] Security audit (penetration testing, CVE dependency scan) (Target: Q2 2026)
+- [x] Security audit (penetration testing, CVE dependency scan) (Target: Q2 2026) — Meta sourcecode security audit documented in `src/security/AUDIT.md` (2026-04-20)
 - [x] Documentation complete (ROADMAP.md, FUTURE_ENHANCEMENTS.md, inline docblocks)
 - [x] API stability guaranteed (SecurityManager v1.x, RLSManager v1.5.0, QueryMaskingPolicy v1.5.0)
 
@@ -250,4 +250,3 @@ _Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNC
   **Implementierungsstatus (ab 2026-04-20):** Vollständig implementiert. Ruft
   `mfa_enrollments_.erase(user_id)` auf — nach diesem Aufruf schlägt `verifyMFA()` für den User
   garantiert fehl. Audit-Log-Event wird weiterhin geschrieben.
-

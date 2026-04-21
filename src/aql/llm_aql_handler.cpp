@@ -42,6 +42,7 @@
 #include "llm/embedded_llm.h"
 #include "llm/llama_wrapper.h"
 #include "index/vector_index.h"
+#include "storage/rocksdb_wrapper.h"
 #include <stdexcept>
 #include <sstream>
 #include <algorithm>
@@ -356,6 +357,8 @@ public:
     // Optional Phase 5 KV-prefix transfer manager
     std::unique_ptr<llm::KVPrefixTransferManager> kv_prefix_transfer_mgr_;
 
+    // Optional storage layer for RAG document content hydration (B5)
+    std::shared_ptr<RocksDBWrapper> storage_;
     // Wire the shard-load callback between batch_scheduler_ and
     // adaptive_shard_router_ whenever either is changed.  Both must be
     // non-null and local_shard_id_ must be non-empty for wiring to happen.
@@ -454,6 +457,10 @@ void LLMAQLHandler::setIngestionBridge(std::shared_ptr<AQLIngestionBridge> bridg
 
 std::shared_ptr<AQLIngestionBridge> LLMAQLHandler::ingestionBridge() const {
     return impl_->ingestion_bridge_;
+}
+
+void LLMAQLHandler::setStorage(std::shared_ptr<RocksDBWrapper> storage) {
+    impl_->storage_ = std::move(storage);
 }
 
 std::string LLMAQLHandler::executeInfer(
@@ -863,11 +870,33 @@ std::string LLMAQLHandler::executeRAG(
                                     llm::RAGContext::Document doc;
                                     doc.source = result.pk;
                                     doc.relevance_score = similarity;
-                                    // doc.content carries the primary key of the matching
-                                    // document.  Full document retrieval is performed by
-                                    // the LLM plugin's generateRAG() implementation, which
-                                    // resolves the pk against the configured storage layer.
-                                    doc.content = result.pk;
+                                    // Attempt to hydrate the document content from storage (B5).
+                                    // When storage is injected, fetch the raw JSON and extract the
+                                    // "text" or "content" field; fall back to the raw JSON if absent.
+                                    // Without storage, doc.content carries the pk for downstream lookup.
+                                    if (impl_->storage_) {
+                                        auto raw = impl_->storage_->get(result.pk);
+                                        if (raw.has_value()) {
+                                            std::string raw_str(raw.value().begin(), raw.value().end());
+                                            try {
+                                                auto doc_json = nlohmann::json::parse(raw_str);
+                                                if (doc_json.contains("text") && doc_json["text"].is_string()) {
+                                                    doc.content = doc_json["text"].get<std::string>();
+                                                } else if (doc_json.contains("content") && doc_json["content"].is_string()) {
+                                                    doc.content = doc_json["content"].get<std::string>();
+                                                } else {
+                                                    doc.content = raw_str;
+                                                }
+                                            } catch (...) {
+                                                doc.content = raw_str;
+                                            }
+                                        } else {
+                                            spdlog::warn("RAG: document not found in storage for pk={}", result.pk);
+                                            doc.content = result.pk;
+                                        }
+                                    } else {
+                                        doc.content = result.pk;
+                                    }
                                     context.documents.push_back(doc);
                                 }
                             }

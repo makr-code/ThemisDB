@@ -29,6 +29,14 @@
 
 #pragma once
 
+// Guard against the Windows SDK '#define ERROR 0' (and similar macros)
+// for the entire header. push_macro/undef/pop_macro is the MSVC-idiomatic
+// approach; it also applies to all inline factory functions below.
+#ifdef _WIN32
+#  pragma push_macro("ERROR")
+#  undef ERROR
+#endif
+
 #include <string>
 #include <stdexcept>
 #include <nlohmann/json.hpp>
@@ -329,3 +337,7 @@ namespace error {
 
 } // namespace cdc
 } // namespace themis
+
+#ifdef _WIN32
+#  pragma pop_macro("ERROR")
+#endif

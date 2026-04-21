@@ -878,6 +878,28 @@ bool RocksDBWrapper::del(std::string_view key) {
     return true;
 }
 
+bool RocksDBWrapper::putBatch(const std::vector<KeyValuePair>& pairs) {
+    if (!db_) {
+        themis::utils::Logger::error("RocksDBWrapper::putBatch: db_ is null");
+        return false;
+    }
+    if (pairs.empty()) {
+        return true;
+    }
+
+    auto batch = createWriteBatch();
+    if (!batch) {
+        themis::utils::Logger::error("RocksDBWrapper::putBatch: failed to create write batch");
+        return false;
+    }
+
+    for (const auto& kv : pairs) {
+        batch->put(kv.key, kv.value);
+    }
+
+    return batch->commit();
+}
+
 // ============================================================================
 // Streaming Blob API (v2.0.0, PERF-D5)
 // ============================================================================

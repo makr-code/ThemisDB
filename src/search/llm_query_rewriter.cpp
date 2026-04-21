@@ -22,6 +22,7 @@
 #include <cctype>
 #include <sstream>
 #include <stdexcept>
+#include <unordered_set>
 #include <utility>
 
 namespace themis {
@@ -78,6 +79,25 @@ RewrittenQuery LlmQueryRewriter::rewrite(const std::string& query) const {
         result.llm_used = true;
 
         auto parsed = parseRewrites(llm_output, query);
+
+        // Semantic output validator (Gap 2 — search/FUTURE_ENHANCEMENTS.md §Gap 2):
+        // discard rewrites whose Jaccard token-overlap with the original query
+        // falls below Config::min_token_overlap_ratio.
+        if (config_.min_token_overlap_ratio > 0.0f && !parsed.empty()) {
+            const bool any_survived = applyOverlapFilter(parsed, query);
+            if (!any_survived) {
+                THEMIS_WARN("LlmQueryRewriter: all {} rewrite(s) failed overlap "
+                            "threshold ({:.2f}) — falling back to original query",
+                            result.rewrites.size(),
+                            static_cast<double>(config_.min_token_overlap_ratio));
+                result.quality = RewriteQuality::FALLBACK;
+                parsed.clear();
+                if (config_.fallback_to_original) {
+                    parsed.push_back(query);
+                }
+            }
+        }
+
         result.rewrites = std::move(parsed);
 
         THEMIS_DEBUG("LlmQueryRewriter::rewrite('{}') -> {} rewrites",
@@ -210,6 +230,65 @@ std::vector<std::string> LlmQueryRewriter::parseRewrites(
     }
 
     return rewrites;
+}
+
+// ============================================================================
+// Semantic output validator helpers (Gap 2)
+// ============================================================================
+
+float LlmQueryRewriter::jaccardTokenOverlap(const std::string& a,
+                                             const std::string& b)
+{
+    // Tokenise by splitting on whitespace; normalise to lower-case.
+    auto tokenise = [](const std::string& s) -> std::unordered_set<std::string> {
+        std::unordered_set<std::string> tokens;
+        std::istringstream iss(s);
+        std::string tok;
+        while (iss >> tok) {
+            std::string lc;
+            lc.reserve(tok.size());
+            for (char c : tok) {
+                lc += static_cast<char>(
+                    std::tolower(static_cast<unsigned char>(c)));
+            }
+            tokens.insert(std::move(lc));
+        }
+        return tokens;
+    };
+
+    const auto ta = tokenise(a);
+    const auto tb = tokenise(b);
+
+    if (ta.empty() && tb.empty()) return 1.0f;
+    if (ta.empty() || tb.empty()) return 0.0f;
+
+    size_t intersection = 0;
+    for (const auto& tok : ta) {
+        if (tb.count(tok)) ++intersection;
+    }
+    // |A ∪ B| = |A| + |B| - |A ∩ B|
+    const size_t union_size = ta.size() + tb.size() - intersection;
+    return static_cast<float>(intersection) / static_cast<float>(union_size);
+}
+
+bool LlmQueryRewriter::applyOverlapFilter(std::vector<std::string>& rewrites,
+                                           const std::string& original) const
+{
+    std::vector<std::string> kept;
+    kept.reserve(rewrites.size());
+    for (auto& r : rewrites) {
+        const float overlap = jaccardTokenOverlap(r, original);
+        if (overlap >= config_.min_token_overlap_ratio) {
+            kept.push_back(std::move(r));
+        } else {
+            THEMIS_DEBUG("LlmQueryRewriter: discarding rewrite (overlap={:.3f} < {:.3f}): '{}'",
+                         static_cast<double>(overlap),
+                         static_cast<double>(config_.min_token_overlap_ratio),
+                         r);
+        }
+    }
+    rewrites = std::move(kept);
+    return !rewrites.empty();
 }
 
 }  // namespace themis

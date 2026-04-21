@@ -218,6 +218,45 @@ Cross-environment portability for prompt template collections via JSON and YAML 
 - [?] Clarify whether chain-of-thought traces containing legal case content are subject to e-discovery retention requirements before enabling long-term storage.
 - [ ] `ContextWindowBudgetManager` must enforce a hard maximum token cap regardless of model-reported limit to prevent prompt-injection via oversized context chunks.
 
+---
+
+## Identified Gaps (from AI_ML_IMPACT_ASSESSMENT.md)
+
+### Gap 5 — Consolidate Dual PromptInjectionDetector Implementations (Target: Q4 2026)
+
+**Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 5 (Severity: Medium/S2)`
+**Status:** ✅ Implemented (2026-04-21)
+**See also:** `src/rag/FUTURE_ENHANCEMENTS.md §Gap 5` (RAG-module counterpart).
+
+**Problem (resolved):** Two independent `PromptInjectionDetector` implementations
+maintained separate pattern registries.  A new attack pattern added to one was
+silently absent from the other.
+
+**Implemented changes:**
+- `include/security/prompt_injection_pattern_registry.h` + `src/security/prompt_injection_pattern_registry.cpp`:
+  `PromptInjectionPatternRegistry` singleton with 11 shared patterns + 11 keywords.
+  `version()` monotonic integer; `SHARED_INJECTION_PATTERN_COUNT` / `SHARED_INJECTION_KEYWORD_COUNT`
+  compile-time constants.
+- `PromptInjectionDetector::initializePatterns()` now calls
+  `PromptInjectionPatternRegistry::defaultRegistry()` to load the 11 shared patterns
+  as its base; caller `custom_patterns` appended after.
+- Startup parity assertion: logs ERROR + aborts if `patternCount() != SHARED_INJECTION_PATTERN_COUNT`.
+- `src/rag/prompt_injection_detector.cpp::getRules()` similarly loads shared patterns
+  first, then appends RAG-specific patterns (score_manipulation, role headers,
+  separator, markup, exfiltration).
+- Tests: `test_prompt_injection_pattern_registry.cpp` (PRR_01..08) registered as
+  `PromptInjectionPatternRegistryFocusedTests`.
+
+**Invariant:** pattern shared_forget_instructions (pattern 4 — previously absent
+from PE detector) is now detected by both detectors. PRR_05 tests this explicitly.
+
+**Deferred (Q4 2026):**
+- YAML/JSON pattern file (`config/prompt_injection_patterns.yaml`) for operator
+  overrides at deployment time.
+- CI script `scripts/check_injection_pattern_sync.py`.
+
+**Perf target:** Registry load at startup ≤ 5 ms (static singleton); per-scan unchanged.
+
 ## Scientific References
 
 The planned enhancements are grounded in the following peer-reviewed literature and industry research:

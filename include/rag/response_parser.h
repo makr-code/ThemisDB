@@ -42,6 +42,11 @@ struct ParsedResponse {
     std::vector<std::string> supporting_claims;
     std::vector<std::string> unsupported_claims;
     std::string error_message;
+    /// True when this response was produced by the stub/mock inference path
+    /// (config.use_mock_mode == true or allow_mock == true with engine == nullptr).
+    /// Callers should discard or flag these results in production dashboards.
+    /// Source: AI_ML_IMPACT_ASSESSMENT.md §7, Gap 7.
+    bool is_mock = false;
 };
 
 /**

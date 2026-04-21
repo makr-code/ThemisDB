@@ -215,3 +215,32 @@ Export a joined view of two or more collections (e.g., `documents JOIN annotatio
 5. McGrew, D., & Viega, J. (2004). **The Galois/Counter Mode of Operation (GCM)**. NIST Submission. https://csrc.nist.gov/publications/detail/sp/800-38d/final
 
 6. Krawczyk, H., Bellare, M., & Canetti, R. (1997). **HMAC: Keyed-Hashing for Message Authentication**. RFC 2104. IETF. https://doi.org/10.17487/RFC2104
+
+---
+
+## Security Hardening Backlog (Q2–Q3 2026)
+
+> GAP-004 + GAP-019 – identified via static analysis (2026-04-21).
+> Reference: `docs/governance/SOURCECODE_COMPLIANCE_GOVERNANCE.md`.
+
+### GAP-004 – AQL Injection via String Concatenation in Export Query Builder
+
+**Scope:** `src/server/export_api_handler.cpp:354–388`
+
+The `buildAqlQuery()` function builds AQL query conditions by concatenating user-supplied
+strings without escaping or injection validation.  The `"query"` field is embedded verbatim.
+
+**Fix:** Run each custom query through `AQLInjectionDetector::validateForReadOnlyContext()`
+and replace string-concat conditions with AQL bind parameters.
+
+See: `src/server/FUTURE_ENHANCEMENTS.md` GAP-004 for full implementation spec.
+
+### GAP-019 – Replace mt19937 with CSPRNG for Export IDs
+
+**Scope:** `src/server/export_api_handler.cpp:405`
+
+Export IDs generated with `mt19937` may be predictable on low-entropy systems.
+
+**Fix:** Replace with `RAND_bytes()` (OpenSSL).
+
+See: `src/server/FUTURE_ENHANCEMENTS.md` GAP-019 for full implementation spec.
