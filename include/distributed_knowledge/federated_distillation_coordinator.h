@@ -119,8 +119,57 @@ struct DistillationRound {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// DistillationConfig
+// DistillationModelCard — governance snapshot per coordinator lifecycle
 // ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Per-session governance snapshot produced by the coordinator.
+ *
+ * Captures the privacy, utility, and policy history up to the point of
+ * generation.  Intended for audit logs, model registries, and risk reports
+ * as required by issue #4743 Phase 4 ("Modellkarten + Risikoakte").
+ *
+ * Immutable once generated — call `generateModelCard()` to get a fresh
+ * snapshot.  Serialisable to JSON via `toJson()`.
+ */
+struct DistillationModelCard {
+    // Identity
+    std::string coordinator_id;     ///< Coordinator instance identifier (optional)
+    std::string teacher_id;         ///< Last teacher model identifier (or empty)
+
+    // Privacy accounting
+    uint64_t    rounds_completed;   ///< Total rounds broadcast
+    double      total_epsilon;      ///< DP budget spent (sum over all rounds)
+    double      dp_epsilon_per_round; ///< Configured ε per round
+    double      dp_delta;           ///< Configured δ
+    bool        dp_applied;         ///< Whether DP noise was applied in this session
+
+    // Utility
+    double      min_utility_reported; ///< Lowest utility reported by any student
+    double      max_utility_reported; ///< Highest utility reported (1.0 = no reports)
+    size_t      rollback_count;     ///< Number of rollbacks triggered
+
+    // Policy
+    size_t      policy_blocks;      ///< Broadcasts blocked by policy gate
+    size_t      registered_students; ///< Number of registered student callbacks
+
+    [[nodiscard]] nlohmann::json toJson() const {
+        return {{"coordinator_id",      coordinator_id},
+                {"teacher_id",         teacher_id},
+                {"rounds_completed",   rounds_completed},
+                {"total_epsilon",      total_epsilon},
+                {"dp_epsilon_per_round", dp_epsilon_per_round},
+                {"dp_delta",           dp_delta},
+                {"dp_applied",         dp_applied},
+                {"min_utility_reported", min_utility_reported},
+                {"max_utility_reported", max_utility_reported},
+                {"rollback_count",     rollback_count},
+                {"policy_blocks",      policy_blocks},
+                {"registered_students", registered_students}};
+    }
+};
+
+
 
 struct DistillationConfig {
     // DP parameters (Gaussian mechanism)
@@ -329,6 +378,18 @@ public:
      */
     void reset();
 
+    /**
+     * @brief Generate a governance model card snapshot.
+     *
+     * Captures privacy accounting, utility statistics, and policy history
+     * at the point of invocation.  Thread-safe.
+     *
+     * @param coordinator_id  Optional identifier for this coordinator instance.
+     * @return Immutable `DistillationModelCard` snapshot.
+     */
+    [[nodiscard]] DistillationModelCard generateModelCard(
+        const std::string& coordinator_id = "") const;
+
     [[nodiscard]] const DistillationConfig& config() const { return config_; }
 
 private:
@@ -344,6 +405,10 @@ private:
     double                                     total_epsilon_spent_ = 0.0;
     size_t                                     broadcast_count_ = 0;
     size_t                                     rollback_count_  = 0;
+    size_t                                     policy_block_count_ = 0;
+    double                                     min_utility_reported_ = 1.0;
+    double                                     max_utility_reported_ = 1.0;
+    bool                                       any_utility_reported_ = false;
 
     // Pending submission for current round
     std::string                                pending_teacher_id_;

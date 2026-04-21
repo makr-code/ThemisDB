@@ -301,3 +301,150 @@ TEST(FDF_Tests, FDF_STATS_FieldsPopulated)
     EXPECT_GT(stats.value("total_epsilon", 0.0),  0.0);
     EXPECT_TRUE(stats.contains("config"));
 }
+
+// ── FDF-11: Privacy invariant — SoftLabel contains no raw query text ──────────
+
+TEST(FDF_Tests, FDF_11_PrivacyInvariantNoRawQueryText)
+{
+    // SoftLabel.query_id is an opaque identifier (hash), not cleartext.
+    // Verify by checking that query_id is independent of raw text content
+    // and that SoftLabel has no field for raw query text.
+    SoftLabel label = makeSoftLabel("sha256:abc123");  // opaque hash
+
+    // SoftLabel JSON must not contain any field that could carry raw text
+    const auto j = label.toJson();
+    EXPECT_FALSE(j.contains("query_text"))    << "Raw query text must not be in SoftLabel";
+    EXPECT_FALSE(j.contains("raw_query"))     << "Raw query text must not be in SoftLabel";
+    EXPECT_FALSE(j.contains("prompt"))        << "Raw prompt must not be in SoftLabel";
+    EXPECT_FALSE(j.contains("document_text")) << "Document text must not be in SoftLabel";
+
+    // query_id field is present and opaque (cannot reconstruct the query from it)
+    EXPECT_TRUE(j.contains("query_id"));
+    EXPECT_TRUE(j.contains("probabilities"));
+    EXPECT_TRUE(j.contains("temperature"));
+    EXPECT_TRUE(j.contains("teacher_id"));
+    EXPECT_EQ(j.size(), 4u) << "SoftLabel must have exactly 4 fields";
+}
+
+// ── FDF-12: require_dp=false path — broadcast without noise ───────────────────
+
+TEST(FDF_Tests, FDF_12_RequireDpFalseSkipsNoise)
+{
+    auto cfg = defaultCfg();
+    cfg.require_dp = false;
+
+    FederatedDistillationCoordinator coord{cfg};
+
+    std::vector<double> received;
+    coord.registerStudent("s1",
+        [&received](const DistillationRound& r) {
+            if (!r.labels.empty()) received = r.labels[0].probabilities;
+        });
+
+    const std::vector<double> original = {0.7, 0.2, 0.1};
+    coord.submitSoftLabels("teacher", {makeSoftLabel("q1", original)});
+    const auto round = coord.broadcastToStudents();
+
+    // dp_applied must be false in the round
+    EXPECT_FALSE(round.dp_applied);
+    // probabilities must be unmodified (no noise added)
+    ASSERT_EQ(received.size(), original.size());
+    for (size_t i = 0; i < original.size(); ++i) {
+        EXPECT_NEAR(received[i], original[i], 1e-12)
+            << "require_dp=false: probabilities must be unmodified";
+    }
+}
+
+// ── FDF-13: Multi-round — round counter increments correctly ─────────────────
+
+TEST(FDF_Tests, FDF_13_MultiRoundConsistency)
+{
+    FederatedDistillationCoordinator coord{defaultCfg()};
+
+    for (uint64_t expected_round = 1u; expected_round <= 4u; ++expected_round) {
+        coord.submitSoftLabels("teacher", {makeSoftLabel()});
+        EXPECT_EQ(coord.currentRound(), expected_round);
+        const auto r = coord.broadcastToStudents();
+        EXPECT_EQ(r.round, expected_round);
+        EXPECT_EQ(coord.currentRound(), expected_round);
+    }
+
+    // After 4 rounds the stats should show 4 broadcasts
+    EXPECT_EQ(coord.getStats().value("broadcast_count", 0u), 4u);
+}
+
+// ── FDF-14: reset() clears all state ─────────────────────────────────────────
+
+TEST(FDF_Tests, FDF_14_ResetClearsState)
+{
+    FederatedDistillationCoordinator coord{defaultCfg()};
+
+    bool student_called = false;
+    coord.registerStudent("s1",
+        [&student_called](const DistillationRound&) { student_called = true; });
+
+    coord.submitSoftLabels("teacher", {makeSoftLabel()});
+    coord.broadcastToStudents();
+    ASSERT_EQ(coord.currentRound(), 1u);
+
+    coord.reset();
+
+    EXPECT_EQ(coord.currentRound(), 0u);
+    EXPECT_EQ(coord.submittedCount(), 0u);
+    EXPECT_FALSE(coord.lastRound().has_value());
+
+    // Students cleared — broadcast without re-registration must not call old callback
+    student_called = false;
+    // With students cleared, broadcast throws (no submit), so just verify state
+    EXPECT_THROW(coord.broadcastToStudents(), std::runtime_error);
+
+    const auto stats = coord.getStats();
+    EXPECT_EQ(stats.value("broadcast_count", 99u), 0u);
+    EXPECT_EQ(stats.value("current_round", 99u),   0u);
+    EXPECT_EQ(stats.value("total_epsilon", 99.0),  0.0);
+}
+
+// ── FDF-15: DistillationModelCard captures correct governance fields ───────────
+
+TEST(FDF_Tests, FDF_15_ModelCardFields)
+{
+    auto cfg = defaultCfg();
+    cfg.min_utility_threshold = 0.90;
+    FederatedDistillationCoordinator coord{cfg};
+
+    bool rollback_fired = false;
+    coord.setRollbackTrigger([&rollback_fired](uint64_t, double) {
+        rollback_fired = true;
+    });
+
+    // Two broadcasts
+    coord.submitSoftLabels("teacher-large", {makeSoftLabel()});
+    coord.broadcastToStudents();
+    coord.submitSoftLabels("teacher-large", {makeSoftLabel()});
+    coord.broadcastToStudents();
+
+    // Report high utility (no rollback) then low utility (rollback)
+    coord.reportStudentUtility("student-1", 0.95);
+    coord.reportStudentUtility("student-1", 0.80);  // triggers rollback
+
+    const auto card = coord.generateModelCard("coordinator-prod");
+
+    EXPECT_EQ(card.coordinator_id,   "coordinator-prod");
+    EXPECT_EQ(card.teacher_id,       "teacher-large");
+    EXPECT_EQ(card.rounds_completed, 2u);
+    EXPECT_NEAR(card.total_epsilon,  2.0 * cfg.dp_epsilon, 1e-9);
+    EXPECT_EQ(card.dp_epsilon_per_round, cfg.dp_epsilon);
+    EXPECT_EQ(card.dp_delta,         cfg.dp_delta);
+    EXPECT_TRUE(card.dp_applied);
+    EXPECT_NEAR(card.min_utility_reported, 0.80, 1e-9);
+    EXPECT_NEAR(card.max_utility_reported, 0.95, 1e-9);
+    EXPECT_EQ(card.rollback_count,   1u);
+    EXPECT_EQ(card.policy_blocks,    0u);
+
+    // JSON round-trip
+    const auto j = card.toJson();
+    EXPECT_EQ(j.value("coordinator_id", ""), "coordinator-prod");
+    EXPECT_EQ(j.value("rounds_completed", 0u), 2u);
+    EXPECT_TRUE(j.value("dp_applied", false));
+    EXPECT_TRUE(rollback_fired);
+}

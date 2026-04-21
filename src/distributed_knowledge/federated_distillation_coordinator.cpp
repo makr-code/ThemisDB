@@ -115,6 +115,7 @@ DistillationRound FederatedDistillationCoordinator::broadcastToStudents()
     // ── Policy gate ───────────────────────────────────────────────────────────
     if (policy_gate_ &&
         !policy_gate_(current_round_, pending_teacher_id_)) {
+        ++policy_block_count_;
         throw std::runtime_error(
             "Policy gate rejected distillation broadcast");
     }
@@ -262,6 +263,16 @@ void FederatedDistillationCoordinator::reportStudentUtility(
         ++rollback_count_;
         rollback_trigger_(current_round_, utility);
     }
+
+    // Track utility range
+    if (!any_utility_reported_) {
+        min_utility_reported_ = utility;
+        max_utility_reported_ = utility;
+        any_utility_reported_ = true;
+    } else {
+        if (utility < min_utility_reported_) min_utility_reported_ = utility;
+        if (utility > max_utility_reported_) max_utility_reported_ = utility;
+    }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -290,11 +301,15 @@ bool FederatedDistillationCoordinator::verifyPrivacyBudget() const
 void FederatedDistillationCoordinator::reset()
 {
     std::lock_guard<std::mutex> lock(mutex_);
-    current_round_       = 0;
-    total_epsilon_spent_ = 0.0;
-    broadcast_count_     = 0;
-    rollback_count_      = 0;
-    has_pending_         = false;
+    current_round_          = 0;
+    total_epsilon_spent_    = 0.0;
+    broadcast_count_        = 0;
+    rollback_count_         = 0;
+    policy_block_count_     = 0;
+    min_utility_reported_   = 1.0;
+    max_utility_reported_   = 1.0;
+    any_utility_reported_   = false;
+    has_pending_            = false;
     pending_labels_.clear();
     pending_teacher_id_.clear();
     last_round_.reset();
@@ -328,6 +343,33 @@ void FederatedDistillationCoordinator::applyDPNoise(
         }
         normalise(label.probabilities);
     }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// generateModelCard
+// ─────────────────────────────────────────────────────────────────────────────
+
+DistillationModelCard FederatedDistillationCoordinator::generateModelCard(
+    const std::string& coordinator_id) const
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    DistillationModelCard card;
+    card.coordinator_id       = coordinator_id;
+    card.teacher_id           = last_round_.has_value()
+                                    ? last_round_->teacher_id
+                                    : pending_teacher_id_;
+    card.rounds_completed     = broadcast_count_;
+    card.total_epsilon        = total_epsilon_spent_;
+    card.dp_epsilon_per_round = config_.dp_epsilon;
+    card.dp_delta             = config_.dp_delta;
+    card.dp_applied           = config_.require_dp;
+    card.min_utility_reported = min_utility_reported_;
+    card.max_utility_reported = max_utility_reported_;
+    card.rollback_count       = rollback_count_;
+    card.policy_blocks        = policy_block_count_;
+    card.registered_students  = students_.size();
+    return card;
 }
 
 } // namespace distributed_knowledge

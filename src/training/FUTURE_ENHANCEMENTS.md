@@ -282,10 +282,12 @@ Implement end-to-end provenance tracking for every training sample from source d
 - `[x]` Secure aggregation path uses non-raw gradient payloads, FedAvg/median aggregation, and Gaussian DP protection.
 - `[x]` Non-IID/drift and poisoning/failure resilience validated with integration + OR test suites.
 - `[x]` Canary and rollback path uses existing adapter lifecycle APIs with governance enforcement and audit records.
+- `[x]` `DistillationModelCard` governance snapshot added: `generateModelCard()` captures rounds, DP accounting, utility range, policy blocks, rollback count.
+- `[x]` Threat model documented in `docs/en/security/FEDERATED_DISTILLATION_THREAT_MODEL.md`: T-1 (membership inference), T-2 (model inversion), T-3 (Byzantine teacher), T-4 (rollback DoS), T-5 (budget exhaustion), T-6 (audit leakage); SEC-FDF-01..07 requirements.
 
 ### Test Strategy
 - Focused unit/integration coverage in:
-  - `tests/test_federated_distillation_coordinator.cpp` — FDF-01..10 (submit, broadcast, DP noise validity, policy gate, audit, rollback trigger, budget exhaustion)
+  - `tests/test_federated_distillation_coordinator.cpp` — FDF-01..15 (submit, broadcast, DP noise validity, policy gate, audit, rollback trigger, budget exhaustion, privacy invariant/no cleartext, require_dp=false path, multi-round, reset, model card)
   - `tests/test_incremental_lora_trainer.cpp`
   - `tests/test_distributed_knowledge_integration.cpp`
   - `tests/test_distributed_knowledge_or.cpp`
