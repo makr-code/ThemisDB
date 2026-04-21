@@ -18157,7 +18157,7 @@ else()
     message(STATUS "API Gateway Enhancements focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_api_gateway_enhancements.cpp")
 endif()
 
-# DatabaseMaintenanceOrchestrator ÔÇô focused tests for CRUD, jobs, and health
+# DatabaseMaintenanceOrchestrator - focused tests for CRUD, jobs, and health
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_database_maintenance_orchestrator.cpp")
     message(STATUS "Adding Database Maintenance Orchestrator focused tests")
 
