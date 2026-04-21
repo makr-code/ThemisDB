@@ -1,9 +1,15 @@
 > ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
 
-<!-- Status: current | validated: 2026-04-19 -->
+<!-- Status: CRITICAL FINDINGS | validated: 2026-04-21 (full source code analysis of wire_protocol_server.cpp) -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Network Module
+
+**Last Audit:** 2026-04-21 | **Status:** 🔴 Critical — 1×S0 unauthenticated TS reads + 4×S1 (auth bypass, integer overflow, missing frame validation)
+
+> **Note:** Previous audit claimed "Status: ✅ Complete" for `wire_protocol_server.cpp`.
+> Direct source analysis found an unauthenticated opcode handler, an integer overflow in the
+> frame size guard, a development-mode auth bypass, and missing frame magic validation.
 
 ## Module Overview
 
@@ -89,7 +95,129 @@ It also provides connection pooling, Raft-coordinated load balancing, adaptive c
 
 ---
 
-## Audit Sign-off
+## Findings — `wire_protocol_server.cpp`
+
+### S0 — Critical
+
+#### WPS-1 · `wire_protocol_server.cpp` · `handleTimeseriesQuery()` — Missing authentication check (L1756)
+
+Every other data handler (`GET`, `PUT`, `DELETE`, `BATCH_GET`, `BATCH_PUT`, `VECTOR_SEARCH`,
+`GRAPH_TRAVERSE`, `QUERY_AQL`, `GEO_QUERY`, `BPMN_START`, `CURSOR_NEXT`, `CURSOR_CLOSE`)
+begins with:
+
+```cpp
+if (!authenticated_.load()) {
+    sendError(401, "Authentication required");
+    return;
+}
+```
+
+`handleTimeseriesQuery()` (opcode `0x51`) does **not**:
+
+```cpp
+void WireProtocolServer::Session::handleTimeseriesQuery() {
+    // Check if TSStore is available          ← NO AUTH CHECK
+    if (!server_->ts_store_) { ... }
+    // proceeds directly to TS collection reads
+```
+
+Any unauthenticated wire-protocol client sending opcode `0x51` can read any time-series
+collection without authentication.
+
+**Fix required:** Add `if (!authenticated_.load()) { sendError(401, ...); return; }` at the
+top of `handleTimeseriesQuery()`, consistent with all other data handlers.
+
+---
+
+### S1 — High
+
+#### WPS-3 · `wire_protocol_server.cpp` · Dev-mode auth bypass (L1032–1034)
+
+When `config_.auth_token` is empty but `require_auth = true`, any non-empty token is accepted:
+
+```cpp
+} else {
+    // No token configured: accept any non-empty token (development mode).
+    accepted = !token.empty();
+}
+```
+
+This state arises in production from a missing secret env-var. One-character tokens
+authenticate fully.
+
+**Fix required:** When `auth_token` is empty and `require_auth = true`, reject all connections
+with a clear configuration error log rather than silently accepting any token.
+
+---
+
+#### WPS-4 · `wire_protocol_server.cpp` · Frame magic bytes never validated (L531–549)
+
+The 4-byte frame magic `0x544D4442` ("TMDB") at header bytes 0–3 is never checked. Any
+12-byte payload triggers `asyncReadPayload()` with an attacker-controlled size and opcode.
+
+**Fix required:** Validate the 4-byte magic field in `asyncReadHeader()` and close the
+connection immediately on mismatch.
+
+---
+
+#### WPS-5 · `wire_protocol_server.cpp` · Integer overflow in frame size guard (L545)
+
+```cpp
+if (payload_size > server_->config_.max_frame_size_mb * 1024 * 1024) {
+```
+
+If `max_frame_size_mb` is `uint32_t` and ≥ 4096, the multiplication wraps to 0, making the
+check `payload_size > 0`. All non-zero payloads pass. A client can force
+`payload_buffer_.resize(UINT32_MAX)` (~4 GB) — remote DoS.
+
+**Fix required:** Cast before multiplication:
+```cpp
+if (payload_size > static_cast<uint64_t>(server_->config_.max_frame_size_mb) * 1024 * 1024)
+```
+
+---
+
+#### WPS-2 · `wire_protocol_server.cpp` · Auth token timing attack (L1030)
+
+```cpp
+accepted = (token == server_->config_.auth_token);
+```
+
+`std::string::operator==` is not constant-time. Leaks prefix/length of the pre-shared token
+via timing side-channel.
+
+**Fix required:** Use a constant-time comparison (e.g., `CRYPTO_memcmp` from OpenSSL).
+
+---
+
+### S2 — Medium
+
+| ID | Location | Description |
+|----|----------|-------------|
+| WPS-6 | L325–328 | Per-minute rate counter reset every second — `max_requests_per_minute` limit is inoperative |
+| WPS-7 | L1245, L1320 | No element count cap on `BATCH_GET`/`BATCH_PUT` arrays — DoS via large batches |
+| WPS-8 | L1686 | Vector search `k` has no upper bound — allocation DoS |
+| WPS-9 | L318 | `rate_limits_` map grows without bound — memory exhaustion via IP cycling |
+| WPS-10 | L443 | Same-IP sessions overwrite in `active_sessions_` — connection counter corruption |
+
+### S3 — Low
+
+| ID | Location | Description |
+|----|----------|-------------|
+| WPS-11 | L991–993 | `HELLO` response leaks `auth_required` and `auth_mechanism` to unauthenticated clients |
+
+---
+
+## Open Items (carried forward)
+
+| ID | Description | Priority | Target |
+|----|-------------|----------|--------|
+| NET-OPEN-01 | Full binary frame dispatch over WebSocket (currently text/JSON only) | High | Q3 2026 |
+| NET-OPEN-02 | Integration tests combining TLS handshake + WebSocket upgrade | High | Q3 2026 |
+| NET-OPEN-03 | Performance benchmarks for all transport paths (TCP/UDP/QUIC/gRPC/WS) | Medium | Q4 2026 |
+| NET-SEC-01 | IPv6 CIDR policies in `ZeroTrustPolicyEnforcer` | Medium | Q4 2026 |
+
+---
 
 | Date | Auditor | Verdict |
 |------|---------|---------|
