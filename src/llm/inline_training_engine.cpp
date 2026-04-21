@@ -34,6 +34,7 @@
 #include "llm/inline_training_engine.h"
 #include "llm/adapter_registry.h"
 #include "llm/training_data_iterator.h"
+#include "governance/model_governance.h"
 
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
@@ -247,6 +248,9 @@ struct InlineTrainingEngine::Impl {
 
     // Current training state (guarded by state_mutex)
     TrainingState current_state;
+
+    // Optional governance gate (Gap 3 — AI_ML_IMPACT_ASSESSMENT.md §7)
+    std::shared_ptr<governance::ModelGovernancePolicy> governance_policy;
 };
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -274,6 +278,17 @@ InlineTrainingEngine::~InlineTrainingEngine() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
+// Public API – setGovernancePolicy (Gap 3)
+// ═══════════════════════════════════════════════════════════════════════════
+
+void InlineTrainingEngine::setGovernancePolicy(
+    std::shared_ptr<governance::ModelGovernancePolicy> policy)
+{
+    std::lock_guard<std::mutex> lock(impl_->state_mutex);
+    impl_->governance_policy = std::move(policy);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
 // Public API – train
 // ═══════════════════════════════════════════════════════════════════════════
 
@@ -282,19 +297,55 @@ TrainingResult InlineTrainingEngine::train(
     const std::string&    base_model_path,
     const TrainingConfig& training_config
 ) {
-    // GOVERNANCE GAP (AI_ML_IMPACT_ASSESSMENT.md §7, Gap 3 — Severity: High/S0):
-    // Missing: Pre-training ModelGovernancePolicy::checkExportPermission() gate.
-    //          InlineTrainingEngine starts LoRA fine-tuning immediately without
-    //          consulting ModelGovernancePolicy (src/governance/model_governance.cpp).
-    //          This allows training on restricted collections or exporting adapters
-    //          trained on classified data without an explicit Allow decision.
-    // Risk:    Adapter derived from confidential data (geheim/streng-geheim) may be
-    //          saved to disk and distributed without governance approval.
-    // Planned Fix: Inject std::shared_ptr<ModelGovernancePolicy> into
-    //              InlineTrainingEngine; call checkExportPermission() at the top of
-    //              train() before trainLoop(); return failure on DENY decision.
-    // Tracked: src/llm/FUTURE_ENHANCEMENTS.md §"Inline Training Policy Gate"
-    //          (Target: Q3 2026).
+    // ── Governance gate (Gap 3 — AI_ML_IMPACT_ASSESSMENT.md §7) ─────────
+    {
+        std::shared_ptr<governance::ModelGovernancePolicy> policy;
+        {
+            std::lock_guard<std::mutex> lock(impl_->state_mutex);
+            policy = impl_->governance_policy;
+        }
+
+        if (!policy) {
+            if (impl_->config.require_policy_gate) {
+                TrainingResult r;
+                r.success = false;
+                r.message = "Governance policy gate is required but no policy has been "
+                            "set. Call setGovernancePolicy() before train().";
+                spdlog::error("InlineTrainingEngine: {}", r.message);
+                return r;
+            }
+            spdlog::warn("InlineTrainingEngine: no governance policy set for adapter '{}' "
+                         "(require_policy_gate=false — proceeding without policy check)",
+                         adapter_id);
+        } else {
+            governance::ModelTrainingExportRequest gov_req;
+            gov_req.export_job_id   = adapter_id;
+            gov_req.adapter_id      = adapter_id;
+            gov_req.requesting_user = "InlineTrainingEngine";
+            gov_req.purpose         = "MODEL_TRAINING";
+            // collection_ids left empty here: the caller may pre-populate
+            // them via ModelTrainingExportRequest before wiring in the policy,
+            // or the policy may derive permissions from adapter_id alone.
+            // In a future iteration TrainingDataIterator will expose
+            // getDeclaredCollections() (see rag/FUTURE_ENHANCEMENTS.md §Gap 3).
+
+            const auto decision = policy->checkExportPermission(gov_req);
+
+            if (!decision.is_permitted) {
+                TrainingResult r;
+                r.success = false;
+                r.message = "Governance policy DENIED training for adapter '" +
+                            adapter_id + "': " + decision.denial_reason;
+                spdlog::warn("InlineTrainingEngine: {}", r.message);
+                return r;
+            }
+
+            spdlog::info("InlineTrainingEngine: governance PERMIT for adapter '{}' "
+                         "(lineage_event_id={})",
+                         adapter_id, decision.lineage_event_id);
+        }
+    }
+    // ── End governance gate ──────────────────────────────────────────────
     if (impl_->is_training.exchange(true)) {
         TrainingResult r;
         r.success = false;

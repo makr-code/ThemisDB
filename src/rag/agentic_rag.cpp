@@ -181,28 +181,17 @@ AgenticRAGResult AgenticRAG::run(
 {
     impl_->cancel_requested.store(false, std::memory_order_relaxed);
 
-    // GOVERNANCE GAP (AI_ML_IMPACT_ASSESSMENT.md §7, Gap 4 — Severity: Medium/S1):
-    // Missing: Session-level cumulative token-cost budget cap.
-    //          AgenticRAG enforces max_iterations (default: 5) and a doc-count limit,
-    //          but has no upper bound on the total tokens consumed across all
-    //          iterations (retrieval LLM calls + judge LLM calls combined).
-    //          On a slow-converging query this can exhaust GPU/API token budgets
-    //          silently and only fail once the LLM backend hits its own rate limit.
-    // Risk:    Uncontrolled token spend per agentic session; potential DoS of the
-    //          shared LLM endpoint when many concurrent sessions run.
-    // Planned Fix: Add AgenticRAGConfig::max_session_tokens (default: 16384); track
-    //              cumulative token usage from each iteration's InferenceResponse;
-    //              break the loop with StopReason::BUDGET_EXCEEDED when exceeded.
-    // Tracked: src/rag/FUTURE_ENHANCEMENTS.md §"Session Token-Budget Cap for AgenticRAG"
-    //          (Target: Q3 2026).
     const auto loop_start = std::chrono::steady_clock::now();
 
-    THEMIS_INFO("AgenticRAG::run started: query='{}', initial_docs={}, max_iter={}",
-                initial_query, initial_docs.size(), impl_->config.max_iterations);
+    THEMIS_INFO("AgenticRAG::run started: query='{}', initial_docs={}, max_iter={}, "
+                "max_session_tokens={}",
+                initial_query, initial_docs.size(), impl_->config.max_iterations,
+                impl_->config.max_session_tokens);
 
     AgenticRAGResult result;
-    result.stop_reason    = StopReason::MAX_ITERATIONS;
+    result.stop_reason       = StopReason::MAX_ITERATIONS;
     result.quality_satisfied = false;
+    result.tokens_consumed   = 0;
 
     // Accumulated document pool and seen-ID tracker.
     std::vector<judge::RetrievedDocument> accumulated;
@@ -219,6 +208,35 @@ AgenticRAGResult AgenticRAG::run(
             result.stop_reason = StopReason::CANCELLED;
             break;
         }
+
+        // ── Session token-budget check (Gap 4) ────────────────────────────
+        // Best-effort token accounting: estimate the tokens that will be
+        // consumed by this iteration as 1 token per 4 characters of document
+        // content (a conservative approximation).  Full integration with
+        // LLMTokenBudgetManager (Gap 6) will replace this heuristic once that
+        // component is available (see rag/FUTURE_ENHANCEMENTS.md §Gap 4).
+        if (impl_->config.max_session_tokens > 0) {
+            size_t iter_token_estimate = 0;
+            const auto& eval_docs =
+                impl_->config.accumulate_documents ? accumulated : initial_docs;
+            for (const auto& doc : eval_docs) {
+                iter_token_estimate += doc.content.size() / 4 + 1;
+            }
+            // Also account for the query prompt itself.
+            iter_token_estimate += current_query.size() / 4 + 1;
+
+            if (result.tokens_consumed + iter_token_estimate >
+                    impl_->config.max_session_tokens) {
+                THEMIS_WARN("AgenticRAG session token budget exceeded at iteration {}: "
+                            "consumed={}, estimate={}, limit={}",
+                            iter, result.tokens_consumed, iter_token_estimate,
+                            impl_->config.max_session_tokens);
+                result.stop_reason = StopReason::BUDGET_EXCEEDED;
+                break;
+            }
+            result.tokens_consumed += iter_token_estimate;
+        }
+        // ─────────────────────────────────────────────────────────────────
 
         const auto iter_start = std::chrono::steady_clock::now();
 
@@ -336,10 +354,11 @@ AgenticRAGResult AgenticRAG::run(
         loop_end - loop_start);
 
     THEMIS_INFO("AgenticRAG::run complete: iterations={}, stop_reason={}, "
-                "quality_satisfied={}, elapsed={}ms",
+                "quality_satisfied={}, tokens_consumed={}, elapsed={}ms",
                 result.total_iterations,
                 static_cast<int>(result.stop_reason),
                 result.quality_satisfied,
+                result.tokens_consumed,
                 result.total_elapsed_ms.count());
 
     return result;

@@ -35,6 +35,12 @@
 #include "training_data_iterator.h"
 #include "gguf_st_adapter.h"
 
+// Forward-declare governance types so callers don't need to include
+// the full governance header unless they actually call setGovernancePolicy().
+namespace themis::governance {
+    class ModelGovernancePolicy;
+}
+
 namespace themis::llm {
 
 // Forward declarations
@@ -181,6 +187,13 @@ struct InlineTrainingConfig {
     
     // Seed for reproducibility
     std::optional<int> seed;
+
+    // Governance: when true, train() fails immediately if no governance
+    // policy is set (or if the policy returns DENY).  When false (default),
+    // a missing policy only emits a WARN and allows the job to proceed.
+    // Set to true in production environments; leave false for unit tests
+    // that do not inject a governance policy.
+    bool require_policy_gate = false;
     
     nlohmann::json toJSON() const;
     static InlineTrainingConfig fromJSON(const nlohmann::json& j);
@@ -227,6 +240,23 @@ public:
     );
     
     ~InlineTrainingEngine();
+
+    /**
+     * @brief Inject a governance policy used to gate training jobs.
+     *
+     * When set, train() calls ModelGovernancePolicy::checkExportPermission()
+     * before starting the training loop.  A DENY decision causes train() to
+     * return immediately with success=false and a human-readable denial reason.
+     *
+     * Passing nullptr clears the policy.  If InlineTrainingConfig::require_policy_gate
+     * is true and policy is nullptr, train() will also return failure to prevent
+     * ungoverned training in strict environments.
+     *
+     * Thread-safe: the stored shared_ptr is replaced atomically via the
+     * engine's internal mutex before the next train() call reads it.
+     */
+    void setGovernancePolicy(
+        std::shared_ptr<governance::ModelGovernancePolicy> policy);
     
     /**
      * @brief Train a new LoRA adapter

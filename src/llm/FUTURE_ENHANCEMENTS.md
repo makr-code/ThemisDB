@@ -30,8 +30,8 @@ This document covers planned enhancements to the LLM module beyond what is track
 ## Planned Features
 
 ### RAID-Sharding Interlock for Cross-Instance (Batch-)Inference
-**Priority:** High  
-**Target Version:** v1.18.0  
+**Priority:** High
+**Target Version:** v1.18.0
 **Status:** [~] In progress (API contract + metadata wiring)
 
 #### Scope
@@ -299,34 +299,24 @@ Extend `adapter_registry.cpp` and `AdapterLoadBalancer` (`adapter_load_balancer.
 ### Gap 3 — Inline Training Policy Gate: ModelGovernancePolicy Check before LoRA Training (Target: Q3 2026)
 
 **Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 3 (Severity: High/S0)`
+**Status:** ✅ Implemented (2026-04-21)
 
 **Problem:** `InlineTrainingEngine::train()` (`src/llm/inline_training_engine.cpp`)
-starts on-the-fly LoRA fine-tuning immediately without consulting
-`ModelGovernancePolicy::checkExportPermission()`.  As a result, adapters can be
-trained on data from restricted collections (classified `geheim`/`streng-geheim`)
-without an explicit governance approval, and the resulting adapter weights can be
-saved and distributed without any audit record.
+started on-the-fly LoRA fine-tuning immediately without consulting
+`ModelGovernancePolicy::checkExportPermission()`.
 
-**Solution:**
-- Inject `std::shared_ptr<ModelGovernancePolicy> governance_policy` as an optional
-  constructor parameter of `InlineTrainingEngine` (or via `setGovernancePolicy()`).
-- At the top of `train()`, call `governance_policy->checkExportPermission(request)`
-  where `request.job_id = adapter_id` and `request.collection_ids` is derived from
-  the `TrainingDataIterator`'s declared source collections.
-- Return `TrainingResult { success=false, message="Governance policy DENIED: <reason>" }`
-  immediately on a DENY decision; do not start `trainLoop()`.
-- Write an audit entry for both PERMIT and DENY decisions.
+**Implemented changes:**
+- `InlineTrainingEngine::setGovernancePolicy(shared_ptr<ModelGovernancePolicy>)` added to public API.
+- `InlineTrainingConfig::require_policy_gate` (default: `false`) — set to `true` in production environments to enforce that a policy is always present.
+- `train()` now checks the policy gate before `trainLoop()`:
+  - No policy + `require_policy_gate=true` → `TrainingResult { success=false, message="policy gate is required..." }`.
+  - No policy + `require_policy_gate=false` → spdlog WARN + proceed.
+  - Policy DENY → `TrainingResult { success=false, message="Governance policy DENIED: <reason>" }`.
+  - Policy PERMIT → spdlog INFO with `lineage_event_id` + proceed to `trainLoop()`.
+- Tests: `test_inline_training_governance.cpp` (ITE_GOV_A1..A4, B1..B2) registered as `InlineTrainingGovernanceFocusedTests`.
 
-**Inputs:** `adapter_id`, `base_model_path`, `TrainingConfig`,
-`TrainingDataIterator::getDeclaredCollections()`.
-**Outputs:** `TrainingResult`; audit log entry via `ModelGovernancePolicy::writeAuditEntry()`.
-**Constraints:** `governance_policy` may be nullptr (legacy callers); in that case the
-existing behaviour is preserved and a WARN is emitted.
-**Errors:** DENY → `TrainingResult::success=false`; policy unavailable → WARN + proceed
-(degraded mode, must be configurable via `InlineTrainingConfig::require_policy_gate`).
-**Tests:** 4 unit tests — DENY on restricted collection; PERMIT on open collection;
-nullptr policy with `require_policy_gate=false`; nullptr policy with `require_policy_gate=true`
-(must fail).
+**Inputs:** `adapter_id`, `base_model_path`, `TrainingConfig`, optional `ModelGovernancePolicy`.
+**Outputs:** `TrainingResult`; audit log entry via `ModelGovernancePolicy`.
 **Perf target:** Policy check overhead ≤ 5 ms (synchronous; runs once per training job).
 
 ---

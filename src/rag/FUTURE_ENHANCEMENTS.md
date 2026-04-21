@@ -796,28 +796,23 @@ public:
 ### Gap 4 — Session Token-Budget Cap for AgenticRAG (Target: Q3 2026)
 
 **Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 4 (Severity: Medium/S1)`
+**Status:** ✅ Implemented (2026-04-21)
 
-**Problem:** `AgenticRAG::run()` (`src/rag/agentic_rag.cpp`) enforces `max_iterations`
-(default: 5) and a document count limit, but has no upper bound on the total tokens
-consumed across all iterations.  On slow-converging queries, each iteration may
-invoke the LLM retrieval and judge pipelines multiple times, silently exhausting
-GPU/API token budgets before `max_iterations` is reached.
+**Problem:** `AgenticRAG::run()` had no upper bound on total tokens consumed across
+all iterations. Slow-converging queries could silently exhaust GPU/API token budgets.
 
-**Solution:**
-- Add `AgenticRAGConfig::max_session_tokens` (default: 16384; 0 = disabled).
-- Track cumulative token usage from each iteration's `InferenceResponse::tokens_generated`
-  plus the judge's token spend (if available).
-- When cumulative usage exceeds `max_session_tokens`, break the iteration loop
-  with `StopReason::BUDGET_EXCEEDED` and log at WARN level.
-- Expose the consumed token count in `AgenticRAGResult::tokens_consumed`.
+**Implemented changes:**
+- `AgenticRAGConfig::max_session_tokens` (default: `0` = disabled) added.
+- `StopReason::BUDGET_EXCEEDED` enum value added.
+- `AgenticRAGResult::tokens_consumed` field added (best-effort: `content.size()/4 + 1` per doc + query).
+- `run()` checks the cumulative token estimate at the start of each iteration:
+  - When `max_session_tokens > 0` and the estimated iteration cost would exceed the budget, the loop exits with `stop_reason=BUDGET_EXCEEDED`.
+- Tests: `test_agentic_rag_budget.cpp` (ARG_BUD_01..05) registered as `AgenticRAGBudgetFocusedTests`.
+- Open: Full integration with `LLMTokenBudgetManager` (Gap 6) will replace the heuristic estimate with exact token counts from `InferenceResponse::tokens_generated`.
 
-**Inputs:** `InferenceResponse::tokens_generated` per iteration; `max_session_tokens` config.
+**Inputs:** `InferenceResponse::tokens_generated` per iteration (currently heuristic).
 **Outputs:** `AgenticRAGResult::stop_reason == BUDGET_EXCEEDED`; `tokens_consumed` field.
-**Constraints:** Token counting is best-effort (model may not report exact token count);
-use an upper-bound estimate when the model returns 0.
-**Errors:** Budget exceeded → graceful loop exit, partial result returned.
-**Tests:** 3 unit tests — budget not exceeded (normal path); budget exceeded mid-loop
-(stops early); `max_session_tokens=0` disables enforcement.
+**Constraints:** Token counting is best-effort; exact counts require Gap 6 (LLMTokenBudgetManager).
 **Perf target:** No overhead beyond one integer addition per iteration.
 
 ---

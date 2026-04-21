@@ -5853,6 +5853,61 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_model_governance.cpp")
     message(STATUS "  Model Governance: training export request, bias audit, data lineage, checkExportAllowed")
 endif()
 
+# Inline Training Governance gate tests (Gap 3 — AI_ML_IMPACT_ASSESSMENT.md §7)
+# Tests ModelGovernancePolicy permit/deny and InlineTrainingConfig::require_policy_gate API.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_inline_training_governance.cpp")
+    message(STATUS "Adding InlineTrainingGovernance gate tests (Gap 3 — ITE_GOV_A1..A4, B1..B2)")
+    add_executable(test_inline_training_governance_focused
+        test_inline_training_governance.cpp
+    )
+    target_include_directories(test_inline_training_governance_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+    target_link_libraries(test_inline_training_governance_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_inline_training_governance_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME InlineTrainingGovernanceFocusedTests
+             COMMAND test_inline_training_governance_focused)
+    set_tests_properties(InlineTrainingGovernanceFocusedTests PROPERTIES
+        LABELS "governance;training;inline-training;policy-gate;gap3;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  InlineTrainingGovernance: ITE_GOV_A1..A4 policy permit/deny, B1..B2 config API")
+endif()
+
+# AgenticRAG session token-budget cap tests (Gap 4 — AI_ML_IMPACT_ASSESSMENT.md §7)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_agentic_rag_budget.cpp")
+    message(STATUS "Adding AgenticRAG budget cap tests (Gap 4 — ARG_BUD_01..05)")
+    add_executable(test_agentic_rag_budget_focused
+        test_agentic_rag_budget.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/agentic_rag.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+    target_include_directories(test_agentic_rag_budget_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+    target_link_libraries(test_agentic_rag_budget_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_agentic_rag_budget_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME AgenticRAGBudgetFocusedTests
+             COMMAND test_agentic_rag_budget_focused)
+    set_tests_properties(AgenticRAGBudgetFocusedTests PROPERTIES
+        LABELS "rag;agentic-rag;budget;token-budget;gap4;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  AgenticRAGBudget: ARG_BUD_01..05 budget cap, BUDGET_EXCEEDED stop reason, tokens_consumed")
+endif()
+
 # Governance ÔÇô compliance + security integration focused tests (Issue: #1778)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_compliance_security_governance.cpp")
     message(STATUS "Adding Compliance & Security Governance integration tests (Issue #1778)")
@@ -23057,7 +23112,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plu
         fmt::fmt
     )
     target_compile_features(test_llama_cpp_plugin PRIVATE cxx_std_17)
-    target_compile_definitions(test_llama_cpp_plugin PRIVATE THEMIS_PLUGIN_EXPORTS)
+    target_compile_definitions(test_llama_cpp_plugin PRIVATE
+        THEMIS_PLUGIN_EXPORTS
+        # Enable the stub-echo path (loadModel("","") returns success=true) so
+        # existing tests D2/D3/E1/E2 continue to work.  Production builds must NOT
+        # define this macro — see llama_cpp/FUTURE_ENHANCEMENTS.md §6 (Gap 1).
+        THEMIS_LLAMA_CPP_STUB_MODE
+    )
     add_test(NAME LlamaCppPluginFocusedTests COMMAND test_llama_cpp_plugin)
     set_tests_properties(LlamaCppPluginFocusedTests PROPERTIES
         LABELS "plugins;llama_cpp;llm;v2.1.0"

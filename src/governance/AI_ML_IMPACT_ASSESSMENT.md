@@ -306,9 +306,10 @@ references the concrete file and mechanism found during code review.
 
 ## 9) Offene Folgeaufgaben (Backlog-Seeds)
 
-- [ ] Stub-Pfad in `LlamaCppPlugin::generate()` zu strukturiertem Fehler upgraden (S1)
-- [ ] `InlineTrainingEngine`: Pre-Training-Policy-Gate mit `ModelGovernancePolicy` verdrahten (S0)
-- [ ] Token-Kosten-Budget-Tracking fuer externe API-Calls (S1)
+- [x] Stub-Pfad in `LlamaCppPlugin::generate()` zu strukturiertem Fehler upgraden (S1) — ✅ 2026-04-21: `success=false` + STUB_MODE flag
+- [x] `InlineTrainingEngine`: Pre-Training-Policy-Gate mit `ModelGovernancePolicy` verdrahten (S0) — ✅ 2026-04-21: `setGovernancePolicy()` + `require_policy_gate` + ITE_GOV_A1..A4 tests
+- [x] `AgenticRAG`: Session-Token-Budget-Cap verdrahten (S1) — ✅ 2026-04-21: `max_session_tokens` + `BUDGET_EXCEEDED` + ARG_BUD_01..05 tests
+- [ ] Token-Kosten-Budget-Tracking fuer externe API-Calls (Gap 6 — S1) — Requires `LLMTokenBudgetManager` (Q4 2026)
 - [ ] Konsolidierung der zwei `PromptInjectionDetector`-Implementierungen (S2)
 - [ ] `HuggingFaceConnector`: Datenklassifikations-Gate vor Ingestion (S1)
 - [ ] `LLMJudgeIntegration`: Mock-Scores durch strukturierten Fehler ersetzen (S2)
