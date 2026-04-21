@@ -1,4 +1,4 @@
-# Modular Build Configuration for ThemisDB
+﻿# Modular Build Configuration for ThemisDB
 # This feature is planned for post-v1.3.0 release
 # See docs/architecture/MODULARIZATION_PLAN.md for details
 
@@ -31,6 +31,10 @@ if(THEMIS_BUILD_MODULAR)
     option(THEMIS_MODULE_TIMESERIES "Include time-series module" ON)
     option(THEMIS_MODULE_SHARDING "Include distributed sharding module" ON)
     option(THEMIS_MODULE_INGESTION "Include ingestion module (all data-intake connectors)" ON)
+    option(THEMIS_MODULES_ENABLE_UNITY "Enable Unity Build for modular libraries on MSVC" ON)
+    set(THEMIS_MODULES_UNITY_BATCH_SIZE "20" CACHE STRING "Unity batch size for modular libraries")
+    set(THEMIS_MODULES_UNITY_ALLOWLIST "network;query" CACHE STRING
+        "Semicolon-separated module names for Unity Build (or ALL)")
 endif()
 
 # Helper function to create a modular library target
@@ -65,6 +69,32 @@ function(themis_add_module MODULE_NAME)
     
     # C++20 standard
     target_compile_features(themis_${MODULE_NAME} PUBLIC cxx_std_20)
+
+    # Unity Build rollout for modular targets on MSVC.
+    # Guarded by allowlist to prevent broad ODR/macro collisions.
+    if(MSVC AND THEMIS_MODULES_ENABLE_UNITY)
+        set(_themis_enable_unity_for_module OFF)
+        if(THEMIS_MODULES_UNITY_ALLOWLIST STREQUAL "ALL")
+            set(_themis_enable_unity_for_module ON)
+        else()
+            set(_themis_unity_modules ${THEMIS_MODULES_UNITY_ALLOWLIST})
+            list(FIND _themis_unity_modules "${MODULE_NAME}" _themis_unity_module_idx)
+            if(NOT _themis_unity_module_idx EQUAL -1)
+                set(_themis_enable_unity_for_module ON)
+            endif()
+        endif()
+
+        if(_themis_enable_unity_for_module)
+            set_target_properties(themis_${MODULE_NAME} PROPERTIES
+                UNITY_BUILD ON
+                UNITY_BUILD_BATCH_SIZE ${THEMIS_MODULES_UNITY_BATCH_SIZE}
+            )
+        else()
+            set_target_properties(themis_${MODULE_NAME} PROPERTIES
+                UNITY_BUILD OFF
+            )
+        endif()
+    endif()
     
     # Link dependencies
     if(ARG_DEPENDENCIES)
@@ -1867,16 +1897,54 @@ function(themis_build_modular)
         list(APPEND _themis_network_deps themis_api_proto)
     endif()
 
+    # LNK1189 fix: >65535 exported symbols (WINDOWS_EXPORT_ALL_SYMBOLS ON) exceed
+    # the MSVC import-library limit. STATIC_MODULE avoids auto-export entirely;
+    # the server exe links it transitively through themis_core INTERFACE.
     themis_add_module(network
         SOURCES ${THEMIS_NETWORK_SOURCES}
         DEPENDENCIES ${_themis_network_deps}
+        STATIC_MODULE
     )
     if(MSVC)
+        set_target_properties(themis_network PROPERTIES
+            UNITY_BUILD ON
+            UNITY_BUILD_BATCH_SIZE 20
+        )
+        # Files that must NOT enter a unity batch:
+        # - monitoring_api_handler / index_api_handler: need per-file /bigobj;/Od
+        # - distributed_flame_graph: defines 'parseFolded' in anonymous namespace
+        #   which causes C2375 (redefinition / different linkage) when merged with
+        #   another TU that also defines an anonymous-namespace symbol of the same name
         set_source_files_properties(
             ${CMAKE_SOURCE_DIR}/src/server/monitoring_api_handler.cpp
             ${CMAKE_SOURCE_DIR}/src/server/index_api_handler.cpp
-            PROPERTIES COMPILE_OPTIONS "/bigobj;/Od;/Zm200"
+            PROPERTIES
+                SKIP_UNITY_BUILD_INCLUSION ON
+                COMPILE_OPTIONS "/bigobj;/Od;/Zm200"
         )
+        set_source_files_properties(
+            ${CMAKE_SOURCE_DIR}/src/observability/distributed_flame_graph.cpp
+            PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
+        )
+        # task_scheduler_api_handler.cpp defines an anonymous-namespace
+        # timePointToIso that conflicts with the namespace-level version in
+        # async_job_api_handler.cpp when both are merged into the same Unity TU.
+        set_source_files_properties(
+            ${CMAKE_SOURCE_DIR}/src/server/task_scheduler_api_handler.cpp
+            PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
+        )
+        # cdc_admin.cpp pulls in cdc::TenantConfig which is ambiguous with
+        # themis::TenantConfig from server/tenant_manager.h in the same Unity TU.
+        set_source_files_properties(
+            ${CMAKE_SOURCE_DIR}/src/cdc/cdc_admin.cpp
+            PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
+        )
+            # api_gateway.cpp defines an anonymous-namespace 'class Error' that
+            # becomes ambiguous with themis::Error when merged with other server files.
+            set_source_files_properties(
+                ${CMAKE_SOURCE_DIR}/src/server/api_gateway.cpp
+                PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
+            )
     endif()
     
     # Optional modules
@@ -1942,19 +2010,6 @@ function(themis_build_modular)
         endif()
         if(THEMIS_MODULE_GRAPH)
             target_link_libraries(themis_llm PUBLIC themis_graph)
-            if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
-                target_link_libraries(themis_llm_ext PUBLIC themis_graph)
-            endif()
-        endif()
-        target_include_directories(themis_llm PRIVATE
-            ${CMAKE_SOURCE_DIR}/llama.cpp/include
-            ${CMAKE_SOURCE_DIR}/llama.cpp/ggml/include
-        )
-        if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
-            target_include_directories(themis_llm_ext PRIVATE
-                ${CMAKE_SOURCE_DIR}/llama.cpp/include
-                ${CMAKE_SOURCE_DIR}/llama.cpp/ggml/include
-            )
         endif()
         if(THEMIS_ENABLE_MIMALLOC AND TARGET mimalloc)
             target_link_libraries(themis_llm PUBLIC mimalloc)

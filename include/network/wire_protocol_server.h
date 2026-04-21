@@ -279,6 +279,13 @@ public:
      */
     std::vector<QoSManager::TenantQuotaStats> getAllTenantBandwidthStats() const;
 
+    // Cursor entry used by paginated query responses.
+    struct CursorEntry {
+        nlohmann::json results;    // Full result set (JSON array)
+        size_t         offset = 0; // Next item index to return
+        int64_t        ttl_ms = 0; // Expiry (epoch ms); 0 = never
+    };
+
 private:
     class Session;  // Forward declaration
 
@@ -312,11 +319,6 @@ private:
 
     // Cursor registry: stores live AQL query results for batch pagination.
     // cursor_id -> {results as JSON array, current offset, TTL timestamp}
-    struct CursorEntry {
-        nlohmann::json results;    // Full result set (JSON array)
-        size_t         offset = 0; // Next item index to return
-        int64_t        ttl_ms = 0; // Expiry (epoch ms); 0 = never
-    };
     mutable std::mutex cursors_mutex_;
     std::unordered_map<std::string, CursorEntry> cursors_;
 
