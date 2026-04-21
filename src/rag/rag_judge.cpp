@@ -32,6 +32,8 @@
 #include "rag/completeness_evaluator.h"
 #include "rag/coherence_evaluator.h"
 #include "rag/nli_faithfulness_verifier.h"
+#include "rag/bias_detector.h"
+#include "rag/prompt_injection_detector.h"
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
 #include <algorithm>
@@ -64,6 +66,14 @@ struct RAGJudge::Impl {
     std::unique_ptr<RelevanceEvaluator> relevance_eval;
     std::unique_ptr<CompletenessEvaluator> completeness_eval;
     std::unique_ptr<CoherenceEvaluator> coherence_eval;
+
+    // AI Safety: prompt-injection screening
+    std::unique_ptr<security::PromptInjectionDetector> injection_detector;
+
+    // AI Safety: bias tracking across evaluations
+    std::unique_ptr<BiasDetector> bias_detector;
+    std::vector<EvaluationResult> eval_history;         ///< for bias analysis
+    std::vector<std::pair<double, size_t>> score_length_pairs; ///< for length bias
     
     // Cache for performance
     std::unordered_map<std::string, EvaluationResult> cache;
@@ -129,6 +139,12 @@ RAGJudge::RAGJudge(const RAGJudgeConfig& config)
     
     CoherenceEvaluator::Config coh_config;
     impl_->coherence_eval = std::make_unique<CoherenceEvaluator>(coh_config);
+
+    // AI Safety: prompt-injection detector (always instantiated; guarded by config flag at call-site)
+    impl_->injection_detector = std::make_unique<security::PromptInjectionDetector>();
+
+    // AI Safety: bias tracker
+    impl_->bias_detector = std::make_unique<BiasDetector>();
     
     THEMIS_INFO("RAG Judge initialized with mode: {}, model: {}", 
                 static_cast<int>(config.mode), config.judge_model);
@@ -186,7 +202,66 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
     
     EvaluationResult result;
     result.judge_model = impl_->config.judge_model;
-    
+
+    // ── AI Safety: prompt-injection screening ──────────────────────────────
+    if (impl_->config.enable_prompt_injection_screening &&
+        impl_->injection_detector &&
+        !input.documents.empty()) {
+
+        auto scan_results = impl_->injection_detector->scanDocuments(input);
+        size_t total_findings = 0;
+        bool high_severity_found = false;
+
+        for (const auto& sr : scan_results) {
+            total_findings += sr.findings.size();
+            if (sr.is_blocked()) {
+                high_severity_found = true;
+            }
+        }
+
+        result.injection_screened     = true;
+        result.injection_findings_count = total_findings;
+
+        if (high_severity_found) {
+            result.injection_blocked = true;
+            result.passed_quality_threshold = false;
+            result.overall_score = 0.0;
+            result.faithfulness_score = 0.0;
+            result.relevance_score = 0.0;
+            result.completeness_score = 0.0;
+            result.coherence_score = 0.0;
+            result.ethical_compliance_score = 0.0;
+            result.respects_human_autonomy = true;
+            result.shows_moral_diversity   = true;
+            result.has_ethical_citations   = true;
+            result.ethical_violations.emplace_back(
+                "INJECTION_BLOCKED: HIGH or CRITICAL severity injection pattern detected "
+                "in retrieved documents. Evaluation aborted.");
+            THEMIS_WARN("RAGJudge::evaluate: injection blocked ({} findings). "
+                        "Evaluation aborted for query: {}",
+                        total_findings, input.query);
+
+            if (!impl_->config.block_on_high_severity_injection) {
+                // Configured not to block — log a warning but continue
+                result.injection_blocked = false;
+                THEMIS_WARN("block_on_high_severity_injection=false: "
+                            "continuing evaluation despite HIGH severity injection findings");
+            } else {
+                auto end_time = std::chrono::steady_clock::now();
+                result.evaluation_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+                    end_time - start_time);
+                return result;
+            }
+        }
+
+        if (total_findings > 0) {
+            THEMIS_WARN("RAGJudge::evaluate: {} injection finding(s) in retrieved docs "
+                        "(max severity < HIGH) for query: {}",
+                        total_findings, input.query);
+        }
+    }
+    // ── end injection screening ────────────────────────────────────────────
+
     // Initialize ethical fields
     result.ethical_compliance_score = 0.0;
     result.respects_human_autonomy = true;
@@ -351,7 +426,17 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
         auto cache_key = impl_->computeCacheKey(input.query, input.generated_answer);
         impl_->cache[cache_key] = result;
     }
-    
+
+    // ── AI Safety: bias tracking ────────────────────────────────────────────
+    if (impl_->config.enable_bias_tracking && impl_->bias_detector &&
+        !result.injection_blocked) {
+        impl_->eval_history.push_back(result);
+        impl_->score_length_pairs.emplace_back(
+            result.overall_score,
+            input.generated_answer.size());
+    }
+    // ── end bias tracking ───────────────────────────────────────────────────
+
     // Callback
     if (impl_->eval_callback) {
         impl_->eval_callback(result);
@@ -468,6 +553,31 @@ void RAGJudge::setEvaluationCallback(
 void RAGJudge::clearCache() {
     impl_->cache.clear();
     THEMIS_DEBUG("Evaluation cache cleared");
+}
+
+RAGJudge::BiasAnalysisSummary RAGJudge::getBiasAnalysis() const {
+    BiasAnalysisSummary summary;
+    summary.samples_analyzed = impl_->eval_history.size();
+
+    if (!impl_->bias_detector ||
+        impl_->eval_history.empty() ||
+        impl_->score_length_pairs.empty()) {
+        return summary;
+    }
+
+    auto biases = impl_->bias_detector->analyzeAllBiases(impl_->eval_history);
+    for (const auto& b : biases) {
+        if (b.type == BiasType::LENGTH_BIAS && b.is_significant) {
+            summary.has_significant_length_bias = true;
+            summary.length_bias_magnitude       = b.bias_magnitude;
+        }
+        if (b.type == BiasType::POSITION_BIAS && b.is_significant) {
+            summary.has_significant_position_bias = true;
+            summary.position_bias_magnitude       = b.bias_magnitude;
+        }
+    }
+
+    return summary;
 }
 
 // Private evaluation methods (Phase 2: Using specialized evaluators)

@@ -30,6 +30,7 @@
  */
 
 #include "rag/batch_evaluator.h"
+#include "rag/prompt_injection_detector.h"
 #include "utils/logger.h"
 
 #include <algorithm>
@@ -359,17 +360,51 @@ BatchEvaluationResult BatchEvaluator::evaluateBatch(
         }
 
         if (metadataHasPromptInjectionScenario(input)) {
+            // Metadata-tagged red-team scenario: use the actual PromptInjectionDetector
+            // on the retrieved documents to measure whether the injection succeeded.
             ++prompt_injection_cases;
-            bool succeeded = false;
-            auto it = input.metadata.find("attack_succeeded");
-            if (it != input.metadata.end()) {
-                parseBool(it->second, succeeded);
+
+            // If RAGJudge already blocked the evaluation, that counts as detector-detected.
+            if (result.injection_blocked) {
+                // Blocked = detector found HIGH+ severity: injection did NOT succeed past guardrail
+                // (attack was detected and stopped). Do NOT count as success.
+            } else if (result.injection_screened && result.injection_findings_count > 0) {
+                // Screened but not blocked (MEDIUM or lower findings): partial detection
+                // Succeeded if overall quality still degraded significantly
+                bool quality_degraded =
+                    result.faithfulness_score < config_.faithfulness_hallucination_threshold ||
+                    !result.passed_quality_threshold;
+                if (quality_degraded) {
+                    ++prompt_injection_successes;
+                }
             } else {
-                succeeded = result.faithfulness_score < config_.faithfulness_hallucination_threshold ||
-                            !result.passed_quality_threshold;
-            }
-            if (succeeded) {
-                ++prompt_injection_successes;
+                // Documents were not screened by RAGJudge (screening disabled or no documents),
+                // or no findings at all. Run the detector inline to check the documents.
+                if (!input.documents.empty()) {
+                    security::PromptInjectionDetector detector;
+                    const auto scan_results = detector.scanDocuments(input);
+                    bool any_high = false;
+                    for (const auto& sr : scan_results) {
+                        if (sr.is_blocked()) {
+                            any_high = true;
+                            break;
+                        }
+                    }
+                    if (any_high) {
+                        // Detector would have flagged this but evaluation still ran (screening disabled)
+                        // → the injection attempt was not blocked → count as success
+                        ++prompt_injection_successes;
+                    }
+                }
+
+                // Fall back to metadata tag when detector finds nothing
+                auto it = input.metadata.find("attack_succeeded");
+                if (it != input.metadata.end()) {
+                    bool succeeded = false;
+                    if (parseBool(it->second, succeeded) && succeeded) {
+                        ++prompt_injection_successes;
+                    }
+                }
             }
         }
 
