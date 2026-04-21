@@ -320,11 +320,13 @@ HttpServer::HttpServer(
         // Non-fatal: geo features will be disabled
     }
     
-    // Diagnostic: log raw getenv value for admin token to verify visibility
-    try {
-        const char* _adm = std::getenv("THEMIS_TOKEN_ADMIN");
-        THEMIS_INFO("HttpServer ctor: getenv(THEMIS_TOKEN_ADMIN)='{}'", _adm ? _adm : "<null>");
-    } catch (...) {}
+    // GAP-011: Do NOT log the raw token value — log presence only to avoid
+    // leaking the secret into log files (CWE-532).
+    {
+        const bool admin_token_set = (std::getenv("THEMIS_TOKEN_ADMIN") != nullptr);
+        THEMIS_INFO("HttpServer ctor: THEMIS_TOKEN_ADMIN is {}",
+                    admin_token_set ? "set" : "not set");
+    }
     // Initialize ContentManager and register built-in processors
     // ContentManager wird nach Initialisierung von FieldEncryption erstellt (siehe weiter unten).
     // Hier zunächst nur Platzhalter (nullptr); tatsächliche Instanz folgt nach key_provider_/field_encryption_ Setup.
