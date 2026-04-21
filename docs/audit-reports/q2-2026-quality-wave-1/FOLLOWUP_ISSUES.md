@@ -18,12 +18,12 @@
 
 ## Cluster C — Performance Gate Completeness (S2)
 
-- [ ] **QA-W1-C1:** Fehlende Voice/GPU workflow hooks nachziehen (Target: Q2 2026)
-  - Scope: Performance workflow registry / benchmark CI hooks
-  - Acceptance:
-    - `tools/perf_expectations_audit.py --strict` ohne Voice/GPU-Warnungen
-    - Nightly benchmark sweep workflow nachweisbar
-    - orphan-benchmark-source guard in CI aktiv
+- [x] **QA-W1-C1:** Voice/GPU/Nightly workflow hooks aktiviert ✅ (2026-04-21)
+  - `.github/workflows/02-feature-modules_llm_voice-benchmark-ci.yml` → perf audit check #4d ✅
+  - `.github/workflows/06-infrastructure_gpu_gpu-benchmark-matrix-ci.yml` → perf audit check #5c ✅
+  - `.github/workflows/07-quality_nightly-benchmark-sweep.yml` → perf audit check #10a ✅
+  - `python3 tools/perf_expectations_audit.py --strict` → 9 Pass / 1 Warn / 0 Fail ✅
+  - `.github/WORKFLOW_REGISTRY.md` + `.github/WORKFLOW_GUIDELINES.md` aktualisiert
 
 ## Cluster D — Maintainability Debt Reduction (S2)
 
