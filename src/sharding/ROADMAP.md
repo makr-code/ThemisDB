@@ -32,10 +32,10 @@
 - [~] Full RPC integration for cross-shard read/write operations (`sharding/rpc/`) (Target: Q2 2026)
   - [x] `ShardRPCClient::writeEntity()` added — uses gRPC `ReplicateData` RPC for cross-shard entity writes
   - [~] `readKey` / `readEntity` gRPC RPC not yet in proto (planned Q3 2026); reads currently routed via HTTP `RemoteExecutor`
-- [~] Formal verification program for consensus and cross-shard transaction invariants (Target: Q3 2026)
-  - [ ] S0/S1 invariant set defined for Raft/Paxos/Gossip quorum safety, WAL recovery convergence, and cross-shard 2PC/3PC/SAGA/Percolator commit rules
-  - [ ] Code-to-model abstraction boundaries mapped for `raft_consensus.cpp`, `paxos_consensus.cpp`, `gossip_protocol.cpp`, `cross_shard_transaction.cpp`, `two_phase_commit_coordinator.cpp`
-  - [ ] CI model-checking gate for protocol-change PRs (TLA+/PlusCal) (Target: Q3 2026)
+- [~] Formal source code analysis of consensus/cross-shard invariants (Target: Q2 2026)
+  - [x] S0/S1 invariant violations identified in `raft_consensus.cpp`, `paxos_consensus.cpp`, `gossip_protocol.cpp`, `cross_shard_transaction.cpp`, `raft_wal_integration.cpp`, `distributed_transaction_manager.cpp`, `transaction_wal.cpp` (see `AUDIT.md`)
+  - [ ] Code fixes for PAX-1, PAX-2, PAX-3, GOS-1, CST-1, CST-2, CST-3, RWALI-1, RWALI-2 (S0 critical) (Target: Q2 2026)
+  - [ ] Code fixes for PAX-4, RAFT-1, RLOG-1, 2PC-2, DTM-1, DTM-2, DTM-3 (S1 high) (Target: Q2 2026)
 - [x] Persistent Paxos acceptor state (survives process restart) — **Fixed 2026-04-12**
   - `handlePrepare()` now calls `wal_->logPromise()` before returning PROMISE
   - `handleAccept()` now calls `wal_->logAccept()` before returning ACCEPTED
@@ -117,38 +117,89 @@ Sharding is a database architecture pattern that involves breaking a database in
   - `DrainGuard` RAII scope (move-only); `makeRequestGuard(shard_id)` factory
   - `waitForDrain(shard_id, timeout)` — `condition_variable`-based; `timeout=0` → skip; returns `true` if all requests drained before deadline
 
-### Phase 6: Formal Verification of Consensus and Cross-Shard Invariants (Status: In Progress 🚧)
-- [~] **Phase 1: Formal model**
-  - [ ] TLA+/PlusCal model package created for consensus and cross-shard transaction state machines (Target: Q2 2026)
-  - [ ] Abstraction boundaries between implementation traces and model events defined (Target: Q2 2026)
-  - [ ] Safety + liveness properties formalized for quorum, commit, recovery, and reconfiguration paths (Target: Q2 2026)
-- [ ] **Phase 2: Model checking**
-  - [ ] Fault scenarios covered: partition, delay, reorder, crash, restart (Target: Q3 2026)
-  - [ ] Bounded + unbounded critical state-space exploration runs automated (Target: Q3 2026)
-  - [ ] Counterexamples exported into deterministic regression fixtures (Target: Q3 2026)
-- [ ] **Phase 3: Code integration**
-  - [ ] Property-based tests generated from counterexample traces (Target: Q3 2026)
-  - [ ] Verification-aligned assertions added to critical commit/recovery/reconfiguration code paths (Target: Q3 2026)
-  - [ ] Dedicated CI model-checking job wired into protocol-change workflows (Target: Q3 2026)
-- [ ] **Phase 4: Governance**
-  - [ ] Safety gates block merge of protocol changes without proof artifacts (Target: Q3 2026)
-  - [ ] Review template requires impacted invariants + proof status (Target: Q3 2026)
-  - [ ] Quarterly re-verification cadence for major architecture changes (Target: Q4 2026)
-- [ ] **Core invariants tracked**
-  - [ ] No duplicate commits for the same transaction ID
-  - [ ] No acknowledged write without valid quorum/commit condition
-  - [ ] WAL recovery does not cause replica state divergence
-  - [ ] Reconfiguration must preserve safety properties
-- [ ] **KPIs (initial)**
-  - [ ] 100% of defined S0/S1 invariants formally modeled
-  - [ ] 100% of discovered counterexamples captured as regression tests
-  - [ ] 0 unresolved safety violations before release
-  - [ ] CI verification run mandatory for protocol changes
-- [ ] **Deliverables**
-  - [ ] Formal specification package
-  - [ ] Verification report with found/fixed counterexamples
-  - [ ] Regression suite generated from model-checker outputs
-  - [ ] Governance policy for protocol changes
+### Phase 6: Source Code Analysis — Consensus and Cross-Shard Invariants (Status: In Progress 🚧)
+
+> **Scope:** Systematic source-level analysis of `src/sharding/` consensus and distributed
+> transaction code to identify invariant violations. All findings below are grounded in actual
+> function-level code inspection (see `AUDIT.md` for full details with code excerpts and fix
+> guidance). No CI/CD tooling is required to resolve these items.
+
+#### Phase 6.1: S0 Critical — Code Fixes Required (Target: Q2 2026)
+
+- [ ] **PAX-1 — Fix Paxos non-recursive mutex self-deadlock (`paxos_consensus.cpp`)**
+  - `executePreparePhase()` holds `state_mutex_` then calls `executeAcceptPhase()` which
+    re-acquires the same mutex → all Paxos proposals hang permanently.
+  - Fix: split into finer-grained per-instance locks or restructure call chain.
+  - Affected: `paxos_consensus.cpp` `executePreparePhase()` L548, `executeAcceptPhase()` L650
+- [ ] **PAX-2 — Fix Paxos leader election: replace deterministic node-ID sort with quorum-based ballot exchange (`paxos_consensus.cpp`)**
+  - Current code unconditionally appoints the lexicographically smallest `node_id_` as leader
+    without any Paxos Phase 1 messaging; split-brain is possible.
+  - Affected: `paxos_consensus.cpp` `leaderElectionThread()` L513–527
+- [ ] **PAX-3 — Enforce WAL write failure as hard error in all Paxos phases (`paxos_consensus.cpp`)**
+  - WAL exceptions are caught and swallowed ("graceful degradation") in all three phases.
+    After restart the node can accept lower-ballot proposals it previously rejected.
+  - Affected: `executePreparePhase()` L543, `executeAcceptPhase()` L644, `broadcastCommit()` L748
+- [ ] **GOS-1 — Fix Gossip `addPeer`→`syncWithTopology` deadlock (`gossip_protocol.cpp`)**
+  - `addPeer()` acquires `peers_mutex_` then calls `syncWithTopology()` which re-acquires it.
+  - Affected: `gossip_protocol.cpp` `addPeer()` L120, `syncWithTopology()` L527 (also `removePeer()`)
+- [ ] **CST-1 — Fix dangling reference UB in `commit()` (`cross_shard_transaction.cpp`)**
+  - `auto& txn = it->second` taken from map; lock released; concurrent `abort()` can erase
+    the entry; `execute2PC(txn)` then operates on freed memory → UB.
+  - Affected: `cross_shard_transaction.cpp` `commit()` L375–402
+- [ ] **CST-2 — Fix dangling reference UB in `abort()` (`cross_shard_transaction.cpp`)**
+  - Same pattern as CST-1 in `abort()` L440–473.
+- [ ] **CST-3 — Fix stale reference after re-lock in `executeSaga()` (`cross_shard_transaction.cpp`)**
+  - `auto& txn` reference reused at L688 after unlock/relock cycle; map may have been modified.
+  - Affected: `cross_shard_transaction.cpp` `executeSaga()` L522–691
+- [ ] **RWALI-1 — Fix `raft_wal_integration.cpp::write()` self-deadlock**
+  - `write()` holds `mutex_` across a 5-second busy-wait loop;
+    `onAppendEntriesResponse()` cannot acquire the same mutex → every write times out.
+  - Affected: `raft_wal_integration.cpp` `write()` L42–96
+- [ ] **RWALI-2 — Fix hardcoded cluster-size-3 in `hasQuorum()` (`raft_wal_integration.cpp`)**
+  - Quorum function hardcodes cluster size = 3; wrong for any other configuration.
+  - Affected: `raft_wal_integration.cpp` `hasQuorum()` L179–185
+
+#### Phase 6.2: S1 High — Required Before Production (Target: Q2 2026)
+
+- [ ] **PAX-4 — Implement `runAcceptor()` message processing (`paxos_consensus.cpp`)**
+  - Current implementation is an empty sleep loop; distributed Paxos never processes
+    incoming Prepare/Accept messages.
+- [ ] **PAX-5 — Make `current_round_` atomic (`paxos_consensus.cpp`)**
+  - `++current_round_` on plain `uint64_t` from concurrent threads → data race.
+- [ ] **RAFT-1 — Atomicize leader check and log append / commit in `propose()` (`raft_consensus.cpp`)**
+  - `isLeader()` check and detached-thread `setCommitIndex()` are not atomic; no rollback
+    of appended-but-uncommitted entries on leadership loss.
+- [ ] **RLOG-1 — Fix `getLastLogIndex()` to return `snapshot_index_` after compaction (`raft_log.cpp`)**
+  - Returns 0 after compaction; next entry gets index 1, colliding with compacted range.
+- [ ] **2PC-2 / DTM-2 — Broadcast ABORT to participants during in-doubt recovery**
+  - Both `TwoPhaseCommitCoordinator::recoverInDoubtTransactions()` and
+    `DistributedTransactionManager::recoverInDoubtTransactions()` log ABORT to WAL but
+    never notify participants → they remain PREPARED indefinitely, holding locks.
+- [ ] **DTM-1 — Replace fake remote-participant COMMIT vote with real RPC stub (`distributed_transaction_manager.cpp`)**
+  - `runPhase1Unlocked()` unconditionally returns COMMIT for participants without a
+    registered callback, bypassing 2PC safety.
+- [ ] **DTM-3 — Implement or stub `isParticipantAlive()` with a real health check**
+  - Currently always returns `true`; timed-out participants are never detected.
+
+#### Phase 6.3: S2/S3 Medium/Low — Hardening (Target: Q3 2026)
+
+- [ ] **RAFT-2 — Protect `replication_callback_` with mutex in `propose()` detached thread** (`raft_consensus.cpp`)
+- [ ] **RAFT-3 — Add rollback path for uncommitted log entries when quorum is not reached** (`raft_consensus.cpp`)
+- [ ] **GOS-2 — Implement actual signature verification in `verifyMessage()`** (`gossip_protocol.cpp`)
+- [ ] **GOS-3 — Thread-local or per-thread `std::mt19937` in `selectRandomPeers()`** (`gossip_protocol.cpp`)
+- [ ] **PAX-6 — Protect all `cluster_nodes_` accesses with `state_mutex_`** (`paxos_consensus.cpp`)
+- [ ] **CST-4 — Reject startup if `transaction_log_path_` is unconfigured (no `/tmp` fallback)** (`cross_shard_transaction.cpp`)
+- [ ] **CST-6 — Implement actual 3PC PreCommit RPC or remove 3PC claim** (`cross_shard_transaction.cpp`)
+- [ ] **DTM-4 — Add explicit WAL flush before Phase 2 broadcast** (`distributed_transaction_manager.cpp`)
+- [ ] **TWAL-1 — Protect `current_lsn_` with a mutex or make it `std::atomic`** (`transaction_wal.cpp`)
+- [ ] **TWAL-2 — Replace magic numbers 130–138 with named `TransactionWALEntryType` range constants** (`transaction_wal.cpp`)
+- [ ] **RLOG-2 — Add bounds check in `setCommitIndex()`** (`raft_log.cpp`)
+
+#### Phase 6.4: Cross-Cutting Code Fixes
+
+- [ ] **CC-1 — Enforce WAL flush as hard error (not warn+continue) across all consensus layers**
+- [ ] **CC-4 — Gate gossip-driven topology mutations behind Raft membership change protocol**
+- [ ] **CC-5 — Consolidate 2PC coordinator implementations or enforce a shared recovery interface**
 
 ## Conclusion
 Implementing sharding requires careful planning and execution. Following this roadmap will help ensure that the ThemisDB sharding architecture is robust, scalable, and ready for production deployment.
@@ -167,8 +218,14 @@ Implementing sharding requires careful planning and execution. Following this ro
 - [x] Drain-period enforcement — `DrainGuard` RAII + `waitForDrain()` condition-variable (v2.1.0)
 - [ ] RPC integration with mTLS for all cross-shard channels (write: gRPC ReplicateData ✅; read: HTTP for now)
 - [ ] End-to-end cross-shard query routing verified under load (≥ 10,000 cross-shard ops/s)
-- [ ] Formal safety invariants for consensus/cross-shard protocols are model-checked in CI for every protocol change
-- [ ] Critical model-checker counterexamples are converted into deterministic regression tests
+- [ ] **[PAX-1] Paxos `state_mutex_` re-entrant deadlock fixed** (`paxos_consensus.cpp`)
+- [ ] **[PAX-2] Paxos leader election replaced with quorum-based ballot exchange** (`paxos_consensus.cpp`)
+- [ ] **[PAX-3] WAL failure is a hard error in all Paxos phases** (`paxos_consensus.cpp`)
+- [ ] **[GOS-1] Gossip `addPeer`→`syncWithTopology` deadlock fixed** (`gossip_protocol.cpp`)
+- [ ] **[CST-1/CST-2/CST-3] Dangling-reference UB fixed in `commit()`/`abort()`/`executeSaga()`** (`cross_shard_transaction.cpp`)
+- [ ] **[RWALI-1] Raft WAL `write()` self-deadlock resolved** (`raft_wal_integration.cpp`)
+- [ ] **[RWALI-2] `hasQuorum()` uses actual cluster size from configuration** (`raft_wal_integration.cpp`)
+- [ ] **[DTM-1] Remote 2PC participant voting uses real RPC, not unconditional COMMIT vote** (`distributed_transaction_manager.cpp`)
 
 ## Known Issues & Limitations
 
@@ -176,7 +233,14 @@ Implementing sharding requires careful planning and execution. Following this ro
 - `[~]` Raft snapshot compaction not yet wired — WAL growth unbounded for long-running Raft deployments.
 - `[?]` Adaptive rebalancer not yet implemented; rebalancing is currently manual-only.
 - `[?]` Focused chaos tests are in CI, but full cluster-level chaos/failover scenarios are not yet part of the default production-readiness gate.
-- `[~]` Formal verification rollout for consensus + cross-shard protocols is in progress; CI gate and full counterexample-to-regression automation are not yet complete.
+- `[!]` **PAX-1** `paxos_consensus.cpp::executePreparePhase()` holds `state_mutex_` and calls `executeAcceptPhase()` which re-acquires it — non-recursive mutex deadlock; all Paxos proposals hang permanently.
+- `[!]` **PAX-2** `paxos_consensus.cpp::leaderElectionThread()` performs no quorum-based election; smallest node-ID wins unconditionally — split-brain risk.
+- `[!]` **PAX-3** `paxos_consensus.cpp` WAL write failures silently ignored in all three Paxos phases — durability not guaranteed.
+- `[!]` **GOS-1** `gossip_protocol.cpp::addPeer()` deadlocks when topology is configured (`peers_mutex_` re-acquired via `syncWithTopology()`).
+- `[!]` **CST-1/CST-2/CST-3** `cross_shard_transaction.cpp::commit()`/`abort()`/`executeSaga()`: dangling map references after lock release — UB under concurrent access.
+- `[!]` **RWALI-1** `raft_wal_integration.cpp::write()` holds `mutex_` during 5-second quorum wait; `onAppendEntriesResponse()` can never run — every write times out.
+- `[!]` **RWALI-2** `raft_wal_integration.cpp::hasQuorum()` hardcodes cluster-size = 3 — wrong for any other configuration.
+- `[!]` **DTM-1** `distributed_transaction_manager.cpp::runPhase1Unlocked()` unconditionally returns COMMIT vote for remote participants — 2PC safety bypassed for all remote nodes.
 
 | # | Description | Status |
 |---|-------------|--------|

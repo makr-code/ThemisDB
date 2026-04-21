@@ -9,50 +9,88 @@ This document covers planned enhancements to ThemisDB's sharding subsystem, whic
 
 ## Formal Verification of Consensus and Cross-Shard Transaction Invariants
 
+> **Source code analysis completed 2026-04-21.** The findings below are grounded in direct
+> inspection of `src/sharding/` and `src/transaction/`. Full details with code excerpts and
+> specific line numbers are in `src/sharding/AUDIT.md`.
+
 ### Scope
-- Formalize and model-check safety/liveness invariants for Raft/Paxos/Gossip and cross-shard 2PC/3PC/SAGA/Percolator flows.
-- Cover WAL recovery, reconfiguration/failover, and network partition scenarios.
-- Maintain trace-to-proof mapping from implementation events (`raft_*`, `paxos_*`, `gossip_*`, `cross_shard_transaction.cpp`) to model actions.
+- Analyze and fix safety/liveness invariant violations in `raft_consensus.cpp`,
+  `paxos_consensus.cpp`, `gossip_protocol.cpp`, `cross_shard_transaction.cpp`,
+  `raft_wal_integration.cpp`, `two_phase_commit_coordinator.cpp`, `transaction_wal.cpp`, and
+  `src/transaction/distributed_transaction_manager.cpp`.
+- Invariants covered: quorum-before-commit, WAL-before-ack, no-duplicate-commit,
+  recovery-convergence, reconfiguration-safety, no-dangling-transaction-reference.
 
 ### Design Constraints
-- Formal models must preserve durability semantics of WAL-before-ack rules used in consensus and distributed commit paths.
-- Model abstraction must be deterministic and finite for CI exploration while still representing crash/restart and delayed/reordered network events.
-- Proof artifacts must be versioned with protocol changes; stale proofs cannot satisfy merge requirements.
-- Trace capture on consensus/commit hot paths must be runtime-gated (`verification.trace.enabled`) and non-blocking (bounded lock-free queue + async flush worker) to keep protocol latency budgets stable.
-- Trace queue overflow must fail open for request processing (drop oldest trace batch + increment `verification_trace_dropped_total` metric + emit throttled warning); consensus/2PC flows must never block on trace backpressure.
-- Async trace worker failure must trigger auto-restart with exponential backoff and persistent health metric (`verification_trace_worker_up`); when restart attempts are exhausted, CI/proof generation consumes only persisted traces and marks gaps explicitly in verification reports.
+- WAL write failure must be a hard error in all consensus phase handlers; "graceful
+  degradation" (warn + continue) violates durability guarantees.
+- Map element references (`auto& x = map.at(k)`) must not be used across lock boundaries;
+  copy by value or use `shared_ptr`-based transaction handles.
+- Quorum sizes must be derived from runtime cluster configuration, not compile-time
+  constants.
+- Mutex lock ordering must be consistent across call chains; non-recursive mutexes must not
+  be re-acquired from the same thread.
 
-### Required Interfaces
-| Interface | Consumer | Notes |
-|-----------|----------|-------|
-| `ConsensusTraceEmitter::onPropose/onCommit/onRecover` | `raft_consensus.cpp`, `paxos_consensus.cpp`, `gossip_protocol.cpp` | Emits normalized events for trace-to-model replay |
-| `CrossShardTxnTraceEmitter::onPrepare/onCommit/onAbort/onCompensate` | `cross_shard_transaction.cpp`, `two_phase_commit_coordinator.cpp` | Provides transaction-id scoped event stream |
-| `VerificationGate::validateProofBundle()` | CI protocol-change workflows | Must fail closed when proof bundle or invariant map is missing |
-| `CounterexampleReplay::toRegressionCase()` | `tests/test_multi_shard_transactions.cpp`, `tests/test_transaction_distributed_2pc.cpp` | Converts model checker traces into deterministic test fixtures |
+### Required Code Changes (by finding ID)
+
+| ID | Severity | File | Function | Required Change |
+|----|----------|------|----------|-----------------|
+| PAX-1 | S0 | `paxos_consensus.cpp` | `executePreparePhase()` → `executeAcceptPhase()` | Restructure to avoid re-acquiring `state_mutex_` on same thread; use per-instance lock or pass locked state by reference |
+| PAX-2 | S0 | `paxos_consensus.cpp` | `leaderElectionThread()` | Replace deterministic node-ID sort with Paxos ballot-based Phase 1 election (gather quorum of promises) |
+| PAX-3 | S0 | `paxos_consensus.cpp` | `executePreparePhase()`, `executeAcceptPhase()`, `broadcastCommit()` | Change all WAL-failure catch blocks to propagate the error and abort the phase; remove "graceful degradation" pattern |
+| GOS-1 | S0 | `gossip_protocol.cpp` | `addPeer()`, `removePeer()` | Release `peers_mutex_` before calling `syncWithTopology()`; or pass snapshot to topology sync |
+| CST-1 | S0 | `cross_shard_transaction.cpp` | `commit()` | Copy transaction by value before releasing lock; or use `shared_ptr`-based handle |
+| CST-2 | S0 | `cross_shard_transaction.cpp` | `abort()` | Same fix as CST-1 |
+| CST-3 | S0 | `cross_shard_transaction.cpp` | `executeSaga()` | Re-look up transaction after re-acquiring lock at L687 |
+| RWALI-1 | S0 | `raft_wal_integration.cpp` | `write()` | Replace `std::lock_guard` + busy-wait with `std::unique_lock` + `std::condition_variable`; release lock while waiting for ACKs |
+| RWALI-2 | S0 | `raft_wal_integration.cpp` | `hasQuorum()` | Replace `size_t cluster_size = 3` with `config_.cluster_members.size()` or injected quorum value |
+| PAX-4 | S1 | `paxos_consensus.cpp` | `runAcceptor()` | Implement message processing loop for incoming Prepare/Accept requests |
+| PAX-5 | S1 | `paxos_consensus.cpp` | `generateProposalNumber()` | Change `current_round_` to `std::atomic<uint64_t>` |
+| RAFT-1 | S1 | `raft_consensus.cpp` | `propose()` | Add leadership re-check inside detached thread before `setCommitIndex`; add rollback of uncommitted log entry on failure |
+| RLOG-1 | S1 | `raft_log.cpp` | `getLastLogIndex()` | Return `snapshot_index_` when log map is empty (post-compaction) |
+| 2PC-2 | S1 | `two_phase_commit_coordinator.cpp` | `recoverInDoubtTransactions()` | Call `runPhase2()` to broadcast ABORT after marking in-doubt transaction as aborted |
+| DTM-1 | S1 | `distributed_transaction_manager.cpp` | `runPhase1Unlocked()` | Replace unconditional COMMIT vote for callback-less participants with a real RPC or an explicit "remote participant not reachable → ABORT" policy |
+| DTM-2 | S1 | `distributed_transaction_manager.cpp` | `recoverInDoubtTransactions()` | Broadcast ABORT to participants after WAL log, same as 2PC-2 |
+| DTM-3 | S1 | `distributed_transaction_manager.cpp` | `isParticipantAlive()` | Implement health check or return `false` (safe-default) until real check is available |
 
 ### Implementation Notes
-- Define S0/S1 invariants: unique-commit-per-txn-id, quorum-validated acknowledged writes, recovery convergence, and reconfiguration safety.
-- Keep one canonical invariant catalog (`invariant_id`, statement, affected files, proof source, regression-test id).
-- Use model-checking configs for bounded and unbounded runs with fault injections (partition, delay, reorder, crash, restart).
-- Auto-generate replay inputs from counterexamples and persist them under versioned fixtures to prevent regressions.
+- Fix S0 items before S1; each S0 finding independently makes the affected component
+  non-functional or unsafe under concurrent access.
+- For CST-1/CST-2/CST-3: the correct pattern is either (a) copy the transaction struct by
+  value before the first `lock.unlock()`, or (b) keep the lock held and make participant
+  RPCs asynchronous (submitting to a thread pool and awaiting results after re-locking).
+- For RWALI-1: pending writes should be stored in a `std::unordered_map<uint64_t, PendingWrite>`
+  under a separate mutex; `write()` inserts and then waits on a per-entry `condition_variable`;
+  `onAppendEntriesResponse()` notifies the matching entry's condition variable.
+- For PAX-2: the minimal correct approach is a Paxos Phase 1 broadcast to all `cluster_nodes_`
+  with a ballot number greater than any previously seen, waiting for a quorum of PROMISE
+  responses before transitioning to LEADER.
 
 ### Test Strategy
-- Unit: Validate trace normalization and invariant mapping consistency.
-- Integration: Replay generated counterexamples against sharding and transaction focused test targets.
-- CI: Run model checking on every protocol-change PR and block merge on invariant failures.
-- Regression policy: Every discovered safety counterexample must map to at least one deterministic test case.
+- **S0 fixes:** Each fix must be accompanied by a focused unit test that reproduces the
+  original failure (deadlock, UB, incorrect quorum) and passes after the fix.
+  - PAX-1: test that `prepare()` on a multi-node Paxos instance returns (does not hang).
+  - RWALI-1: test that a concurrent `onAppendEntriesResponse()` unblocks `write()`.
+  - CST-1: test that concurrent `commit()` + `abort()` on the same transaction-ID does not
+    produce a crash or UB (run under ASan/TSan).
+  - RWALI-2: test quorum calculation for 1-node, 3-node, and 5-node configurations.
+- **S1 fixes:** Integration tests calling the affected code path under concurrent access,
+  verified under ThreadSanitizer.
+- **Regression policy:** Every S0/S1 fix must be covered by a focused test target registered
+  in `tests/CMakeLists.txt` before the fix is considered complete.
 
 ### Performance Targets
-- CI model-checking wall-time for protocol-change PRs: ≤15 minutes (bounded run).
-- Counterexample-to-regression conversion time: ≤2 minutes per trace.
-- Trace capture overhead on protocol paths: ≤3% P95 latency increase under focused test load.
+- `paxos_consensus.cpp::executePreparePhase()` wall-time (3-node, LAN): ≤5 ms P99 after fix.
+- `raft_wal_integration.cpp::write()` throughput: ≥ 1,000 writes/s on a 3-node cluster.
+- `cross_shard_transaction.cpp::commit()` under 8 concurrent callers: 0 crashes under ASan.
 
 ### Security / Reliability
-- Verification gate must be mandatory for protocol-change workflows; no bypass for `main` merges.
-- Proof artifacts and trace mappings must be tamper-evident (hash + commit reference).
-- Recovery/reconfiguration invariants must remain green before release tagging.
-- Emergency security hotfix override is allowed only via signed `verification-override` label + mandatory audit log + linked follow-up issue with proof submission SLA (≤72h).
-- `verification-override` signatures use organization-maintained GPG keys (security-oncall maintainers only); signature verification runs in CI against pinned public keys before override activation.
+- `gossip_protocol.cpp::verifyMessage()` must implement actual signature verification
+  (GOS-2) before deployment in a multi-tenant environment.
+- WAL write failures must never silently bypass durability requirements; any path that
+  currently "continues on WAL error" must be audited and changed to fail-closed.
+- `cross_shard_transaction.cpp`: transaction log path must be validated at startup;
+  no fallback to `/tmp` (CST-4).
 
 ## Design Constraints
 
