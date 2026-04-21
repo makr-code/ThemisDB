@@ -35,7 +35,13 @@ std::string calculateSHA256(const std::string& file_path);
  * @brief Calculate MD5 checksum of a file
  * @param file_path Path to file
  * @return Hex-encoded MD5 checksum or empty string on error
+ *
+ * @deprecated MD5 is cryptographically broken (collision attacks, CWE-327).
+ *   Use calculateSHA256() for all new code.  This function is retained only
+ *   for backward-compatible verification of legacy checksums (read-only use).
+ *   New code MUST NOT use MD5 for integrity or authentication purposes.
  */
+[[deprecated("MD5 is cryptographically broken (CWE-327). Use calculateSHA256() instead.")]]
 std::string calculateMD5(const std::string& file_path);
 
 } // namespace utils

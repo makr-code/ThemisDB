@@ -39,6 +39,13 @@
 #include <nlohmann/json.hpp>
 #include <cstdlib>
 #include <openssl/sha.h>
+#ifndef _WIN32
+#  include <sys/types.h>
+#  include <sys/wait.h>
+#  include <unistd.h>
+#else
+#  include <windows.h>
+#endif
 
 namespace themis {
 
@@ -928,61 +935,161 @@ Result<std::string> BackupManager::compressBackup(const std::string& backup_dir)
     namespace fs = std::filesystem;
     try {
         if (!fs::exists(backup_dir)) {
-            return Err<std::string>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND, 
+            return Err<std::string>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
                                    "Backup directory not found: " + backup_dir);
         }
-        
-        // Create compressed file path
+
         auto compressed_file = backup_dir + ".tar.gz";
-        
-        // Use system tar command for compression
-        std::string cmd = "tar -czf \"" + compressed_file + "\" -C \"" + 
-                         fs::path(backup_dir).parent_path().string() + "\" \"" + 
-                         fs::path(backup_dir).filename().string() + "\"";
-        
-        int result = system(cmd.c_str());
-        if (result != 0) {
-            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_COMPRESSION_FAILED, 
-                                   "Failed to compress backup directory");
+        const std::string parent_dir = fs::path(backup_dir).parent_path().string();
+        const std::string dir_name   = fs::path(backup_dir).filename().string();
+
+        // Use fork()+execvp() instead of system() to avoid shell injection
+        // (CWE-78). Arguments are passed as separate strings — no shell
+        // metacharacter interpretation takes place.
+#ifndef _WIN32
+        pid_t pid = fork();
+        if (pid < 0) {
+            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_COMPRESSION_FAILED,
+                                   "fork() failed when invoking tar");
         }
-        
+        if (pid == 0) {
+            // Child: exec tar directly, no shell involved.
+            // argv must be null-terminated; strings are const-cast-safe because
+            // execvp does not modify them.
+            const char* argv[] = {
+                "tar", "-czf",
+                compressed_file.c_str(),
+                "-C", parent_dir.c_str(),
+                dir_name.c_str(),
+                nullptr
+            };
+            execvp("tar", const_cast<char* const*>(argv));
+            // If execvp returns, it failed.
+            _exit(127);
+        }
+        int status = 0;
+        waitpid(pid, &status, 0);
+        if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
+            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_COMPRESSION_FAILED,
+                                   "tar exited with error during compression");
+        }
+#else
+        // Windows: build a quoted command for CreateProcess (no shell).
+        // Double-quote each argument component defensively.
+        auto winQuote = [](const std::string& s) -> std::string {
+            std::string out = "\"";
+            for (char c : s) {
+                if (c == '"') out += "\\\"";
+                else          out += c;
+            }
+            return out + "\"";
+        };
+        std::string cmd = "tar -czf " + winQuote(compressed_file) +
+                          " -C " + winQuote(parent_dir) + " " + winQuote(dir_name);
+        STARTUPINFOA si{}; si.cb = sizeof(si);
+        PROCESS_INFORMATION pi{};
+        std::vector<char> mutable_cmd(cmd.begin(), cmd.end());
+        mutable_cmd.push_back('\0');
+        if (!CreateProcessA(nullptr, mutable_cmd.data(),
+                            nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi)) {
+            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_COMPRESSION_FAILED,
+                                   "CreateProcess failed for tar (compression)");
+        }
+        WaitForSingleObject(pi.hProcess, INFINITE);
+        DWORD exit_code = 0;
+        GetExitCodeProcess(pi.hProcess, &exit_code);
+        CloseHandle(pi.hProcess);
+        CloseHandle(pi.hThread);
+        if (exit_code != 0) {
+            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_COMPRESSION_FAILED,
+                                   "tar exited with error during compression");
+        }
+#endif
+
         THEMIS_INFO("Backup compressed successfully: {}", compressed_file);
         return Ok(compressed_file);
     } catch (const std::exception& e) {
-        return Err<std::string>(errors::ErrorCode::ERR_BACKUP_COMPRESSION_FAILED, 
+        return Err<std::string>(errors::ErrorCode::ERR_BACKUP_COMPRESSION_FAILED,
                                "Exception compressing backup: " + std::string(e.what()));
     }
 }
 
-Result<std::string> BackupManager::decompressBackup(const std::string& compressed_file, 
+Result<std::string> BackupManager::decompressBackup(const std::string& compressed_file,
                                                     const std::string& dest_dir) {
     namespace fs = std::filesystem;
     try {
         if (!fs::exists(compressed_file)) {
-            return Err<std::string>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND, 
+            return Err<std::string>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
                                    "Compressed file not found: " + compressed_file);
         }
-        
+
         std::error_code ec;
         fs::create_directories(dest_dir, ec);
         if (ec) {
-            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED, 
+            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED,
                                    "Failed to create destination directory: " + ec.message());
         }
-        
-        // Use system tar command for decompression
-        std::string cmd = "tar -xzf \"" + compressed_file + "\" -C \"" + dest_dir + "\"";
-        
-        int result = system(cmd.c_str());
-        if (result != 0) {
-            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED, 
-                                   "Failed to decompress backup file");
+
+        // Use fork()+execvp() instead of system() to avoid shell injection
+        // (CWE-78). Arguments are passed as separate strings — no shell
+        // metacharacter interpretation takes place.
+#ifndef _WIN32
+        pid_t pid = fork();
+        if (pid < 0) {
+            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED,
+                                   "fork() failed when invoking tar");
         }
-        
+        if (pid == 0) {
+            const char* argv[] = {
+                "tar", "-xzf",
+                compressed_file.c_str(),
+                "-C", dest_dir.c_str(),
+                nullptr
+            };
+            execvp("tar", const_cast<char* const*>(argv));
+            _exit(127);
+        }
+        int status = 0;
+        waitpid(pid, &status, 0);
+        if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
+            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED,
+                                   "tar exited with error during decompression");
+        }
+#else
+        auto winQuote = [](const std::string& s) -> std::string {
+            std::string out = "\"";
+            for (char c : s) {
+                if (c == '"') out += "\\\"";
+                else          out += c;
+            }
+            return out + "\"";
+        };
+        std::string cmd = "tar -xzf " + winQuote(compressed_file) +
+                          " -C " + winQuote(dest_dir);
+        STARTUPINFOA si{}; si.cb = sizeof(si);
+        PROCESS_INFORMATION pi{};
+        std::vector<char> mutable_cmd(cmd.begin(), cmd.end());
+        mutable_cmd.push_back('\0');
+        if (!CreateProcessA(nullptr, mutable_cmd.data(),
+                            nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi)) {
+            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED,
+                                   "CreateProcess failed for tar (decompression)");
+        }
+        WaitForSingleObject(pi.hProcess, INFINITE);
+        DWORD exit_code = 0;
+        GetExitCodeProcess(pi.hProcess, &exit_code);
+        CloseHandle(pi.hProcess);
+        CloseHandle(pi.hThread);
+        if (exit_code != 0) {
+            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED,
+                                   "tar exited with error during decompression");
+        }
+#endif
+
         THEMIS_INFO("Backup decompressed successfully to: {}", dest_dir);
         return Ok(dest_dir);
     } catch (const std::exception& e) {
-        return Err<std::string>(errors::ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED, 
+        return Err<std::string>(errors::ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED,
                                "Exception decompressing backup: " + std::string(e.what()));
     }
 }

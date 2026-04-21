@@ -337,6 +337,17 @@ bool SAMLAuthenticator::verifyXmlSignature(
         digest_md = EVP_sha256();
     } else if (digest_algorithm_uri.find("sha1") != std::string::npos ||
                digest_algorithm_uri.find("SHA1") != std::string::npos) {
+        // SHA-1 is cryptographically broken (CWE-327, NIST SP 800-131A rev. 2).
+        // Reject unless the operator has explicitly enabled the legacy fallback.
+        THEMIS_WARN("[SECURITY] SAML: SHA-1 digest algorithm detected ({}). "
+                    "SHA-1 is cryptographically broken. Migrate to SHA-256.",
+                    digest_algorithm_uri);
+        if (!config_.allow_sha1_deprecated) {
+            THEMIS_ERROR("[SECURITY] SAML: SHA-1 digest rejected. "
+                         "Set SAMLConfig::allow_sha1_deprecated=true to allow "
+                         "temporarily during IdP migration.");
+            return false;
+        }
         digest_md = EVP_sha1();
     } else {
         THEMIS_WARN("SAML: Unsupported digest algorithm: {}", digest_algorithm_uri);
@@ -350,6 +361,16 @@ bool SAMLAuthenticator::verifyXmlSignature(
         sig_md = EVP_sha256();
     } else if (sig_algorithm_uri.find("rsa-sha1") != std::string::npos ||
                sig_algorithm_uri.find("RSA-SHA1") != std::string::npos) {
+        // SHA-1 based signature algorithm is broken (CWE-327).
+        THEMIS_WARN("[SECURITY] SAML: SHA-1 signature algorithm detected ({}). "
+                    "SHA-1 is cryptographically broken. Migrate to RSA-SHA256.",
+                    sig_algorithm_uri);
+        if (!config_.allow_sha1_deprecated) {
+            THEMIS_ERROR("[SECURITY] SAML: SHA-1 signature rejected. "
+                         "Set SAMLConfig::allow_sha1_deprecated=true to allow "
+                         "temporarily during IdP migration.");
+            return false;
+        }
         sig_md = EVP_sha1();
     } else {
         THEMIS_WARN("SAML: Unsupported signature algorithm: {}", sig_algorithm_uri);
