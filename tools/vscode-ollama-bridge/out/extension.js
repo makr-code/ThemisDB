@@ -49,6 +49,7 @@ const router_js_1 = require("./router.js");
 const ollamaClient_js_1 = require("./ollamaClient.js");
 const contextManager_js_1 = require("./contextManager.js");
 const copilotReviewer_js_1 = require("./copilotReviewer.js");
+const modelSetup_js_1 = require("./modelSetup.js");
 function readConfig() {
     const cfg = vscode.workspace.getConfiguration("ollamaBridge");
     return {
@@ -171,6 +172,24 @@ function activate(context) {
         else {
             void vscode.window.showErrorMessage(`❌ Cannot reach Ollama at ${config.endpoint}: ${result.error ?? "unknown error"}`);
         }
+    }));
+    context.subscriptions.push(vscode.commands.registerCommand("ollamaBridge.setupModels", async () => {
+        const config = readConfig();
+        const setupManager = new modelSetup_js_1.ModelSetupManager(config.endpoint);
+        await setupManager.pickAndPullModels();
+    }));
+    context.subscriptions.push(vscode.commands.registerCommand("ollamaBridge.listInstalledModels", async () => {
+        const config = readConfig();
+        const setupManager = new modelSetup_js_1.ModelSetupManager(config.endpoint);
+        const installed = await setupManager.queryInstalledModels();
+        if (installed.length === 0) {
+            const action = await vscode.window.showWarningMessage("No Ollama models installed yet.", "Set up models…");
+            if (action === "Set up models…") {
+                await vscode.commands.executeCommand("ollamaBridge.setupModels");
+            }
+            return;
+        }
+        void vscode.window.showInformationMessage(`Installed Ollama models (${installed.length}): ${installed.join(", ")}`);
     }));
 }
 function deactivate() {

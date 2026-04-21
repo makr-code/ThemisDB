@@ -71,6 +71,16 @@
         "command": "ollamaBridge.checkOllamaHealth",
         "title": "Check Ollama Connection",
         "category": "Ollama Bridge"
+      },
+      {
+        "command": "ollamaBridge.setupModels",
+        "title": "Set Up / Download Coding Models",
+        "category": "Ollama Bridge"
+      },
+      {
+        "command": "ollamaBridge.listInstalledModels",
+        "title": "List Installed Models",
+        "category": "Ollama Bridge"
       }
     ],
     "configuration": {

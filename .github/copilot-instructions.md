@@ -187,3 +187,101 @@ cpp_best_practices:
   // Production Delta: <how behavior differs from production>
   // Removal Plan: <when/how this path will be removed>
   ```
+
+## 9) Ollama Delegation Bridge — AI Agent Instructions
+
+The repository ships a VS Code extension at `tools/vscode-ollama-bridge/` that
+routes code-generation tasks to a **local Ollama model** instead of Copilot
+cloud. Every AI agent (Copilot, GitHub Copilot in VS Code, this coding agent)
+MUST follow these rules when working on ThemisDB:
+
+### 9.1 When to use local Ollama (via `@ollama` chat participant)
+
+Use `@ollama` for all of the following:
+
+| Task | Example prompt |
+|---|---|
+| C++ boilerplate / class scaffolding | `@ollama Generate a RAII wrapper for FILE*` |
+| Unit test generation | `@ollama Write GTest cases for KnowledgeGraphRetriever::neighbours()` |
+| Refactoring | `@ollama Refactor this function to use std::expected` |
+| Documentation / Doxygen comments | `@ollama Add Doxygen docs to LLMPluginManager::loadModel()` |
+| CMakeLists.txt edits | `@ollama Add a new test target for test_foo.cpp` |
+| Repetitive code patterns | `@ollama Implement getters/setters for all fields in struct X` |
+
+### 9.2 When to use Copilot cloud (standard chat)
+
+Use the normal Copilot chat (no `@ollama`) for:
+
+- Security review and vulnerability analysis
+- Architecture and design decisions
+- Complex multi-file debugging
+- Code review with quality judgement
+- Any task requiring up-to-date knowledge (CVEs, new APIs)
+
+### 9.3 ThemisDB-specific routing rules (always enforced)
+
+- **C++ files** (`.cpp`, `.hpp`, `.h`, `.cc`) → always `@ollama /local`
+- **Security / audit** prompts → always standard Copilot (cloud)
+- **CMakeLists.txt / build system** → `@ollama`
+- **ROADMAP.md / FUTURE_ENHANCEMENTS.md updates** → standard Copilot
+
+### 9.4 First-time setup
+
+Before using `@ollama`, ensure Ollama is running and at least one coding
+model is installed:
+
+```bash
+# 1. Install Ollama (https://ollama.com)
+ollama serve &
+
+# 2. Pull recommended models via VS Code command palette:
+#    "Ollama Bridge: Set Up / Download Coding Models"
+#    → selects from ranked list (DeepSeek-Coder-V2, Qwen2.5-Coder, CodeLlama…)
+
+# 3. Verify:
+#    "Ollama Bridge: Check Ollama Connection"
+```
+
+Or from the terminal:
+
+```bash
+ollama pull deepseek-coder-v2:16b   # best (needs ~10 GB VRAM)
+ollama pull qwen2.5-coder:7b        # balanced (needs ~5 GB VRAM)
+ollama pull codellama:7b            # lightweight fallback
+```
+
+The ranked model catalog is maintained in
+`tools/vscode-ollama-bridge/src/modelSetup.ts` → `RANKED_CODING_MODELS`.
+
+### 9.5 Delegation mode configuration
+
+Set in VS Code `settings.json` (workspace or user):
+
+```jsonc
+{
+  "ollamaBridge.delegationMode": "auto",
+  "ollamaBridge.defaultModel": "deepseek-coder-v2:16b",
+  "ollamaBridge.reasoningModel": "qwen2.5-coder:14b",
+  "ollamaBridge.copilotReviewEnabled": true,
+  "ollamaBridge.themisDbRules": true
+}
+```
+
+### 9.6 How agents instruct the bridge
+
+When writing automation scripts, CI steps, or agent prompts that need to
+trigger Ollama delegation programmatically:
+
+- Use the VS Code command `ollamaBridge.delegateToOllama` (prompts for input)
+- Use the chat participant: `@ollama /local <task description>`
+- Use `ollamaBridge.autoRoute` to preview the routing decision without executing
+
+Copilot coding agents running in this repository SHOULD annotate their
+task descriptions with the target destination so the delegation router
+can be bypassed efficiently:
+
+```
+// ROUTING HINT: ollama-local
+// Model: deepseek-coder-v2:16b
+// Reason: C++ boilerplate generation
+```

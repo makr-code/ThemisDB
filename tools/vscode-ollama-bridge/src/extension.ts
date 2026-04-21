@@ -13,6 +13,7 @@ import { DelegationRouter } from "./router.js";
 import { OllamaClient } from "./ollamaClient.js";
 import { ContextManager } from "./contextManager.js";
 import { CopilotReviewer } from "./copilotReviewer.js";
+import { ModelSetupManager } from "./modelSetup.js";
 
 // ---------------------------------------------------------------------------
 // Helper: read config
@@ -239,6 +240,43 @@ export function activate(context: vscode.ExtensionContext): void {
             `❌ Cannot reach Ollama at ${config.endpoint}: ${result.error ?? "unknown error"}`
           );
         }
+      }
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "ollamaBridge.setupModels",
+      async () => {
+        const config = readConfig();
+        const setupManager = new ModelSetupManager(config.endpoint);
+        await setupManager.pickAndPullModels();
+      }
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "ollamaBridge.listInstalledModels",
+      async () => {
+        const config = readConfig();
+        const setupManager = new ModelSetupManager(config.endpoint);
+        const installed = await setupManager.queryInstalledModels();
+
+        if (installed.length === 0) {
+          const action = await vscode.window.showWarningMessage(
+            "No Ollama models installed yet.",
+            "Set up models…"
+          );
+          if (action === "Set up models…") {
+            await vscode.commands.executeCommand("ollamaBridge.setupModels");
+          }
+          return;
+        }
+
+        void vscode.window.showInformationMessage(
+          `Installed Ollama models (${installed.length}): ${installed.join(", ")}`
+        );
       }
     )
   );
