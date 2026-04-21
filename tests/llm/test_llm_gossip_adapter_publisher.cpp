@@ -165,11 +165,11 @@ TEST_F(GossipAdapterPublisherTest, GAP04_UnloadLoRASendsWithdrawal) {
     // A second gossip call was made for the withdrawal
     EXPECT_GT(announce_call_count_.load(), count_after_load);
 
-    // The withdrawal announcement has negative accuracy_delta (sentinel)
+    // The withdrawal announcement carries is_withdrawal=true and the correct adapter_id
     auto ann = publisher_->lastAnnouncement();
     ASSERT_TRUE(ann.has_value());
-    EXPECT_LT(ann->accuracy_delta, 0.0);
-    EXPECT_NE(ann->adapter_id.find("WITHDRAWN"), std::string::npos);
+    EXPECT_TRUE(ann->is_withdrawal);
+    EXPECT_EQ(ann->adapter_id, "my-lora-v2");
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -231,9 +231,12 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
             result.completeness_score = 0.0;
             result.coherence_score = 0.0;
             result.ethical_compliance_score = 0.0;
-            result.respects_human_autonomy = true;
-            result.shows_moral_diversity   = true;
-            result.has_ethical_citations   = true;
+            // Ethical boolean fields reflect "not evaluated" rather than
+            // a positive finding; leave at defaults (false) to avoid implying
+            // the answer was assessed for autonomy/diversity/citations.
+            result.respects_human_autonomy = false;
+            result.shows_moral_diversity   = false;
+            result.has_ethical_citations   = false;
             result.ethical_violations.emplace_back(
                 "INJECTION_BLOCKED: HIGH or CRITICAL severity injection pattern detected "
                 "in retrieved documents. Evaluation aborted.");

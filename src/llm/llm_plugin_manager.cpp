@@ -336,10 +336,11 @@ bool LLMPluginManager::loadLoRA(const std::string& lora_id, const std::string& p
             shard_id  = local_shard_id_;
         }
         if (publisher) {
+            static constexpr const char* kInitialAdapterVersion = "v1.0.0";
             distributed_knowledge::AdapterCapabilityAnnouncement ann;
             ann.shard_id        = shard_id;
             ann.adapter_id      = lora_id;
-            ann.adapter_version = "v1.0.0";          // incremental; callers may update via the publisher directly
+            ann.adapter_version = kInitialAdapterVersion;
             ann.domain_type     = distributed_knowledge::AdapterDomainType::GENERAL;
             ann.training_samples = 0;                // unknown at load time
             publisher->announce(std::move(ann));
@@ -368,14 +369,12 @@ bool LLMPluginManager::unloadLoRA(const std::string& lora_id) {
             shard_id  = local_shard_id_;
         }
         if (publisher) {
-            // Withdraw: broadcast a zero-performance announcement so peers
-            // know the adapter is no longer available on this shard.
+            // Withdraw: broadcast an announcement that explicitly marks the adapter
+            // as no longer available on this shard.
             distributed_knowledge::AdapterCapabilityAnnouncement withdrawal;
-            withdrawal.shard_id        = shard_id;
-            withdrawal.adapter_id      = lora_id + "_WITHDRAWN";
-            withdrawal.adapter_version = "v0.0.0";
-            withdrawal.domain_type     = distributed_knowledge::AdapterDomainType::GENERAL;
-            withdrawal.accuracy_delta  = -1.0;       // sentinel: adapter removed
+            withdrawal.shard_id      = shard_id;
+            withdrawal.adapter_id    = lora_id;
+            withdrawal.is_withdrawal = true;         // explicit withdrawal flag
             publisher->announce(std::move(withdrawal));
             spdlog::info("LLMPluginManager::unloadLoRA: gossip withdrawal sent for '{}'", lora_id);
         }
