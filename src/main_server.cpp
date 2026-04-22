@@ -1501,8 +1501,18 @@ int main(int argc, char* argv[]) {
         g_server->setShardingManager(&themis::sharding::ShardingManager::GetInstance());
         // Inject ShardRepairEngine (non-null only when RAID is enabled)
         if (g_shard_repair_engine) {
-            g_server->setShardRepairEngine(g_shard_repair_engine);
-            THEMIS_INFO("ShardRepairEngine wired into HttpServer → /v1/admin/repair/* active");
+            try {
+                // Wire first — setShardRepairEngine() also builds ShardingMetricsHandler
+                // and injects PrometheusMetrics into the engine.
+                g_server->setShardRepairEngine(g_shard_repair_engine);
+                // Start background anti-entropy threads (scan + repair workers)
+                g_shard_repair_engine->start();
+                THEMIS_INFO("ShardRepairEngine wired + started → /v1/admin/repair/* active");
+            } catch (const std::exception& ex) {
+                THEMIS_WARN("ShardRepairEngine wiring/start failed — running without anti-entropy: {}", ex.what());
+                g_shard_repair_engine.reset();
+                g_shard_repair_strategy.reset();
+            }
         }
 
         // ═══════════════════════════════════════════════════════════════════

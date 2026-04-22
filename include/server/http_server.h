@@ -61,6 +61,8 @@
 #include "server/export_api_handler.h"
 #include "server/admin_api_handler.h"
 #include "server/shard_repair_api_handler.h"
+#include "server/sharding_metrics_handler.h"
+#include "sharding/prometheus_metrics.h"
 #include "server/vector_api_handler.h"
 #include "server/rope_api_handler.h"
 #include "server/spatial_api_handler.h"
@@ -449,8 +451,29 @@ public:
 
     void setShardRepairEngine(std::shared_ptr<sharding::ShardRepairEngine> engine) {
         shard_repair_engine_ = std::move(engine);
+        // Forward repair engine to the repair REST API handler
         if (shard_repair_api_) {
             shard_repair_api_->setRepairEngine(shard_repair_engine_);
+        }
+        // Build (or update) the ShardingMetricsHandler so that anti-entropy
+        // repair metrics are exposed on GET /metrics.  We create a fresh
+        // PrometheusMetrics instance scoped to the repair engine; no SLO
+        // monitor is attached by default (can be added later via a separate
+        // setter if needed).
+        if (shard_repair_engine_) {
+            sharding::PrometheusMetrics::Config pmc;
+            pmc.http_port = 0;   // standalone HTTP scrape port disabled;
+            pmc.http_path = "/metrics"; // metrics are served via HttpServer
+            auto repair_prom = std::make_shared<sharding::PrometheusMetrics>(pmc);
+            shard_repair_engine_->setPrometheusMetrics(repair_prom);
+
+            sharding_metrics_handler_ = std::make_shared<ShardingMetricsHandler>(
+                std::move(repair_prom));
+            sharding_metrics_handler_->setRepairEngine(shard_repair_engine_);
+
+            if (monitoring_api_) {
+                monitoring_api_->setShardingMetrics(sharding_metrics_handler_);
+            }
         }
     }
 
@@ -918,6 +941,7 @@ private:
     // Monitoring API Handler
     std::unique_ptr<themis::server::MonitoringApiHandler> monitoring_api_;
     std::unique_ptr<themis::server::ShardRepairApiHandler> shard_repair_api_;
+    std::shared_ptr<themis::server::ShardingMetricsHandler> sharding_metrics_handler_;
     // Cross-cutting concerns (lifecycle hooks + health probes); optional.
     std::shared_ptr<core::concerns::ConcernsContext> concerns_;
     // Query API Handler
