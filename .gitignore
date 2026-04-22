@@ -303,7 +303,6 @@ yarn-error.log*
 # Documentation build artifacts
 site/
 wiki-temp/
-wiki/
 *.wiki/
 artifacts/docs/
 artifacts/perf_nv/
