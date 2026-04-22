@@ -445,6 +445,70 @@ tracing:
   otlp_endpoint: "http://localhost:4318"
 
 # =============================================================================
+# SAML 2.0 SERVICE PROVIDER (Single Sign-On)
+# =============================================================================
+#
+# Uncomment and fill in this section to enable SAML SP support.
+# All SAML endpoints (/api/v1/auth/saml/login, /acs, /slo, /metadata) return
+# HTTP 503 until this section is present and all mandatory fields are set.
+#
+# Obtain IdP metadata from your Identity Provider (Okta, ADFS, Azure AD, etc.)
+# and paste the relevant values below.
+#
+# saml:
+#   # --- Mandatory fields ---
+#
+#   # Identity Provider entity ID (from IdP metadata, e.g. the entityID attribute)
+#   idp_entity_id: "https://idp.example.com/saml2"
+#
+#   # IdP Single Sign-On URL (HTTP-Redirect binding)
+#   idp_sso_url: "https://idp.example.com/saml2/sso"
+#
+#   # Service Provider entity ID (must match what you register in the IdP)
+#   sp_entity_id: "https://themisdb.example.com/sp"
+#
+#   # Service Provider Assertion Consumer Service URL
+#   sp_acs_url: "https://themisdb.example.com/api/v1/auth/saml/acs"
+#
+#   # IdP signing certificate in PEM format (paste the full -----BEGIN CERTIFICATE----- block)
+#   idp_certificate_pem: |
+#     -----BEGIN CERTIFICATE-----
+#     MIIDazCCAlOgAwIBAgIUExampleCertificate...
+#     -----END CERTIFICATE-----
+#
+#   # --- Optional fields ---
+#
+#   # Require the IdP to sign the SAML Response envelope (default: true, recommended)
+#   require_signed_response: true
+#
+#   # Require the IdP to sign the SAML Assertion element (default: true, recommended)
+#   require_signed_assertion: true
+#
+#   # Allow legacy SHA-1 signatures for backward compatibility (default: false)
+#   allow_sha1_deprecated: false
+#
+#   # Acceptable clock skew between SP and IdP clocks in seconds (default: 60)
+#   clock_skew_seconds: 60
+#
+#   # Maximum assertion replay-cache size (default: 100000)
+#   max_replay_cache_size: 100000
+#
+#   # SAML attribute name carrying the user e-mail (default: "email")
+#   attr_email: "email"
+#
+#   # IdP Single Log-Out URL (optional; enables /api/v1/auth/saml/slo endpoint)
+#   idp_slo_url: "https://idp.example.com/saml2/slo"
+#
+#   # SP SLO callback URL (optional)
+#   sp_slo_url: "https://themisdb.example.com/api/v1/auth/saml/slo"
+#
+#   # SP metadata contact / organization info (shown in /api/v1/auth/saml/metadata)
+#   org_name: "My Organisation"
+#   org_display_name: "My Organisation (ThemisDB)"
+#   org_url: "https://www.example.com"
+#   contact_email: "admin@example.com"
+
+# =============================================================================
 # FEATURE FLAGS
 # =============================================================================
 features:

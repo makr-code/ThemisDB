@@ -18,6 +18,7 @@
  */
 
 #include "security/mock_key_provider.h"
+#include "utils/logger.h"
 #include <chrono>
 #include <sstream>
 #include <stdexcept>
@@ -28,6 +29,19 @@ MockKeyProvider::MockKeyProvider() {
     // Seed random number generator
     std::random_device rd;
     rng_.seed(rd());
+
+    THEMIS_WARN("╔═══════════════════════════════════════════════════════════════╗");
+    THEMIS_WARN("║  ⚠️  INSECURE CONFIGURATION: MockKeyProvider ACTIVE!  ⚠️      ║");
+    THEMIS_WARN("╠═══════════════════════════════════════════════════════════════╣");
+    THEMIS_WARN("║  Encryption keys are stored in PROCESS MEMORY only.          ║");
+    THEMIS_WARN("║  Keys are NOT persisted and will be lost on restart.          ║");
+    THEMIS_WARN("║  This configuration is for DEVELOPMENT / TESTING ONLY.       ║");
+    THEMIS_WARN("║                                                               ║");
+    THEMIS_WARN("║  Production deployments MUST use a real KeyProvider:          ║");
+    THEMIS_WARN("║  - PKIKeyProvider (TLS-backed PKI)                            ║");
+    THEMIS_WARN("║  - HSMKeyProvider (hardware security module)                  ║");
+    THEMIS_WARN("║  - VaultKeyProvider (HashiCorp Vault / cloud KMS)             ║");
+    THEMIS_WARN("╚═══════════════════════════════════════════════════════════════╝");
 }
 
 void MockKeyProvider::createKey(const std::string& key_id, uint32_t version) {

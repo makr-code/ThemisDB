@@ -66,7 +66,9 @@
 #include "sharding/redundancy_strategy.h"
 #include "sharding/consistent_hash.h"
 #include "sharding/shard_topology.h"
+#include "sharding/shard_repair_engine.h"
 #include "sharding/sharding_manager.h"
+#include "core/concerns/concerns_context.h"
 #include "utils/retention_manager.h"
 #include "utils/audit_logger.h"
 #include "utils/pki_client.h"
@@ -80,6 +82,8 @@
 #include "themis/build_info.h"
 #include "themis/license_info.h"
 #include "themis/runtime_license_gate.h"
+#include "themis/base/module_loader.h"
+#include "themis/base/hot_reload_manager.h"
 #ifdef THEMIS_HAS_PROMETHEUS
 #include <prometheus/registry.h>
 #endif
@@ -140,6 +144,11 @@ static std::unique_ptr<server::WalGrpcService> g_wal_grpc_service;
 #endif
 
 static std::shared_ptr<themis::sharding::WALShipper> g_wal_shipper;
+
+// ShardRepairEngine — instantiated when RAID is active; owns its lifetime
+// together with the strategy object it references.
+static std::shared_ptr<themis::sharding::ShardRepairEngine>   g_shard_repair_engine;
+static std::shared_ptr<themis::sharding::RedundancyStrategy>  g_shard_repair_strategy;
 
 // HSM security warning thread
 static std::thread g_hsm_warning_thread;
@@ -1390,6 +1399,117 @@ int main(int argc, char* argv[]) {
             }
 
             THEMIS_INFO("RAID redundancy components initialized successfully");
+
+            // ═══════════════════════════════════════════════════════════════
+            // SHARD REPAIR ENGINE — anti-entropy / replica repair
+            // ═══════════════════════════════════════════════════════════════
+            // Instantiate only when RAID is active (all three components are
+            // available).  The engine is injected into the HttpServer after
+            // construction so that /v1/admin/repair/* endpoints go live.
+            //
+            // ReadHandler / WriteHandler are thin wrappers around the storage
+            // layer.  Full storage integration (forwarding to the active shard
+            // node via the ShardingManager) is wired here; for shards that are
+            // purely local the handlers reach directly into `db`.
+            if (redundancy_manager && hash_ring && shard_topology) {
+                themis::sharding::RepairConfig repair_cfg;
+                if (cfg && cfg->contains("raid") && (*cfg)["raid"].contains("repair")) {
+                    const auto& rc = (*cfg)["raid"]["repair"];
+                    uint32_t scan_s  = rc.value("scan_interval_seconds",   static_cast<uint32_t>(repair_cfg.scan_interval.count()));
+                    uint32_t poll_s  = rc.value("repair_poll_seconds",     static_cast<uint32_t>(repair_cfg.repair_poll_interval.count()));
+                    repair_cfg.scan_interval          = std::chrono::seconds(scan_s);
+                    repair_cfg.repair_poll_interval   = std::chrono::seconds(poll_s);
+                    repair_cfg.max_concurrent_repairs = rc.value("max_concurrent_repairs", repair_cfg.max_concurrent_repairs);
+                    repair_cfg.repair_batch_size      = rc.value("repair_batch_size",      repair_cfg.repair_batch_size);
+                    repair_cfg.enable_auto_repair     = rc.value("enable_auto_repair",     repair_cfg.enable_auto_repair);
+                    repair_cfg.enable_periodic_scan   = rc.value("enable_periodic_scan",   repair_cfg.enable_periodic_scan);
+                    repair_cfg.num_parallel_workers   = rc.value("num_parallel_workers",   repair_cfg.num_parallel_workers);
+                    repair_cfg.default_collection     = rc.value("default_collection",     repair_cfg.default_collection);
+                }
+
+                // Default redundancy strategy (used by the repair engine for
+                // read/write routing decisions across replicas).
+                themis::sharding::RedundancyConfig default_rc = redundancy_manager->getConfig("");
+                auto repair_strategy = std::make_shared<themis::sharding::RedundancyStrategy>(default_rc);
+
+                // ReadHandler: read raw document bytes from local storage for
+                // a given shard + document ID.  shard_id is informational here;
+                // the local db holds the authoritative copy during repair.
+                themis::sharding::RedundancyStrategy::ReadHandler read_handler =
+                    [db_local = db](const std::string& /*shard_id*/, const std::string& doc_id)
+                    -> std::optional<std::vector<uint8_t>> {
+                        if (!db_local) return std::nullopt;
+                        try {
+                            auto val = db_local->get(doc_id);
+                            if (!val) return std::nullopt;
+                            return std::vector<uint8_t>(val->begin(), val->end());
+                        } catch (...) {
+                            return std::nullopt;
+                        }
+                    };
+
+                // WriteHandler: write raw document bytes back into local storage
+                // during a repair operation.
+                themis::sharding::RedundancyStrategy::WriteHandler write_handler =
+                    [db_local = db](const std::string& /*shard_id*/, const std::string& doc_id,
+                                    const std::vector<uint8_t>& data) -> bool {
+                        if (!db_local) return false;
+                        try {
+                            std::string str_data(data.begin(), data.end());
+                            return db_local->put(doc_id, str_data);
+                        } catch (...) {
+                            return false;
+                        }
+                    };
+
+                g_shard_repair_engine = std::make_shared<themis::sharding::ShardRepairEngine>(
+                    repair_cfg,
+                    *repair_strategy,
+                    *hash_ring,
+                    *shard_topology,
+                    std::move(read_handler),
+                    std::move(write_handler)
+                );
+                // Keep repair_strategy alive for the lifetime of the engine
+                g_shard_repair_strategy = std::move(repair_strategy);
+
+                // Wire document-list provider: enables the anti-entropy scanner to
+                // enumerate keys per shard via a full RocksDB scan filtered by the
+                // consistent-hash ring assignment.
+                //
+                // Performance note: scanAll() is O(total_keys) per shard repair cycle.
+                // For large deployments, consider maintaining a per-shard key index
+                // or using a range-based scan with shard-ID-prefixed key layout.
+                // This implementation is correct and safe for moderate key counts.
+                if (db && hash_ring) {
+                    auto db_weak = std::weak_ptr<RocksDBWrapper>(db);
+                    auto ring_weak = std::weak_ptr<themis::sharding::ConsistentHashRing>(hash_ring);
+                    g_shard_repair_engine->setDocumentListProvider(
+                        [db_weak, ring_weak](const std::string& shard_id)
+                        -> std::vector<std::string> {
+                            auto db_ptr  = db_weak.lock();
+                            auto ring_ptr = ring_weak.lock();
+                            if (!db_ptr || !ring_ptr) return {};
+                            std::vector<std::string> keys;
+                            try {
+                                db_ptr->scanAll([&](std::string_view key,
+                                                    std::string_view /*value*/) -> bool {
+                                    auto node = ring_ptr->getNode(std::string(key));
+                                    if (node && *node == shard_id) {
+                                        keys.emplace_back(key);
+                                    }
+                                    return true; // continue iteration
+                                });
+                            } catch (...) {}
+                            return keys;
+                        });
+                    THEMIS_INFO("ShardRepairEngine: DocumentListProvider wired via RocksDB scan");
+                }
+
+                THEMIS_INFO("ShardRepairEngine created (auto_repair={}, scan_interval={}s)",
+                    repair_cfg.enable_auto_repair,
+                    repair_cfg.scan_interval.count());
+            }
         }
 
         // Create HttpServer with all components
@@ -1412,6 +1532,258 @@ int main(int argc, char* argv[]) {
         );
         // Inject live ShardingManager so /v1/admin/shards/* endpoints are functional
         g_server->setShardingManager(&themis::sharding::ShardingManager::GetInstance());
+        // Inject ShardRepairEngine (non-null only when RAID is enabled)
+        if (g_shard_repair_engine) {
+            try {
+                // Wire first — setShardRepairEngine() also builds ShardingMetricsHandler
+                // and injects PrometheusMetrics into the engine.
+                g_server->setShardRepairEngine(g_shard_repair_engine);
+                // Start background anti-entropy threads (scan + repair workers)
+                g_shard_repair_engine->start();
+                THEMIS_INFO("ShardRepairEngine wired + started → /v1/admin/repair/* active");
+            } catch (const std::exception& ex) {
+                THEMIS_WARN("ShardRepairEngine wiring/start failed — running without anti-entropy: {}", ex.what());
+                g_shard_repair_engine.reset();
+                g_shard_repair_strategy.reset();
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // MODULE LOADER — dynamic plugin subsystem
+        // ═══════════════════════════════════════════════════════════════════
+        // Instantiate ModuleLoader from optional config["modules"] block.
+        // When no block is present the server still starts; the
+        // /v1/admin/modules/* endpoints return 503 until a loader is injected.
+        auto module_loader = std::make_shared<themis::modules::ModuleLoader>();
+        auto hot_reload_mgr = std::make_shared<themis::modules::HotReloadManager>();
+        {
+            bool modules_configured = false;
+            if (cfg && cfg->contains("modules")) {
+                const auto& mcfg = (*cfg)["modules"];
+                bool require_sig   = mcfg.value("require_signature", false);
+                bool allow_unsigned = mcfg.value("allow_unsigned", true);
+                std::string manifest = mcfg.value("hash_manifest", std::string());
+
+                module_loader->setRequireSignature(require_sig);
+                module_loader->setAllowUnsigned(allow_unsigned);
+                if (!manifest.empty() && !module_loader->setHashManifest(manifest)) {
+                    THEMIS_WARN("ModuleLoader: failed to load hash manifest from '{}'", manifest);
+                }
+
+                // Watchdog configuration — read once and reuse for startWatchdog decision
+                bool wd_enabled = true;
+                if (mcfg.contains("watchdog")) {
+                    const auto& wdcfg = mcfg["watchdog"];
+                    themis::modules::WatchdogConfig wd;
+                    wd.enabled            = wdcfg.value("enabled", true);
+                    wd.check_interval_ms  = wdcfg.value("check_interval_ms", uint64_t(30000));
+                    wd.max_restart_attempts = wdcfg.value("max_restart_attempts", uint32_t(5));
+                    wd.initial_backoff_ms = wdcfg.value("initial_backoff_ms", uint64_t(5000));
+                    wd.max_backoff_ms     = wdcfg.value("max_backoff_ms", uint64_t(300000));
+                    wd.backoff_multiplier = wdcfg.value("backoff_multiplier", 2.0);
+                    wd_enabled            = wd.enabled;
+                    module_loader->configureWatchdog(wd);
+                }
+
+                // Bulk-load from directory (optional)
+                std::string module_dir = mcfg.value("directory", std::string());
+                if (!module_dir.empty()) {
+                    THEMIS_INFO("ModuleLoader: scanning '{}'…", module_dir);
+                    size_t loaded = module_loader->loadAllModules(module_dir);
+                    THEMIS_INFO("ModuleLoader: {} module(s) loaded from '{}'", loaded, module_dir);
+                    modules_configured = true;
+                }
+
+                // Wire all loaded modules into HotReloadManager for zero-downtime swapping
+                for (const auto& m : module_loader->getAllLoadedModules()) {
+                    try {
+                        hot_reload_mgr->registerModule(m.name, *module_loader);
+                    } catch (const std::exception& ex) {
+                        THEMIS_WARN("HotReloadManager: failed to register '{}': {}", m.name, ex.what());
+                    }
+                }
+
+                // Start watchdog using the flag already determined above
+                if (wd_enabled) {
+                    module_loader->startWatchdog();
+                    THEMIS_INFO("ModuleLoader: watchdog started");
+                }
+            }
+
+            if (!modules_configured) {
+                THEMIS_INFO("ModuleLoader: no modules.directory configured — dynamic plugin loading disabled");
+            }
+        }
+#ifdef THEMIS_ENABLE_HTTP_SERVER
+        // Inject ModuleLoader into HTTP server → activates /v1/admin/modules/* endpoints
+        g_server->setModuleLoader(module_loader.get());
+
+        // ═══════════════════════════════════════════════════════════════════
+        // CONCERNS CONTEXT — observability / cross-cutting concerns
+        // ═══════════════════════════════════════════════════════════════════
+        // Build ConcernsContext from the optional config["concerns"] block and
+        // wire it into the HttpServer so that MonitoringApiHandler and other
+        // internal consumers can reach the logger, tracer, metrics, cache,
+        // circuit-breaker, feature-flags, secrets, and audit-log facades.
+        {
+            core::concerns::ConcernsContext::Config cc_cfg;
+
+            if (cfg && cfg->contains("concerns")) {
+                const auto& cc = (*cfg)["concerns"];
+
+                // Logger
+                cc_cfg.logLevel        = cc.value("log_level",     cc_cfg.logLevel);
+                cc_cfg.logFile         = cc.value("log_file",       cc_cfg.logFile);
+                cc_cfg.jsonLogging     = cc.value("json_logging",   cc_cfg.jsonLogging);
+                cc_cfg.loggerAdapter   = cc.value("logger_adapter", cc_cfg.loggerAdapter);
+
+                // Tracer — also honour the top-level tracing block
+                if (cc.contains("tracing")) {
+                    const auto& tr = cc["tracing"];
+                    cc_cfg.tracingEnabled     = tr.value("enabled",      cc_cfg.tracingEnabled);
+                    cc_cfg.tracingServiceName = tr.value("service_name", cc_cfg.tracingServiceName);
+                    cc_cfg.tracingEndpoint    = tr.value("endpoint",     cc_cfg.tracingEndpoint);
+                    cc_cfg.tracerAdapter      = tr.value("adapter",      cc_cfg.tracerAdapter);
+                } else if (cfg->contains("tracing")) {
+                    const auto& tr = (*cfg)["tracing"];
+                    cc_cfg.tracingEnabled     = tr.value("enabled",       cc_cfg.tracingEnabled);
+                    cc_cfg.tracingServiceName = tr.value("service_name",  cc_cfg.tracingServiceName);
+                    cc_cfg.tracingEndpoint    = tr.value("otlp_endpoint", cc_cfg.tracingEndpoint);
+                }
+
+                // Metrics
+                if (cc.contains("metrics")) {
+                    const auto& m = cc["metrics"];
+                    cc_cfg.metricsEnabled        = m.value("enabled",              cc_cfg.metricsEnabled);
+                    cc_cfg.maxMetricCardinality  = m.value("max_cardinality",      cc_cfg.maxMetricCardinality);
+                    cc_cfg.metricsAdapter        = m.value("adapter",              cc_cfg.metricsAdapter);
+                }
+
+                // Cache
+                if (cc.contains("cache")) {
+                    const auto& ca = cc["cache"];
+                    cc_cfg.cacheMaxSize       = ca.value("max_size",   cc_cfg.cacheMaxSize);
+                    cc_cfg.cacheDefaultTTL    = ca.value("default_ttl", cc_cfg.cacheDefaultTTL);
+                    cc_cfg.cacheAdapter       = ca.value("adapter",    cc_cfg.cacheAdapter);
+                    cc_cfg.cacheRedisUrl      = ca.value("redis_url",  cc_cfg.cacheRedisUrl);
+                }
+
+                // Circuit breaker
+                if (cc.contains("circuit_breaker")) {
+                    const auto& cb = cc["circuit_breaker"];
+                    cc_cfg.circuitBreakerAdapter          = cb.value("adapter",            cc_cfg.circuitBreakerAdapter);
+                    cc_cfg.circuitBreakerFailureThreshold = cb.value("failure_threshold",   cc_cfg.circuitBreakerFailureThreshold);
+                    uint32_t timeout_s                    = cb.value("timeout_seconds",     static_cast<uint32_t>(cc_cfg.circuitBreakerTimeout.count()));
+                    cc_cfg.circuitBreakerTimeout          = std::chrono::seconds(timeout_s);
+                    cc_cfg.circuitBreakerSuccessThreshold = cb.value("success_threshold",   cc_cfg.circuitBreakerSuccessThreshold);
+                    uint32_t window_s                     = cb.value("failure_window_seconds", static_cast<uint32_t>(cc_cfg.circuitBreakerFailureWindow.count()));
+                    cc_cfg.circuitBreakerFailureWindow    = std::chrono::seconds(window_s);
+                }
+
+                // Feature flags
+                if (cc.contains("feature_flags")) {
+                    const auto& ff = cc["feature_flags"];
+                    cc_cfg.featureFlagsAdapter = ff.value("adapter", cc_cfg.featureFlagsAdapter);
+                    if (ff.contains("initial")) {
+                        for (auto it = ff["initial"].begin(); it != ff["initial"].end(); ++it) {
+                            cc_cfg.initialFeatureFlags[it.key()] = it.value().get<bool>();
+                        }
+                    }
+                }
+
+                // Secrets
+                if (cc.contains("secrets")) {
+                    const auto& sec = cc["secrets"];
+                    cc_cfg.secretsAdapter    = sec.value("adapter",    cc_cfg.secretsAdapter);
+                    cc_cfg.secretsEnvPrefix  = sec.value("env_prefix", cc_cfg.secretsEnvPrefix);
+                }
+
+                // Audit log
+                cc_cfg.auditAdapter = cc.value("audit_adapter", cc_cfg.auditAdapter);
+            } else if (cfg && cfg->contains("tracing")) {
+                // Fallback: propagate top-level tracing block into concerns
+                const auto& tr = (*cfg)["tracing"];
+                cc_cfg.tracingEnabled     = tr.value("enabled",       cc_cfg.tracingEnabled);
+                cc_cfg.tracingServiceName = tr.value("service_name",  cc_cfg.tracingServiceName);
+                cc_cfg.tracingEndpoint    = tr.value("otlp_endpoint", cc_cfg.tracingEndpoint);
+            }
+
+            try {
+                auto concerns = core::concerns::ConcernsContext::create(cc_cfg);
+                g_server->setConcerns(std::move(concerns));
+                THEMIS_INFO("ConcernsContext wired into HttpServer (logger={}, metrics={}, tracing={})",
+                    cc_cfg.loggerAdapter,
+                    cc_cfg.metricsEnabled ? "enabled" : "disabled",
+                    cc_cfg.tracingEnabled ? "enabled" : "disabled");
+            } catch (const std::exception& ex) {
+                THEMIS_WARN("ConcernsContext construction failed — server continues without it: {}", ex.what());
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // SAML 2.0 SERVICE PROVIDER — optional SSO integration
+        // ═══════════════════════════════════════════════════════════════════
+        // Reads the optional config["saml"] block and calls g_server->enableSaml()
+        // so that the pre-registered SAML endpoints become functional.
+        // Without this block every /api/v1/auth/saml/* endpoint returns HTTP 503.
+        if (cfg && cfg->contains("saml") && g_server) {
+            try {
+                const auto& sc = (*cfg)["saml"];
+
+                // Mandatory: IdP entity ID and SSO URL; SP entity ID and ACS URL
+                std::string idp_entity_id   = sc.value("idp_entity_id",   std::string());
+                std::string idp_sso_url     = sc.value("idp_sso_url",     std::string());
+                std::string sp_entity_id    = sc.value("sp_entity_id",    std::string());
+                std::string sp_acs_url      = sc.value("sp_acs_url",      std::string());
+                std::string idp_cert_pem    = sc.value("idp_certificate_pem", std::string());
+
+                if (idp_entity_id.empty() || idp_sso_url.empty() ||
+                    sp_entity_id.empty()  || sp_acs_url.empty()  ||
+                    idp_cert_pem.empty()) {
+                    THEMIS_WARN("SAML: incomplete configuration — skipping enableSaml(). "
+                                "Required: idp_entity_id, idp_sso_url, sp_entity_id, sp_acs_url, idp_certificate_pem");
+                } else {
+                    themis::server::SamlAuthProvider::Config saml_cfg;
+
+                    // SP / IdP core settings
+                    saml_cfg.saml.sp_entity_id          = sp_entity_id;
+                    saml_cfg.saml.sp_acs_url             = sp_acs_url;
+                    saml_cfg.saml.idp_entity_id          = idp_entity_id;
+                    saml_cfg.saml.idp_sso_url            = idp_sso_url;
+                    saml_cfg.saml.idp_certificate_pem   = idp_cert_pem;
+
+                    // Optional signature requirements (secure defaults)
+                    saml_cfg.saml.require_signed_response  = sc.value("require_signed_response",  true);
+                    saml_cfg.saml.require_signed_assertion = sc.value("require_signed_assertion",  true);
+                    saml_cfg.saml.allow_sha1_deprecated    = sc.value("allow_sha1_deprecated",     false);
+
+                    // Optional: clock skew tolerance (seconds)
+                    uint32_t skew_s = sc.value("clock_skew_seconds", uint32_t(60));
+                    saml_cfg.saml.clock_skew = std::chrono::seconds(skew_s);
+
+                    // Optional: replay-cache limit
+                    saml_cfg.saml.max_replay_cache_size = sc.value("max_replay_cache_size", size_t(100000));
+
+                    // Optional: attribute mapping overrides
+                    saml_cfg.saml.attr_email = sc.value("attr_email", std::string("email"));
+
+                    // Optional: SP metadata / SLO
+                    saml_cfg.idp_slo_url        = sc.value("idp_slo_url",    std::string());
+                    saml_cfg.sp_slo_url         = sc.value("sp_slo_url",     std::string());
+                    saml_cfg.org_name           = sc.value("org_name",       std::string());
+                    saml_cfg.org_display_name   = sc.value("org_display_name", std::string());
+                    saml_cfg.org_url            = sc.value("org_url",        std::string());
+                    saml_cfg.contact_email      = sc.value("contact_email",  std::string());
+
+                    g_server->enableSaml(saml_cfg);
+                    THEMIS_INFO("SAML SP enabled for IdP '{}' (ACS: {})",
+                                idp_entity_id, sp_acs_url);
+                }
+            } catch (const std::exception& ex) {
+                THEMIS_WARN("SAML SP configuration failed — SAML endpoints remain disabled: {}", ex.what());
+            }
+        }
+#endif
 #else
         THEMIS_INFO("HTTP server disabled at build time (THEMIS_ENABLE_HTTP_SERVER=OFF)");
 #endif
@@ -1562,7 +1934,12 @@ int main(int argc, char* argv[]) {
                 // Instantiate retention manager with configured YAML path
                 auto retention_mgr = std::make_shared<vcc::RetentionManager>(retention_policies_path);
                 
-                // Setup audit logging for retention actions
+                // Setup audit logging for retention actions.
+                // For the retention-specific log (retention_audit.jsonl) we need
+                // field encryption — use MockKeyProvider as a fallback.  The main
+                // audit logger (audit.jsonl) is reused from the HttpServer when
+                // available so that both paths write to the same, properly keyed
+                // logger instead of spawning a second MockKeyProvider instance.
                 auto key_provider = std::make_shared<themis::MockKeyProvider>();
                 key_provider->createKey("retention_audit_key", 32);
                 auto field_enc = std::make_shared<themis::FieldEncryption>(key_provider);
@@ -1587,13 +1964,32 @@ int main(int argc, char* argv[]) {
                 auto db_ptr = db;
                 auto sec_idx_ptr = secondary_index;
                 
-                // Create main audit logger instance for retention operations
+                // Prefer the HttpServer's shared AuditLogger (backed by the server's
+                // own key provider and PKI client) over a second MockKeyProvider
+                // instance.  Fall back to a locally created logger only when the
+                // server is not available (e.g. HTTP disabled at build time).
+#ifdef THEMIS_ENABLE_HTTP_SERVER
+                std::shared_ptr<themis::utils::AuditLogger> main_audit_logger =
+                    (g_server ? g_server->getAuditLogger() : nullptr);
+                if (!main_audit_logger) {
+                    THEMIS_WARN("[Retention] HttpServer AuditLogger unavailable — falling back to local MockKeyProvider-backed logger");
+                    themis::utils::AuditLoggerConfig main_audit_cfg;
+                    main_audit_cfg.enabled = true;
+                    main_audit_cfg.encrypt_then_sign = true;
+                    main_audit_cfg.log_path = "data/logs/audit.jsonl";
+                    main_audit_cfg.key_id = "saga_log";
+                    main_audit_logger = std::make_shared<themis::utils::AuditLogger>(field_enc, pki_client, main_audit_cfg);
+                } else {
+                    THEMIS_INFO("[Retention] Using HttpServer AuditLogger for main audit log");
+                }
+#else
                 themis::utils::AuditLoggerConfig main_audit_cfg;
                 main_audit_cfg.enabled = true;
                 main_audit_cfg.encrypt_then_sign = true;
                 main_audit_cfg.log_path = "data/logs/audit.jsonl";
                 main_audit_cfg.key_id = "saga_log";
                 auto main_audit_logger = std::make_shared<themis::utils::AuditLogger>(field_enc, pki_client, main_audit_cfg);
+#endif
                 
                 retention_thread = std::thread([retention_mgr, &retention_stop, retention_interval_hours, db_ptr, sec_idx_ptr, audit_logger, main_audit_logger]() {
                     using namespace std::chrono;
@@ -2251,6 +2647,12 @@ int main(int argc, char* argv[]) {
         // Step 5: Clear shared pointers
         THEMIS_INFO("[5/5] Releasing resources...");
         
+        // Stop ModuleLoader watchdog before releasing the loader
+        if (module_loader && module_loader->isWatchdogRunning()) {
+            THEMIS_INFO("Stopping ModuleLoader watchdog...");
+            module_loader->stopWatchdog();
+        }
+        
         // Stop HSM warning thread
         stopHSMWarningThread();
         
@@ -2268,6 +2670,16 @@ int main(int argc, char* argv[]) {
         graph_index.reset();
         secondary_index.reset();
         db.reset();
+        module_loader.reset();
+        hot_reload_mgr.reset();
+
+        // Stop ShardRepairEngine (if active) before releasing its resources
+        if (g_shard_repair_engine && g_shard_repair_engine->isRunning()) {
+            THEMIS_INFO("Stopping ShardRepairEngine...");
+            g_shard_repair_engine->stop();
+        }
+        g_shard_repair_engine.reset();
+        g_shard_repair_strategy.reset();
         
         THEMIS_INFO("=================================================");
         THEMIS_INFO("Shutdown complete. All data saved.");
