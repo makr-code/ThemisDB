@@ -754,6 +754,7 @@ TEST(MqttClientTlsRuntimeTests, EmptyTlsCaPathLogsVerifyNoneFallback) {
     // Poll briefly for the fallback warning to appear in captured logs.
     constexpr int max_log_poll_attempts = 20;
     constexpr auto log_poll_interval = std::chrono::milliseconds(50);
+    // Keep synchronized with src/server/mqtt_client_service.cpp fallback warning.
     constexpr std::string_view expected_log_prefix =
         "[SECURITY][TLS] MQTT TLS verify_none fallback active";
 
