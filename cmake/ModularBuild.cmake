@@ -1553,9 +1553,7 @@ set(THEMIS_NETWORK_SOURCES
     ../src/observability/metric_anomaly_detector.cpp
     # Observability: ML anomaly detector (forecasting + change-point + outlier) (Issue #83)
     ../src/observability/ml_anomaly_detector.cpp
-    # Observability: query, storage, and performance profiling
-    ../src/observability/query_profiler.cpp
-    ../src/observability/storage_profiler.cpp
+    # Observability: performance profiling (query_profiler/storage_profiler live in THEMIS_CORE_SOURCES)
     ../src/observability/performance_analyzer.cpp
     # Observability: standalone span management and structured log aggregation (OBS-MISSING-001)
     ../src/observability/tracer.cpp

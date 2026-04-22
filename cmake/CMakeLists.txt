@@ -1612,6 +1612,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/parallel_executor.cpp
 
     ../src/query/statistical_aggregator.cpp
+    ../src/query/approximate_aggregator.cpp
     ../src/query/semantic_cache.cpp
     ../src/query/cross_cluster_federation.cpp
     ../src/query/workload_cache_strategy.cpp
@@ -2747,6 +2748,7 @@ if(THEMIS_ENABLE_LLM)
     ../src/rag/batch_evaluator.cpp
     ../src/rag/bias_detector.cpp
     # Phase 1-3: Core evaluator building blocks (no direct LLM header dependency)
+    ../src/rag/rag_context_assembler.cpp
     ../src/rag/continuous_learning_client.cpp
     ../src/rag/http_metrics_client.cpp
     ../src/rag/judge_config.cpp
