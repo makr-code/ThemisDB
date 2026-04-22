@@ -833,7 +833,24 @@ HttpServer::HttpServer(
             THEMIS_INFO("Alertmanager enabled: {}", am_cfg.endpoint_url);
         }
         auto alertmanager = std::make_shared<observability::DefaultAlertmanager>(am_cfg);
-        monitoring_api_->setAlertmanager(std::move(alertmanager));
+        monitoring_api_->setAlertmanager(alertmanager);  // monitoring keeps shared ownership
+
+        // Wire the same Alertmanager into the Cache hit-rate SLO monitor so that
+        // SLO violations are forwarded to the same alerting endpoint.
+        if (cache_admin_api_) {
+            cache::CacheHitRateSloMonitor::Config slo_cfg;
+            // Use sensible defaults; operators can override via environment variables.
+            if (const char* warn_thr = std::getenv("THEMIS_CACHE_SLO_WARN")) {
+                try { slo_cfg.warning_threshold = std::stod(warn_thr); } catch (...) {}
+            }
+            if (const char* crit_thr = std::getenv("THEMIS_CACHE_SLO_CRIT")) {
+                try { slo_cfg.critical_threshold = std::stod(crit_thr); } catch (...) {}
+            }
+            auto cache_slo = std::make_shared<cache::CacheHitRateSloMonitor>(
+                slo_cfg, alertmanager);
+            cache_admin_api_->setSloMonitor(std::move(cache_slo));
+            THEMIS_INFO("Cache hit-rate SLO monitor wired into CacheAdminApiHandler");
+        }
     }
     THEMIS_INFO("Monitoring API Handler initialized");
     // Initialize Query API Handler
@@ -1296,6 +1313,11 @@ HttpServer::HttpServer(
         }
     } catch (const std::exception& e) {
         THEMIS_WARN("PolicyEngine initialization warning: {}", e.what());
+    }
+    // Wire AuditLogger into PolicyEngine so that authorization decisions are recorded
+    if (policy_engine_ && audit_logger_) {
+        policy_engine_->setAuditLogger(audit_logger_.get());
+        THEMIS_INFO("AuditLogger wired into PolicyEngine");
     }
 
     // Initialize Ranger client (optional), configured via environment for secrets
