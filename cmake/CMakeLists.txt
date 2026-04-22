@@ -1467,6 +1467,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/compression_strategy.cpp
     ../src/storage/gpu_compression.cpp
     ../src/storage/index_maintenance.cpp
+    ../src/storage/index_analyzer.cpp
     ../src/storage/storage_engine.cpp
     ../src/storage/blob_backend_filesystem.cpp
     ../src/storage/blob_backend_s3.cpp

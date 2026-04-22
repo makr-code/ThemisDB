@@ -39,6 +39,80 @@
 
 ## Planned Features
 
+### `IndexAnalyzer`: Per-Index Analyze with Hot/Warm/Cold Tier Awareness, Cron Scheduling, and AI/ML Hook
+
+**Priority:** High
+**Target Version:** v1.9.0
+**Status:** 🟡 In Progress
+
+#### Scope
+- Tier-aware fragmentation analysis per index (hot/warm/cold thresholds independently configurable)
+- Produces `IndexAnalysisReport` with `IndexRecommendation` (NONE / UPDATE_STATS / REORGANIZE / PARTIAL_REBUILD / FULL_REBUILD)
+- Cron-based automatic scheduling via the existing `CronExpression` parser (standard 5-field POSIX cron + @-shortcuts)
+- AI/ML intervention hook (`IIndexAnalysisAdvisor`) that can override the rule-based recommendation
+- Full YAML configuration via `config/index_analyze.yaml` (or inline in `config.yaml` under `index_analyze:`)
+
+#### Design Constraints
+- `IIndexAnalysisAdvisor::advise()` must be thread-safe; the scheduler calls it from a background thread
+- Thresholds for warm and cold tiers MUST be ≥ hot-tier thresholds (looser = cheaper maintenance)
+- AI advisor is disabled by default (`ai_advisor.enabled: false`); opt-in to avoid unexpected interventions in production
+- Cron scheduler uses copy-then-read config snapshot to avoid holding the mutex during RocksDB I/O
+- No new dependency introduced; yaml-cpp and CronExpression are already in the build
+
+#### Required Interfaces
+
+```cpp
+// AI/ML intervention hook
+class IIndexAnalysisAdvisor {
+public:
+    virtual std::optional<std::pair<IndexRecommendation, std::string>>
+    advise(const IndexAnalysisReport& report) = 0;
+};
+
+// Per-index analysis
+Result<IndexAnalysisReport> IndexAnalyzer::analyze(
+    const std::string& index_name,
+    storage::StorageTierLevel tier,
+    std::optional<TierThresholds> overrides = std::nullopt);
+
+// Batch analysis of all configured indices
+std::vector<IndexAnalysisReport> IndexAnalyzer::analyzeAll();
+
+// YAML config load
+static Result<IndexAnalyzeConfig> IndexAnalyzeConfig::fromYamlFile(const std::string& path);
+
+// Cron scheduler lifecycle
+Result<void> startScheduled();   // validates cron expression, launches background thread
+void         stopScheduled();    // graceful shutdown
+```
+
+#### Implementation Notes
+- Fragmentation estimate: `(total_sst - live_sst) / total_sst * 100 + l0_files * 2.0` using RocksDB properties `rocksdb.total-sst-files-size`, `rocksdb.live-sst-files-size`, `rocksdb.num-files-at-level0`
+- Statistics staleness: tracked via `stats_age_hours`; initially approximated at 2 h until a metadata CF for stats-update-time is introduced
+- AI advisor receives the fully populated preliminary `IndexAnalysisReport`; returning `std::nullopt` leaves the rule-based recommendation unchanged
+- Scheduler loop: compute `CronExpression::getNextExecution(now)`, `cv_.wait_until(*next)`, run `analyzeAll()`, repeat
+
+#### Test Strategy
+- IA-01…IA-15 in `tests/test_index_analyzer.cpp` (`IndexAnalyzerFocusedTests`)
+- IA-01..IA-04: threshold defaults and tier dispatch (pure logic, no DB)
+- IA-05..IA-06: YAML load – error path + valid config
+- IA-07: ctor guard for null db_wrapper
+- IA-08..IA-09: setConfig / setAdvisor thread safety
+- IA-10..IA-14: classify() function covering all five recommendations
+- IA-15: lastReports() empty before first run
+
+#### Performance Targets
+- `analyzeAll()` for 100 indices: ≤ 50 ms wall-clock (RocksDB property reads are non-blocking)
+- Scheduler thread wake-up overhead: ≤ 1 ms (uses `condition_variable::wait_until`)
+- AI advisor timeout: caller-controlled; no internal timeout imposed by IndexAnalyzer
+
+#### Security / Reliability
+- Cron expression validated before thread launch; malformed expression → error returned, no thread started
+- AI advisor exceptions are caught and logged; the rule-based recommendation is preserved
+- `stopScheduled()` is called from the destructor; no thread left running after object destruction
+
+---
+
 ### `RocksDBWrapper`: Implement Proper Size Calculation
 **Priority:** Medium
 **Target Version:** v1.8.0
