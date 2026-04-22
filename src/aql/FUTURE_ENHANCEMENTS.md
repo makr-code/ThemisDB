@@ -170,9 +170,9 @@ The AQL module is ThemisDB's query language and LLM-integration layer. It covers
 
 **Implementation Notes:**
 - `[x]` Add an optional `IEmbeddingProvider* embedding_provider_` pointer to `AQLFewShotExampleLibrary`; when set, pre-embed all examples on first `add()` or `addBuiltinSamples()` and store embeddings alongside examples
-- `[ ]` Implement `computeRelevanceSemantic_()` using cosine similarity between the query embedding and each stored example embedding; fall back to `computeRelevance_()` (Jaccard) when no provider is set
+- `[x]` Implement `computeRelevanceSemantic_()` using cosine similarity between the query embedding and each stored example embedding; fall back to `computeRelevance_()` (Jaccard) when no provider is set
 - `[x]` Add `AQLFewShotExampleLibrary::setEmbeddingProvider(IEmbeddingProvider*)` and `rebuildEmbeddingIndex()` methods
-- `[ ]` Use the `LLMAQLHandler`'s existing `executeEmbed()` as the default embedding provider bridge
+- `[x]` Use the `LLMAQLHandler`'s existing `executeEmbed()` as the default embedding provider bridge — `LLMAQLEmbeddingBridge` in `include/aql/llm_aql_embedding_bridge.h`; factory `LLMAQLHandler::makeEmbeddingBridge()`. Tests: `test_llm_aql_embedding_bridge.cpp` (EMB_01..05).
 - `[ ]` Add a benchmark comparing Jaccard vs. semantic selection on 50 held-out NL queries from the built-in sample set; target: ≥ 15 % improvement in top-3 relevance@k
 
 ---
@@ -236,11 +236,11 @@ Each copy independently strips backtick fences, trims whitespace, and performs `
 **Problem (from code):** `aql_query_validator.cpp` contains only six regex/string-scan checks: `checkLimitZero`, `checkCollectAfterSort`, `checkMissingReturn`, `checkMissingFor`, `checkAssignmentInFilter`, `checkMissingLimit`. There is no schema-aware validation: collection names in `FOR x IN <collection>` are never checked against known collections, field names in `FILTER x.<field>` are never checked against the schema, and type errors (e.g. arithmetic on a string field) are not detected. `AQLQueryBuilder` has a `setSchema()` method and `getFieldsForCollection()` but validator does not accept a schema parameter.
 
 **Implementation Notes:**
-- `[ ]` Add `ValidationResult AQLQueryValidator::validate(const std::string& query, const AQLSchemaProvider& schema) const` overload that also performs schema-aware checks
+- `[x]` Add `ValidationResult AQLQueryValidator::validate(const std::string& query, const AQLSchemaProvider& schema) const` overload that also performs schema-aware checks — implemented; takes `const std::vector<CollectionMetadata>& schema` (see `aql_query_validator.cpp:452`)
 - `[x]` Implement `checkUnknownCollections()`: extract `FOR x IN <name>` identifiers using a regex; for each, call `schema.getCollectionMeta(name)`; if missing, add a `WARNING`-severity issue
-- `[ ]` Implement `checkUnknownFields()`: extract `<var>.<field>` accesses and check against the schema's known field list for each collection variable in scope
+- `[x]` Implement `checkUnknownFields()`: extract `<var>.<field>` accesses and check against the schema's known field list for each collection variable in scope — implemented (`aql_query_validator.cpp:368`)
 - `[ ]` Integrate with `AQLQueryBuilder::validate()` (line 243) which already calls the schema-less version — add a second overload that accepts a schema
-- `[ ]` Add dedicated tests with a mock schema: query referencing a non-existent collection must produce a WARNING; query referencing a valid collection's known fields must produce no issues
+- `[x]` Add dedicated tests with a mock schema: query referencing a non-existent collection must produce a WARNING; query referencing a valid collection's known fields must produce no issues — tests in `test_aql_query_validator.cpp:439`
 
 ---
 

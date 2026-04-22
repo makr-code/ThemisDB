@@ -39,6 +39,8 @@ namespace themis { class RocksDBWrapper; }
 // Forward-declare to avoid pulling in toolbox/ingestion headers transitively.
 // Consumers that use setIngestionBridge() must include aql_ingestion_bridge.h.
 namespace themis { namespace aql { class AQLIngestionBridge; } }
+// Forward-declare embedding bridge; consumers must include llm_aql_embedding_bridge.h.
+namespace themis { namespace aql { class LLMAQLEmbeddingBridge; } }
 namespace themis { namespace sharding {
 class ShardingManager;
 class AdaptiveShardRouter;
@@ -747,6 +749,30 @@ public:
      * When not set, doc.content carries the primary key (backward-compatible).
      */
     void setStorage(std::shared_ptr<RocksDBWrapper> storage);
+
+    /**
+     * @brief Factory: create an `IEmbeddingProvider` backed by this handler's
+     *        `executeEmbed()` circuit.
+     *
+     * The returned bridge can be injected into an `AQLFewShotExampleLibrary`
+     * to enable semantic (cosine-similarity) few-shot example ranking instead
+     * of the default Jaccard word-overlap metric:
+     *
+     * @code
+     * auto bridge = handler.makeEmbeddingBridge();
+     * library.setEmbeddingProvider(bridge.get());
+     * library.rebuildEmbeddingIndex();
+     * @endcode
+     *
+     * The bridge holds a non-owning reference to @c *this — the returned
+     * pointer must not outlive this handler.
+     *
+     * Consumers must `#include "aql/llm_aql_embedding_bridge.h"` to access
+     * the concrete type; this header only sees the forward declaration.
+     *
+     * @return `unique_ptr` owning the bridge (concrete type: `LLMAQLEmbeddingBridge`).
+     */
+    std::unique_ptr<IEmbeddingProvider> makeEmbeddingBridge();
 
 private:
     class Impl;

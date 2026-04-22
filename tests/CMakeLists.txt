@@ -6000,7 +6000,29 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_judge_is_mock.cpp")
     message(STATUS "  LLMJudgeIsMock: JGI_MOCK_01..05 is_mock flag in ParsedResponse")
 endif()
 
-# Gap 8 ─ HuggingFaceConnector governance gate focused tests
+# AQL §8 ─ LLMAQLEmbeddingBridge: wire executeEmbed() to IEmbeddingProvider
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_llm_aql_embedding_bridge.cpp")
+    message(STATUS "Adding LLMAQLEmbeddingBridge focused tests (AQL §8 / B-07)")
+    add_executable(test_llm_aql_embedding_bridge_focused
+        test_llm_aql_embedding_bridge.cpp
+    )
+    target_link_libraries(test_llm_aql_embedding_bridge_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_llm_aql_embedding_bridge_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME LLMAQLEmbeddingBridgeFocusedTests
+             COMMAND test_llm_aql_embedding_bridge_focused)
+    set_tests_properties(LLMAQLEmbeddingBridgeFocusedTests PROPERTIES
+        LABELS "aql;embedding;few-shot;semantic;bridge;b07;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  LLMAQLEmbeddingBridge: EMB_01..05 bridge->embed() delegation and library wiring")
+endif()
+
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_huggingface_connector_governance.cpp")
     message(STATUS "Adding HuggingFaceConnector governance gate tests (Gap 8)")
     add_executable(test_huggingface_connector_governance_focused
