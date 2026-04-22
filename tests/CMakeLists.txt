@@ -1011,10 +1011,15 @@ target_sources(themis_tests PRIVATE
     ${THEMIS_ROOT_DIR}/src/projects/collaboration_manager.cpp
     ${THEMIS_ROOT_DIR}/src/projects/in_memory_project_audit_log.cpp
     ${THEMIS_ROOT_DIR}/src/server/import_wizard_builder.cpp
+    ${THEMIS_ROOT_DIR}/src/llm/mode_spec_loader.cpp
+    ${THEMIS_ROOT_DIR}/src/llm/ai_orchestrator.cpp
     ${THEMIS_ROOT_DIR}/src/llm/llm_security_utils.cpp
+    ${THEMIS_ROOT_DIR}/src/search/conversational_search.cpp
+    ${THEMIS_ROOT_DIR}/src/search/federated_search.cpp
     ${THEMIS_ROOT_DIR}/src/search/multi_field_search.cpp
     ${THEMIS_ROOT_DIR}/src/search/search_highlighter.cpp
     ${THEMIS_ROOT_DIR}/src/search/negative_keyword_filter.cpp
+    ${THEMIS_ROOT_DIR}/src/search/search_result_stream.cpp
     ${THEMIS_ROOT_DIR}/src/security/prompt_injection_pattern_registry.cpp
     ${THEMIS_ROOT_DIR}/src/sharding/cloud_backup.cpp
     ${THEMIS_ROOT_DIR}/src/transaction/distributed_saga.cpp
@@ -1349,6 +1354,7 @@ if(TARGET themis_network)
     if(_themis_network_target_type_keep STREQUAL "STATIC_LIBRARY")
         target_sources(themis_tests PRIVATE
             ${THEMIS_ROOT_DIR}/src/network/udp_server.cpp
+            ${THEMIS_ROOT_DIR}/src/server/rpc/rpc_service_impl.cpp
             ${THEMIS_ROOT_DIR}/src/server/workload_fingerprint_engine.cpp
         )
     endif()

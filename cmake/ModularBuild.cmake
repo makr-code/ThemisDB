@@ -315,6 +315,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/blob_redundancy_manager.cpp
     ../src/storage/erasure_coding_backend.cpp
     ../src/storage/erasure_coder_factory.cpp
+    ../src/storage/hamming_coder.cpp
     ../src/storage/database_connection_manager.cpp
     ../src/storage/disk_space_monitor.cpp
     # WAL for durability and crash recovery

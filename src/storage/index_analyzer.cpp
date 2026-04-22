@@ -17,6 +17,7 @@
 
 #include <yaml-cpp/yaml.h>
 #include <rocksdb/db.h>
+#include <rocksdb/utilities/transaction_db.h>
 
 #include <algorithm>
 #include <chrono>
