@@ -30,6 +30,10 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [x] Query template library for common AQL patterns (`src/aql/aql_query_template_library.cpp`)
 - [x] Schema-aware programmatic AQL query builder (`src/aql/aql_query_builder.cpp`)
 - [x] LLM inference metrics collection (`src/aql/llm_metrics_collector.cpp`)
+- [x] Post-generation AQL validation with selectable enforcement (`WARN_ONLY` / `REJECT_ON_ERROR` / `RETRY_ON_ERROR`) in `LLMAQLHandler::translateNLToAQL*` (`src/aql/llm_aql_handler.cpp`)
+- [x] Thread-leak fix in `LLMTimeoutManager::executeWithTimeout()` / `executeWithCancelToken()` using `std::jthread` + stop-token cancellation (`include/aql/llm_timeout_manager.h`)
+- [x] Per-operation circuit breakers for INFER/RAG/EMBED/FINETUNE with per-command config and observability (`LLMAQLHandler::getCircuitBreakerStates`)
+- [x] Bounded conversation history with context-window budget (`AQLConversationContext::Config{max_turns,max_history_tokens}` + token-based eviction)
 - [x] Generic `AQLTokenStream` iterator API for all LLM inference calls (`include/aql/aql_token_stream.h`) (Phase 4)
 - [x] ReActAgent multi-step reasoning framework with tool calling (`src/aql/aql_agent.cpp`) (Phase 4)
 - [x] Runtime-configurable confidence scoring weights (`AQLConfidenceScorer::Config`, `calibrate()`, word-boundary keyword matching) (Target: v1.6.0) (Issue: #144)
@@ -141,4 +145,3 @@ _Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNC
 
 - `ReActAgent` – LLM-gesteuerter Reasoning+Action Agent für mehrstufige AQL-Abfragen
   > **Aktion:** ROADMAP-Ticket für Produktions-Integration ergänzen oder als CANDIDATE_FOR_REMOVAL markieren.
-

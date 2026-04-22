@@ -9,7 +9,11 @@ All notable changes to the Auth module are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
+### Added
 - Fine-grained ABAC with OPA policy expressions — PR open (Issue #1538)
+- Async/non-blocking auth I/O: LDAP and HTTP auth paths use `AuthWorkerThreadPool`, with async entry points (`authenticateAsync()`, `validateAsync()`).
+- Token revocation persistence backends: `ITokenBlacklist`, `RocksDBTokenBlacklist`, and `RedisTokenBlacklist`.
+- LDAP connection pooling via `LDAPConnectionPool` with pool telemetry.
 
 ## [1.9.1] — 2026-04-08
 ### Added
