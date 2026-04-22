@@ -31,6 +31,7 @@
 #include <vector>
 #include <unordered_map>
 #include <functional>
+#include <mutex>
 #include <boost/asio.hpp>
 #include <google/protobuf/message.h>
 
@@ -201,6 +202,7 @@ public:
     
     void start();
     void close(const std::string& reason = "");
+    void set_disconnect_callback(std::function<void(const std::string&)> callback);
     
     const std::string& session_id() const { return session_id_; }
     bool is_authenticated() const { return authenticated_; }
@@ -253,6 +255,9 @@ private:
     
     std::vector<uint8_t> read_buffer_;
     std::vector<uint8_t> write_buffer_;
+    std::function<void(const std::string&)> disconnect_callback_;
+    bool disconnect_notified_;
+    mutable std::mutex session_mutex_;
     
     // Statistics
     uint64_t messages_received_;
@@ -278,8 +283,8 @@ public:
     
     // Statistics
     size_t active_sessions() const;
-    uint64_t total_connections() const { return total_connections_; }
-    uint64_t total_messages() const { return total_messages_; }
+    uint64_t total_connections() const;
+    uint64_t total_messages() const;
     
 private:
     void async_accept();
@@ -288,6 +293,7 @@ private:
     boost::asio::io_context& io_context_;
     acceptor_t acceptor_;
     std::unordered_map<std::string, std::shared_ptr<WireProtocolSession>> sessions_;
+    mutable std::mutex state_mutex_;
     
     uint16_t port_;
     uint64_t total_connections_;

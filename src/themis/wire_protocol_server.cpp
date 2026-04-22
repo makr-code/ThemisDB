@@ -230,6 +230,7 @@ WireProtocolSession::WireProtocolSession(socket_t socket)
     : socket_(std::move(socket))
     , session_id_(makeSessionId(socket_))
     , authenticated_(false)
+    , disconnect_notified_(false)
     , messages_received_(0)
     , messages_sent_(0)
     , bytes_received_(0)
@@ -244,11 +245,29 @@ void WireProtocolSession::start() {
     async_read_header();
 }
 
+void WireProtocolSession::set_disconnect_callback(
+    std::function<void(const std::string&)> callback) {
+    std::lock_guard<std::mutex> lock(session_mutex_);
+    disconnect_callback_ = std::move(callback);
+}
+
 void WireProtocolSession::close(const std::string& /*reason*/) {
+    std::function<void(const std::string&)> disconnect_callback;
+    {
+        std::lock_guard<std::mutex> lock(session_mutex_);
+        if (disconnect_notified_) return;
+        disconnect_notified_ = true;
+        disconnect_callback = disconnect_callback_;
+    }
+
     error_code ec;
     if (socket_.is_open()) {
         socket_.shutdown(tcp::socket::shutdown_both, ec);
         socket_.close(ec);
+    }
+
+    if (disconnect_callback) {
+        disconnect_callback(session_id_);
     }
 }
 
@@ -267,6 +286,7 @@ void WireProtocolSession::async_read_header() {
                     ec != net::error::operation_aborted)
                     std::cerr << "[WireV1:" << session_id_
                               << "] header read: " << ec.message() << '\n';
+                close();
                 return;
             }
             bytes_received_ += bytes_read;
@@ -323,6 +343,7 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
                     ec != net::error::operation_aborted)
                     std::cerr << "[WireV1:" << session_id_
                               << "] payload read: " << ec.message() << '\n';
+                close();
                 return;
             }
             bytes_received_ += bytes_read;
@@ -582,6 +603,7 @@ void WireProtocolSession::async_write_response(
             if (ec) {
                 std::cerr << "[WireV1:" << session_id_
                           << "] write error: " << ec.message() << '\n';
+                close();
                 return;
             }
             bytes_sent_ += written;
@@ -1100,23 +1122,44 @@ WireProtocolServer::~WireProtocolServer() {
 }
 
 void WireProtocolServer::start() {
-    if (running_) return;
-    running_ = true;
+    {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        if (running_) return;
+        running_ = true;
+    }
     async_accept();
 }
 
 void WireProtocolServer::stop() {
-    if (!running_) return;
-    running_ = false;
+    std::vector<std::shared_ptr<WireProtocolSession>> sessions_to_close;
+    {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        if (!running_) return;
+        running_ = false;
+        for (const auto& kv : sessions_)
+            sessions_to_close.push_back(kv.second);
+        sessions_.clear();
+    }
+
     error_code ec;
     acceptor_.close(ec);
-    for (auto& kv : sessions_)
-        kv.second->close("server shutdown");
-    sessions_.clear();
+    for (const auto& session : sessions_to_close)
+        session->close("server shutdown");
 }
 
 size_t WireProtocolServer::active_sessions() const {
+    std::lock_guard<std::mutex> lock(state_mutex_);
     return sessions_.size();
+}
+
+uint64_t WireProtocolServer::total_connections() const {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    return total_connections_;
+}
+
+uint64_t WireProtocolServer::total_messages() const {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    return total_messages_;
 }
 
 void WireProtocolServer::async_accept() {
@@ -1131,12 +1174,34 @@ void WireProtocolServer::async_accept() {
 void WireProtocolServer::handle_accept(
     std::shared_ptr<WireProtocolSession> session,
     const boost::system::error_code&     error) {
+    bool accepted_session = false;
     if (!error) {
-        sessions_[session->session_id()] = session;
-        ++total_connections_;
-        session->start();
+        session->set_disconnect_callback(
+            [this](const std::string& session_id) {
+                std::lock_guard<std::mutex> lock(state_mutex_);
+                sessions_.erase(session_id);
+            });
+        {
+            std::lock_guard<std::mutex> lock(state_mutex_);
+            if (running_) {
+                sessions_[session->session_id()] = session;
+                ++total_connections_;
+                accepted_session = true;
+            }
+        }
+        if (accepted_session) {
+            session->start();
+        } else {
+            session->close("server stopping");
+        }
     }
-    if (running_) async_accept();
+
+    bool should_continue = false;
+    {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        should_continue = running_;
+    }
+    if (should_continue) async_accept();
 }
 
 } // namespace wire

@@ -20,6 +20,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     (user, IP, permissions, roles, justification) into `TaskScheduler` thread-local context.
   - `TaskSchedulerApiHandler::executeTask()` now returns `status=error` when scheduler
     execution is rejected (e.g., missing permission), instead of reporting `executed`.
+- **JWT/JWKS cache synchronization hardening** 🔒
+  - `JWTValidator::fetchJWKS()` now guarantees `jwks_refreshing_` reset via RAII even on exceptional exits,
+    preventing stuck refresh state under parallel validation/key-fetch error paths.
+  - Added explicit header includes for `std::mutex` / `std::condition_variable` in
+    `include/auth/jwt_validator.h` to keep synchronization primitives self-contained.
 
 - **Docker Image Security Hardening** 🔒
   - `THEMIS_ENABLE_ENCRYPTED_STORAGE` Build-ARG hinzugefügt (default: `OFF`):

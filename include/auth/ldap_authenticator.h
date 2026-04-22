@@ -262,16 +262,19 @@ public:
     std::string buildUserDN(const std::string& username) const;
 
     /**
-     * @brief Build the group search filter by substituting and filter-escaping {dn}.
+     * @brief Build the group search filter by substituting and filter-escaping placeholders.
      *
-     * Substitutes the {dn} placeholder in group_search_filter with the
-     * RFC 4515-escaped DN value.  Public for unit-testing; callers normally
-     * use authenticate().
+     * Substitutes placeholders in group_search_filter with RFC 4515-escaped values:
+     * - {dn} with the distinguished name
+     * - {username} with the username (when provided)
+     * Public for unit-testing; callers normally use authenticate().
      *
-     * @param dn  Distinguished Name to substitute
-     * @return Filter string with {dn} replaced and filter-escaped
+     * @param dn        Distinguished Name to substitute into {dn}
+     * @param username  Optional username to substitute into {username}
+     * @return Filter string with substituted placeholders
      */
-    std::string buildGroupSearchFilter(const std::string& dn) const;
+    std::string buildGroupSearchFilter(const std::string& dn,
+                                       const std::string& username = "") const;
 
     /**
      * @brief Map a list of LDAP group names to ThemisDB roles.
