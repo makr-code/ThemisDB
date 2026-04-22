@@ -308,6 +308,7 @@ static void BM_GorillaSIMDDecode_Throughput(benchmark::State& state) {
 BENCHMARK(BM_GorillaSIMDDecode_Throughput)->Arg(10000)->Arg(100000)->Unit(benchmark::kMicrosecond);
 
 static void BM_GorillaDecode_1MB(benchmark::State& state) {
+    // Logical decoded payload size target (uncompressed bytes), not encoded size.
     constexpr size_t decoded_bytes = 1u << 20; // 1 MB decoded payload
     constexpr int n = static_cast<int>(decoded_bytes / (sizeof(int64_t) + sizeof(double)));
     auto compressed = encode(makeConstantSeries(n));

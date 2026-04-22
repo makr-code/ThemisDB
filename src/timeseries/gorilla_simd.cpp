@@ -248,6 +248,9 @@ size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& ou
     if (!gorilla_simd_has_avx2()) {
         GorillaDecoder fallback(data_);
         const size_t out_begin = out.size();
+        // Same conservative estimate used by the SIMD path below:
+        // Gorilla points are at least ~1 byte encoded, so payload_size/2 + 1
+        // avoids repeated reallocations without changing decode semantics.
         out.reserve(out.size() + data_.size() / 2 + 1);
         while (auto p = fallback.next()) {
             out.push_back(*p);
