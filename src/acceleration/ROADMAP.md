@@ -108,8 +108,7 @@ Production hardening complete — all GPU kernel surfaces and design contracts a
 
 _Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
 
-### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+### ✅ Verdrahtet (2026-04-22)
 
-- `logCapabilities` – Loggt erkannte CPU/GPU-Capabilities (AVX, CUDA, ROCm) beim Startup
-  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+- `logCapabilities` – Wird jetzt am Ende von `AiHardwareDispatcher::initialize()` aufgerufen; loggt erkannte CPU/GPU/NPU-Capabilities beim Startup. AH-31 Rauchtest in `tests/acceleration/test_ai_hardware_dispatcher.cpp`.
 

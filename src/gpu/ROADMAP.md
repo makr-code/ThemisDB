@@ -128,11 +128,10 @@
 
 _Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
 
-### 🟡 UNGENUTZT (kein Test, kein externer Aufrufer)
+### ✅ Bereits verdrahtet (Audit korrigiert 2026-04-22)
 
-- `MakeCPUFallback` – Erzeugt CPU-Fallback-Device wenn keine GPU verfügbar
-- `EnumerateCUDA` – Zählt verfügbare CUDA-Devices auf
-- `EnumerateROCm` – Zählt verfügbare ROCm/HIP-Devices auf
-- `resolveDevices` – Löst Device-Liste für P2P-Transfer auf (src+dst Devices bestimmen)
-  > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
+- `MakeCPUFallback` – Wird intern von `device_discovery.cpp::Enumerate()` aufgerufen (Zeilen 194, 202, 224); kein Handlungsbedarf.
+- `EnumerateCUDA` – Wird intern von `device_discovery.cpp::Enumerate()` aufgerufen (Zeile 186); kein Handlungsbedarf.
+- `EnumerateROCm` – Wird intern von `device_discovery.cpp::Enumerate()` aufgerufen (Zeile 188); kein Handlungsbedarf.
+- `resolveDevices` – Wird intern von `p2p_transfer.cpp::GPUP2PTransferManager::transfer/getStats/reset` aufgerufen (Zeilen 116, 152, 304); kein Handlungsbedarf.
 

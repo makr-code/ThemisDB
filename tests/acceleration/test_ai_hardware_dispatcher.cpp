@@ -391,3 +391,11 @@ TEST(AiHardwareDispatcherFocusedTests, AH_30_HasNPU_ConsistentWithCapabilities) 
         << "hasNPU() disagreed with probeCapabilities(): "
         << "hasNPU=" << has_npu << ", any_npu_cap=" << any_npu_cap;
 }
+
+// AH-31: logCapabilities() must not throw or crash after initialization.
+// It is a startup logging helper — the test verifies that calling it on a
+// fully initialized dispatcher completes without any exception.
+TEST(AiHardwareDispatcherFocusedTests, AH_31_LogCapabilities_NoThrow) {
+    AiHardwareDispatcher::instance().initialize(/*force=*/true);
+    EXPECT_NO_THROW(AiHardwareDispatcher::instance().logCapabilities());
+}
