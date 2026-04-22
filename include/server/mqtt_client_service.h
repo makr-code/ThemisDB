@@ -63,6 +63,7 @@
 #include <memory>
 #include <mutex>
 #include <string>
+#include <string_view>
 #include <thread>
 #include <vector>
 
@@ -70,6 +71,9 @@ namespace boost { namespace asio { class io_context; } }
 
 namespace themis {
 namespace server {
+
+inline constexpr std::string_view kMqttTlsVerifyNoneFallbackLogPrefix =
+    "[SECURITY][TLS] MQTT TLS verify_none fallback active";
 
 // ── Forward declarations ──────────────────────────────────────────────────────
 
