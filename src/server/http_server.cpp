@@ -1358,6 +1358,13 @@ HttpServer::HttpServer(
             THEMIS_WARN("Failed to initialize OPA evaluator: {}; native policy evaluation will be used", e.what());
         }
     }
+    // Wire PolicyEngine into ExportApiHandler (constructed before policy_engine_ was ready)
+    if (export_api_ && policy_engine_) {
+        export_api_->setPolicyEngine(policy_engine_.get());
+        THEMIS_INFO("PolicyEngine wired into ExportApiHandler");
+    } else if (export_api_ && !policy_engine_) {
+        THEMIS_WARN("ExportApiHandler: PolicyEngine not available — export policy enforcement disabled");
+    }
 
     // Initialize Rate Limiter for DoS protection
     RateLimitConfig rate_config;
@@ -1383,6 +1390,31 @@ HttpServer::HttpServer(
     
     rate_limiter_ = std::make_unique<RateLimiter>(rate_config);
     THEMIS_INFO("Rate Limiter initialized: {} req/min", rate_config.refill_rate * 60.0);
+    // Wire anomaly callback so that throttle/blacklist events are logged to the
+    // audit log (when available) and always emit a structured WARN log line.
+    // Capture audit_logger_ as weak_ptr to avoid use-after-free if the logger
+    // is reset before the RateLimiter is destroyed.
+    {
+        std::weak_ptr<themis::utils::AuditLogger> weak_audit = audit_logger_;
+        rate_limiter_->setAnomalyCallback(
+            [weak_audit](const AnomalyEvent& ev) {
+                const char* type_str =
+                    (ev.type == AnomalyEvent::Type::IP_BLACKLISTED)
+                        ? "IP_BLACKLISTED"
+                        : "ADAPTIVE_THROTTLE_TRIGGERED";
+                THEMIS_WARN("[RateLimiter] anomaly type={} ip={} detail={}",
+                    type_str, ev.ip, ev.detail);
+                if (auto audit = weak_audit.lock()) {
+                    nlohmann::json entry;
+                    entry["event"]  = "rate_limiter_anomaly";
+                    entry["type"]   = type_str;
+                    entry["ip"]     = ev.ip;
+                    entry["detail"] = ev.detail;
+                    try { audit->logEvent(entry); } catch (...) {}
+                }
+            });
+        THEMIS_INFO("RateLimiter anomaly callback wired");
+    }
 
     // Initialize rate limiting middleware with configurable per-client token bucket
     {
