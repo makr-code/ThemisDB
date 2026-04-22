@@ -388,6 +388,15 @@ TEST_F(InjectionAttackVectorTest, ReadOnly_DropCollectionBlocked) {
         << "DROP COLLECTION must be rejected in read-only context";
 }
 
+TEST_F(InjectionAttackVectorTest, ReadOnly_DropCollectionRejectedByAstParse) {
+    auto result = detector_.validateForReadOnlyContext(
+        "DROP COLLECTION users"
+    );
+    EXPECT_FALSE(result.is_safe);
+    EXPECT_NE(result.error_message.find("Parse error"), std::string::npos)
+        << "Read-only validation must reject non-AQL write syntax via parser/AST path";
+}
+
 TEST_F(InjectionAttackVectorTest, ReadOnly_CreateCollectionBlocked) {
     auto result = detector_.validateForReadOnlyContext(
         "CREATE COLLECTION backdoor"

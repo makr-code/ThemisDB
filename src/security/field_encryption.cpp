@@ -257,6 +257,19 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
     // If environment variable THEMIS_ENC_PARALLEL is set, run encryptions in parallel for stress testing.
     const char* parallel_env = std::getenv("THEMIS_ENC_PARALLEL");
     bool do_parallel = (parallel_env && *parallel_env);
+    const auto logDebugDumpFailure = [](size_t index,
+                                        bool parallel_path,
+                                        const std::exception* ex) {
+        if (ex) {
+            THEMIS_WARN("FieldEncryption::encryptEntityBatch: debug dump failed "
+                        "({} item {}): {}",
+                        parallel_path ? "parallel" : "sequential", index, ex->what());
+        } else {
+            THEMIS_WARN("FieldEncryption::encryptEntityBatch: debug dump failed "
+                        "({} item {}) with unknown exception",
+                        parallel_path ? "parallel" : "sequential", index);
+        }
+    };
 
     if (do_parallel) {
         tbb::parallel_for(tbb::blocked_range<size_t>(0, items.size()), [&](const tbb::blocked_range<size_t>& r) {
@@ -265,9 +278,19 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
                 try {
                     out[i] = encryptWithKey(ent.second, key_id, metadata.version, base_key);
                     // best-effort debug write (opt-in via env)
-                    try { write_debug_dump("encrypt", out[i], base_key, true); } catch(...) {}
+                    try {
+                        write_debug_dump("encrypt", out[i], base_key, true);
+                    } catch (const std::exception& ex) {
+                        logDebugDumpFailure(i, true, &ex);
+                    } catch (...) {
+                        logDebugDumpFailure(i, true, nullptr);
+                    }
+                } catch (const std::exception& ex) {
+                    THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
+                                "(parallel item {}): {}", i, ex.what());
                 } catch (...) {
-                    // ignore per-item errors here
+                    THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
+                                "(parallel item {}) with unknown exception", i);
                 }
             }
         });
@@ -278,9 +301,21 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
             try {
                 out[i] = encryptWithKey(ent.second, key_id, metadata.version, base_key);
                 // best-effort debug write (opt-in via env)
-                try { write_debug_dump("encrypt", out[i], base_key, true); } catch(...) {}
+                try {
+                    write_debug_dump("encrypt", out[i], base_key, true);
+                } catch (const std::exception& ex) {
+                    logDebugDumpFailure(i, false, &ex);
+                } catch (...) {
+                    logDebugDumpFailure(i, false, nullptr);
+                }
+            } catch (const std::exception& ex) {
+                // On error, leave default constructed blob; caller can inspect failures
+                // via empty output entries.
+                THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
+                            "(item {}): {}", i, ex.what());
             } catch (...) {
-                // On error, leave default constructed blob; errors should be handled by caller
+                THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
+                            "(item {}) with unknown exception", i);
             }
         }
     }

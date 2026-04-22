@@ -212,7 +212,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 ## Known Issues & Limitations
 - HSM integration uses RSA-OAEP (SHA-256 / MGF1-SHA-256) for DEK wrapping via PKCS#11 C_Encrypt/C_Decrypt.
 - FIPS 140-2 mode requires a FIPS-validated OpenSSL build; not bundled by default.
-- AQL injection detection uses both regex and AST-level analysis. The `validateForReadOnlyContext()` method rejects DDL/write operations via regex (`containsWriteOrDDLOperations()`), then falls through to `validateAQLAST()` for general injection pattern detection as defence-in-depth. `validateUnboundedForLoops()` rejects unbounded FOR loops without LIMIT clause.
+- AQL injection detection is AST/parser-driven for query-shape enforcement: `validateForReadOnlyContext()` delegates to `validateAQLAST()` and rejects non-parseable/non-AQL write payloads via parser errors; `validateUnboundedForLoops()` rejects unbounded FOR loops without LIMIT clause.
 - Zero-trust `ZeroTrustPolicyEnforcer` supports IPv4 CIDR policies only; IPv6 support planned for a follow-up.
 - USB admin challenge-response uses HMAC-SHA256 with the license key as the HMAC secret; consider migrating to Ed25519 signatures with a dedicated per-USB key pair in a future iteration.
 - USB Volume Hardening: `getUSBDeviceSerial()` on Linux reads the serial from sysfs; if the USB stick does not expose a serial via the SCSI VPD page 0x80 string descriptor (some cheap sticks do not), `expected_usb_serial` verification is unavailable.  In that case `verifyUSBSerial()` returns false and the stick will be rejected; set `expected_usb_serial` only for sticks known to expose a stable serial.

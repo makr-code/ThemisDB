@@ -1160,7 +1160,10 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(
                     if (noa) {
                         try {
                             assertion_expiry = parseDateTime(noa.as_string("")) + config_.clock_skew;
-                        } catch (...) {}
+                        } catch (const std::exception& ex) {
+                            THEMIS_WARN("SAML: failed to parse SubjectConfirmationData@NotOnOrAfter "
+                                        "for replay TTL fallback: {}", ex.what());
+                        }
                     }
                 }
             }
