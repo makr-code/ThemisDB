@@ -1476,6 +1476,11 @@ int main(int argc, char* argv[]) {
                 // Wire document-list provider: enables the anti-entropy scanner to
                 // enumerate keys per shard via a full RocksDB scan filtered by the
                 // consistent-hash ring assignment.
+                //
+                // Performance note: scanAll() is O(total_keys) per shard repair cycle.
+                // For large deployments, consider maintaining a per-shard key index
+                // or using a range-based scan with shard-ID-prefixed key layout.
+                // This implementation is correct and safe for moderate key counts.
                 if (db && hash_ring) {
                     auto db_weak = std::weak_ptr<RocksDBWrapper>(db);
                     auto ring_weak = std::weak_ptr<themis::sharding::ConsistentHashRing>(hash_ring);
