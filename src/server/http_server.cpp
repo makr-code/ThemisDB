@@ -1706,6 +1706,9 @@ HttpServer::HttpServer(
                 THEMIS_INFO("mTLS: client certificate verification enabled (CA: {})", 
                     config_.tls_ca_cert_path);
             } else {
+                THEMIS_WARN("[SECURITY][TLS] HTTP server verify_none fallback active: "
+                            "tls_require_client_cert=false, client certificate validation is disabled "
+                            "(one-way TLS only).");
                 ssl_ctx_->set_verify_mode(boost::asio::ssl::verify_none);
                 THEMIS_INFO("mTLS: client certificate verification disabled (one-way TLS)");
             }
@@ -2018,6 +2021,8 @@ bool HttpServer::reloadTls() {
                 boost::asio::ssl::verify_fail_if_no_peer_cert
             );
         } else {
+            THEMIS_WARN("[SECURITY][TLS] HTTP server TLS reload verify_none fallback active: "
+                        "client certificate validation disabled for newly accepted TLS sessions.");
             new_ctx->set_verify_mode(boost::asio::ssl::verify_none);
         }
 

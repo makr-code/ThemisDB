@@ -43,6 +43,8 @@
  */
 
 #include <gtest/gtest.h>
+#include <spdlog/sinks/ostream_sink.h>
+#include <spdlog/spdlog.h>
 
 #ifndef THEMIS_ENABLE_MQTT
 
@@ -56,8 +58,10 @@ TEST(MqttClientServiceFocusedTests, SkippedMqttDisabled) {
 #include "server/mqtt_client_service.h"
 
 #include <atomic>
+#include <boost/asio.hpp>
 #include <chrono>
 #include <memory>
+#include <sstream>
 #include <string>
 #include <thread>
 #include <vector>
@@ -706,6 +710,67 @@ TEST(MqttClientTlsRuntimeTests, StartWithTlsDisabledIsUnaffectedByTlsPaths) {
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
     svc.stop();
     EXPECT_FALSE(svc.isConnected());
+}
+
+TEST(MqttClientTlsRuntimeTests, EmptyTlsCaPathLogsVerifyNoneFallback) {
+    auto previous_logger = spdlog::default_logger();
+    auto previous_level = spdlog::get_level();
+
+    std::ostringstream capture;
+    auto sink = std::make_shared<spdlog::sinks::ostream_sink_mt>(capture);
+    auto logger = std::make_shared<spdlog::logger>("mqtt_tls_verify_none_test", sink);
+    logger->set_pattern("%v");
+    logger->set_level(spdlog::level::warn);
+    spdlog::set_default_logger(logger);
+    spdlog::set_level(spdlog::level::warn);
+
+    boost::asio::io_context io_ctx;
+    boost::asio::ip::tcp::acceptor acceptor(
+        io_ctx,
+        boost::asio::ip::tcp::endpoint(boost::asio::ip::address_v4::loopback(), 0));
+    const auto port = acceptor.local_endpoint().port();
+
+    std::thread accept_thread([&acceptor]() {
+        boost::system::error_code ec;
+        boost::asio::ip::tcp::socket socket(acceptor.get_executor());
+        acceptor.accept(socket, ec);
+        if (!ec) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(150));
+        }
+    });
+
+    MqttClientConfig cfg;
+    cfg.broker_host = "127.0.0.1";
+    cfg.broker_port = port;
+    cfg.tls_enabled = true;
+    cfg.tls_ca_path = "";
+    cfg.retry.maxRetries = 0;
+
+    MqttClientService svc(cfg);
+    EXPECT_NO_THROW(svc.start());
+
+    bool saw_fallback_log = false;
+    for (int i = 0; i < 20; ++i) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        if (capture.str().find("MQTT TLS verify_none fallback active") != std::string::npos) {
+            saw_fallback_log = true;
+            break;
+        }
+    }
+
+    svc.stop();
+    boost::system::error_code ec;
+    acceptor.close(ec);
+    if (accept_thread.joinable()) {
+        accept_thread.join();
+    }
+
+    const auto logs = capture.str();
+    EXPECT_TRUE(saw_fallback_log) << logs;
+    EXPECT_NE(logs.find("tls_ca_path is empty"), std::string::npos);
+
+    spdlog::set_default_logger(previous_logger);
+    spdlog::set_level(previous_level);
 }
 #endif // THEMIS_ENABLE_MQTT_TLS
 

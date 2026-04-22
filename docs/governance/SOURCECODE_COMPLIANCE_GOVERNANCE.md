@@ -66,8 +66,10 @@ ssl_ctx_->set_verify_mode(boost::asio::ssl::verify_none);
 new_ctx->set_verify_mode(boost::asio::ssl::verify_none);
 ```
 
-Der Server fällt bei fehlender CA-Konfiguration still auf `verify_none` zurück
-ohne Warnung oder Fehler.
+Der Server fällt bei fehlender CA-Konfiguration auf `verify_none` zurück.
+
+**Status-Update (2026-04-22):** Bei Aktivierung des `verify_none`-Fallbacks wird
+ein expliziter Security-Logeintrag geschrieben (Start + TLS-Hot-Reload).
 
 ### 3.2 `src/network/quic_server.cpp` (Zeile 680)
 
@@ -79,6 +81,9 @@ if (!config_.verify_tls) {
 
 Ein Konfigurations-Flag deaktiviert die TLS-Verifikation für QUIC vollständig.
 
+**Status-Update (2026-04-22):** Bei `verify_tls=false` wird ein expliziter
+Security-Logeintrag vor `SSL_VERIFY_NONE` geschrieben.
+
 ### 3.3 `src/server/mqtt_client_service.cpp` (Zeile 751)
 
 ```cpp
@@ -87,7 +92,10 @@ ctx.set_verify_mode(boost::asio::ssl::verify_none, ec);
 ```
 
 **Befund:** Alle drei Komponenten fallen bei fehlender CA-Konfiguration auf
-`verify_none` zurück ohne Logging der unsicheren Konfiguration.
+`verify_none` zurück.
+
+**Status-Update (2026-04-22):** Der MQTT-`verify_none`-Fallback wird explizit
+als Security/TLS-Warnung geloggt.
 
 **Empfehlung:** Beim Aktivieren von `verify_none` mindestens `THEMIS_ERROR` loggen.
 Für Produktivbetrieb `verify_none` via Build-Flag (`THEMIS_ALLOW_TLS_VERIFY_NONE`)
