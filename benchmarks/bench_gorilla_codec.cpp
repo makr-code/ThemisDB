@@ -308,7 +308,7 @@ static void BM_GorillaSIMDDecode_Throughput(benchmark::State& state) {
 BENCHMARK(BM_GorillaSIMDDecode_Throughput)->Arg(10000)->Arg(100000)->Unit(benchmark::kMicrosecond);
 
 static void BM_GorillaDecode_1MB(benchmark::State& state) {
-    constexpr size_t decoded_bytes = 1u << 20; // 1 MiB decoded payload
+    constexpr size_t decoded_bytes = 1u << 20; // 1 MB decoded payload
     constexpr int n = static_cast<int>(decoded_bytes / (sizeof(int64_t) + sizeof(double)));
     auto compressed = encode(makeConstantSeries(n));
     std::vector<std::pair<int64_t, double>> out;
