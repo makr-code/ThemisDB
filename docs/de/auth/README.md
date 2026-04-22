@@ -36,6 +36,14 @@ Es unterstützt alle gängigen Standards und Protokolle für moderne Sicherheits
 
 ---
 
+## Security Note: LDAP DN/Filter Escaping
+
+- LDAP-Benutzereingaben werden bei DN-Erstellung gemäß **RFC 4514** escaped (`buildUserDN`).
+- LDAP-Filter-Platzhalter `{dn}` und `{username}` werden gemäß **RFC 4515** escaped (`buildGroupSearchFilter`).
+- Dadurch werden DN-/Filter-Injection-Angriffe wie `*)(|(member=*))` in LDAP-Operationen verhindert.
+
+---
+
 ## Komponenten-Übersicht
 
 ### Authentifikatoren

@@ -131,6 +131,33 @@ std::string escapeLDAPFilterValue(const std::string& value)
     return out;
 }
 
+/**
+ * @brief Replace all occurrences of a placeholder token in a template string.
+ *
+ * @param target       Template string to mutate in-place.
+ * @param placeholder  Placeholder token to replace (e.g. "{username}").
+ * @param value        Replacement value that is already escaped for LDAP use.
+ *
+ * @note Security contract: this helper performs substitution only.
+ *       It does NOT escape @p value; callers must pre-escape according to the
+ *       target context (RFC 4514 for DN values, RFC 4515 for filter values).
+ * @warning Passing unescaped user-controlled data to @p value would reintroduce
+ *          LDAP injection risk.
+ */
+void substitutePreEscapedPlaceholderValue(std::string& target,
+                                          const std::string& placeholder,
+                                          const std::string& value)
+{
+    // SECURITY: this helper performs pure template replacement only.
+    // It does NOT escape values; callers must pass values that were already
+    // escaped for the target LDAP context (RFC 4514 for DN, RFC 4515 for filter).
+    std::size_t pos = 0;
+    while ((pos = target.find(placeholder, pos)) != std::string::npos) {
+        target.replace(pos, placeholder.size(), value);
+        pos += value.size();
+    }
+}
+
 } // anonymous namespace
 
 // ===========================================================================
@@ -195,11 +222,8 @@ bool LDAPAuthenticator::initialize(const LDAPConfig& config)
 std::string LDAPAuthenticator::buildUserDN(const std::string& username) const
 {
     std::string dn = config_.bind_dn_template;
-    const std::string placeholder = "{username}";
-    const auto pos = dn.find(placeholder);
-    if (pos != std::string::npos) {
-        dn.replace(pos, placeholder.size(), escapeLDAPDNComponent(username));
-    }
+    const std::string escaped_username = escapeLDAPDNComponent(username);
+    substitutePreEscapedPlaceholderValue(dn, "{username}", escaped_username);
     return dn;
 }
 
@@ -227,14 +251,12 @@ std::vector<std::string> LDAPAuthenticator::mapGroupsToRoles(
     return roles;
 }
 
-std::string LDAPAuthenticator::buildGroupSearchFilter(const std::string& dn) const
+std::string LDAPAuthenticator::buildGroupSearchFilter(const std::string& dn,
+                                                      const std::string& username) const
 {
     std::string filter = config_.group_search_filter;
-    const std::string ph = "{dn}";
-    const auto pos = filter.find(ph);
-    if (pos != std::string::npos) {
-        filter.replace(pos, ph.size(), escapeLDAPFilterValue(dn));
-    }
+    substitutePreEscapedPlaceholderValue(filter, "{dn}", escapeLDAPFilterValue(dn));
+    substitutePreEscapedPlaceholderValue(filter, "{username}", escapeLDAPFilterValue(username));
     return filter;
 }
 
@@ -446,8 +468,8 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
     // Optional group search
     std::vector<std::string> groups;
     if (config_.enable_group_search && !config_.group_search_filter.empty()) {
-        // Build group filter with {dn} substituted and filter-escaped (RFC 4515).
-        const std::string filter = buildGroupSearchFilter(dn);
+        // Build group filter with placeholders substituted and RFC 4515-escaped.
+        const std::string filter = buildGroupSearchFilter(dn, username);
 
         const std::string search_base =
             config_.group_search_base.empty()
@@ -602,7 +624,7 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
 
     std::vector<std::string> groups;
     if (config_.enable_group_search && !config_.group_search_filter.empty()) {
-        const std::string filter = buildGroupSearchFilter(dn);
+        const std::string filter = buildGroupSearchFilter(dn, username);
 
         const std::string search_base =
             config_.group_search_base.empty()
