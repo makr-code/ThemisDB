@@ -58,12 +58,12 @@ static DropResult dropShards(
     const std::vector<uint32_t>&             drop_indices)
 {
     DropResult r;
-    const auto drop_set = [&](uint32_t idx) {
+    const auto isDropped = [&](uint32_t idx) {
         return std::find(drop_indices.begin(), drop_indices.end(), idx) !=
                drop_indices.end();
     };
     for (uint32_t i = 0; i < static_cast<uint32_t>(chunks.size()); ++i) {
-        if (drop_set(i))
+        if (isDropped(i))
             r.missing.push_back(i);
         else
             r.available[i] = chunks[i];
@@ -357,7 +357,7 @@ TEST(HammingCoderFactoryTest, HC_14_FactoryCreatesHammingCoder) {
 }
 
 // ---------------------------------------------------------------------------
-// HC_15 — Single parity shard (XOR of all data shards)
+// HC_15 — Single parity shard (XOR of subset of data shards)
 // ---------------------------------------------------------------------------
 TEST_F(HammingCoderTest, HC_15_SingleParityShard) {
     constexpr uint32_t k = 4, r = 1;
@@ -365,10 +365,10 @@ TEST_F(HammingCoderTest, HC_15_SingleParityShard) {
     auto chunks = coder_.encode(data, k, r);
     ASSERT_EQ(chunks.size(), k + r);
 
-    // Parity 0 (bit 0 of (j+1)): covers j where bit 0 of (j+1) is set
-    // j=0: j+1=1 (bit0 set), j=2: j+1=3 (bit0 set) — NOT j=1 (j+1=2) or j=3 (j+1=4)
-    // So single parity only covers shards 0 and 2 — can't recover all failures.
-    // Just check round-trip with no failures.
+    // With only one parity shard (bit 0), it covers only shards j where bit 0
+    // of (j+1) is set: shards 0 (j+1=1) and 2 (j+1=3).  Shards 1 and 3 are
+    // not covered, so single-failure recovery is not possible for all shards.
+    // This test verifies correct encoding and no-failure round-trip only.
     auto dr = dropShards(chunks, {});
     auto recovered_raw = coder_.decode(dr.available, dr.missing, k, r);
     auto recovered = stripPadding(recovered_raw, data.size());

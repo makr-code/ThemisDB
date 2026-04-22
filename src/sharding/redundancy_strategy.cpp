@@ -1104,6 +1104,11 @@ std::vector<uint8_t> LocallyRepairableCoder::decode(
 // This mirrors the classical Hamming parity-bit assignment but operates at
 // shard granularity with pure XOR — no Galois-Field arithmetic is required.
 
+// Returns true when parity shard `p` covers data shard `j` (both 0-indexed).
+static inline bool hammingCovers(uint32_t j, uint32_t p) noexcept {
+    return (((j + 1u) >> p) & 1u) != 0u;
+}
+
 std::vector<std::vector<uint8_t>> HammingCoder::encode(
     const std::vector<uint8_t>& data,
     uint32_t data_shards,
@@ -1135,8 +1140,7 @@ std::vector<std::vector<uint8_t>> HammingCoder::encode(
     for (uint32_t p = 0; p < parity_shards; ++p) {
         std::vector<uint8_t>& parity = shards[data_shards + p];
         for (uint32_t j = 0; j < data_shards; ++j) {
-            // Data shard j is covered by parity p when bit p of (j+1) is set
-            if (((j + 1u) >> p) & 1u) {
+            if (hammingCovers(j, p)) {
                 for (uint32_t b = 0; b < shard_size; ++b)
                     parity[b] ^= shards[j][b];
             }
@@ -1187,6 +1191,9 @@ std::vector<uint8_t> HammingCoder::decode(
 
     // Iterative repair: in each pass try to recover a missing shard using a
     // parity shard that covers exactly one absent shard (the target itself).
+    // The loop terminates when a full pass completes without recovering any
+    // new shard; at that point the remaining missing shards cannot be repaired
+    // with the available parity coverage.
     bool progress = true;
     while (progress) {
         progress = false;
@@ -1199,7 +1206,7 @@ std::vector<uint8_t> HammingCoder::decode(
                 const uint32_t p = target - data_shards;
                 bool can_recompute = true;
                 for (uint32_t j = 0; j < data_shards; ++j) {
-                    if (!present[j] && (((j + 1u) >> p) & 1u)) {
+                    if (!present[j] && hammingCovers(j, p)) {
                         can_recompute = false;
                         break;
                     }
@@ -1207,7 +1214,7 @@ std::vector<uint8_t> HammingCoder::decode(
                 if (can_recompute) {
                     shards[target].assign(shard_size, 0);
                     for (uint32_t j = 0; j < data_shards; ++j) {
-                        if (((j + 1u) >> p) & 1u) {
+                        if (hammingCovers(j, p)) {
                             for (uint32_t b = 0; b < shard_size; ++b)
                                 shards[target][b] ^= shards[j][b];
                         }
@@ -1220,14 +1227,14 @@ std::vector<uint8_t> HammingCoder::decode(
                 // Look for a parity shard p that covers it and has all its
                 // other covered shards already recovered.
                 for (uint32_t p = 0; p < parity_shards; ++p) {
-                    if (!present[data_shards + p]) continue;                 // parity absent
-                    if (!(((target + 1u) >> p) & 1u))  continue;            // parity doesn't cover target
+                    if (!present[data_shards + p]) continue;       // parity absent
+                    if (!hammingCovers(target, p))  continue;      // parity doesn't cover target
 
                     // Check that every other data shard covered by p is present
                     bool all_others_present = true;
                     for (uint32_t j = 0; j < data_shards; ++j) {
                         if (j == target) continue;
-                        if ((((j + 1u) >> p) & 1u) && !present[j]) {
+                        if (hammingCovers(j, p) && !present[j]) {
                             all_others_present = false;
                             break;
                         }
@@ -1238,7 +1245,7 @@ std::vector<uint8_t> HammingCoder::decode(
                     shards[target] = shards[data_shards + p];
                     for (uint32_t j = 0; j < data_shards; ++j) {
                         if (j == target) continue;
-                        if (((j + 1u) >> p) & 1u) {
+                        if (hammingCovers(j, p)) {
                             for (uint32_t b = 0; b < shard_size; ++b)
                                 shards[target][b] ^= shards[j][b];
                         }
