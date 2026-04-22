@@ -108,10 +108,10 @@ private:
     mutable std::mutex mu_;
 };
 
-class ThreadJoiner {
+class ScopedThreadJoiner {
 public:
-    explicit ThreadJoiner(std::thread& t) : thread_(t) {}
-    ~ThreadJoiner() {
+    explicit ScopedThreadJoiner(std::thread& t) : thread_(t) {}
+    ~ScopedThreadJoiner() {
         if (thread_.joinable()) {
             thread_.join();
         }
@@ -749,10 +749,12 @@ TEST(MqttClientTlsRuntimeTests, EmptyTlsCaPathLogsVerifyNoneFallback) {
         boost::asio::ip::tcp::socket socket(acceptor.get_executor());
         acceptor.accept(socket, ec);
         if (!ec) {
+            // Keep the accepted TCP connection alive briefly so TLS handshake
+            // setup reaches the verify_none warning path deterministically.
             std::this_thread::sleep_for(std::chrono::milliseconds(150));
         }
     });
-    ThreadJoiner accept_thread_joiner(accept_thread);
+    ScopedThreadJoiner accept_thread_joiner(accept_thread);
 
     MqttClientConfig cfg;
     cfg.broker_host = "127.0.0.1";
@@ -766,6 +768,7 @@ TEST(MqttClientTlsRuntimeTests, EmptyTlsCaPathLogsVerifyNoneFallback) {
 
     // doHandshake() runs on the internal I/O thread after async TCP connect.
     // Poll briefly for the fallback warning to appear in captured logs.
+    // Total wait budget: 20 * 50ms = 1000ms.
     constexpr int max_log_poll_attempts = 20;
     constexpr auto log_poll_interval = std::chrono::milliseconds(50);
     bool saw_fallback_log = false;
