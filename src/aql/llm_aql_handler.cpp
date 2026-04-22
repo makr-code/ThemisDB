@@ -28,6 +28,7 @@
 #include "aql/aql_fewshot_example_library.h"
 #include "aql/aql_query_validator.h"
 #include "aql/aql_ingestion_bridge.h"
+#include "aql/llm_aql_embedding_bridge.h"
 #include "aql/llm_error_codes.h"
 #include "aql/llm_timeout_manager.h"
 #include "aql/llm_metrics_collector.h"
@@ -461,6 +462,10 @@ std::shared_ptr<AQLIngestionBridge> LLMAQLHandler::ingestionBridge() const {
 
 void LLMAQLHandler::setStorage(std::shared_ptr<RocksDBWrapper> storage) {
     impl_->storage_ = std::move(storage);
+}
+
+std::unique_ptr<IEmbeddingProvider> LLMAQLHandler::makeEmbeddingBridge() {
+    return std::make_unique<LLMAQLEmbeddingBridge>(*this);
 }
 
 std::string LLMAQLHandler::executeInfer(

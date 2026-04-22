@@ -2651,6 +2651,7 @@ if(THEMIS_ENABLE_LLM)
     ../src/aql/aql_model_router.cpp
     ../src/aql/aql_rollback_suggester.cpp
     ../src/aql/aql_ingestion_bridge.cpp
+    ../src/aql/llm_aql_embedding_bridge.cpp
 
         # Optional: gRPC service and generated proto headers (guarded by gRPC)
         # Only add when gRPC is available, otherwise skip to prevent missing headers

@@ -190,6 +190,7 @@ public:
 private:
     Config config_;
     std::function<std::string(const std::string&)> inference_fn_;
+    bool mock_mode_active_ = false;        // Tracks whether stub inference is currently active
     bool mock_mode_warning_shown_ = false;  // Track if warning has been shown
     
     /**

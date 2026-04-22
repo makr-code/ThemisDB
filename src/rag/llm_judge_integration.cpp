@@ -38,7 +38,7 @@ LLMJudgeIntegration::LLMJudgeIntegration(ILLMInferenceEngine* engine)
 }
 
 LLMJudgeIntegration::LLMJudgeIntegration(ILLMInferenceEngine* engine, const Config& config)
-    : config_(config), mock_mode_warning_shown_(false) {
+    : config_(config), mock_mode_active_(false), mock_mode_warning_shown_(false) {
     if (engine == nullptr && !config_.allow_mock) {
         throw std::invalid_argument(
             "LLMJudgeIntegration: engine must not be nullptr when allow_mock is false. "
@@ -49,10 +49,12 @@ LLMJudgeIntegration::LLMJudgeIntegration(ILLMInferenceEngine* engine, const Conf
         inference_fn_ = [engine](const std::string& prompt) {
             return engine->generate(prompt);
         };
+        mock_mode_active_ = false;
         THEMIS_INFO("LLMJudgeIntegration initialized with injected inference engine");
     } else {
         // allow_mock = true AND engine = nullptr → fall back to default mock
         inference_fn_ = defaultInference;
+        mock_mode_active_ = true;
         if (config_.warn_on_mock_mode) {
             THEMIS_WARN("LLMJudgeIntegration initialized with nullptr engine in MOCK MODE "
                         "(allow_mock=true) - evaluations will use stub responses");
@@ -65,10 +67,11 @@ LLMJudgeIntegration::LLMJudgeIntegration()
 }
 
 LLMJudgeIntegration::LLMJudgeIntegration(const Config& config)
-    : config_(config), mock_mode_warning_shown_(false) {
+    : config_(config), mock_mode_active_(false), mock_mode_warning_shown_(false) {
     // Only set default inference function if mock mode is explicitly enabled
     if (config_.use_mock_mode) {
         inference_fn_ = defaultInference;
+        mock_mode_active_ = true;
         if (config_.warn_on_mock_mode) {
             THEMIS_WARN("LLMJudgeIntegration initialized in MOCK MODE - evaluations will use stub responses");
         }
@@ -182,6 +185,7 @@ void LLMJudgeIntegration::setInferenceFunction(
     std::function<std::string(const std::string&)> fn
 ) {
     inference_fn_ = fn;
+    mock_mode_active_ = false;
     THEMIS_INFO("Custom inference function set for LLM judge");
 }
 
@@ -205,7 +209,7 @@ std::string LLMJudgeIntegration::callLLM(const std::string& prompt) {
     }
     
     // Warn once if in mock mode
-    if (config_.use_mock_mode && config_.warn_on_mock_mode && !mock_mode_warning_shown_) {
+    if (mock_mode_active_ && config_.warn_on_mock_mode && !mock_mode_warning_shown_) {
         THEMIS_WARN("LLM evaluation using MOCK MODE - results are not real (warning shown once)");
         mock_mode_warning_shown_ = true;
     }
@@ -251,7 +255,7 @@ std::string LLMJudgeIntegration::defaultInference(const std::string& prompt) {
 }
 
 bool LLMJudgeIntegration::isMockMode() const {
-    return config_.use_mock_mode || config_.allow_mock;
+    return mock_mode_active_;
 }
 
 } // namespace themis::rag::judge

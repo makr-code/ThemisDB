@@ -9,6 +9,7 @@
  * JGI_MOCK_03  is_mock == true when allow_mock == true and engine == nullptr
  * JGI_MOCK_04  isMockMode() is consistent with the is_mock flag value
  * JGI_MOCK_05  ParsedResponse::is_mock field exists and defaults to false
+ * JGI_MOCK_06  allow_mock=true with a real engine must still be treated as non-mock
  *
  * Source: AI_ML_IMPACT_ASSESSMENT.md §7, Gap 7 (Severity: Medium/S2)
  * Tracked: src/rag/FUTURE_ENHANCEMENTS.md §Gap 7
@@ -150,4 +151,25 @@ TEST(JGI_MOCK, JGI_MOCK_04_IsMockModeConsistentWithFlag) {
         EXPECT_EQ(integ.isMockMode(), res.is_mock)
             << "isMockMode() and result.is_mock must agree (real engine case)";
     }
+}
+
+// ---------------------------------------------------------------------------
+// JGI_MOCK_06 — allow_mock=true with real engine remains production path
+// ---------------------------------------------------------------------------
+TEST(JGI_MOCK, JGI_MOCK_06_AllowMockWithRealEngineIsNotMock) {
+    LLMJudgeIntegration::Config cfg;
+    cfg.allow_mock = true;  // permit nullptr fallback, but we inject a real engine
+    cfg.warn_on_mock_mode = false;
+
+    FakeEngine engine;
+    LLMJudgeIntegration integration(&engine, cfg);
+    EXPECT_FALSE(integration.isMockMode());
+
+    auto tmgr = makeTemplateManager();
+    auto input = makeInput();
+    const auto result = integration.evaluateWithLLM(
+        EvaluationDimension::FAITHFULNESS, input, tmgr);
+
+    EXPECT_FALSE(result.is_mock)
+        << "is_mock must remain false when a real engine is injected, even if allow_mock=true";
 }
