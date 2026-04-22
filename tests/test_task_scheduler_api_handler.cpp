@@ -51,6 +51,7 @@ protected:
     }
 
     void SetUp() override {
+        TaskScheduler::clearRequestContext();
         db_path_ = makeDbPath();
         std::filesystem::create_directories(db_path_);
 
@@ -75,6 +76,7 @@ protected:
     }
 
     void TearDown() override {
+        TaskScheduler::clearRequestContext();
         handler_.reset();
         if (scheduler_) {
             scheduler_->stop();
@@ -211,6 +213,56 @@ TEST_F(TaskSchedulerApiHandlerTest, DisableAndEnableTask) {
 TEST_F(TaskSchedulerApiHandlerTest, DisableTask_NotFound) {
     auto result = handler_->disableTask("bad_id");
     EXPECT_EQ(result.value("status", ""), "error");
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExecuteTask_DeniedWithoutPermission) {
+    scheduler_->registerFunction("api_exec_denied_fn",
+        [](const nlohmann::json&) -> nlohmann::json { return {{"ok", true}}; });
+
+    ScheduledTask task;
+    task.id = "api_exec_denied_task";
+    task.name = "api_exec_denied_task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "api_exec_denied_fn";
+    task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    scheduler_->registerTask(task);
+
+    TaskScheduler::RequestContext ctx;
+    ctx.user_id = "api-user";
+    ctx.authorization_justification = "api-negative-execute-test";
+    TaskScheduler::setRequestContext(ctx);
+
+    auto result = handler_->executeTask(task.id);
+    TaskScheduler::clearRequestContext();
+
+    EXPECT_EQ(result.value("status", ""), "error");
+    EXPECT_NE(result.value("error", "").find("Unauthorized"), std::string::npos);
+}
+
+TEST_F(TaskSchedulerApiHandlerTest, ExecuteTask_AllowedWithPermission) {
+    scheduler_->registerFunction("api_exec_allowed_fn",
+        [](const nlohmann::json&) -> nlohmann::json { return {{"ok", true}}; });
+
+    ScheduledTask task;
+    task.id = "api_exec_allowed_task";
+    task.name = "api_exec_allowed_task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "api_exec_allowed_fn";
+    task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    scheduler_->registerTask(task);
+
+    TaskScheduler::RequestContext ctx;
+    ctx.user_id = "api-user";
+    ctx.granted_permissions.insert("task:execute");
+    ctx.authorization_justification = "api-positive-execute-test";
+    TaskScheduler::setRequestContext(ctx);
+
+    auto result = handler_->executeTask(task.id);
+    TaskScheduler::clearRequestContext();
+
+    EXPECT_EQ(result.value("status", ""), "executed");
+    ASSERT_TRUE(result.contains("result"));
+    EXPECT_EQ(result["result"].value("ok", false), true);
 }
 
 // ============================================================================

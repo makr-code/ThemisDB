@@ -204,6 +204,11 @@ json TaskSchedulerApiHandler::executeTask(const std::string& task_id) {
     }
     try {
         auto result = scheduler_->executeTaskNow(task_id);
+        if (result.contains("error")) {
+            spdlog::warn("TaskSchedulerApiHandler: executeTask '{}' denied/failed: {}",
+                         task_id, result.value("error", "unknown"));
+            return json{{"status", "error"}, {"error", result.value("error", "Internal server error")}};
+        }
         spdlog::info("TaskSchedulerApiHandler: executed task '{}'", task_id);
         return json{{"status", "executed"}, {"id", task_id}, {"result", result}};
     } catch (const std::exception& e) {

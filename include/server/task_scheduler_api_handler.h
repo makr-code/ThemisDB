@@ -66,6 +66,7 @@ namespace server {
  * SECURITY REQUIREMENTS:
  * - All endpoints must verify user authentication
  * - All endpoints must check user authorization (admin role)
+ * - Scheduler runtime enforces task-level permissions via TaskScheduler::RequestContext
  * - All operations must be audit logged
  * - Input validation on all parameters
  * - Rate limiting on execute endpoint

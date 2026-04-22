@@ -5602,7 +5602,19 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
                 break;
             }
+            auto auth_ctx = extractAuthContext(req);
+            TaskScheduler::RequestContext scheduler_ctx;
+            scheduler_ctx.user_id = auth_ctx.user_id;
+            scheduler_ctx.client_ip = extractClientIP(req);
+            scheduler_ctx.granted_permissions.insert("task:register");
+            scheduler_ctx.granted_permissions.insert("tasks:write");
+            scheduler_ctx.authorization_justification = "requireAccess(tasks.create)";
+            for (const auto& g : auth_ctx.groups) {
+                scheduler_ctx.roles.insert(g);
+            }
+            TaskScheduler::setRequestContext(scheduler_ctx);
             auto result = task_scheduler_api_->registerTask(body);
+            TaskScheduler::clearRequestContext();
             if (result.value("status", "") == "error") {
                 response = makeErrorResponse(http::status::bad_request, result.value("error", "Unknown error"), req);
             } else {
@@ -5760,7 +5772,19 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
                 break;
             }
+            auto auth_ctx = extractAuthContext(req);
+            TaskScheduler::RequestContext scheduler_ctx;
+            scheduler_ctx.user_id = auth_ctx.user_id;
+            scheduler_ctx.client_ip = extractClientIP(req);
+            scheduler_ctx.granted_permissions.insert("task:execute");
+            scheduler_ctx.granted_permissions.insert("tasks:admin");
+            scheduler_ctx.authorization_justification = "requireAccess(tasks.execute)";
+            for (const auto& g : auth_ctx.groups) {
+                scheduler_ctx.roles.insert(g);
+            }
+            TaskScheduler::setRequestContext(scheduler_ctx);
             auto result = task_scheduler_api_->executeTask(task_id);
+            TaskScheduler::clearRequestContext();
             if (result.value("status", "") == "error") {
                 response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
             } else {

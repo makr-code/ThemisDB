@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+- **Task Scheduler AuthZ Hardening (GAP-001)** 🔐
+  - Activated runtime permission checks in `TaskScheduler` for:
+    - `registerTask()` → requires `task:register`
+    - `executeTaskNow()` / `executeDAG()` → requires `task:execute`
+    - `registerFunction()` → requires `task:register_function` and `system_admin` role
+  - Added denied-access security audit events (`UNAUTHORIZED_ACCESS`) with structured
+    justification metadata (`required_permission`, `reason`, `justification`).
+  - `HttpServer` task create/execute routes now propagate authenticated request context
+    (user, IP, permissions, roles, justification) into `TaskScheduler` thread-local context.
+  - `TaskSchedulerApiHandler::executeTask()` now returns `status=error` when scheduler
+    execution is rejected (e.g., missing permission), instead of reporting `executed`.
+
 - **Docker Image Security Hardening** 🔒
   - `THEMIS_ENABLE_ENCRYPTED_STORAGE` Build-ARG hinzugefügt (default: `OFF`):
     `gocryptfs` und `fuse` werden nur noch installiert, wenn der ARG explizit auf `ON` gesetzt wird.

@@ -78,6 +78,9 @@ namespace {
 struct TLSRequestContext {
     std::string user_id;
     std::string client_ip;
+    std::unordered_set<std::string> granted_permissions;
+    std::unordered_set<std::string> roles;
+    std::string authorization_justification;
     bool set = false;
 };
 } // anonymous namespace
@@ -85,14 +88,20 @@ struct TLSRequestContext {
 static thread_local TLSRequestContext tls_request_ctx;
 
 void TaskScheduler::setRequestContext(const RequestContext& ctx) noexcept {
-    tls_request_ctx.user_id  = ctx.user_id;
+    tls_request_ctx.user_id = ctx.user_id;
     tls_request_ctx.client_ip = ctx.client_ip;
-    tls_request_ctx.set      = true;
+    tls_request_ctx.granted_permissions = ctx.granted_permissions;
+    tls_request_ctx.roles = ctx.roles;
+    tls_request_ctx.authorization_justification = ctx.authorization_justification;
+    tls_request_ctx.set = true;
 }
 
 void TaskScheduler::clearRequestContext() noexcept {
     tls_request_ctx.user_id.clear();
     tls_request_ctx.client_ip.clear();
+    tls_request_ctx.granted_permissions.clear();
+    tls_request_ctx.roles.clear();
+    tls_request_ctx.authorization_justification.clear();
     tls_request_ctx.set = false;
 }
 
@@ -108,6 +117,30 @@ std::string TaskScheduler::currentClientIp() noexcept {
         return tls_request_ctx.client_ip;
     }
     return {};
+}
+
+bool TaskScheduler::hasPermission(const std::string& permission) noexcept {
+    if (!tls_request_ctx.set) {
+        // Backward-compatible fallback for trusted in-process calls.
+        return true;
+    }
+    return tls_request_ctx.granted_permissions.count(permission) > 0 ||
+           tls_request_ctx.granted_permissions.count("admin") > 0;
+}
+
+bool TaskScheduler::hasRole(const std::string& role) noexcept {
+    if (!tls_request_ctx.set) {
+        // Backward-compatible fallback for trusted in-process calls.
+        return true;
+    }
+    return tls_request_ctx.roles.count(role) > 0 || tls_request_ctx.roles.count("admin") > 0;
+}
+
+std::string TaskScheduler::currentAuthorizationJustification(const char* fallback) noexcept {
+    if (tls_request_ctx.set && !tls_request_ctx.authorization_justification.empty()) {
+        return tls_request_ctx.authorization_justification;
+    }
+    return fallback ? fallback : "";
 }
 
 // ---------------------------------------------------------------------------
@@ -127,6 +160,49 @@ static void setDefaultAuditContext(scheduler::TaskSecurityEvent& event) {
     event.user_id    = TaskScheduler::currentUserId(DEFAULT_AUDIT_USER);
     const auto ip    = TaskScheduler::currentClientIp();
     event.ip_address = ip.empty() ? DEFAULT_AUDIT_IP : ip;
+}
+
+static void logUnauthorizedPermissionAttempt(
+    const std::shared_ptr<scheduler::TaskAuditManager>& audit_manager,
+    const std::string& task_id,
+    const std::string& task_name,
+    const std::string& required_permission,
+    const std::string& operation,
+    const std::string& reason)
+{
+    THEMIS_WARN(
+        "Unauthorized scheduler operation denied: op='{}' task_id='{}' task_name='{}' user='{}' permission='{}' reason='{}' justification='{}'",
+        operation,
+        task_id,
+        task_name,
+        TaskScheduler::currentUserId(DEFAULT_AUDIT_USER),
+        required_permission,
+        reason,
+        TaskScheduler::currentAuthorizationJustification("none"));
+
+    if (!audit_manager) {
+        return;
+    }
+
+    scheduler::TaskSecurityEvent security_event;
+    security_event.uuid = scheduler::generateUUID();
+    security_event.timestamp = std::chrono::system_clock::now();
+    security_event.task_id = task_id;
+    security_event.task_name = task_name;
+    security_event.event_type = scheduler::TaskSecurityEventType::UNAUTHORIZED_ACCESS;
+    security_event.severity = "HIGH";
+    setDefaultAuditContext(security_event);
+    security_event.violation_type = "PERMISSION_DENIED";
+    security_event.description = "Scheduler permission check denied operation";
+    security_event.details = {
+        {"operation", operation},
+        {"required_permission", required_permission},
+        {"reason", reason},
+        {"justification", TaskScheduler::currentAuthorizationJustification("none")}
+    };
+    security_event.blocked = true;
+    security_event.action_taken = "operation_blocked";
+    audit_manager->logSecurityEvent(security_event);
 }
 
 // Helper function to convert trigger type to string
@@ -482,7 +558,12 @@ void TaskScheduler::stop() {
 // ===== Task Management =====
 
 std::string TaskScheduler::registerTask(const ScheduledTask& task) {
-    // ⚠️ SECURITY: In production, add authentication/authorization checks here
+    if (!hasPermission("task:register")) {
+        const std::string reason = "missing permission 'task:register'";
+        logUnauthorizedPermissionAttempt(
+            audit_manager_, task.id, task.name, "task:register", "registerTask", reason);
+        throw std::runtime_error("Unauthorized: User lacks permission to register tasks");
+    }
     
     // Validate AQL query for SQL injection patterns
     if (task.type == ScheduledTask::TaskType::AQL_QUERY) {
@@ -504,18 +585,6 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
     
     // Sanitize task parameters
     auto sanitized_task = sanitizeTask(task);
-    
-    // TODO(GAP-001): AuthZ stub - task registration is completely unauthenticated.
-    // The comment below was left as a placeholder since the auth system was not yet
-    // integrated; the check is intentionally disabled.  Any authenticated API user
-    // can register arbitrary AQL tasks without permission validation.
-    // Fix: wire the auth_context (available from the HTTP layer) and enable the
-    // hasPermission("task:register") guard.  Target: Q2 2026
-    // Note: User permission checks should be added here when authentication
-    // system is integrated. Example:
-    // if (!auth_context || !auth_context->hasPermission("task:register")) {
-    //     throw std::runtime_error("Unauthorized: User lacks permission to register tasks");
-    // }
     
     std::lock_guard<std::mutex> lock(tasks_mutex_);
     
@@ -701,7 +770,12 @@ void TaskScheduler::updateTask(const ScheduledTask& task) {
 // ===== Manual Execution =====
 
 nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
-    // ⚠️ SECURITY: In production, add authentication/authorization checks here
+    if (!hasPermission("task:execute")) {
+        const std::string reason = "missing permission 'task:execute'";
+        logUnauthorizedPermissionAttempt(
+            audit_manager_, task_id, task_id, "task:execute", "executeTaskNow", reason);
+        return nlohmann::json{{"error", "Unauthorized: User lacks permission to execute tasks"}};
+    }
     
     // Log execution attempt for audit trail
     THEMIS_INFO("Manual task execution requested: task_id={}", task_id);
@@ -711,14 +785,6 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
         THEMIS_WARN("Rate limit exceeded for task execution: task_id={}", task_id);
         return nlohmann::json{{"error", "Rate limit exceeded. Please try again later."}};
     }
-    
-    // Note: User permission verification should be added here when authentication
-    // system is integrated. Example:
-    // if (!auth_context || !auth_context->hasPermission("task:execute")) {
-    //     THEMIS_WARN("Unauthorized task execution attempt: task_id={}, user={}", 
-    //                 task_id, auth_context ? auth_context->user_id : "unknown");
-    //     return nlohmann::json{{"error", "Unauthorized: User lacks permission to execute tasks"}};
-    // }
     
     auto span = Tracer::startSpan("TaskScheduler.executeTaskNow");
     span.setAttribute("task_id", task_id);
@@ -955,6 +1021,13 @@ std::vector<std::string> TaskScheduler::topologicalSort(
 TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
     const std::vector<std::string>& task_ids)
 {
+    if (!hasPermission("task:execute")) {
+        const std::string reason = "missing permission 'task:execute'";
+        logUnauthorizedPermissionAttempt(
+            audit_manager_, "<dag>", "<dag>", "task:execute", "executeDAG", reason);
+        throw std::runtime_error("Unauthorized: User lacks permission to execute tasks");
+    }
+
     if (task_ids.empty()) {
         return {};
     }
@@ -1282,19 +1355,18 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
 // ===== Function Registration =====
 
 void TaskScheduler::registerFunction(const std::string& name, TaskFunction func) {
-    // ⚠️ SECURITY CRITICAL: This allows arbitrary code execution
-    
-    // Audit log all function registrations
+    // ⚠️ SECURITY CRITICAL: This allows arbitrary code execution.
+    if (!hasPermission("task:register_function") || !hasRole("system_admin")) {
+        const std::string reason = !hasPermission("task:register_function")
+            ? "missing permission 'task:register_function'"
+            : "missing role 'system_admin'";
+        logUnauthorizedPermissionAttempt(
+            audit_manager_, name, name, "task:register_function", "registerFunction", reason);
+        throw std::runtime_error(
+            "Unauthorized: Only system administrators can register functions");
+    }
+
     THEMIS_INFO("Function registration attempt: name={}", name);
-    
-    // Note: Strict access controls should be enforced here when authentication
-    // system is integrated. Example:
-    // if (!auth_context || !auth_context->hasPermission("task:register_function") || 
-    //     !auth_context->hasRole("system_admin")) {
-    //     THEMIS_ERROR("Unauthorized function registration attempt: name={}, user={}", 
-    //                  name, auth_context ? auth_context->user_id : "unknown");
-    //     throw std::runtime_error("Unauthorized: Only system administrators can register functions");
-    // }
     
     std::lock_guard<std::mutex> lock(tasks_mutex_);
     functions_[name] = func;
