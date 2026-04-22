@@ -108,6 +108,19 @@ private:
     mutable std::mutex mu_;
 };
 
+class ThreadJoiner {
+public:
+    explicit ThreadJoiner(std::thread& t) : thread_(t) {}
+    ~ThreadJoiner() {
+        if (thread_.joinable()) {
+            thread_.join();
+        }
+    }
+
+private:
+    std::thread& thread_;
+};
+
 // ── AC-CFG: MqttClientConfig defaults ────────────────────────────────────────
 
 TEST(MqttClientConfigFocusedTests, DefaultBrokerHost) {
@@ -739,6 +752,7 @@ TEST(MqttClientTlsRuntimeTests, EmptyTlsCaPathLogsVerifyNoneFallback) {
             std::this_thread::sleep_for(std::chrono::milliseconds(150));
         }
     });
+    ThreadJoiner accept_thread_joiner(accept_thread);
 
     MqttClientConfig cfg;
     cfg.broker_host = "127.0.0.1";
@@ -757,18 +771,16 @@ TEST(MqttClientTlsRuntimeTests, EmptyTlsCaPathLogsVerifyNoneFallback) {
     bool saw_fallback_log = false;
     for (int i = 0; i < max_log_poll_attempts; ++i) {
         std::this_thread::sleep_for(log_poll_interval);
-        if (capture.str().find(kMqttTlsVerifyNoneFallbackLogPrefix) != std::string::npos) {
+        const auto current_logs = capture.str();
+        if (current_logs.find(kMqttTlsVerifyNoneFallbackLogPrefix) != std::string::npos) {
             saw_fallback_log = true;
             break;
         }
     }
 
     svc.stop();
-    boost::system::error_code ec;
-    acceptor.close(ec);
-    if (accept_thread.joinable()) {
-        accept_thread.join();
-    }
+    boost::system::error_code cleanup_ec;
+    acceptor.close(cleanup_ec);
 
     const auto logs = capture.str();
     EXPECT_TRUE(saw_fallback_log) << logs;
