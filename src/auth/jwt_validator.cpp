@@ -161,6 +161,20 @@ nlohmann::json JWTValidator::fetchJWKS() {
         jwks_refreshing_ = true;
     }
 
+    struct ScopedRefreshReset final {
+        explicit ScopedRefreshReset(JWTValidator* v) : validator(v) {}
+        JWTValidator* const validator;
+        ScopedRefreshReset(const ScopedRefreshReset&) = delete;
+        ScopedRefreshReset& operator=(const ScopedRefreshReset&) = delete;
+        ScopedRefreshReset(ScopedRefreshReset&&) = delete;
+        ScopedRefreshReset& operator=(ScopedRefreshReset&&) = delete;
+        ~ScopedRefreshReset() noexcept {
+            std::lock_guard<std::mutex> refresh_lock(validator->jwks_refresh_mutex_);
+            validator->jwks_refreshing_ = false;
+            validator->jwks_refresh_cv_.notify_all();
+        }
+    } refresh_guard{this};
+
     // Perform the HTTP fetch completely outside all locks so concurrent
     // readers/validators are never stalled.
     nlohmann::json fetched_json;
@@ -282,13 +296,6 @@ nlohmann::json JWTValidator::fetchJWKS() {
             jwks_cache_time_ = cache_now;
         }
     }
-
-    // Release single-flight lock and wake any waiting threads.
-    {
-        std::lock_guard<std::mutex> refresh_lock(jwks_refresh_mutex_);
-        jwks_refreshing_ = false;
-    }
-    jwks_refresh_cv_.notify_all();
 
     if (fetch_exc) {
         std::rethrow_exception(fetch_exc);

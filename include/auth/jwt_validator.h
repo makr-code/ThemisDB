@@ -29,6 +29,8 @@
 #include <optional>
 #include <memory>
 #include <shared_mutex>
+#include <mutex>
+#include <condition_variable>
 #include <atomic>
 #include <future>
 
