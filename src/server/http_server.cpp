@@ -125,6 +125,7 @@
 #include "sharding/truetime.h"
 #include "sharding/sharding_manager.h"
 #include "server/distributed_txn_api_handler.h"
+#include "themis/base/module_loader.h"
 #if !defined(_WIN32)
 #include <time.h>
 #endif
@@ -196,6 +197,9 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "scheduler/task_scheduler.h"
 #include "maintenance/maintenance_task_handler_impls.h"
 #include "storage/compaction_manager.h"
+#include "storage/security_signature_manager.h"
+#include "content/mime_detector.h"
+#include "index/process_graph.h"
 
 #include <nlohmann/json.hpp>
 #include <yaml-cpp/yaml.h>
@@ -319,7 +323,19 @@ HttpServer::HttpServer(
         THEMIS_WARN("Failed to initialize Spatial Index Manager: {}", e.what());
         // Non-fatal: geo features will be disabled
     }
-    
+
+    // Initialize Security Signature Manager (content integrity & file verification)
+    try {
+        security_sig_mgr_ = std::make_shared<storage::SecuritySignatureManager>(storage_);
+        THEMIS_INFO("Security Signature Manager initialized");
+
+        // Initialize MIME Detector with signature verification
+        mime_detector_ = std::make_shared<content::MimeDetector>("", security_sig_mgr_);
+        THEMIS_INFO("MIME Detector initialized");
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Failed to initialize Security Signature Manager / MIME Detector: {}", e.what());
+    }
+
     // GAP-011: Do NOT log the raw token value — log presence only to avoid
     // leaking the secret into log files (CWE-532).
     {
@@ -344,9 +360,8 @@ HttpServer::HttpServer(
             3600 // default TTL: 1 hour
         );
         THEMIS_INFO("Semantic Cache initialized (TTL: 3600s) using default CF");
-        
-        // Initialize Cache API Handler
-        cache_api_ = nullptr; // Disabled for Windows build (shared_ptr mismatch)
+        // Note: CacheApiHandler requires auth_ which is initialized later.
+        // cache_api_ is constructed after auth_ is available (see below).
     }
 
     // Initialize Cache Admin API Handler (Phase 3: Admin API for cache operations).
@@ -568,15 +583,17 @@ HttpServer::HttpServer(
     // Initialize Time-Series Store (Sprint B) if feature enabled
     if (config_.feature_timeseries) {
         ts_cf_handle_ = nullptr; // Use default CF
-        timeseries_ = std::make_unique<TSStore>(
+        timeseries_ = std::make_shared<TSStore>(
             storage_->getRawDB(),
             ts_cf_handle_
         );
         THEMIS_INFO("Time-Series Store initialized using default CF");
-        
-        // Initialize TimeSeries API Handler (disabled for Windows build)
-        timeseries_api_ = nullptr;
-        THEMIS_INFO("TimeSeries API Handler disabled (Windows build)");
+
+        // Initialize ContinuousAggregateManager for materialized aggregate views
+        ts_agg_manager_ = std::make_shared<ContinuousAggregateManager>(timeseries_.get());
+        THEMIS_INFO("ContinuousAggregateManager initialized");
+        // Note: TimeSeriesApiHandler requires auth_ which is initialized later.
+        // timeseries_api_ is constructed after auth_ is available (see below).
     }
 
     // CRITICAL FIX: Initialize Sharding Manager BEFORE AdaptiveIndexManager
@@ -696,6 +713,27 @@ HttpServer::HttpServer(
     keys_api_ = std::make_unique<themis::server::KeysApiHandler>(key_provider_);
     THEMIS_INFO("Keys API Handler initialized");
 
+    // Deferred CacheApiHandler initialization (requires auth_ which is now available)
+    if (semantic_cache_ && auth_) {
+        try {
+            cache_api_ = std::make_unique<server::CacheApiHandler>(semantic_cache_, auth_);
+            THEMIS_INFO("Cache API Handler initialized (semantic cache endpoints active)");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to initialize Cache API Handler: {}", e.what());
+        }
+    }
+
+    // Deferred TimeSeriesApiHandler initialization (requires auth_ which is now available)
+    if (timeseries_ && ts_agg_manager_ && auth_) {
+        try {
+            timeseries_api_ = std::make_unique<server::TimeSeriesApiHandler>(
+                storage_, timeseries_, ts_agg_manager_, auth_);
+            THEMIS_INFO("TimeSeries API Handler initialized (time-series endpoints active)");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to initialize TimeSeries API Handler: {}", e.what());
+        }
+    }
+
     // Initialize API Key Management Handler
     api_key_mgmt_ = std::make_unique<themis::server::ApiKeyMgmtHandler>(auth_);
     THEMIS_INFO("API Key Management Handler initialized");
@@ -758,6 +796,19 @@ HttpServer::HttpServer(
         THEMIS_INFO("Audit API Handler initialized");
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to initialize Audit components: {}", e.what());
+    }
+
+    // Wire AuditLogger into VectorIndexManager and GraphIndexManager
+    // so that vector and graph operations are recorded for security auditing.
+    if (audit_logger_) {
+        if (vector_index_) {
+            vector_index_->setAuditLogger(audit_logger_, "system");
+            THEMIS_INFO("AuditLogger wired into VectorIndexManager");
+        }
+        if (graph_index_) {
+            graph_index_->setAuditLogger(audit_logger_, "system");
+            THEMIS_INFO("AuditLogger wired into GraphIndexManager");
+        }
     }
 
     // Initialize Export API Handler (EXP-001)
@@ -831,8 +882,25 @@ HttpServer::HttpServer(
             }
             THEMIS_INFO("Alertmanager enabled: {}", am_cfg.endpoint_url);
         }
-        auto alertmanager = std::make_shared<observability::DefaultAlertmanager>(am_cfg);
-        monitoring_api_->setAlertmanager(std::move(alertmanager));
+        alertmanager_ = std::make_shared<observability::DefaultAlertmanager>(am_cfg);
+        monitoring_api_->setAlertmanager(alertmanager_);  // monitoring keeps shared ownership
+
+        // Wire the same Alertmanager into the Cache hit-rate SLO monitor so that
+        // SLO violations are forwarded to the same alerting endpoint.
+        if (cache_admin_api_) {
+            cache::CacheHitRateSloMonitor::Config slo_cfg;
+            // Use sensible defaults; operators can override via environment variables.
+            if (const char* warn_thr = std::getenv("THEMIS_CACHE_SLO_WARN")) {
+                try { slo_cfg.warning_threshold = std::stod(warn_thr); } catch (...) {}
+            }
+            if (const char* crit_thr = std::getenv("THEMIS_CACHE_SLO_CRIT")) {
+                try { slo_cfg.critical_threshold = std::stod(crit_thr); } catch (...) {}
+            }
+            auto cache_slo = std::make_shared<cache::CacheHitRateSloMonitor>(
+                slo_cfg, alertmanager_);
+            cache_admin_api_->setSloMonitor(std::move(cache_slo));
+            THEMIS_INFO("Cache hit-rate SLO monitor wired into CacheAdminApiHandler");
+        }
     }
     THEMIS_INFO("Monitoring API Handler initialized");
     // Initialize Query API Handler
@@ -844,6 +912,43 @@ HttpServer::HttpServer(
     );
     query_api_->setQueryMaskingPolicy(themis::security::QueryMaskingPolicy::create());
     THEMIS_INFO("Query API Handler initialized");
+
+    // Initialize Ranger client (optional) BEFORE PolicyApiHandler so that
+    // policy_api_ receives a valid raw pointer instead of nullptr.
+    // (ranger_client_ must be fully constructed before policy_api_ captures .get())
+    if (auto base = themis_get_env("THEMIS_RANGER_BASE_URL")) {
+        themis::server::RangerClientConfig rcfg;
+        rcfg.base_url = *base;
+        rcfg.policies_path = std::getenv("THEMIS_RANGER_POLICIES_PATH") ? std::getenv("THEMIS_RANGER_POLICIES_PATH") : "/service/public/v2/api/policy";
+        rcfg.service_name = std::getenv("THEMIS_RANGER_SERVICE") ? std::getenv("THEMIS_RANGER_SERVICE") : "themisdb";
+        rcfg.bearer_token = std::getenv("THEMIS_RANGER_BEARER") ? std::getenv("THEMIS_RANGER_BEARER") : "";
+        rcfg.tls_verify = true;
+        if (auto tlsv = themis_get_env("THEMIS_RANGER_TLS_VERIFY")) {
+            if (*tlsv == "0" || *tlsv == "false" || *tlsv == "False") rcfg.tls_verify = false;
+        }
+        if (auto ca = themis_get_env("THEMIS_RANGER_CA_CERT")) rcfg.ca_cert_path = *ca;
+        if (auto cc = themis_get_env("THEMIS_RANGER_CLIENT_CERT")) rcfg.client_cert_path = *cc;
+        if (auto ck = themis_get_env("THEMIS_RANGER_CLIENT_KEY")) rcfg.client_key_path = *ck;
+        if (auto ct = themis_get_env("THEMIS_RANGER_CONNECT_TIMEOUT_MS")) {
+            try { rcfg.connect_timeout_ms = std::stol(*ct); } catch (...) {}
+        }
+        if (auto rt = themis_get_env("THEMIS_RANGER_REQUEST_TIMEOUT_MS")) {
+            try { rcfg.request_timeout_ms = std::stol(*rt); } catch (...) {}
+        }
+        if (auto mr = themis_get_env("THEMIS_RANGER_MAX_RETRIES")) {
+            try { rcfg.max_retries = std::stoi(*mr); } catch (...) {}
+        }
+        if (auto rb = themis_get_env("THEMIS_RANGER_RETRY_BACKOFF_MS")) {
+            try { rcfg.retry_backoff_ms = std::stol(*rb); } catch (...) {}
+        }
+        try {
+            ranger_client_ = std::make_unique<themis::server::RangerClient>(std::move(rcfg));
+            THEMIS_INFO("Ranger client configured for {}", *base);
+        } catch (...) {
+            THEMIS_WARN("Failed to initialize Ranger client; integration disabled");
+        }
+    }
+
     // Initialize Policy API Handler
     const char* ranger_service_env = std::getenv("THEMIS_RANGER_SERVICE");
     std::string ranger_service = ranger_service_env ? ranger_service_env : "themisdb";
@@ -896,12 +1001,18 @@ HttpServer::HttpServer(
         shard_topology_
     );
     THEMIS_INFO("Entity API Handler initialized (RAID: {})", entity_config.feature_raid ? "enabled" : "disabled");
-    
+
+    // Initialize ProcessGraphManager for BPMN/EPK workflow engine
+    try {
+        process_graph_ = std::make_shared<ProcessGraphManager>(*storage_);
+        THEMIS_INFO("ProcessGraphManager initialized");
+    } catch (const std::exception& e) {
+        THEMIS_WARN("ProcessGraphManager initialization failed: {} — BPMN endpoints will return 503", e.what());
+    }
+
     // Initialize BPMN API Handler
-    // Note: ProcessGraphManager must be explicitly created and passed to HttpServer
-    // For now, handler gracefully handles nullptr and returns 503 Service Unavailable
     bpmn_api_ = std::make_unique<themis::server::BpmnApiHandler>(
-        process_graph_,  // May be nullptr if not initialized
+        process_graph_,  // May be nullptr if initialization failed above
         auth_
     );
     if (process_graph_) {
@@ -916,6 +1027,16 @@ HttpServer::HttpServer(
         secondary_index_, vector_index_
     );
     THEMIS_INFO("Content API Handler initialized");
+
+    // Initialize ContentFS (binary content CRUD over HTTP: PUT/GET/HEAD/DELETE /api/v1/content/fs/{pk})
+    if (storage_) {
+        try {
+            content_fs_ = std::make_unique<themis::ContentFS>(*storage_);
+            THEMIS_INFO("ContentFS initialized (endpoints: /api/v1/content/fs/*)");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("ContentFS init failed: {} — /api/v1/content/fs/* endpoints disabled", e.what());
+        }
+    }
     
     // Initialize Changefeed API Handler if changefeed is available
     if (changefeed_) {
@@ -1139,6 +1260,15 @@ HttpServer::HttpServer(
         THEMIS_WARN("Failed to initialize SchemaManager/Schema API: {}", e.what());
     }
 
+    // Wire SchemaManager into MonitoringApiHandler now that it is available.
+    // MonitoringApiHandler is constructed early (before SchemaManager) so it
+    // receives a null pointer from the constructor; this call fills the gap and
+    // enables the /api/v1/capabilities schema capability block.
+    if (monitoring_api_ && schema_manager_) {
+        monitoring_api_->setSchemaManager(schema_manager_.get());
+        THEMIS_INFO("SchemaManager wired into MonitoringApiHandler (capabilities endpoint complete)");
+    }
+
     // Initialize GraphQL API Handler with a dedicated AQL query engine
     // so that aql() / aqlMutation() resolver fields execute real queries.
     // The engine must be created before the handler and declared after it
@@ -1172,15 +1302,25 @@ HttpServer::HttpServer(
     {
         TaskScheduler::Config sched_cfg;
         sched_cfg.persist_tasks            = false;
-        sched_cfg.enable_audit_logging     = false;
-        sched_cfg.enable_anomaly_detection = false;
+        sched_cfg.enable_audit_logging     = audit_logger_ != nullptr;
+        sched_cfg.enable_anomaly_detection = true;
         // Build a QueryEngine for the scheduler using the server's storage.
         // task_scheduler_engine_ must outlive task_scheduler_.  The member
         // declaration order in http_server.h guarantees this: unique_ptr members
         // are destroyed in reverse declaration order, so task_scheduler_ is
         // destroyed before task_scheduler_engine_.
         task_scheduler_engine_ = std::make_unique<QueryEngine>(*storage_, *secondary_index_);
-        task_scheduler_ = std::make_unique<TaskScheduler>(task_scheduler_engine_.get(), sched_cfg);
+        task_scheduler_ = std::make_unique<TaskScheduler>(
+            task_scheduler_engine_.get(),
+            sched_cfg,
+            changefeed_.get(),
+            audit_logger_,
+            storage_.get());
+        // Wire Alertmanager for task failure / SLA-breach notifications.
+        if (alertmanager_) {
+            task_scheduler_->setAlertmanager(alertmanager_);
+            THEMIS_INFO("Alertmanager wired into TaskScheduler");
+        }
         task_scheduler_->start();
         task_scheduler_api_ = std::make_unique<server::TaskSchedulerApiHandler>(task_scheduler_.get());
         THEMIS_INFO("Task Scheduler API handler initialized (endpoints: /api/tasks, /ui/tasks)");
@@ -1243,6 +1383,43 @@ HttpServer::HttpServer(
         THEMIS_INFO("Async job API handler initialized (endpoints: POST/GET/DELETE /v2/jobs)");
     }
 
+    // Initialize Retention Policy Admin API Handler
+    {
+        std::string retention_path = "config/retention_policies.yaml";
+        auto resolved = themis::config::ConfigPathResolver::tryResolve(retention_path);
+        auto retention_mgr = std::make_shared<vcc::RetentionManager>(
+            resolved.value_or(retention_path));
+        retention_api_ = std::make_unique<server::RetentionApiHandler>(retention_mgr);
+        THEMIS_INFO("RetentionApiHandler initialized (endpoints: /api/retention/*)");
+    }
+
+    // Initialize SAGA Audit Log API Handler
+    {
+        try {
+            themis::utils::SAGALoggerConfig saga_cfg;
+            saga_cfg.enabled = true;
+            saga_cfg.encrypt_then_sign = true;
+            saga_cfg.log_path = "data/logs/saga.jsonl";
+            saga_cfg.signature_path = "data/logs/saga_signatures.jsonl";
+            saga_cfg.key_id = "saga_lek";
+
+            themis::utils::PKIConfig saga_pki_cfg;
+            saga_pki_cfg.service_id = "themis-saga";
+            if (const char* k = std::getenv("THEMIS_PKI_PRIVATE_KEY")) saga_pki_cfg.key_path = k;
+            if (const char* c = std::getenv("THEMIS_PKI_CERTIFICATE")) saga_pki_cfg.cert_path = c;
+            if (const char* p = std::getenv("THEMIS_PKI_PRIVATE_KEY_PASSPHRASE")) saga_pki_cfg.key_passphrase = p;
+            auto saga_pki = std::make_shared<themis::utils::VCCPKIClient>(saga_pki_cfg);
+
+            auto saga_logger = std::make_shared<themis::utils::SAGALogger>(
+                field_encryption_, saga_pki, saga_cfg);
+            saga_logger_ = saga_logger;  // retain shared ownership via HttpServer member
+            saga_api_ = std::make_unique<server::SAGAApiHandler>(saga_logger);
+            THEMIS_INFO("SAGAApiHandler initialized (endpoints: /api/saga/*)");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("SAGAApiHandler init failed: {} — SAGA endpoints disabled", e.what());
+        }
+    }
+
     // Initialize Policy Engine (Governance)
     policy_engine_ = std::make_unique<themis::PolicyEngine>();
     try {
@@ -1296,41 +1473,10 @@ HttpServer::HttpServer(
     } catch (const std::exception& e) {
         THEMIS_WARN("PolicyEngine initialization warning: {}", e.what());
     }
-
-    // Initialize Ranger client (optional), configured via environment for secrets
-    // Reuse the earlier `get_env` lambda defined above (tokens); avoid duplicate definition.
-    if (auto base = themis_get_env("THEMIS_RANGER_BASE_URL")) {
-        themis::server::RangerClientConfig rcfg;
-        rcfg.base_url = *base;
-        rcfg.policies_path = std::getenv("THEMIS_RANGER_POLICIES_PATH") ? std::getenv("THEMIS_RANGER_POLICIES_PATH") : "/service/public/v2/api/policy";
-        rcfg.service_name = std::getenv("THEMIS_RANGER_SERVICE") ? std::getenv("THEMIS_RANGER_SERVICE") : "themisdb";
-        rcfg.bearer_token = std::getenv("THEMIS_RANGER_BEARER") ? std::getenv("THEMIS_RANGER_BEARER") : "";
-        rcfg.tls_verify = true;
-        if (auto tlsv = themis_get_env("THEMIS_RANGER_TLS_VERIFY")) {
-            if (*tlsv == "0" || *tlsv == "false" || *tlsv == "False") rcfg.tls_verify = false;
-        }
-        if (auto ca = themis_get_env("THEMIS_RANGER_CA_CERT")) rcfg.ca_cert_path = *ca;
-        if (auto cc = themis_get_env("THEMIS_RANGER_CLIENT_CERT")) rcfg.client_cert_path = *cc;
-        if (auto ck = themis_get_env("THEMIS_RANGER_CLIENT_KEY")) rcfg.client_key_path = *ck;
-        // Optional timeouts & retry configuration
-        if (auto ct = themis_get_env("THEMIS_RANGER_CONNECT_TIMEOUT_MS")) {
-            try { rcfg.connect_timeout_ms = std::stol(*ct); } catch (...) {}
-        }
-        if (auto rt = themis_get_env("THEMIS_RANGER_REQUEST_TIMEOUT_MS")) {
-            try { rcfg.request_timeout_ms = std::stol(*rt); } catch (...) {}
-        }
-        if (auto mr = themis_get_env("THEMIS_RANGER_MAX_RETRIES")) {
-            try { rcfg.max_retries = std::stoi(*mr); } catch (...) {}
-        }
-        if (auto rb = themis_get_env("THEMIS_RANGER_RETRY_BACKOFF_MS")) {
-            try { rcfg.retry_backoff_ms = std::stol(*rb); } catch (...) {}
-        }
-        try {
-            ranger_client_ = std::make_unique<themis::server::RangerClient>(std::move(rcfg));
-            THEMIS_INFO("Ranger client configured for {}", *base);
-        } catch (...) {
-            THEMIS_WARN("Failed to initialize Ranger client; integration disabled");
-        }
+    // Wire AuditLogger into PolicyEngine so that authorization decisions are recorded
+    if (policy_engine_ && audit_logger_) {
+        policy_engine_->setAuditLogger(audit_logger_.get());
+        THEMIS_INFO("AuditLogger wired into PolicyEngine");
     }
 
     // Initialize OPA evaluator (optional); enabled when THEMIS_OPA_ENDPOINT_URL is set.
@@ -1357,6 +1503,13 @@ HttpServer::HttpServer(
             THEMIS_WARN("Failed to initialize OPA evaluator: {}; native policy evaluation will be used", e.what());
         }
     }
+    // Wire PolicyEngine into ExportApiHandler (constructed before policy_engine_ was ready)
+    if (export_api_ && policy_engine_) {
+        export_api_->setPolicyEngine(policy_engine_.get());
+        THEMIS_INFO("PolicyEngine wired into ExportApiHandler");
+    } else if (export_api_ && !policy_engine_) {
+        THEMIS_WARN("ExportApiHandler: PolicyEngine not available — export policy enforcement disabled");
+    }
 
     // Initialize Rate Limiter for DoS protection
     RateLimitConfig rate_config;
@@ -1382,6 +1535,31 @@ HttpServer::HttpServer(
     
     rate_limiter_ = std::make_unique<RateLimiter>(rate_config);
     THEMIS_INFO("Rate Limiter initialized: {} req/min", rate_config.refill_rate * 60.0);
+    // Wire anomaly callback so that throttle/blacklist events are logged to the
+    // audit log (when available) and always emit a structured WARN log line.
+    // Capture audit_logger_ as weak_ptr to avoid use-after-free if the logger
+    // is reset before the RateLimiter is destroyed.
+    {
+        std::weak_ptr<themis::utils::AuditLogger> weak_audit = audit_logger_;
+        rate_limiter_->setAnomalyCallback(
+            [weak_audit](const AnomalyEvent& ev) {
+                const char* type_str =
+                    (ev.type == AnomalyEvent::Type::IP_BLACKLISTED)
+                        ? "IP_BLACKLISTED"
+                        : "ADAPTIVE_THROTTLE_TRIGGERED";
+                THEMIS_WARN("[RateLimiter] anomaly type={} ip={} detail={}",
+                    type_str, ev.ip, ev.detail);
+                if (auto audit = weak_audit.lock()) {
+                    nlohmann::json entry;
+                    entry["event"]  = "rate_limiter_anomaly";
+                    entry["type"]   = type_str;
+                    entry["ip"]     = ev.ip;
+                    entry["detail"] = ev.detail;
+                    try { audit->logEvent(entry); } catch (...) {}
+                }
+            });
+        THEMIS_INFO("RateLimiter anomaly callback wired");
+    }
 
     // Initialize rate limiting middleware with configurable per-client token bucket
     {
@@ -2221,6 +2399,17 @@ namespace {
     AdminShardsPost,                // POST /v1/admin/shards
     AdminShardsGet,                 // GET  /v1/admin/shards
     AdminStorageStatsGet,           // GET  /v1/admin/storage/stats
+    // Shard Repair admin endpoints
+    AdminRepairHealthGet,           // GET  /v1/admin/repair/health
+    AdminRepairPost,                // POST /v1/admin/repair
+    AdminRepairScanPost,            // POST /v1/admin/repair/scan
+    AdminRepairJobStatusGet,        // GET  /v1/admin/repair/jobs/{job_id}
+    AdminRepairDashboardGet,        // GET  /v1/admin/repair/dashboard
+    // Module Admin endpoints
+    AdminModulesGet,                // GET  /v1/admin/modules
+    AdminModulesLoadPost,           // POST /v1/admin/modules/{name}/load
+    AdminModulesUnloadDelete,       // DELETE /v1/admin/modules/{name}
+    AdminModuleStatusGet,           // GET  /v1/admin/modules/{name}
     // Prompt Template endpoints
     PromptTemplatePost,
     PromptTemplateList,
@@ -2290,6 +2479,10 @@ namespace {
         ContentGet,
         ContentBlobGet,
         ContentChunksGet,
+        ContentFsGet,       // GET    /api/v1/content/fs/{pk}
+        ContentFsPut,       // PUT    /api/v1/content/fs/{pk}
+        ContentFsHead,      // HEAD   /api/v1/content/fs/{pk}
+        ContentFsDelete,    // DELETE /api/v1/content/fs/{pk}
         HybridSearchPost,
         FusionSearchPost,
         FulltextSearchPost,
@@ -2524,6 +2717,18 @@ namespace {
     MaintenanceHealthGet,           // GET    /api/v1/maintenance/health
     MaintenanceTaskHandlersGet,     // GET    /api/v1/maintenance/task-handlers
 
+    // Retention Policy Admin API
+    RetentionPoliciesGet,           // GET    /api/retention/policies
+    RetentionPoliciesPost,          // POST   /api/retention/policies
+    RetentionPolicyDelete,          // DELETE /api/retention/policies/{name}
+    RetentionHistoryGet,            // GET    /api/retention/history
+
+    // SAGA Audit Log API
+    SAGABatchesGet,                 // GET    /api/saga/batches
+    SAGABatchGet,                   // GET    /api/saga/batches/{id}
+    SAGABatchVerifyPost,            // POST   /api/saga/batches/{id}/verify
+    SAGAFlushPost,                  // POST   /api/saga/flush
+
         NotFound
     };
 
@@ -2641,6 +2846,25 @@ namespace {
     if (path_only == "/v1/admin/shards" && method == http::verb::post) return Route::AdminShardsPost;
     if (path_only == "/v1/admin/shards" && method == http::verb::get) return Route::AdminShardsGet;
     if (path_only == "/v1/admin/storage/stats" && method == http::verb::get) return Route::AdminStorageStatsGet;
+    // Shard Repair admin endpoints
+    if (path_only == "/v1/admin/repair/health" && method == http::verb::get) return Route::AdminRepairHealthGet;
+    if (path_only == "/v1/admin/repair" && method == http::verb::post) return Route::AdminRepairPost;
+    if (path_only == "/v1/admin/repair/scan" && method == http::verb::post) return Route::AdminRepairScanPost;
+    if (path_only.rfind("/v1/admin/repair/jobs/", 0) == 0 && path_only.size() > 22 &&
+        method == http::verb::get) return Route::AdminRepairJobStatusGet;
+    if (path_only == "/v1/admin/repair/dashboard" && method == http::verb::get) return Route::AdminRepairDashboardGet;
+    // Module admin endpoints — order matters: /load POST before generic DELETE/GET
+    if (path_only == "/v1/admin/modules" && method == http::verb::get) return Route::AdminModulesGet;
+    if (path_only.rfind("/v1/admin/modules/", 0) == 0 &&
+        path_only.size() > 18 &&
+        path_only.rfind("/load") == path_only.size() - 5 &&
+        method == http::verb::post) return Route::AdminModulesLoadPost;
+    if (path_only.rfind("/v1/admin/modules/", 0) == 0 &&
+        path_only.size() > 18 &&
+        method == http::verb::delete_) return Route::AdminModulesUnloadDelete;
+    if (path_only.rfind("/v1/admin/modules/", 0) == 0 &&
+        path_only.size() > 18 &&
+        method == http::verb::get) return Route::AdminModuleStatusGet;
     if (target == "/prompt_template" && method == http::verb::post) return Route::PromptTemplatePost;
     if (target == "/prompt_template" && method == http::verb::get) return Route::PromptTemplateList;
     if (target.rfind("/prompt_template/", 0) == 0 && method == http::verb::get) return Route::PromptTemplateGet;
@@ -2862,6 +3086,13 @@ namespace {
             if (target.find("/blob") != std::string::npos) return Route::ContentBlobGet;
             if (target.find("/chunks") != std::string::npos) return Route::ContentChunksGet;
             return Route::ContentGet;
+        }
+        // ContentFS binary blob API (/api/v1/content/fs/{pk})
+        if (path_only.rfind("/api/v1/content/fs/", 0) == 0 && path_only.size() > 19) {
+            if (method == http::verb::get)    return Route::ContentFsGet;
+            if (method == http::verb::put)    return Route::ContentFsPut;
+            if (method == http::verb::head)   return Route::ContentFsHead;
+            if (method == http::verb::delete_) return Route::ContentFsDelete;
         }
 
     // Hybrid Search
@@ -3143,6 +3374,36 @@ namespace {
             }
         }
     }
+
+        // ── Retention Policy Admin API ──────────────────────────────────────
+        if (path_only == "/api/retention/policies") {
+            if (method == http::verb::get)  return Route::RetentionPoliciesGet;
+            if (method == http::verb::post) return Route::RetentionPoliciesPost;
+        }
+        if (path_only.rfind("/api/retention/policies/", 0) == 0 &&
+            path_only.size() > 24) {
+            if (method == http::verb::delete_) return Route::RetentionPolicyDelete;
+        }
+        if (path_only == "/api/retention/history" && method == http::verb::get)
+            return Route::RetentionHistoryGet;
+
+        // ── SAGA Audit Log API ──────────────────────────────────────────────
+        if (path_only == "/api/saga/batches" && method == http::verb::get)
+            return Route::SAGABatchesGet;
+        if (path_only == "/api/saga/flush" && method == http::verb::post)
+            return Route::SAGAFlushPost;
+        if (path_only.rfind("/api/saga/batches/", 0) == 0 &&
+            path_only.size() > 18) {
+            std::string rest = path_only.substr(18);
+            auto slash_pos = rest.find('/');
+            if (slash_pos == std::string::npos) {
+                if (method == http::verb::get) return Route::SAGABatchGet;
+            } else {
+                std::string action = rest.substr(slash_pos + 1);
+                if (method == http::verb::post && action == "verify")
+                    return Route::SAGABatchVerifyPost;
+            }
+        }
 
         return Route::NotFound;
     }
@@ -4280,6 +4541,198 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         }
+        // ─── Shard Repair Admin API ─────────────────────────────────────────────
+        case Route::AdminRepairHealthGet: {
+            // GET /v1/admin/repair/health
+            if (!shard_repair_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
+                break;
+            }
+            response = shard_repair_api_->handleHealth(req);
+            break;
+        }
+        case Route::AdminRepairPost: {
+            // POST /v1/admin/repair
+            if (!shard_repair_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
+                break;
+            }
+            response = shard_repair_api_->handleTriggerRepair(req);
+            break;
+        }
+        case Route::AdminRepairScanPost: {
+            // POST /v1/admin/repair/scan
+            if (!shard_repair_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
+                break;
+            }
+            response = shard_repair_api_->handleTriggerFullScan(req);
+            break;
+        }
+        case Route::AdminRepairJobStatusGet: {
+            // GET /v1/admin/repair/jobs/{job_id}
+            if (!shard_repair_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
+                break;
+            }
+            response = shard_repair_api_->handleJobStatus(req);
+            break;
+        }
+        case Route::AdminRepairDashboardGet: {
+            // GET /v1/admin/repair/dashboard
+            if (!shard_repair_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
+                break;
+            }
+            response = shard_repair_api_->handleDashboard(req);
+            break;
+        }
+        // ─── Module Admin API ───────────────────────────────────────────────────
+        case Route::AdminModulesGet: {
+            // GET /v1/admin/modules — list all loaded modules
+            if (auto auth_err = requireAccess(req, "admin", "admin", "/v1/admin/modules")) {
+                response = *auth_err;
+                break;
+            }
+            if (!module_loader_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ModuleLoader not initialized; set modules.directory in config", req);
+                break;
+            }
+            try {
+                auto modules = module_loader_->getAllLoadedModules();
+                json arr = json::array();
+                for (const auto& m : modules) {
+                    arr.push_back({
+                        {"name",            m.name},
+                        {"path",            m.path},
+                        {"version",         m.version},
+                        {"verified",        m.verified},
+                        {"fully_activated", m.fullyActivated},
+                        {"load_time",       m.loadTime},
+                        {"load_duration_ms",m.loadDurationMs}
+                    });
+                }
+                response = makeResponse(http::status::ok,
+                    json{{"modules", arr}, {"count", arr.size()}}.dump(), req);
+            } catch (const std::exception& e) {
+                response = makeErrorResponse(http::status::internal_server_error, e.what(), req);
+            }
+            break;
+        }
+        case Route::AdminModulesLoadPost: {
+            // POST /v1/admin/modules/{name}/load  body: {"path":"…"}
+            if (auto auth_err = requireAccess(req, "admin", "admin", "/v1/admin/modules")) {
+                response = *auth_err;
+                break;
+            }
+            if (!module_loader_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ModuleLoader not initialized; set modules.directory in config", req);
+                break;
+            }
+            try {
+                const std::string prefix = "/v1/admin/modules/";
+                std::string url_name = path_only.substr(prefix.size());
+                auto slash = url_name.rfind("/load");
+                if (slash != std::string::npos) url_name = url_name.substr(0, slash);
+
+                auto body = json::parse(req.body());
+                std::string lib_path = body.value("path", std::string());
+                if (lib_path.empty()) {
+                    response = makeErrorResponse(http::status::bad_request,
+                        "Missing required field: path", req);
+                    break;
+                }
+                std::string mod_name = body.value("name", url_name);
+                auto result = module_loader_->loadModule(lib_path, mod_name);
+                if (result.success) {
+                    response = makeResponse(http::status::ok,
+                        json{{"status","loaded"},{"name",mod_name},{"hash",result.moduleHash}}.dump(), req);
+                } else {
+                    response = makeErrorResponse(http::status::unprocessable_entity,
+                        "Load failed: " + result.errorMessage, req);
+                }
+            } catch (const json::exception& e) {
+                response = makeErrorResponse(http::status::bad_request,
+                    std::string("JSON parse error: ") + e.what(), req);
+            } catch (const std::exception& e) {
+                response = makeErrorResponse(http::status::internal_server_error, e.what(), req);
+            }
+            break;
+        }
+        case Route::AdminModulesUnloadDelete: {
+            // DELETE /v1/admin/modules/{name}
+            if (auto auth_err = requireAccess(req, "admin", "admin", "/v1/admin/modules")) {
+                response = *auth_err;
+                break;
+            }
+            if (!module_loader_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ModuleLoader not initialized; set modules.directory in config", req);
+                break;
+            }
+            try {
+                const std::string prefix = "/v1/admin/modules/";
+                std::string mod_name = path_only.substr(prefix.size());
+                module_loader_->unloadModule(mod_name);
+                response = makeResponse(http::status::ok,
+                    json{{"status","unloaded"},{"name",mod_name}}.dump(), req);
+            } catch (const std::exception& e) {
+                response = makeErrorResponse(http::status::internal_server_error, e.what(), req);
+            }
+            break;
+        }
+        case Route::AdminModuleStatusGet: {
+            // GET /v1/admin/modules/{name}
+            if (auto auth_err = requireAccess(req, "admin", "admin", "/v1/admin/modules")) {
+                response = *auth_err;
+                break;
+            }
+            if (!module_loader_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ModuleLoader not initialized; set modules.directory in config", req);
+                break;
+            }
+            try {
+                const std::string prefix = "/v1/admin/modules/";
+                std::string mod_name = path_only.substr(prefix.size());
+                auto info = module_loader_->getModuleInfo(mod_name);
+                if (!info) {
+                    response = makeErrorResponse(http::status::not_found,
+                        "Module not found: " + mod_name, req);
+                    break;
+                }
+                json result = {
+                    {"name",            info->name},
+                    {"path",            info->path},
+                    {"version",         info->version},
+                    {"verified",        info->verified},
+                    {"fully_activated", info->fullyActivated},
+                    {"load_time",       info->loadTime},
+                    {"load_duration_ms",info->loadDurationMs}
+                };
+                auto wd = module_loader_->getWatchdogStats(mod_name);
+                if (wd) {
+                    result["watchdog"] = {
+                        {"restart_count",         wd->restart_count},
+                        {"consecutive_failures",  wd->consecutive_failures},
+                        {"permanently_failed",    wd->permanently_failed},
+                        {"last_error",            wd->last_error}
+                    };
+                }
+                response = makeResponse(http::status::ok, result.dump(), req);
+            } catch (const std::exception& e) {
+                response = makeErrorResponse(http::status::internal_server_error, e.what(), req);
+            }
+            break;
+        }
+        // ────────────────────────────────────────────────────────────────────────
         case Route::LlmInteractionPost:
             response = handleLlmInteractionPost(req);
             break;
@@ -5101,6 +5554,18 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::ContentChunksGet:
             response = content_api_->handleGetChunks(req);
+            break;
+        case Route::ContentFsGet:
+            response = handleContentFsGet(req);
+            break;
+        case Route::ContentFsPut:
+            response = handleContentFsPut(req);
+            break;
+        case Route::ContentFsHead:
+            response = handleContentFsHead(req);
+            break;
+        case Route::ContentFsDelete:
+            response = handleContentFsDelete(req);
             break;
         case Route::HybridSearchPost:
             response = content_api_->handleHybridSearch(req);
@@ -6189,6 +6654,197 @@ http::response<http::string_body> HttpServer::routeRequest(
                     response = makeResponse(http::status::ok, result.dump(), req);
                 }
             }
+            break;
+        }
+
+        // ── Retention Policy Admin API ──────────────────────────────────────
+        case Route::RetentionPoliciesGet: {
+            if (auto auth_err = requireAccess(req, "admin", "retention.policies.list",
+                                              "/api/retention/policies")) {
+                response = *auth_err; break;
+            }
+            if (!retention_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "Retention API not initialized", req);
+                break;
+            }
+            server::RetentionQueryFilter filter;
+            if (auto qpos = std::string(req.target()).find('?'); qpos != std::string::npos) {
+                auto qs = std::string(req.target()).substr(qpos + 1);
+                // Simple key=value parsing for common params
+                for (auto& seg : {std::string("page"), std::string("page_size"),
+                                   std::string("name"), std::string("classification")}) {
+                    auto key = seg + "=";
+                    auto pos = qs.find(key);
+                    if (pos != std::string::npos) {
+                        auto val = qs.substr(pos + key.size());
+                        if (auto end = val.find('&'); end != std::string::npos) val = val.substr(0, end);
+                        if (seg == "page") try { filter.page = std::stoi(val); } catch (...) {}
+                        else if (seg == "page_size") try { filter.page_size = std::stoi(val); } catch (...) {}
+                        else if (seg == "name") filter.name_filter = val;
+                        else if (seg == "classification") filter.classification_filter = val;
+                    }
+                }
+            }
+            response = makeResponse(http::status::ok,
+                                    retention_api_->listPolicies(filter).dump(), req);
+            break;
+        }
+
+        case Route::RetentionPoliciesPost: {
+            if (auto auth_err = requireAccess(req, "admin", "retention.policies.write",
+                                              "/api/retention/policies")) {
+                response = *auth_err; break;
+            }
+            if (!retention_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "Retention API not initialized", req);
+                break;
+            }
+            auto body = nlohmann::json::parse(req.body(), nullptr, false);
+            if (body.is_discarded()) {
+                response = makeErrorResponse(http::status::bad_request,
+                                             "Invalid JSON body", req);
+                break;
+            }
+            auto result = retention_api_->createOrUpdatePolicy(body);
+            auto created = result.value("status", "") == "created";
+            response = makeResponse(
+                created ? http::status::created : http::status::ok,
+                result.dump(), req);
+            break;
+        }
+
+        case Route::RetentionPolicyDelete: {
+            if (auto auth_err = requireAccess(req, "admin", "retention.policies.delete",
+                                              "/api/retention/policies")) {
+                response = *auth_err; break;
+            }
+            if (!retention_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "Retention API not initialized", req);
+                break;
+            }
+            std::string target = std::string(req.target());
+            std::string policy_name = target.substr(target.rfind('/') + 1);
+            auto qpos = policy_name.find('?');
+            if (qpos != std::string::npos) policy_name = policy_name.substr(0, qpos);
+            if (policy_name.empty()) {
+                response = makeErrorResponse(http::status::bad_request,
+                                             "Missing policy name in path", req);
+                break;
+            }
+            auto result = retention_api_->deletePolicy(policy_name);
+            if (result.value("status", "") == "not_found") {
+                response = makeErrorResponse(http::status::not_found,
+                                             "Retention policy not found", req);
+            } else {
+                response = makeResponse(http::status::ok, result.dump(), req);
+            }
+            break;
+        }
+
+        case Route::RetentionHistoryGet: {
+            if (auto auth_err = requireAccess(req, "audit:read", "retention.history.read",
+                                              "/api/retention/history")) {
+                response = *auth_err; break;
+            }
+            if (!retention_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "Retention API not initialized", req);
+                break;
+            }
+            int limit = 100;
+            if (auto qpos = std::string(req.target()).find("limit="); qpos != std::string::npos) {
+                try { limit = std::stoi(std::string(req.target()).substr(qpos + 6)); } catch (...) {}
+            }
+            auto result = retention_api_->getHistory(limit);
+            response = makeResponse(http::status::ok, result.dump(), req);
+            break;
+        }
+
+        // ── SAGA Audit Log API ──────────────────────────────────────────────
+        case Route::SAGABatchesGet: {
+            if (auto auth_err = requireAccess(req, "audit:read", "saga.batches.list",
+                                              "/api/saga/batches")) {
+                response = *auth_err; break;
+            }
+            if (!saga_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "SAGA API not initialized", req);
+                break;
+            }
+            response = makeResponse(http::status::ok,
+                                    saga_api_->listBatches().dump(), req);
+            break;
+        }
+
+        case Route::SAGABatchGet: {
+            if (auto auth_err = requireAccess(req, "audit:read", "saga.batches.get",
+                                              "/api/saga/batches")) {
+                response = *auth_err; break;
+            }
+            if (!saga_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "SAGA API not initialized", req);
+                break;
+            }
+            std::string target = std::string(req.target());
+            static constexpr std::string_view kPrefix = "/api/saga/batches/";
+            std::string batch_id = target.substr(kPrefix.size());
+            auto qpos = batch_id.find('?');
+            if (qpos != std::string::npos) batch_id = batch_id.substr(0, qpos);
+            if (batch_id.empty()) {
+                response = makeErrorResponse(http::status::bad_request,
+                                             "Missing batch ID in path", req);
+                break;
+            }
+            response = makeResponse(http::status::ok,
+                                    saga_api_->getBatchDetail(batch_id).dump(), req);
+            break;
+        }
+
+        case Route::SAGABatchVerifyPost: {
+            if (auto auth_err = requireAccess(req, "audit:read", "saga.batches.verify",
+                                              "/api/saga/batches")) {
+                response = *auth_err; break;
+            }
+            if (!saga_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "SAGA API not initialized", req);
+                break;
+            }
+            // Extract batch_id from path /api/saga/batches/{id}/verify
+            std::string target = std::string(req.target());
+            static constexpr std::string_view kVPrefix = "/api/saga/batches/";
+            std::string rest = target.substr(kVPrefix.size());
+            auto slash_pos = rest.find('/');
+            std::string batch_id = (slash_pos != std::string::npos)
+                ? rest.substr(0, slash_pos) : rest;
+            auto qpos = batch_id.find('?');
+            if (qpos != std::string::npos) batch_id = batch_id.substr(0, qpos);
+            if (batch_id.empty()) {
+                response = makeErrorResponse(http::status::bad_request,
+                                             "Missing batch ID in path", req);
+                break;
+            }
+            response = makeResponse(http::status::ok,
+                                    saga_api_->verifyBatch(batch_id).dump(), req);
+            break;
+        }
+
+        case Route::SAGAFlushPost: {
+            if (auto auth_err = requireAccess(req, "admin", "saga.flush",
+                                              "/api/saga/flush")) {
+                response = *auth_err; break;
+            }
+            if (!saga_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "SAGA API not initialized", req);
+                break;
+            }
+            response = makeResponse(http::status::ok,
+                                    saga_api_->flushCurrentBatch().dump(), req);
             break;
         }
 
@@ -10973,6 +11629,10 @@ std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints()
     endpoints.push_back({"GET",  "/content/{id}",             "Get content"});
     endpoints.push_back({"GET",  "/content/{id}/blob",        "Get content blob"});
     endpoints.push_back({"GET",  "/content/{id}/chunks",      "Get content chunks"});
+    endpoints.push_back({"PUT",    "/api/v1/content/fs/{pk}", "ContentFS: store binary blob"});
+    endpoints.push_back({"GET",    "/api/v1/content/fs/{pk}", "ContentFS: retrieve binary blob"});
+    endpoints.push_back({"HEAD",   "/api/v1/content/fs/{pk}", "ContentFS: blob metadata (no body)"});
+    endpoints.push_back({"DELETE", "/api/v1/content/fs/{pk}", "ContentFS: remove binary blob"});
     endpoints.push_back({"GET",  "/config/content-filters",   "Get content filter schema"});
     endpoints.push_back({"PUT",  "/config/content-filters",   "Update content filter schema"});
     endpoints.push_back({"GET",  "/config/edge-weights",      "Get edge weight config"});
@@ -11009,6 +11669,15 @@ std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints()
     endpoints.push_back({"POST", "/v1/admin/shards",          "Add shard node"});
     endpoints.push_back({"GET",  "/v1/admin/shards",          "List shard nodes"});
     endpoints.push_back({"GET",  "/v1/admin/storage/stats",   "Storage statistics"});
+    endpoints.push_back({"GET",  "/v1/admin/repair/health",       "Shard repair health & metrics"});
+    endpoints.push_back({"POST", "/v1/admin/repair",              "Trigger shard repair job"});
+    endpoints.push_back({"POST", "/v1/admin/repair/scan",         "Trigger full shard scan"});
+    endpoints.push_back({"GET",  "/v1/admin/repair/jobs/{job_id}","Shard repair job status"});
+    endpoints.push_back({"GET",  "/v1/admin/repair/dashboard",    "Shard repair dashboard (HTML)"});
+    endpoints.push_back({"GET",  "/v1/admin/modules",              "List loaded modules"});
+    endpoints.push_back({"POST", "/v1/admin/modules/{name}/load",  "Load module by path (admin)"});
+    endpoints.push_back({"DELETE","/v1/admin/modules/{name}",      "Unload module (admin)"});
+    endpoints.push_back({"GET",  "/v1/admin/modules/{name}",       "Module status (admin)"});
 
     // Config & Utilities
     endpoints.push_back({"GET",  "/config",                   "Get configuration"});
@@ -11305,6 +11974,18 @@ std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints()
     endpoints.push_back({"DELETE", "/api/feedback/{id}",       "Delete feedback"});
     endpoints.push_back({"GET",  "/api/feedback/adapter/{adapter_id}", "Get feedback adapter"});
     endpoints.push_back({"GET",  "/api/feedback/stats",        "Feedback statistics"});
+
+    // Retention Policy Admin API
+    endpoints.push_back({"GET",    "/api/retention/policies",          "List retention policies"});
+    endpoints.push_back({"POST",   "/api/retention/policies",          "Create/update retention policy"});
+    endpoints.push_back({"DELETE", "/api/retention/policies/{name}",   "Delete retention policy"});
+    endpoints.push_back({"GET",    "/api/retention/history",           "Retention action history"});
+
+    // SAGA Audit Log API
+    endpoints.push_back({"GET",  "/api/saga/batches",                  "List SAGA audit batches"});
+    endpoints.push_back({"GET",  "/api/saga/batches/{id}",             "Get SAGA batch detail"});
+    endpoints.push_back({"POST", "/api/saga/batches/{id}/verify",      "Verify SAGA batch signature"});
+    endpoints.push_back({"POST", "/api/saga/flush",                    "Flush current SAGA batch"});
 
     // Sort by path for consistent, reproducible output
     std::sort(endpoints.begin(), endpoints.end(),
@@ -11645,6 +12326,179 @@ http::response<http::string_body> HttpServer::handleMetadataRecordLineageDerivat
             "Schema API not available", req);
     }
     return schema_api_handler_->handleRecordLineageDerivation(req);
+}
+
+// ── ContentFS HTTP handlers ─────────────────────────────────────────────────
+// These wrap ContentFS (binary blob storage) over HTTP:
+//   PUT    /api/v1/content/fs/{pk}  — store blob (body = raw bytes, Content-Type header used as MIME)
+//   GET    /api/v1/content/fs/{pk}  — retrieve blob
+//   HEAD   /api/v1/content/fs/{pk}  — metadata only (no body)
+//   DELETE /api/v1/content/fs/{pk}  — remove blob
+
+static std::string extractContentFsPk(const http::request<http::string_body>& req) {
+    std::string path = std::string(req.target());
+    auto qpos = path.find('?');
+    if (qpos != std::string::npos) path = path.substr(0, qpos);
+    // prefix is "/api/v1/content/fs/"  (19 chars)
+    if (path.size() > 19) return path.substr(19);
+    return {};
+}
+
+http::response<http::string_body> HttpServer::handleContentFsPut(
+    const http::request<http::string_body>& req)
+{
+    if (!content_fs_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "ContentFS not initialized", req);
+    }
+    const std::string pk = extractContentFsPk(req);
+    if (pk.empty()) {
+        return makeErrorResponse(http::status::bad_request,
+            "ContentFS: pk (resource key) must not be empty", req);
+    }
+    const std::string body_str = req.body();
+    const std::vector<uint8_t> data(body_str.begin(), body_str.end());
+    std::string mime = std::string(req[http::field::content_type]);
+    if (mime.empty()) mime = "application/octet-stream";
+
+    // Optional SHA-256 hint via X-Content-SHA256 header
+    std::optional<std::string> sha256_hint;
+    const auto sha_hdr = req.find("X-Content-SHA256");
+    if (sha_hdr != req.end() && !sha_hdr->value().empty()) {
+        sha256_hint = std::string(sha_hdr->value());
+    }
+
+    auto result = content_fs_->put(pk, data, mime, sha256_hint);
+    if (!result) {
+        const bool bad_req = (result.error().code() == errors::ErrorCode::ERR_API_INVALID_REQUEST);
+        return makeErrorResponse(
+            bad_req ? http::status::bad_request : http::status::internal_server_error,
+            result.error().message(), req);
+    }
+
+    json body = {{"pk", pk}, {"size", data.size()}, {"mime", mime}};
+    if (sha256_hint) body["sha256"] = *sha256_hint;
+    return makeResponse(http::status::created, body.dump(), req);
+}
+
+http::response<http::string_body> HttpServer::handleContentFsGet(
+    const http::request<http::string_body>& req)
+{
+    if (!content_fs_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "ContentFS not initialized", req);
+    }
+    const std::string pk = extractContentFsPk(req);
+    if (pk.empty()) {
+        return makeErrorResponse(http::status::bad_request,
+            "ContentFS: pk (resource key) must not be empty", req);
+    }
+
+    // Range support via standard Range header (bytes=offset-end)
+    const auto range_hdr = req.find(http::field::range);
+    if (range_hdr != req.end()) {
+        uint64_t offset = 0, length = 0;
+        // Parse "bytes=<offset>-<end>" (best-effort)
+        std::string rv = std::string(range_hdr->value());
+        if (rv.rfind("bytes=", 0) == 0) {
+            rv = rv.substr(6);
+            auto dash = rv.find('-');
+            if (dash != std::string::npos) {
+                try { offset = std::stoull(rv.substr(0, dash)); } catch (...) {}
+                if (dash + 1 < rv.size()) {
+                    try {
+                        uint64_t end_pos = std::stoull(rv.substr(dash + 1));
+                        length = (end_pos >= offset) ? (end_pos - offset + 1) : 0;
+                    } catch (...) {}
+                }
+            }
+        }
+        auto result = content_fs_->getRange(pk, offset, length);
+        if (!result) {
+            const bool not_found = (result.error().code() == errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND);
+            return makeErrorResponse(
+                not_found ? http::status::not_found : http::status::internal_server_error,
+                result.error().message(), req);
+        }
+        const auto& data = result.value();
+        http::response<http::string_body> resp{http::status::partial_content, req.version()};
+        resp.set(http::field::server, "ThemisDB");
+        resp.set(http::field::content_type, "application/octet-stream");
+        resp.body() = std::string(data.begin(), data.end());
+        resp.prepare_payload();
+        return resp;
+    }
+
+    auto result = content_fs_->get(pk);
+    if (!result) {
+        const bool not_found = (result.error().code() == errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND);
+        return makeErrorResponse(
+            not_found ? http::status::not_found : http::status::internal_server_error,
+            result.error().message(), req);
+    }
+    const auto& data = result.value();
+    // Retrieve MIME via head() for correct Content-Type
+    auto meta_result = content_fs_->head(pk);
+    std::string mime = "application/octet-stream";
+    if (meta_result) mime = meta_result.value().mime;
+
+    http::response<http::string_body> resp{http::status::ok, req.version()};
+    resp.set(http::field::server, "ThemisDB");
+    resp.set(http::field::content_type, mime);
+    resp.body() = std::string(data.begin(), data.end());
+    resp.prepare_payload();
+    return resp;
+}
+
+http::response<http::string_body> HttpServer::handleContentFsHead(
+    const http::request<http::string_body>& req)
+{
+    if (!content_fs_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "ContentFS not initialized", req);
+    }
+    const std::string pk = extractContentFsPk(req);
+    if (pk.empty()) {
+        return makeErrorResponse(http::status::bad_request,
+            "ContentFS: pk (resource key) must not be empty", req);
+    }
+    auto result = content_fs_->head(pk);
+    if (!result) {
+        const bool not_found = (result.error().code() == errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND);
+        return makeErrorResponse(
+            not_found ? http::status::not_found : http::status::internal_server_error,
+            result.error().message(), req);
+    }
+    const auto& meta = result.value();
+    http::response<http::string_body> resp{http::status::ok, req.version()};
+    resp.set(http::field::server, "ThemisDB");
+    resp.set(http::field::content_type, meta.mime);
+    resp.set(http::field::content_length, std::to_string(meta.size));
+    resp.set("X-Content-SHA256", meta.sha256_hex);
+    resp.prepare_payload();
+    return resp;
+}
+
+http::response<http::string_body> HttpServer::handleContentFsDelete(
+    const http::request<http::string_body>& req)
+{
+    if (!content_fs_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "ContentFS not initialized", req);
+    }
+    const std::string pk = extractContentFsPk(req);
+    if (pk.empty()) {
+        return makeErrorResponse(http::status::bad_request,
+            "ContentFS: pk (resource key) must not be empty", req);
+    }
+    auto result = content_fs_->remove(pk);
+    if (!result) {
+        const bool not_found = (result.error().code() == errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND);
+        return makeErrorResponse(
+            not_found ? http::status::not_found : http::status::internal_server_error,
+            result.error().message(), req);
+    }
+    return makeResponse(http::status::no_content, "", req);
 }
 
 } // namespace server

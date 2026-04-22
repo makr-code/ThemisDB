@@ -39,6 +39,10 @@ namespace themis {
  * - Key versioning support
  * - In-memory storage only
  * 
+ * @warning Emits a prominent THEMIS_WARN banner on construction to signal
+ *          insecure usage.  Replace with PKIKeyProvider, HSMKeyProvider, or
+ *          VaultKeyProvider for any production or staging deployment.
+ * 
  * Usage:
  * @code
  * auto provider = std::make_shared<MockKeyProvider>();

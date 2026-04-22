@@ -301,6 +301,31 @@ public:
         alertmanager_ = std::move(alertmanager);
     }
 
+    /**
+     * @brief Inject sharding / repair metrics into the monitoring handler.
+     *
+     * Optional: when set, GET /metrics and GET /v1/monitoring/sharding/* expose
+     * shard-level Prometheus metrics including anti-entropy repair statistics.
+     * Must be called before start() for the first scrape to include repair data.
+     */
+    void setShardingMetrics(std::shared_ptr<ShardingMetricsHandler> sharding_metrics) {
+        sharding_metrics_ = std::move(sharding_metrics);
+    }
+
+    /**
+     * @brief Inject the SchemaManager after deferred initialization.
+     *
+     * SchemaManager is initialized after MonitoringApiHandler due to construction
+     * ordering constraints (schema_manager_ depends on storage being fully open).
+     * Call this from HttpServer once schema_manager_ is available so that
+     * GET /api/v1/capabilities returns accurate schema capability information.
+     *
+     * Optional: when not set the capabilities endpoint omits schema details.
+     */
+    void setSchemaManager(::themis::SchemaManager* schema_manager) {
+        schema_manager_ = schema_manager;
+    }
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<AuthMiddleware> auth_;
