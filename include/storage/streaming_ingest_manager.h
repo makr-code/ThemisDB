@@ -123,36 +123,45 @@ public:
 
     struct Config {
         /** How often the flush thread drains the ring buffer to RocksDB. */
-        std::chrono::milliseconds flush_interval{10};
+        std::chrono::milliseconds flush_interval;
 
         /**
          * Maximum number of buffered events before back-pressure kicks in.
          * Must be ≥ 1.
          */
-        size_t max_buffer_events = 1'000'000;
+        size_t max_buffer_events;
 
         /**
          * Maximum number of events per RocksDB WriteBatch.
          * Larger batches improve throughput; smaller batches reduce latency.
          */
-        size_t max_batch_size = 65'536;
+        size_t max_batch_size;
 
         /**
          * When BLOCK: maximum time ingest() waits for buffer space.
          * When the timeout expires, ERR_STORAGE_LOG_FULL is returned.
          * Zero means "wait forever".
          */
-        std::chrono::milliseconds backpressure_timeout{0};
+        std::chrono::milliseconds backpressure_timeout;
 
         /** Policy when the ring buffer is full. */
-        OverflowPolicy overflow_policy{OverflowPolicy::BLOCK};
+        OverflowPolicy overflow_policy;
 
         /**
          * When true (default), each WriteBatch is flushed to the WAL
          * synchronously before the flush thread moves on.  Set to false
          * for maximum throughput at the cost of durability.
          */
-        bool sync_wal{true};
+        bool sync_wal;
+
+        Config()
+            : flush_interval(10)
+            , max_buffer_events(1'000'000)
+            , max_batch_size(65'536)
+            , backpressure_timeout(0)
+            , overflow_policy(OverflowPolicy::BLOCK)
+            , sync_wal(true)
+        {}
     };
 
     // ── Lifecycle ─────────────────────────────────────────────────────────
