@@ -10,10 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-- Post-generation NL→AQL validation hardening in `LLMAQLHandler`: generated queries are now validator-checked with configurable modes (`WARN_ONLY`, `REJECT_ON_ERROR`, `RETRY_ON_ERROR`) and retry-with-feedback support.
-- Timeout thread lifecycle hardening in `LLMTimeoutManager`: timeout/cancel paths use `std::jthread` with stop-token based shutdown, eliminating leaked detached worker threads.
-- Per-operation circuit breakers for INFER, RAG, EMBED, and FINETUNE paths, including state introspection via `getCircuitBreakerStates()`.
-- Bounded conversation context budgeting (`max_turns`, `max_history_tokens`) with token-aware eviction in `AQLConversationContext`.
+- Post-generation NL→AQL validation with enforcement modes (`WARN_ONLY`, `REJECT_ON_ERROR`, `RETRY_ON_ERROR`) and retry-with-feedback behavior in `LLMAQLHandler`.
+- Timeout-thread lifecycle hardening in `LLMTimeoutManager` using `std::jthread` and stop-token cancellation.
+- Per-operation circuit breakers for INFER/RAG/EMBED/FINETUNE with state introspection via `getCircuitBreakerStates()`.
+- Bounded conversation context budgets (`max_turns`, `max_history_tokens`) in `AQLConversationContext`.
 
 ## [1.8.0] — 2026-03-22
 ### Added
