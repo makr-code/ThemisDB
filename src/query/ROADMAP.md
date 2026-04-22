@@ -281,8 +281,8 @@ Adds a production-grade Continuous Query Language (CQL) engine to ThemisDB, enab
 - [ ] Unit tests `CQ-01..CQ-20` — `tests/test_continuous_query_engine.cpp`:
   - CQ-01..05: `WindowSpec` construction and tick computation (time, count, tumbling)
   - CQ-06..10: synopsis insert, expire, and size enforcement
-  - CQ-07..12: incremental aggregation correctness (SUM/AVG/MIN/MAX delta vs. full re-scan)
-  - CQ-13..15: watermark advancement and late-data correction
+  - CQ-11..13: incremental aggregation correctness (SUM/AVG/MIN/MAX delta vs. full re-scan)
+  - CQ-14..15: watermark advancement and late-data correction
   - CQ-16..18: `DELTA` / `SNAPSHOT` / `CHANGES` result mode output
   - CQ-19..20: validation rejections (unbounded join, impure UDF)
 - [ ] Integration tests `CQI-01..05` — `tests/integration/test_continuous_query_e2e.cpp`:
