@@ -307,4 +307,26 @@ static void BM_GorillaSIMDDecode_Throughput(benchmark::State& state) {
 }
 BENCHMARK(BM_GorillaSIMDDecode_Throughput)->Arg(10000)->Arg(100000)->Unit(benchmark::kMicrosecond);
 
+static void BM_GorillaDecode_1MB(benchmark::State& state) {
+    constexpr size_t decoded_bytes = 1u << 20; // 1 MiB decoded payload
+    constexpr int n = static_cast<int>(decoded_bytes / (sizeof(int64_t) + sizeof(double)));
+    auto compressed = encode(makeConstantSeries(n));
+    std::vector<std::pair<int64_t, double>> out;
+    out.reserve(static_cast<size_t>(n));
+
+    for (auto _ : state) {
+        GorillaSIMDDecoder dec(compressed);
+        out.clear();
+        dec.decodeAll(out);
+        benchmark::DoNotOptimize(out);
+    }
+
+    state.counters["decoded_bytes_per_sec"] = benchmark::Counter(
+        static_cast<double>(state.iterations() * decoded_bytes), benchmark::Counter::kIsRate);
+    state.counters["has_avx2"] = gorilla_simd_has_avx2() ? 1 : 0;
+    state.counters["has_neon"] = gorilla_simd_has_neon() ? 1 : 0;
+    state.counters["decoder"] = 1; // 1 = SIMD
+}
+BENCHMARK(BM_GorillaDecode_1MB)->Unit(benchmark::kMicrosecond);
+
 BENCHMARK_MAIN();

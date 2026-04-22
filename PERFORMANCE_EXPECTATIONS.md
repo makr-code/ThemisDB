@@ -2103,7 +2103,7 @@ Methodischer Hinweis:
 | # | Modul | Ist-Stand | Ziel | Δ | Priorität |
 |---|-------|-----------|------|---|-----------|
 | D-1 | Timeseries Write (TS-1) | ~200 k pts/s | > 500 k pts/s | **−60 %** | Hoch |
-| D-2 | Gorilla Decode (TS-2) | ~400 MB/s | > 2 GB/s | **−80 %** | Hoch |
+| D-2 | Gorilla Decode (TS-2) | 2.56 GB/s (`BM_GorillaDecode_1MB`, AVX2-Pfad) | > 2 GB/s | **+28 %** | Erledigt |
 | D-3 | Vector Insert vs. FAISS | 351 k/s | 600 k/s | **−71 %** | Mittel |
 | D-4 | 2PC Throughput vs. TiDB | 6,4 k/s | 15 k/s | **−134 %** | Mittel |
 | D-5 | Storage 1 MB Blob Write | 741 ops/s |  100 k ops/s | **−99 %** | Hoch |
