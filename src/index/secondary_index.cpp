@@ -92,6 +92,7 @@ std::string SecondaryIndexManager::makeFulltextDocLenPrefix(std::string_view tab
 SecondaryIndexManager::SecondaryIndexManager(RocksDBWrapper& db) : db_(db) {
 	// Default codec — all compression features disabled (opt-in via Config constructor)
 	compression_codec_ = std::make_unique<index::IndexCompressionCodec>();
+	transactional_put_batch_size_ = 64;
 }
 
 SecondaryIndexManager::SecondaryIndexManager(RocksDBWrapper& db, const Config& config)
@@ -108,6 +109,7 @@ SecondaryIndexManager::SecondaryIndexManager(RocksDBWrapper& db, const Config& c
 		codec_cfg.compression_level         = config.compression_level;
 	}
 	compression_codec_ = std::make_unique<index::IndexCompressionCodec>(codec_cfg);
+	transactional_put_batch_size_ = std::max<size_t>(size_t{1}, config.transactional_put_batch_size);
 }
 
 // Phase 4: Set expression evaluator for advanced filtering
@@ -1105,52 +1107,65 @@ SecondaryIndexManager::Status SecondaryIndexManager::erase(std::string_view tabl
 	return updateIndexesForDelete_(table, pk, oldEntity.get(), batch);
 }
 
-// v1.3.4: Batch Insert API - all entities in one WriteBatch = one commit
+// v1.3.4+: Batch Insert API - entities are committed in transaction chunks.
 SecondaryIndexManager::Status SecondaryIndexManager::putBatch(std::string_view table, const std::vector<BaseEntity>& entities) {
+	return putBatch(table, entities, transactional_put_batch_size_);
+}
+
+void SecondaryIndexManager::setTransactionalPutBatchSize(size_t batch_size) {
+	transactional_put_batch_size_ = std::max<size_t>(size_t{1}, batch_size);
+}
+
+SecondaryIndexManager::Status SecondaryIndexManager::putBatch(std::string_view table, const std::vector<BaseEntity>& entities, size_t transaction_batch_size) {
 	if (table.empty()) return Status::Error("putBatch: table darf nicht leer sein");
 	if (entities.empty()) return Status::OK(); // Nothing to do
 	if (!db_.isOpen()) return Status::Error("putBatch: Datenbank ist nicht geöffnet");
+	if (transaction_batch_size == 0) return Status::Error("putBatch: transaction_batch_size darf nicht 0 sein");
 
-	auto batch = db_.createWriteBatch();
-	if (!batch) return Status::Error("putBatch: Konnte WriteBatch nicht erstellen");
-	
-	for (const auto& entity : entities) {
-		std::string pk = entity.getPrimaryKey();
-		if (pk.empty()) {
-			batch->rollback();
-			return Status::Error("putBatch: Entity ohne Primary Key gefunden");
-		}
+	for (size_t chunk_begin = 0; chunk_begin < entities.size(); chunk_begin += transaction_batch_size) {
+		const size_t chunk_end = std::min(chunk_begin + transaction_batch_size, entities.size());
+		auto batch = db_.createWriteBatch();
+		if (!batch) return Status::Error("putBatch: Konnte WriteBatch nicht erstellen");
 
-		const std::string relKey = KeySchema::makeRelationalKey(table, pk);
-		
-		// Load old entity for index cleanup (if exists)
-		std::optional<std::vector<uint8_t>> oldBlob = db_.get(relKey);
-		std::unique_ptr<BaseEntity> oldEntity;
-		if (oldBlob) {
-			try { 
-				oldEntity = std::make_unique<BaseEntity>(BaseEntity::deserialize(pk, *oldBlob)); 
+		for (size_t i = chunk_begin; i < chunk_end; ++i) {
+			const auto& entity = entities[i];
+			const std::string pk = entity.getPrimaryKey();
+			if (pk.empty()) {
+				batch->rollback();
+				return Status::Error("putBatch: Entity ohne Primary Key gefunden");
 			}
-			catch (...) { 
-				THEMIS_WARN("putBatch: alte Entity für PK={} nicht deserialisierbar", pk); 
+
+			const std::string relKey = KeySchema::makeRelationalKey(table, pk);
+
+			// Load old entity for index cleanup (if exists)
+			std::optional<std::vector<uint8_t>> oldBlob = db_.get(relKey);
+			std::unique_ptr<BaseEntity> oldEntity;
+			if (oldBlob) {
+				try {
+					oldEntity = std::make_unique<BaseEntity>(BaseEntity::deserialize(pk, *oldBlob));
+				}
+				catch (...) {
+					THEMIS_WARN("putBatch: alte Entity für PK={} nicht deserialisierbar", pk);
+				}
 			}
-		}
 
-		// Write entity
-		batch->put(relKey, entity.serialize());
+			// Write entity
+			batch->put(relKey, entity.serialize());
 
-		// Update indexes
-		if (oldEntity) {
-			auto st = updateIndexesForDelete_(table, pk, oldEntity.get(), *batch);
+			// Update indexes
+			if (oldEntity) {
+				auto st = updateIndexesForDelete_(table, pk, oldEntity.get(), *batch);
+				if (!st.ok) { batch->rollback(); return st; }
+			}
+
+			auto st = updateIndexesForPut_(table, pk, entity, *batch);
 			if (!st.ok) { batch->rollback(); return st; }
 		}
-		
-		auto st = updateIndexesForPut_(table, pk, entity, *batch);
-		if (!st.ok) { batch->rollback(); return st; }
-	}
 
-	// Single commit for all entities
-	if (!batch->commit()) {
-		return Status::Error("putBatch: WriteBatch commit fehlgeschlagen");
+		// Single commit for one transaction chunk
+		if (!batch->commit()) {
+			return Status::Error("putBatch: WriteBatch commit fehlgeschlagen");
+		}
 	}
 
 	return Status::OK();
