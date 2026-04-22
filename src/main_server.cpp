@@ -145,6 +145,11 @@ static std::unique_ptr<server::WalGrpcService> g_wal_grpc_service;
 
 static std::shared_ptr<themis::sharding::WALShipper> g_wal_shipper;
 
+// ShardRepairEngine — instantiated when RAID is active; owns its lifetime
+// together with the strategy object it references.
+static std::shared_ptr<themis::sharding::ShardRepairEngine>   g_shard_repair_engine;
+static std::shared_ptr<themis::sharding::RedundancyStrategy>  g_shard_repair_strategy;
+
 // HSM security warning thread
 static std::thread g_hsm_warning_thread;
 static std::atomic<bool> g_hsm_warning_thread_running{false};
@@ -1394,6 +1399,84 @@ int main(int argc, char* argv[]) {
             }
 
             THEMIS_INFO("RAID redundancy components initialized successfully");
+
+            // ═══════════════════════════════════════════════════════════════
+            // SHARD REPAIR ENGINE — anti-entropy / replica repair
+            // ═══════════════════════════════════════════════════════════════
+            // Instantiate only when RAID is active (all three components are
+            // available).  The engine is injected into the HttpServer after
+            // construction so that /v1/admin/repair/* endpoints go live.
+            //
+            // ReadHandler / WriteHandler are thin wrappers around the storage
+            // layer.  Full storage integration (forwarding to the active shard
+            // node via the ShardingManager) is wired here; for shards that are
+            // purely local the handlers reach directly into `db`.
+            if (redundancy_manager && hash_ring && shard_topology) {
+                themis::sharding::RepairConfig repair_cfg;
+                if (cfg && cfg->contains("raid") && (*cfg)["raid"].contains("repair")) {
+                    const auto& rc = (*cfg)["raid"]["repair"];
+                    uint32_t scan_s  = rc.value("scan_interval_seconds",   static_cast<uint32_t>(repair_cfg.scan_interval.count()));
+                    uint32_t poll_s  = rc.value("repair_poll_seconds",     static_cast<uint32_t>(repair_cfg.repair_poll_interval.count()));
+                    repair_cfg.scan_interval          = std::chrono::seconds(scan_s);
+                    repair_cfg.repair_poll_interval   = std::chrono::seconds(poll_s);
+                    repair_cfg.max_concurrent_repairs = rc.value("max_concurrent_repairs", repair_cfg.max_concurrent_repairs);
+                    repair_cfg.repair_batch_size      = rc.value("repair_batch_size",      repair_cfg.repair_batch_size);
+                    repair_cfg.enable_auto_repair     = rc.value("enable_auto_repair",     repair_cfg.enable_auto_repair);
+                    repair_cfg.enable_periodic_scan   = rc.value("enable_periodic_scan",   repair_cfg.enable_periodic_scan);
+                    repair_cfg.num_parallel_workers   = rc.value("num_parallel_workers",   repair_cfg.num_parallel_workers);
+                    repair_cfg.default_collection     = rc.value("default_collection",     repair_cfg.default_collection);
+                }
+
+                // Default redundancy strategy (used by the repair engine for
+                // read/write routing decisions across replicas).
+                themis::sharding::RedundancyConfig default_rc = redundancy_manager->getConfig("");
+                auto repair_strategy = std::make_shared<themis::sharding::RedundancyStrategy>(default_rc);
+
+                // ReadHandler: read raw document bytes from local storage for
+                // a given shard + document ID.  shard_id is informational here;
+                // the local db holds the authoritative copy during repair.
+                themis::sharding::RedundancyStrategy::ReadHandler read_handler =
+                    [db_local = db](const std::string& /*shard_id*/, const std::string& doc_id)
+                    -> std::optional<std::vector<uint8_t>> {
+                        if (!db_local) return std::nullopt;
+                        try {
+                            auto val = db_local->get(doc_id);
+                            if (!val) return std::nullopt;
+                            return std::vector<uint8_t>(val->begin(), val->end());
+                        } catch (...) {
+                            return std::nullopt;
+                        }
+                    };
+
+                // WriteHandler: write raw document bytes back into local storage
+                // during a repair operation.
+                themis::sharding::RedundancyStrategy::WriteHandler write_handler =
+                    [db_local = db](const std::string& /*shard_id*/, const std::string& doc_id,
+                                    const std::vector<uint8_t>& data) -> bool {
+                        if (!db_local) return false;
+                        try {
+                            std::string str_data(data.begin(), data.end());
+                            return db_local->put(doc_id, str_data);
+                        } catch (...) {
+                            return false;
+                        }
+                    };
+
+                g_shard_repair_engine = std::make_shared<themis::sharding::ShardRepairEngine>(
+                    repair_cfg,
+                    *repair_strategy,
+                    *hash_ring,
+                    *shard_topology,
+                    std::move(read_handler),
+                    std::move(write_handler)
+                );
+                // Keep repair_strategy alive for the lifetime of the engine
+                g_shard_repair_strategy = std::move(repair_strategy);
+
+                THEMIS_INFO("ShardRepairEngine created (auto_repair={}, scan_interval={}s)",
+                    repair_cfg.enable_auto_repair,
+                    repair_cfg.scan_interval.count());
+            }
         }
 
         // Create HttpServer with all components
@@ -1416,6 +1499,11 @@ int main(int argc, char* argv[]) {
         );
         // Inject live ShardingManager so /v1/admin/shards/* endpoints are functional
         g_server->setShardingManager(&themis::sharding::ShardingManager::GetInstance());
+        // Inject ShardRepairEngine (non-null only when RAID is enabled)
+        if (g_shard_repair_engine) {
+            g_server->setShardRepairEngine(g_shard_repair_engine);
+            THEMIS_INFO("ShardRepairEngine wired into HttpServer → /v1/admin/repair/* active");
+        }
 
         // ═══════════════════════════════════════════════════════════════════
         // MODULE LOADER — dynamic plugin subsystem
@@ -1486,6 +1574,108 @@ int main(int argc, char* argv[]) {
 #ifdef THEMIS_ENABLE_HTTP_SERVER
         // Inject ModuleLoader into HTTP server → activates /v1/admin/modules/* endpoints
         g_server->setModuleLoader(module_loader.get());
+
+        // ═══════════════════════════════════════════════════════════════════
+        // CONCERNS CONTEXT — observability / cross-cutting concerns
+        // ═══════════════════════════════════════════════════════════════════
+        // Build ConcernsContext from the optional config["concerns"] block and
+        // wire it into the HttpServer so that MonitoringApiHandler and other
+        // internal consumers can reach the logger, tracer, metrics, cache,
+        // circuit-breaker, feature-flags, secrets, and audit-log facades.
+        {
+            core::concerns::ConcernsContext::Config cc_cfg;
+
+            if (cfg && cfg->contains("concerns")) {
+                const auto& cc = (*cfg)["concerns"];
+
+                // Logger
+                cc_cfg.logLevel        = cc.value("log_level",     cc_cfg.logLevel);
+                cc_cfg.logFile         = cc.value("log_file",       cc_cfg.logFile);
+                cc_cfg.jsonLogging     = cc.value("json_logging",   cc_cfg.jsonLogging);
+                cc_cfg.loggerAdapter   = cc.value("logger_adapter", cc_cfg.loggerAdapter);
+
+                // Tracer — also honour the top-level tracing block
+                if (cc.contains("tracing")) {
+                    const auto& tr = cc["tracing"];
+                    cc_cfg.tracingEnabled     = tr.value("enabled",      cc_cfg.tracingEnabled);
+                    cc_cfg.tracingServiceName = tr.value("service_name", cc_cfg.tracingServiceName);
+                    cc_cfg.tracingEndpoint    = tr.value("endpoint",     cc_cfg.tracingEndpoint);
+                    cc_cfg.tracerAdapter      = tr.value("adapter",      cc_cfg.tracerAdapter);
+                } else if (cfg->contains("tracing")) {
+                    const auto& tr = (*cfg)["tracing"];
+                    cc_cfg.tracingEnabled     = tr.value("enabled",       cc_cfg.tracingEnabled);
+                    cc_cfg.tracingServiceName = tr.value("service_name",  cc_cfg.tracingServiceName);
+                    cc_cfg.tracingEndpoint    = tr.value("otlp_endpoint", cc_cfg.tracingEndpoint);
+                }
+
+                // Metrics
+                if (cc.contains("metrics")) {
+                    const auto& m = cc["metrics"];
+                    cc_cfg.metricsEnabled        = m.value("enabled",              cc_cfg.metricsEnabled);
+                    cc_cfg.maxMetricCardinality  = m.value("max_cardinality",      cc_cfg.maxMetricCardinality);
+                    cc_cfg.metricsAdapter        = m.value("adapter",              cc_cfg.metricsAdapter);
+                }
+
+                // Cache
+                if (cc.contains("cache")) {
+                    const auto& ca = cc["cache"];
+                    cc_cfg.cacheMaxSize       = ca.value("max_size",   cc_cfg.cacheMaxSize);
+                    cc_cfg.cacheDefaultTTL    = ca.value("default_ttl", cc_cfg.cacheDefaultTTL);
+                    cc_cfg.cacheAdapter       = ca.value("adapter",    cc_cfg.cacheAdapter);
+                    cc_cfg.cacheRedisUrl      = ca.value("redis_url",  cc_cfg.cacheRedisUrl);
+                }
+
+                // Circuit breaker
+                if (cc.contains("circuit_breaker")) {
+                    const auto& cb = cc["circuit_breaker"];
+                    cc_cfg.circuitBreakerAdapter          = cb.value("adapter",            cc_cfg.circuitBreakerAdapter);
+                    cc_cfg.circuitBreakerFailureThreshold = cb.value("failure_threshold",   cc_cfg.circuitBreakerFailureThreshold);
+                    uint32_t timeout_s                    = cb.value("timeout_seconds",     static_cast<uint32_t>(cc_cfg.circuitBreakerTimeout.count()));
+                    cc_cfg.circuitBreakerTimeout          = std::chrono::seconds(timeout_s);
+                    cc_cfg.circuitBreakerSuccessThreshold = cb.value("success_threshold",   cc_cfg.circuitBreakerSuccessThreshold);
+                    uint32_t window_s                     = cb.value("failure_window_seconds", static_cast<uint32_t>(cc_cfg.circuitBreakerFailureWindow.count()));
+                    cc_cfg.circuitBreakerFailureWindow    = std::chrono::seconds(window_s);
+                }
+
+                // Feature flags
+                if (cc.contains("feature_flags")) {
+                    const auto& ff = cc["feature_flags"];
+                    cc_cfg.featureFlagsAdapter = ff.value("adapter", cc_cfg.featureFlagsAdapter);
+                    if (ff.contains("initial")) {
+                        for (auto it = ff["initial"].begin(); it != ff["initial"].end(); ++it) {
+                            cc_cfg.initialFeatureFlags[it.key()] = it.value().get<bool>();
+                        }
+                    }
+                }
+
+                // Secrets
+                if (cc.contains("secrets")) {
+                    const auto& sec = cc["secrets"];
+                    cc_cfg.secretsAdapter    = sec.value("adapter",    cc_cfg.secretsAdapter);
+                    cc_cfg.secretsEnvPrefix  = sec.value("env_prefix", cc_cfg.secretsEnvPrefix);
+                }
+
+                // Audit log
+                cc_cfg.auditAdapter = cc.value("audit_adapter", cc_cfg.auditAdapter);
+            } else if (cfg && cfg->contains("tracing")) {
+                // Fallback: propagate top-level tracing block into concerns
+                const auto& tr = (*cfg)["tracing"];
+                cc_cfg.tracingEnabled     = tr.value("enabled",       cc_cfg.tracingEnabled);
+                cc_cfg.tracingServiceName = tr.value("service_name",  cc_cfg.tracingServiceName);
+                cc_cfg.tracingEndpoint    = tr.value("otlp_endpoint", cc_cfg.tracingEndpoint);
+            }
+
+            try {
+                auto concerns = core::concerns::ConcernsContext::create(cc_cfg);
+                g_server->setConcerns(std::move(concerns));
+                THEMIS_INFO("ConcernsContext wired into HttpServer (logger={}, metrics={}, tracing={})",
+                    cc_cfg.loggerAdapter,
+                    cc_cfg.metricsEnabled ? "enabled" : "disabled",
+                    cc_cfg.tracingEnabled ? "enabled" : "disabled");
+            } catch (const std::exception& ex) {
+                THEMIS_WARN("ConcernsContext construction failed — server continues without it: {}", ex.what());
+            }
+        }
 #endif
 #else
         THEMIS_INFO("HTTP server disabled at build time (THEMIS_ENABLE_HTTP_SERVER=OFF)");
@@ -1637,7 +1827,12 @@ int main(int argc, char* argv[]) {
                 // Instantiate retention manager with configured YAML path
                 auto retention_mgr = std::make_shared<vcc::RetentionManager>(retention_policies_path);
                 
-                // Setup audit logging for retention actions
+                // Setup audit logging for retention actions.
+                // For the retention-specific log (retention_audit.jsonl) we need
+                // field encryption — use MockKeyProvider as a fallback.  The main
+                // audit logger (audit.jsonl) is reused from the HttpServer when
+                // available so that both paths write to the same, properly keyed
+                // logger instead of spawning a second MockKeyProvider instance.
                 auto key_provider = std::make_shared<themis::MockKeyProvider>();
                 key_provider->createKey("retention_audit_key", 32);
                 auto field_enc = std::make_shared<themis::FieldEncryption>(key_provider);
@@ -1662,13 +1857,32 @@ int main(int argc, char* argv[]) {
                 auto db_ptr = db;
                 auto sec_idx_ptr = secondary_index;
                 
-                // Create main audit logger instance for retention operations
+                // Prefer the HttpServer's shared AuditLogger (backed by the server's
+                // own key provider and PKI client) over a second MockKeyProvider
+                // instance.  Fall back to a locally created logger only when the
+                // server is not available (e.g. HTTP disabled at build time).
+#ifdef THEMIS_ENABLE_HTTP_SERVER
+                std::shared_ptr<themis::utils::AuditLogger> main_audit_logger =
+                    (g_server ? g_server->getAuditLogger() : nullptr);
+                if (!main_audit_logger) {
+                    THEMIS_WARN("[Retention] HttpServer AuditLogger unavailable — falling back to local MockKeyProvider-backed logger");
+                    themis::utils::AuditLoggerConfig main_audit_cfg;
+                    main_audit_cfg.enabled = true;
+                    main_audit_cfg.encrypt_then_sign = true;
+                    main_audit_cfg.log_path = "data/logs/audit.jsonl";
+                    main_audit_cfg.key_id = "saga_log";
+                    main_audit_logger = std::make_shared<themis::utils::AuditLogger>(field_enc, pki_client, main_audit_cfg);
+                } else {
+                    THEMIS_INFO("[Retention] Using HttpServer AuditLogger for main audit log");
+                }
+#else
                 themis::utils::AuditLoggerConfig main_audit_cfg;
                 main_audit_cfg.enabled = true;
                 main_audit_cfg.encrypt_then_sign = true;
                 main_audit_cfg.log_path = "data/logs/audit.jsonl";
                 main_audit_cfg.key_id = "saga_log";
                 auto main_audit_logger = std::make_shared<themis::utils::AuditLogger>(field_enc, pki_client, main_audit_cfg);
+#endif
                 
                 retention_thread = std::thread([retention_mgr, &retention_stop, retention_interval_hours, db_ptr, sec_idx_ptr, audit_logger, main_audit_logger]() {
                     using namespace std::chrono;
@@ -2351,6 +2565,14 @@ int main(int argc, char* argv[]) {
         db.reset();
         module_loader.reset();
         hot_reload_mgr.reset();
+
+        // Stop ShardRepairEngine (if active) before releasing its resources
+        if (g_shard_repair_engine && g_shard_repair_engine->isRunning()) {
+            THEMIS_INFO("Stopping ShardRepairEngine...");
+            g_shard_repair_engine->stop();
+        }
+        g_shard_repair_engine.reset();
+        g_shard_repair_strategy.reset();
         
         THEMIS_INFO("=================================================");
         THEMIS_INFO("Shutdown complete. All data saved.");
