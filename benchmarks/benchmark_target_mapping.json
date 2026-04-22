@@ -246,7 +246,7 @@
         "primary_benchmark": "BM_RTree_Intersects",
         "file": "bench_spatial_index.cpp",
         "status": "mapped",
-        "note": "Direktmessung verfuegbar: BM_RTree_Intersects/1000000 = 6,03 ms (2026-04-22, ohne Extrapolation).",
+        "note": "Direktmessung verfuegbar: BM_RTree_Intersects/1000000 = 6,03 ms (2026-04-22, ohne Extrapolation). Die fruehere O(log N)-Extrapolation war zu optimistisch, da die reale Benchmark-Latenz den vollstaendigen Query-Pfad inkl. Treffer-Materialisierung und Speicherallokationen misst.",
         "v182_result": "6,03 ms bei 1M Punkten (BM_RTree_Intersects/1000000, Direktmessung 2026-04-22)",
         "slo_met": false
       },
