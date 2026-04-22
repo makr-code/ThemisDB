@@ -443,6 +443,17 @@ TEST(LDAPAuthenticatorTest, BuildUserDN_EscapesEqualsInUsername)
     EXPECT_EQ(dn, "CN=cn\\=admin,OU=Users,DC=example,DC=com");
 }
 
+TEST(LDAPAuthenticatorTest, BuildUserDN_ReplacesAllUsernamePlaceholdersEscaped)
+{
+    LDAPAuthenticator auth;
+    LDAPConfig cfg = makeConfig();
+    cfg.bind_dn_template = "CN={username},OU={username},DC=example,DC=com";
+    ASSERT_TRUE(auth.initialize(cfg));
+
+    const std::string dn = auth.buildUserDN("jdoe,admins");
+    EXPECT_EQ(dn, "CN=jdoe\\,admins,OU=jdoe\\,admins,DC=example,DC=com");
+}
+
 // ===========================================================================
 // LDAP filter injection prevention (RFC 4515) — buildGroupSearchFilter
 // ===========================================================================
@@ -465,6 +476,22 @@ TEST(LDAPAuthenticatorTest, BuildGroupSearchFilter_EscapesFilterSpecialCharsInDN
     // Must not contain unescaped wildcard in substituted member DN.
     const std::string substituted = filter.substr(filter.find("member=") + 7);
     EXPECT_EQ(substituted.find('*'), std::string::npos);
+}
+
+TEST(LDAPAuthenticatorTest, BuildGroupSearchFilter_EscapesMaliciousUsernamePlaceholder)
+{
+    LDAPAuthenticator auth;
+    LDAPConfig cfg = makeConfig();
+    cfg.enable_group_search = true;
+    cfg.base_dn             = "DC=example,DC=com";
+    cfg.group_search_filter = "(&(objectClass=group)(memberUid={username}))";
+    ASSERT_TRUE(auth.initialize(cfg));
+
+    const std::string filter =
+        auth.buildGroupSearchFilter("CN=safe,DC=example,DC=com", "jdoe*)(|(member=*))");
+    EXPECT_EQ(filter,
+        "(&(objectClass=group)(memberUid=jdoe\\2a\\29\\28|\\28member=\\2a\\29\\29))");
+    EXPECT_EQ(filter.find("member=*)"), std::string::npos);
 }
 
 /**
