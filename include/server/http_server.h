@@ -380,6 +380,11 @@ public:
         return concerns_;
     }
 
+    /// @return the shared AuditLogger instance (may be nullptr if audit init failed).
+    std::shared_ptr<themis::utils::AuditLogger> getAuditLogger() const {
+        return audit_logger_;
+    }
+
     /// @return the RequestValidationMiddleware for external schema registration (never nullptr after start()).
     RequestValidationMiddleware* getRequestValidator() {
         return request_validator_.get();
