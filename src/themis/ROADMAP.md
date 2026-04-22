@@ -91,7 +91,7 @@ All migration work is complete (v1.7.0): `license_info.cpp` and `module_loader.c
 - [x] Unit tests for build info / reproducibility (tests/test_build_info.cpp; CTest: BuildInfoTests) – covers getBuildConfiguration(), getReproducibilityInfo(), exportBuildManifest(), verifyBuildManifest()
 - [x] Unit tests for Wire Protocol V2 (tests/test_wire_protocol_v2.cpp; CTest: WireProtocolV2FocusedTests) – 52 tests covering multiplexing, server push, flow control, priority/dependency management, RFC 7540 compliance guards, compression flags, state machine; CI: wire-protocol-v2-ci.yml
 - [x] Integration tests (license lifecycle × edition gate, module hash verifier + build-info cross-component, dynamic override lifecycle, full gate stack; tests/test_themis_integration.cpp; CTest: ThemisIntegrationTests)
-- [?] Performance benchmarks (module load time, license check overhead)
+- [x] Performance benchmarks (module load time, license check overhead)
 - [?] Security audit (signature verification, constant-time license comparison)
 - [x] Documentation complete (ARCHITECTURE.md, README.md, ROADMAP.md, FUTURE_ENHANCEMENTS.md, Known Issues section)
 - [x] API stability guaranteed (public header include/themis/network/wire_protocol_server.hpp frozen for v1.x)
