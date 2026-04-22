@@ -121,6 +121,13 @@ std::string TaskScheduler::currentClientIp() noexcept {
 
 bool TaskScheduler::hasPermission(const std::string& permission) noexcept {
     if (!tls_request_ctx.set) {
+        static thread_local bool warned_missing_ctx = false;
+        if (!warned_missing_ctx) {
+            warned_missing_ctx = true;
+            THEMIS_WARN(
+                "TaskScheduler::hasPermission fallback allow without request context (permission='{}'). Configure RequestContext in security-sensitive entry points.",
+                permission);
+        }
         // Backward-compatible fallback for trusted in-process calls.
         return true;
     }
@@ -130,6 +137,13 @@ bool TaskScheduler::hasPermission(const std::string& permission) noexcept {
 
 bool TaskScheduler::hasRole(const std::string& role) noexcept {
     if (!tls_request_ctx.set) {
+        static thread_local bool warned_missing_ctx = false;
+        if (!warned_missing_ctx) {
+            warned_missing_ctx = true;
+            THEMIS_WARN(
+                "TaskScheduler::hasRole fallback allow without request context (role='{}'). Configure RequestContext in security-sensitive entry points.",
+                role);
+        }
         // Backward-compatible fallback for trusted in-process calls.
         return true;
     }
@@ -562,7 +576,8 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
         const std::string reason = "missing permission 'task:register'";
         logUnauthorizedPermissionAttempt(
             audit_manager_, task.id, task.name, "task:register", "registerTask", reason);
-        throw std::runtime_error("Unauthorized: User lacks permission to register tasks");
+        throw std::runtime_error(
+            "Unauthorized: Missing required permission 'task:register' for registerTask");
     }
     
     // Validate AQL query for SQL injection patterns
@@ -774,7 +789,7 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
         const std::string reason = "missing permission 'task:execute'";
         logUnauthorizedPermissionAttempt(
             audit_manager_, task_id, task_id, "task:execute", "executeTaskNow", reason);
-        return nlohmann::json{{"error", "Unauthorized: User lacks permission to execute tasks"}};
+        return nlohmann::json{{"error", "Unauthorized: Missing required permission 'task:execute'"}};
     }
     
     // Log execution attempt for audit trail
@@ -1025,7 +1040,7 @@ TaskScheduler::DagExecutionResult TaskScheduler::executeDAG(
         const std::string reason = "missing permission 'task:execute'";
         logUnauthorizedPermissionAttempt(
             audit_manager_, "<dag>", "<dag>", "task:execute", "executeDAG", reason);
-        throw std::runtime_error("Unauthorized: User lacks permission to execute tasks");
+        throw std::runtime_error("Unauthorized: Missing required permission 'task:execute'");
     }
 
     if (task_ids.empty()) {
@@ -1363,7 +1378,7 @@ void TaskScheduler::registerFunction(const std::string& name, TaskFunction func)
         logUnauthorizedPermissionAttempt(
             audit_manager_, name, name, "task:register_function", "registerFunction", reason);
         throw std::runtime_error(
-            "Unauthorized: Only system administrators can register functions");
+            "Unauthorized: Missing 'task:register_function' permission and/or 'system_admin' role");
     }
 
     THEMIS_INFO("Function registration attempt: name={}", name);

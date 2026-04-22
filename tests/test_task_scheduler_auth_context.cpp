@@ -307,9 +307,12 @@ TEST_F(TaskSchedulerAuthContextTest, RegisterFunctionRequiresPermissionAndSystem
     denied_ctx.granted_permissions.insert("task:register_function");
     denied_ctx.authorization_justification = "missing-system-admin-role";
     TaskScheduler::setRequestContext(denied_ctx);
-    EXPECT_THROW(
-        sched->registerFunction("denied_fn", [](const nlohmann::json&) { return nlohmann::json{}; }),
-        std::runtime_error);
+    try {
+        sched->registerFunction("denied_fn", [](const nlohmann::json&) { return nlohmann::json{}; });
+        FAIL() << "Expected registerFunction to throw runtime_error";
+    } catch (const std::runtime_error& e) {
+        EXPECT_NE(std::string(e.what()).find("task:register_function"), std::string::npos);
+    }
     TaskScheduler::clearRequestContext();
 
     TaskScheduler::RequestContext allowed_ctx;

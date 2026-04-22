@@ -52,6 +52,7 @@ protected:
 
     void SetUp() override {
         TaskScheduler::clearRequestContext();
+        ASSERT_EQ(TaskScheduler::currentUserId(), "system");
         db_path_ = makeDbPath();
         std::filesystem::create_directories(db_path_);
 
