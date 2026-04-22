@@ -13381,6 +13381,45 @@ else()
 endif()
 
 # ============================================================================
+# IndexAnalyzer - focused tests (IA-01 … IA-15)
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_index_analyzer.cpp")
+    message(STATUS "Adding IndexAnalyzer focused tests (IA-01…IA-15)")
+
+    add_executable(test_index_analyzer_focused
+        test_index_analyzer.cpp
+    )
+
+    target_include_directories(test_index_analyzer_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_index_analyzer_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_index_analyzer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME IndexAnalyzerFocusedTests
+        COMMAND test_index_analyzer_focused)
+
+    set_tests_properties(IndexAnalyzerFocusedTests PROPERTIES
+        LABELS "storage;index;analyze;tier;cron;ai-advisor;unit;focused"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  IndexAnalyzer: tier thresholds, YAML config, classify(), cron scheduling, AI advisor")
+else()
+    message(STATUS "IndexAnalyzer focused tests not found")
+endif()
+
+# ============================================================================
 # TsStreamCursor - focused tests (SC-01 … SC-08)
 # ============================================================================
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_ts_stream_cursor.cpp")
