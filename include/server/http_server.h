@@ -187,6 +187,10 @@ class ShardTopology;
 class ShardingManager;
 }
 
+namespace modules {
+class ModuleLoader;
+}
+
 namespace index {
 class SpatialIndexManager;
 }
@@ -448,6 +452,23 @@ public:
     /// @return the injected ShardingManager (may be nullptr before injection).
     sharding::ShardingManager* getShardingManager() const {
         return sharding_manager_;
+    }
+
+    /**
+     * @brief Inject the live ModuleLoader for /v1/admin/modules/* endpoints.
+     *
+     * Must be called before start() to activate module management endpoints.
+     * The pointer must remain valid for the lifetime of the HttpServer.
+     *
+     * @param loader Pointer to the live ModuleLoader instance (or nullptr to disable).
+     */
+    void setModuleLoader(modules::ModuleLoader* loader) {
+        module_loader_ = loader;
+    }
+
+    /// @return the injected ModuleLoader (may be nullptr before injection).
+    modules::ModuleLoader* getModuleLoader() const {
+        return module_loader_;
     }
 
     /**
@@ -1037,6 +1058,9 @@ private:
     // Live ShardingManager (injected via setShardingManager before start())
     sharding::ShardingManager* sharding_manager_{nullptr};
     std::shared_ptr<sharding::ShardRepairEngine> shard_repair_engine_;
+
+    // Live ModuleLoader (injected via setModuleLoader before start())
+    modules::ModuleLoader* module_loader_{nullptr};
 
     // RAID redundancy components (optional)
     std::shared_ptr<sharding::CollectionRedundancyManager> redundancy_manager_;

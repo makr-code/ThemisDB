@@ -80,6 +80,8 @@
 #include "themis/build_info.h"
 #include "themis/license_info.h"
 #include "themis/runtime_license_gate.h"
+#include "themis/base/module_loader.h"
+#include "themis/base/hot_reload_manager.h"
 #ifdef THEMIS_HAS_PROMETHEUS
 #include <prometheus/registry.h>
 #endif
@@ -1412,6 +1414,79 @@ int main(int argc, char* argv[]) {
         );
         // Inject live ShardingManager so /v1/admin/shards/* endpoints are functional
         g_server->setShardingManager(&themis::sharding::ShardingManager::GetInstance());
+
+        // ═══════════════════════════════════════════════════════════════════
+        // MODULE LOADER — dynamic plugin subsystem
+        // ═══════════════════════════════════════════════════════════════════
+        // Instantiate ModuleLoader from optional config["modules"] block.
+        // When no block is present the server still starts; the
+        // /v1/admin/modules/* endpoints return 503 until a loader is injected.
+        auto module_loader = std::make_shared<themis::modules::ModuleLoader>();
+        auto hot_reload_mgr = std::make_shared<themis::modules::HotReloadManager>();
+        {
+            bool modules_configured = false;
+            if (cfg && cfg->contains("modules")) {
+                const auto& mcfg = (*cfg)["modules"];
+                bool require_sig   = mcfg.value("require_signature", false);
+                bool allow_unsigned = mcfg.value("allow_unsigned", true);
+                std::string manifest = mcfg.value("hash_manifest", std::string());
+
+                module_loader->setRequireSignature(require_sig);
+                module_loader->setAllowUnsigned(allow_unsigned);
+                if (!manifest.empty() && !module_loader->setHashManifest(manifest)) {
+                    THEMIS_WARN("ModuleLoader: failed to load hash manifest from '{}'", manifest);
+                }
+
+                // Watchdog configuration
+                if (mcfg.contains("watchdog")) {
+                    const auto& wdcfg = mcfg["watchdog"];
+                    themis::modules::WatchdogConfig wd;
+                    wd.enabled            = wdcfg.value("enabled", true);
+                    wd.check_interval_ms  = wdcfg.value("check_interval_ms", uint64_t(30000));
+                    wd.max_restart_attempts = wdcfg.value("max_restart_attempts", uint32_t(5));
+                    wd.initial_backoff_ms = wdcfg.value("initial_backoff_ms", uint64_t(5000));
+                    wd.max_backoff_ms     = wdcfg.value("max_backoff_ms", uint64_t(300000));
+                    wd.backoff_multiplier = wdcfg.value("backoff_multiplier", 2.0);
+                    module_loader->configureWatchdog(wd);
+                }
+
+                // Bulk-load from directory (optional)
+                std::string module_dir = mcfg.value("directory", std::string());
+                if (!module_dir.empty()) {
+                    THEMIS_INFO("ModuleLoader: scanning '{}'…", module_dir);
+                    size_t loaded = module_loader->loadAllModules(module_dir);
+                    THEMIS_INFO("ModuleLoader: {} module(s) loaded from '{}'", loaded, module_dir);
+                    modules_configured = true;
+                }
+
+                // Wire all loaded modules into HotReloadManager for zero-downtime swapping
+                for (const auto& m : module_loader->getAllLoadedModules()) {
+                    try {
+                        hot_reload_mgr->registerModule(m.name, *module_loader);
+                    } catch (const std::exception& ex) {
+                        THEMIS_WARN("HotReloadManager: failed to register '{}': {}", m.name, ex.what());
+                    }
+                }
+
+                // Start watchdog
+                bool wd_enabled = true;
+                if (cfg->at("modules").contains("watchdog")) {
+                    wd_enabled = cfg->at("modules")["watchdog"].value("enabled", true);
+                }
+                if (wd_enabled) {
+                    module_loader->startWatchdog();
+                    THEMIS_INFO("ModuleLoader: watchdog started");
+                }
+            }
+
+            if (!modules_configured) {
+                THEMIS_INFO("ModuleLoader: no modules.directory configured — dynamic plugin loading disabled");
+            }
+        }
+#ifdef THEMIS_ENABLE_HTTP_SERVER
+        // Inject ModuleLoader into HTTP server → activates /v1/admin/modules/* endpoints
+        g_server->setModuleLoader(module_loader.get());
+#endif
 #else
         THEMIS_INFO("HTTP server disabled at build time (THEMIS_ENABLE_HTTP_SERVER=OFF)");
 #endif
@@ -2251,6 +2326,12 @@ int main(int argc, char* argv[]) {
         // Step 5: Clear shared pointers
         THEMIS_INFO("[5/5] Releasing resources...");
         
+        // Stop ModuleLoader watchdog before releasing the loader
+        if (module_loader && module_loader->isWatchdogRunning()) {
+            THEMIS_INFO("Stopping ModuleLoader watchdog...");
+            module_loader->stopWatchdog();
+        }
+        
         // Stop HSM warning thread
         stopHSMWarningThread();
         
@@ -2268,6 +2349,8 @@ int main(int argc, char* argv[]) {
         graph_index.reset();
         secondary_index.reset();
         db.reset();
+        module_loader.reset();
+        hot_reload_mgr.reset();
         
         THEMIS_INFO("=================================================");
         THEMIS_INFO("Shutdown complete. All data saved.");

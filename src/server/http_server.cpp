@@ -125,6 +125,7 @@
 #include "sharding/truetime.h"
 #include "sharding/sharding_manager.h"
 #include "server/distributed_txn_api_handler.h"
+#include "themis/base/module_loader.h"
 #if !defined(_WIN32)
 #include <time.h>
 #endif
@@ -2221,6 +2222,11 @@ namespace {
     AdminShardsPost,                // POST /v1/admin/shards
     AdminShardsGet,                 // GET  /v1/admin/shards
     AdminStorageStatsGet,           // GET  /v1/admin/storage/stats
+    // Module Admin endpoints
+    AdminModulesGet,                // GET  /v1/admin/modules
+    AdminModulesLoadPost,           // POST /v1/admin/modules/{name}/load
+    AdminModulesUnloadDelete,       // DELETE /v1/admin/modules/{name}
+    AdminModuleStatusGet,           // GET  /v1/admin/modules/{name}
     // Prompt Template endpoints
     PromptTemplatePost,
     PromptTemplateList,
@@ -2641,6 +2647,18 @@ namespace {
     if (path_only == "/v1/admin/shards" && method == http::verb::post) return Route::AdminShardsPost;
     if (path_only == "/v1/admin/shards" && method == http::verb::get) return Route::AdminShardsGet;
     if (path_only == "/v1/admin/storage/stats" && method == http::verb::get) return Route::AdminStorageStatsGet;
+    // Module admin endpoints — order matters: /load POST before generic DELETE/GET
+    if (path_only == "/v1/admin/modules" && method == http::verb::get) return Route::AdminModulesGet;
+    if (path_only.rfind("/v1/admin/modules/", 0) == 0 &&
+        path_only.size() > 18 &&
+        path_only.rfind("/load") == path_only.size() - 5 &&
+        method == http::verb::post) return Route::AdminModulesLoadPost;
+    if (path_only.rfind("/v1/admin/modules/", 0) == 0 &&
+        path_only.size() > 18 &&
+        method == http::verb::delete_) return Route::AdminModulesUnloadDelete;
+    if (path_only.rfind("/v1/admin/modules/", 0) == 0 &&
+        path_only.size() > 18 &&
+        method == http::verb::get) return Route::AdminModuleStatusGet;
     if (target == "/prompt_template" && method == http::verb::post) return Route::PromptTemplatePost;
     if (target == "/prompt_template" && method == http::verb::get) return Route::PromptTemplateList;
     if (target.rfind("/prompt_template/", 0) == 0 && method == http::verb::get) return Route::PromptTemplateGet;
@@ -4280,6 +4298,147 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         }
+        // ─── Module Admin API ───────────────────────────────────────────────────
+        case Route::AdminModulesGet: {
+            // GET /v1/admin/modules — list all loaded modules
+            if (auto auth_err = requireAccess(req, "admin", "admin", "/v1/admin/modules")) {
+                response = *auth_err;
+                break;
+            }
+            if (!module_loader_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ModuleLoader not initialized; set modules.directory in config", req);
+                break;
+            }
+            try {
+                auto modules = module_loader_->getAllLoadedModules();
+                json arr = json::array();
+                for (const auto& m : modules) {
+                    arr.push_back({
+                        {"name",            m.name},
+                        {"path",            m.path},
+                        {"version",         m.version},
+                        {"verified",        m.verified},
+                        {"fully_activated", m.fullyActivated},
+                        {"load_time",       m.loadTime},
+                        {"load_duration_ms",m.loadDurationMs}
+                    });
+                }
+                response = makeResponse(http::status::ok,
+                    json{{"modules", arr}, {"count", arr.size()}}.dump(), req);
+            } catch (const std::exception& e) {
+                response = makeErrorResponse(http::status::internal_server_error, e.what(), req);
+            }
+            break;
+        }
+        case Route::AdminModulesLoadPost: {
+            // POST /v1/admin/modules/{name}/load  body: {"path":"…"}
+            if (auto auth_err = requireAccess(req, "admin", "admin", "/v1/admin/modules")) {
+                response = *auth_err;
+                break;
+            }
+            if (!module_loader_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ModuleLoader not initialized; set modules.directory in config", req);
+                break;
+            }
+            try {
+                const std::string prefix = "/v1/admin/modules/";
+                std::string url_name = path_only.substr(prefix.size());
+                auto slash = url_name.rfind("/load");
+                if (slash != std::string::npos) url_name = url_name.substr(0, slash);
+
+                auto body = json::parse(req.body());
+                std::string lib_path = body.value("path", std::string());
+                if (lib_path.empty()) {
+                    response = makeErrorResponse(http::status::bad_request,
+                        "Missing required field: path", req);
+                    break;
+                }
+                std::string mod_name = body.value("name", url_name);
+                auto result = module_loader_->loadModule(lib_path, mod_name);
+                if (result.success) {
+                    response = makeResponse(http::status::ok,
+                        json{{"status","loaded"},{"name",mod_name},{"hash",result.moduleHash}}.dump(), req);
+                } else {
+                    response = makeErrorResponse(http::status::unprocessable_entity,
+                        "Load failed: " + result.errorMessage, req);
+                }
+            } catch (const json::exception& e) {
+                response = makeErrorResponse(http::status::bad_request,
+                    std::string("JSON parse error: ") + e.what(), req);
+            } catch (const std::exception& e) {
+                response = makeErrorResponse(http::status::internal_server_error, e.what(), req);
+            }
+            break;
+        }
+        case Route::AdminModulesUnloadDelete: {
+            // DELETE /v1/admin/modules/{name}
+            if (auto auth_err = requireAccess(req, "admin", "admin", "/v1/admin/modules")) {
+                response = *auth_err;
+                break;
+            }
+            if (!module_loader_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ModuleLoader not initialized; set modules.directory in config", req);
+                break;
+            }
+            try {
+                const std::string prefix = "/v1/admin/modules/";
+                std::string mod_name = path_only.substr(prefix.size());
+                module_loader_->unloadModule(mod_name);
+                response = makeResponse(http::status::ok,
+                    json{{"status","unloaded"},{"name",mod_name}}.dump(), req);
+            } catch (const std::exception& e) {
+                response = makeErrorResponse(http::status::internal_server_error, e.what(), req);
+            }
+            break;
+        }
+        case Route::AdminModuleStatusGet: {
+            // GET /v1/admin/modules/{name}
+            if (auto auth_err = requireAccess(req, "admin", "admin", "/v1/admin/modules")) {
+                response = *auth_err;
+                break;
+            }
+            if (!module_loader_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ModuleLoader not initialized; set modules.directory in config", req);
+                break;
+            }
+            try {
+                const std::string prefix = "/v1/admin/modules/";
+                std::string mod_name = path_only.substr(prefix.size());
+                auto info = module_loader_->getModuleInfo(mod_name);
+                if (!info) {
+                    response = makeErrorResponse(http::status::not_found,
+                        "Module not found: " + mod_name, req);
+                    break;
+                }
+                json result = {
+                    {"name",            info->name},
+                    {"path",            info->path},
+                    {"version",         info->version},
+                    {"verified",        info->verified},
+                    {"fully_activated", info->fullyActivated},
+                    {"load_time",       info->loadTime},
+                    {"load_duration_ms",info->loadDurationMs}
+                };
+                auto wd = module_loader_->getWatchdogStats(mod_name);
+                if (wd) {
+                    result["watchdog"] = {
+                        {"restart_count",         wd->restart_count},
+                        {"consecutive_failures",  wd->consecutive_failures},
+                        {"permanently_failed",    wd->permanently_failed},
+                        {"last_error",            wd->last_error}
+                    };
+                }
+                response = makeResponse(http::status::ok, result.dump(), req);
+            } catch (const std::exception& e) {
+                response = makeErrorResponse(http::status::internal_server_error, e.what(), req);
+            }
+            break;
+        }
+        // ────────────────────────────────────────────────────────────────────────
         case Route::LlmInteractionPost:
             response = handleLlmInteractionPost(req);
             break;
@@ -11009,6 +11168,10 @@ std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints()
     endpoints.push_back({"POST", "/v1/admin/shards",          "Add shard node"});
     endpoints.push_back({"GET",  "/v1/admin/shards",          "List shard nodes"});
     endpoints.push_back({"GET",  "/v1/admin/storage/stats",   "Storage statistics"});
+    endpoints.push_back({"GET",  "/v1/admin/modules",              "List loaded modules"});
+    endpoints.push_back({"POST", "/v1/admin/modules/{name}/load",  "Load module by path (admin)"});
+    endpoints.push_back({"DELETE","/v1/admin/modules/{name}",      "Unload module (admin)"});
+    endpoints.push_back({"GET",  "/v1/admin/modules/{name}",       "Module status (admin)"});
 
     // Config & Utilities
     endpoints.push_back({"GET",  "/config",                   "Get configuration"});
