@@ -85,8 +85,13 @@ struct TLSRequestContext {
 };
 
 constexpr const char* kAdminRole = "admin";
+constexpr const char* kSystemAdminRole = "system_admin";
 std::atomic<bool> g_warned_missing_permission_context{false};
 std::atomic<bool> g_warned_missing_role_context{false};
+
+bool hasSuperuserRole(const std::unordered_set<std::string>& roles) {
+    return roles.count(kAdminRole) > 0 || roles.count(kSystemAdminRole) > 0;
+}
 } // anonymous namespace
 
 static thread_local TLSRequestContext tls_request_ctx;
@@ -134,7 +139,7 @@ bool TaskScheduler::hasPermission(const std::string& permission) noexcept {
         return true;
     }
     return tls_request_ctx.granted_permissions.count(permission) > 0 ||
-           tls_request_ctx.roles.count(kAdminRole) > 0;
+           hasSuperuserRole(tls_request_ctx.roles);
 }
 
 bool TaskScheduler::hasRole(const std::string& role) noexcept {
@@ -147,7 +152,7 @@ bool TaskScheduler::hasRole(const std::string& role) noexcept {
         // Backward-compatible fallback for trusted in-process calls.
         return true;
     }
-    return tls_request_ctx.roles.count(role) > 0 || tls_request_ctx.roles.count(kAdminRole) > 0;
+    return tls_request_ctx.roles.count(role) > 0 || hasSuperuserRole(tls_request_ctx.roles);
 }
 
 std::string TaskScheduler::currentAuthorizationJustification(const char* fallback) noexcept {
