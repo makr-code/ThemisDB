@@ -126,6 +126,12 @@ TEST_F(TaskSchedulerAuthContextTest, ClearRequestContextRestoresFallback) {
     EXPECT_TRUE(TaskScheduler::currentClientIp().empty());
 }
 
+TEST_F(TaskSchedulerAuthContextTest, PermissionAndRoleFallbackAllowWhenContextUnset) {
+    TaskScheduler::clearRequestContext();
+    EXPECT_TRUE(TaskScheduler::hasPermission("task:register"));
+    EXPECT_TRUE(TaskScheduler::hasRole("system_admin"));
+}
+
 TEST_F(TaskSchedulerAuthContextTest, EmptyUserIdFallsBackToSystemFallback) {
     // An empty user_id in the context should still use the fallback
     TaskScheduler::setRequestContext({"", "192.168.0.1"});
@@ -217,6 +223,113 @@ TEST_F(TaskSchedulerAuthContextTest, RegisterTaskAuditEventFallsBackToSystem) {
     auto events = audit_mgr->queryAuditEvents(params);
     ASSERT_GE(events.size(), 1u);
     EXPECT_EQ(events[0].user_id, "system");
+}
+
+TEST_F(TaskSchedulerAuthContextTest, RegisterTaskDeniedWithoutTaskRegisterPermission) {
+    auto sched = makeAuditScheduler();
+
+    TaskScheduler::RequestContext ctx;
+    ctx.user_id = "alice";
+    ctx.client_ip = "203.0.113.10";
+    ctx.authorization_justification = "negative-authz-test";
+    TaskScheduler::setRequestContext(ctx);
+
+    ScheduledTask task;
+    task.id = "denied_register_task";
+    task.name = "Denied Register Task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "noop_fn";
+    task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+
+    EXPECT_THROW(sched->registerTask(task), std::runtime_error);
+    TaskScheduler::clearRequestContext();
+
+    auto audit_mgr = sched->getAuditManager();
+    ASSERT_NE(audit_mgr, nullptr);
+    scheduler::AuditQueryParams q;
+    q.task_id = "denied_register_task";
+    q.limit = 10;
+    auto security_events = audit_mgr->querySecurityEvents(q);
+    ASSERT_FALSE(security_events.empty());
+    EXPECT_EQ(security_events[0].event_type, scheduler::TaskSecurityEventType::UNAUTHORIZED_ACCESS);
+    EXPECT_EQ(security_events[0].details.value("required_permission", ""), "task:register");
+    EXPECT_EQ(security_events[0].details.value("justification", ""), "negative-authz-test");
+}
+
+TEST_F(TaskSchedulerAuthContextTest, RegisterTaskAllowedWithTaskRegisterPermission) {
+    auto sched = makeAuditScheduler();
+
+    TaskScheduler::RequestContext ctx;
+    ctx.user_id = "alice";
+    ctx.client_ip = "203.0.113.11";
+    ctx.authorization_justification = "positive-authz-test";
+    ctx.granted_permissions.insert("task:register");
+    TaskScheduler::setRequestContext(ctx);
+
+    ScheduledTask task;
+    task.id = "allowed_register_task";
+    task.name = "Allowed Register Task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "noop_fn";
+    task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+
+    EXPECT_NO_THROW(sched->registerTask(task));
+    TaskScheduler::clearRequestContext();
+}
+
+TEST_F(TaskSchedulerAuthContextTest, ExecuteTaskNowDeniedWithoutTaskExecutePermission) {
+    auto sched = makeAuditScheduler();
+
+    // Register task under authorized registration context.
+    TaskScheduler::RequestContext register_ctx;
+    register_ctx.user_id = "alice";
+    register_ctx.granted_permissions.insert("task:register");
+    TaskScheduler::setRequestContext(register_ctx);
+    ScheduledTask task;
+    task.id = "denied_execute_task";
+    task.name = "Denied Execute Task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "noop_fn";
+    task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    sched->registerTask(task);
+    TaskScheduler::clearRequestContext();
+
+    TaskScheduler::RequestContext execute_ctx;
+    execute_ctx.user_id = "alice";
+    execute_ctx.authorization_justification = "missing-execute-scope";
+    TaskScheduler::setRequestContext(execute_ctx);
+    auto result = sched->executeTaskNow("denied_execute_task");
+    TaskScheduler::clearRequestContext();
+
+    EXPECT_TRUE(result.contains("error"));
+    EXPECT_NE(result.value("error", "").find("Unauthorized"), std::string::npos);
+}
+
+TEST_F(TaskSchedulerAuthContextTest, RegisterFunctionRequiresPermissionAndSystemAdminRole) {
+    auto sched = makeAuditScheduler();
+
+    TaskScheduler::RequestContext denied_ctx;
+    denied_ctx.user_id = "alice";
+    denied_ctx.granted_permissions.insert("task:register_function");
+    denied_ctx.authorization_justification = "missing-system-admin-role";
+    TaskScheduler::setRequestContext(denied_ctx);
+    try {
+        sched->registerFunction("denied_fn", [](const nlohmann::json&) { return nlohmann::json{}; });
+        FAIL() << "Expected registerFunction to throw runtime_error";
+    } catch (const std::runtime_error& e) {
+        EXPECT_NE(std::string(e.what()).find("task:register_function"), std::string::npos);
+    }
+    TaskScheduler::clearRequestContext();
+
+    TaskScheduler::RequestContext allowed_ctx;
+    allowed_ctx.user_id = "alice";
+    allowed_ctx.granted_permissions.insert("task:register_function");
+    allowed_ctx.roles.insert("system_admin");
+    allowed_ctx.authorization_justification = "explicit-system-admin-grant";
+    TaskScheduler::setRequestContext(allowed_ctx);
+    EXPECT_NO_THROW(
+        sched->registerFunction("allowed_fn", [](const nlohmann::json&) { return nlohmann::json{}; }));
+    TaskScheduler::clearRequestContext();
 }
 
 // ===== sandbox_execution config flag =====

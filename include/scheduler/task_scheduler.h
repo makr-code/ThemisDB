@@ -58,6 +58,7 @@
 #include <condition_variable>
 #include <functional>
 #include <optional>
+#include <unordered_set>
 #include <nlohmann/json.hpp>
 #include "cdc/changefeed.h"
 #include "scheduler/task_audit_event.h"
@@ -398,6 +399,9 @@ public:
     struct RequestContext {
         std::string user_id;    ///< Authenticated user / service account
         std::string client_ip;  ///< Originating client IP address (may be empty)
+        std::unordered_set<std::string> granted_permissions; ///< Effective permissions/scopes for this request
+        std::unordered_set<std::string> roles;               ///< Effective roles/groups for this request
+        std::string authorization_justification;             ///< Why access was granted (policy/scope decision)
     };
 
     /// Set the authentication context for the calling thread.
@@ -413,6 +417,9 @@ public:
 
     /// Return the client IP from the thread-local request context (empty if not set).
     static std::string currentClientIp() noexcept;
+    static bool hasPermission(const std::string& permission) noexcept;
+    static bool hasRole(const std::string& role) noexcept;
+    static std::string currentAuthorizationJustification(const char* fallback = "") noexcept;
     
     /**
      * @brief Construct a task scheduler

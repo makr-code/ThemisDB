@@ -5602,7 +5602,34 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
                 break;
             }
+            bool scheduler_ctx_set = false;
+            if (auth_ && auth_->isEnabled()) {
+                auto auth_ctx = extractAuthContext(req);
+                TaskScheduler::RequestContext scheduler_ctx;
+                scheduler_ctx.user_id = auth_ctx.user_id;
+                scheduler_ctx.client_ip = extractClientIP(req);
+                scheduler_ctx.authorization_justification = "task:register permission check";
+                for (const auto& g : auth_ctx.groups) {
+                    scheduler_ctx.roles.insert(g);
+                }
+                auto it = req.find(http::field::authorization);
+                if (it != req.end()) {
+                    auto token = themis::AuthMiddleware::extractBearerToken(
+                        std::string_view(it->value().data(), it->value().size()));
+                    if (token) {
+                        auto authz = auth_->authorize(*token, "task:register");
+                        if (authz.authorized) {
+                            scheduler_ctx.granted_permissions.insert("task:register");
+                        }
+                    }
+                }
+                TaskScheduler::setRequestContext(scheduler_ctx);
+                scheduler_ctx_set = true;
+            }
             auto result = task_scheduler_api_->registerTask(body);
+            if (scheduler_ctx_set) {
+                TaskScheduler::clearRequestContext();
+            }
             if (result.value("status", "") == "error") {
                 response = makeErrorResponse(http::status::bad_request, result.value("error", "Unknown error"), req);
             } else {
@@ -5760,7 +5787,34 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable, "Scheduler not initialized", req);
                 break;
             }
+            bool scheduler_ctx_set = false;
+            if (auth_ && auth_->isEnabled()) {
+                auto auth_ctx = extractAuthContext(req);
+                TaskScheduler::RequestContext scheduler_ctx;
+                scheduler_ctx.user_id = auth_ctx.user_id;
+                scheduler_ctx.client_ip = extractClientIP(req);
+                scheduler_ctx.authorization_justification = "task:execute permission check";
+                for (const auto& g : auth_ctx.groups) {
+                    scheduler_ctx.roles.insert(g);
+                }
+                auto it = req.find(http::field::authorization);
+                if (it != req.end()) {
+                    auto token = themis::AuthMiddleware::extractBearerToken(
+                        std::string_view(it->value().data(), it->value().size()));
+                    if (token) {
+                        auto authz = auth_->authorize(*token, "task:execute");
+                        if (authz.authorized) {
+                            scheduler_ctx.granted_permissions.insert("task:execute");
+                        }
+                    }
+                }
+                TaskScheduler::setRequestContext(scheduler_ctx);
+                scheduler_ctx_set = true;
+            }
             auto result = task_scheduler_api_->executeTask(task_id);
+            if (scheduler_ctx_set) {
+                TaskScheduler::clearRequestContext();
+            }
             if (result.value("status", "") == "error") {
                 response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
             } else {
