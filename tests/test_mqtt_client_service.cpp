@@ -749,9 +749,14 @@ TEST(MqttClientTlsRuntimeTests, EmptyTlsCaPathLogsVerifyNoneFallback) {
     MqttClientService svc(cfg);
     EXPECT_NO_THROW(svc.start());
 
+    // doHandshake() runs on the internal I/O thread after async TCP connect.
+    // Poll briefly for the fallback warning to appear in captured logs.
+    constexpr int kMaxLogPollAttempts = 20;
+    constexpr auto kLogPollInterval = std::chrono::milliseconds(50);
+
     bool saw_fallback_log = false;
-    for (int i = 0; i < 20; ++i) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    for (int i = 0; i < kMaxLogPollAttempts; ++i) {
+        std::this_thread::sleep_for(kLogPollInterval);
         if (capture.str().find("MQTT TLS verify_none fallback active") != std::string::npos) {
             saw_fallback_log = true;
             break;
