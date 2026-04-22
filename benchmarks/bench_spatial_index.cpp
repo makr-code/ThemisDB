@@ -78,6 +78,7 @@ static void BM_RTree_BulkLoad(benchmark::State& state) {
 BENCHMARK(BM_RTree_BulkLoad)
     ->RangeMultiplier(10)
     ->Range(1000, 100000)
+    ->Arg(1'000'000)
     ->Complexity();
 
 // ─── R-tree: intersects query ─────────────────────────────────────────────────
@@ -110,6 +111,7 @@ static void BM_RTree_Intersects(benchmark::State& state) {
 BENCHMARK(BM_RTree_Intersects)
     ->RangeMultiplier(10)
     ->Range(1000, 100000)
+    ->Arg(1'000'000)
     ->Complexity();
 
 // ─── Linear scan: intersects (baseline for comparison) ───────────────────────
