@@ -1412,6 +1412,38 @@
         "status": "mapped"
       }
     },
+    "themis": {
+      "TH-1": {
+        "label": "Module load (SHA-256 + dlopen) <= 50 ms (NVMe)",
+        "primary_benchmark": "BM_ModuleLoad_WithHashVerify",
+        "file": "bench_themis_core.cpp",
+        "status": "mapped"
+      },
+      "TH-2": {
+        "label": "getBuildConfiguration() cold <= 1 ms, warm <= 10 us",
+        "primary_benchmark": "BM_GetBuildConfiguration_Cold",
+        "file": "bench_themis_core.cpp",
+        "status": "mapped"
+      },
+      "TH-3": {
+        "label": "License validation (Ed25519) <= 5 ms (no HSM)",
+        "primary_benchmark": "BM_LicenseValidation_Ed25519",
+        "file": "bench_themis_core.cpp",
+        "status": "mapped"
+      },
+      "TH-4": {
+        "label": "Wire-Server >= 10k concurrent sessions, p99 opcode dispatch <= 1 ms",
+        "primary_benchmark": "BM_WireServer_ConcurrentSessions_10k",
+        "file": "bench_themis_core.cpp",
+        "status": "mapped"
+      },
+      "TH-5": {
+        "label": "edition_manager.isFeatureEnabled() <= 100 ns hot-path",
+        "primary_benchmark": "BM_EditionManager_IsFeatureEnabled_HotPath",
+        "file": "bench_themis_core.cpp",
+        "status": "mapped"
+      }
+    },
     "ethics_ai": {
       "ETH-1": {
         "label": "Single Argument Generation P95",
@@ -1535,8 +1567,8 @@
   },
   "coverage_summary": {
     "description": "Auto-computed by verify_benchmark_mapping.py. Counts per status across all modules.",
-    "total": 191,
-    "mapped": 190,
+    "total": 196,
+    "mapped": 195,
     "proxy": 1,
     "not_measurable": 0,
     "gap": 0,

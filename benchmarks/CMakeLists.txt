@@ -3574,6 +3574,41 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_module_load_hot_reload.cpp")
 endif()
 
 # ============================================================================
+# Themis Core SLO Benchmarks (TH-1..TH-5)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_themis_core.cpp")
+    message(STATUS "Adding Themis core SLO benchmarks (TH-1..TH-5)")
+
+    add_executable(bench_themis_core
+        bench_themis_core.cpp
+    )
+
+    target_include_directories(bench_themis_core PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_themis_core PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_themis_core PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_themis_core)
+
+    install(TARGETS bench_themis_core
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Themis: module load/hash verify, build info cold/warm, license signature, wire dispatch, edition hot path")
+endif()
+
+# ============================================================================
 # Ingestion Extraction Throughput and LLM-Latency Benchmarks
 # Validates: DeonticExtractor regex throughput, LLM adapter latency, MIME detection
 # ============================================================================
