@@ -66,6 +66,7 @@ public:
         bool enable_compression = false;
         index::CompressionAlgorithm compression_algorithm = index::CompressionAlgorithm::NONE;
         int  compression_level  = 3; ///< Algorithm-specific level (e.g. 1–22 for ZSTD)
+        size_t transactional_put_batch_size = 64; ///< Default chunk size for putBatch() transactions.
 
         // Fine-grained technique flags.  When enable_compression is true and
         // these flags are not explicitly set to false, all techniques are active.
@@ -246,9 +247,11 @@ public:
     Status put(std::string_view table, const BaseEntity& entity);
     Status erase(std::string_view table, std::string_view pk);
 
-    // v1.3.4: Batch Insert API - reduces commit overhead by batching multiple inserts into one WriteBatch
-    // Expected performance: 10-100x faster for bulk inserts (single commit for all entities)
+    // v1.3.4+: Batch Insert API - reduces commit overhead by batching inserts into configurable transaction chunks.
     Status putBatch(std::string_view table, const std::vector<BaseEntity>& entities);
+    Status putBatch(std::string_view table, const std::vector<BaseEntity>& entities, size_t transaction_batch_size);
+    void setTransactionalPutBatchSize(size_t batch_size);
+    size_t getTransactionalPutBatchSize() const { return transactional_put_batch_size_; }
 
     // Varianten für Transaktionen: nutzen bestehende WriteBatch
     Status put(std::string_view table, const BaseEntity& entity, RocksDBWrapper::WriteBatchWrapper& batch);
@@ -390,6 +393,7 @@ private:
     // Index compression (v1.7.0)
     Config compression_config_;
     std::unique_ptr<index::IndexCompressionCodec> compression_codec_;
+    size_t transactional_put_batch_size_ = 64;
 
     // Meta-Key für vorhandene Indizes: idxmeta:<table>:<column>
     // Composite: idxmeta:<table>:col1+col2+col3

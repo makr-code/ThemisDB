@@ -229,6 +229,59 @@ BENCHMARK_F(SecondaryIndexBench, IndexInsert)(benchmark::State& state) {
     state.SetItemsProcessed(state.iterations() * 100);
 }
 
+BENCHMARK_F(SecondaryIndexBench, BM_SecondaryIndex_SingleInsert)(benchmark::State& state) {
+    int64_t iteration = 0;
+    for (auto _ : state) {
+        for (int i = 0; i < 100; ++i) {
+            std::string pk = "single_user_" + std::to_string(iteration) + "_" + std::to_string(i);
+            BaseEntity e(pk, BaseEntity::FieldMap{
+                {"email", pk + "@test.com"},
+                {"name", "User " + std::to_string(i)}
+            });
+            auto st = sim_->put("users", e);
+            if (!st.ok) {
+                state.SkipWithError(("single insert failed: " + st.message).c_str());
+                return;
+            }
+        }
+        ++iteration;
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+BENCHMARK_DEFINE_F(SecondaryIndexBench, BM_SecondaryIndex_BatchInsert)(benchmark::State& state) {
+    const auto batch_size = static_cast<size_t>(state.range(0));
+    if (batch_size == 0) {
+        state.SkipWithError("batch size must be > 0");
+        return;
+    }
+
+    int64_t iteration = 0;
+    std::vector<BaseEntity> entities;
+    entities.reserve(100);
+
+    for (auto _ : state) {
+        entities.clear();
+        for (int i = 0; i < 100; ++i) {
+            std::string pk = "batch_user_" + std::to_string(iteration) + "_" + std::to_string(i);
+            entities.emplace_back(pk, BaseEntity::FieldMap{
+                {"email", pk + "@test.com"},
+                {"name", "User " + std::to_string(i)}
+            });
+        }
+
+        auto st = sim_->putBatch("users", entities, batch_size);
+        if (!st.ok) {
+            state.SkipWithError(("batch insert failed: " + st.message).c_str());
+            return;
+        }
+        ++iteration;
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+BENCHMARK_REGISTER_F(SecondaryIndexBench, BM_SecondaryIndex_BatchInsert)->Arg(64);
+
 // Raw RocksDB write benchmark (no index management, pure writes)
 BENCHMARK_F(SecondaryIndexBench, RawWriteOnly)(benchmark::State& state) {
         // Measures raw RocksDB write throughput: minimal Themis overhead.

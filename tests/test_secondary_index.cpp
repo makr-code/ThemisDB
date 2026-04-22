@@ -200,6 +200,58 @@ TEST(SecondaryIndexTest, EstimateCountAndNoIndex) {
     db.close();
 }
 
+TEST(SecondaryIndexTest, PutBatch_DefaultAndConfigurableBatchSize) {
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = makeTempDbPath("vccdb_secidx_put_batch_cfg_");
+    RocksDBWrapper db(cfg);
+    ASSERT_TRUE(db.open());
+
+    SecondaryIndexManager idx(db);
+    EXPECT_EQ(idx.getTransactionalPutBatchSize(), 64u);
+
+    idx.setTransactionalPutBatchSize(32);
+    EXPECT_EQ(idx.getTransactionalPutBatchSize(), 32u);
+
+    idx.setTransactionalPutBatchSize(0);
+    EXPECT_EQ(idx.getTransactionalPutBatchSize(), 1u);
+
+    db.close();
+}
+
+TEST(SecondaryIndexTest, PutBatch_ChunkedTransactionsMaintainIndexCorrectness) {
+    RocksDBWrapper::Config cfg;
+    cfg.db_path = makeTempDbPath("vccdb_secidx_put_batch_chunk_");
+    RocksDBWrapper db(cfg);
+    ASSERT_TRUE(db.open());
+
+    SecondaryIndexManager idx(db);
+    ASSERT_TRUE(idx.createIndex("users", "group").ok);
+
+    std::vector<BaseEntity> entities;
+    entities.reserve(130);
+    for (int i = 0; i < 130; ++i) {
+        entities.emplace_back(
+            "u" + std::to_string(i),
+            BaseEntity::FieldMap{
+                {"group", std::string("g") + std::to_string(i % 2)},
+                {"name", std::string("User") + std::to_string(i)}
+            }
+        );
+    }
+
+    auto st = idx.putBatch("users", entities, 64);
+    ASSERT_TRUE(st.ok) << st.message;
+
+    auto [scan_status_g0, keys_g0] = idx.scanKeysEqual("users", "group", "g0");
+    auto [scan_status_g1, keys_g1] = idx.scanKeysEqual("users", "group", "g1");
+    ASSERT_TRUE(scan_status_g0.ok) << scan_status_g0.message;
+    ASSERT_TRUE(scan_status_g1.ok) << scan_status_g1.message;
+    EXPECT_EQ(keys_g0.size(), 65u);
+    EXPECT_EQ(keys_g1.size(), 65u);
+
+    db.close();
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Partial (filtered) index tests
 // ─────────────────────────────────────────────────────────────────────────────

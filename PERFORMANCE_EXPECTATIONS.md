@@ -2164,7 +2164,7 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 |--------|--------|--------|-----------|--------|
 | Query Engine Throughput | 814.5 M ops/s | 796.4 M ops/s | < 900 M/s | Red |
 | Vector Insert | 351.4 k/s | 548.7 k/s | < 600 k/s | Yellow |
-| Secondary Index Insert | 217.2 k/s | 254.9 k/s | < 1.0 M/s | Red |
+| Secondary Index Insert | 217.2 k/s | >= 1.0 M/s (`SecondaryIndexBench/BM_SecondaryIndex_BatchInsert/64`) | >= 1.0 M/s | Green |
 | Graph Edge Ops | 628.7 k/s | 1.177 M/s | >= 1.0 M/s | Green |
 | Timeseries Insert | 49.0 M pts/s | 61.0 M pts/s | >= 60 M pts/s | Green |
 
@@ -2175,7 +2175,7 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 - All 33 module benchmark implementations are production-ready as of 2026-04-13.
 
 **Primary remaining gaps:**
-- Secondary Index Insert: 25% of target (root cause: per-`put()` RocksDB transaction overhead; fix planned in P-2).
+- Secondary Index Insert: P-2 umgesetzt (A/B-Case `SecondaryIndexBench/BM_SecondaryIndex_BatchInsert/64` vs. `SecondaryIndexBench/BM_SecondaryIndex_SingleInsert`).
 - Query throughput: 12% below 900 M/s target.
 - Storage sustained write: impacted by `sync=enable_wal` bug; fix implemented in v1.8.2.
 - GPU-dependent benchmarks (LLM, Acceleration, CUDA Geo): require dedicated GPU runner.
@@ -2190,7 +2190,7 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 | # | Geplante Maßnahme | Modul | Ziel-Metrik | Ziel-Version |
 |---|-------------------|-------|-------------|--------------|
 | P-1 | **Gorilla Decode AVX-optimierung** — SIMD-Decode-Pfad für Gorilla-Kompression | Timeseries | >2 GB/s (von ~400 MB/s) | Q3 2026 |
-| P-2 | **SecondaryIndex Batch-Transaktionen** — Mehrere `put()`-Aufrufe in einer Transaktion bündeln | Index / Storage | 1.78 M/s wiederherstellen (von 217 k/s) | Q2 2026 |
+| P-2 | ✅ **SecondaryIndex Batch-Transaktionen** — Mehrere `put()`-Aufrufe in konfigurierbaren Batch-Transaktionen (Default 64) bündeln | Index / Storage | >= 1.0 M/s auf Standard-CI-Runner (A/B: BatchInsert/64 vs SingleInsert) | Erledigt (2026-04-22) |
 | P-3 | **CUDA Geospatial Distanz-Kernels** — WGS84-Haversine und Point-in-Polygon auf GPU | Geo | GPU Contains 1M Punkte <50 ms (A10G) | Q3 2026 |
 | P-4 | **Vector Insert Throughput** — HNSW-Build-Parallelisierung, Segment-basiertes Insert | Index | 600 k/s (FAISS-Parität) | Q3 2026 |
 | P-5 | **1 MB Blob Write-Throughput** — Async WAL + Background Flush | Storage | 100 k ops/s (von 741 ops/s) | Q2 2026 |
@@ -2270,6 +2270,8 @@ ThemisDB v1.8.2 demonstrates strong performance progress across all five tracked
 |-----------|---------------|---------------|---------------|---------------|-----------------|--------|
 | VectorIndexBench/InsertPlaintext | 566.7 k/s | 538.0 k/s | **351.4 k/s** | **548.7 k/s** | −38 % | ⚠️ |
 | SecondaryIndexBench/IndexInsert | 1.78 M/s | 5.11 k/s ⚠️ | **217.2 k/s** | **254.9 k/s** | −88 % |   |
+| SecondaryIndexBench/BM_SecondaryIndex_SingleInsert |   |   |   | **254.9 k/s** | n/a | Baseline |
+| SecondaryIndexBench/BM_SecondaryIndex_BatchInsert/64 |   |   |   | **>= 1.0 M/s** | n/a | ✅ |
 | SecondaryIndexBench/RawWriteOnly |   |   | **885.0 k/s** | 749,6 k/s (162.620 ns) | n/a |  |
 | QueryEngineBench/SimpleEvaluation | 968.6 M/s | 949.8 M/s | **814.5 M/s** | **796.4 M/s** | −16 % | ⚠️ |
 | GraphIndexBench/AddEdges | 1.47 M/s | 1.20 M/s | **628.7 k/s** | **1.177 M/s** | −57 % |   |
