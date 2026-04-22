@@ -1260,6 +1260,15 @@ HttpServer::HttpServer(
         THEMIS_WARN("Failed to initialize SchemaManager/Schema API: {}", e.what());
     }
 
+    // Wire SchemaManager into MonitoringApiHandler now that it is available.
+    // MonitoringApiHandler is constructed early (before SchemaManager) so it
+    // receives a null pointer from the constructor; this call fills the gap and
+    // enables the /api/v1/capabilities schema capability block.
+    if (monitoring_api_ && schema_manager_) {
+        monitoring_api_->setSchemaManager(schema_manager_.get());
+        THEMIS_INFO("SchemaManager wired into MonitoringApiHandler (capabilities endpoint complete)");
+    }
+
     // Initialize GraphQL API Handler with a dedicated AQL query engine
     // so that aql() / aqlMutation() resolver fields execute real queries.
     // The engine must be created before the handler and declared after it

@@ -1719,6 +1719,70 @@ int main(int argc, char* argv[]) {
                 THEMIS_WARN("ConcernsContext construction failed — server continues without it: {}", ex.what());
             }
         }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // SAML 2.0 SERVICE PROVIDER — optional SSO integration
+        // ═══════════════════════════════════════════════════════════════════
+        // Reads the optional config["saml"] block and calls g_server->enableSaml()
+        // so that the pre-registered SAML endpoints become functional.
+        // Without this block every /api/v1/auth/saml/* endpoint returns HTTP 503.
+        if (cfg && cfg->contains("saml") && g_server) {
+            try {
+                const auto& sc = (*cfg)["saml"];
+
+                // Mandatory: IdP entity ID and SSO URL; SP entity ID and ACS URL
+                std::string idp_entity_id   = sc.value("idp_entity_id",   std::string());
+                std::string idp_sso_url     = sc.value("idp_sso_url",     std::string());
+                std::string sp_entity_id    = sc.value("sp_entity_id",    std::string());
+                std::string sp_acs_url      = sc.value("sp_acs_url",      std::string());
+                std::string idp_cert_pem    = sc.value("idp_certificate_pem", std::string());
+
+                if (idp_entity_id.empty() || idp_sso_url.empty() ||
+                    sp_entity_id.empty()  || sp_acs_url.empty()  ||
+                    idp_cert_pem.empty()) {
+                    THEMIS_WARN("SAML: incomplete configuration — skipping enableSaml(). "
+                                "Required: idp_entity_id, idp_sso_url, sp_entity_id, sp_acs_url, idp_certificate_pem");
+                } else {
+                    themis::server::SamlAuthProvider::Config saml_cfg;
+
+                    // SP / IdP core settings
+                    saml_cfg.saml.sp_entity_id          = sp_entity_id;
+                    saml_cfg.saml.sp_acs_url             = sp_acs_url;
+                    saml_cfg.saml.idp_entity_id          = idp_entity_id;
+                    saml_cfg.saml.idp_sso_url            = idp_sso_url;
+                    saml_cfg.saml.idp_certificate_pem   = idp_cert_pem;
+
+                    // Optional signature requirements (secure defaults)
+                    saml_cfg.saml.require_signed_response  = sc.value("require_signed_response",  true);
+                    saml_cfg.saml.require_signed_assertion = sc.value("require_signed_assertion",  true);
+                    saml_cfg.saml.allow_sha1_deprecated    = sc.value("allow_sha1_deprecated",     false);
+
+                    // Optional: clock skew tolerance (seconds)
+                    uint32_t skew_s = sc.value("clock_skew_seconds", uint32_t(60));
+                    saml_cfg.saml.clock_skew = std::chrono::seconds(skew_s);
+
+                    // Optional: replay-cache limit
+                    saml_cfg.saml.max_replay_cache_size = sc.value("max_replay_cache_size", size_t(100000));
+
+                    // Optional: attribute mapping overrides
+                    saml_cfg.saml.attr_email = sc.value("attr_email", std::string("email"));
+
+                    // Optional: SP metadata / SLO
+                    saml_cfg.idp_slo_url        = sc.value("idp_slo_url",    std::string());
+                    saml_cfg.sp_slo_url         = sc.value("sp_slo_url",     std::string());
+                    saml_cfg.org_name           = sc.value("org_name",       std::string());
+                    saml_cfg.org_display_name   = sc.value("org_display_name", std::string());
+                    saml_cfg.org_url            = sc.value("org_url",        std::string());
+                    saml_cfg.contact_email      = sc.value("contact_email",  std::string());
+
+                    g_server->enableSaml(saml_cfg);
+                    THEMIS_INFO("SAML SP enabled for IdP '{}' (ACS: {})",
+                                idp_entity_id, sp_acs_url);
+                }
+            } catch (const std::exception& ex) {
+                THEMIS_WARN("SAML SP configuration failed — SAML endpoints remain disabled: {}", ex.what());
+            }
+        }
 #endif
 #else
         THEMIS_INFO("HTTP server disabled at build time (THEMIS_ENABLE_HTTP_SERVER=OFF)");
