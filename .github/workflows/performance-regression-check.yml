@@ -43,6 +43,8 @@ jobs:
             libboost-filesystem-dev \
             libboost-system-dev \
             libzstd-dev
+            libtbb-dev
+            libcurl4-openssl-dev
 
       - name: Configure benchmark build
         run: |
@@ -55,6 +57,8 @@ jobs:
             -DTHEMIS_ENABLE_LLM=OFF \
             -DTHEMIS_ENABLE_GRPC=OFF \
             -DTHEMIS_ENABLE_HTTP_SERVER=OFF \
+            -DTHEMIS_ENABLE_CLOUD_STORAGE=OFF \
+            -DTHEMIS_ENABLE_BLOB_WEBDAV=OFF \
             -DTHEMIS_ENABLE_MIMALLOC=OFF \
             -DTHEMIS_MODELS_MODE=SKIP
 
