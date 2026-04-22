@@ -239,6 +239,86 @@ Production-ready multi-model query engine supporting relational, document, graph
 
 Decision overhead: ≤ 1 µs/call (no I/O, pure arithmetic; see `PERFORMANCE_EXPECTATIONS.md` §2.5).
 
+### Phase 8: Continuous Query Language (Status: Planned — v2.0.0)
+
+> **Research foundation:** [CQL — Arasu, Babu & Widom (2006)](../../docs/research/papers/arasu_cql_2006.md) · [Best Practice: Continuous Query Sliding Windows](../../docs/research/best_practices/continuous_query_sliding_window.md)
+
+Adds a production-grade Continuous Query Language (CQL) engine to ThemisDB, enabling standing queries that are evaluated continuously as new data arrives. CQL is the formal language underlying the `CREATE CONTINUOUS QUERY` syntax already present in IoT examples (`examples/09_iot_sensor_network/`). Phase 8 wires it into the main query engine, timeseries scheduler, and push-delivery transport.
+
+#### Phase 8.1 — Design / API Contract (Target: Q3 2026)
+
+- [ ] Define `ContinuousQuerySpec` struct: `name`, `source_collection`, `window_spec` (`WindowType` × `range` × `slide` × `partition_by`), `aql_body`, `result_mode` (`DELTA` | `SNAPSHOT` | `CHANGES`), `allowed_lateness_ms`, `max_window_size` (tuple + byte caps) — `include/query/continuous_query_engine.h`
+- [ ] Define `ContinuousQueryHandle` (opaque registration token) and `ResultStreamPtr` (typed iterator with `next()`, `cancel()`, `stats()`) — `include/query/continuous_query_engine.h`
+- [ ] Define `WindowSpec` with three subtypes: `TimeWindow{range_ms, slide_ms}`, `CountWindow{rows, slide, partition_by}`, `TumblingWindow{interval_ms}` — `include/query/window_spec.h`
+- [ ] Define `ContinuousQueryInfo` for `SHOW CONTINUOUS QUERIES` output: `name`, `source`, `window`, `result_mode`, `registered_at`, `last_tick_at`, `tuples_processed`, `result_queue_depth` — `include/query/continuous_query_registry.h`
+- [ ] AQL DDL grammar additions in `src/query/aql_parser.cpp`: `CREATE CONTINUOUS QUERY`, `DROP CONTINUOUS QUERY`, `SHOW CONTINUOUS QUERIES`, `DESCRIBE CONTINUOUS QUERY <name>` — parse to `ContinuousQueryDDL` AST node
+- [ ] API stability contract: `ContinuousQueryEngine::registerQuery()`, `::dropQuery()`, `::subscribe()`, `::listQueries()` are v2.0.0 stable
+
+#### Phase 8.2 — Core Implementation (Target: Q3 2026)
+
+- [ ] `ContinuousQueryEngine` class — `include/query/continuous_query_engine.h`, `src/query/continuous_query_engine.cpp`
+  - `registerQuery(ContinuousQuerySpec)` → validates spec (bounded windows, no impure UDFs, source exists), stores in `ContinuousQueryRegistry`, starts evaluation loop via `AggregateScheduler`
+  - `dropQuery(name)` → drains result queue, cancels scheduler job, releases synopsis storage
+  - `subscribe(name, ResultMode)` → returns `ResultStreamPtr`; multiple subscribers per query supported
+- [ ] `ContinuousQueryRegistry` — thread-safe map of active queries; persists registry to RocksDB on each mutation for crash recovery — `src/query/continuous_query_registry.cpp`
+- [ ] `ContinuousQueryPlanner` — extends `QueryOptimizer` to produce `ContinuousPlan` with a `SynopsisNode` (ring buffer), `DeltaAggNode` (incremental aggregation), and `ResultEmitNode` (Istream / Dstream / Rstream) — `src/query/continuous_query_planner.cpp`
+- [ ] Synopsis storage: RocksDB-backed ring buffer per `(query_name, partition_key)` keyed by event timestamp; configurable `max_window_size` enforced on insert — `src/query/synopsis_store.cpp`
+- [ ] Incremental aggregation: delta-based `SUM`, `COUNT`, `AVG`, `MIN`, `MAX` updates applied on `added_tuples` and `expired_tuples` without full re-scan — `src/query/incremental_agg.cpp`
+- [ ] Watermark engine: per-query watermark tracker; late-data detection; correction delta emission within one tick for events within `allowed_lateness_ms`; `late_dropped_events_total` Prometheus counter — `src/query/cq_watermark.cpp`
+- [ ] Result delivery: bounded `ResultQueue` per `(query_name, subscriber_id)`; SSE push via `src/server/http_server.cpp`; WebSocket push via `src/server/ws_server.cpp`; wire protocol subscription frame in wire protocol v2
+- [ ] Wiring: `HttpServer::setContinuousQueryEngine()` called from `main_server.cpp`; expose `/v1/queries/continuous` REST endpoints: `POST /register`, `DELETE /:name`, `GET /` (list), `GET /:name/results` (SSE stream)
+
+#### Phase 8.3 — Error Handling & Edge Cases (Target: Q3 2026)
+
+- [ ] Validation at registration: reject unbounded stream-stream joins (`UNBOUNDED_JOIN_WINDOW`), impure UDFs (`IMPURE_UDF_IN_CONTINUOUS_QUERY`), unknown source collection (`COLLECTION_NOT_FOUND`), window size exceeding cap (`WINDOW_SIZE_EXCEEDED`)
+- [ ] Schema evolution: new optional fields in source collection tolerated without restart; missing required fields abort evaluation and emit `SCHEMA_MISMATCH` event to subscribers
+- [ ] Shard coordination: per-shard local evaluation + coordinator merge node; eventual consistency window ≤ one tick interval; `cross_shard_merge_latency_ms` metric emitted
+- [ ] Client disconnection: result queue buffered for `result_buffer_ms` (default 60 000 ms); reconnecting client receives buffered deltas; queue overflow triggers `SUBSCRIBER_QUEUE_OVERFLOW` warning and oldest entries dropped
+- [ ] Node restart recovery: `ContinuousQueryRegistry` reloads from RocksDB; `SynopsisStore` replays WAL to restore in-flight window state; evaluation resumes within one scheduler tick
+
+#### Phase 8.4 — Tests (Target: Q3 2026)
+
+- [ ] Unit tests `CQ-01..CQ-20` — `tests/test_continuous_query_engine.cpp`:
+  - CQ-01..05: `WindowSpec` construction and tick computation (time, count, tumbling)
+  - CQ-06..10: synopsis insert, expire, and size enforcement
+  - CQ-11..13: incremental aggregation correctness (SUM/AVG/MIN/MAX delta vs. full re-scan)
+  - CQ-14..15: watermark advancement and late-data correction
+  - CQ-16..18: `DELTA` / `SNAPSHOT` / `CHANGES` result mode output
+  - CQ-19..20: validation rejections (unbounded join, impure UDF)
+- [ ] Integration tests `CQI-01..05` — `tests/integration/test_continuous_query_e2e.cpp`:
+  - CQI-01: `CREATE CONTINUOUS QUERY` → inject events → verify SSE delta stream
+  - CQI-02: multi-subscriber fan-out; both subscribers receive identical deltas
+  - CQI-03: late event within `allowed_lateness_ms`; correction delta emitted
+  - CQI-04: client disconnect + reconnect; buffered deltas delivered on reconnect
+  - CQI-05: node restart; query registry reloaded; evaluation resumes
+- [ ] Register test suite as `CTest` target `ContinuousQueryEngineTests` in `tests/CMakeLists.txt`
+
+#### Phase 8.5 — Performance & Hardening (Target: Q4 2026)
+
+- [ ] Benchmark `BM_ContinuousQuery_Throughput` — `benchmarks/bench_continuous_query.cpp`: throughput ≥ 500 k tuples/s; p99 per-tuple latency ≤ 5 ms; target ID `CQ-PERF-01` in `benchmark_target_mapping.json`
+- [ ] Benchmark `BM_ContinuousQuery_WindowTick` — empty-window tick overhead ≤ 1 µs; target ID `CQ-PERF-02`
+- [ ] Memory guard: enforce `max_window_size` (default: 10 M tuples OR 1 GB); verified by `CQ-19` unit test
+- [ ] Backpressure: slow subscribers trigger evaluation frequency reduction via `AggregateScheduler::throttle()`; `subscriber_backpressure_total` Prometheus counter
+
+#### Phase 8.6 — Documentation & Acceptance (Target: Q4 2026)
+
+- [ ] Update `src/query/README.md` with CQL syntax reference and lifecycle diagram
+- [ ] Update `include/query/README.md` with `ContinuousQueryEngine` API surface
+- [ ] Update `src/query/CHANGELOG.md` with v2.0.0 CQL entry
+- [ ] Update `PERFORMANCE_EXPECTATIONS.md` §2.6 with CQ-PERF-01/02 targets
+- [ ] Link `docs/research/papers/arasu_cql_2006.md` from query README
+- [ ] API stability guaranteed for `ContinuousQueryEngine::registerQuery`, `::dropQuery`, `::subscribe`, `::listQueries` from v2.0.0
+
+**Performance Targets (Phase 8):**
+
+| Metric | Target | Condition |
+|--------|--------|-----------|
+| Throughput | ≥ 500 k tuples/s | Single time-window sliding query, 4-core host |
+| Per-tuple p99 latency | ≤ 5 ms | End-to-end: ingest → window update → SSE delivery |
+| Empty-window tick overhead | ≤ 1 µs | No new events in evaluation interval |
+| Concurrent active queries | ≥ 1 000 | Mixed window types, single node |
+| Watermark correction latency | ≤ 2 × tick_interval | Late event within `allowed_lateness_ms` |
+
 ## Production Readiness Checklist
 
 - [x] Unit test coverage ≥ 80 % across `AQLParser`, `QueryOptimizer`, `QueryExecutor`, `QueryCache`, and `UDFRegistry`

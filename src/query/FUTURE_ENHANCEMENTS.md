@@ -1475,3 +1475,129 @@ if (resource_limits.max_memory_bytes == 0) {
 
 ### Performance Targets
 - The memory check in `aql_runner.cpp` is O(1) per result batch; no measurable overhead
+
+
+---
+
+## Continuous Query Language (CQL) — Phase 8
+
+> **Research foundation:** [CQL — Arasu, Babu & Widom (2006)](../../docs/research/papers/arasu_cql_2006.md) · [Best Practice: Continuous Query Sliding Windows](../../docs/research/best_practices/continuous_query_sliding_window.md)
+
+### Scope
+
+Extend the AQL query engine with a CQL-compliant standing query sub-system. Standing queries are registered once (`CREATE CONTINUOUS QUERY`) and evaluated continuously as new data arrives, delivering incremental results to subscribers via SSE/WebSocket push. Affected files:
+
+- `include/query/continuous_query_engine.h` — public API
+- `include/query/window_spec.h` — `WindowSpec` (time, count, tumbling)
+- `include/query/continuous_query_registry.h` — `ContinuousQueryInfo`
+- `src/query/continuous_query_engine.cpp` — evaluation loop
+- `src/query/continuous_query_planner.cpp` — `ContinuousPlan` generation
+- `src/query/continuous_query_registry.cpp` — RocksDB-backed registry
+- `src/query/synopsis_store.cpp` — RocksDB ring buffer per window
+- `src/query/incremental_agg.cpp` — delta-based SUM/AVG/MIN/MAX/COUNT
+- `src/query/cq_watermark.cpp` — late-data detection, correction deltas
+- `src/query/aql_parser.cpp` — DDL: `CREATE / DROP / SHOW CONTINUOUS QUERY`
+
+### Design Constraints
+
+- [ ] Bounded windows only: every continuous query must declare an upper bound on window size; unbounded stream-stream joins rejected at parse time with `UNBOUNDED_JOIN_WINDOW`
+- [ ] UDF purity: UDFs called inside a continuous query body must be declared pure; impure UDFs rejected with `IMPURE_UDF_IN_CONTINUOUS_QUERY`
+- [ ] Max window size defaults: 10 M tuples OR 1 GB, whichever is smaller; operator-configurable
+- [ ] Late-data budget: `allowed_lateness_ms` per query (default 500 ms); events arriving after budget counted in `late_dropped_events_total` Prometheus counter
+- [ ] Crash recovery: registry persisted in RocksDB; synopsis WAL enables resume within one scheduler tick after node restart
+- [ ] Result queue: bounded per `(query_name, subscriber_id)`; overflow drops oldest entries and emits `SUBSCRIBER_QUEUE_OVERFLOW` warning
+
+### Required Interfaces
+
+```cpp
+// include/query/continuous_query_engine.h
+namespace themis {
+
+enum class ResultMode { DELTA, SNAPSHOT, CHANGES };
+
+struct WindowSpec {
+    enum class Type { TIME_SLIDING, COUNT_SLIDING, TUMBLING } type;
+    int64_t range_ms;    // TIME_SLIDING and TUMBLING
+    int64_t slide_ms;    // TIME_SLIDING
+    int64_t rows;        // COUNT_SLIDING
+    int64_t slide_rows;  // COUNT_SLIDING
+    std::string partition_by;  // optional, COUNT_SLIDING
+};
+
+struct ContinuousQuerySpec {
+    std::string name;
+    std::string source_collection;
+    WindowSpec window;
+    std::string aql_body;
+    ResultMode result_mode;
+    int64_t allowed_lateness_ms{500};
+    size_t max_window_tuples{10'000'000};
+    size_t max_window_bytes{1ULL << 30};  // 1 GB
+};
+
+struct ContinuousQueryInfo {
+    std::string name;
+    std::string source_collection;
+    WindowSpec window;
+    ResultMode result_mode;
+    std::chrono::system_clock::time_point registered_at;
+    std::chrono::system_clock::time_point last_tick_at;
+    uint64_t tuples_processed{0};
+    size_t result_queue_depth{0};
+};
+
+class ContinuousQueryEngine {
+public:
+    using ContinuousQueryHandle = std::string;
+    using ResultStreamPtr = std::shared_ptr<ResultStream>;
+
+    virtual ~ContinuousQueryEngine() = default;
+
+    virtual ContinuousQueryHandle registerQuery(ContinuousQuerySpec spec) = 0;
+    virtual void dropQuery(const std::string& name) = 0;
+    virtual std::vector<ContinuousQueryInfo> listQueries() const = 0;
+    virtual ResultStreamPtr subscribe(const std::string& name, ResultMode mode) = 0;
+};
+
+}  // namespace themis
+```
+
+### Implementation Notes
+
+- **Evaluation loop**: `ContinuousQueryEngine` calls `AggregateScheduler::schedule(tick_interval_ms, callback)` per registered query; callback invokes `ContinuousQueryPlanner::evaluate(plan, synopsis_store)` which computes the delta and emits results.
+- **Synopsis storage**: `SynopsisStore` wraps a RocksDB column family with key `<query_name>:<partition_key>:<event_ts_us>` and value `<serialised tuple>`. The `expire()` method deletes entries older than `window_start`.
+- **Incremental aggregation**: `IncrementalAgg<Op>` maintains a running aggregate updated by `add(tuple)` and `remove(tuple)`. For `MIN`/`MAX`, falls back to full synopsis scan when the evicted tuple equals the current extremum.
+- **Result delivery**: `ResultQueue` uses a bounded `std::deque` protected by `std::mutex`; `ResultStream::next()` blocks with a configurable timeout; the SSE endpoint polls `next()` in a loop, flushing each delta as an `event: data\n\n` SSE frame.
+- **Cross-shard queries**: `ContinuousQueryPlanner` detects sharded sources and generates a `ScatterGatherPlan`: one sub-query per shard + a `MergeAggNode` on the coordinator. Coordinator emits the merged delta to subscribers.
+
+### Test Strategy
+
+- **Unit (CQ-01..CQ-20)** — `tests/test_continuous_query_engine.cpp`
+  - Window tick computation, synopsis insert/expire/size enforcement
+  - Incremental SUM/AVG/MIN/MAX delta correctness vs. full re-scan reference
+  - Watermark advancement; late-data correction within one tick
+  - DELTA/SNAPSHOT/CHANGES result mode output verification
+  - Validation rejections: unbounded join, impure UDF, unknown source
+- **Integration (CQI-01..CQI-05)** — `tests/integration/test_continuous_query_e2e.cpp`
+  - End-to-end: register → inject events → verify SSE delta stream content
+  - Multi-subscriber fan-out
+  - Late event within `allowed_lateness_ms`: correction delta emitted
+  - Client disconnect + reconnect: buffered deltas delivered
+  - Node restart: registry reloaded; evaluation resumes within one tick
+
+### Performance Targets
+
+| Metric | Target | Condition |
+|--------|--------|-----------|
+| Throughput | ≥ 500 k tuples/s | 1 sliding time-window query, 4-core host |
+| Per-tuple p99 latency | ≤ 5 ms | Ingest → window update → SSE delivery |
+| Empty-window tick overhead | ≤ 1 µs | No new events in evaluation interval |
+| Concurrent active queries | ≥ 1 000 | Mixed window types, single node |
+| Watermark correction latency | ≤ 2 × tick_interval | Late event within `allowed_lateness_ms` |
+
+### Security / Reliability
+
+- AQL body inside a continuous query is subject to the same AQL injection prevention (parameterised literals, max AST depth = 256) as regular queries
+- `ContinuousQueryRegistry` persists to RocksDB with WAL; no lost registrations on crash
+- Result queues are bounded; slow consumers cannot cause unbounded memory growth
+- `SUBSCRIBER_QUEUE_OVERFLOW` emitted as structured log warning with `query_name` and `subscriber_id` fields for operator observability
