@@ -242,6 +242,26 @@ GorillaSIMDDecoder::GorillaSIMDDecoder(std::vector<uint8_t> data)
 size_t GorillaSIMDDecoder::decodeAll(std::vector<std::pair<int64_t, double>>& out) {
     if (data_.empty()) return 0;
 
+#if defined(__AVX2__)
+    // Runtime guard for binaries compiled with AVX2 but executed on non-AVX2 CPUs.
+    // In that case we must not execute AVX2 instructions.
+    if (!gorilla_simd_has_avx2()) {
+        GorillaDecoder fallback(data_);
+        const size_t out_begin = out.size();
+        // Same conservative estimate used by the SIMD path below:
+        // Gorilla points are at least ~1 byte encoded, so payload_size/2 + 1
+        // avoids repeated reallocations without changing decode semantics.
+        out.reserve(out.size() + data_.size() / 2 + 1);
+        while (auto p = fallback.next()) {
+            out.push_back(*p);
+        }
+        error_ = fallback.hasError();
+        const size_t appended = out.size() - out_begin;
+        decoded_count_ += appended;
+        return appended;
+    }
+#endif
+
     // Detect and validate the Gorilla chunk header (3 bytes: magic0, magic1, version).
     // Legacy chunks (encoded before v1) have no header; fall through to decode as-is.
     const uint8_t* payload_ptr  = data_.data();

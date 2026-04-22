@@ -478,3 +478,27 @@ TEST_F(GorillaSIMDTest, VeryLargeDoubleValues) {
     auto bytes = encode(pts);
     expect_eq(decode_scalar(bytes), decode_simd(bytes), "VeryLargeValues");
 }
+
+TEST_F(GorillaSIMDTest, ParityPropertyRandomSeries1k) {
+    std::mt19937_64 rng(0xC0FFEE1234ULL);
+    std::uniform_int_distribution<int> length_dist(1, 256);
+    std::uniform_int_distribution<int64_t> dt_dist(1, 5000);
+    std::uniform_real_distribution<double> value_dist(-1e6, 1e6);
+
+    for (int series_idx = 0; series_idx < 1000; ++series_idx) {
+        const int len = length_dist(rng);
+        std::vector<std::pair<int64_t, double>> pts;
+        pts.reserve(static_cast<size_t>(len));
+
+        int64_t ts = 1700000000000LL + static_cast<int64_t>(series_idx) * 1000000LL;
+        for (int i = 0; i < len; ++i) {
+            ts += dt_dist(rng);
+            pts.emplace_back(ts, value_dist(rng));
+        }
+
+        const auto bytes = encode(pts);
+        const auto ref = decode_scalar(bytes);
+        const auto simd = decode_simd(bytes);
+        expect_eq(ref, simd, "ParityPropertyRandomSeries1k");
+    }
+}
