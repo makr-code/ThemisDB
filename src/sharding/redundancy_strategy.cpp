@@ -1095,6 +1095,186 @@ std::vector<uint8_t> LocallyRepairableCoder::decode(
 }
 
 // ═══════════════════════════════════════════════════════════
+// HammingCoder Implementation
+// ═══════════════════════════════════════════════════════════
+
+// Parity shard p (0-indexed) covers data shard j (0-indexed) when bit p is
+// set in the 1-based position (j+1):  ((j + 1) >> p) & 1 == 1.
+//
+// This mirrors the classical Hamming parity-bit assignment but operates at
+// shard granularity with pure XOR — no Galois-Field arithmetic is required.
+
+// Returns true when parity shard `p` covers data shard `j` (both 0-indexed).
+static inline bool hammingCovers(uint32_t j, uint32_t p) noexcept {
+    return (((j + 1u) >> p) & 1u) != 0u;
+}
+
+std::vector<std::vector<uint8_t>> HammingCoder::encode(
+    const std::vector<uint8_t>& data,
+    uint32_t data_shards,
+    uint32_t parity_shards)
+{
+    if (data_shards == 0 || parity_shards == 0)
+        throw std::invalid_argument("HammingCoder::encode: shard counts must be > 0");
+    if (data.empty())
+        throw std::invalid_argument("HammingCoder::encode: data must not be empty");
+
+    const uint32_t shard_size = static_cast<uint32_t>(
+        (data.size() + data_shards - 1) / data_shards);
+
+    // Initialise all shards to zero (data shards will be filled below)
+    const uint32_t total_shards = data_shards + parity_shards;
+    std::vector<std::vector<uint8_t>> shards(total_shards,
+                                              std::vector<uint8_t>(shard_size, 0));
+
+    // Fill data shards (zero-padded if data is not a multiple of shard_size)
+    for (uint32_t s = 0; s < data_shards; ++s) {
+        const uint32_t start = s * shard_size;
+        const uint32_t end = std::min(start + shard_size,
+                                      static_cast<uint32_t>(data.size()));
+        if (start < static_cast<uint32_t>(data.size()))
+            std::copy(data.begin() + start, data.begin() + end, shards[s].begin());
+    }
+
+    // Compute parity shards via XOR
+    for (uint32_t p = 0; p < parity_shards; ++p) {
+        std::vector<uint8_t>& parity = shards[data_shards + p];
+        for (uint32_t j = 0; j < data_shards; ++j) {
+            if (hammingCovers(j, p)) {
+                for (uint32_t b = 0; b < shard_size; ++b)
+                    parity[b] ^= shards[j][b];
+            }
+        }
+    }
+
+    return shards;
+}
+
+std::vector<uint8_t> HammingCoder::decode(
+    const std::map<uint32_t, std::vector<uint8_t>>& available_chunks,
+    const std::vector<uint32_t>& missing_indices,
+    uint32_t data_shards,
+    uint32_t parity_shards)
+{
+    if (available_chunks.empty())
+        throw std::runtime_error("HammingCoder::decode: no chunks available");
+
+    const uint32_t total_shards = data_shards + parity_shards;
+    const uint32_t shard_size =
+        static_cast<uint32_t>(available_chunks.begin()->second.size());
+
+    // Fast path: all data shards present
+    if (missing_indices.empty()) {
+        std::vector<uint8_t> result;
+        result.reserve(static_cast<size_t>(data_shards) * shard_size);
+        for (uint32_t s = 0; s < data_shards; ++s) {
+            const auto it = available_chunks.find(s);
+            if (it == available_chunks.end())
+                throw std::runtime_error(
+                    "HammingCoder::decode: data shard " + std::to_string(s) +
+                    " missing but not listed in missing_indices");
+            result.insert(result.end(), it->second.begin(), it->second.end());
+        }
+        return result;
+    }
+
+    // Build working shard array (zeros for missing shards)
+    std::vector<std::vector<uint8_t>> shards(total_shards,
+                                              std::vector<uint8_t>(shard_size, 0));
+    std::vector<bool> present(total_shards, false);
+    for (const auto& [idx, chunk] : available_chunks) {
+        if (idx < total_shards) {
+            shards[idx] = chunk;
+            present[idx] = true;
+        }
+    }
+
+    // Iterative repair: in each pass try to recover a missing shard using a
+    // parity shard that covers exactly one absent shard (the target itself).
+    // The loop terminates when a full pass completes without recovering any
+    // new shard; at that point the remaining missing shards cannot be repaired
+    // with the available parity coverage.
+    bool progress = true;
+    while (progress) {
+        progress = false;
+
+        for (uint32_t target = 0; target < total_shards; ++target) {
+            if (present[target]) continue;
+
+            if (target >= data_shards) {
+                // Missing parity shard: recompute directly from data shards
+                const uint32_t p = target - data_shards;
+                bool can_recompute = true;
+                for (uint32_t j = 0; j < data_shards; ++j) {
+                    if (!present[j] && hammingCovers(j, p)) {
+                        can_recompute = false;
+                        break;
+                    }
+                }
+                if (can_recompute) {
+                    shards[target].assign(shard_size, 0);
+                    for (uint32_t j = 0; j < data_shards; ++j) {
+                        if (hammingCovers(j, p)) {
+                            for (uint32_t b = 0; b < shard_size; ++b)
+                                shards[target][b] ^= shards[j][b];
+                        }
+                    }
+                    present[target] = true;
+                    progress = true;
+                }
+            } else {
+                // Missing data shard j = target.
+                // Look for a parity shard p that covers it and has all its
+                // other covered shards already recovered.
+                for (uint32_t p = 0; p < parity_shards; ++p) {
+                    if (!present[data_shards + p]) continue;       // parity absent
+                    if (!hammingCovers(target, p))  continue;      // parity doesn't cover target
+
+                    // Check that every other data shard covered by p is present
+                    bool all_others_present = true;
+                    for (uint32_t j = 0; j < data_shards; ++j) {
+                        if (j == target) continue;
+                        if (hammingCovers(j, p) && !present[j]) {
+                            all_others_present = false;
+                            break;
+                        }
+                    }
+                    if (!all_others_present) continue;
+
+                    // Recover target = parity[p] XOR (XOR of other covered data shards)
+                    shards[target] = shards[data_shards + p];
+                    for (uint32_t j = 0; j < data_shards; ++j) {
+                        if (j == target) continue;
+                        if (hammingCovers(j, p)) {
+                            for (uint32_t b = 0; b < shard_size; ++b)
+                                shards[target][b] ^= shards[j][b];
+                        }
+                    }
+                    present[target] = true;
+                    progress = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    // Verify all data shards are recovered
+    for (uint32_t s = 0; s < data_shards; ++s) {
+        if (!present[s])
+            throw std::runtime_error(
+                "HammingCoder::decode: cannot recover data shard " +
+                std::to_string(s) + " — too many simultaneous failures");
+    }
+
+    // Concatenate and return
+    std::vector<uint8_t> result;
+    result.reserve(static_cast<size_t>(data_shards) * shard_size);
+    for (uint32_t s = 0; s < data_shards; ++s)
+        result.insert(result.end(), shards[s].begin(), shards[s].end());
+    return result;
+}
+
+// ═══════════════════════════════════════════════════════════
 // ErasureCoder Factory
 // ═══════════════════════════════════════════════════════════
 
@@ -1106,6 +1286,8 @@ std::unique_ptr<ErasureCoder> ErasureCoder::create(ErasureCodingAlgorithm algori
             return std::make_unique<CauchyReedSolomonCoder>();
         case ErasureCodingAlgorithm::LRC:
             return std::make_unique<LocallyRepairableCoder>();
+        case ErasureCodingAlgorithm::HAMMING:
+            return std::make_unique<HammingCoder>();
         default:
             return nullptr;
     }

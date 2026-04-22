@@ -551,6 +551,8 @@ std::unique_ptr<ErasureCoder> ErasureCoder::create(ErasureCodingAlgorithm algori
             return std::make_unique<CauchyReedSolomonCoder>();
         case ErasureCodingAlgorithm::LRC:
             return std::make_unique<CauchyReedSolomonCoder>();
+        case ErasureCodingAlgorithm::HAMMING:
+            return std::make_unique<HammingCoder>();
         default:
             return nullptr;
     }

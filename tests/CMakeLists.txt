@@ -19311,7 +19311,43 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_erasure_coding_backend.cpp" AND NOT 
 endif()
 
 # ============================================================================
-# OpenCL Erasure Coder - CPU/GPU parity tests (Issue #105 / v1.8.0)
+# HammingCoder - Shard-level Hamming error correction tests
+# ============================================================================
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_hamming_coder.cpp" AND NOT TARGET test_hamming_coder_focused)
+    message(STATUS "Adding Sharding: HammingCoder focused tests (RAID-2 / Hamming shard ECC)")
+
+    add_executable(test_hamming_coder_focused
+        test_hamming_coder.cpp
+    )
+
+    target_include_directories(test_hamming_coder_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_hamming_coder_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_hamming_coder_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME HammingCoderFocusedTests
+        COMMAND test_hamming_coder_focused)
+
+    set_tests_properties(HammingCoderFocusedTests PROPERTIES
+        LABELS "sharding;erasure-coding;hamming;raid2;fault-tolerance;focused;unit"
+        TIMEOUT 90
+    )
+
+    message(STATUS "  HammingCoder: HC_01..HC_16, single/multi-shard failure, Hamming(7,4) canonical, factory, large-blob")
+endif()
+
+
 # ============================================================================
 # Enabled when THEMIS_ENABLE_OPENCL is set (or the cmake find_package
 # for OpenCL succeeds).  Uses pocl-opencl-icd in CI for a CPU-only OpenCL
