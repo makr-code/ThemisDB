@@ -1566,12 +1566,12 @@
     }
   },
   "coverage_summary": {
-    "description": "Auto-computed by verify_benchmark_mapping.py. Counts per status across all modules.",
-    "total": 196,
-    "mapped": 195,
-    "proxy": 1,
-    "not_measurable": 0,
+    "description": "Auto-computed by verify_benchmark_mapping.py. Counts per status for target IDs listed in PERFORMANCE_EXPECTATIONS.md.",
+    "total": 191,
+    "mapped": 164,
+    "proxy": 20,
+    "not_measurable": 7,
     "gap": 0,
-    "coverage_pct": 99.5
+    "coverage_pct": 85.9
   }
 }

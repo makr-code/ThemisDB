@@ -301,6 +301,39 @@ def check_full_coverage(data: dict) -> bool:
 
 
 # ---------------------------------------------------------------------------
+# Check 5a – coverage_summary.total matches PERF target-ID count
+# ---------------------------------------------------------------------------
+
+def check_coverage_summary_total(data: dict) -> bool:
+    md_ids = _collect_md_target_ids()
+    if not md_ids:
+        _warn("No target IDs extracted from PERFORMANCE_EXPECTATIONS.md; "
+              "skipping coverage_summary.total check")
+        return True
+
+    summary = data.get("coverage_summary")
+    if not isinstance(summary, dict):
+        _err("coverage_summary missing or not an object in mapping JSON")
+        return False
+
+    total = summary.get("total")
+    if not isinstance(total, int):
+        _err("coverage_summary.total missing or not an integer")
+        return False
+
+    expected_total = len(md_ids)
+    if total != expected_total:
+        _err("coverage_summary.total mismatch: "
+             f"PERFORMANCE_EXPECTATIONS.md contains {expected_total} target IDs, "
+             f"but mapping reports total={total} (delta={abs(total - expected_total)})")
+        return False
+
+    _ok("coverage_summary.total matches PERFORMANCE_EXPECTATIONS.md "
+        f"target-ID count ({expected_total})")
+    return True
+
+
+# ---------------------------------------------------------------------------
 # Check 6a – Wave2: fallback_case coverage for distributed modules
 # ---------------------------------------------------------------------------
 
@@ -435,6 +468,9 @@ def main() -> int:
 
     print("\n[5] Cross-reference: all PERFORMANCE_EXPECTATIONS.md IDs mapped")
     results.append(check_full_coverage(data))
+
+    print("\n[5a] Check coverage_summary.total vs PERFORMANCE_EXPECTATIONS.md")
+    results.append(check_coverage_summary_total(data))
 
     print("\n[6] Status field validation and coverage quote")
     results.append(check_status_and_coverage(data))
