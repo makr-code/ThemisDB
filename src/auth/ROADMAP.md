@@ -33,6 +33,9 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] Configurable password policy enforcement (Issue: #2013)
 - [x] SAML 2.0 SP-initiated and IdP-initiated SSO
 - [x] LDAP/Active Directory direct bind authentication (Issue: #1537)
+- [x] Async/non-blocking LDAP and HTTP authentication calls via `AuthWorkerThreadPool`, `authenticateAsync()`, and `validateAsync()` (Issue: #3836)
+- [x] Token blacklist persistence and distributed backends via `ITokenBlacklist`, `RocksDBTokenBlacklist`, and `RedisTokenBlacklist` (Issue: #3837)
+- [x] LDAP connection pooling with `LDAPConnectionPool` and pool metrics (`pool_size`, `idle_connections`, `active_connections`) (Issue: #3838)
 - [x] Certificate-based mutual TLS (mTLS) authentication (Issue: #2370)
 - [x] Federated identity across multiple realms (Issue: #1540)
 - [x] Zero-trust access model with continuous verification (Issue: #1541)
@@ -108,4 +111,3 @@ _Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNC
 - `ApiKeyAuthenticator` – Authentifiziert HTTP-Requests via API-Key; genutzt in auth_middleware.cpp
 - `constantTimeEqual` – Zeitkonstanter Byte-Vergleich gegen Timing-Side-Channel bei API-Key-Checks;
   genutzt in `api_key_authenticator.cpp`.
-

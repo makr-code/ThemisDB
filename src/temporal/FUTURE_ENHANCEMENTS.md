@@ -150,9 +150,10 @@ WITH SYSTEM VERSIONING;
 
 ---
 
-### Time-Travel Query Engine
+### ~~Time-Travel Query Engine~~ ✅ Implemented (v1.2.0)
 **Priority:** High
 **Target Version:** v1.2.0
+**Status:** ✅ **Delivered** — see `include/temporal/temporal_query_engine.h` and `src/temporal/temporal_query_engine.cpp`
 
 Full SQL:2011 temporal query support with optimization.
 
@@ -229,9 +230,10 @@ JOIN departments FOR SYSTEM_TIME AS OF TIMESTAMP '2024-06-01' d
 
 ---
 
-### Temporal Indexes
+### ~~Temporal Indexes~~ ✅ Implemented (v1.2.0)
 **Priority:** High
 **Target Version:** v1.2.0
+**Status:** ✅ **Delivered** — see `include/temporal/temporal_index.h` and `src/temporal/temporal_index.cpp`
 
 Specialized indexes for efficient temporal queries.
 
@@ -612,9 +614,10 @@ public:
 
 ---
 
-### Snapshot Isolation
+### ~~Snapshot Isolation~~ ✅ Implemented (v1.3.0)
 **Priority:** High
 **Target Version:** v1.1.0
+**Status:** ✅ **Delivered** — see `include/temporal/snapshot_manager.h` and `src/temporal/snapshot_manager.cpp`
 
 Transactional isolation for temporal queries.
 
