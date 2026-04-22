@@ -60,7 +60,7 @@
 
 ### Context & UX
 - [x] Smart context-window management (token-budget-aware truncation) (`v0.4.0`)
-- [ ] Multi-file context via import graph / workspace symbol index (Target: Q4 2026)
+- [x] Multi-file context via import graph / workspace symbol index (`v0.4.0`)
 - [ ] Inline completion provider routed to Ollama (not just chat) (Target: Q4 2026)
 - [ ] Streaming token counter in VS Code status bar (Target: Q3 2026)
 - [ ] Similarity-based response cache (TTL + max-size configurable) (Target: Q4 2026)
@@ -140,7 +140,7 @@
   - Config: `copilotOllamaRouter.contextTokenBudget` (default 2048)
   - Priority: selection > diagnostics > cursor window > file path
   - Implementation: character-based estimate (1 token ≈ 4 chars), not tiktoken
-- [ ] Multi-file context via `vscode.workspace.findFiles` + symbol index
+- [x] Multi-file context via `vscode.workspace.findFiles` + symbol index (`v0.4.0`)
   - Adds: imported module signatures, parent class definitions
   - Max files: 3, max lines per file: 50
 - [ ] Inline completion provider (`vscode.languages.registerInlineCompletionItemProvider`)
