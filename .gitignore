@@ -346,6 +346,12 @@ tools/*/obj/
 tools/*/bin/
 **/obj/
 **/bin/
+**/obj/**
+**/bin/**
+**/obj/**/*.AssemblyInfo.cs
+**/obj/**/*.AssemblyInfoInputs.cache
+**/obj/**/*.GeneratedMSBuildEditorConfig.editorconfig
+**/obj/**/*.csproj.FileListAbsolute.txt
 tools/**/PublishOutputs.*
 
 # --- Enterprise Source Code (not included in public repository) ---
