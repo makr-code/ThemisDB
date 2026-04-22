@@ -41,6 +41,7 @@ jobs:
 
     env:
       ARTIFACT_DIR: artifacts/nightly
+      STORAGE_MODULE2_REQUIRED_CASE: BM_Storage_SustainedWrite_NoSync
 
     steps:
       - name: Checkout repository
@@ -125,6 +126,31 @@ jobs:
           echo "BENCH_COUNT=$BENCH_COUNT" >> "$GITHUB_ENV"
           echo "BENCH_FAILED=$BENCH_FAILED" >> "$GITHUB_ENV"
           echo "Ran $BENCH_COUNT benchmarks, $BENCH_FAILED reported non-zero exit."
+
+      - name: Validate Module 2 (Storage) required case
+        if: steps.cmake_build.outcome == 'success'
+        run: |
+          python3 - << 'PY'
+          import json
+          import os
+          import pathlib
+          import sys
+
+          required_case = os.environ["STORAGE_MODULE2_REQUIRED_CASE"]
+          result_file = pathlib.Path(os.environ["ARTIFACT_DIR"]) / "bench_storage_performance.json"
+          if not result_file.exists():
+              print(f"❌ Missing required benchmark output: {result_file}")
+              sys.exit(1)
+
+          data = json.loads(result_file.read_text(encoding="utf-8"))
+          names = [b.get("name", "") for b in data.get("benchmarks", [])]
+          case_present = any(name == required_case or name.startswith(f"{required_case}/") for name in names)
+          if not case_present:
+              print(f"❌ Required storage case not found: {required_case}")
+              sys.exit(1)
+
+          print(f"✅ Required storage case found: {required_case}")
+          PY
 
       # -------------------------------------------------------------------------
       # Download the previous nightly artifact for delta comparison.

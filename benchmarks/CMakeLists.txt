@@ -4018,7 +4018,7 @@ themis_report_benchmark_coverage("${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_
 # ITEB-05: large-payload erase
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_interval_tree_erase.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_interval_tree_erase.cpp" AND NOT TARGET bench_interval_tree_erase)
     message(STATUS "Adding IntervalTreeIndex Erase benchmarks (ITEB-01..05)")
 
     add_executable(bench_interval_tree_erase

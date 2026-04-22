@@ -96,19 +96,25 @@ public:
          * These versions are **not** migrated and remain in the MVCC store to
          * serve in-progress snapshot reads.  Must be ≥ 1.
          */
-        uint32_t min_versions_to_keep = 1;
+        uint32_t min_versions_to_keep;
 
         /**
          * Table name used when inserting migrated documents into the
          * TemporalTierManager.  All keys from a single prune run are stored
          * under the same table.
          */
-        std::string table_name = "mvcc";
+        std::string table_name;
 
         /**
          * Value of `VersionedDocument::modified_by` on migrated documents.
          */
-        std::string modified_by = "mvcc_chain_pruner";
+        std::string modified_by;
+
+        Config()
+            : min_versions_to_keep(1)
+            , table_name("mvcc")
+            , modified_by("mvcc_chain_pruner")
+        {}
     };
 
     // ─── Results ──────────────────────────────────────────────────────────────
