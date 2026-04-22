@@ -83,6 +83,10 @@ struct TLSRequestContext {
     std::string authorization_justification;
     bool set = false;
 };
+
+constexpr const char* kAdminRole = "admin";
+std::atomic<bool> g_warned_missing_permission_context{false};
+std::atomic<bool> g_warned_missing_role_context{false};
 } // anonymous namespace
 
 static thread_local TLSRequestContext tls_request_ctx;
@@ -121,9 +125,7 @@ std::string TaskScheduler::currentClientIp() noexcept {
 
 bool TaskScheduler::hasPermission(const std::string& permission) noexcept {
     if (!tls_request_ctx.set) {
-        static thread_local bool warned_missing_ctx = false;
-        if (!warned_missing_ctx) {
-            warned_missing_ctx = true;
+        if (!g_warned_missing_permission_context.exchange(true)) {
             THEMIS_WARN(
                 "TaskScheduler::hasPermission fallback allow without request context (permission='{}'). Configure RequestContext in security-sensitive entry points.",
                 permission);
@@ -132,14 +134,12 @@ bool TaskScheduler::hasPermission(const std::string& permission) noexcept {
         return true;
     }
     return tls_request_ctx.granted_permissions.count(permission) > 0 ||
-           tls_request_ctx.granted_permissions.count("admin") > 0;
+           tls_request_ctx.roles.count(kAdminRole) > 0;
 }
 
 bool TaskScheduler::hasRole(const std::string& role) noexcept {
     if (!tls_request_ctx.set) {
-        static thread_local bool warned_missing_ctx = false;
-        if (!warned_missing_ctx) {
-            warned_missing_ctx = true;
+        if (!g_warned_missing_role_context.exchange(true)) {
             THEMIS_WARN(
                 "TaskScheduler::hasRole fallback allow without request context (role='{}'). Configure RequestContext in security-sensitive entry points.",
                 role);
@@ -147,7 +147,7 @@ bool TaskScheduler::hasRole(const std::string& role) noexcept {
         // Backward-compatible fallback for trusted in-process calls.
         return true;
     }
-    return tls_request_ctx.roles.count(role) > 0 || tls_request_ctx.roles.count("admin") > 0;
+    return tls_request_ctx.roles.count(role) > 0 || tls_request_ctx.roles.count(kAdminRole) > 0;
 }
 
 std::string TaskScheduler::currentAuthorizationJustification(const char* fallback) noexcept {

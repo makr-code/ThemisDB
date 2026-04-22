@@ -126,6 +126,12 @@ TEST_F(TaskSchedulerAuthContextTest, ClearRequestContextRestoresFallback) {
     EXPECT_TRUE(TaskScheduler::currentClientIp().empty());
 }
 
+TEST_F(TaskSchedulerAuthContextTest, PermissionAndRoleFallbackAllowWhenContextUnset) {
+    TaskScheduler::clearRequestContext();
+    EXPECT_TRUE(TaskScheduler::hasPermission("task:register"));
+    EXPECT_TRUE(TaskScheduler::hasRole("system_admin"));
+}
+
 TEST_F(TaskSchedulerAuthContextTest, EmptyUserIdFallsBackToSystemFallback) {
     // An empty user_id in the context should still use the fallback
     TaskScheduler::setRequestContext({"", "192.168.0.1"});

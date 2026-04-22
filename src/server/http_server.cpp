@@ -5608,7 +5608,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 TaskScheduler::RequestContext scheduler_ctx;
                 scheduler_ctx.user_id = auth_ctx.user_id;
                 scheduler_ctx.client_ip = extractClientIP(req);
-                scheduler_ctx.authorization_justification = "requireAccess(tasks.create)";
+                scheduler_ctx.authorization_justification = "task:register permission check";
                 for (const auto& g : auth_ctx.groups) {
                     scheduler_ctx.roles.insert(g);
                 }
@@ -5793,7 +5793,7 @@ http::response<http::string_body> HttpServer::routeRequest(
                 TaskScheduler::RequestContext scheduler_ctx;
                 scheduler_ctx.user_id = auth_ctx.user_id;
                 scheduler_ctx.client_ip = extractClientIP(req);
-                scheduler_ctx.authorization_justification = "requireAccess(tasks.execute)";
+                scheduler_ctx.authorization_justification = "task:execute permission check";
                 for (const auto& g : auth_ctx.groups) {
                     scheduler_ctx.roles.insert(g);
                 }
