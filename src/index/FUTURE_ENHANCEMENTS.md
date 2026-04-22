@@ -43,16 +43,13 @@
 ### GPU Vector Index: CUDA and HIP Backend Implementation
 **Priority:** High
 **Target Version:** v1.4.0
-
-`src/index/gpu_vector_index.cpp` has 2 unimplemented GPU backends:
-- Line 711: `// HIP backend not implemented - fallback to CPU`
-- Line 722: `// CUDA backend not implemented in this PR`
-
-Both paths fall through to the CPU implementation, making GPU-accelerated ANN search non-functional.
+**Status:** ✅ Implemented
+`src/index/gpu_vector_index.cpp` now dispatches CUDA and HIP search paths with CPU fallback for unavailable runtime/device conditions.
 
 **Implementation Notes:**
-- `[ ]` Implement the CUDA backend (line 722): use cuVS/RAFT `raft::neighbors::hnsw` for graph construction and search; allocate device memory via `GpuMemoryPool` from `src/gpu/memory_pool.cpp`.
-- `[ ]` Implement the HIP backend (line 711): use `hipblas` + ROCm equivalent of RAFT or a custom HIP HNSW kernel; mirror the CUDA backend interface.
+- `[x]` CUDA backend dispatch enabled in `GPUVectorIndex::search/searchBatch` when `THEMIS_ENABLE_CUDA` and backend selection resolve to CUDA.
+- `[x]` HIP backend dispatch enabled in `GPUVectorIndex::search/searchBatch` when `THEMIS_ENABLE_HIP` and backend selection resolve to HIP.
+- `[x]` CPU fallback retained via `allowCPUFallback` for no-device and runtime-failure scenarios.
 - `[ ]` `advanced_vector_index.cpp` (line 146): replace the "FAISS not available - using stub" warning path with a compile-time `#error` requiring either FAISS or HNSW to be enabled; stubs should not silently succeed in production builds.
 - `[ ]` `learned_quantizer.cpp` (line 353): implement the TODO "compute distance directly from codes/centroids without full decoding" — this is an asymmetric distance computation (ADC) optimization that can deliver 3–5× speedup for product quantization search.
 

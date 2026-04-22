@@ -486,8 +486,9 @@ Affects: `themis`, `acceleration`, `analytics`
 ### 🚀 GPU Compute Epic
 Affects: `acceleration`, `geo`, `gpu`, `index`, `sharding`, `storage`
 
-All GPU backend stubs and missing CUDA/HIP/OpenCL/Vulkan implementations:
-- #28, #29, #30, #35, #36, #37, #38, #39, #105
+GPU backend hardening, portability validation, and operational rollout for the
+formerly stubbed CUDA/HIP/OpenCL/Vulkan feature set:
+- #28, #29, #30, #35, #36, #37, #38, #39, #105 (implementation complete; focus shifts to benchmarking, hardware validation, and ops readiness)
 
 **Suggested Epic Label:** `epic:gpu-compute` · **Target:** v1.8.0
 
