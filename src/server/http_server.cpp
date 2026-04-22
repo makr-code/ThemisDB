@@ -574,6 +574,10 @@ HttpServer::HttpServer(
             ts_cf_handle_
         );
         THEMIS_INFO("Time-Series Store initialized using default CF");
+
+        // Initialize ContinuousAggregateManager for materialized aggregate views
+        ts_agg_manager_ = std::make_unique<ContinuousAggregateManager>(timeseries_.get());
+        THEMIS_INFO("ContinuousAggregateManager initialized");
         
         // Initialize TimeSeries API Handler (disabled for Windows build)
         timeseries_api_ = nullptr;
@@ -759,6 +763,19 @@ HttpServer::HttpServer(
         THEMIS_INFO("Audit API Handler initialized");
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to initialize Audit components: {}", e.what());
+    }
+
+    // Wire AuditLogger into VectorIndexManager and GraphIndexManager
+    // so that vector and graph operations are recorded for security auditing.
+    if (audit_logger_) {
+        if (vector_index_) {
+            vector_index_->setAuditLogger(audit_logger_, "system");
+            THEMIS_INFO("AuditLogger wired into VectorIndexManager");
+        }
+        if (graph_index_) {
+            graph_index_->setAuditLogger(audit_logger_, "system");
+            THEMIS_INFO("AuditLogger wired into GraphIndexManager");
+        }
     }
 
     // Initialize Export API Handler (EXP-001)
@@ -1259,6 +1276,42 @@ HttpServer::HttpServer(
         async_job_api_ = std::make_unique<server::AsyncJobApiHandler>(
             std::move(executor), auth_);
         THEMIS_INFO("Async job API handler initialized (endpoints: POST/GET/DELETE /v2/jobs)");
+    }
+
+    // Initialize Retention Policy Admin API Handler
+    {
+        std::string retention_path = "config/retention_policies.yaml";
+        auto resolved = themis::config::ConfigPathResolver::tryResolve(retention_path);
+        auto retention_mgr = std::make_shared<vcc::RetentionManager>(
+            resolved.value_or(retention_path));
+        retention_api_ = std::make_unique<server::RetentionApiHandler>(retention_mgr);
+        THEMIS_INFO("RetentionApiHandler initialized (endpoints: /api/retention/*)");
+    }
+
+    // Initialize SAGA Audit Log API Handler
+    {
+        try {
+            themis::utils::SAGALoggerConfig saga_cfg;
+            saga_cfg.enabled = true;
+            saga_cfg.encrypt_then_sign = true;
+            saga_cfg.log_path = "data/logs/saga.jsonl";
+            saga_cfg.signature_path = "data/logs/saga_signatures.jsonl";
+            saga_cfg.key_id = "saga_lek";
+
+            themis::utils::PKIConfig saga_pki_cfg;
+            saga_pki_cfg.service_id = "themis-saga";
+            if (const char* k = std::getenv("THEMIS_PKI_PRIVATE_KEY")) saga_pki_cfg.key_path = k;
+            if (const char* c = std::getenv("THEMIS_PKI_CERTIFICATE")) saga_pki_cfg.cert_path = c;
+            if (const char* p = std::getenv("THEMIS_PKI_PRIVATE_KEY_PASSPHRASE")) saga_pki_cfg.key_passphrase = p;
+            auto saga_pki = std::make_shared<themis::utils::VCCPKIClient>(saga_pki_cfg);
+
+            auto saga_logger = std::make_shared<themis::utils::SAGALogger>(
+                field_encryption_, saga_pki, saga_cfg);
+            saga_api_ = std::make_unique<server::SAGAApiHandler>(saga_logger);
+            THEMIS_INFO("SAGAApiHandler initialized (endpoints: /api/saga/*)");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("SAGAApiHandler init failed: {} — SAGA endpoints disabled", e.what());
+        }
     }
 
     // Initialize Policy Engine (Governance)
@@ -2584,6 +2637,18 @@ namespace {
     MaintenanceHealthGet,           // GET    /api/v1/maintenance/health
     MaintenanceTaskHandlersGet,     // GET    /api/v1/maintenance/task-handlers
 
+    // Retention Policy Admin API
+    RetentionPoliciesGet,           // GET    /api/retention/policies
+    RetentionPoliciesPost,          // POST   /api/retention/policies
+    RetentionPolicyDelete,          // DELETE /api/retention/policies/{name}
+    RetentionHistoryGet,            // GET    /api/retention/history
+
+    // SAGA Audit Log API
+    SAGABatchesGet,                 // GET    /api/saga/batches
+    SAGABatchGet,                   // GET    /api/saga/batches/{id}
+    SAGABatchVerifyPost,            // POST   /api/saga/batches/{id}/verify
+    SAGAFlushPost,                  // POST   /api/saga/flush
+
         NotFound
     };
 
@@ -3215,6 +3280,36 @@ namespace {
             }
         }
     }
+
+        // ── Retention Policy Admin API ──────────────────────────────────────
+        if (path_only == "/api/retention/policies") {
+            if (method == http::verb::get)  return Route::RetentionPoliciesGet;
+            if (method == http::verb::post) return Route::RetentionPoliciesPost;
+        }
+        if (path_only.rfind("/api/retention/policies/", 0) == 0 &&
+            path_only.size() > 24) {
+            if (method == http::verb::delete_) return Route::RetentionPolicyDelete;
+        }
+        if (path_only == "/api/retention/history" && method == http::verb::get)
+            return Route::RetentionHistoryGet;
+
+        // ── SAGA Audit Log API ──────────────────────────────────────────────
+        if (path_only == "/api/saga/batches" && method == http::verb::get)
+            return Route::SAGABatchesGet;
+        if (path_only == "/api/saga/flush" && method == http::verb::post)
+            return Route::SAGAFlushPost;
+        if (path_only.rfind("/api/saga/batches/", 0) == 0 &&
+            path_only.size() > 18) {
+            std::string rest = path_only.substr(18);
+            auto slash_pos = rest.find('/');
+            if (slash_pos == std::string::npos) {
+                if (method == http::verb::get) return Route::SAGABatchGet;
+            } else {
+                std::string action = rest.substr(slash_pos + 1);
+                if (method == http::verb::post && action == "verify")
+                    return Route::SAGABatchVerifyPost;
+            }
+        }
 
         return Route::NotFound;
     }
@@ -6402,6 +6497,197 @@ http::response<http::string_body> HttpServer::routeRequest(
                     response = makeResponse(http::status::ok, result.dump(), req);
                 }
             }
+            break;
+        }
+
+        // ── Retention Policy Admin API ──────────────────────────────────────
+        case Route::RetentionPoliciesGet: {
+            if (auto auth_err = requireAccess(req, "admin", "retention.policies.list",
+                                              "/api/retention/policies")) {
+                response = *auth_err; break;
+            }
+            if (!retention_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "Retention API not initialized", req);
+                break;
+            }
+            server::RetentionQueryFilter filter;
+            if (auto qpos = std::string(req.target()).find('?'); qpos != std::string::npos) {
+                auto qs = std::string(req.target()).substr(qpos + 1);
+                // Simple key=value parsing for common params
+                for (auto& seg : {std::string("page"), std::string("page_size"),
+                                   std::string("name"), std::string("classification")}) {
+                    auto key = seg + "=";
+                    auto pos = qs.find(key);
+                    if (pos != std::string::npos) {
+                        auto val = qs.substr(pos + key.size());
+                        if (auto end = val.find('&'); end != std::string::npos) val = val.substr(0, end);
+                        if (seg == "page") try { filter.page = std::stoi(val); } catch (...) {}
+                        else if (seg == "page_size") try { filter.page_size = std::stoi(val); } catch (...) {}
+                        else if (seg == "name") filter.name_filter = val;
+                        else if (seg == "classification") filter.classification_filter = val;
+                    }
+                }
+            }
+            response = makeResponse(http::status::ok,
+                                    retention_api_->listPolicies(filter).dump(), req);
+            break;
+        }
+
+        case Route::RetentionPoliciesPost: {
+            if (auto auth_err = requireAccess(req, "admin", "retention.policies.write",
+                                              "/api/retention/policies")) {
+                response = *auth_err; break;
+            }
+            if (!retention_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "Retention API not initialized", req);
+                break;
+            }
+            auto body = nlohmann::json::parse(req.body(), nullptr, false);
+            if (body.is_discarded()) {
+                response = makeErrorResponse(http::status::bad_request,
+                                             "Invalid JSON body", req);
+                break;
+            }
+            auto result = retention_api_->createOrUpdatePolicy(body);
+            auto created = result.value("status", "") == "created";
+            response = makeResponse(
+                created ? http::status::created : http::status::ok,
+                result.dump(), req);
+            break;
+        }
+
+        case Route::RetentionPolicyDelete: {
+            if (auto auth_err = requireAccess(req, "admin", "retention.policies.delete",
+                                              "/api/retention/policies")) {
+                response = *auth_err; break;
+            }
+            if (!retention_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "Retention API not initialized", req);
+                break;
+            }
+            std::string target = std::string(req.target());
+            std::string policy_name = target.substr(target.rfind('/') + 1);
+            auto qpos = policy_name.find('?');
+            if (qpos != std::string::npos) policy_name = policy_name.substr(0, qpos);
+            if (policy_name.empty()) {
+                response = makeErrorResponse(http::status::bad_request,
+                                             "Missing policy name in path", req);
+                break;
+            }
+            auto result = retention_api_->deletePolicy(policy_name);
+            if (result.value("status", "") == "not_found") {
+                response = makeErrorResponse(http::status::not_found,
+                                             "Retention policy not found", req);
+            } else {
+                response = makeResponse(http::status::ok, result.dump(), req);
+            }
+            break;
+        }
+
+        case Route::RetentionHistoryGet: {
+            if (auto auth_err = requireAccess(req, "audit:read", "retention.history.read",
+                                              "/api/retention/history")) {
+                response = *auth_err; break;
+            }
+            if (!retention_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "Retention API not initialized", req);
+                break;
+            }
+            int limit = 100;
+            if (auto qpos = std::string(req.target()).find("limit="); qpos != std::string::npos) {
+                try { limit = std::stoi(std::string(req.target()).substr(qpos + 6)); } catch (...) {}
+            }
+            auto result = retention_api_->getHistory(limit);
+            response = makeResponse(http::status::ok, result.dump(), req);
+            break;
+        }
+
+        // ── SAGA Audit Log API ──────────────────────────────────────────────
+        case Route::SAGABatchesGet: {
+            if (auto auth_err = requireAccess(req, "audit:read", "saga.batches.list",
+                                              "/api/saga/batches")) {
+                response = *auth_err; break;
+            }
+            if (!saga_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "SAGA API not initialized", req);
+                break;
+            }
+            response = makeResponse(http::status::ok,
+                                    saga_api_->listBatches().dump(), req);
+            break;
+        }
+
+        case Route::SAGABatchGet: {
+            if (auto auth_err = requireAccess(req, "audit:read", "saga.batches.get",
+                                              "/api/saga/batches")) {
+                response = *auth_err; break;
+            }
+            if (!saga_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "SAGA API not initialized", req);
+                break;
+            }
+            std::string target = std::string(req.target());
+            static constexpr std::string_view kPrefix = "/api/saga/batches/";
+            std::string batch_id = target.substr(kPrefix.size());
+            auto qpos = batch_id.find('?');
+            if (qpos != std::string::npos) batch_id = batch_id.substr(0, qpos);
+            if (batch_id.empty()) {
+                response = makeErrorResponse(http::status::bad_request,
+                                             "Missing batch ID in path", req);
+                break;
+            }
+            response = makeResponse(http::status::ok,
+                                    saga_api_->getBatchDetail(batch_id).dump(), req);
+            break;
+        }
+
+        case Route::SAGABatchVerifyPost: {
+            if (auto auth_err = requireAccess(req, "audit:read", "saga.batches.verify",
+                                              "/api/saga/batches")) {
+                response = *auth_err; break;
+            }
+            if (!saga_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "SAGA API not initialized", req);
+                break;
+            }
+            // Extract batch_id from path /api/saga/batches/{id}/verify
+            std::string target = std::string(req.target());
+            static constexpr std::string_view kVPrefix = "/api/saga/batches/";
+            std::string rest = target.substr(kVPrefix.size());
+            auto slash_pos = rest.find('/');
+            std::string batch_id = (slash_pos != std::string::npos)
+                ? rest.substr(0, slash_pos) : rest;
+            auto qpos = batch_id.find('?');
+            if (qpos != std::string::npos) batch_id = batch_id.substr(0, qpos);
+            if (batch_id.empty()) {
+                response = makeErrorResponse(http::status::bad_request,
+                                             "Missing batch ID in path", req);
+                break;
+            }
+            response = makeResponse(http::status::ok,
+                                    saga_api_->verifyBatch(batch_id).dump(), req);
+            break;
+        }
+
+        case Route::SAGAFlushPost: {
+            if (auto auth_err = requireAccess(req, "admin", "saga.flush",
+                                              "/api/saga/flush")) {
+                response = *auth_err; break;
+            }
+            if (!saga_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                                             "SAGA API not initialized", req);
+                break;
+            }
+            response = makeResponse(http::status::ok,
+                                    saga_api_->flushCurrentBatch().dump(), req);
             break;
         }
 
@@ -11522,6 +11808,18 @@ std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints()
     endpoints.push_back({"DELETE", "/api/feedback/{id}",       "Delete feedback"});
     endpoints.push_back({"GET",  "/api/feedback/adapter/{adapter_id}", "Get feedback adapter"});
     endpoints.push_back({"GET",  "/api/feedback/stats",        "Feedback statistics"});
+
+    // Retention Policy Admin API
+    endpoints.push_back({"GET",    "/api/retention/policies",          "List retention policies"});
+    endpoints.push_back({"POST",   "/api/retention/policies",          "Create/update retention policy"});
+    endpoints.push_back({"DELETE", "/api/retention/policies/{name}",   "Delete retention policy"});
+    endpoints.push_back({"GET",    "/api/retention/history",           "Retention action history"});
+
+    // SAGA Audit Log API
+    endpoints.push_back({"GET",  "/api/saga/batches",                  "List SAGA audit batches"});
+    endpoints.push_back({"GET",  "/api/saga/batches/{id}",             "Get SAGA batch detail"});
+    endpoints.push_back({"POST", "/api/saga/batches/{id}/verify",      "Verify SAGA batch signature"});
+    endpoints.push_back({"POST", "/api/saga/flush",                    "Flush current SAGA batch"});
 
     // Sort by path for consistent, reproducible output
     std::sort(endpoints.begin(), endpoints.end(),

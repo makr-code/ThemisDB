@@ -1473,6 +1473,34 @@ int main(int argc, char* argv[]) {
                 // Keep repair_strategy alive for the lifetime of the engine
                 g_shard_repair_strategy = std::move(repair_strategy);
 
+                // Wire document-list provider: enables the anti-entropy scanner to
+                // enumerate keys per shard via a full RocksDB scan filtered by the
+                // consistent-hash ring assignment.
+                if (db && hash_ring) {
+                    auto db_weak = std::weak_ptr<RocksDBWrapper>(db);
+                    auto ring_weak = std::weak_ptr<themis::sharding::ConsistentHashRing>(hash_ring);
+                    g_shard_repair_engine->setDocumentListProvider(
+                        [db_weak, ring_weak](const std::string& shard_id)
+                        -> std::vector<std::string> {
+                            auto db_ptr  = db_weak.lock();
+                            auto ring_ptr = ring_weak.lock();
+                            if (!db_ptr || !ring_ptr) return {};
+                            std::vector<std::string> keys;
+                            try {
+                                db_ptr->scanAll([&](std::string_view key,
+                                                    std::string_view /*value*/) -> bool {
+                                    auto node = ring_ptr->getNode(std::string(key));
+                                    if (node && *node == shard_id) {
+                                        keys.emplace_back(key);
+                                    }
+                                    return true; // continue iteration
+                                });
+                            } catch (...) {}
+                            return keys;
+                        });
+                    THEMIS_INFO("ShardRepairEngine: DocumentListProvider wired via RocksDB scan");
+                }
+
                 THEMIS_INFO("ShardRepairEngine created (auto_repair={}, scan_interval={}s)",
                     repair_cfg.enable_auto_repair,
                     repair_cfg.scan_interval.count());
