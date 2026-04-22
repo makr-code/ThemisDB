@@ -38,12 +38,15 @@
 // Tests are labelled QS-01 … QS-35 in comments for traceability.
 
 #include <gtest/gtest.h>
+#include <spdlog/sinks/ostream_sink.h>
+#include <spdlog/spdlog.h>
 
 #ifdef THEMIS_ENABLE_HTTP3
 
 #include "network/quic_server.h"
 #include <string>
 #include <memory>
+#include <sstream>
 
 using namespace themis::network;
 
@@ -310,6 +313,34 @@ TEST(QUICClientTest, ParseUrlInvalidScheme) {
     EXPECT_FALSE(QUICClient::parseUrl("http://server.example.com:8769", host, port));
     EXPECT_FALSE(QUICClient::parseUrl("", host, port));
     EXPECT_FALSE(QUICClient::parseUrl("quic://noport", host, port));
+}
+
+// QS-36
+TEST(QUICClientTest, VerifyTlsDisabledLogsVerifyNoneFallback) {
+    auto previous_logger = spdlog::default_logger();
+    auto previous_level = spdlog::get_level();
+
+    std::ostringstream capture;
+    auto sink = std::make_shared<spdlog::sinks::ostream_sink_mt>(capture);
+    auto logger = std::make_shared<spdlog::logger>("quic_tls_verify_none_test", sink);
+    logger->set_pattern("%v");
+    logger->set_level(spdlog::level::warn);
+    spdlog::set_default_logger(logger);
+    spdlog::set_level(spdlog::level::warn);
+
+    QUICClient::Config cfg;
+    cfg.verify_tls = false;
+    QUICClient client("quic://127.0.0.1:8769", cfg);
+
+    EXPECT_NO_THROW(client.connect());
+    client.disconnect();
+
+    const auto logs = capture.str();
+    EXPECT_NE(logs.find("verify_none fallback active"), std::string::npos);
+    EXPECT_NE(logs.find("verify_tls=false"), std::string::npos);
+
+    spdlog::set_default_logger(previous_logger);
+    spdlog::set_level(previous_level);
 }
 
 #endif  // THEMIS_ENABLE_HTTP3

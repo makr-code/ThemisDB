@@ -677,6 +677,8 @@ void QUICClient::connect() {
     SSL_CTX_set_min_proto_version(ssl_ctx_, TLS1_3_VERSION);
     SSL_CTX_set_max_proto_version(ssl_ctx_, TLS1_3_VERSION);
     if (!config_.verify_tls) {
+        THEMIS_WARN("[SECURITY][TLS] QUIC client verify_none fallback active: "
+                    "verify_tls=false disables server certificate validation (CWE-295).");
         SSL_CTX_set_verify(ssl_ctx_, SSL_VERIFY_NONE, nullptr);
     }
     SSL_CTX_set_quic_method(ssl_ctx_, ngtcp2_crypto_quic_method());
