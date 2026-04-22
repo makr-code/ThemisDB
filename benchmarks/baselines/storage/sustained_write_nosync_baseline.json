@@ -1,0 +1,16 @@
+{
+  "version": "1.9.0",
+  "branch": "develop",
+  "commit": "storage-sustained-write-baseline",
+  "timestamp": "2026-04-22T06:00:00Z",
+  "description": "Baseline for BM_Storage_SustainedWrite_NoSync regression gate (major threshold 10%, SLO >= 100k ops/s).",
+  "benchmarks": {
+    "BM_Storage_SustainedWrite_NoSync": {
+      "real_time": 8.19,
+      "cpu_time": 8.05,
+      "iterations": 244000,
+      "items_per_second": 122100.0,
+      "bytes_per_second": 33699600.0
+    }
+  }
+}
