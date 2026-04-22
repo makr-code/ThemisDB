@@ -844,7 +844,7 @@ existed with separate pattern registries, causing silent pattern divergence.
 ### Gap 7 — Replace LLMJudgeIntegration Mock Scores with Typed JudgeUnavailable Error (Target: Q3 2026)
 
 **Source:** `AI_ML_IMPACT_ASSESSMENT.md §7, Gap 7 (Severity: Medium/S2)`
-**Status:** ✅ Partially implemented (2026-04-21) — `is_mock` flag added; full `RAGError::JudgeUnavailable` deferred to Q4 2026.
+**Status:** ✅ Partially implemented (2026-04-22) — `is_mock` flag added and mock-state detection now tracks the active inference path; full `RAGError::JudgeUnavailable` deferred to Q4 2026.
 **See also:** `src/rag/llm_judge_integration.cpp::defaultInference()` STUB/SIMULATION NOTE.
 
 **Problem (resolved part):** When `LLMJudgeIntegration` is in mock mode, callers that
@@ -854,7 +854,9 @@ do not check `isMockMode()` receive plausible-looking metrics that are entirely 
 - `ParsedResponse::is_mock` field added (default `false`); set to `true` by `evaluateWithLLM()`
   when `isMockMode()` returns true.  Callers can now filter mock results from dashboards
   without calling `isMockMode()` separately.
-- Tests: `test_llm_judge_is_mock.cpp` (JGI_MOCK_01..05) registered as `LLMJudgeIsMockFocusedTests`.
+- `isMockMode()` now reflects whether the active inference function is actually the mock path
+  (instead of merely mirroring config toggles such as `allow_mock`).
+- Tests: `test_llm_judge_is_mock.cpp` (JGI_MOCK_01..06) registered as `LLMJudgeIsMockFocusedTests`.
 
 **Deferred (Q4 2026):**
 - `RAGError::JudgeUnavailable` typed exception when `engine==nullptr` in strict mode.
