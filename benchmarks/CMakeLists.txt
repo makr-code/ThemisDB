@@ -2842,6 +2842,68 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_exporters.cpp")
 endif()
 
 # ============================================================================
+# Analytics Export Benchmarks (AN-3 / AN-4)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_parquet_export.cpp")
+    message(STATUS "Adding Parquet export benchmark (AN-3)")
+
+    add_executable(bench_parquet_export
+        bench_parquet_export.cpp
+    )
+
+    target_link_libraries(bench_parquet_export PRIVATE
+        themis_core
+        ${BENCHMARK_LIBS}
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_parquet_export PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_parquet_export)
+
+    install(TARGETS bench_parquet_export
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_csv_export.cpp")
+    message(STATUS "Adding CSV export benchmark (AN-4)")
+
+    add_executable(bench_csv_export
+        bench_csv_export.cpp
+    )
+
+    target_link_libraries(bench_csv_export PRIVATE
+        themis_core
+        ${BENCHMARK_LIBS}
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_csv_export PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_csv_export)
+
+    install(TARGETS bench_csv_export
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+endif()
+
+# ============================================================================
 # Metadata Cache Benchmarks (META-MISSING-001 — cache hit rate + scan latency)
 # ============================================================================
 
