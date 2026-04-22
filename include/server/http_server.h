@@ -451,7 +451,13 @@ public:
 
     void setShardRepairEngine(std::shared_ptr<sharding::ShardRepairEngine> engine) {
         shard_repair_engine_ = std::move(engine);
-        // Forward repair engine to the repair REST API handler
+        // Lazily construct the repair REST API handler the first time a real
+        // engine is injected so that auth_ is guaranteed to be set by then.
+        if (shard_repair_engine_ && !shard_repair_api_) {
+            shard_repair_api_ = std::make_unique<themis::server::ShardRepairApiHandler>(
+                shard_repair_engine_, auth_);
+        }
+        // Forward engine update to an already-existing handler (e.g. re-injection).
         if (shard_repair_api_) {
             shard_repair_api_->setRepairEngine(shard_repair_engine_);
         }

@@ -990,6 +990,16 @@ HttpServer::HttpServer(
         secondary_index_, vector_index_
     );
     THEMIS_INFO("Content API Handler initialized");
+
+    // Initialize ContentFS (binary content CRUD over HTTP: PUT/GET/HEAD/DELETE /api/v1/content/fs/{pk})
+    if (storage_) {
+        try {
+            content_fs_ = std::make_unique<themis::ContentFS>(*storage_);
+            THEMIS_INFO("ContentFS initialized (endpoints: /api/v1/content/fs/*)");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("ContentFS init failed: {} — /api/v1/content/fs/* endpoints disabled", e.what());
+        }
+    }
     
     // Initialize Changefeed API Handler if changefeed is available
     if (changefeed_) {
@@ -2369,6 +2379,12 @@ namespace {
     AdminShardsPost,                // POST /v1/admin/shards
     AdminShardsGet,                 // GET  /v1/admin/shards
     AdminStorageStatsGet,           // GET  /v1/admin/storage/stats
+    // Shard Repair admin endpoints
+    AdminRepairHealthGet,           // GET  /v1/admin/repair/health
+    AdminRepairPost,                // POST /v1/admin/repair
+    AdminRepairScanPost,            // POST /v1/admin/repair/scan
+    AdminRepairJobStatusGet,        // GET  /v1/admin/repair/jobs/{job_id}
+    AdminRepairDashboardGet,        // GET  /v1/admin/repair/dashboard
     // Module Admin endpoints
     AdminModulesGet,                // GET  /v1/admin/modules
     AdminModulesLoadPost,           // POST /v1/admin/modules/{name}/load
@@ -2443,6 +2459,10 @@ namespace {
         ContentGet,
         ContentBlobGet,
         ContentChunksGet,
+        ContentFsGet,       // GET    /api/v1/content/fs/{pk}
+        ContentFsPut,       // PUT    /api/v1/content/fs/{pk}
+        ContentFsHead,      // HEAD   /api/v1/content/fs/{pk}
+        ContentFsDelete,    // DELETE /api/v1/content/fs/{pk}
         HybridSearchPost,
         FusionSearchPost,
         FulltextSearchPost,
@@ -2806,6 +2826,13 @@ namespace {
     if (path_only == "/v1/admin/shards" && method == http::verb::post) return Route::AdminShardsPost;
     if (path_only == "/v1/admin/shards" && method == http::verb::get) return Route::AdminShardsGet;
     if (path_only == "/v1/admin/storage/stats" && method == http::verb::get) return Route::AdminStorageStatsGet;
+    // Shard Repair admin endpoints
+    if (path_only == "/v1/admin/repair/health" && method == http::verb::get) return Route::AdminRepairHealthGet;
+    if (path_only == "/v1/admin/repair" && method == http::verb::post) return Route::AdminRepairPost;
+    if (path_only == "/v1/admin/repair/scan" && method == http::verb::post) return Route::AdminRepairScanPost;
+    if (path_only.rfind("/v1/admin/repair/jobs/", 0) == 0 && path_only.size() > 22 &&
+        method == http::verb::get) return Route::AdminRepairJobStatusGet;
+    if (path_only == "/v1/admin/repair/dashboard" && method == http::verb::get) return Route::AdminRepairDashboardGet;
     // Module admin endpoints — order matters: /load POST before generic DELETE/GET
     if (path_only == "/v1/admin/modules" && method == http::verb::get) return Route::AdminModulesGet;
     if (path_only.rfind("/v1/admin/modules/", 0) == 0 &&
@@ -3039,6 +3066,13 @@ namespace {
             if (target.find("/blob") != std::string::npos) return Route::ContentBlobGet;
             if (target.find("/chunks") != std::string::npos) return Route::ContentChunksGet;
             return Route::ContentGet;
+        }
+        // ContentFS binary blob API (/api/v1/content/fs/{pk})
+        if (path_only.rfind("/api/v1/content/fs/", 0) == 0 && path_only.size() > 19) {
+            if (method == http::verb::get)    return Route::ContentFsGet;
+            if (method == http::verb::put)    return Route::ContentFsPut;
+            if (method == http::verb::head)   return Route::ContentFsHead;
+            if (method == http::verb::delete_) return Route::ContentFsDelete;
         }
 
     // Hybrid Search
@@ -4487,6 +4521,57 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         }
+        // ─── Shard Repair Admin API ─────────────────────────────────────────────
+        case Route::AdminRepairHealthGet: {
+            // GET /v1/admin/repair/health
+            if (!shard_repair_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
+                break;
+            }
+            response = shard_repair_api_->handleHealth(req);
+            break;
+        }
+        case Route::AdminRepairPost: {
+            // POST /v1/admin/repair
+            if (!shard_repair_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
+                break;
+            }
+            response = shard_repair_api_->handleTriggerRepair(req);
+            break;
+        }
+        case Route::AdminRepairScanPost: {
+            // POST /v1/admin/repair/scan
+            if (!shard_repair_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
+                break;
+            }
+            response = shard_repair_api_->handleTriggerFullScan(req);
+            break;
+        }
+        case Route::AdminRepairJobStatusGet: {
+            // GET /v1/admin/repair/jobs/{job_id}
+            if (!shard_repair_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
+                break;
+            }
+            response = shard_repair_api_->handleJobStatus(req);
+            break;
+        }
+        case Route::AdminRepairDashboardGet: {
+            // GET /v1/admin/repair/dashboard
+            if (!shard_repair_api_) {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "ShardRepairApiHandler not initialized (ShardRepairEngine required)", req);
+                break;
+            }
+            response = shard_repair_api_->handleDashboard(req);
+            break;
+        }
         // ─── Module Admin API ───────────────────────────────────────────────────
         case Route::AdminModulesGet: {
             // GET /v1/admin/modules — list all loaded modules
@@ -5449,6 +5534,18 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::ContentChunksGet:
             response = content_api_->handleGetChunks(req);
+            break;
+        case Route::ContentFsGet:
+            response = handleContentFsGet(req);
+            break;
+        case Route::ContentFsPut:
+            response = handleContentFsPut(req);
+            break;
+        case Route::ContentFsHead:
+            response = handleContentFsHead(req);
+            break;
+        case Route::ContentFsDelete:
+            response = handleContentFsDelete(req);
             break;
         case Route::HybridSearchPost:
             response = content_api_->handleHybridSearch(req);
@@ -11512,6 +11609,10 @@ std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints()
     endpoints.push_back({"GET",  "/content/{id}",             "Get content"});
     endpoints.push_back({"GET",  "/content/{id}/blob",        "Get content blob"});
     endpoints.push_back({"GET",  "/content/{id}/chunks",      "Get content chunks"});
+    endpoints.push_back({"PUT",    "/api/v1/content/fs/{pk}", "ContentFS: store binary blob"});
+    endpoints.push_back({"GET",    "/api/v1/content/fs/{pk}", "ContentFS: retrieve binary blob"});
+    endpoints.push_back({"HEAD",   "/api/v1/content/fs/{pk}", "ContentFS: blob metadata (no body)"});
+    endpoints.push_back({"DELETE", "/api/v1/content/fs/{pk}", "ContentFS: remove binary blob"});
     endpoints.push_back({"GET",  "/config/content-filters",   "Get content filter schema"});
     endpoints.push_back({"PUT",  "/config/content-filters",   "Update content filter schema"});
     endpoints.push_back({"GET",  "/config/edge-weights",      "Get edge weight config"});
@@ -11548,6 +11649,11 @@ std::vector<HttpServer::RegisteredEndpoint> HttpServer::getRegisteredEndpoints()
     endpoints.push_back({"POST", "/v1/admin/shards",          "Add shard node"});
     endpoints.push_back({"GET",  "/v1/admin/shards",          "List shard nodes"});
     endpoints.push_back({"GET",  "/v1/admin/storage/stats",   "Storage statistics"});
+    endpoints.push_back({"GET",  "/v1/admin/repair/health",       "Shard repair health & metrics"});
+    endpoints.push_back({"POST", "/v1/admin/repair",              "Trigger shard repair job"});
+    endpoints.push_back({"POST", "/v1/admin/repair/scan",         "Trigger full shard scan"});
+    endpoints.push_back({"GET",  "/v1/admin/repair/jobs/{job_id}","Shard repair job status"});
+    endpoints.push_back({"GET",  "/v1/admin/repair/dashboard",    "Shard repair dashboard (HTML)"});
     endpoints.push_back({"GET",  "/v1/admin/modules",              "List loaded modules"});
     endpoints.push_back({"POST", "/v1/admin/modules/{name}/load",  "Load module by path (admin)"});
     endpoints.push_back({"DELETE","/v1/admin/modules/{name}",      "Unload module (admin)"});
@@ -12200,6 +12306,179 @@ http::response<http::string_body> HttpServer::handleMetadataRecordLineageDerivat
             "Schema API not available", req);
     }
     return schema_api_handler_->handleRecordLineageDerivation(req);
+}
+
+// ── ContentFS HTTP handlers ─────────────────────────────────────────────────
+// These wrap ContentFS (binary blob storage) over HTTP:
+//   PUT    /api/v1/content/fs/{pk}  — store blob (body = raw bytes, Content-Type header used as MIME)
+//   GET    /api/v1/content/fs/{pk}  — retrieve blob
+//   HEAD   /api/v1/content/fs/{pk}  — metadata only (no body)
+//   DELETE /api/v1/content/fs/{pk}  — remove blob
+
+static std::string extractContentFsPk(const http::request<http::string_body>& req) {
+    std::string path = std::string(req.target());
+    auto qpos = path.find('?');
+    if (qpos != std::string::npos) path = path.substr(0, qpos);
+    // prefix is "/api/v1/content/fs/"  (19 chars)
+    if (path.size() > 19) return path.substr(19);
+    return {};
+}
+
+http::response<http::string_body> HttpServer::handleContentFsPut(
+    const http::request<http::string_body>& req)
+{
+    if (!content_fs_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "ContentFS not initialized", req);
+    }
+    const std::string pk = extractContentFsPk(req);
+    if (pk.empty()) {
+        return makeErrorResponse(http::status::bad_request,
+            "ContentFS: pk (resource key) must not be empty", req);
+    }
+    const std::string body_str = req.body();
+    const std::vector<uint8_t> data(body_str.begin(), body_str.end());
+    std::string mime = std::string(req[http::field::content_type]);
+    if (mime.empty()) mime = "application/octet-stream";
+
+    // Optional SHA-256 hint via X-Content-SHA256 header
+    std::optional<std::string> sha256_hint;
+    const auto sha_hdr = req.find("X-Content-SHA256");
+    if (sha_hdr != req.end() && !sha_hdr->value().empty()) {
+        sha256_hint = std::string(sha_hdr->value());
+    }
+
+    auto result = content_fs_->put(pk, data, mime, sha256_hint);
+    if (!result) {
+        const bool bad_req = (result.error().code() == errors::ErrorCode::ERR_API_INVALID_REQUEST);
+        return makeErrorResponse(
+            bad_req ? http::status::bad_request : http::status::internal_server_error,
+            result.error().message(), req);
+    }
+
+    json body = {{"pk", pk}, {"size", data.size()}, {"mime", mime}};
+    if (sha256_hint) body["sha256"] = *sha256_hint;
+    return makeResponse(http::status::created, body.dump(), req);
+}
+
+http::response<http::string_body> HttpServer::handleContentFsGet(
+    const http::request<http::string_body>& req)
+{
+    if (!content_fs_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "ContentFS not initialized", req);
+    }
+    const std::string pk = extractContentFsPk(req);
+    if (pk.empty()) {
+        return makeErrorResponse(http::status::bad_request,
+            "ContentFS: pk (resource key) must not be empty", req);
+    }
+
+    // Range support via standard Range header (bytes=offset-end)
+    const auto range_hdr = req.find(http::field::range);
+    if (range_hdr != req.end()) {
+        uint64_t offset = 0, length = 0;
+        // Parse "bytes=<offset>-<end>" (best-effort)
+        std::string rv = std::string(range_hdr->value());
+        if (rv.rfind("bytes=", 0) == 0) {
+            rv = rv.substr(6);
+            auto dash = rv.find('-');
+            if (dash != std::string::npos) {
+                try { offset = std::stoull(rv.substr(0, dash)); } catch (...) {}
+                if (dash + 1 < rv.size()) {
+                    try {
+                        uint64_t end_pos = std::stoull(rv.substr(dash + 1));
+                        length = (end_pos >= offset) ? (end_pos - offset + 1) : 0;
+                    } catch (...) {}
+                }
+            }
+        }
+        auto result = content_fs_->getRange(pk, offset, length);
+        if (!result) {
+            const bool not_found = (result.error().code() == errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND);
+            return makeErrorResponse(
+                not_found ? http::status::not_found : http::status::internal_server_error,
+                result.error().message(), req);
+        }
+        const auto& data = result.value();
+        http::response<http::string_body> resp{http::status::partial_content, req.version()};
+        resp.set(http::field::server, "ThemisDB");
+        resp.set(http::field::content_type, "application/octet-stream");
+        resp.body() = std::string(data.begin(), data.end());
+        resp.prepare_payload();
+        return resp;
+    }
+
+    auto result = content_fs_->get(pk);
+    if (!result) {
+        const bool not_found = (result.error().code() == errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND);
+        return makeErrorResponse(
+            not_found ? http::status::not_found : http::status::internal_server_error,
+            result.error().message(), req);
+    }
+    const auto& data = result.value();
+    // Retrieve MIME via head() for correct Content-Type
+    auto meta_result = content_fs_->head(pk);
+    std::string mime = "application/octet-stream";
+    if (meta_result) mime = meta_result.value().mime;
+
+    http::response<http::string_body> resp{http::status::ok, req.version()};
+    resp.set(http::field::server, "ThemisDB");
+    resp.set(http::field::content_type, mime);
+    resp.body() = std::string(data.begin(), data.end());
+    resp.prepare_payload();
+    return resp;
+}
+
+http::response<http::string_body> HttpServer::handleContentFsHead(
+    const http::request<http::string_body>& req)
+{
+    if (!content_fs_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "ContentFS not initialized", req);
+    }
+    const std::string pk = extractContentFsPk(req);
+    if (pk.empty()) {
+        return makeErrorResponse(http::status::bad_request,
+            "ContentFS: pk (resource key) must not be empty", req);
+    }
+    auto result = content_fs_->head(pk);
+    if (!result) {
+        const bool not_found = (result.error().code() == errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND);
+        return makeErrorResponse(
+            not_found ? http::status::not_found : http::status::internal_server_error,
+            result.error().message(), req);
+    }
+    const auto& meta = result.value();
+    http::response<http::string_body> resp{http::status::ok, req.version()};
+    resp.set(http::field::server, "ThemisDB");
+    resp.set(http::field::content_type, meta.mime);
+    resp.set(http::field::content_length, std::to_string(meta.size));
+    resp.set("X-Content-SHA256", meta.sha256_hex);
+    resp.prepare_payload();
+    return resp;
+}
+
+http::response<http::string_body> HttpServer::handleContentFsDelete(
+    const http::request<http::string_body>& req)
+{
+    if (!content_fs_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "ContentFS not initialized", req);
+    }
+    const std::string pk = extractContentFsPk(req);
+    if (pk.empty()) {
+        return makeErrorResponse(http::status::bad_request,
+            "ContentFS: pk (resource key) must not be empty", req);
+    }
+    auto result = content_fs_->remove(pk);
+    if (!result) {
+        const bool not_found = (result.error().code() == errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND);
+        return makeErrorResponse(
+            not_found ? http::status::not_found : http::status::internal_server_error,
+            result.error().message(), req);
+    }
+    return makeResponse(http::status::no_content, "", req);
 }
 
 } // namespace server
