@@ -1437,7 +1437,8 @@ int main(int argc, char* argv[]) {
                     THEMIS_WARN("ModuleLoader: failed to load hash manifest from '{}'", manifest);
                 }
 
-                // Watchdog configuration
+                // Watchdog configuration — read once and reuse for startWatchdog decision
+                bool wd_enabled = true;
                 if (mcfg.contains("watchdog")) {
                     const auto& wdcfg = mcfg["watchdog"];
                     themis::modules::WatchdogConfig wd;
@@ -1447,6 +1448,7 @@ int main(int argc, char* argv[]) {
                     wd.initial_backoff_ms = wdcfg.value("initial_backoff_ms", uint64_t(5000));
                     wd.max_backoff_ms     = wdcfg.value("max_backoff_ms", uint64_t(300000));
                     wd.backoff_multiplier = wdcfg.value("backoff_multiplier", 2.0);
+                    wd_enabled            = wd.enabled;
                     module_loader->configureWatchdog(wd);
                 }
 
@@ -1468,11 +1470,7 @@ int main(int argc, char* argv[]) {
                     }
                 }
 
-                // Start watchdog
-                bool wd_enabled = true;
-                if (cfg->at("modules").contains("watchdog")) {
-                    wd_enabled = cfg->at("modules")["watchdog"].value("enabled", true);
-                }
+                // Start watchdog using the flag already determined above
                 if (wd_enabled) {
                     module_loader->startWatchdog();
                     THEMIS_INFO("ModuleLoader: watchdog started");
