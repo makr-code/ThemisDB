@@ -133,7 +133,35 @@ This file lists all research sources alphabetically, showing which ThemisDB modu
 
 ---
 
-## Beurer-Kellner et al. (2023) — LMQL
+## Baader et al. (2003/2007) / W3C (2012) — OWL 2 / Description Logic Handbook
+
+**Type:** Paper + Standard  
+**File:** [papers/owl2_description_logics_2012.md](../papers/owl2_description_logics_2012.md)  
+**ThemisDB Version:** v2.1.0+ planned
+
+| Module | Status |
+|--------|--------|
+| `src/graph/` — OntologyManager, PathConstraints, KnowledgeGraphReasoner | ⏳ Planned Q3 2026 |
+| `src/rag/` — OntologyAwareRetriever, KnowledgeGraphRetriever | ⏳ Planned Q4 2026 |
+| `src/analytics/` — KnowledgeBase (RDF Triple Format) | ⏳ Planned Q2 2027 |
+
+---
+
+## Bordes et al. (2013) — TransE / Knowledge Graph Completion
+
+**Type:** Paper  
+**File:** [papers/bordes_transe_2013.md](../papers/bordes_transe_2013.md)  
+**ThemisDB Version:** v2.1.0+ planned
+
+| Module | Status |
+|--------|--------|
+| `src/graph/` — KnowledgeGraphReasoner::applyLoRAScore() (KGE-Baseline) | ⏳ Planned Q4 2026 |
+| `src/rag/` — OntologyAwareRetriever (Entity-Embedding-Suche) | ⏳ Planned Q4 2026 |
+| `src/analytics/` — LoRAPatternClassifier (neuronales KGE-Äquivalent) | ⏳ Planned Q3 2027 |
+
+---
+
+
 
 **Type:** Paper  
 **File:** [papers/lmql_beurer_kellner_2023.md](../papers/lmql_beurer_kellner_2023.md)  
@@ -322,7 +350,35 @@ This file lists all research sources alphabetically, showing which ThemisDB modu
 
 ---
 
-## FNV — FNV-1a 64-bit Checksums
+## Forgy (1982) — RETE Algorithm
+
+**Type:** Paper  
+**File:** [papers/forgy_rete_algorithm_1982.md](../papers/forgy_rete_algorithm_1982.md)  
+**ThemisDB Version:** v2.1.0+ planned
+
+| Module | Status |
+|--------|--------|
+| `src/analytics/` — ExpertSystemEngine, KnowledgeBase | ⏳ Planned Q2 2027 |
+| `src/analytics/cep_engine.cpp` — NFA als Alpha-Netz-Äquivalent (Partial) | 🔄 Partial |
+| `src/graph/` — KnowledgeGraphReasoner (Horn-Clause Forward-Chaining) | ⏳ Planned Q4 2026 |
+
+---
+
+## Forgy / CLIPS / Drools — RETE Forward-Chaining Rule Engine
+
+**Type:** Best Practice  
+**File:** [best_practices/rete_forward_chaining_rule_engine.md](../best_practices/rete_forward_chaining_rule_engine.md)  
+**ThemisDB Version:** v2.1.0+ planned
+
+| Module | Status |
+|--------|--------|
+| `src/analytics/` — ExpertSystemEngine + KnowledgeBase | ⏳ Planned Q2 2027 |
+| `src/analytics/cep_engine.cpp` | 🔄 Partial (NFA-Basis) |
+| `src/graph/` — KnowledgeGraphReasoner | ⏳ Planned Q4 2026 |
+
+---
+
+
 
 **Type:** Best Practice  
 **File:** [best_practices/fnv1a_checksums.md](../best_practices/fnv1a_checksums.md)  
@@ -357,6 +413,24 @@ This file lists all research sources alphabetically, showing which ThemisDB modu
 |--------|--------|
 | `src/llm/lora/` | ✅ Implemented |
 | `src/training/` | ✅ Implemented |
+| `src/analytics/` — LoRAPatternClassifier | ⏳ Planned Q3 2027 |
+| `src/graph/` — KnowledgeGraphReasoner::applyLoRAScore() | ⏳ Planned Q2 2027 |
+| `src/rag/` — LoRAEnhancedRetriever | ⏳ Planned Q2 2027 |
+
+---
+
+## Hu et al. / vLLM / Chronopoulou et al. — Multi-LoRA Adapter Routing
+
+**Type:** Best Practice  
+**File:** [best_practices/multi_lora_adapter_routing.md](../best_practices/multi_lora_adapter_routing.md)  
+**ThemisDB Version:** v2.1.0+ planned
+
+| Module | Status |
+|--------|--------|
+| `src/llm/` — MultiLoRAManager | 🔄 Partial (single-adapter) |
+| `src/analytics/` — LoRAPatternClassifier | ⏳ Planned Q3 2027 |
+| `src/graph/` — KnowledgeGraphReasoner::applyLoRAScore() | ⏳ Planned Q2 2027 |
+| `src/rag/` — LoRAEnhancedRetriever | ⏳ Planned Q2 2027 |
 
 ---
 
@@ -595,6 +669,21 @@ This file lists all research sources alphabetically, showing which ThemisDB modu
 | Module | Status |
 |--------|--------|
 | `src/prompt_engineering/` | ✅ Implemented |
+
+---
+
+## W3C OWL 2 RL / Apache Jena / Stardog — OWL-lite Ontology Constraints
+
+**Type:** Best Practice  
+**File:** [best_practices/owl_lite_ontology_constraints.md](../best_practices/owl_lite_ontology_constraints.md)  
+**ThemisDB Version:** v2.1.0+ planned
+
+| Module | Status |
+|--------|--------|
+| `src/graph/` — OntologyManager, PathConstraints | ⏳ Planned Q3 2026 |
+| `src/graph/` — KnowledgeGraphReasoner | ⏳ Planned Q4 2026 |
+| `src/rag/` — OntologyAwareRetriever | ⏳ Planned Q4 2026 |
+| `src/analytics/` — KnowledgeBase (RDF-Triple-Format) | ⏳ Planned Q2 2027 |
 
 ---
 
