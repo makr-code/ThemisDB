@@ -33,6 +33,30 @@ namespace themis {
 
 namespace {
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Heuristic constants
+// ─────────────────────────────────────────────────────────────────────────────
+
+/// Fragmentation percentage added per L0 file (higher L0 count = more overlap).
+constexpr double kFragPctPerL0File       = 2.0;
+
+/// Upper bound on fragmentation estimated from L0 count alone (when SST sizes
+/// are unavailable).
+constexpr double kMaxFallbackFragPct     = 50.0;
+
+/// Bytes in one megabyte (used for orphan-entry estimation).
+constexpr uint64_t kBytesPerMB           = 1024ULL * 1024ULL;
+
+/// Estimated orphan entries per megabyte of pending-compaction bytes.
+/// This is a coarse heuristic; accurate tracking requires a dedicated
+/// metadata column family.
+constexpr uint64_t kEstimatedOrphansPerMB = 1000ULL;
+
+/// Placeholder statistics-age value used until a dedicated stats-timestamp
+/// metadata key is introduced.  Replace this constant once proper staleness
+/// tracking is wired through the metadata CF.
+constexpr uint32_t kPlaceholderStatsAgeHours = 2;
+
 storage::StorageTierLevel tierFromString(const std::string& s) {
     if (s == "warm") return storage::StorageTierLevel::WARM;
     if (s == "cold") return storage::StorageTierLevel::COLD;
@@ -416,11 +440,12 @@ IndexAnalysisReport IndexAnalyzer::computeReport(const std::string& index_name,
         double wasted = static_cast<double>(total_sst > live_sst ? total_sst - live_sst : 0);
         frag_pct = (wasted / static_cast<double>(total_sst)) * 100.0;
 
-        // L0 pressure adds additional fragmentation signal (each L0 file ≈ 2% frag)
-        frag_pct = std::min(100.0, frag_pct + static_cast<double>(l0_files) * 2.0);
+        // L0 pressure adds additional fragmentation signal
+        frag_pct = std::min(100.0, frag_pct + static_cast<double>(l0_files) * kFragPctPerL0File);
     } else {
-        // Fallback: use L0 count as proxy (each file = 2%)
-        frag_pct = std::min(50.0, static_cast<double>(l0_files) * 2.0);
+        // Fallback: use L0 count as proxy
+        frag_pct = std::min(kMaxFallbackFragPct,
+                            static_cast<double>(l0_files) * kFragPctPerL0File);
     }
 
     report.fragmentation_pct = frag_pct;
@@ -434,18 +459,14 @@ IndexAnalysisReport IndexAnalyzer::computeReport(const std::string& index_name,
     // Estimate orphan / dead entries from pending compaction bytes
     uint64_t pending_compact_bytes = 0;
     raw_db->GetIntProperty("rocksdb.estimate-pending-compaction-bytes", &pending_compact_bytes);
-    // Rough approximation: 1 MB pending ≈ 1000 orphan entries
-    report.orphan_entries = pending_compact_bytes / (1024 * 1024) * 1000;
+    // Rough approximation: kEstimatedOrphansPerMB orphan entries per MB of pending compaction.
+    // Accurate tracking requires a dedicated metadata column family.
+    report.orphan_entries = (pending_compact_bytes / kBytesPerMB) * kEstimatedOrphansPerMB;
 
     // ── Statistics staleness ──────────────────────────────────────────────
-    // We use background_errors as a proxy; real staleness would require
-    // a timestamp stored alongside statistics in the metadata CF.
-    // For production accuracy, integrate with a dedicated stats timestamp.
-    uint64_t bg_errors = 0;
-    raw_db->GetIntProperty("rocksdb.background-errors", &bg_errors);
-    // Use a conservative 2-hour staleness estimate (would be tracked precisely
-    // in production via a separate stats-update-time metadata key).
-    report.stats_age_hours = 2;
+    // Use kPlaceholderStatsAgeHours until a per-index stats-update timestamp
+    // is stored in a dedicated metadata CF.
+    report.stats_age_hours = kPlaceholderStatsAgeHours;
     report.stats_stale     = (report.stats_age_hours >= thresholds.stats_stale_hours);
 
     // ── Rule-based recommendation ─────────────────────────────────────────

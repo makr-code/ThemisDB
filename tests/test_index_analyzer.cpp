@@ -46,7 +46,10 @@ namespace {
 // Helper: write a minimal YAML file to /tmp
 // ─────────────────────────────────────────────────────────────────────────────
 std::string writeTmpYaml(const std::string& content) {
-    auto path = (fs::temp_directory_path() / "test_index_analyze.yaml").string();
+    // Use a unique suffix to avoid collisions when tests run in parallel.
+    auto now_ns = std::chrono::system_clock::now().time_since_epoch().count();
+    auto path = (fs::temp_directory_path() /
+                 ("test_index_analyze_" + std::to_string(now_ns) + ".yaml")).string();
     std::ofstream f(path, std::ios::trunc);
     f << content;
     f.close();
