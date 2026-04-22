@@ -478,6 +478,24 @@ TEST(LDAPAuthenticatorTest, BuildGroupSearchFilter_EscapesFilterSpecialCharsInDN
     EXPECT_EQ(substituted.find('*'), std::string::npos);
 }
 
+TEST(LDAPAuthenticatorTest, BuildGroupSearchFilter_EscapesMaliciousDNPlaceholder)
+{
+    LDAPAuthenticator auth;
+    LDAPConfig cfg = makeConfig();
+    cfg.enable_group_search = true;
+    cfg.base_dn             = "DC=example,DC=com";
+    cfg.group_search_filter = "(&(objectClass=group)(member={dn}))";
+    ASSERT_TRUE(auth.initialize(cfg));
+
+    // Mapping for "CN=jdoe)(|(member=*))":
+    // ')' -> \29, '(' -> \28, '*' -> \2a, remaining bytes unchanged.
+    const std::string filter =
+        auth.buildGroupSearchFilter("CN=jdoe)(|(member=*))", "unused-username");
+    EXPECT_EQ(filter,
+        "(&(objectClass=group)(member=CN=jdoe\\29\\28|\\28member=\\2a\\29\\29))");
+    EXPECT_EQ(filter.find("member=*)"), std::string::npos);
+}
+
 TEST(LDAPAuthenticatorTest, BuildGroupSearchFilter_EscapesMaliciousUsernamePlaceholder)
 {
     LDAPAuthenticator auth;
@@ -487,10 +505,11 @@ TEST(LDAPAuthenticatorTest, BuildGroupSearchFilter_EscapesMaliciousUsernamePlace
     cfg.group_search_filter = "(&(objectClass=group)(memberUid={username}))";
     ASSERT_TRUE(auth.initialize(cfg));
 
+    const std::string expected_escaped_filter =
+        "(&(objectClass=group)(memberUid=jdoe\\2a\\29\\28|\\28member=\\2a\\29\\29))"; // \2a='*', \29=')', \28='('
     const std::string filter =
         auth.buildGroupSearchFilter("CN=safe,DC=example,DC=com", "jdoe*)(|(member=*))");
-    EXPECT_EQ(filter,
-        "(&(objectClass=group)(memberUid=jdoe\\2a\\29\\28|\\28member=\\2a\\29\\29))");
+    EXPECT_EQ(filter, expected_escaped_filter);
     EXPECT_EQ(filter.find("member=*)"), std::string::npos);
 }
 
