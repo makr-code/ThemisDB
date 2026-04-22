@@ -246,17 +246,17 @@
         "primary_benchmark": "BM_RTree_Intersects",
         "file": "bench_spatial_index.cpp",
         "status": "mapped",
-        "note": "Benchmark laeuft bei max n=100K; 1M-Extrapolation via O(log N) Komplexitaetsfit: ~138 us << 5 ms",
-        "v182_result": "13,84 us bei 100K Punkten; extrapoliert ~138 us bei 1M (bench_geo_v182_reference.json)",
-        "slo_met": true
+        "note": "Direktmessung verfuegbar: BM_RTree_Intersects/1000000 = 6,03 ms (2026-04-22, ohne Extrapolation).",
+        "v182_result": "6,03 ms bei 1M Punkten (BM_RTree_Intersects/1000000, Direktmessung 2026-04-22)",
+        "slo_met": false
       },
       "GEO-4": {
         "label": "R-Tree Bulk-Load (1M Geometrien) <= 3 s",
         "primary_benchmark": "BM_RTree_BulkLoad",
         "file": "bench_spatial_index.cpp",
         "status": "mapped",
-        "note": "Benchmark laeuft bei max n=100K; 1M-Extrapolation via O(N log N): ~900 ms << 3 s",
-        "v182_result": "79,4 ms bei 100K Geometrien; extrapoliert ~900 ms bei 1M (bench_geo_v182_reference.json)",
+        "note": "Direktmessung verfuegbar: BM_RTree_BulkLoad/1000000 = 55,2 ms (2026-04-22, ohne Extrapolation).",
+        "v182_result": "55,2 ms bei 1M Geometrien (BM_RTree_BulkLoad/1000000, Direktmessung 2026-04-22)",
         "slo_met": true
       },
       "GEO-5": {
