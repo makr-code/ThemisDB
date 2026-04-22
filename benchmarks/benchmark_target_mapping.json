@@ -119,14 +119,14 @@
       },
       "AN-3": {
         "label": "Parquet Export 1M Rows",
-        "primary_benchmark": "BM_Export_Parquet_1M",
-        "file": "bench_exporters.cpp",
+        "primary_benchmark": "BM_ParquetExport_1M",
+        "file": "bench_parquet_export.cpp",
         "status": "mapped"
       },
       "AN-4": {
         "label": "CSV Export 1M Rows",
-        "primary_benchmark": "BM_Export_CSV_1M",
-        "file": "bench_exporters.cpp",
+        "primary_benchmark": "BM_CsvExport_1M",
+        "file": "bench_csv_export.cpp",
         "status": "mapped"
       },
       "AN-5": {

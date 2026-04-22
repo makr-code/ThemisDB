@@ -917,8 +917,8 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 |---------|----------------|-----------------|-----------------|--------|
 | AN-1 Streaming Aggregation Memory |  512 MB/Fenster |  | n/v |  |
 | AN-2 IVM Delta-Application |  50 ms (10k Rows) |  | `BM_OLAP_IVM_DeltaApply_10k/10000`: 18,98 µs, 573,44 M items/s (`artifacts/perf_nv/targeted_validation/bench_olap_targeted.json`) |  ✅ direkter Case vorhanden, deutlich unter Ziel-Latenz |
-| AN-3 Parquet Export 1M Rows |  2 s |  | BM_Export_Parquet_1M: ~125k items/s, ~9,47 s (`artifacts/perf_nv/exporters_1m_throughput.json`) |  🔴 direkter 1:1-Case vorhanden, Laufzeit ueber Ziel |
-| AN-4 CSV Export 1M Rows |  500 ms |  | BM_Export_CSV_1M: ~128k items/s, ~9,09 s (`artifacts/perf_nv/exporters_csv_1m_final.json`) |  🔴 direkter 1:1-Case vorhanden, Laufzeit ueber Ziel |
+| AN-3 Parquet Export 1M Rows |  2 s |  | BM_ParquetExport_1M: ~125k items/s, ~9,47 s (`artifacts/perf_nv/exporters_1m_throughput.json`) |  🔴 direkter 1:1-Case vorhanden, Laufzeit ueber Ziel |
+| AN-4 CSV Export 1M Rows |  500 ms |  | BM_CsvExport_1M: ~128k items/s, ~9,09 s (`artifacts/perf_nv/exporters_csv_1m_final.json`) |  🔴 direkter 1:1-Case vorhanden, Laufzeit ueber Ziel |
 | AN-5 CEPEngine::stop() |  100 ms |  | `BM_OLAP_CEP_Stop_Lifecycle/10000`: 27,17 µs, 358,4 M items/s (`artifacts/perf_nv/targeted_validation/bench_olap_targeted.json`) |  ✅ direkter Case vorhanden, deutlich unter Ziel-Latenz |
 | AN-7 IsolationForest Training |  10 ms (1k-Punkt-Fenster) |  | `BM_OLAP_IsolationForest_Training_1k/1000`: 54,34 µs, 16,0 M items/s (`artifacts/perf_nv/targeted_validation/bench_olap_targeted.json`) |  ✅ direkter Case vorhanden, deutlich unter Ziel-Latenz |
 | AN-8 predictBatch() |  50 ms (1k Serien × 30 Steps) |  | `BM_OLAP_PredictBatch_1k30/1000`: 66,31 µs, 480,0 M items/s (`artifacts/perf_nv/targeted_validation/bench_olap_targeted.json`) |  ✅ direkter Case vorhanden, deutlich unter Ziel-Latenz |
@@ -939,8 +939,8 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 |---|---|---|---|---|---|
 | AN-1 | Streaming Aggregation Memory < 512 MB/Fenster | `BM_OLAP_StreamingWindow_Aggregation/100000` in `bench_olap_analytics` | Teilweise | 709,276 µs, 128,0 M items/s, `peak_rss_mb=7,8125` (`artifacts/perf_nv/targeted_validation/bench_olap_targeted.json`) | Durchsatz und Peak-RSS sind direkt messbar; ein expliziter Fenster-/Workload-Abgleich zum 512-MB-Ziel bleibt offen |
 | AN-2 | IVM Delta-Application < 50 ms (10k Rows) | `BM_OLAP_IVM_DeltaApply_10k/10000` in `bench_olap_analytics` | Ja | 18,98 µs, 573,44 M items/s | Ziel im aktuellen Referenzlauf klar erreicht |
-| AN-3 | Parquet Export 1M Rows < 2 s | keine direkte Zuordnung | Nein | n/v | Export-Benchmark `bench_parquet_export` anlegen/aktivieren |
-| AN-4 | CSV Export 1M Rows < 500 ms | keine direkte Zuordnung | Nein | n/v | Export-Benchmark `bench_csv_export` anlegen/aktivieren |
+| AN-3 | Parquet Export 1M Rows < 2 s | `BM_ParquetExport_1M` in `bench_parquet_export` | Ja | ~9,47 s, ~125k items/s | Erstmessung dokumentiert; Laufzeit aktuell noch ueber Ziel |
+| AN-4 | CSV Export 1M Rows < 500 ms | `BM_CsvExport_1M` in `bench_csv_export` | Ja | ~9,09 s, ~128k items/s | Erstmessung dokumentiert; Laufzeit aktuell noch ueber Ziel |
 | AN-5 | CEPEngine::stop() < 100 ms | `BM_OLAP_CEP_Stop_Lifecycle/10000` in `bench_olap_analytics` | Ja | 27,17 µs, 358,4 M items/s | Ziel im aktuellen Referenzlauf klar erreicht |
 | AN-7 | IsolationForest Training < 10 ms | `BM_OLAP_IsolationForest_Training_1k/1000` in `bench_olap_analytics` | Ja | 54,34 µs, 16,0 M items/s | Ziel im aktuellen Referenzlauf klar erreicht |
 | AN-8 | predictBatch() < 50 ms (1k Serien x 30 Steps) | `BM_OLAP_PredictBatch_1k30/1000` in `bench_olap_analytics` | Ja | 66,31 µs, 480,0 M items/s | Ziel im aktuellen Referenzlauf klar erreicht |
@@ -973,10 +973,10 @@ Benchmark-Code: `BM_QueryMix_Historical`, `BM_QueryMix_Historical_P99` in `bench
 - [ ] AN-2: `bench_ivm_delta_apply` anlegen (Target: v1.8.3)
 	- Messpunkt: Delta-Apply-Latenz fuer 10k Rows
 	- Akzeptanz: `p95 < 50 ms`, `p99 < 65 ms`
-- [ ] AN-3: `bench_parquet_export` aktivieren/neu erstellen (Target: v1.8.3)
+- [x] AN-3: `bench_parquet_export` aktivieren/neu erstellen (Target: v1.8.3)
 	- Messpunkt: Exportdauer fuer 1M Rows
 	- Akzeptanz: `< 2 s` End-to-End
-- [ ] AN-4: `bench_csv_export` aktivieren/neu erstellen (Target: v1.8.3)
+- [x] AN-4: `bench_csv_export` aktivieren/neu erstellen (Target: v1.8.3)
 	- Messpunkt: Exportdauer fuer 1M Rows
 	- Akzeptanz: `< 500 ms` End-to-End
 - [ ] AN-5: `bench_cep_lifecycle` anlegen (Target: v1.8.3)
@@ -4124,8 +4124,8 @@ Regel:
 |---|---|---|---|
 | AN-1 Streaming Aggregation Memory | `benchmarks/bench_olap_performance.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_olap_performance.exe --benchmark_out=artifacts/perf_nv/analytics_streaming_aggregation_memory.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_streaming_aggregation_memory.json` |
 | AN-2 IVM Delta-Application | `benchmarks/bench_update_pipeline.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_update_pipeline.exe --benchmark_out=artifacts/perf_nv/analytics_ivm_delta_apply.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_ivm_delta_apply.json` |
-| AN-3 Parquet Export 1M Rows | `benchmarks/bench_exporters.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_exporters.exe --benchmark_out=artifacts/perf_nv/analytics_parquet_export_1m.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_parquet_export_1m.json` |
-| AN-4 CSV Export 1M Rows | `benchmarks/bench_exporters.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_exporters.exe --benchmark_out=artifacts/perf_nv/analytics_csv_export_1m.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_csv_export_1m.json` |
+| AN-3 Parquet Export 1M Rows | `benchmarks/bench_parquet_export.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_parquet_export.exe --benchmark_out=artifacts/perf_nv/analytics_parquet_export_1m.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_parquet_export_1m.json` |
+| AN-4 CSV Export 1M Rows | `benchmarks/bench_csv_export.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_csv_export.exe --benchmark_out=artifacts/perf_nv/analytics_csv_export_1m.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_csv_export_1m.json` |
 | AN-5 CEPEngine::stop() | `benchmarks/bench_update_pipeline.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_update_pipeline.exe --benchmark_out=artifacts/perf_nv/analytics_cep_stop.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_cep_stop.json` |
 | AN-7 IsolationForest Training | `benchmarks/bench_advanced_patterns.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_advanced_patterns.exe --benchmark_out=artifacts/perf_nv/analytics_isolation_forest_training.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_isolation_forest_training.json` |
 | AN-8 predictBatch() | `benchmarks/bench_advanced_patterns.cpp` | `build-msvc-ninja-release/cmake/benchmarks/bench_advanced_patterns.exe --benchmark_out=artifacts/perf_nv/analytics_predict_batch.json --benchmark_out_format=json` | `artifacts/perf_nv/analytics_predict_batch.json` |
@@ -4188,8 +4188,8 @@ Sofort messbar, hohe Prioritaet:
 | Storage | UPDATE 1 KB | `benchmarks/bench_storage_performance.cpp` | sofort messbar | 11 |
 | Storage | Sustained Write NVMe | `benchmarks/bench_storage_performance.cpp` | sofort messbar | 12 |
 | Storage | Point-Read Latenz P99 | `benchmarks/bench_storage_performance.cpp` | sofort messbar | 13 |
-| Analytics | AN-3 Parquet Export 1M Rows | `benchmarks/bench_exporters.cpp` | sofort messbar | 14 |
-| Analytics | AN-4 CSV Export 1M Rows | `benchmarks/bench_exporters.cpp` | sofort messbar | 15 |
+| Analytics | AN-3 Parquet Export 1M Rows | `benchmarks/bench_parquet_export.cpp` | sofort messbar | 14 |
+| Analytics | AN-4 CSV Export 1M Rows | `benchmarks/bench_csv_export.cpp` | sofort messbar | 15 |
 | Timeseries | TS-2 Gorilla Decode Throughput | `benchmarks/bench_gorilla_codec.cpp` | sofort messbar | 16 |
 | Timeseries | TS-6 Downsampling Throughput | `benchmarks/bench_timeseries_ingestion.cpp` | sofort messbar | 17 |
 | Timeseries | TS-11 AES-256-GCM Throughput | `benchmarks/bench_security.cpp` | runtime blocker | 18 |
@@ -4330,8 +4330,8 @@ Run-Plan Welle 1 (nur sofort messbar):
 | 11 | UPDATE 1 KB | `bench_storage_performance` | `artifacts/perf_nv/storage_update_1kb.json` |
 | 12 | Sustained Write NVMe | `bench_storage_performance` | `artifacts/perf_nv/storage_sustained_write_nvme.json` |
 | 13 | Point-Read Latenz P99 | `bench_storage_performance` | `artifacts/perf_nv/storage_point_read_p99.json` |
-| 14 | AN-3 Parquet Export 1M Rows | `bench_exporters` | `artifacts/perf_nv/analytics_parquet_export_1m.json` |
-| 15 | AN-4 CSV Export 1M Rows | `bench_exporters` | `artifacts/perf_nv/analytics_csv_export_1m.json` |
+| 14 | AN-3 Parquet Export 1M Rows | `bench_parquet_export` | `artifacts/perf_nv/analytics_parquet_export_1m.json` |
+| 15 | AN-4 CSV Export 1M Rows | `bench_csv_export` | `artifacts/perf_nv/analytics_csv_export_1m.json` |
 | 16 | TS-2 Gorilla Decode Throughput | `bench_gorilla_codec` | `artifacts/perf_nv/timeseries_gorilla_decode_throughput.json` |
 | 17 | TS-6 Downsampling Throughput | `bench_timeseries_ingestion` | `artifacts/perf_nv/timeseries_downsampling_throughput.json` |
 | 18 | TS-11 AES-256-GCM Throughput | `bench_security` | `artifacts/perf_nv/timeseries_aes256_gcm_throughput.json` |
