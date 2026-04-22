@@ -882,8 +882,8 @@ HttpServer::HttpServer(
             }
             THEMIS_INFO("Alertmanager enabled: {}", am_cfg.endpoint_url);
         }
-        auto alertmanager = std::make_shared<observability::DefaultAlertmanager>(am_cfg);
-        monitoring_api_->setAlertmanager(alertmanager);  // monitoring keeps shared ownership
+        alertmanager_ = std::make_shared<observability::DefaultAlertmanager>(am_cfg);
+        monitoring_api_->setAlertmanager(alertmanager_);  // monitoring keeps shared ownership
 
         // Wire the same Alertmanager into the Cache hit-rate SLO monitor so that
         // SLO violations are forwarded to the same alerting endpoint.
@@ -897,7 +897,7 @@ HttpServer::HttpServer(
                 try { slo_cfg.critical_threshold = std::stod(crit_thr); } catch (...) {}
             }
             auto cache_slo = std::make_shared<cache::CacheHitRateSloMonitor>(
-                slo_cfg, alertmanager);
+                slo_cfg, alertmanager_);
             cache_admin_api_->setSloMonitor(std::move(cache_slo));
             THEMIS_INFO("Cache hit-rate SLO monitor wired into CacheAdminApiHandler");
         }
@@ -912,6 +912,43 @@ HttpServer::HttpServer(
     );
     query_api_->setQueryMaskingPolicy(themis::security::QueryMaskingPolicy::create());
     THEMIS_INFO("Query API Handler initialized");
+
+    // Initialize Ranger client (optional) BEFORE PolicyApiHandler so that
+    // policy_api_ receives a valid raw pointer instead of nullptr.
+    // (ranger_client_ must be fully constructed before policy_api_ captures .get())
+    if (auto base = themis_get_env("THEMIS_RANGER_BASE_URL")) {
+        themis::server::RangerClientConfig rcfg;
+        rcfg.base_url = *base;
+        rcfg.policies_path = std::getenv("THEMIS_RANGER_POLICIES_PATH") ? std::getenv("THEMIS_RANGER_POLICIES_PATH") : "/service/public/v2/api/policy";
+        rcfg.service_name = std::getenv("THEMIS_RANGER_SERVICE") ? std::getenv("THEMIS_RANGER_SERVICE") : "themisdb";
+        rcfg.bearer_token = std::getenv("THEMIS_RANGER_BEARER") ? std::getenv("THEMIS_RANGER_BEARER") : "";
+        rcfg.tls_verify = true;
+        if (auto tlsv = themis_get_env("THEMIS_RANGER_TLS_VERIFY")) {
+            if (*tlsv == "0" || *tlsv == "false" || *tlsv == "False") rcfg.tls_verify = false;
+        }
+        if (auto ca = themis_get_env("THEMIS_RANGER_CA_CERT")) rcfg.ca_cert_path = *ca;
+        if (auto cc = themis_get_env("THEMIS_RANGER_CLIENT_CERT")) rcfg.client_cert_path = *cc;
+        if (auto ck = themis_get_env("THEMIS_RANGER_CLIENT_KEY")) rcfg.client_key_path = *ck;
+        if (auto ct = themis_get_env("THEMIS_RANGER_CONNECT_TIMEOUT_MS")) {
+            try { rcfg.connect_timeout_ms = std::stol(*ct); } catch (...) {}
+        }
+        if (auto rt = themis_get_env("THEMIS_RANGER_REQUEST_TIMEOUT_MS")) {
+            try { rcfg.request_timeout_ms = std::stol(*rt); } catch (...) {}
+        }
+        if (auto mr = themis_get_env("THEMIS_RANGER_MAX_RETRIES")) {
+            try { rcfg.max_retries = std::stoi(*mr); } catch (...) {}
+        }
+        if (auto rb = themis_get_env("THEMIS_RANGER_RETRY_BACKOFF_MS")) {
+            try { rcfg.retry_backoff_ms = std::stol(*rb); } catch (...) {}
+        }
+        try {
+            ranger_client_ = std::make_unique<themis::server::RangerClient>(std::move(rcfg));
+            THEMIS_INFO("Ranger client configured for {}", *base);
+        } catch (...) {
+            THEMIS_WARN("Failed to initialize Ranger client; integration disabled");
+        }
+    }
+
     // Initialize Policy API Handler
     const char* ranger_service_env = std::getenv("THEMIS_RANGER_SERVICE");
     std::string ranger_service = ranger_service_env ? ranger_service_env : "themisdb";
@@ -1256,15 +1293,25 @@ HttpServer::HttpServer(
     {
         TaskScheduler::Config sched_cfg;
         sched_cfg.persist_tasks            = false;
-        sched_cfg.enable_audit_logging     = false;
-        sched_cfg.enable_anomaly_detection = false;
+        sched_cfg.enable_audit_logging     = audit_logger_ != nullptr;
+        sched_cfg.enable_anomaly_detection = true;
         // Build a QueryEngine for the scheduler using the server's storage.
         // task_scheduler_engine_ must outlive task_scheduler_.  The member
         // declaration order in http_server.h guarantees this: unique_ptr members
         // are destroyed in reverse declaration order, so task_scheduler_ is
         // destroyed before task_scheduler_engine_.
         task_scheduler_engine_ = std::make_unique<QueryEngine>(*storage_, *secondary_index_);
-        task_scheduler_ = std::make_unique<TaskScheduler>(task_scheduler_engine_.get(), sched_cfg);
+        task_scheduler_ = std::make_unique<TaskScheduler>(
+            task_scheduler_engine_.get(),
+            sched_cfg,
+            changefeed_.get(),
+            audit_logger_,
+            storage_.get());
+        // Wire Alertmanager for task failure / SLA-breach notifications.
+        if (alertmanager_) {
+            task_scheduler_->setAlertmanager(alertmanager_);
+            THEMIS_INFO("Alertmanager wired into TaskScheduler");
+        }
         task_scheduler_->start();
         task_scheduler_api_ = std::make_unique<server::TaskSchedulerApiHandler>(task_scheduler_.get());
         THEMIS_INFO("Task Scheduler API handler initialized (endpoints: /api/tasks, /ui/tasks)");
@@ -1421,42 +1468,6 @@ HttpServer::HttpServer(
     if (policy_engine_ && audit_logger_) {
         policy_engine_->setAuditLogger(audit_logger_.get());
         THEMIS_INFO("AuditLogger wired into PolicyEngine");
-    }
-
-    // Initialize Ranger client (optional), configured via environment for secrets
-    // Reuse the earlier `get_env` lambda defined above (tokens); avoid duplicate definition.
-    if (auto base = themis_get_env("THEMIS_RANGER_BASE_URL")) {
-        themis::server::RangerClientConfig rcfg;
-        rcfg.base_url = *base;
-        rcfg.policies_path = std::getenv("THEMIS_RANGER_POLICIES_PATH") ? std::getenv("THEMIS_RANGER_POLICIES_PATH") : "/service/public/v2/api/policy";
-        rcfg.service_name = std::getenv("THEMIS_RANGER_SERVICE") ? std::getenv("THEMIS_RANGER_SERVICE") : "themisdb";
-        rcfg.bearer_token = std::getenv("THEMIS_RANGER_BEARER") ? std::getenv("THEMIS_RANGER_BEARER") : "";
-        rcfg.tls_verify = true;
-        if (auto tlsv = themis_get_env("THEMIS_RANGER_TLS_VERIFY")) {
-            if (*tlsv == "0" || *tlsv == "false" || *tlsv == "False") rcfg.tls_verify = false;
-        }
-        if (auto ca = themis_get_env("THEMIS_RANGER_CA_CERT")) rcfg.ca_cert_path = *ca;
-        if (auto cc = themis_get_env("THEMIS_RANGER_CLIENT_CERT")) rcfg.client_cert_path = *cc;
-        if (auto ck = themis_get_env("THEMIS_RANGER_CLIENT_KEY")) rcfg.client_key_path = *ck;
-        // Optional timeouts & retry configuration
-        if (auto ct = themis_get_env("THEMIS_RANGER_CONNECT_TIMEOUT_MS")) {
-            try { rcfg.connect_timeout_ms = std::stol(*ct); } catch (...) {}
-        }
-        if (auto rt = themis_get_env("THEMIS_RANGER_REQUEST_TIMEOUT_MS")) {
-            try { rcfg.request_timeout_ms = std::stol(*rt); } catch (...) {}
-        }
-        if (auto mr = themis_get_env("THEMIS_RANGER_MAX_RETRIES")) {
-            try { rcfg.max_retries = std::stoi(*mr); } catch (...) {}
-        }
-        if (auto rb = themis_get_env("THEMIS_RANGER_RETRY_BACKOFF_MS")) {
-            try { rcfg.retry_backoff_ms = std::stol(*rb); } catch (...) {}
-        }
-        try {
-            ranger_client_ = std::make_unique<themis::server::RangerClient>(std::move(rcfg));
-            THEMIS_INFO("Ranger client configured for {}", *base);
-        } catch (...) {
-            THEMIS_WARN("Failed to initialize Ranger client; integration disabled");
-        }
     }
 
     // Initialize OPA evaluator (optional); enabled when THEMIS_OPA_ENDPOINT_URL is set.

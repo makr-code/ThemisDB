@@ -948,6 +948,9 @@ private:
     std::unique_ptr<themis::server::MonitoringApiHandler> monitoring_api_;
     std::unique_ptr<themis::server::ShardRepairApiHandler> shard_repair_api_;
     std::shared_ptr<themis::server::ShardingMetricsHandler> sharding_metrics_handler_;
+    // Shared Alertmanager instance – created during monitoring init, reused for
+    // TaskScheduler SLA-breach alerts and Cache SLO monitor.
+    std::shared_ptr<observability::DefaultAlertmanager> alertmanager_;
     // Cross-cutting concerns (lifecycle hooks + health probes); optional.
     std::shared_ptr<core::concerns::ConcernsContext> concerns_;
     // Query API Handler
