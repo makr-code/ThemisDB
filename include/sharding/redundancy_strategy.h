@@ -110,7 +110,8 @@ enum class ConflictResolution {
 enum class ErasureCodingAlgorithm {
     REED_SOLOMON,       // Classic Reed-Solomon
     CAUCHY,             // Cauchy Reed-Solomon (faster)
-    LRC                 // Local Reconstruction Code (Azure-style)
+    LRC,                // Local Reconstruction Code (Azure-style)
+    HAMMING             // Hamming code (RAID-2 style, single-error correction via XOR parities)
 };
 
 /**
@@ -509,6 +510,68 @@ private:
                                std::vector<uint8_t>& result);
     static bool invertMatrix(std::vector<std::vector<uint8_t>>& matrix);
     static std::vector<std::vector<uint8_t>> buildVandermonde(uint32_t rows, uint32_t cols);
+};
+
+/**
+ * Hamming Erasure Coder
+ *
+ * Implements a generalised RAID-2 / Hamming-code erasure coder operating at
+ * shard (block) granularity rather than at the bit level.
+ *
+ * Parity assignment:
+ *   Parity shard p (0-indexed) covers every data shard j (0-indexed) for
+ *   which bit p is set in the 1-based position (j + 1):
+ *
+ *     parity[p] = XOR{ data[j]  for all j in [0, data_shards)
+ *                      where ((j + 1) >> p) & 1 == 1 }
+ *
+ * Properties:
+ *   - Encode / decode uses pure XOR — no Galois-Field arithmetic needed.
+ *   - Single data-shard failure can always be recovered via syndrome
+ *     detection (O(data_shards) work per byte).
+ *   - A missing parity shard can be recomputed directly from data shards.
+ *   - Best configured with parity_shards = ceil(log2(data_shards + r + 1))
+ *     so that syndromes are unique for every possible single failure.
+ *   - When more than one data shard is missing the coder attempts iterative
+ *     repair using parity shards that cover exactly one of the missing
+ *     shards; if impossible it throws std::runtime_error.
+ *
+ * Example: 4 data shards → 3 parity shards (Hamming(7,4) shard analogue)
+ */
+class HammingCoder : public ErasureCoder {
+public:
+    /**
+     * Encode @p data into (data_shards + parity_shards) chunks.
+     *
+     * The first data_shards chunks are systematic (raw data).
+     * Chunks at indices [data_shards, data_shards + parity_shards) are parity.
+     *
+     * @throws std::invalid_argument if data is empty or shard counts are 0.
+     */
+    std::vector<std::vector<uint8_t>> encode(
+        const std::vector<uint8_t>& data,
+        uint32_t data_shards,
+        uint32_t parity_shards
+    ) override;
+
+    /**
+     * Recover original data from an incomplete set of chunks.
+     *
+     * @param available_chunks  Map of chunk index → chunk bytes for every
+     *                          shard that is present.
+     * @param missing_indices   Indices of shards that are unavailable.
+     * @param data_shards       k (number of data shards used during encode).
+     * @param parity_shards     r (number of parity shards used during encode).
+     * @return                  Concatenated recovered data shards (may be
+     *                          zero-padded at the end if encode padded).
+     * @throws std::runtime_error if too many data shards are missing to recover.
+     */
+    std::vector<uint8_t> decode(
+        const std::map<uint32_t, std::vector<uint8_t>>& available_chunks,
+        const std::vector<uint32_t>& missing_indices,
+        uint32_t data_shards,
+        uint32_t parity_shards
+    ) override;
 };
 
 /**
