@@ -1,0 +1,172 @@
+syntax = "proto3";
+
+option csharp_namespace = "Themis.IngestionTool.Grpc";
+
+package themis;
+
+// ThemisDB gRPC Service für Datenbank-Operationen
+service ThemisService {
+  // Health Check
+  rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse);
+  
+  // Entity Operations
+  rpc CreateEntity(CreateEntityRequest) returns (EntityResponse);
+  rpc UpdateEntity(UpdateEntityRequest) returns (EntityResponse);
+  rpc GetEntity(GetEntityRequest) returns (EntityResponse);
+  rpc DeleteEntity(DeleteEntityRequest) returns (DeleteResponse);
+  
+  // Relationship Operations
+  rpc CreateRelationship(CreateRelationshipRequest) returns (RelationshipResponse);
+  rpc GetRelationships(GetRelationshipsRequest) returns (RelationshipsResponse);
+  
+  // Vector Operations
+  rpc UpsertVector(UpsertVectorRequest) returns (VectorResponse);
+  rpc QueryVector(QueryVectorRequest) returns (QueryVectorResponse);
+  
+  // TimeSeries Operations
+  rpc InsertTimeSeries(InsertTimeSeriesRequest) returns (TimeSeriesResponse);
+}
+
+// ============ Health Check ============
+message HealthCheckRequest {
+  string service = 1;
+}
+
+message HealthCheckResponse {
+  bool healthy = 1;
+  string message = 2;
+  string version = 3;
+}
+
+// ============ Entity Operations ============
+message CreateEntityRequest {
+  string key = 1;
+  map<string, string> data = 2;
+  map<string, string> metadata = 3;
+}
+
+message UpdateEntityRequest {
+  string key = 1;
+  map<string, string> data = 2;
+}
+
+message GetEntityRequest {
+  string key = 1;
+}
+
+message DeleteEntityRequest {
+  string key = 1;
+}
+
+message EntityResponse {
+  bool success = 1;
+  string key = 2;
+  map<string, string> data = 3;
+  string error = 4;
+  int64 timestamp = 5;
+}
+
+message DeleteResponse {
+  bool success = 1;
+  string key = 2;
+  string error = 3;
+}
+
+// ============ Relationship Operations ============
+message CreateRelationshipRequest {
+  string from_key = 1;
+  string to_key = 2;
+  string relationship_type = 3;
+  map<string, string> properties = 4;
+}
+
+message GetRelationshipsRequest {
+  string entity_key = 1;
+  string relationship_type = 2;
+  int32 max_depth = 3;
+}
+
+message Relationship {
+  string from_key = 1;
+  string to_key = 2;
+  string type = 3;
+  map<string, string> properties = 4;
+}
+
+message RelationshipResponse {
+  bool success = 1;
+  string error = 2;
+  int64 timestamp = 3;
+}
+
+message RelationshipsResponse {
+  bool success = 1;
+  repeated Relationship relationships = 2;
+  string error = 3;
+  int32 total_count = 4;
+}
+
+// ============ Vector Operations ============
+message UpsertVectorRequest {
+  string collection_name = 1;
+  string object_key = 2;
+  repeated double vector = 3;
+  map<string, string> metadata = 4;
+}
+
+message QueryVectorRequest {
+  string collection_name = 1;
+  repeated double query_vector = 2;
+  int32 limit = 3;
+  float threshold = 4;
+}
+
+message VectorResult {
+  string key = 1;
+  double similarity = 2;
+  map<string, string> metadata = 3;
+}
+
+message VectorResponse {
+  bool success = 1;
+  string error = 2;
+  int64 timestamp = 3;
+}
+
+message QueryVectorResponse {
+  bool success = 1;
+  repeated VectorResult results = 2;
+  string error = 3;
+  int32 total_results = 4;
+}
+
+// ============ TimeSeries Operations ============
+message TimeSeriesPoint {
+  int64 timestamp = 1;
+  double value = 2;
+  map<string, string> tags = 3;
+}
+
+message InsertTimeSeriesRequest {
+  string key = 1;
+  repeated TimeSeriesPoint points = 2;
+}
+
+message TimeSeriesResponse {
+  bool success = 1;
+  int32 points_inserted = 2;
+  string error = 3;
+  int64 timestamp = 4;
+}
+
+// ============ Batch Operations ============
+message BatchEntityRequest {
+  repeated CreateEntityRequest entities = 1;
+}
+
+message BatchResponse {
+  bool success = 1;
+  int32 processed = 2;
+  int32 failed = 3;
+  string error = 4;
+}

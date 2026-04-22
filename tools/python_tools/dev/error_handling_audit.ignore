@@ -1,0 +1,38 @@
+# ThemisDB Error-Handling Audit – Ignore List
+#
+# Each non-blank, non-comment line is a path prefix (relative to the repo
+# root) that will be skipped by tools/error_handling_audit.py.
+#
+# Rules:
+#  - Lines beginning with # are comments.
+#  - Paths are matched as prefixes, so "llama.cpp" also excludes
+#    "llama.cpp/examples/foo.cpp".
+#  - A trailing * acts as a wildcard for the suffix of that path segment.
+#
+# Add entries with a brief justification comment.
+
+# ── Third-party submodules / vendored code ───────────────────────────────────
+llama.cpp
+vcpkg
+ports
+ports-overlays
+ffmpeg
+
+# ── Generated / build artefacts ──────────────────────────────────────────────
+build
+_build
+out
+dist
+artifacts
+releases
+
+# ── Test infrastructure (may use nullable patterns intentionally) ─────────────
+# Remove specific test subdirs from here once they are migrated.
+tests
+
+# ── Tooling scripts that are not production C++ ──────────────────────────────
+# (Python scripts in tools/ are still scanned for PY rules)
+
+# ── Archive / historical files ───────────────────────────────────────────────
+archive
+tmp_*
