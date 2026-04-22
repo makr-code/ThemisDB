@@ -298,12 +298,13 @@ cross-backend consistency, error handling, and resource management.
 
 #### 1.2 API — OpenAPI & gRPC Surface
 - [I] OpenAPI 3.x spec completeness for all endpoints (Issue: #1491) (Target: Q2 2026)
-- [I] Versioned endpoint routing `/v1/`, `/v2/` with deprecation headers (Issue: #1506) (Target: Q3 2026)
+- [x] Versioned endpoint routing `/v1/`, `/v2/` with deprecation headers (Issue: #1506) (Target: Q3 2026)
 - [x] SDK generation from OpenAPI spec (Python, JavaScript, Go) (Issue: #1507) (Target: Q3 2026)
 
 #### 1.3 CDC — WebSocket & Streaming Transport
-- [I] WebSocket transport for changefeed subscriptions (Target: Q2 2026)
-- [I] Kafka/Kinesis integration for event streaming (Target: Q3 2026)
+- [x] WebSocket transport for changefeed subscriptions (Target: Q2 2026)
+- [x] Kafka integration for event streaming/importers (Target: Q3 2026)
+- [I] Kinesis integration for event streaming (Target: Q3 2026)
 
 #### 1.4 Chimera — Vendor Adapter Implementations
 - [x] PostgreSQL adapter (Issue: alpha) (Target: Q3 2026)
@@ -316,7 +317,7 @@ cross-backend consistency, error handling, and resource management.
 - [I] Audio transcription pipeline (Target: Q3 2026)
 
 #### 1.6 Core — Production DI Hardening
-- [I] Full OpenTelemetry adapter coverage (Target: Q2 2026)
+- [x] Full OpenTelemetry adapter coverage (Target: Q2 2026)
 - [I] Production readiness checklist completion (Target: Q2 2026)
 
 #### 1.7 Geo — GPU Kernel Completion
@@ -326,8 +327,8 @@ cross-backend consistency, error handling, and resource management.
 
 #### 1.8 Ingestion — Distributed & Cloud Sources
 - [x] Kafka consumer source connector (Issue: #1892) (Target: Q3 2026)
-- [I] S3/GCS/Azure Blob object-storage source (Issue: #1893) (Target: Q3 2026)
-- [!] OAuth 2.0 token refresh within connectors (Issue: #2408) (Target: Q3 2026)
+- [x] S3/GCS/Azure Blob object-storage source (Issue: #1893) (Target: Q3 2026)
+- [x] OAuth 2.0 token refresh within connectors (Issue: #2408) (Target: Q3 2026)
 
 #### 1.9 Sharding — Observability & Repair
 - [x] Advanced metrics and distributed tracing (`sharding/operational_metrics.cpp`, `observability/distributed_flame_graph.cpp`, `observability/ebpf_tracer.cpp`)
@@ -336,6 +337,15 @@ cross-backend consistency, error handling, and resource management.
 #### 1.10 Storage — Production Hardening
 - [x] Benchmark-driven performance optimisation (`tests/test_storage_latency_bench.cpp`)
 - [x] Backup/PITR integration tests (`tests/test_backup_restore_integration.cpp`)
+
+#### 1.11 High-Priority API Modernization Epic (Review 03/2026)
+- [x] GraphQL API incl. subscriptions production-ready, documented, and tested (Target: v1.7.0–v1.8.0)
+- [x] WebSocket CDC for real-time changefeeds (`/v2/changes`, `/v2/cdc/stream`) (Target: v1.7.0–v1.8.0)
+- [x] Versioned API routing (`/v2/`) with legacy compatibility (`/v1/` + redirects) (Target: v1.8.0)
+- [x] LLM API streaming (SSE/chunked) + OpenAI-compatible `/v1/chat/completions` with regression tests (Target: v1.7.0)
+- [x] Kafka consumer importer + S3-compatible source connectors production-ready (Target: v1.7.0–v1.8.0)
+- [x] Geo functionality production-ready: R-tree index, spatial JOIN, temporal-spatial queries, benchmarks (Target: v1.5.0–v1.8.0)
+- [x] OpenTelemetry full integration + custom metric types integrated (Target: v1.6.0)
 
 ---
 
