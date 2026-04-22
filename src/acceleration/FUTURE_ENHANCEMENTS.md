@@ -34,11 +34,12 @@ The Acceleration module (`src/acceleration/`) provides hardware-accelerated comp
 ### CUDA Kernel Completion for Vector Similarity Search
 **Priority:** High
 **Target Version:** v1.7.0
+**Status:** ✅ Implemented
 
-`cuda_backend.cpp` declares stub kernel launch functions (`launchL2DistanceKernel`, `launchCosineDistanceKernel`, `launchTopKKernel`, …). The core kernels have been implemented in `cuda/ann_kernels.cu` and `cuda/vector_kernels.cu`; the remaining work is wiring the HNSW index layer to call these CUDA kernels instead of the CPU fallback. cuBLAS batched GEMM is the target for L2/cosine distance; CUB `DeviceSegmentedSort` is the target for top-k selection \[6\].
+`cuda_backend.cpp` kernel launch surfaces (`launchL2DistanceKernel`, `launchCosineDistanceKernel`, `launchTopKKernel`, …) are implemented and wired through `cuda/ann_kernels.cu`, `cuda/vector_kernels.cu`, and `cuda/cuda_hnsw_kernels.cu`. cuBLAS batched GEMM remains the target path for L2/cosine distance; CUB `DeviceSegmentedSort` is used for top-k selection \[6\].
 
 **Implementation Notes:**
-- `[~]` `.cu` kernel files (`cuda/ann_kernels.cu`, `cuda/vector_kernels.cu`) are implemented; HNSW graph traversal wiring into `CUDAVectorBackend` is still pending.
+- `[x]` `.cu` kernel files (`cuda/ann_kernels.cu`, `cuda/vector_kernels.cu`) are implemented and wired into `CUDAVectorBackend`, including HNSW traversal dispatch (`cuda/cuda_hnsw_kernels.cu`).
 - `[x]` Cosine distance: fuse L2-norm and dot-product into a single tiled kernel to avoid a second pass over device memory (IO-aware pattern per FlashAttention \[3\]).
 - `[x]` Top-k (k ≤ 1024): use CUB `DeviceSegmentedSort` \[6\]; for k > 1024 fall back to `thrust::partial_sort`.
 - `[x]` Add `CUDA_ARCH` compile-time guard: require sm_70+ (Tensor Core availability); emit warning for sm_60.
@@ -88,22 +89,19 @@ std::vector<SearchResult> CUDAVectorBackend::batchSimilaritySearch(
 ### Plugin Security: CRL and OCSP Certificate Revocation Checking
 **Priority:** High
 **Target Version:** v1.8.0
+**Status:** ✅ Implemented
 
-`plugin_security.cpp` contains two complete stub methods for certificate revocation:
-- `PluginSecurityVerifier::checkCRL()` (line 598): extracts CRL distribution points but never fetches or validates the CRL — the body is a comment block listing the 4 required steps; when revocation checking is configured it fail-safes to `false` (line 636) and warns `"actual CRL checking not implemented"`.
-- `PluginSecurityVerifier::checkOCSP()` (line 654): identical structure — OCSP responder URLs are extracted but no OCSP request is built or sent; also fail-safes to `false` (line 691).
-- `EnhancedPluginSecurityVerifier::verifyCertificateChain()` (line 1036–1037) emits `THEMIS_WARN("Revocation checking configured but not yet implemented")`.
-
-This means any GPU plugin with a revoked code-signing certificate will pass security validation when `requireRevocationCheck = false` (the default), and will fail to load with an opaque error when `requireRevocationCheck = true`, with no actionable diagnostic.
+`plugin_security.cpp` now enforces revocation checks in production code paths:
+- `PluginSecurityVerifier::checkCRL()` fetches CRLs from distribution points, parses DER CRLs, verifies signatures and validity windows, checks certificate serials, and caches results by serial.
+- `PluginSecurityVerifier::checkOCSP()` builds OCSP requests, performs HTTP POST to responders, verifies OCSP basic response signatures and validity windows, and caches results by serial.
+- `EnhancedPluginSecurityVerifier::verifyFullChain()` now wires CRL/OCSP checks into full-chain verification and fails closed when revocation checking is required and neither check confirms not-revoked status.
 
 **Implementation Notes:**
-- `[ ]` Implement `checkCRL()` in `plugin_security.cpp`: (1) for each CRL distribution point URL, perform an HTTP GET using `libcurl` or `WinHttp`; (2) parse the DER-encoded CRL with OpenSSL `d2i_X509_CRL`; (3) verify the CRL signature against the issuer certificate; (4) call `X509_CRL_get0_by_cert()` to check the target certificate's serial number; (5) validate CRL `thisUpdate` / `nextUpdate` timestamps. Honour a configurable timeout (default 5 s) to prevent hangs on unreachable endpoints.
-- `[ ]` Implement `checkOCSP()` in `plugin_security.cpp`: (1) build an OCSP request with `OCSP_REQUEST_new()` + `OCSP_request_add0_id()`; (2) POST to each OCSP responder URL via HTTP; (3) parse the response with `OCSP_response_status()` and `OCSP_resp_find_status()`; (4) verify the responder's signature; (5) check `thisUpdate` / `nextUpdate` bounds.
-- `[ ]` Implement PE certificate table extraction in `EnhancedPluginSecurityVerifier::extractSigningCertificate()` (line 1092): parse the PE optional header's DataDirectory[IMAGE_DIRECTORY_ENTRY_SECURITY], extract the WIN_CERTIFICATE structure, and return the embedded PKCS#7 blob as a DER byte string. Currently the method detects the PE magic bytes but returns without extracting the cert (comment: *"extraction not fully implemented"*).
-- `[ ]` Cache CRL/OCSP results per certificate serial number with a configurable TTL (default: CRL `nextUpdate`, OCSP 1 h) to avoid per-load network round trips.
-- `[ ]` Add unit tests with a mock HTTP server (or pre-fetched fixtures) for both CRL and OCSP paths; cover revoked-cert, unknown-cert, network-timeout, and signature-invalid cases.
-
-**Security Note:** Until this is implemented, plugin revocation is not enforced even when `requireRevocationCheck = true`. The fail-safe behaviour (returning `false`) prevents revoked plugins from loading only when the calling code actually checks the `checkCRL()`/`checkOCSP()` return value; `verifyCertificateChain()` currently bypasses both checks with a warning.
+- `[x]` Implement `checkCRL()` with HTTP fetch, DER parse (`d2i_X509_CRL`), signature validation, serial check (`X509_CRL_get0_by_cert`), and `thisUpdate`/`nextUpdate` validation.
+- `[x]` Implement `checkOCSP()` with OpenSSL request/response APIs (`OCSP_REQUEST_new`, `OCSP_resp_find_status`, `OCSP_basic_verify`) and timestamp checks.
+- `[x]` Implement PE certificate table extraction for embedded PKCS#7 blobs in `extractEmbeddedCertificate()`.
+- `[x]` Add CRL/OCSP cache keyed by certificate serial with expiry derived from CRL `nextUpdate` (or default) and OCSP `nextUpdate`/1h TTL.
+- `[x]` Add focused revocation tests in `tests/test_plugin_security_crl_ocsp.cpp`.
 
 ---
 
@@ -448,20 +446,20 @@ For workloads that repeatedly execute the same ANN kernel shape (same `dim`, `nu
 
 | Metric | Current | Target | Method |
 |--------|---------|--------|--------|
-| L2 search 1M×128 (CUDA) | N/A (stub) | < 8 ms | `benchmarks/vector_bench.cpp` on RTX 3090 |
+| L2 search 1M×128 (CUDA) | Implemented (hardware benchmark required) | < 8 ms | `benchmarks/vector_bench.cpp` on RTX 3090 |
 | Cosine search 500K×128 (Vulkan/MoltenVK) | < 20 ms ✅ | < 20 ms | Manual bench on M2 Pro |
 | Multi-GPU scale-out efficiency | N/A | ≥ 75% (1→4× A100) | `benchmarks/multi_gpu_bench.cpp` |
 | CUDA Graph replay latency reduction | ≥ 30% ✅ | ≥ 30% | `benchmarks/vector_bench.cpp` fixed-shape mode |
 | Device probe latency (4-GPU system) | < 50 ms ✅ | < 50 ms | `tests/acceleration/device_probe_test.cpp` |
-| NCCL `mergeTopK` overhead (worldSize=4, k=100) | N/A (stub) | < 500 µs | `benchmarks/multi_gpu_bench.cpp` |
+| NCCL `mergeTopK` overhead (worldSize=4, k=100) | Implemented (hardware benchmark required) | < 500 µs | `benchmarks/multi_gpu_bench.cpp` |
 | INT8 matmul throughput vs FP16 | N/A (not implemented) | ≥ 2× on sm_86 | `benchmarks/tensor_core_bench.cpp` |
 | `getStats()` call latency (Linux) | 0 ms (returns 0) | < 2 ms | `tests/acceleration/test_vllm_resource_stats.cpp` |
 | Block-dim occupancy gain (RDNA2) | baseline (256 fixed) | ≥ 5% throughput gain | `benchmarks/kernel_block_size_bench.cpp` |
 
 ## Security / Reliability
 
-- `[ ]` **CRL/OCSP revocation not enforced**: `plugin_security.cpp` methods `checkCRL()` (line 598) and `checkOCSP()` (line 654) are stubs that warn but do not perform network revocation checks; `EnhancedPluginSecurityVerifier::verifyCertificateChain()` (line 1036) emits `THEMIS_WARN` and bypasses both checks. Until fixed, plugins with revoked code-signing certificates pass validation when `requireRevocationCheck = false`. See **Plugin Security: CRL and OCSP** feature above.
-- `[ ]` **PE certificate extraction incomplete**: `EnhancedPluginSecurityVerifier::extractSigningCertificate()` (`plugin_security.cpp:1092`) detects the PE magic bytes but does not parse the certificate table — `verifyAuthenticodeSignature()` receives an empty cert string on Windows plugins. See **Plugin Security: PE Certificate Table Extraction** above.
+- `[x]` **CRL/OCSP revocation enforced**: `PluginSecurityVerifier::checkCRL()` and `checkOCSP()` perform network-backed revocation checks with OpenSSL validation and serial-based caching; `EnhancedPluginSecurityVerifier::verifyFullChain()` applies both checks when policy requires revocation checks.
+- `[x]` **PE certificate extraction completed**: `EnhancedPluginSecurityVerifier::extractEmbeddedCertificate()` parses PE security directory (`IMAGE_DIRECTORY_ENTRY_SECURITY`) and extracts PKCS#7 certificate blobs.
 - `[ ]` `plugin_security.cpp` sandbox must be applied to all dynamically loaded GPU backends (`zluda_backend.cpp`, `oneapi_backend.cpp`); verify symbol allow-list before `dlopen`.
 - `[ ]` GPU memory allocated via `cudaMalloc` / `vkAllocateMemory` must be zeroed before exposing to query results to prevent information leakage between tenants.
 - `[x]` `vllm_resource_manager.cpp` `canUseGPU()`: wrapped `queryGPUUtilization()` with `std::async` + `wait_for(500ms)`; returns `false` on timeout (safe CPU fallback). NVML hang no longer blocks the caller.

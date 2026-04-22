@@ -125,6 +125,13 @@ void AiHardwareDispatcher::initialize(bool force) {
     capabilities_    = std::move(caps);
     last_probe_time_ = now;
     initialized_.store(true, std::memory_order_release);
+
+    // Emit a structured log line listing every probed backend so that
+    // operators can confirm which accelerator is active at startup.
+    // logCapabilities() acquires a shared lock internally; release the
+    // exclusive lock first to avoid a self-deadlock.
+    lock.unlock();
+    logCapabilities();
 }
 
 // =============================================================================
