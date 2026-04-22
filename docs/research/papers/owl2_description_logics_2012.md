@@ -8,7 +8,7 @@
 - Zitierweise: `w3c2012owl2`; `baader2003dlhandbook`
 - Tags: `ontology`, `owl`, `description-logic`, `knowledge-representation`, `semantic-constraints`, `reasoning`, `knowledge-graph`
 - ThemisDB-Versionen: v2.1.0+ (planned — `OntologyManager`, `KnowledgeGraphReasoner`)
-- Status: [ ] Not Started | [ ] Partially Implemented | [x] Fully Implemented  
+- Status: [ ] Not Started | [ ] Partially Implemented | [ ] Fully Implemented  
   *(Planned: Q3 2026 — see `src/graph/ROADMAP.md` Phase 6)*
 
 ## 📋 Executive Summary

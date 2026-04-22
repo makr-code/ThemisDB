@@ -8,7 +8,7 @@
 - Zitierweise: `forgy1982rete`
 - Tags: `expert-system`, `rule-engine`, `rete-algorithm`, `forward-chaining`, `pattern-matching`, `production-rules`, `working-memory`, `agenda`
 - ThemisDB-Versionen: v2.1.0+ (planned — `ExpertSystemEngine`, `KnowledgeBase`)
-- Status: [ ] Not Started | [ ] Partially Implemented | [x] Fully Implemented  
+- Status: [ ] Not Started | [x] Partially Implemented | [ ] Fully Implemented  
   *(CEP-NFA-Basis vorhanden; vollständige ExpertSystemEngine geplant Q2 2027 — `src/analytics/ROADMAP.md` Phase 4)*
 
 ## 📋 Executive Summary

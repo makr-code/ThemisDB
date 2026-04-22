@@ -5,7 +5,7 @@
 - URL: [W3C OWL 2 RL](https://www.w3.org/TR/owl2-profiles/#OWL_2_RL) · [Apache Jena Inference](https://jena.apache.org/documentation/inference/) · [Stardog Reasoning](https://docs.stardog.com/inference-engine/)
 - Tags: `ontology`, `owl-lite`, `constraint-checking`, `knowledge-graph`, `semantic-reasoning`, `path-constraints`, `horn-clauses`
 - ThemisDB-Versionen: v2.1.0+ (planned — `OntologyManager`, `PathConstraints`, `KnowledgeGraphReasoner`)
-- Status: [ ] Identified | [ ] Partially Adopted | [x] Fully Adopted  
+- Status: [x] Identified | [ ] Partially Adopted | [ ] Fully Adopted  
   *(Planned Q3-Q4 2026 — `src/graph/ROADMAP.md` Phase 6)*
 
 ## 📋 Summary

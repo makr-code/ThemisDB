@@ -8,7 +8,7 @@
 - Zitierweise: `bordes2013transe`
 - Tags: `knowledge-graph`, `embeddings`, `link-prediction`, `kg-completion`, `translational-model`, `multi-relational`, `entity-resolution`
 - ThemisDB-Versionen: v2.1.0+ (planned — `KnowledgeGraphReasoner`, LoRA-Plausibility-Scoring)
-- Status: [ ] Not Started | [ ] Partially Implemented | [x] Fully Implemented  
+- Status: [ ] Not Started | [ ] Partially Implemented | [ ] Fully Implemented  
   *(Planned Q4 2026; existierende KGE-Research: `docs/research/KNOWLEDGE_GRAPH_EMBEDDINGS_RESEARCH.md`)*
 
 ## 📋 Executive Summary

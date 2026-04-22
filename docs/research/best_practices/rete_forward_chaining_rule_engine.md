@@ -5,7 +5,7 @@
 - URL: [Forgy 1982](https://doi.org/10.1016/0004-3702(82)90024-9) · [CLIPS](https://clipsrules.net/) · [Drools](https://www.drools.org/) · [OWL 2 RL](https://www.w3.org/TR/owl2-profiles/#OWL_2_RL)
 - Tags: `expert-system`, `rule-engine`, `rete-algorithm`, `forward-chaining`, `backward-chaining`, `horn-clauses`, `working-memory`, `agenda`, `production-rules`
 - ThemisDB-Versionen: v2.1.0+ (planned — `ExpertSystemEngine`, `KnowledgeBase`)
-- Status: [ ] Identified | [ ] Partially Adopted | [x] Fully Adopted  
+- Status: [ ] Identified | [x] Partially Adopted | [ ] Fully Adopted  
   *(CEP-NFA als Partial-Adoption; vollständig Q2 2027 — `src/analytics/ROADMAP.md` Phase 4)*
 
 ## 📋 Summary
