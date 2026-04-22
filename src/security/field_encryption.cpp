@@ -257,6 +257,19 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
     // If environment variable THEMIS_ENC_PARALLEL is set, run encryptions in parallel for stress testing.
     const char* parallel_env = std::getenv("THEMIS_ENC_PARALLEL");
     bool do_parallel = (parallel_env && *parallel_env);
+    const auto logDebugDumpFailure = [](size_t index,
+                                        bool parallel_path,
+                                        const std::exception* ex) {
+        if (ex) {
+            THEMIS_WARN("FieldEncryption::encryptEntityBatch: debug dump failed "
+                        "({} item {}): {}",
+                        parallel_path ? "parallel" : "sequential", index, ex->what());
+        } else {
+            THEMIS_WARN("FieldEncryption::encryptEntityBatch: debug dump failed "
+                        "({} item {}) with unknown exception",
+                        parallel_path ? "parallel" : "sequential", index);
+        }
+    };
 
     if (do_parallel) {
         tbb::parallel_for(tbb::blocked_range<size_t>(0, items.size()), [&](const tbb::blocked_range<size_t>& r) {
@@ -268,11 +281,9 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
                     try {
                         write_debug_dump("encrypt", out[i], base_key, true);
                     } catch (const std::exception& ex) {
-                        THEMIS_WARN("FieldEncryption::encryptEntityBatch: debug dump failed "
-                                    "(parallel item {}): {}", i, ex.what());
+                        logDebugDumpFailure(i, true, &ex);
                     } catch (...) {
-                        THEMIS_WARN("FieldEncryption::encryptEntityBatch: debug dump failed "
-                                    "(parallel item {}) with unknown exception", i);
+                        logDebugDumpFailure(i, true, nullptr);
                     }
                 } catch (const std::exception& ex) {
                     THEMIS_WARN("FieldEncryption::encryptEntityBatch: encryption failed "
@@ -293,11 +304,9 @@ std::vector<EncryptedBlob> FieldEncryption::encryptEntityBatch(const std::vector
                 try {
                     write_debug_dump("encrypt", out[i], base_key, true);
                 } catch (const std::exception& ex) {
-                    THEMIS_WARN("FieldEncryption::encryptEntityBatch: debug dump failed "
-                                "(item {}): {}", i, ex.what());
+                    logDebugDumpFailure(i, false, &ex);
                 } catch (...) {
-                    THEMIS_WARN("FieldEncryption::encryptEntityBatch: debug dump failed "
-                                "(item {}) with unknown exception", i);
+                    logDebugDumpFailure(i, false, nullptr);
                 }
             } catch (const std::exception& ex) {
                 // On error, leave default constructed blob; caller can inspect failures

@@ -83,7 +83,23 @@ AQLInjectionDetector::validateAQLAST(const std::string& aql) {
     auto parse_result = parseAQL(aql);
     if (!parse_result) {
         result.is_safe = false;
-        result.error_message = fmt::format("Parse error: {}", parse_result.error().message());
+        result.detected_patterns = extractPatterns(aql);
+        if (!result.detected_patterns.empty()) {
+            std::ostringstream token_stream;
+            for (size_t i = 0; i < result.detected_patterns.size(); ++i) {
+                if (i > 0) {
+                    token_stream << ", ";
+                }
+                token_stream << result.detected_patterns[i];
+            }
+            result.error_message = fmt::format(
+                "Parse error with suspicious tokens [{}]: {}",
+                token_stream.str(),
+                parse_result.error().message()
+            );
+        } else {
+            result.error_message = fmt::format("Parse error: {}", parse_result.error().message());
+        }
         return result;
     }
     
@@ -116,8 +132,9 @@ AQLInjectionDetector::validateAQLAST(const std::string& aql) {
 
 AQLInjectionDetector::InjectionCheckResult
 AQLInjectionDetector::validateForReadOnlyContext(const std::string& aql) {
-    // Run full AST validation. Queries that fail to parse are rejected with a
-    // parse error, and queries that parse to dangerous AST shapes are blocked.
+    // Run full AST validation. Non-AQL syntax (including SQL DDL and DML payloads)
+    // is rejected in the parse phase, while valid AQL is checked for dangerous
+    // operation nodes and suspicious literals.
     return validateAQLAST(aql);
 }
 
