@@ -197,6 +197,9 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "scheduler/task_scheduler.h"
 #include "maintenance/maintenance_task_handler_impls.h"
 #include "storage/compaction_manager.h"
+#include "storage/security_signature_manager.h"
+#include "content/mime_detector.h"
+#include "index/process_graph.h"
 
 #include <nlohmann/json.hpp>
 #include <yaml-cpp/yaml.h>
@@ -320,7 +323,19 @@ HttpServer::HttpServer(
         THEMIS_WARN("Failed to initialize Spatial Index Manager: {}", e.what());
         // Non-fatal: geo features will be disabled
     }
-    
+
+    // Initialize Security Signature Manager (content integrity & file verification)
+    try {
+        security_sig_mgr_ = std::make_shared<storage::SecuritySignatureManager>(storage_);
+        THEMIS_INFO("Security Signature Manager initialized");
+
+        // Initialize MIME Detector with signature verification
+        mime_detector_ = std::make_shared<content::MimeDetector>("", security_sig_mgr_);
+        THEMIS_INFO("MIME Detector initialized");
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Failed to initialize Security Signature Manager / MIME Detector: {}", e.what());
+    }
+
     // GAP-011: Do NOT log the raw token value — log presence only to avoid
     // leaking the secret into log files (CWE-532).
     {
@@ -345,9 +360,8 @@ HttpServer::HttpServer(
             3600 // default TTL: 1 hour
         );
         THEMIS_INFO("Semantic Cache initialized (TTL: 3600s) using default CF");
-        
-        // Initialize Cache API Handler
-        cache_api_ = nullptr; // Disabled for Windows build (shared_ptr mismatch)
+        // Note: CacheApiHandler requires auth_ which is initialized later.
+        // cache_api_ is constructed after auth_ is available (see below).
     }
 
     // Initialize Cache Admin API Handler (Phase 3: Admin API for cache operations).
@@ -569,19 +583,17 @@ HttpServer::HttpServer(
     // Initialize Time-Series Store (Sprint B) if feature enabled
     if (config_.feature_timeseries) {
         ts_cf_handle_ = nullptr; // Use default CF
-        timeseries_ = std::make_unique<TSStore>(
+        timeseries_ = std::make_shared<TSStore>(
             storage_->getRawDB(),
             ts_cf_handle_
         );
         THEMIS_INFO("Time-Series Store initialized using default CF");
 
         // Initialize ContinuousAggregateManager for materialized aggregate views
-        ts_agg_manager_ = std::make_unique<ContinuousAggregateManager>(timeseries_.get());
+        ts_agg_manager_ = std::make_shared<ContinuousAggregateManager>(timeseries_.get());
         THEMIS_INFO("ContinuousAggregateManager initialized");
-        
-        // Initialize TimeSeries API Handler (disabled for Windows build)
-        timeseries_api_ = nullptr;
-        THEMIS_INFO("TimeSeries API Handler disabled (Windows build)");
+        // Note: TimeSeriesApiHandler requires auth_ which is initialized later.
+        // timeseries_api_ is constructed after auth_ is available (see below).
     }
 
     // CRITICAL FIX: Initialize Sharding Manager BEFORE AdaptiveIndexManager
@@ -700,6 +712,27 @@ HttpServer::HttpServer(
     // Initialize Keys API Handler with KeyProvider
     keys_api_ = std::make_unique<themis::server::KeysApiHandler>(key_provider_);
     THEMIS_INFO("Keys API Handler initialized");
+
+    // Deferred CacheApiHandler initialization (requires auth_ which is now available)
+    if (semantic_cache_ && auth_) {
+        try {
+            cache_api_ = std::make_unique<server::CacheApiHandler>(semantic_cache_, auth_);
+            THEMIS_INFO("Cache API Handler initialized (semantic cache endpoints active)");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to initialize Cache API Handler: {}", e.what());
+        }
+    }
+
+    // Deferred TimeSeriesApiHandler initialization (requires auth_ which is now available)
+    if (timeseries_ && ts_agg_manager_ && auth_) {
+        try {
+            timeseries_api_ = std::make_unique<server::TimeSeriesApiHandler>(
+                storage_, timeseries_, ts_agg_manager_, auth_);
+            THEMIS_INFO("TimeSeries API Handler initialized (time-series endpoints active)");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to initialize TimeSeries API Handler: {}", e.what());
+        }
+    }
 
     // Initialize API Key Management Handler
     api_key_mgmt_ = std::make_unique<themis::server::ApiKeyMgmtHandler>(auth_);
@@ -931,12 +964,18 @@ HttpServer::HttpServer(
         shard_topology_
     );
     THEMIS_INFO("Entity API Handler initialized (RAID: {})", entity_config.feature_raid ? "enabled" : "disabled");
-    
+
+    // Initialize ProcessGraphManager for BPMN/EPK workflow engine
+    try {
+        process_graph_ = std::make_shared<ProcessGraphManager>(*storage_);
+        THEMIS_INFO("ProcessGraphManager initialized");
+    } catch (const std::exception& e) {
+        THEMIS_WARN("ProcessGraphManager initialization failed: {} — BPMN endpoints will return 503", e.what());
+    }
+
     // Initialize BPMN API Handler
-    // Note: ProcessGraphManager must be explicitly created and passed to HttpServer
-    // For now, handler gracefully handles nullptr and returns 503 Service Unavailable
     bpmn_api_ = std::make_unique<themis::server::BpmnApiHandler>(
-        process_graph_,  // May be nullptr if not initialized
+        process_graph_,  // May be nullptr if initialization failed above
         auth_
     );
     if (process_graph_) {
@@ -1307,6 +1346,7 @@ HttpServer::HttpServer(
 
             auto saga_logger = std::make_shared<themis::utils::SAGALogger>(
                 field_encryption_, saga_pki, saga_cfg);
+            saga_logger_ = saga_logger;  // retain shared ownership via HttpServer member
             saga_api_ = std::make_unique<server::SAGAApiHandler>(saga_logger);
             THEMIS_INFO("SAGAApiHandler initialized (endpoints: /api/saga/*)");
         } catch (const std::exception& e) {

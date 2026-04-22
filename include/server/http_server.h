@@ -893,9 +893,9 @@ private:
 #endif
     
     // Time-Series Store (Sprint B)
-    std::unique_ptr<TSStore> timeseries_;
+    std::shared_ptr<TSStore> timeseries_;
     rocksdb::ColumnFamilyHandle* ts_cf_handle_ = nullptr;
-    std::unique_ptr<ContinuousAggregateManager> ts_agg_manager_;
+    std::shared_ptr<ContinuousAggregateManager> ts_agg_manager_;
     // Governance Policy Engine
     std::unique_ptr<themis::PolicyEngine> policy_engine_;
     std::unique_ptr<themis::OpaAdapter> opa_adapter_;
