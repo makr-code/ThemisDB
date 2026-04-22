@@ -55,6 +55,17 @@ v2.0.0 – Production-ready Retrieval-Augmented Generation system. 27 implementa
 
 ### Short-term (Next 3-6 months)
 
+- [ ] `OntologyAwareRetriever` — ontologiegesteuertes Entity-Retrieval via `OntologyManager` (Target: Q4 2026)
+  - Affected: `include/rag/ontology_aware_retriever.h` (new), `src/rag/ontology_aware_retriever.cpp` (new)
+  - Inputs: Query-Text + Domain-Ontologie-Pfad; Outputs: `RetrievedDocument`-Liste mit Ontologie-Kontext
+  - Expected behavior: Entity-Linking nutzt `OntologyManager::isA()` für Oberbegriff-Expansion;
+    Retrievalpfade folgen erlaubten Relationstypen aus `allowedEdgeTypes()`;
+    `KnowledgeGraphRetriever` wird um Reasoner-Hooks erweitert
+  - Constraints: ≤ 50 ms Latenz für top-20 Retrieval auf Graphen mit ≤ 1 M Knoten
+  - Errors: unbekannte Entities → Fallback auf BM25; Ontologie nicht geladen → Standard-Retrieval
+  - Tests: OAR-01..OAR-08 in `tests/rag/test_ontology_aware_retriever.cpp`
+  - Perf: Entity-Expansion ≤ 5 ms; Gesamtlatenz top-20 ≤ 50 ms
+
 ### Long-term (6-12 months)
 - [x] Agentic RAG with iterative retrieval loops (`rag/agentic_rag.cpp`) (Issue: #2241)
 - [x] Multi-modal RAG (image + text retrieval) (`rag/multimodal_rag.cpp`) (Issue: #2243)
@@ -62,6 +73,24 @@ v2.0.0 – Production-ready Retrieval-Augmented Generation system. 27 implementa
 - [x] Distributed RAG evaluation across multiple judge models (Issue: #2245) — `rag/distributed_rag_evaluator.h/.cpp`; thread-pool parallel dispatch; MEAN/WEIGHTED_MEAN/MAJORITY_VOTING/BEST_OF_N aggregation; inter-judge agreement metric; factory helpers
 - [x] Performance benchmarks (recall@10, latency targets) — `benchmarks/bench_rag_evaluation.cpp`; recall@K harness; FAST/BALANCED/THOROUGH latency; batch throughput; DistributedRAGEvaluator benchmark; PromptInjectionDetector scan throughput; end-to-end pipeline
 - [x] Security audit (prompt injection in retrieved context) — `rag/prompt_injection_detector.h/.cpp`; pattern-based detection (instruction-override, system-prompt-leak, delimiter-escape, role-injection, markup-injection, Unicode bidi); density threshold; PromptInjectionSanitizer; full unit test coverage
+- [ ] Semantisches-Netz-Integration: `KnowledgeGraphRetriever` + `KnowledgeGraphReasoner` für Multi-Hop-Reasoning (Target: Q3 2027)
+  - Affected: `include/rag/knowledge_graph_retriever.h`, `src/rag/knowledge_graph_retriever.cpp`
+  - Expected behavior: `retrieve()` triggert automatisch `KnowledgeGraphReasoner::infer()` für
+    bis zu `max_inference_hops` Hops; Inferenzketten werden als Zusatzkontext eingefügt;
+    Erklärungsketten sind in `RetrievedDocument.metadata["reasoning_chain"]` abrufbar
+  - Constraints: Multi-Hop-Reasoning ≤ 200 ms P99 (≤ 5 Hops, ≤ 100 k Kanten)
+  - Errors: Reasoning-Timeout → Fallback auf direkte KG-Abfrage ohne Inferenz
+  - Tests: KGR-RAG-01..KGR-RAG-06 in `tests/rag/test_knowledge_graph_retriever_reasoning.cpp`
+- [ ] LoRA-Enhanced Domain Retrieval für Mustererkennung (Target: Q2 2027)
+  - Affected: `include/rag/lora_enhanced_retriever.h` (new), `src/rag/lora_enhanced_retriever.cpp` (new)
+  - Expected behavior: Domänenspezifische LoRA-Adapter (z. B. „legal_rag_v1", „medical_rag_v1")
+    re-ranken Retrievalergebnisse; `MultiLoRAManager::selectAdapterForQuery()` wählt Adapter
+    anhand von Query-Embedding-Ähnlichkeit zur Adapter-Domäne
+  - Constraints: LoRA-Re-Ranking ≤ 100 ms für top-50 Dokumente; Guard `THEMIS_ENABLE_LLM`
+  - Errors: kein passender Adapter → Standard-RRF-Fusion; Adapter-Load-Fehler → Fallback
+  - Tests: LER-01..LER-06 in `tests/rag/test_lora_enhanced_retriever.cpp`
+  - Perf: Re-Ranking-Verbesserung MRR@10 ≥ +5% gegenüber reiner RRF-Baseline
+  - Wissensrepräsentation: LoRA-Adapter kodiert implizit domänenspezifische Konzepthierarchien
 
 ## Implementation Phases
 
@@ -163,7 +192,17 @@ v2.0.0 – Production-ready Retrieval-Augmented Generation system. 27 implementa
 - [x] Release gates completed (Target: Q2 2026): configurable gate thresholds in `BatchEvaluatorConfig` (hallucination, groundedness, injection success, bias drift, p95 latency, cost efficiency, traceability) with blocking decision (`release_gates_passed`) and explicit regression reasons (`failed_release_gates`).
 - [x] Focused validation completed: `tests/test_rag_batch_evaluator.cpp` covers injection success-rate computation, traceability coverage, bounded reliability-score ranges, and release-gate blocking behavior.
 
-## Production Readiness Checklist
+### Phase 10: Ontologie-Integration & Semantisches Netz (Status: Planned [ ], Target: Q4 2026 – Q3 2027)
+- [ ] `OntologyAwareRetriever` — Entity-Expansion via `OntologyManager::isA()`; erlaubte Pfade via `allowedEdgeTypes()` (Target: Q4 2026)
+  → `include/rag/ontology_aware_retriever.h`, `src/rag/ontology_aware_retriever.cpp`
+- [ ] `KnowledgeGraphRetriever` + `KnowledgeGraphReasoner` Integration: Multi-Hop-Reasoning bis 5 Hops; Erklärungsketten im Dokument-Metadata (Target: Q2 2027)
+  → `include/rag/knowledge_graph_retriever.h`, `src/rag/knowledge_graph_retriever.cpp`
+- [ ] `LoRAEnhancedRetriever` — LoRA-Adapter-Re-Ranking für domänenspezifisches Retrieval; MRR@10 ≥ +5% (Target: Q2 2027)
+  → `include/rag/lora_enhanced_retriever.h`, `src/rag/lora_enhanced_retriever.cpp`
+- [ ] Tests: OAR-01..OAR-08, KGR-RAG-01..KGR-RAG-06, LER-01..LER-06
+  → `tests/rag/test_ontology_aware_retriever.cpp`, `tests/rag/test_knowledge_graph_retriever_reasoning.cpp`, `tests/rag/test_lora_enhanced_retriever.cpp`
+
+
 - [x] Unit tests coverage > 80% (streaming_retriever: 28 test cases; reranker: 30+ test cases; document_splitter: 37 test cases)
 - [x] Unit tests coverage > 80% (streaming_retriever: 28 tests; reranker: 30+ tests; hybrid_retriever: 31 tests)
 - [x] Unit tests for LearningMetrics (test_learning_metrics.cpp: recordEvaluation, computeMetrics, exportMetrics, printReport, window enforcement)

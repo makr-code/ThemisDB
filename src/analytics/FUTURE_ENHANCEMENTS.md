@@ -614,3 +614,199 @@ extensions.  The `WindowConfig` struct additions (section 13) and `LLMConfig.max
 - **Architecture**: [`ARCHITECTURE.md`](./ARCHITECTURE.md)
 - **Roadmap**: [`ROADMAP.md`](./ROADMAP.md)
 - **Performance Guide**: [`../../docs/de/analytics/performance_guide.md`](../../docs/de/analytics/performance_guide.md)
+
+---
+
+## Expert System Engine
+**Priority:** High
+**Target Version:** v2.1.0
+**Issue:** #PLANNED
+
+Aufbauend auf der bestehenden CEP-Engine (`cep_engine.cpp`) mit NFA-Pattern-Matching, EPL-Parser
+und Rule-Engine soll eine vollwertige **Expertensystem-Engine** entstehen.  Die CEP-Komponenten
+bilden das Regelausführungssubsystem (Working Memory + Agenda + NFA-Matcher); `ExpertSystemEngine`
+ergänzt sie um eine persistente Wissensbasis, Vorwärts-/Rückwärtsverkettung und eine
+Erklärungskomponente.
+
+### Scope
+- `include/analytics/expert_system_engine.h` (new)
+- `src/analytics/expert_system_engine.cpp` (new)
+- `include/analytics/knowledge_base.h` (new)
+- `src/analytics/knowledge_base.cpp` (new)
+- Integration: `src/analytics/cep_engine.cpp` (Rule-Execution-Layer), `src/analytics/model_serving.cpp` (ML-Scorer)
+- Integration: `src/graph/knowledge_graph_reasoner.cpp` (Wissensgraph-Fakten)
+
+### Design Constraints
+- `[ ]` Working Memory: max 10 000 aktive Fakten (Ring-Eviction bei Überschreitung)
+- `[ ]` Regelwerk: max 100 Horn-Klausel-Regeln; Laden aus YAML-Datei oder programmatisch
+- `[ ]` Vorwärtsverkettungs-Zyklus ≤ 50 ms für 10 000 Fakten + 100 Regeln
+- `[ ]` Rückwärtsverkettung ≤ 20 ms für Tiefe ≤ 10 (Depth-Limited-Search)
+- `[ ]` Erklärungsgeneration ≤ 10 ms (Proof-Trace als geordnete Regelanwendungssequenz)
+- `[ ]` Thread-safety: `assertFact()` und `forwardChain()` via `std::mutex`; `explain()` read-only
+- `[ ]` ML-Scorer-Integration optional (`THEMIS_ENABLE_ANALYTICS_ML_SCORER`); deterministischer
+  Fallback wenn nicht aktiviert
+
+### Required Interfaces
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `ExpertSystemEngine::assertFact(fact)` | CDC-Pipeline, AQL-Layer | Schreibt `(subject, predicate, object)` Tripel in Working Memory |
+| `ExpertSystemEngine::retractFact(fact_id)` | CDC-Pipeline | Entfernt Fakt; triggert Agenda-Re-Evaluation |
+| `ExpertSystemEngine::forwardChain(max_cycles)` | Scheduler, CDC-Callback | Vorwärtsverkettung bis Fixpunkt; gibt Anzahl gefeuerte Regeln zurück |
+| `ExpertSystemEngine::queryGoal(goal)` | AQL-Layer | Rückwärtsverkettung; liefert `GoalResult` mit Proof-Trace |
+| `ExpertSystemEngine::explain(decision_id)` | Audit-API, Explanation-Endpoint | Exportiert Proof-Trace als JSON-Array von `{rule_id, matched_facts, derived_fact}` |
+| `ExpertSystemEngine::setMLScorer(ModelServingEngine*)` | Server-Startup | Registriert ML-Modell für Konfidenz-Scoring von Regelprämissen |
+| `KnowledgeBase::loadRulesFromYaml(path)` | Server-Startup, Hot-Reload | Lädt Horn-Klausel-Regelwerk; validiert auf Konsistenz |
+| `KnowledgeBase::assertFact(triple)` | Reasoner, CDC | Persistiert Fakt (in-memory + optional RocksDB) |
+| `KnowledgeBase::getFacts(predicate)` | Reasoner | Index-Lookup nach Prädikat; O(log N) |
+
+### Wissensrepräsentation — Regelformat (YAML)
+```yaml
+# Horn-Klausel-Regeln im ThemisDB-Expertensystem-Format
+rules:
+  - id: compliance_violation_detected
+    priority: 10
+    description: "Markiert einen Vorfall als Compliance-Verletzung wenn Schwellwert überschritten"
+    if:
+      - [?incident, type, SecurityIncident]
+      - [?incident, severity, critical]
+      - [?incident, affected_records, "?count > 1000"]
+    then:
+      - [?incident, requires_action, compliance_review]
+      - [?incident, notification_level, regulatory]
+    ml_confidence_threshold: 0.85   # ML-Scorer muss ≥ 0.85 bestätigen
+
+  - id: expert_domain_inference
+    priority: 5
+    if:
+      - [?person, authored, ?document]
+      - [?document, hasKeyword, ?keyword]
+      - [?keyword, inDomain, ?domain]
+    then:
+      - [?person, expertIn, ?domain]
+```
+
+### Implementation Notes
+- `[ ]` `ExpertSystemEngine` hält einen Pointer auf `CEPEngine::RuleEngine` (nicht-owning);
+  Horn-Klauseln werden als CEP-Regeln mit EPL-Syntax registriert; der NFA-Matcher dient als
+  Rete-ähnliches Muster-Ausführungssubsystem
+- `[ ]` Working Memory: `std::unordered_multimap<std::string, Fact>` (Prädikat → Fakten);
+  Ring-Eviction via LRU-Verdrängung bei 10 000 Fakten
+- `[ ]` `KnowledgeBase` speichert Fakten als `(subject, predicate, object)` Tripel; kompatibel
+  mit `KnowledgeGraphReasoner` — Fakten können bidirektional ausgetauscht werden
+- `[ ]` Rückwärtsverkettung: Depth-Limited-Search mit max `depth = 10`; zirkuläre Beweise
+  werden durch Visited-Set erkannt und als `CycleDetected` abgebrochen
+- `[ ]` ML-Scorer-Augmentierung: `ModelServingEngine::predict()` bewertet Regelprämissen;
+  Konfidenz < Threshold → Regel als "soft hint" markiert, nicht als harte Entscheidung
+- `[ ]` `LoRAPatternClassifier` (s. u.) kann als ML-Scorer verwendet werden
+
+### Test Strategy
+- `tests/analytics/test_expert_system_engine.cpp` — ES-01..ES-20
+  - ES-01..ES-05: `assertFact` + `forwardChain` (Vorwärtsverkettung bis Fixpunkt)
+  - ES-06..ES-10: `queryGoal` Rückwärtsverkettung + Proof-Trace-Serialisierung
+  - ES-11..ES-14: ML-Scorer-Integration (Mock `ModelServingEngine`)
+  - ES-15..ES-17: Regelkonflikt-Erkennung + `ConflictError`
+  - ES-18..ES-20: Concurrency (8 Threads, 10 000 Fakten)
+- `tests/analytics/test_knowledge_base.cpp` — KB-01..KB-08
+  - KB-01..KB-03: YAML-Laden + Validierung
+  - KB-04..KB-05: `assertFact` / `retractFact` Konsistenz
+  - KB-06..KB-08: `getFacts(predicate)` Index-Korrektheit
+
+### Performance Targets
+- `forwardChain(max=100)` auf 10 000 Fakten + 100 Regeln: ≤ 50 ms
+- `queryGoal` Tiefe ≤ 10: ≤ 20 ms
+- `explain(decision_id)` Proof-Trace: ≤ 10 ms
+- `KnowledgeBase::loadRulesFromYaml` (100 Regeln): ≤ 50 ms
+
+### Security / Reliability
+- Regel-YAML wird gegen JSON-Schema validiert bevor Laden; ungültige Regeln → `INVALID_ARGUMENT`
+- Keine Shell-Ausführung oder Dateisystemzugriff in Regelaktionen
+- ML-Scorer-Konfidenzwerte werden geloggt (Audit-Trail); kein silent-override von Regelergebnissen
+
+---
+
+## AI/ML + LoRA Pattern Classification
+**Priority:** High
+**Target Version:** v2.1.0 – v2.2.0
+**Issue:** #PLANNED
+
+LoRA-fine-tuned LLM-Adapter liefern domänenspezifische Mustererkennung in Ereignisströmen,
+Zeitreihendaten und Graphpfaden.  `LoRAPatternClassifier` wrapped `MultiLoRAManager` und
+integriert sich in CEP-Engine, ExpertSystemEngine und KnowledgeGraphReasoner.
+
+### Scope
+- `include/analytics/lora_pattern_classifier.h` (new)
+- `src/analytics/lora_pattern_classifier.cpp` (new)
+- Integration: `src/llm/multi_lora_manager.cpp`, `src/analytics/cep_engine.cpp`,
+  `src/analytics/model_serving.cpp`, `src/graph/knowledge_graph_reasoner.cpp`
+
+### Design Constraints
+- `[ ]` Batch-Klassifikation (≤ 64 Events): ≤ 100 ms
+- `[ ]` Adapter-Selektion via Embedding-Ähnlichkeit: ≤ 5 ms
+- `[ ]` Guard: `THEMIS_ENABLE_LLM`; AutoML-Fallback (`automl.cpp`) immer aktiv
+- `[ ]` Thread-safety: `batchClassify()` reentrant; kein globaler Mutex über LoRA-Inference
+- `[ ]` Mustererkennung-Metriken: Precision ≥ 0.90 (Betrug), F1 ≥ 0.88 (Zeitreihen-Anomalie)
+
+### Required Interfaces
+
+| Interface | Consumer | Notes |
+|---|---|---|
+| `LoRAPatternClassifier::classify(events, adapter_id)` | CEP-Engine, ExpertSystem | Klassifiziert Ereignis-Batch; gibt `PatternResult{label, confidence}` zurück |
+| `LoRAPatternClassifier::selectAdapter(context)` | Intern, AQL | Wählt Adapter via Embedding-Cosine-Ähnlichkeit zur Kontext-Domäne |
+| `LoRAPatternClassifier::batchClassify(event_batch)` | High-throughput-Pfad | Parallele Klassifikation via Thread-Pool; gibt geordnete `PatternResult`-Liste |
+| `CEPEngine::setLoRAPatternClassifier(classifier)` | Server-Startup | Registriert Classifier; ermöglicht `PATTERN CLASSIFIED_AS` EPL-Ausdruck |
+| `ExpertSystemEngine::setMLScorer(LoRAPatternClassifier*)` | Server-Startup | LoRA-Classifier als ML-Scorer für Regelprämissen |
+| `KnowledgeGraphReasoner::applyLoRAScore(chain, adapter_id)` | Reasoning-Layer | Soft-Plausibility-Scoring für Inferenz-Kanten |
+
+### EPL-Erweiterung für LoRA-Mustererkennung
+```sql
+-- CEP-Regel: Betrugssequenz via LoRA-Klassifikation
+CREATE RULE fraud_sequence_lora
+AS SELECT COUNT(*) AS event_count, FIRST(user_id) AS user
+FROM STREAM events
+WINDOW (TUMBLING 60s)
+WHERE CLASSIFIED_AS('fraud_sequence', min_confidence=0.90)
+  AND amount > 10000
+PATTERN WITHIN 300s
+ACTION alert(channel="fraud_ops");
+
+-- CEP-Regel: Compliance-Verstoß mit Expertensystem-Bestätigung
+CREATE RULE compliance_expert
+AS SELECT *
+FROM STREAM audit_events
+WHERE EXPERT_SYSTEM_CONFIRMS('compliance_violation_detected', confidence>=0.85)
+ACTION db_write(table="compliance_violations"), slack(channel="#legal");
+```
+
+### Implementation Notes
+- `[ ]` `LoRAPatternClassifier::classify()` baut einen strukturierten Prompt aus Event-Features
+  (Typ, Zeitstempel, Werte) und ruft `MultiLoRAManager::generateWithAdapter(adapter_id, prompt)`
+  auf; JSON-Antwort enthält `{"label": "...", "confidence": 0.92}`
+- `[ ]` `selectAdapter(context)` berechnet Cosine-Ähnlichkeit zwischen Context-Embedding
+  (via `IEmbeddingProvider`) und vorregistrierten Adapter-Domänen-Embeddings; wählt Top-1
+- `[ ]` `batchClassify()` spawnt Worker-Threads via `std::async`; max 4 parallele LoRA-Calls
+- `[ ]` AutoML-Fallback: `MLServingClient::predict()` mit dem aktuell besten AutoML-Modell
+  wenn kein LoRA-Adapter verfügbar oder `THEMIS_ENABLE_LLM=OFF`
+- `[ ]` Adapter-Training: LoRA-Adapter werden über `IncrementalLoRATrainer` (Training-Modul)
+  trainiert; Export via `exportWeights()` + Import via `MultiLoRAManager::loadAdapter()`
+- `[ ]` Mustererkennung im Graph: `KnowledgeGraphReasoner::applyLoRAScore()` nutzt
+  `LoRAPatternClassifier::classify(graph_context_events, "graph_patterns_v1")`
+
+### Test Strategy
+- `tests/analytics/test_lora_pattern_classifier.cpp` — LPC-01..LPC-15
+  - LPC-01..LPC-05: Einzelereignis-Klassifikation (Mock `MultiLoRAManager`)
+  - LPC-06..LPC-08: Batch-Klassifikation + Thread-Pool-Parallelismus
+  - LPC-09..LPC-11: Adapter-Selektion via Cosine-Ähnlichkeit (3 Adapter, 3 Domänen)
+  - LPC-12..LPC-13: CEP-Integration (`CLASSIFIED_AS` EPL-Ausdruck)
+  - LPC-14..LPC-15: AutoML-Fallback wenn LoRA deaktiviert
+
+### Performance Targets
+- Batch-Klassifikation 64 Events: ≤ 100 ms (inkl. LoRA-Inference)
+- Adapter-Selektion: ≤ 5 ms
+- AutoML-Fallback: ≤ 20 ms pro Event
+
+### Security / Reliability
+- LoRA-Adapter-Pfade werden durch `isLoRAPathTrusted()` validiert (`multi_lora_manager.cpp`)
+- Klassifikations-Outputs werden nie direkt in Datenbank-Writes ohne menschliche Bestätigung
+  oder Confidence-Threshold verwendet
+- Adapter-Konfidenzwerte werden im Audit-Log protokolliert
