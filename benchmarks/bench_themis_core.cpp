@@ -14,7 +14,7 @@
 #include <benchmark/benchmark.h>
 
 #include "themis/build_info.h"
-#include "themis/edition_manager.h"
+#include "themis/edition.h"
 #include "themis/license_info.h"
 #include "themis/module_hash_verifier.h"
 #include "themis/network/wire_protocol_server.hpp"
@@ -35,6 +35,31 @@
 #endif
 
 namespace {
+
+constexpr std::string_view kHotPathFeature = "rbac";
+// Source of truth for feature names: include/themis/edition.h::kGatedFeatureNames.
+// Base64 for 64 zero-bytes (intentionally invalid signature payload).
+// Expected decoded size: 64 bytes.
+constexpr std::string_view kZeroByteBenchmarkSignatureBase64 =
+    "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==";
+constexpr std::uint32_t kOpcodeLcgSeed = 0xC0FFEEu;
+constexpr std::uint32_t kOpcodeLcgMultiplier = 1664525u;      // Numerical Recipes LCG
+constexpr std::uint32_t kOpcodeLcgIncrement = 1013904223u;    // Numerical Recipes LCG
+
+constexpr std::size_t decodedLengthFromBase64Length(std::size_t encoded_len,
+                                                    std::size_t padding_chars) {
+    return (encoded_len / 4) * 3 - padding_chars;
+}
+
+constexpr std::size_t trailingPaddingCount(std::string_view base64) {
+    return (!base64.empty() && base64.back() == '=') +
+           (base64.size() > 1 && base64[base64.size() - 2] == '=');
+}
+
+static_assert(decodedLengthFromBase64Length(
+                  kZeroByteBenchmarkSignatureBase64.size(),
+                  trailingPaddingCount(kZeroByteBenchmarkSignatureBase64)) == 64,
+              "Benchmark signature payload must decode to 64 bytes");
 
 std::string resolveModulePathForLoadBenchmark() {
 #ifdef _WIN32
@@ -112,7 +137,10 @@ void BM_LicenseValidation_Ed25519(benchmark::State& state) {
     license.max_cores = 4;
     license.max_storage_tb = 1;
     license.edition = "COMMUNITY";
-    license.signature = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==";
+    // Deterministic invalid signature payload (base64 for 64 zero-bytes).
+    // This benchmark measures Ed25519 signature verification-path overhead
+    // (including base64 decode + signature verify) on a non-HSM setup.
+    license.signature = std::string(kZeroByteBenchmarkSignatureBase64);
 
     for (auto _ : state) {
         bool is_valid = themis::license::verifyLicenseSignature(license);
@@ -127,6 +155,13 @@ void BM_LicenseValidation_Ed25519(benchmark::State& state) {
 // Removal Plan: Replace with socket-backed benchmark once deterministic 10k-session harness is available in CI.
 void BM_WireServer_ConcurrentSessions_10k(benchmark::State& state) {
     constexpr int kConcurrentSessions = 10000;
+    enum CounterIndex : std::size_t {
+        kGetCounter = 0,
+        kPutCounter,
+        kQueryCounter,
+        kPingCounter,
+        kOtherCounter,
+    };
     const std::array<themis::wire::OpCode, 5> opcodes = {
         themis::wire::OpCode::OP_GET,
         themis::wire::OpCode::OP_PUT,
@@ -137,14 +172,18 @@ void BM_WireServer_ConcurrentSessions_10k(benchmark::State& state) {
 
     std::array<uint64_t, 5> counters{};
     for (auto _ : state) {
+        std::uint32_t lcg_state = kOpcodeLcgSeed;
         for (int session = 0; session < kConcurrentSessions; ++session) {
-            const auto opcode = opcodes[static_cast<std::size_t>(session) % opcodes.size()];
+            lcg_state = lcg_state * kOpcodeLcgMultiplier + kOpcodeLcgIncrement;
+            const std::size_t opcode_index =
+                (static_cast<std::uint64_t>(lcg_state) * opcodes.size()) >> 32;
+            const auto opcode = opcodes[opcode_index];
             switch (opcode) {
-                case themis::wire::OpCode::OP_GET:       ++counters[0]; break;
-                case themis::wire::OpCode::OP_PUT:       ++counters[1]; break;
-                case themis::wire::OpCode::OP_QUERY_AQL: ++counters[2]; break;
-                case themis::wire::OpCode::OP_PING:      ++counters[3]; break;
-                default:                                 ++counters[4]; break;
+                case themis::wire::OpCode::OP_GET:       ++counters[kGetCounter]; break;
+                case themis::wire::OpCode::OP_PUT:       ++counters[kPutCounter]; break;
+                case themis::wire::OpCode::OP_QUERY_AQL: ++counters[kQueryCounter]; break;
+                case themis::wire::OpCode::OP_PING:      ++counters[kPingCounter]; break;
+                default:                                 ++counters[kOtherCounter]; break;
             }
         }
         benchmark::DoNotOptimize(counters.data());
@@ -154,10 +193,11 @@ void BM_WireServer_ConcurrentSessions_10k(benchmark::State& state) {
 }
 
 void BM_EditionManager_IsFeatureEnabled_HotPath(benchmark::State& state) {
-    auto& manager = themis::edition::EditionManager::instance();
-
+    // "rbac" is a stable gated feature name in themis::edition::kGatedFeatureNames
+    // and represents a typical hot-path feature-gate check.
+    // Note: IsFeatureEnabled uses the project API name from include/themis/edition.h.
     for (auto _ : state) {
-        const bool enabled = manager.isFeatureAvailable("rbac");
+        const bool enabled = themis::edition::IsFeatureEnabled(kHotPathFeature);
         benchmark::DoNotOptimize(enabled);
     }
 }

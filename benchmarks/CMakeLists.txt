@@ -3605,7 +3605,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_themis_core.cpp")
         COMPONENT benchmarks
     )
 
-    message(STATUS "  Themis: module load/hash verify, build-info cold/warm, license signature, wire dispatch, edition hot path")
+    message(STATUS "  Themis: module load/hash verify, build info cold/warm, license signature, wire dispatch, edition hot path")
 endif()
 
 # ============================================================================
