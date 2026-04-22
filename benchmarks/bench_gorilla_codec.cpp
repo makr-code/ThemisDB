@@ -311,7 +311,7 @@ static void BM_GorillaDecode_1MB(benchmark::State& state) {
     // Logical decoded payload size target (uncompressed bytes), not encoded size.
     constexpr size_t target_decoded_bytes = 1u << 20; // 1 MB decoded payload
     constexpr int n = static_cast<int>(target_decoded_bytes / (sizeof(int64_t) + sizeof(double)));
-    constexpr int kDecoderTypeSIMD = 1;
+    constexpr int kDecoderTypeSIMDLabel = 1;
     auto compressed = encode(makeConstantSeries(n));
     std::vector<std::pair<int64_t, double>> out;
     out.reserve(static_cast<size_t>(n));
@@ -327,7 +327,7 @@ static void BM_GorillaDecode_1MB(benchmark::State& state) {
         static_cast<double>(state.iterations() * target_decoded_bytes), benchmark::Counter::kIsRate);
     state.counters["has_avx2"] = gorilla_simd_has_avx2() ? 1 : 0;
     state.counters["has_neon"] = gorilla_simd_has_neon() ? 1 : 0;
-    state.counters["decoder"] = kDecoderTypeSIMD;
+    state.counters["decoder"] = kDecoderTypeSIMDLabel;
 }
 BENCHMARK(BM_GorillaDecode_1MB)->Unit(benchmark::kMicrosecond);
 
