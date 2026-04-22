@@ -108,6 +108,7 @@ This is the authoritative cross-reference between research sources (papers, best
 | ADR-006 — Plugin Adapter Architecture (Chimera) | Architecture Decision | `src/chimera/` | v1.0.0+ | ✅ Accepted | [ref](../architecture_decisions/adr_006_plugin_chimera_adapter_architecture.md) |
 | ADR-007 — gRPC + Protobuf for Internal RPC | Architecture Decision | `src/rpc_grpc/`, `src/server/` | v1.0.0+ | ✅ Accepted | [ref](../architecture_decisions/adr_007_grpc_for_internal_rpc.md) |
 | ADR-008 — JWT + OAuth2 PKCE for API Auth | Architecture Decision | `src/server/`, `src/auth/` | v1.6.0+ | ✅ Accepted | [ref](../architecture_decisions/adr_008_jwt_oauth2_for_api_auth.md) |
+| ADR-009 — Algorithm Validation Framework (6-Schritte-Prozess) | Architecture Decision | alle `src/<modul>/` (cross-cutting) | v1.9.0+ | ✅ Accepted | [ref](../architecture_decisions/adr_009_algorithm_validation_framework.md) |
 
 ---
 

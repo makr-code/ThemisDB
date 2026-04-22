@@ -98,6 +98,14 @@ Before submitting a PR that contains algorithm/design work, confirm:
 - [ ] Is the module README updated with the *Wissenschaftliche Grundlagen & Einflüsse* section?
 - [ ] Is `docs/research/implementation_influence/README.md` updated?
 
+**For PRs that introduce or replace an algorithm / method:**
+
+- [ ] Was the [Algorithm Validation Process](ALGORITHM_VALIDATION_PROCESS.md) applied? (6 steps)
+- [ ] Is a Ziel-ID from `PERFORMANCE_EXPECTATIONS.md §1.2` referenced in the PR and ROADMAP?
+- [ ] Is the baseline frozen in `benchmarks/baselines/<modul>/`?
+- [ ] Does a CI-Gate exist for the affected Ziel-ID?
+- [ ] Is the ADR created under `docs/research/architecture_decisions/`?
+
 ---
 
 ## Examples
@@ -131,12 +139,35 @@ The following scripts help maintain the research documentation:
 
 ---
 
+## Algorithm Validation Process
+
+Wenn eine bestehende Methode oder ein Algorithmus in einem Modul durch einen besseren ersetzt
+werden soll, muss das **6-Schritte-Framework** vollständig durchlaufen werden:
+
+1. Ziel-ID + SLO aus `PERFORMANCE_EXPECTATIONS.md` fixieren
+2. Baseline (Benchmark-JSON + HW-Profil) einfrieren
+3. ≥ 5 Kandidaten aus aktueller Literatur sammeln (Research-Steckbrief je Kandidat)
+4. Experiment mit Welch's t-Test standardisieren (P50/P95/P99 + Throughput + RSS)
+5. CI-Gate in `benchmark_target_mapping.json` + Workflow-Datei erzwingen
+6. ADR + Research-Dokumentation abschließen
+
+Vollständige Anleitung: **[ALGORITHM_VALIDATION_PROCESS.md](ALGORITHM_VALIDATION_PROCESS.md)**  
+Fertige Prompt-Templates: **[PROMPTING_TEMPLATES.md](PROMPTING_TEMPLATES.md)**  
+Framework-ADR: **[ADR-009](architecture_decisions/adr_009_algorithm_validation_framework.md)**
+
+> **Praktische Regel:** Eine Optimierungsidee gilt erst als "gewonnen", wenn alle 6 Schritte
+> abgeschlossen sind — Benchmarkbar → Reproduzierbar → CI-gated → Dokumentiert → Roadmap-verankert.
+
+---
+
 ## Directory Structure Reference
 
 ```
 docs/research/
 ├── README.md                              ← You are here (overview)
 ├── RESEARCH_GUIDE.md                      ← This file (contributor guide)
+├── ALGORITHM_VALIDATION_PROCESS.md        ← 6-Schritte-Framework für Algorithmus-Validierung
+├── PROMPTING_TEMPLATES.md                 ← Modul-spezifische + Cross-Module-Prompt-Templates
 ├── papers/
 │   ├── README.md                          ← Index of all papers
 │   ├── TEMPLATES.md                       ← Required fields & formatting
@@ -152,7 +183,12 @@ docs/research/
 ├── architecture_decisions/
 │   ├── README.md
 │   ├── decision_log.md                    ← Chronological log
-│   └── _template_decision.md
+│   ├── _template_decision.md
+│   └── adr_009_algorithm_validation_framework.md ← Framework-ADR
+├── experiments/                           ← Experiment-Protokolle (angelegt bei Bedarf)
+│   └── <ziel_id>/
+│       ├── <kandidat>_<datum>.json        ← Benchmark-Rohdaten
+│       └── protokoll_<kandidat>.md        ← Experiment-Protokoll
 └── implementation_influence/
     ├── README.md                          ← Master matrix
     ├── by_module.md                       ← Grouped by src module
