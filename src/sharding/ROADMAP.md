@@ -14,6 +14,7 @@
 | Cross-shard transaction coordinator (2PC/3PC/SAGA/Percolator) | ✅ Production-ready |
 | Distributed deadlock detection | ✅ Production-ready |
 | ShardRepairEngine (Reed-Solomon, anti-entropy) | ✅ Production-ready |
+| HammingCoder (RAID-2 / Hamming shard ECC) | ✅ Complete (2026-04-22) |
 | Prometheus metrics + Admin API | ✅ Production-ready |
 | Build system audit (all .cpp registered in CMake) | ✅ Complete (March 2026) |
 | Focused standalone test targets (32 targets) | ✅ Complete (March 2026) |
@@ -69,6 +70,10 @@ Sharding is a database architecture pattern that involves breaking a database in
 ### Phase 2: Repair Engine & Observability (Status: Completed ✅)
 - [x] ShardRepairEngine – automated shard repair orchestration
 - [x] Reed-Solomon erasure decoder via Vandermonde matrix construction
+- [x] **RAID-2 / HammingCoder — shard-level Hamming error-correction (2026-04-22)**
+  - `HammingCoder` class in `redundancy_strategy.h/.cpp`; XOR-only encode + iterative decode
+  - `HAMMING` value in `ErasureCodingAlgorithm` enum; factory updated
+  - 16 focused tests (HC_01..HC_16) in `tests/test_hamming_coder.cpp`
 - [x] Prometheus metrics for shard health, repair ops, and consensus latency
 - [x] Admin API endpoints (shard status, force-repair, rebalance trigger)
 
@@ -200,6 +205,7 @@ Implementing sharding requires careful planning and execution. Following this ro
 - [x] Pluggable consensus framework (Raft/Gossip/Paxos) tested under simulated failures
 - [x] Cross-shard transactions with rollback and deadlock detection
 - [x] ShardRepairEngine with Reed-Solomon erasure recovery
+- [x] **HammingCoder (RAID-2 / Hamming shard ECC) implemented — `HammingCoder::encode/decode`; HC_01..HC_16 tests passing (2026-04-22)**
 - [x] Prometheus metrics and admin API endpoints
 - [x] Persistent Paxos acceptor state survives process restart (WAL fsynced before PROMISE/ACCEPTED response)
 - [x] Cross-shard query routing (scatter-gather, single-shard, cross-shard join via ShardRouter)

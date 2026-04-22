@@ -62,6 +62,9 @@ Implements horizontal scaling and distributed sharding for ThemisDB, providing p
 - **Improved Reed-Solomon Decoder** – Vandermonde matrix-based erasure recovery
   supporting up to `parity_shards` simultaneous chunk failures (previously
   limited to 1).
+- **HammingCoder** (`include/sharding/redundancy_strategy.h`) — RAID-2 style
+  shard-level error-correction using pure XOR parity; no Galois-Field arithmetic.
+  Supports iterative multi-shard recovery via Hamming parity-bit assignment.
 
 #### Key capabilities
 | Capability | Details |
@@ -154,6 +157,7 @@ metricsHandler->setRepairEngine(engine);
 ### ✅ Completed (v1.5)
 - **ShardRepairEngine** – anti-entropy background scan + repair queue
 - **Vandermonde-based Reed-Solomon decoder** – full multi-chunk recovery
+- **HammingCoder** — RAID-2 / Hamming shard-level XOR error-correction; `HAMMING` in `ErasureCodingAlgorithm`; 16 focused tests (HC_01..HC_16)
 - **Prometheus metrics integration** for repair health
 - **Admin API repair endpoints** (POST /admin/repair, /admin/repair/scan, GET /admin/repair/{id})
 

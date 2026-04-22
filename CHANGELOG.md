@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **HammingCoder — RAID-2 / Hamming Shard-Level Error Correction** (`include/sharding/redundancy_strategy.h`, `src/sharding/redundancy_strategy.cpp`)
+  - `HAMMING` added to `ErasureCodingAlgorithm` enum; `ErasureCoder::create(HAMMING)` factory method returns a `HammingCoder` instance
+  - `HammingCoder::encode()`: systematic XOR-based parity; parity shard _p_ covers data shard _j_ when bit _p_ of (_j_+1) is set — classical Hamming assignment at block granularity
+  - `HammingCoder::decode()`: iterative XOR repair; recovers all shards whose parity coverage allows; `std::runtime_error` on irrecoverable failure sets
+  - No Galois-Field arithmetic — purely XOR-based; O(k × r × shard_size) encode/decode
+  - 16 focused tests in `tests/test_hamming_coder.cpp` (HC_01..HC_16): chunk invariants, single/multi-shard failure, canonical Hamming(7,4) coverage verification, 1 MB round-trip, edge cases
+  - `HammingCoderFocusedTests` CTest target registered
+
 ### Security
 
 - **Task Scheduler AuthZ Hardening (GAP-001)** 🔐

@@ -5,6 +5,15 @@
 Based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
+### Added
+- **`HammingCoder`** — RAID-2 style shard-level error-correction coder (`include/sharding/redundancy_strategy.h`, `src/sharding/redundancy_strategy.cpp`)
+  - Implements the generalised Hamming parity-bit assignment at block granularity using pure XOR (no Galois-Field arithmetic)
+  - `HammingCoder::encode()`: systematic encoding; parity shard _p_ covers data shard _j_ when bit _p_ is set in the 1-based position (_j_+1)
+  - `HammingCoder::decode()`: iterative XOR repair; recovers all shards whose parity coverage allows; throws `std::runtime_error` on unrecoverable failure sets
+  - `HAMMING` added to `ErasureCodingAlgorithm` enum; factory `ErasureCoder::create(HAMMING)` returns `HammingCoder`
+  - 16 focused tests in `tests/test_hamming_coder.cpp` (HC_01..HC_16): chunk invariants, single/multi-shard failure, canonical Hamming(7,4) parity-coverage verification, 1 MB round-trip, edge cases
+  - `HammingCoderFocusedTests` CTest target registered
+
 
 ## [1.9.0] — 2026-03-24
 ### Added

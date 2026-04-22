@@ -129,6 +129,63 @@ to an equivalent CPU path when no device is available.
 
 ---
 
+### [x] `HammingCoder`: RAID-2 / Hamming Shard-Level Error Correction
+**Priority:** Medium
+**Target Version:** v1.9.0
+**Status:** ✅ **Implemented 2026-04-22**
+
+Implements a generalised Hamming-code erasure coder at shard (block) granularity
+for RAID-2 style single-error correction without Galois-Field arithmetic.
+
+**Scope:**
+- Encode and decode for arbitrary `(data_shards, parity_shards)` configurations.
+- Systematic parity assignment following the classical Hamming bit-mask: parity shard _p_ covers data shard _j_ when bit _p_ is set in the 1-based position (_j_+1).
+- Iterative multi-shard repair using XOR of covered peers.
+
+**Design Constraints:**
+- Pure XOR operations — no GF(2^8) arithmetic, no lookup tables.
+- O(data_shards × parity_shards × shard_size) encode and decode complexity.
+- Repair loop terminates when no progress is made; throws `std::runtime_error` on unrecoverable failure sets.
+
+**Required Interfaces:**
+- `ErasureCoder` base class (`include/sharding/redundancy_strategy.h`)
+- `ErasureCodingAlgorithm::HAMMING` enum value
+- `ErasureCoder::create(HAMMING)` factory method
+
+**Implementation Notes:**
+- `[x]` Added `HAMMING` to `ErasureCodingAlgorithm` enum.
+- `[x]` Declared `HammingCoder : public ErasureCoder` in `redundancy_strategy.h`.
+- `[x]` `HammingCoder::encode()` — splits data into equal-size shards (zero-padded) and computes XOR parity shards.
+- `[x]` `HammingCoder::decode()` — iterative repair: for each missing shard finds a parity covering it with all other covered shards present; XOR-recovers; repeats until no progress.
+- `[x]` `hammingCovers(j, p)` helper eliminates repeated `((j+1)>>p)&1` expressions.
+- `[x]` Factory in both `src/sharding/redundancy_strategy.cpp` and `src/storage/erasure_coder_factory.cpp` updated.
+
+**Test Strategy:**
+- `[x]` HC_01 — Chunk count and size invariants
+- `[x]` HC_02 — Round-trip with no failures
+- `[x]` HC_03 — Decode with data shards only (no parity)
+- `[x]` HC_04 — Single data-shard failure (all drop positions)
+- `[x]` HC_05 — Single parity-shard failure
+- `[x]` HC_06 — Multiple non-overlapping data-shard failures (iterative repair)
+- `[x]` HC_07 — All parity shards missing, all data present
+- `[x]` HC_08 — Non-multiple input sizes (padding correctness)
+- `[x]` HC_09 — Single-byte input
+- `[x]` HC_10 — Large blob (1 MB) round-trip
+- `[x]` HC_11 — Canonical Hamming(7,4) parity-coverage verification
+- `[x]` HC_12 — `std::invalid_argument` on empty data
+- `[x]` HC_13 — `std::runtime_error` on irrecoverable failure set
+- `[x]` HC_14 — Factory creates `HammingCoder` instance
+- `[x]` HC_15 — Single parity shard encoding
+- `[x]` HC_16 — Explicit parity-bit coverage verification for k=6, r=3
+
+**Performance Targets:**
+- Encode throughput: ≥ 2 GB/s on a single core for shard_size ≥ 64 KB (XOR-dominated; no GF arithmetic overhead).
+- Decode throughput: ≥ 1 GB/s for single-failure recovery (one pass over parity + data shards).
+
+---
+
+
+
 ### [x] `CrossShardTransaction`: Hardcode Coordinator ID and Missing Compensation RPC
 **Priority:** High
 **Target Version:** v1.8.0
