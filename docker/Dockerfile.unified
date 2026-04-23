@@ -8,7 +8,7 @@
 # ============================================================================
 # Stage 1: base - Shared foundation with build tools
 # ============================================================================
-FROM ubuntu:26.04 AS base
+FROM ubuntu:24.04 AS base
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV VCPKG_ROOT=/opt/vcpkg
@@ -153,7 +153,7 @@ ARG TARGETARCH=amd64
 WORKDIR /src
 
 # Copy source code
-COPY CMakeLists.txt VERSION ./
+COPY CMakeLists.txt CMakePresets.json VERSION ./
 COPY cmake ./cmake
 COPY include ./include
 COPY src ./src
@@ -185,42 +185,34 @@ ARG FORCE_CPU_ONLY=OFF
 
 RUN set -eux; \
     TRIPLET=$(cat /tmp/triplet.txt); \
-    VCPKG_ROOT=/opt/vcpkg; \
     echo "Building ThemisDB ${THEMIS_EDITION} (LLM=${ENABLE_LLM}, FORCE_CPU_ONLY=${FORCE_CPU_ONLY})..."; \
-    echo "TRIPLET=$TRIPLET"; \
+    echo "TRIPLET=${TRIPLET}"; \
     ls -la /build/vcpkg_installed/${TRIPLET} 2>/dev/null | head -20 || echo "No vcpkg_installed"; \
     \
-    # Build CMake command with optional CPU-only override
-    CMAKE_ARGS="-S . -B build -G Ninja \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DTHEMIS_EDITION=${THEMIS_EDITION} \
-        -DTHEMIS_ENABLE_LLM=${ENABLE_LLM} \
-        -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
-        -DTHEMIS_ENABLE_TRACING=OFF \
-        -DVCPKG_TARGET_TRIPLET=${TRIPLET} \
-        -DVCPKG_INSTALLED_DIR=/build/vcpkg_installed \
-        -DCMAKE_PREFIX_PATH=/build/vcpkg_installed/${TRIPLET};/build/vcpkg_installed/${TRIPLET}/share;/build/vcpkg_installed/${TRIPLET}/lib/cmake \
-        -DOPENSSL_ROOT_DIR=/build/vcpkg_installed/${TRIPLET} \
-        -DOpenSSL_DIR=/build/vcpkg_installed/${TRIPLET}/share/openssl \
-        -DVCPKG_MANIFEST_MODE=OFF"; \
-    \
-    # Override GPU defaults for CPU-only builds (Docker compatibility)
+    EXTRA_ARGS=""; \
     if [ "${FORCE_CPU_ONLY}" = "ON" ]; then \
         echo "FORCE_CPU_ONLY=ON: Disabling GPU backends for Docker CPU-only build"; \
-        CMAKE_ARGS="${CMAKE_ARGS} -DTHEMIS_ENABLE_VULKAN=OFF -DTHEMIS_ENABLE_CUDA=OFF"; \
+        EXTRA_ARGS="-DTHEMIS_ENABLE_VULKAN=OFF -DTHEMIS_ENABLE_CUDA=OFF"; \
     else \
         echo "Using edition defaults: COMMUNITY/ENTERPRISE/HYPERSCALER have Vulkan=ON by default"; \
         echo "Note: Vulkan SDK not installed in container, runtime will use CPU fallback"; \
         echo "For GPU support in container, install Vulkan SDK in base stage and mount /dev/dri"; \
     fi; \
     \
-    cmake ${CMAKE_ARGS} && \
+    cmake --preset docker-release \
+        -DTHEMIS_EDITION="${THEMIS_EDITION}" \
+        -DTHEMIS_ENABLE_LLM="${ENABLE_LLM}" \
+        -DVCPKG_TARGET_TRIPLET="${TRIPLET}" \
+        -DCMAKE_PREFIX_PATH="/build/vcpkg_installed/${TRIPLET};/build/vcpkg_installed/${TRIPLET}/share;/build/vcpkg_installed/${TRIPLET}/lib/cmake" \
+        -DOPENSSL_ROOT_DIR="/build/vcpkg_installed/${TRIPLET}" \
+        -DOpenSSL_DIR="/build/vcpkg_installed/${TRIPLET}/share/openssl" \
+        ${EXTRA_ARGS} && \
     ninja -C build -j$(nproc)
 
 # ============================================================================
 # Stage 5: runtime - Production image
 # ============================================================================
-FROM ubuntu:26.04 AS runtime
+FROM ubuntu:24.04 AS runtime
 
 ARG THEMIS_EDITION=COMMUNITY
 
@@ -253,7 +245,7 @@ ENTRYPOINT ["/app/themis_server"]
 # ============================================================================
 # Stage 6: debug - Development/debugging image
 # ============================================================================
-FROM ubuntu:26.04 AS debug
+FROM ubuntu:24.04 AS debug
 
 ARG THEMIS_EDITION=COMMUNITY
 

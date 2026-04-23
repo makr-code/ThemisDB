@@ -91,6 +91,11 @@
       "displayName": "Windows x64: Release (MSVC + Ninja)",
       "description": "Release build for Windows x64 — run cmake from a VS Developer Command Prompt",
       "inherits": "windows-base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
       "binaryDir": "${sourceDir}/build/windows-release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
@@ -102,6 +107,11 @@
       "displayName": "Windows x64: Debug (MSVC + Ninja)",
       "description": "Debug build for Windows x64 — run cmake from a VS Developer Command Prompt",
       "inherits": "windows-base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
       "binaryDir": "${sourceDir}/build/windows-debug",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
@@ -111,8 +121,13 @@
     {
       "name": "linux-release",
       "displayName": "Linux x64: Release (GCC + Ninja)",
-      "description": "Release build for Linux x64 with GCC, Ninja, vcpkg, and COMMUNITY Edition",
+      "description": "Release build for Linux x64 / Ubuntu with GCC, Ninja, vcpkg under sourceDir/vcpkg",
       "inherits": "linux-base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
       "binaryDir": "${sourceDir}/build/linux-release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
@@ -122,8 +137,13 @@
     {
       "name": "linux-debug",
       "displayName": "Linux x64: Debug (GCC + Ninja)",
-      "description": "Debug build for Linux x64 with GCC, Ninja, vcpkg, and COMMUNITY Edition",
+      "description": "Debug build for Linux x64 / Ubuntu with GCC, Ninja, vcpkg under sourceDir/vcpkg",
       "inherits": "linux-base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
       "binaryDir": "${sourceDir}/build/linux-debug",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
@@ -135,6 +155,11 @@
       "displayName": "Linux arm64: Release (GCC cross + Ninja)",
       "description": "Cross-compiled Release build for Linux arm64 — requires aarch64-linux-gnu-gcc toolchain",
       "inherits": "linux-arm64-base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
       "binaryDir": "${sourceDir}/build/linux-arm64-release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
@@ -146,10 +171,37 @@
       "displayName": "Linux arm64: Debug (GCC cross + Ninja)",
       "description": "Cross-compiled Debug build for Linux arm64 — requires aarch64-linux-gnu-gcc toolchain",
       "inherits": "linux-arm64-base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
       "binaryDir": "${sourceDir}/build/linux-arm64-debug",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "THEMIS_EDITION": "COMMUNITY"
+      }
+    },
+    {
+      "name": "docker-release",
+      "displayName": "Docker: Linux Release (inside container)",
+      "description": "Release build for Docker containers — vcpkg at /opt/vcpkg, installed packages at /build/vcpkg_installed. Override THEMIS_EDITION / THEMIS_ENABLE_LLM / VCPKG_TARGET_TRIPLET via -D on the command line.",
+      "inherits": "base",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_C_COMPILER": "gcc",
+        "CMAKE_CXX_COMPILER": "g++",
+        "CMAKE_TOOLCHAIN_FILE": "/opt/vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_TARGET_TRIPLET": "x64-linux",
+        "VCPKG_INSTALLED_DIR": "/build/vcpkg_installed",
+        "VCPKG_MANIFEST_MODE": "OFF",
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_ENABLE_HTTP_SERVER": "ON",
+        "THEMIS_ENABLE_LLM": "OFF",
+        "THEMIS_ENABLE_GPU": "OFF",
+        "THEMIS_ENABLE_TRACING": "OFF",
+        "THEMIS_BUILD_TESTS": "OFF"
       }
     }
   ],
@@ -185,6 +237,11 @@
       "name": "linux-arm64-debug",
       "displayName": "Build: Linux arm64 Debug",
       "configurePreset": "linux-arm64-debug"
+    },
+    {
+      "name": "docker-release",
+      "displayName": "Build: Docker Release",
+      "configurePreset": "docker-release"
     }
   ],
   "testPresets": [
@@ -238,6 +295,15 @@
       "environment": {
         "PATH": "${sourceDir}/build/linux-arm64-debug/bin${pathListSep}$penv{PATH}",
         "LD_LIBRARY_PATH": "${sourceDir}/build/linux-arm64-debug/lib${pathListSep}$penv{LD_LIBRARY_PATH}"
+      }
+    },
+    {
+      "name": "docker-release",
+      "displayName": "Test: Docker Release",
+      "configurePreset": "docker-release",
+      "environment": {
+        "PATH": "${sourceDir}/build/bin${pathListSep}$penv{PATH}",
+        "LD_LIBRARY_PATH": "/build/vcpkg_installed/x64-linux/lib${pathListSep}${sourceDir}/build/lib${pathListSep}$penv{LD_LIBRARY_PATH}"
       }
     }
   ],
@@ -294,6 +360,14 @@
         { "type": "configure", "name": "linux-arm64-debug" },
         { "type": "build",     "name": "linux-arm64-debug" },
         { "type": "test",      "name": "linux-arm64-debug" }
+      ]
+    },
+    {
+      "name": "docker-release",
+      "displayName": "Workflow: Docker Release (Configure → Build)",
+      "steps": [
+        { "type": "configure", "name": "docker-release" },
+        { "type": "build",     "name": "docker-release" }
       ]
     }
   ]
