@@ -50,7 +50,7 @@ jobs:
 
       - name: Repro check: strict missing-source detection must fail on broken fixture
         run: |
-          FIXTURE_DIR=/tmp/copilot-guard-fixture
+          FIXTURE_DIR="$(mktemp -d)"
           mkdir -p "$FIXTURE_DIR"/{src/replication,tests,include,cmake}
           cat > "$FIXTURE_DIR"/src/replication/crdt_types.cpp <<'CPP'
           int crdt_types_fixture = 1;
@@ -89,7 +89,31 @@ jobs:
 
       - name: Repro check: LNK parser must fail on LNK2019 fixture
         run: |
-          FIXTURE_DIR=/tmp/copilot-guard-fixture
+          FIXTURE_DIR="$(mktemp -d)"
+          mkdir -p "$FIXTURE_DIR"/{src/replication,tests,include,cmake}
+          cat > "$FIXTURE_DIR"/src/replication/crdt_types.cpp <<'CPP'
+          int crdt_types_fixture = 1;
+          CPP
+          cat > "$FIXTURE_DIR"/tests/CMakeLists.txt <<'CMAKE'
+          add_executable(test_replication_crdt_types test_replication_crdt_types.cpp)
+          target_compile_definitions(test_replication_crdt_types PRIVATE THEMIS_TEST_BUILD=1)
+          CMAKE
+          cat > "$FIXTURE_DIR"/include/themis_export.h <<'HDR'
+          #pragma once
+          #ifdef _WIN32
+          #if defined(THEMIS_BASE_EXPORTS) || defined(THEMIS_TEST_BUILD)
+          #define THEMIS_BASE_API __declspec(dllexport)
+          #else
+          #define THEMIS_BASE_API __declspec(dllimport)
+          #endif
+          #else
+          #define THEMIS_BASE_API
+          #endif
+          HDR
+          cat > "$FIXTURE_DIR"/cmake/CMakeLists.txt <<'CMAKE'
+          target_compile_definitions(themis_core PRIVATE THEMIS_BASE_EXPORTS)
+          CMAKE
+
           cat > "$FIXTURE_DIR"/lnk.log <<'LOG'
           error LNK2019: unresolved external symbol "public: void CRDTTypes::merge(void)" referenced in function main
           LOG

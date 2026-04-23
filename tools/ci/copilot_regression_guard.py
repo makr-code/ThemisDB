@@ -65,6 +65,20 @@ def _extract_cmake_call_block(lines: list[str], start_idx: int) -> tuple[str, in
     return "\n".join(block_lines), idx
 
 
+def _iter_target_command_blocks(cmake_text: str, command: str, target: str) -> Iterable[str]:
+    lines = cmake_text.splitlines()
+    idx = 0
+    prefix = f"{command}("
+    target_pattern = re.compile(rf"{re.escape(command)}\(\s*{re.escape(target)}\b")
+    while idx < len(lines):
+        line = lines[idx]
+        if prefix not in line or not target_pattern.search(line):
+            idx += 1
+            continue
+        block, idx = _extract_cmake_call_block(lines, idx)
+        yield block
+
+
 def _parse_add_executable_blocks(cmake_text: str) -> list[tuple[str, int, list[str]]]:
     lines = cmake_text.splitlines()
     idx = 0
@@ -85,33 +99,19 @@ def _parse_add_executable_blocks(cmake_text: str) -> list[tuple[str, int, list[s
 
 
 def _target_has_themis_linkage(cmake_text: str, target: str) -> bool:
-    pattern = re.compile(
-        rf"target_link_libraries\(\s*{re.escape(target)}\b([\s\S]*?)\)",
-        re.MULTILINE,
-    )
-    for match in pattern.finditer(cmake_text):
-        body = match.group(1)
+    for body in _iter_target_command_blocks(cmake_text, "target_link_libraries", target):
         if re.search(r"\bthemis_[a-z0-9_]+\b|\$\{THEMIS_[A-Z0-9_]+\}", body):
             return True
     return False
 
 
 def _target_has_direct_production_sources(cmake_text: str, target: str) -> bool:
-    patterns = [
-        re.compile(
-            rf"add_executable\(\s*{re.escape(target)}\b([\s\S]*?)\)",
-            re.MULTILINE,
-        ),
-        re.compile(
-            rf"target_sources\(\s*{re.escape(target)}\b([\s\S]*?)\)",
-            re.MULTILINE,
-        ),
-    ]
-    for pattern in patterns:
-        for match in pattern.finditer(cmake_text):
-            body = match.group(1)
-            if re.search(r"src[\\/].*\.cpp", body) or "${THEMIS_ROOT_DIR}/src/" in body:
-                return True
+    for body in _iter_target_command_blocks(cmake_text, "add_executable", target):
+        if re.search(r"src[\\/].*\.cpp", body) or "${THEMIS_ROOT_DIR}/src/" in body:
+            return True
+    for body in _iter_target_command_blocks(cmake_text, "target_sources", target):
+        if re.search(r"src[\\/].*\.cpp", body) or "${THEMIS_ROOT_DIR}/src/" in body:
+            return True
     return False
 
 
@@ -236,7 +236,7 @@ def validate_export_macros(repo_root: Path) -> list[str]:
 def _symbol_tokens(symbol: str) -> set[str]:
     clean = re.sub(r"[`'\"\?@!$%^&*()=+\[\]{}<>|~]", " ", symbol)
     clean = clean.replace("::", " ")
-    raw_tokens = re.findall(r"[A-Za-z_][A-Za-z0-9_]{2,}", clean)
+    raw_tokens = re.findall(r"[A-Za-z_][A-Za-z0-9_]*", clean)
     out = {t for t in raw_tokens if t.lower() not in CPP_SYMBOL_SKIP}
     snake = {_camel_to_snake(t) for t in out}
     return {t.lower() for t in out}.union(snake)
