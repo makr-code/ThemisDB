@@ -39,6 +39,7 @@ Aktuell gemeldete, wahrscheinlich fehlende Zuordnungen (Stand Guard-Lauf):
 
 - `test_flatfile_importer_focused` -> `src/importers/flatfile_importer.cpp`
 - `test_schema_validator_importer_focused` -> `src/importers/schema_validator.cpp`
+- `test_importer_conflict_resolver_focused` -> `src/importers/conflict_resolver.cpp`
 - `test_mysql_importer_focused` -> `src/importers/mysql_importer.cpp`
 - `test_mongo_importer_focused` -> `src/importers/mongo_importer.cpp`
 - `test_sqlite_importer_focused` -> `src/importers/sqlite_importer.cpp`

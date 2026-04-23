@@ -139,8 +139,6 @@ def _canonical_test_stem(source: str) -> set[str]:
         parts = item.split("_")
         if len(parts) >= 3:
             variants.add("_".join(parts[-2:]))
-        if len(parts) >= 2:
-            variants.add(parts[-1])
     return {v for v in variants if v}
 
 
