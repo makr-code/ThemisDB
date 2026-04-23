@@ -27,14 +27,8 @@
       "name": "vcpkg-base",
       "hidden": true,
       "inherits": "base",
-      "environment": {
-        "VCPKG_POWERSHELL_PATH": "$env{LOCALAPPDATA}/Microsoft/WindowsApps/pwsh.exe",
-        "Z_VCPKG_POWERSHELL_PATH": "$env{LOCALAPPDATA}/Microsoft/WindowsApps/pwsh.exe",
-        "Z_VCPKG_PWSH_PATH": "$env{LOCALAPPDATA}/Microsoft/WindowsApps/pwsh.exe"
-      },
       "cacheVariables": {
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
-        "VCPKG_TARGET_TRIPLET": "x64-windows",
         "VCPKG_INSTALLED_DIR": "${sourceDir}/vcpkg_installed"
       }
     },
@@ -43,9 +37,9 @@
       "hidden": true,
       "inherits": "vcpkg-base",
       "environment": {
-        "PATH": "$penv{PATH};C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64;C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64",
-        "INCLUDE": "C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/include;C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/ucrt;C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/shared;C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/um",
-        "LIB": "C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/lib/x64;C:/Program Files (x86)/Windows Kits/10/Lib/10.0.26100.0/ucrt/x64;C:/Program Files (x86)/Windows Kits/10/Lib/10.0.26100.0/um/x64",
+        "VCPKG_POWERSHELL_PATH": "$env{LOCALAPPDATA}/Microsoft/WindowsApps/pwsh.exe",
+        "Z_VCPKG_POWERSHELL_PATH": "$env{LOCALAPPDATA}/Microsoft/WindowsApps/pwsh.exe",
+        "Z_VCPKG_PWSH_PATH": "$env{LOCALAPPDATA}/Microsoft/WindowsApps/pwsh.exe",
         "SCCACHE_DIR": "${sourceDir}/.sccache",
         "SCCACHE_ERROR_LOG": "${sourceDir}/logs/sccache-error.log"
       },
@@ -54,6 +48,7 @@
         "CMAKE_CXX_COMPILER": "cl.exe",
         "CMAKE_MAKE_PROGRAM": "ninja.exe",
         "CMAKE_VS_RUNTIME_LIBRARY": "MultiThreadedDLL",
+        "VCPKG_TARGET_TRIPLET": "x64-windows",
         "THEMIS_ENABLE_GPU": "ON",
         "THEMIS_ENABLE_HTTP_SERVER": "ON",
         "THEMIS_ENABLE_LLM": "ON",
@@ -69,213 +64,236 @@
         "CMAKE_C_COMPILER": "gcc",
         "CMAKE_CXX_COMPILER": "g++",
         "VCPKG_TARGET_TRIPLET": "x64-linux",
+        "VCPKG_INSTALLED_DIR": "${sourceDir}/vcpkg_installed_linux",
         "THEMIS_ENABLE_GPU": "ON",
         "THEMIS_ENABLE_HTTP_SERVER": "ON",
         "THEMIS_ENABLE_LLM": "ON"
       }
     },
     {
-      "name": "msvc-ninja-release",
-      "displayName": "Windows: MSVC + Ninja Release",
-      "description": "Release build for Windows with MSVC, Ninja, vcpkg and COMMUNITY Edition (LLM and GPU enabled with runtime CPU fallback)",
+      "name": "linux-arm64-base",
+      "hidden": true,
+      "inherits": "vcpkg-base",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "aarch64-linux-gnu-gcc",
+        "CMAKE_CXX_COMPILER": "aarch64-linux-gnu-g++",
+        "CMAKE_SYSTEM_NAME": "Linux",
+        "CMAKE_SYSTEM_PROCESSOR": "aarch64",
+        "VCPKG_TARGET_TRIPLET": "arm64-linux",
+        "VCPKG_INSTALLED_DIR": "${sourceDir}/vcpkg_installed_arm64",
+        "THEMIS_ENABLE_GPU": "OFF",
+        "THEMIS_ENABLE_HTTP_SERVER": "ON",
+        "THEMIS_ENABLE_LLM": "ON"
+      }
+    },
+    {
+      "name": "windows-release",
+      "displayName": "Windows x64: Release (MSVC + Ninja)",
+      "description": "Release build for Windows x64 — run cmake from a VS Developer Command Prompt",
       "inherits": "windows-base",
-      "binaryDir": "${sourceDir}/build-msvc-ninja-release",
+      "binaryDir": "${sourceDir}/build/windows-release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "COMMUNITY"
       }
     },
     {
-      "name": "msvc-ninja-perf",
-      "displayName": "Windows: MSVC + Ninja Performance",
-      "description": "Performance-focused Release build for local benchmark runs (tests disabled, benchmarks enabled)",
-      "inherits": "msvc-ninja-release",
-      "binaryDir": "${sourceDir}/build-msvc-ninja-perf",
-      "cacheVariables": {
-        "THEMIS_BUILD_TESTS": "OFF",
-        "THEMIS_BUILD_BENCHMARKS": "ON",
-        "THEMIS_BUILD_CHIMERA": "ON",
-        "THEMIS_PERF_AUTO_ENABLE": "ON"
-      }
-    },
-    {
-      "name": "msvc-ninja-debug",
-      "displayName": "Windows: MSVC + Ninja Debug",
-      "description": "Debug build for Windows with MSVC, Ninja and vcpkg (COMMUNITY Edition)",
+      "name": "windows-debug",
+      "displayName": "Windows x64: Debug (MSVC + Ninja)",
+      "description": "Debug build for Windows x64 — run cmake from a VS Developer Command Prompt",
       "inherits": "windows-base",
-      "binaryDir": "${sourceDir}/build-msvc-ninja-debug",
+      "binaryDir": "${sourceDir}/build/windows-debug",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "THEMIS_EDITION": "COMMUNITY"
       }
     },
     {
-      "name": "linux-ninja-release",
-      "displayName": "Linux: GCC + Ninja Release",
-      "description": "Release build for Linux with GCC, Ninja, and COMMUNITY Edition",
+      "name": "linux-release",
+      "displayName": "Linux x64: Release (GCC + Ninja)",
+      "description": "Release build for Linux x64 with GCC, Ninja, vcpkg, and COMMUNITY Edition",
       "inherits": "linux-base",
-      "binaryDir": "${sourceDir}/build-linux-ninja-release",
+      "binaryDir": "${sourceDir}/build/linux-release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "COMMUNITY"
       }
     },
     {
-      "name": "linux-ninja-perf",
-      "displayName": "Linux: GCC + Ninja Performance",
-      "description": "Performance-focused Release build for Linux — -O3, -ffast-math, Huge Pages, io_uring, RCU, LIRS, benchmarks enabled",
-      "inherits": "linux-ninja-release",
-      "binaryDir": "${sourceDir}/build-linux-ninja-perf",
+      "name": "linux-debug",
+      "displayName": "Linux x64: Debug (GCC + Ninja)",
+      "description": "Debug build for Linux x64 with GCC, Ninja, vcpkg, and COMMUNITY Edition",
+      "inherits": "linux-base",
+      "binaryDir": "${sourceDir}/build/linux-debug",
       "cacheVariables": {
-        "THEMIS_BUILD_TESTS": "OFF",
-        "THEMIS_BUILD_BENCHMARKS": "ON",
-        "THEMIS_BUILD_CHIMERA": "ON"
+        "CMAKE_BUILD_TYPE": "Debug",
+        "THEMIS_EDITION": "COMMUNITY"
       }
     },
     {
-      "name": "nightly-bench-sweep",
-      "displayName": "Nightly Benchmark Sweep (all modules)",
-      "description": "Nightly CI preset — runs modulewise benchmark sweeps for modules 2–35. CPU-only, LLM stub models, all bench targets enabled.",
-      "inherits": "linux-ninja-perf",
-      "binaryDir": "${sourceDir}/build/nightly",
+      "name": "linux-arm64-release",
+      "displayName": "Linux arm64: Release (GCC cross + Ninja)",
+      "description": "Cross-compiled Release build for Linux arm64 — requires aarch64-linux-gnu-gcc toolchain",
+      "inherits": "linux-arm64-base",
+      "binaryDir": "${sourceDir}/build/linux-arm64-release",
       "cacheVariables": {
-        "THEMIS_BENCH_SWEEP": "ON",
-        "THEMIS_BENCH_MODULES": "2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22;23;24;25;26;27;28;29;30;31;32;33;34;35;36",
-        "THEMIS_LLM_STUB_MODELS": "ON"
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_EDITION": "COMMUNITY"
+      }
+    },
+    {
+      "name": "linux-arm64-debug",
+      "displayName": "Linux arm64: Debug (GCC cross + Ninja)",
+      "description": "Cross-compiled Debug build for Linux arm64 — requires aarch64-linux-gnu-gcc toolchain",
+      "inherits": "linux-arm64-base",
+      "binaryDir": "${sourceDir}/build/linux-arm64-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "THEMIS_EDITION": "COMMUNITY"
       }
     }
   ],
   "buildPresets": [
     {
-      "name": "msvc-ninja-release",
-      "displayName": "Build: Windows Release",
-      "configurePreset": "msvc-ninja-release",
+      "name": "windows-release",
+      "displayName": "Build: Windows x64 Release",
+      "configurePreset": "windows-release",
       "jobs": 4
     },
     {
-      "name": "msvc-ninja-perf",
-      "displayName": "Build: Windows Performance",
-      "configurePreset": "msvc-ninja-perf",
-      "jobs": 4,
-      "targets": [
-        "themis_server",
-        "bench_storage_performance",
-        "bench_vector_search",
-        "bench_graph_traversal",
-        "bench_graph_query_optimizer",
-        "bench_metrics_collector"
-      ]
+      "name": "windows-debug",
+      "displayName": "Build: Windows x64 Debug",
+      "configurePreset": "windows-debug",
+      "jobs": 4
     },
     {
-      "name": "msvc-ninja-debug",
-      "displayName": "Build: Windows Debug",
-      "configurePreset": "msvc-ninja-debug",
-      "jobs": 2
+      "name": "linux-release",
+      "displayName": "Build: Linux x64 Release",
+      "configurePreset": "linux-release"
     },
     {
-      "name": "linux-ninja-release",
-      "displayName": "Build: Linux Release",
-      "configurePreset": "linux-ninja-release"
+      "name": "linux-debug",
+      "displayName": "Build: Linux x64 Debug",
+      "configurePreset": "linux-debug"
+    },
+    {
+      "name": "linux-arm64-release",
+      "displayName": "Build: Linux arm64 Release",
+      "configurePreset": "linux-arm64-release"
+    },
+    {
+      "name": "linux-arm64-debug",
+      "displayName": "Build: Linux arm64 Debug",
+      "configurePreset": "linux-arm64-debug"
     }
   ],
   "testPresets": [
     {
-      "name": "msvc-ninja-release",
-      "displayName": "Test: Windows Release",
-      "configurePreset": "msvc-ninja-release",
+      "name": "windows-release",
+      "displayName": "Test: Windows x64 Release",
+      "configurePreset": "windows-release",
       "environment": {
-        "PATH": "${sourceDir}/build-msvc-ninja-release/bin${pathListSep}${sourceDir}/build-msvc-ninja-release/vcpkg_installed/x64-windows/bin${pathListSep}$penv{PATH}"
+        "PATH": "${sourceDir}/build/windows-release/bin${pathListSep}${sourceDir}/vcpkg_installed/x64-windows/bin${pathListSep}$penv{PATH}"
       }
     },
     {
-      "name": "msvc-ninja-debug",
-      "displayName": "Test: Windows Debug",
-      "configurePreset": "msvc-ninja-debug",
+      "name": "windows-debug",
+      "displayName": "Test: Windows x64 Debug",
+      "configurePreset": "windows-debug",
       "environment": {
-        "PATH": "${sourceDir}/build-msvc-ninja-debug/bin${pathListSep}${sourceDir}/build-msvc-ninja-debug/vcpkg_installed/x64-windows/bin${pathListSep}$penv{PATH}"
+        "PATH": "${sourceDir}/build/windows-debug/bin${pathListSep}${sourceDir}/vcpkg_installed/x64-windows/bin${pathListSep}$penv{PATH}"
       }
     },
     {
-      "name": "linux-ninja-release",
-      "displayName": "Test: Linux Release",
-      "configurePreset": "linux-ninja-release",
+      "name": "linux-release",
+      "displayName": "Test: Linux x64 Release",
+      "configurePreset": "linux-release",
       "environment": {
-        "PATH": "${sourceDir}/build-linux-ninja-release/bin${pathListSep}$penv{PATH}",
-        "LD_LIBRARY_PATH": "${sourceDir}/build-linux-ninja-release/lib${pathListSep}${sourceDir}/build-linux-ninja-release/bin${pathListSep}$penv{LD_LIBRARY_PATH}"
+        "PATH": "${sourceDir}/build/linux-release/bin${pathListSep}$penv{PATH}",
+        "LD_LIBRARY_PATH": "${sourceDir}/build/linux-release/lib${pathListSep}${sourceDir}/build/linux-release/bin${pathListSep}$penv{LD_LIBRARY_PATH}"
+      }
+    },
+    {
+      "name": "linux-debug",
+      "displayName": "Test: Linux x64 Debug",
+      "configurePreset": "linux-debug",
+      "environment": {
+        "PATH": "${sourceDir}/build/linux-debug/bin${pathListSep}$penv{PATH}",
+        "LD_LIBRARY_PATH": "${sourceDir}/build/linux-debug/lib${pathListSep}${sourceDir}/build/linux-debug/bin${pathListSep}$penv{LD_LIBRARY_PATH}"
+      }
+    },
+    {
+      "name": "linux-arm64-release",
+      "displayName": "Test: Linux arm64 Release",
+      "configurePreset": "linux-arm64-release",
+      "environment": {
+        "PATH": "${sourceDir}/build/linux-arm64-release/bin${pathListSep}$penv{PATH}",
+        "LD_LIBRARY_PATH": "${sourceDir}/build/linux-arm64-release/lib${pathListSep}$penv{LD_LIBRARY_PATH}"
+      }
+    },
+    {
+      "name": "linux-arm64-debug",
+      "displayName": "Test: Linux arm64 Debug",
+      "configurePreset": "linux-arm64-debug",
+      "environment": {
+        "PATH": "${sourceDir}/build/linux-arm64-debug/bin${pathListSep}$penv{PATH}",
+        "LD_LIBRARY_PATH": "${sourceDir}/build/linux-arm64-debug/lib${pathListSep}$penv{LD_LIBRARY_PATH}"
       }
     }
   ],
   "workflowPresets": [
     {
-      "name": "windows-dev-workflow",
-      "displayName": "Workflow: Windows Release (Configure → Build → Test)",
-      "description": "Complete development workflow for Windows",
+      "name": "windows-release",
+      "displayName": "Workflow: Windows x64 Release (Configure → Build → Test)",
       "steps": [
-        {
-          "type": "configure",
-          "name": "msvc-ninja-release"
-        },
-        {
-          "type": "build",
-          "name": "msvc-ninja-release"
-        },
-        {
-          "type": "test",
-          "name": "msvc-ninja-release"
-        }
+        { "type": "configure", "name": "windows-release" },
+        { "type": "build",     "name": "windows-release" },
+        { "type": "test",      "name": "windows-release" }
       ]
     },
     {
-      "name": "windows-debug-workflow",
-      "displayName": "Workflow: Windows Debug (Configure → Build → Test)",
-      "description": "Complete debug workflow for Windows",
+      "name": "windows-debug",
+      "displayName": "Workflow: Windows x64 Debug (Configure → Build → Test)",
       "steps": [
-        {
-          "type": "configure",
-          "name": "msvc-ninja-debug"
-        },
-        {
-          "type": "build",
-          "name": "msvc-ninja-debug"
-        },
-        {
-          "type": "test",
-          "name": "msvc-ninja-debug"
-        }
+        { "type": "configure", "name": "windows-debug" },
+        { "type": "build",     "name": "windows-debug" },
+        { "type": "test",      "name": "windows-debug" }
       ]
     },
     {
-      "name": "windows-perf-workflow",
-      "displayName": "Workflow: Windows Performance (Configure → Build)",
-      "description": "Reproducible local performance workflow without test execution",
+      "name": "linux-release",
+      "displayName": "Workflow: Linux x64 Release (Configure → Build → Test)",
       "steps": [
-        {
-          "type": "configure",
-          "name": "msvc-ninja-perf"
-        },
-        {
-          "type": "build",
-          "name": "msvc-ninja-perf"
-        }
+        { "type": "configure", "name": "linux-release" },
+        { "type": "build",     "name": "linux-release" },
+        { "type": "test",      "name": "linux-release" }
       ]
     },
     {
-      "name": "linux-workflow",
-      "displayName": "Workflow: Linux Release (Configure → Build → Test)",
-      "description": "Complete development workflow for Linux",
+      "name": "linux-debug",
+      "displayName": "Workflow: Linux x64 Debug (Configure → Build → Test)",
       "steps": [
-        {
-          "type": "configure",
-          "name": "linux-ninja-release"
-        },
-        {
-          "type": "build",
-          "name": "linux-ninja-release"
-        },
-        {
-          "type": "test",
-          "name": "linux-ninja-release"
-        }
+        { "type": "configure", "name": "linux-debug" },
+        { "type": "build",     "name": "linux-debug" },
+        { "type": "test",      "name": "linux-debug" }
+      ]
+    },
+    {
+      "name": "linux-arm64-release",
+      "displayName": "Workflow: Linux arm64 Release (Configure → Build → Test)",
+      "steps": [
+        { "type": "configure", "name": "linux-arm64-release" },
+        { "type": "build",     "name": "linux-arm64-release" },
+        { "type": "test",      "name": "linux-arm64-release" }
+      ]
+    },
+    {
+      "name": "linux-arm64-debug",
+      "displayName": "Workflow: Linux arm64 Debug (Configure → Build → Test)",
+      "steps": [
+        { "type": "configure", "name": "linux-arm64-debug" },
+        { "type": "build",     "name": "linux-arm64-debug" },
+        { "type": "test",      "name": "linux-arm64-debug" }
       ]
     }
   ]

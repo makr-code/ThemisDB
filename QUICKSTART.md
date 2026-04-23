@@ -98,29 +98,41 @@ This installs vcpkg dependencies, llama.cpp, whisper.cpp, and ffmpeg into the re
 
 ### 3. Configure and build (Community edition)
 
+**Linux x64:**
 ```bash
-cmake --preset community-release
-cmake --build --preset community-release --parallel
+cmake --preset linux-release
+cmake --build --preset linux-release
+```
+
+**Windows x64** (aus einer VS Developer Command Prompt):
+```bash
+cmake --preset windows-release
+cmake --build --preset windows-release
 ```
 
 Available presets (see [`CMakePresets.json`](CMakePresets.json)):
 
-| Preset | Edition | Build type |
+| Preset | Platform | Build type |
 |---|---|---|
-| `community-release` | COMMUNITY | Release |
-| `community-debug` | COMMUNITY | Debug |
-| `minimal-release` | MINIMAL | Release |
+| `linux-release` | Linux x64 (GCC) | Release |
+| `linux-debug` | Linux x64 (GCC) | Debug |
+| `linux-arm64-release` | Linux arm64 (GCC cross) | Release |
+| `linux-arm64-debug` | Linux arm64 (GCC cross) | Debug |
+| `windows-release` | Windows x64 (MSVC) | Release |
+| `windows-debug` | Windows x64 (MSVC) | Debug |
+
+Local overrides (custom compiler paths, feature flags) go in `CMakeUserPresets.json` — copy from `CMakeUserPresets.json.example`. That file is gitignored.
 
 ### 4. Run the server
 
 ```bash
-./build/community-release/themisdb_server --data-dir ./data
+./build/linux-release/themis_server --data-dir ./data
 ```
 
 ### 5. Run the tests
 
 ```bash
-ctest --preset community-release --output-on-failure
+ctest --preset linux-release --output-on-failure
 ```
 
 ---
