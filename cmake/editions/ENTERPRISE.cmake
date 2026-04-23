@@ -76,7 +76,6 @@ set(THEMIS_ENABLE_DISTRIBUTED_TRAINING OFF CACHE BOOL "Distributed training not 
 
 # Edition-specific compile definitions
 add_compile_definitions(THEMIS_ENTERPRISE_EDITION)
-add_compile_definitions(THEMIS_GPU_MAX_VRAM_GB=24)
 add_compile_definitions(THEMIS_SHARDING_MAX_NODES=100)
 
 message(STATUS "  Hardware limits: Up to 24 GB GPU VRAM, 100 nodes, 4 GB cache")

@@ -138,6 +138,24 @@ static Ctx g_ctx;
 // Argument parsing helpers
 // ============================================================================
 
+static bool flag(const std::vector<std::string>& args, const std::string& key) {
+    return std::find(args.begin(), args.end(), key) != args.end();
+}
+
+static std::string optval(const std::vector<std::string>& args,
+                          const std::string& key,
+                          const std::string& def = "") {
+    for (size_t i = 0; i < args.size(); ++i) {
+        if (args[i] == key) {
+            if (i + 1 < args.size()) {
+                return args[i + 1];
+            }
+            return def;
+        }
+    }
+    return def;
+}
+
 // ============================================================================
 // HTTP client helpers
 // ============================================================================

@@ -1818,32 +1818,6 @@ std::string CRDTConflictResolver::resolve(
 }
 
 // ============================================================================
-// HybridLogicalClock::Timestamp Implementation
-// ============================================================================
-
-bool HybridLogicalClock::Timestamp::operator<(const Timestamp& other) const {
-    if (physical != other.physical) {
-        return physical < other.physical;
-    }
-    if (logical != other.logical) {
-        return logical < other.logical;
-    }
-    return node_id < other.node_id;
-}
-
-bool HybridLogicalClock::Timestamp::operator==(const Timestamp& other) const {
-    return physical == other.physical && 
-           logical == other.logical && 
-           node_id == other.node_id;
-}
-
-std::string HybridLogicalClock::Timestamp::toString() const {
-    std::ostringstream oss;
-    oss << "HLC(" << physical << "," << logical << "," << node_id << ")";
-    return oss.str();
-}
-
-// ============================================================================
 // HybridLogicalClock Implementation
 // ============================================================================
 

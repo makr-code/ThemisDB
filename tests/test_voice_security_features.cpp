@@ -36,6 +36,9 @@
 // Provide stub definitions for Logger static members so the test binary links
 // without the full themis_core library.  The templates check `if (logger_)`
 // before dereferencing, so a null shared_ptr produces safe no-ops.
+#if defined(_WIN32) && !defined(THEMIS_BASE_EXPORTS)
+#define THEMIS_BASE_EXPORTS
+#endif
 #include "utils/logger.h"
 namespace themis { namespace utils {
     std::shared_ptr<spdlog::logger> Logger::logger_;

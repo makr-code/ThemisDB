@@ -27,10 +27,10 @@
 #include "prompt_engineering/prompt_injection_detector.h"
 
 using namespace themis::security;
-using themis::rag::security::PromptInjectionDetector   as RagDetector;
+using RagDetector = themis::rag::security::PromptInjectionDetector;
 using themis::rag::security::DetectorConfig;
 using themis::rag::security::InjectionSeverity;
-using themis::prompt_engineering::PromptInjectionDetector as PeDetector;
+using PeDetector = themis::prompt_engineering::PromptInjectionDetector;
 
 // ---------------------------------------------------------------------------
 // PRR_01 — pattern count matches compile-time constant

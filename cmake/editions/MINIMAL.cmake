@@ -32,7 +32,6 @@ set(THEMIS_ENABLE_HSM_REAL OFF CACHE BOOL "Real HSM disabled for MINIMAL edition
 
 # Edition-specific compile definitions
 add_compile_definitions(THEMIS_MINIMAL_EDITION)
-add_compile_definitions(THEMIS_GPU_MAX_VRAM_GB=0)
 add_compile_definitions(THEMIS_SHARDING_MAX_NODES=1)
 
 message(STATUS "  Hardware limits: CPU-focused runtime (GPU VRAM cap 0), 1 node, 128 MB cache")

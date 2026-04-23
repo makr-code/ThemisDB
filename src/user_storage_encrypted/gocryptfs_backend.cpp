@@ -35,6 +35,7 @@
 #include <fcntl.h>
 #endif
 #include <string.h>
+#include <filesystem>
 
 namespace themis {
 namespace plugins {
@@ -629,13 +630,17 @@ Result<std::string> GocryptfsBackend::executeCommandSafe(
 }
 
 bool GocryptfsBackend::directoryExists(const std::string& path) {
-    struct stat st;
-    return stat(path.c_str(), &st) == 0 && S_ISDIR(st.st_mode);
+    std::error_code ec;
+    return std::filesystem::is_directory(path, ec);
 }
 
 bool GocryptfsBackend::createDirectory(const std::string& path) {
-    // Create directory with permissions 0700
-    return mkdir(path.c_str(), 0700) == 0;
+    std::error_code ec;
+    if (std::filesystem::exists(path, ec)) {
+        return !ec;
+    }
+    std::filesystem::create_directories(path, ec);
+    return !ec;
 }
 
 } // namespace user_storage

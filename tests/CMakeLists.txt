@@ -3925,6 +3925,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_grpc_web_proxy_handler.cpp")
 
     target_link_libraries(test_grpc_web_proxy_handler PRIVATE
         ${TEST_LIBS}
+        themis_base
+        spdlog::spdlog
+        fmt::fmt
         Threads::Threads
     )
 

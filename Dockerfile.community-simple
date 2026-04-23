@@ -122,6 +122,7 @@ RUN set -eux && \
         -DTHEMIS_ENABLE_LLM=ON \
         -DTHEMIS_ENABLE_GPU=ON \
         -DTHEMIS_BUILD_TESTS=OFF \
+        -DTHEMIS_MODELS_MODE=SKIP \
         -DTHEMIS_BUILD_BENCHMARKS=OFF \
         -DTHEMIS_ENABLE_TRACING=OFF \
         && echo "✓ CMake configuration successful"

@@ -5,6 +5,10 @@ message(STATUS "==========================================")
 message(STATUS "Edition-Feature Matrix Validation")
 message(STATUS "==========================================")
 
+# Centralized GPU VRAM limit compile definition (applied once per edition)
+# This is defined once here AFTER all edition files are loaded to avoid redefinition
+add_compile_definitions(THEMIS_GPU_MAX_VRAM_GB=${THEMIS_GPU_MAX_VRAM_GB})
+
 if(NOT THEMIS_EDITION_SELECTED)
     message(FATAL_ERROR "EditionMatrix.cmake requires EditionDefaults.cmake to be included first")
 endif()

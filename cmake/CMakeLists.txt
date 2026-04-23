@@ -1726,7 +1726,6 @@ set(THEMIS_CORE_SOURCES
     ../src/server/api_version.cpp
     ../src/server/response_transformer.cpp
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_gateway.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/distributed_gateway.cpp>
     ../src/server/update_api_handler.cpp
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/maintenance_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/geo_topology_api_handler.cpp>
@@ -2101,7 +2100,6 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/oauth_pkce_flow.cpp
     ../src/auth/oidc_provider.cpp
     ../src/auth/federated_identity_manager.cpp
-    ../src/auth/auth_rate_limiter.cpp
     ../src/auth/rate_limiter_backend.cpp
     ../src/auth/api_key_authenticator.cpp
     ../src/auth/session_manager.cpp
@@ -4602,6 +4600,9 @@ if(THEMIS_BUILD_TESTS)
         target_link_libraries(test_temporal_compressor
             PRIVATE GTest::gtest GTest::gtest_main nlohmann_json::nlohmann_json Threads::Threads
         )
+        if(THEMIS_LZ4_TARGET)
+            target_link_libraries(test_temporal_compressor PRIVATE ${THEMIS_LZ4_TARGET})
+        endif()
         gtest_discover_tests(test_temporal_compressor
             DISCOVERY_MODE PRE_TEST
             WORKING_DIRECTORY $<TARGET_FILE_DIR:test_temporal_compressor>
@@ -4773,6 +4774,7 @@ if(THEMIS_BUILD_TESTS)
 
     add_executable(test_adaptive_flush_controller
         ${THEMIS_ROOT_DIR}/tests/test_adaptive_flush_controller.cpp
+        ${THEMIS_ROOT_DIR}/src/timeseries/adaptive_flush_controller.cpp
     )
     target_link_libraries(test_adaptive_flush_controller
         PRIVATE themis_core GTest::gtest GTest::gtest_main
@@ -5394,6 +5396,7 @@ if(THEMIS_BUILD_TESTS)
     # =========================================================================
     add_executable(test_database_domain_auto_labeler
         ${THEMIS_ROOT_DIR}/tests/test_database_domain_auto_labeler.cpp
+        ${THEMIS_ROOT_DIR}/src/training/database_domain_auto_labeler.cpp
     )
     target_link_libraries(test_database_domain_auto_labeler
         PRIVATE themis_core GTest::gtest GTest::gtest_main
@@ -5469,7 +5472,8 @@ if(THEMIS_BUILD_TESTS)
     # =========================================================================
     add_executable(test_transaction_semantic_advisor
         ${THEMIS_ROOT_DIR}/tests/test_transaction_semantic_advisor.cpp
-    )
+          ${THEMIS_ROOT_DIR}/src/transaction/transaction_semantic_advisor.cpp
+     )
     target_link_libraries(test_transaction_semantic_advisor
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )
@@ -5484,6 +5488,7 @@ if(THEMIS_BUILD_TESTS)
     # =========================================================================
     add_executable(test_schema_dead_weight_detector
         ${THEMIS_ROOT_DIR}/tests/test_schema_dead_weight_detector.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/schema_dead_weight_detector.cpp
     )
     target_link_libraries(test_schema_dead_weight_detector
         PRIVATE themis_core GTest::gtest GTest::gtest_main

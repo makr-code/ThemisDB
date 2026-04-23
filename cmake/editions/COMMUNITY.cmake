@@ -5,6 +5,7 @@ message(STATUS "Configuring COMMUNITY edition...")
 
 # Hardware limits
 set(THEMIS_GPU_MAX_VRAM_GB 8 CACHE STRING "GPU VRAM limit (GB)" FORCE)
+add_compile_definitions(THEMIS_GPU_MAX_VRAM_GB=${THEMIS_GPU_MAX_VRAM_GB})
 set(THEMIS_SHARDING_MAX_NODES 5 CACHE STRING "Maximum sharding nodes" FORCE)
 set(THEMIS_MAX_CACHE_SIZE_MB 1024 CACHE STRING "Maximum cache size (MB)" FORCE)
 
@@ -28,7 +29,6 @@ set(THEMIS_ENABLE_DISTRIBUTED_TRAINING OFF CACHE BOOL "Distributed training not 
 
 # Edition-specific compile definitions
 add_compile_definitions(THEMIS_COMMUNITY_EDITION)
-add_compile_definitions(THEMIS_GPU_MAX_VRAM_GB=8)
 add_compile_definitions(THEMIS_SHARDING_MAX_NODES=5)
 
 message(STATUS "  Hardware limits: Up to 8 GB GPU VRAM, 5 nodes, 1 GB cache")

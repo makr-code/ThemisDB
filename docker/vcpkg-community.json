@@ -31,6 +31,8 @@
     "pugixml",
     "snappy",
     "msgpack",
-    "mimalloc"
+    "mimalloc",
+    "gtest",
+    "benchmark"
   ]
 }

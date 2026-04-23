@@ -38,6 +38,7 @@
 #include <vector>
 #include <memory>
 #include <optional>
+#include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <nlohmann/json.hpp>
@@ -58,6 +59,13 @@ struct DocumentEntry {
     int content_length = 0;
     json metadata;
     json themis_metadata;
+
+    // Optional precomputed embedding payload (load-only runtime path)
+    std::vector<float> embedding;
+    std::vector<int16_t> embedding_q;
+    float embedding_scale = 0.0f;
+    bool has_embedding = false;
+    bool is_quantized_embedding = false;
     
     // Computed at runtime
     float relevance_score = 0.0f;
@@ -94,10 +102,13 @@ struct DocsAssistantConfig {
         
         // Search order
         std::vector<std::pair<std::string, std::string>> search_paths = {
+            {"data/docs_artifact.json", "json"},
             {"data/docs.db", "rocksdb"},
             {"data/docs_database.json", "json"},
+            {"./docs_artifact.json", "json"},
             {"./docs.db", "rocksdb"},
             {"./docs_database.json", "json"},
+            {"../data/docs_artifact.json", "json"},
             {"../data/docs.db", "rocksdb"},
             {"../data/docs_database.json", "json"}
         };

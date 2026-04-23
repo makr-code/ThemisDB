@@ -338,11 +338,12 @@ Result<void> MultiLevelEncryptedStorage::initializeLevel(const LevelConfig& conf
         }
     } else {
         // For unencrypted level, just ensure directory exists
-        struct stat st;
-        if (stat(config.base_path.c_str(), &st) != 0) {
-            // Create directory
-            if (mkdir(config.base_path.c_str(), 0700) != 0) {
-                return Result<void>::error("Failed to create directory: " + config.base_path);
+        std::error_code ec;
+        if (!std::filesystem::exists(config.base_path, ec)) {
+            std::filesystem::create_directories(config.base_path, ec);
+            if (ec) {
+                return Result<void>::error("Failed to create directory: " + config.base_path +
+                                           " (" + ec.message() + ")");
             }
         }
     }
@@ -460,14 +461,14 @@ Result<std::shared_ptr<KeyProvider>> MultiLevelEncryptedStorage::getKeyProvider(
         }
 
         // Build HSMProvider config from LevelConfig HSM fields
-        HSMProvider::Config hsm_cfg;
+        themis::security::HSMConfig hsm_cfg;
         hsm_cfg.library_path = config.hsm_library;
         hsm_cfg.slot_id      = config.hsm_slot;
         hsm_cfg.key_label    = config.hsm_key_label.empty()
                                ? "themis-kek"
                                : config.hsm_key_label;
 
-        auto hsm = std::make_shared<HSMProvider>(hsm_cfg);
+        auto hsm = std::make_shared<themis::security::HSMProvider>(hsm_cfg);
         if (!hsm->initialize()) {
             return Result<std::shared_ptr<KeyProvider>>::error(
                 "Failed to initialize HSM provider for level: " + config.name +
@@ -475,9 +476,9 @@ Result<std::shared_ptr<KeyProvider>> MultiLevelEncryptedStorage::getKeyProvider(
             );
         }
 
-        HSMKeyProviderAdapter::Config adapter_cfg;
+        themis::security::HSMKeyProviderAdapter::Config adapter_cfg;
         adapter_cfg.kek_label = hsm_cfg.key_label;
-        provider = std::make_shared<HSMKeyProviderAdapter>(hsm, adapter_cfg);
+        provider = std::make_shared<themis::security::HSMKeyProviderAdapter>(hsm, adapter_cfg);
     } else if (config.key_provider == "mock") {
         provider = std::make_shared<MockKeyProvider>();
     } else {
@@ -579,7 +580,8 @@ Result<void> MultiLevelEncryptedStorage::rotateKey(SecurityLevel level) {
     auto mount_new = backend->mountContainer(new_encrypted_dir, new_mount_point, new_key);
     if (mount_new.isError()) {
         // Best-effort cleanup
-        ::rmdir(new_encrypted_dir.c_str());
+        std::error_code cleanup_ec;
+        std::filesystem::remove_all(new_encrypted_dir, cleanup_ec);
         return Result<void>::error("Key rotation failed – cannot mount new container: " +
                                    mount_new.error());
     }
@@ -719,13 +721,13 @@ Result<void> MultiLevelEncryptedStorage::writeUserFile(const std::string& path, 
         j["updated_at_ms"] = user.updated_at_ms;
         
         // Ensure parent directory exists
-        size_t pos = path.find_last_of('/');
-        if (pos != std::string::npos) {
-            std::string dir = path.substr(0, pos);
-            int result = mkdir(dir.c_str(), 0700);
-            if (result != 0 && errno != EEXIST) {
+        const auto parent = std::filesystem::path(path).parent_path();
+        if (!parent.empty()) {
+            std::error_code ec;
+            std::filesystem::create_directories(parent, ec);
+            if (ec) {
                 return Result<void>::error(
-                    "Failed to create directory: " + dir + " (errno: " + std::to_string(errno) + ")"
+                    "Failed to create directory: " + parent.string() + " (" + ec.message() + ")"
                 );
             }
         }
@@ -779,13 +781,13 @@ Result<void> MultiLevelEncryptedStorage::writeGroupFile(const std::string& path,
         j["created_at_ms"] = group.created_at_ms;
         
         // Ensure parent directory exists
-        size_t pos = path.find_last_of('/');
-        if (pos != std::string::npos) {
-            std::string dir = path.substr(0, pos);
-            int result = mkdir(dir.c_str(), 0700);
-            if (result != 0 && errno != EEXIST) {
+        const auto parent = std::filesystem::path(path).parent_path();
+        if (!parent.empty()) {
+            std::error_code ec;
+            std::filesystem::create_directories(parent, ec);
+            if (ec) {
                 return Result<void>::error(
-                    "Failed to create directory: " + dir + " (errno: " + std::to_string(errno) + ")"
+                    "Failed to create directory: " + parent.string() + " (" + ec.message() + ")"
                 );
             }
         }
@@ -868,26 +870,27 @@ Result<std::vector<User>> MultiLevelEncryptedStorage::listUsers(SecurityLevel le
         return Result<std::vector<User>>::error("Invalid security level");
     }
 
-    std::string users_dir = base + "/users";
-    DIR* dir = ::opendir(users_dir.c_str());
-    if (!dir) {
-        // Directory not yet created — return empty list (not an error)
+    const auto users_dir = std::filesystem::path(base) / "users";
+    std::error_code ec;
+    if (!std::filesystem::exists(users_dir, ec) || !std::filesystem::is_directory(users_dir, ec)) {
         return Result<std::vector<User>>(std::vector<User>{});
     }
 
     std::vector<User> users;
-    struct dirent* entry;
-    while ((entry = ::readdir(dir)) != nullptr) {
-        std::string name = entry->d_name;
-        if (name.size() > 5 && name.substr(name.size() - 5) == ".json") {
-            std::string path = users_dir + "/" + name;
-            auto result = readUserFile(path);
+    for (const auto& entry : std::filesystem::directory_iterator(users_dir, ec)) {
+        if (ec) {
+            break;
+        }
+        if (!entry.is_regular_file()) {
+            continue;
+        }
+        if (entry.path().extension() == ".json") {
+            auto result = readUserFile(entry.path().string());
             if (!result.isError()) {
                 users.push_back(result.value());
             }
         }
     }
-    ::closedir(dir);
 
     return Result<std::vector<User>>(users);
 }
@@ -934,25 +937,27 @@ Result<std::vector<Group>> MultiLevelEncryptedStorage::listGroups(SecurityLevel 
         return Result<std::vector<Group>>::error("Invalid security level");
     }
 
-    std::string groups_dir = base + "/groups";
-    DIR* dir = ::opendir(groups_dir.c_str());
-    if (!dir) {
+    const auto groups_dir = std::filesystem::path(base) / "groups";
+    std::error_code ec;
+    if (!std::filesystem::exists(groups_dir, ec) || !std::filesystem::is_directory(groups_dir, ec)) {
         return Result<std::vector<Group>>(std::vector<Group>{});
     }
 
     std::vector<Group> groups;
-    struct dirent* entry;
-    while ((entry = ::readdir(dir)) != nullptr) {
-        std::string name = entry->d_name;
-        if (name.size() > 5 && name.substr(name.size() - 5) == ".json") {
-            std::string path = groups_dir + "/" + name;
-            auto result = readGroupFile(path);
+    for (const auto& entry : std::filesystem::directory_iterator(groups_dir, ec)) {
+        if (ec) {
+            break;
+        }
+        if (!entry.is_regular_file()) {
+            continue;
+        }
+        if (entry.path().extension() == ".json") {
+            auto result = readGroupFile(entry.path().string());
             if (!result.isError()) {
                 groups.push_back(result.value());
             }
         }
     }
-    ::closedir(dir);
 
     return Result<std::vector<Group>>(groups);
 }
@@ -1112,4 +1117,6 @@ void MultiLevelEncryptedStorage::reconcileStaleMounts() {
 } // namespace themis
 
 // Plugin export
+#if defined(THEMIS_PLUGIN_EXPORTS)
 THEMIS_PLUGIN_IMPL(themis::plugins::user_storage::MultiLevelEncryptedStorage)
+#endif

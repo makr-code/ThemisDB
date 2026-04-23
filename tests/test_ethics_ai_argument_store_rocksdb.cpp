@@ -318,7 +318,6 @@ TEST_F(ArgumentStoreRocksDBTest, ASRDB06_DebateTranscriptAcrossReopen) {
         DebateRound round;
         round.debate_id     = debate_id;
         round.round_number  = r;
-        round.dilemma_id    = "dilemma_asrdb06";
         round.arguments.push_back(makeArgument(
             "asrdb06_arg_r" + std::to_string(r), "stoicism_asrdb06",
             (r == 1) ? ArgumentType::PRO :

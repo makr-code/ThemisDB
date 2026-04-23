@@ -53,7 +53,8 @@ ProjectTemplate::ProjectTemplate(std::shared_ptr<RocksDBWrapper> storage)
 
 std::string ProjectTemplate::generateUuid() const {
     static thread_local std::mt19937_64 rng{
-        std::chrono::steady_clock::now().time_since_epoch().count()
+        static_cast<std::mt19937_64::result_type>(
+            std::chrono::steady_clock::now().time_since_epoch().count())
     };
     std::uniform_int_distribution<uint64_t> dist;
     std::ostringstream oss;

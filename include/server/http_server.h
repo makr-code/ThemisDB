@@ -62,6 +62,7 @@
 #include "server/admin_api_handler.h"
 #include "server/shard_repair_api_handler.h"
 #include "server/sharding_metrics_handler.h"
+#include "sharding/shard_repair_engine.h"
 #include "sharding/prometheus_metrics.h"
 #include "server/vector_api_handler.h"
 #include "server/rope_api_handler.h"

@@ -33,6 +33,8 @@
 #include <chrono>
 #include <sstream>
 #include <cctype>
+#include <unordered_map>
+#include <cmath>
 
 namespace themis::llm {
 
@@ -44,10 +46,116 @@ struct DocsAssistant::Impl {
     std::vector<DocumentEntry> documents;
     bool database_loaded = false;
     json database_metadata;
+    bool semantic_embedding_compatible = false;
+    int embedding_dimension = 0;
     
     // Simple cache for queries
     std::unordered_map<std::string, DocsQueryResult> cache;
 };
+
+namespace {
+
+std::vector<std::string> tokenizeLower(const std::string& text) {
+    std::vector<std::string> tokens;
+    std::string cur;
+    for (unsigned char ch : text) {
+        if (std::isalnum(ch) || ch == '_' || ch == '-') {
+            cur.push_back(static_cast<char>(std::tolower(ch)));
+        } else if (!cur.empty()) {
+            tokens.push_back(cur);
+            cur.clear();
+        }
+    }
+    if (!cur.empty()) {
+        tokens.push_back(cur);
+    }
+    return tokens;
+}
+
+uint64_t fnv1a64(const std::string& s) {
+    constexpr uint64_t kOffset = 1469598103934665603ULL;
+    constexpr uint64_t kPrime = 1099511628211ULL;
+    uint64_t hash = kOffset;
+    for (unsigned char c : s) {
+        hash ^= static_cast<uint64_t>(c);
+        hash *= kPrime;
+    }
+    return hash;
+}
+
+std::vector<float> hashEmbedQuery(const std::string& text, int dim) {
+    std::vector<float> vec(static_cast<size_t>(dim), 0.0f);
+    auto tokens = tokenizeLower(text);
+    if (tokens.empty() || dim <= 0) {
+        return vec;
+    }
+
+    std::unordered_map<std::string, int> freqs;
+    for (const auto& t : tokens) {
+        freqs[t] += 1;
+    }
+
+    for (const auto& kv : freqs) {
+        const auto& tok = kv.first;
+        const int tf = kv.second;
+        const uint64_t h = fnv1a64(tok);
+        const int idx = static_cast<int>(h % static_cast<uint64_t>(dim));
+        const float sign = ((h >> 8) & 1ULL) ? -1.0f : 1.0f;
+        const float weight = 1.0f + std::log(static_cast<float>(std::max(1, tf)));
+        vec[static_cast<size_t>(idx)] += sign * weight;
+    }
+
+    float n2 = 0.0f;
+    for (float v : vec) {
+        n2 += v * v;
+    }
+    if (n2 > 0.0f) {
+        const float inv = 1.0f / std::sqrt(n2);
+        for (float& v : vec) {
+            v *= inv;
+        }
+    }
+    return vec;
+}
+
+float cosineDense(const std::vector<float>& a, const std::vector<float>& b) {
+    if (a.empty() || b.empty() || a.size() != b.size()) {
+        return 0.0f;
+    }
+    float dot = 0.0f;
+    float an = 0.0f;
+    float bn = 0.0f;
+    for (size_t i = 0; i < a.size(); ++i) {
+        dot += a[i] * b[i];
+        an += a[i] * a[i];
+        bn += b[i] * b[i];
+    }
+    if (an <= 0.0f || bn <= 0.0f) {
+        return 0.0f;
+    }
+    return dot / (std::sqrt(an) * std::sqrt(bn));
+}
+
+float cosineQuantized(const std::vector<float>& q, const std::vector<int16_t>& vq, float scale) {
+    if (q.empty() || vq.empty() || q.size() != vq.size() || scale <= 0.0f) {
+        return 0.0f;
+    }
+    float dot = 0.0f;
+    float qn = 0.0f;
+    float vn = 0.0f;
+    for (size_t i = 0; i < q.size(); ++i) {
+        const float dv = static_cast<float>(vq[i]) * scale;
+        dot += q[i] * dv;
+        qn += q[i] * q[i];
+        vn += dv * dv;
+    }
+    if (qn <= 0.0f || vn <= 0.0f) {
+        return 0.0f;
+    }
+    return dot / (std::sqrt(qn) * std::sqrt(vn));
+}
+
+} // namespace
 
 DocsAssistant::DocsAssistant(const DocsAssistantConfig& config)
     : impl_(std::make_unique<Impl>()) {
@@ -82,8 +190,90 @@ bool DocsAssistant::parseDatabase(const json& db_json) {
         if (db_json.contains("metadata")) {
             impl_->database_metadata = db_json["metadata"];
         }
+
+        // New artifact format: prefer precomputed chunks for runtime load-only search
+        if (db_json.contains("chunks") && db_json["chunks"].is_array()) {
+            impl_->semantic_embedding_compatible = false;
+            impl_->embedding_dimension = 0;
+            if (db_json.contains("pipeline") && db_json["pipeline"].contains("embedding")) {
+                const auto& emb = db_json["pipeline"]["embedding"];
+                if (emb.contains("dimension")) {
+                    impl_->embedding_dimension = emb["dimension"].get<int>();
+                }
+                if (emb.contains("backend")) {
+                    const std::string backend = emb["backend"].get<std::string>();
+                    // Runtime can only compute query embeddings for hash-compatible backend.
+                    impl_->semantic_embedding_compatible = (backend.find("hash-fallback") != std::string::npos);
+                }
+            }
+
+            std::unordered_map<std::string, std::string> doc_id_to_path;
+            if (db_json.contains("artifact_documents") && db_json["artifact_documents"].is_array()) {
+                for (const auto& d : db_json["artifact_documents"]) {
+                    if (d.contains("doc_id") && d.contains("file_path")) {
+                        doc_id_to_path[d["doc_id"].get<std::string>()] = d["file_path"].get<std::string>();
+                    }
+                }
+            }
+
+            impl_->documents.clear();
+            for (const auto& chunk_json : db_json["chunks"]) {
+                DocumentEntry doc;
+
+                std::string doc_id = chunk_json.value("doc_id", "");
+                doc.file_path = chunk_json.value("file_path", "");
+                if (doc.file_path.empty() && !doc_id.empty()) {
+                    auto it = doc_id_to_path.find(doc_id);
+                    if (it != doc_id_to_path.end()) {
+                        doc.file_path = it->second;
+                    }
+                }
+
+                doc.file_name = std::filesystem::path(doc.file_path).filename().string();
+                if (doc.file_name.empty()) {
+                    doc.file_name = chunk_json.value("chunk_id", "chunk");
+                }
+
+                doc.content_type = "text/markdown";
+                doc.text_content = chunk_json.value("text", "");
+                doc.content_length = chunk_json.value("token_count", static_cast<int>(doc.text_content.size()));
+
+                doc.metadata = {
+                    {"chunk_id", chunk_json.value("chunk_id", "")},
+                    {"chunk_index", chunk_json.value("chunk_index", 0)},
+                    {"doc_id", doc_id},
+                    {"artifact_source", "chunks"}
+                };
+
+                if (chunk_json.contains("embedding")) {
+                    doc.themis_metadata["vector"]["embedding"] = chunk_json["embedding"];
+                    if (chunk_json["embedding"].is_array()) {
+                        for (const auto& x : chunk_json["embedding"]) {
+                            doc.embedding.push_back(x.get<float>());
+                        }
+                        doc.has_embedding = !doc.embedding.empty();
+                        doc.is_quantized_embedding = false;
+                    }
+                }
+                if (chunk_json.contains("embedding_q") && chunk_json["embedding_q"].is_array()) {
+                    for (const auto& x : chunk_json["embedding_q"]) {
+                        doc.embedding_q.push_back(static_cast<int16_t>(x.get<int>()));
+                    }
+                    doc.embedding_scale = chunk_json.value("embedding_scale", 0.0f);
+                    doc.has_embedding = !doc.embedding_q.empty();
+                    doc.is_quantized_embedding = true;
+                }
+                doc.themis_metadata["vector"]["text_content"] = doc.text_content;
+                doc.themis_metadata["vector"]["content_length"] = doc.content_length;
+
+                impl_->documents.push_back(std::move(doc));
+            }
+
+            impl_->database_loaded = !impl_->documents.empty();
+            return impl_->database_loaded;
+        }
         
-        // Extract documents
+        // Legacy format fallback: extract documents
         if (!db_json.contains("documents") || !db_json["documents"].is_array()) {
             return false;
         }
@@ -196,8 +386,29 @@ std::vector<DocumentEntry> DocsAssistant::searchDocs(const std::string& query, i
     
     // Compute relevance scores
     std::vector<DocumentEntry> scored_docs;
+    const bool use_semantic = impl_->config.enable_semantic_search &&
+                              impl_->semantic_embedding_compatible &&
+                              impl_->embedding_dimension > 0;
+    std::vector<float> query_vec;
+    if (use_semantic) {
+        query_vec = hashEmbedQuery(query, impl_->embedding_dimension);
+    }
+
     for (auto& doc : impl_->documents) {
-        doc.relevance_score = computeRelevance(doc, query);
+        const float keyword_score = computeRelevance(doc, query);
+        float semantic_score = 0.0f;
+
+        if (use_semantic && doc.has_embedding) {
+            if (doc.is_quantized_embedding) {
+                semantic_score = cosineQuantized(query_vec, doc.embedding_q, doc.embedding_scale);
+            } else {
+                semantic_score = cosineDense(query_vec, doc.embedding);
+            }
+            // Normalize cosine [-1,1] to [0,1]
+            semantic_score = (semantic_score + 1.0f) * 0.5f;
+        }
+
+        doc.relevance_score = use_semantic ? (0.75f * semantic_score + 0.25f * keyword_score) : keyword_score;
         if (doc.relevance_score > 0.1f) {  // Threshold for inclusion
             scored_docs.push_back(doc);
         }

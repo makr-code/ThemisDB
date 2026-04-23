@@ -66,7 +66,6 @@ protected:
     std::unique_ptr<PaxosSnapshotManager>  snapshot_mgr_;
 
     void SetUp() override {
-        tmp_dir_ = fs::temp_directory_path() / "psr_test_XXXXXX";
         // Create a unique temp directory
         tmp_dir_ = (fs::temp_directory_path() /
                     ("psr_test_" + std::to_string(

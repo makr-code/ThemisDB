@@ -148,6 +148,7 @@ RUN echo "=== Building ThemisDB HYPERSCALER Edition for x64-linux ===" && \
         -DTHEMIS_ENABLE_TRACING=ON \
         -DTHEMIS_STATIC_BUILD=OFF \
         -DTHEMIS_EDITION=HYPERSCALER \
+        -DTHEMIS_MODELS_MODE=SKIP \
         -DTHEMIS_ENABLE_LLM=ON \
         -DTHEMIS_ENABLE_GPU=ON \
         -DTHEMIS_ENABLE_WEBSOCKETS=OFF 2>&1 | tee /tmp/cmake_config.log && \

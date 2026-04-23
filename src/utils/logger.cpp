@@ -17,6 +17,12 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
+// Focused test binaries may compile this TU directly instead of linking themis_base.
+// In that mode, export symbols from this TU to allow static member definitions.
+#if defined(THEMIS_TEST_BUILD) && !defined(THEMIS_BASE_EXPORTS)
+#define THEMIS_BASE_EXPORTS
+#endif
+
 #include "utils/logger.h"
 #include "utils/pii_redacting_sink.h"
 #include <spdlog/spdlog.h>

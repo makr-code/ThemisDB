@@ -689,6 +689,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/security/row_level_security.cpp
     ../src/security/access_control.cpp
     ../src/security/zero_trust_policy_enforcer.cpp
+    ../src/security/prompt_injection_pattern_registry.cpp
     ../src/auth/auth_audit_logger.cpp
     ../src/security/user_registration_plugin.cpp
     ../src/security/arrow_user_registration_plugin.cpp
@@ -1004,6 +1005,7 @@ set(THEMIS_LLM_SOURCES
     ../src/prompt_engineering/prompt_template_validator.cpp
     ../src/prompt_engineering/prompt_template_compiler.cpp
     ../src/distributed_knowledge/cross_shard_feedback_sync.cpp
+    ../src/distributed_knowledge/adapter_capability_announcement.cpp
     ../src/llm/block_table.cpp
     ../src/llm/paged_block_manager.cpp
     ../src/llm/paged_kv_cache.cpp
@@ -1451,6 +1453,7 @@ set(THEMIS_NETWORK_SOURCES
     ../src/server/update_api_handler.cpp
     ../src/server/hot_reload_api_handler.cpp
     ../src/server/export_api_handler.cpp
+    ../src/server/shard_repair_api_handler.cpp
     ../src/server/tenant_manager.cpp
     ../src/server/sharding_metrics_handler.cpp
     
@@ -1553,7 +1556,9 @@ set(THEMIS_NETWORK_SOURCES
     ../src/observability/metric_anomaly_detector.cpp
     # Observability: ML anomaly detector (forecasting + change-point + outlier) (Issue #83)
     ../src/observability/ml_anomaly_detector.cpp
-    # Observability: performance profiling (query_profiler/storage_profiler live in THEMIS_CORE_SOURCES)
+    # Observability: query, storage, and performance profiling
+    ../src/observability/query_profiler.cpp
+    ../src/observability/storage_profiler.cpp
     ../src/observability/performance_analyzer.cpp
     # Observability: standalone span management and structured log aggregation (OBS-MISSING-001)
     ../src/observability/tracer.cpp

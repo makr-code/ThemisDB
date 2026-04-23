@@ -138,8 +138,8 @@ double estimateCardinalityImpl(const nlohmann::json& node) {
 // Construction
 // ─────────────────────────────────────────────────────────────────────────────
 
-GraphQueryRewriter::GraphQueryRewriter(const RewriteConfig& config)
-    : config_(config) {}
+GraphQueryRewriter::GraphQueryRewriter(const std::optional<RewriteConfig>& config)
+    : config_(config.value_or(RewriteConfig())) {}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Helper: isEnabled

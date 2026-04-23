@@ -37,6 +37,7 @@
 
 #pragma once
 
+#include <sstream>
 #include <string>
 #include <vector>
 #include <map>
@@ -139,10 +140,22 @@ public:
         uint64_t physical;  // Physical time (milliseconds since epoch)
         uint32_t logical;   // Logical counter
         std::string node_id;
-        
-        bool operator<(const Timestamp& other) const;
-        bool operator==(const Timestamp& other) const;
-        std::string toString() const;
+
+        bool operator<(const Timestamp& other) const {
+            if (physical != other.physical) return physical < other.physical;
+            if (logical  != other.logical)  return logical  < other.logical;
+            return node_id < other.node_id;
+        }
+        bool operator==(const Timestamp& other) const {
+            return physical == other.physical &&
+                   logical  == other.logical  &&
+                   node_id  == other.node_id;
+        }
+        std::string toString() const {
+            std::ostringstream oss;
+            oss << "HLC(" << physical << "," << logical << "," << node_id << ")";
+            return oss.str();
+        }
     };
     
     explicit HybridLogicalClock(const std::string& node_id);

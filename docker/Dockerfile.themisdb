@@ -116,6 +116,7 @@ RUN mkdir -p build && cd build && \
         -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
         -DTHEMIS_BUILD_TESTS=${BUILD_TESTS} \
         -DTHEMIS_BUILD_BENCHMARKS=${BUILD_BENCHMARKS} \
+        -DTHEMIS_MODELS_MODE=SKIP \
         -DTHEMIS_ENABLE_LLM=${ENABLE_LLM} \
         -DTHEMIS_LORA_ENABLED=${ENABLE_LORA} \
         -DTHEMIS_ENABLE_ASAN=${ENABLE_ASAN} \

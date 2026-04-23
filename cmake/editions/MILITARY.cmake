@@ -74,7 +74,6 @@ endif()
 
 # Edition-specific compile definitions
 add_compile_definitions(THEMIS_MILITARY_EDITION)
-add_compile_definitions(THEMIS_GPU_MAX_VRAM_GB=16)
 add_compile_definitions(THEMIS_SHARDING_MAX_NODES=50)
 
 message(STATUS "  Hardware limits: Up to 16 GB GPU VRAM, 50 nodes, 2 GB cache")

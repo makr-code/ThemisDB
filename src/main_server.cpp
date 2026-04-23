@@ -153,8 +153,8 @@ static std::shared_ptr<themis::sharding::RedundancyStrategy>  g_shard_repair_str
 // HSM security warning thread
 static std::thread g_hsm_warning_thread;
 static std::atomic<bool> g_hsm_warning_thread_running{false};
-// Global HSM provider (non-static for external access from monitoring_api_handler)
-std::shared_ptr<themis::security::HSMProvider> g_hsm_provider;
+// Global HSM provider is defined in src/server/hsm_provider_global.cpp
+extern std::shared_ptr<themis::security::HSMProvider> g_hsm_provider;
 
 // ============================================================================
 // Lazy Mimalloc Initialization (after CRT startup)

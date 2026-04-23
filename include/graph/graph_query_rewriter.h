@@ -29,6 +29,7 @@
 #include <memory>
 #include <functional>
 #include <unordered_map>
+#include <optional>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -143,7 +144,7 @@ public:
      * Constructs a rewriter with the given configuration.
      * @param config  Rewrite configuration; defaults to all rules enabled.
      */
-    explicit GraphQueryRewriter(const RewriteConfig& config = {});
+    explicit GraphQueryRewriter(const std::optional<RewriteConfig>& config = std::nullopt);
 
     // ─── Core API ────────────────────────────────────────────────────────────
 

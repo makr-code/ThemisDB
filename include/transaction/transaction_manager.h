@@ -84,7 +84,7 @@ public:
         /// Keys involved in the conflict (filled alongside conflict_id).
         std::vector<std::string> affected_keys;
         static Status OK() { return {}; }
-        static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
+        static Status Error(std::string msg) { return Status{false, std::move(msg), "", "", {}}; }
         static Status Conflict(std::string msg, std::string cid,
                                std::vector<std::string> keys) {
             Status s;

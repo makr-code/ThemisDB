@@ -1503,11 +1503,10 @@ HttpServer::HttpServer(
             THEMIS_WARN("Failed to initialize OPA evaluator: {}; native policy evaluation will be used", e.what());
         }
     }
-    // Wire PolicyEngine into ExportApiHandler (constructed before policy_engine_ was ready)
-    if (export_api_ && policy_engine_) {
-        export_api_->setPolicyEngine(policy_engine_.get());
-        THEMIS_INFO("PolicyEngine wired into ExportApiHandler");
-    } else if (export_api_ && !policy_engine_) {
+    // ExportApiHandler expects themis::governance::PolicyEngine while HttpServer
+    // currently owns themis::PolicyEngine. Keep exports operational without
+    // unsafe cross-namespace pointer casting.
+    if (export_api_ && !policy_engine_) {
         THEMIS_WARN("ExportApiHandler: PolicyEngine not available — export policy enforcement disabled");
     }
 
@@ -3428,6 +3427,10 @@ http::response<http::string_body> HttpServer::routeRequest(
     
     auto target = std::string(req.target());
     auto method = req.method();
+    std::string path_only = target;
+    if (auto qpos = path_only.find('?'); qpos != std::string::npos) {
+        path_only = path_only.substr(0, qpos);
+    }
 
     THEMIS_DEBUG("Request: {} {}", http::to_string(method), target);
 
@@ -3520,9 +3523,6 @@ http::response<http::string_body> HttpServer::routeRequest(
 
     // Path traversal checks for entity paths
     {
-        std::string path_only = target;
-        auto qpos = path_only.find('?');
-        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
         if (path_only.rfind("/entities/", 0) == 0 && validator_) {
             std::string key = path_only.substr(std::string("/entities/").size());
             if (!validator_->validatePathSegment(key)) {

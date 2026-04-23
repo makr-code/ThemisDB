@@ -301,8 +301,7 @@ class QueryEngine {
 public:
     // DEPRECATED: Legacy Status struct - use Result<T> instead
     // Kept temporarily for backward compatibility during migration
-    [[deprecated("Use Result<T> pattern instead")]]
-    struct Status {
+    struct [[deprecated("Use Result<T> pattern instead")]] Status {
         bool ok = true;
         std::string message;
         static Status OK() { return {}; }

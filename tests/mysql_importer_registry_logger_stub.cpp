@@ -32,6 +32,12 @@
  * exactly what unit tests need.
  */
 
+// This TU defines Logger static members for a focused test binary.
+// Force export mode so definitions are valid on Windows.
+#if defined(_WIN32) && !defined(THEMIS_BASE_EXPORTS)
+#define THEMIS_BASE_EXPORTS
+#endif
+
 #include "utils/logger.h"
 
 #ifdef ERROR

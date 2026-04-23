@@ -446,7 +446,7 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeConst
     bool has_min_length = false;
     bool has_max_length = false;
     bool has_required_nodes = false;
-    bool has_forbidden_nodes = false;
+    [[maybe_unused]] bool has_forbidden_nodes = false;
     bool requires_unique = false;
     
     size_t min_length = 0;

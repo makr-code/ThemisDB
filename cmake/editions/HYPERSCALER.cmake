@@ -27,7 +27,6 @@ endif()
 
 # Edition-specific compile definitions
 add_compile_definitions(THEMIS_HYPERSCALER_EDITION)
-add_compile_definitions(THEMIS_GPU_MAX_VRAM_GB=0)
 add_compile_definitions(THEMIS_SHARDING_MAX_NODES=0)
 
 message(STATUS "  Hardware limits: Unlimited GPU VRAM, unlimited nodes, unlimited cache")

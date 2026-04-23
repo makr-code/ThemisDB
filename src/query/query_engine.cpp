@@ -127,7 +127,7 @@ std::vector<std::string> QueryEngine::listCollections() const {
     std::unordered_set<std::string> seen;
     // Key schema: "doc:<collection>:<pk>" or "rel:<table>:<pk>"
     // We scan all keys and extract the second segment.
-    for (const std::string& prefix : {"doc:", "rel:"}) {
+    for ([[maybe_unused]] const std::string prefix : {"doc:", "rel:"}) {
         db_->scanPrefix(prefix, [&](std::string_view key, std::string_view /*value*/) {
             // key looks like "doc:name:pk" — extract "name"
             std::string_view remainder = key.substr(prefix.size());
@@ -2250,7 +2250,7 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 
 	// Prüfe Gleichheitsindizes
 	if (!q.predicates.empty()) {
-		size_t bestIdx = 0; size_t bestEst = SIZE_MAX; bool bestCapped=false;
+		size_t bestIdx = 0; size_t bestEst = SIZE_MAX; [[maybe_unused]] bool bestCapped=false;
 		for (size_t i=0;i<q.predicates.size();++i) {
 			bool capped=false; size_t est = secIdx_->estimateCountEqual(q.table, q.predicates[i].column, q.predicates[i].value, 16, &capped);
 			size_t eff = capped ? 16 : est;
