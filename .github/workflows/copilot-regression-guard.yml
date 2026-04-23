@@ -50,15 +50,16 @@ jobs:
 
       - name: Repro check: strict missing-source detection must fail on broken fixture
         run: |
-          mkdir -p /tmp/copilot-guard-fixture/{src/replication,tests,include,cmake}
-          cat > /tmp/copilot-guard-fixture/src/replication/crdt_types.cpp <<'CPP'
+          FIXTURE_DIR=/tmp/copilot-guard-fixture
+          mkdir -p "$FIXTURE_DIR"/{src/replication,tests,include,cmake}
+          cat > "$FIXTURE_DIR"/src/replication/crdt_types.cpp <<'CPP'
           int crdt_types_fixture = 1;
           CPP
-          cat > /tmp/copilot-guard-fixture/tests/CMakeLists.txt <<'CMAKE'
+          cat > "$FIXTURE_DIR"/tests/CMakeLists.txt <<'CMAKE'
           add_executable(test_replication_crdt_types test_replication_crdt_types.cpp)
           target_compile_definitions(test_replication_crdt_types PRIVATE THEMIS_TEST_BUILD=1)
           CMAKE
-          cat > /tmp/copilot-guard-fixture/include/themis_export.h <<'HDR'
+          cat > "$FIXTURE_DIR"/include/themis_export.h <<'HDR'
           #pragma once
           #ifdef _WIN32
           #if defined(THEMIS_BASE_EXPORTS) || defined(THEMIS_TEST_BUILD)
@@ -70,13 +71,13 @@ jobs:
           #define THEMIS_BASE_API
           #endif
           HDR
-          cat > /tmp/copilot-guard-fixture/cmake/CMakeLists.txt <<'CMAKE'
+          cat > "$FIXTURE_DIR"/cmake/CMakeLists.txt <<'CMAKE'
           target_compile_definitions(themis_core PRIVATE THEMIS_BASE_EXPORTS)
           CMAKE
 
           set +e
           python tools/ci/copilot_regression_guard.py \
-            --repo-root /tmp/copilot-guard-fixture \
+            --repo-root "$FIXTURE_DIR" \
             --cmake-file tests/CMakeLists.txt \
             --strict-missing-sources
           rc=$?
@@ -88,15 +89,16 @@ jobs:
 
       - name: Repro check: LNK parser must fail on LNK2019 fixture
         run: |
-          cat > /tmp/copilot-guard-fixture/lnk.log <<'LOG'
+          FIXTURE_DIR=/tmp/copilot-guard-fixture
+          cat > "$FIXTURE_DIR"/lnk.log <<'LOG'
           error LNK2019: unresolved external symbol "public: void CRDTTypes::merge(void)" referenced in function main
           LOG
 
           set +e
           python tools/ci/copilot_regression_guard.py \
-            --repo-root /tmp/copilot-guard-fixture \
+            --repo-root "$FIXTURE_DIR" \
             --cmake-file tests/CMakeLists.txt \
-            --build-log /tmp/copilot-guard-fixture/lnk.log \
+            --build-log "$FIXTURE_DIR"/lnk.log \
             --output-json artifacts/copilot-regression-guard/lnk-fixture-report.json
           rc=$?
           set -e

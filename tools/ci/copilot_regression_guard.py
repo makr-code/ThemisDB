@@ -27,6 +27,12 @@ EXEMPT_TARGET_KEYWORDS = {
     "contract",
     "registry",
 }
+CPP_SYMBOL_SKIP = {
+    "class", "struct", "public", "private", "protected", "void", "const",
+    "unsigned", "signed", "short", "long", "int", "char", "float", "double",
+    "std", "themis", "themisdb",
+}
+MAX_PRINTED_SUGGESTIONS = 3
 
 TEST_SOURCE_PATTERN = re.compile(r"(^|/)(test_|.*test.*)", re.IGNORECASE)
 LNK_PATTERN = re.compile(r"LNK(2001|2019|1120)", re.IGNORECASE)
@@ -231,12 +237,7 @@ def _symbol_tokens(symbol: str) -> set[str]:
     clean = re.sub(r"[`'\"\?@!$%^&*()=+\[\]{}<>|~]", " ", symbol)
     clean = clean.replace("::", " ")
     raw_tokens = re.findall(r"[A-Za-z_][A-Za-z0-9_]{2,}", clean)
-    skip = {
-        "class", "struct", "public", "private", "protected", "void", "const",
-        "unsigned", "signed", "short", "long", "int", "char", "float", "double",
-        "std", "themis", "themisdb",
-    }
-    out = {t for t in raw_tokens if t.lower() not in skip}
+    out = {t for t in raw_tokens if t.lower() not in CPP_SYMBOL_SKIP}
     snake = {_camel_to_snake(t) for t in out}
     return {t.lower() for t in out}.union(snake)
 
@@ -298,7 +299,7 @@ def _print_report(
         for item in affected[:50]:
             print(
                 f"  - {item.target} (line {item.line}) -> probable: "
-                f"{', '.join(item.probable_sources[:3])}"
+                f"{', '.join(item.probable_sources[:MAX_PRINTED_SUGGESTIONS])}"
             )
 
     if macro_failures:
@@ -309,7 +310,11 @@ def _print_report(
     if lnk_findings:
         print("\nLinker findings:")
         for finding in lnk_findings[:50]:
-            suggested = ", ".join(finding["suggested_sources"][:3]) if finding["suggested_sources"] else "(no suggestion)"
+            suggested = (
+                ", ".join(finding["suggested_sources"][:MAX_PRINTED_SUGGESTIONS])
+                if finding["suggested_sources"]
+                else "(no suggestion)"
+            )
             print(f"  - line {finding['line']} {finding['code']}: {suggested}")
 
 
