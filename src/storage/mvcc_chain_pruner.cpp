@@ -31,7 +31,7 @@ MVCCChainPruner::MVCCChainPruner(
 MVCCChainPruner::PruneStats MVCCChainPruner::pruneKey(
     std::string_view key,
     HLCTimestamp     gc_horizon,
-    const Config&    config
+    Config           config
 ) {
     PruneStats stats;
     stats.keys_scanned = 1;
@@ -123,7 +123,7 @@ MVCCChainPruner::PruneStats MVCCChainPruner::pruneKey(
 
 MVCCChainPruner::PruneStats MVCCChainPruner::pruneAll(
     HLCTimestamp  gc_horizon,
-    const Config& config
+    Config        config
 ) {
     PruneStats total;
 
@@ -151,7 +151,7 @@ void MVCCChainPruner::setSafeHorizon(HLCTimestamp horizon) noexcept {
     }
 }
 
-MVCCChainPruner::PruneStats MVCCChainPruner::pruneAllSafe(const Config& config) {
+MVCCChainPruner::PruneStats MVCCChainPruner::pruneAllSafe(Config config) {
     const HLCTimestamp h = safeHorizon();
     if (h.value == 0) {
         return {};

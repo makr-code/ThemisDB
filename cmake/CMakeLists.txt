@@ -25,7 +25,10 @@ endif()
 project(Themis VERSION ${_ver_numeric} LANGUAGES CXX)
 
 # Make project version available to all translation units
-add_compile_definitions(THEMIS_VERSION_STRING="${_ver}")
+if(NOT THEMIS_VERSION_COMPILE_DEF_DEFINED)
+    add_compile_definitions(THEMIS_VERSION_STRING="${_ver}")
+    set(THEMIS_VERSION_COMPILE_DEF_DEFINED ON)
+endif()
 
 # Build provenance: channel, Git SHA, timestamp, Ed25519 signature
 # Generates ${CMAKE_BINARY_DIR}/include/updates/build_info.h
@@ -569,7 +572,7 @@ if(THEMIS_EDITION STREQUAL "MINIMAL")
     message(STATUS "  Build time: ~5-10 minutes (vs ~30-40 for full build)")
     
 elseif(THEMIS_EDITION STREQUAL "COMMUNITY")
-    set(THEMIS_GPU_MAX_VRAM_GB 24 CACHE INTERNAL "Max GPU VRAM for Community Edition")
+    set(THEMIS_GPU_MAX_VRAM_GB 8 CACHE INTERNAL "Max GPU VRAM for Community Edition")
     set(THEMIS_SHARDING_MAX_NODES 5 CACHE INTERNAL "Max sharding nodes for Community Edition")
     set(THEMIS_ENABLE_ENTERPRISE_PLUGINS OFF CACHE INTERNAL "Enterprise plugins disabled in Community")
     set(THEMIS_ENABLE_MULTI_MASTER OFF CACHE INTERNAL "Multi-master replication disabled in Community")
@@ -717,9 +720,13 @@ endif()
 # Compile-time edition identifier for runtime checks and telemetry
 add_compile_definitions(
     "THEMIS_EDITION_STRING=\"${THEMIS_EDITION}\""
-    "THEMIS_GPU_MAX_VRAM_GB=${THEMIS_GPU_MAX_VRAM_GB}"
     "THEMIS_SHARDING_MAX_NODES=${THEMIS_SHARDING_MAX_NODES}"
 )
+
+if(NOT THEMIS_GPU_LIMIT_COMPILE_DEF_DEFINED)
+    add_compile_definitions("THEMIS_GPU_MAX_VRAM_GB=${THEMIS_GPU_MAX_VRAM_GB}")
+    set(THEMIS_GPU_LIMIT_COMPILE_DEF_DEFINED ON)
+endif()
 
 # ============================================================================
 # BUILD REPRODUCIBILITY – Git commit metadata (v1.7.0+)
@@ -1583,6 +1590,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/runtime_reoptimizer.cpp
     ../src/graph/graph_query_optimizer.cpp
     ../src/graph/graph_query_rewriter.cpp
+    ../src/graph/explain_plan.cpp
     ../src/graph/path_constraints.cpp
     ../src/graph/gpu_traversal.cpp
     ../src/graph/parallel_traversal.cpp
@@ -1606,6 +1614,8 @@ set(THEMIS_CORE_SOURCES
     ../src/query/materialized_cte.cpp
     ../src/query/result_stream.cpp
     ../src/query/query_cache.cpp
+    ../src/query/query_rewrite_rule.cpp
+    ../src/query/query_profiler.cpp
 
     # Vectorized Execution Engine – column-store style batch processing (Issue #2434)
     ../src/query/vectorized_execution.cpp
@@ -3552,7 +3562,6 @@ target_compile_definitions(themis_core PUBLIC
     THEMIS_VERSION_MAJOR=${PROJECT_VERSION_MAJOR}
     THEMIS_VERSION_MINOR=${PROJECT_VERSION_MINOR}
     THEMIS_VERSION_PATCH=${PROJECT_VERSION_PATCH}
-    THEMIS_VERSION_STRING="${PROJECT_VERSION}"
 )
 
 # Phase 2 Performance Optimizations compile definitions
@@ -5504,6 +5513,7 @@ if(THEMIS_BUILD_TESTS)
     # =========================================================================
     add_executable(test_intent_classifier
         ${THEMIS_ROOT_DIR}/tests/test_intent_classifier.cpp
+        ${THEMIS_ROOT_DIR}/src/security/intent_classifier.cpp
     )
     target_link_libraries(test_intent_classifier
         PRIVATE themis_core GTest::gtest GTest::gtest_main
@@ -5519,6 +5529,7 @@ if(THEMIS_BUILD_TESTS)
     # =========================================================================
     add_executable(test_workload_fingerprint_engine
         ${THEMIS_ROOT_DIR}/tests/test_workload_fingerprint_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/server/workload_fingerprint_engine.cpp
     )
     target_link_libraries(test_workload_fingerprint_engine
         PRIVATE themis_core GTest::gtest GTest::gtest_main
@@ -5534,6 +5545,7 @@ if(THEMIS_BUILD_TESTS)
     # =========================================================================
     add_executable(test_explainability_reason_builder
         ${THEMIS_ROOT_DIR}/tests/test_explainability_reason_builder.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/explainability_reason_builder.cpp
     )
     target_link_libraries(test_explainability_reason_builder
         PRIVATE themis_core GTest::gtest GTest::gtest_main
@@ -5549,6 +5561,7 @@ if(THEMIS_BUILD_TESTS)
     # =========================================================================
     add_executable(test_storage_layout_advisor
         ${THEMIS_ROOT_DIR}/tests/test_storage_layout_advisor.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/storage_layout_advisor.cpp
     )
     target_link_libraries(test_storage_layout_advisor
         PRIVATE themis_core GTest::gtest GTest::gtest_main

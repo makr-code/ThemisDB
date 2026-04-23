@@ -138,7 +138,8 @@ public:
  * mgr->registerEraseTarget(std::make_shared<GraphStoreEraseAdapter>(...));
  *
  * auto report = mgr->requestErasure("user-1234", Regulation::GDPR, "user request");
- * if (!report.fully_erased) { /* handle partial failure *\/ }
+ * if (!report.fully_erased) { // handle partial failure
+ * }
  * @endcode
  *
  * Thread safety: registerEraseTarget() and requestErasure()/requestPortability()

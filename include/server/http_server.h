@@ -490,7 +490,7 @@ public:
     }
 
     /**
-     * @brief Inject the live ModuleLoader for /v1/admin/modules/* endpoints.
+     * @brief Inject the live ModuleLoader for /v1/admin/modules/{name} endpoints.
      *
      * Must be called before start() to activate module management endpoints.
      * The pointer must remain valid for the lifetime of the HttpServer.

@@ -320,7 +320,7 @@ public:
      * Delegates to the underlying APIGateway::registerHandler so that callers
      * do not need to hold a reference to the wrapped single-node gateway.
      *
-     * @param pattern Path pattern (e.g., "/api/v1/custom/*")
+     * @param pattern Path pattern (e.g., "/api/v1/custom/{name}")
      * @param handler Handler function
      */
     void registerHandler(

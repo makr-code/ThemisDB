@@ -145,7 +145,7 @@ struct CompletionContext {
  *     "id": <request-id>,
  *     "result": {
  *       "isIncomplete": false,
- *       "items": [ /* CompletionItem objects * / ]
+ *       "items": [ (CompletionItem objects) ]
  *     }
  *   }
  * @endcode

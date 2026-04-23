@@ -171,7 +171,7 @@ public:
     PruneStats pruneKey(
         std::string_view key,
         HLCTimestamp     gc_horizon,
-        const Config&    config = {}
+        Config           config = Config{}
     );
 
     // ─── Full-store pruning ───────────────────────────────────────────────────
@@ -188,7 +188,7 @@ public:
      * @param config      Optional tuning parameters.
      * @return Aggregate statistics across all pruned keys.
      */
-    PruneStats pruneAll(HLCTimestamp gc_horizon, const Config& config = {});
+    PruneStats pruneAll(HLCTimestamp gc_horizon, Config config = Config{});
 
     // ─── Safe-horizon management ──────────────────────────────────────────────
 
@@ -223,7 +223,7 @@ public:
      * Convenience wrapper: equivalent to `pruneAll(safeHorizon(), config)`.
      * Returns an empty `PruneStats` if `safeHorizon()` is zero.
      */
-    PruneStats pruneAllSafe(const Config& config = {});
+    PruneStats pruneAllSafe(Config config = Config{});
 
 private:
     // ─── Helpers ──────────────────────────────────────────────────────────────

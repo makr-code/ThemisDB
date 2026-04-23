@@ -37,7 +37,7 @@ namespace importers {
  * - DDL parsing (CREATE TABLE with double-quoted identifiers)
  * - DML parsing (INSERT INTO … VALUES – single-row and multi-row)
  * - Oracle-style schema qualifiers ("OWNER"."TABLE")
- * - Oracle hint comment stripping (/*+ ... *\/)
+ * - Oracle hint comment stripping (hints of the form: --+ ... --)
  * - Type mapping for 30+ Oracle built-in column types
  * - Batch processing with configurable chunk size
  * - Async import via importDataAsync()

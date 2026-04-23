@@ -85,7 +85,7 @@ namespace server {
  * GET    /import/wizard
  *   Serves the interactive web-based import wizard (single-page HTML application).
  *   No authentication required for the page itself; all data operations are
- *   delegated to the existing /api/v1/import/* REST endpoints.
+ *   delegated to the existing /api/v1/import/{name} REST endpoints.
  *
  * --- v2.0 endpoints ---
  *
@@ -123,7 +123,7 @@ public:
     ~ImportApiHandler() = default;
 
     /**
-     * @brief Register all /api/v1/import/* routes on @p server.
+     * @brief Register all /api/v1/import/{name} routes on @p server.
      *
      * Call once after constructing the handler, before calling
      * `server.listen()`.

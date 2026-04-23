@@ -110,7 +110,8 @@ public:
 
     // ─── Lifecycle ─────────────────────────────────────────────────────────
 
-    explicit TransactionSemanticAdvisor(Config config = {});
+    TransactionSemanticAdvisor();
+    explicit TransactionSemanticAdvisor(Config config);
     ~TransactionSemanticAdvisor() = default;
 
     TransactionSemanticAdvisor(const TransactionSemanticAdvisor&) = delete;

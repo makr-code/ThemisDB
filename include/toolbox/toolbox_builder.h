@@ -204,9 +204,9 @@ public:
      *
      *  - `IFormatExtractor` supporting `application/pdf`    → `builtin.parse_pdf`
      *  - Supporting `application/vnd.openxmlformats-*`      → `builtin.parse_office`
-     *  - Supporting `image/*`                               → `builtin.parse_image`
+     *  - Supporting `image/\*`                               → `builtin.parse_image`
      *  - Supporting `application/zip` / `application/x-tar` → `builtin.parse_archive`
-     *  - Supporting `audio/*`                               → `builtin.parse_audio`
+     *  - Supporting `audio/\*`                               → `builtin.parse_audio`
      *
      * When a `FormatExtractorFactory` (from `content/adapters/`) is available,
      * use `withFormatExtractorFactory()` to register all extractors at once.

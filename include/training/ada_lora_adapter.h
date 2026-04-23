@@ -84,7 +84,7 @@ struct ReallocResult {
  *
  * Usage:
  * @code
- * AdaLoRAAdapter ada(4 /*default_rank*\/, 8.0f, 128 /*total_rank_budget*\/);
+ * AdaLoRAAdapter ada(4, 8.0f, 128);  // default_rank=4, scale=8.0, total_rank_budget=128
  * ada.addLayer("q_proj", 768, 768, 8);
  * ada.addLayer("v_proj", 768, 768, 8);
  * ada.addLayer("k_proj", 768, 768, 4);

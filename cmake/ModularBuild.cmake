@@ -531,6 +531,8 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/materialized_cte.cpp
     ../src/query/result_stream.cpp
     ../src/query/query_cache.cpp
+    ../src/query/query_rewrite_rule.cpp
+    ../src/query/query_profiler.cpp
     ../src/query/workload_cache_strategy.cpp
     ../src/query/query_cache_manager.cpp
     ../src/query/cross_cluster_federation.cpp
@@ -1650,6 +1652,7 @@ set(THEMIS_GRAPH_SOURCES
     ../src/index/gnn_embeddings.cpp
     ../src/index/graph_analytics.cpp
     ../src/graph/graph_query_optimizer.cpp
+    ../src/graph/explain_plan.cpp
     ../src/query/result_stream.cpp
     ../src/graph/path_constraints.cpp
     ../src/graph/distributed_graph.cpp

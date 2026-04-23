@@ -23,6 +23,7 @@
 #include <cassert>
 #include <cstdio>
 #include <fstream>
+#include <mutex>
 #include <sstream>
 #include <stdexcept>
 

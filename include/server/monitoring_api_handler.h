@@ -304,7 +304,7 @@ public:
     /**
      * @brief Inject sharding / repair metrics into the monitoring handler.
      *
-     * Optional: when set, GET /metrics and GET /v1/monitoring/sharding/* expose
+     * Optional: when set, GET /metrics and GET /v1/monitoring/sharding/{name} expose
      * shard-level Prometheus metrics including anti-entropy repair statistics.
      * Must be called before start() for the first scrape to include repair data.
      */

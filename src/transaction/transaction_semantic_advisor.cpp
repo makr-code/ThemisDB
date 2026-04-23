@@ -14,6 +14,9 @@ namespace transaction {
 // Lifecycle
 // ---------------------------------------------------------------------------
 
+TransactionSemanticAdvisor::TransactionSemanticAdvisor()
+    : TransactionSemanticAdvisor(Config{}) {}
+
 TransactionSemanticAdvisor::TransactionSemanticAdvisor(Config config)
     : config_(std::move(config)) {}
 

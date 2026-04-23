@@ -121,7 +121,7 @@ struct MergeResult {
  *     {{"q_proj", &a1, "q_proj", 1.0f},
  *      {"q_proj", &a2, "q_proj", 1.0f}},
  *     "q_proj", 768, 768, 4, 8.0f,
- *     0.2f /*trim_threshold*\/);
+ *     0.2f);  // trim_threshold=0.2f
  * @endcode
  */
 class LoRAAdapterMerger {

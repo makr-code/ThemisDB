@@ -222,7 +222,7 @@ public:
     /**
      * @brief Register local request handler for a path pattern
      * 
-     * @param pattern Path pattern (e.g., "/api/v1/entities/*")
+     * @param pattern Path pattern (e.g., "/api/v1/entities/{name}")
      * @param handler Handler function
      */
     void registerHandler(

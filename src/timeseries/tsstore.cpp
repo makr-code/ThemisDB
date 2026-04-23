@@ -896,7 +896,7 @@ TSStore::aggregate(const QueryOptions& options) const {
 
 Result<TSStore::AggregationResult>
 TSStore::aggregateOptimized(const QueryOptions& options, bool use_optimizer) const {
-    auto start_time = std::chrono::steady_clock::now();
+    [[maybe_unused]] auto start_time = std::chrono::steady_clock::now();
     auto span = Tracer::startSpan("TSStore.aggregate");
     span.setAttribute("metric", options.metric);
     if (options.entity.has_value()) {
@@ -907,7 +907,7 @@ TSStore::aggregateOptimized(const QueryOptions& options, bool use_optimizer) con
     span.setAttribute("use_optimizer", use_optimizer);
     
     AggregationResult result;
-    bool optimizer_used = false;
+    [[maybe_unused]] bool optimizer_used = false;
     
     // Try optimizer first if enabled
     if (use_optimizer) {

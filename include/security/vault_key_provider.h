@@ -49,10 +49,10 @@ namespace themis {
  *      version=1
  * 
  * 3. Create policy:
- *    path "themis/data/keys/*" {
+ *    path "themis/data/keys/{name}" {
  *      capabilities = ["read", "list"]
  *    }
- *    path "themis/metadata/keys/*" {
+ *    path "themis/metadata/keys/{name}" {
  *      capabilities = ["read", "list"]
  *    }
  * 

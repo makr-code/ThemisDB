@@ -94,7 +94,7 @@ std::shared_ptr<IIngestionStep> createParseOfficeStep(
  *
  * Extracts EXIF metadata and (optionally) OCR-derived text.
  *
- * @param extractor  An `IFormatExtractor` that handles image/* MIME types.
+ * @param extractor  An `IFormatExtractor` that handles image/\* MIME types.
  */
 std::shared_ptr<IIngestionStep> createParseImageStep(
     std::shared_ptr<IFormatExtractor> extractor = nullptr);
@@ -116,7 +116,7 @@ std::shared_ptr<IIngestionStep> createParseArchiveStep(
  * Transcribes audio to text via the STT (Whisper/FFmpeg) backend.
  * Only active when `THEMIS_ENABLE_VOICE_ASSISTANT` is ON.
  *
- * @param extractor  An `IFormatExtractor` that handles audio/* MIME types.
+ * @param extractor  An `IFormatExtractor` that handles audio/\* MIME types.
  */
 std::shared_ptr<IIngestionStep> createParseAudioStep(
     std::shared_ptr<IFormatExtractor> extractor = nullptr);
