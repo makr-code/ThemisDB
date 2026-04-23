@@ -331,6 +331,9 @@ tools/jaeger/
 **/target/
 target/
 
+# CMake user-local presets (machine-specific overrides — copy from CMakeUserPresets.json.example)
+CMakeUserPresets.json
+
 # Allow CMakeLists and cmake/ directory helper files (explicitly)
 !CMakeLists.txt
 !cmake/*.cmake
