@@ -1,0 +1,39 @@
+{
+  "version": 6,
+  "include": [
+    "CMakePresets.json"
+  ],
+  "configurePresets": [
+    {
+      "name": "my-linux-release",
+      "displayName": "My Linux Release (local overrides)",
+      "description": "Copy to CMakeUserPresets.json and adjust to your local setup. This file is gitignored.",
+      "inherits": "linux-release",
+      "cacheVariables": {
+        "THEMIS_ENABLE_LLM": "OFF",
+        "THEMIS_ENABLE_GPU": "OFF"
+      }
+    },
+    {
+      "name": "my-windows-release",
+      "displayName": "My Windows Release (local overrides)",
+      "description": "Uncomment and adjust VCPKG_ROOT or compiler paths specific to your machine.",
+      "inherits": "windows-release",
+      "cacheVariables": {
+        "THEMIS_ENABLE_LLM": "ON",
+        "THEMIS_ENABLE_GPU": "OFF"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "my-linux-release",
+      "configurePreset": "my-linux-release"
+    },
+    {
+      "name": "my-windows-release",
+      "configurePreset": "my-windows-release",
+      "jobs": 8
+    }
+  ]
+}

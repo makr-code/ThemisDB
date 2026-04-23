@@ -57,8 +57,11 @@ cd ThemisDB
 ./scripts/setup-pre-commit.sh          # Linux/macOS
 # pwsh ./scripts/setup-third-party.ps1  # all platforms (vcpkg, llama.cpp, ffmpeg)
 
-cmake --preset community-release
-cmake --build --preset community-release
+cmake --preset linux-release        # Linux x64
+cmake --build --preset linux-release
+
+# Windows (run from VS Developer Command Prompt):
+# cmake --preset windows-release && cmake --build --preset windows-release
 ```
 
 See [QUICKSTART.md](QUICKSTART.md) for a step-by-step guide, and [SETUP.md](SETUP.md) for a full development-environment walkthrough.
