@@ -33,6 +33,13 @@ namespace aql {
 
 namespace {
 
+std::string toLowerAqlSyntax(std::string value) {
+    std::transform(value.begin(), value.end(), value.begin(), [](unsigned char c) {
+        return static_cast<char>(std::tolower(c));
+    });
+    return value;
+}
+
 // Standard AQL keywords (case-insensitive)
 const std::unordered_set<std::string>& coreKeywords() {
     static const std::unordered_set<std::string> kw = {
@@ -76,13 +83,6 @@ const std::unordered_set<std::string>& builtinFunctions() {
         "themis_embed",
     };
     return fn;
-}
-
-inline std::string toLower(const std::string& s) {
-    std::string out = s;
-    std::transform(out.begin(), out.end(), out.begin(),
-                   [](unsigned char c){ return static_cast<char>(std::tolower(c)); });
-    return out;
 }
 
 // ANSI colour helpers ---------------------------------------------------------
@@ -218,7 +218,7 @@ std::vector<AQLToken> AQLSyntaxHighlighter::tokenize(const std::string& code) co
             while (look < code.size() && code[look] == ' ') ++look;
             bool is_call = (look < code.size() && code[look] == '(');
 
-            std::string lower = toLower(ident);
+            std::string lower = toLowerAqlSyntax(ident);
             AQLTokenType ttype;
             if (is_call && builtinFunctions().count(lower))
                 ttype = AQLTokenType::FUNCTION;
@@ -369,19 +369,19 @@ std::vector<AQLAnnotation> AQLSyntaxHighlighter::annotateErrors(
     for (std::size_t i = 0; i < tokens.size(); ++i) {
         const auto& tok = tokens[i];
         if (tok.type != AQLTokenType::KEYWORD) continue;
-        if (toLower(tok.value) != "for") continue;
+        if (toLowerAqlSyntax(tok.value) != "for") continue;
 
         // Skip whitespace/identifier tokens and look for IN
         bool found_in = false;
         for (std::size_t j = i + 1; j < tokens.size() && j < i + 8; ++j) {
             const auto& t = tokens[j];
-            if (t.type == AQLTokenType::KEYWORD && toLower(t.value) == "in") {
+            if (t.type == AQLTokenType::KEYWORD && toLowerAqlSyntax(t.value) == "in") {
                 found_in = true;
                 break;
             }
             // Stop if we hit another statement-level keyword
             if (t.type == AQLTokenType::KEYWORD) {
-                std::string lv = toLower(t.value);
+                std::string lv = toLowerAqlSyntax(t.value);
                 if (lv == "for" || lv == "filter" || lv == "return" ||
                     lv == "sort" || lv == "limit" || lv == "collect")
                     break;
@@ -441,7 +441,7 @@ HighlightedResponse AQLSyntaxHighlighter::formatLLMResponse(
 
         std::string lang_tag = llm_response.substr(after_fence, tag_end - after_fence);
         // Lowercase for comparison
-        std::string lang_lower = toLower(lang_tag);
+        std::string lang_lower = toLowerAqlSyntax(lang_tag);
         bool is_aql = (lang_lower.empty() || lang_lower == "aql");
 
         // Skip to the beginning of the code content (next line after the tag)

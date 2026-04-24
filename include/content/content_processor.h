@@ -195,12 +195,12 @@ private:
  * Handles GeoJSON, GPX, Shapefiles, GeoTIFF.
  * Extracts coordinates, creates spatial indices.
  */
-class GeoProcessor : public IContentProcessor {
+class LegacyGeoProcessor : public IContentProcessor {
 public:
     ExtractionResult extract(const std::string& blob, const ContentType& content_type) override;
     std::vector<json> chunk(const ExtractionResult& extraction_result, int chunk_size, int overlap) override;
     std::vector<float> generateEmbedding(const std::string& chunk_data) override;
-    std::string getName() const override { return "GeoProcessor"; }
+    std::string getName() const override { return "LegacyGeoProcessor"; }
     std::vector<ContentCategory> getSupportedCategories() const override {
         return {ContentCategory::GEO};
     }
@@ -216,12 +216,12 @@ private:
  * Handles STEP, IGES, STL, DXF.
  * Extracts geometry, assemblies, bill of materials.
  */
-class CADProcessor : public IContentProcessor {
+class LegacyCADProcessor : public IContentProcessor {
 public:
     ExtractionResult extract(const std::string& blob, const ContentType& content_type) override;
     std::vector<json> chunk(const ExtractionResult& extraction_result, int chunk_size, int overlap) override;
     std::vector<float> generateEmbedding(const std::string& chunk_data) override;
-    std::string getName() const override { return "CADProcessor"; }
+    std::string getName() const override { return "LegacyCADProcessor"; }
     std::vector<ContentCategory> getSupportedCategories() const override {
         return {ContentCategory::CAD};
     }
@@ -237,12 +237,12 @@ private:
  * Handles MP3, WAV, FLAC.
  * Extracts ID3 tags, transcribes speech (optional), generates audio embeddings.
  */
-class AudioProcessor : public IContentProcessor {
+class LegacyAudioProcessor : public IContentProcessor {
 public:
     ExtractionResult extract(const std::string& blob, const ContentType& content_type) override;
     std::vector<json> chunk(const ExtractionResult& extraction_result, int chunk_size, int overlap) override;
     std::vector<float> generateEmbedding(const std::string& chunk_data) override;
-    std::string getName() const override { return "AudioProcessor"; }
+    std::string getName() const override { return "LegacyAudioProcessor"; }
     std::vector<ContentCategory> getSupportedCategories() const override {
         return {ContentCategory::AUDIO};
     }

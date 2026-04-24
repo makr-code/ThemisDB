@@ -39,26 +39,6 @@
 
 namespace themis::server {
 
-namespace {
-    // Helper to extract JWT token from Authorization header
-    std::optional<std::string> extractBearerToken(const http::request<http::string_body>& req) {
-        auto it = req.find(http::field::authorization);
-        if (it == req.end()) {
-            return std::nullopt;
-        }
-        
-        std::string auth_header{it->value()};
-        std::regex bearer_regex(R"(^Bearer\s+(.+)$)", std::regex::icase);
-        std::smatch matches;
-        
-        if (std::regex_match(auth_header, matches, bearer_regex) && matches.size() == 2) {
-            return matches[1].str();
-        }
-        
-        return std::nullopt;
-    }
-}
-
 LoRAApiHandler::LoRAApiHandler(
     std::shared_ptr<llm::lora::LoRAOrchestrator> orchestrator,
     std::optional<auth::JWTValidatorConfig> jwt_config)

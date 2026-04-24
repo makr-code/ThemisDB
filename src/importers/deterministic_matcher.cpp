@@ -248,7 +248,7 @@ double SemanticMatcher::levenshteinSimilarity(const std::string& s1, const std::
 // Name / phone / email helpers
 // ---------------------------------------------------------------------------
 
-static std::string toLower(const std::string& s) {
+static std::string toLowerMatcher(const std::string& s) {
     std::string out = s;
     for (char& c : out) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
     return out;
@@ -266,7 +266,7 @@ std::string SemanticMatcher::normalizeFullName(const std::string& name) {
         if (start != std::string::npos) first = first.substr(start);
         n = first + " " + last;
     }
-    return toLower(n);
+    return toLowerMatcher(n);
 }
 
 std::string SemanticMatcher::computeSoundex(const std::string& name) {
@@ -331,7 +331,7 @@ double SemanticMatcher::scoreEmailPair(const std::string& e1, const std::string&
     auto splitEmail = [](const std::string& e) -> std::pair<std::string, std::string> {
         const auto at = e.find('@');
         if (at == std::string::npos) return {"", ""};
-        return {toLower(e.substr(0, at)), toLower(e.substr(at + 1))};
+        return {toLowerMatcher(e.substr(0, at)), toLowerMatcher(e.substr(at + 1))};
     };
 
     const auto [local1, domain1] = splitEmail(e1);
@@ -346,11 +346,11 @@ bool SemanticMatcher::isLikelyEmailTypo(const std::string& e1, const std::string
     const auto at1 = e1.find('@');
     const auto at2 = e2.find('@');
     if (at1 == std::string::npos || at2 == std::string::npos) return false;
-    const std::string domain1 = toLower(e1.substr(at1 + 1));
-    const std::string domain2 = toLower(e2.substr(at2 + 1));
+    const std::string domain1 = toLowerMatcher(e1.substr(at1 + 1));
+    const std::string domain2 = toLowerMatcher(e2.substr(at2 + 1));
     if (domain1 != domain2) return false;
-    const std::string local1 = toLower(e1.substr(0, at1));
-    const std::string local2 = toLower(e2.substr(0, at2));
+    const std::string local1 = toLowerMatcher(e1.substr(0, at1));
+    const std::string local2 = toLowerMatcher(e2.substr(0, at2));
     return levenshteinDistance(local1, local2) <= 2;
 }
 
@@ -452,7 +452,7 @@ EntityMatchScore SemanticMatcher::scoreEntityMatch(
             field_score = scoreNameVariations(v1, v2);
         } else {
             // Default: jaro_winkler
-            field_score = jaroWinklerDistance(toLower(v1), toLower(v2));
+            field_score = jaroWinklerDistance(toLowerMatcher(v1), toLowerMatcher(v2));
         }
 
         SimilarityScore ss;

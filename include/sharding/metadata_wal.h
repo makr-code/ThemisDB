@@ -48,7 +48,7 @@ using WALEntryType = themis::sharding::WALEntryType;
  */
 enum class MetadataWALEntryType {
     PUT = 120,     // Put metadata entry
-    DELETE = 121,  // Delete metadata entry
+    DELETE_OP = 121,  // Delete metadata entry
     UPDATE = 122   // Update existing entry
 };
 

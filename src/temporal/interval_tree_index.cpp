@@ -30,6 +30,7 @@
 #include "temporal/interval_tree_index.h"
 #include <algorithm>
 #include <cassert>
+#include <mutex>
 
 namespace themisdb {
 namespace temporal {

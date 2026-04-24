@@ -98,7 +98,7 @@ enum class AggFunc {
     MAX,
     STDDEV,
     VARIANCE,
-    PERCENTILE,   // requires percentile p in [0,100] via AggregateSpec::percentile_p
+    PERCENTILE,   // requires percentile p in [0,100] via WindowAggregateSpec::percentile_p
     FIRST,
     LAST,
     DISTINCT_COUNT
@@ -140,25 +140,25 @@ struct StreamRecord {
 /**
  * Specifies one aggregation to compute in a window.
  */
-struct AggregateSpec {
+struct WindowAggregateSpec {
     std::string name;           ///< output name in WindowResult
     AggFunc     func = AggFunc::COUNT;
     std::string field;          ///< input field name (empty → operate on presence)
     double      percentile_p = 50.0; ///< only used for PERCENTILE
 
-    AggregateSpec() = default;
-    AggregateSpec(std::string name_, AggFunc func_, std::string field_,
+    WindowAggregateSpec() = default;
+    WindowAggregateSpec(std::string name_, AggFunc func_, std::string field_,
                   double percentile_p_ = 50.0)
         : name(std::move(name_)),
           func(func_),
           field(std::move(field_)),
           percentile_p(percentile_p_) {}
 
-        AggregateSpec(const AggregateSpec&) = default;
-        AggregateSpec& operator=(const AggregateSpec&) = default;
-        AggregateSpec(AggregateSpec&&) noexcept = default;
-        AggregateSpec& operator=(AggregateSpec&&) noexcept = default;
-        ~AggregateSpec() = default;
+        WindowAggregateSpec(const WindowAggregateSpec&) = default;
+        WindowAggregateSpec& operator=(const WindowAggregateSpec&) = default;
+        WindowAggregateSpec(WindowAggregateSpec&&) noexcept = default;
+        WindowAggregateSpec& operator=(WindowAggregateSpec&&) noexcept = default;
+        ~WindowAggregateSpec() = default;
 };
 
 /**
@@ -274,7 +274,7 @@ public:
      * Register an aggregation to compute.
      * Must be called before the first ingest().
      */
-    void addAggregation(const AggregateSpec& spec);
+    void addAggregation(const WindowAggregateSpec& spec);
 
     /**
      * Register a callback that is invoked when a window closes.
@@ -298,7 +298,7 @@ public:
 private:
     TumblingWindowConfig config_;
     ResultCallback callback_;
-    std::vector<AggregateSpec> agg_specs_;
+    std::vector<WindowAggregateSpec> agg_specs_;
 
     struct InternalWindow {
         std::chrono::system_clock::time_point start;
@@ -367,7 +367,7 @@ public:
     SlidingWindow(const SlidingWindow&) = delete;
     SlidingWindow& operator=(const SlidingWindow&) = delete;
 
-    void addAggregation(const AggregateSpec& spec);
+    void addAggregation(const WindowAggregateSpec& spec);
     void setResultCallback(ResultCallback cb);
 
     /** Ingest a record. Thread-safe. */
@@ -381,7 +381,7 @@ public:
 private:
     SlidingWindowConfig config_;
     ResultCallback callback_;
-    std::vector<AggregateSpec> agg_specs_;
+    std::vector<WindowAggregateSpec> agg_specs_;
 
     struct InternalWindow {
         std::string window_id;
@@ -449,7 +449,7 @@ public:
     SessionWindow(const SessionWindow&) = delete;
     SessionWindow& operator=(const SessionWindow&) = delete;
 
-    void addAggregation(const AggregateSpec& spec);
+    void addAggregation(const WindowAggregateSpec& spec);
     void setResultCallback(ResultCallback cb);
 
     /** Ingest a record. Thread-safe. Returns false on late/dropped record. */
@@ -463,7 +463,7 @@ public:
 private:
     SessionWindowConfig config_;
     ResultCallback callback_;
-    std::vector<AggregateSpec> agg_specs_;
+    std::vector<WindowAggregateSpec> agg_specs_;
 
     struct Session {
         std::string session_id;
@@ -523,7 +523,7 @@ public:
     HoppingWindow(const HoppingWindow&) = delete;
     HoppingWindow& operator=(const HoppingWindow&) = delete;
 
-    void addAggregation(const AggregateSpec& spec);
+    void addAggregation(const WindowAggregateSpec& spec);
     void setResultCallback(ResultCallback cb);
 
     /** Ingest a record. Thread-safe. */
@@ -537,7 +537,7 @@ public:
 private:
     HoppingWindowConfig config_;
     ResultCallback callback_;
-    std::vector<AggregateSpec> agg_specs_;
+    std::vector<WindowAggregateSpec> agg_specs_;
 
     struct InternalWindow {
         std::string window_id;
@@ -623,7 +623,7 @@ public:
 
     // ---- Builder methods ----
 
-    StreamingWindowPipeline& aggregate(const AggregateSpec& spec);
+    StreamingWindowPipeline& aggregate(const WindowAggregateSpec& spec);
     StreamingWindowPipeline& onResult(std::function<void(WindowResult)> callback);
 
     /**
@@ -644,7 +644,7 @@ public:
 
 private:
     Config config_;
-    std::vector<AggregateSpec> agg_specs_;
+    std::vector<WindowAggregateSpec> agg_specs_;
     std::function<void(WindowResult)> callback_;
 
     // Underlying window after build()

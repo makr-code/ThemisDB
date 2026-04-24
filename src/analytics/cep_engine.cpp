@@ -84,16 +84,16 @@ std::string generateId() {
     return std::string(buf);
 }
 
-/** Convert FieldValue to double for numeric aggregations (returns 0.0 on failure) */
-double toDouble(const FieldValue& v) {
+/** Convert CepFieldValue to double for numeric aggregations (returns 0.0 on failure) */
+double toDouble(const CepFieldValue& v) {
     if (auto* d = std::get_if<double>(&v)) return *d;
     if (auto* i = std::get_if<int64_t>(&v)) return static_cast<double>(*i);
     if (auto* b = std::get_if<bool>(&v)) return *b ? 1.0 : 0.0;
     return 0.0;
 }
 
-/** Convert FieldValue to string for distinct counting and set operations */
-std::string fieldValueToString(const FieldValue& v) {
+/** Convert CepFieldValue to string for distinct counting and set operations */
+std::string fieldValueToString(const CepFieldValue& v) {
     if (std::holds_alternative<std::monostate>(v)) return "";
     if (auto* s = std::get_if<std::string>(&v)) return *s;
     if (auto* i = std::get_if<int64_t>(&v)) return std::to_string(*i);
@@ -1198,7 +1198,7 @@ std::string Aggregator::getGroupKey(const Event& event) const {
 
 void Aggregator::updateAggregation(AggregationState& s, const Event& event) {
     auto it = event.fields.find(s.field);
-    FieldValue fv = (it != event.fields.end()) ? it->second : FieldValue{std::monostate{}};
+    CepFieldValue fv = (it != event.fields.end()) ? it->second : CepFieldValue{std::monostate{}};
     double dval = toDouble(fv);
 
     ++s.count;
@@ -1224,7 +1224,7 @@ void Aggregator::updateAggregation(AggregationState& s, const Event& event) {
     }
 }
 
-FieldValue Aggregator::computeResult(const AggregationState& s) const {
+CepFieldValue Aggregator::computeResult(const AggregationState& s) const {
     // COUNT returns 0 even for empty sets; other aggregations return null
     if (s.count == 0 && s.type != AggregationType::COUNT) return std::monostate{};
     switch (s.type) {
@@ -2121,7 +2121,7 @@ Event CEPEngine::createCDCEvent(
     EventType type,
     const std::string& collection,
     const std::string& document_id,
-    const std::map<std::string, FieldValue>& fields) {
+    const std::map<std::string, CepFieldValue>& fields) {
     Event ev;
     ev.event_id = generateId();
     ev.type = type;

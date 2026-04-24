@@ -53,7 +53,7 @@ namespace importers {
  * remaining bytes of the current line are discarded and @p truncated is set
  * to true.  Returns false only when EOF is reached before any bytes are read.
  */
-static bool streamReadLine(std::istream& file,
+static bool streamReadLineFlat(std::istream& file,
                             std::string& line,
                             size_t max_bytes,
                             bool& truncated) {
@@ -657,7 +657,7 @@ DetectedSchema FlatFileImporter::detectCsvSchema(
     bool sample_truncated = false;
 
     while (sampled < sample_limit &&
-           streamReadLine(file, sample_line, line_limit, sample_truncated)) {
+           streamReadLineFlat(file, sample_line, line_limit, sample_truncated)) {
         if (sample_truncated || sample_line.empty()) continue;
         if (!sample_line.empty() && sample_line.back() == '\r')
             sample_line.pop_back();
@@ -716,7 +716,7 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
     if (has_header_) {
         std::string header_line;
         bool truncated = false;
-        if (!streamReadLine(file, header_line, line_limit, truncated)) {
+        if (!streamReadLineFlat(file, header_line, line_limit, truncated)) {
             addError(stats, ImportErrorCode::FILE_READ_FAILED,
                      ImportErrorSeverity::CRITICAL,
                      "Empty file (expected header row): " + path);
@@ -765,7 +765,7 @@ bool FlatFileImporter::importCsvFile(const std::string& path,
     bool line_truncated = false;
     size_t row_index    = 0;
 
-    while (streamReadLine(file, line, line_limit, line_truncated) &&
+    while (streamReadLineFlat(file, line, line_limit, line_truncated) &&
            !cancelled_) {
         ++line_number;
         ++row_index;
@@ -924,7 +924,7 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
         std::string sline;
         bool strunc = false;
         while (sampled < options.schema_sample_rows &&
-               streamReadLine(file, sline, line_limit, strunc)) {
+               streamReadLineFlat(file, sline, line_limit, strunc)) {
             if (strunc || sline.empty()) continue;
             if (!sline.empty() && sline.back() == '\r') sline.pop_back();
             if (sline.empty()) continue;
@@ -967,7 +967,7 @@ bool FlatFileImporter::importJsonlFile(const std::string& path,
     size_t line_number  = 0;
     size_t row_index    = 0;
 
-    while (streamReadLine(file, line, line_limit, line_truncated) &&
+    while (streamReadLineFlat(file, line, line_limit, line_truncated) &&
            !cancelled_) {
         ++line_number;
 

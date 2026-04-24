@@ -35,6 +35,7 @@
  */
 
 #include "process/process_model_manager.h"
+#include "process/process_common.h"
 #include "process/bpmn_serializer.h"
 #include "process/epk_serializer.h"
 #include "process/epk_aris_xml_importer.h"
@@ -227,20 +228,6 @@ ProcessModelRecord ProcessModelRecord::fromDocument(const json& doc) {
 
     return r;
 }
-
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
-namespace {
-
-int64_t nowMs() {
-    return std::chrono::duration_cast<std::chrono::milliseconds>(
-        std::chrono::system_clock::now().time_since_epoch()
-    ).count();
-}
-
-} // anonymous namespace
 
 // ---------------------------------------------------------------------------
 // ProcessModelManager implementation

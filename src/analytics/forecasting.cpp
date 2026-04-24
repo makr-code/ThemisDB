@@ -242,7 +242,7 @@ double zScore(double confidence) {
     return normalQuantile(0.5 + confidence * 0.5);
 }
 
-double computeMean(const std::vector<double>& v) {
+double computeForecastMean(const std::vector<double>& v) {
     if (v.empty()) return 0.0;
     return std::accumulate(v.begin(), v.end(), 0.0) / static_cast<double>(v.size());
 }
@@ -549,7 +549,7 @@ std::vector<double> yuleWalker(const std::vector<double>& y, int p) {
     size_t n = y.size();
     if (n == 0 || p <= 0) return {};
 
-    double mean_y = computeMean(y);
+    double mean_y = computeForecastMean(y);
     // Autocovariances r[0..p] — inner loop accelerated by AVX-512 / AVX2.
     std::vector<double> r(static_cast<size_t>(p + 1), 0.0);
     for (int k = 0; k <= p; ++k) {
@@ -593,7 +593,7 @@ ArimaParams fitARIMA(const std::vector<double>& y, int p, int d, int q) {
         for (size_t i = 1; i < y.size(); ++i) diff[i - 1] = y[i] - y[i - 1];
         yd = diff;
     }
-    params.mean_diff = computeMean(yd);
+    params.mean_diff = computeForecastMean(yd);
 
     // Demean for AR fitting
     std::vector<double> yc = yd;
@@ -738,7 +738,7 @@ SARIMAParams fitSARIMA(const std::vector<double>& y,
     yd = regularDiff(yd, d);
     if (yd.empty()) { params.last_obs = y.back(); return params; }
 
-    params.mean_diff = computeMean(yd);
+    params.mean_diff = computeForecastMean(yd);
     std::vector<double> yc = yd;
     for (double& v : yc) v -= params.mean_diff;
 

@@ -90,7 +90,7 @@ LSN MetadataWAL::logDelete(
     uint64_t version
 ) {
     MetadataWALEntry entry;
-    entry.type = MetadataWALEntryType::DELETE;
+    entry.type = MetadataWALEntryType::DELETE_OP;
     entry.timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
     entry.partition = partition;
@@ -174,7 +174,7 @@ LSN MetadataWAL::writeEntry(const MetadataWALEntry& entry) {
         
         spdlog::debug("Logged metadata {} to WAL: partition={}, key={}, version={}, LSN=({}, {})",
                      entry.type == MetadataWALEntryType::PUT ? "PUT" :
-                     entry.type == MetadataWALEntryType::DELETE ? "DELETE" : "UPDATE",
+                     entry.type == MetadataWALEntryType::DELETE_OP ? "DELETE" : "UPDATE",
                      static_cast<int>(entry.partition),
                      entry.key,
                      entry.version,

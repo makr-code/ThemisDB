@@ -656,7 +656,7 @@ bool MetadataShard::recoverFromWAL() {
                 
                 storage_[entry.partition][entry.key] = metadata_entry;
                 
-            } else if (entry.type == MetadataWALEntryType::DELETE) {
+            } else if (entry.type == MetadataWALEntryType::DELETE_OP) {
                 auto partition_it = storage_.find(entry.partition);
                 if (partition_it != storage_.end()) {
                     partition_it->second.erase(entry.key);

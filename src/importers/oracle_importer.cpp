@@ -18,6 +18,7 @@
  */
 
 #include "importers/oracle_importer.h"
+#include "importers/importer_common.h"
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>
@@ -43,7 +44,7 @@ namespace importers {
  * remaining bytes of the current line are discarded and @p truncated is set
  * to true. Returns false only when EOF is reached before any bytes are read.
  */
-static bool streamReadLine(std::istream& file,
+static bool streamReadLineOracle(std::istream& file,
                             std::string& line,
                             size_t max_bytes,
                             bool& truncated) {
@@ -79,7 +80,7 @@ static bool streamReadLine(std::istream& file,
 /**
  * @brief Convert a string to lower-case (ASCII only).
  */
-static std::string toLower(const std::string& s) {
+static std::string toLowerOracle(const std::string& s) {
     std::string result = s;
     for (auto& ch : result) ch = static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
     return result;
@@ -350,7 +351,7 @@ bool OracleImporter::parseDumpFile(const std::string& file_path, const ImportOpt
         int hdr_lines = 0;
         bool found_header = false;
         bool hdr_trunc = false;
-        while (streamReadLine(file, hdr_line, 4096, hdr_trunc) && hdr_lines < 50) {
+        while (streamReadLineOracle(file, hdr_line, 4096, hdr_trunc) && hdr_lines < 50) {
             if (hdr_line.find("Oracle") != std::string::npos ||
                 hdr_line.find("ORACLE") != std::string::npos ||
                 hdr_line.find("expdp") != std::string::npos ||
@@ -386,7 +387,7 @@ bool OracleImporter::parseDumpFile(const std::string& file_path, const ImportOpt
     size_t batch_row_count = 0;
     bool line_truncated = false;
 
-    while (streamReadLine(file, line, line_read_limit, line_truncated) && !cancelled_) {
+    while (streamReadLineOracle(file, line, line_read_limit, line_truncated) && !cancelled_) {
         line_number++;
 
         if (line_truncated) {
@@ -782,7 +783,7 @@ std::string OracleImporter::mapOracleTypeToThemis(const std::string& oracle_type
     std::string base_type = oracle_type;
     size_t paren = base_type.find('(');
     if (paren != std::string::npos) base_type = base_type.substr(0, paren);
-    std::string lower = toLower(base_type);
+    std::string lower = toLowerOracle(base_type);
     // Trim trailing whitespace
     {
         size_t l = lower.find_last_not_of(" \t");

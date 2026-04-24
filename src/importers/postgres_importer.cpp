@@ -197,7 +197,7 @@ static size_t findMatchingParen(const std::string& sql, size_t open_pos) {
  * an adversarial or accidentally huge pg_dump line (e.g. a COPY row with no
  * newline in 10 GB of data) cannot exhaust process memory.
  */
-static bool streamReadLine(std::istream& file,
+static bool streamReadLinePg(std::istream& file,
                            std::string& line,
                            size_t max_bytes,
                            bool& truncated) {
@@ -622,7 +622,7 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
         int hdr_lines = 0;
         bool hdr_trunc = false;
         std::streampos after_header = 0;
-        while (streamReadLine(file, hdr_line, 4096, hdr_trunc) && hdr_lines < 50) {
+        while (streamReadLinePg(file, hdr_line, 4096, hdr_trunc) && hdr_lines < 50) {
             after_header = file.tellg();
             if (hdr_line.find("-- PostgreSQL database dump") != std::string::npos ||
                 hdr_line.find("pg_dump") != std::string::npos) {
@@ -691,7 +691,7 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
     current_sql.reserve(8192);
 
     bool line_truncated = false;
-    while (streamReadLine(file, line, line_read_limit, line_truncated) && !cancelled_) {
+    while (streamReadLinePg(file, line, line_read_limit, line_truncated) && !cancelled_) {
         line_number++;
 
         if (line_truncated) {
@@ -1712,7 +1712,7 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
         const size_t skip_limit = options.max_row_size_bytes > 0
                                   ? options.max_row_size_bytes * 2
                                   : 64 * 1024 * 1024ULL;
-        while (streamReadLine(file, line, skip_limit, trunc)) {
+        while (streamReadLinePg(file, line, skip_limit, trunc)) {
             if (line == "\\." || line.rfind("\\.", 0) == 0) break;
             stats.skipped_records++;
         }
@@ -1735,7 +1735,7 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
     size_t row_num = 0;
     bool first_data_line = true;
     bool row_truncated = false;
-    while (streamReadLine(file, line, row_read_limit, row_truncated) && !cancelled_) {
+    while (streamReadLinePg(file, line, row_read_limit, row_truncated) && !cancelled_) {
         if (line == "\\." || line.rfind("\\.", 0) == 0) {
             break;  // End of COPY data
         }
@@ -1777,7 +1777,7 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
                 if (!options.continue_on_error) return false;
                 // Skip remaining lines of this COPY block using the bounded reader
                 bool skip_trunc = false;
-                while (streamReadLine(file, line, row_read_limit, skip_trunc)) {
+                while (streamReadLinePg(file, line, row_read_limit, skip_trunc)) {
                     if (line == "\\." || line.rfind("\\.", 0) == 0) break;
                 }
                 return true;

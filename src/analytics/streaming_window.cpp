@@ -155,7 +155,7 @@ double calcPercentile(const std::vector<double>& vals, double p) {
  */
 std::vector<AggregatedValue> computeAggregations(
     const std::vector<StreamRecord>& records,
-    const std::vector<AggregateSpec>& specs)
+    const std::vector<WindowAggregateSpec>& specs)
 {
     std::vector<AggregatedValue> results;
     results.reserve(specs.size());
@@ -327,7 +327,7 @@ std::unique_ptr<TumblingWindow> createTumblingWindow(const TumblingWindowConfig&
     return std::make_unique<TumblingWindow>(config);
 }
 
-void TumblingWindow::addAggregation(const AggregateSpec& spec) {
+void TumblingWindow::addAggregation(const WindowAggregateSpec& spec) {
     std::lock_guard lk(mutex_);
     agg_specs_.push_back(spec);
 }
@@ -548,7 +548,7 @@ std::unique_ptr<SlidingWindow> createSlidingWindow(const SlidingWindowConfig& co
     return std::make_unique<SlidingWindow>(config);
 }
 
-void SlidingWindow::addAggregation(const AggregateSpec& spec) {
+void SlidingWindow::addAggregation(const WindowAggregateSpec& spec) {
     std::lock_guard lk(mutex_);
     agg_specs_.push_back(spec);
 }
@@ -788,7 +788,7 @@ std::unique_ptr<SessionWindow> createSessionWindow(const SessionWindowConfig& co
     return std::make_unique<SessionWindow>(config);
 }
 
-void SessionWindow::addAggregation(const AggregateSpec& spec) {
+void SessionWindow::addAggregation(const WindowAggregateSpec& spec) {
     std::lock_guard lk(mutex_);
     agg_specs_.push_back(spec);
 }
@@ -1006,7 +1006,7 @@ std::unique_ptr<HoppingWindow> createHoppingWindow(const HoppingWindowConfig& co
     return std::make_unique<HoppingWindow>(config);
 }
 
-void HoppingWindow::addAggregation(const AggregateSpec& spec) {
+void HoppingWindow::addAggregation(const WindowAggregateSpec& spec) {
     std::lock_guard lk(mutex_);
     agg_specs_.push_back(spec);
 }
@@ -1209,7 +1209,7 @@ StreamingWindowPipeline StreamingWindowPipeline::hopping(
     return p;
 }
 
-StreamingWindowPipeline& StreamingWindowPipeline::aggregate(const AggregateSpec& spec) {
+StreamingWindowPipeline& StreamingWindowPipeline::aggregate(const WindowAggregateSpec& spec) {
     agg_specs_.emplace_back(spec.name, spec.func, spec.field, spec.percentile_p);
     return *this;
 }

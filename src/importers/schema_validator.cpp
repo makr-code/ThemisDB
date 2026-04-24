@@ -29,7 +29,7 @@ namespace importers {
 // Internal helpers
 // ============================================================================
 
-static std::string toLower(const std::string& s) {
+static std::string toLowerSchema(const std::string& s) {
     std::string out;
     out.reserve(s.size());
     for (unsigned char c : s)
@@ -38,7 +38,7 @@ static std::string toLower(const std::string& s) {
 }
 
 static bool valueIsBoolean(const std::string& s) {
-    std::string lower = toLower(s);
+    std::string lower = toLowerSchema(s);
     return lower == "true" || lower == "false";
 }
 
@@ -102,7 +102,7 @@ std::string SchemaAutoDetector::typeName(DetectedFieldType t) {
 }
 
 DetectedFieldType SchemaAutoDetector::parseTypeName(const std::string& name) {
-    std::string lower = toLower(name);
+    std::string lower = toLowerSchema(name);
     if (lower == "boolean" || lower == "bool") return DetectedFieldType::BOOLEAN;
     if (lower == "integer" || lower == "int")  return DetectedFieldType::INTEGER;
     if (lower == "double"  || lower == "float" ||

@@ -1017,6 +1017,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/model_quantization_pipeline.cpp
     ../src/llm/model_downloader.cpp
     ../src/llm/aql_train_parser.cpp
+    ../src/aql/llm_aql_embedding_bridge.cpp
     ../src/llm/llama_wrapper.cpp
     ../src/llm/llama_lora_adapter.cpp
     ../src/llm/llama_grammar_adapter.cpp
@@ -1805,6 +1806,18 @@ function(themis_build_modular)
     themis_add_module(security
         SOURCES ${THEMIS_SECURITY_SOURCES}
         DEPENDENCIES ${_themis_security_deps}
+    )
+    # These two translation units include different governance headers that both
+    # declare a class named ComplianceReporter. In Unity mode they can end up in
+    # one TU and trigger class redefinition errors (C2011/C2027 cascade).
+    set_source_files_properties(
+        ${CMAKE_SOURCE_DIR}/src/governance/compliance_reporter.cpp
+        ${CMAKE_SOURCE_DIR}/src/governance/compliance_reporting.cpp
+        ${CMAKE_SOURCE_DIR}/src/governance/policy_validator.cpp
+        ${CMAKE_SOURCE_DIR}/src/governance/policy_validation.cpp
+        ${CMAKE_SOURCE_DIR}/src/governance/policy_review.cpp
+        ${CMAKE_SOURCE_DIR}/src/governance/review_scheduler.cpp
+        PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
     )
     
     themis_add_module(transaction

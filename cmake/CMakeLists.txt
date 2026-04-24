@@ -2439,6 +2439,7 @@ set(THEMIS_CORE_SOURCES
 
     # OLAP Analytics
     ../src/analytics/olap.cpp
+    ../src/gpu/query_accelerator.cpp
     ../src/analytics/process_mining.cpp
     ../src/analytics/nlp_text_analyzer.cpp
     ../src/analytics/arrow_export.cpp

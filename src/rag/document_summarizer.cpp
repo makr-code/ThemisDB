@@ -91,7 +91,7 @@ double scoreSentence(const std::string& sentence,
 }
 
 /// Split @p text into sentences (split on '.', '!', '?').
-std::vector<std::string> splitSentences(const std::string& text) {
+std::vector<std::string> splitSentencesSimple(const std::string& text) {
     std::vector<std::string> sentences;
     std::string current;
     for (size_t i = 0; i < text.size(); ++i) {
@@ -130,7 +130,7 @@ std::string extractiveSummary(
     size_t min_sentence_chars,
     size_t budget_chars)
 {
-    const auto all_sentences = splitSentences(content);
+    const auto all_sentences = splitSentencesSimple(content);
 
     // Score each sentence
     std::vector<std::pair<double, size_t>> scored; // (score, index)
@@ -275,8 +275,8 @@ struct DocumentSummarizer::Impl {
         }
 
         // coverage_score: distinct sentences in summary / total sentences
-        const auto total_sents   = splitSentences(content).size();
-        const auto summary_sents = splitSentences(ds.summary).size();
+        const auto total_sents   = splitSentencesSimple(content).size();
+        const auto summary_sents = splitSentencesSimple(ds.summary).size();
         ds.coverage_score = total_sents > 0
             ? std::min(1.0, static_cast<double>(summary_sents) /
                             static_cast<double>(total_sents))
@@ -381,8 +381,8 @@ MultiDocumentSummary DocumentSummarizer::summarizeMultiple(
                 impl_->config.max_sentences_per_doc,
                 impl_->config.min_sentence_chars,
                 per_doc_budget);
-            const auto total_sents   = splitSentences(d.content).size();
-            const auto summary_sents = splitSentences(ds.summary).size();
+            const auto total_sents   = splitSentencesSimple(d.content).size();
+            const auto summary_sents = splitSentencesSimple(ds.summary).size();
             ds.coverage_score = total_sents > 0
                 ? std::min(1.0, static_cast<double>(summary_sents) /
                                 static_cast<double>(total_sents))

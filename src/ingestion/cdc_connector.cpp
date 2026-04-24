@@ -44,6 +44,10 @@
 #undef ERROR
 #endif
 
+#ifdef DELETE
+#undef DELETE
+#endif
+
 namespace themis {
 namespace ingestion {
 
@@ -134,7 +138,7 @@ static std::string cdcEventToText(const CdcConnector::CdcEvent& ev,
 }
 
 /// Split a comma-separated string into trimmed tokens.
-static std::vector<std::string> splitComma(const std::string& s) {
+static std::vector<std::string> splitCommaCdc(const std::string& s) {
     std::vector<std::string> result;
     std::istringstream ss(s);
     std::string token;
@@ -415,10 +419,10 @@ public:
         std::string table_filter_str = opt("table_filter", "");
         table_filter_ = table_filter_str.empty()
                         ? std::vector<std::string>{}
-                        : splitComma(table_filter_str);
+                        : splitCommaCdc(table_filter_str);
 
         std::string ops_str = opt("operations", "INSERT,UPDATE,DELETE");
-        ops_filter_ = splitComma(ops_str);
+        ops_filter_ = splitCommaCdc(ops_str);
         // Normalize to uppercase
         for (auto& op : ops_filter_) {
             std::transform(op.begin(), op.end(), op.begin(),
@@ -428,7 +432,7 @@ public:
         std::string text_cols_str = opt("text_columns", "");
         text_columns_ = text_cols_str.empty()
                         ? std::vector<std::string>{}
-                        : splitComma(text_cols_str);
+                        : splitCommaCdc(text_cols_str);
 
         try { batch_size_ = static_cast<size_t>(std::stoull(opt("batch_size", "500"))); }
         catch (...) { batch_size_ = 500; }

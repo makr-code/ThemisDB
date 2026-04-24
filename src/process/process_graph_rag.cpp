@@ -31,6 +31,7 @@
  */
 
 #include "process/process_graph_rag.h"
+#include "process/process_common.h"
 #include "utils/logger.h"
 
 #include <algorithm>
@@ -51,13 +52,6 @@ using json = nlohmann::json;
 // Anonymous namespace helpers
 // ─────────────────────────────────────────────────────────────────────────────
 namespace {
-
-/// Current wall-clock time in milliseconds.
-int64_t nowMs() {
-    return std::chrono::duration_cast<std::chrono::milliseconds>(
-               std::chrono::system_clock::now().time_since_epoch())
-               .count();
-}
 
 /// Cosine similarity between two float vectors; returns 0.0 when either is
 /// empty or the norms are zero.

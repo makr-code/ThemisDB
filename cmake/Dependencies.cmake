@@ -727,14 +727,25 @@ if(THEMIS_ENABLE_LLM)
     set(LLAMA_CONTINUOUS_BATCHING ON CACHE BOOL "Enable continuous batching" FORCE)
     message(STATUS "Continuous Batching: ENABLED (+8x throughput)")
     
-    # Fetch llama.cpp from GitHub with pinned commit
-    FetchContent_Declare(
-        llama_cpp
-        GIT_REPOSITORY https://github.com/ggerganov/llama.cpp.git
-        GIT_TAG ${LLAMA_CPP_GIT_TAG}
-        GIT_SHALLOW FALSE  # Need full history for commit verification
-        SOURCE_DIR "${PROJECT_SOURCE_DIR}/llama.cpp"
-    )
+    # Prefer repository-vendored llama.cpp when present to avoid fragile
+    # FetchContent git clone/update behavior in source archives/submodule snapshots.
+    if(EXISTS "${PROJECT_SOURCE_DIR}/llama.cpp/CMakeLists.txt")
+        message(STATUS "llama.cpp: using local vendored source")
+        FetchContent_Declare(
+            llama_cpp
+            SOURCE_DIR "${PROJECT_SOURCE_DIR}/llama.cpp"
+            DOWNLOAD_COMMAND ""
+            UPDATE_COMMAND ""
+        )
+    else()
+        FetchContent_Declare(
+            llama_cpp
+            GIT_REPOSITORY https://github.com/ggerganov/llama.cpp.git
+            GIT_TAG ${LLAMA_CPP_GIT_TAG}
+            GIT_SHALLOW FALSE  # Need full history for commit verification
+            SOURCE_DIR "${PROJECT_SOURCE_DIR}/llama.cpp"
+        )
+    endif()
     
     FetchContent_MakeAvailable(llama_cpp)
     

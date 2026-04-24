@@ -18,6 +18,7 @@
  */
 
 #include "importers/sqlite_importer.h"
+#include "importers/importer_common.h"
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>
@@ -30,60 +31,6 @@
 
 namespace themis {
 namespace importers {
-
-// ============================================================================
-// File-level helpers
-// ============================================================================
-
-/**
- * @brief Memory-bounded line reader.
- *
- * Reads the next newline-terminated line from @p file with a hard per-line
- * byte cap of @p max_bytes (0 = unlimited).  When the cap is exceeded the
- * remaining bytes of the current line are discarded and @p truncated is set
- * to true.  Returns false only when EOF is reached before any bytes are read.
- */
-static bool streamReadLine(std::istream& file,
-                            std::string& line,
-                            size_t max_bytes,
-                            bool& truncated) {
-    truncated = false;
-    line.clear();
-
-    if (max_bytes == 0) {
-        if (!std::getline(file, line)) return false;
-        return true;
-    }
-
-    char c = '\0';
-    size_t count = 0;
-    bool got_any = false;
-
-    while (file.get(c)) {
-        got_any = true;
-        if (c == '\n') break;
-        if (count < max_bytes) {
-            line += c;
-            ++count;
-        } else {
-            truncated = true;
-            while (file.get(c) && c != '\n') { /* discard */ }
-            break;
-        }
-    }
-
-    return got_any;
-}
-
-/**
- * @brief Convert a string to lower-case (ASCII only).
- */
-static std::string toLower(const std::string& s) {
-    std::string result = s;
-    for (auto& c : result)
-        c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
-    return result;
-}
 
 // ============================================================================
 // Constructor / Destructor

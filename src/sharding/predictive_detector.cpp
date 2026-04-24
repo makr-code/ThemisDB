@@ -234,7 +234,7 @@ FailurePrediction PredictiveFailureDetector::predictShard(const std::string& sha
 // Metrics Collection
 // ═══════════════════════════════════════════════════════════
 
-void PredictiveFailureDetector::recordMetrics(const ShardMetrics& metrics) {
+void PredictiveFailureDetector::recordMetrics(const PredictiveShardMetrics& metrics) {
     std::lock_guard<std::mutex> lock(metrics_mutex_);
     
     auto& history = metrics_history_[metrics.shard_id];
@@ -246,14 +246,14 @@ void PredictiveFailureDetector::recordMetrics(const ShardMetrics& metrics) {
     
     history.erase(
         std::remove_if(history.begin(), history.end(),
-            [cutoff_time](const ShardMetrics& m) {
+            [cutoff_time](const PredictiveShardMetrics& m) {
                 return m.timestamp < cutoff_time;
             }),
         history.end()
     );
 }
 
-std::vector<ShardMetrics> PredictiveFailureDetector::getMetricsHistory(
+std::vector<PredictiveShardMetrics> PredictiveFailureDetector::getMetricsHistory(
     const std::string& shard_id, 
     std::chrono::hours lookback) const {
     
@@ -266,7 +266,7 @@ std::vector<ShardMetrics> PredictiveFailureDetector::getMetricsHistory(
     
     auto cutoff_time = std::chrono::system_clock::now() - lookback;
     
-    std::vector<ShardMetrics> result;
+    std::vector<PredictiveShardMetrics> result;
     for (const auto& metrics : it->second) {
         if (metrics.timestamp >= cutoff_time) {
             result.push_back(metrics);
@@ -295,7 +295,7 @@ std::vector<float> PredictiveFailureDetector::extractFeatures(const std::string&
 }
 
 std::vector<float> PredictiveFailureDetector::computeStatisticalFeatures(
-    const std::vector<ShardMetrics>& history) {
+    const std::vector<PredictiveShardMetrics>& history) {
     
     std::vector<float> features;
     features.reserve(50);
