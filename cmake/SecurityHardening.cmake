@@ -68,13 +68,22 @@ if(NOT MSVC)
                CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL "12.0")
                 set(_fortify_level 3)
             elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang|AppleClang" AND
-                   CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL "17.0")
+                   CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL "16.0")
+                # Clang 16 introduced _FORTIFY_SOURCE=3; versions 9–15 support level 2
                 set(_fortify_level 3)
+            elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang|AppleClang" AND
+                   CMAKE_CXX_COMPILER_VERSION VERSION_LESS "9.0")
+                # Clang < 9.0 lacks reliable FORTIFY_SOURCE support; skip
+                set(_fortify_level 0)
             endif()
 
             # Remove any previous _FORTIFY_SOURCE definition to avoid -Wmacro-redefined
-            add_compile_options(-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=${_fortify_level})
-            message(STATUS "[SecurityHardening] _FORTIFY_SOURCE=${_fortify_level} (${CMAKE_BUILD_TYPE} build)")
+            if(_fortify_level GREATER 0)
+                add_compile_options(-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=${_fortify_level})
+                message(STATUS "[SecurityHardening] _FORTIFY_SOURCE=${_fortify_level} (${CMAKE_BUILD_TYPE} build)")
+            else()
+                message(STATUS "[SecurityHardening] _FORTIFY_SOURCE: skipped (Clang < 9.0)")
+            endif()
         else()
             message(STATUS "[SecurityHardening] _FORTIFY_SOURCE: skipped (Debug build – requires -O1+)")
         endif()

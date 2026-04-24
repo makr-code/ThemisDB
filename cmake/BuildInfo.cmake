@@ -70,22 +70,40 @@ if(DEFINED ENV{SOURCE_DATE_EPOCH})
     set(_sde "$ENV{SOURCE_DATE_EPOCH}")
     # Basic sanity: must be a positive integer
     if(_sde MATCHES "^[0-9]+$")
-        # Use Python or date command if available to format; otherwise store raw.
+        # Prefer Python 3 (timezone-aware API, no deprecation warnings)
         find_program(_python_exe NAMES python3 python QUIET)
         if(_python_exe)
             execute_process(
                 COMMAND "${_python_exe}" -c
-                    "import datetime, sys; print(datetime.datetime.utcfromtimestamp(int(sys.argv[1])).strftime('%Y-%m-%dT%H:%M:%SZ'))"
+                    "import datetime, sys; ts=int(sys.argv[1]); print(datetime.datetime.fromtimestamp(ts, tz=datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))"
                     "${_sde}"
                 OUTPUT_VARIABLE _sde_formatted
                 OUTPUT_STRIP_TRAILING_WHITESPACE
                 RESULT_VARIABLE _sde_result
+                ERROR_QUIET
             )
         endif()
+
+        # Fallback: POSIX date command (Linux/macOS)
+        if(NOT _sde_formatted OR NOT _sde_result EQUAL 0)
+            find_program(_date_exe NAMES date QUIET)
+            if(_date_exe)
+                execute_process(
+                    COMMAND "${_date_exe}" -u -d "@${_sde}" "+%Y-%m-%dT%H:%M:%SZ"
+                    OUTPUT_VARIABLE _sde_formatted
+                    OUTPUT_STRIP_TRAILING_WHITESPACE
+                    RESULT_VARIABLE _sde_result
+                    ERROR_QUIET
+                )
+            endif()
+        endif()
+
         if(_sde_formatted AND _sde_result EQUAL 0)
             set(THEMIS_BUILD_TIMESTAMP "${_sde_formatted}")
             message(STATUS "[BuildInfo] SOURCE_DATE_EPOCH=${_sde} → timestamp=${THEMIS_BUILD_TIMESTAMP} (reproducible build)")
         else()
+            # Last resort: store the raw epoch value; consumers that parse ISO-8601
+            # will reject it, but at least the build is deterministic.
             set(THEMIS_BUILD_TIMESTAMP "1970-01-01T00:00:00Z")
             message(STATUS "[BuildInfo] SOURCE_DATE_EPOCH=${_sde} set but could not format – using epoch zero.")
         endif()

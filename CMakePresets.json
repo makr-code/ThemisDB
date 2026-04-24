@@ -229,7 +229,7 @@
     {
       "name": "linux-asan",
       "displayName": "Linux x64: AddressSanitizer + LeakSanitizer (Debug)",
-      "description": "Detects memory errors (use-after-free, buffer overflows, leaks). Runs ~2x slower. Not for production.",
+      "description": "Detects memory errors (use-after-free, buffer overflows, leaks). Runs ~2x slower. Not for production. PIE and FORTIFY_SOURCE are disabled: PIE conflicts with ASAN shadow memory layout; FORTIFY_SOURCE requires optimised code (-O2+) incompatible with ASAN's Debug -O1.",
       "inherits": "linux-dev-base",
       "binaryDir": "${sourceDir}/build/linux-asan",
       "cacheVariables": {
@@ -242,7 +242,7 @@
     {
       "name": "linux-ubsan",
       "displayName": "Linux x64: UndefinedBehaviorSanitizer (Debug)",
-      "description": "Detects undefined behavior: signed overflow, null dereference, misalignment, etc.",
+      "description": "Detects undefined behavior: signed overflow, null dereference, misalignment, etc. PIE is disabled to avoid interactions with UBSan's runtime instrumentation.",
       "inherits": "linux-dev-base",
       "binaryDir": "${sourceDir}/build/linux-ubsan",
       "cacheVariables": {
@@ -253,7 +253,7 @@
     {
       "name": "linux-tsan",
       "displayName": "Linux x64: ThreadSanitizer (Debug)",
-      "description": "Detects data races and threading issues. Runs ~5-15x slower. Incompatible with ASAN.",
+      "description": "Detects data races and threading issues. Runs ~5-15x slower. Incompatible with ASAN. PIE and FORTIFY_SOURCE are disabled: TSan uses a fixed shadow-memory mapping that conflicts with PIE's ASLR; FORTIFY_SOURCE requires -O2 while TSan needs -O1 for accurate reporting.",
       "inherits": "linux-dev-base",
       "binaryDir": "${sourceDir}/build/linux-tsan",
       "cacheVariables": {
@@ -265,12 +265,12 @@
     {
       "name": "linux-coverage",
       "displayName": "Linux x64: Code Coverage (Debug + gcov)",
-      "description": "Instruments code for line/branch coverage with gcov. Use lcov/genhtml for reports.",
+      "description": "Instruments code for line/branch coverage with gcov. Use lcov/genhtml for HTML reports. PIE and FORTIFY_SOURCE are disabled to prevent interference with gcov instrumentation and because coverage builds use -O0.",
       "inherits": "linux-dev-base",
       "binaryDir": "${sourceDir}/build/linux-coverage",
       "cacheVariables": {
-        "CMAKE_CXX_FLAGS": "--coverage -fprofile-arcs -ftest-coverage",
-        "CMAKE_C_FLAGS": "--coverage -fprofile-arcs -ftest-coverage",
+        "CMAKE_CXX_FLAGS": "--coverage",
+        "CMAKE_C_FLAGS": "--coverage",
         "CMAKE_EXE_LINKER_FLAGS": "--coverage",
         "THEMIS_DISABLE_PIE": "ON",
         "THEMIS_DISABLE_FORTIFY_SOURCE": "ON"
