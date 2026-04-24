@@ -154,7 +154,12 @@ else()
         -Wpedantic
         -Wno-unused-parameter
         -Wno-deprecated-declarations
-        -Wsign-compare   # Enable signed/unsigned comparison warnings
+        -Wsign-compare        # Enable signed/unsigned comparison warnings
+        -Wshadow              # Warn when a local variable shadows another
+        -Wnull-dereference    # Warn on possible null-pointer dereferences
+        -Wformat=2            # Stricter format-string checks (includes %n)
+        -Wdouble-promotion    # Warn when float is implicitly promoted to double
+        -Wno-format-nonliteral # Allow non-literal format strings in wrappers
     )
 
     # ── Release optimisation flags ────────────────────────────────────────────

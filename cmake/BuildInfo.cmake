@@ -58,8 +58,44 @@ else()
 endif()
 
 # ── Build timestamp ───────────────────────────────────────────────────────────
+# Reproducible-build support: when SOURCE_DATE_EPOCH is set (e.g. in CI or
+# Debian/RPM packaging) the timestamp is derived from that Unix epoch value so
+# that two builds from the same source tree produce bit-identical binaries.
+# See: https://reproducible-builds.org/specs/source-date-epoch/
 
-string(TIMESTAMP THEMIS_BUILD_TIMESTAMP "%Y-%m-%dT%H:%M:%SZ" UTC)
+if(DEFINED ENV{SOURCE_DATE_EPOCH})
+    # Convert Unix epoch to an ISO-8601 UTC string using cmake -P scripting
+    # cmake's string(TIMESTAMP) does not accept an epoch directly; we use a
+    # small trick: configure_file with a generated helper or simply format it.
+    set(_sde "$ENV{SOURCE_DATE_EPOCH}")
+    # Basic sanity: must be a positive integer
+    if(_sde MATCHES "^[0-9]+$")
+        # Use Python or date command if available to format; otherwise store raw.
+        find_program(_python_exe NAMES python3 python QUIET)
+        if(_python_exe)
+            execute_process(
+                COMMAND "${_python_exe}" -c
+                    "import datetime, sys; print(datetime.datetime.utcfromtimestamp(int(sys.argv[1])).strftime('%Y-%m-%dT%H:%M:%SZ'))"
+                    "${_sde}"
+                OUTPUT_VARIABLE _sde_formatted
+                OUTPUT_STRIP_TRAILING_WHITESPACE
+                RESULT_VARIABLE _sde_result
+            )
+        endif()
+        if(_sde_formatted AND _sde_result EQUAL 0)
+            set(THEMIS_BUILD_TIMESTAMP "${_sde_formatted}")
+            message(STATUS "[BuildInfo] SOURCE_DATE_EPOCH=${_sde} → timestamp=${THEMIS_BUILD_TIMESTAMP} (reproducible build)")
+        else()
+            set(THEMIS_BUILD_TIMESTAMP "1970-01-01T00:00:00Z")
+            message(STATUS "[BuildInfo] SOURCE_DATE_EPOCH=${_sde} set but could not format – using epoch zero.")
+        endif()
+    else()
+        message(WARNING "[BuildInfo] SOURCE_DATE_EPOCH='${_sde}' is not a valid Unix epoch. Using current time.")
+        string(TIMESTAMP THEMIS_BUILD_TIMESTAMP "%Y-%m-%dT%H:%M:%SZ" UTC)
+    endif()
+else()
+    string(TIMESTAMP THEMIS_BUILD_TIMESTAMP "%Y-%m-%dT%H:%M:%SZ" UTC)
+endif()
 
 # ── Validate channel / signature combination ─────────────────────────────────
 

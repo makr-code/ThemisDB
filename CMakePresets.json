@@ -71,6 +71,28 @@
       }
     },
     {
+      "name": "linux-dev-base",
+      "hidden": true,
+      "inherits": "vcpkg-base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "gcc",
+        "CMAKE_CXX_COMPILER": "g++",
+        "VCPKG_TARGET_TRIPLET": "x64-linux",
+        "VCPKG_INSTALLED_DIR": "${sourceDir}/vcpkg_installed_linux",
+        "THEMIS_ENABLE_GPU": "OFF",
+        "THEMIS_ENABLE_HTTP_SERVER": "ON",
+        "THEMIS_ENABLE_LLM": "OFF",
+        "THEMIS_BUILD_TESTS": "ON",
+        "CMAKE_BUILD_TYPE": "Debug",
+        "THEMIS_EDITION": "COMMUNITY"
+      }
+    },
+    {
       "name": "linux-arm64-base",
       "hidden": true,
       "inherits": "vcpkg-base",
@@ -203,6 +225,77 @@
         "THEMIS_ENABLE_TRACING": "OFF",
         "THEMIS_BUILD_TESTS": "OFF"
       }
+    },
+    {
+      "name": "linux-asan",
+      "displayName": "Linux x64: AddressSanitizer + LeakSanitizer (Debug)",
+      "description": "Detects memory errors (use-after-free, buffer overflows, leaks). Runs ~2x slower. Not for production.",
+      "inherits": "linux-dev-base",
+      "binaryDir": "${sourceDir}/build/linux-asan",
+      "cacheVariables": {
+        "THEMIS_ENABLE_ASAN": "ON",
+        "THEMIS_ENABLE_LSAN": "ON",
+        "THEMIS_DISABLE_PIE": "ON",
+        "THEMIS_DISABLE_FORTIFY_SOURCE": "ON"
+      }
+    },
+    {
+      "name": "linux-ubsan",
+      "displayName": "Linux x64: UndefinedBehaviorSanitizer (Debug)",
+      "description": "Detects undefined behavior: signed overflow, null dereference, misalignment, etc.",
+      "inherits": "linux-dev-base",
+      "binaryDir": "${sourceDir}/build/linux-ubsan",
+      "cacheVariables": {
+        "THEMIS_ENABLE_UBSAN": "ON",
+        "THEMIS_DISABLE_PIE": "ON"
+      }
+    },
+    {
+      "name": "linux-tsan",
+      "displayName": "Linux x64: ThreadSanitizer (Debug)",
+      "description": "Detects data races and threading issues. Runs ~5-15x slower. Incompatible with ASAN.",
+      "inherits": "linux-dev-base",
+      "binaryDir": "${sourceDir}/build/linux-tsan",
+      "cacheVariables": {
+        "THEMIS_ENABLE_TSAN": "ON",
+        "THEMIS_DISABLE_PIE": "ON",
+        "THEMIS_DISABLE_FORTIFY_SOURCE": "ON"
+      }
+    },
+    {
+      "name": "linux-coverage",
+      "displayName": "Linux x64: Code Coverage (Debug + gcov)",
+      "description": "Instruments code for line/branch coverage with gcov. Use lcov/genhtml for reports.",
+      "inherits": "linux-dev-base",
+      "binaryDir": "${sourceDir}/build/linux-coverage",
+      "cacheVariables": {
+        "CMAKE_CXX_FLAGS": "--coverage -fprofile-arcs -ftest-coverage",
+        "CMAKE_C_FLAGS": "--coverage -fprofile-arcs -ftest-coverage",
+        "CMAKE_EXE_LINKER_FLAGS": "--coverage",
+        "THEMIS_DISABLE_PIE": "ON",
+        "THEMIS_DISABLE_FORTIFY_SOURCE": "ON"
+      }
+    },
+    {
+      "name": "linux-strict",
+      "displayName": "Linux x64: Strict / CI (Release + -Werror)",
+      "description": "Release build with all warnings treated as errors. Used in CI to enforce code quality gates.",
+      "inherits": "linux-base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "binaryDir": "${sourceDir}/build/linux-strict",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_STRICT_BUILD": "ON",
+        "THEMIS_CI_MODE": "ON",
+        "THEMIS_ENABLE_GPU": "OFF",
+        "THEMIS_ENABLE_LLM": "OFF",
+        "THEMIS_BUILD_TESTS": "ON"
+      }
     }
   ],
   "buildPresets": [
@@ -221,27 +314,62 @@
     {
       "name": "linux-release",
       "displayName": "Build: Linux x64 Release",
-      "configurePreset": "linux-release"
+      "configurePreset": "linux-release",
+      "jobs": 0
     },
     {
       "name": "linux-debug",
       "displayName": "Build: Linux x64 Debug",
-      "configurePreset": "linux-debug"
+      "configurePreset": "linux-debug",
+      "jobs": 0
     },
     {
       "name": "linux-arm64-release",
       "displayName": "Build: Linux arm64 Release",
-      "configurePreset": "linux-arm64-release"
+      "configurePreset": "linux-arm64-release",
+      "jobs": 0
     },
     {
       "name": "linux-arm64-debug",
       "displayName": "Build: Linux arm64 Debug",
-      "configurePreset": "linux-arm64-debug"
+      "configurePreset": "linux-arm64-debug",
+      "jobs": 0
     },
     {
       "name": "docker-release",
       "displayName": "Build: Docker Release",
-      "configurePreset": "docker-release"
+      "configurePreset": "docker-release",
+      "jobs": 0
+    },
+    {
+      "name": "linux-asan",
+      "displayName": "Build: Linux x64 AddressSanitizer",
+      "configurePreset": "linux-asan",
+      "jobs": 0
+    },
+    {
+      "name": "linux-ubsan",
+      "displayName": "Build: Linux x64 UndefinedBehaviorSanitizer",
+      "configurePreset": "linux-ubsan",
+      "jobs": 0
+    },
+    {
+      "name": "linux-tsan",
+      "displayName": "Build: Linux x64 ThreadSanitizer",
+      "configurePreset": "linux-tsan",
+      "jobs": 0
+    },
+    {
+      "name": "linux-coverage",
+      "displayName": "Build: Linux x64 Coverage",
+      "configurePreset": "linux-coverage",
+      "jobs": 0
+    },
+    {
+      "name": "linux-strict",
+      "displayName": "Build: Linux x64 Strict / CI",
+      "configurePreset": "linux-strict",
+      "jobs": 0
     }
   ],
   "testPresets": [
@@ -304,6 +432,54 @@
       "environment": {
         "PATH": "${sourceDir}/build/bin${pathListSep}$penv{PATH}",
         "LD_LIBRARY_PATH": "/build/vcpkg_installed/x64-linux/lib${pathListSep}${sourceDir}/build/lib${pathListSep}$penv{LD_LIBRARY_PATH}"
+      }
+    },
+    {
+      "name": "linux-asan",
+      "displayName": "Test: Linux x64 AddressSanitizer",
+      "configurePreset": "linux-asan",
+      "environment": {
+        "PATH": "${sourceDir}/build/linux-asan/bin${pathListSep}$penv{PATH}",
+        "LD_LIBRARY_PATH": "${sourceDir}/build/linux-asan/lib${pathListSep}$penv{LD_LIBRARY_PATH}",
+        "ASAN_OPTIONS": "detect_leaks=1:halt_on_error=0:print_stats=1"
+      }
+    },
+    {
+      "name": "linux-ubsan",
+      "displayName": "Test: Linux x64 UndefinedBehaviorSanitizer",
+      "configurePreset": "linux-ubsan",
+      "environment": {
+        "PATH": "${sourceDir}/build/linux-ubsan/bin${pathListSep}$penv{PATH}",
+        "LD_LIBRARY_PATH": "${sourceDir}/build/linux-ubsan/lib${pathListSep}$penv{LD_LIBRARY_PATH}",
+        "UBSAN_OPTIONS": "halt_on_error=0:print_stacktrace=1"
+      }
+    },
+    {
+      "name": "linux-tsan",
+      "displayName": "Test: Linux x64 ThreadSanitizer",
+      "configurePreset": "linux-tsan",
+      "environment": {
+        "PATH": "${sourceDir}/build/linux-tsan/bin${pathListSep}$penv{PATH}",
+        "LD_LIBRARY_PATH": "${sourceDir}/build/linux-tsan/lib${pathListSep}$penv{LD_LIBRARY_PATH}",
+        "TSAN_OPTIONS": "halt_on_error=0:second_deadlock_stack=1"
+      }
+    },
+    {
+      "name": "linux-coverage",
+      "displayName": "Test: Linux x64 Coverage",
+      "configurePreset": "linux-coverage",
+      "environment": {
+        "PATH": "${sourceDir}/build/linux-coverage/bin${pathListSep}$penv{PATH}",
+        "LD_LIBRARY_PATH": "${sourceDir}/build/linux-coverage/lib${pathListSep}$penv{LD_LIBRARY_PATH}"
+      }
+    },
+    {
+      "name": "linux-strict",
+      "displayName": "Test: Linux x64 Strict / CI",
+      "configurePreset": "linux-strict",
+      "environment": {
+        "PATH": "${sourceDir}/build/linux-strict/bin${pathListSep}$penv{PATH}",
+        "LD_LIBRARY_PATH": "${sourceDir}/build/linux-strict/lib${pathListSep}$penv{LD_LIBRARY_PATH}"
       }
     }
   ],
@@ -368,6 +544,51 @@
       "steps": [
         { "type": "configure", "name": "docker-release" },
         { "type": "build",     "name": "docker-release" }
+      ]
+    },
+    {
+      "name": "linux-asan",
+      "displayName": "Workflow: Linux x64 AddressSanitizer (Configure → Build → Test)",
+      "steps": [
+        { "type": "configure", "name": "linux-asan" },
+        { "type": "build",     "name": "linux-asan" },
+        { "type": "test",      "name": "linux-asan" }
+      ]
+    },
+    {
+      "name": "linux-ubsan",
+      "displayName": "Workflow: Linux x64 UndefinedBehaviorSanitizer (Configure → Build → Test)",
+      "steps": [
+        { "type": "configure", "name": "linux-ubsan" },
+        { "type": "build",     "name": "linux-ubsan" },
+        { "type": "test",      "name": "linux-ubsan" }
+      ]
+    },
+    {
+      "name": "linux-tsan",
+      "displayName": "Workflow: Linux x64 ThreadSanitizer (Configure → Build → Test)",
+      "steps": [
+        { "type": "configure", "name": "linux-tsan" },
+        { "type": "build",     "name": "linux-tsan" },
+        { "type": "test",      "name": "linux-tsan" }
+      ]
+    },
+    {
+      "name": "linux-coverage",
+      "displayName": "Workflow: Linux x64 Coverage (Configure → Build → Test)",
+      "steps": [
+        { "type": "configure", "name": "linux-coverage" },
+        { "type": "build",     "name": "linux-coverage" },
+        { "type": "test",      "name": "linux-coverage" }
+      ]
+    },
+    {
+      "name": "linux-strict",
+      "displayName": "Workflow: Linux x64 Strict / CI (Configure → Build → Test)",
+      "steps": [
+        { "type": "configure", "name": "linux-strict" },
+        { "type": "build",     "name": "linux-strict" },
+        { "type": "test",      "name": "linux-strict" }
       ]
     }
   ]

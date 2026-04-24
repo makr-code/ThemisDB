@@ -15,6 +15,15 @@
       }
     },
     {
+      "name": "my-linux-asan",
+      "displayName": "My Linux ASAN (extend the shared preset)",
+      "description": "Example: inherit the shared linux-asan preset and further customise.",
+      "inherits": "linux-asan",
+      "cacheVariables": {
+        "THEMIS_BUILD_TESTS": "ON"
+      }
+    },
+    {
       "name": "my-windows-release",
       "displayName": "My Windows Release (local overrides)",
       "description": "Uncomment and adjust VCPKG_ROOT or compiler paths specific to your machine.",
@@ -29,6 +38,10 @@
     {
       "name": "my-linux-release",
       "configurePreset": "my-linux-release"
+    },
+    {
+      "name": "my-linux-asan",
+      "configurePreset": "my-linux-asan"
     },
     {
       "name": "my-windows-release",
