@@ -625,7 +625,29 @@ endif()
 # CPACK DISTRIBUTION
 # All CPACK_* variables must be set BEFORE include(CPack) so that
 # the generated CPackConfig.cmake / CPackSourceConfig.cmake picks them up.
+#
+# Deployment folder structure (defined in cmake/CMakeLists.txt install() rules):
+#   bin/         — all runtime binaries (themis_server, themisctl, themis-export, themis-model, …)
+#   lib/         — shared/static libraries (themis_core, *.so / *.dll / *.a)
+#   include/     — public SDK headers
+#   data/        — optional: docs.db, legal training data
+#   models/      — optional: LLM runtime models
+#   bin/benchmarks/ — optional: benchmark binaries (THEMIS_BUILD_BENCHMARKS)
+#
+# Build-time binaries land in <build-dir>/bin/ via RUNTIME_OUTPUT_DIRECTORY
+# (search for "themis_server RUNTIME_OUTPUT_DIRECTORY" in cmake/CMakeLists.txt).
+# GNUInstallDirs is included below so cmake/CMakeLists.txt install() rules and
+# this CPack block use the same standard variables (CMAKE_INSTALL_BINDIR = bin).
 # ============================================================================
+
+include(GNUInstallDirs)
+
+# Linux DEB/RPM packages follow the /usr prefix convention so installed files
+# land in /usr/bin, /usr/lib, /usr/include — not /usr/local/*.
+# ZIP/TGZ archives use the default (no prefix, relative paths).
+if(NOT WIN32 AND NOT APPLE)
+    set(CPACK_PACKAGING_INSTALL_PREFIX "/usr")
+endif()
 
 # --- Common metadata ---
 set(CPACK_PACKAGE_NAME        "themisdb")
@@ -651,8 +673,15 @@ set(CPACK_SOURCE_IGNORE_FILES
 )
 
 if(WIN32)
-    # ---- Windows: ZIP + WiX/MSI ----
-    set(CPACK_GENERATOR "ZIP;WIX")
+    # ---- Windows: ZIP + WiX/MSI (+ NSIS as optional fallback installer) ----
+    # WIX requires WiX Toolset v3 (candle.exe/light.exe) on PATH.
+    # NSIS requires NSIS installed (makensis on PATH) — add it only when available.
+    find_program(_NSIS_MAKE makensis)
+    if(_NSIS_MAKE)
+        set(CPACK_GENERATOR "ZIP;WIX;NSIS")
+    else()
+        set(CPACK_GENERATOR "ZIP;WIX")
+    endif()
     set(CPACK_PACKAGE_FILE_NAME "ThemisDB-${THEMIS_VERSION_STRING}-Windows-x64")
 
     # WiX / MSI specific

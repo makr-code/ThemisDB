@@ -3,6 +3,46 @@
 This guide explains how to build **DEB** (Debian/Ubuntu), **MSI** (Windows via WiX), and
 other distribution packages locally using CMake and CPack — no CI pipeline required.
 
+## Deployment folder structure
+
+The install layout is defined by `cmake/CMakeLists.txt` `install()` rules and
+`cmake/ModularBuild.cmake`:
+
+| Destination | Contents | Source |
+|-------------|----------|--------|
+| `bin/` | All runtime binaries: `themis_server`, `themisctl`, `themis-export`, `themis-model`, `config_migration_scanner` | `cmake/CMakeLists.txt` — `install(TARGETS themis_server …)` and CLI tool `install()` calls |
+| `lib/` | Shared/static libraries: `themis_core` (`.so` / `.dll` / `.a`) | `cmake/CMakeLists.txt`, `cmake/ModularBuild.cmake` |
+| `include/` | Public SDK headers | `cmake/CMakeLists.txt` |
+| `data/` | Optional: `docs.db`, legal training data | `CMakeLists.txt` (controlled via `THEMIS_DOCS_DB_MODE`) |
+| `models/` | Optional: LLM runtime models | `CMakeLists.txt` (controlled via `THEMIS_MODELS_MODE`) |
+| `bin/benchmarks/` | Optional: benchmark binaries | `benchmarks/CMakeLists.txt` |
+
+**During the build** (before install/packaging), `themis_server` is placed in
+`<build-dir>/bin/` via the `RUNTIME_OUTPUT_DIRECTORY` target property
+(search for `themis_server RUNTIME_OUTPUT_DIRECTORY` in `cmake/CMakeLists.txt`).
+
+On **Linux DEB/RPM** packages the install prefix is `/usr`, so the package
+layout becomes `/usr/bin/`, `/usr/lib/`, `/usr/include/`.  
+On **ZIP/TGZ** archives the paths are relative, so unpacking anywhere gives
+`bin/`, `lib/`, `include/`.
+
+## Supported packaging formats
+
+| Platform | Format | Generator | Tool required |
+|----------|--------|-----------|---------------|
+| Linux | TGZ (generic archive) | `TGZ` | — |
+| Linux | DEB (Debian/Ubuntu) | `DEB` | `dpkg-dev` |
+| Linux | RPM (Fedora/RHEL) | `RPM` | `rpmbuild` |
+| Windows | ZIP (archive) | `ZIP` | — |
+| Windows | MSI (WiX installer) | `WIX` | WiX Toolset v3 |
+| Windows | NSIS installer | `NSIS` | NSIS (`makensis`) — auto-detected |
+| macOS | TGZ | `TGZ` | — |
+| macOS | ZIP | `ZIP` | — |
+| All | Source TGZ/ZIP | `TGZ`/`ZIP` via `CPackSourceConfig.cmake` | — |
+
+> **NSIS** is only added to the Windows generator list when `makensis` is found
+> on `PATH` at configure time. It does not require any extra CMake files.
+
 ## Prerequisites
 
 ### All Platforms
@@ -31,6 +71,14 @@ WiX Toolset v3.x must be installed and its tools (`candle.exe`, `light.exe`) ava
 `PATH`.  Download from: <https://wixtoolset.org/releases/>
 
 CMake 3.20+ ships a built-in CPack WiX generator that calls these tools automatically.
+
+### Windows (NSIS — optional)
+
+NSIS (`makensis`) must be installed and available on `PATH`.
+Download from: <https://nsis.sourceforge.io/>
+
+CMake detects `makensis` at configure time and adds `NSIS` to the generator list
+automatically when found.
 
 ---
 
@@ -113,6 +161,12 @@ The generated installer will be named, for example:
 ThemisDB-1.9.0-alpha-Windows-x64.msi
 ```
 
+#### NSIS installer (Windows — NSIS required, auto-detected)
+
+```powershell
+cpack -G NSIS -V
+```
+
 #### Source archive
 
 ```bash
@@ -133,6 +187,7 @@ All CPack settings are defined in the root `CMakeLists.txt` **before** the
 | `CPACK_PACKAGE_VENDOR` | Vendor/publisher name |
 | `CPACK_PACKAGE_CONTACT` | Maintainer contact |
 | `CPACK_GENERATOR` | Active generators (platform-dependent) |
+| `CPACK_PACKAGING_INSTALL_PREFIX` | `/usr` on Linux (DEB/RPM standard) |
 
 ### DEB-specific
 
@@ -174,6 +229,11 @@ available (e.g. cross-compile environment), either:
 
 Ensure WiX Toolset v3 is installed and its `bin/` directory is on `PATH`, then
 re-run `cpack -G WIX`.
+
+### NSIS not added automatically
+
+NSIS is only enabled when `makensis` is found at CMake configure time.
+Install NSIS and re-run `cmake -S . -B build …` to enable it.
 
 ### Wrong package metadata
 
