@@ -570,6 +570,7 @@ sudo systemctl start themisdb
 ## See also
 
 - [CPACK.md](CPACK.md) — how to build DEB/RPM/MSI/TGZ packages from source
+- [UPDATE_HOTFIX.md](UPDATE_HOTFIX.md) — update, hotfix, and upgrade procedures (rolling updates, rollback, automated update checks)
 - [binary-package-layout.md](../ci-cd/workflows/04-release/binary-package-layout.md) — CI release asset policy
 - `config/config.yaml` — fully annotated configuration reference
 - `debian/themisdb.service` — canonical systemd unit template
