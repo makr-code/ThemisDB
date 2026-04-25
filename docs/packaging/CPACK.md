@@ -258,3 +258,9 @@ upstream Debian/Ubuntu submission and is **not** used by CPack.
 Use `dpkg-buildpackage` only when preparing packages for Debian/Ubuntu
 official repositories.  For all other local/CI deployment scenarios, use
 CPack as described above.
+
+---
+
+## See also
+
+- [DEPLOYMENT.md](DEPLOYMENT.md) — best-practice deployment guide for Windows, Linux distros, and macOS (systemd, launchd, Windows Services, security hardening, upgrades)
