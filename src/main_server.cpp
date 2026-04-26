@@ -744,7 +744,6 @@ int main(int argc, char* argv[]) {
                 } else {
                     std::ifstream f(path);
                     if (!f.is_open()) {
-                        THEMIS_WARN("Cannot open config file: {}", path);
                         return std::nullopt;
                     }
                     json j; 
