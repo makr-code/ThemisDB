@@ -30,6 +30,7 @@ foreach(_var IN ITEMS THEMIS_VCPKG_ROOT THEMIS_TRIPLET THEMIS_EDITION THEMIS_OUT
     if(DEFINED ${_var})
         set(_sanitized_value "${${_var}}")
         string(REPLACE "\\\"" "\"" _sanitized_value "${_sanitized_value}")
+        string(REPLACE "\"" "" _sanitized_value "${_sanitized_value}")
         string(REGEX REPLACE "^\"(.*)\"$" "\\1" _sanitized_value "${_sanitized_value}")
         set(${_var} "${_sanitized_value}")
     endif()
@@ -43,11 +44,24 @@ if(WIN32)
     string(REGEX REPLACE "^/([A-Za-z]:/)" "\\1" THEMIS_OUTPUT_DIR "${THEMIS_OUTPUT_DIR}")
 endif()
 
+function(themis_win_path_to_wsl input_path output_var)
+    string(REPLACE "\\" "/" _path "${input_path}")
+    if(_path MATCHES "^([A-Za-z]):(.*)")
+        string(TOLOWER "${CMAKE_MATCH_1}" _drive)
+        set(_path "/mnt/${_drive}${CMAKE_MATCH_2}")
+    endif()
+    set(${output_var} "${_path}" PARENT_SCOPE)
+endfunction()
+
 # ============================================================================
 # Platform-specific vcpkg executable
 # ============================================================================
 
-if(WIN32 OR THEMIS_TRIPLET MATCHES "windows")
+if(THEMIS_TRIPLET MATCHES "linux" AND WIN32)
+    # Linux packages on Windows are built inside WSL.
+    set(VCPKG_EXECUTABLE "${THEMIS_VCPKG_ROOT}/vcpkg")
+    set(BOOTSTRAP_SCRIPT "${THEMIS_VCPKG_ROOT}/bootstrap-vcpkg.sh")
+elseif(WIN32 OR THEMIS_TRIPLET MATCHES "windows")
     set(VCPKG_EXECUTABLE "${THEMIS_VCPKG_ROOT}/vcpkg.exe")
     set(BOOTSTRAP_SCRIPT "${THEMIS_VCPKG_ROOT}/bootstrap-vcpkg.bat")
 else()
@@ -59,7 +73,18 @@ endif()
 # Bootstrap vcpkg if needed
 # ============================================================================
 
-if(NOT EXISTS "${VCPKG_EXECUTABLE}")
+set(_need_bootstrap OFF)
+if(THEMIS_TRIPLET MATCHES "linux" AND WIN32)
+    # Linux package builds on Windows run entirely in WSL and bootstrap on demand
+    # in the install command if ./vcpkg is missing.
+    set(_need_bootstrap OFF)
+else()
+    if(NOT EXISTS "${VCPKG_EXECUTABLE}")
+        set(_need_bootstrap ON)
+    endif()
+endif()
+
+if(_need_bootstrap)
     message(STATUS "Bootstrapping vcpkg for ${THEMIS_TRIPLET}...")
     
     if(THEMIS_TRIPLET MATCHES "linux" AND WIN32)
@@ -67,11 +92,10 @@ if(NOT EXISTS "${VCPKG_EXECUTABLE}")
         message(STATUS "Using WSL for Linux package build...")
         
         # Convert Windows path to WSL path
-        string(REPLACE "\\" "/" _vcpkg_root_unix "${THEMIS_VCPKG_ROOT}")
-        string(REGEX REPLACE "^([A-Z]):" "/mnt/\\L\\1" _vcpkg_root_wsl "${_vcpkg_root_unix}")
+        themis_win_path_to_wsl("${THEMIS_VCPKG_ROOT}" _vcpkg_root_wsl)
         
         execute_process(
-            COMMAND wsl bash -c "cd ${_vcpkg_root_wsl} && ./bootstrap-vcpkg.sh"
+            COMMAND wsl bash -c "cd ${_vcpkg_root_wsl} && bash ./bootstrap-vcpkg.sh"
             RESULT_VARIABLE _result
             OUTPUT_VARIABLE _output
             ERROR_VARIABLE _error
@@ -155,18 +179,16 @@ if(THEMIS_TRIPLET MATCHES "linux" AND WIN32)
     message(STATUS "Building Linux packages via WSL...")
     
     # Convert paths to WSL format
-    string(REPLACE "\\" "/" _output_dir_unix "${THEMIS_OUTPUT_DIR}")
-    string(REGEX REPLACE "^([A-Z]):" "/mnt/\\L\\1" _output_dir_wsl "${_output_dir_unix}")
+    themis_win_path_to_wsl("${THEMIS_OUTPUT_DIR}" _output_dir_wsl)
     
-    string(REPLACE "\\" "/" _manifest_root_unix "${MANIFEST_ROOT}")
-    string(REGEX REPLACE "^([A-Z]):" "/mnt/\\L\\1" _manifest_root_wsl "${_manifest_root_unix}")
+    themis_win_path_to_wsl("${MANIFEST_STAGE_ROOT}" _manifest_root_wsl)
     
-    string(REPLACE "\\" "/" _vcpkg_root_unix "${THEMIS_VCPKG_ROOT}")
-    string(REGEX REPLACE "^([A-Z]):" "/mnt/\\L\\1" _vcpkg_root_wsl "${_vcpkg_root_unix}")
+    themis_win_path_to_wsl("${THEMIS_VCPKG_ROOT}" _vcpkg_root_wsl)
+    message(STATUS "WSL vcpkg root: ${_vcpkg_root_wsl}")
     
     # Build WSL command
-    set(_wsl_cmd 
-        "cd ${_vcpkg_root_wsl} && ./vcpkg install --triplet=${THEMIS_TRIPLET} --x-install-root=${_output_dir_wsl} --x-manifest-root=${_manifest_root_wsl} --x-buildtrees-root=${_vcpkg_root_wsl}/buildtrees --x-packages-root=${_vcpkg_root_wsl}/packages --x-downloads-root=${_vcpkg_root_wsl}/downloads"
+    set(_wsl_cmd
+        "cd ${_vcpkg_root_wsl} && if [ ! -x ./vcpkg ]; then bash ./bootstrap-vcpkg.sh; fi && ./vcpkg install --triplet=${THEMIS_TRIPLET} --x-install-root=${_output_dir_wsl} --x-manifest-root=${_manifest_root_wsl} --x-buildtrees-root=${_vcpkg_root_wsl}/buildtrees --x-packages-root=${_vcpkg_root_wsl}/packages --x-downloads-root=${_vcpkg_root_wsl}/downloads"
     )
     
     execute_process(
