@@ -39,7 +39,7 @@ Grundsatz:
 | Version | Datum | Fokus | Dokumentation |
 |---------|-------|-------|---------------|
 | **v1.9.1** | in Umsetzung | Auth-Testtarget-Registrierung / Build-Integration | [Release Notes](./RELEASE_NOTES_v1.9.1.md) |
-| **v1.9.0-alpha** | 26.04.2026 | Packaging- und Logging-Hardening fuer Windows Release-Artefakte | [Release Notes](./RELEASE_NOTES_v1.9.0-alpha.md) |
+| **v1.9.0-alpha** | 26.04.2026 | Packaging- und Logging-Hardening fuer Windows Release-Artefakte | [Release Notes](./RELEASE_NOTES_v1.9.0-alpha.md) · [GitHub Release](https://github.com/makr-code/ThemisDB/releases/tag/v1.9.0-alpha) |
 | **v1.9.0** | Vorabstand: 1.9.0-alpha | Chimera Adapter-Interface-Update, Governance Compliance-Regeln | [Release Notes](./RELEASE_NOTES_v1.9.0.md) |
 
 ### v1.8.x Serie (Q2 2026)
